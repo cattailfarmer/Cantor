@@ -1,0 +1,174 @@
+Subject: Cantor SOP Director
+
+Description: A source-grounded context director that resolves input through the SOP semantic fabric and voices exact governing clauses into a model's active reflection packet.
+
+& [FormationIdentity] is the canonical SJS Cantor formation
+  + [specification_uuid] is 8b36fdd8-bc84-470f-b4a8-c93026d68d6b
+  + [canonical_name] is Cantor
+  + [status] is source_grounded_director_formation
+  + [purpose] is direct an inference provider by retrieving, quoting, and contextualizing the authoritative SOP clauses governing the current perspective
+  + [metaphor] is a cantor voices an authoritative composition without becoming its author
+
+& [CantorBoundary] is the separation of source, retrieval, direction, and inference
+  + [SOP_source] is canonical articulated authority
+  + [SemanticFabric] is the indexed typed relational layout of SOP meaning
+  + [Cantor] is the director that resolves input to applicable semantic units and source spans
+  + [InferenceProvider] is the model that reflects and proposes judgments under the supplied clauses
+  + [SOP_RVM] is the execution, state, validation, history, review, and effect authority
+  = must: quote authoritative text when exact source clauses are available
+  = must: distinguish quotation from Cantor explanation and model interpretation
+  - never: let retrieval ranking create authority absent from the source
+
+& [SourceAnchor] is the durable binding from semantic fabric to governing text
+  + [anchor_uuid] is stable identity
+  + [semantic_unit_uuid] is the term, clause, contract, rule, operation, or perspective governed by the span
+  + [document_uuid] is stable source-document identity
+  + [file_path] is the current local location
+  + [document_digest] is immutable file-version identity
+  + [source_span_digest] is exact selected-content identity
+  + [start_line] is current one-based display locator
+  + [end_line] is current one-based display locator
+  + [start_offset] is optional exact character or byte locator
+  + [end_offset] is optional exact character or byte locator
+  + [git_commit] is optional repository-version identity
+  + [authority_status] is source, candidate, signed, superseded, legacy, imported, or quarantined
+  + [valid_time] is the version interval in which the anchor governs
+  = must: treat line numbers as convenient locators rather than durable identity
+  = must: reject or reindex an anchor when digest validation fails
+
+& [Perspective] is an explicit contextual graph view
+  + [perspective_uuid] is stable identity
+  + [name] is faculty, role, policy, purpose, stakeholder, domain, or analytical frame
+  + [purpose_contract] is what the perspective is responsible for observing or governing
+  + [relation_family_set] is the semantic paths it may traverse
+  + [authority_set] is what it may interpret, require, prohibit, recommend, or execute
+  + [priority_policy] is how pertinent clauses are ordered
+  + [boundary_policy] is distinctions the perspective must preserve
+  + [source_anchor_set] is clauses defining the perspective
+  = must: preserve disagreements among perspectives until an explicit reconciliation operation
+
+& [CantorInput] is the subject requiring SOP direction
+  + [input_uuid] is stable request identity
+  + [raw_input] is the preserved user, agent, tool, or event material
+  + [purpose] is the requested or governing outcome
+  + [current_subject] is the active bounded semantic identity
+  + [active_perspective_set] is applicable faculty, policy, role, or contextual view
+  + [runtime_state] is focus, history, evidence, uncertainty, and budget
+  + [authority_context] is the caller and permitted operations
+
+& [CantorResolutionCycle] is the source-grounded direction program
+  + [step_1_preserve] is freeze input and purpose
+  + [step_2_resolve] is bind terms and clauses to SemanticNode identities
+  + [step_3_select_perspective] is determine applicable graph views and governance frames
+  + [step_4_activate] is propagate bounded pertinence through allowed relation families
+  + [step_5_retrieve] is gather candidate meanings, contracts, faults, history, and SourceAnchors
+  + [step_6_discriminate] is separate governing authority, relevant reference, counterposition, superseded material, and uncertainty
+  + [step_7_validate] is check source digests, versions, access, context, and authority
+  + [step_8_quote] is read exact source spans and preserve their ordering and citations
+  + [step_9_compose] is construct a CantorDirectionPacket within context budget
+  + [step_10_direct] is send the packet to the inference provider through SOP-RVM
+  + [step_11_review] is test whether the provider followed, misread, or contradicted the quoted clauses
+  + [step_12_trace] is record paths, scores, anchors, quotes, omissions, and resulting judgment
+  = must: expose why each clause was admitted
+
+& [CantorDirectionPacket] is the quoted program context supplied to a model
+  + [packet_uuid] is stable content identity
+  + [input_digest] is the preserved subject request
+  + [purpose] is intended outcome
+  + [subject] is the resolved semantic focus
+  + [perspective_set] is the active views
+  + [governing_quote_set] is exact authoritative clauses with SourceAnchors
+  + [reference_quote_set] is relevant non-governing material labeled distinctly
+  + [counterposition_set] is conflicting or alternative authoritative material
+  + [resolved_definition_set] is terms and MeaningContracts required to read the clauses
+  + [instruction] is the compiled reflection step
+  + [response_contract] is the ProposedJudgment schema
+  + [omission_record] is clipped, unauthorized, unresolved, or lower-ranked material
+  + [packet_digest] is immutable projection identity
+  = must: keep quotations adjacent to their citations and authority status
+  = must: state when no governing clause was found
+
+& [CorrelationToAuthorityBoundary] is the hybrid retrieval rule
+  + [exact_identity] is canonical semantic-unit and SourceAnchor lookup
+  + [typed_graph_path] is purpose and perspective governed traversal
+  + [lexical_match] is term and clause discovery
+  + [embedding_similarity] is neural candidate discovery
+  + [learned_rerank] is optional contextual ordering
+  + [authority_resolution] is deterministic validation against SourceAnchor and signed source state
+  = must: let correlations propose which source clauses to inspect
+  = must: resolve final governance through exact source identity, context, version, and authority
+  - never: convert a high correlation score directly into a governing rule
+
+& [CantorQuote] is one source-grounded vocalization
+  + [quote_uuid] is stable event identity
+  + [source_anchor] is the validated SourceAnchor
+  + [verbatim_text] is exact bounded source text
+  + [selection_reason] is subject, perspective, contract, relation path, and priority explanation
+  + [governance_role] is governs, constrains, defines, permits, prohibits, supports, contradicts, or references
+  + [context_fit] is why the clause applies now
+  + [staleness_state] is current, potentially_stale, superseded, or invalid
+  = must: preserve exact wording and expose any truncation
+
+& [AuthorityConflict] is disagreement among applicable source clauses
+  + [conflict_uuid] is stable identity
+  + [clause_set] is the conflicting SourceAnchors
+  + [perspective_set] is the views from which each clause governs
+  + [conflict_type] is version, scope, obligation, prohibition, identity, evidence, or interpretation
+  + [precedence_rule] is explicit governance if one exists
+  + [resolution] is selected, reconciled, escalated, or unresolved
+  = must: quote materially conflicting authority rather than silently selecting the most similar clause
+
+& [IndexRefresh] is source-to-fabric synchronization
+  + [change_detection] is path, document digest, semantic-unit digest, source-span digest, version, or git change
+  + [reparse] is regenerate semantic units and span boundaries
+  + [relink] is preserve stable identities where semantics remain equivalent
+  + [invalidate] is mark stale line and span locators
+  + [reembed] is update vector projections only for affected semantic units
+  + [proof] is resolve known fixture queries to new valid spans
+  = must: make quotation fail closed when source identity cannot be verified
+
+& [MinimumCantorProof] is the bounded first manifestation
+  + [fixture_source_set] is SOP Core and one supporting formation file
+  + [fixture_perspective] is one explicit perspective with three governing clauses
+  + [fixture_input] is one subject requiring those clauses
+  + [proof_1] is resolve semantic terms to stable SourceAnchors
+  + [proof_2] is retrieve through exact identity and one typed graph path
+  + [proof_3] is quote correct file lines after digest validation
+  + [proof_4] is include one counterposition or explicit none_found
+  + [proof_5] is direct mock provider and review clause adherence
+  + [proof_6] is modify fixture line positions and reindex without losing semantic identity
+  = must: implement with fixture-local files before indexing the full framework
+
+& [RequirementSet] is the traceable Cantor formation collection
+  + [CAN-001] is name the source-grounded SOP director Cantor
+  + [CAN-002] is bind semantic units to digest-validated file and source-span anchors
+  + [CAN-003] is resolve input under explicit perspectives and typed graph paths
+  + [CAN-004] is quote applicable authoritative clauses into a bounded direction packet
+  + [CAN-005] is distinguish governing authority, reference, counterposition, supersession, and uncertainty
+  + [CAN-006] is use neural correlation only for candidate discovery and optional reranking
+  + [CAN-007] is fail closed and reindex when file or span digests change
+  + [CAN-008] is review whether provider output follows the quoted clauses
+
+& [SJSProcessingTrace] is the Cantor director trace
+  + [fold_1_subject] is a program that voices exact SOP authority to direct model reflection
+  + [fold_2_boundary] is source-grounded resolution and quotation inside; authorship, unvalidated governance, and provider inference outside
+  + [fold_3_data_design] is input, subject, perspective, semantic unit, source anchor, graph path, quote, packet, conflict, response, and trace identity
+  + [fold_4_governance] is digest-bound citation, explicit perspective, authority discrimination, counterposition preservation, and fail-closed refresh
+  + [fold_5_solution_shape] is preserve, resolve, select, activate, retrieve, discriminate, validate, quote, compose, direct, review, and trace
+  + [fold_6_fault_review] is fragile line identity, correlation-as-authority, stale quotation, silent perspective selection, authority conflict suppression, and full-framework indexing first
+  + [fold_7_phase_lock] is Cantor formed for a two-file fixture and mock provider before full framework ingestion
+
+& [CantorSOPDirectorSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 930cd34c-0f8a-4c22-84fd-821cbba0e8ba
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\Cantor_SOP_Director.sop
+  + [source_snapshot_uuid] is b5c9f230-b0cc-48b4-bdb8-4fef6cce195c
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_cantor_sop_director\Dictated_Cantor_SOP_Director_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_cantor_sop_director\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, director_named, source_anchor_modeled, perspective_delineated, resolution_cycle_formed, authority_bounded, proof_sliced, justified, and signed
+  + [signature_status] is valid_for_source_grounded_director_formation
+  + [implementation_authority] is limited_to_two_file_one_perspective_mock_provider_fixture
+
+@ [fabric] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Semantic_Fabric_Graph.sop
+@ [definition_service] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Fabric_Definition_Service.sop
+@ [runtime] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Reflective_Virtual_Machine.sop

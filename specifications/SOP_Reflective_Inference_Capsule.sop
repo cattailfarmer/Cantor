@@ -1,0 +1,157 @@
+Subject: SOP Reflective Inference Capsule
+
+Description: A bounded proof-carrying inference pattern that compiles an inspectable attention and inference program, executes it, freezes its result, and reviews the complete semantic event.
+
+& [FormationIdentity] is the canonical SJS formation record
+  + [specification_uuid] is 7c85d24f-26af-4784-81bf-facf9d6a7771
+  + [status] is core_harness_candidate
+  + [purpose] is make inference output reviewable together with the input and declared reasoning program that produced it
+  + [core_relation] is a test harness over SOP Core rather than a new instruction family
+
+& [InspectableReasoningBoundary] is the honest meaning of compiled thought pattern
+  + [declared_reasoning_program] is an inspectable plan of attention operations, inference methods, constraints, evidence requirements, and response obligations
+  + [execution_trace] is observable instruction applications, state deltas, evidence references, judgments, uncertainties, and effects
+  + [private_model_reasoning] is hidden internal activation and latent chain-of-thought not available as a trustworthy program trace
+  = must: compile and review declared semantic operations
+  = must: summarize decision grounds sufficient for audit
+  - never: claim that declared reasoning or trace is a literal extraction of private model cognition
+
+& [InferenceCapsule] is the immutable review subject
+  + [capsule_uuid] is stable identity
+  + [input_snapshot] is the exact source input or a digest-bound immutable reference
+  + [purpose_contract] is the intended outcome and evaluation criteria
+  + [program_snapshot] is the exact compiled attention and inference program
+  + [program_version] is the semantic definition and library version set
+  + [entry_state] is the initial inspectable SemanticState
+  + [execution_trace] is the ordered observable SemanticTransition set
+  + [candidate_response] is the frozen first-pass output
+  + [claim_ledger] is response claims linked to evidence, derivation, assumptions, and uncertainty
+  + [exit_state] is the first-pass terminal state
+  + [provider_record] is model, parameters, tools, and nondeterministic conditions
+  + [capsule_digest] is the content identity of the complete review subject
+  = must: freeze the candidate before review begins
+  = must: prevent review from silently rewriting the input, program, trace, or candidate
+
+& [ReflectiveInferenceCycle] is the bounded compile-execute-review-revise protocol
+  + [step_1_capture] is preserve input and articulate purpose
+  + [step_2_compile] is compile a declared AttentionInferenceProgram
+  + [step_3_execute] is apply the program to input and entry state
+  + [step_4_raise] is emit and freeze a candidate response
+  + [step_5_capsule] is bind input, program, state transitions, evidence, candidate, and provenance
+  + [step_6_review] is execute a separate ReviewProgram over the immutable capsule
+  + [step_7_verdict] is accept, revise_response, revise_program, reinterpret_input, seek_evidence, escalate, or reject
+  + [step_8_revision] is create a new version without overwriting the reviewed capsule
+  + [step_9_reexecute] is rerun from the preserved source under the revised artifact when permitted
+  = must: bind every revision to the finding that caused it
+  = must: cap review depth, revision count, token budget, tool budget, and elapsed time
+
+& [AttentionInferenceProgram] is the compiled first-pass semantic program
+  + [input_interpretation] is the bounded subject and relevant context selected from input
+  + [attention_plan] is focus, boundary, preserved outside, traversal order, and budget
+  + [inference_plan] is deduction, induction, abduction, analogy, decomposition, composition, weighing, or reconciliation steps
+  + [evidence_plan] is required sources, observations, and verification operations
+  + [constraint_plan] is truth, safety, authority, format, and purpose requirements
+  + [response_plan] is intended claims, uncertainty, structure, and audience fit
+  = must: allow an inference step to declare not_applicable
+  = must: distinguish a planned step from evidence that it executed successfully
+
+& [ReviewProgram] is the independent meta-level test contract
+  + [subject_fidelity] tests whether the response addresses the actual input and purpose
+  + [coverage] tests important clauses, conditions, and relevant omissions
+  + [attention_integrity] tests focus selection, boundary preservation, premature exclusion, and distraction
+  + [inference_validity] tests whether conclusions follow under the declared regime
+  + [evidence_integrity] tests existence, relevance, authority, freshness, and claim support
+  + [constraint_satisfaction] tests requirements, prohibitions, permissions, and world assumptions
+  + [counterexample_search] seeks cases that defeat or narrow the candidate
+  + [alternative_interpretation] tests materially plausible readings of the input
+  + [uncertainty_integrity] tests whether confidence and unknowns are stated honestly
+  + [response_quality] tests clarity, precision, completeness, economy, and audience fit
+  + [effect_integrity] tests authority, target scope, reversibility, and observed result
+  + [program_adequacy] tests whether the declared attention and inference program itself caused or concealed faults
+  = must: permit the review to fault the input interpretation, program, execution, evidence, response, or review contract separately
+
+& [ReviewFinding] is one inspectable meta-level judgment
+  + [finding_uuid] is stable identity
+  + [location] is input_interpretation, attention_program, inference_program, execution_trace, evidence, constraint, candidate_response, effect, or review_program
+  + [severity] is note, warning, error, or blocking
+  + [claim] is the precise detected issue or surviving strength
+  + [support] is capsule evidence and review rule
+  + [counterexample] is an optional defeating or narrowing case
+  + [recommended_action] is accept, revise, reexecute, gather evidence, escalate, or reject
+  + [confidence] is justified review strength
+  = must: cite the capsule component and review criterion
+  - never: treat a stylistic preference as a logical fault without a declared response contract
+
+& [ReviewReport] is the complete result of reviewing one capsule
+  + [capsule_digest] is the reviewed immutable subject
+  + [review_program_version] is the exact test contract
+  + [finding_set] is ordered ReviewFinding records
+  + [surviving_claim_set] is claims that passed the selected tests
+  + [unresolved_set] is questions not settled by review
+  + [verdict] is accept, conditional_accept, revise, seek_evidence, escalate, or reject
+  + [revision_target] is input interpretation, program, response, or none
+  = must: explain why the verdict follows from findings
+  = must: state that passing review increases warranted confidence but does not prove truth
+
+& [IndependenceModes] is the strength scale for reflective review
+  + [same_pass_reflection] is cheapest and most correlated with the original error
+  + [fresh_context_same_model] is a separate call with the frozen capsule
+  + [role_separated_review] is a separately compiled reviewer such as Honesty or Security
+  + [different_model_review] is reduced provider correlation
+  + [tool_grounded_review] is external evidence, calculation, validator, compiler, or test execution
+  + [ensemble_review] is multiple bounded reviewers with reconciled findings
+  = should: select review independence proportional to consequence and uncertainty
+  = must: record which independence mode was used
+
+& [CapsuleProjection] is the context-window loading policy
+  + [full_projection] is input, program, trace, response, and evidence loaded directly when bounded
+  + [indexed_projection] is immutable digests, summaries, and retrievable references used when the capsule exceeds budget
+  + [focus_projection] is relevant slices selected by a declared review criterion
+  = must: preserve capsule identity and omission reasons under projection
+  - never: let context-window clipping masquerade as complete review
+
+& [RecursiveReviewBoundary] is protection against infinite self-critique
+  + [meta_depth] is the number of review-of-review levels
+  + [revision_budget] is maximum candidate revisions
+  + [stop_condition] is acceptance threshold, no material gain, budget exhaustion, blocking uncertainty, or required escalation
+  = must: default to one candidate pass and one review pass
+  = may: allow one review-of-review pass for high-consequence work
+  - never: recurse merely because another critique can be generated
+
+& [CoreAcceptanceHarness] is how this formation serves the bounded current project
+  + [application] is wrap each of the eight SOP Core acceptance fixtures in an InferenceCapsule
+  + [proof] is each fixture emits its program, transitions, candidate, review findings, verdict, and any revision
+  + [scope_effect] is no ninth fixture and no reactivation of parked architecture
+  = must: use review findings to refine Core semantics before expanding runtime scope
+
+& [RequirementSet] is the traceable formation requirement collection
+  + [RIC-001] is compile an inspectable attention and inference program before candidate generation
+  + [RIC-002] is freeze input, program, trace, candidate, evidence, state, and provider details as one capsule
+  + [RIC-003] is review the capsule through a separately versioned ReviewProgram
+  + [RIC-004] is localize faults to input interpretation, program, execution, evidence, constraints, response, effects, or review
+  + [RIC-005] is version rather than overwrite revisions
+  + [RIC-006] is scale reviewer independence with consequence
+  + [RIC-007] is preserve projection omissions and bound recursive review
+  + [RIC-008] is serve as the harness for the existing eight Core acceptance fixtures
+
+& [SJSProcessingTrace] is the reflective inference formation trace
+  + [fold_1_subject] is an immutable inference event reviewed as a complete semantic capsule
+  + [fold_2_boundary] is declared program and observable trace inside; private latent chain-of-thought outside
+  + [fold_3_data_design] is input, purpose, program, state, transition, evidence, candidate, finding, verdict, revision, and provider identity
+  + [fold_4_governance] is frozen candidates, versioned review contracts, bounded recursion, and explicit independence
+  + [fold_5_solution_shape] is capture, compile, execute, raise, capsule, review, verdict, revise, and reexecute
+  + [fold_6_fault_review] is self-confirmation, trace fabrication, context clipping, infinite critique, silent rewriting, and review-as-proof
+  + [fold_7_phase_lock] is review harness formed without expanding the Core acceptance scope
+
+& [ReflectiveInferenceCapsuleSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is a89a9051-8f0a-487f-aa7f-65afbb136373
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Reflective_Inference_Capsule.sop
+  + [source_snapshot_uuid] is 0c6217a9-973d-48d2-80a7-da06c8ef7c77
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_reflective_inference_capsule\Dictated_Reflective_Inference_Capsule_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_reflective_inference_capsule\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, boundary_delineated, cycle_formed, data_modeled, review_factored, recursion_bounded, core_harness_joined, justified, and signed
+  + [signature_status] is valid_for_core_harness_formation
+  + [implementation_authority] is limited_to_harnessing_the_eight_core_acceptance_fixtures
+
+@ [core] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Core.sop

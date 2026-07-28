@@ -1,0 +1,177 @@
+Subject: Cooperative Model Exchange Portal Formation
+
+Description: Formation contract for two or more isolated inference contexts cooperatively reading identical SOP evidence and negotiating semantic boundaries through a mediated exchange portal.
+
+@ [source_document] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_cooperative_model_exchange_portal\Dictated_Cooperative_Model_Exchange_Portal_Source.sop
+@ [source_manifest] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_cooperative_model_exchange_portal\Source_Document_Manifest.sop
+@ [language_foundation] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Attention_First_Language_Foundation.sop
+@ [llama_cpp_server] https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md
+@ [llama_cpp_server_design] https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README-dev.md
+@ [source_document] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_seven_faculty_cluster\Dictated_Seven_Faculty_Cluster_Source.sop
+@ [source_manifest] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_seven_faculty_cluster\Source_Document_Manifest.sop
+@ [llama_cpp_rpc_boundary] https://github.com/ggml-org/llama.cpp/blob/master/tools/rpc/README.md
+
+& [CooperativeModelExchangePortal] is a mediated open window between isolated inference participants
+  + [portal_uuid] is fdfa9e62-24e8-4ece-9d1f-25d91fc89e69
+  + [participant_set] is two or more ModelInferenceParticipant records
+  + [shared_purpose] is the negotiated task and completion contract
+  + [evidence_snapshot_set] is immutable content-addressed SOP files available equally to participants
+  + [exchange_stream] is ordered SemanticExchangePacket records
+  + [barrier_policy] is when participants pause, exchange, review, and resume
+  + [arbitration_policy] is Observer-governed reconciliation, evidence request, disagreement preservation, or stop
+  + [budget] is exchange rounds, inference tokens, time, context, and effect limits
+  + [portal_state] is proposed, open, exchanging, reconciling, blocked, complete, or closed
+  = must: preserve participant context isolation
+  = must: exchange visible semantic records rather than hidden activations or raw KV state
+  = must: let disagreement remain explicit when evidence cannot reconcile it
+
+& [ModelInferenceParticipant] is one independently stateful model execution context
+  + [participant_uuid] is the stable identity
+  + [model_identity] is model, quantization, adapter, prompt template, and build provenance
+  + [runtime_identity] is llama.cpp instance, server slot, or other provider context
+  + [attention_state_uuid] is the isolated AttentionState
+  + [faculty_program_set] is the bounded role libraries loaded for the exchange
+  + [evidence_access] is read-only access to the declared evidence snapshots
+  + [effect_authority] is none unless separately granted
+  + [current_exchange_cursor] is the greatest accepted packet sequence
+  = must: cite evidence digests and locators in boundary judgments
+  - never: infer another participant's hidden state
+
+| [ExchangePacketKind] is (focus_offer | boundary_proposal | association_offer | evidence_citation | challenge | qualification | counterexample | reconciliation | residual_disagreement | acknowledgement | yield | stop)
+
+& [SemanticExchangePacket] is the only participant-to-participant semantic carrier
+  + [packet_uuid] is the stable identity
+  + [portal_uuid] is the owning portal
+  + [sequence] is the monotonic exchange order
+  + [sender_uuid] is the authoring participant
+  + [recipient_set] is one or more participants or Observer
+  + [packet_kind] is ExchangePacketKind
+  + [focus_subject_uuid] is the local subject under negotiation
+  + [inside_set] is proposed admitted meaning
+  + [boundary_set] is proposed identity distinction
+  + [outside_set] is preserved remainder
+  + [uncertainty_set] is unresolved material
+  + [claim_set] is explicit propositions
+  + [evidence_reference_set] is SOP snapshot digests and locators
+  + [requested_response] is optional bounded response contract
+  + [parent_packet_uuid] is reply or correction lineage
+  + [signature_digest] is content identity and sender binding
+  = must: be schema-validated before delivery
+  = must: be treated as untrusted model output until evidence and governance review
+
+& [SharedSOPReadSession] is concurrent read cooperation over identical repository evidence
+  + [snapshot_uuid] is the stable evidence-set identity
+  + [repository_commit] is the Git commit or explicit dirty-state snapshot
+  + [file_manifest] is path, content digest, authority state, and parser status
+  + [participant_cursor_set] is each participant's inspected file and locator positions
+  + [mutation_policy] is read_only_during_negotiation
+  = must: deliver identical content bytes for a cited digest
+  = must: invalidate comparison when participants read different revisions unknowingly
+  - never: allow simultaneous inference to imply simultaneous file mutation authority
+
+& [NegotiationBarrier] is a bounded synchronization point between inference bursts
+  + [barrier_uuid] is the stable identity
+  + [trigger] is emitted packet, stop token, token budget, uncertainty threshold, requested response, or Observer intervention
+  + [arrived_participant_set] is contexts paused at the barrier
+  + [missing_participant_set] is contexts not yet arrived
+  + [exchange_batch] is packets admitted for the next round
+  + [timeout_policy] is continue_partial, retry, yield, or stop
+  + [resume_packet_set] is validated context additions delivered on resume
+  = must: prevent one participant from recursively flooding another
+  = must: cap round count and response depth
+
+^ [NegotiateSemanticBoundary] is the cooperative inference protocol
+  + [step_1_snapshot] is freeze and manifest SOP evidence
+  + [step_2_initialize] is create isolated AttentionState and shared purpose for each participant
+  + [step_3_parallel_read] is let participants inspect snapshot evidence concurrently
+  + [step_4_propose] is emit boundary proposals and citations
+  + [step_5_barrier] is pause at a bounded exchange checkpoint
+  + [step_6_cross_review] is deliver validated peer packets as attributed untrusted context
+  + [step_7_reconcile] is compare identities, evidence, contradictions, and residual differences
+  + [step_8_observer] is accept, qualify, request evidence, preserve disagreement, change focus, or stop
+  + [step_9_resume] is append accepted exchange packets and continue isolated inference
+  + [step_10_archive] is preserve packets, states, evidence digests, and result
+  = must: distinguish cooperative agreement from evidential proof
+
+& [LlamaCppIntegrationStrategy] is the staged implementation boundary
+  + [phase_1_unmodified_server] is external mediator using parallel slots or separate servers, continuous batching, streamed completions, explicit slot IDs, schema-constrained output, stop conditions, and slot cache persistence
+  + [phase_2_server_extension] is portal-aware task scheduler, exchange event endpoint, barrier control, participant metadata, and structured resume injection
+  + [phase_3_core_extension] is optional sequence-level hooks only if server mediation cannot meet latency, isolation, or scheduling requirements
+  + [fork_cost] is upstream divergence, backend testing, cache correctness, scheduler complexity, and maintenance burden
+  = must: prove phase_1 limitations before modifying llama.cpp core
+  = should: prefer server extension over decoder-core modification
+  - never: directly merge or share KV tensors between different model architectures as semantic communication
+
+& [SevenFacultyClusterTopology] is the candidate eight-machine deployment for distributed faculty coordination
+  + [observer_machine] is the trusted portal, scheduler, evidence snapshot host, reconciliation governor, output assembler, event log, and effect authority
+  + [honesty_machine] is an independent authenticated llama-server running the compiled Honesty library
+  + [security_machine] is an independent authenticated llama-server running the compiled Security library
+  + [scribe_machine] is an independent authenticated llama-server running the compiled Scribe library
+  + [refiner_machine] is an independent authenticated llama-server running the compiled Refiner library
+  + [planner_machine] is an independent authenticated llama-server running the compiled Planner library
+  + [weaver_machine] is an independent authenticated llama-server running the compiled Weaver library
+  + [seventh_specialist_machine] is a future signed faculty library or a dedicated contextual/master faculty only after its identity is specified
+  + [network_pattern] is Observer initiates authenticated HTTPS requests and receives streamed schema-constrained faculty returns
+  + [evidence_pattern] is Observer distributes content-addressed read-only SOP packets or serves an authenticated snapshot API
+  + [output_pattern] is Observer reviews and reconciles faculty returns into one candidate output
+  = must: preserve independent contexts and participant identity
+  = must: permit degraded operation when a non-mandatory specialist is unavailable
+  = must: require Honesty and Security according to consequence policy rather than mere machine availability
+  = must: protect every remote endpoint with network isolation, authentication, encryption, timeouts, and request limits
+  - never: confuse this multi-agent topology with llama.cpp RPC tensor offload
+
+& [DistributedInferenceBoundary] is the distinction between faculty distribution and model-device distribution
+  + [faculty_distribution] is multiple independent models or contexts producing semantic judgments
+  + [rpc_tensor_distribution] is one llama.cpp model offloading tensor and KV computation across remote devices
+  + [portal_choice] is faculty_distribution
+  + [rpc_status] is optional infrastructure only, proof-of-concept, fragile, and insecure on open or sensitive networks according to upstream documentation
+  = must: use separate llama-server APIs for faculty identity
+
+& [PortalFaultSet] is the required failure vocabulary
+  + [echo_loop] is participants repeat and amplify each other's claims
+  + [false_consensus] is agreement without independent evidence
+  + [prompt_injection] is SOP or participant text attempting to escape the portal contract
+  + [context_poisoning] is untrusted peer output promoted as authority
+  + [revision_skew] is participants reading different source content under one apparent path
+  + [deadlock] is participants wait indefinitely for each other
+  + [starvation] is one participant or perspective never receives inference budget
+  + [boundary_collapse] is reconciliation erases meaningful identity differences
+  + [budget_runaway] is unbounded exchange or recursive inference
+
+& [FormationRequirementSet] is the traceable portal requirement collection
+  + [CMEP-001] is maintain isolated model contexts and explicit participant identities
+  + [CMEP-002] is support concurrent read-only inspection of identical content-addressed SOP evidence
+  + [CMEP-003] is exchange schema-validated attributed semantic boundary packets
+  + [CMEP-004] is synchronize through bounded negotiation barriers rather than token-level uncontrolled crossfeeding
+  + [CMEP-005] is preserve evidence, disagreement, uncertainty, and participant lineage
+  + [CMEP-006] is prototype with unmodified llama-server before any engine fork
+  + [CMEP-007] is gate llama.cpp modifications behind measured phase-one limitations
+  + [CMEP-008] is detect echo loops, false consensus, prompt injection, revision skew, deadlock, starvation, boundary collapse, and budget runaway
+  + [CMEP-009] is support independently hosted faculty servers coordinated by a trusted Observer machine
+  + [CMEP-010] is distinguish multi-agent faculty coordination from RPC tensor distribution of one model
+
+& [SJSProcessingTrace] is the portal formation trace
+  + [fold_1_subject] is concurrent cooperative semantic-boundary negotiation between isolated model inference contexts
+  + [fold_2_boundary] is attributed structured exchange over shared SOP evidence inside; hidden-state reading, raw KV sharing, and uncontrolled crossfeeding outside
+  + [fold_3_data_design] is participants, immutable snapshots, packets, cursors, barriers, rounds, faults, and archived results
+  + [fold_4_governance] is peer output is untrusted until evidence and Observer review, effects remain separately authorized, and disagreement may persist
+  + [fold_5_solution_shape] is external portal mediator first, llama-server extension second, decoder-core modification only on proof
+  + [fold_6_fault_review] is echo, false consensus, injection, poisoning, skew, deadlock, starvation, collapse, and runaway
+  + [fold_7_phase_lock] is architecture ready for a two-slot read-only prototype specification but not implementation
+
+& [CooperativeModelExchangePortalSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is ef75ab81-2335-415b-9ae2-63b23d335623
+  + [previous_signature_uuid] is 952019b2-bd39-412b-b6a1-7854d7eeaf24
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\Cooperative_Model_Exchange_Portal_Formation.sop
+  + [source_snapshot_uuid] is a418a167-a923-4212-b0a3-501bbf2ab531
+  + [previous_source_snapshot_uuid] is 61ede107-dc4a-4e24-882b-684ad044212b
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_cooperative_model_exchange_portal\Dictated_Cooperative_Model_Exchange_Portal_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_cooperative_model_exchange_portal\Source_Document_Manifest.sop
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_seven_faculty_cluster\Dictated_Seven_Faculty_Cluster_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_seven_faculty_cluster\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, runtime_verified, delineated, data_modeled, concurrency_bounded, fault_reviewed, seven_fold_phase_locked, justified, and signed
+  + [signature_status] is valid_for_formation
+  + [implementation_authority] is absent_pending_two_slot_prototype_specification
+
+* [participant_A], [participant_B], [SharedSOPReadSession] -(NegotiateSemanticBoundary)> [reconciled boundary], [residual disagreement]

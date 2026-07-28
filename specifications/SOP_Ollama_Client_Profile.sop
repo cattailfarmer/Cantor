@@ -1,0 +1,96 @@
+Subject: SOP Ollama Client Profile
+
+Description: The first local model-provider profile for SOP-RVM, using Ollama for inference while preserving SOP as the independent reflective client and runtime.
+
+& [ProfileIdentity] is the canonical SJS provider-profile decision
+  + [specification_uuid] is ec219dc1-8f4a-4012-ad45-fbd18481566c
+  + [status] is first_provider_profile_not_SOP_identity
+  + [decision] is SOP-RVM is the reflective agent client layer and Ollama is its first local InferenceProvider
+  + [portability] is later adapters may target llama.cpp server, OpenAI-compatible providers, or other local and remote inference services
+
+& [LayerBoundary] is the responsibility split
+  + [SOP_source] owns articulated semantic programs and libraries
+  + [SOP_compiler] owns parsing, resolution, checking, semantic IR, and executable package formation
+  + [SOP_RVM] owns state, history, attention, scheduling, validation, review, effects, replay, and provider routing
+  + [Ollama] owns model loading, token inference, model-specific thinking behavior, streaming, embeddings, and supported model capabilities
+  + [model] proposes interpretations, judgments, relations, response content, and tool calls
+  = must: retain memory and authoritative state in SOP-RVM rather than rely on Ollama chat history
+  = must: validate model output before changing RuntimeState or committing effects
+
+& [OllamaAdapter] is the provider translation boundary
+  + [input] is SOP-RVM ReflectionCallPacket
+  + [request_target] is Ollama native chat API or supported OpenAI-compatible API
+  + [message_projection] is purpose, subject, pertinent history, evidence, current instruction, constraints, and omissions
+  + [structured_output] is JSON Schema describing ProposedJudgment
+  + [tool_schema] is allowed effect proposals expressed as callable functions
+  + [runtime_options] is model, context, temperature, seed when supported, thinking mode, token limit, streaming, and keep-alive policy
+  + [output] is normalized ProposedJudgment plus usage and provider metadata
+  + [faults] is unavailable model, context overflow, schema failure, truncation, refusal, tool mismatch, timeout, transport error, and provider error
+  = must: hide Ollama-specific request details behind the InferenceProvider interface
+
+& [CapabilityFit] is why Ollama is a practical first adapter
+  + [local_API] is a local HTTP interface
+  + [chat] is multi-message model inference
+  + [structured_outputs] is JSON or JSON Schema constrained response generation
+  + [tool_calling] is model-proposed function calls returned for client execution
+  + [streaming] is incremental content, thinking, and tool-call events
+  + [metrics] is prompt, output, load, and evaluation usage data
+  + [compatibility] is partial OpenAI API compatibility
+  = conclusion: these capabilities implement provider transport and proposal generation while SOP-RVM supplies the missing reflective agent control plane
+
+& [EffectBoundary] is the safety rule for tools
+  + [Ollama_tool_call] is a provider proposal
+  + [SOP_effect_proposal] is a normalized uncommitted EffectDeclaration
+  + [EffectBroker] is the only component allowed to validate authority and commit the tool
+  = must: return tool results to the program as observations
+  - never: grant a generated tool call direct execution authority
+
+& [StateBoundary] is protection against client-provider fusion
+  + [authoritative_state] is SOP-RVM RuntimeState and append-only traces
+  + [provider_context] is a disposable projection for one or more bounded calls
+  + [model_thinking_field] is provider output that may assist review but does not replace SOP transition evidence
+  = must: permit re-creation of provider context from authoritative state
+  - never: require one Ollama conversation buffer to preserve agent identity or reentry
+
+& [MinimumAdapterProof] is the first implementation slice
+  + [proof_1] is serialize one ReflectionCallPacket to an Ollama chat request
+  + [proof_2] is enforce ProposedJudgment through JSON Schema
+  + [proof_3] is normalize provider and usage metadata
+  + [proof_4] is reject one malformed response without corrupting RuntimeState
+  + [proof_5] is run the same fixture through deterministic mock and Ollama adapters
+  + [proof_6] is preserve equivalent runtime transitions within declared nondeterminism bounds
+  = must: implement only after the deterministic mock-provider runtime proof
+
+& [RequirementSet] is the traceable provider-profile collection
+  + [OCP-001] is make SOP-RVM the client and reflective control layer
+  + [OCP-002] is make Ollama a replaceable local inference provider
+  + [OCP-003] is translate ReflectionCallPacket into structured Ollama requests
+  + [OCP-004] is validate ProposedJudgment before runtime-state mutation
+  + [OCP-005] is broker all tool calls as uncommitted effect proposals
+  + [OCP-006] is prove equivalent fixture behavior through mock and Ollama adapters
+
+& [SJSProcessingTrace] is the Ollama client profile trace
+  + [fold_1_subject] is SOP-RVM as the reflective client layer over Ollama inference
+  + [fold_2_boundary] is program, state, memory, validation, review, and effects in SOP-RVM; token generation and model hosting in Ollama
+  + [fold_3_data_design] is call packet, request, schema, proposal, usage, fault, effect, and transition identity
+  + [fold_4_governance] is provider abstraction, externalized state, schema validation, tool brokering, and mock parity
+  + [fold_5_solution_shape] is mock provider first and Ollama adapter second
+  + [fold_6_fault_review] is provider lock-in, chat-history-owned memory, generated tool authority, schema trust, and model-thinking-as-proof
+  + [fold_7_phase_lock] is profile formed; implementation waits for the deterministic SOP-RVM fixture
+
+& [SOPOllamaClientProfileSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is bcfda29b-5ea1-483d-ac6d-a1e51732ca46
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Ollama_Client_Profile.sop
+  + [source_snapshot_uuid] is 9e964490-2103-47cf-a496-a80fa74580b6
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_ollama_client_profile\Dictated_SOP_Ollama_Client_Profile_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_ollama_client_profile\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, layer_delineated, provider_profiled, data_modeled, effect_bounded, proof_sliced, justified, and signed
+  + [signature_status] is valid_for_first_provider_profile
+  + [implementation_authority] is deferred_until_mock_provider_runtime_proof
+
+@ [runtime] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Reflective_Virtual_Machine.sop
+@ [OllamaChatAPI] https://docs.ollama.com/api/chat
+@ [OllamaStructuredOutputs] https://docs.ollama.com/capabilities/structured-outputs
+@ [OllamaToolCalling] https://docs.ollama.com/capabilities/tool-calling
+@ [OllamaOpenAICompatibility] https://docs.ollama.com/api/openai-compatibility

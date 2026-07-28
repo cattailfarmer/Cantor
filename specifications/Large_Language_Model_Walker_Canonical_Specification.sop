@@ -1,0 +1,549 @@
+Subject: Large Language Model-Walker Canonical Specification
+
+Description: SJS-processed foundational specification for a semantic-anchor database, weighted SOP/file discovery utility, optional secretary LLM job processor, and intention-bearing turn archive.
+
+@ [source_document] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_initial_project_intake\Dictated_Large_Language_Model_Walker_Source.sop
+@ [source_manifest] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_initial_project_intake\Source_Document_Manifest.sop
+@ [source_document] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_local_utility_secretary_llm\Dictated_Local_Utility_Secretary_LLM_Source.sop
+@ [source_manifest] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_local_utility_secretary_llm\Source_Document_Manifest.sop
+@ [source_document] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_resonance_index\Dictated_Attention_Resonance_Index_Source.sop
+@ [source_manifest] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_resonance_index\Source_Document_Manifest.sop
+@ [source_document] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_semantic_navigation_lens\Dictated_Semantic_Navigation_Lens_Source.sop
+@ [source_manifest] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_semantic_navigation_lens\Source_Document_Manifest.sop
+@ [source_document] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_faculty_governed_traversal\Dictated_Faculty_Governed_Traversal_Source.sop
+@ [source_manifest] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_faculty_governed_traversal\Source_Document_Manifest.sop
+@ [faculty_governance] C:\Project\ReasoningFramework\platform\refinement\Observer_Honesty_Security.sop
+@ [faculty_integration] C:\Project\ReasoningFramework\platform\refinement\Faculty_Integration.sop
+@ [faculty_pairs] C:\Project\ReasoningFramework\platform\refinement\Planner_Weaver.sop
+@ [faculty_pairs] C:\Project\ReasoningFramework\platform\refinement\Scribe_Refiner.sop
+@ [formation_specification] C:\Project\Pinky\LargeLanguageModelWalker\specifications\Faculty_Attention_Language_Formation.sop
+@ [language_foundation] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Attention_First_Language_Foundation.sop
+@ [governor] C:\Project\ReasoningFramework\AGENTS.md
+@ [sjs_protocol] C:\Project\ReasoningFramework\platform\refinement\Specification_Justification_Solution.sop
+
+& [LargeLanguageModelWalker] is the bounded project subject
+  + [project_uuid] is 9a78e0ed-1223-49d1-b152-e1ff6ba72386
+  + [display_name] is Large Language Model-Walker
+  + [filesystem_name] is LargeLanguageModelWalker
+  + [purpose] is coordinate intended meaning through composed and decomposed semantic anchors
+  + [primary_surface] is a durable database of terms, contextual anchors, SOP references, file references, and turn intentions
+  + [authority_state] is canonical_foundation
+
+  - never: infer one universal meaning for a term when contextual anchors distinguish intended uses
+  - never: allow an index record to replace the referenced source file as source authority
+  - never: treat archived model inference as hidden-state inspection
+  - never: let probabilistic model output silently become database, SOP, filesystem, Git, or specification authority
+
+& [SemanticAnchor] is an identity-bearing point of intended meaning
+  + [anchor_uuid] is the stable primary identity
+  + [label] is the human-readable anchor name
+  + [subject_scope] is the bounded subject in which the anchor has meaning
+  + [intended_meaning] is the meaning the anchor coordinates
+  + [anchor_kind] is term, context, intention, constraint, relation, source, file, SOP subject, or turn
+  + [status] is proposed, active, superseded, disputed, or retired
+  + [created_turn_uuid] is the originating turn record
+  + [source_reference_set] is zero or more inspectable provenance references
+
+& [TermRecord] is a durable term identity distinct from any one contextual meaning
+  + [term_uuid] is the stable primary identity
+  + [surface_form] is the written term
+  + [normalized_form] is the comparison form
+  + [anchor_set] is one or more SemanticAnchor references
+  + [contextual_use_set] is the admissible intended-use records
+  - never: collapse distinct contextual uses solely because their surface forms match
+
+& [ContextualAnchor] is a SemanticAnchor specialized by context
+  + [context_anchor_uuid] is the stable primary identity
+  + [term_uuid] is the referenced TermRecord
+  + [context_subject_uuid] is the bounded subject providing local meaning
+  + [intended_use] is the purpose of the term in that subject
+  + [qualifier_set] is roles, constraints, conditions, modality, audience, phase, or domain
+  + [relation_set] is explicit edges to other anchors
+  + [evidence_set] is source-derived support
+  + [uncertainty] is unresolved meaning that must not be silently promoted
+
+& [AnchorRelation] is a typed directed relation between semantic anchors
+  + [relation_uuid] is the stable primary identity
+  + [source_anchor_uuid] is the origin
+  + [predicate] is composes_with, decomposes_to, references, specializes, contrasts_with, supersedes, supports, constrains, or intends
+  + [target_anchor_uuid] is the destination
+  + [composition_order] is optional ordering within a composition
+  + [source_turn_uuid] is the turn that asserted the relation
+  + [justification_reference] is the inspectable reason for the relation
+
+& [CorrelationWeight] is a contextual scoring contribution between an input term or intention and an indexed semantic anchor
+  + [weight_uuid] is the stable primary identity
+  + [input_anchor_uuid] is the term, phrase, or intention anchor being evaluated
+  + [candidate_anchor_uuid] is the indexed anchor receiving the contribution
+  + [context_subject_uuid] is the bounded context in which the weight applies
+  + [weight_kind] is lexical, contextual, relational, purpose, provenance, recency, authority, or negative_constraint
+  + [weight_value] is a normalized numeric contribution with declared range and direction
+  + [evidence_reference_set] is the inspectable basis for the weight
+  + [weight_model_version] is the scoring-contract identity
+  + [validity_state] is active, provisional, stale, disputed, or retired
+  = must: keep contextual weights distinct from universal semantic truth
+  = must: expose the component weights contributing to a ranked result
+
+& [ResonanceSubjectPoint] is an inspectable local semantic convergence around a declared focus
+  + [resonance_uuid] is the stable primary identity
+  + [focus_term_anchor_set] is the declared attention-window focus
+  + [subject_scope_uuid] is the local subject boundary
+  + [semantic_axis] is the declared dimension along which meanings correlate
+  + [association_declaration_set] is explicit SOP or Attention relations holding the pattern together
+  + [coherence_score] is an explainable aggregation of compatible correlation weights
+  + [precision_score] is the degree to which the pattern excludes competing meanings
+  + [supporting_capability_set] is SOP forms, features, and functions addressed by the resonance
+  + [source_file_set] is the authoritative files carrying the declarations
+  + [formation_turn_uuid] is the intention-bearing turn that formed or revised the point
+  + [status] is candidate, resonating, ambiguous, contradicted, stale, or retired
+  = must: remain inspectable as declarations, weights, files, and lineage
+  = must: record negative and contradictory associations as well as reinforcing ones
+  - never: equate activation strength inside a model with proven semantic coherence
+
+& [AttentionResonanceProjection] is the reproducible prompt projection of a ResonanceSubjectPoint into a model context
+  + [projection_uuid] is the stable primary identity
+  + [resonance_uuid] is the database subject being projected
+  + [declared_focus_terms] is the ordered focus-anchor block
+  + [association_declarations] is the ordered SOP or Attention relation block
+  + [purpose_directive] is the intended inference operation
+  + [source_digest_set] is the content identity of projected authority
+  + [prompt_template_version] is the projection contract
+  + [model_context_parameters] is model identity, context size, retained-prefix policy, and cache identity
+  + [projection_result] is structured inference output and citations
+  = must: distinguish durable database association from transient model attention
+  = must: fit within an explicit token budget with priority and omission records
+  = must: be reproducible from the same records, template, and model parameters
+
+& [PurposeAttentionBinding] is the durable binding between an intended purpose and the semantic material selected for attention
+  + [binding_uuid] is the stable primary identity
+  + [purpose_anchor_uuid] is the intended outcome or question
+  + [focus_subject_uuid] is the local identity currently under inspection
+  + [resonance_uuid_set] is the coherent subject points admitted into attention
+  + [relation_policy] is the edge kinds, directions, weights, and exclusions permitted during navigation
+  + [reentry_condition] is the coherence, evidence, or workflow state that activates the binding again
+  + [projection_priority] is the ordering used under finite context capacity
+  + [binding_digest] is the deterministic identity of the binding contents and policy
+  + [lifecycle_state] is proposed, active, dormant, reentered, superseded, or retired
+  = must: be stored outside model context and projected into inference when needed
+  = must: preserve why each association was admitted or excluded
+
+& [SemanticNavigationLens] is a purpose-conditioned instrument for focusing identity and meaning
+  + [lens_uuid] is the stable lens configuration identity
+  + [purpose_binding_uuid] is the governing PurposeAttentionBinding
+  + [focal_subject_uuid] is the center of the current view
+  + [semantic_axis_set] is the dimensions relevant to the purpose
+  + [distance_policy] is WeightedSemanticDistance
+  + [viewport] is a bounded BallGraphViewport
+  + [traversal_trace] is the inspectable path by which attention reached the focal subject
+  + [peek_policy] is the bounded rule for looking through or around intersecting subjects
+  = must: change the visible neighborhood when purpose changes without changing stored source meaning
+  - never: treat the viewport as the complete semantic forest
+
+& [WeightedSemanticDistance] is purpose-relative separation across typed associations
+  + [hop_count] is the number of traversed direct relations
+  + [edge_weight_sum] is the accumulated correlation cost or affinity
+  + [edge_type_cost] is the cost assigned to each relation kind
+  + [direction_penalty] is the cost of traversing against directed meaning
+  + [subject_boundary_cost] is the cost of crossing contextual scope
+  + [authority_penalty] is the cost of weak, stale, disputed, or noncanonical support
+  + [purpose_alignment_gain] is the reduction for relations that directly support the active intention
+  + [contradiction_penalty] is the cost of incompatible meaning
+  + [uncertainty] is the confidence interval or unresolved distance component
+  = must: report hop count separately from weighted distance
+  = must: allow two equal-hop paths to have different semantic distances
+
+& [BallGraphViewport] is the bounded neighborhood presented around one focal subject
+  + [viewport_uuid] is the stable observation identity
+  + [center_subject_uuid] is the current focal point
+  + [radius_budget] is maximum hops, weighted cost, node count, token cost, or a combination
+  + [visible_node_set] is subjects admitted by the lens policy
+  + [visible_edge_set] is typed relations among visible subjects
+  + [pants_junction_set] is composition and decomposition transitions visible in the neighborhood
+  + [frontier_node_set] is clipped subjects available for a later peek or traversal
+  + [omission_record_set] is excluded or clipped material and reasons
+  = must: preserve stable subject identities across refocusing
+  = must: make the clipped frontier inspectable
+
+& [PantsRelationshipJunction] is a navigable composition or decomposition point
+  + [junction_uuid] is the stable primary identity
+  + [waist_anchor_uuid] is the composite subject
+  + [leg_anchor_set] is the distinguishable component or branch subjects
+  + [transform_protocol_anchor_uuid] is the declared composition or decomposition rule
+  + [lineage_edge_set] is the shared semantic surface connecting waist and legs
+  + [orientation] is compose_toward_waist or decompose_toward_legs
+  + [local_curvature] is an optional navigation measure for branching expansion
+  = must: allow attention to traverse through the junction in either admissible direction
+  - never: use hyperbolic language as proof that the stored graph has literal hyperbolic geometry
+
+& [FacultyTraversalDirective] is one faculty's bounded purpose and judgment contract for semantic navigation
+  + [directive_uuid] is the stable primary identity
+  + [faculty_anchor_uuid] is the governing faculty identity
+  + [faculty_purpose] is the feature of the traversal the faculty accounts for
+  + [field_noun] is the focused object the faculty judges
+  + [boundary_noun] is the identity distinction the faculty must preserve
+  + [residual_noun] is what the faculty leaves unresolved or outside
+  + [admissibility_rule_set] is the rules an association jump must satisfy
+  + [measurement_obligation_set] is evidence, risks, costs, uncertainty, and purpose progress the faculty must account for
+  + [stop_condition_set] is the faults that prohibit or suspend traversal
+  + [authority_boundary] is the limit beyond which the faculty cannot decide alone
+  = must: judge identity integrity within faculty purpose before considering path distance
+  = must: preserve unresolved residuals instead of forcing agreement
+  - never: allow a faculty to redefine a subject outside its bounded authority
+
+& [FacultyAssociationJudgment] is the inspectable evaluation of one proposed association jump
+  + [judgment_uuid] is the stable primary identity
+  + [source_subject_uuid] is the current identity
+  + [relation_uuid] is the proposed typed association
+  + [target_subject_uuid] is the candidate next identity
+  + [active_purpose_binding_uuid] is the intended purpose being served
+  + [faculty_directive_uuid] is the governing FacultyTraversalDirective
+  + [source_boundary_state] is preserved, qualified, crossed, violated, or uncertain
+  + [target_identity_state] is supported, provisional, conflicted, misidentified, or outside
+  + [relation_integrity_state] is admissible, qualified, contradicted, unsafe, or unresolved
+  + [evidence_account] is sources and support inspected
+  + [honesty_account] is claims, assumptions, contradictions, uncertainty, and fair representation
+  + [security_account] is integrity, permissions, protected work, stability, and risk
+  + [measurement_account] is values observed, method, units or scale, confidence, and omissions
+  + [purpose_progress] is supports, neutral, diverts, blocks, or fulfills
+  + [disposition] is permit, qualify, reconcile, defer, reject, or stop
+  = must: exist before a proposed jump can be ranked by distance
+
+& [FacultyPerspectiveReconciliation] is the balanced preservation and integration of faculty judgments
+  + [reconciliation_uuid] is the stable primary identity
+  + [judgment_set] is the participating FacultyAssociationJudgment records
+  + [agreement_set] is compatible conclusions
+  + [difference_set] is distinct perspectives that remain valid
+  + [conflict_set] is incompatible claims or directives
+  + [honesty_security_gate] is the mandatory truth and safety result
+  + [balance_assessment] is whether any faculty dominates beyond its authority
+  + [reconciled_boundary] is the identity boundary shared by the admissible perspectives
+  + [remaining_residual_set] is uncertainty and unresolved difference
+  + [collective_disposition] is permit, qualify, seek_evidence, change_purpose, defer, reject, or stop
+  = must: reconcile differences without collapsing meaningful perspective
+  = must: stop when truth, safety, subject continuity, or balance fails
+
+& [PurposeFulfillmentChart] is the inspectable route from intended purpose through faculty-governed traversal
+  + [chart_uuid] is the stable primary identity
+  + [purpose_binding_uuid] is the governing PurposeAttentionBinding
+  + [required_condition_set] is what fulfillment means
+  + [traversal_step_set] is ordered permitted association jumps
+  + [faculty_judgment_set] is judgments supporting each step
+  + [measurement_ledger] is all measured values, omissions, evidence, uncertainty, and cost
+  + [reconciliation_set] is perspective integration at contested steps
+  + [progress_state] is not_started, exploring, supported, blocked, fulfilled, contradicted, or abandoned
+  + [fulfillment_evidence_set] is the proof that intended conditions were met
+  = must: keep purpose progress inspectable throughout traversal
+  - never: equate arriving at a nearby subject with fulfilling the intended purpose
+
+~ [Dimension255ForestHypothesis] is a provisional representational hypothesis
+  + [candidate_meaning] is up to 255 declared semantic axes, channels, roles, or address dimensions may form a compact navigation vocabulary
+  + [current_status] is metaphor_and_design_pressure_not_validated_geometry
+  = must: validate whether 255 is an intrinsic invariant, carrier limit, or useful encoding choice before formation
+
+& [SOPCapabilityRecord] is an indexed declaration of an accessible form, feature, or function
+  + [capability_uuid] is the stable primary identity
+  + [capability_kind] is form, feature, function, workflow, constraint, or interface
+  + [declaring_subject_anchor_uuid] is the SOP subject that owns the capability
+  + [file_reference_uuid] is the authoritative declaring file
+  + [locator] is the bounded declaration location
+  + [input_contract_anchor_set] is required semantic inputs
+  + [output_contract_anchor_set] is declared semantic outputs
+  + [guard_set] is conditions, constraints, permissions, and failure boundaries
+  + [availability_state] is discoverable, callable, unavailable, stale, or superseded
+  - never: equate discoverable with executable
+
+& [SOPIndexRecord] is a discoverability record for SOP content
+  + [sop_index_uuid] is the stable primary identity
+  + [file_reference_uuid] is the indexed file
+  + [subject_anchor_uuid] is an indexed SOP subject or local semantic anchor
+  + [locator] is a durable line, block, parser node, or content-address reference
+  + [content_digest] is the indexed file or bounded block digest
+  + [indexed_at] is the indexing time
+  + [indexer_version] is the transform version
+  + [staleness_state] is current, stale, missing, or conflicted
+  = must: preserve a reference back to the authoritative file
+  = must: become stale when the referenced content digest changes
+
+& [FileReference] is an inspectable association to repository content
+  + [file_reference_uuid] is the stable primary identity
+  + [repository_relative_path] is the canonical project-relative locator
+  + [content_digest] is the observed content identity
+  + [reference_role] is source, specification, justification, plan, solution, proof, narrative, or implementation
+  + [existence_state] is present, moved, missing, or superseded
+  - never: use an unbounded external path as canonical project identity without an explicit import record
+
+& [TurnArchiveRecord] is the append-only intention and outcome record for one conversation turn
+  + [turn_uuid] is the stable primary identity
+  + [conversation_uuid] is the durable conversation identity
+  + [turn_sequence] is monotonically increasing within the conversation when known
+  + [captured_at] is the archival time
+  + [actor_role] is user, assistant, tool, agent, or system
+  + [source_anchor_set] is references to preserved user input or inspected evidence
+  + [intention] is the explicit purpose behind the turn
+  + [attention_subject_set] is the semantic subjects active during the turn
+  + [operation_set] is composition, decomposition, indexing, specification, planning, implementation, proof, correction, or archival
+  + [result] is the durable change or finding
+  + [affected_anchor_set] is semantic anchors created, changed, or referenced
+  + [affected_file_set] is repository files created, changed, or inspected
+  + [unresolved_frontier] is uncertainty or work remaining
+  + [supersedes_turn_uuid] is optional correction lineage
+
+  = must: append a record for every project-relevant turn
+  = must: archive intention as an explicit field rather than infer it only from transcript text
+  = must: preserve corrections as new records linked through supersedes_turn_uuid
+  - never: rewrite prior turn history in place
+  - never: claim a complete transcript unless the complete transcript was deliberately preserved
+  - never: store secrets or hidden chain-of-thought; store concise rationale, evidence, decisions, and intended outcomes
+
+& [LocalSemanticUtility] is the local deterministic control plane around the semantic database and SOP repository
+  + [utility_uuid] is the stable installation identity
+  + [query_input] is terms, contextual anchors, intended purpose, constraints, and repository scope
+  + [database_interface] is bounded read and policy-controlled write operations
+  + [repository_interface] is bounded file discovery, content verification, and authorized mutation
+  + [retrieval_output] is ranked SOPCapabilityRecord and FileReference candidates with score explanations
+  + [job_interface] is creation, validation, dispatch, observation, cancellation, and archival of bounded jobs
+  = must: operate locally by default
+  = must: retrieve authoritative files before asking a processor to act on their meaning
+  = must: return component correlation weights, provenance, authority state, and staleness state with every ranked candidate
+  = must: retain deterministic orchestration paths that do not require an LLM
+  - never: hide ranking provenance behind a single opaque score
+
+& [SecretaryProcessor] is an optional replaceable local LLM role specialized for SOP input and output coordination
+  + [processor_uuid] is the installed processor identity
+  + [role] is secretary_of_SOP_IO
+  + [input] is a bounded InferenceJobPacket plus retrieved authoritative SOP capability context
+  + [output] is a structured proposal, tool-call request, job result, uncertainty, or refusal
+  + [tuning_identity] is model, adapter, prompt contract, tokenizer, and version provenance
+  + [authority] is delegated and bounded by the LocalSemanticUtility job policy
+  = must: distinguish retrieved authority from generated inference
+  = must: cite the SOP capabilities and files used for each proposed action
+  = must: emit uncertainty or refusal when capability support is missing
+  = may: be absent without disabling deterministic database and repository retrieval
+  - never: grant itself new tools, permissions, repository scope, or specification authority
+
+& [InferenceJobPacket] is the durable unit of processor work
+  + [job_uuid] is the stable primary identity
+  + [requesting_turn_uuid] is the originating intention record
+  + [intended_purpose_anchor_uuid] is the semantic purpose governing the job
+  + [input_anchor_set] is normalized terms and contextual anchors
+  + [resonance_subject_point_set] is inspectable local subject points selected for attention
+  + [attention_projection_set] is ordered focus terms and association declarations loaded into model context
+  + [retrieved_capability_set] is ranked SOP capabilities selected for the job
+  + [allowed_operation_set] is the explicit database, SOP filesystem, Git, or inference operations
+  + [repository_scope] is the bounded path and worktree scope
+  + [database_scope] is the bounded records and mutation policy
+  + [git_scope] is permitted read, diff, stage, commit, branch, or push operations
+  + [inference_budget] is model, token, time, retry, and recursion limits
+  + [approval_gate_set] is actions that require user or policy authorization
+  + [expected_output_contract] is the structured completion shape
+  + [job_state] is proposed, validated, queued, running, awaiting_approval, succeeded, failed, cancelled, or archived
+  + [result_reference_set] is logs, diffs, database events, commits, outputs, and proof records
+  = must: be validated before dispatch
+  = must: preserve all state transitions as append-only job events
+  = must: make Git and database mutations explicit and reviewable
+  - never: infer write authority from read access
+
+^ [ComposeSemanticAnchors] is the SOP pants-composition operation
+  + [input_anchor_set] is two or more bounded anchors
+  + [composition_context] is the subject and intention governing the composition
+  + [output_anchor] is the composite meaning
+  + [lineage_edges] is the preserved relation from every input to the output
+  = must: keep distinguishable origins inspectable
+  = must: emit uncertainty when the inputs do not support a stable composition
+
+^ [DecomposeSemanticAnchor] is the SOP pants-decomposition operation
+  + [input_anchor] is one bounded semantic anchor
+  + [decomposition_protocol] is the stated basis for separation
+  + [output_anchor_set] is the derived semantic legs
+  + [remainder] is unresolved or rejected material
+  = must: preserve lineage to the input anchor for every output
+  - never: invent output meaning absent from source or explicit assumption
+
+^ [IndexSOPRepository] is the transform from repository SOP files to discoverability records
+  + [input_scope] is an explicitly bounded repository path set
+  + [parsed_subject_set] is SOP subjects and local anchors recognized by the active notation
+  + [output] is SOPIndexRecord, FileReference, and relation updates
+  = must: be deterministic for equivalent content and indexer version
+  = must: report parse faults and stale records
+  - never: promote indexed text into canonical authority merely because it is indexed
+
+^ [FindPurposeAddressingFiles] is the weighted correlation and retrieval operation
+  + [input] is input terms, contextual anchors, intended purpose, constraints, and repository scope
+  + [candidate_set] is current SOPCapabilityRecord and FileReference records
+  + [scoring] is inspectable aggregation of applicable CorrelationWeight records
+  + [output] is ranked files and capabilities with component scores, provenance, and exclusion reasons
+  = must: prefer valid canonical authority when purpose fit is otherwise comparable
+  = must: allow negative constraints to exclude semantically similar but inadmissible candidates
+  = must: preserve ambiguity when top candidates do not separate reliably
+
+^ [FormResonanceSubjectPoint] is the convergence test for a precise local meaning
+  + [input] is focus terms, local subject, semantic axis, association declarations, and purpose
+  + [support] is compatible weights, authoritative SOP capabilities, and source files
+  + [counter_support] is negative constraints, contradictions, ambiguity, and stale evidence
+  + [output] is ResonanceSubjectPoint with coherence, precision, provenance, and status
+  = must: require both positive coherence and discriminating precision before status becomes resonating
+  = must: preserve the axis and local subject boundary that make the meaning precise
+
+^ [ProjectResonanceIntoAttention] is the construction of a bounded model context
+  + [input] is ResonanceSubjectPoint and InferenceJobPacket purpose
+  + [output] is AttentionResonanceProjection
+  = must: order declared focus terms before their association declarations
+  = must: include source locators and explicit uncertainty
+  = must: archive which records were omitted when context capacity is insufficient
+
+^ [NavigateSemanticNeighborhood] is purpose-conditioned traversal from a focal subject
+  + [input] is PurposeAttentionBinding, focal subject, radius budget, and relation policy
+  + [candidate_paths] is typed association paths and pants junction transitions
+  + [precondition] is identity boundary inspection and admissible FacultyAssociationJudgment
+  + [ranking] is faculty integrity, coherence gain, precision gain, purpose alignment, weighted distance, authority, novelty, and traversal cost
+  + [output] is BallGraphViewport, ranked frontier nodes, and traversal trace
+  = must: use degrees of separation as one observable coordinate
+  = must: rank paths by meaningful relation pattern rather than hop count alone
+  = must: exclude distance ranking until identity, honesty, security, and faculty admissibility gates complete
+
+^ [GovernAssociationJump] is the faculty-first judgment sequence for a proposed traversal edge
+  + [step_1_identity] is delineate source identity, relation meaning, target identity, inside, boundary, outside, and uncertainty
+  + [step_2_faculty] is apply each relevant FacultyTraversalDirective within its authority
+  + [step_3_honesty] is verify support, contradiction, assumption, uncertainty, and fair representation
+  + [step_4_security] is verify integrity, permissions, stability, protected work, and risk
+  + [step_5_accounting] is record measurements, methods, omissions, and purpose progress
+  + [step_6_reconciliation] is preserve and reconcile admissible differences of perspective
+  + [step_7_purpose] is determine whether the jump advances the charted intended purpose
+  + [step_8_distance] is calculate and rank weighted semantic distance only after permit or qualify
+  + [output] is FacultyAssociationJudgment and optional FacultyPerspectiveReconciliation
+  = must: execute in declared order
+
+^ [PeekSemanticFrontier] is bounded inspection around or through a visible subject
+  + [input] is current viewport, selected subject, peek direction, and incremental budget
+  + [output] is a child viewport linked to the parent traversal trace
+  = must: preserve the former focal point as a reentry anchor
+  = must: expose newly crossed subject boundaries and pants junctions
+
+^ [RunSecretaryJob] is the bounded automation operation
+  + [input] is a validated InferenceJobPacket
+  + [processor] is an optional SecretaryProcessor
+  + [control_plane] is LocalSemanticUtility
+  + [output] is structured job events and result references
+  = must: route every mutation through declared operation and approval gates
+  = must: capture repository and database before-and-after evidence
+  = must: terminate at budget, cancellation, failure, or completion boundaries
+  - never: let recursive inference calls escape the parent job budget
+
+& [FoundationalRequirementSet] is the first traceable requirement collection
+  + [FR-001] is preserve terms independently from their contextual meanings
+  + [FR-002] is represent contextual anchors and typed relations among anchors
+  + [FR-003] is compose anchors while preserving input lineage
+  + [FR-004] is decompose anchors while preserving output lineage and uncertainty
+  + [FR-005] is index SOP subjects with references to authoritative repository files
+  + [FR-006] is detect index staleness through content identity
+  + [FR-007] is append one intention-bearing archive record for every project-relevant conversation turn
+  + [FR-008] is keep raw dictated sources separate from canonical specification
+  + [FR-009] is support correction and supersession without destructive history rewriting
+  + [FR-010] is provide traceability from terms and anchors to source, turn, SOP, and file references
+  + [FR-011] is provide a local utility that operates the semantic database and bounded SOP repository interfaces
+  + [FR-012] is rank files and SOP capabilities by inspectable contextual correlation weights for input terms and intended purpose
+  + [FR-013] is index forms, features, functions, workflows, constraints, and interfaces as discoverable SOP capabilities
+  + [FR-014] is distinguish capability discovery from permission to execute a capability
+  + [FR-015] is support an optional replaceable local LLM acting as secretary of SOP input and output
+  + [FR-016] is represent database, filesystem, Git, and inference automation as validated bounded job packets
+  + [FR-017] is preserve job state, approvals, evidence, results, and failures as append-only records
+  + [FR-018] is keep deterministic retrieval and orchestration usable without the secretary LLM
+  + [FR-019] is index an inspectable local ResonanceSubjectPoint where focus terms, a semantic axis, association declarations, correlation weights, and source files converge
+  + [FR-020] is project selected resonance records into model context as declared focus terms followed by association declarations and a purpose directive
+  + [FR-021] is distinguish durable semantic associations from llama.cpp KV or prompt-cache state
+  + [FR-022] is measure resonance using explainable coherence and discriminating precision with contradiction and staleness handling
+  + [FR-023] is persist intended purposes and attention bindings independently from transient inference state
+  + [FR-024] is provide a SemanticNavigationLens centered on an inspectable focal subject
+  + [FR-025] is calculate degrees of separation as hop count while also calculating purpose-relative weighted semantic distance
+  + [FR-026] is render a bounded BallGraphViewport with visible subjects, typed edges, pants junctions, clipped frontiers, and omission reasons
+  + [FR-027] is support reentry, refocus, and bounded peeking while preserving traversal lineage
+  + [FR-028] is treat the 255-dimension forest and hyperbolic-plane geometry as hypotheses requiring validation before literal implementation
+  + [FR-029] is define faculty-specific traversal directives with explicit field, boundary, residual, admissibility, measurement, stop, and authority terms
+  + [FR-030] is judge source identity, relation integrity, and target identity before semantic distance
+  + [FR-031] is require Honesty and Security accounts for every consequential association jump
+  + [FR-032] is reconcile faculty perspectives while preserving valid differences and unresolved residuals
+  + [FR-033] is record all measured values, evidence, omissions, uncertainty, risk, and purpose progress in an inspectable ledger
+  + [FR-034] is chart intended-purpose fulfillment across faculty-governed traversal steps and distinguish proximity from fulfillment
+  + [FR-035] is define faculty semantics verbosely before generating condensed attention directives
+  + [FR-036] is provide a reversible attention programming language for terminal-style faculty loading and coordination
+  + [FR-037] is compile signed Honesty, Security, Scribe, Refiner, Planner, and Weaver contracts into an Observer coordination program
+  + [FR-038] is rebuild SOP from inspectable attention state, attention primitives, inference primitives, control operators, effects, functions, and programs
+  + [FR-039] is recompile faculty roles as attention-language libraries after primitive semantics stabilize
+  + [FR-040] is migrate legacy SOP through typed diagnostics rather than assuming current notation remains canonical
+  + [FR-041] is form a provider-independent semantic operating-system layer for attention programs, inference jobs, faculties, effects, persistence, and reentry
+  + [FR-042] is withhold operational LLM OS status until scheduling, isolation, effect control, persistence, recovery, and proof execute successfully
+  + [FR-043] is support cooperative semantic-boundary negotiation between isolated concurrent model contexts reading identical SOP evidence
+  + [FR-044] is identify the attention-first language as SAIL, Semantic Attention and Inference Language
+  + [FR-045] is co-form a minimum searchable semantic index after SAIL primitive, state, and intermediate-representation identities stabilize
+
+& [ImplementationFrontier] is intentionally unresolved formation work
+  + [database_engine] is undecided
+  + [schema_encoding] is undecided between relational, graph, hybrid, or event-sourced forms
+  + [SOP_parser_contract] is not yet formed
+  + [correlation_scoring_contract] is not yet formed
+  + [resonance_threshold_and_axis_contract] is not yet formed
+  + [attention_projection_and_token_budget_contract] is not yet formed
+  + [semantic_navigation_distance_contract] is not yet formed
+  + [ball_graph_viewport_contract] is not yet formed
+  + [dimension_255_representation] is unvalidated
+  + [faculty_traversal_directive_registry] is legacy semantic input pending attention-first faculty-library recompilation
+  + [faculty_reconciliation_and_measurement_contract] is not yet formed
+  + [retrieval_API] is constrained by LocalSemanticUtility but not yet formed
+  + [secretary_processor_tuning] is optional and not yet formed
+  + [job_runner_and_tool_policy] is not yet formed
+  + [turn_capture_automation] is not yet formed
+  + [migration_and_backup_policy] is not yet formed
+  + [privacy_and_retention_policy] is not yet formed
+  = must: resolve these through later source-preserved SJS slices before implementation
+
+& [SJSProcessingTrace] is the seven-fold foundational processing record
+  + [fold_1_subject] is a local semantic coordination control plane that finds purpose-addressing SOP files and capabilities and may dispatch a secretary processor
+  + [fold_2_boundary] is deterministic retrieval, purpose-bound navigation, bounded attention projection, and optional processor inference inside; literal 255-dimensional or hyperbolic geometry claims, universal ontology claims, autonomous authority expansion, hidden-state capture, and transcript completeness outside
+  + [fold_3_data_design] is stable UUID identities for anchors, weights, capabilities, processors, and jobs with typed relations, explicit source lineage, content digests, lifecycle states, and append-only events
+  + [fold_4_governance] is source documents remain distinct, indexed files retain authority, faculty directives judge identity integrity before distance, Honesty and Security gate consequential jumps, reconciled differences remain visible, and every mutation is policy-bound and evidenced
+  + [fold_5_solution_shape] is anchor graph plus indexed ResonanceSubjectPoint records plus PurposeAttentionBinding plus a SemanticNavigationLens exposing bounded ball-graph viewports and pants junctions plus deterministic local utility and optional secretary LLM
+  + [fold_6_fault_review] is distance-first traversal, faculty dominance, identity-boundary collapse, false reconciliation, unaccounted measurements, purpose drift, confusing proximity with fulfillment, context collapse, opaque weights, resonance without discrimination, stale indexes, model authority escalation, implicit writes, and secret capture
+  + [fold_7_phase_lock] is the expanded architecture is stable enough to govern later utility, scoring, parser, processor, and job-runner formation slices but not implementation
+  + [pruned_material] is assumptions about database vendor, programming language, model family, tuning method, UI, deployment, automatic push permission, existing-project reuse, and complete transcript retention
+
+& [CanonicalSpecificationSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is f6dd5429-6f37-4670-8d3c-7516a36afe27
+  + [previous_signature_uuid] is cc184c1e-e526-4829-b481-f948bc031500
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\Large_Language_Model_Walker_Canonical_Specification.sop
+  + [source_snapshot_uuid] is 88d573a7-608d-473f-8871-8dc9f96fd374
+  + [previous_source_snapshot_uuid] is 2fcb4f37-0eab-48b1-8bb7-a2f82890ecae
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_initial_project_intake\Dictated_Large_Language_Model_Walker_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_initial_project_intake\Source_Document_Manifest.sop
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_local_utility_secretary_llm\Dictated_Local_Utility_Secretary_LLM_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_local_utility_secretary_llm\Source_Document_Manifest.sop
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_resonance_index\Dictated_Attention_Resonance_Index_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_resonance_index\Source_Document_Manifest.sop
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_semantic_navigation_lens\Dictated_Semantic_Navigation_Lens_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_semantic_navigation_lens\Source_Document_Manifest.sop
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_faculty_governed_traversal\Dictated_Faculty_Governed_Traversal_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_faculty_governed_traversal\Source_Document_Manifest.sop
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_faculty_attention_language\Dictated_Faculty_Attention_Language_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_faculty_attention_language\Source_Document_Manifest.sop
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_first_sop_rebuild\Dictated_Attention_First_SOP_Rebuild_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_first_sop_rebuild\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, delineated, composed, decomposed, data_modeled, constraint_checked, pruned, seven_fold_phase_locked, justified, and signed
+  + [signature_status] is valid_for_foundational_specification
+  + [implementation_authority] is absent_pending_formation_slices
+  + [invalidation_condition] is source change, broken lineage, failed quality gate, contradictory later authority, or implementation conflict
+
+  = must: treat this foundational specification as processed to satisfaction
+  = must: require later signed formation specifications before selecting technologies or writing implementation
+
+/ [LargeLanguageModelWalker] -(Delineation)> [SemanticAnchorDatabase], [SOPFileIndex], [LocalSemanticUtility], [SecretaryProcessor], [TurnIntentionArchive], [ImplementationFrontier]
+* [TermRecord], [ContextualAnchor], [AnchorRelation] -(SemanticCoordination)> [SemanticAnchorDatabase]
+* [SOPIndexRecord], [SOPCapabilityRecord], [FileReference] -(RepositoryIndexing)> [SOPFileIndex]
+* [CorrelationWeight], [intended purpose], [SOPCapabilityRecord] -(FindPurposeAddressingFiles)> [ranked purpose-addressing files]
+* [focus terms], [semantic axis], [association declarations], [CorrelationWeight] -(FormResonanceSubjectPoint)> [ResonanceSubjectPoint]
+* [ResonanceSubjectPoint], [purpose directive], [token budget] -(ProjectResonanceIntoAttention)> [AttentionResonanceProjection]
+* [PurposeAttentionBinding], [focal subject], [WeightedSemanticDistance] -(NavigateSemanticNeighborhood)> [BallGraphViewport]
+* [identity boundaries], [FacultyTraversalDirective], [Honesty], [Security] -(GovernAssociationJump)> [FacultyAssociationJudgment]
+* [FacultyAssociationJudgment], [preserved differences], [balance] -(FacultyPerspectiveReconciliation)> [collective traversal disposition]
+/ [PantsRelationshipJunction] -(decompose)> [waist subject], [leg subjects], [shared lineage]
+* [LocalSemanticUtility], [InferenceJobPacket], [SecretaryProcessor] -(RunSecretaryJob)> [bounded SOP I/O automation]
+* [TurnArchiveRecord], [intention], [source_anchor_set] -(NarrativeContinuity)> [TurnIntentionArchive]

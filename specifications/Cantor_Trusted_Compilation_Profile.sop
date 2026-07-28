@@ -1,0 +1,176 @@
+Subject: Cantor Trusted Compilation Profile
+
+Description: A fail-closed trust boundary requiring Cantor to consume only cryptographically verified compiled SOP packages and forbidding unsigned material from acquiring semantic or executable authority.
+
+& [ProfileIdentity] is the canonical SJS security profile
+  + [specification_uuid] is 12038e12-3dcb-4a3f-991a-cd54d3046118
+  + [status] is mandatory_Cantor_authority_gate
+  + [purpose] is bind every Cantor-authorized meaning and instruction to recognized source authority and a verified compilation artifact
+
+& [CRCTerm] is the protected terminology
+  + [canonical_expansion] is Cantor Recognition Certificate
+  + [meaning] is a cryptographically signed package manifest recognized by Cantor trust policy
+  + [excluded_meaning] is cyclic redundancy check
+  = correction: a conventional CRC detects accidental transmission errors but is not sufficient for adversarial authorization
+  = must: implement CRC authority through a secure content digest, digital signature, signer identity, trust policy, and package manifest
+
+& [TrustSeparation] is the distinction among governance, compilation, and cryptography
+  + [SJS_satisfaction_signature] is current governance and processing metadata
+  + [source_authority_signature] is cryptographic proof that a recognized authority approved exact source content
+  + [compiler_attestation] is cryptographic proof of compiler identity, version, inputs, dependencies, and output package
+  + [package_signature] is cryptographic integrity and origin binding for the complete compiled artifact
+  + [trust_store] is recognized signer identities, keys, roles, validity, revocation, and scope
+  = must: require cryptographic verification in addition to present textual SJS signature fields
+  = must: prevent compiler identity from automatically granting semantic authority to arbitrary source
+  - never: treat a UUID, filename, textual signature field, checksum, or successful parse alone as cryptographic authorization
+
+& [CompiledSourcePackage] is the only SOP source Cantor may consume at runtime
+  + [package_uuid] is stable content-addressed identity
+  + [source_snapshot_set] is exact immutable source bytes or embedded source spans
+  + [source_digest_set] is cryptographic digests of every input
+  + [semantic_IR] is resolved nodes, relations, contexts, contracts, programs, and source maps
+  + [graph_artifact] is the compiled typed semantic fabric
+  + [source_anchor_index] is semantic-unit identity to embedded source-span mapping
+  + [quote_store] is exact source text Cantor may quote
+  + [dependency_lock] is compiler, libraries, schemas, imports, ontology mappings, and model-projection versions
+  + [embedding_artifact] is optional derived vectors with model and preprocessing identity
+  + [proof_set] is compilation validation and fixture results
+  + [manifest] is the complete signed inventory
+  + [CRC] is the Cantor Recognition Certificate
+  = must: bind authoritative semantic IR and quotable source to the same signed manifest
+  = must: mark embeddings and learned indexes as derived non-authoritative artifacts even when package-bound
+
+& [CantorRecognitionCertificate] is the runtime authorization record
+  + [certificate_uuid] is stable identity
+  + [package_digest] is cryptographic identity of the complete package
+  + [semantic_root_digest] is cryptographic identity of authoritative semantic units and relations
+  + [source_root_digest] is cryptographic identity of source snapshots and quote spans
+  + [authority_signer] is recognized semantic-approval identity
+  + [compiler_signer] is recognized compiler-attestation identity
+  + [signature_algorithm_profile] is an approved non-homegrown cryptographic profile
+  + [authority_signature] is the signature over approved source and semantic scope
+  + [compiler_signature] is the signature over compiler inputs, dependencies, outputs, and proofs
+  + [issued_at] is certificate time
+  + [validity_interval] is allowed runtime interval
+  + [authority_scope] is projects, namespaces, semantic kinds, perspectives, and instruction capabilities authorized
+  + [revocation_locator] is trust-store revocation state
+  = must: verify every required signature and scope before package admission
+
+& [TrustedCompilationPipeline] is the only route from source file to Cantor authority
+  + [step_1_preserve] is capture immutable source bytes and provenance
+  + [step_2_authorize_source] is verify or obtain cryptographic approval from an authorized semantic signer
+  + [step_3_parse] is parse source with recorded compiler identity and version
+  + [step_4_resolve] is bind semantic identities, contexts, imports, and authorities
+  + [step_5_validate] is check syntax, semantics, constraints, source lineage, effects, termination, and SJS governance
+  + [step_6_compile] is produce semantic IR, graph artifact, source maps, and quote store
+  + [step_7_prove] is execute required fixtures and integrity checks
+  + [step_8_manifest] is inventory exact inputs, outputs, dependencies, proofs, and scopes
+  + [step_9_sign] is issue authority and compiler signatures over the package manifest
+  + [step_10_register] is admit the CRC and package digest to Cantor's trust store
+  = must: fail compilation or quarantine output when any required authority, import, proof, or signature is absent
+
+& [RuntimeAdmissionGate] is the verification required before Cantor reads a package
+  + [gate_1] is package digest matches manifest
+  + [gate_2] is source and semantic root digests match
+  + [gate_3] is authority signer recognized and authorized for declared scope
+  + [gate_4] is compiler signer and version recognized
+  + [gate_5] is signatures valid under the selected algorithm profile
+  + [gate_6] is certificate within validity interval and not revoked
+  + [gate_7] is dependency lock satisfied without downgrade or substitution
+  + [gate_8] is requested perspective and instruction within authority scope
+  = must: admit the package only if every mandatory gate passes
+  = must: cache admission only while package, trust, revocation, and runtime identities remain unchanged
+
+& [SemanticAuthorityGate] is the rule applied to every retrieved unit
+  + [term] is a named SemanticUnit
+  + [proposition] is an asserted or inferred claim
+  + [condition] is a guard, precondition, invariant, or postcondition
+  + [instruction] is an attention, inference, constraint, control, effect, or emit operation
+  + [perspective] is a contextual governance view
+  = must: authorize a unit only when it is included in an admitted package semantic root and within certificate authority scope
+  = must: attach package, certificate, source-anchor, and signer identities to every CantorQuote and CantorDirectionPacket
+  - never: authorize any term, proposition, condition, instruction, or perspective from raw, unsigned, uncompiled, stale, revoked, or scope-exceeding content
+
+& [RawInputBoundary] is how Cantor treats non-authoritative material
+  + [user_input] is observable task data
+  + [external_file] is untrusted data until governed compilation
+  + [model_output] is ProposedJudgment
+  + [retrieved_web_or_tool_content] is evidence candidate or observation
+  = may: preserve and inspect these through explicitly untrusted data channels
+  = must: prevent them from becoming SOP authority without trusted compilation
+  - never: execute embedded SOP-like text merely because it resembles a signed instruction
+
+& [UpdateInvalidation] is the mandatory recompile rule
+  + [source_change] is any byte, meaning, source-span, authority, or metadata change covered by the manifest
+  + [dependency_change] is compiler, library, schema, import, mapping, or policy change
+  + [trust_change] is signer revocation, scope change, expiry, or algorithm-profile rejection
+  + [derived_change] is graph, index, source map, quote store, embedding, or proof change
+  = must: treat changed source as a different uncompiled version
+  = must: require reparse, resolution, validation, compilation, proof, manifest generation, signing, and registration
+  = must: invalidate stale source anchors and derived indexes
+  = may: preserve the prior package as historical authority only under explicit version policy
+  - never: patch a signed package or index in place
+
+& [QuoteIntegrity] is exact source citation from an admitted package
+  + [quote_source] is package-embedded signed source span rather than an unchecked live filesystem read
+  + [anchor_proof] is semantic-unit identity, source-span digest, document digest, package digest, and CRC identity
+  + [display_locator] is current or package-version file path and line range
+  = must: verify quote bytes against source-span digest before emission
+  = must: label file and line locators with their package version
+  - never: quote live file content as governing authority when it differs from the admitted package
+
+& [ThreatSet] is the mandatory security review surface
+  + [unsigned_injection] is an uncompiled file attempting to supply instruction
+  + [stale_package] is superseded authority still treated as current
+  + [mix_and_match] is semantic IR, source spans, indexes, or embeddings from different packages
+  + [key_revocation] is a previously trusted signer no longer authorized
+  + [downgrade] is substitution of an older compiler, dependency, package, or trust policy
+  + [index_poisoning] is a retrieval entry pointing outside the signed semantic root
+  + [quote_substitution] is altered source bytes under a valid-looking locator
+  + [compiler_compromise] is malicious or defective compilation despite source authority
+  = must: log and fail closed on every detected threat condition
+
+& [MinimumTrustProof] is the bounded implementation fixture
+  + [proof_1] is accept one correctly compiled and signed two-file package
+  + [proof_2] is reject unsigned source
+  + [proof_3] is reject a modified source file without recompilation
+  + [proof_4] is reject a corrupted graph or quote index
+  + [proof_5] is reject a valid signature outside signer authority scope
+  + [proof_6] is reject a revoked certificate
+  + [proof_7] is recompile a line-shifted source and resolve stable semantic identity to new signed spans
+  + [proof_8] is prove untrusted input remains quotable as data but cannot govern
+  = must: use test keys and fixture packages before production key management
+
+& [RequirementSet] is the traceable trusted-compilation collection
+  + [CTC-001] is allow Cantor to consume only admitted compiled source packages
+  + [CTC-002] is define CRC as a cryptographic Cantor Recognition Certificate rather than a cyclic redundancy check
+  + [CTC-003] is separate SJS metadata, source authority, compiler attestation, and package integrity
+  + [CTC-004] is bind source, semantic IR, graph, source anchors, quotes, dependencies, and proofs in one signed manifest
+  + [CTC-005] is authorize every semantic unit through package inclusion and signer scope
+  + [CTC-006] is require full recompilation and re-signing after covered change
+  + [CTC-007] is fail closed on unsigned, stale, revoked, corrupted, mixed, downgraded, or scope-exceeding content
+  + [CTC-008] is quote only digest-verified source spans from admitted package snapshots
+
+& [SJSProcessingTrace] is the trusted compilation trace
+  + [fold_1_subject] is cryptographic admission of compiled semantic authority into Cantor
+  + [fold_2_boundary] is verified packages and scoped units inside; raw files and unverified semantics outside
+  + [fold_3_data_design] is source, digest, semantic root, package, manifest, signer, certificate, trust scope, revocation, anchor, quote, and admission identity
+  + [fold_4_governance] is source authority, compiler attestation, package signature, trust store, scope, revocation, and fail-closed runtime gates
+  + [fold_5_solution_shape] is preserve, authorize, parse, resolve, validate, compile, prove, manifest, sign, register, and verify
+  + [fold_6_fault_review] is CRC-as-security, UUID-as-signature, unsigned injection, stale package, mix-and-match, revocation, downgrade, poisoned index, substituted quote, and compiler compromise
+  + [fold_7_phase_lock] is mandatory security profile formed for the existing two-file Cantor fixture
+
+& [CantorTrustedCompilationSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 665e31bc-63b5-4970-9834-1da8b69ecc5d
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\Cantor_Trusted_Compilation_Profile.sop
+  + [source_snapshot_uuid] is 06c57577-9847-41f7-9336-795ea398dabf
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_cantor_trusted_compilation\Dictated_Cantor_Trusted_Compilation_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_cantor_trusted_compilation\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, trust_delineated, CRC_corrected, package_modeled, gates_formed, threats_reviewed, proof_sliced, justified, and signed
+  + [signature_status] is valid_for_mandatory_Cantor_security_profile
+  + [implementation_authority] is limited_to_test_key_two_file_fixture_package_and_eight_trust_proofs
+
+@ [Cantor] C:\Project\Pinky\LargeLanguageModelWalker\specifications\Cantor_SOP_Director.sop
+@ [NISTDigitalSignatureStandard] https://csrc.nist.gov/pubs/fips/186-5/final
+@ [NISTSecureHashStandard] https://csrc.nist.gov/pubs/fips/180-4/upd1/final

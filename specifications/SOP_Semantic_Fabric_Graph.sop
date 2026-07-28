@@ -1,0 +1,196 @@
+Subject: SOP Semantic Fabric Graph
+
+Description: The shared typed relational substrate from which definition, ontology, inference, contract, provenance, execution, attention, temporal, and causal graphs are projected.
+
+& [FormationIdentity] is the canonical SJS graph-fabric formation
+  + [specification_uuid] is 9ae1d712-6eb0-4e87-bb06-7584d6dff85c
+  + [status] is semantic_IR_graph_layer_formation
+  + [purpose] is articulate relationships as the compositional fabric joining SOP meanings without collapsing distinct graph semantics
+  + [canonical_model] is a contextual typed attributed temporal hypergraph with named graph projections
+
+& [SemanticFabric] is one shared relational substrate
+  + [identity_space] is stable SemanticUnit identities
+  + [relation_space] is typed binary and n-ary semantic relations
+  + [context_space] is purpose, scope, perspective, assumptions, world, and authority
+  + [graph_space] is named selections and projections over shared identities and relations
+  + [time_space] is validity, sequence, version, event, and supersession
+  + [evidence_space] is observation, provenance, support, contradiction, and justification
+  + [activation_space] is temporary purpose-bound pertinence and traversal priority
+  = must: permit one subject to participate in multiple graph projections without duplicating its canonical identity
+  = must: preserve different relationship semantics rather than flatten them into generic related_to
+
+& [SemanticNode] is an addressable participant in the fabric
+  + [node_uuid] is stable identity
+  + [semantic_unit] is term, value, subject, clause, contract, operation, program, observation, claim, result, fault, context, graph, or artifact
+  + [meaning_contract] is the node's articulated meaning
+  + [type_set] is declared kinds and classifications
+  + [label_set] is preferred, alternate, historical, and hidden labels
+  + [source_set] is provenance and authority
+  + [status] is asserted, assumed, inferred, disputed, validated, superseded, unresolved, or quarantined
+  = must: preserve intrinsic declarations in addition to relational position
+  - never: define identity solely by embedding or neighborhood resemblance
+
+& [SemanticRelation] is a first-class articulated relationship
+  + [relation_uuid] is stable identity
+  + [relation_type] is a defined RelationType
+  + [endpoint_roles] maps participant nodes to named roles
+  + [direction] is directed, undirected, reciprocal, or role_ordered
+  + [arity] is two or more participants
+  + [context] is where the relation applies
+  + [guard] is conditions required for the relation to be active
+  + [valid_time] is when it holds
+  + [assertion_status] is asserted, assumed, inferred, disputed, validated, or superseded
+  + [evidence_set] is support and contradiction
+  + [authority] is who or what may assert or apply it
+  + [weight_set] is typed relevance, evidence, confidence, risk, cost, or activation values
+  + [source_set] is origin, version, and derivation
+  = must: permit a relation to carry its own MeaningContract
+  = must: distinguish relation existence from current activation and traversal priority
+
+& [HyperRelation] is a relation whose meaning depends on multiple participant roles
+  + [participant_set] is two or more typed role bindings
+  + [joint_guard] is conditions evaluated across the participant set
+  + [consequence_set] is conclusions, obligations, transitions, or effects enabled by the joint condition
+  = use_when: inference has multiple premises, contract has multiple parties, or transition requires multiple conditions
+  - never: decompose an irreducibly joint relation into misleading independent binary edges
+
+& [RelationType] is the semantic contract for a relationship family member
+  + [type_uuid] is stable identity
+  + [name] is its canonical handle
+  + [participant_contract] is allowed endpoint roles and types
+  + [algebra] is symmetry, asymmetry, transitivity, reflexivity, inverse, composition, exclusivity, and cardinality behavior
+  + [inference_consequence] is conclusions licensed by the relation
+  + [constraint_consequence] is validation requirements produced by the relation
+  + [traversal_policy] is direction, depth, cost, and context behavior
+  + [visual_policy] is optional projection semantics
+  = must: define relation algebra explicitly before a reasoner applies it
+
+& [RelationFamilySet] is the initial graph-layer vocabulary
+  + [lexical] is names, aliases, labels, translations, and notations
+  + [identity] is same, different, instance, type, equivalent, and disjoint
+  + [semantic] is defines, means, specializes, generalizes, related, contrasts, and maps
+  + [structural] is contains, part_of, depends_on, imports, and references
+  + [epistemic] is observes, asserts, assumes, supports, contradicts, and qualifies
+  + [inferential] is premise_of, entails, suggests, explains, predicts, and refutes
+  + [normative] is requires, permits, prohibits, obligates, authorizes, and satisfies
+  + [operational] is consumes, produces, transforms, calls, returns, reads, and writes
+  + [attentional] is focuses, bounds, admits, excludes, preserves, prioritizes, and traverses
+  + [causal] is causes, prevents, enables, inhibits, mediates, and intervenes_on
+  + [temporal] is precedes, follows, overlaps, valid_during, expires, and supersedes
+  + [provenance] is attributed_to, generated_by, derived_from, used, and reviewed_by
+  = must: treat this set as extensible libraries over the relation kernel
+
+& [NamedGraph] is an addressable contextual selection of fabric material
+  + [graph_uuid] is stable identity
+  + [purpose] is why the selection exists
+  + [membership_rule] is how nodes and relations belong
+  + [context] is the interpretation boundary
+  + [authority] is assertion and access governance
+  + [version] is immutable content or query identity
+  + [source_set] is provenance
+  = may: itself participate as a SemanticNode in meta-level relations
+  = must: distinguish membership from semantic identity
+
+& [GraphProjection] is a purpose-built view over the shared fabric
+  + [definition_graph] is terms, labels, meanings, and mappings
+  + [ontology_graph] is types, membership, hierarchy, equivalence, and disjointness
+  + [inference_graph] is premises, rules, conclusions, support, contradiction, and explanations
+  + [contract_graph] is requirements, permissions, prohibitions, authority, satisfaction, and faults
+  + [provenance_graph] is observations, sources, agents, activities, derivations, and reviews
+  + [execution_graph] is instructions, control, data flow, state transitions, effects, and termination
+  + [attention_graph] is focus, boundary, frontier, pertinence, activation, and traversal
+  + [causal_graph] is genuine cause, intervention, mediation, prevention, and counterfactual structure
+  + [temporal_graph] is sequence, event, validity, revision, and reentry
+  + [capability_graph] is functions, tools, files, models, requirements, and supported purposes
+  = must: permit projections to overlap through shared identities
+  = must: preserve projection-specific semantics during cross-graph joins
+
+& [CausalBoundary] is protection against naming every condition causal
+  + [dependency] is one subject requiring another without necessarily causing it
+  + [correlation] is patterned association without proven intervention semantics
+  + [inference] is a conclusion relation without necessarily changing the world
+  + [control] is program ordering without necessarily describing real-world causation
+  + [cause] is a qualified claim about changes under conditions or intervention
+  = must: place only qualified cause-and-effect claims in the causal projection
+  = must: preserve evidence, assumptions, confounding uncertainty, and intervention meaning
+
+& [ActivationOverlay] is temporary attention charge over stable fabric
+  + [activation_uuid] is one runtime projection identity
+  + [root_subject] is the current focus
+  + [purpose] is the current intended use
+  + [active_context] is scope, assumptions, policy, and world
+  + [seed_set] is initially activated nodes and relations
+  + [allowed_relation_families] is the traversal boundary
+  + [guard_state] is satisfied, unsatisfied, unknown, or disputed conditions
+  + [activation_score] is inspectable pertinence priority
+  + [decay_policy] is when relevance decreases or expires
+  + [budget] is maximum depth, nodes, relations, time, and tokens
+  = must: treat activation as runtime attention rather than stored truth
+  = must: explain propagation paths and clipped frontiers
+
+& [CrossGraphJoin] is the intelligence-bearing traversal between projections
+  + [join_subject] is a shared SemanticNode or explicitly mapped identity
+  + [source_projection] is the graph view being left
+  + [target_projection] is the graph view being entered
+  + [join_relation] is the typed reason the traversal is valid
+  + [semantic_preservation] is what meaning must survive the join
+  + [loss_or_uncertainty] is any weakened, ambiguous, or context-dependent translation
+  = example: definition_graph term -> contract_graph obligation -> execution_graph gate -> provenance_graph evidence
+  = must: trace the complete join path
+
+& [FabricQuery] is the bounded graph addressing operation
+  + [focus] is current SemanticNode
+  + [purpose] is intended retrieval or reflection outcome
+  + [projection_set] is relevant graph views
+  + [relation_family_set] is allowed traversal types
+  + [guard_set] is conditions and authority
+  + [depth] is maximum relation distance
+  + [result_shape] is nodes, relations, paths, contracts, explanations, or subgraph
+  + [budget] is count, time, tokens, and cost
+  = must: return path explanations, contexts, sources, and omission reasons
+
+& [MinimumIRManifestation] is the bounded graph proof
+  + [record_1] is SemanticNode
+  + [record_2] is RelationType
+  + [record_3] is SemanticRelation with binary and hyperrelation forms
+  + [record_4] is NamedGraph
+  + [record_5] is GraphProjection
+  + [record_6] is ActivationOverlay
+  + [fixture] is one subject joined across definition, inference, contract, execution, and provenance projections
+  + [causal_test] is one dependency rejected as causal and one qualified causal relation admitted
+  = must: implement as fixture-local semantic IR before database selection
+  = must: integrate with the existing SOP-RVM CoreAcceptance proof rather than form a separate project
+
+& [RequirementSet] is the traceable graph-fabric collection
+  + [SFG-001] is define one shared fabric with multiple typed graph projections
+  + [SFG-002] is make relationships first-class semantic units with context, guards, evidence, authority, time, and algebra
+  + [SFG-003] is support n-ary hyperrelations for joint premises, contracts, and transitions
+  + [SFG-004] is preserve shared subject identity across overlapping graph views
+  + [SFG-005] is restrict causal graphs to qualified intervention semantics
+  + [SFG-006] is separate temporary activation from durable semantic truth
+  + [SFG-007] is trace meaning across cross-graph joins
+  + [SFG-008] is prove the model through six fixture-local IR records before persistent database work
+
+& [SJSProcessingTrace] is the semantic fabric graph trace
+  + [fold_1_subject] is relationships as the shared fabric of SOP meaning
+  + [fold_2_boundary] is one typed contextual hypergraph with named projections inside; unrelated databases and generic related_to flattening outside
+  + [fold_3_data_design] is node, relation type, relation, hyperrelation, context, named graph, projection, activation, join, query, and path identity
+  + [fold_4_governance] is relation algebra, context, provenance, authority, causal qualification, and visible traversal
+  + [fold_5_solution_shape] is six fixture-local IR records and one cross-projection subject proof
+  + [fold_6_fault_review] is graph proliferation, identity duplication, relation flattening, embedding identity, false causality, and activation-as-truth
+  + [fold_7_phase_lock] is graph layer formed as the unifying semantic IR substrate without selecting a database
+
+& [SOPSemanticFabricGraphSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 13e0b1e4-dff9-49c7-8783-1e03e1fe9483
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Semantic_Fabric_Graph.sop
+  + [source_snapshot_uuid] is 114ccbf1-7c69-4677-aa01-d0229ef3d752
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_semantic_fabric_graph\Dictated_SOP_Semantic_Fabric_Graph_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_semantic_fabric_graph\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, graph_subject_delineated, relation_algebra_formed, projections_integrated, causal_boundary_protected, IR_pruned, justified, and signed
+  + [signature_status] is valid_for_semantic_IR_graph_layer_formation
+  + [implementation_authority] is limited_to_six_fixture_local_graph_IR_records_and_one_cross_projection_proof
+
+@ [core] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Core.sop
+@ [runtime] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Reflective_Virtual_Machine.sop
+@ [definition_service] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Fabric_Definition_Service.sop

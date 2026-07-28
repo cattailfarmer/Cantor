@@ -1,0 +1,284 @@
+Subject: SOP Attention-First Language Foundation
+
+Description: Signed rebuild foundation that treats SOP as a language for observable attention-state transformation and inference coordination before subjects, faculties, or artifact workflows are defined.
+
+Name: SAIL — Semantic Attention and Inference Language.
+
+@ [source_document] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_first_sop_rebuild\Dictated_Attention_First_SOP_Rebuild_Source.sop
+@ [source_manifest] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_first_sop_rebuild\Source_Document_Manifest.sop
+@ [legacy_attention_seed] C:\Project\Pinky\AttentionFramework\platform\Attention.sop
+@ [legacy_framework_map] C:\Project\Pinky\AttentionFramework\platform\FRAMEWORK_MAP.sop
+@ [legacy_sop_notation] C:\Project\ReasoningFramework\platform\source\SOP_Markdown.md
+@ [migration_input] C:\Project\Pinky\LargeLanguageModelWalker\specifications\Faculty_Attention_Language_Formation.sop
+@ [source_document] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_llm_os_identity\Dictated_LLM_OS_Identity_Source.sop
+@ [source_manifest] C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_llm_os_identity\Source_Document_Manifest.sop
+@ [portal_formation] C:\Project\Pinky\LargeLanguageModelWalker\specifications\Cooperative_Model_Exchange_Portal_Formation.sop
+@ [language_identity] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SAIL_Language_Database_Coformation.sop
+
+& [AttentionFirstSOP] is a declarative language for transforming inspectable attention state under bounded inference and effect governance
+  + [language_uuid] is af0fa7d2-3e74-494c-922b-7e2dc3262068
+  + [foundation_order] is values, state, primitives, operators, functions, control, effects, programs, libraries, artifacts
+  + [semantic_center] is explicit transformation from one AttentionState to another
+  + [runtime_boundary] is visible prompt, database, file, tool, and trace state rather than hidden model internals
+  + [legacy_status] is current SOP and faculty definitions are migration inputs pending recompilation
+  + [canonical_language_name] is SAIL
+  + [canonical_language_full_name] is Semantic Attention and Inference Language
+  = must: define primitive semantics before surface syntax
+  = must: make every non-trivial attention movement inspectable and replayable
+  = must: separate attention transformation from inference generation and external effects
+  - never: define faculties as irreducible primitives
+  - never: claim deterministic control over hidden neural attention
+
+| [AttentionValueKind] is (handle | purpose | focus | candidate | subject | boundary | outside | relation | evidence | claim | assumption | uncertainty | weight | budget | trace | result | fault)
+
+& [AttentionValue] is the immutable value passed among operators
+  + [value_uuid] is the stable identity when durable
+  + [kind] is AttentionValueKind
+  + [content] is the visible semantic payload
+  + [scope] is the local subject and program boundary
+  + [source_set] is provenance
+  + [confidence] is justified epistemic strength rather than model confidence alone
+  + [status] is candidate, active, resolved, disputed, stale, superseded, or outside
+
+& [AttentionState] is the complete inspectable state of one attention machine step
+  + [state_uuid] is the stable state identity
+  + [program_counter] is the current instruction address
+  + [root_purpose] is the invariant intended purpose
+  + [focus_stack] is ordered active and reentry focus handles
+  + [active_focus] is the top focus handle
+  + [inside_set] is admitted values
+  + [boundary_set] is active identity distinctions
+  + [outside_set] is preserved remainder and future frontier
+  + [association_frontier] is candidate relations not yet traversed
+  + [evidence_set] is visible support
+  + [uncertainty_set] is unresolved material
+  + [budget_state] is remaining token, time, traversal, recursion, inference, and effect budget
+  + [effect_queue] is proposed but uncommitted external effects
+  + [trace_head] is the latest transition record
+  + [machine_status] is ready, running, yielded, blocked, stopped, faulted, or complete
+  = must: be serializable outside the model context
+
+& [AttentionPrimitiveSet] is the minimal state-transform vocabulary
+  + [OBSERVE] is sample visible input into candidate values without resolving identity
+  + [NAME] is assign a provisional handle to a candidate
+  + [FOCUS] is place one handle at the top of focus_stack
+  + [HOLD] is retain a focus across a bounded number of transitions
+  + [RELEASE] is remove an explicit hold without deleting the value
+  + [SHIFT] is move focus with a reason and carried uncertainty
+  + [WIDEN] is increase admitted neighborhood under a declared budget
+  + [NARROW] is reduce admitted neighborhood by a declared selection rule
+  + [BOUND] is form inside, boundary, outside, and uncertainty around a candidate
+  + [ADMIT] is move a supported value from frontier or outside into inside
+  + [EXCLUDE] is keep a value outside under an explicit reason
+  + [PRESERVE] is retain a value and lineage without current admission
+  + [PULL] is raise candidate priority toward focus using an inspectable weight source
+  + [PUSH] is lower or move candidate priority away from focus using an inspectable constraint
+  + [PEEK] is inspect a bounded neighbor without changing primary focus
+  + [RETURN] is restore the prior focus and carried state
+  + [EMIT] is expose a value or result to the enclosing program
+  + [YIELD] is suspend with a reentry record
+  + [STOP] is terminate under a declared condition
+  = must: make PULL and PUSH ranking transforms rather than truth operators
+  = must: preserve outside rather than treating EXCLUDE as deletion
+
+& [InferencePrimitiveSet] is the minimal proposition-and-relation transform vocabulary
+  + [ASSOCIATE] is propose a typed relation between bounded values
+  + [DISTINGUISH] is articulate an identity-relevant difference
+  + [COMPARE] is evaluate values under named dimensions
+  + [CONTRAST] is expose incompatible or separating characteristics
+  + [DECOMPOSE] is split one bounded value under a named protocol with lineage
+  + [COMPOSE] is integrate bounded compatible values under a named protocol with lineage
+  + [TRIANGULATE] is compare a candidate through three or more independent relation paths
+  + [DEDUCE] is derive a result from declared rules and premises
+  + [INDUCE] is form a provisional pattern from repeated observations
+  + [ABDUCE] is propose a best-current explanation for incomplete observations
+  + [WEIGH] is calculate an inspectable score from declared components
+  + [VALIDATE] is test a candidate against requirements, evidence, boundaries, and counterexamples
+  + [RECONCILE] is integrate compatible differences while preserving residual conflict
+  + [REVISE] is produce a new version linked to the superseded value
+  = must: type every result as claim, assumption, uncertainty, relation, result, or fault
+  = must: keep inference primitives free of external side effects
+
+& [ControlOperatorSet] is the program-flow vocabulary
+  + [SEQUENCE] is execute transforms in declared order
+  + [WHEN] is execute a branch when a visible predicate holds
+  + [UNLESS] is block or redirect a branch under an exception predicate
+  + [WHILE] is repeat while progress, truth, safety, and budget predicates hold
+  + [CHOOSE] is select among admissible branches using a declared policy
+  + [FORK] is evaluate bounded alternative branches with separate state lineage
+  + [JOIN] is reconcile compatible fork results without silent state fusion
+  + [GATE] is require a named validation before continuation
+  + [CALL] is invoke a pure function or governed program
+  + [RET] is return a result and state delta
+  + [CATCH] is handle a typed fault or uncertainty result
+  + [REENTER] is restore a serialized AttentionState under digest validation
+  = must: cap every loop, fork, and recursion path
+
+| [EffectKind] is (none | attention | epistemic | memory_read | memory_write | inference_call | database_read | database_write | file_read | file_write | git_read | git_write | tool_call | user_authorization)
+
+& [EffectDeclaration] is the inspectable contract for a non-pure operation
+  + [effect_kind] is EffectKind
+  + [target_scope] is the bounded resource
+  + [authority_source] is the permission or governing policy
+  + [input_contract] is accepted values
+  + [output_contract] is returned values
+  + [before_evidence] is the pre-effect state
+  + [after_evidence] is the observed post-effect state
+  + [reversibility] is reversible, compensatable, irreversible, or unknown
+  + [approval_state] is not_required, required, granted, denied, or expired
+  = must: keep pure inference separate from queued and committed effects
+  - never: infer write authority from read authority
+
+& [AttentionOperator] is a named state transformer composed from primitives
+  + [operator_uuid] is the stable definition identity
+  + [input_state_contract] is required AttentionState shape
+  + [parameter_set] is immutable input values
+  + [primitive_sequence] is ordered primitive applications
+  + [precondition_set] is required visible predicates
+  + [postcondition_set] is guaranteed state properties when successful
+  + [effect_set] is declared effects
+  + [fault_set] is typed failure outcomes
+  + [trace_policy] is transition details that must be recorded
+  = must: be referentially transparent when effect_set is none
+
+& [AttentionFunction] is a callable operator composition with typed inputs and outputs
+  + [function_uuid] is the stable definition identity
+  + [input_signature] is named values and AttentionState requirements
+  + [body] is AttentionOperator and ControlOperator composition
+  + [output_signature] is returned values, state delta, effects, faults, and uncertainty
+  + [purity] is pure, stateful, or effectful
+  + [termination_contract] is stop, yield, result, fault, or budget exhaustion
+  = must: expose effects and termination in the signature
+
+& [AttentionPressure] is an inspectable priority delta rather than a force claim about hidden activations
+  + [pressure_uuid] is the stable event identity
+  + [target_handle] is the candidate being reprioritized
+  + [direction] is pull_toward_focus or push_toward_outside
+  + [magnitude] is a normalized declared value
+  + [component_set] is purpose alignment, salience, evidence, authority, novelty, risk, contradiction, cost, and recency
+  + [faculty_source] is the directive or function producing the pressure
+  + [duration] is the bounded state-step lifetime
+  + [explanation] is the inspectable scoring account
+  = must: aggregate competing pressures without hiding their sources
+  = must: decay or expire pressure under a declared policy
+  - never: let pressure alone resolve identity or prove a claim
+
+& [AttentionProgram] is a declarative executable graph of functions over AttentionState
+  + [program_uuid] is the stable content-addressed identity
+  + [purpose_contract] is the intended transformation
+  + [entry_state_contract] is required initial AttentionState
+  + [instruction_graph] is operators, functions, gates, branches, and effects
+  + [exit_contract] is valid results and terminal states
+  + [reentry_contract] is serialized state and source-digest requirements
+  + [proof_contract] is fixtures and invariants required before runtime authority
+
+& [LLMSemanticOperatingSystem] is the candidate runtime identity formed when AttentionFirstSOP governs repeatable inference work
+  + [operating_domain] is semantic attention, inference, memory, purpose, faculty, tool, repository, and job coordination
+  + [process_state] is AttentionState
+  + [process] is AttentionProgram or InferenceJobPacket
+  + [scheduler] is purpose, priority, budget, dependency, and admissibility routing
+  + [supervisor] is an Observer library compiled from primitives
+  + [system_library_set] is compiled faculty and capability libraries
+  + [system_call] is a validated EffectDeclaration committed through authority gates
+  + [persistent_memory] is semantic database, SOP files, turn records, job events, and source lineage
+  + [executable_package] is a signed AttentionProgram plus dependencies, effects, and proof contract
+  + [context_loader] is the projection of selected state and programs into a finite model context
+  + [runtime_engine] is a replaceable local or remote inference provider
+  + [event_log] is append-only transitions, effects, results, faults, and reentry records
+  + [state_restore] is REENTER under program, source, and state digest validation
+  + [kernel_boundary] is host operating system, hardware, model internals, and process isolation remain external
+  + [maturity_state] is candidate_architecture_not_yet_proven_operating_system
+  = must: earn operating-system status through executable scheduling, isolation, effect control, persistence, recovery, and proof
+  = must: remain provider-independent where practical
+  - never: claim hardware-kernel, memory-protection, or hidden-model control not actually implemented
+
+& [FacultyLibrary] is a higher-order program library compiled from attention and inference primitives
+  + [faculty_name] is Observer, Honesty, Security, Scribe, Refiner, Planner, Weaver, or later bounded role
+  + [purpose] is the attention feature the library accounts for
+  + [exported_function_set] is callable AttentionFunction definitions
+  + [governance_contract] is authority, gates, returns, stop conditions, and review
+  = must: rebuild faculties from primitive functions after the base language stabilizes
+  - never: treat faculty names as base-language keywords
+
+& [SurfaceSyntaxFormation] is deliberately deferred until semantic primitives stabilize
+  + [candidate_verbose_syntax] is SOP Markdown-derived declarations
+  + [candidate_condensed_syntax] is terminal directives
+  + [candidate_machine_syntax] is typed AST or serialized instruction graph
+  + [requirement] is all surface forms compile to the same semantic intermediate representation
+  = must: test semantic equivalence among verbose, condensed, and machine forms
+  - never: preserve legacy punctuation solely because it exists
+
+& [LegacySOPMigrationMap] is the provisional mapping from current SOP markers to attention-first semantics
+  + [`&`] is candidate AttentionProgram, data subject, or library declaration after BOUND and VALIDATE
+  + [`+`] is NAME plus local value declaration
+  + [`=`] is operator invocation or postcondition
+  + [`-`] is constraint, EXCLUDE, PUSH, or GATE depending on typed context
+  + [`^`] is AttentionFunction or AttentionOperator declaration
+  + [`?`] is WHEN, CHOOSE, unresolved predicate, or branch
+  + [`@`] is provenance, memory_read, or relation anchor
+  + [`!`] is claim output requiring Honesty validation
+  + [`~`] is assumption output
+  + [`/`] is DECOMPOSE
+  + [`*`] is COMPOSE
+  = must: route ambiguous legacy forms through typed migration diagnostics
+
+& [FoundationRequirementSet] is the traceable attention-first requirement collection
+  + [AFS-001] is define inspectable AttentionValue and AttentionState before subject or faculty semantics
+  + [AFS-002] is define atomic attention primitives independently from inference primitives
+  + [AFS-003] is define control operators with bounded loops, forks, recursion, faults, and reentry
+  + [AFS-004] is define explicit effects and prevent read authority from implying write authority
+  + [AFS-005] is define PULL and PUSH as explainable priority transformations
+  + [AFS-006] is define typed operators and functions with state, effects, faults, and termination signatures
+  + [AFS-007] is compile faculties as libraries rather than treating them as primitives
+  + [AFS-008] is compile verbose, condensed, and machine syntax to one semantic intermediate representation
+  + [AFS-009] is preserve and diagnose legacy SOP through an explicit migration map
+  + [AFS-010] is keep observable attention programming distinct from hidden neural attention claims
+  + [AFS-011] is support an LLM semantic operating-system layer for scheduling programs, supervising effects, preserving state, and restoring work
+  + [AFS-012] is distinguish the semantic operating system from the host OS, hardware kernel, and model internals
+  + [AFS-013] is require runtime proofs before promoting candidate architecture to operational LLM OS status
+  + [AFS-014] is coordinate isolated model processes through structured cooperative semantic exchange and bounded negotiation barriers
+
+& [NextFormationFrontier] is the ordered work remaining before implementation
+  + [slice_1] is primitive minimality and independence proof
+  + [slice_2] is AttentionState schema and transition invariants
+  + [slice_3] is typed semantic intermediate representation
+  + [slice_4] is parser-neutral operator and function signatures
+  + [slice_5] is effect and authority system
+  + [slice_6] is legacy SOP migration test corpus
+  + [slice_7] is faculty library recompilation
+  + [slice_8] is verbose and condensed surface grammar
+  + [slice_9] is prompt projection and llama.cpp runtime adapter
+  + [slice_10] is database index and replay harness
+
+& [SJSProcessingTrace] is the foundation processing record
+  + [fold_1_subject] is SOP rebuilt as an attention-state transformation and inference coordination language
+  + [fold_2_boundary] is observable semantic attention programming inside; hidden activation control and premature faculty syntax outside
+  + [fold_3_data_design] is typed values, serializable states, pressure events, operators, functions, effects, traces, programs, and libraries
+  + [fold_4_governance] is primitive semantics precede syntax, effects are explicit, and legacy authority requires migration validation
+  + [fold_5_solution_shape] is a small attention virtual machine with pure inference, governed effects, replayable state, and compiled faculty libraries
+  + [fold_6_fault_review] is primitive overlap, semantic ambiguity, syntax-first lock-in, hidden effect, unbounded control flow, pressure-as-proof, and lossy legacy migration
+  + [fold_7_phase_lock] is the language architecture is stable enough for primitive-minimality and state-schema formation but not parser or runtime implementation
+
+& [AttentionFirstSOPFoundationSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 0812b867-ecda-4b1a-87f1-75ce9fa06f6f
+  + [previous_signature_uuid] is 89d892cb-3807-46c7-b0f4-ef67d18eeb22
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Attention_First_Language_Foundation.sop
+  + [source_snapshot_uuid] is d803cfb3-1ea0-4644-8b82-3569e27f03e2
+  + [previous_source_snapshot_uuid] is 7bedc850-839e-4d24-b085-e65794434c38
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_first_sop_rebuild\Dictated_Attention_First_SOP_Rebuild_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_attention_first_sop_rebuild\Source_Document_Manifest.sop
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_llm_os_identity\Dictated_LLM_OS_Identity_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_llm_os_identity\Source_Document_Manifest.sop
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_sail_naming_database_order\Dictated_SAIL_Naming_Database_Order_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-24_sail_naming_database_order\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, legacy_inspected, delineated, primitive_factored, state_formed, effects_separated, migration_mapped, seven_fold_phase_locked, justified, and signed
+  + [signature_status] is valid_for_language_foundation
+  + [implementation_authority] is absent_pending_primitive_minimality_state_schema_and_IR_formation
+  + [invalidation_condition] is source change, primitive semantic overlap, hidden effect, unbounded control path, lossy migration, hidden-attention claim, failed quality gate, or implementation contradiction
+
+/ [AttentionState] -(BOUND)> [inside], [boundary], [outside], [uncertainty]
+* [AttentionPrimitive], [InferencePrimitive], [ControlOperator] -(Compose)> [AttentionOperator]
+* [AttentionOperator], [EffectDeclaration], [TerminationContract] -(Define)> [AttentionFunction]
+* [AttentionFunction], [FacultyPurpose], [GovernanceContract] -(Compile)> [FacultyLibrary]
+* [AttentionState], [AttentionProgram], [FacultyLibrary], [EffectDeclaration], [persistent memory] -(RuntimeProof)> [LLMSemanticOperatingSystem]

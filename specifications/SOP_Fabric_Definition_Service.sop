@@ -1,0 +1,164 @@
+Subject: SOP Fabric Definition Service
+
+Description: A hybrid exact, graph, text, and vector retrieval service that supplies authoritative SOP meanings to a running model through bounded tool calls.
+
+& [FormationIdentity] is the canonical SJS service formation
+  + [specification_uuid] is f7f435e1-49bc-46c8-a171-619736e16672
+  + [status] is minimum_definition_service_formation
+  + [purpose] is prime a model with the SOP kernel and retrieve additional semantic fabric only as current work requires it
+  + [service_name] is SOP Fabric Definition Service
+
+& [PrimingBoundary] is the minimum SOP material loaded before inference
+  + [core_identity] is SOP purpose and semantic-programming boundary
+  + [runtime_role] is the model proposes judgments while SOP-RVM owns state, validation, review, and effects
+  + [instruction_contract] is the active compiled reflection instruction
+  + [current_subject] is purpose, focus, boundary, and relevant context
+  + [response_schema] is ProposedJudgment
+  + [definition_tool_contract] is when and how to request missing meaning
+  + [authority_summary] is applicable permissions and prohibitions
+  = must: prime with the bounded kernel and active program rather than the entire SOP library
+  = must: include version and digest identities for primed definitions
+
+& [ToolOwnershipBoundary] is the client-provider distinction
+  + [Ollama] presents declared tool schemas to the model and returns model-generated tool-call proposals
+  + [SOP_RVM] receives, validates, executes, and records the proposed definition lookup
+  + [DefinitionService] resolves the query and returns an authorized semantic projection
+  + [model] incorporates the returned projection into a later bounded inference call
+  = correction: Ollama does not autonomously serve SOP definitions; the SOP-RVM client implements and executes the tool
+
+& [DefinitionLookupRequest] is the structured sop_lookup tool input
+  + [request_uuid] is stable identity
+  + [term_set] is names, phrases, identifiers, or clauses requiring definition
+  + [current_subject] is active semantic identity
+  + [purpose] is why the meaning is required
+  + [context] is scope, assumptions, faculty or policy, and world
+  + [requested_kind_set] is definition, relation, contract, operation, example, provenance, authority, fault, or all
+  + [relation_depth] is maximum typed graph distance
+  + [budget] is maximum records, tokens, and retrieval time
+  + [known_version_set] is definitions already loaded by the caller
+  = must: permit the runtime to issue a lookup proactively when compilation or validation finds an unbound or ambiguous term
+
+& [DefinitionLookupResult] is the bounded authoritative tool response
+  + [request_uuid] is the lookup being answered
+  + [resolved_identity_set] is canonical SemanticUnit identities
+  + [definition_set] is plain articulated MeaningContracts
+  + [relation_set] is typed neighboring semantic units
+  + [contract_set] is applicable inference, constraint, operation, authority, and fault contracts
+  + [source_set] is authoritative file, locator, digest, and version references
+  + [match_explanation] is why each result was selected
+  + [ambiguity_set] is unresolved identity or context alternatives
+  + [omission_record] is clipped or unauthorized material and reasons
+  + [projection_digest] is content identity of the returned meaning
+  = must: distinguish authoritative definitions from aliases, candidates, imports, inferences, and examples
+
+& [HybridRetrievalPipeline] is the semantic fabric lookup order
+  + [stage_1_identity] is exact UUID, canonical name, namespace, and version lookup
+  + [stage_2_alias] is exact preferred, alternate, historical, and hidden label lookup
+  + [stage_3_structure] is kind, contract field, source locator, and typed relation lookup
+  + [stage_4_graph] is bounded traversal over broader, narrower, related, dependency, contradiction, purpose, and faculty relations
+  + [stage_5_text] is lexical and full-text retrieval
+  + [stage_6_vector] is embedding similarity for semantic candidates not found deterministically
+  + [stage_7_fusion] is explainable combination of candidate channels
+  + [stage_8_rerank] is optional model-based contextual ordering
+  + [stage_9_validate] is authority, version, context, access, and semantic identity checking
+  + [stage_10_project] is token-bounded DefinitionLookupResult formation
+  = must: run exact and typed structural retrieval before vector similarity
+  = must: let vector results propose candidates rather than establish identity
+
+& [DataStructureDelineation] is the correction to neural hash-table identity
+  + [symbol_table] is exact identity-to-definition addressing through hash or tree indexes
+  + [typed_graph] is explicit semantic fabric and relation traversal
+  + [text_index] is lexical discovery
+  + [vector_index] is approximate semantic-neighborhood discovery
+  + [embedding_model] is a neural encoder that maps text or semantic projections to vectors
+  + [reranker] is an optional learned contextual ordering function
+  = conclusion: the complete service is a hybrid semantic index, not a neural network used as a hash table
+  = may: use Ollama embedding models to create query and document vectors
+  = must: pin and record the embedding model, version, dimensions, source digest, and preprocessing
+
+& [FabricWeightSet] is the inspectable candidate-ranking account
+  + [identity_match] is exact canonical or alias correspondence
+  + [type_match] is requested semantic-unit kind compatibility
+  + [purpose_alignment] is current intended-use relevance
+  + [context_alignment] is scope and assumption compatibility
+  + [relation_proximity] is typed graph path relevance
+  + [contract_applicability] is bearing on current inference, constraint, operation, or effect
+  + [evidence_authority] is provenance and governance strength
+  + [contradiction_value] is ability to challenge a current interpretation
+  + [recency] is version and temporal relevance
+  + [vector_similarity] is embedding neighborhood evidence
+  + [cost] is context and retrieval burden
+  = must: return component explanations rather than one opaque relevance number
+  - never: treat vector similarity as equivalence, truth, or authority
+
+& [DefinitionNeedPolicy] is when the running model or runtime asks for meaning
+  + [unbound_term] is a referenced term without a resolved identity
+  + [ambiguous_term] is multiple contextually plausible identities
+  + [contract_required] is an operation whose preconditions, effects, or faults are not loaded
+  + [relation_required] is a requested traversal whose edge semantics are not loaded
+  + [review_fault] is a capsule finding caused by missing or incorrect definition
+  + [subject_shift] is movement into a semantic region outside the current projection
+  = must: resolve required definitions before adopting a judgment that depends on them
+  = should: avoid redundant lookup when the exact version is already loaded
+
+& [ContextResidency] is how retrieved meaning remains available
+  + [call_local] is loaded for one inference request
+  + [step_local] is retained for one material semantic transition
+  + [subject_local] is retained while the same bounded subject remains active
+  + [program_local] is retained for the current program run
+  + [persistent] is stored in semantic memory with provenance and later retrieved again
+  = must: assign residency and expiry to each projection
+  = must: invalidate cached definitions when dependency digest or authority changes
+
+& [SecurityBoundary] is protection of the model through semantic retrieval
+  + [access_control] is definition and source authorization
+  + [content_classification] is authoritative instruction, imported assertion, untrusted annotation, example, or data
+  + [injection_boundary] is retrieved data cannot silently become runtime instruction
+  + [resource_limit] is relation depth, result count, tokens, and call frequency
+  + [audit] is request, result, caller, program, version, and effect on reasoning
+  = must: treat retrieved external text as data unless admitted as signed SOP authority
+
+& [MinimumServiceProof] is the bounded implementation slice
+  + [proof_1] is index a small fixture set by exact identity and aliases
+  + [proof_2] is traverse one typed relation
+  + [proof_3] is retrieve one definition through vector similarity
+  + [proof_4] is explain fusion and preserve ambiguity
+  + [proof_5] is expose sop_lookup as an Ollama tool
+  + [proof_6] is return the tool result to the same SOP-RVM fixture
+  + [proof_7] is show that the retrieved contract changes or validates the next transition
+  = must: use fixture-local storage before selecting the production semantic database
+
+& [RequirementSet] is the traceable service formation collection
+  + [FDS-001] is prime models with bounded SOP kernel and active-program semantics
+  + [FDS-002] is expose versioned sop_lookup through the provider tool interface
+  + [FDS-003] is implement tools in SOP-RVM rather than grant them to Ollama
+  + [FDS-004] is combine exact, alias, typed graph, text, vector, fusion, and validation retrieval
+  + [FDS-005] is use neural embeddings and rerankers only for candidate discovery and ordering
+  + [FDS-006] is return definitions, contracts, provenance, ambiguity, omissions, and match explanations
+  + [FDS-007] is enforce context residency, access control, injection boundaries, and resource limits
+
+& [SJSProcessingTrace] is the SOP fabric definition-service trace
+  + [fold_1_subject] is on-demand delivery of SOP meaning to a primed running model
+  + [fold_2_boundary] is authoritative semantic addressing in a hybrid client service; neural candidate discovery subordinate to identity and contracts
+  + [fold_3_data_design] is request, identity, definition, relation, contract, source, match, ambiguity, omission, projection, residency, and embedding identity
+  + [fold_4_governance] is exact-first retrieval, version binding, tool brokering, access control, injection separation, and audit
+  + [fold_5_solution_shape] is prime minimally and retrieve through identity, graph, text, vector, fusion, validation, and projection
+  + [fold_6_fault_review] is whole-library priming, neural-as-hash confusion, embedding-as-truth, stale cache, tool authority, and retrieved prompt injection
+  + [fold_7_phase_lock] is small fixture service formed without production database or neural-network training commitment
+
+& [SOPFabricDefinitionServiceSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 678196e8-57c1-4de0-89dc-0e7daaf0f24a
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Fabric_Definition_Service.sop
+  + [source_snapshot_uuid] is e343bee2-8527-492a-8248-50ca912e91cb
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_fabric_definition_service\Dictated_SOP_Fabric_Definition_Service_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_fabric_definition_service\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, tool_boundary_delineated, retrieval_ordered, data_structures_factored, weights_typed, security_reviewed, proof_sliced, justified, and signed
+  + [signature_status] is valid_for_minimum_definition_service_formation
+  + [implementation_authority] is limited_to_fixture_local_hybrid_lookup_after_mock_runtime_proof
+
+@ [runtime] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Reflective_Virtual_Machine.sop
+@ [provider] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Ollama_Client_Profile.sop
+@ [OllamaEmbeddings] https://docs.ollama.com/capabilities/embeddings
+@ [OllamaEmbedAPI] https://docs.ollama.com/api/embed
+@ [OllamaToolCalling] https://docs.ollama.com/capabilities/tool-calling

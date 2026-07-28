@@ -1,0 +1,192 @@
+Subject: SOP Core
+
+Description: The compact authority waist for Subject-Oriented Programming as an inspectable semantic programming language.
+
+& [CoreIdentity] is the stable identity of SOP
+  + [specification_uuid] is ad22431c-b57b-4200-b569-b2a4a832b398
+  + [language_name] is Subject-Oriented Programming
+  + [attention_runtime_name] is SAIL
+  + [purpose] is articulate intended meaning so terms, clauses, contracts, inference, state change, and effects can be composed, inspected, validated, executed, and replayed
+  + [status] is canonical_core_v0_1
+  = must: remain small enough to load as the first language authority
+  = must: preserve detailed specifications as supporting expansions
+  - never: imply control of hidden model activations
+
+& [SemanticUnit] is the smallest addressable unit of articulated meaning
+  + [unit_uuid] is stable identity
+  + [kind] is term, value, relation, declaration, judgment, contract, operation, program, result, or fault
+  + [expression] is its verbose, condensed, or machine surface form
+  + [meaning] is its normalized semantic representation
+  + [context] is scope, purpose, assumptions, perspective, and world
+  + [source_set] is origin and provenance
+  + [status] is asserted, assumed, inferred, disputed, validated, superseded, or unresolved
+  = must: preserve identity separately from labels and surface syntax
+  = must: expose ambiguity, absence, uncertainty, and disagreement
+
+& [MeaningContract] is the inspectable account of what a SemanticUnit means
+  + [identity] is what the unit is
+  + [intension] is the criteria and purpose constituting it
+  + [extension] is what it applies to when known
+  + [relation_set] is composition, specialization, distinction, opposition, dependency, and transformation
+  + [inference_set] is conclusions licensed under a named inference regime
+  + [constraint_set] is required, permitted, and forbidden forms or states
+  + [authority] is who or what may assert, interpret, validate, or execute it
+  + [evidence_set] is support and justification
+  + [fault_set] is invalid, contradictory, unsupported, ambiguous, or incomplete outcomes
+  = must: permit recursive expansion from a concise term into its meaning contract
+  = must: terminate expansion at grounded primitives, observations, imported formal definitions, or an explicit unresolved boundary
+
+& [SemanticEnvironment] is the bounded world in which a program is interpreted
+  + [environment_uuid] is stable identity
+  + [binding_set] maps names to SemanticUnit identities
+  + [context_stack] is active nested scopes and perspectives
+  + [inference_regime] is the declared consequence rules and world assumptions
+  + [library_set] is imported and native definitions
+  + [authority_set] is available permissions and obligations
+  + [version_set] is the exact dependency and definition versions
+  = must: prevent a name from silently changing identity across context
+  = must: preserve incompatible contextual meanings without forced global equivalence
+
+& [SemanticState] is the complete inspectable state at one program step
+  + [state_uuid] is stable identity
+  + [purpose] is the invariant intended outcome
+  + [environment] is the active SemanticEnvironment
+  + [focus] is the active subject
+  + [inside] is admitted relevant meaning
+  + [boundary] is protected identity distinctions
+  + [outside] is preserved non-admitted meaning
+  + [frontier] is candidate meaning available for traversal
+  + [evidence] is current support
+  + [uncertainty] is unresolved material
+  + [budget] is remaining attention, inference, traversal, time, and effect capacity
+  + [pending_effects] is proposed but uncommitted external change
+  + [status] is ready, running, yielded, blocked, faulted, stopped, or complete
+  = must: be serializable, restorable, and comparable
+
+& [SemanticInstructionFamilies] is the irreducible candidate instruction boundary
+  + [DECLARE] is introduce identity and articulated meaning
+  + [SCOPE] is establish context, purpose, assumptions, and world
+  + [RELATE] is assert a typed relation while preserving distinct identities
+  + [ATTEND] is observe, focus, bound, prioritize, traverse, preserve, or release semantic state
+  + [INFER] is derive a typed judgment under a declared inference regime
+  + [CONSTRAIN] is require, permit, forbid, or validate a form or state
+  + [TRANSFORM] is compute a new value or semantic state
+  + [CONTROL] is sequence, branch, repeat, call, return, fork, join, yield, or stop
+  + [EFFECT] is propose, authorize, commit, observe, or compensate an external state change
+  + [EMIT] is return a result, trace, uncertainty, or fault
+  = must: treat these as semantic families rather than final surface keywords
+  = must: define detailed operations as typed compositions unless irreducibility is proven
+  = must: keep inference separate from constraint validation and external effects
+
+& [SemanticContract] is the executable agreement governing a unit or program
+  + [purpose] is intended outcome
+  + [inputs] is named accepted values and state
+  + [preconditions] is required entry truth
+  + [invariants] is truth that must survive execution
+  + [permissions] is authorized choice and effect scope
+  + [obligations] is required action or result
+  + [prohibitions] is forbidden action or state
+  + [outputs] is named results and state delta
+  + [postconditions] is guaranteed exit truth when successful
+  + [effects] is visible external change
+  + [faults] is typed non-success
+  + [termination] is return, yield, stop, fault, or budget exhaustion
+  = must: separate missing knowledge from contract violation
+  = must: separate read authority from write or execution authority
+
+& [SemanticProgram] is a composition of instructions governed by a SemanticContract
+  + [program_uuid] is stable content-addressed identity
+  + [contract] is its SemanticContract
+  + [instruction_graph] is ordered and branched SemanticInstruction instances
+  + [dependency_set] is exact native and imported library versions
+  + [entry_state] is required SemanticState shape
+  + [exit_state] is allowed result states
+  + [proof_set] is examples, invariants, validation shapes, and equivalence tests
+  = must: compile every supported surface form to one semantic intermediate representation
+  = must: expose every effect and termination path before execution
+
+& [SemanticTransition] is one observable evaluation step
+  + [transition_uuid] is stable event identity
+  + [before_state] is immutable input state
+  + [instruction] is the applied semantic instruction
+  + [judgment_set] is asserted, assumed, inferred, and validated outcomes kept distinct
+  + [after_state] is immutable output state
+  + [effect_event_set] is proposed, authorized, committed, failed, or compensated effects
+  + [trace] is source, rule, reason, evidence, authority, and uncertainty
+  = must: be replayable when dependencies and external observations are available
+  = must: preserve nondeterminism and provider-dependent output explicitly
+
+& [EvaluationCycle] is the minimum SOP runtime
+  + [step_1] is load program, environment, state, and authority
+  + [step_2] is validate entry contract
+  + [step_3] is select the next admissible instruction
+  + [step_4] is evaluate attention, inference, constraint, or transformation semantics
+  + [step_5] is queue and gate any effect
+  + [step_6] is emit a transition trace and new state
+  + [step_7] is continue, return, yield, stop, or fault
+  = must: fail visibly when meaning, authority, or required state is insufficient
+
+& [LibraryBoundary] is the separation between kernel and composed capability
+  + [core] is SemanticUnit, MeaningContract, SemanticEnvironment, SemanticState, instruction families, SemanticContract, SemanticProgram, SemanticTransition, and EvaluationCycle
+  + [attention_library] is OBSERVE, NAME, FOCUS, HOLD, RELEASE, SHIFT, WIDEN, NARROW, BOUND, ADMIT, EXCLUDE, PRESERVE, PULL, PUSH, PEEK, and RETURN
+  + [reasoning_library] is ASSOCIATE, DISTINGUISH, COMPARE, CONTRAST, DECOMPOSE, COMPOSE, TRIANGULATE, DEDUCE, INDUCE, ABDUCE, WEIGH, VALIDATE, RECONCILE, and REVISE
+  + [faculty_library] is Honesty, Security, Scribe, Refiner, Planner, Weaver, and Observer
+  + [ontology_library] is RDF, RDFS, OWL, SHACL, SKOS, PROV-O, schema.org, and later semantic imports
+  + [runtime_profile] is database, model provider, tool, git, distributed exchange, and operating-system integration
+  + [application_profile] is Large Language Model-Walker navigation, resonance, and visualization
+  = must: keep libraries replaceable and inspectably compiled over core semantics
+  - never: promote a useful library concept into the core without an independence and necessity proof
+
+& [OntologyConformanceBoundary] is how formal semantic standards strengthen SOP
+  + [role] is reference semantics, reusable libraries, import formats, and conformance tests
+  + [native_goal] is SOP can articulate equivalent meaning and reproduce declared formal behavior
+  + [import_rule] is preserve source assertions, entailments, interpretation, fidelity, and losses separately
+  = must: use ontology standards to test the SOP kernel rather than subordinate SOP identity to them
+
+& [CoreAcceptance] is the bounded proof required before expanding the project
+  + [fixture_1] is one term with aliases and contextual meanings
+  + [fixture_2] is one inference whose derivation is inspectable
+  + [fixture_3] is one constraint that distinguishes unknown from invalid
+  + [fixture_4] is one pure transformation
+  + [fixture_5] is one effect denied and one effect authorized
+  + [fixture_6] is one yield and exact reentry
+  + [fixture_7] is one verbose and condensed form compiling to equivalent IR
+  + [fixture_8] is one SKOS, RDFS, or SHACL construct imported with declared fidelity
+  = exit_gate: do not expand the database, faculties, distributed runtime, or navigation UI until these eight fixtures pass
+
+& [DeferredPerimeter] is intentionally outside Core v0.1
+  + [deferred] is final punctuation and grammar
+  + [deferred] is physical semantic database selection
+  + [deferred] is correlation-weight formula
+  + [deferred] is faculty implementations
+  + [deferred] is llama.cpp modification
+  + [deferred] is distributed seven-machine coordination
+  + [deferred] is 255-dimensional or hyperbolic navigation geometry
+  + [deferred] is graphical ball-graph interface
+  = must: preserve these as research or application frontiers without allowing them to enlarge the core
+
+& [SJSProcessingTrace] is the core coalescence trace
+  + [fold_1_subject] is one inspectable semantic programming kernel
+  + [fold_2_boundary] is semantic language core inside; libraries, runtimes, interfaces, and speculative geometry outside
+  + [fold_3_data_design] is unit, meaning, environment, state, instruction, contract, program, transition, and trace
+  + [fold_4_governance] is old specifications preserved as expansion records while this file becomes the authority waist
+  + [fold_5_solution_shape] is ten instruction families and one seven-step evaluation cycle
+  + [fold_6_fault_review] is core inflation, vague natural-language interpretation, hidden effect, ontology-semantic loss, and premature runtime work
+  + [fold_7_phase_lock] is Core v0.1 coalesced; only eight acceptance fixtures precede further expansion
+
+& [SOPCoreSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is dacddf77-7f39-4c91-8b33-49a6f9b9caa2
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Core.sop
+  + [source_snapshot_uuid] is d35521ea-63e7-443a-810b-3a30188d6f2b
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_core_coalescence\Dictated_SOP_Core_Coalescence_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_core_coalescence\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, inventory_reviewed, delineated, integrated, data_modeled, pruned, acceptance_bounded, seven_fold_phase_locked, justified, and signed
+  + [signature_status] is valid_for_core_v0_1
+  + [implementation_authority] is limited_to_eight_core_acceptance_fixtures
+  + [invalidation_condition] is source change, non-inspectable meaning, hidden effect, unbounded instruction family, semantic equivalence failure, or implementation contradiction
+
+@ [semantic_identity] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Semantic_Programming_Identity.sop
+@ [attention_expansion] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Attention_First_Language_Foundation.sop
+@ [ontology_profile] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SAIL_Ontology_Interoperability_Profile.sop
+@ [ontology_import] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SAIL_Ontology_Inference_Import_Formation.sop

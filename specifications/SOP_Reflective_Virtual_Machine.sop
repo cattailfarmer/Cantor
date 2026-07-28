@@ -1,0 +1,171 @@
+Subject: SOP Reflective Virtual Machine
+
+Description: A provider-independent runtime that executes compiled SOP reflection programs over inspectable semantic state while using an LLM only as a replaceable inference coprocessor.
+
+& [FormationIdentity] is the canonical SJS runtime formation
+  + [specification_uuid] is 601cdd26-e602-4235-92bc-fc76d755e050
+  + [status] is minimum_reference_runtime_formation
+  + [purpose] is compile SOP into an independent program that directs how an agent attends, remembers, infers, reviews, and responds
+  + [runtime_name] is SOP Reflective Virtual Machine
+  + [abbreviation] is SOP-RVM
+
+& [IndependenceContract] is the separation between program and processor
+  + [SOP_program] owns purpose, focus policy, history policy, inference methods, contracts, authority, review, effects, and control flow
+  + [SOP_RVM] owns program state, scheduling, validation, persistence, model calls, effect gates, and transition traces
+  + [inference_provider] supplies probabilistic interpretation, generation, comparison, or judgment under a bounded request
+  + [host] owns process isolation, files, database, network, tools, and hardware
+  = must: allow the same compiled program to run through different conforming inference providers
+  = must: keep semantic state outside provider-private context
+  = must: permit deterministic or tool-backed implementations of operations that do not require an LLM
+  - never: let a provider silently change program, contracts, authority, or stored history
+
+& [CompilationPipeline] is the route from articulated source to executable reflection
+  + [stage_1_source] is preserved verbose or condensed SOP
+  + [stage_2_parse] is syntax tree with source locations
+  + [stage_3_resolve] is bound identities, contexts, libraries, types, and versions
+  + [stage_4_check] is semantic, contract, effect, authority, and termination validation
+  + [stage_5_lower] is normalized semantic IR
+  + [stage_6_plan] is executable instruction and transition graph
+  + [stage_7_package] is content-addressed program, dependencies, schemas, fixtures, and proof requirements
+  = must: emit diagnostics without executing an invalid package
+  = must: preserve a source map from every executable instruction to articulated SOP
+
+& [CompiledReflectionProgram] is the independent program package
+  + [program_uuid] is stable content-addressed identity
+  + [purpose_contract] is intended reflective outcome
+  + [subject_contract] is acceptable focus subjects
+  + [instruction_graph] is compiled semantic operations and control flow
+  + [history_policy] is when and how pertinent history is reviewed
+  + [inference_policy] is allowed inference methods and evidence obligations
+  + [review_policy] is capsule tests, independence mode, and revision bounds
+  + [effect_policy] is allowed targets, authorization gates, and reversibility
+  + [resource_budget] is token, time, memory, traversal, tool, and effect limits
+  + [output_schema] is response, trace, uncertainty, fault, and reentry form
+  + [dependency_lock] is exact semantic, library, and mapping versions
+  + [proof_contract] is fixtures required for runtime admission
+
+& [RuntimeState] is externalized inspectable agent state
+  + [run_uuid] is one program execution identity
+  + [program_counter] is the next instruction address
+  + [semantic_state] is purpose, focus, boundary, inside, outside, frontier, evidence, uncertainty, and budget
+  + [history_cursor] is the last reviewed observation position
+  + [call_stack] is active functions and return points
+  + [pending_effects] is proposed but uncommitted actions
+  + [capsule_set] is candidate and review history
+  + [status] is ready, running, waiting_for_inference, waiting_for_authority, yielded, faulted, stopped, or complete
+  = must: serialize independently of model context
+  = must: restore under program and dependency digest checks
+
+& [ReflectionInstructionCycle] is how the program directs one material step
+  + [step_1_load] is load current instruction, subject, state, contract, and budget
+  + [step_2_recall] is perform PertinentHistoryReview
+  + [step_3_project] is build a bounded ReflectionCallPacket
+  + [step_4_dispatch] is execute deterministically or call an InferenceProvider
+  + [step_5_receive] is parse a structured ProposedJudgment
+  + [step_6_validate] is test schema, evidence, inference, constraints, authority, and budget
+  + [step_7_review] is create or extend an InferenceCapsule when required
+  + [step_8_transition] is accept, revise, reject, block, yield, fault, or commit an authorized effect
+  + [step_9_record] is append SemanticTransition and HistoryReviewEvent
+  + [step_10_advance] is select the next admissible instruction
+  = must: execute this cycle until a declared terminal state
+
+& [ReflectionCallPacket] is the complete bounded request to an inference provider
+  + [call_uuid] is stable request identity
+  + [operation] is the exact semantic instruction requested
+  + [purpose] is current intended outcome
+  + [subject_projection] is active focus and boundary
+  + [history_projection] is pertinent observations, contradictions, constraints, and unresolved material
+  + [evidence_projection] is available supporting material
+  + [instruction_contract] is required reasoning method, output form, and prohibited behavior
+  + [allowed_claim_kinds] is assertion, assumption, inference, question, uncertainty, result, or fault
+  + [allowed_effects] is normally none because calls propose rather than commit
+  + [budget] is maximum context and response resources
+  + [output_schema] is the machine-readable response contract
+  + [omission_record] is relevant content not loaded and why
+  = must: provide only the context required by the current instruction
+
+& [ProposedJudgment] is provider output awaiting runtime validation
+  + [call_uuid] is the request being answered
+  + [judgment_kind] is claim, assumption, relation, interpretation, inference, candidate, uncertainty, or fault
+  + [content] is the proposed semantic result
+  + [source_links] is evidence and history references
+  + [rule_links] is declared inference or transformation rules
+  + [confidence] is provider estimate separated from runtime validation
+  + [state_delta_proposal] is requested attention-state change
+  + [effect_proposal] is an optional uncommitted action request
+  + [explanation_summary] is inspectable grounds adequate for review
+  = must: remain a proposal until validated
+  - never: accept free-form provider output as an authorized state transition
+
+& [RuntimeServices] is the minimum replaceable service boundary
+  + [compiler] is SOP source to compiled package
+  + [state_store] is RuntimeState persistence and reentry
+  + [history_store] is typed observations and semantic event history
+  + [semantic_index] is identity and relation retrieval
+  + [inference_adapter] is provider-specific request and result translation
+  + [validator] is contract, schema, evidence, authority, and transition checking
+  + [review_engine] is capsule construction and ReviewProgram execution
+  + [effect_broker] is authorization and external action commitment
+  + [trace_store] is append-only execution and fault events
+  = must: define interfaces before choosing concrete database or model technology
+
+& [ProviderConformance] is the minimum replaceability test
+  + [structured_input] is acceptance of ReflectionCallPacket semantics
+  + [structured_output] is production of ProposedJudgment schema
+  + [identity_echo] is exact call and program identity preservation
+  + [no_hidden_effect] is inability to commit runtime effects directly
+  + [fault_visibility] is explicit refusal, truncation, invalid output, and provider failure
+  + [capability_declaration] is supported context, modalities, tools, and operation kinds
+  = must: compare providers through the same fixture corpus
+
+& [MinimumManifestation] is the smallest runnable proof
+  + [artifact_1] is a hand-authored machine-form semantic IR fixture without a parser
+  + [artifact_2] is an in-memory RuntimeState
+  + [artifact_3] is a deterministic mock InferenceProvider
+  + [artifact_4] is one real model adapter after the mock passes
+  + [artifact_5] is one PertinentHistoryReview
+  + [artifact_6] is one candidate InferenceCapsule and ReviewReport
+  + [artifact_7] is one revision and reexecution
+  + [artifact_8] is an append-only transition trace
+  = must: prove the execution model before building surface grammar or persistent database
+  = must: remain an implementation of the existing CoreAcceptance slice rather than a new project branch
+
+& [NeuralRelationship] is the clarified place of neural computation
+  + [present_role] is replaceable inference provider behind ReflectionCallPacket
+  + [later_role] is optional learned retrieval, ranking, routing, or distilled execution
+  + [non_role] is canonical storage of SOP meaning, authority, contracts, or history
+  = conclusion: the desired independence comes from compilation and external runtime state, not from converting SOP into weights
+
+& [RequirementSet] is the traceable runtime formation requirement collection
+  + [RVM-001] is compile SOP through syntax, resolution, checking, IR, transition graph, and package stages
+  + [RVM-002] is externalize program state independently of model context
+  + [RVM-003] is direct every material step through a bounded ReflectionCallPacket
+  + [RVM-004] is treat provider output as a proposal requiring validation
+  + [RVM-005] is make inference providers replaceable and effects brokered
+  + [RVM-006] is integrate pertinent history, inference capsules, review, revision, and replay
+  + [RVM-007] is prove the runtime with machine-form fixtures and a mock provider before parser or database expansion
+
+& [SJSProcessingTrace] is the reflective virtual machine formation trace
+  + [fold_1_subject] is SOP compiled into an independent reflective program executed over external semantic state
+  + [fold_2_boundary] is program and runtime authority outside the model; bounded probabilistic inference inside provider calls
+  + [fold_3_data_design] is source, IR, package, state, call packet, proposed judgment, transition, capsule, effect, and trace identity
+  + [fold_4_governance] is provider replaceability, source maps, validation, effect brokering, digest-bound reentry, and proof admission
+  + [fold_5_solution_shape] is compile once and repeatedly load, recall, project, dispatch, receive, validate, review, transition, record, and advance
+  + [fold_6_fault_review] is prompt-owned state, provider-owned authority, free-form transition, hidden effect, parser-first expansion, and premature database choice
+  + [fold_7_phase_lock] is minimum machine-form runtime proof defined as the current CoreAcceptance implementation path
+
+& [SOPReflectiveVirtualMachineSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 7b80bc3f-8a2b-4ab1-9d66-3ff7c79eb6b1
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Reflective_Virtual_Machine.sop
+  + [source_snapshot_uuid] is ef2f5c83-cc15-498b-9cbb-78b8b8a7dc32
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_reflective_virtual_machine\Dictated_SOP_Reflective_Virtual_Machine_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_reflective_virtual_machine\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, independence_delineated, compiler_formed, runtime_data_modeled, provider_bounded, minimum_manifestation_pruned, justified, and signed
+  + [signature_status] is valid_for_minimum_reference_runtime_formation
+  + [implementation_authority] is limited_to_machine_form_single_fixture_mock_provider_proof
+
+@ [core] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Core.sop
+@ [capsule] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Reflective_Inference_Capsule.sop
+@ [history] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Pertinent_History_Review.sop
+@ [neural_boundary] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Neural_Compilation_Boundary.sop

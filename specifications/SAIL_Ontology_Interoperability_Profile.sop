@@ -1,0 +1,99 @@
+Subject: SAIL Ontology Interoperability Profile
+
+& [SpecificationIdentity] is the canonical SJS research specification
+  + [specification_uuid] is 1332ebdb-4673-43c1-806a-d15063dbf092
+  + [status] is research_profile_not_implementation_authority
+  + [purpose] is distinguish reusable ontology standards from SAIL-native operational semantics
+
+& [StandardsDelineation] is the semantic layer boundary
+  + [RDF] is graph identity and subject-predicate-object assertion representation
+  + [RDFS] is lightweight vocabulary, hierarchy, domain, range, and entailment
+  + [OWL] is expressive ontology axioms, inference, equivalence, disjointness, restrictions, and consistency reasoning under open-world semantics
+  + [SHACL] is operational validation of concrete RDF graphs against node and property shapes
+  + [SKOS] is concept schemes, preferred and alternate labels, semantic relations, and mappings
+  + [PROV_O] is provenance of entities, activities, agents, generation, use, and derivation
+  + [SchemaOrg] is a broad pragmatic external vocabulary for common entities, relations, and actions
+  = correction: RDFS infers and OWL constrains is incomplete because OWL also infers while SHACL is the more direct validation and constraint layer
+
+& [WorldAssumptionBoundary] is the distinction required by SOP
+  + [open_world] is missing knowledge does not imply falsity
+  + [closed_operational_validation] is a required field missing from a program is a fault
+  = must: not use OWL alone as form-completeness or database-record validation
+  = must: use explicit validation for must, never, cardinality, datatype, path, and closed-shape requirements
+
+& [SAILReuseMap] is the candidate compatibility mapping
+  + [SemanticAnchor] maps provisionally to skos:Concept
+  + [ContextualAnchorSet] maps provisionally to skos:ConceptScheme or a named graph
+  + [preferred_term] maps to skos:prefLabel
+  + [alias_term] maps to skos:altLabel or skos:hiddenLabel
+  + [broader_narrower_relation] maps to SKOS hierarchy relations
+  + [typed_hierarchy] maps to rdfs:subClassOf or rdfs:subPropertyOf where their semantics fit
+  + [program_structure_constraint] maps to SHACL node and property shapes
+  + [semantic_impossibility] may map to OWL disjointness or restrictions
+  + [turn_job_file_inference_lineage] maps to PROV-O Entity, Activity, Agent, generation, use, and derivation
+  + [public_entity_interchange] may map to schema.org
+  = must: preserve context and provenance rather than collapse competing meanings through indiscriminate owl:sameAs
+
+& [SAILNativeBoundary] is what recognized ontologies do not presently supply
+  + [attention_state_transition] is explicit focus, hold, release, admit, exclude, pull, push, peek, and return behavior
+  + [purpose_bound_inference] is inference governed by declared purpose and faculty boundaries
+  + [faculty_program] is Honesty, Security, Refiner, Scribe, Weaver, Planner, and Observer coordination
+  + [effect_authority] is separation of semantic read authority from mutation and execution authority
+  + [reentry] is restoration of purpose, attention state, unresolved frontier, and provenance
+  + [executable_SOP] is typed attention and inference programs with observable effects and faults
+  = conclusion: recognized ontology standards provide substrate and interoperability profiles, not the complete SAIL operating semantics
+
+& [CandidateArchitecture] is the smallest standards-aligned stack
+  + [layer_1] is stable SAIL identities with an RDF-compatible graph projection
+  + [layer_2] is SKOS-compatible semantic anchors and concept schemes
+  + [layer_3] is RDFS lightweight hierarchy and entailment
+  + [layer_4] is a bounded OWL profile such as OWL 2 RL only where justified by tests
+  + [layer_5] is SHACL validation for structures, programs, and effects
+  + [layer_6] is PROV-O-compatible lineage
+  + [layer_7] is optional schema.org mapping for external interchange
+  = must: not commit the physical database backend merely because the interchange model is RDF-compatible
+
+& [ResearchProofSlice] is the next bounded experiment
+  + [corpus] is ten to twenty representative SAIL primitive, anchor, program, and provenance records
+  + [proof_1] is query terms and recover matching structures and authoritative files
+  + [proof_2] is infer a type or relation hierarchy
+  + [proof_3] is reject a malformed SAIL program with an inspectable validation report
+  + [proof_4] is trace a result through job, model, turn, source, and file
+  + [proof_5] is preserve contextual uncertainty and incompatible perspectives without global identity collapse
+  = decision_gate: adopt only standards whose mappings preserve SAIL meaning and improve inspection, validation, or exchange
+
+& [RequirementSet] is the traceable research requirement collection
+  + [ONT-001] is separate graph representation, entailment, ontology reasoning, and validation
+  + [ONT-002] is evaluate SKOS as the semantic-anchor vocabulary substrate
+  + [ONT-003] is evaluate SHACL as the SAIL program and record validation substrate
+  + [ONT-004] is evaluate PROV-O as the turn, job, file, and inference lineage substrate
+  + [ONT-005] is treat schema.org as optional external vocabulary rather than SAIL core authority
+  + [ONT-006] is preserve SAIL-native attention, purpose, faculty, effect, and reentry semantics
+  + [ONT-007] is validate the profile through a bounded representative corpus before backend selection
+
+& [SJSProcessingTrace] is the ontology interoperability trace
+  + [fold_1_subject] is recognized ontology reuse for SAIL declarations, inference, constraints, anchors, and provenance
+  + [fold_2_boundary] is standards-compatible substrate and exchange outside; SAIL operational semantics inside
+  + [fold_3_data_design] is stable identities, concepts, schemes, typed relations, shapes, named contexts, and provenance
+  + [fold_4_governance] is mappings remain provisional until semantic preservation and inspection proofs pass
+  + [fold_5_solution_shape] is a small interoperability corpus and four-axis query, inference, validation, and provenance proof
+  + [fold_6_fault_review] is open-world validation confusion, owl:sameAs collapse, schema.org overreach, backend lock-in, and unbounded ontology complexity
+  + [fold_7_phase_lock] is research profile stable; implementation authority absent pending proof
+
+& [OntologyInteroperabilitySatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 657484f4-2984-4511-a523-d9cd8b8e5218
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SAIL_Ontology_Interoperability_Profile.sop
+  + [source_snapshot_uuid] is 4c30e0a6-f199-4ed8-a921-807cd47c3852
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_ontology_interoperability\Dictated_Ontology_Interoperability_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_ontology_interoperability\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, delineated, standards_mapped, data_modeled, fault_reviewed, proof_sliced, justified, and signed
+  + [signature_status] is valid_for_research_profile
+  + [implementation_authority] is absent_pending_interoperability_proof
+
+@ [RDFSchema] https://www.w3.org/TR/rdf-schema/
+@ [OWL2Overview] https://www.w3.org/TR/owl2-overview/
+@ [SHACL] https://www.w3.org/TR/shacl/
+@ [SKOS] https://www.w3.org/TR/skos-reference/
+@ [PROVO] https://www.w3.org/TR/prov-o/
+@ [SchemaOrgDataModel] https://schema.org/docs/datamodel.html

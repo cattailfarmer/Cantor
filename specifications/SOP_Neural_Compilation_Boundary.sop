@@ -1,0 +1,120 @@
+Subject: SOP Neural Compilation Boundary
+
+Description: Design decision separating canonical semantic compilation from optional learned neural execution, ranking, and optimization.
+
+& [DecisionIdentity] is the canonical SJS design decision
+  + [specification_uuid] is 72af7ddc-bd84-43bc-9050-44d09550bed6
+  + [status] is boundary_decision_not_neural_implementation_authority
+  + [question] is whether SOP should compile directly into a neural network
+  + [decision] is SOP compiles first to an inspectable semantic IR and transition graph, with neural representations as derived optional targets
+
+& [PrimaryCompilationTarget] is the authoritative executable representation
+  + [semantic_IR] is typed identities, meanings, contexts, relations, inference rules, constraints, contracts, operations, authority, effects, and faults
+  + [transition_graph] is the executable control and state-transition structure
+  + [validation_model] is explicit invariants and contract checks
+  + [trace_model] is inspectable state, evidence, inference, effect, and history-review events
+  = must: preserve articulated meaning through compilation
+  = must: support deterministic validation independently of a neural provider
+  - never: make opaque learned parameters the only representation of a term, clause, or contract
+
+& [NeuralDerivedTarget] is an optional learned accelerator over canonical semantics
+  + [embedding_projection] is learned vector representation for retrieval and neighborhood proposals
+  + [ranking_model] is learned ordering of candidate anchors, history, or transitions
+  + [operator_router] is learned proposal of likely SOP instructions or functions
+  + [graph_model] is optional message passing over typed semantic nodes and edges
+  + [policy_model] is learned proposal of next admissible action under state and purpose
+  + [distilled_executor] is a model trained to approximate validated SOP execution
+  = must: return proposals to the SOP runtime for validation
+  = must: remain replaceable, versioned, measured, and subordinate to canonical contracts
+
+& [WeightDelineation] is protection against treating unlike quantities as one weight
+  + [semantic_relation_weight] is explicit contextual strength of a typed association
+  + [attention_priority_weight] is temporary runtime importance under current purpose
+  + [evidence_weight] is justified contribution of evidence to a claim
+  + [confidence_weight] is calibrated uncertainty about a judgment
+  + [cost_weight] is time, token, traversal, or effect expense
+  + [risk_weight] is consequence and reversibility pressure
+  + [learned_parameter] is opaque optimization state inside a neural model
+  = must: store semantic, attention, evidence, confidence, cost, and risk weights as inspectable typed values
+  = must: prevent a learned parameter from being interpreted directly as truth, authority, or intended meaning
+
+& [ContextualAssociationWeight] is the likely first useful learned or calculated score
+  + [source_anchor] is the active semantic node
+  + [target_anchor] is the candidate related node
+  + [relation_type] is the declared semantic relation
+  + [purpose] is the current intended use
+  + [context] is active scope and assumptions
+  + [faculty_or_policy] is the perspective producing the score
+  + [component_set] is identity fit, purpose fit, evidence, contradiction, novelty, recency, risk, and cost
+  + [value] is the calculated priority
+  + [explanation] is the component account
+  + [lifetime] is the scope after which the score expires or must be recalculated
+  = must: treat this weight as traversal priority rather than semantic truth
+
+& [NeurosymbolicExecutionLoop] is the recommended hybrid architecture
+  + [step_1_compile] is compile SOP source to semantic IR and transition graph
+  + [step_2_project] is project bounded state and history into neural input
+  + [step_3_propose] is let a model retrieve, rank, infer, or propose candidate transitions
+  + [step_4_validate] is apply SOP contracts, authority, evidence, and constraints
+  + [step_5_execute] is commit only validated transitions and effects
+  + [step_6_review] is wrap the event in an InferenceCapsule and ReviewProgram
+  + [step_7_learn] is use reviewed outcomes as optional training or calibration evidence
+  = must: preserve failed and rejected proposals as training evidence without promoting them to truth
+
+& [TrainingObjectiveBoundary] is what a later model may learn
+  + [appropriate_objective] is rank pertinent semantic anchors
+  + [appropriate_objective] is select relevant history
+  + [appropriate_objective] is propose next SOP operators
+  + [appropriate_objective] is predict likely contract faults
+  + [appropriate_objective] is estimate cost and uncertainty
+  + [appropriate_objective] is imitate validated execution traces
+  - inappropriate_objective: replace canonical meaning with embedding proximity
+  - inappropriate_objective: learn authorization from behavior without explicit policy
+  - inappropriate_objective: optimize agreement when truth or contradiction discovery is required
+
+& [ArchitectureDistinction] is the clarification of graph and neural identity
+  + [weighted_semantic_graph] is explicit nodes, typed edges, and contextual scores stored in the semantic system
+  + [computational_graph] is executable transforms and dependencies compiled from SOP
+  + [neural_network] is a parameterized learned function optimized from data
+  = conclusion: compiling SOP into a graph does not by itself mean compiling it into a neural network
+  = may: let a graph neural network operate over a projected weighted semantic graph after the graph semantics are stable
+
+& [AdoptionGate] is the evidence required before neural compilation work
+  + [gate_1] is semantic IR and transition behavior pass CoreAcceptance
+  + [gate_2] is explicit baseline retrieval and operator selection exist
+  + [gate_3] is a recorded corpus of reviewed inference capsules exists
+  + [gate_4] is a measurable learned task and non-neural baseline are declared
+  + [gate_5] is neural output can be validated and its failure cannot bypass authority
+  = must: defer training and model architecture selection until every gate is satisfied
+
+& [RequirementSet] is the traceable decision requirement collection
+  + [NCB-001] is compile SOP first to inspectable semantic IR and transition graph
+  + [NCB-002] is treat neural representations as derived replaceable accelerators
+  + [NCB-003] is distinguish all inspectable semantic weights from opaque learned parameters
+  + [NCB-004] is validate neural proposals through canonical SOP contracts
+  + [NCB-005] is learn only from provenance-preserved reviewed outcomes
+  + [NCB-006] is require a measurable task and non-neural baseline before neural training
+
+& [SJSProcessingTrace] is the neural compilation decision trace
+  + [fold_1_subject] is the correct compilation boundary between semantic programming and learned computation
+  + [fold_2_boundary] is canonical inspectable semantics inside; optional opaque optimization outside
+  + [fold_3_data_design] is semantic IR, transition graph, typed weights, projections, proposals, validation, capsules, and outcomes
+  + [fold_4_governance] is neural proposals remain subordinate to meaning, contract, evidence, and authority
+  + [fold_5_solution_shape] is compile, project, propose, validate, execute, review, and optionally learn
+  + [fold_6_fault_review] is semantic opacity, weight-category collapse, learned authorization, embedding-as-truth, and training before baseline
+  + [fold_7_phase_lock] is semantic compiler first; neural target explicitly deferred behind adoption gates
+
+& [NeuralCompilationBoundarySatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is f4323ad8-15c3-4ab0-b27e-69facaeefc04
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Neural_Compilation_Boundary.sop
+  + [source_snapshot_uuid] is 11adaa4c-9b41-4d58-bccc-dfedfa838be2
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_neural_compilation_boundary\Dictated_SOP_Neural_Compilation_Boundary_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_sop_neural_compilation_boundary\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, identity_delineated, compilation_bounded, weight_factored, hybrid_loop_formed, adoption_gated, justified, and signed
+  + [signature_status] is valid_for_neural_compilation_boundary
+  + [implementation_authority] is absent_until_adoption_gates_pass
+
+@ [core] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Core.sop
+@ [capsule] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Reflective_Inference_Capsule.sop
+@ [history] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Pertinent_History_Review.sop

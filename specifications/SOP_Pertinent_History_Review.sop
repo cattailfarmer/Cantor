@@ -1,0 +1,167 @@
+Subject: SOP Pertinent History Review
+
+Description: A transition invariant that gives an agent reflective continuity by checking its observation history for material pertinent to the current subject, purpose, operation, and risk.
+
+& [FormationIdentity] is the canonical SJS formation record
+  + [specification_uuid] is 53fa7683-9baa-4123-95de-90cdc75a2819
+  + [status] is core_transition_invariant_candidate
+  + [purpose] is make relevant prior observation available before each material semantic transition
+  + [philosophical_boundary] is an operational condition for reflective agency rather than proof of consciousness
+
+& [ObservationRecord] is preserved experience before later interpretation
+  + [observation_uuid] is stable identity
+  + [observed_at] is time and sequence
+  + [observer] is agent, user, tool, sensor, file, model, or process
+  + [subject_set] is the bounded observed subjects
+  + [content] is what was observed
+  + [context] is purpose, scope, environment, assumptions, and perspective
+  + [source] is the direct origin
+  + [reliability] is evidence-grounded quality
+  + [access_policy] is who or what may retrieve it
+  + [status] is active, disputed, corrected, superseded, stale, or quarantined
+  = must: distinguish direct observation from interpretation, inference, decision, and response
+  = must: preserve corrections without silently rewriting the original record
+
+& [HistoricalSemanticRecord] is the typed memory ledger
+  + [observation] is directly captured experience
+  + [interpretation] is meaning assigned to observations
+  + [inference] is a conclusion derived from premises
+  + [decision] is a selected course under purpose and constraints
+  + [action] is an authorized committed effect
+  + [result] is the observed outcome of action or inference
+  + [fault] is detected invalidity, contradiction, omission, or failure
+  + [unresolved] is an open question, uncertainty, or frontier
+  = must: retain record kind through storage, retrieval, and projection
+  - never: allow a repeated inference to become an observation merely through familiarity
+
+& [PertinenceQuery] is the semantic address generated before a material step
+  + [current_subject] is the active bounded subject
+  + [current_purpose] is the intended outcome
+  + [current_operation] is the next instruction or effect
+  + [term_set] is active identities, aliases, and contextual anchors
+  + [relation_set] is direct, broader, narrower, causal, dependency, constraint, analogy, and contradiction paths
+  + [time_horizon] is relevant recency and historical depth
+  + [risk_profile] is consequence, reversibility, security, and uncertainty
+  + [open_frontier] is unresolved items already associated with the subject
+  + [budget] is maximum records, graph distance, tokens, and retrieval time
+  = must: query by semantic identity and typed relation before relying on lexical resemblance
+
+& [PertinenceScore] is an explainable retrieval judgment
+  + [subject_identity] is exact or mapped subject correspondence
+  + [purpose_alignment] is bearing on the current intended outcome
+  + [operation_relevance] is bearing on the next semantic instruction or effect
+  + [constraint_relevance] is an applicable requirement, prohibition, permission, or invariant
+  + [evidence_value] is support or refutation potential
+  + [contradiction_value] is capacity to challenge the current direction
+  + [unresolved_value] is capacity to close or correctly preserve an open frontier
+  + [recency] is temporal relevance without automatic dominance
+  + [authority] is source and governance weight
+  + [cost] is context, retrieval, and evaluation burden
+  = must: retain component scores and selection explanation
+  - never: rank only by similarity, recency, or prior agreement
+
+& [PertinentHistoryProjection] is the bounded memory admitted to current attention
+  + [selected_records] is the highest-value diverse pertinent set
+  + [counterevidence_records] is material that challenges the current interpretation or response
+  + [constraint_records] is applicable contracts, authority, and safety boundaries
+  + [unresolved_records] is prior uncertainty and unfinished obligations
+  + [excluded_summary] is material omitted with reasons
+  + [coverage_statement] is what history regions were and were not searched
+  + [projection_digest] is immutable identity of the admitted view
+  = must: include disconfirming and boundary-preserving material when available
+  = must: preserve source links to complete records
+  - never: present a clipped projection as complete memory
+
+& [PertinentHistoryReview] is the pre-transition reflective operation
+  + [step_1_address] is derive PertinenceQuery from current state and next operation
+  + [step_2_retrieve] is retrieve typed candidate records and related subjects
+  + [step_3_discriminate] is distinguish observations, interpretations, inferences, decisions, results, faults, and unresolved items
+  + [step_4_rank] is calculate explainable PertinenceScore
+  + [step_5_project] is admit a bounded diverse PertinentHistoryProjection
+  + [step_6_reconcile] is compare retrieved history with present state, evidence, and assumptions
+  + [step_7_adjust] is preserve, revise, redirect, block, or continue the proposed transition
+  + [step_8_trace] is record query, projection, omissions, effect on state, and no-match when applicable
+  = must: execute before every material semantic transition
+  = must: record an explicit no_pertinent_history result when retrieval finds nothing sufficient
+
+& [MaterialSemanticTransition] is the practical every-step boundary
+  + [entry] is accepting a new input or purpose
+  + [subject_change] is focusing, widening, narrowing, bounding, or shifting the active subject
+  + [inference] is producing or adopting a non-trivial judgment
+  + [constraint_decision] is validating or rejecting a structure or state
+  + [effect_decision] is proposing, authorizing, committing, or compensating external change
+  + [response_commit] is freezing or emitting a candidate response
+  + [fault_or_contradiction] is encountering unexpected conflict or failure
+  + [reentry] is restoring suspended work
+  = correction: every step means every material semantic transition rather than every generated token or private neural update
+
+& [HistoryReviewEvent] is the inspectable proof of continuity
+  + [review_uuid] is stable event identity
+  + [before_state] is the active SemanticState
+  + [query] is the PertinenceQuery
+  + [candidate_count] is records considered
+  + [projection] is the PertinentHistoryProjection
+  + [reconciliation] is agreements, contradictions, revisions, constraints, and remaining uncertainty
+  + [transition_decision] is continue, revise, redirect, block, or escalate
+  + [after_state_delta] is the resulting change in attention
+  = must: join to the SemanticTransition and Reflective Inference Capsule
+
+& [ContinuityLoop] is observation accumulated through action
+  + [phase_1] is review pertinent history
+  + [phase_2] is perform the material semantic transition
+  + [phase_3] is observe the transition, effects, and outcome
+  + [phase_4] is append typed historical records
+  + [phase_5] is update semantic indexes without rewriting source history
+  + [phase_6] is expose unresolved and contradictory material for later pertinence
+  = must: let new observations change future retrieval while retaining lineage
+
+& [FailureBoundary] is protection against pathological memory
+  + [rumination] is repeated retrieval without material gain
+  + [confirmation_loop] is retrieval dominated by agreement with the current candidate
+  + [stale_authority] is obsolete history incorrectly governing present action
+  + [memory_poisoning] is malicious, false, or misattributed history
+  + [context_capture] is historical material displacing the present input
+  + [privacy_fault] is retrieval beyond access authority
+  + [cost_exhaustion] is memory review consuming the task budget
+  = must: deduplicate, diversify, version, expire, quarantine, and access-control memory
+  = must: stop retrieval when marginal pertinence no longer justifies cost
+  = must: preserve present input and purpose as the governing reference
+
+& [CoreHarnessRelation] is the current bounded manifestation
+  + [application] is add one HistoryReviewEvent before each material transition in the eight existing CoreAcceptance fixtures
+  + [capsule_join] is store the projection digest and reconciliation in each InferenceCapsule
+  + [scope_effect] is refine the existing proof harness without adding a ninth fixture or activating the full database
+  = must: prototype memory records as fixture-local data before selecting a persistent database
+
+& [RequirementSet] is the traceable formation requirement collection
+  + [PHR-001] is distinguish observations from interpretations, inferences, decisions, actions, results, faults, and unresolved items
+  + [PHR-002] is generate a bounded pertinence query before every material semantic transition
+  + [PHR-003] is retrieve by semantic identity and typed relations before lexical similarity
+  + [PHR-004] is admit diverse supporting, contradicting, constraining, and unresolved history
+  + [PHR-005] is record projections, omissions, reconciliation, and no-match results
+  + [PHR-006] is preserve access control, lineage, correction, supersession, and staleness
+  + [PHR-007] is prevent rumination, confirmation loops, context capture, poisoning, and cost exhaustion
+  + [PHR-008] is integrate history review into the existing capsule-aware Core fixture harness
+
+& [SJSProcessingTrace] is the pertinent history review trace
+  + [fold_1_subject] is reflective continuity through bounded pertinent-history attention
+  + [fold_2_boundary] is material semantic transitions inside; per-token archive replay and hidden neural updates outside
+  + [fold_3_data_design] is typed history, query, score, projection, reconciliation, transition, and review-event identity
+  + [fold_4_governance] is source preservation, typed epistemic status, access control, contradiction retrieval, and visible omission
+  + [fold_5_solution_shape] is address, retrieve, discriminate, rank, project, reconcile, adjust, and trace
+  + [fold_6_fault_review] is rumination, confirmation, staleness, poisoning, context capture, privacy fault, and cost exhaustion
+  + [fold_7_phase_lock] is transition invariant formed as fixture-local proof before database selection
+
+& [PertinentHistoryReviewSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is ccd41598-51d4-497a-a615-bbc991a0762f
+  + [signed_subject] is C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Pertinent_History_Review.sop
+  + [source_snapshot_uuid] is f27870e8-daf4-440e-bc42-a50ce13b0d62
+  + [source_document] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_pertinent_history_review\Dictated_Pertinent_History_Review_Source.sop
+  + [source_manifest] is C:\Project\Pinky\LargeLanguageModelWalker\source_documents\2026-07-28_pertinent_history_review\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, observation_delineated, pertinence_formed, data_modeled, transition_bounded, failure_reviewed, core_harness_joined, justified, and signed
+  + [signature_status] is valid_for_core_transition_invariant_formation
+  + [implementation_authority] is limited_to_fixture_local_history_review_for_eight_core_acceptance_fixtures
+
+@ [core] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Core.sop
+@ [capsule] C:\Project\Pinky\LargeLanguageModelWalker\specifications\SOP_Reflective_Inference_Capsule.sop
