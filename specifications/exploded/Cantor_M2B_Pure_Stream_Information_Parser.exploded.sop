@@ -1,0 +1,29 @@
+Subject: Exploded Cantor M2B Pure Stream Information Parser
+
+& [ExplosionIdentity] is SJS decomposition
+  + [explosion_uuid] is f525871c-e2db-458c-8980-c074d443c38f
+  + [source_snapshot_uuid] is 538c3eed-9bc7-458a-ab3d-2a16ce1560f8
+
+& [Data] is closed
+  + [ParseLimits] is maximum entries 1 through 1024 and maximum name units 1 through 32767
+  + [RawStreamRecord] is exact name, stream size u64, allocation size u64, and source offset u32
+  + [Fault] is limit, header, offset, alignment, length, size, UTF16, name, terminal, or resource
+
+& [Algorithm] is bounded
+  + validate limits and nonempty region
+  + before each header ensure entry budget and 24 available bytes
+  + decode little-endian scalars without pointer casting
+  + validate positive even name-byte length and bounded units
+  + validate name range inside the current entry boundary
+  + decode UTF-16LE strictly and validate wrapper grammar
+  + for nonzero next require eight-byte alignment and forward in-region progress
+  + for zero next require exact region exhaustion and release all records once
+
+& [FaultSecurity] is fail closed
+  + arithmetic uses checked operations
+  + padding is skipped exactly through NextEntryOffset
+  + partial records never release
+  + trailing bytes never disappear
+
+& [Pruning] is complete
+  - no unsafe, pointer, Windows call, filesystem, handle, traversal, content, stream admission, Git, receipt, clock, mutation, or dependency delta

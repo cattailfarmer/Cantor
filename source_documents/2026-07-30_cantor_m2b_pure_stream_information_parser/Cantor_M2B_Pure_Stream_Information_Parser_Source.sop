@@ -1,0 +1,29 @@
+Subject: Dictated Source for Cantor M2B Pure Stream Information Parser
+
+& [SourceIdentity] is immutable selection input
+  + [source_snapshot_uuid] is 538c3eed-9bc7-458a-ab3d-2a16ce1560f8
+  + [captured_at] is 2026-07-30
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+
+& [SelectedIntent] is the next non-effect scanner prerequisite
+  + [purpose] is parse an exact caller-supplied successful FILE_STREAM_INFO byte region without dereferencing a platform pointer
+  + [profile] is cantor-windows-stream-info-parser/0.1
+  + [input] is one byte slice plus maximum entry and name-unit limits
+  + [output] is complete ordered raw stream records or one closed structural fault
+
+& [ChainIntent] is fail closed
+  + [header] is 24 little-endian bytes: next u32, name-length u32, size i64, allocation i64
+  + [alignment] every nonterminal next offset is nonzero, at least header plus name, within the region, and divisible by eight
+  + [terminal] final next offset is zero and its exact header plus name ends at the supplied region boundary
+  + [name] byte length is positive and even, decodes strict UTF-16LE, and matches ::$DATA or :nonempty:$DATA
+  + [sizes] are nonnegative
+  + [padding] is ignored, not interpreted or required to be zero
+  + [bounds] reject entry and name-unit exhaustion before release
+
+& [AuthorityBoundary] is pure only
+  - never: call GetFileInformationByHandleEx, inspect a handle, decide whether an API call was successful or complete, infer stream support, admit a named stream, traverse, read content, or create a receipt
+  - never: use unsafe, windows-sys, filesystem, process, environment, clock, network, persistence, or model APIs
+
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [Microsoft_FILE_STREAM_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_stream_info
+@ [Microsoft_FSCC] https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/f8762be6-3ab9-411e-a7d6-5cc68f70c78d

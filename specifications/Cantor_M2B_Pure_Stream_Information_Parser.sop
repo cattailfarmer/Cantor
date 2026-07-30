@@ -1,0 +1,61 @@
+Subject: Cantor M2B Pure Stream Information Parser
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_stream_information_parser\Cantor_M2B_Pure_Stream_Information_Parser_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_stream_information_parser\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_FILE_STREAM_INFO_Pure_Parser_Decision_2026-07-30.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Pure_Stream_Information_Parser.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Pure_Stream_Information_Parser_Justification.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Pure_Stream_Information_Parser_Plan.sop
+
+& [SpecificationIdentity] is pure implementation authority
+  + [specification_uuid] is 41b3f145-0c4f-4dae-8e29-cc2c29823a34
+  + [profile] is cantor-windows-stream-info-parser/0.1
+  + [source_snapshot_uuid] is 538c3eed-9bc7-458a-ab3d-2a16ce1560f8
+  + [target_module] is crates/cantor_ecosystem/src/windows_stream_info_parser.rs
+
+& [InputContract] is exact
+  + [bytes] are the exact successful returned region
+  + [maximum_entries] is 1 through 1024
+  + [maximum_name_utf16_units] is 1 through 32767
+  + [minimum_nonempty_region] is one 24-byte header plus one UTF-16 code unit
+
+& [EntryContract] is structural
+  + [header_size] is 24
+  + [endianness] is little endian
+  + [next_offset] zero terminates; nonzero is at least header plus name, divisible by eight, and within the region
+  + [name_length] is positive even bytes and within the caller unit limit
+  + [sizes] are nonnegative signed inputs released as u64
+  + [name] decodes strict UTF-16LE without replacement or NUL termination
+  + [grammar] is exactly ::$DATA or :nonempty:$DATA
+  + [terminal] final header plus name ends exactly at region length
+  + [padding] between name end and next offset is ignored
+
+& [OutputContract] is inspectable
+  + records retain source order and source byte offset
+  + names retain exact decoded scalar sequence
+  + no sorting, uniqueness, default-stream count, named-stream admission, or kind policy occurs
+
+& [Requirements] are M2B-SIP-001 through M2B-SIP-010
+  + strict limits and exact region
+  + little-endian header decode
+  + checked offsets and eight-byte alignment
+  + positive even bounded names
+  + strict UTF-16 and stream-name grammar
+  + nonnegative sizes
+  + exact terminal exhaustion
+  + ignored padding
+  + closed faults and no partial release
+  + zero-effect verification, evidence, rollback, and nonclaims
+
+& [ImplementationBoundary] is pure
+  + [Cargo_and_lock_delta] is zero
+  + [unsafe] is zero
+  - never: import windows-sys or use filesystem, process, environment, clock, network, persistence, model, or physical APIs
+
+& [SatisfactionSignature] is valid for pure implementation
+  + [signature_protocol_uuid] is 876a8675-dcb1-4126-87e0-30c92732ce4b
+  + [signature_uuid] is 4c36dfd3-93b4-4654-b8f7-5031d0ec83cc
+  + [status] is valid
+  + [implementation_authority] is one pure parser module, export, tests, and proof records
+  + [execution_authority] is in-memory supplied-byte tests only
+  + [invalidation] is any platform call, pointer dereference, unsafe, partial success, unbounded allocation, admitted malformed chain, profile change, dependency delta, or physical claim

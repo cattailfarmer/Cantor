@@ -1,0 +1,28 @@
+Subject: Cantor FILE_STREAM_INFO Pure Parser Decision
+
+& [ResearchIdentity] is primary-source bound
+  + [research_uuid] is 3cb0a9db-8ef4-4d3a-9102-e1c9f97eec3e
+  + [captured_at] is 2026-07-30
+  + [decision] is split pure chain parsing from later physical query and policy admission
+
+@ [Microsoft_FILE_STREAM_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_stream_info
+@ [Microsoft_FSCC] https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/f8762be6-3ab9-411e-a7d6-5cc68f70c78d
+
+& [PrimaryFindings] are exact
+  + NextEntryOffset is relative to the beginning of the current entry and zero on the last entry
+  + StreamNameLength is bytes, not UTF-16 code units
+  + StreamSize and StreamAllocationSize are signed 64-bit fields and stream size must be nonnegative
+  + StreamName is non-NUL-terminated UTF-16 in ::$DATA or :name:$DATA form
+  + each nonfinal entry is aligned to eight bytes
+  + intervening alignment padding is ignored by receivers
+  + support for named streams is filesystem-specific
+
+& [ParserDecision] is stricter than transport
+  + [exact_region] caller must supply only the successful returned byte region, not capacity
+  + [empty] rejects because it cannot prove one complete information element
+  + [terminal_tail] rejects unaccounted bytes after the final name
+  + [limits] are caller-supplied and checked before allocation or release
+  + [no_admission] named stream rejection and kind-specific default-stream truth remain separate policy
+
+& [Nonclaim] is explicit
+  - parser success does not prove an API call, complete enumeration, stream support, physical file, or admissible topology
