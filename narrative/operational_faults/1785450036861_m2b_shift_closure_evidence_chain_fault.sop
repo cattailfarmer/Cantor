@@ -1,0 +1,20 @@
+Subject: Cantor M2B Shift Closure Evidence Chain Operational Fault
+
+& [FaultLedgerIdentity] is closed
+  + [ledger_uuid] is 5f45e9f2-40f1-42d2-b7ee-9f84efd0050d
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [status] is repaired_and_reproven
+
+& [Fault] is incomplete predecessor impact analysis
+  + [observation] the first evidence repair regenerated entry-policy and stream-parser manifests but omitted the earlier platform-preflight runtime manifest that also binds the changed readiness and reentry surfaces
+  + [detection] full workspace debug integration test rejected the runtime manifest at the exact readiness-ledger byte mismatch
+  + [consequence] the debug suite failed closed; the release suite did not begin; no production result, physical action, or external effect escaped
+  + [root_cause] manual impact analysis began at the newest manifest instead of enumerating every manifest that names either changed shared surface
+  + [repair_order] platform-preflight runtime manifest, location-classification proof digest, entry-policy manifest, entry-policy proof digest, stream-parser manifest, and stream-parser proof digest
+  + [final_runtime_manifest_sha256] is 2664144EEAB11C99FF0C3135E5F51772534CA7E029C0F14A355C7F45981B3DBE
+  + [final_entry_policy_manifest_sha256] is 1E306E5CE92589B636A884431274E544E64A1D361C3A3647C0C17AF2326D1E20
+  + [final_stream_parser_manifest_sha256] is A10CB6DFE47BD8ADB8470E14B17687651C6BC48F8908A5B33C58D46B81C5C598
+  + [prevention] search all evidence builders for each changed shared path before selecting the earliest regeneration node
+
+& [EffectBoundary] is zero
+  + no physical fixture, Windows call, handle, traversal, admission, receipt, mutation, or promotion action occurred
