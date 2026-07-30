@@ -1,0 +1,124 @@
+Subject: Cantor Windows Topology Unsafe Seam Review
+
+Description: Read-only M2B reconnaissance that minimizes and states the proposed Windows FFI boundary. This is not dependency or implementation authority.
+
+& [ReviewIdentity] is a pre-activation API and ownership analysis
+  + [review_uuid] is 35a08988-52f4-4868-9718-bc8d21c44110
+  + [captured_at] is 2026-07-30
+  + [rustc] is 1.96.0 (ac68faa20 2026-05-25)
+  + [windows_sys] is 0.61.2
+  + [windows_sys_checksum] is ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc
+  + [generated_FileSystem_module_sha256] is b44686d7dcd877df4e539d2a5152a3ec212757efb111139cb0a108c8bad7624a
+  + [normalized_Cargo_toml_sha256] is 1adbc955d5460fa64dc16e6c8198b25672e8d4b97d45ecfb262eb2693ce08422
+  + [status] is proposed_seam_minimized_activation_absent
+
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [API_assessment] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_API_Assessment_2026-07-30.sop
+@ [M2A_solution] C:\Project\Cantor\solutions\Cantor_Phase3_Topology_Machine_Forms_Solution.sop
+@ [Microsoft_CreateFileW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew
+@ [Microsoft_GetFileInformationByHandleEx] https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex
+@ [Microsoft_FILE_ID_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_id_info
+@ [Microsoft_FILE_STREAM_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_stream_info
+@ [Microsoft_FILE_REMOTE_PROTOCOL_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_remote_protocol_info
+@ [Microsoft_GetVolumeInformationByHandleW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew
+
+& [DependencyFinding] is no new package but a new direct contract
+  + [Cargo_lock] already contains windows-sys 0.61.2 and windows-link 0.2.1
+  + [transitive_origin] is mio and tokio
+  + [resolved_features] already include Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem
+  + [proposed_direct_dependency] is target cfg(windows), exact compatible 0.61.2, default-features false, and those three feature groups
+  + [why_Security] CreateFileW is generated only when Win32_Security is enabled because its signature names SECURITY_ATTRIBUTES
+  + [expected_lock_delta] is none, subject to an exact clean-copy Cargo proof
+  - never: rely on another dependency to keep Cantor's required feature set activated
+
+& [PlatformProposal] is deliberately narrow
+  + [minimum_API] is Windows 8 because FileIdInfo is not supported before Windows 8 and Windows Server 2012
+  + [initial_execution_target] is the current x86_64 Windows desktop host on a disposable local NTFS fixture
+  + [ReFS] has the required 128-bit identity form but must not be claimed supported until stream, link, sparse, and reconstruction fixtures pass there
+  + [remote_filesystem] is unsupported in profile 0.1
+  + [other_Windows_filesystem] is unsupported until separately classified
+
+& [CallSet] is smaller than the first sketch
+  + [CreateFileW] opens one terminal entry without reparse processing
+  + [GetFileInformationByHandleEx_FileAttributeTagInfo] returns attributes and diagnostic reparse tag
+  + [GetFileInformationByHandleEx_FileIdInfo] returns volume serial and 128-bit file ID
+  + [GetFileInformationByHandleEx_FileStandardInfo] returns link count, length, delete-pending, and directory facts
+  + [GetFileInformationByHandleEx_FileStreamInfo] returns all stream records on the same handle
+  + [GetLastError] captures a failing call's numeric error immediately
+  + [OwnedHandle_from_raw_handle] transfers successful raw-handle ownership exactly once
+  + [File_from_OwnedHandle] safely converts a regular-file handle for bounded standard Read
+  - never: call GetFileInformationByHandle, FindFirstStreamW, FindNextStreamW, FindClose, ReadFile, CloseHandle, DeviceIoControl, privilege APIs, or any mutating API in profile 0.1
+
+& [CreateFileWInvariant] is exact
+  + [path_buffer] is owned UTF-16, NUL-terminated, interior-NUL-free, and alive for the call
+  + [regular_access] is FILE_GENERIC_READ
+  + [directory_access] is FILE_READ_ATTRIBUTES
+  + [share] is FILE_SHARE_READ plus FILE_SHARE_WRITE plus FILE_SHARE_DELETE so observation does not masquerade as an exclusion lock
+  + [creation] is OPEN_EXISTING
+  + [flags] are FILE_FLAG_OPEN_REPARSE_POINT plus FILE_FLAG_BACKUP_SEMANTICS
+  + [security_attributes] is null
+  + [template] is null
+  + [failure] is INVALID_HANDLE_VALUE followed immediately by GetLastError
+  + [success] transfers the handle immediately into one OwnedHandle
+  - never: retain two owners, construct ownership from INVALID_HANDLE_VALUE, request write/delete access, or omit no-follow
+
+& [FixedOutputInvariant] applies to AttributeTagInfo, IdInfo, and StandardInfo
+  + [handle] is borrowed from a live OwnedHandle or File
+  + [buffer] is correctly aligned MaybeUninit of the exact generated structure
+  + [size] is size_of of that structure converted without truncation to u32
+  + [class] and [structure] are a closed exact pair
+  + [success] is the only branch that may assume initialization
+  + [failure] captures GetLastError before any other FFI call
+  + [cross_check] directory, length, attributes, reparse, and link facts must reconcile with the higher-level entry kind
+
+& [VariableStreamInvariant] is checked-record parsing
+  + [buffer] is 8-byte aligned and bounded before the call
+  + [call] is GetFileInformationByHandleEx with FileStreamInfo on the same owned entry
+  + [record_header] must fit before any field is read
+  + [NextEntryOffset] is zero for the last record or nonzero, 8-byte aligned, forward-moving, and within initialized bytes
+  + [StreamNameLength] is even, within the current record, and within the path/stream policy bound
+  + [StreamSize] and [StreamAllocationSize] must be nonnegative
+  + [UTF16] must decode without replacement
+  + [names] are copied into owned strings before the buffer is released
+  + [count] and [aggregate_bytes] are hard bounded
+  + [no_stream] preserves ERROR_HANDLE_EOF distinctly
+  + [unsupported_or_insufficient] remains a typed failure until exact target-host behavior is proven
+  - never: cast an unaligned Vec<u8> pointer to FILE_STREAM_INFO, trust an unchecked offset, or let a reference escape the backing buffer
+
+& [ReadInvariant] uses safe standard I/O after one ownership transfer
+  + [conversion] File from OwnedHandle is stable and consumes the OwnedHandle
+  + [read] uses a fixed reusable buffer and checked cumulative byte count
+  + [limit] stops before exceeding maximum_file_bytes or maximum_total_bytes
+  + [EOF] is required exactly at the declared content length
+  + [post_read] repeats same-handle attribute, identity, standard, and stream observations
+  + [drop] File closes the handle through standard RAII
+  - never: reopen by path for content, create a second owning wrapper, memory-map content, or read after a mismatched pre-observation
+
+& [UnsafeBudget] is auditable
+  + [call_sites] are CreateFileW, four GetFileInformationByHandleEx classes, immediate GetLastError branches, and one OwnedHandle from_raw_handle transfer
+  + [wrapper] exposes safe owned results and typed errors only
+  + [module_policy] is deny unsafe_op_in_unsafe_fn and document every unsafe block
+  + [test_policy] is malformed-buffer parsing is tested as pure byte logic without FFI
+  + [non_Windows] compiles an explicit unsupported adapter with no windows-sys import
+
+& [VolumeAndRemotePreflight] is required but not yet in the admitted call set
+  + [FileRemoteProtocolInfo] can return FILE_REMOTE_PROTOCOL_INFO from the same root handle and is the candidate remote-protocol observation
+  + [GetVolumeInformationByHandleW] can return filesystem name, volume serial, maximum component length, and capability flags from the same root handle
+  + [volume_flags] include named streams, hard links, sparse files, reparse points, persistent ACLs, and open-by-file-ID support
+  + [SMB_boundary] Microsoft documents GetVolumeInformationByHandleW as unsupported for SMB 3.0, while FileRemoteProtocolInfo is explicitly a remote-protocol structure
+  + [initial_policy] requires a successful local NTFS volume observation and an explicit no-remote result
+  + [open_question] exact local-handle FileRemoteProtocolInfo success or failure semantics must be measured before its error is classified
+  + [authority] is API candidate research only
+
+& [UnresolvedBeforeActivation] is blocking
+  + [stream_buffer_behavior] exact insufficient-buffer error and initialized-byte contract must be proven on the target OS
+  + [share_policy] read-write-delete sharing versus a narrower quiescence-enforcing share mask needs an explicit threat-model decision
+  + [attributes] exact admitted and rejected bit masks remain to be frozen
+  + [delete_pending] must always reject and quarantine classification must be fixed
+  + [root_path] extended-length, UNC, volume, device, reserved-name, case, and trailing-component rules remain to be frozen
+  + [filesystem] volume filesystem-name observation and local-versus-remote proof API remain to be selected
+  + [dependency] clean-copy Cargo feature and lock diff remains unexecuted
+
+& [AuthorityEffect] is none
+  + [next_step] is preserve a separately selected M2B activation source only after unresolved items are closed
+  - never: cite this review as permission to edit Cargo.toml, add unsafe, call Win32, create fixtures, inspect a candidate, launch a writable sandbox, mutate, seal, clean, or promote
