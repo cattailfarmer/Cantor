@@ -1,0 +1,57 @@
+Subject: Cantor Topology Receipt Revision Decision
+
+Description: Pre-SJS recommendation for versioning and legacy handling after the root-binding defect was found.
+
+& [DecisionIdentity] is a pure-schema recommendation
+  + [decision_uuid] is 32b94ed2-414c-4fc8-a683-0258ae4c8dfd
+  + [captured_at] is 2026-07-30
+  + [status] is recommended_pending_SJS
+
+@ [selected_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_receipt_root_binding_revision\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Source.sop
+@ [current_specification] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [root_reconciliation] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Root_Reconciliation_2026-07-30.sop
+
+& [LegacyDecision] is reject rather than retain
+  + [fact] is no M2C scanner, receipt ledger, persisted topology receipt, or external consumer exists
+  + [weakness] is the old receipt cannot carry strong root identity or stable final-path evidence
+  + [cost] a named legacy decoder creates permanent weak-evidence surface without migration value
+  + [recommendation] is remove the old shape from the current decoder and let strict missing-field or unknown-field validation reject it
+  - never: upgrade an old receipt by filling new root fields from assumptions
+
+& [VersionDecision] separates three contracts
+  + [forms_profile] becomes cantor-phase3-topology-forms/0.2
+  + [receipt_profile] is cantor-phase3-topology-receipt/0.2
+  + [scanner_profile] remains cantor-windows-candidate-topology/0.1
+  + [reason] is the public form and receipt schema change while the not-yet-implemented physical policy does not
+
+& [ReceiptFieldDecision] is explicit
+  + [receipt_profile] replaces the conflated profile field
+  + [scanner_profile] binds physical policy separately
+  + [root_identity] is the existing StrongFileIdentity
+  + [root_volume_guid_path] is new canonical evidence
+  + [all_existing_bindings] remain admission profile and digest, policy digest, nonce, inventory digest, limits, counts, consistency, and freshness
+
+& [VolumeGuidSyntax] is canonical but purely syntactic
+  + [prefix] is exactly backslash-backslash-question-backslash-Volume-open-brace
+  + [GUID] is 8-4-4-4-12 canonical lowercase hexadecimal
+  + [suffix] is close-brace followed by backslash
+  + [tail] is empty for a volume root or one or more backslash-separated nonempty components
+  + [bounds] is NUL-free and at most 32768 UTF-8 bytes
+  + [producer] lowercases only the ASCII GUID digits before constructing the form
+  + [nonclaim] syntax does not prove the path exists, is local, is NTFS, or matches root_identity
+
+& [TestDecision] is fail-closed
+  + [old_shape] rejects
+  + [profile_substitution] rejects independently for receipt and scanner
+  + [missing_identity] rejects
+  + [malformed_identity] rejects
+  + [malformed_volume_path] rejects prefix, GUID widths, separators, case, tail, NUL, and bounds
+  + [round_trip] preserves exact separated profiles and physical-root evidence
+  + [global] refreshes the ordered evidence chain because lib.rs and the M2A manifest bind the public module
+
+& [Rollback] is return to commit 167ed0e before any M2C consumer exists
+  + [migration] is none
+
+& [AuthorityEffect] is none
+  + [next] is SJS canonical revision and a new satisfaction signature
+  - never: cite this recommendation as implementation authority
