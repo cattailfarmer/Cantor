@@ -1,0 +1,18 @@
+Subject: Cantor Service-Backed MCP Slice
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
+@ [matrix] C:\Project\Cantor\feature_support\ServiceBackedMCP_Requirement_Matrix.sop
+
+& [SliceIdentity] is the contiguous resident adapter extension
+  + [slice_uuid] is 8a3896d9-6ba3-4ed1-9ed6-ee41627aa510
+  + [status] is complete_with_proof
+  + [depends_on] is ReadOnlyMCP, PreparedRuntime, and ResidentService complete
+  + [deliverable] is pinned ServiceClient, resident MCP mode, exact live equivalence, refresh visibility, faults, docs, solution, and proof
+  + [excluded] is new tools, lifecycle authority, sessions, notifications, remote access, and effects
+
+& [Completion] is bounded activation
+  + [implementation] is pinned ServiceClient and dual-backend cantor-mcp
+  + [combined_transport] is live cantord plus real MCP subprocess plus official client
+  + [production_tests] is 114 debug and 114 release
+  @ [solution] C:\Project\Cantor\solutions\Cantor_Service_Backed_MCP_Solution.sop
+  @ [proof] C:\Project\Cantor\proofs\Cantor_Service_Backed_MCP_Proof.sop

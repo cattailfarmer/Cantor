@@ -1,0 +1,60 @@
+Subject: Cantor Service-Backed MCP Solution
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_service_backed_mcp_activation\Dictated_Cantor_Service_Backed_MCP_Activation_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Service_Backed_MCP_Justification.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_mcp
+@ [service_client] C:\Project\Cantor\crates\cantor_service\src\transport.rs
+@ [proof] C:\Project\Cantor\proofs\Cantor_Service_Backed_MCP_Proof.sop
+
+& [SolutionIdentity] is the completed shared-generation Codex tool surface
+  + [solution_uuid] is ce25a800-4404-4ddb-98c0-5e272443eebb
+  + [status] is completed_and_boundedly_activated
+  + [tool] is query_sop
+  + [startup_modes] is embedded and resident
+
+& [PinnedServiceClient] is reusable loopback transport state
+  + [construction] is ServiceClient::from_config
+  + [snapshot] is validated endpoint, frame bound, timeouts, and redacted capability
+  + [send] is one strict service request and identity-checked response
+  + [compatibility] is send_request remains a one-invocation convenience wrapper
+  + [security] is Debug redacts the token and running clients do not reread changed configuration
+
+& [MCPBackend] is explicit
+  + [embedded] is Arc PreparedRuntime from --environment
+  + [resident] is Arc ServiceClient from --service-config
+  + [startup] is authenticated Status before MCP STDIO begins
+  + [environment_accessor] and [runtime_accessor] return none in resident mode rather than panic or imply ownership
+  + [tool_definition] is unchanged
+
+& [ExactExecution] is one semantic path
+  + [embedded_result] is PreparedRuntime ProtocolResponse
+  + [resident_result] is the nested ServiceResult ProtocolResponse
+  + [structured_content] is the unchanged ProtocolResponse
+  + [protocol_fault] retains exact status, exit class, proof, faults, and continuation
+  + [service_fault] is a bounded adapter fault with no fabricated semantic result
+
+& [RefreshBehavior] is request-bound and fail closed
+  + [MCP_restart] is not required after cantord generation replacement
+  + [old_request] produces the exact core response against the new active environment
+  + [new_request] succeeds only with supervisor-issued current environment and package bindings
+  + [activation] remains outside the model-callable MCP surface
+
+& [ProofSurface] is live
+  + [synthetic] is direct core, embedded MCP, service library, resident handler, live cantord, real MCP subprocess, and official MCP client equality
+  + [refresh] is old binding failure and new binding success without MCP restart
+  + [pinning] is changed config cannot retarget the active client
+  + [failure] is bad token startup rejection and post-start service loss adapter fault
+  + [rollback] is every prior embedded test remains passing
+
+& [OperatorUse] is explicit
+  + [embedded_command] is cantor-mcp --environment absolute_environment_path
+  + [resident_command] is cantor-mcp --service-config absolute_service_config_path
+  + [Codex] may register either subprocess form through its operator-owned MCP configuration
+  - never: register automatically or expose token, refresh, shutdown, or configuration to the model
+
+& [NonclaimSet] is retained
+  + [MCP] is STDIO even when its backend uses loopback cantord
+  + [service] is local read-only and not remote or multi-user
+  + [coordination] is no notification, session, junction, token ring, faculty, or provider inference
+  + [semantics] is no adapter-local inference, request repair, or authority minting

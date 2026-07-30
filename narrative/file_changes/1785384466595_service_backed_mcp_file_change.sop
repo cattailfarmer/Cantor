@@ -1,0 +1,35 @@
+Subject: Cantor Service-Backed MCP File Change Surface
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Service_Backed_MCP_Solution.sop
+
+& [FileChangeIdentity] is implementation attribution
+  + [record_uuid] is 40afc549-deb1-439c-8703-16db7550fabd
+  + [solution_uuid] is ce25a800-4404-4ddb-98c0-5e272443eebb
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at_ms] is 1785384466595
+
+& [AuthoritySurface] is source-preserved SJS
+  + [added] is source_documents\2026-07-29_cantor_service_backed_mcp_activation
+  + [added] is specifications\exploded\Cantor_Service_Backed_MCP.exploded.sop
+  + [added] is specifications\Cantor_Service_Backed_MCP.sop
+  + [added] is justifications\Cantor_Service_Backed_MCP_Justification.sop
+
+& [ImplementationSurface] is pinned client and dual backend
+  + [changed] is crates\cantor_service\src\transport.rs
+  + [changed] is crates\cantor_mcp\Cargo.toml
+  + [changed] is crates\cantor_mcp\src\lib.rs
+  + [changed] is crates\cantor_mcp\src\main.rs
+  + [changed] is crates\cantor_mcp\tests\mcp_protocol.rs
+  + [changed] is Cargo.lock
+
+& [DocumentationAndProofSurface] is operator and reentry state
+  + [changed] is README.md
+  + [changed] is docs\MCP_PROTOCOL.md
+  + [changed] is docs\RESIDENT_SERVICE.md
+  + [added] is feature_support\slices\ServiceBackedMCP.sop
+  + [added] is feature_support\ServiceBackedMCP_Requirement_Matrix.sop
+  + [added] is solutions\Cantor_Service_Backed_MCP_Solution.sop
+  + [added] is proofs\Cantor_Service_Backed_MCP_Proof.sop
+  + [added] is service-backed MCP evidence manifest and verification test
+  + [changed] is project map, plan, slice index, narrative, and affected prior evidence manifests

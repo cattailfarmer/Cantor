@@ -1,0 +1,47 @@
+Subject: Exploded Cantor Service-Backed MCP Activation
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_service_backed_mcp_activation\Dictated_Cantor_Service_Backed_MCP_Activation_Source.sop
+@ [existing_MCP] C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+@ [resident_service] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+
+& [Problem] is the existing MCP owns an independently pinned PreparedRuntime
+  + [consequence] is Codex cannot share cantord activation, refresh, rollback, or generation lifecycle
+  + [duplication] is each MCP process independently loads and admits the same environment
+  + [goal] is let the unchanged query_sop tool delegate through one operator-pinned resident service
+
+& [ActivationDecision] is add one mutually exclusive resident backend
+  + [embedded_mode] is --environment with unchanged behavior
+  + [resident_mode] is --service-config with a strict absolute cantord configuration path
+  + [startup] is construct a pinned service client and perform one authenticated status exchange before MCP framing begins
+  + [execution] is one service Execute carrying the unchanged ProtocolRequest
+  + [output] is only the exact nested ProtocolResponse on success
+  + [failure] is a bounded visible MCP adapter fault
+  - never: expose status, refresh, shutdown, token, or service configuration as model-callable tools
+
+& [PinnedClient] is process-lifetime transport authority
+  + [snapshot] is validated loopback address, capability, frame bound, and timeouts loaded once at MCP startup
+  + [benefit] is later configuration-file replacement cannot silently retarget the running MCP
+  + [refresh_visibility] is cantord may atomically replace its active generation while the endpoint and capability remain pinned
+  + [request_binding] is the inner ProtocolRequest still pins environment digest, packages, scope, caller, purpose, effect boundary, and budget
+
+& [Exactness] is non-negotiable
+  + [embedded_oracle] is PreparedRuntime ProtocolResponse
+  + [resident_result] is ServiceResult Protocol response only
+  + [MCP_result] is that exact ProtocolResponse as structured content
+  + [wrong_service_result] is an adapter fault
+  + [service_transport_or_auth_fault] is an adapter fault
+  - never: turn a service fault into a fabricated ProtocolResponse
+
+& [Acceptance] is SBM-001 through SBM-008
+  + [SBM-001] is mutually exclusive strict startup modes
+  + [SBM-002] is pinned service-client snapshot and authenticated startup status
+  + [SBM-003] is exact direct, embedded MCP, service library, and service-backed MCP equality
+  + [SBM-004] is real MCP STDIO over live cantord
+  + [SBM-005] is refresh becomes visible without MCP restart while request binding remains fail-closed
+  + [SBM-006] is service unavailable, bad authentication, and wrong result remain visible adapter faults
+  + [SBM-007] is one-tool metadata and no model-callable lifecycle expansion
+  + [SBM-008] is embedded mode remains complete rollback
+
+& [PrunedClaims] is retained
+  - [excluded] is automatic Codex registration, write tools, service lifecycle tools, notifications, sessions, remote access, model inference, faculties, and effects
+  - [excluded] is replacing the ProtocolRequest supervisor prerequisite

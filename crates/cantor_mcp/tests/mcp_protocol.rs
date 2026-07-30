@@ -1,6 +1,10 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
+    fs,
+    path::{Path, PathBuf},
+    process::Command,
     sync::atomic::{AtomicU64, Ordering},
+    thread,
 };
 
 use cantor_core::{
@@ -14,6 +18,10 @@ use cantor_core::{
     verify_protocol_response_against_environment,
 };
 use cantor_mcp::{CantorMcpServer, MAX_ARGUMENT_BYTES, TOOL_NAME};
+use cantor_service::{
+    ACTIVATION_SCHEMA, BoundServer, EnvironmentActivation, SERVICE_CONFIG_SCHEMA, ServiceClient,
+    ServiceConfig, ServiceDisposition, ServiceOperation, ServiceResult,
+};
 use ed25519_dalek::SigningKey;
 use rmcp::{
     ServiceExt,
@@ -23,6 +31,7 @@ use rmcp::{
 use serde_json::json;
 
 const NOW: u64 = 120;
+const SERVICE_TOKEN: &str = "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789";
 static NEXT_FILE: AtomicU64 = AtomicU64::new(1);
 
 fn id(value: &str) -> SemanticId {
@@ -247,7 +256,10 @@ fn adapter_result_is_exactly_core_equivalent() {
 
     let second = server.execute_tool_arguments(Some(tool_arguments(&request)));
     assert_eq!(structured_response(&second), direct);
-    let metrics = server.runtime().metrics();
+    let metrics = server
+        .runtime()
+        .expect("embedded MCP owns a PreparedRuntime")
+        .metrics();
     assert_eq!(metrics.projection_preparations, 1);
     assert_eq!(metrics.projection_hits, 1);
 }
@@ -371,4 +383,262 @@ async fn real_stdio_server_lists_and_executes_the_tool() {
     assert_eq!(structured_response(&recovered), direct);
     client.cancel().await.expect("MCP client must stop");
     std::fs::remove_file(&path).expect("temporary environment must be removed");
+}
+
+#[test]
+fn resident_backend_is_exact_pinned_and_visibly_unavailable() {
+    let (environment, request) = fixture("cantor");
+    let direct = execute_protocol_request(&environment, request.clone());
+    let resident = LiveResident::start(&environment);
+    let operator = ServiceClient::from_config(&resident.config_path)
+        .expect("operator client must load before config mutation");
+    assert!(!format!("{operator:?}").contains(SERVICE_TOKEN));
+    let server = CantorMcpServer::from_service_config(&resident.config_path)
+        .expect("resident-backed MCP must pass startup status");
+    assert!(server.is_resident_backed());
+    assert!(server.runtime().is_none());
+    assert!(server.environment().is_none());
+    let result = server.execute_tool_arguments(Some(tool_arguments(&request)));
+    assert_eq!(structured_response(&result), direct);
+
+    let mut changed: serde_json::Value =
+        serde_json::from_slice(&fs::read(&resident.config_path).expect("config must read"))
+            .expect("config must decode");
+    changed["listen_address"] = json!("127.0.0.1:9");
+    write_json(&resident.config_path, &changed);
+    let pinned_result = server.execute_tool_arguments(Some(tool_arguments(&request)));
+    assert_eq!(structured_response(&pinned_result), direct);
+
+    let generation = resident.binding.generation_id.clone();
+    resident.shutdown_with(&operator, generation);
+    let unavailable = server.execute_tool_arguments(Some(tool_arguments(&request)));
+    assert_eq!(unavailable.is_error, Some(true));
+    assert_eq!(
+        unavailable
+            .structured_content
+            .expect("transport fault must be structured")["fault"]["code"],
+        "resident_service_transport_fault"
+    );
+}
+
+#[test]
+fn resident_backend_observes_refresh_without_rebinding_stale_requests() {
+    let (environment, request) = fixture("cantor");
+    let resident = LiveResident::start(&environment);
+    let operator =
+        ServiceClient::from_config(&resident.config_path).expect("operator client must load");
+    let server = CantorMcpServer::from_service_config(&resident.config_path)
+        .expect("resident-backed MCP must start");
+    let old_binding = resident.binding.clone();
+
+    let mut next_environment = environment.clone();
+    next_environment.now_epoch_seconds += 1;
+    let mut next_request = request.clone();
+    next_request.expected_environment_digest =
+        embedded_environment_digest(&next_environment).expect("next environment must digest");
+    resident.publish(&next_environment, 2);
+    let refresh = operator
+        .send(
+            ServiceOperation::Refresh {
+                expected_generation_id: old_binding.generation_id,
+                expected_activation_sequence: 1,
+            },
+            id("request:mcp_refresh"),
+        )
+        .expect("refresh exchange must complete");
+    assert_eq!(refresh.disposition, ServiceDisposition::Success);
+    let next_binding = refresh
+        .active_binding
+        .clone()
+        .expect("refresh binding is required");
+
+    let stale_expected = execute_protocol_request(&next_environment, request.clone());
+    let stale = server.execute_tool_arguments(Some(tool_arguments(&request)));
+    assert_eq!(structured_response(&stale), stale_expected);
+    assert_eq!(stale.is_error, Some(true));
+
+    let next_expected = execute_protocol_request(&next_environment, next_request.clone());
+    let next = server.execute_tool_arguments(Some(tool_arguments(&next_request)));
+    assert_eq!(structured_response(&next), next_expected);
+    assert_eq!(next.is_error, Some(false));
+    resident.shutdown_with(&operator, next_binding.generation_id);
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn real_stdio_mcp_delegates_through_live_cantord() {
+    let (environment, request) = fixture("cantor");
+    let direct = execute_protocol_request(&environment, request.clone());
+    let resident = LiveResident::start(&environment);
+    let operator =
+        ServiceClient::from_config(&resident.config_path).expect("operator client must load");
+    let generation = resident.binding.generation_id.clone();
+
+    let transport = TokioChildProcess::new(
+        tokio::process::Command::new(env!("CARGO_BIN_EXE_cantor-mcp")).configure(|command| {
+            command.arg("--service-config").arg(&resident.config_path);
+        }),
+    )
+    .expect("service-backed MCP subprocess must start");
+    let client = ().serve(transport).await.expect("MCP initialization must pass");
+    let tools = client
+        .list_all_tools()
+        .await
+        .expect("tools/list must succeed");
+    assert_eq!(tools.len(), 1);
+    assert_eq!(tools[0].name, TOOL_NAME);
+    let result = client
+        .call_tool(CallToolRequestParams::new(TOOL_NAME).with_arguments(tool_arguments(&request)))
+        .await
+        .expect("service-backed tools/call must succeed");
+    assert_eq!(structured_response(&result), direct);
+    client.cancel().await.expect("MCP client must stop");
+    resident.shutdown_with(&operator, generation);
+}
+
+#[test]
+fn resident_startup_fails_closed_and_startup_modes_are_mutually_exclusive() {
+    let (environment, _request) = fixture("cantor");
+    let resident = LiveResident::start(&environment);
+    let operator =
+        ServiceClient::from_config(&resident.config_path).expect("operator client must load");
+    fs::write(&resident.token_path, format!("{}\n", "f".repeat(64)))
+        .expect("wrong token must write");
+    let fault = CantorMcpServer::from_service_config(&resident.config_path)
+        .expect_err("wrong service capability must fail MCP startup");
+    assert_eq!(fault.code, "resident_service_unready");
+    assert!(!fault.message.contains(SERVICE_TOKEN));
+
+    for arguments in [
+        Vec::<&str>::new(),
+        vec!["--unknown", "value"],
+        vec![
+            "--environment",
+            "environment.json",
+            "--service-config",
+            "service.json",
+        ],
+    ] {
+        let output = Command::new(env!("CARGO_BIN_EXE_cantor-mcp"))
+            .args(arguments)
+            .output()
+            .expect("invalid startup subprocess must run");
+        assert_eq!(output.status.code(), Some(2));
+        assert!(output.stdout.is_empty());
+        assert!(String::from_utf8_lossy(&output.stderr).contains("usage: cantor-mcp"));
+    }
+    let generation = resident.binding.generation_id.clone();
+    resident.shutdown_with(&operator, generation);
+}
+
+struct LiveResident {
+    root: PathBuf,
+    config_path: PathBuf,
+    activation_path: PathBuf,
+    environment_path: PathBuf,
+    token_path: PathBuf,
+    binding: cantor_service::ActiveBinding,
+    handle: thread::JoinHandle<Result<(), cantor_service::ServiceFault>>,
+}
+
+impl LiveResident {
+    fn start(environment: &EmbeddedRuntimeEnvironment) -> Self {
+        let sequence = NEXT_FILE.fetch_add(1, Ordering::Relaxed);
+        let root = std::env::temp_dir().join(format!(
+            "cantor-mcp-resident-{}-{sequence}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&root).expect("resident fixture root must create");
+        let config_path = root.join("service.json");
+        let activation_path = root.join("activation.json");
+        let environment_path = root.join("environment.json");
+        let token_path = root.join("token.txt");
+        fs::write(&token_path, format!("{SERVICE_TOKEN}\n")).expect("service token must write");
+        publish_environment(&environment_path, &activation_path, environment, 1);
+        let mut config = ServiceConfig {
+            schema: SERVICE_CONFIG_SCHEMA.to_owned(),
+            listen_address: "127.0.0.1:0".to_owned(),
+            activation_path: activation_path.clone(),
+            allowed_environment_root: root.clone(),
+            auth_token_path: token_path.clone(),
+            max_frame_bytes: 1024 * 1024,
+            max_connections: 32,
+            read_timeout_ms: 2_000,
+            write_timeout_ms: 2_000,
+        };
+        write_json(&config_path, &config);
+        let bound = BoundServer::bind(&config_path).expect("resident fixture must bind");
+        let address = bound.local_addr().expect("fixture address is required");
+        let binding = bound
+            .runtime()
+            .active_binding()
+            .expect("fixture binding is required");
+        config.listen_address = address.to_string();
+        write_json(&config_path, &config);
+        let handle = thread::spawn(move || bound.serve());
+        Self {
+            root,
+            config_path,
+            activation_path,
+            environment_path,
+            token_path,
+            binding,
+            handle,
+        }
+    }
+
+    fn publish(&self, environment: &EmbeddedRuntimeEnvironment, sequence: u64) {
+        publish_environment(
+            &self.environment_path,
+            &self.activation_path,
+            environment,
+            sequence,
+        );
+    }
+
+    fn shutdown_with(
+        self,
+        operator: &ServiceClient,
+        expected_generation_id: cantor_core::ContentDigest,
+    ) {
+        let response = operator
+            .send(
+                ServiceOperation::Shutdown {
+                    expected_generation_id,
+                },
+                id("request:mcp_resident_shutdown"),
+            )
+            .expect("resident shutdown must exchange");
+        assert!(matches!(
+            response.result,
+            Some(ServiceResult::Shutdown { .. })
+        ));
+        self.handle
+            .join()
+            .expect("resident thread must join")
+            .expect("resident service must stop cleanly");
+        fs::remove_dir_all(&self.root).expect("resident fixture must clean");
+    }
+}
+
+fn publish_environment(
+    environment_path: &Path,
+    activation_path: &Path,
+    environment: &EmbeddedRuntimeEnvironment,
+    sequence: u64,
+) {
+    let bytes = serde_json::to_vec(environment).expect("environment must encode");
+    fs::write(environment_path, &bytes).expect("environment must write");
+    let activation = EnvironmentActivation {
+        schema: ACTIVATION_SCHEMA.to_owned(),
+        sequence,
+        environment_path: environment_path.to_owned(),
+        environment_file_sha256: cantor_core::sha256_bytes(&bytes).value,
+    };
+    write_json(activation_path, &activation);
+}
+
+fn write_json(path: &Path, value: &impl serde::Serialize) {
+    let mut bytes = serde_json::to_vec_pretty(value).expect("fixture JSON must encode");
+    bytes.push(b'\n');
+    fs::write(path, bytes).expect("fixture JSON must write");
 }

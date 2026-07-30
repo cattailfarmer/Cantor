@@ -11,7 +11,7 @@ use std::{
 };
 
 use crate::{
-    artifacts::{SecretToken, load_generation, load_service_config},
+    artifacts::{SecretToken, ValidatedServiceConfig, load_generation, load_service_config},
     model::{
         SERVICE_PROTOCOL_VERSION, ServiceDisposition, ServiceFault, ServiceRequest,
         ServiceResponse, unavailable_request_id,
@@ -158,92 +158,112 @@ fn reap_finished_workers(workers: &mut Vec<JoinHandle<()>>, runtime: &ServiceRun
     }
 }
 
+#[derive(Debug)]
+pub struct ServiceClient {
+    config: ValidatedServiceConfig,
+    token: SecretToken,
+}
+
+impl ServiceClient {
+    pub fn from_config(config_path: &Path) -> Result<Self, ServiceFault> {
+        let config = load_service_config(config_path)?;
+        let token = SecretToken::from_file(&config.auth_token_path)?;
+        Ok(Self { config, token })
+    }
+
+    pub fn send(
+        &self,
+        operation: crate::model::ServiceOperation,
+        request_id: cantor_core::SemanticId,
+    ) -> Result<ServiceResponse, ServiceFault> {
+        let request = ServiceRequest {
+            protocol_version: SERVICE_PROTOCOL_VERSION.to_owned(),
+            request_id: request_id.clone(),
+            auth_token: self.token.expose_for_client(),
+            operation,
+        };
+        let request_bytes = serde_json::to_vec(&request).map_err(|error| {
+            ServiceFault::new(
+                "request_encoding_failed",
+                "client",
+                format!("cannot serialize service request: {error}"),
+            )
+        })?;
+        if request_bytes.len() > self.config.max_frame_bytes {
+            return Err(ServiceFault::new(
+                "frame_limit_exceeded",
+                "client",
+                "serialized service request exceeds configured frame limit",
+            ));
+        }
+        let mut stream = TcpStream::connect(self.config.listen_address).map_err(|error| {
+            ServiceFault::new(
+                "service_connect_failed",
+                "client",
+                format!("cannot connect to configured Cantor service: {error}"),
+            )
+        })?;
+        configure_stream(&stream, self.config.read_timeout, self.config.write_timeout)?;
+        stream.write_all(&request_bytes).map_err(|error| {
+            ServiceFault::new(
+                "request_write_failed",
+                "client",
+                format!("cannot write service request: {error}"),
+            )
+        })?;
+        stream.write_all(b"\n").map_err(|error| {
+            ServiceFault::new(
+                "request_write_failed",
+                "client",
+                format!("cannot terminate service request: {error}"),
+            )
+        })?;
+        stream.flush().map_err(|error| {
+            ServiceFault::new(
+                "request_write_failed",
+                "client",
+                format!("cannot flush service request: {error}"),
+            )
+        })?;
+        stream.shutdown(Shutdown::Write).map_err(|error| {
+            ServiceFault::new(
+                "request_write_shutdown_failed",
+                "client",
+                format!("cannot close the completed service request stream: {error}"),
+            )
+        })?;
+        let bytes = read_frame(&mut stream, self.config.max_frame_bytes)?;
+        let response: ServiceResponse = serde_json::from_slice(&bytes).map_err(|error| {
+            ServiceFault::new(
+                "invalid_service_response",
+                "client",
+                format!("service response is not valid strict JSON: {error}"),
+            )
+        })?;
+        if response.protocol_version != SERVICE_PROTOCOL_VERSION {
+            return Err(ServiceFault::new(
+                "service_protocol_mismatch",
+                "client",
+                "service response uses an unsupported protocol version",
+            ));
+        }
+        if response.request_id != request_id {
+            return Err(ServiceFault::new(
+                "service_request_identity_mismatch",
+                "client",
+                "service response request identity differs from the request",
+            ));
+        }
+        Ok(response)
+    }
+}
+
 pub fn send_request(
     config_path: &Path,
     operation: crate::model::ServiceOperation,
     request_id: cantor_core::SemanticId,
 ) -> Result<ServiceResponse, ServiceFault> {
-    let config = load_service_config(config_path)?;
-    let token = SecretToken::from_file(&config.auth_token_path)?;
-    let request = ServiceRequest {
-        protocol_version: SERVICE_PROTOCOL_VERSION.to_owned(),
-        request_id: request_id.clone(),
-        auth_token: token.expose_for_client(),
-        operation,
-    };
-    let request_bytes = serde_json::to_vec(&request).map_err(|error| {
-        ServiceFault::new(
-            "request_encoding_failed",
-            "client",
-            format!("cannot serialize service request: {error}"),
-        )
-    })?;
-    if request_bytes.len() > config.max_frame_bytes {
-        return Err(ServiceFault::new(
-            "frame_limit_exceeded",
-            "client",
-            "serialized service request exceeds configured frame limit",
-        ));
-    }
-    let mut stream = TcpStream::connect(config.listen_address).map_err(|error| {
-        ServiceFault::new(
-            "service_connect_failed",
-            "client",
-            format!("cannot connect to configured Cantor service: {error}"),
-        )
-    })?;
-    configure_stream(&stream, config.read_timeout, config.write_timeout)?;
-    stream.write_all(&request_bytes).map_err(|error| {
-        ServiceFault::new(
-            "request_write_failed",
-            "client",
-            format!("cannot write service request: {error}"),
-        )
-    })?;
-    stream.write_all(b"\n").map_err(|error| {
-        ServiceFault::new(
-            "request_write_failed",
-            "client",
-            format!("cannot terminate service request: {error}"),
-        )
-    })?;
-    stream.flush().map_err(|error| {
-        ServiceFault::new(
-            "request_write_failed",
-            "client",
-            format!("cannot flush service request: {error}"),
-        )
-    })?;
-    stream.shutdown(Shutdown::Write).map_err(|error| {
-        ServiceFault::new(
-            "request_write_shutdown_failed",
-            "client",
-            format!("cannot close the completed service request stream: {error}"),
-        )
-    })?;
-    let bytes = read_frame(&mut stream, config.max_frame_bytes)?;
-    let response: ServiceResponse = serde_json::from_slice(&bytes).map_err(|error| {
-        ServiceFault::new(
-            "invalid_service_response",
-            "client",
-            format!("service response is not valid strict JSON: {error}"),
-        )
-    })?;
-    if response.protocol_version != SERVICE_PROTOCOL_VERSION {
-        return Err(ServiceFault::new(
-            "service_protocol_mismatch",
-            "client",
-            "service response uses an unsupported protocol version",
-        ));
-    }
-    if response.request_id != request_id {
-        return Err(ServiceFault::new(
-            "service_request_identity_mismatch",
-            "client",
-            "service response request identity differs from the request",
-        ));
-    }
-    Ok(response)
+    ServiceClient::from_config(config_path)?.send(operation, request_id)
 }
 
 fn handle_connection(

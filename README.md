@@ -53,7 +53,10 @@ baseline:
 - `cantord` keeps one fully admitted immutable generation resident behind an
   authenticated loopback-only protocol, while `cantorctl` provides strict
   status, query, inspect, compare-and-refresh, and exact-generation shutdown
-  operations without acquiring semantic authority.
+  operations without acquiring semantic authority; and
+- `cantor-mcp` may alternatively use `--service-config` to project its
+  unchanged one-tool contract through that shared refreshable generation,
+  while embedded `--environment` mode remains the rollback path.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -118,6 +121,7 @@ Initialize and run the bounded resident service over a compiled environment:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\initialize_cantor_service.ps1 -EnvironmentPath C:\Project\Cantor\.local\cantor-self-hosted\environment.json -RuntimeDirectory C:\Project\Cantor\.local\cantor-service
 .\target\release\cantord.exe --config C:\Project\Cantor\.local\cantor-service\service.json
 .\target\release\cantorctl.exe status --config C:\Project\Cantor\.local\cantor-service\service.json --request-id request:operator_status_1
+.\target\release\cantor-mcp.exe --service-config C:\Project\Cantor\.local\cantor-service\service.json
 ```
 
 The generated demo uses public fixture keys and must never become real
@@ -142,6 +146,7 @@ Current executable proofs:
 - [`proofs/Cantor_Prepared_Runtime_Proof.sop`](proofs/Cantor_Prepared_Runtime_Proof.sop)
 - [`proofs/Cantor_Self_Hosting_Ingestion_Proof.sop`](proofs/Cantor_Self_Hosting_Ingestion_Proof.sop)
 - [`proofs/Cantor_Resident_Service_Proof.sop`](proofs/Cantor_Resident_Service_Proof.sop)
+- [`proofs/Cantor_Service_Backed_MCP_Proof.sop`](proofs/Cantor_Service_Backed_MCP_Proof.sop)
 - [`proofs/CEB_Deterministic_Baseline_Release_Audit.sop`](proofs/CEB_Deterministic_Baseline_Release_Audit.sop)
 
 1. [`SOP_CORE_MAP.sop`](SOP_CORE_MAP.sop) — authority and project map

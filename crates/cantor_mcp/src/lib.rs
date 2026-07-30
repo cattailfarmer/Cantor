@@ -9,7 +9,10 @@ use std::{fmt, fs::File, io::Read, path::Path, sync::Arc};
 
 use cantor_core::{
     EmbeddedRuntimeEnvironment, PreparedRuntime, ProtocolRequest, ProtocolResponse, ProtocolStatus,
-    preflight_runtime_environment,
+    SemanticId, preflight_runtime_environment,
+};
+use cantor_service::{
+    ServiceClient, ServiceDisposition, ServiceOperation, ServiceResponse, ServiceResult,
 };
 use rmcp::{
     ErrorData as McpError, ServerHandler,
@@ -30,7 +33,13 @@ pub const MAX_ENVIRONMENT_BYTES: usize = 67_108_864;
 
 #[derive(Clone, Debug)]
 pub struct CantorMcpServer {
-    runtime: Arc<PreparedRuntime>,
+    backend: RuntimeBackend,
+}
+
+#[derive(Clone, Debug)]
+enum RuntimeBackend {
+    Embedded(Arc<PreparedRuntime>),
+    Resident(Arc<ServiceClient>),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -61,16 +70,38 @@ impl CantorMcpServer {
             message: bounded_message(&fault.to_string()),
         })?;
         Ok(Self {
-            runtime: Arc::new(runtime),
+            backend: RuntimeBackend::Embedded(Arc::new(runtime)),
         })
     }
 
-    pub fn environment(&self) -> &EmbeddedRuntimeEnvironment {
-        self.runtime.environment()
+    pub fn from_service_config(config_path: &Path) -> Result<Self, StartupFault> {
+        let client =
+            Arc::new(ServiceClient::from_config(config_path).map_err(service_startup_fault)?);
+        let status_id = SemanticId::new("request:mcp_resident_startup")
+            .unwrap_or_else(|_| unreachable!("static startup identity is valid"));
+        let response = client
+            .send(ServiceOperation::Status, status_id)
+            .map_err(service_startup_fault)?;
+        require_status_result(&response)?;
+        Ok(Self {
+            backend: RuntimeBackend::Resident(client),
+        })
     }
 
-    pub fn runtime(&self) -> &PreparedRuntime {
-        &self.runtime
+    pub fn environment(&self) -> Option<&EmbeddedRuntimeEnvironment> {
+        self.runtime().map(PreparedRuntime::environment)
+    }
+
+    /// Returns the process-local runtime only when embedded mode owns one.
+    pub fn runtime(&self) -> Option<&PreparedRuntime> {
+        match &self.backend {
+            RuntimeBackend::Embedded(runtime) => Some(runtime),
+            RuntimeBackend::Resident(_) => None,
+        }
+    }
+
+    pub fn is_resident_backed(&self) -> bool {
+        matches!(self.backend, RuntimeBackend::Resident(_))
     }
 
     pub fn tool_definition() -> Tool {
@@ -114,8 +145,24 @@ impl CantorMcpServer {
                 return adapter_fault("invalid_arguments", bounded_message(&error.to_string()));
             }
         };
-        let response = self.runtime.execute(parsed.request);
-        protocol_result(response)
+        match &self.backend {
+            RuntimeBackend::Embedded(runtime) => protocol_result(runtime.execute(parsed.request)),
+            RuntimeBackend::Resident(client) => {
+                let request_id = parsed.request.request_id.clone();
+                match client.send(
+                    ServiceOperation::Execute {
+                        request: Box::new(parsed.request),
+                    },
+                    request_id,
+                ) {
+                    Ok(response) => service_protocol_result(response),
+                    Err(fault) => adapter_fault(
+                        "resident_service_transport_fault",
+                        bounded_message(&fault.to_string()),
+                    ),
+                }
+            }
+        }
     }
 }
 
@@ -126,11 +173,11 @@ impl ServerHandler for CantorMcpServer {
                 Implementation::new("cantor", env!("CARGO_PKG_VERSION"))
                     .with_title("Cantor signed semantic coprocessor")
                     .with_description(
-                        "Read-only access to a pinned, signed SOP environment through one deterministic tool.",
+                        "Read-only access to an operator-selected signed SOP runtime through one deterministic tool.",
                     ),
             )
             .with_instructions(
-                "Use query_sop when the subject may be governed by the loaded signed SOP environment and a trusted supervisor has supplied a ProtocolRequest template. This server does not mint caller identity, package bindings, environment digest, or authority scope; do not guess them. Treat structuredContent as the authoritative ProtocolResponse. On a fault, preserve its exit_class, faults, proof, and continuation; do not invent missing authority.",
+                "Use query_sop when the subject may be governed by the active signed SOP generation and a trusted supervisor has supplied a ProtocolRequest template. This server does not mint caller identity, package bindings, environment digest, or authority scope; do not guess them. Treat structuredContent as the authoritative ProtocolResponse. On a fault, preserve its exit_class, faults, proof, and continuation; do not invent missing authority.",
             )
     }
 
@@ -240,6 +287,50 @@ fn protocol_result(response: ProtocolResponse) -> CallToolResult {
         value["continuation"].as_str().unwrap_or("stop")
     );
     structured_result(value, response.status != ProtocolStatus::Success, summary)
+}
+
+fn service_protocol_result(response: ServiceResponse) -> CallToolResult {
+    if response.disposition == ServiceDisposition::Fault {
+        let message = response
+            .faults
+            .first()
+            .map(ToString::to_string)
+            .unwrap_or_else(|| "resident service returned a fault without detail".to_owned());
+        return adapter_fault("resident_service_fault", bounded_message(&message));
+    }
+    match response.result {
+        Some(ServiceResult::Protocol { response }) => protocol_result(*response),
+        _ => adapter_fault(
+            "unexpected_resident_service_result",
+            "resident service execute did not return a protocol result".to_owned(),
+        ),
+    }
+}
+
+fn require_status_result(response: &ServiceResponse) -> Result<(), StartupFault> {
+    if response.disposition == ServiceDisposition::Success
+        && matches!(response.result, Some(ServiceResult::Status { .. }))
+    {
+        return Ok(());
+    }
+    let message = response
+        .faults
+        .first()
+        .map(ToString::to_string)
+        .unwrap_or_else(|| {
+            "resident service startup probe returned an unexpected result".to_owned()
+        });
+    Err(StartupFault {
+        code: "resident_service_unready",
+        message: bounded_message(&message),
+    })
+}
+
+fn service_startup_fault(fault: cantor_service::ServiceFault) -> StartupFault {
+    StartupFault {
+        code: "resident_service_unready",
+        message: bounded_message(&fault.to_string()),
+    }
 }
 
 fn adapter_fault(code: &str, message: String) -> CallToolResult {

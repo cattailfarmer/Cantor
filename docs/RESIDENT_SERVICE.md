@@ -147,3 +147,18 @@ target\release\cantorctl.exe shutdown `
 
 The embedded `cantor` CLI and standalone `cantor-mcp` remain complete rollback
 paths. Service failure never authorizes fabricated SOP guidance.
+
+## Codex through the shared generation
+
+The existing one-tool MCP adapter can use this service without changing its
+model-callable surface:
+
+```powershell
+target\release\cantor-mcp.exe `
+  --service-config C:\Project\Cantor\.local\cantor-service\service.json
+```
+
+It authenticates and checks status before opening MCP STDIO, then delegates
+each unchanged `ProtocolRequest` through the pinned service client. Refresh
+remains operator-only. Stale request bindings fail closed; the MCP adapter
+does not guess a new environment digest or package set.

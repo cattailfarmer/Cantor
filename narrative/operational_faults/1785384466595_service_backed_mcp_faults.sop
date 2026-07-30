@@ -1,0 +1,39 @@
+Subject: Cantor Service-Backed MCP Operational Faults
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Service_Backed_MCP_Proof.sop
+
+& [FaultRecordIdentity] is the resolved backend-extension ledger
+  + [record_uuid] is 5cd5b24f-fa69-43af-813d-1793936f8bd6
+  + [captured_at_ms] is 1785384466595
+  + [status] is resolved_with_no_open_product_fault
+
+& [SilentRetargetRisk] is caught during design
+  + [observation] is the existing send_request helper rereads service configuration and capability on every invocation
+  + [risk] is a running MCP could silently change endpoint or token after configuration replacement
+  + [repair] is add ServiceClient that snapshots validated transport state and capability once
+  + [proof] is config changed to a different port while the existing MCP continued to reach only the originally pinned service
+  + [status] is resolved
+
+& [AbsentRuntimeOwnershipFault] is caught during API review
+  + [observation] is resident MCP owns no PreparedRuntime, so an unconditional runtime accessor would panic or misrepresent ownership
+  + [repair] is return Option from runtime and environment accessors and prove both are none in resident mode
+  + [status] is resolved
+
+& [StaleRequestTemptation] is rejected by refresh proof
+  + [observation] is service refresh could tempt the adapter to repair an old request digest
+  + [repair] is pass the request unchanged and assert its exact core trust failure before a newly supervisor-bound request succeeds
+  + [status] is resolved
+
+& [LifecycleToolExpansion] is rejected by boundary review
+  + [observation] is resident status, refresh, and shutdown exist but are not part of the model's semantic query authority
+  + [repair] is use status only at process startup and keep the published tool set exactly query_sop
+  + [status] is resolved
+
+& [ApplicationControlHarnessFault] is final release verification
+  + [observation] is Windows Application Control transiently blocked the first generated zero-test cantord release harness with operating-system error 4551 after compilation
+  + [isolation] is no test assertion, semantic response, source artifact, or production binary failed
+  + [first_repair] is rerun the exact cantord release target, which produced a different package-specific harness that executed successfully
+  + [persistence] is the full workspace continued selecting the one policy-denied hash even after a package-target clean and rebuild
+  + [final_repair] is improve the cantord invalid-argument diagnostic to state its loopback-only boundary, producing a new full-workspace binary, then rerun the complete release gate
+  + [status] is resolved

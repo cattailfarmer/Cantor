@@ -5,10 +5,10 @@ Subject: Cantor Engine Build Plan
 
 & [BuildPlanIdentity] is the dependency-ordered execution plan
   + [plan_uuid] is 7a5120ad-760e-48dc-97fe-7612c22d821e
-  + [plan_status] is ResidentService_complete
+  + [plan_status] is ServiceBackedMCP_complete
   + [completed] is Phase0 through Phase6 and CEB-001 through CEB-015
   + [active_phase] is none
-  + [next_candidate] is ServiceBackedMCP inactive until separate source preservation and SJS activation; Phase7RoutingExperiment remains blocked by labeled-corpus adoption gates
+  + [next_candidate] is SupervisedLocalServiceLifecycle inactive until separate source preservation and SJS activation; Phase7RoutingExperiment remains blocked by labeled-corpus adoption gates
   + [implementation_language] is safe Rust edition 2024
   + [initial_workspace] is one Cargo workspace with cantor_core, cantor_cli, and cantor_mcp
   + [work_rule] is implement and prove one contiguous slice before activating its dependent
@@ -110,6 +110,16 @@ Subject: Cantor Engine Build Plan
   + [decision] is activate bounded local cantord and cantorctl while retaining direct CLI and standalone MCP rollback
   @ [proof_record] C:\Project\Cantor\proofs\Cantor_Resident_Service_Proof.sop
   - never: infer remote service, sessions, notifications, faculties, effects, learned routing, or independent semantic authority
+
+& [ServiceBackedMCP] is project the shared generation to Codex
+  + [status] is complete
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
+  + [depends_on] is ReadOnlyMCP and ResidentService
+  + [actions] is add a process-pinned service client, mutually exclusive resident MCP startup mode, authenticated readiness, exact nested response projection, refresh visibility, and embedded rollback
+  + [proof] is config-retarget resistance, auth and availability faults, direct and cross-transport equality, live cantord plus real MCP subprocess, official client call, and old/new request behavior across refresh
+  + [decision] is activate --service-config without changing the one-tool model surface
+  @ [proof_record] C:\Project\Cantor\proofs\Cantor_Service_Backed_MCP_Proof.sop
+  - never: expose service status, refresh, shutdown, configuration, or capability as model-callable tools
 
 & [Phase8FPGAExecutionProfiles] is implement CEB-021 through CEB-030 only when separately activated
   + [depends_on] is stable software protocol, deterministic software oracle, measured workload, explicit device target, and hardware threat model

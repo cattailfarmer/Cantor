@@ -51,6 +51,19 @@ Run the server directly:
 .\target\release\cantor-mcp.exe --environment .local\cantor-demo\environment.json
 ```
 
+Or delegate through an already running bounded resident service:
+
+```powershell
+.\target\release\cantor-mcp.exe --service-config C:\Project\Cantor\.local\cantor-service\service.json
+```
+
+The two startup modes are mutually exclusive. Resident mode loads and pins the
+validated loopback endpoint, frame and timeout limits, and capability once,
+then performs an authenticated status exchange before opening MCP STDIO. A
+later edit to the configuration file cannot silently retarget the running MCP
+process. `cantord` may still activate a new complete generation through its
+separate operator protocol.
+
 STDOUT is reserved for MCP JSON-RPC frames. Startup and operational diagnostics
 go to STDERR. The process validates the environment version, byte limit,
 recognition certificates, trust policy, signatures, validity windows, scope,
@@ -75,6 +88,14 @@ remains the deterministic oracle and rollback. Trust time is still the pinned
 environment `now_epoch_seconds`, so a time or security-state change requires a
 new environment generation rather than mutation of the active runtime.
 
+In resident mode, the adapter owns no `PreparedRuntime`. Each valid tool call
+passes its unchanged `ProtocolRequest` to the pinned `cantord` client and
+projects only the exact nested `ProtocolResponse`. If the service refreshes,
+an old supervisor-issued request remains bound to its old environment and
+fails through the normal core protocol; the adapter never repairs it. A new
+supervisor-issued request with the new digest and package bindings can succeed
+without restarting MCP.
+
 ## Codex registration
 
 The operator may register the local subprocess with Codex:
@@ -82,6 +103,12 @@ The operator may register the local subprocess with Codex:
 ```powershell
 codex.cmd mcp add cantor -- .\target\release\cantor-mcp.exe --environment C:\absolute\path\to\environment.json
 codex.cmd mcp list
+```
+
+Resident registration uses:
+
+```powershell
+codex.cmd mcp add cantor -- .\target\release\cantor-mcp.exe --service-config C:\absolute\path\to\service.json
 ```
 
 This repository does not alter user or workspace Codex configuration
@@ -114,9 +141,11 @@ responsible for:
 - deciding which signing authorities enter the trust store; and
 - launching the process without an untrusted wrapper.
 
-The adapter has no network transport, write tool, package compiler, signing
-key, trust-store mutation, model inference, persistent database, mutable or
-cross-process shared state, unbounded cache, learned router, or FPGA path.
+The adapter has no write tool, package compiler, signing key, trust-store
+mutation, model inference, persistent database, unbounded cache, learned
+router, or FPGA path. Embedded mode has no network transport. Resident mode
+uses only the authenticated loopback protocol declared by
+`Cantor_Resident_Service.sop`; it exposes no lifecycle operation to the model.
 
 ## Limits
 

@@ -1,0 +1,86 @@
+Subject: Cantor Service-Backed MCP Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\ServiceBackedMCP.sop
+@ [matrix] C:\Project\Cantor\feature_support\ServiceBackedMCP_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Service_Backed_MCP_Solution.sop
+@ [evidence_manifest] C:\Project\Cantor\crates\cantor_mcp\evidence\service_backed_mcp_evidence_manifest.json
+
+& [ProofIdentity] is the service-backed MCP completion record
+  + [proof_uuid] is aa0be8cc-57dc-4f16-a6d3-3f39f0daf1cd
+  + [captured_at] is 2026-07-29
+  + [result] is passed_and_boundedly_activated
+  + [evidence_manifest_sha256] is D995058A3C729847592755BA9B378EAC345C3B01E2C579CBCD1B1F19B2E118CE
+
+& [AuthorityProof] is SBM-AC1
+  + [source_sha256] is 47368561C78F4428B08FE82FA049BFA018E00F1C9E619E48A8A459603FA9B467
+  + [exploded_sha256] is EA8B4273F85C8DE1EBAD33CE652BBCDC9B0D772F39708F90596DF556D12B119D
+  + [canonical_uuid] is 27a60f5b-4572-4b40-98bf-ec27cf44e0aa
+  + [satisfaction_signature_uuid] is e487b42f-25bf-430c-81ba-57b5bfc9c045
+  + [status] is passed
+
+& [StartupAndPinningProof] is SBM-001 and SBM-002
+  + [test] is resident_startup_fails_closed_and_startup_modes_are_mutually_exclusive
+  + [test] is resident_backend_is_exact_pinned_and_visibly_unavailable
+  + [proof] is missing, unknown, and mixed modes exit before MCP framing
+  + [proof] is bad capability fails the authenticated startup status probe
+  + [proof] is post-start config retarget cannot change a pinned ServiceClient
+  + [proof] is token absent from Debug and fault content
+  + [status] is passed
+
+& [ExactEquivalenceProof] is SBM-003
+  + [test] is adapter_result_is_exactly_core_equivalent
+  + [test] is resident_backend_is_exact_pinned_and_visibly_unavailable
+  + [comparison] is direct core equals embedded PreparedRuntime equals live service nested result equals MCP structured ProtocolResponse
+  + [status] is passed
+
+& [CombinedTransportProof] is SBM-004
+  + [test] is real_stdio_mcp_delegates_through_live_cantord
+  + [transport] is real cantord loopback server, real cantor-mcp child process, official Rust MCP client, tools/list, and tools/call
+  + [proof] is exactly one query_sop tool and exact direct ProtocolResponse
+  + [status] is passed
+
+& [RefreshProof] is SBM-005
+  + [test] is resident_backend_observes_refresh_without_rebinding_stale_requests
+  + [proof] is service generation replaced under exact compare without MCP restart
+  + [proof] is old request returned the exact new-environment core trust failure
+  + [proof] is newly bound request returned the exact new-environment core success
+  + [status] is passed
+
+& [FailureProof] is SBM-006
+  + [proof] is service unavailable after startup returns resident_service_transport_fault
+  + [proof] is authentication failure rejects MCP startup
+  + [proof] is no service failure becomes a fabricated ProtocolResponse
+  + [status] is passed
+
+& [ToolAndRollbackProof] is SBM-007 and SBM-008
+  + [test] is tool_metadata_declares_one_closed_read_only_operation
+  + [test] is real_stdio_server_lists_and_executes_the_tool
+  + [test] is real_mcp_process_returns_exact_self_hosted_cantor_quote
+  + [proof] is one closed read-only non-destructive idempotent tool
+  + [proof] is every prior embedded handler, subprocess, trust, malformed-input, and real self-hosted corpus path remains passing
+  + [status] is passed
+
+& [VerificationProof] is SBM-AC8
+  + [production] is formatting, warnings-denied all-target lint, 114 debug tests, 114 overflow-checked release tests, release all-target build, and documentation passed locked and offline
+  + [dependency_audit] is root 111-dependency lock scanned against 1173 RustSec advisories with zero vulnerabilities
+  + [unsafe] is forbidden
+  + [status] is passed
+
+& [GovernanceAndGitProof] is SBM-AC9
+  @ [file_change] C:\Project\Cantor\narrative\file_changes\1785384466595_service_backed_mcp_file_change.sop
+  @ [turn] C:\Project\Cantor\narrative\turns\1785384466595_cantor_service_backed_mcp.sop
+  @ [faults] C:\Project\Cantor\narrative\operational_faults\1785384466595_service_backed_mcp_faults.sop
+  + [checkpoint] is intentional repository commit after evidence and secret audit
+  + [status] is passed
+
+& [AcceptanceProof] is SBM-001 through SBM-008
+  + [SBM-001] is passed
+  + [SBM-002] is passed
+  + [SBM-003] is passed
+  + [SBM-004] is passed
+  + [SBM-005] is passed
+  + [SBM-006] is passed
+  + [SBM-007] is passed
+  + [SBM-008] is passed
+  = conclusion: Codex can use the unchanged one-tool MCP surface over one shared refreshable Cantor generation with pinned transport authority, exact semantic results, visible failures, and embedded rollback

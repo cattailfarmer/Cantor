@@ -1,0 +1,83 @@
+Subject: Cantor Service-Backed MCP
+
+Description: Optional resident-service execution for the unchanged one-tool read-only Cantor MCP adapter, with a pinned authenticated service client, startup readiness proof, exact ProtocolResponse projection, and embedded rollback.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_service_backed_mcp_activation\Dictated_Cantor_Service_Backed_MCP_Activation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_service_backed_mcp_activation\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Service_Backed_MCP.exploded.sop
+@ [existing_MCP] C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+@ [resident_service] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+
+& [CanonicalIdentity] is the bounded backend-extension authority
+  + [canonical_specification_uuid] is 27a60f5b-4572-4b40-98bf-ec27cf44e0aa
+  + [service_profile] is cantor-resident-service/0.1
+  + [adapter_profile] is cantor-mcp-adapter/0.1
+  + [tool_set] is exactly query_sop
+  + [effect_boundary] is read_only
+  + [status] is authorized
+
+& [BackendSelection] is strict process startup
+  + [embedded] is exactly --environment plus one path
+  + [resident] is exactly --service-config plus one absolute path
+  = must: reject missing, duplicate, mixed, or unknown startup arguments
+  = must: preserve embedded behavior without semantic or schema change
+
+& [ResidentServiceClient] is pinned process-lifetime transport state
+  + [construction] is complete strict service configuration and capability loading once
+  + [pinned] is loopback address, frame bound, read timeout, write timeout, and capability
+  + [startup_probe] is one authenticated Status operation before MCP STDIO service begins
+  + [request_identity] is the unchanged inner ProtocolRequest request_id
+  + [execution] is one authenticated Execute operation
+  = must: verify service protocol and response request identity
+  = must: exclude capability from Debug, faults, MCP content, and arguments
+  - never: reread changed client configuration during a running MCP process
+
+& [ProjectionContract] is exact
+  + [success] is ServiceDisposition Success with ServiceResult Protocol
+  + [structured_content] is the nested unchanged ProtocolResponse
+  + [semantic_error] is the nested ProtocolResponse with its original status, exit class, faults, proof, and continuation
+  + [service_error] is a bounded adapter fault with service code and stage but no fabricated semantic response
+  + [unexpected_result] is a bounded adapter fault
+  = must: retain the existing output schema, concise text summary, and MCP error marking
+
+& [RefreshContract] is fail-closed visibility
+  + [service] may atomically activate a new generation under resident-service authority
+  + [MCP] performs no refresh and owns no activation policy
+  + [old_request] against a new generation returns the exact core trust or binding failure
+  + [new_request] with supervisor-issued new bindings may succeed without MCP restart
+  - never: repair stale environment or package expectations
+
+& [ToolBoundary] is unchanged
+  + [published_tools] is one query_sop
+  + [model_callable_lifecycle] is none
+  + [model_callable_configuration] is none
+  + [model_callable_secrets] is none
+  = must: keep annotations read_only, non_destructive, idempotent, and closed_world
+
+& [RequirementSet] is traceable
+  + [SBM-001] is strict mutually exclusive startup
+  + [SBM-002] is pinned authenticated service client and startup readiness
+  + [SBM-003] is exact cross-path ProtocolResponse equality
+  + [SBM-004] is real live cantord plus MCP STDIO proof
+  + [SBM-005] is refresh visibility with old-binding failure and new-binding success
+  + [SBM-006] is visible bounded service and transport faults
+  + [SBM-007] is unchanged one-tool metadata and authority
+  + [SBM-008] is embedded rollback
+
+& [SJSProcessingTrace] is seven-fold
+  + [fold_1_subject] is make Cantor useful to Codex as one basic tool
+  + [fold_2_boundary] is adapter backend only while semantics and lifecycle authority remain elsewhere
+  + [fold_3_data] is startup mode, pinned client, status response, execute request, service response, ProtocolResponse, and adapter fault
+  + [fold_4_governance] is source preservation, mutual exclusion, token secrecy, startup readiness, exact delegation, request binding, and rollback
+  + [fold_5_solution] is ServiceClient, backend enum, strict main arguments, equivalence tests, live process test, docs, and proof
+  + [fold_6_fault_review] is silent retarget, token leak, unavailable service, bad auth, stale request, wrong result, schema drift, and embedded regression
+  + [fold_7_lock] is one read-only query_sop tool with two operator-selected execution backends
+
+& [SatisfactionSignature] is valid implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is e487b42f-25bf-430c-81ba-57b5bfc9c045
+  + [source_snapshot_uuid] is ed7d02a0-190f-4f3f-b0c8-0cfba102aacb
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
+  + [processed_stage_set] is source_preserved, prior_authority_verified, boundary_formed, data_formed, security_reviewed, requirements_mapped, justified, and signed
+  + [signature_status] is valid_for_service_client_and_MCP_backend_only
+  + [implementation_authority] is cantor_service_ServiceClient_and_cantor_mcp_resident_backend_tests_docs_proof
