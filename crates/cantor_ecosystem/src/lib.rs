@@ -17,6 +17,7 @@ pub mod review;
 pub mod runtime;
 pub mod topology_forms;
 pub mod transcript;
+pub mod windows_entry_policy;
 pub mod workspace_admission;
 
 pub use adapter::*;
@@ -28,6 +29,7 @@ pub use review::*;
 pub use runtime::*;
 pub use topology_forms::*;
 pub use transcript::*;
+pub use windows_entry_policy::*;
 pub use workspace_admission::*;
 
 /// Version of the bounded supervised mock-loop profile.
