@@ -1,0 +1,263 @@
+Subject: Cantor Candidate Seal and Independent Review
+
+Description: Formation contract for converting one stopped disposable candidate into immutable physical evidence, separately executed supervisor-test evidence, and an independent non-promotional judgment. This specification grants no implementation, test execution, cleanup, or promotion authority.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_candidate_seal_review\Cantor_Phase3C_Candidate_Seal_Review_Source_Selection.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_candidate_seal_review\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Candidate_Seal_Review_Boundary_Assessment_2026-07-30.sop
+@ [phase_3A] C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
+@ [phase_3B] C:\Project\Cantor\specifications\Cantor_Bounded_Candidate_Mutation.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Candidate_Seal_And_Independent_Review.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Candidate_Seal_And_Independent_Review_Justification.sop
+@ [matrix] C:\Project\Cantor\feature_support\CandidateSealAndIndependentReview_Requirement_Matrix.sop
+
+& [CandidateSealAndIndependentReview] is a three-capability evidence pipeline
+  + [profile] is cantor-candidate-seal-review/0.1
+  + [phase_3C1] is QuiesceAndSeal
+  + [phase_3C2] is SupervisorTest
+  + [phase_3C3] is IndependentReview
+  + [input] is one exact Phase3A receipt, Phase3B run record or quarantine prefix, physical candidate, commission, and preadmitted output roots
+  + [output] is one SealRecord, optional TestRecord, and ReviewRecord or a typed fault
+  + [later_consumer] is separately governed Phase3D
+  - never: combine capability tokens or return a promoted artifact
+
+& [SealCommission] is the complete supervisor instruction
+  + [seal_uuid] and [correlation_uuid] are canonical identities
+  + [admission_receipt_sha256] and [mutation_record_sha256] bind upstream evidence
+  + [candidate_workspace] and [base_commit] and [branch_ref] equal upstream records
+  + [allowed_relative_paths] exactly equal the Phase3A path policy
+  + [purpose] and [acceptance_criteria] and [proof_obligations] are exact
+  + [seal_root_receipt] binds one empty operator-prepared output root
+  + [capture_policy] fixes allowed file kinds, maximum paths, per-file bytes, aggregate bytes, inventory bytes, and elapsed time
+  + [test_plan_digest] and [review_program_digest] bind later capabilities
+  = must: reject unknown fields, defaults, empty identities, duplicate sets, mismatched upstream facts, and authority expansion
+
+& [CapabilitySeparation] is structural
+  + [sealer] may read the stopped candidate and write only staged and final content-addressed capsule paths
+  + [test_runner] may read the sealed capsule and write only one disposable reconstruction plus test evidence root
+  + [reviewer] may read immutable capsule and test evidence and write only one decision record
+  + [promoter] is absent
+  = must: use distinct capability identities, process identities, roots, state transitions, and evidence
+  - never: pass a mutable workspace handle to the reviewer
+
+& [QuiescenceGate] makes capture meaningful
+  + [Phase3B_terminal] is exact and successful or exact quarantined termination
+  + [App_Server_child] is exited and reaped
+  + [descendant_account] proves no surviving owned process
+  + [candidate_root] is exact and canonical
+  + [HEAD] and [branch_ref] and [Git_common_dir] equal Phase3A
+  + [index_tree] equals the exact base tree
+  + [status] is expected dirty only in the worktree
+  + [inventory_before] and [inventory_after] are byte-equivalent around capture
+  + [consistency_class] is os_snapshot_proven or quiescent_double_inventory
+  + [residual_uncertainty] states that double inventory does not exclude an undetected transient external writer
+  = must: quarantine on unknown process ownership, repository drift, index drift, or inventory drift
+  - never: infer quiescence from turn completion alone
+
+& [RepositoryObservationPlan] is fixed and read-only
+  + [Git_executable] is the exact Phase3A-admitted path, digest, and version
+  + [commands] observe top-level, common dir, Git dir, HEAD, full branch ref, index tree, porcelain-v2 status including untracked and ignored paths, tracked diff, worktree inventory, and submodule state
+  + [launch] is direct argument vectors with closed stdin and no shell
+  + [environment] disables hooks, prompts, pager, editor, replacement objects, optional locks, and network-facing helpers
+  + [resources] bound process count, stdout, stderr, aggregate bytes, and monotonic elapsed time
+  - never: invoke add, commit, reset, checkout, switch, clean, worktree mutation, maintenance, remote, or any Git writer
+
+& [DirectFilesystemInventory] is the physical authority surface
+  + [walk_root] is the exact candidate root
+  + [excluded_entry] is only the exact linked-worktree .git control file after separate identity validation
+  + [path] is normalized, canonicalized through every existing ancestor, case-accounted, and reconciled under candidate root
+  + [file_kind] is regular_file, directory, or forbidden_special
+  + [regular_file] binds relative path, mode, length, streaming SHA-256, and bounded content reference
+  + [directory] binds relative path and emptiness
+  + [deletion] is derived only by reconciliation against the base tree
+  + [untracked_and_ignored] remain first-class effects
+  = must: reject symlink, junction, mount, reparse point, hard-link alias, alternate data stream, device, socket, pipe, and unknown kind in profile 0.1
+  = must: reject any path outside the exact allowed-path policy
+
+& [ChangeReconciliation] is complete or faults
+  + [base_tree] is the exact immutable Git tree at Phase3A base commit
+  + [index_tree] must equal base_tree
+  + [Git_change_set] includes modified, added, deleted, untracked, ignored, type, and mode observations
+  + [physical_change_set] compares direct current records with exact base records
+  + [agreement] requires equal path identities, change kinds, modes, and current byte identities
+  + [empty_directory] is recorded but is not a Git content change
+  + [outside_change] produces quarantine and no partial seal
+  - never: accept only the worker-declared or event-declared change set
+
+& [CandidatePathRecord] is one sealed path fact
+  + [relative_path] is canonical UTF-8 under the candidate root
+  + [change_kind] is add, modify, delete, or mode_change
+  + [file_kind] is regular_file or deleted_regular_file
+  + [base_mode] and [current_mode] are explicit
+  + [base_length] and [current_length] are explicit when present
+  + [base_sha256] and [current_sha256] are explicit when present
+  + [blob_sha256] equals current_sha256 for present content
+  + [source_event_refs] may cite Phase3B events but do not define the record
+  = must: use sorted unique path order and canonical absent-field representation
+
+& [CandidateCapsuleManifest] is the immutable review subject
+  + [profile] and [capsule_uuid] and [seal_uuid] and [correlation_uuid] are exact
+  + [upstream] binds Phase3A request and receipt plus Phase3B request, run record, worker report, and raw-event digests
+  + [repository] binds exact tool, roots, base, HEAD, branch, common dir, Git dir, index, and inventory digests
+  + [changes] are complete sorted CandidatePathRecords
+  + [blobs] are sorted unique content-addressed changed-file bytes
+  + [resources] bind processes, paths, bytes, blobs, and elapsed budget
+  + [capture] binds before and after inventory digests
+  + [consistency_class] records whether capture used a proven platform snapshot or bounded double inventory
+  + [immutability_class] is content_addressed_verified or platform_enforced
+  + [uncertainties] are explicit and empty only when proven
+  + [manifest_sha256] is over canonical manifest content without self-reference
+  - never: contain an approval, test-success, or promotion claim
+
+& [SealRootAdmission] constrains evidence writes
+  + [root] is absolute, canonical, operator-prepared, empty, private, and outside principal, candidate, Git common dir, system temp, and all source roots
+  + [terminal_path] is not a link or reparse point
+  + [capacity] and [permissions] meet declared bounds
+  + [receipt] binds root identity immediately before staging
+  + [single_use] is enforced by seal UUID
+  - never: create or select an arbitrary root from model output
+
+& [CapsulePublication] is atomic and content-addressed
+  + [staging_root] is a unique private descendant of the admitted seal root
+  + [write_order] is blobs, manifest, capture certificate, then directory verification
+  + [durability] flushes file and directory state where the target platform supports a proven primitive
+  + [verification] reopens and rehashes every artifact
+  + [final_name] is the lowercase manifest SHA-256
+  + [publish] is one atomic same-volume rename from verified staging to final name
+  + [collision] succeeds only when every existing byte is identical
+  + [permissions] deny mutation by the worker identity and are reobserved
+  + [default_immutability] is content-addressed tamper evidence verified on every read
+  + [platform_immutability] may be claimed only after a separately proven storage primitive
+  = must: leave no valid SealRecord on any partial or ambiguous publication
+
+& [CaptureCertificate] is provenance without approval
+  + [profile] binds exact sealer implementation and schema
+  + [capsule_manifest_sha256] and [artifact_set_sha256] bind publication
+  + [sealer_executable_sha256] and [environment_sha256] bind the producer
+  + [key_id] and [signature] use a distinct operator-admitted sealer key
+  + [meaning] is captured-by and intact, not accepted-by
+  = must: keep key provisioning, rotation, revocation, and custody outside model authority
+
+& [SealRecord] is the Phase3C1 result
+  + [capsule_path] is the exact final content-addressed path
+  + [manifest_sha256] and [certificate_sha256] are exact
+  + [upstream_digests] and [capture_resources] are exact
+  + [state] is sealed or quarantined
+  + [candidate_disposition] remains preserve_without_cleanup
+  - never: name a mutable candidate path as the sealed review subject
+
+& [SupervisorTestPlan] is predeclared proof work
+  + [plan_uuid] and [capsule_manifest_sha256] are exact
+  + [reconstruction_root_receipt] binds one separate empty disposable root
+  + [commands] are ordered exact executable path and digest, argument vector, cwd, allowed environment, expected exit, timeout, and output bounds
+  + [sandbox] is a separately proven workspace-write profile with network false and no repository or seal-root writes
+  + [process_budget] and [aggregate_budget] are exact
+  + [artifact_policy] names allowed generated paths without changing the source capsule
+  - never: accept shell text, model-selected tests, inherited credentials, prompts, hooks, or implicit network
+
+& [CapsuleReconstruction] is deterministic and disposable
+  + [base] is reconstructed from the exact base commit using the admitted Git executable
+  + [apply] uses only capsule records and blob bytes
+  + [result_digest] is computed by the same direct inventory grammar
+  + [equality] requires exact equality with the capsule's current source projection
+  + [test_workspace] is distinct from principal, candidate, common dir, seal root, and source roots
+  = must: fail before tests on any reconstruction mismatch
+
+& [SupervisorTestRecord] is observation rather than truth
+  + [profile] and [plan_digest] and [capsule_manifest_sha256] are exact
+  + [environment] binds OS, toolchain, executable, sandbox, and allowed-variable digests
+  + [reconstruction_digest] binds the tested source
+  + [executions] bind exact command, cwd, lifecycle, stdout and stderr digests, exit, duration, and resource account
+  + [generated_artifacts] are accounted separately from sealed source
+  + [result] is passed, failed, faulted, or incomplete
+  + [record_sha256] is canonical and self-excluding
+  - never: generalize beyond the declared plan and environment
+
+& [IndependentReviewProgram] is exact and consequence-scaled
+  + [program_uuid] and [version] and [digest] are exact
+  + [inputs] are capsule, capture certificate, supervisor-test record, purpose, criteria, obligations, and admitted read-only SOP counsel
+  + [mandatory_checks] are integrity, lineage, allowed paths, no special files, base and index invariants, complete tests, criterion coverage, proof coverage, contradiction, uncertainty, and absence of promotion authority
+  + [independence] excludes the mutating worker, mutable candidate, test workspace, signing key, and promotion capability
+  + [optional_model_review] is one separately pinned read-only context after deterministic admission
+  = must: deterministic failures cannot be overridden by model opinion
+
+& [IndependentReviewRecord] is an attributable judgment
+  + [review_uuid] and [review_program_digest] are exact
+  + [capsule_manifest_sha256] and [test_record_sha256] bind subjects
+  + [reviewer_identity] and [independence_mode] are exact
+  + [checks] cite exact evidence and return pass, fail, unknown, or not_applicable
+  + [findings] preserve severity, subject address, criterion, evidence, and remediation
+  + [unresolved] preserves uncertainty
+  + [disposition] is eligible_for_Phase3D_consideration, revise_in_new_candidate, reject, or quarantine
+  + [record_sha256] is canonical and self-excluding
+  - never: emit commit, merge, push, deploy, activation, cleanup, or current-authority instructions
+
+& [Phase3CLifecycle] is one-way
+  + [Admitted] permits only strict validation
+  + [Quiescing] permits process and repository observation
+  + [Capturing] permits bounded read-only candidate capture
+  + [Publishing] permits only admitted seal-root writes
+  + [Sealed] freezes Phase3C1
+  + [Reconstructing] and [Testing] use only the separate test capability
+  + [Tested] freezes Phase3C2
+  + [Reviewing] uses only immutable inputs
+  + [Reviewed] freezes Phase3C3 for Phase3D handoff
+  + [Quarantined] preserves candidate and evidence without cleanup
+  + [Unresolved] preserves a review or infrastructure gap
+  = must: prohibit reverse transitions, overwrite, silent retry, and artifact substitution
+
+& [Phase3CFault] is typed and consequence-aware
+  + [class] is input, upstream, quiescence, repository, inventory, path, file_kind, budget, seal_root, publication, durability, signature, reconstruction, sandbox, test, review, or internal
+  + [operation] and [message] and [physical_ids] are bounded
+  + [candidate_may_differ] is true whenever capture did not prove stable equality
+  + [partial_artifact] is never a valid capsule
+  + [quarantine_required] is true for physical, publication, reconstruction, and authority uncertainty
+  + [evidence_prefix] is immutable
+  - never: automatically clean or retry after a fault
+
+& [Phase3DHandoff] is evidence only
+  + [required] is valid capsule, valid test record, valid independent review record, and exact digest linkage
+  + [eligible] means a later commissioned authority may consider promotion
+  + [ineligible] preserves records and physical candidate for operator disposition
+  + [promotion_profile] is absent here
+  - never: stage, sign as semantic authority, commit, merge, push, deploy, migrate, activate, or delete
+
+& [RequirementSet] is traceable formation
+  + [CSR-001] is preserve source, research, and Phase3A and Phase3B lineage
+  + [CSR-002] is bind one strict commission to exact upstream evidence and roots
+  + [CSR-003] is separate sealer, test runner, reviewer, and promoter capabilities
+  + [CSR-004] is prove process quiescence and stable before-after inventories
+  + [CSR-005] is preserve exact repository, base, ref, index, and Git-tool invariants
+  + [CSR-006] is directly inventory every candidate path including untracked and ignored effects
+  + [CSR-007] is reject outside-policy, link, alias, reparse, special-file, and unknown states
+  + [CSR-008] is reconcile Git, base-tree, and physical change sets completely
+  + [CSR-009] is publish canonical manifest and blobs atomically to an admitted external seal root
+  + [CSR-010] is sign capture provenance without implying approval
+  + [CSR-011] is reconstruct exact sealed source in a separate disposable test workspace
+  + [CSR-012] is run only a supervisor-authored exact sandboxed test plan
+  + [CSR-013] is bind complete environment, execution, resource, and result evidence
+  + [CSR-014] is independently review immutable evidence with deterministic non-waivable gates
+  + [CSR-015] is preserve uncertainty and use non-promotional dispositions
+  + [CSR-016] is quarantine faults without cleanup, retry, overwrite, or reuse
+  + [CSR-017] is hand only digest-linked evidence to a separately governed Phase3D
+  + [CSR-018] is preserve every prior interface, proof, and rollback
+
+& [SJSProcessingTrace] is complete for formation
+  + [fold_1_subject] is one stopped disposable candidate transformed into immutable evidence and independent judgment
+  + [fold_2_boundary] is capture, reconstruction-test, and review inside; worker self-certification, cleanup, and promotion outside
+  + [fold_3_data_design] is commission, quiescence, inventory, path record, manifest, blob, certificate, seal record, test plan, test record, review program, review record, and fault
+  + [fold_4_governance] is capability separation, exact upstream binding, physical evidence, immutable publication, supervisor-selected tests, independent review, and no promotion
+  + [fold_5_solution_shape] is validate, quiesce, inventory twice, reconcile, publish, reconstruct, test, review, and hand off
+  + [fold_6_fault_review] is lingering writer, snapshot drift, ignored file, link escape, index mutation, partial seal, key misuse, test mutation, self-review, false acceptance, and cleanup
+  + [fold_7_phase_lock] is formation is signed while implementation, live sealing, tests, review execution, and Phase3D remain blocked
+
+& [FormationSignature] is design authority only
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 41fb35cf-8c3b-4179-a51d-dad96e77a8a9
+  + [source_snapshot_uuid] is 6d1b82d2-c059-4d42-bceb-fddbcd082141
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Candidate_Seal_And_Independent_Review.sop
+  + [processed_stage_set] is source_selected, source_preserved, boundaries_researched, capabilities_delineated, quiescence_formed, inventory_formed, publication_formed, tests_separated, review_separated, faults_reviewed, justified, feature_sliced, and formation_signed
+  + [signature_status] is valid_for_Phase3C_formation_only
+  + [implementation_authority] is absent
+  + [activation_prerequisites] is exact inventory grammar, target-host quiescence proof, seal-root atomicity and durability proof, deterministic reconstruction, contained test-runner formation, independent-review fixtures, Phase3D handoff formation, and renewed satisfaction signature
+  + [invalidation_condition] is source change, upstream profile drift, hidden writer, incomplete inventory, mutable capsule, self-selected proof, reviewer capability overlap, cleanup inference, or promotion inference

@@ -1,0 +1,94 @@
+Subject: Cantor Candidate Seal and Independent Review Exploded Specification
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_candidate_seal_review\Cantor_Phase3C_Candidate_Seal_Review_Source_Selection.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Candidate_Seal_And_Independent_Review.sop
+
+& [PurposeAxis] separates questions
+  + [seal_question] is what exact stopped physical state was captured
+  + [test_question] is what exact supervisor execution observed
+  + [review_question] is how that evidence satisfies the commission
+  + [promotion_question] is outside this profile
+
+& [CapabilityAxis] prevents self-certification
+  + [sealer] reads candidate and writes capsule only
+  + [test_runner] reads capsule and writes reconstruction and test record only
+  + [reviewer] reads immutable evidence and writes decision only
+  + [promoter] is absent
+
+& [UpstreamAxis] closes substitution
+  + [Phase3A] binds repository, base, branch, candidate, policy, Git, and clean entry
+  + [Phase3B] binds commission, worker, sandbox, events, report, resources, and terminal state
+  + [Phase3C] accepts exact digests rather than restated claims
+
+& [QuiescenceAxis] closes moving subjects
+  + [child] is terminal and reaped
+  + [descendants] are absent by owned-process account
+  + [repository] has unchanged HEAD, branch, common dir, Git dir, and base index
+  + [inventory] is equal before and after byte capture
+  + [consistency_class] distinguishes proven platform snapshot from bounded double inventory
+  + [residual] preserves the transient-external-writer limitation
+  + [drift] quarantines
+
+& [InventoryAxis] joins logical and physical views
+  + [Git] observes base, index, tracked, untracked, ignored, mode, and submodule facts
+  + [direct_walk] observes every current path, kind, mode, length, and bytes digest
+  + [base_tree] supplies expected prior tracked content
+  + [reconciliation] must produce one complete equal change set
+
+& [PathAxis] is fail-closed
+  + [relative_paths] are normalized canonical UTF-8
+  + [allowed_set] is inherited exactly from Phase3A
+  + [root] is exact candidate
+  + [special] and [link] and [alias] and [reparse] and [ADS] are rejected in profile 0.1
+  + [deletion] and [empty_file] and [ignored_file] are explicit
+
+& [ContentAxis] is exact
+  + [base] is mode, length, and SHA-256 when present
+  + [current] is mode, length, and SHA-256 when present
+  + [blob] is exact present changed bytes
+  + [order] is canonical sorted unique
+  + [budget] is path, per-file, aggregate, manifest, and elapsed
+
+& [PublicationAxis] protects the seal
+  + [root] is preadmitted, private, empty, and outside all repositories and temp
+  + [staging] is private and single-use
+  + [verification] is complete read-back
+  + [rename] is same-volume atomic publication
+  + [identity] is manifest digest
+  + [certificate] attests capture only
+  + [immutability] is tamper-evident by default and physically immutable only under separately proven storage
+
+& [ReconstructionAxis] keeps tests from changing evidence
+  + [workspace] is separate and disposable
+  + [base] is exact commit
+  + [overlay] is only sealed paths and blobs
+  + [equality] uses the same inventory grammar
+  + [mismatch] stops before execution
+
+& [TestAxis] is supervisor-owned
+  + [plan] predates execution and binds exact programs and environment
+  + [launch] is direct without shell
+  + [sandbox] denies repository, seal-root, credential, temp-escape, and network effects
+  + [record] preserves every command and result
+  + [claim] is limited to the declared plan and environment
+
+& [ReviewAxis] is independent
+  + [input] is immutable capsule and verified test record
+  + [deterministic_gates] cannot be waived
+  + [model_commentary] is optional subordinate evidence
+  + [unknown] remains explicit
+  + [eligible] means only eligible for Phase3D consideration
+
+& [StateAxis] is one-way
+  + [sequence] is Admitted, Quiescing, Capturing, Publishing, Sealed, Reconstructing, Testing, Tested, Reviewing, and Reviewed
+  + [fault_targets] are Quarantined or Unresolved
+  + [forbidden] is reverse, retry, overwrite, cleanup, reuse, and promotion
+
+& [VerificationAxis] is activation-blocked
+  + [schema_fixtures] cover strict input, canonical bytes, digest linkage, capability substitution, and state transitions
+  + [inventory_fixtures] cover tracked, untracked, ignored, delete, empty, mode, case, link, reparse, hard link, ADS, special, and drift
+  + [publication_fixtures] cover partial write, hash mismatch, collision, permission, durability, and atomic rename
+  + [test_fixtures] cover reconstruction, malicious test, network, credential, timeout, output, descendant, and generated artifacts
+  + [review_fixtures] cover failed gate, unknown, disagreement, self-review, rewritten evidence, and promotion language
+  + [physical_proof] requires disposable roots and no user data
+  - never: execute a live seal or test under formation authority

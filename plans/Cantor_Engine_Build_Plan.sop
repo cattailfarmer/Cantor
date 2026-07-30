@@ -5,10 +5,10 @@ Subject: Cantor Engine Build Plan
 
 & [BuildPlanIdentity] is the dependency-ordered execution plan
   + [plan_uuid] is 7a5120ad-760e-48dc-97fe-7612c22d821e
-  + [plan_status] is BoundedCandidateMutation_formation_complete
+  + [plan_status] is CandidateSealAndIndependentReview_formation_complete
   + [completed] is Phase0 through Phase6 and CEB-001 through CEB-015
   + [active_phase] is none_between_proven_slices
-  + [next_candidate] is Phase3C immutable seal and independent-review formation plus Phase3B target-host sandbox fixture design; workspace write remains inactive until separately signed
+  + [next_candidate] is Phase3B target-host sandbox fixture and Phase3C inventory-publication fixture design without live write, seal, or test execution
   + [implementation_language] is safe Rust edition 2024
   + [initial_workspace] is one Cargo workspace with cantor_core, cantor_cli, and cantor_mcp
   + [work_rule] is implement and prove one contiguous slice before activating its dependent
@@ -178,6 +178,17 @@ Subject: Cantor Engine Build Plan
   + [activation_blockers] is physical Windows allowed-and-denied sandbox matrix, world-writable setup proof, mutable event fixtures, Phase3C sealer contract, supervisor-test contract, and renewed satisfaction signature
   + [next_dependency_work] is form Phase3C and design the non-production target-host fixture without executing a write
   - never: infer implementation authority from formation, or let Phase3B seal, review, clean, accept, commit, push, merge, activate, or promote its own result
+
+& [CandidateSealAndIndependentReview] is form immutable evidence without activating effects
+  + [status] is formation_complete_implementation_blocked
+  @ [formation_authority] C:\Project\Cantor\specifications\Cantor_Candidate_Seal_And_Independent_Review.sop
+  + [depends_on] is CandidateWorkspaceAdmission complete and BoundedCandidateMutation formed
+  + [capabilities] is separate quiesce-and-seal, supervisor-test, independent-review, and absent promoter
+  + [formed_actions] is prove quiescence, reconcile exact Git and physical state, publish content-addressed capture evidence, reconstruct elsewhere, execute supervisor-authored tests, review immutable evidence, and hand only eligibility evidence to Phase3D
+  + [honesty] is double inventory is not an atomic snapshot and content addressing is tamper evidence rather than physical immutability unless stronger platform primitives are separately proven
+  + [activation_blockers] is inventory grammar, target-host quiescence, seal-root atomicity and durability, reconstruction, contained test runner, independent-review fixtures, Phase3D handoff, and renewed satisfaction signature
+  + [next_dependency_work] is design non-live physical fixtures and capability APIs without launching a writer, sealer, test, reviewer, or cleanup
+  - never: infer implementation, live sealing, test execution, current authority, cleanup, Git-history mutation, or promotion
 
 & [Phase8FPGAExecutionProfiles] is implement CEB-021 through CEB-030 only when separately activated
   + [depends_on] is stable software protocol, deterministic software oracle, measured workload, explicit device target, and hardware threat model

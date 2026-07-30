@@ -1,0 +1,75 @@
+Subject: Cantor Candidate Seal and Independent Review Boundary Assessment
+
+Description: Non-authoritative design assessment for turning a stopped disposable candidate into reviewable immutable evidence without allowing the mutating worker to certify or promote itself.
+
+& [AssessmentIdentity] is a local architecture review
+  + [assessment_uuid] is f3dff46f-0c69-4da2-9992-bb478245c3dd
+  + [captured_at] is 2026-07-30
+  + [status] is sufficient_for_formation_not_implementation
+
+& [CoreFinding] is that seal, test, and review are different trust transitions
+  + [seal] answers what physical candidate state was captured
+  + [test] answers what exact supervisor-selected executions observed on a reconstruction
+  + [review] answers whether evidence satisfies the commission strongly enough for later promotion consideration
+  + [promotion] remains a fourth transition outside Phase3C
+  - never: collapse integrity, behavior, judgment, and effect authorization into one success flag
+
+& [ConsistencyFinding] is that a directory walk is not inherently a snapshot
+  + [risk] is a lingering process can alter bytes between inventory and hashing
+  + [minimum_gate] is Phase3B child and descendant quiescence plus two bounded equivalent physical inventories around capture
+  + [stronger_future_gate] is an OS or filesystem snapshot primitive proven on the target host
+  + [honesty] is equal inventories reduce detected drift but do not prove that no transient external writer existed between observations
+  + [record] must name the achieved consistency class and its residual uncertainty
+  + [failure_semantics] is any drift quarantines the candidate and invalidates the attempted capsule
+
+& [RepositoryFinding] is that Git status is necessary but insufficient
+  + [Git_strength] is canonical base, ref, index, tracked, untracked, ignored, and mode comparison
+  + [Git_limit] is it does not independently prove every current filesystem byte, alias, special file, or out-of-tree target
+  + [direct_strength] is exact path normalization, file-kind inspection, byte length, streaming SHA-256, and optional bounded byte capture
+  + [reconciliation] is Git and direct inventory must agree on the entire admitted change set
+
+& [IndexFinding] is that candidate staging is forbidden
+  + [reason] is Phase3B has no Git-history or index mutation authority
+  + [gate] is the candidate index tree must still equal the exact base tree
+  + [result] is the capsule describes worktree changes relative to base without inheriting a worker-curated staging area
+
+& [IgnoredFileFinding] is that ignored additions remain effects
+  + [risk] is ordinary status output may hide generated, secret, or malicious files
+  + [gate] is ignored and untracked records are inventoried explicitly and reconciled with a bounded direct walk
+  + [policy] is any undeclared ignored or out-of-policy path quarantines
+
+& [CapsuleFinding] is that a hash alone is not durable review material
+  + [manifest] binds upstream receipts, run record, repository invariants, path records, byte digests, content references, capture resources, and faults
+  + [blobs] preserve exact changed regular-file bytes under digest-derived identities
+  + [publication] requires private staging, full read-back verification, atomic final naming, and collision equality
+  + [signature] proves which admitted sealer captured which capsule but does not approve contents
+  + [immutability] is content-addressed tamper evidence unless a separately proven platform primitive makes the storage physically immutable
+
+& [TestFinding] is that tests commonly mutate their workspace
+  + [risk] is build output can contaminate the source seal or test scripts can escape
+  + [boundary] is seal source first, reconstruct elsewhere, run an exact supervisor plan under separately proven containment, and retain its record separately
+  + [honesty] is a passing test proves only the declared execution under the captured environment
+  + [blocker] is test-runner sandbox and reconstruction formation before implementation
+
+& [ReviewFinding] is that independence is structural rather than rhetorical
+  + [minimum] is a separate deterministic verifier with immutable input and no candidate-write or promotion capability
+  + [model_review] may add semantic criticism through a new read-only context but cannot override failed deterministic gates
+  + [output] is eligibility for later consideration, not current authority
+  + [uncertainty] must survive as explicit unresolved findings
+
+& [RecommendedStateMachine] is one-way
+  + [Admitted] moves to Quiescent only after exact-process closure
+  + [Quiescent] moves to Capturing only after repository and filesystem preflight
+  + [Capturing] moves to Sealed only after complete digest and publication verification
+  + [Sealed] moves to Tested only through a separate reconstruction and test capability
+  + [Tested] moves to Reviewed only through an independent reviewer
+  + [any_fault] moves to Quarantined or Unresolved without cleanup
+  + [Reviewed] may only hand an immutable decision to Phase3D
+
+& [ImplementationBlockers] are explicit
+  + [blocker_1] is exact cross-platform path, link, special-file, mode, ignored-file, and inventory grammar
+  + [blocker_2] is target-host quiescence and snapshot-consistency proof
+  + [blocker_3] is seal-root admission, atomic publication, durability, permissions, and collision contract
+  + [blocker_4] is deterministic reconstruction from base plus exact capsule
+  + [blocker_5] is separately contained supervisor-test runner and malicious-test fixtures
+  + [blocker_6] is independent-review criteria, provenance, and Phase3D handoff contract

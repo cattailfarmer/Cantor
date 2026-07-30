@@ -131,6 +131,10 @@ not proof of preventive filesystem containment; a physical Windows sandbox
 matrix and a separately governed immutable sealer and reviewer must pass
 before any workspace-write implementation can be activated.
 
+Phase 3C is likewise formation-only. It separates physical capture,
+supervisor-owned tests over a reconstruction, and immutable-input review.
+A seal means “captured intact,” not “correct,” “accepted,” or “promoted.”
+
 Run the proof and fixture-only CLI demonstration locally:
 
 ```powershell
