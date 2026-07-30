@@ -1,0 +1,28 @@
+Subject: Cantor M2B Pure Stream Information Parser Solution
+
+& [SolutionIdentity] is complete
+  + [solution_uuid] is 3bb91af2-bc81-4159-8c70-3b5d6e64d2ba
+  + [authority_signature_uuid] is 4c36dfd3-93b4-4654-b8f7-5031d0ec83cc
+  + [implementation_commit] is 02d750d5a5b039a1ca26d106fb4eb6e334454c69
+  + [profile] is cantor-windows-stream-info-parser/0.1
+
+& [SolutionShape] is pure and checked
+  + little-endian scalar decoding uses slices and value conversion without pointer casting
+  + offsets use checked arithmetic, exact forward progress, and eight-byte alignment
+  + positive even bounded name lengths decode strict UTF-16LE
+  + names match exact default or named DATA-stream grammar
+  + nonnegative sizes release as u64
+  + terminal record exhausts the exact region
+  + alignment padding is skipped without interpretation
+
+& [Verification] is complete
+  + [focused] is 8 parser plus 1 static test in both profiles
+  + [global] is 280 passed and 1 governed physical test ignored in both profiles
+  + [format_lint_build_docs_audit] are passed
+  + [evidence] is current and clone-portable
+
+& [Effects] are absent
+  + zero Windows calls, handles, pointers, unsafe, filesystem, Cargo, lockfile, state, and physical claims
+
+& [Nonclaim] is mandatory
+  - never: cite parser success as an API call, successful or complete physical enumeration, named-stream admission, topology traversal, or receipt authority

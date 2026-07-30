@@ -1,0 +1,50 @@
+Subject: Cantor M2B Pure Stream Information Parser Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Pure_Stream_Information_Parser.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Pure_Stream_Information_Parser_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BPureStreamInformationParser_Completion_Review.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_stream_info_parser_evidence_manifest.json
+
+& [ProofIdentity] is complete
+  + [proof_uuid] is e735b8d5-e836-4141-b7a4-fa7ba6ec7e7e
+  + [authority_signature_uuid] is 4c36dfd3-93b4-4654-b8f7-5031d0ec83cc
+  + [solution_uuid] is 3bb91af2-bc81-4159-8c70-3b5d6e64d2ba
+  + [implementation_commit] is 02d750d5a5b039a1ca26d106fb4eb6e334454c69
+  + [status] is passed
+  + [evidence_manifest_schema] is cantor-windows-stream-info-parser-evidence-manifest/0.1
+  + [evidence_manifest_uuid] is 263b3f53-8f37-4c4d-b465-c92733e95781
+  + [evidence_manifest_sha256] is B0C4B24E52A9114187A029F57FF354CB61FFF7EBDE1E36D20E1A0C5C7191F300
+  + [evidence_manifest_bytes] is 14791
+  + [evidence_artifacts] is 37
+
+& [ChainProof] is exact
+  + [header] is 24 little-endian bytes decoded without pointer casts
+  + [offsets] use checked arithmetic, forward progress, eight-byte alignment, and region containment
+  + [names] use positive even byte lengths, caller unit bounds, strict UTF-16LE, and exact DATA-stream grammar
+  + [sizes] reject negative signed values before u64 release
+  + [terminal] requires exact region exhaustion
+  + [padding] is ignored between a valid name end and its valid next offset
+  + [partial_release] is absent on every fault
+
+& [VerificationProof] is complete
+  + [focused_debug] is 8 parser plus 1 static passed
+  + [focused_overflow_checked_release] is 8 parser plus 1 static passed
+  + [evidence_debug_and_release] are 1 passed each
+  + [workspace_debug] is 280 passed and 1 governed physical test ignored
+  + [workspace_overflow_checked_release] is 280 passed and 1 governed physical test ignored
+  + [format_lint_release_build_warnings_denied_docs] are passed
+  + [audit] is 113 locked packages against 1174 advisories with zero vulnerabilities
+
+& [NoEffectProof] is structural
+  + [module_sha256] is A4C968AFA570827C0A9E61B2B2DEFABF55E4EBD9EAABBD180E91794F69A2E732
+  + [unsafe_pointer_Windows_call_filesystem_Cargo_lock_delta] are zero
+  + [complete_enumeration_stream_admission_traversal_physical_claim] are false
+  + [evidence] is 37 clone-portable exact artifacts with current rehash proof
+
+& [OperationalFaultProof] is honest
+  + first focused run rejected two incorrect fixture-stage expectations and one Clippy style form
+  + no malformed parser result or effect escaped
+  + corrected fixtures and standard alignment predicate pass in both profiles
+
+& [Nonclaim] is mandatory
+  - never: cite this proof as GetFileInformationByHandleEx execution, API success, complete physical stream enumeration, filesystem stream support, named-stream admission, topology traversal, receipt production, or additional effect authority
