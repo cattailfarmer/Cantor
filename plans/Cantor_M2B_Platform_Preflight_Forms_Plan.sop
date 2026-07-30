@@ -1,0 +1,20 @@
+Subject: Plan for Cantor M2B Platform Preflight Forms
+
+& [PlanIdentity] is pure implementation only
+  + [profile] is cantor-windows-platform-preflight/0.1
+  + [authority_required] is valid SJS signature
+
+& [Step01] verify authority and clean code boundary
+& [Step02] make the existing volume-GUID validator crate-visible without changing semantics
+& [Step03] implement one strict effect-free platform_preflight_forms module
+& [Step04] export the module and vocabulary from cantor_ecosystem
+& [Step05] add focused tests for profile, target, paths, outcomes, faults, complete records, dispositions, bounds, and strict JSON
+& [Step06] statically reject windows-sys, unsafe, filesystem, handle, FFI, process, environment, clock, random, network, persistence, fixture, candidate, scanner, and receipt effects
+& [Step07] run focused debug and overflow-checked release proof
+& [Step08] run global debug, overflow-checked release, format, lint, build, docs, and audit
+& [Step09] regenerate every affected evidence manifest in dependency order
+& [Step10] close solution, proof, completion review, readiness, narrative, map, reentry, and publication
+
+& [StopRule] is strict
+  + [stop] on any Windows function call, unsafe, Cargo change, physical observation, semantic contradiction, or failed gate
+  + [repair] requires source preservation and SJS revision

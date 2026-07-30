@@ -1,0 +1,176 @@
+Subject: Exploded Cantor M2B Platform Preflight Forms
+
+& [ExplosionIdentity] is phase locked
+  + [explosion_uuid] is 7cce284a-0721-48d8-bcf5-dd3754f00a85
+  + [profile] is cantor-windows-platform-preflight/0.1
+  + [phase] is seven_fold_phase_locked
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_preflight_forms\Cantor_M2B_Platform_Preflight_Forms_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_preflight_forms\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Windows_Platform_Preflight_Forms_Assessment_2026-07-30.sop
+@ [completed_review] C:\Project\Cantor\feature_support\reviews\M2BWindowsSysCompileProbeLockRevision_Completion_Review.sop
+
+& [BoundaryFormation] separates three layers
+  + [pure_form] validates supplied machine records without observation
+  + [physical_preflight] later opens one root and performs bounded Win32 queries
+  + [topology_scanner] later traverses a root and issues a receipt
+  + [authority] this explosion reaches only pure_form
+
+& [AtomicRequirementSet] is complete
+  + [M2B-PF-001] preserves selected source, official research, completed-work review, and SJS lineage
+  + [M2B-PF-002] fixes profile 0.1 and initial target x86_64-pc-windows-msvc
+  + [M2B-PF-003] validates canonical extended-DOS drive input roots
+  + [M2B-PF-004] models exactly open_fault, query_fault, and complete outcomes
+  + [M2B-PF-005] reuses strong root identity and canonical volume-GUID final-path semantics
+  + [M2B-PF-006] validates complete bounded volume information
+  + [M2B-PF-007] validates bounded remote-protocol header information
+  + [M2B-PF-008] enforces exact complete-outcome disposition relations
+  + [M2B-PF-009] enforces nonzero faults, closed query stages, and no admitted partial evidence
+  + [M2B-PF-010] rejects unknown JSON, unknown variants, NUL, blank required text, and resource excess
+  + [M2B-PF-011] proves zero Win32, unsafe, filesystem, process, environment, clock, random, network, persistence, fixture, candidate, scanner, and receipt effects
+  + [M2B-PF-012] closes focused, global, lint, release, docs, audit, evidence, rollback, registry, and support review
+
+& [ProfileAtom] is exact
+  + [profile] is cantor-windows-platform-preflight/0.1
+  + [target] is x86_64-pc-windows-msvc
+  + [other_target] rejects
+
+& [InputPathAtom] is lexical
+  + [prefix] is exactly extended DOS drive syntax
+  + [drive] is uppercase A through Z followed by colon and backslash
+  + [components] are nonempty and backslash separated
+  + [forbidden] is relative, drive-relative, ordinary DOS, UNC, volume GUID, device, NT, forward slash, NUL, dot, dot-dot, repeated separator, and trailing separator
+  + [maximum_UTF8_bytes] is 32768
+  + [existence] is not checked
+
+& [OutcomeAtom] is closed
+  + [open_fault] contains profile, target, input root, and nonzero Win32 error
+  + [query_fault] contains profile, target, input root, one query stage, and nonzero Win32 error
+  + [complete] contains profile, target, input root, root identity, final volume-GUID path, volume, remote protocol, and disposition
+  + [partial_evidence] is absent from both fault shapes
+
+& [QueryStageAtom] is closed
+  + [file_id_info] is selected
+  + [final_volume_guid_path] is selected
+  + [volume_information] is selected
+  + [remote_protocol_information] is selected
+
+& [VolumeAtom] is complete
+  + [volume_name] may be empty but not contain NUL and is at most 1024 UTF-8 bytes
+  + [volume_serial_number] is u32 without permanence claim
+  + [maximum_component_length] is 1 through 32767
+  + [file_system_flags] is u32 raw evidence
+  + [file_system_name] is nonblank, NUL-free, ASCII, and at most 64 bytes
+
+& [RemoteProtocolAtom] is bounded
+  + [structure_version] is 1 or 2
+  + [structure_size] is 116
+  + [protocol] is u32
+  + [protocol_major_version] is u16
+  + [protocol_minor_version] is u16
+  + [protocol_revision] is u16
+  + [flags] is u32
+  + [reserved_fields] are not admitted
+
+& [DispositionAtom] is relational
+  + [eligible_local_ntfs] requires filesystem name exactly NTFS and protocol zero
+  + [reject_remote_protocol] requires protocol nonzero regardless of filesystem name
+  + [reject_unsupported_file_system] requires protocol zero and filesystem name other than NTFS
+  + [query_fault] is indeterminate and has no disposition
+  + [open_fault] is indeterminate and has no disposition
+
+& [IdentityAtom] is reused
+  + [root_identity] is StrongFileIdentity with 64-bit volume serial and 32-character lowercase file ID hex
+  + [final_path] uses the TopologyReceipt 0.2 volume-GUID grammar
+  + [identity_lifetime] is scan-local and not permanent
+  + [cross_serial_equivalence] between u64 FileIdInfo serial and u32 volume-information serial is not asserted
+
+& [DataDesignModel] is typed evidence
+  + [sum_type] ensures a fault cannot carry a complete observation
+  + [complete_product] ensures an accepted observation cannot omit a required query value
+  + [closed_enums] constrain outcome, query stage, and disposition
+  + [shared_identity] prevents semantic drift from TopologyReceipt
+  + [shared_final_path_grammar] prevents duplicate path meaning
+  + [strict_decoder] combines serde unknown-field rejection and semantic validation
+
+& [ConstraintLedger] is fail closed
+  + [C-01] one new safe-Rust module and one lib export are the only production code changes
+  + [C-02] no Cargo or lock change
+  + [C-03] no windows-sys reference in the new production module
+  + [C-04] no unsafe token in the new production module
+  + [C-05] no filesystem or OS observation type or function
+  + [C-06] no complete record with inconsistent disposition
+  + [C-07] no fault record with error zero
+  + [C-08] no query fault outside the four closed stages
+  + [C-09] no partial query values in fault records
+  + [C-10] no unbounded or NUL-bearing text
+  + [C-11] no physical, runtime, local-NTFS, or remote-classification claim
+  + [C-12] every affected manifest is regenerated after narrative closure
+
+& [FailureModeSet] is explicit
+  + [F-01] unsupported profile or target admits
+  + [F-02] unsafe lexical input root admits
+  + [F-03] malformed strong identity or volume-GUID final path admits
+  + [F-04] incomplete volume or remote record admits
+  + [F-05] remote protocol is labeled eligible
+  + [F-06] non-NTFS local protocol is labeled eligible
+  + [F-07] NTFS local protocol is labeled unsupported
+  + [F-08] zero error or unknown stage admits
+  + [F-09] JSON smuggles unknown fields or variants
+  + [F-10] forms are misreported as physical evidence
+
+& [VerificationProgram] is ordered
+  + [V-01] prove exact profile and target
+  + [V-02] test accepted and rejected extended-DOS root forms
+  + [V-03] test open and query faults with strict no-partial shapes
+  + [V-04] test exact eligible local NTFS complete record
+  + [V-05] test remote and unsupported-filesystem rejections
+  + [V-06] test every cross-field disposition contradiction
+  + [V-07] test identity, final path, scalar, text, NUL, and JSON boundaries
+  + [V-08] statically prove forbidden effect surface absent
+  + [V-09] run global debug, overflow-checked release, lint, build, docs, and audit
+  + [V-10] regenerate evidence and close solution, proof, review, narrative, and reentry
+
+& [SemanticRefinementTrace] is exact
+  + [preflight_form] is supplied evidence validation, not observation
+  + [open_fault] means no valid root handle exists for later queries
+  + [query_fault] means a handle may have opened but complete evidence was not admitted
+  + [complete] means all specified values were supplied and coherent, not that Cantor observed them
+  + [eligible] is a pure relation over supplied values, not runtime authorization
+  + [protocol_zero] is a declared policy inference with an explicit invalidation condition
+
+& [ConstraintCheckTrace] is grounded
+  + [completed_probe] proves declarations only and motivates the next boundary
+  + [Microsoft_volume_docs] define complete volume outputs and SMB non-support
+  + [Microsoft_final_path_docs] define volume-GUID shape and network-share failure
+  + [Microsoft_file_info_docs] bind FileRemoteProtocolInfo and FileIdInfo structures
+  + [existing_forms] supply proven strong identity and final-path grammar
+
+& [PruningTrace] removes overreach
+  + [pruned] Windows function calls
+  + [pruned] handle ownership
+  + [pruned] pointer and buffer mechanics
+  + [pruned] partial evidence
+  + [pruned] broad target support
+  + [pruned] recursive topology data
+  + [pruned] physical fixture and scanner claims
+
+& [FoldTrace] is seven-fold
+  + [fold_1_intent] freeze preflight meaning before observation
+  + [fold_2_terms] form, observation, eligibility, runtime authority, and scanner authority are distinct
+  + [fold_3_relations] outcome sum type and disposition relations preserve completeness
+  + [fold_4_constraints] paths, text, scalars, variants, and effects are bounded
+  + [fold_5_failures] ten invalidation paths are explicit
+  + [fold_6_verification] ten ordered proof gates are explicit
+  + [fold_7_nonclaims] no path, handle, call, local-NTFS fact, scanner, or receipt exists
+
+& [ExhaustionReview] is phase locked
+  + [source] preserved
+  + [API_meaning] researched
+  + [machine_shape] complete
+  + [cross_relations] complete
+  + [fault_shape] complete
+  + [resource_boundary] complete
+  + [effect_boundary] complete
+  + [runtime_safety] intentionally deferred
+  + [state] is seven_fold_phase_locked

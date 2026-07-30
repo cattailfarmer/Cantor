@@ -1,0 +1,167 @@
+Subject: Cantor M2B Platform Preflight Forms
+
+Description: Canonical implementation authority for strict, effect-free machine forms that distinguish Windows root-open failure, query failure, and complete platform-preflight evidence. This specification does not authorize a Windows function call, handle operation, filesystem observation, or topology scan.
+
+& [CanonicalIdentity] is the platform-preflight form specification
+  + [canonical_uuid] is dca17a3e-41a6-4e82-80ef-bfde772b991b
+  + [version] is 0.1
+  + [profile] is cantor-windows-platform-preflight/0.1
+  + [lifecycle_state] is accepted
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_preflight_forms\Cantor_M2B_Platform_Preflight_Forms_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_preflight_forms\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Windows_Platform_Preflight_Forms_Assessment_2026-07-30.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Platform_Preflight_Forms.exploded.sop
+@ [exploded_sha256] 975edf7603c4af9ab3661bb3fba85954582ed812a55592be2a663c5168372a98
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Platform_Preflight_Forms_Justification.sop
+@ [justification_sha256] e66eeabdf067da7fcd2ac10b651d0960ffa724ce87654558690b39b692962229
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Platform_Preflight_Forms_Plan.sop
+@ [plan_sha256] ad598bd69d75a5106079b1549ec42c15f1ec729ffdd80c7b1142cac4810353f6
+@ [matrix] C:\Project\Cantor\feature_support\M2BPlatformPreflightForms_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BPlatformPreflightForms.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Platform_Preflight_Forms_Registry.sop
+@ [registry_sha256] 2bcd8a360b9fdf20626c0f4568bb99eed54e39f8b7fb6e606489b05c49c84b66
+@ [fault_ledger] C:\Project\Cantor\narrative\operational_faults\1785441000000_m2b_platform_preflight_forms_faults.sop
+
+& [AuthorizedFileSet] is exact
+  + [new_module] is crates/cantor_ecosystem/src/platform_preflight_forms.rs
+  + [validator_visibility] is one pub(crate) visibility change in crates/cantor_ecosystem/src/topology_forms.rs
+  + [module_export] is one module and public vocabulary re-export in crates/cantor_ecosystem/src/lib.rs
+  + [governance_files] are source, canonical, exploded, justification, plan, matrix, slice, registry, evidence, solution, proof, review, fault, file-change, turn, map, narrative, and reentry records
+  - never: change Cargo.toml or Cargo.lock
+  - never: change an existing topology-form validation rule
+
+& [ProfileContract] is exact
+  + [profile] is cantor-windows-platform-preflight/0.1
+  + [target_triple] is x86_64-pc-windows-msvc
+  + [other_profile_or_target] rejects
+
+& [InputRootContract] is lexical
+  + [syntax] is extended-DOS uppercase drive absolute path
+  + [prefix] is exactly \\?\
+  + [drive] is uppercase A through Z followed by colon and backslash
+  + [root_form] may end after the drive-root separator
+  + [descendant_form] has nonempty backslash-separated components and no trailing separator
+  + [maximum_UTF8_bytes] is 32768
+  + [forbidden] is relative, drive-relative, ordinary DOS, UNC, volume GUID, device, NT, forward slash, NUL, dot, dot-dot, repeated separator, and trailing descendant separator
+  + [existence_check] is absent
+
+& [OutcomeContract] is one closed sum
+  + [open_fault] contains only profile, target triple, input root, and nonzero Win32 error
+  + [query_fault] contains only profile, target triple, input root, one closed query stage, and nonzero Win32 error
+  + [complete] contains profile, target triple, input root, root identity, canonical volume-GUID final path, volume information, remote-protocol information, and disposition
+  + [partial_evidence_in_fault] is structurally absent
+
+& [QueryStageContract] is closed
+  + [file_id_info] is admitted
+  + [final_volume_guid_path] is admitted
+  + [volume_information] is admitted
+  + [remote_protocol_information] is admitted
+  + [other_stage] rejects
+
+& [IdentityContract] reuses proven meaning
+  + [root_identity] is StrongFileIdentity with a 64-bit volume serial and exactly 16 identity bytes encoded as 32 lowercase hexadecimal characters
+  + [root_volume_guid_path] uses the TopologyReceipt 0.2 canonical volume-GUID grammar
+  + [identity_lifetime] is scan-local and not permanent
+  + [serial_equivalence] between FileIdInfo u64 and volume-information u32 is not asserted
+
+& [VolumeInformationContract] is complete
+  + [volume_name] may be empty, must be NUL-free, and is at most 1024 UTF-8 bytes
+  + [volume_serial_number] is an unqualified u32 observation
+  + [maximum_component_length] is 1 through 32767
+  + [file_system_flags] is raw u32 evidence
+  + [file_system_name] is nonblank, NUL-free ASCII of at most 64 bytes
+
+& [RemoteProtocolContract] is bounded
+  + [structure_version] is 1 or 2
+  + [structure_size] is 116
+  + [protocol] is u32
+  + [protocol_major_version] is u16
+  + [protocol_minor_version] is u16
+  + [protocol_revision] is u16
+  + [flags] is u32
+  + [reserved_fields] are not admitted
+
+& [DispositionContract] is relational
+  + [eligible_local_ntfs] requires file_system_name exactly NTFS and protocol zero
+  + [reject_remote_protocol] requires protocol nonzero regardless of filesystem name
+  + [reject_unsupported_file_system] requires protocol zero and file_system_name other than NTFS
+  + [fault_outcomes] have no disposition
+  + [protocol_zero] is a policy inference that must be invalidated if target-host evidence or primary documentation contradicts it
+
+& [StrictDecoderContract] is fail closed
+  + [unknown_field] rejects
+  + [unknown_variant] rejects
+  + [semantic_validation] runs after deserialization
+  + [NUL] rejects in every text field
+  + [error_zero] rejects in every fault
+  + [inconsistent_disposition] rejects
+
+& [EffectContract] is zero
+  + [Win32_call] is absent
+  + [windows_sys_reference] is absent from the new production module
+  + [unsafe] is absent
+  + [filesystem] is absent
+  + [handle] is absent
+  + [FFI] is absent
+  + [process_environment_clock_random_network_persistence] are absent
+  + [fixture_candidate_scanner_receipt] effects are absent
+  + [physical_claim] is absent
+
+& [RequirementSet] is M2B-PF-001 through M2B-PF-012
+  + [lineage] preserves source, research, exploded meaning, justification, plan, registry, and completed dependency
+  + [shape] fixes profile, target, root, outcomes, query stages, evidence products, and dispositions
+  + [strictness] fixes bounds, unknown rejection, nonzero faults, completeness, and cross-field validation
+  + [effects] fixes a pure supplied-record validator with no observation
+  + [closure] requires focused, global, release, lint, docs, audit, evidence, rollback, registry, and support proof
+
+& [Acceptance] is exact
+  + [focused] every valid and invalid form class passes in debug and overflow-checked release
+  + [static] forbidden effect surfaces are absent from the new module and code delta
+  + [Cargo] manifest and lock deltas are zero
+  + [global] debug, overflow-checked release, format, lint, build, rustdoc, and audit pass
+  + [evidence] every affected evidence manifest is regenerated in dependency order
+  + [closure] solution, proof, completion review, readiness, narrative, map, reentry, and publication are current
+
+& [AuthorityBoundary] is pure forms only
+  + [allowed] is strict safe-Rust data types, validation, JSON decoding, deterministic tests, visibility-only validator reuse, export, evidence, and proof
+  + [forbidden] is Windows API invocation, pointer, buffer, handle, filesystem observation, runtime probe, root eligibility authorization, topology traversal, receipt issuance, fixture, candidate, sandbox, mutation, seal, cleanup, launch, promotion, or physical-readiness claim
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is raw source plus immutable manifest
+  + [delineated] is pure form, physical preflight, and topology scanner separated
+  + [exploded] is twelve requirements, twelve constraints, ten failures, and ten verification gates
+  + [semantically_refined] is form, fault, completeness, eligibility, identity, and nonclaim meaning
+  + [constraint_checked] is official API meaning, completed ABI probe, existing forms, and effect boundary
+  + [pruned] is function calls, handles, pointers, partial evidence, broad targets, recursive topology, and physical claims
+  + [data_design_checked] is closed outcome sum, complete products, closed enums, shared identity, and strict decoder
+  + [exhaustion_reviewed] is seven_fold_phase_locked
+  + [justified] is claim, support, counterargument, invalidation, and rollback
+  + [planned] is ordered authority, implementation, verification, evidence, and publication work
+  + [registry_recorded] is graph-addressable node, edge, term, and nonedge lineage
+
+& [SignatureEvidenceTable] binds every stage
+  + [source_preserved] is Source_Document_Manifest.sop
+  + [delineated] is exploded BoundaryFormation
+  + [exploded] is Cantor_M2B_Platform_Preflight_Forms.exploded.sop
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded PruningTrace
+  + [data_design_checked] is exploded DataDesignModel
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Platform_Preflight_Forms_Justification.sop
+  + [planned] is Cantor_M2B_Platform_Preflight_Forms_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Platform_Preflight_Forms_Registry.sop
+
+& [SatisfactionSignature] is valid implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is ad8dc3de-b45a-48c7-aebd-4bc47018ccf2
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Platform_Preflight_Forms.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Forms.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_preflight_forms\Cantor_M2B_Platform_Preflight_Forms_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 39bc12cb-04ad-41fa-861d-8aaaa57e3738
+  + [implementation_authority] is pure_effect_free_platform_preflight_forms_only
+  + [signature_status] is valid
+  + [invalidation_condition] is source change, official semantic contradiction, form inconsistency, effect surface, Cargo delta, physical observation, runtime overclaim, stale evidence, missing trace, or failed gate

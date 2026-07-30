@@ -1,0 +1,69 @@
+Subject: Raw Source Selection for Cantor M2B Platform Preflight Forms
+
+Captured: 2026-07-30
+Conversation: cab190f5-eda0-44e0-81a5-51f9605e0baa
+Source type: manager-selected dependency-ready slice after completed-work review
+
+Preserve this source separately from canonical and exploded specifications.
+
+The completed no-call Windows ABI probe proves that the exact generated
+declarations are available. It does not define a sufficiently strict machine
+record for the first target-host platform observation and it does not authorize
+calling those declarations.
+
+Select one pure safe-Rust slice before any physical preflight:
+
+- define profile cantor-windows-platform-preflight/0.1;
+- admit only the initial target triple x86_64-pc-windows-msvc;
+- validate an initial lexical root only in canonical extended-DOS drive form;
+- model three closed outcomes:
+  1. open_fault, containing the attempted root and nonzero Win32 error;
+  2. query_fault, containing the attempted root, one closed failed stage, and
+     nonzero Win32 error, with no partial observations;
+  3. complete, containing strong root identity, canonical volume-GUID final
+     path, complete volume information, remote-protocol information, and one
+     disposition;
+- reuse StrongFileIdentity and the exact volume-GUID path grammar from the
+  proven TopologyReceipt 0.2 vocabulary;
+- define query stages for FileIdInfo, final volume-GUID path, volume
+  information, and remote-protocol information;
+- define complete volume information as volume name, 32-bit
+  operating-system-assigned serial, maximum component length, filesystem
+  flags, and filesystem name;
+- define remote information as structure version, structure size, protocol,
+  protocol version tuple, and flags, excluding reserved bytes;
+- define dispositions:
+  - eligible_local_ntfs only when filesystem name is exactly NTFS and a
+    successful remote-protocol observation reports protocol zero;
+  - reject_remote_protocol only when the successful remote observation reports
+    a nonzero protocol;
+  - reject_unsupported_file_system only when remote protocol is zero and the
+    filesystem name is not NTFS;
+- require remote structure version 1 or 2 and structure size 116;
+- bound all text, reject NUL, reject unknown JSON fields and variants, and
+  reject any inconsistent outcome/disposition combination;
+- expose strict decoding and validation;
+- prove the forms through focused positive, negative, cross-field, resource,
+  and strict-JSON tests.
+
+Keep the slice effect-free:
+
+- no windows-sys import in production source;
+- no unsafe;
+- no std::fs, path existence check, handle, FFI, process, environment, clock,
+  random, network, persistence, fixture, candidate, or scanner operation;
+- no Win32 call;
+- no runtime wrapper;
+- no topology traversal or receipt issuance;
+- no physical platform claim.
+
+The official API assessment is a research input. Its statement that protocol
+zero represents absence of a declared remote protocol is explicitly a policy
+inference from the nonzero documented WNNC_NET_* provider-family values, not a
+quoted Microsoft guarantee. A later physical preflight must invalidate or
+revise the policy if target evidence contradicts it.
+
+After this source is processed through SJS and signed, implement one small
+machine-form module, export it from cantor_ecosystem, run focused and global
+proof, regenerate affected evidence, and complete a support review before
+forming any physical Win32-call source.

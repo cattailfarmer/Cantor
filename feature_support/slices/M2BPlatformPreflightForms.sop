@@ -1,0 +1,25 @@
+Subject: M2B Platform Preflight Forms Slice
+
+& [SliceIdentity] is bounded
+  + [slice] is M2BPlatformPreflightForms
+  + [profile] is cantor-windows-platform-preflight/0.1
+  + [depends_on] is completed M2BWindowsSysCompileProbeLockRevision
+  + [authority_state] is signed_pure_implementation_authority
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Forms.sop
+
+& [Signature] is bound
+  + [signature_uuid] is ad8dc3de-b45a-48c7-aebd-4bc47018ccf2
+  + [implementation_authority] is pure_effect_free_platform_preflight_forms_only
+
+& [Files] are closed
+  + [production] crates/cantor_ecosystem/src/platform_preflight_forms.rs
+  + [production] crates/cantor_ecosystem/src/topology_forms.rs visibility-only reuse
+  + [production] crates/cantor_ecosystem/src/lib.rs export-only
+  + [records] governed source, SJS, evidence, solution, proof, review, narrative, and reentry
+
+& [Boundary] is pure
+  + [Win32_call] is absent
+  + [unsafe] is absent
+  + [filesystem] is absent
+  + [physical_claim] is absent

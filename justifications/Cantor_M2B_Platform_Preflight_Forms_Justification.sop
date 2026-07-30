@@ -1,0 +1,36 @@
+Subject: Justification for Cantor M2B Platform Preflight Forms
+
+& [Claim] is narrow
+  + [statement] implement strict effect-free platform-preflight records before authorizing any physical Win32 preflight
+  + [confidence] is high
+
+& [Support] is concrete
+  + [dependency] exact generated ABI surface is already proven
+  + [gap] no canonical record currently separates open failure, query failure, complete evidence, and disposition
+  + [official_docs] define volume, final-path, file-identity, and remote-protocol query outputs
+  + [existing_semantics] StrongFileIdentity and canonical volume-GUID path are already proven
+
+& [WhyBeforeCalls] is governance critical
+  + [reason] a probe that designs its record after observing the host can hide missing fields or normalize inconvenient failures
+  + [result] the later physical probe must satisfy a fixed complete-or-fault contract
+
+& [WhySumType] is honesty preserving
+  + [reason] partial query output can be mistaken for complete admission
+  + [result] open_fault and query_fault structurally cannot carry complete evidence
+
+& [Counterarguments] are answered
+  + [counterargument] call the APIs and print arbitrary JSON first
+  + [answer] arbitrary output is not a stable semantic or proof contract
+  + [counterargument] fold preflight directly into the scanner
+  + [answer] platform eligibility and recursive topology correctness are separate gates
+  + [counterargument] protocol zero is definitively local
+  + [answer] it is a bounded policy inference and must be invalidated on contradictory target evidence
+
+& [Invalidation] is explicit
+  + [condition] source change, official semantic contradiction, inconsistent form, effect surface, failed test, stale evidence, or runtime overclaim
+  + [response] stop and reprocess before physical continuation
+
+& [Rollback] is direct
+  + [module] remove platform_preflight_forms.rs
+  + [export] remove the lib.rs module and re-export
+  + [state] no migration exists

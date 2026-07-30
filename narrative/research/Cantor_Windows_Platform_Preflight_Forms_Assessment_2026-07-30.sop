@@ -1,0 +1,63 @@
+Subject: Cantor Windows Platform Preflight Forms Assessment
+
+& [ResearchIdentity] is bounded
+  + [research_uuid] is 9a4cdea2-684d-4382-8660-c967b4f48af8
+  + [captured_at] is 2026-07-30
+  + [purpose] is define the pure evidence shape that must exist before any target-host Win32 preflight call is authorized
+  + [runtime_execution] is absent
+
+& [OfficialSourceSet] is primary
+  + [GetVolumeInformationByHandleW] is https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew
+  + [GetFinalPathNameByHandleW] is https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew
+  + [GetFileInformationByHandleEx] is https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex
+  + [FILE_REMOTE_PROTOCOL_INFO] is https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_remote_protocol_info
+  + [FILE_INFO_BY_HANDLE_CLASS] is https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ne-minwinbase-file_info_by_handle_class
+  + [CreateFile] is https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea
+  + [BY_HANDLE_FILE_INFORMATION] is https://learn.microsoft.com/en-us/windows/win32/api/fileapi/ns-fileapi-by_handle_file_information
+
+& [VolumeFinding] is exact
+  + [function] GetVolumeInformationByHandleW retrieves volume name, operating-system-assigned volume serial number, maximum component length, filesystem flags, and filesystem name for the volume associated with a handle
+  + [success] is nonzero only when all requested information is retrieved
+  + [SMB] volume management functions are not supported for SMB 3.0 variants in the documented support table
+  + [form_consequence] complete evidence must carry every requested scalar and string; a failed call carries only a bounded stage and error code
+
+& [FinalPathFinding] is exact
+  + [function] GetFinalPathNameByHandleW returns the fully resolved final path
+  + [flags] FILE_NAME_NORMALIZED plus VOLUME_NAME_GUID requests a volume-GUID path
+  + [success_shape] begins with the canonical extended volume GUID prefix
+  + [network_boundary] a network share has no volume GUID path and can produce ERROR_PATH_NOT_FOUND
+  + [form_consequence] complete evidence reuses the strict canonical volume-GUID grammar already proven by TopologyReceipt 0.2
+
+& [RemoteProtocolFinding] is exact with one policy inference
+  + [function] GetFileInformationByHandleEx with FileRemoteProtocolInfo returns FILE_REMOTE_PROTOCOL_INFO when successful
+  + [validity] the structure is valid only with that call and information class
+  + [Protocol] is a WNNC_NET_* remote-protocol value
+  + [documented_remote_values] are nonzero provider-family values
+  + [policy_inference] protocol zero is treated as absence of a declared remote protocol only when the query succeeds; this is an inference to be invalidated if target-host evidence or stronger primary documentation contradicts it
+  + [form_consequence] query failure is indeterminate, nonzero protocol is remote rejection, and zero protocol may contribute to local eligibility
+
+& [IdentityFinding] is exact
+  + [function] GetFileInformationByHandleEx with FileIdInfo returns a 128-bit file identifier and 64-bit volume serial
+  + [scope] the combined identity is used for same-computer handle comparison and is not guaranteed unique forever
+  + [form_consequence] complete evidence uses the existing StrongFileIdentity form without upgrading it to permanent identity
+
+& [OpenFinding] informs later runtime but not this slice
+  + [directory] CreateFile requires FILE_FLAG_BACKUP_SEMANTICS to obtain a directory handle
+  + [reparse] FILE_FLAG_OPEN_REPARSE_POINT prevents normal reparse processing and attempts to open the reparse point itself
+  + [existing_only] a directory is opened with OPEN_EXISTING
+  + [future_effect] opening even read-only is a physical filesystem observation and remains outside the pure forms authority
+
+& [Delineation] separates machine form from physical behavior
+  + [this_slice] strict JSON, bounded strings, closed stages, typed fault outcomes, complete observation shape, deterministic disposition relation, and effect-free validation
+  + [later_slice] UTF-16 conversion, CreateFileW, handle ownership, pointer validity, MaybeUninit, GetLastError timing, buffer initialization, Windows calls, target root, and physical proof
+  + [scanner] recursive traversal, entry policy, streams, race checks, receipt issuance, and candidate integration remain later still
+
+& [SelectedForm] is minimal
+  + [outcomes] are open_fault, query_fault, and complete
+  + [complete_values] are target triple, lexical extended-DOS input root, strong identity, canonical volume-GUID final path, volume record, remote-protocol record, and disposition
+  + [dispositions] are eligible_local_ntfs, reject_remote_protocol, and reject_unsupported_file_system
+  + [fault_rule] any failed post-open query discards partial evidence from the admitted machine form
+  + [unsupported_target] only x86_64-pc-windows-msvc is admitted by version 0.1
+
+& [Nonclaim] is mandatory
+  - never: treat these forms or this research as proof that a path exists, a handle opened, a call succeeded, a volume is NTFS, a protocol is local, or a topology scanner is ready
