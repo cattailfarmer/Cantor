@@ -64,6 +64,16 @@ Description: Quantitative and semantic closure record for the four-hour governed
   + [missing_sources] is zero
   + [schema_handling] recognizes modern path fields and historical source_document fields without changing either format
 
+& [RepositoryIntegrity] is clean
+  + [git_fsck_full] exits zero with no finding other than 77 unreachable dangling blobs
+  + [git_fsck_no_dangling] exits zero with no output
+  + [Cargo_metadata] resolves locked and offline
+  + [workspace_members] is 6
+  + [workspace_packages] is 6
+  + [package_set] is cantor_cli, cantor_core, cantor_ecosystem, cantor_mcp, cantor_service, and cantor_windows_preflight at 0.1.0
+  + [local_remote_head] is equal at e8b668d1f430643773cc56f9163f290ac1007b4b before this audit addendum
+  + [worktree] is clean before this audit addendum
+
 & [FaultAccounting] is honest
   + the first physical contract incorrectly required a remote-protocol record on a local root and was invalidated after exact error 87
   + direct PowerShell evidence-generator invocation was host-policy blocked before execution and repaired through process-scoped invocation
