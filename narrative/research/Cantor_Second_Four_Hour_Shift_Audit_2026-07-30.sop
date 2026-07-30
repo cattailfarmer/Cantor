@@ -56,12 +56,21 @@ Description: Quantitative and semantic closure record for the four-hour governed
   + [blocked_remote_query_observation_sha256] is 67832AA3573707257E8B4A2144AF177E352BD7AE64BCEC12577837F8E2D075B8
   + [next_source_sha256] is 0A9C3F9AEF5B4E5AF9B2302152795D9516E98C9B489A3191EA144F8442C37998
 
+& [SourcePreservationVerification] is exact for this shift
+  + [changed_source_manifests] is 9
+  + [resolved_preserved_sources] is 9
+  + [byte_mismatches] is zero
+  + [sha256_mismatches] is zero
+  + [missing_sources] is zero
+  + [schema_handling] recognizes modern path fields and historical source_document fields without changing either format
+
 & [FaultAccounting] is honest
   + the first physical contract incorrectly required a remote-protocol record on a local root and was invalidated after exact error 87
   + direct PowerShell evidence-generator invocation was host-policy blocked before execution and repaired through process-scoped invocation
   + the first closure regeneration began after the true earliest affected evidence node
   + full integration and recursive artifact audits detected the stale runtime and topology-ABI predecessors fail closed
   + the final repair regenerated four manifests and four proof-digest edges in exact topological order
+  + the first source-manifest audit assumed one modern field schema and produced 72 inconclusive parser findings; the schema-aware shift-scoped rerun verified all nine applicable records cleanly
   + no malformed result, unauthorized authority, or physical effect escaped any fault
 
 & [LockedBoundary] remains strict
