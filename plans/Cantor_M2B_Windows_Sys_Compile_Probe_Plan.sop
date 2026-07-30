@@ -1,0 +1,52 @@
+Subject: Cantor M2B Windows Sys Direct Feature and ABI Compile Probe Plan
+
+& [PlanIdentity] is the authorized work order
+  + [plan_uuid] is f98dac78-a201-49e3-ba26-edb84805d72c
+  + [solution_uuid] is 500dfdff-fee7-4c38-bcdd-af5ea25522bf
+  + [signature_uuid] is 636448aa-295d-486e-ba3c-d1b4f12cd264
+  + [status] is ready
+
+& [Stage1] is dependency baseline
+  + [action] record workspace Cargo, ecosystem Cargo, Cargo.lock, and package-count baselines
+  + [action] verify locked package checksum and generated-source hash
+
+& [Stage2] is exact Cargo revision
+  + [action] add cfg(windows) dependency with version =0.61.2, default-features false, and three exact features
+  + [action] run locked Cargo resolution
+  + [gate] Cargo.lock SHA-256 and package count remain exact
+
+& [Stage3] is no-call probe
+  + [action] create one cfg(windows) integration test
+  + [action] import only the closed functions, structures, classes, and constants
+  + [action] reference each function item without invocation
+  + [action] compare deterministic ABI fingerprint JSON
+
+& [Stage4] is static security proof
+  + [action] scan test source for unsafe
+  + [action] scan every imported function name for call-expression form
+  + [action] prove no production Rust or lib export delta
+  + [action] prove no forbidden write/create/delete access mask is admitted
+
+& [Stage5] is focused and global proof
+  + [action] run Windows probe in debug and overflow-checked release
+  + [action] run complete workspace tests, lint, release build, rustdoc, and dependency audit
+  + [action] record exact fingerprint, tests, package count, and advisory count
+
+& [Stage6] is evidence repair
+  + [action] identify predecessor manifests invalidated by Cargo or test artifacts
+  + [action] regenerate only affected manifests in dependency order
+  + [action] update corresponding proof digests without rewriting historical evidence
+  + [action] create compile-probe evidence and proof
+
+& [Stage7] is publication and support review
+  + [action] commit implementation and closure checkpoints
+  + [action] update turn, fault, file-change, readiness, conversation, and reentry records
+  + [action] run completed-work support_delta and requirement_delta review
+
+& [StopConditions] are fail-closed
+  + [lock_drift] stops
+  + [new_package] stops
+  + [call_or_unsafe] stops
+  + [production_delta] stops
+  + [physical_effect] stops
+  + [evidence_contradiction] stops

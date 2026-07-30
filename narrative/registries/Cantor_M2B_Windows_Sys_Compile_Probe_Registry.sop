@@ -1,0 +1,48 @@
+Subject: Cantor M2B Windows Sys Compile Probe Registry
+
+& [RegistryIdentity] is the durable SJS ledger
+  + [registry_uuid] is 280cb1e8-92db-4623-ba15-ced3ff4203f5
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [lifecycle_state] is accepted
+
+& [ArtifactNodes] are unique
+  + [source] is b72aaf5d-9813-4e1e-8fda-a3a6bca79f42 accepted
+  + [source_manifest] is beefb789-4c63-4378-9784-c6d04023942b accepted
+  + [research] is 7bfec95b-0843-4987-9dbd-dbbad0e10edc accepted
+  + [exploded] is 7806278e-479e-45eb-8cac-06bb3ff916a8 accepted
+  + [canonical] is 99561a9f-8f92-4b72-9f2f-72114d847ab9 accepted
+  + [signature] is 636448aa-295d-486e-ba3c-d1b4f12cd264 accepted
+  + [justification] is 5162f513-d2d1-48a5-a593-52680c925501 accepted
+  + [plan] is f98dac78-a201-49e3-ba26-edb84805d72c accepted
+  + [matrix] is bd8f704c-0c7f-4ed0-abf3-877c796d7838 accepted
+  + [slice] is 2efdb589-09ea-4049-9b0e-da0c8ea4b475 accepted
+  + [solution] is 500dfdff-fee7-4c38-bcdd-af5ea25522bf provisional_until_implementation
+
+& [RequirementNodes] are unique
+  + [M2B-ABI-001] is 1d532e87-7afb-424d-8fe0-8fda8ed0b078
+  + [M2B-ABI-002] is d8a8ceb1-ce79-4ac2-bf6a-ae9049bfd26a
+  + [M2B-ABI-003] is 1c0f4d48-1882-4188-b88c-d5893edac5a9
+  + [M2B-ABI-004] is ab3e5f50-dcd7-4501-8071-7ff6f1d066f2
+  + [M2B-ABI-005] is 3d5d5ed3-2e60-4cbc-8613-b7bc42642478
+  + [M2B-ABI-006] is 740fabce-150b-4ab8-959f-49bb9406002e
+  + [M2B-ABI-007] is 526e19cc-5c0d-4baf-8b0d-42078164f8f7
+  + [M2B-ABI-008] is f98c31c5-1009-4c03-92bb-41c7f778b88a
+  + [M2B-ABI-009] is fdebf5b0-f564-4265-bc0c-f2a8f9fd93ea
+  + [M2B-ABI-010] is 152ba682-809e-48a3-85fc-704e80c0f5f1
+
+& [Edges] are complete
+  + [source] derived_to [exploded]
+  + [research] references [exploded]
+  + [exploded] authored_as [canonical]
+  + [exploded] justified_by [justification]
+  + [canonical] planned_by [plan]
+  + [canonical] supported_by [matrix]
+  + [canonical] signed_by [signature]
+  + [signature] authorizes [solution]
+  + [matrix] accounts_for [M2B-ABI-001 through M2B-ABI-010]
+  + [slice] schedules [M2B-ABI-001 through M2B-ABI-010]
+
+& [IntegrityReview] is passed
+  + [duplicates] is none
+  + [orphans] is none
+  + [broken_lineage] is none

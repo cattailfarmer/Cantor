@@ -1,0 +1,68 @@
+Subject: Cantor Windows Sys Direct Feature and ABI Compile Probe Assessment
+
+Description: Read-only assessment of the smallest dependency and compile-only proof that can close M2B dependency gate D-05 without activating Windows observation.
+
+& [AssessmentIdentity] is effect-free dependency reconnaissance
+  + [assessment_uuid] is 7bfec95b-0843-4987-9dbd-dbbad0e10edc
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30T14:06:29.5376775-05:00
+  + [host] is x86_64-pc-windows-msvc
+  + [status] is ready_for_source_selection
+
+@ [completion_review] C:\Project\Cantor\feature_support\reviews\Phase3TopologyReceiptRootBindingRevision_Completion_Review.sop
+@ [readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
+@ [unsafe_review] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Unsafe_Seam_Review_2026-07-30.sop
+@ [generated_source] C:\Users\enjer\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows-sys-0.61.2\src\Windows\Win32\Storage\FileSystem\mod.rs
+
+& [LockedDependency] is exact
+  + [package] is windows-sys 0.61.2
+  + [source] is registry+https://github.com/rust-lang/crates.io-index
+  + [checksum] is ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc
+  + [generated_FileSystem_sha256] is b44686d7dcd877df4e539d2a5152a3ec212757efb111139cb0a108c8bad7624a
+  + [normalized_Cargo_sha256] is 1adbc955d5460fa64dc16e6c8198b25672e8d4b97d45ecfb262eb2693ce08422
+  + [Cargo_orig_sha256] is 2d387e6fde8558ef245f3e7d40bbb780602be27b9e7920b28bf787c259234505
+  + [license] is MIT OR Apache-2.0
+  + [current_origin] is transitive through mio and tokio
+
+& [DirectFeatureContract] is minimal and explicit
+  + [location] is crates\cantor_ecosystem\Cargo.toml target cfg(windows) dependencies
+  + [version] is exactly =0.61.2
+  + [default_features] is false
+  + [features] are Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem
+  + [feature_reason] Win32_Storage_FileSystem exposes file APIs and structures
+  + [feature_reason] Win32_Security is required for generated CreateFileW because its signature names SECURITY_ATTRIBUTES
+  + [feature_reason] Win32_Foundation exposes HANDLE, GetLastError, and shared foundation types
+  + [expected_lock_delta] is none because the exact registry package and windows-link dependency are already locked
+
+& [CompileSurface] is closed
+  + [functions] are CreateFileW, GetFileInformationByHandleEx, GetFinalPathNameByHandleW, GetVolumeInformationByHandleW, and GetLastError
+  + [structures] are FILE_ATTRIBUTE_TAG_INFO, FILE_CASE_SENSITIVE_INFO, FILE_ID_INFO, FILE_STANDARD_INFO, FILE_STREAM_INFO, and FILE_REMOTE_PROTOCOL_INFO
+  + [classes] are FileAttributeTagInfo, FileCaseSensitiveInfo, FileIdInfo, FileStandardInfo, FileStreamInfo, and FileRemoteProtocolInfo
+  + [policy_constants] are no-follow, backup-semantics, open-existing, read-only access, full sharing, identity, stream, attribute, and volume capability constants
+  + [ownership_type] is standard-library OwnedHandle and is not exercised by this probe
+
+& [ProbeDesign] is compile and pure inspection only
+  + [implementation] is one Windows-target integration test
+  + [linkage_check] references generated function items but never invokes them
+  + [ABI_check] inspects size_of, align_of, class codes, and exact policy constants
+  + [execution] runs ordinary Rust assertions only
+  + [production_module] is none
+  + [non_Windows] does not build the Windows-only test body because the dependency is target-specific
+  - never: construct a path buffer, open a handle, call an imported function, create an owning handle, read a file, enumerate a directory, query a volume, or inspect a candidate
+
+& [DependencyDiffProof] is required
+  + [before_workspace_Cargo_sha256] is 88b8fcc6ab66bae649f0a2b32c880208aaf996936133d71d6a478f6fc434adb3
+  + [before_ecosystem_Cargo_sha256] is 41e96c004849728387c76890fbd8fbf50e96a7179ebe690f56a19f8321351221
+  + [before_lock_sha256] is 7b2e1e879e387ccff1cf1e04de4ace1d72eb006d1443192ab26629f0c3a884a5
+  + [required_after] only ecosystem Cargo changes, workspace Cargo remains exact, lock remains exact, package count remains 112
+  + [failure] any new package, version, checksum, feature outside the closed contract, or network-fetched resolution blocks publication
+
+& [MetadataOfflineFault] is operational not semantic
+  + [attempt] cargo metadata --format-version 1 --locked --offline
+  + [fault] Cargo attempted to fetch uncached android_system_properties for a target outside this probe
+  + [effect] no repository file changed and locked windows-sys evidence remained locally inspectable
+  + [repair] use locked package records, cargo tree, local generated source, and target-scoped build evidence
+
+& [AuthorityEffect] is none
+  + [next] preserve a separate compile-probe source and process it through SJS
+  - never: cite this assessment as permission to edit Cargo, add code, call Win32, create fixtures, or activate M2C

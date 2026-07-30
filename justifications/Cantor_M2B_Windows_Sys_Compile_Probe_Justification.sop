@@ -1,0 +1,53 @@
+Subject: Cantor M2B Windows Sys Direct Feature and ABI Compile Probe Justification
+
+& [JustificationIdentity] is the dependency-proof rationale
+  + [justification_uuid] is 5162f513-d2d1-48a5-a593-52680c925501
+  + [solution_uuid] is 500dfdff-fee7-4c38-bcdd-af5ea25522bf
+  + [status] is implementation_justified
+
+! [PrimaryClaim] Cantor should own and compile the exact generated Windows dependency surface before any runtime seam is designed
+  @ [support] windows-sys 0.61.2 is already locked and transitively feature-enabled
+  @ [support] generated CreateFileW requires the Security feature while file structures require Storage_FileSystem
+  @ [support] a test-only no-call probe can prove availability without opening a physical effect boundary
+  + [confidence] is high for dependency and generated-symbol availability on the current toolchain
+  + [confidence_limit] is none for runtime API success, filesystem support, or scanner correctness
+
+& [WhyDirectDependency] is ownership
+  + [current_weakness] Cantor compiles only because mio and tokio currently request overlapping features
+  + [future_risk] transitive dependency changes can remove Cantor's undeclared API prerequisites
+  + [repair] exact target dependency makes the contract reviewable and stable under Cargo resolution
+
+& [WhyTestOnly] is authority minimization
+  + [need] prove names, features, structures, class values, and constants are available
+  + [no_need] no production caller or wrapper is required for that proof
+  + [benefit] compiler and linker check generated declarations while no path, handle, or API invocation exists
+
+& [WhyNoCall] is a semantic boundary
+  + [availability] function-item resolution proves generated and linked surface availability
+  + [invocation] would create OS interaction, error classification, pointer, ownership, and physical proof obligations
+  + [decision] invocation remains a separately sourced M2C boundary
+
+& [Counterarguments] are resolved
+  + [keep_transitive] is rejected because implicit dependency contracts are fragile and unreviewable
+  + [add_all_features] is rejected because broad feature surface obscures the minimum seam
+  + [write_wrapper_now] is rejected because unsafe, ownership, and physical evidence gates remain locked
+  + [only_read_generated_source] is insufficient because source inspection does not prove Cantor's Cargo target and linker configuration
+  + [cross_platform_claim] is rejected because the focused probe measures the current Windows target only
+
+& [InvalidationConditions] are explicit
+  + [package_change] is windows-sys version, source, checksum, license, or generated module change
+  + [feature_change] is any addition, removal, default activation, or transitive-only reliance
+  + [lock_change] is any Cargo.lock byte change
+  + [probe_change] is call expression, unsafe token, production export, or external input
+  + [verification_failure] is focused, global, static, audit, evidence, or registry failure
+  = must: stop and reprocess rather than expand authority
+
+& [Tradeoff] favors narrow redundant declaration
+  + [cost] one direct dependency declaration duplicates a package already in the graph
+  + [benefit] no new package while Cantor's own feature contract becomes explicit
+  + [maintenance] exact version requires deliberate re-review on upgrade
+
+& [Rollback] is trivial
+  + [action] remove target dependency table and Windows-only integration test
+  + [lock] remains unchanged
+  + [migration] is none

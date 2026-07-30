@@ -1,0 +1,23 @@
+Subject: Cantor M2B Windows Sys Compile Probe Operational Faults
+
+& [FaultLedgerIdentity] is the compile-probe fault record
+  + [ledger_uuid] is d84c56c9-daf4-4bbf-bf1b-ffd615d62677
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30
+  + [status] is active
+
+& [OfflineMetadataResolution] is an operational tooling fault
+  + [command] is cargo metadata --format-version 1 --locked --offline
+  + [fault] is Cargo attempted to fetch uncached android_system_properties for an unrelated target package
+  + [effect] is no repository mutation and no uncertainty in the locally locked windows-sys package record
+  + [repair] is use Cargo.lock, cargo tree, cached registry source, target-scoped compilation, and exact hashes
+  + [status] is resolved_without_network_resolution
+
+& [ReadinessCorrection] is informational
+  + [prior] M2B N-06 receipt field gap was blocking
+  + [current] completed receipt 0.2 proof resolves N-06
+  + [remaining] dependency compile proof, platform preflight, unsafe activation, and physical fixtures remain separate
+  + [status] is accounted
+
+& [ImplementationFaults] is open
+  + [status] is none_observed_yet

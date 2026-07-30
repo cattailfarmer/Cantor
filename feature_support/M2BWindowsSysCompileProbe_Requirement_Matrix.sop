@@ -1,0 +1,77 @@
+Subject: M2B Windows Sys Compile Probe Requirement Matrix
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_M2B_Windows_Sys_Compile_Probe.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BWindowsSysCompileProbe.sop
+
+& [MatrixIdentity] is dependency-probe support accounting
+  + [matrix_uuid] is bd8f704c-0c7f-4ed0-abf3-877c796d7838
+  + [feature_subject] is M2BWindowsSysCompileProbe
+  + [status] is authorized_pending_implementation
+  + [freshness_rule] is recompute on source, package, feature, Cargo, lock, generated binding, target, test, evidence, or proof change
+
+& [M2B-ABI-001] is exact source and research lineage
+  + [requirement_uuid] is 1d532e87-7afb-424d-8fe0-8fda8ed0b078
+  + [support_status] is verified
+  + [proof_ref] is Source_Document_Manifest.sop
+  + [support_gap] is none
+
+& [M2B-ABI-002] is exact target dependency and features
+  + [requirement_uuid] is d8a8ceb1-ce79-4ac2-bf6a-ae9049bfd26a
+  + [support_status] is prepared
+  + [proof_ref] is post-change Cargo diff and feature tree
+  + [support_gap] is implementation
+
+& [M2B-ABI-003] is byte-identical lock and unchanged package count
+  + [requirement_uuid] is 1c0f4d48-1882-4188-b88c-d5893edac5a9
+  + [support_status] is prepared
+  + [proof_ref] is pre/post SHA-256 and audit count
+  + [support_gap] is implementation verification
+
+& [M2B-ABI-004] is five generated function items compiled without calls
+  + [requirement_uuid] is ab3e5f50-dcd7-4501-8071-7ff6f1d066f2
+  + [support_status] is prepared
+  + [proof_ref] is focused test plus static call-expression scan
+  + [support_gap] is implementation
+
+& [M2B-ABI-005] is six generated structure sizes and alignments
+  + [requirement_uuid] is 3d5d5ed3-2e60-4cbc-8613-b7bc42642478
+  + [support_status] is prepared
+  + [proof_ref] is focused ABI fingerprint
+  + [support_gap] is implementation
+
+& [M2B-ABI-006] is six exact information-class codes
+  + [requirement_uuid] is 740fabce-150b-4ab8-959f-49bb9406002e
+  + [support_status] is prepared
+  + [proof_ref] is focused class assertion
+  + [support_gap] is implementation
+
+& [M2B-ABI-007] is exact observation constants and write-access absence
+  + [requirement_uuid] is 526e19cc-5c0d-4baf-8b0d-42078164f8f7
+  + [support_status] is prepared
+  + [proof_ref] is focused policy assertion
+  + [support_gap] is implementation
+
+& [M2B-ABI-008] is deterministic in-memory fingerprint
+  + [requirement_uuid] is f98c31c5-1009-4c03-92bb-41c7f778b88a
+  + [support_status] is prepared
+  + [proof_ref] is exact JSON comparison
+  + [support_gap] is implementation
+
+& [M2B-ABI-009] is zero unsafe, call, production API, and physical effect surface
+  + [requirement_uuid] is fdebf5b0-f564-4265-bc0c-f2a8f9fd93ea
+  + [support_status] is prepared
+  + [proof_ref] is static source, production diff, and execution-input scans
+  + [support_gap] is implementation verification
+
+& [M2B-ABI-010] is global proof, evidence, audit, rollback, registry, and support closure
+  + [requirement_uuid] is 152ba682-809e-48a3-85fc-704e80c0f5f1
+  + [support_status] is required
+  + [proof_ref] is future solution, evidence, proof, and completion review
+  + [support_gap] is post-implementation closure
+
+& [SliceReadiness] is ready
+  + [dependency] exact locked package and generated source are present
+  + [authority] valid governing satisfaction signature exists
+  + [owner] is conversation cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [risk] is bounded by no-call, no-unsafe, test-only, and no-lock-drift gates
+  - never: infer runtime Windows or physical scanner readiness

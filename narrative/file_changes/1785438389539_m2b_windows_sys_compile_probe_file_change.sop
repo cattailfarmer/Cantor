@@ -1,0 +1,33 @@
+Subject: Cantor M2B Windows Sys Compile Probe File Change
+
+& [SolutionRecord] is the file-level implementation surface
+  + [change_uuid] is 414111bf-2db2-4568-890a-e390a3473b59
+  + [solution_uuid] is 500dfdff-fee7-4c38-bcdd-af5ea25522bf
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [status] is planned
+
+@ [specification_ref] specifications/Cantor_M2B_Windows_Sys_Compile_Probe.sop
+@ [justification_ref] justifications/Cantor_M2B_Windows_Sys_Compile_Probe_Justification.sop
+
+& [OwnedFiles] are bounded
+  + [crates/cantor_ecosystem/Cargo.toml] is config role
+  + [crates/cantor_ecosystem/tests/windows_topology_abi_probe.rs] is test role
+  + [source_documents/2026-07-30_cantor_m2b_windows_sys_compile_probe] is source role
+  + [specifications/Cantor_M2B_Windows_Sys_Compile_Probe.sop] is specification role
+  + [specifications/exploded/Cantor_M2B_Windows_Sys_Compile_Probe.exploded.sop] is specification role
+  + [justifications/Cantor_M2B_Windows_Sys_Compile_Probe_Justification.sop] is justification role
+  + [plans/Cantor_M2B_Windows_Sys_Compile_Probe_Plan.sop] is specification role
+  + [feature_support/M2BWindowsSysCompileProbe_Requirement_Matrix.sop] is index role
+  + [feature_support/slices/M2BWindowsSysCompileProbe.sop] is index role
+  + [narrative/registries/Cantor_M2B_Windows_Sys_Compile_Probe_Registry.sop] is index role
+  + [solution_proof_evidence_fault_turn_review] are closure roles
+  + [affected_predecessor_manifests_and_proofs] are generated and proof roles
+
+& [ForbiddenFiles] are explicit
+  + [Cargo.lock] is verification input and must remain unchanged
+  + [crates/cantor_ecosystem/src] is outside scope
+  + [all_candidate_or_fixture_paths] are outside scope
+
+& [Boundary] is no-call
+  + [runtime_effect] is none
+  + [commit_ref] is pending

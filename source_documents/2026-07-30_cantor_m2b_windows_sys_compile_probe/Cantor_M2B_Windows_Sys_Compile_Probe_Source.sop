@@ -1,0 +1,63 @@
+Subject: Cantor M2B Windows Sys Direct Feature and ABI Compile Probe Source
+
+& [SourceIdentity] is a governed dependency-proof selection
+  + [source_uuid] is b72aaf5d-9813-4e1e-8fda-a3a6bca79f42
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30T14:06:29.5376775-05:00
+  + [status] is selected_for_SJS_only
+
+@ [basis] C:\Project\Cantor\narrative\research\Cantor_Windows_Sys_Direct_Feature_ABI_Compile_Probe_Assessment_2026-07-30.sop
+@ [readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
+@ [completion_review] C:\Project\Cantor\feature_support\reviews\Phase3TopologyReceiptRootBindingRevision_Completion_Review.sop
+
+& [SelectedPurpose] is close M2B dependency and generated-ABI availability evidence
+  + [dependency] is explicit target-specific windows-sys 0.61.2
+  + [probe] is compile-only generated symbol, structure, class, and policy-constant inspection
+  + [result] is machine-readable ABI fingerprint and proof record
+  + [boundary] is no runtime Windows API invocation
+
+& [DependencyRevision] is exact
+  + [file] is crates\cantor_ecosystem\Cargo.toml
+  + [target] is cfg(windows)
+  + [version] is =0.61.2
+  + [default_features] is false
+  + [features] are Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem
+  + [Cargo_lock] must remain byte-identical
+  + [dependency_count] must remain 112
+  - never: depend on transitive feature activation or add an unreviewed feature
+
+& [ProbeRevision] is test-only
+  + [file] is crates\cantor_ecosystem\tests\windows_topology_abi_probe.rs
+  + [cfg] is windows
+  + [generated_functions] are referenced as items and never invoked
+  + [generated_structures] have sizes and alignments inspected
+  + [generated_classes] have exact numeric values asserted
+  + [policy_constants] have exact nonmutating access and observation values asserted
+  + [output] is deterministic and has no external state
+  - never: add a production module or public runtime surface
+
+& [ClosedCallAvailabilitySet] is not a call authorization
+  + [CreateFileW] is presence only
+  + [GetFileInformationByHandleEx] is presence only
+  + [GetFinalPathNameByHandleW] is presence only
+  + [GetVolumeInformationByHandleW] is presence only
+  + [GetLastError] is presence only
+  - never: place parentheses after any imported Windows function item in the probe
+
+& [Verification] is strict
+  + [Cargo_diff] only the declared target dependency is allowed
+  + [lock_diff] must be empty
+  + [focused] Windows integration probe passes
+  + [global] debug and overflow-checked release workspaces pass
+  + [static] no unsafe, no Windows call expression, no production module, and no forbidden access constant
+  + [audit] package count and vulnerabilities remain unchanged
+  + [evidence] exact source, generated dependency facts, Cargo hashes, test hash, output fingerprint, and rollback are bound
+
+& [Rollback] is remove one target dependency table and one integration test
+  + [migration] is none
+
+& [Forbidden] is broad
+  + [forbidden] is any FFI invocation, path, handle, filesystem, clock, random, environment, process, network, model, fixture, candidate, sandbox, mutation, seal, cleanup, launch, or promotion effect
+
+& [AuthorityEffect] is source selection only
+  + [implementation_authority] is absent until complete SJS and valid governing satisfaction signature

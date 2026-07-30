@@ -1,0 +1,207 @@
+Subject: Cantor M2B Windows Sys Direct Feature and ABI Compile Probe Exploded Specification
+
+& [ExplodedIdentity] is a derived dependency-proof node
+  + [exploded_uuid] is 7806278e-479e-45eb-8cac-06bb3ff916a8
+  + [source_uuid] is b72aaf5d-9813-4e1e-8fda-a3a6bca79f42
+  + [version] is 0.1
+  + [lifecycle_state] is accepted
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_sys_compile_probe\Cantor_M2B_Windows_Sys_Compile_Probe_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_sys_compile_probe\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Windows_Sys_Direct_Feature_ABI_Compile_Probe_Assessment_2026-07-30.sop
+@ [unsafe_review] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Unsafe_Seam_Review_2026-07-30.sop
+
+/ [M2BDependencyUnknown] -(Delineation)> [DirectDependencyIdentity], [GeneratedFeatureAvailability], [GeneratedABIShape], [RuntimeCallAuthority]
+
+& [BoundaryFormation] is decisive
+  + [DirectDependencyIdentity] belongs inside this slice
+  + [GeneratedFeatureAvailability] belongs inside this slice
+  + [GeneratedABIShape] belongs inside this slice
+  + [RuntimeCallAuthority] is explicitly outside this slice
+  + [PhysicalObservation] is explicitly outside this slice
+  - never: let successful linking imply permission to invoke an imported function
+
+& [Purpose] is dependency readiness not scanner behavior
+  + [problem] Cantor currently relies on another dependency's windows-sys feature union
+  + [risk] a future dependency change can silently remove generated types required by the planned seam
+  + [solution] declare the exact target dependency and compile the closed generated surface directly
+  + [value] later M2B authority starts from proven dependency and ABI availability rather than guessed imports
+
+& [DataIdentity] is explicit
+  + [dependency_identity] is registry source plus package name plus exact version plus checksum
+  + [feature_identity] is the sorted three-feature set with default features false
+  + [ABI_identity] is structure name plus size plus alignment plus class code and policy constants
+  + [probe_identity] is profile cantor-windows-topology-abi-probe/0.1
+  + [evidence_identity] is source hashes plus Cargo hashes plus test hash plus verification results
+
+& [DependencyContract] is target-scoped
+  + [table] is target.'cfg(windows)'.dependencies
+  + [package] is windows-sys
+  + [version] is =0.61.2
+  + [default_features] is false
+  + [features] are Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem
+  + [lock_package] is already present with checksum ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc
+  + [lock_delta] must be empty
+  + [package_count_delta] must be zero
+
+& [FunctionAvailabilitySet] is compile-only
+  + [CreateFileW] must resolve from Win32_Storage_FileSystem with Win32_Security
+  + [GetFileInformationByHandleEx] must resolve from Win32_Storage_FileSystem
+  + [GetFinalPathNameByHandleW] must resolve from Win32_Storage_FileSystem
+  + [GetVolumeInformationByHandleW] must resolve from Win32_Storage_FileSystem
+  + [GetLastError] must resolve from Win32_Foundation
+  + [probe_operation] is bind each function item to an inferred local value
+  - never: invoke, cast to an address, pass an argument, or retain a callable outside the test
+
+& [StructureAvailabilitySet] is compile-time data
+  + [FILE_ATTRIBUTE_TAG_INFO] is attributes and reparse tag
+  + [FILE_CASE_SENSITIVE_INFO] is case flags
+  + [FILE_ID_INFO] is volume serial and 128-bit file ID
+  + [FILE_STANDARD_INFO] is allocation, length, link count, delete-pending, and directory facts
+  + [FILE_STREAM_INFO] is variable stream-record header and one UTF-16 element
+  + [FILE_REMOTE_PROTOCOL_INFO] is remote protocol evidence
+  + [inspection] is size_of and align_of only
+  - never: construct uninitialized values, dereference a pointer, or interpret bytes
+
+& [ClassAvailabilitySet] is exact
+  + [FileStandardInfo] is 1
+  + [FileStreamInfo] is 7
+  + [FileAttributeTagInfo] is 9
+  + [FileRemoteProtocolInfo] is 13
+  + [FileIdInfo] is 18
+  + [FileCaseSensitiveInfo] is 23
+
+& [PolicyConstantSet] is observation-only
+  + [OPEN_EXISTING] is 3
+  + [FILE_SHARE_READ] is 1
+  + [FILE_SHARE_WRITE] is 2
+  + [FILE_SHARE_DELETE] is 4
+  + [share_union] is 7
+  + [FILE_FLAG_BACKUP_SEMANTICS] is 33554432
+  + [FILE_FLAG_OPEN_REPARSE_POINT] is 2097152
+  + [FILE_ATTRIBUTE_REPARSE_POINT] is 1024
+  + [FILE_ATTRIBUTE_SPARSE_FILE] is 512
+  + [FILE_ATTRIBUTE_NORMAL] is 128
+  + [FILE_READ_ATTRIBUTES] is 128
+  + [FILE_GENERIC_READ] must not include FILE_WRITE_DATA or FILE_WRITE_ATTRIBUTES
+  + [VOLUME_NAME_GUID] and [FILE_NAME_NORMALIZED] must resolve
+
+& [ProbeFile] is isolated
+  + [path] is crates/cantor_ecosystem/tests/windows_topology_abi_probe.rs
+  + [crate_cfg] is windows
+  + [tests] are dependency identity, generated call availability, ABI fingerprint, class codes, and policy constants
+  + [machine_form] is deterministic JSON assembled in memory and compared exactly
+  + [production_export] is none
+  + [filesystem_input] is none
+  + [environment_input] is none
+
+& [RequirementSet] is M2B-ABI-001 through M2B-ABI-010
+  + [M2B-ABI-001] preserve exact source, research, hashes, and lineage
+  + [M2B-ABI-002] declare exact target-specific dependency and features
+  + [M2B-ABI-003] prove Cargo.lock and package count do not change
+  + [M2B-ABI-004] compile the five closed generated function items without invocation
+  + [M2B-ABI-005] inspect six closed generated structures without memory interpretation
+  + [M2B-ABI-006] assert six exact information-class values
+  + [M2B-ABI-007] assert the closed observation-policy constants and absence of write access
+  + [M2B-ABI-008] emit and compare a deterministic in-memory fingerprint
+  + [M2B-ABI-009] prove zero unsafe, call expression, production API, or physical effect
+  + [M2B-ABI-010] pass global gates, evidence, audit, rollback, registry, and support review
+
+& [ConstraintLedger] is closed
+  + [C-01] source and research remain immutable
+  + [C-02] Windows dependency is target-specific and exact
+  + [C-03] default features remain false
+  + [C-04] feature list contains exactly three names
+  + [C-05] Cargo.lock remains byte-identical
+  + [C-06] imported function names never occur as call expressions
+  + [C-07] test source contains no unsafe token or raw ownership transfer
+  + [C-08] no production source or public export changes
+  + [C-09] test consumes no path, handle, environment, clock, random, process, network, or model input
+  + [C-10] evidence cannot claim runtime API success
+
+& [AssumptionSet] is small
+  ~ [generated_binding] locked registry source faithfully represents windows-sys 0.61.2
+  ~ [Windows_link] referencing function items proves generated declarations and linker import availability on the current toolchain
+  + [limit] neither assumption proves an API call would succeed for any handle or filesystem
+
+& [NonGoalSet] is broad
+  + [not_wrapper] no safe or unsafe Windows wrapper
+  + [not_parser] no stream-buffer parser
+  + [not_path] no path validation beyond already completed pure receipt forms
+  + [not_preflight] no volume, remote, filesystem, or OS-version observation
+  + [not_scanner] no directory inventory, content read, receipt issuance, or race handling
+  + [not_fixture] no file or directory creation
+
+& [RiskSet] is inspectable
+  + [feature_leak] broad transitive features mistaken for Cantor's contract
+  + [call_leak] presence check accidentally invokes an FFI function
+  + [write_leak] policy fingerprint admits write or delete access
+  + [lock_drift] dependency edit changes registry resolution
+  + [platform_overclaim] current Windows compile result generalized to runtime or other targets
+  + [evidence_staleness] Cargo change invalidates predecessor manifests
+
+& [FailureModeSet] is fail-closed
+  + [FM-01] missing feature fails compilation
+  + [FM-02] wrong class code fails assertion
+  + [FM-03] changed ABI size or alignment fails fingerprint
+  + [FM-04] write constant or unexpected access mask fails assertion
+  + [FM-05] any lock diff blocks publication
+  + [FM-06] any call-expression or unsafe-source match blocks publication
+  + [FM-07] any predecessor evidence mismatch requires ordered regeneration
+
+& [VerificationPlan] is ordered
+  + [V-01] hash pre-change Cargo and lock
+  + [V-02] add exact dependency and prove lock diff empty
+  + [V-03] compile and run the Windows-only focused probe
+  + [V-04] statically scan the probe for unsafe and imported-name call expressions
+  + [V-05] run global debug and overflow-checked release workspaces
+  + [V-06] run format, lint, release build, rustdoc, and audit
+  + [V-07] regenerate every evidence manifest whose artifact set binds changed Cargo or tests
+  + [V-08] issue proof with explicit nonclaim and rollback
+
+& [DataDesignModel] is stable
+  + [conceptual] is generated ABI availability
+  + [logical] is dependency, feature, function, structure, class, and constant records
+  + [physical] is Cargo target dependency plus integration-test assertions
+  + [source_truth] is locked registry metadata and generated source
+  + [derived_projection] is the in-memory fingerprint
+  + [invalidation] is package, checksum, feature, target, toolchain, generated source, or test change
+
+& [SemanticRefinementTrace] is explicit
+  + [dependency] narrowed from transitive presence to Cantor-owned exact contract
+  + [probe] narrowed from potential API experiment to no-call compile/link inspection
+  + [ABI] narrowed from broad FileSystem module to five functions, six structures, six classes, and selected constants
+  + [truth] narrowed from platform support to current-toolchain generated availability
+
+& [ConstraintCheckTrace] is passed
+  + [grounding] source, local lock, generated source, prior unsafe review, and completed-work review
+  + [conflict] prior readiness suggested a compile probe but did not authorize Cargo change
+  + [repair] this separate source and SJS boundary grants only exact dependency and test changes
+  + [result] all ten requirements are source-grounded
+
+& [FoldTrace] is seven-fold
+  + [fold_1_gain] separates dependency identity from runtime call authority
+  + [fold_2_gain] freezes exact features and package checksum
+  + [fold_3_gain] closes function, structure, class, and policy sets
+  + [fold_4_gain] defines no-call and no-unsafe source invariants
+  + [fold_5_gain] defines lock, package-count, and predecessor-evidence consequences
+  + [fold_6_gain] defines deterministic fingerprint and platform nonclaim
+  + [fold_7_gain] leaves physical preflight as a separate frontier
+
+& [PruningTrace] preserves rejected expansion
+  + [pruned] production module because no runtime surface is needed
+  + [pruned] FFI wrapper because invocation authority is absent
+  + [pruned] path or handle fixture because physical authority is absent
+  + [pruned] broad windows-sys features because only three are required
+  + [pruned] cross-target runtime claim because only current Windows compilation is measured
+
+& [GrowthSeedSet] is future work
+  + [M2B_preflight] pure forms for local NTFS and remote classification
+  + [M2C_wrapper] separately governed no-follow handle and query implementation
+  + [M2D_fixture] separately authorized physical adversarial proof
+  - never: treat these seeds as present authority
+
+& [ExhaustionReview] is phase-locked
+  + [exhaustion_state] is phase_locked
+  + [reason] further expansion enters runtime calls or physical proof outside the source boundary
+  + [implementation_readiness] is ready for exact Cargo and test-only probe changes
