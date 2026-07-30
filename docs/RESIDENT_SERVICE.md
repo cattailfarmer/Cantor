@@ -120,6 +120,9 @@ shutdown. It records the start generation, activation sequence, configuration,
 client, and separate log paths, but contains no token, token path, request
 content, or semantic content. Health always performs a fresh authenticated
 status call, so a legitimate refresh appears as a changed current generation.
+The state is exact compact UTF-8 machine output: do not hand-edit, reorder, or
+reformat it. BOMs, duplicate members, unknown members, and any noncanonical
+round trip are rejected before the record can identify a process.
 
 An existing state file is refused by default. `-ReplaceStale` is accepted only
 after the record is structurally valid and its complete process identity is
