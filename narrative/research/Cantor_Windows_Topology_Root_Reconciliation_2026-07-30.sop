@@ -1,0 +1,81 @@
+Subject: Cantor Windows Topology Root Reconciliation
+
+Description: Proposed M2B root namespace, handle lifetime, and end-of-scan identity reconciliation. This is research, not activation authority.
+
+& [AssessmentIdentity] is a physical-root continuity analysis
+  + [assessment_uuid] is 6eecc342-96eb-4117-9ad6-9f313244dc6a
+  + [captured_at] is 2026-07-30
+  + [status] is design_formed_target_behavior_unproven
+
+@ [Phase3A] C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [unsafe_seam] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Unsafe_Seam_Review_2026-07-30.sop
+@ [Microsoft_GetFinalPathNameByHandleW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew
+@ [Microsoft_namespaces] https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+
+& [PredecessorTruth] is semantic and repository admission
+  + [Phase3A] proves canonical supplied root text, exact Git top level and controls, base, branch, cleanliness, inventory, plan, and freshness
+  + [Phase3A_nonclaim] is no Windows volume serial or 128-bit root file ID
+  + [consequence] is M2 establishes the first strong physical root identity rather than pretending to compare one supplied by Phase3A
+
+& [InitialNamespace] is one local extended DOS path shape
+  + [accepted] begins with backslash-backslash-question-backslash followed by one ASCII drive letter, colon, and backslash
+  + [drive] preserves the exact Phase3A canonical text while separately recording a stable volume-qualified final path
+  + [rejected] is relative, root-relative, drive-relative, ordinary DOS, ordinary UNC, extended UNC, device backslash-backslash-dot, NT Device, volume-GUID input, global-root, pipe, and object-manager namespace
+  + [reason] is profile 0.1 targets one local Windows desktop candidate and excludes remote or device reinterpretation
+  + [root_component] still obeys strict component and reserved-name policy
+
+& [RootOpen] is no-follow and long-lived
+  + [path] is the exact admitted canonical root string
+  + [flags] include OPEN_REPARSE_POINT and BACKUP_SEMANTICS
+  + [sharing] is read-write-delete under the observation-only share decision
+  + [attributes] must be an admitted non-reparse directory shape
+  + [case] FileCaseSensitiveInfo Flags must equal zero
+  + [identity] is FileIdInfo volume serial plus 128-bit file ID
+  + [standard] must report Directory true and DeletePending false
+  + [lifetime] the owned root handle remains live until the receipt decision is complete
+
+& [StableFinalPath] is evidence not authority
+  + [query] is GetFinalPathNameByHandleW on the owned root handle
+  + [flags] are FILE_NAME_NORMALIZED plus VOLUME_NAME_GUID
+  + [buffer] uses the documented required-size retry with a hard 32768-WCHAR ceiling
+  + [output] must be valid NUL-free UTF-16 and an absolute volume-GUID path
+  + [pre] is captured before descendant traversal
+  + [post] is captured after the repeated whole-root inventory
+  + [equality] is exact pre-to-post equality
+  + [nonclaim] a stable final path is not a snapshot and does not prohibit concurrent changes
+
+& [EndOfScanReopen] closes same-name replacement
+  + [action] reopen the original Phase3A root path no-follow after traversal and repeated inventory
+  + [comparison] reopened volume serial and 128-bit file ID must equal the still-live original root handle
+  + [attributes] and [standard] must still be admitted and not delete-pending
+  + [final_path] must equal the original handle's post-scan volume-GUID final path
+  + [failure] is changed_during_scan and quarantine
+  + [success] proves the supplied name still addresses the observed root object at issuance time
+
+& [ReceiptBinding] is explicit
+  + [candidate_root] is exact Phase3A canonical text
+  + [root_volume_serial] is unsigned 64-bit
+  + [root_file_id] is canonical 128-bit identity
+  + [root_volume_guid_path] is exact final-path evidence
+  + [admission_receipt_sha256] binds Phase3A
+  + [ordered_inventory_sha256] binds M2 observations
+  + [freshness] expires on launch attempt, path-to-identity mismatch, final-path mismatch, Git revalidation mismatch, or any candidate drift
+
+& [ResidualRace] remains visible
+  + [between_Phase3A_and_M2] a same-path replacement can occur before M2 establishes identity
+  + [semantic_control] M2 then proves the complete current tree and binds the exact Phase3A facts and Git state
+  + [during_scan] full sharing permits change and repeated evidence detects but does not atomically prevent it
+  + [after_receipt] immediate single-use launch minimizes but does not eliminate external-writer risk
+  + [strength] remains quiescent_double_inventory
+
+& [ActivationBlockers] remain
+  + [canonical_shape] must be confirmed against actual Phase3A output on the target host without changing a candidate
+  + [volume_GUID] GetFinalPathNameByHandleW behavior and access requirements must be measured
+  + [drive_mount_change] fixture behavior is deferred to authorized M2D
+  + [root_replacement] fixture behavior is deferred to authorized M2D
+  + [form_gap] M2A TopologyReceipt currently stores candidate_root but not explicit root identity or volume-GUID path and needs a new source-selected revision before M2C
+
+& [AuthorityEffect] is none
+  + [important_finding] is M2A receipt augmentation is required before scanner implementation
+  - never: cite this assessment as permission to revise M2A, add Win32 calls, open a candidate, create fixtures, launch a sandbox, mutate, seal, clean, or promote
