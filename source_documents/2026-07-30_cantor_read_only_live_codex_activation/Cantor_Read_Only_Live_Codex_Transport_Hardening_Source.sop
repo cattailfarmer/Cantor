@@ -1,0 +1,50 @@
+Subject: Cantor Read Only Live Codex Transport Hardening Source
+
+& [SourceIdentity] is post-proof resource-boundary evidence
+  + [source_uuid] is a8f3fac2-11a0-4307-8f98-5f158b63a155
+  + [source_snapshot_uuid] is 2ae1df49-9a3d-41b3-b6ea-a223626d2d49
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30
+  + [preservation] is immutable input to a second renewed SJS satisfaction signature
+
+& [StdoutQueueObservation] is a resource-accounting fault
+  + [observation] is the JSONL reader used an unbounded channel while total-byte accounting occurred only in the consumer
+  + [risk] is a fast child can queue unbounded lines before the consumer enforces its declared total-byte budget
+  + [required_repair] is a synchronous bounded queue small enough to prevent producer escape while retaining concurrent draining
+
+& [StderrDrainObservation] is a deadlock fault
+  + [observation] is a `Take`-bounded stderr reader stopped reading after the retention limit
+  + [risk] is later child diagnostics can fill the pipe and block App Server progress
+  + [required_repair] is drain to EOF while retaining at most the bounded prefix and never serializing that content
+
+& [PartialSpawnObservation] is a process-ownership fault
+  + [observation] is a theoretically missing piped handle after spawn returned early without explicitly terminating the created child
+  + [required_repair] is terminate and wait the exact owned child on every partial-pipe setup fault
+
+& [TerminalProcessObservation] is cleanup evidence
+  + [observation] is normal completion did not distinguish graceful zero exit from forced termination or nonzero exit
+  + [required_repair] is require graceful successful process exit after terminal turn; forced or nonzero termination is a typed failure
+
+& [ReturnedAuthorityObservation] is response validation
+  + [observation] is the thread/start result previously confirmed only ephemeral identity
+  + [risk] is returned approval, sandbox, network, or working-directory authority can differ from what the client requested
+  + [required_repair] is require returned approval never, readOnly no-network sandbox, and canonical exact cwd
+
+& [StartupNotificationObservation] is strict message admission
+  + [observation] is pre-response notifications were previously accepted by shape rather than method allowlist
+  + [required_repair] is admit only official passive startup/status/advisory methods and fail boundedly on error or every other method
+  + [live_discovery] is remoteControl/status/changed is a passive current App Server startup notification and must be explicitly named rather than generically accepted
+
+& [LiveHardeningProof] is exact current behavior
+  + [codex_version] is codex-cli 0.146.0
+  + [result] is one separately invoked hardened turn completed one exact Cantor call and passed Observer and manager acceptance
+  + [events] is 89
+  + [received_bytes] is 44831
+  + [advisories] is 0
+  + [requested_effects] is 0
+  + [cleanup] is graceful successful process exit
+
+& [AuthorityEffect] is implementation hardening only
+  + [allowed] is update transport ownership, validation, tests, evidence, proof, and documentation
+  + [forbidden] is any new semantic, write, effect, retry, persistence, notification-continuation, manager, multi-worker, or model-internal authority
+  = [result] is renew the satisfaction signature after the same live read-only contract passes

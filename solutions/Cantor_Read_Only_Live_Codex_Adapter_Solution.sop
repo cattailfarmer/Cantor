@@ -29,10 +29,10 @@ Subject: Cantor Read Only Live Codex Adapter Solution
   + [requests] are deterministic initialize, thread/start, and turn/start IDs
   + [thread] is ephemeral, approval never, read-only, exact cwd, no experimental API, and exact developer instruction
   + [turn] is approval never, readOnly networkAccess false, one text input, and provider-compatible closed schema
-  + [reader] bounds each line before unbounded allocation and independently bounds total bytes and events
+  + [reader] bounds each line before unbounded allocation, uses a synchronous two-line producer queue, and independently bounds total bytes and events
   + [server_requests] always fault
-  + [stderr] is concurrently boundedly drained and discarded
-  + [cleanup] closes stdin, waits briefly, and kills only the exact owned Child handle if necessary
+  + [stderr] is concurrently drained to EOF while retaining and then discarding only a bounded prefix
+  + [cleanup] terminates partial spawns, closes stdin, requires graceful zero exit, and faults on forced or nonzero termination
 
 & [EventSolution] is allowlisted observation
   + [passive] is correlated thread, turn, item, reasoning, message, plan, MCP progress, token usage, rate limit, startup, and bounded advisory notifications
@@ -60,7 +60,7 @@ Subject: Cantor Read Only Live Codex Adapter Solution
   - never: claim transport buffering changes reasoning order inside the model
 
 & [ProofSolution] is deterministic plus explicit live evidence
-  + [unit_tests] is fifteen strict configuration, transcript, schema, route, identity, and adversarial tests
+  + [unit_tests] is sixteen strict configuration, transcript, returned-authority, schema, route, identity, and adversarial tests
   + [bridge_tests] is five physical-result, single-release, proof, effect, substitution, and accepted-cycle tests
   + [live_success] is one fingerprinted current Codex turn, one exact Cantor call, verified response, seven logical messages, and accept decision
   + [live_faults] are old CLI rejection, unsupported strict-schema keyword, and final-before-tool rejection without candidate admission

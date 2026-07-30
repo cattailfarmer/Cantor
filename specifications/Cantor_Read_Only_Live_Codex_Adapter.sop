@@ -4,6 +4,7 @@ Description: Implementation authority for one operator-explicit, ephemeral, read
 
 @ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Cantor_Read_Only_Live_Codex_Activation_Source_Selection.sop
 @ [reconciliation_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Cantor_Read_Only_Live_Codex_Implementation_Reconciliation_Source.sop
+@ [transport_hardening_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Cantor_Read_Only_Live_Codex_Transport_Hardening_Source.sop
 @ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Source_Document_Manifest.sop
 @ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Read_Only_Live_Codex_Adapter.exploded.sop
 @ [research] C:\Project\Cantor\narrative\research\Cantor_Codex_App_Server_Interface_Assessment_2026-07-30.sop
@@ -52,10 +53,12 @@ Description: Implementation authority for one operator-explicit, ephemeral, read
   + [notifications] are admitted only by method and typed parameters
   + [server_requests] are unexpected and fail the profile
   = must: reject malformed, oversized, duplicate, unknown-response, or premature messages
+  = must: use a bounded producer-consumer queue so the reader cannot escape the total-byte policy
 
 & [ReadOnlyThread] is nonpersistent least authority
   + [thread_start] sets ephemeral true, exact cwd, approvalPolicy never, sandbox read-only, and Cantor service name
   + [thread_response] supplies one nonempty exact thread id
+  + [returned_authority] must confirm approval never, readOnly no-network sandbox, and canonical exact cwd
   + [MCP_readiness] is required by app-server configuration and thread start fails if Cantor MCP cannot initialize
   + [experimental_fields] are absent
   - never: resume, fork, name, archive, persist, inject items, compact, roll back, or mutate metadata
@@ -124,6 +127,8 @@ Description: Implementation authority for one operator-explicit, ephemeral, read
   + [timeout_or_fault] is close stdin, request exact child kill if still live, wait, and return typed fault
   + [stderr] is concurrently drained to a bounded buffer and discarded without entering protocol evidence or logs
   + [MCP_child] is owned and reaped by app-server
+  + [partial_spawn] terminates and waits the exact child if any requested pipe handle is unavailable
+  + [normal_exit] must be graceful and successful; forced or nonzero exit is a typed fault
   - never: kill by PID without the exact Child handle or leave a detached process
 
 & [RequirementSet] is traceable
@@ -158,12 +163,12 @@ Description: Implementation authority for one operator-explicit, ephemeral, read
 
 & [SatisfactionSignature] is valid Phase 2 implementation authority
   + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
-  + [signature_uuid] is cf807996-e262-4e3b-8bc5-242dd3c066ee
-  + [source_snapshot_uuid] is 2a31e415-7832-4b9a-9c32-87ed05bf6cdf
+  + [signature_uuid] is 49232cc8-86d5-43e6-b709-08b6e1cda884
+  + [source_snapshot_uuid] is 2ae1df49-9a3d-41b3-b6ea-a223626d2d49
   + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Read_Only_Live_Codex_Adapter.sop
   + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Cantor_Read_Only_Live_Codex_Activation_Source_Selection.sop
   + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Read_Only_Live_Codex_Adapter.exploded.sop
-  + [processed_stage_set] is source_selected, raw_sources_preserved, prerequisite_proven, official_interface_researched, delineated, exploded, data_designed, state_machine_formed, security_bounded, fault_reviewed, live_observed, reconciled, phase_locked, justified, feature_sliced, and renewed_signed
+  + [processed_stage_set] is source_selected, raw_sources_preserved, prerequisite_proven, official_interface_researched, delineated, exploded, data_designed, state_machine_formed, security_bounded, fault_reviewed, live_observed, reconciled, resource_hardened, live_reproved, phase_locked, justified, feature_sliced, and second_renewed_signed
   + [signature_status] is valid_for_one_live_read_only_Codex_turn_profile
   + [implementation_authority] is safe_Rust_app_server_client_live_Codex_adapter_observed_Cantor_adapter_fake_protocol_tests_one_explicit_live_probe_docs_and_proof
   + [invalidation_condition] is source_change, missing trace, failed prerequisite, unsupported interface drift, executable or environment substitution, experimental dependency, hidden action, authority expansion, failed live proof, or implementation contradiction

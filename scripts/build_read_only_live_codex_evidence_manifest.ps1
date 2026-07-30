@@ -45,6 +45,7 @@ $paths = @(
     "Cargo.lock",
     "source_documents/2026-07-30_cantor_read_only_live_codex_activation/Cantor_Read_Only_Live_Codex_Activation_Source_Selection.sop",
     "source_documents/2026-07-30_cantor_read_only_live_codex_activation/Cantor_Read_Only_Live_Codex_Implementation_Reconciliation_Source.sop",
+    "source_documents/2026-07-30_cantor_read_only_live_codex_activation/Cantor_Read_Only_Live_Codex_Transport_Hardening_Source.sop",
     "source_documents/2026-07-30_cantor_read_only_live_codex_activation/Source_Document_Manifest.sop",
     "specifications/exploded/Cantor_Read_Only_Live_Codex_Adapter.exploded.sop",
     "specifications/Cantor_Read_Only_Live_Codex_Adapter.sop",
@@ -90,7 +91,7 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString("o")
     authority = [ordered]@{
         canonical_specification_uuid = "4090fcfc-b61d-41d4-896e-c9eb88d82409"
-        satisfaction_signature_uuid = "cf807996-e262-4e3b-8bc5-242dd3c066ee"
+        satisfaction_signature_uuid = "49232cc8-86d5-43e6-b709-08b6e1cda884"
         solution_uuid = "6f4a7123-b8ca-4d44-9b26-e64762a4fa88"
     }
     live_probe = [ordered]@{
@@ -116,8 +117,8 @@ $manifest = [ordered]@{
     verification = @(
         [ordered]@{ command = "cargo fmt --all -- --check"; status = "passed" },
         [ordered]@{ command = "cargo clippy --workspace --all-targets --locked --offline -- -D warnings"; status = "passed" },
-        [ordered]@{ command = "cargo test --workspace --all-targets --locked --offline"; tests = 195; status = "passed" },
-        [ordered]@{ command = "cargo test --workspace --all-targets --release --locked --offline"; tests = 195; status = "passed" },
+        [ordered]@{ command = "cargo test --workspace --all-targets --locked --offline"; tests = 196; status = "passed" },
+        [ordered]@{ command = "cargo test --workspace --all-targets --release --locked --offline"; tests = 196; status = "passed" },
         [ordered]@{ command = "cargo build --workspace --all-targets --release --locked --offline"; status = "passed" },
         [ordered]@{ command = "cargo doc --workspace --no-deps --locked --offline"; status = "passed" },
         [ordered]@{ command = "cargo audit --file Cargo.lock"; dependencies = 112; advisories = 1173; vulnerabilities = 0; status = "passed" }

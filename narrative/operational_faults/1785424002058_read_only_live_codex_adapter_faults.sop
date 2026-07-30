@@ -69,3 +69,28 @@ Subject: Cantor Read Only Live Codex Adapter Operational Faults
   + [observation] is existing clone-portable manifests reject changed Cargo.lock and shared navigation files
   + [repair] is complete all shared surfaces then regenerate prerequisite manifests in dependency order before the new live manifest
   + [status] is pending_final_release_gate
+
+& [UnboundedStdoutQueue] is found during post-proof resource audit
+  + [risk] is the reader can queue lines faster than consumer-side total-byte accounting
+  + [repair] is replace the unbounded channel with a synchronous two-line queue
+  + [status] is resolved_and_live_reproved
+
+& [BoundedStderrDeadlock] is found during post-proof resource audit
+  + [risk] is stopping stderr reads at the retention cap can fill the child pipe and deadlock progress
+  + [repair] is continue draining to EOF while retaining at most the bounded prefix
+  + [status] is resolved_and_live_reproved
+
+& [PartialSpawnAndExitAccounting] is found during child-ownership audit
+  + [risk] is a rare missing pipe can leave a spawned process and a completed turn can hide forced or nonzero termination
+  + [repair] is exact-child terminate-and-wait for partial setup plus graceful successful exit as the only accepted normal completion
+  + [status] is resolved_and_live_reproved
+
+& [ReturnedThreadAuthority] is found during response audit
+  + [risk] is accepting only ephemeral identity does not prove returned approval, sandbox, network, and cwd match the request
+  + [repair] is exact returned-authority validation and negative workspace-write substitution test
+  + [status] is resolved_and_live_reproved
+
+& [PreResponseNotificationAdmission] is narrowed
+  + [risk] is accepting arbitrary notification-shaped values before a response can hide interface drift
+  + [repair] is a phase-specific allowlist; current remoteControl/status/changed was discovered live and explicitly admitted as passive
+  + [status] is resolved_and_live_reproved

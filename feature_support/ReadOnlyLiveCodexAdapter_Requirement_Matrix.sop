@@ -13,15 +13,15 @@ Subject: Cantor Read Only Live Codex Adapter Requirement Matrix
 
 & [RLC-002] is exact local configuration admission
   + [support_status] is passed
-  + [proof_route] is canonical path and regular-file admission, lowercase SHA-256 pins, streaming file hash, exact Codex version probe, route and hard budget validation, plus the explicit live fingerprints
+  + [proof_route] is canonical path and regular-file admission, lowercase SHA-256 pins, streaming file hash, exact Codex version probe, route and hard budget validation, partial-spawn cleanup, plus the explicit live fingerprints
 
 & [RLC-003] is strict app-server JSONL protocol
   + [support_status] is passed
-  + [proof_route] is deterministic initialize, initialized, thread/start, and turn/start snapshots plus correlated response IDs, bounded JSONL reader, timeout, EOF, error, server-request, and unknown-notification rejection
+  + [proof_route] is deterministic initialize, initialized, thread/start, and turn/start snapshots plus correlated response IDs, bounded JSONL reader and synchronous queue, complete stderr drain, strict startup notification allowlist, timeout, EOF, error, server-request, and unknown-notification rejection
 
 & [RLC-004] is one ephemeral read-only thread
   + [support_status] is passed
-  + [proof_route] is emitted ephemeral true, approval never, read-only sandbox, exact cwd and developer instruction plus returned nonempty thread identity
+  + [proof_route] is emitted ephemeral true, approval never, read-only sandbox, exact cwd and developer instruction plus returned nonempty thread identity and returned approval, sandbox, network, and cwd equality
 
 & [RLC-005] is one schema-bound read-only turn
   + [support_status] is passed
@@ -53,4 +53,4 @@ Subject: Cantor Read Only Live Codex Adapter Requirement Matrix
 
 & [RLC-012] is no later authority
   + [support_status] is passed
-  + [proof_route] is separate module and examples, stable App Server plus MCP only, no dynamic tools, no write/effect API, no automatic retry, immutable evidence, bounded process cleanup, documentation, and explicit later-authority list
+  + [proof_route] is separate module and examples, stable App Server plus MCP only, no dynamic tools, no write/effect API, no automatic retry, immutable evidence, bounded resource ownership, graceful zero process exit, documentation, and explicit later-authority list

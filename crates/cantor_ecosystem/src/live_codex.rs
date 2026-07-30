@@ -552,6 +552,32 @@ fn run_app_server_session<Transport: AppServerTransport>(
             "thread/start did not confirm an ephemeral thread",
         );
     }
+    if thread_result.get("approvalPolicy").and_then(Value::as_str) != Some("never") {
+        return live_fault(
+            "app_server",
+            "thread/start did not confirm approval policy never",
+        );
+    }
+    if thread_result
+        .pointer("/sandbox/type")
+        .and_then(Value::as_str)
+        != Some("readOnly")
+        || thread_result
+            .pointer("/sandbox/networkAccess")
+            .is_some_and(|value| value != &Value::Bool(false))
+    {
+        return live_fault(
+            "app_server",
+            "thread/start did not confirm a read-only no-network sandbox",
+        );
+    }
+    let returned_cwd = required_string(&thread_result, &["cwd"], "thread working directory")?;
+    if fs::canonicalize(Path::new(&returned_cwd)).ok().as_ref() != Some(&config.working_directory) {
+        return live_fault(
+            "app_server",
+            "thread/start returned a different working directory",
+        );
+    }
 
     let prompt = live_prompt(config, work_packet, request, admitted_proof_refs)?;
     transport.send(&json!({
@@ -712,6 +738,7 @@ fn run_app_server_session<Transport: AppServerTransport>(
             | "item/reasoning/textDelta"
             | "mcpServer/startupStatus/updated"
             | "model/verification"
+            | "remoteControl/status/changed"
             | "thread/status/changed"
             | "thread/tokenUsage/updated"
             | "turn/plan/updated"
@@ -886,9 +913,37 @@ fn expect_response<Transport: AppServerTransport>(
                 .ok_or_else(|| live_error("app_server", "response has no result"));
         }
         // Startup notifications are informative but cannot substitute for the
-        // exact correlated response.
-        if message.get("method").and_then(Value::as_str).is_none() {
-            return live_fault("app_server", "invalid JSON-RPC message before response");
+        // exact correlated response. Keep this allowlist narrow so a new
+        // interactive request or actionable event cannot disappear in setup.
+        match message.get("method").and_then(Value::as_str) {
+            Some(
+                "mcpServer/startupStatus/updated"
+                | "remoteControl/status/changed"
+                | "thread/started"
+                | "thread/status/changed"
+                | "account/rateLimits/updated"
+                | "warning"
+                | "configWarning"
+                | "deprecationNotice",
+            ) => {}
+            Some("error") => {
+                return live_fault(
+                    "app_server",
+                    format!(
+                        "app-server error before response: {}",
+                        bounded_json(message.get("params").unwrap_or(&Value::Null))
+                    ),
+                );
+            }
+            Some(other) => {
+                return live_fault(
+                    "app_server",
+                    format!("notification {other:?} is not admitted before response"),
+                );
+            }
+            None => {
+                return live_fault("app_server", "invalid JSON-RPC message before response");
+            }
         }
     }
 }
@@ -1125,19 +1180,21 @@ impl ChildTransport {
                 format!("could not launch pinned Codex executable: {error}"),
             )
         })?;
-        let stdin = child
-            .stdin
-            .take()
-            .ok_or_else(|| live_error("app_server_spawn", "child stdin is unavailable"))?;
-        let stdout = child
-            .stdout
-            .take()
-            .ok_or_else(|| live_error("app_server_spawn", "child stdout is unavailable"))?;
-        let stderr = child
-            .stderr
-            .take()
-            .ok_or_else(|| live_error("app_server_spawn", "child stderr is unavailable"))?;
-        let (sender, receiver) = mpsc::channel();
+        let Some(stdin) = child.stdin.take() else {
+            terminate_child(&mut child);
+            return live_fault("app_server_spawn", "child stdin is unavailable");
+        };
+        let Some(stdout) = child.stdout.take() else {
+            terminate_child(&mut child);
+            return live_fault("app_server_spawn", "child stdout is unavailable");
+        };
+        let Some(stderr) = child.stderr.take() else {
+            terminate_child(&mut child);
+            return live_fault("app_server_spawn", "child stderr is unavailable");
+        };
+        // A synchronous two-line queue keeps the reader concurrent without
+        // allowing the producer to outpace the configured total-byte gate.
+        let (sender, receiver) = mpsc::sync_channel(2);
         let max_line_bytes = config.source.max_line_bytes;
         let reader = thread::spawn(move || {
             let mut reader = BufReader::new(stdout);
@@ -1170,12 +1227,19 @@ impl ChildTransport {
             }
         });
         let stderr_reader = thread::spawn(move || {
-            let mut bytes = Vec::new();
-            let _ = stderr
-                .take((MAX_STDERR_BYTES + 1) as u64)
-                .read_to_end(&mut bytes);
-            bytes.truncate(MAX_STDERR_BYTES);
-            bytes
+            let mut stderr = stderr;
+            let mut retained = Vec::new();
+            let mut buffer = [0_u8; 8 * 1024];
+            loop {
+                match stderr.read(&mut buffer) {
+                    Ok(0) | Err(_) => break,
+                    Ok(count) => {
+                        let remaining = MAX_STDERR_BYTES.saturating_sub(retained.len());
+                        retained.extend_from_slice(&buffer[..count.min(remaining)]);
+                    }
+                }
+            }
+            retained
         });
         Ok(Self {
             child,
@@ -1191,9 +1255,11 @@ impl ChildTransport {
     fn finish(&mut self) -> Result<(), EcosystemFault> {
         self.stdin.take();
         let wait_deadline = Instant::now() + Duration::from_secs(5);
-        loop {
+        let (terminal_status, forced_termination) = loop {
             match self.child.try_wait() {
-                Ok(Some(_)) => break,
+                Ok(Some(status)) => {
+                    break (Some(status), false);
+                }
                 Ok(None) if Instant::now() < wait_deadline => {
                     thread::sleep(Duration::from_millis(20));
                 }
@@ -1201,20 +1267,36 @@ impl ChildTransport {
                     self.child
                         .kill()
                         .map_err(|error| live_error("app_server_finish", error.to_string()))?;
-                    let _ = self.child.wait();
-                    break;
+                    break (self.child.wait().ok(), true);
                 }
                 Err(error) => return live_fault("app_server_finish", error.to_string()),
             }
-        }
+        };
         if let Some(reader) = self.reader.take() {
             let _ = reader.join();
         }
         if let Some(reader) = self.stderr_reader.take() {
             let _ = reader.join();
         }
-        Ok(())
+        if forced_termination {
+            live_fault(
+                "app_server_finish",
+                "app-server required forced termination after terminal completion",
+            )
+        } else if terminal_status.is_some_and(|status| !status.success()) {
+            live_fault(
+                "app_server_finish",
+                "app-server exited unsuccessfully after terminal completion",
+            )
+        } else {
+            Ok(())
+        }
     }
+}
+
+fn terminate_child(child: &mut Child) {
+    let _ = child.kill();
+    let _ = child.wait();
 }
 
 impl Drop for ChildTransport {
@@ -1604,11 +1686,15 @@ mod tests {
             codex_executable: PathBuf::from("codex"),
             cantor_mcp_executable: PathBuf::from("cantor-mcp"),
             environment_file: PathBuf::from("environment.json"),
-            working_directory: PathBuf::from("."),
+            working_directory: fs::canonicalize(
+                std::env::current_dir().expect("test working directory"),
+            )
+            .expect("canonical test working directory"),
         }
     }
 
     fn successful_script(request: &ProtocolRequest, response: &ProtocolResponse) -> Vec<Value> {
+        let cwd = path_text(&config().working_directory).expect("test cwd");
         let payload = LiveCandidatePayload {
             summary: "strict transcript accepted".to_owned(),
             satisfied_criterion_ids: [id("criterion:live_parser")].into_iter().collect(),
@@ -1619,6 +1705,9 @@ mod tests {
         vec![
             json!({"jsonrpc":"2.0","id":1,"result":{"serverInfo":{"name":"codex"}}}),
             json!({"jsonrpc":"2.0","id":2,"result":{
+                "approvalPolicy":"never",
+                "sandbox":{"type":"readOnly","networkAccess":false},
+                "cwd":cwd,
                 "thread":{"id":"thread-live","ephemeral":true}
             }}),
             json!({"jsonrpc":"2.0","id":3,"result":{
@@ -1770,6 +1859,15 @@ mod tests {
         script[6]["params"]["turn"]["id"] = json!("turn-other");
         let fault = run_script(script).expect_err("terminal correlation");
         assert!(fault.message.contains("terminal notification correlation"));
+    }
+
+    #[test]
+    fn strict_session_requires_returned_thread_authority_to_match_request() {
+        let (request, response) = protocol_exchange();
+        let mut script = successful_script(&request, &response);
+        script[1]["result"]["sandbox"] = json!({"type":"workspaceWrite","networkAccess":false});
+        let fault = run_script(script).expect_err("expanded returned sandbox");
+        assert!(fault.message.contains("read-only no-network"));
     }
 
     #[test]

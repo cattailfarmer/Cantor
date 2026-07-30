@@ -11,20 +11,21 @@ Subject: Cantor Read Only Live Codex Adapter Proof
   + [proof_uuid] is c30a90cf-eea0-4dd8-96e5-1e471847f02e
   + [captured_at] is 2026-07-30
   + [result] is passed_and_boundedly_activated
-  + [evidence_manifest_sha256] is 87517AE7CA0F3B6A9DEF058AAD3688DCDCB9DA1DA4466DE3E1DAB8FD2C6C6E5A
-  + [live_outcome_sha256] is DEFF79EDDC755E7BB1F7EDCBB4C849DB22E2B5935D744287173CC6B8BCBCB384
+  + [evidence_manifest_sha256] is 399CC3B80C7890A88CA0DA8E06735B2AD1E9F9D5283E8FA7F881EBBDAD1E1035
+  + [live_outcome_sha256] is 6C1EA1AB86E59F36A780494F907B68B5F81985464462666727B05BACC8347732
 
 & [AuthorityProof] is RLC-001 and RLC-012
   + [source_selection_sha256] is 4AD1BDC1AF33966A316BF144F2D51018E9A583B5B6E171AD0D31DC9681CC90F6
   + [reconciliation_source_sha256] is 9251F475EE3C201345A071BA5351239F98B9EF67C71D93F8DF7BA9F0246F99D4
+  + [transport_hardening_source_sha256] is 7317D3D9E5CEF1AF556687E4285A0CB10C8952A04B9C00AAD381B25DB101A7A0
   + [canonical_uuid] is 4090fcfc-b61d-41d4-896e-c9eb88d82409
-  + [renewed_signature_uuid] is cf807996-e262-4e3b-8bc5-242dd3c066ee
+  + [renewed_signature_uuid] is 49232cc8-86d5-43e6-b709-08b6e1cda884
   + [proof] is one separate safe-Rust module and two operator examples over stable App Server and stable MCP only
   + [absence] is no workspace-write API, dynamic tool, automatic retry, steering, persistence, notification continuation, manager iteration, multi-worker, or effect surface
   + [status] is passed
 
 & [ConfigurationProof] is RLC-002
-  + [proof] is exact config profile, absolute canonical non-symlink regular files, lowercase streaming SHA-256 pins, bounded version probe, exact route, directory, and hard budgets
+  + [proof] is exact config profile, absolute canonical non-symlink regular files, lowercase streaming SHA-256 pins, bounded version probe, exact route, directory, hard budgets, and exact-child partial-spawn cleanup
   + [negative] is malformed or uppercase digest, wrong file digest, unsupported profile, invalid route, invalid path type, and invalid budget rejection
   + [live] is exact Codex, Cantor MCP, environment, version, and working-directory admission before process launch
   + [status] is passed
@@ -33,7 +34,8 @@ Subject: Cantor Read Only Live Codex Adapter Proof
   + [requests] is initialize then initialized then thread/start then turn/start with deterministic IDs
   + [thread] is ephemeral true, approval never, read-only, exact cwd, no experimental API, and exact one-tool developer instruction
   + [turn] is readOnly networkAccess false, approval never, one text input, and supported closed output schema
-  + [transport] is bounded-before-allocation JSONL lines, total bytes, events, absolute timeout, correlated responses, and exact terminal identity
+  + [transport] is bounded-before-allocation JSONL lines, synchronous two-line producer queue, complete stderr drain, total bytes, events, absolute timeout, correlated responses, and exact terminal identity
+  + [returned_authority] is approval never, readOnly no-network sandbox, and canonical exact cwd
   + [negative] is server request, unknown notification, wrong response, duplicate call, substituted call identity, wrong terminal identity, failed status, EOF, and limit failure
   + [status] is passed
 
@@ -65,33 +67,34 @@ Subject: Cantor Read Only Live Codex Adapter Proof
 & [LiveProof] is RLC-011
   + [codex_version] is codex-cli 0.146.0
   + [codex_executable_sha256] is BC343BA420DC2E2E9F59E6FC5E5BF0AAE1CD8C771FC319665241FC9C0271FDDB
-  + [cantor_mcp_executable_sha256] is 1B56C0114B139ECD602776B868E07D812C8C2CBEBD2B9B1438913A7F28FF0B1D
+  + [cantor_mcp_executable_sha256] is FA81784FD9C6F40A23074D822048A1A441A5764DC9AF4C676180FEAA64FD26B3
   + [environment_sha256] is 5E81AC0151353C19E6BE3FD3975FA315E6CDD2C90944AA83C1EE91D6A9A338C3
-  + [thread_id] is 019fb3ae-adb2-7452-86e5-9911b226e022
-  + [turn_id] is 019fb3ae-ae78-7601-8e84-51124073ac28
-  + [events] is 106
-  + [received_bytes] is 49427
+  + [thread_id] is 019fb3c1-6ee9-7473-b69e-ffc9fd41a393
+  + [turn_id] is 019fb3c1-6fa6-7cc2-80e2-5472372e105a
+  + [events] is 89
+  + [received_bytes] is 44831
   + [advisories] is 0
   + [tool_calls] is 1
   + [logical_messages] is 7
   + [requested_effects] is 0
-  + [candidate_message_sha256] is 9276FB5E88DA60FE4FAAB56BF89559C29C41806740934A1A92C625CE3F7E7A80
+  + [candidate_message_sha256] is 26FE7922183700F4C622F4F0B1881DEE00766E0111F9552A48752BA772C34750
+  + [process_exit] is graceful_success
   + [review] is accept
   + [decision] is accept
   + [status] is passed
 
 & [FocusedTestProof] is deterministic protocol evidence
-  + [unit_tests] is fifteen strict session, parser, hash, schema, route, identity, and adversarial tests
+  + [unit_tests] is sixteen strict session, parser, hash, returned-authority, schema, route, identity, and adversarial tests
   + [bridge_tests] is five live-result, effect, proof, substitution, release, and accepted-cycle tests
   + [evidence_test] is one clone-portable exact-byte and SHA-256 live artifact-manifest test
-  + [result] is 21 new tests passed
+  + [result] is 22 new tests passed
   + [status] is passed
 
 & [VerificationProof] is the complete release gate
-  + [production] is formatting, warnings-denied all-target lint, 195 debug tests, 195 overflow-checked release tests, release all-target build, and documentation passed locked and offline
+  + [production] is formatting, warnings-denied all-target lint, 196 debug tests, 196 overflow-checked release tests, release all-target build, and documentation passed locked and offline
   + [dependency_audit] is 112 dependencies scanned against 1173 RustSec advisories with zero vulnerabilities
   + [unsafe] is forbidden by the production workspace lint profile
-  + [evidence] is 33 clone-portable artifacts plus the accepted full live outcome with exact byte counts and SHA-256 verification
+  + [evidence] is 34 clone-portable artifacts plus the accepted full live outcome with exact byte counts and SHA-256 verification
   + [status] is passed
 
 & [GovernanceAndGitProof] is attributable

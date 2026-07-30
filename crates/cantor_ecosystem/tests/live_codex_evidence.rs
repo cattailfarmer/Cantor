@@ -24,7 +24,7 @@ fn read_only_live_codex_manifest_hashes_probe_and_clone_portable_artifacts() {
     );
     assert_eq!(
         manifest["authority"]["satisfaction_signature_uuid"],
-        "cf807996-e262-4e3b-8bc5-242dd3c066ee"
+        "49232cc8-86d5-43e6-b709-08b6e1cda884"
     );
     assert_eq!(
         manifest["live_probe"]["profile"],

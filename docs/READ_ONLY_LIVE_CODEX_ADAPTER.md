@@ -17,6 +17,11 @@ This is a narrow inference-coprocessor seam. It is not a persistent manager, sha
 9. binds request, response, and exact final-message bytes to independent SHA-256 evidence.
 10. replays the observed exchange through the logical `cantor_query`, `cantor_return`, and `candidate` stages and lets the deterministic Observer decide.
 
+The process boundary uses a synchronous two-line stdout queue, bounds each
+line before allocation, continues draining stderr after its retention limit,
+terminates partially initialized children, validates the authority returned by
+`thread/start`, and requires graceful successful App Server exit.
+
 The physical model turn finishes before the buffered exchange is translated into those three logical messages. This preserves the ecosystem contract for review and evidence; it does not claim to alter causal order inside model inference.
 
 ## Operator probe
@@ -70,10 +75,10 @@ The finalized adapter completed an explicit probe with:
 
 - `codex-cli 0.146.0`;
 - exact Codex executable SHA-256 `bc343ba420dc2e2e9f59e6fc5e5bf0aae1cd8c771fc319665241fc9c0271fddb`;
-- exact `cantor-mcp` SHA-256 `1b56c0114b139ecd602776b868e07d812c8c2cbebd2b9b1438913a7f28ff0b1d`;
+- exact `cantor-mcp` SHA-256 `fa81784fd9c6f40a23074d822048a1a441a5764dc9af4c676180feaa64fd26b3`;
 - exact environment SHA-256 `5e81ac0151353c19e6be3fd3975fa315e6cdd2c90944aa83c1ee91d6a9a338c3`;
 - one `cantor.query_sop` call;
-- 106 admitted App Server events and 49,427 received bytes;
+- 89 admitted App Server events and 44,831 received bytes;
 - zero advisories and zero requested effects;
 - a verified response digest `801558450a76dee795d3abd9e453a92088b8a2a45b375e71ebf57aa8358768d4`;
 - Observer `accept` and manager `accept`.
