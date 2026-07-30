@@ -5,10 +5,10 @@ Subject: Cantor Engine Build Plan
 
 & [BuildPlanIdentity] is the dependency-ordered execution plan
   + [plan_uuid] is 7a5120ad-760e-48dc-97fe-7612c22d821e
-  + [plan_status] is CandidateWorkspaceAdmission_complete
+  + [plan_status] is BoundedCandidateMutation_formation_complete
   + [completed] is Phase0 through Phase6 and CEB-001 through CEB-015
   + [active_phase] is none_between_proven_slices
-  + [next_candidate] is Phase3B BoundedCandidateMutation source selection and SJS only; workspace write remains inactive until separately signed
+  + [next_candidate] is Phase3C immutable seal and independent-review formation plus Phase3B target-host sandbox fixture design; workspace write remains inactive until separately signed
   + [implementation_language] is safe Rust edition 2024
   + [initial_workspace] is one Cargo workspace with cantor_core, cantor_cli, and cantor_mcp
   + [work_rule] is implement and prove one contiguous slice before activating its dependent
@@ -168,6 +168,16 @@ Subject: Cantor Engine Build Plan
   + [rollback] is remove or disable the standalone read-only admission module while every prior surface remains complete
   + [result] is exact Git, repository, linked-worktree, branch, base, clean-state, path-policy, deterministic receipt, freshness, resource, and nonmutation proof
   - never: prepare or mutate the candidate, launch Codex, execute tests, accept model claims as state, commit, merge, push, sign, activate, or promote
+
+& [BoundedCandidateMutation] is form one future contained write without activating it
+  + [status] is formation_complete_implementation_blocked
+  @ [formation_authority] C:\Project\Cantor\specifications\Cantor_Bounded_Candidate_Mutation.sop
+  + [depends_on] is CandidateWorkspaceAdmission complete
+  + [formed_actions] is revalidate one single-use admission receipt, launch one exact workspace-write no-network approval-never App Server turn, account correlated events, interrupt and quarantine faults, and hand dirty physical state to Phase3C
+  + [formed_output] is one deterministic MutationRunRecord that is evidence rather than an accepted candidate
+  + [activation_blockers] is physical Windows allowed-and-denied sandbox matrix, world-writable setup proof, mutable event fixtures, Phase3C sealer contract, supervisor-test contract, and renewed satisfaction signature
+  + [next_dependency_work] is form Phase3C and design the non-production target-host fixture without executing a write
+  - never: infer implementation authority from formation, or let Phase3B seal, review, clean, accept, commit, push, merge, activate, or promote its own result
 
 & [Phase8FPGAExecutionProfiles] is implement CEB-021 through CEB-030 only when separately activated
   + [depends_on] is stable software protocol, deterministic software oracle, measured workload, explicit device target, and hardware threat model

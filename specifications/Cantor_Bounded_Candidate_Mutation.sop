@@ -1,0 +1,190 @@
+Subject: Cantor Bounded Candidate Mutation
+
+Description: Formation contract for one future workspace-write Codex turn confined to a freshly revalidated disposable candidate worktree. This specification does not yet authorize implementation or a live write.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_bounded_candidate_mutation\Cantor_Phase3B_Bounded_Candidate_Mutation_Source_Selection.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_bounded_candidate_mutation\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Codex_Workspace_Write_Boundary_Assessment_2026-07-30.sop
+@ [phase_3A] C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Bounded_Candidate_Mutation.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Bounded_Candidate_Mutation_Justification.sop
+@ [matrix] C:\Project\Cantor\feature_support\BoundedCandidateMutation_Requirement_Matrix.sop
+
+& [BoundedCandidateMutation] is one contained local-effect formation
+  + [profile] is cantor-bounded-candidate-mutation/0.1
+  + [input] is one strict MutationWorkPacket and one fresh Phase3A AdmissionReceipt
+  + [physical_worker] is one exact hash-pinned Codex App Server child
+  + [logical_worker] is one ephemeral thread and one turn
+  + [effect_scope] is filesystem mutation inside one disposable candidate worktree
+  + [output] is one MutationRunRecord or one MutationFault
+  + [next_consumer] is a separately governed Phase3C sealer and independent reviewer
+  - never: return an accepted CandidateArtifact, mutate repository history, or grant promotion
+
+& [MutationWorkPacket] is the complete physical commission
+  + [profile] is exact
+  + [mutation_uuid] and [correlation_uuid] and [admission_nonce] are canonical identities
+  + [admission_request_sha256] and [admission_receipt_sha256] bind Phase3A
+  + [candidate_workspace] and [base_commit] and [branch_ref] equal the receipt
+  + [purpose] is one bounded requested change
+  + [allowed_relative_paths] exactly equal the receipt path policy
+  + [acceptance_criteria] are typed, bounded, and non-effectual
+  + [Cantor_queries] are an exact bounded set of permitted read-only request identities
+  + [event_policy] is admitted item and notification kinds plus hard counts and bytes
+  + [budgets] are turn time, total events, total bytes, command items, file-change items, MCP calls, and call depth
+  + [final_schema] is one closed non-authoritative worker report
+  = must: reject defaults, unknown fields, duplicate identities, empty sets, authority expansion, and any mismatch with Phase3A
+
+& [FreshAdmissionHandoff] is single-use and immediate
+  + [revalidation] reruns Phase3A against the exact request immediately before App Server launch
+  + [equality] requires the new receipt to equal the supplied receipt byte for byte
+  + [nonce] is claimed by exactly one mutation-run state machine before turn start
+  + [stale_or_replayed] faults before process launch
+  + [TOCTOU_window] is recorded and bounded but not falsely declared absent
+  - never: accept a saved receipt as present-state proof
+
+& [MutationSurfacePreflight] is required but not yet proven
+  + [candidate_root] is the exact revalidated linked worktree
+  + [principal_root] and [Git_common_dir] are outside writable scope
+  + [additional_writable_roots] is empty
+  + [temporary_directory_write] is excluded where supported
+  + [network] is false
+  + [world_writable_scan] must complete with no relevant unprotectable directory
+  + [escape_surface] includes symlink, junction, reparse point, hard link, mount, alternate data stream, case alias, and path canonicalization behavior
+  = must: prove allowed candidate writes succeed and principal, common-dir, parent, temp, network, and escape writes fail on the target host
+  - never: infer OS enforcement from JSON schema alone
+
+& [AppServerMutationProfile] is stable and exact
+  + [initialize] is the already proven stable handshake
+  + [thread_start] is ephemeral true, exact candidate cwd, approvalPolicy never, sandbox workspace-write, exact service name, and no experimental fields
+  + [thread_response] must confirm ephemeral identity, approval never, workspaceWrite, no network expansion, and exact canonical cwd
+  + [turn_start] repeats exact cwd and approval never
+  + [sandboxPolicy] is type workspaceWrite, networkAccess false, writableRoots empty, excludeSlashTmp true, and excludeTmpdirEnvVar true
+  + [input] is one supervisor-compiled prompt containing purpose, criteria, path policy, prohibitions, proof obligations, and final schema
+  + [outputSchema] is a strict worker report rather than candidate acceptance
+  = must: pin executable, version, environment, schema profile, and every emitted request
+  - never: use command/exec, unsandboxed shell fields, dynamic tools, persistent threads, resume, fork, steering, retry, or approval review
+
+& [CantorReadChannel] is optional bounded semantic counsel
+  + [server] and [tool] are the existing exact stable Cantor MCP route
+  + [operation] is read-only query_sop
+  + [request] must be one supervisor-admitted request identity and exact structured request
+  + [response] must pass the existing core verifier
+  + [maximum_calls] is work-packet bounded
+  - never: let retrieved SOP expand mutation or effect authority
+
+& [MutableEventGrammar] is closed and correlated
+  + [commandExecution] binds item identity, exact command text, best-effort actions, exact cwd, source, lifecycle, output account, exit, duration, and process identity when present
+  + [fileChange] binds item identity, lifecycle, path, diff, and change kind
+  + [MCP_call] binds exact route, arguments, result, and lifecycle
+  + [agent_message] binds exact final bytes and digest
+  + [reasoning_and_plan] are advisory and bounded
+  + [turn_terminal] binds exact thread and turn identity and completion status
+  = must: reject duplicate starts, missing completions, identity substitution, wrong cwd, unknown item, unknown notification, oversized output, server request, or terminal mismatch
+  = must: account every event before retaining its payload
+
+& [ReactivePolicyBoundary] is honest
+  + [command_text] and [commandActions] are evidence, not a sound pre-execution parser
+  + [fileChange_event] is evidence, not authoritative post-state
+  + [outside_allowlist_event] triggers immediate turn interrupt and quarantine
+  + [forbidden_command_event] triggers immediate turn interrupt and quarantine
+  + [interrupt] limits further progress but does not undo or deny prior mutation
+  + [authoritative_path_policy] is evaluated later from sealed filesystem state in Phase3C
+  - never: claim event rejection prevented a write unless a separate physical test proves prevention
+
+& [CommandAccounting] is bounded without trusting command claims
+  + [cwd] must be candidate root or a descendant after canonical reconciliation
+  + [source] must be agent
+  + [command_count] and [aggregate_output] and [duration] are bounded
+  + [model_run_tests] are observations only
+  + [supervisor_tests] are outside Phase3B and may become proof only under Phase3C
+  + [Git_history_commands] including add, commit, reset, checkout, switch, merge, rebase, tag, branch mutation, worktree mutation, clean, gc, maintenance, and remote operations are forbidden signals
+  + [network_and_credentials] are forbidden
+  = must: preserve exact command bytes for later review
+
+& [FileChangeAccounting] is provisional
+  + [path] is normalized and checked against candidate containment and the allowed path policy
+  + [diff] and [kind] are bounded and retained as event evidence
+  + [delete_or_rename] requires explicit work-packet permission
+  + [special_file] is forbidden
+  + [post_state] is not inferred from diff text
+  = must: interrupt and quarantine on any provisional violation
+
+& [MutationLifecycle] is one-way and bounded
+  + [Prepared] permits only validation
+  + [Revalidated] claims the nonce and permits exact child launch
+  + [SandboxReady] requires no world-writable or setup fault
+  + [TurnRunning] admits correlated events under budgets
+  + [TurnTerminal] closes model execution
+  + [HandoffPendingSeal] preserves the dirty worktree and MutationRunRecord for Phase3C
+  + [Quarantined] preserves fault evidence and forbids reuse
+  + [Closed] owns and reaps the exact child
+  = must: allow only declared forward transitions
+  - never: automatically retry, clean, reset, delete, reuse, accept, commit, or promote
+
+& [MutationRunRecord] is physical evidence, not a candidate proof
+  + [profile] and [mutation_uuid] and [correlation_uuid] are exact
+  + [admission_receipt_sha256] and [nonce] bind entry state
+  + [Codex_identity] is executable digest, version, environment digest, thread, and turn
+  + [sandbox] is emitted and returned authority evidence plus setup notifications
+  + [events] are an ordered digest-bound account
+  + [commands] and [file_changes] and [Cantor_calls] are exact bounded summaries plus raw evidence digests
+  + [worker_report] is exact bytes, schema decode, and digest
+  + [resources] are event, byte, command, file-change, MCP, and time accounts
+  + [terminal_state] is handoff_pending_seal or quarantined
+  + [requested_effects] outside the candidate are empty
+  - never: assert allowed paths, passing tests, accepted code, clean state, or promotion eligibility before Phase3C
+
+& [MutationFault] is typed and consequence-aware
+  + [class] is admission, replay, process, sandbox, world_writable, protocol, approval, command, path, tool, budget, terminal, or internal
+  + [operation] and [message] and [physical_ids] are bounded
+  + [may_have_mutated] is false only before turn start and true or unknown after turn start
+  + [quarantine_required] is true for every post-turn-start fault
+  + [evidence_prefix] is immutable
+  = must: interrupt when possible, close exact child, preserve evidence, and report dirty-state uncertainty
+
+& [Phase3CHandoff] is mandatory
+  + [input] is exact Phase3A baseline receipt, Phase3B run record, and isolated physical worktree
+  + [sealer] captures authoritative changed paths and bytes, special files, Git head/ref/common-dir invariants, and independently executed tests
+  + [reviewer] evaluates the immutable sealed capsule in a fresh context
+  + [failure] leaves worktree quarantined for explicit operator disposition
+  - never: let Phase3B perform its own authoritative acceptance
+
+& [RequirementSet] is traceable formation
+  + [BCM-001] is preserve source, research, four-phase delineation, and Phase3A proof lineage
+  + [BCM-002] is strictly bind one mutation work packet to one fresh single-use admission receipt
+  + [BCM-003] is physically prove the target-host workspaceWrite containment and escape boundary
+  + [BCM-004] is use one pinned stable ephemeral workspace-write no-network approval-never App Server turn
+  + [BCM-005] is admit only the existing bounded read-only Cantor MCP route
+  + [BCM-006] is strictly correlate and account command, file-change, MCP, message, and terminal events
+  + [BCM-007] is distinguish reactive event faults from preventive sandbox enforcement
+  + [BCM-008] is bound command cwd, count, output, time, exact text, and forbidden signals
+  + [BCM-009] is provisionally check file-change paths and preserve exact event evidence
+  + [BCM-010] is interrupt, terminate, reap, and quarantine with honest may-have-mutated state
+  + [BCM-011] is produce a deterministic digest-bound MutationRunRecord without acceptance claims
+  + [BCM-012] is hand dirty physical state to a separate authoritative Phase3C sealer
+  + [BCM-013] is prove allowed mutation plus denied principal, common-dir, parent, temp, network, and path-escape attempts
+  + [BCM-014] is prove protocol, resource, retry, approval, cleanup, and authority fault paths
+  + [BCM-015] is preserve every prior Cantor runtime and proof
+  + [BCM-016] is expose no preparation, authoritative review, Git-history mutation, external effect, cleanup, or promotion authority
+
+& [SJSProcessingTrace] is complete for formation
+  + [fold_1_subject] is one contained local mutation turn over a freshly admitted disposable candidate
+  + [fold_2_boundary] is physical mutation and event evidence inside; preparation, authoritative seal, review, cleanup, and promotion outside
+  + [fold_3_data_design] is work packet, receipt handoff, sandbox profile, event records, resource account, run record, fault, quarantine, and Phase3C handoff
+  + [fold_4_governance] is source lineage, single use, least writable root, no network, no approval, reactive honesty, exact-child ownership, and no self-acceptance
+  + [fold_5_solution_shape] is revalidate, launch, prove sandbox ready, run once, account, terminate, quarantine-or-handoff, and close
+  + [fold_6_fault_review] is stale receipt, sandbox escape, world-writable gap, path alias, event delay, command ambiguity, approval request, output exhaustion, partial mutation, false rollback, and self-review
+  + [fold_7_phase_lock] is formation is signed while implementation and every live write remain blocked by physical sandbox and sealer prerequisites
+
+& [FormationSignature] is design authority only
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 99201d16-5d09-4707-8c9d-7efb24f8cc63
+  + [source_snapshot_uuid] is b122d02b-b684-4dc8-ac10-9f9a7d254b7f
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Bounded_Candidate_Mutation.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_bounded_candidate_mutation\Cantor_Phase3B_Bounded_Candidate_Mutation_Source_Selection.sop
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Bounded_Candidate_Mutation.exploded.sop
+  + [processed_stage_set] is source_selected, source_preserved, prerequisite_proven, official_schema_pinned, prevention_detection_delineated, exploded, data_designed, state_machine_formed, sandbox_risks_exposed, fault_reviewed, justified, feature_sliced, and formation_signed
+  + [signature_status] is valid_for_Phase3B_formation_only
+  + [implementation_authority] is absent
+  + [activation_prerequisites] is physical Windows sandbox escape matrix, world-writable setup proof, exact mutable event fixtures, Phase3C sealer contract, supervisor-test contract, and renewed satisfaction signature
+  + [invalidation_condition] is source change, interface drift, failed prerequisite, hidden write surface, preventive overclaim, cleanup or promotion inference, or contradictory physical proof

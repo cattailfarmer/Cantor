@@ -1,0 +1,70 @@
+Subject: Cantor Codex Workspace Write Boundary Assessment 2026-07-30
+
+& [AssessmentIdentity] is pinned local official-interface research
+  + [assessment_uuid] is 383edfb3-2583-42b9-b4aa-9d67db9471d7
+  + [captured_at] is 2026-07-30T11:48:40.2024407-05:00
+  + [codex_version] is codex-cli 0.146.0
+  + [status] is sufficient_for_formation_not_for_activation
+
+@ [official_app_server_documentation] https://learn.chatgpt.com/docs/app-server.md
+@ [official_app_server_repository] https://github.com/openai/codex/tree/main/codex-rs/app-server
+@ [local_schema_root] C:\Project\Cantor\.local\codex-app-server-schema
+
+& [PinnedSchemaEvidence] is generated from the installed official App Server
+  + [TurnStartParams_sha256] is 5a9ab37416400c94738511d04de099c1a17c9fc3ab4105d7d45915aaa136f06a
+  + [ThreadStartParams_sha256] is e73c4b74acfb3330cbb3bd6c8cef191336f4f5d6acc1be6b76a85aa47a50d9e9
+  + [ItemStartedNotification_sha256] is c9f5c61f55fc648dad054ff103c576510383f036b7b399e0495f1c923d74efe4
+  + [ServerRequest_sha256] is f03edbe01fe4b113bda710aa73791d0d6b3eef332b44adf60fa4208547f1e630
+  + [ServerNotification_sha256] is 8f925db61ced49e26d04410ac5ed06c390ad7045c32c59fe6ea2b96df7fd6d81
+  + [portability] is hashes identify ignored generated evidence; tracked specifications preserve interpreted contracts, not generated schemas
+
+& [StableWriteSurface] is available
+  + [thread_start] accepts sandbox workspace-write, approvalPolicy never, exact cwd, ephemeral true, and developer instructions
+  + [turn_start] accepts a workspaceWrite SandboxPolicy with networkAccess false, excludeSlashTmp, excludeTmpdirEnvVar, and additional writableRoots
+  + [turn_start] accepts exact cwd, approvalPolicy, input, and outputSchema
+  + [turn_interrupt] exists as an explicit request
+  + [finding] is no modified llama.cpp or Codex fork is required for a bounded workspace-write experiment
+
+& [ObservableItems] are useful but not preventive proof
+  + [commandExecution] exposes item identity, command string, best-effort commandActions, cwd, status, aggregated output, duration, exit code, and process identity when available
+  + [commandActions] currently classify read, listFiles, search, or unknown and explicitly describe parsing as best effort
+  + [fileChange] exposes item identity, status, and path/diff/kind changes
+  + [output_deltas] expose command and file-change progress
+  + [finding] is command strings and file-change events can be accounted and faulted but do not constitute a pre-execution policy engine
+  + [finding] is an item/started or interrupt response cannot prove that no filesystem mutation preceded observation
+
+& [ApprovalBoundary] is closed for the proposed profile
+  + [server_requests] include commandExecution requestApproval, fileChange requestApproval, permission requests, MCP elicitation, and user input
+  + [profile] uses approvalPolicy never and treats every server request as a fault
+  + [reason] is the manager has no Phase3B authority to grant escalation
+
+& [SandboxBoundary] has explicit limitations
+  + [workspaceWrite] is the only selected mutable sandbox profile
+  + [network] can be false
+  + [writableRoots] can be an empty additional set
+  + [temporary_directories] can be excluded from writable scope on platforms supporting those flags
+  + [windows_warning] windows/worldWritableWarning reports directories that cannot be protected by the sandbox and includes failedScan, samplePaths, and extraCount
+  + [requirement] is failed scan or any relevant world-writable warning fails before the turn
+  + [requirement] is physical tests must challenge writes to principal workspace, Git common dir, parent, temp, network, symlink or reparse escape, and allowed candidate path
+  + [nonclaim] is schema shape alone does not prove operating-system sandbox enforcement
+
+& [ExcludedInterfaces] are material
+  + [standalone_command_exec] is not used
+  + [unsandboxed_shell_field] is explicitly outside the thread sandbox contract and is forbidden
+  + [dynamic_tools] remain experimental and unused
+  + [persistent_threads] remain unused
+  + [approvals_reviewer] is not used to manufacture new authority
+
+& [MissingStableControl] constrains the solution
+  + [prewrite_path_allowlist] is not present as a stable App Server field
+  + [command_allowlist] is not present as a stable turn field
+  + [transactional_rollback] is not present
+  + [authoritative_post_state] is not supplied by streamed model events
+  + [finding] is the disposable worktree is the preventive containment unit; allowed-path enforcement is a Phase3C post-state gate unless an OS policy is separately added and proven
+
+& [ActivationBlockers] are concrete
+  + [blocker_1] is prove workspaceWrite physical containment on the active Windows host including world-writable warning behavior
+  + [blocker_2] is define exact mutable event grammar and bounded command accounting
+  + [blocker_3] is define immutable pre-state handoff and Phase3C post-state sealer contract
+  + [blocker_4] is define which model-run commands are observed versus which supervisor-run tests count as proof
+  + [blocker_5] is define abort, child cleanup, dirty disposable worktree handling, and operator recovery without granting cleanup authority

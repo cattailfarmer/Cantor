@@ -125,6 +125,12 @@ learned neural routing, FPGA execution, faculty runtime, provider inference,
 and distributed execution remain deliberately inactive behind their evidence
 gates.
 
+Phase 3B bounded candidate mutation is now specified but deliberately
+non-executable. Current App Server events are evidence and reactive controls,
+not proof of preventive filesystem containment; a physical Windows sandbox
+matrix and a separately governed immutable sealer and reviewer must pass
+before any workspace-write implementation can be activated.
+
 Run the proof and fixture-only CLI demonstration locally:
 
 ```powershell

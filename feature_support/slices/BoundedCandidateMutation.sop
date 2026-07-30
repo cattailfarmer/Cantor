@@ -1,0 +1,20 @@
+Subject: Cantor Bounded Candidate Mutation Slice
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Bounded_Candidate_Mutation.sop
+@ [matrix] C:\Project\Cantor\feature_support\BoundedCandidateMutation_Requirement_Matrix.sop
+
+& [SliceIdentity] is the Phase3B formation boundary
+  + [slice_uuid] is 859d8144-25ff-46fe-8735-c25a855261c9
+  + [status] is blocked_before_implementation
+  + [depends_on] is CandidateWorkspaceAdmission complete
+  + [deliverable] is eventually one bounded physical mutation turn and MutationRunRecord for Phase3C
+  + [excluded] is preparation, principal or common-dir mutation, network, approvals, persistence, retry, authoritative seal, acceptance, cleanup, Git history, external effects, and promotion
+
+& [PrerequisiteWork] is dependency ordered
+  + [step_1] is build deterministic mutable App Server transcript fixtures with command, file-change, approval, warning, interrupt, and terminal paths
+  + [step_2] is specify and prototype the Phase3C authoritative sealer input contract
+  + [step_3] is build a synthetic canary repository and target-host sandbox escape matrix
+  + [step_4] is prove world-writable scan and Windows sandbox readiness before turn start
+  + [step_5] is reconcile physical findings into source and renew the satisfaction signature
+  + [step_6] is only then implement and physically probe one minimal mutation
+  - never: skip from formation to a live write
