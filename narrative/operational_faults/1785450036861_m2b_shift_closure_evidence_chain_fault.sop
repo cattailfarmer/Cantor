@@ -10,11 +10,13 @@ Subject: Cantor M2B Shift Closure Evidence Chain Operational Fault
   + [detection] full workspace debug integration test rejected the runtime manifest at the exact readiness-ledger byte mismatch
   + [consequence] the debug suite failed closed; the release suite did not begin; no production result, physical action, or external effect escaped
   + [root_cause] manual impact analysis began at the newest manifest instead of enumerating every manifest that names either changed shared surface
-  + [repair_order] platform-preflight runtime manifest, location-classification proof digest, entry-policy manifest, entry-policy proof digest, stream-parser manifest, and stream-parser proof digest
-  + [final_runtime_manifest_sha256] is 2664144EEAB11C99FF0C3135E5F51772534CA7E029C0F14A355C7F45981B3DBE
-  + [final_entry_policy_manifest_sha256] is 1E306E5CE92589B636A884431274E544E64A1D361C3A3647C0C17AF2326D1E20
-  + [final_stream_parser_manifest_sha256] is A10CB6DFE47BD8ADB8470E14B17687651C6BC48F8908A5B33C58D46B81C5C598
-  + [prevention] search all evidence builders for each changed shared path before selecting the earliest regeneration node
+  + [second_detection] independent recursive artifact rehash found the still-stale topology-ABI manifest that later manifests had bound opaquely
+  + [complete_repair_order] topology-ABI manifest, ABI proof digest, platform-preflight runtime manifest, location-classification proof digest, entry-policy manifest, entry-policy proof digest, stream-parser manifest, and stream-parser proof digest
+  + [final_ABI_manifest_sha256] is 331215FD808A54708DCE15956580CFE9C67B46EC993A04D30298A27E617D5DB2
+  + [final_runtime_manifest_sha256] is BD2BD643914E0CD4DF88D8F38BA409A3AEC1959CD7D12BC686DE1638C5AC9A6B
+  + [final_entry_policy_manifest_sha256] is 307DA674A678CB0B59993154718D5BF5B307B4E2C402FCE4C45BA1356BA756A0
+  + [final_stream_parser_manifest_sha256] is 5FFBB81BA7E59419A7EABC5852BBB000CD251244494316B34FAD76EF47AC4778
+  + [prevention] search every evidence builder for each changed shared path, compute transitive successors through both manifest and proof-digest edges, and recursively rehash every current manifest after regeneration
 
 & [EffectBoundary] is zero
   + no physical fixture, Windows call, handle, traversal, admission, receipt, mutation, or promotion action occurred
