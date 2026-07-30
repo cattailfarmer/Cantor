@@ -1,0 +1,76 @@
+Subject: Cantor M2B Windows Sys Compile Probe Lock Revision Solution
+
+& [SolutionIdentity] is the completed compile-only slice
+  + [solution_uuid] is 6d7ea45c-99a0-4744-8e27-b1e98d0cb422
+  + [authority_signature_uuid] is 56f266db-46db-4d8c-8078-8b9f926f3e63
+  + [profile] is cantor-windows-topology-abi-probe/0.2
+  + [implementation_commit] is 499e733
+  + [evidence_chain_commit] is 572f4e8
+  + [status] is implemented_and_globally_verified
+
+& [SpecificationCorrection] is preserved
+  + [invalidated_profile] is cantor-windows-topology-abi-probe/0.1
+  + [invalidated_signature_uuid] is 636448aa-295d-486e-ba3c-d1b4f12cd264
+  + [fault] direct package declaration and byte-identical Cargo.lock were mutually impossible
+  + [repair] is one exact modeled local dependency edge with no registry identity delta
+  + [retained_failed_implementation] is none
+
+& [DependencySolution] is exact
+  + [file] is crates/cantor_ecosystem/Cargo.toml
+  + [target] is cfg(windows)
+  + [package] is windows-sys =0.61.2
+  + [default_features] is false
+  + [features] are Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem
+  + [direct_tree] is compiler verified
+
+& [LockSolution] is exact
+  + [file] is Cargo.lock
+  + [before_sha256] is 7B2E1E879E387CCFF1CF1E04DE4ACE1D72EB006D1443192AB26629F0C3A884A5
+  + [after_sha256] is FF20148AA6FF3C2774D07D454BC900F4F81D5594BD8F8E49AF2A43217B7EE73A
+  + [diff] is one added windows-sys edge in cantor_ecosystem dependencies
+  + [package_count] remains 112
+  + [registry_package_delta] is zero
+
+& [ProbeSolution] is Windows-only and no-call
+  + [file] is crates/cantor_ecosystem/tests/windows_topology_abi_probe.rs
+  + [tests] are generated function availability, information classes, observation constants, and deterministic ABI fingerprint
+  + [functions] five generated imported items are bound as values but never called or address-cast
+  + [layouts] six generated structures match exact size and alignment
+  + [classes] six information-class values match
+  + [constants] fourteen ordered policy values match and the write-bit intersection is zero
+
+& [EffectBoundary] is unchanged
+  + [production_Rust_delta] is zero
+  + [unsafe_token] is zero
+  + [imported_call_expression] is zero
+  + [path_handle_filesystem_effect] is zero
+  + [runtime_scanner_API] is absent
+  + [physical_topology_claim] is absent
+
+& [VerificationResult] is complete
+  + [focused_debug] is 4 passed
+  + [focused_overflow_checked_release] is 4 passed
+  + [workspace_debug] is 238 passed
+  + [workspace_overflow_checked_release] is 238 passed
+  + [format] is passed
+  + [workspace_clippy_warnings_denied] is passed
+  + [workspace_all_targets_release_build] is passed
+  + [workspace_rustdoc_warnings_denied] is passed
+  + [audit] is 112 dependencies scanned against 1174 advisories with zero vulnerabilities
+
+& [EvidenceRepair] is topologically complete
+  + [regenerated] are prepared runtime and self-hosted corpus manifests
+  + [then] resident service, service-backed MCP, supervised lifecycle, and supervised mock manifests
+  + [then] read-only live Codex and candidate workspace admission manifests
+  + [then] Phase3 machine and topology manifests
+  + [proof_hashes] are refreshed before downstream consumption
+  + [evidence_tests] pass in debug and overflow-checked release
+
+& [Rollback] is direct
+  + [manifest] remove the cfg(windows) dependency table
+  + [lock] remove the single local windows-sys edge and restore the before hash
+  + [probe] remove the Windows-only test
+  + [production_state] requires no migration
+
+& [Nonclaim] is mandatory
+  - never: cite this solution as Win32 invocation, path opening, handle ownership, local-NTFS proof, reparse or remote classification, topology receipt issuance, physical fixture proof, scanner activation, or write authority

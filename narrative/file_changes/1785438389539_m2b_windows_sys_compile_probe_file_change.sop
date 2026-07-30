@@ -2,12 +2,12 @@ Subject: Cantor M2B Windows Sys Compile Probe File Change
 
 & [SolutionRecord] is the file-level implementation surface
   + [change_uuid] is 414111bf-2db2-4568-890a-e390a3473b59
-  + [solution_uuid] is 500dfdff-fee7-4c38-bcdd-af5ea25522bf
+  + [solution_uuid] is 6d7ea45c-99a0-4744-8e27-b1e98d0cb422
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
-  + [status] is planned
+  + [status] is implemented_and_verified
 
-@ [specification_ref] specifications/Cantor_M2B_Windows_Sys_Compile_Probe.sop
-@ [justification_ref] justifications/Cantor_M2B_Windows_Sys_Compile_Probe_Justification.sop
+@ [specification_ref] specifications/Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision.sop
+@ [justification_ref] justifications/Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Justification.sop
 
 & [OwnedFiles] are bounded
   + [crates/cantor_ecosystem/Cargo.toml] is config role
@@ -24,13 +24,14 @@ Subject: Cantor M2B Windows Sys Compile Probe File Change
   + [affected_predecessor_manifests_and_proofs] are generated and proof roles
 
 & [ForbiddenFiles] are explicit
-  + [Cargo.lock] is verification input and must remain unchanged
+  + [Cargo.lock] permits only the signed one-line local windows-sys edge
   + [crates/cantor_ecosystem/src] is outside scope
   + [all_candidate_or_fixture_paths] are outside scope
 
 & [Boundary] is no-call
   + [runtime_effect] is none
-  + [commit_ref] is pending
+  + [implementation_commit] is 499e733
+  + [evidence_chain_commit] is 572f4e8
 
 & [AuthorityCorrection] is source governed
   + [invalidated_authority_commit] is eb15842
@@ -39,4 +40,13 @@ Subject: Cantor M2B Windows Sys Compile Probe File Change
   + [new_source] is source_documents/2026-07-30_cantor_m2b_windows_sys_compile_probe_lock_revision/Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Source.sop
   + [new_canonical] is specifications/Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision.sop
   + [new_signature_uuid] is 56f266db-46db-4d8c-8078-8b9f926f3e63
-  + [implementation_delta] remains pending
+  + [implementation_delta] is exact target dependency, exact local lock edge, and one no-call Windows integration test
+
+& [CompletedFileSet] is accounted
+  + [Cargo.lock] is one added dependency edge
+  + [crates/cantor_ecosystem/Cargo.toml] is three added target dependency lines
+  + [crates/cantor_ecosystem/tests/windows_topology_abi_probe.rs] is 158 lines
+  + [production_Rust] is unchanged
+  + [evidence_chain] is ten manifests and ten proof hashes regenerated
+  + [new_evidence] is a compile-probe manifest builder and manifest
+  + [closure] is solution, proof, requirement review, turn, registry, fault, and conversation updates

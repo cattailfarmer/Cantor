@@ -8,59 +8,70 @@ Subject: M2B Windows Sys Compile Probe Lock Revision Requirement Matrix
 & [M2B-ABI-REV-001] source lineage
   + [implementation] is source and manifest records
   + [verification] is hashes, paths, prior Git blobs, and invalidation commit
-  + [status] is specified
+  + [status] is verified
 
 & [M2B-ABI-REV-002] exact dependency
   + [implementation] is crates/cantor_ecosystem/Cargo.toml
   + [verification] is manifest diff and cargo tree
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-003] exact features
   + [implementation] is target dependency feature array
   + [verification] is Cargo metadata and feature tree
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-004] exact local lock edge
   + [implementation] is Cargo.lock
   + [verification] is one-line diff and exact post-hash
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-005] package universe preserved
   + [implementation] is Cargo resolver output
   + [verification] is 112 packages plus identity comparison
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-006] generated function availability
   + [implementation] is windows_topology_abi_probe.rs
   + [verification] is focused compiler/linker test plus no-call static scan
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-007] structure layouts
   + [implementation] is deterministic layout records
   + [verification] is exact six-layout fingerprint
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-008] information classes
   + [implementation] is exact assertions
   + [verification] is six class values
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-009] read-only policy constants
   + [implementation] is exact assertions and write-bit intersection
   + [verification] is focused test
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-010] deterministic JSON
   + [implementation] is ordered serializable fingerprint
   + [verification] is exact literal comparison
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-011] effect absence
   + [implementation] is cfg-only test with no production export
   + [verification] is static scans and production diff
-  + [status] is pending
+  + [status] is verified
 
 & [M2B-ABI-REV-012] closure
   + [implementation] is evidence, proof, solution, review, and support records
   + [verification] is full gate set and publication audit
-  + [status] is pending
+  + [status] is verified
+
+& [MeasuredResult] is current
+  + [implementation_commit] is 499e733
+  + [evidence_chain_commit] is 572f4e8
+  + [focused_debug] is 4 passed
+  + [focused_overflow_checked_release] is 4 passed
+  + [global_debug] is 238 passed
+  + [global_overflow_checked_release] is 238 passed
+  + [lock_sha256] is FF20148AA6FF3C2774D07D454BC900F4F81D5594BD8F8E49AF2A43217B7EE73A
+  + [package_count] is 112
+  + [forbidden_static_matches] is 0

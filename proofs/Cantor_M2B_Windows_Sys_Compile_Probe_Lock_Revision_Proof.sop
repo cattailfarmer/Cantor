@@ -1,0 +1,91 @@
+Subject: Cantor M2B Windows Sys Compile Probe Lock Revision Proof
+
+& [ProofIdentity] is complete compile-only proof
+  + [proof_uuid] is 69a3cd32-fc3d-4f64-b40e-efa8740d3070
+  + [authority_signature_uuid] is 56f266db-46db-4d8c-8078-8b9f926f3e63
+  + [solution_uuid] is 6d7ea45c-99a0-4744-8e27-b1e98d0cb422
+  + [implementation_commit] is 499e733
+  + [evidence_chain_commit] is 572f4e8
+  + [status] is complete
+  + [evidence_manifest] is crates/cantor_ecosystem/evidence/windows_topology_abi_probe_evidence_manifest.json
+  + [evidence_manifest_sha256] is F9985CDC4B5AE53999071596DC9D592F1203D344EE23D0D09951E147B393D58B
+  + [evidence_manifest_bytes] is 19472
+  + [evidence_artifact_count] is 51
+
+& [AuthorityProof] is complete
+  + [0_1_authority] is preserved at eb15842 and invalidated at 7e72391 after Cargo proved an internal requirement contradiction
+  + [0_2_source] preserves the exact correction without overwriting the original source
+  + [0_2_signature] binds source, exploded requirements, semantic refinement, constraints, pruning, data design, seven folds, justification, plan, and registry
+  + [0_2_authority_commit] is 4166d13
+  + [implementation_scope] is exact target dependency, exact local lock edge, and no-call Windows ABI integration test only
+
+& [DependencyProof] is exact
+  + [consumer] is cantor_ecosystem
+  + [target] is cfg(windows)
+  + [package] is windows-sys 0.61.2
+  + [checksum] is ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc
+  + [features] are Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem
+  + [cargo_tree] shows the direct edge and generated feature closure
+
+& [LockProof] is byte and semantic exact
+  + [before_sha256] is 7B2E1E879E387CCFF1CF1E04DE4ACE1D72EB006D1443192AB26629F0C3A884A5
+  + [after_sha256] is FF20148AA6FF3C2774D07D454BC900F4F81D5594BD8F8E49AF2A43217B7EE73A
+  + [diff_hunks] is 1
+  + [added_lines] is 1
+  + [removed_lines] is 0
+  + [edge] cantor_ecosystem adds windows-sys after sha2
+  + [package_count_before] is 112
+  + [package_count_after] is 112
+  + [registry_identity_delta] is zero
+
+& [FocusedProof] is four Windows tests
+  + [function_items] five selected generated imports compile and link without invocation
+  + [layouts] six structures have exact size and alignment
+  + [classes] six FILE_INFO_BY_HANDLE_CLASS values are exact
+  + [constants] read-only observation values are exact and the selected read mask intersects no write-data or write-attributes bit
+  + [fingerprint] exact deterministic in-memory JSON matches
+  + [debug] is 4 passed
+  + [overflow_checked_release] is 4 passed
+
+& [NoEffectProof] is static and structural
+  + [forbidden_static_matches] is zero
+  + [unsafe_token] is absent
+  + [imported_call_expression] is absent for all five imports
+  + [address_cast] is absent
+  + [production_Rust_delta] is zero
+  + [path_handle_filesystem_environment_process_network_clock_random] are absent
+  + [fixture_candidate_scanner_receipt] are absent
+
+& [GlobalProof] is complete
+  + [debug] is 238 passed
+  + [overflow_checked_release] is 238 passed
+  + [format] is cargo fmt all check passed
+  + [lint] is workspace all-targets warnings denied
+  + [build] is workspace all-targets release passed
+  + [documentation] is workspace no-deps with warnings denied
+  + [audit] is 112 locked dependencies checked against 1174 advisories with zero vulnerabilities
+
+& [EvidenceProof] is clone-portable
+  + [schema] is cantor-windows-topology-abi-probe-evidence-manifest/0.2
+  + [artifacts] are 51 repository-relative paths with exact byte counts and SHA-256
+  + [verification] recomputed every current artifact with zero hash, byte, missing, or portability faults
+  + [predecessors] ten Cargo-bound manifests were regenerated in topological order
+  + [downstream_proofs] each consumed manifest hash was refreshed before its consumer manifest
+  + [candidate_reproof] used the separately signed prior read-only authority and left both local repositories clean
+
+& [RollbackProof] is complete
+  + [Cargo_manifest] removes one target dependency table
+  + [Cargo_lock] removes one local edge and restores the exact before hash
+  + [probe] removes one integration test
+  + [state_migration] is none
+  + [production_migration] is none
+
+& [ReadinessDelta] is bounded
+  + [M2B_D_05] exact clean-copy direct dependency and lock diff is passed
+  + [M2B_D_06] post-change package count and vulnerability audit is passed
+  + [runtime_platform_preflight] remains pending
+  + [unsafe_activation] remains locked
+  + [physical_fixture] remains locked
+
+& [Nonclaim] is mandatory
+  - never: cite this proof as successful Win32 invocation, opened-path or owned-handle evidence, local NTFS or remote-protocol classification, topology scanner correctness, receipt issuance, physical root correspondence, filesystem fixture, sandbox, mutation, seal, cleanup, promotion, or write authority

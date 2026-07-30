@@ -30,4 +30,31 @@ Subject: Cantor M2B Windows Sys Compile Probe Operational Faults
   + [security_effect] is none; no generated Windows function was invoked
   + [authority_effect] is signature 636448aa-295d-486e-ba3c-d1b4f12cd264 is invalidated by its implementation-contradiction clause
   + [disposition] is preserve the failed authority and reprocess a 0.2 contract permitting only the exact local dependency-edge addition with no package-universe, version, source, or checksum change
-  + [status] is authority_reprocessing_required
+  + [status] is resolved_by_signature_56f266db-46db-4d8c-8078-8b9f926f3e63
+
+& [EvidenceGateFault] is expected fail-closed behavior
+  + [command] is cargo test --workspace --all-targets --locked --offline
+  + [fault] is candidate workspace admission manifest reported the pre-change Cargo.lock byte count
+  + [cause] is the intentional exact one-line lock-edge delta
+  + [effect] is the global test stopped before accepting stale evidence
+  + [repair] is regenerate the complete Cargo-bound manifest chain in dependency order and refresh each consumed proof hash
+  + [result] is 238 debug and 238 overflow-checked release tests passed after repair
+  + [status] is resolved
+
+& [PowerShellExecutionPolicyFault] is operational
+  + [fault] direct invocation of repository evidence scripts was blocked by the host execution policy
+  + [repository_effect] is none
+  + [repair] is invoke the same tracked scripts with powershell NoProfile and ExecutionPolicy Bypass
+  + [status] is resolved
+
+& [CandidateBuilderInvocationFault] is operational
+  + [fault] the first candidate evidence builder invocation omitted its mandatory ProbeRequestPath
+  + [repository_effect] is none
+  + [repair] is use the existing explicit read-only request under the prior signed Candidate Workspace Admission authority
+  + [physical_result] principal and candidate repositories remained clean
+  + [status] is resolved
+
+& [LedgerClosure] is current
+  + [open_faults] is 0
+  + [runtime_faults] is 0 because no Windows function was invoked
+  + [status] is complete
