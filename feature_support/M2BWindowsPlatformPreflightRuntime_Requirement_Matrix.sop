@@ -2,7 +2,7 @@ Subject: M2B Windows Platform Preflight Runtime Requirement Matrix
 
 & [MatrixIdentity] is requirement control
   + [runtime_profile] is cantor-windows-platform-preflight-runtime/0.1
-  + [state] is implementation_verified_physical_and_global_closure_pending
+  + [state] is physical_expectation_disproven_signature_invalidated
 
 & [M2B-WPR-001] lineage is satisfied by source and prior proof bindings
 & [M2B-WPR-002] isolated crate is verified
@@ -18,11 +18,14 @@ Subject: M2B Windows Platform Preflight Runtime Requirement Matrix
 & [M2B-WPR-012] six-block isolated unsafe budget is verified
 & [M2B-WPR-013] forbidden resource and effect surface is statically verified
 & [M2B-WPR-014] pure and static tests are verified in debug and release
-& [M2B-WPR-015] ignored exact-root probe is implemented and not yet executed
-& [M2B-WPR-016] physical evidence binding is pending
+& [M2B-WPR-015] ignored exact-root probe executed and returned a valid unexpected QueryFault
+& [M2B-WPR-016] blocked physical evidence is bound by SHA-256
 & [M2B-WPR-017] global closure is pending
 & [M2B-WPR-018] scanner and receipt absence is verified
 
 & [PhysicalClaims] are closed
   + [permitted_if_observed] exact current-host root preflight request and result only
   + [forbidden] traversal, content, stream, candidate, scanner, receipt, launch, seal, or promotion
+  + [actual] RemoteProtocolInformation QueryFault error 87
+  + [expected_complete] is failed
+  + [signature_uuid] is invalidated

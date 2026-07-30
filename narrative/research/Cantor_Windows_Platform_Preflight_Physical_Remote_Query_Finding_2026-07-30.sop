@@ -1,0 +1,58 @@
+Subject: Cantor Windows Platform Preflight Physical Remote-Query Finding
+
+& [ResearchIdentity] is exact physical evidence interpretation
+  + [research_uuid] is 7144001d-3b91-486a-99e8-bdb1888ab0c2
+  + [captured_at] is 2026-07-30
+  + [authority_signature_uuid] is 2fc69987-c7de-4538-9993-c5956f889584
+  + [source_commit] is 5486058f79ce7dbc5c6c24229df8020663ffba89
+
+@ [physical_observation] C:\Project\Cantor\crates\cantor_windows_preflight\evidence\windows_platform_preflight_physical_observation.json
+@ [Microsoft_GetFileInformationByHandleEx] https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex
+@ [Microsoft_FILE_REMOTE_PROTOCOL_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_remote_protocol_info
+@ [Microsoft_GetFinalPathNameByHandleW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew
+@ [Microsoft_GetVolumeInformationByHandleW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew
+@ [Microsoft_Error_87] https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-
+
+& [BoundObservation] is fail-closed
+  + [observation_sha256] is 67832aa3573707257e8b4a2144af177e352bd7ae64bcec12577837f8e2d075b8
+  + [observation_bytes] is 5263
+  + [host] is Microsoft Windows NT 10.0.26200.0 x86_64
+  + [fixture] is \\?\C:\Project\Cantor\.local\m2b-platform-preflight-fixture
+  + [drive] is fixed healthy NTFS C
+  + [result] is QueryFault
+  + [stage] is remote_protocol_information
+  + [error_code] is 87
+  + [Microsoft_name] is ERROR_INVALID_PARAMETER
+  + [expected_complete] is disproven on this host and request
+
+& [ControlFlowEvidence] is bounded
+  + [reached_remote_stage] establishes open, FileIdInfo, final volume-GUID path, volume-information call, and local transformations did not terminate earlier
+  + [partial_values] are intentionally absent from the fault record and must not be reconstructed
+  + [remote_structure] was not initialized for consumption because the API failed
+  + [protocol_zero] was not observed
+  + [eligibility] was not established
+
+& [DocumentationBoundary] is explicit
+  + [official] FileRemoteProtocolInfo maps to FILE_REMOTE_PROTOCOL_INFO when the query succeeds
+  + [official] error 87 means a parameter is incorrect
+  + [official] volume-GUID final paths are not created for network shares
+  + [official] GetVolumeInformationByHandleW is unsupported for SMB 3.0
+  + [not_officially_established] error 87 universally means local filesystem
+  + [consequence] the program must not reinterpret error 87 as a synthetic protocol-zero structure
+
+& [ContractFinding] is structural
+  + [profile_0_2_complete] requires both local volume products and a successful remote-protocol structure
+  + [target_behavior] does not supply that conjunction
+  + [better_shape] separates local-volume completion from remote-protocol rejection instead of requiring both products in one record
+  + [query_strategy] local classification should complete after volume-GUID and volume-information success without calling FileRemoteProtocolInfo
+  + [remote_branch] should query FileRemoteProtocolInfo only when local-volume classification cannot complete
+
+& [AuthorityConsequence] is invalidation
+  + [signature_uuid] is 2fc69987-c7de-4538-9993-c5956f889584
+  + [invalidation_condition] normalized unexpected physical result is met
+  + [implementation] remains an honest fail-closed observer but cannot satisfy its signed physical acceptance
+  + [execution] must stop pending source preservation and SJS revision
+  + [scanner_or_receipt] remains unauthorized
+
+& [Nonclaim] is mandatory
+  - never: claim error 87 proves locality, protocol zero, complete eligibility, general Windows behavior, scanner readiness, or receipt authority

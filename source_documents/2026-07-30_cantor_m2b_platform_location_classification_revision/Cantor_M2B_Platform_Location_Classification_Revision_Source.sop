@@ -1,0 +1,77 @@
+Subject: Raw Source for Cantor M2B Platform Location Classification Revision
+
+Captured: 2026-07-30
+Conversation: cab190f5-eda0-44e0-81a5-51f9605e0baa
+Source type: corrective manager selection after exact physical preflight contradiction
+
+Preserve this source separately from canonical and exploded specifications.
+
+The signed root preflight expected FileRemoteProtocolInfo to succeed with a
+protocol-zero FILE_REMOTE_PROTOCOL_INFO on the local NTFS fixture. The exact
+physical call instead returned error 87 at RemoteProtocolInformation. Preserve
+that QueryFault and invalidate the expectation. Never synthesize protocol zero
+or reinterpret error 87 as proof of locality.
+
+Revise the supplied-result and runtime contracts together:
+
+- preserve profiles 0.1 and 0.2 and their proofs or blocked evidence;
+- define result profile cantor-windows-platform-preflight/0.3;
+- retain request profile cantor-windows-platform-preflight-request/0.1 but
+  require its result_profile to be 0.3;
+- retain OpenFault, QueryFault, and ObservationFault provenance;
+- replace the conjunctive Complete variant with two disjoint completions:
+  - CompleteLocal contains strong identity, canonical volume-GUID final path,
+    complete volume information, and a local disposition;
+  - CompleteRemote contains strong identity, successful nonzero remote
+    protocol information, and RejectRemoteProtocol;
+- CompleteLocal admits EligibleLocalNtfs only for exact NTFS and otherwise
+  RejectUnsupportedFileSystem;
+- CompleteLocal contains no remote-protocol record;
+- CompleteRemote contains no volume-GUID path or volume-information record;
+- CompleteRemote requires protocol nonzero;
+- reject legacy profile 0.2 as a profile 0.3 value.
+
+Revise runtime profile to cantor-windows-platform-preflight-runtime/0.2:
+
+1. validate the 0.3 request before effects;
+2. open and own the root exactly as before;
+3. query FileIdInfo;
+4. attempt normalized VOLUME_NAME_GUID final path;
+5. when final path succeeds, query volume information and return
+   CompleteLocal without calling FileRemoteProtocolInfo;
+6. when final path reports an actual nonzero OS failure, query
+   FileRemoteProtocolInfo on the same handle:
+   - successful nonzero protocol returns CompleteRemote;
+   - successful protocol zero is InvalidObservation;
+   - failed remote query returns QueryFault at RemoteProtocolInformation with
+     the actual nonzero error and no partial evidence;
+7. never use final-path failure or error 87 by itself as local or remote proof.
+
+Keep the same six unsafe blocks and one owner. The remote block remains
+conditional. Keep exact immediate error capture, fixed buffers, strict UTF-16,
+reserved-field checks, final form validation, and all no-write/no-scanner
+boundaries.
+
+Revise the exact physical fixture expectation to CompleteLocal, NTFS, and
+EligibleLocalNtfs. Preserve the prior blocked observation. Run static and
+default tests first, then the exact governed fixture once from a clean signed
+commit. Do not execute or claim a remote branch without a separately named
+remote fixture.
+
+Prove:
+
+- both complete variants and their mutually exclusive product sets;
+- all dispositions and protocol constraints;
+- legacy 0.2 rejection;
+- local control flow never calls FileRemoteProtocolInfo after successful
+  volume-GUID and volume-information evidence;
+- remote control flow is pure-tested or injected without a physical remote
+  claim;
+- unchanged six-block ownership and forbidden-call surface;
+- exact local physical CompleteLocal result;
+- focused and global debug/release, lint, build, docs, audit, evidence,
+  rollback, support, narrative, and publication closure.
+
+This source grants no topology traversal, content or stream read, candidate
+admission, scanner, receipt, cleanup, launch, seal, promotion, or remote
+fixture authority.
