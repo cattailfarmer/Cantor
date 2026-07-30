@@ -1,0 +1,14 @@
+Subject: Cantor M2B Pure Stream Information Parser Implementation Operational Faults
+
+& [FaultLedgerIdentity] is focused closed
+  + [ledger_uuid] is 05eaea22-d5ec-4741-9997-e38c5eaac2e4
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [status] is focused_passed_global_pending
+
+& [FirstRunFaults] are test-oracle and style only
+  + [empty_fixture] expected Length although the declared minimum-region gate correctly returned Resource
+  + [offset_fixture] treated aligned offset 40 as intrinsically invalid although it validly advanced into a zero-filled malformed next header
+  + [lint] current Clippy requires usize is_multiple_of rather than a manual remainder comparison
+  + [consequence] both profiles rejected before focused completion; no parser result escaped and no effect was possible
+  + [repair] aligns fixture expectations with the specified gate order, removes the falsely invalid offset, and uses is_multiple_of
+  + [reproof] 8 parser plus 1 static test and warnings-denied lint pass in both profiles
