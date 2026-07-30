@@ -565,7 +565,7 @@ fn validate_digest(value: &str, field: &str) -> Result<(), TopologyFormFault> {
     validate_lower_hex(value, 64, field, TopologyFormFaultCode::Digest)
 }
 
-fn validate_volume_guid_path(path: &str) -> Result<(), TopologyFormFault> {
+pub(crate) fn validate_volume_guid_path(path: &str) -> Result<(), TopologyFormFault> {
     const PREFIX: &str = r"\\?\Volume{";
 
     validate_text(path, "root_volume_guid_path", MAX_PATH_BYTES)?;
