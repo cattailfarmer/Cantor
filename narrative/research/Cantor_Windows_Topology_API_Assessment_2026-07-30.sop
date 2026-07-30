@@ -20,6 +20,7 @@ Description: Primary-source assessment of the smallest Windows observation surfa
 @ [Microsoft_BY_HANDLE_FILE_INFORMATION] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/ns-fileapi-by_handle_file_information
 @ [Microsoft_GetFileInformationByHandleEx] https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex
 @ [Microsoft_FILE_ID_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_id_info
+@ [Microsoft_FILE_STREAM_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_stream_info
 @ [Microsoft_FindFirstStreamW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirststreamw
 @ [Microsoft_FindNextStreamW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findnextstreamw
 
@@ -59,13 +60,17 @@ Description: Primary-source assessment of the smallest Windows observation surfa
   + [policy_effect] rejection does not need to discover the outside alias
 
 & [StreamFinding] is complete named-data-stream accounting
-  + [enumeration] FindFirstStreamW yields the first ::$DATA stream and FindNextStreamW continues
+  + [preferred_enumeration] GetFileInformationByHandleEx with FileStreamInfo enumerates FILE_STREAM_INFO records for the already opened entry handle
+  + [alignment] every FILE_STREAM_INFO record and NextEntryOffset is 8-byte aligned
+  + [same_handle_value] identity, attributes, links, and streams can be obtained from the same no-follow object handle
+  + [path_API] FindFirstStreamW and FindNextStreamW enumerate by fully qualified path and therefore introduce a separate substitution interval
+  + [decision] reject the path API for the primary adapter unless a later measurement proves the handle API unavailable and specifies an honest fallback
   + [file_default] ordinary files have the unnamed ::$DATA stream
   + [directory_default] directories do not have an unnamed data stream by default
   + [profile_0_1] rejects every named ::$DATA stream
   + [unsupported] ERROR_INVALID_PARAMETER means the filesystem does not support streams and must be represented explicitly
   + [empty] ERROR_HANDLE_EOF is a distinct no-stream result, not a generic success or failure
-  = must: close every stream-enumeration handle with FindClose
+  = must: parse every variable-length record with checked offsets, lengths, alignment, UTF-16 boundaries, and a hard aggregate buffer limit
 
 & [ProposedAdapter] is one Windows-only observation seam
   + [module] is windows_topology
@@ -73,14 +78,16 @@ Description: Primary-source assessment of the smallest Windows observation surfa
   + [query_attributes_and_tag] returns closed attribute and optional diagnostic-tag values
   + [query_strong_identity] returns volume serial and 128-bit file identifier
   + [query_link_count] returns the exact link count or a typed unsupported/error result
-  + [enumerate_data_streams] returns bounded canonical stream facts or a typed unsupported/error result
-  + [close] is RAII for file and enumeration handles
+  + [enumerate_data_streams] queries FileStreamInfo on the owned entry handle and returns bounded canonical stream facts or a typed unsupported/error result
+  + [close] is RAII for file handles
   + [unsafe] if later authorized is confined to this module and individually justified around generated Win32 calls
   - never: write, delete, rename, create, truncate, follow a reparse point, expose a raw handle, or suppress an operating-system error
 
 & [DependencyDecision] prefers generated bindings
-  + [current_lockfile] contains no windows-sys package
-  + [candidate] is a direct target-specific windows-sys dependency with only required Win32 feature groups
+  + [current_lockfile] contains windows-sys 0.61.2 transitively through mio and tokio
+  + [current_features] already include Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem among a broader transitive set
+  + [candidate] is an explicit target-specific windows-sys 0.61.2 dependency with only Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem declared by Cantor
+  + [lock_effect] is expected to retain the already locked package and only make Cantor's API reliance explicit, but M2B must prove the exact Cargo diff
   + [reason] is generated signatures, structures, constants, and handle types reduce handwritten ABI risk
   + [rejection] is handwritten extern declarations unless a later measured dependency review proves generated bindings unsuitable
   + [authority] is dependency proposal only
