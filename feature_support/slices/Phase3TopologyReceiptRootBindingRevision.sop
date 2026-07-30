@@ -5,7 +5,7 @@ Subject: Phase3 Topology Receipt Root Binding Revision Feature Support Slice
   + [slice_file_path] is feature_support/slices/Phase3TopologyReceiptRootBindingRevision.sop
   + [feature_subject] is Phase3TopologyReceiptRootBindingRevision
   + [requirement_set] is P3TR-001 through P3TR-012
-  + [enqueue_readiness] is ready
+  + [enqueue_readiness] is superseded_by_completion
   + [owner] is conversation cab190f5-eda0-44e0-81a5-51f9605e0baa
 
 @ [canonical] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
@@ -20,14 +20,14 @@ Subject: Phase3 Topology Receipt Root Binding Revision Feature Support Slice
   + [proof_harness] is updated with final manifest generation pending
 
 & [SupportGapSet] is owned
-  + [evidence_refresh] is current manifest, integration test, and proof digest only
+  + [remaining_gap] is none
 
 & [WorkSliceTransform] is one manager work slice
   + [summary] is implement and prove pure TopologyReceipt 0.2 root binding
   + [detail] is stages 1 through 7 of the revision plan
-  + [completion] requires P3TR-011 evidence closure with every other requirement already verified
+  + [completion] is P3TR-001 through P3TR-012 verified
   + [forbidden] is dependency, unsafe, filesystem, Windows API, fixture, mutation, seal, cleanup, or promotion
 
 & [Freshness] is derived
   + [rule] any source, canonical, implementation, test, evidence, or proof change recomputes readiness
-  + [next_review] is completed-work support_delta and requirement_delta review after evidence closure
+  + [next_review] is completed-work support_delta and requirement_delta review before selecting M2B

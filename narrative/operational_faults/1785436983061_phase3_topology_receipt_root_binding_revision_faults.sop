@@ -4,20 +4,20 @@ Subject: Cantor Phase3 Topology Receipt Root Binding Revision Operational Faults
   + [ledger_uuid] is bbc21d73-2f6a-473f-b493-73e8caaa580d
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [captured_at] is 2026-07-30
-  + [status] is active
+  + [status] is complete
 
 & [PriorSignatureProtocolMismatch] is a governance fault
   + [observed] prior M2A canonical specification names protocol UUID a75790bb-76f6-443d-be6b-b4a16989e532
   + [required] governing protocol UUID is ad10f10f-d506-48ef-a805-f8b0a133766c
   + [risk] prior signature could be mistaken for valid current implementation authority
   + [repair] preserve a byte-identical source snapshot, record invalidation, and fully reprocess through SJS
-  + [status] is resolved_by_new_signature_pending_publication
+  + [status] is resolved_by_published_governing_signature
 
 & [PhysicalRootBindingGap] is a design fault
   + [observed] prior receipt binds only candidate_root text and conflates receipt with scanner profile
   + [risk] future evidence would not commit the root identity and stable final path it claims to observe
   + [repair] separately version receipt schema, retain scanner policy version, and require both physical-root fields
-  + [status] is specified_pending_implementation
+  + [status] is resolved_and_implemented
 
 & [MailboxState] is explicit
   + [expected_inbox] is C:\Project\ReasoningFramework\platform\coordination\mailboxes\cab190f5-eda0-44e0-81a5-51f9605e0baa.inbox
@@ -36,7 +36,7 @@ Subject: Cantor Phase3 Topology Receipt Root Binding Revision Operational Faults
   + [observed_current_bytes] is 13696
   + [effect] no semantic form test failed and no evidence was silently accepted
   + [repair] stabilize all bound artifacts, regenerate the M2A manifest, then rerun the integration and global gates
-  + [status] is repair_ready
+  + [status] is resolved_by_0_2_manifest
 
 & [PreEvidenceGlobalGate] is complete
   + [focused] is 13 passed
@@ -47,4 +47,13 @@ Subject: Cantor Phase3 Topology Receipt Root Binding Revision Operational Faults
   + [documentation] is no-deps with warnings denied
   + [audit] is 112 locked dependencies against 1173 advisories with zero vulnerabilities
   + [static] is zero forbidden production-source matches and zero Cargo delta
+  + [status] is passed
+
+& [EvidenceIntegrationGate] is complete
+  + [manifest_schema] is cantor-phase3-topology-forms-evidence-manifest/0.2
+  + [artifact_count] is 48
+  + [authority_signature_uuid] is 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + [historical_manifest] retains exact B53BC3DB1233D1EAD90D1B692264585CBDD54B0E8EAA87B20785683FB59A1287 digest
+  + [integration] is clone-portable and effect-free test passed
+  + [composed_test_total] is 234 debug and 234 overflow-checked release
   + [status] is passed

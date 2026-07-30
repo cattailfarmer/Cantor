@@ -6,7 +6,7 @@ Subject: Phase3 Topology Receipt Root Binding Revision Requirement Matrix
 & [MatrixIdentity] is revision support accounting
   + [matrix_uuid] is 123f475e-154a-4f5b-9fd3-c99d34592d62
   + [feature_subject] is Phase3TopologyReceiptRootBindingRevision
-  + [status] is implementation_complete_evidence_closure_pending
+  + [status] is complete
   + [freshness_rule] is recompute when source, canonical, code, tests, evidence, or proof changes
 
 & [P3TR-001] is exact multi-source preservation and lineage
@@ -93,9 +93,9 @@ Subject: Phase3 Topology Receipt Root Binding Revision Requirement Matrix
   + [requirement_uuid] is d9be37b1-6cc6-4b9b-be6a-c3356e578413
   + [requirement_type] is proof
   + [dependency_set] is completed implementation
-  + [support_status] is required
-  + [proof_ref] is future solution, proof, evidence manifest, and rollback record
-  + [support_gap] is all post-implementation gates
+  + [support_status] is verified
+  + [proof_ref] is solution, 48-artifact manifest integration pass, 13 focused tests, 234 composed global tests, static gates, audit, and rollback
+  + [support_gap] is none
 
 & [P3TR-012] is valid SJS signature and complete registry lineage
   + [requirement_uuid] is 6eeb3033-5f75-4ee4-8929-88fbdfc4d979
@@ -106,8 +106,8 @@ Subject: Phase3 Topology Receipt Root Binding Revision Requirement Matrix
   + [support_gap] is none
 
 & [SliceReadiness] is ready
-  + [ready_scope] is pure schema implementation and proof only
-  + [blocking_gaps] are intentionally owned by the same bounded slice
+  + [ready_scope] is completed pure schema implementation and proof closure
+  + [blocking_gaps] are none
   + [file_ownership] is single conversation cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [risk_state] is bounded and rollback-safe
   - never: infer M2B, M2C, M2D, mutation, or promotion readiness
