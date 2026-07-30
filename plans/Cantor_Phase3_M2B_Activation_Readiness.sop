@@ -66,8 +66,8 @@ Description: Non-authoritative readiness ledger for the dependency, ABI, platfor
 & [OpenPolicyGate] remains unsettled
   + [C-01] OPEN_EXISTING, OPEN_REPARSE_POINT, and BACKUP_SEMANTICS are passed_for_design
   + [C-02] regular access FILE_GENERIC_READ and directory access FILE_READ_ATTRIBUTES are passed_for_design
-  + [C-03] share-read plus share-write plus share-delete is proposed
-  + [C-04] threat-model decision between non-perturbing sharing and quiescence-enforcing denial is pending
+  + [C-03] share-read plus share-write plus share-delete is passed_for_design
+  + [C-04] non-perturbing observation is selected because restrictive sharing is an interference effect and cannot lock the whole tree is passed_for_design
   + [C-05] delete-pending always rejects but deny-launch versus quarantine consequence is pending
   + [C-06] open permission and sharing fixtures are pending
 
@@ -94,8 +94,8 @@ Description: Non-authoritative readiness ledger for the dependency, ABI, platfor
   + [execution] is forbidden until M2C code and M2D source are separately signed
 
 & [NextAction] is close read-only M2B unknowns before source selection
-  + [first] decide and document share-mode threat semantics
-  + [second] pin root namespace and final-path reconciliation
-  + [third] design a no-effect compile probe for the exact direct windows-sys features
+  + [first] pin root namespace and final-path reconciliation
+  + [second] design a no-effect compile probe for the exact direct windows-sys features
+  + [third] measure volume and remote preflight behavior without candidate mutation
   + [fourth] select an M2B implementation source only if every activation gate is closed
   - never: treat passed_for_design as implementation or execution proof

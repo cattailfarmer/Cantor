@@ -1,0 +1,51 @@
+Subject: Cantor Windows Topology Share Mode Assessment
+
+Description: Threat-model decision for CreateFileW share flags in the observation-only topology scanner profile.
+
+& [AssessmentIdentity] is a pre-activation concurrency decision
+  + [assessment_uuid] is f9ee6aa9-0a8e-448a-87c5-7f12b4c274ae
+  + [captured_at] is 2026-07-30
+  + [status] is full_sharing_selected_for_design
+
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [unsafe_seam] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Unsafe_Seam_Review_2026-07-30.sop
+@ [Microsoft_CreateFileW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew
+
+& [Question] is whether observation handles should deny concurrent write or delete access
+  + [restrictive_option] is FILE_SHARE_READ only
+  + [nonperturbing_option] is FILE_SHARE_READ plus FILE_SHARE_WRITE plus FILE_SHARE_DELETE
+
+& [RestrictiveFinding] is stronger only for one open object and one handle lifetime
+  + [benefit] is a newly opened conflicting writer or deleter cannot coexist while the observation handle remains open
+  + [existing_writer] can make the scanner open fail if its access is incompatible with the scanner share mask
+  + [tree_limit] one file handle does not atomically lock the entire descendant tree
+  + [directory_limit] a directory handle does not establish that every child remains immutable
+  + [resource_limit] retaining a handle for every entry conflicts with bounded million-entry scanning
+  + [effect] denying another process access is observable concurrency interference even without changing bytes
+  + [conclusion] is restrictive sharing cannot honestly upgrade quiescent_double_inventory to an atomic snapshot
+
+& [NonperturbingFinding] preserves the intended authority
+  + [mask] is FILE_SHARE_READ 0x1 plus FILE_SHARE_WRITE 0x2 plus FILE_SHARE_DELETE 0x4
+  + [numeric_mask] is 0x7
+  + [scope] is root, directory, and regular-file observation handles
+  + [value] is the scanner does not claim authority to block another process
+  + [risk] is concurrent changes remain possible
+  + [control] is same-handle pre/post facts, repeated directory inventory, repeated whole-root inventory, and immediate launch freshness
+  + [fault] any observed drift or failed observation rejects and quarantines according to explicit possible-change semantics
+
+& [Decision] is full sharing for profile 0.1
+  + [reason] is observation-only authority and honest evidence strength
+  + [handles] are retained only as long as required for same-object evidence, not as exclusion locks
+  + [consistency] remains quiescent_double_inventory
+  + [sharing_violation] is unproven topology and never evidence of safety
+  - never: describe full sharing as quiescence enforcement
+  - never: describe restrictive sharing as whole-tree immutability
+
+& [FutureCapability] is separate quiescence enforcement
+  + [need] is a supervisor-owned lock or snapshot primitive with independently proven whole-tree semantics
+  + [authority] cannot be inferred from read-only topology observation
+  + [strength] may upgrade only through a new profile and proof
+
+& [AuthorityEffect] is none
+  + [activation] still requires a selected M2B source and satisfaction signature
+  - never: cite this assessment as dependency, unsafe, scanner, fixture, sandbox, mutation, seal, cleanup, or promotion authority
