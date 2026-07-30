@@ -56,7 +56,11 @@ baseline:
   operations without acquiring semantic authority; and
 - `cantor-mcp` may alternatively use `--service-config` to project its
   unchanged one-tool contract through that shared refreshable generation,
-  while embedded `--environment` mode remains the rollback path.
+  while embedded `--environment` mode remains the rollback path; and
+- the Windows supervised lifecycle scripts start `cantord` hidden, require
+  authenticated readiness before atomic secret-free state publication,
+  provide fresh authenticated health, and stop only a PID/start-time/executable
+  match through exact-generation graceful shutdown.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -124,6 +128,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\initialize_cantor_
 .\target\release\cantor-mcp.exe --service-config C:\Project\Cantor\.local\cantor-service\service.json
 ```
 
+For a durable operator state record, replace the manual `cantord` launch with:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start_cantor_service.ps1 -ServerPath C:\Project\Cantor\target\release\cantord.exe -ClientPath C:\Project\Cantor\target\release\cantorctl.exe -ConfigPath C:\Project\Cantor\.local\cantor-service\service.json -StatePath C:\Project\Cantor\.local\cantor-service-supervisor\state.json
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\get_cantor_service_health.ps1 -StatePath C:\Project\Cantor\.local\cantor-service-supervisor\state.json
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\stop_cantor_service.ps1 -StatePath C:\Project\Cantor\.local\cantor-service-supervisor\state.json
+```
+
 The generated demo uses public fixture keys and must never become real
 authority. See [`docs/CLI_PROTOCOL.md`](docs/CLI_PROTOCOL.md) for the trust
 boundary, protocol verifier, Codex subprocess rules, and exit classes. See
@@ -147,6 +159,7 @@ Current executable proofs:
 - [`proofs/Cantor_Self_Hosting_Ingestion_Proof.sop`](proofs/Cantor_Self_Hosting_Ingestion_Proof.sop)
 - [`proofs/Cantor_Resident_Service_Proof.sop`](proofs/Cantor_Resident_Service_Proof.sop)
 - [`proofs/Cantor_Service_Backed_MCP_Proof.sop`](proofs/Cantor_Service_Backed_MCP_Proof.sop)
+- [`proofs/Cantor_Supervised_Local_Lifecycle_Proof.sop`](proofs/Cantor_Supervised_Local_Lifecycle_Proof.sop)
 - [`proofs/CEB_Deterministic_Baseline_Release_Audit.sop`](proofs/CEB_Deterministic_Baseline_Release_Audit.sop)
 
 1. [`SOP_CORE_MAP.sop`](SOP_CORE_MAP.sop) — authority and project map

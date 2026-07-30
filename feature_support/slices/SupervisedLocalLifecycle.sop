@@ -1,0 +1,18 @@
+Subject: Cantor Supervised Local Lifecycle Slice
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
+@ [matrix] C:\Project\Cantor\feature_support\SupervisedLocalLifecycle_Requirement_Matrix.sop
+
+& [SliceIdentity] is the contiguous operator lifecycle prerequisite
+  + [slice_uuid] is 265e8152-5847-4ad1-8167-b60fd6b67413
+  + [status] is complete_with_proof
+  + [depends_on] is ResidentService complete
+  + [deliverable] is strict start, authenticated readiness and health, PID-safe graceful stop, real-binary proof, docs, and evidence
+  + [excluded] is autonomous restart, manager authority, Codex messaging, model calls, sessions, notifications, semantic changes, and effects
+
+& [Completion] is bounded activation
+  + [implementation] is shared lifecycle module plus start, health, and stop operator scripts
+  + [process_proof] is real cantord and cantorctl with complete process identity and authenticated lifecycle
+  + [production_tests] is 116 debug and 116 release
+  @ [solution] C:\Project\Cantor\solutions\Cantor_Supervised_Local_Lifecycle_Solution.sop
+  @ [proof] C:\Project\Cantor\proofs\Cantor_Supervised_Local_Lifecycle_Proof.sop

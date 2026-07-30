@@ -1,0 +1,29 @@
+Subject: Cantor Supervised Local Lifecycle File Change Surface
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Supervised_Local_Lifecycle_Solution.sop
+
+& [FileChangeIdentity] is implementation attribution
+  + [record_uuid] is 11495bce-4a2a-43e4-af82-7bee137055d3
+  + [solution_uuid] is a52ae887-ae4f-4517-81eb-1202b211463c
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at_ms] is 1785385157430
+
+& [AuthoritySurface] is source-preserved SJS
+  + [added] is source_documents\2026-07-29_cantor_supervised_local_lifecycle
+  + [added] is specifications\exploded\Cantor_Supervised_Local_Lifecycle.exploded.sop
+  + [added] is specifications\Cantor_Supervised_Local_Lifecycle.sop
+  + [added] is justifications\Cantor_Supervised_Local_Lifecycle_Justification.sop
+
+& [ImplementationSurface] is operator lifecycle only
+  + [added] is scripts\CantorServiceLifecycle.psm1
+  + [added] is scripts\start_cantor_service.ps1
+  + [added] is scripts\get_cantor_service_health.ps1
+  + [added] is scripts\stop_cantor_service.ps1
+  + [added] is crates\cantor_service\tests\operator_lifecycle.rs
+  - [unchanged] is Rust service protocol, runtime semantics, MCP tool surface, trust, query, and package authority
+
+& [DocumentationAndProofSurface] is operator and reentry state
+  + [changed] is README.md and docs\RESIDENT_SERVICE.md
+  + [added] is feature slice, requirement matrix, solution, proof, evidence manifest, and verification test
+  + [changed] is project map, plan, slice index, narrative, and affected prior evidence manifests

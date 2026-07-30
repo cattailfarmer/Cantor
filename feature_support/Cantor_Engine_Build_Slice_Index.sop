@@ -15,6 +15,7 @@ Subject: Cantor Engine Build Slice Index
   @ [latest_activation_authority] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
   @ [resident_service_activation_authority] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
   @ [service_backed_MCP_activation_authority] C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
+  @ [supervised_lifecycle_activation_authority] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
 
 @ [slice_1] C:\Project\Cantor\feature_support\slices\CEB_Slice_01_Core_IR.sop
 @ [slice_2] C:\Project\Cantor\feature_support\slices\CEB_Slice_02_Trusted_Package.sop
@@ -27,6 +28,7 @@ Subject: Cantor Engine Build Slice Index
 @ [self_hosting_ingestion] C:\Project\Cantor\feature_support\slices\SelfHostingIngestion.sop
 @ [resident_service] C:\Project\Cantor\feature_support\slices\ResidentService.sop
 @ [service_backed_MCP] C:\Project\Cantor\feature_support\slices\ServiceBackedMCP.sop
+@ [supervised_local_lifecycle] C:\Project\Cantor\feature_support\slices\SupervisedLocalLifecycle.sop
 
 & [DependencyOrder] is the only authorized normal progression
   + [edge] is Core_IR before Trusted_Package
@@ -49,5 +51,6 @@ Subject: Cantor Engine Build Slice Index
   + [SelfHostingIngestion] is complete_with_three_reviewed_sources_417_units_and_360_relations
   + [ResidentService] is complete_with_authenticated_loopback_exact_core_delegation_and_atomic_refresh
   + [ServiceBackedMCP] is complete_with_pinned_client_exact_projection_live_combined_transport_and_embedded_rollback
-  + [next_candidate] is SupervisedLocalServiceLifecycle
-  + [next_candidate_state] is inactive_pending_separate_source_preservation_and_SJS_activation
+  + [SupervisedLocalServiceLifecycle] is complete_with_authenticated_readiness_PID_safe_health_and_graceful_shutdown
+  + [next_candidate] is SupervisedCodexEcosystemMessaging
+  + [next_candidate_state] is inactive_pending_separate_source_preservation_identity_authority_recovery_and_SJS_activation

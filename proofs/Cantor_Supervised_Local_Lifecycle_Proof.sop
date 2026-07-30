@@ -1,0 +1,83 @@
+Subject: Cantor Supervised Local Lifecycle Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\SupervisedLocalLifecycle.sop
+@ [matrix] C:\Project\Cantor\feature_support\SupervisedLocalLifecycle_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Supervised_Local_Lifecycle_Solution.sop
+@ [evidence_manifest] C:\Project\Cantor\crates\cantor_service\evidence\supervised_lifecycle_evidence_manifest.json
+
+& [ProofIdentity] is the bounded operator-lifecycle completion record
+  + [proof_uuid] is 272c8318-4c3d-42dc-b074-d98f20d96039
+  + [captured_at] is 2026-07-29
+  + [result] is passed_and_boundedly_activated
+  + [evidence_manifest_sha256] is 0A8946A1CF89B90B3FC37373E48D0987CEE500502CEFE48F9EDD660094B280FB
+
+& [AuthorityProof] is SLL-001 and SLL-009
+  + [source_sha256] is 47FDD6111EC89ED5C9324613F21BA003C34F4255CEAB4E2BF0027B970CA290CC
+  + [source_bytes] is 812
+  + [canonical_uuid] is 59d4a953-7b78-4c19-b2a1-0e39851d2e4b
+  + [satisfaction_signature_uuid] is af5af313-92a9-41c6-b1bf-9af9370adb51
+  + [proof] is broader Codex messaging and Shaliach management remain preserved but inactive
+  + [status] is passed
+
+& [StartAndStateProof] is SLL-002 and SLL-003
+  + [test] is production_binaries_have_pid_safe_supervised_operator_lifecycle
+  + [proof] is hidden real cantord launch, separate unique logs, authenticated cantorctl readiness, second identity check, and post-readiness atomic state publication passed
+  + [proof] is exact state properties, BOM-free UTF-8, canonical values, token absence, auth-token-name absence, and no state after failed readiness passed
+  + [status] is passed
+
+& [IdentityProof] is SLL-004
+  + [identity] is PID plus canonical executable plus exact UTC process start time
+  + [proof] is a live real-service PID with a forged start time could neither report health nor authorize stop
+  + [proof] is live duplicate state remained byte-identical after rejected start
+  + [status] is passed
+
+& [HealthProof] is SLL-005
+  + [proof] is complete process identity followed by fresh authenticated status returned strict machine JSON
+  + [proof] is current generation and sequence remain distinct from the recorded start binding so legitimate refresh is visible
+  + [proof] is unknown state properties fail before service authority is used
+  + [status] is passed
+
+& [ShutdownProof] is SLL-006
+  + [proof] is fresh authenticated status supplied the exact current generation to authenticated shutdown
+  + [proof] is process exit was confirmed before state removal and the exact listener address immediately rebound
+  + [proof] is the script contains no force-kill fallback and preserves state on rejection or timeout
+  + [status] is passed
+
+& [FaultProof] is SLL-007
+  + [proof] is live duplicate refusal, stale default refusal, explicit structurally valid stale replacement, forged PID identity rejection, unknown-state rejection, and failed-readiness cleanup passed
+  + [proof] is failed-start cleanup revalidates the exact just-created PID, executable, and start time before signaling
+  + [fault_ledger] is C:\Project\Cantor\narrative\operational_faults\1785385157430_supervised_local_lifecycle_faults.sop
+  + [status] is passed
+
+& [ProductionPathProof] is SLL-008
+  + [binaries] is Cargo-built cantord and cantorctl
+  + [platform] is Windows PowerShell with documented NoProfile, ExecutionPolicy Bypass, and File invocation
+  + [lifecycle] is start to health to rejected attacks to graceful stop to stale replacement to failed-readiness cleanup
+  + [status] is passed
+
+& [VerificationProof] is the complete release gate
+  + [production] is formatting, warnings-denied all-target lint, 116 debug tests, 116 overflow-checked release tests, release all-target build, and documentation passed locked and offline
+  + [dependency_audit] is 111 dependencies scanned against 1173 RustSec advisories with zero vulnerabilities
+  + [unsafe] is forbidden by the production workspace lint profile
+  + [evidence] is 28 clone-portable artifacts with exact byte counts and SHA-256 verification
+  + [status] is passed
+
+& [GovernanceAndGitProof] is attributable
+  @ [file_change] C:\Project\Cantor\narrative\file_changes\1785385157430_supervised_local_lifecycle_file_change.sop
+  @ [turn] C:\Project\Cantor\narrative\turns\1785385157430_cantor_supervised_local_lifecycle.sop
+  + [generated_runtime] is ignored under .local and not Git authority
+  + [checkpoint] is intentional repository commit after complete artifact and secret audit
+  + [status] is passed
+
+& [AcceptanceProof] is SLL-001 through SLL-009
+  + [SLL-001] is passed
+  + [SLL-002] is passed
+  + [SLL-003] is passed
+  + [SLL-004] is passed
+  + [SLL-005] is passed
+  + [SLL-006] is passed
+  + [SLL-007] is passed
+  + [SLL-008] is passed
+  + [SLL-009] is passed
+  = conclusion: Cantor now has a proved PID-reuse-safe authenticated Windows operator lifecycle for one explicitly selected cantord process without acquiring Shaliach, Codex-control, semantic, model, notification, session, automatic-restart, or exterior-effect authority

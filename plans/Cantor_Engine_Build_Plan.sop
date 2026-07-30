@@ -5,10 +5,10 @@ Subject: Cantor Engine Build Plan
 
 & [BuildPlanIdentity] is the dependency-ordered execution plan
   + [plan_uuid] is 7a5120ad-760e-48dc-97fe-7612c22d821e
-  + [plan_status] is ServiceBackedMCP_complete
+  + [plan_status] is SupervisedLocalServiceLifecycle_complete
   + [completed] is Phase0 through Phase6 and CEB-001 through CEB-015
   + [active_phase] is none
-  + [next_candidate] is SupervisedLocalServiceLifecycle inactive until separate source preservation and SJS activation; Phase7RoutingExperiment remains blocked by labeled-corpus adoption gates
+  + [next_candidate] is supervised Codex ecosystem messaging only after separate source preservation, identity, authority, recovery, and SJS activation; Phase7RoutingExperiment remains blocked by labeled-corpus adoption gates
   + [implementation_language] is safe Rust edition 2024
   + [initial_workspace] is one Cargo workspace with cantor_core, cantor_cli, and cantor_mcp
   + [work_rule] is implement and prove one contiguous slice before activating its dependent
@@ -120,6 +120,16 @@ Subject: Cantor Engine Build Plan
   + [decision] is activate --service-config without changing the one-tool model surface
   @ [proof_record] C:\Project\Cantor\proofs\Cantor_Service_Backed_MCP_Proof.sop
   - never: expose service status, refresh, shutdown, configuration, or capability as model-callable tools
+
+& [SupervisedLocalServiceLifecycle] is make one cantord process durable and inspectable
+  + [status] is complete
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
+  + [depends_on] is ResidentService
+  + [actions] is strict hidden launch, authenticated readiness, atomic secret-free state, complete process identity, authenticated health, and graceful exact-generation stop
+  + [proof] is real production binaries, duplicate and stale state, PID reuse, unknown state, failed readiness cleanup, state preservation, process exit, and listener release
+  + [decision] is activate the Windows operator profile without autonomous restart, manager, semantic, model, notification, or effect authority
+  @ [proof_record] C:\Project\Cantor\proofs\Cantor_Supervised_Local_Lifecycle_Proof.sop
+  - never: infer a Shaliach manager or general process-control service from this lifecycle prerequisite
 
 & [Phase8FPGAExecutionProfiles] is implement CEB-021 through CEB-030 only when separately activated
   + [depends_on] is stable software protocol, deterministic software oracle, measured workload, explicit device target, and hardware threat model

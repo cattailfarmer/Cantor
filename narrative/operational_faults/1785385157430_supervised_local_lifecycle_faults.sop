@@ -1,0 +1,38 @@
+Subject: Cantor Supervised Local Lifecycle Operational Faults
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Supervised_Local_Lifecycle_Proof.sop
+
+& [FaultRecordIdentity] is the resolved lifecycle ledger
+  + [record_uuid] is bbb491cc-8932-4656-b1b0-6e43f4bec647
+  + [captured_at_ms] is 1785385157430
+  + [status] is resolved_with_no_open_product_fault
+
+& [ExecutionPolicyBoundary] is expected operator behavior
+  + [observation] is this machine blocks direct unsigned module import under its default Windows PowerShell execution policy
+  + [resolution] is every documented and tested operator entry uses powershell -NoProfile -ExecutionPolicy Bypass -File
+  + [security_note] is this selects local script execution but does not expand Cantor service, semantic, or token authority
+  + [status] is documented
+
+& [ExtendedPathHarnessFault] is caught by the first integration run
+  + [observation] is Rust canonicalization produced a Windows \\?\ script path for which Windows PowerShell left PSScriptRoot null
+  + [repair] is normalize only the subprocess-test path representation to ordinary absolute Windows form
+  + [product_boundary] is production scripts continue to require ordinary absolute operator paths and reject ambiguous artifacts
+  + [status] is resolved
+
+& [DetachedPipeHarnessHang] is caught by the second integration run
+  + [observation] is Command.output pipe capture around a launcher can remain open through the detached service child and block the test harness
+  + [repair] is start supervision uses null standard handles in the test harness while state is the durable readiness artifact and health plus stop retain captured machine JSON
+  + [cleanup] is the exact orphaned test process was stopped and its exact cantord child was shut down through authenticated generation-bound stop
+  + [status] is resolved
+
+& [PIDReuseRisk] is resolved in design and proof
+  + [observation] is a PID file can target an unrelated later process
+  + [repair] is require PID, canonical executable, and exact process start time together for health, stale-state replacement, failed-start cleanup, and shutdown
+  + [proof] is a live PID with forged start time could neither report health nor stop the real service
+  + [status] is resolved
+
+& [ReadinessFaultOpacity] is resolved during review
+  + [observation] is the first bounded readiness loop discarded the last probe reason
+  + [repair] is retain and report the last bounded secret-free probe fault while preserving cleanup
+  + [status] is resolved

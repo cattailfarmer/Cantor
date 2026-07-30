@@ -91,6 +91,47 @@ target\release\cantorctl.exe status `
 Machine JSON is written only to standard output. Operational diagnostics use
 standard error.
 
+## Supervised local lifecycle
+
+The Windows operator profile can launch `cantord` hidden, prove authenticated
+readiness, publish a secret-free state record atomically, report health, and
+perform graceful exact-generation shutdown:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File scripts\start_cantor_service.ps1 `
+  -ServerPath C:\Project\Cantor\target\release\cantord.exe `
+  -ClientPath C:\Project\Cantor\target\release\cantorctl.exe `
+  -ConfigPath C:\Project\Cantor\.local\cantor-service\service.json `
+  -StatePath C:\Project\Cantor\.local\cantor-service-supervisor\state.json
+
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File scripts\get_cantor_service_health.ps1 `
+  -StatePath C:\Project\Cantor\.local\cantor-service-supervisor\state.json
+
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File scripts\stop_cantor_service.ps1 `
+  -StatePath C:\Project\Cantor\.local\cantor-service-supervisor\state.json
+```
+
+The state binds the PID to the canonical server executable and exact UTC
+process start time, preventing a reused PID from authorizing health or
+shutdown. It records the start generation, activation sequence, configuration,
+client, and separate log paths, but contains no token, token path, request
+content, or semantic content. Health always performs a fresh authenticated
+status call, so a legitimate refresh appears as a changed current generation.
+
+An existing state file is refused by default. `-ReplaceStale` is accepted only
+after the record is structurally valid and its complete process identity is
+proved not live. A live matching process is never replaced. Startup failure
+may terminate only the exact process created by that start attempt. Stop never
+force-kills: rejected shutdown or an exit timeout preserves the state for
+operator review.
+
+This is a Windows process-lifecycle prerequisite, not a general service
+manager, automatic restart policy, OS-service installer, Codex controller, or
+Shaliach agent runtime.
+
 ## Query or inspect
 
 Use an existing complete `cantor-protocol/0.1` request:

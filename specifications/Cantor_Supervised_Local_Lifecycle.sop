@@ -1,0 +1,93 @@
+Subject: Cantor Supervised Local Lifecycle
+
+Description: A strict Windows operator profile that starts one local cantord process, proves authenticated readiness before atomically publishing secret-free process state, reports authenticated health, and performs PID-reuse-safe exact-generation graceful shutdown.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_supervised_local_lifecycle\Dictated_Cantor_Supervised_Local_Lifecycle_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_supervised_local_lifecycle\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Supervised_Local_Lifecycle.exploded.sop
+@ [resident_service] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+
+& [LifecycleIdentity] is the bounded operator supervision authority
+  + [canonical_specification_uuid] is 59d4a953-7b78-4c19-b2a1-0e39851d2e4b
+  + [profile] is cantor-service-supervisor-state/0.1
+  + [platform] is Windows PowerShell
+  + [semantic_authority] is none
+  + [agent_authority] is none
+  + [effect_authority] is only one explicitly selected local cantord process
+  + [status] is authorized
+
+& [ArtifactInputs] are strict
+  + [server_path] is an absolute canonical regular cantord executable
+  + [client_path] is an absolute canonical regular cantorctl executable
+  + [config_path] is an absolute canonical regular service configuration
+  + [state_path] is absolute and its parent is an existing or creatable operator directory
+  = must: reject relative, missing, directory, ambiguous, or equal state-and-input paths
+
+& [PublishedState] is exact secret-free JSON
+  + [schema] is cantor-service-supervisor-state/0.1
+  + [fields] are schema, pid, process_start_time_utc, server_path, client_path, config_path, stdout_log_path, stderr_log_path, generation_id, activation_sequence, and started_at_utc
+  + [write] is UTF-8 without BOM through same-directory temporary file and atomic move
+  = must: publish only after authenticated readiness succeeds
+  = must: reject unknown, missing, malformed, noncanonical, or relative values on read
+  - never: contain authentication token, token path, request content, or semantic content
+
+& [ProcessIdentity] is complete
+  + [pid] is necessary but insufficient
+  + [executable] is the canonical Get-Process Path
+  + [start_time] is the exact UTC round-trip process StartTime
+  + [match] requires all three fields
+  = must: refuse health, replacement, or shutdown authority when identity is incomplete or mismatched
+  - never: signal a PID-only match
+
+& [StartOperation] is explicit and fail-closed
+  + [launch] is Start-Process with WindowStyle Hidden and separate new stdout and stderr log files
+  + [arguments] are exactly --config plus the canonical configuration path
+  + [readiness] is repeated authenticated cantorctl status until success or bounded timeout
+  + [publication] records the ready status generation and activation sequence
+  + [failure_cleanup] may stop only the exact newly returned process after revalidating its start time and executable
+  + [existing_state] is refused unless explicit ReplaceStale proves the prior recorded identity is not live
+  - never: replace a live matching process or silently discard stale state
+
+& [HealthOperation] is two-part
+  + [process] is complete identity validation
+  + [service] is authenticated cantorctl status using the state-bound configuration and client
+  + [output] is exactly one machine JSON object with state active and bounded service status fields
+  = must: exit nonzero and preserve state on any fault
+
+& [StopOperation] is exact and graceful
+  + [precondition] is complete state and live process identity
+  + [status] obtains the current generation through authenticated cantorctl
+  + [shutdown] supplies that exact generation
+  + [wait] confirms process exit within a bounded timeout
+  + [completion] removes the exact state file only after confirmed exit
+  = must: preserve state on rejected shutdown or timeout
+  - never: force-kill or signal an identity mismatch
+
+& [RequirementSet] is traceable
+  + [SLL-001] is strict absolute artifact and exact state-schema validation
+  + [SLL-002] is hidden start with separate logs and authenticated readiness
+  + [SLL-003] is atomic secret-free state publication
+  + [SLL-004] is executable plus process-start-time PID identity
+  + [SLL-005] is authenticated machine-readable health
+  + [SLL-006] is exact-generation graceful stop and confirmed exit
+  + [SLL-007] is safe duplicate, stale, PID-reuse, startup-failure, and service-failure behavior
+  + [SLL-008] is real production-binary lifecycle proof
+  + [SLL-009] is no expansion into manager, model, semantic, notification, or effect authority
+
+& [SJSProcessingTrace] is seven-fold
+  + [fold_1_subject] is a runtime environment prerequisite that future Cantor and Shaliach components can safely locate
+  + [fold_2_boundary] is local process supervision inside and agent orchestration outside
+  + [fold_3_data] is selected paths, PID, process start time, logs, service status, generation, sequence, timestamps, and faults
+  + [fold_4_governance] is source preservation, explicit paths, token exclusion, atomic publication, PID-reuse defense, authenticated probes, exact shutdown, and state preservation on failure
+  + [fold_5_solution] is three PowerShell operator commands, shared lifecycle library, real-binary integration tests, docs, proof, and evidence manifest
+  + [fold_6_fault_review] is duplicate start, stale state, PID reuse, startup exit, readiness timeout, token leak, service rejection, shutdown timeout, and unintended process signaling
+  + [fold_7_lock] is supervised cantord lifecycle only while the broader manager intention remains preserved but inactive
+
+& [SatisfactionSignature] is valid implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is af5af313-92a9-41c6-b1bf-9af9370adb51
+  + [source_snapshot_uuid] is a004768e-1685-492c-bd85-4cef7c7b5260
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
+  + [processed_stage_set] is source_preserved, prior_authority_verified, boundary_formed, data_formed, security_reviewed, requirements_mapped, justified, and signed
+  + [signature_status] is valid_for_supervised_local_lifecycle_only
+  + [implementation_authority] is start_health_stop_operator_scripts_tests_docs_and_proof

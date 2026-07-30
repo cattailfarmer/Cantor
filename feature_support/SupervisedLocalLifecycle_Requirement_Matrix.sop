@@ -1,0 +1,35 @@
+Subject: Cantor Supervised Local Lifecycle Requirement Matrix
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\SupervisedLocalLifecycle.sop
+
+& [MatrixIdentity] is implementation support accounting
+  + [matrix_uuid] is 3d5e6fba-c8aa-4ec5-afe0-0685cff535fc
+  + [status] is complete_with_evidence
+
+& [SLL-001] is strict artifact and state validation
+  + [evidence] is strict path helpers, exact state properties, unknown-property rejection, regular-file and reparse-point rejection, and module-level validation
+
+& [SLL-002] is hidden launch and readiness
+  + [evidence] is real cantord hidden-process launch, distinct logs, state only after authenticated cantorctl status, and failed-readiness nonpublication
+
+& [SLL-003] is atomic secret-free state
+  + [evidence] is exact schema assertion, BOM-free same-directory atomic publication, and token plus auth-token-name absence scan
+
+& [SLL-004] is complete process identity
+  + [evidence] is PID plus executable plus exact start-time matching and forged-start-time health and stop rejection
+
+& [SLL-005] is authenticated health
+  + [evidence] is fresh real cantorctl status and strict machine JSON with current generation
+
+& [SLL-006] is graceful exact stop
+  + [evidence] is current-generation shutdown, confirmed exit, state removal, and listener rebinding
+
+& [SLL-007] is safe faults
+  + [evidence] is duplicate live refusal, stale default refusal, explicit stale replacement, forged identity rejection, failed readiness cleanup, and state preservation
+
+& [SLL-008] is production-binary lifecycle
+  + [evidence] is production_binaries_have_pid_safe_supervised_operator_lifecycle
+
+& [SLL-009] is authority non-expansion
+  + [evidence] is no tool-surface change, no model call, no automatic restart, no force kill, no semantic operation, and no tracked secret

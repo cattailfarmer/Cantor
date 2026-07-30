@@ -1,0 +1,55 @@
+Subject: Cantor Supervised Local Lifecycle Solution
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_supervised_local_lifecycle\Dictated_Cantor_Supervised_Local_Lifecycle_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Supervised_Local_Lifecycle_Justification.sop
+@ [implementation] C:\Project\Cantor\scripts\CantorServiceLifecycle.psm1
+@ [operator_guide] C:\Project\Cantor\docs\RESIDENT_SERVICE.md
+@ [proof] C:\Project\Cantor\proofs\Cantor_Supervised_Local_Lifecycle_Proof.sop
+
+& [SolutionIdentity] is the completed Windows operator lifecycle
+  + [solution_uuid] is a52ae887-ae4f-4517-81eb-1202b211463c
+  + [status] is completed_and_boundedly_activated
+  + [state_profile] is cantor-service-supervisor-state/0.1
+  + [health_profile] is cantor-service-supervisor-health/0.1
+  + [semantic_authority] is none
+  + [agent_authority] is none
+
+& [SharedLifecycleModule] is strict common behavior
+  + [paths] are absolute, normalized, regular, non-reparse, and mutually distinct
+  + [state] has an exact property set, canonical paths and timestamps, positive PID and sequence, and lowercase SHA-256 generation
+  + [process_identity] is PID plus canonical executable plus exact UTC start time
+  + [client] invokes the existing cantorctl with redirected bounded output and validates protocol, disposition, result kind, faults, and active binding
+  + [state_write] is same-directory UTF-8 no-BOM temporary publication followed by atomic move
+
+& [StartImplementation] is readiness before authority
+  + [launch] is one hidden cantord with exactly --config and separate unique stdout and stderr logs
+  + [readiness] is repeated authenticated cantorctl status within explicit bounds
+  + [publication] occurs only after readiness and a second complete process-identity match
+  + [duplicate] rejects a live matching state
+  + [stale] requires explicit ReplaceStale after valid-state nonlive proof
+  + [failure] stops only the exact process returned by that start attempt
+
+& [HealthImplementation] is fresh
+  + [precondition] is exact state and complete live process identity
+  + [probe] is a fresh authenticated status through the state-bound client and configuration
+  + [result] distinguishes start generation and sequence from current generation and sequence after refresh
+  + [output] is strict machine JSON with process, service, uptime, logs, and checked time
+
+& [StopImplementation] is graceful
+  + [precondition] is exact state and complete live process identity
+  + [binding] is a fresh authenticated status generation
+  + [shutdown] is existing authenticated exact-generation service shutdown
+  + [completion] is bounded confirmed process exit before exact state-file removal
+  - never: force-kill, remove state on timeout, or signal a mismatched identity
+
+& [AdversarialProof] is one real-binary lifecycle
+  + [cases] is ready start, exact state and token exclusion, health, duplicate refusal, forged start-time health and stop refusal, unknown-state refusal, graceful stop, listener release, stale default refusal, explicit stale replacement, and failed-readiness cleanup
+  + [binaries] are the Cargo-built production cantord and cantorctl targets
+  + [result] is passed
+
+& [NonclaimSet] is retained
+  + [platform] is Windows PowerShell rather than cross-platform daemonization
+  + [manager] is no Shaliach, Codex conversation, model-call, or autonomous recovery authority
+  + [service] is no operating-system service installation or general supervisor
+  + [semantics] is no new SOP interpretation, query, trust, package, or effect behavior

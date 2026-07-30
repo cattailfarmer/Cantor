@@ -1,0 +1,67 @@
+Subject: Exploded Cantor Supervised Local Lifecycle
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_supervised_local_lifecycle\Dictated_Cantor_Supervised_Local_Lifecycle_Source.sop
+@ [resident_service] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+@ [service_backed_MCP] C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
+
+& [Problem] is cantord has protocol lifecycle but no durable operator supervision
+  + [manual_start] leaves readiness, process identity, logs, health, and shutdown completion implicit
+  + [future_manager] cannot safely depend on an unrecorded or PID-only process
+  + [goal] is make one local cantord instance explicitly startable, inspectable, and gracefully stoppable
+
+& [BoundaryDecision] is process supervision without agent authority
+  + [included] is operator-selected executable, service configuration, state record, logs, readiness probe, health probe, and graceful shutdown
+  + [excluded] is Codex conversation control, model invocation, autonomous recovery, message routing, Shaliach policy, tool selection, semantic mutation, and exterior effects
+  + [platform_profile] is Windows PowerShell over existing Rust binaries
+  + [future_seam] is a strict machine-readable state and health contract that a separately authorized manager may consume
+
+& [StartContract] is fail-closed
+  + [inputs] are absolute regular cantord path, absolute regular cantorctl path, absolute service configuration path, and absolute state path
+  + [launch] is hidden with separate append-free stdout and stderr log files
+  + [readiness] is authenticated cantorctl status before state publication
+  + [state] is atomically written only after readiness and binds PID, process start time, executable, config, client, logs, active generation, activation sequence, and start time
+  + [collision] is an existing live matching state or any unapproved stale state
+  = must: clean up only the exact process created by the failed start
+  - never: write the capability token into arguments, state, logs, or output
+
+& [IdentityContract] is PID-reuse safe
+  + [validation] is PID exists and both canonical executable path and UTC process start time equal the state record
+  + [state_schema] is exact and unknown properties are rejected
+  + [configuration_binding] is the exact canonical path supplied at start
+  = must: reject PID-only identity
+  - never: signal a process whose complete identity does not match
+
+& [HealthContract] is authenticated and semantic-free
+  + [process_health] is complete process identity match
+  + [service_health] is a successful authenticated status response from the pinned configuration
+  + [output] is one strict machine JSON object without secrets
+  + [result] includes supervisor profile, PID, state, generation, activation sequence, service profile, uptime, and log paths
+  - never: infer semantic readiness from process existence alone
+
+& [StopContract] is graceful exact-generation shutdown
+  + [precondition] is complete state and process identity validation
+  + [generation] is read by authenticated status immediately before shutdown
+  + [shutdown] is authenticated cantorctl shutdown with the exact current generation
+  + [completion] is process exit within a bounded timeout
+  + [cleanup] is state removal only after confirmed exit
+  - never: force-kill, guess generation, remove live state after failure, or target an identity mismatch
+
+& [StaleStateContract] is explicit
+  + [default] is refuse any existing state
+  + [replacement] is allowed only with an explicit ReplaceStale switch after proving the recorded process identity is not live
+  + [live_match] is never replaceable by the start operation
+  = must: preserve stale evidence unless replacement is explicitly selected
+
+& [Acceptance] is SLL-001 through SLL-009
+  + [SLL-001] is strict absolute artifact and exact state-schema validation
+  + [SLL-002] is hidden start with separate logs and authenticated readiness
+  + [SLL-003] is atomic secret-free state publication
+  + [SLL-004] is executable plus process-start-time PID identity
+  + [SLL-005] is authenticated machine-readable health
+  + [SLL-006] is exact-generation graceful stop and confirmed exit
+  + [SLL-007] is safe duplicate, stale, PID-reuse, startup-failure, and service-failure behavior
+  + [SLL-008] is real production-binary lifecycle proof
+  + [SLL-009] is no expansion into manager, model, semantic, notification, or effect authority
+
+& [PrunedClaims] is retained
+  - [excluded] is a general service manager, operating-system service installation, cross-platform daemonization, automatic restart, crash recovery, agent orchestration, or distributed coordination
