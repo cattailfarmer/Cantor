@@ -1,0 +1,61 @@
+Subject: Cantor Windows Platform Preflight Unsafe Seam Gap Assessment
+
+& [ResearchIdentity] is pre-implementation review
+  + [research_uuid] is 5709b6e9-c3c6-44b5-b999-15678c2a93c7
+  + [captured_at] is 2026-07-30
+  + [purpose] is determine whether profile 0.1 can honestly carry every outcome of a minimal physical preflight
+  + [Windows_call_executed] is false
+
+@ [completed_form_proof] C:\Project\Cantor\proofs\Cantor_M2B_Platform_Preflight_Forms_Proof.sop
+@ [Microsoft_CreateFileW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew
+@ [Microsoft_GetFinalPathNameByHandleW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew
+@ [Microsoft_GetVolumeInformationByHandleW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew
+@ [Rust_FromRawHandle] https://doc.rust-lang.org/std/os/windows/io/trait.FromRawHandle.html
+@ [Rust_OwnedHandle] https://doc.rust-lang.org/std/os/windows/io/struct.OwnedHandle.html
+
+& [GeneratedBindingFinding] is exact
+  + [package] is windows-sys 0.61.2
+  + [CreateFileW] returns a raw HANDLE and requires Security in the generated signature
+  + [GetFileInformationByHandleEx] accepts one FILE_INFO_BY_HANDLE_CLASS, output pointer, and u32 byte size
+  + [GetFinalPathNameByHandleW] accepts a WCHAR buffer, u32 character count, and flags
+  + [GetVolumeInformationByHandleW] accepts two WCHAR buffers and three u32 scalar outputs
+  + [FILE_ID_INFO] is u64 volume serial plus FILE_ID_128
+  + [FILE_REMOTE_PROTOCOL_INFO] begins with u16 StructureVersion, u16 StructureSize, u32 Protocol, three u16 protocol-version fields, one reserved u16, and u32 Flags
+
+& [OfficialReturnFinding] distinguishes failure from bounded-success processing
+  + [GetFinalPath_success] returns string length excluding NUL
+  + [GetFinalPath_small_buffer] returns required size including NUL rather than zero
+  + [GetFinalPath_other_failure] returns zero and requires immediate extended-error capture
+  + [GetVolumeInformation_failure] returns zero when not all requested information is retrieved and requires immediate extended-error capture
+  + [consequence] a returned required size above Cantor's bound is not honestly a Win32-error result
+
+& [TransformationFinding] is independent of API failure
+  + [possible_local_fault] returned WCHARs can fail strict UTF-16 conversion
+  + [possible_local_fault] returned values can violate Cantor text, structure, path, identity, or disposition form constraints
+  + [possible_local_fault] returned length can exceed the fixed resource bound
+  + [consequence] local transformation or semantic rejection must not be reported as an operating-system error
+
+& [RequestFinding] is missing from profile 0.1
+  + [current] every result repeats profile, target, and input root
+  + [gap] no strict request type exists for validating these fields before an effect
+  + [consequence] runtime code would either duplicate private root grammar or construct a fake result only to validate input
+
+& [OwnershipFinding] supports later isolation
+  + [Rust] OwnedHandle closes on drop
+  + [Rust] FromRawHandle transfers close responsibility only from an open owned CloseHandle-compatible resource
+  + [required_gate] INVALID_HANDLE_VALUE must be rejected before the single ownership transfer
+  + [required_isolation] the current workspace unsafe_code forbid must remain intact for existing crates
+  + [future_candidate] one new target-specific crate with deny-by-default unsafe and one private allow-scoped seam
+
+& [LintProbe] is local and non-authoritative
+  + [result] rustc 1.96 accepts an allow-scoped private module under crate-level deny unsafe_code
+  + [boundary] this proves lint mechanics only and authorizes no production unsafe code
+
+& [Decision] is revise forms before runtime
+  + [profile_0_2] adds a strict request form and a fourth observation_fault outcome
+  + [observation_fault] carries a closed stage and closed local fault class without an OS error code or partial evidence
+  + [open_and_query_fault] remain reserved for actual nonzero Win32 errors
+  + [runtime] remains unauthorized until the revision is separately proven and a later unsafe source is processed
+
+& [Nonclaim] is mandatory
+  - never: cite this assessment as a successful Windows call, valid resource transfer, target-host fact, unsafe implementation authority, or scanner readiness

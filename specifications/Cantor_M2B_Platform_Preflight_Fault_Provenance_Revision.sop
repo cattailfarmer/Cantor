@@ -1,0 +1,147 @@
+Subject: Cantor M2B Platform Preflight Fault Provenance Revision
+
+Description: Canonical pure implementation authority for a strict pre-effect request and an honest local observation-fault outcome. It advances the result profile to 0.2 without authorizing Windows invocation, unsafe code, resource ownership, filesystem observation, or scanner behavior.
+
+& [CanonicalIdentity] is the 0.2 corrective specification
+  + [canonical_uuid] is 686d7960-5979-45f2-b38a-f6a29423ece7
+  + [version] is 0.2
+  + [result_profile] is cantor-windows-platform-preflight/0.2
+  + [request_profile] is cantor-windows-platform-preflight-request/0.1
+  + [lifecycle_state] is accepted
+  + [prior_profile] is cantor-windows-platform-preflight/0.1
+  + [prior_state] is historically_proven_but_insufficient_for_runtime_fault_provenance
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_preflight_fault_provenance_revision\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_preflight_fault_provenance_revision\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Windows_Platform_Preflight_Unsafe_Seam_Gap_Assessment_2026-07-30.sop
+@ [prior_canonical] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Forms.sop
+@ [prior_proof] C:\Project\Cantor\proofs\Cantor_M2B_Platform_Preflight_Forms_Proof.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.exploded.sop
+@ [exploded_sha256] b0bae4014c23f61c3a3045c47f751489e3ded1330e1485fc35e28f894e4f9789
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Justification.sop
+@ [justification_sha256] decdc1e10c60efe80bf599adeb043b11f49ffa994aa3788f24895eec28a22274
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Plan.sop
+@ [plan_sha256] d441d07ef9a74e66b32374dda15aa7199e11476762e81df5ca33fd3cdafe7532
+@ [matrix] C:\Project\Cantor\feature_support\M2BPlatformPreflightFaultProvenanceRevision_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BPlatformPreflightFaultProvenanceRevision.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Registry.sop
+@ [registry_sha256] c7193f7883a0a025a79c05547bd9402dead5a28c5c9272e7f34129b0e433792a
+@ [fault_ledger] C:\Project\Cantor\narrative\operational_faults\1785442827989_m2b_platform_preflight_fault_provenance_revision_faults.sop
+
+& [AuthorizedFileSet] is exact
+  + [production] is crates/cantor_ecosystem/src/platform_preflight_forms.rs
+  + [governance] is source, canonical, exploded, justification, plan, matrix, slice, registry, evidence, solution, proof, review, fault, file-change, turn, map, narrative, and reentry records
+  - never: change lib.rs, Cargo.toml, Cargo.lock, topology_forms.rs, or another production module
+
+& [RequestContract] is strict and effect free
+  + [type] is WindowsPlatformPreflightRequest
+  + [request_profile] is exactly cantor-windows-platform-preflight-request/0.1
+  + [result_profile] is exactly cantor-windows-platform-preflight/0.2
+  + [target_triple] is exactly x86_64-pc-windows-msvc
+  + [input_root] reuses the existing canonical extended-DOS drive-root validator
+  + [validation] uses ValidatePlatformPreflightForm and decode_platform_preflight_json
+  + [effect] is zero
+
+& [ResultContract] is one closed four-variant sum
+  + [open_fault] contains common result identity and nonzero operating-system error code
+  + [query_fault] adds one closed query stage and nonzero operating-system error code
+  + [observation_fault] adds one closed query stage and one closed local fault class only
+  + [complete] retains strong identity, canonical final path, volume, remote protocol, and disposition
+  + [profile] is 0.2 for every variant
+  + [partial_evidence] is absent from every fault
+
+& [LocalFaultContract] is exact
+  + [returned_length_limit] is admitted
+  + [invalid_utf16] is admitted
+  + [invalid_observation] is admitted
+  + [other_class] rejects
+  + [error_code] is not a field
+  + [arbitrary_message] is not a field
+
+& [OperatingSystemFaultContract] is provenance preserving
+  + [open_fault] represents actual open API failure only
+  + [query_fault] represents actual named query API failure only
+  + [error_code] must be nonzero
+  + [local_processing_failure] must not use either variant
+
+& [RetainedContract] is unchanged except profile
+  + [query_stages] remain file_id_info, final_volume_guid_path, volume_information, and remote_protocol_information
+  + [root_identity] remains StrongFileIdentity
+  + [final_path] remains canonical volume-GUID syntax
+  + [volume] retains every 0.1 bound
+  + [remote_protocol] retains every 0.1 bound
+  + [disposition] retains the exact protocol and filesystem truth table
+  + [protocol_zero] remains an invalidatable policy inference
+
+& [LegacyContract] is fail closed
+  + [result_profile_0_1] rejects during semantic validation
+  + [request_result_profile_0_1] rejects
+  + [unknown_field_variant_or_class] rejects during JSON decoding
+  + [old_canonical_and_proof] remain immutable historical evidence
+
+& [EffectContract] is zero
+  + [windows_sys] is absent from the production module
+  + [Windows_function_call] is absent
+  + [unsafe] is absent
+  + [filesystem_and_resource_ownership] are absent
+  + [process_environment_clock_random_network_persistence] are absent
+  + [fixture_candidate_scanner_receipt] effects are absent
+  + [physical_claim] is absent
+  + [Cargo_and_lock_delta] are zero
+
+& [RequirementSet] is M2B-PFR-001 through M2B-PFR-012
+  + [lineage] preserves source, research, prior authority, proof, and review
+  + [profiles] fixes request 0.1 and result 0.2
+  + [provenance] makes OS and local faults disjoint
+  + [strictness] fixes fields, stages, classes, bounds, legacy, and unknown rejection
+  + [closure] requires focused, global, static, evidence, rollback, support, and publication proof
+
+& [Acceptance] is exact
+  + [focused] request, four variants, three local classes, provenance, legacy, retained complete relation, bounds, and strict JSON pass in debug and overflow-checked release
+  + [static] forbidden effect surface and Cargo delta are zero
+  + [global] debug, overflow-checked release, format, lint, build, rustdoc, and audit pass
+  + [evidence] every affected manifest is regenerated after durable narrative closure
+  + [review] completed work recomputes readiness without runtime overclaim
+
+& [AuthorityBoundary] is pure revision only
+  + [allowed] is safe-Rust request and result types, closed enum, validation, strict decoding, tests, evidence, and proof
+  + [forbidden] is Windows API, pointer, buffer, raw or owned resource, FFI, unsafe, physical root, target-host observation, runtime wrapper, scanner, receipt, fixture, mutation, seal, cleanup, launch, promotion, or write authority
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is corrective raw source plus immutable manifest and prior bindings
+  + [delineated] is request fault, OS open fault, OS query fault, local observation fault, and complete separated
+  + [exploded] is twelve requirements, twelve constraints, ten failures, and ten verification gates
+  + [semantically_refined] is exact request, OS error, local processing, complete, and nonclaim meaning
+  + [constraint_checked] is official return semantics, Rust ownership preconditions, generated bindings, and prior proof
+  + [pruned] is synthetic OS error, arbitrary prose, partial evidence, runtime, and scanner authority
+  + [data_design_checked] is strict request product plus provenance-disjoint result sum
+  + [exhaustion_reviewed] is seven_fold_phase_locked
+  + [justified] is claim, support, false option, counterargument, invalidation, and rollback
+  + [planned] is ordered authority, implementation, verification, evidence, and publication work
+  + [registry_recorded] is graph-addressable nodes, causal edges, retrieval terms, and nonedges
+
+& [SignatureEvidenceTable] binds every stage
+  + [source_preserved] is Source_Document_Manifest.sop
+  + [delineated] is exploded BoundaryFormation
+  + [exploded] is Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.exploded.sop
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded PruningTrace
+  + [data_design_checked] is exploded DataDesignModel
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Justification.sop
+  + [planned] is Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Registry.sop
+
+& [SatisfactionSignature] is valid pure revision implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 43ac3353-ea22-4f02-894e-59302e6ef4a5
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_preflight_fault_provenance_revision\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 3a06aeb9-634d-41a0-aaa9-3985953aaf7a
+  + [implementation_authority] is pure_request_and_fault_provenance_revision_only
+  + [signature_status] is valid
+  + [invalidation_condition] is source change, provenance collapse, synthetic OS error, partial evidence, legacy admission, effect surface, Cargo delta, stale evidence, missing trace, or failed gate

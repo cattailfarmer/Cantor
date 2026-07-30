@@ -1,0 +1,23 @@
+Subject: M2B Platform Preflight Fault Provenance Revision Slice
+
+& [SliceIdentity] is bounded
+  + [slice] is M2BPlatformPreflightFaultProvenanceRevision
+  + [result_profile] is cantor-windows-platform-preflight/0.2
+  + [depends_on] is completed M2BPlatformPreflightForms
+  + [authority_state] is signed_pure_revision_authority
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop
+
+& [Signature] is bound
+  + [signature_uuid] is 43ac3353-ea22-4f02-894e-59302e6ef4a5
+  + [implementation_authority] is pure_request_and_fault_provenance_revision_only
+
+& [Files] are closed
+  + [production] crates/cantor_ecosystem/src/platform_preflight_forms.rs
+  + [records] governed source, SJS, evidence, solution, proof, review, narrative, and reentry
+
+& [Boundary] is pure
+  + [runtime] is absent
+  + [Windows_call] is absent
+  + [unsafe] is absent
+  + [physical_claim] is absent

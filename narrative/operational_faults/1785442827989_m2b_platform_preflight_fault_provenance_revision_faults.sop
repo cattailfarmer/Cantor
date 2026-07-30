@@ -1,0 +1,16 @@
+Subject: Cantor M2B Platform Preflight Fault Provenance Revision Operational Faults
+
+& [FaultLedgerIdentity] is current
+  + [ledger_uuid] is adfbecc1-b4e6-4e1e-b282-57cd7cbe7800
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [status] is active
+
+& [SpecificationFault] is preserved
+  + [fault] profile 0.1 cannot distinguish actual Windows API failure from bounded local processing rejection after API success
+  + [risk] a runtime adapter could synthesize an OS error and falsify causal provenance
+  + [discovery] occurred during pre-call unsafe seam review
+  + [physical_effect] is none
+  + [repair] is profile 0.2 request and observation-fault revision before runtime
+
+& [ImplementationFaults] is open
+  + [status] is none_observed_yet

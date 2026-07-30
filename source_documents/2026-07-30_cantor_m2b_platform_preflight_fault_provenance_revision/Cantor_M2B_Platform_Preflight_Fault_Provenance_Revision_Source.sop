@@ -1,0 +1,70 @@
+Subject: Raw Source for Cantor M2B Platform Preflight Fault Provenance Revision
+
+Captured: 2026-07-30
+Conversation: cab190f5-eda0-44e0-81a5-51f9605e0baa
+Source type: manager-selected correction after completed-work and unsafe-seam review
+
+Preserve this source separately from canonical and exploded specifications.
+
+The proven cantor-windows-platform-preflight/0.1 form correctly distinguishes
+open and query failures from complete evidence, but it still lacks two forms
+required before a physical observer can be honest:
+
+1. a strict effect-free request validated before any Windows call; and
+2. a result for local processing failure after an API call succeeds.
+
+Do not synthesize a Win32 error when GetFinalPathNameByHandleW returns a
+required size beyond Cantor's fixed bound, when returned WCHARs are invalid
+UTF-16, or when supplied output fails Cantor's semantic form constraints.
+
+Revise the pure vocabulary:
+
+- preserve profile 0.1 and its proof as historical;
+- define result profile cantor-windows-platform-preflight/0.2;
+- define request profile cantor-windows-platform-preflight-request/0.1;
+- add WindowsPlatformPreflightRequest with request profile, result profile,
+  exact x86_64-pc-windows-msvc target, and canonical extended-DOS drive root;
+- expose request validation through the existing pure validation trait and
+  strict JSON decoder;
+- retain open_fault only for a nonzero CreateFileW error;
+- retain query_fault only for one of the four query stages and a nonzero
+  Windows API error;
+- add observation_fault for one of the four query stages and exactly one local
+  processing class:
+  - returned_length_limit;
+  - invalid_utf16;
+  - invalid_observation;
+- forbid an OS error code and all partial evidence in observation_fault;
+- retain complete with the proven strong identity, volume-GUID final path,
+  volume information, remote protocol information, and disposition;
+- reject every legacy 0.1 result during semantic validation;
+- keep unknown JSON fields and variants fail closed.
+
+The revision remains pure safe Rust:
+
+- change only platform_preflight_forms.rs and its export-compatible public
+  vocabulary, plus governed records and evidence;
+- no Cargo or lock change;
+- no windows-sys reference in production source;
+- no unsafe;
+- no Windows call, filesystem observation, process, environment, clock,
+  random, network, persistence, fixture, candidate, scanner, receipt, or
+  physical claim.
+
+Prove:
+
+- request positive and negative boundaries;
+- each of four outcomes;
+- each local observation-fault class;
+- legacy 0.1 rejection;
+- open/query errors remain nonzero and provenance-specific;
+- observation fault cannot carry an error code or partial evidence;
+- complete disposition truth table remains exact;
+- strict JSON, focused debug and overflow-checked release, global debug and
+  release, lint, build, docs, audit, evidence, rollback, and support review.
+
+Only after this revision is proven may a new source select a target-specific
+unsafe runtime seam. That later source must preserve the existing workspace
+unsafe prohibition, isolate ownership transfer and Windows calls, bind an exact
+physical request, and retain observation_fault rather than mislabeling local
+processing faults.

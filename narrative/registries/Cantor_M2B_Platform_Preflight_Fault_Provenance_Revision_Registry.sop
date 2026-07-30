@@ -1,0 +1,28 @@
+Subject: Registry for Cantor M2B Platform Preflight Fault Provenance Revision
+
+& [RegistryIdentity] is graph-addressable
+  + [registry_uuid] is 3a06aeb9-634d-41a0-aaa9-3985953aaf7a
+  + [result_profile] is cantor-windows-platform-preflight/0.2
+  + [state] is signed_implementation_authority
+
+& [Nodes] are corrective source, unsafe-seam assessment, prior proof, request, OS fault, observation fault, complete result, canonical, module, tests, evidence, solution, proof, and review
+
+& [Edges] define meaning
+  + [request] validates before effect
+  + [open_fault] caused_by CreateFileW failure
+  + [query_fault] caused_by named query API failure
+  + [observation_fault] caused_by local processing rejection after API success
+  + [complete] requires every query product
+  + [revision] precedes unsafe runtime formation
+
+& [RetrievalTerms] include fault provenance, observation fault, returned length, invalid UTF-16, invalid observation, request form, Win32 error, and platform preflight 0.2
+
+& [NonEdges] are explicit
+  + [absent] local observation fault is a Win32 error
+  + [absent] form validation invokes Windows
+  + [absent] revision authorizes runtime
+
+& [Authority] is exact
+  + [canonical_uuid] is 686d7960-5979-45f2-b38a-f6a29423ece7
+  + [signature_uuid] is 43ac3353-ea22-4f02-894e-59302e6ef4a5
+  + [scope] is pure request and fault-provenance revision only
