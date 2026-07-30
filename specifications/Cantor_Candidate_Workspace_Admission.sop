@@ -1,0 +1,153 @@
+Subject: Cantor Candidate Workspace Admission
+
+Description: Phase3A implementation authority for proving that an operator-prepared Git worktree is an isolated, clean, exact-base candidate target before any separately authorized workspace-write turn may use it.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_scoped_write_delineation\Cantor_Phase3_Scoped_Write_Source_Selection.sop
+@ [reconciliation_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_scoped_write_delineation\Cantor_Candidate_Workspace_Admission_Reconciliation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_scoped_write_delineation\Source_Document_Manifest.sop
+@ [runtime_formation] C:\Project\Cantor\specifications\Cantor_Codex_Supervised_Ecosystem_Runtime.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Candidate_Workspace_Admission.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Candidate_Workspace_Admission_Justification.sop
+@ [matrix] C:\Project\Cantor\feature_support\CandidateWorkspaceAdmission_Requirement_Matrix.sop
+
+& [CandidateWorkspaceAdmission] is a read-only prerequisite gate
+  + [profile] is cantor-candidate-workspace-admission/0.1
+  + [input] is one strict CandidateWorkspaceRequest
+  + [inspection] is bounded direct execution of an exact hash-pinned Git executable without a shell
+  + [output] is one deterministic AdmissionReceipt or one typed AdmissionFault
+  + [consequence] is eligibility for an immediate Phase3B preflight only
+  - never: create, alter, clean, reset, stage, commit, merge, push, delete, or promote a workspace
+  - never: launch Codex, a model, a test command, a hook, an editor, a shell, or an EffectBroker
+
+& [CandidateWorkspaceRequest] is the complete claimed boundary
+  + [profile] is exact
+  + [candidate_uuid] is a canonical stable UUID
+  + [correlation_uuid] is the governing work-packet correlation UUID
+  + [admission_nonce] is a nonempty manager-supplied single-use identity
+  + [git_executable] is an absolute operator-selected regular file
+  + [git_executable_sha256] is exact canonical lowercase SHA-256
+  + [git_version] is one exact admitted version string
+  + [principal_workspace] is the canonical current trusted project worktree
+  + [candidate_workspace] is the canonical operator-prepared disposable linked worktree
+  + [expected_repository_common_dir] is the canonical Git common-directory identity
+  + [expected_base_commit] is an exact canonical full object ID
+  + [expected_branch_ref] is one exact full local branch ref
+  + [protected_branch_refs] is a nonempty sorted unique set
+  + [allowed_relative_paths] is a nonempty sorted unique future-mutation allowlist
+  + [budgets] is per-command bytes, total bytes, process count, and elapsed time
+  = must: reject unknown fields, defaults, empty identities, duplicate set members, noncanonical hashes, and invalid budgets
+
+& [PathPolicy] is lexical and physical containment
+  + [principal_workspace] and [candidate_workspace] are absolute, pre-existing, canonical directories
+  + [exact_path] has no symlink at the supplied terminal path
+  + [separation] requires neither workspace to equal, contain, nor be contained by the other
+  + [allowed_relative_path] uses slash-normalized relative UTF-8 segments with no empty, dot, dot-dot, drive, root, NUL, backslash, or Git-metadata segment
+  + [allowed_projection] resolves lexically beneath the candidate root even when the target does not yet exist
+  = must: reject duplicate, ancestor-overlapping, or descendant-redundant allowlist entries
+  - never: admit .git, absolute paths, path traversal, alternate separators, or repository metadata
+
+& [ExecutableAdmission] is exact and bounded
+  + [git_executable] is canonical, nonsymlink, regular, and hash-equal before every command
+  + [version_probe] is direct argument-vector execution of git --version
+  + [version_result] is one bounded successful UTF-8 line exactly equal to the request
+  + [environment] sets noninteractive Git behavior and does not expose command construction through a shell
+  = must: close stdin, pipe bounded stdout and stderr, enforce the global deadline, terminate and wait the exact child on timeout, and reject nonzero exit unless a command explicitly admits it
+  = must: count every process, byte, and elapsed observation against the request budget
+
+& [GitObservationSet] is the closed read-only command plan
+  + [principal_top_level] is git -C PRINCIPAL rev-parse --show-toplevel
+  + [candidate_top_level] is git -C CANDIDATE rev-parse --show-toplevel
+  + [principal_common_dir] is git -C PRINCIPAL rev-parse --path-format=absolute --git-common-dir
+  + [candidate_common_dir] is git -C CANDIDATE rev-parse --path-format=absolute --git-common-dir
+  + [candidate_git_dir] is git -C CANDIDATE rev-parse --path-format=absolute --git-dir
+  + [candidate_head] is git -C CANDIDATE rev-parse --verify HEAD
+  + [candidate_branch] is git -C CANDIDATE symbolic-ref --quiet HEAD
+  + [principal_branch] is git -C PRINCIPAL symbolic-ref --quiet HEAD
+  + [candidate_status] is git -C CANDIDATE status --porcelain=v2 -z --untracked-files=all --ignore-submodules=none
+  + [worktree_inventory] is git -C PRINCIPAL worktree list --porcelain -z
+  + [submodule_inventory] is git -C CANDIDATE submodule status --recursive
+  = must: use this exact order and argument vectors
+  - never: run a Git command capable of changing index, worktree, refs, config, objects, remotes, or maintenance state
+
+& [RepositoryIdentityGate] is exact
+  + [top_levels] are byte-equivalent after platform path normalization to the requested canonical workspaces
+  + [common_dirs] are canonical, equal each other, and equal expected_repository_common_dir
+  + [candidate_git_dir] is distinct from common_dir and physically beneath the common worktrees metadata area
+  + [worktree_inventory] contains exactly one entry matching candidate workspace, expected HEAD, and expected branch
+  + [candidate_branch] equals expected_branch_ref and differs from the principal branch and every protected branch
+  + [candidate_head] equals expected_base_commit
+  = must: reject detached HEAD, duplicate inventory entries, bare repositories, repository substitution, branch substitution, and common-directory mismatch
+
+& [CleanDisposableBaselineGate] is fail closed
+  + [status_bytes] are exactly empty
+  + [submodule_inventory] is exactly empty for this initial profile
+  + [candidate_root] is a linked worktree rather than the principal worktree
+  + [baseline] binds exact request, Git executable, version, command plan, command outputs, and normalized facts
+  = must: reject tracked, staged, untracked, ignored-submodule-visible, conflicted, or submodule state
+  - never: clean an unclean candidate on the caller's behalf
+
+& [AdmissionReceipt] is deterministic evidence, not write authority
+  + [profile] is exact
+  + [request_sha256] is SHA-256 of canonical request JSON
+  + [receipt_sha256] is SHA-256 of canonical receipt content excluding itself
+  + [candidate_uuid] and [correlation_uuid] and [admission_nonce] equal the request
+  + [git_executable_sha256] and [git_version] are observed
+  + [principal_workspace] and [candidate_workspace] and [repository_common_dir] are canonical observed paths
+  + [base_commit] and [branch_ref] and [allowed_relative_paths] are exact
+  + [observation_sha256] binds ordered command arguments, exit status, stdout, and stderr
+  + [resource_account] is deterministic process count, received bytes, and configured elapsed budget
+  + [admitted] is true
+  - never: contain measured elapsed time, a timestamp, ambient username, credential, secret, or mutable authorization handle
+
+& [FreshnessAndUseBoundary] prevents receipt laundering
+  + [single_use] binds admission_nonce to one future work packet
+  + [pre_write_revalidation] must rerun Phase3A immediately before a later Phase3B process launch and require byte-equivalent semantic facts
+  + [post_write] invalidates the clean-baseline receipt by definition
+  + [configuration_change] invalidates the receipt
+  + [Git_or_filesystem_change] may invalidate the receipt and must never be inferred absent revalidation
+  - never: treat a saved receipt as proof of present filesystem state
+
+& [AdmissionFault] is typed and nonmutating
+  + [class] is request, path, executable, process, protocol, repository, isolation, branch, baseline, budget, or internal
+  + [operation] is the exact local gate or command name
+  + [message] is bounded and credential-free
+  + [resource_account] preserves deterministic process and byte counts when execution began
+  + [partial_receipt] is absent
+  = must: return one fault and leave all repository state byte-for-byte outside this module's write capability
+
+& [RequirementSet] is traceable
+  + [CWA-001] is preserve and SJS-process the Phase 3 selection and four-authority decomposition
+  + [CWA-002] is strictly decode and validate the complete request without defaults or unknown fields
+  + [CWA-003] is validate canonical separated workspaces and a safe nonoverlapping relative-path allowlist
+  + [CWA-004] is pin and reverify the exact Git executable and version
+  + [CWA-005] is execute only the closed bounded read-only Git command plan without a shell
+  + [CWA-006] is prove shared repository identity and linked-worktree isolation
+  + [CWA-007] is prove exact full branch ref, base object ID, protected-ref exclusion, and inventory membership
+  + [CWA-008] is require an exactly clean no-submodule candidate baseline
+  + [CWA-009] is produce a deterministic digest-bound admission receipt and resource account
+  + [CWA-010] is fail closed with typed bounded faults and no partial receipt
+  + [CWA-011] is require single-use immediate revalidation and deny saved-receipt freshness claims
+  + [CWA-012] is prove adversarial path, process, repository, branch, dirty-state, substitution, timeout, and budget behavior
+  + [CWA-013] is preserve Phase 1, Phase 2, core, CLI, MCP, service, and lifecycle behavior
+  + [CWA-014] is expose no workspace mutation, model launch, test, effect, promotion, or external authorization surface
+
+& [SJSProcessingTrace] is the completed Phase3A authority fold
+  + [fold_1_subject] is a read-only gate over one operator-prepared candidate Git worktree
+  + [fold_2_boundary] is exact admission and receipt inside; preparation, mutation, review, and promotion outside
+  + [fold_3_data_design] is request, path policy, command plan, observation, repository facts, deterministic receipt resources, out-of-receipt operational timing, and typed fault
+  + [fold_4_governance] is source lineage, least authority, exact executable identity, isolation, protected refs, single use, and no effect conversion
+  + [fold_5_solution_shape] is validate, pin, inspect, reconcile, admit-or-fault, and revalidate-before-use
+  + [fold_6_fault_review] is path escape, repository substitution, linked-worktree confusion, branch swap, dirty baseline, executable swap, output exhaustion, timeout, stale receipt, and authority laundering
+  + [fold_7_phase_lock] is implementation may form Phase3A only while Phase3B through Phase3D remain unsigned and inactive
+
+& [SatisfactionSignature] is valid Phase3A implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 62600061-8479-458d-a3e1-121e315bff24
+  + [source_snapshot_uuid] is 2dde22d4-f003-4e57-8a66-ed53ccc9cd02
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_scoped_write_delineation\Cantor_Phase3_Scoped_Write_Source_Selection.sop
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Candidate_Workspace_Admission.exploded.sop
+  + [processed_stage_set] is source_selected, source_preserved, prerequisite_proven, phase_delineated, exploded, data_designed, determinism_reconciled, command_plan_closed, security_bounded, freshness_bounded, fault_reviewed, justified, feature_sliced, and renewed_signed
+  + [signature_status] is valid_for_Phase3A_read_only_candidate_workspace_admission
+  + [implementation_authority] is one safe_Rust read_only admission module, adversarial fake-runner tests, optional explicit real-Git probe, documentation, evidence, and proof
+  + [invalidation_condition] is source change, missing trace, failed Phase 2 prerequisite, command-plan expansion, filesystem mutation capability, model launch, effect capability, authority expansion, failed proof, or implementation contradiction

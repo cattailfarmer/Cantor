@@ -5,10 +5,10 @@ Subject: Cantor Engine Build Plan
 
 & [BuildPlanIdentity] is the dependency-ordered execution plan
   + [plan_uuid] is 7a5120ad-760e-48dc-97fe-7612c22d821e
-  + [plan_status] is ReadOnlyLiveCodexAdapter_complete
+  + [plan_status] is CandidateWorkspaceAdmission_complete
   + [completed] is Phase0 through Phase6 and CEB-001 through CEB-015
   + [active_phase] is none_between_proven_slices
-  + [next_candidate] is Phase3ScopedWrite source selection and SJS only; implementation remains inactive until its narrower branch, effect, review, and rollback authority is signed
+  + [next_candidate] is Phase3B BoundedCandidateMutation source selection and SJS only; workspace write remains inactive until separately signed
   + [implementation_language] is safe Rust edition 2024
   + [initial_workspace] is one Cargo workspace with cantor_core, cantor_cli, and cantor_mcp
   + [work_rule] is implement and prove one contiguous slice before activating its dependent
@@ -157,6 +157,17 @@ Subject: Cantor Engine Build Plan
   + [result] is one post-proof-hardened fingerprinted live Codex turn, one exact Cantor query, one effect-free candidate, graceful process exit, and deterministic accept decision with twenty-one focused tests
   @ [proof_record] C:\Project\Cantor\proofs\Cantor_Read_Only_Live_Codex_Adapter_Proof.sop
   - never: infer workspace write, persistent thread, steering, retry, approval forwarding, experimental dynamic tool, manager iteration, notification, multi-worker, or effect authority
+
+& [CandidateWorkspaceAdmission] is prove the future write target without writing it
+  + [status] is complete
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
+  + [depends_on] is SupervisedMockLoop and ReadOnlyLiveCodexAdapter complete
+  + [actions] is implement strict request, path policy, exact Git executable admission, bounded closed read-only command plan, linked-worktree reconciliation, exact branch and base proof, clean baseline, deterministic receipt, and typed faults
+  + [proof] is adversarial fake-runner fixtures plus an optional operator-explicit real temporary linked-worktree probe that demonstrates before-and-after repository equality
+  + [exit] is CWA-001 through CWA-014 implemented and globally proven without a filesystem-write or model-launch surface
+  + [rollback] is remove or disable the standalone read-only admission module while every prior surface remains complete
+  + [result] is exact Git, repository, linked-worktree, branch, base, clean-state, path-policy, deterministic receipt, freshness, resource, and nonmutation proof
+  - never: prepare or mutate the candidate, launch Codex, execute tests, accept model claims as state, commit, merge, push, sign, activate, or promote
 
 & [Phase8FPGAExecutionProfiles] is implement CEB-021 through CEB-030 only when separately activated
   + [depends_on] is stable software protocol, deterministic software oracle, measured workload, explicit device target, and hardware threat model

@@ -1,0 +1,77 @@
+Subject: Cantor Candidate Workspace Admission Exploded Specification
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_scoped_write_delineation\Cantor_Phase3_Scoped_Write_Source_Selection.sop
+@ [reconciliation_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_scoped_write_delineation\Cantor_Candidate_Workspace_Admission_Reconciliation_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
+
+& [SubjectAxis] is the exact thing being admitted
+  + [principal] is the current trusted project worktree
+  + [candidate] is one different operator-prepared disposable linked Git worktree
+  + [repository] is one shared Git common-directory identity
+  + [baseline] is one exact commit, one exact local branch ref, and an empty status
+  + [consumer] is a future separately signed Phase3B preflight
+
+& [AuthorityAxis] separates four transitions
+  + [Phase3A] observes and admits but cannot write
+  + [Phase3B] may later mutate only the disposable candidate
+  + [Phase3C] may later seal and judge but cannot promote
+  + [Phase3D] may later perform only separately authorized promotion
+  - never: join these transitions under one token, receipt, process, or signature
+
+& [IdentityAxis] closes substitution
+  + [tool_identity] is canonical path, regular-file type, SHA-256, and exact version
+  + [workspace_identity] is canonical principal path, candidate path, Git dir, and common dir
+  + [revision_identity] is full object ID and full branch ref
+  + [work_identity] is candidate UUID, correlation UUID, and single-use nonce
+  + [policy_identity] is canonical allowed-path set and protected-ref set
+
+& [PathAxis] closes escape and overlap
+  + [physical] is canonical existing workspace roots with nonsymlink terminal paths
+  + [separation] is unequal and mutually noncontaining principal and candidate roots
+  + [lexical] is normalized relative future paths without dot, dot-dot, alternate separators, roots, drives, or .git
+  + [set_shape] is sorted, unique, nonoverlapping, and nonredundant
+  + [projection] remains beneath candidate root whether or not a future file exists
+
+& [CommandAxis] is a fixed read-only observation circuit
+  + [launch] is exact executable plus direct argument vector and closed stdin
+  + [queries] are version, top-level, common-dir, git-dir, HEAD, branch refs, porcelain status, worktree inventory, and submodule inventory
+  + [limits] are command count, line and aggregate bytes, absolute deadline, and exact-child cleanup
+  + [account] binds arguments, exit, stdout, stderr, and resources in order
+  - never: use a shell, repository alias, hook, pager, editor, prompt, network, or write-capable Git operation
+
+& [ReconciliationAxis] proves claims agree
+  + [principal_top] equals principal request
+  + [candidate_top] equals candidate request
+  + [common_dirs] equal each other and expected repository identity
+  + [candidate_git_dir] demonstrates linked-worktree separation
+  + [inventory] independently names candidate path, exact HEAD, and exact branch
+  + [symbolic_ref] is full, local, expected, nonprotected, and different from principal
+  + [status] and [submodules] are empty
+
+& [EvidenceAxis] is deterministic
+  + [request_digest] binds strict canonical input
+  + [observation_digest] binds the ordered raw command evidence
+  + [receipt_digest] binds normalized admitted facts without self-reference
+  + [resource_account] exposes deterministic process and byte consumption plus the configured elapsed budget
+  + [operational_timing] may measure elapsed execution outside canonical receipt identity
+  + [fault] exposes one bounded class and operation without partial authority
+
+& [FreshnessAxis] denies durable state claims
+  + [receipt] proves what the bounded inspection observed, not what still exists
+  + [nonce] prevents reuse across work packets
+  + [revalidation] reruns immediately before any future writer launch
+  + [post_write] makes the clean receipt stale by definition
+  + [TOCTOU] is contained later by immediate launch, disposable root sandboxing, and post-state sealing rather than denied
+
+& [FaultAxis] is adversarial
+  + [request_faults] are unknown field, missing identity, duplicate set, invalid digest, invalid object ID, and invalid budget
+  + [path_faults] are relative root, symlink root, overlap, traversal, .git, duplicate, and redundant allowed path
+  + [tool_faults] are missing, nonregular, hash drift, version drift, nonzero exit, malformed UTF-8, timeout, and oversized output
+  + [repository_faults] are top-level swap, common-dir swap, principal target, detached HEAD, protected branch, branch drift, base drift, duplicate or missing inventory, dirty state, and submodule
+  + [authority_faults] are saved-receipt freshness, model launch, mutation, review substitution, and promotion inference
+
+& [VerificationAxis] is proportional
+  + [pure_tests] cover strict schemas, canonical JSON, path policy, parser, reconciliation, digests, and typed faults
+  + [fake_runner] proves exact command order, arguments, budgets, substitution, timeout, cleanup, and deterministic receipt
+  + [real_probe] may inspect an operator-created temporary linked worktree and must prove before-and-after Git state equality
+  + [global_gate] preserves all earlier workspace tests, lint, release, docs, audit, and evidence

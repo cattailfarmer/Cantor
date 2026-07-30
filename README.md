@@ -70,7 +70,11 @@ baseline:
   ephemeral App Server turn, admits exactly one `cantor.query_sop` call,
   binds the verified response and exact final-message bytes to evidence, and
   passes the same seven-message Observer review without effects or automatic
-  retry.
+  retry; and
+- the Phase3A candidate-workspace gate now proves one operator-prepared,
+  disposable linked Git worktree by exact executable, repository, branch,
+  base, clean state, path policy, resource account, and deterministic receipt
+  before any separately authorized writer can use it.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -93,6 +97,10 @@ Observer checks, outcome verifier, and nonclaims are documented in
 The live App Server boundary, operator probe, exact fingerprints,
 fail-closed event rules, and tool-masking nonclaim are documented in
 [`docs/READ_ONLY_LIVE_CODEX_ADAPTER.md`](docs/READ_ONLY_LIVE_CODEX_ADAPTER.md).
+The candidate-workspace request, twelve-command read-only observation plan,
+freshness rule, Windows canonical-path behavior, and explicit no-write boundary
+are documented in
+[`docs/CANDIDATE_WORKSPACE_ADMISSION.md`](docs/CANDIDATE_WORKSPACE_ADMISSION.md).
 
 Protocol digests prove binding and internal consistency, not authenticity
 against a hostile process that can replace both content and digest. The
@@ -178,6 +186,7 @@ Current executable proofs:
 - [`proofs/Cantor_Supervised_Local_Lifecycle_Proof.sop`](proofs/Cantor_Supervised_Local_Lifecycle_Proof.sop)
 - [`proofs/Cantor_Supervised_Mock_Loop_Proof.sop`](proofs/Cantor_Supervised_Mock_Loop_Proof.sop)
 - [`proofs/Cantor_Read_Only_Live_Codex_Adapter_Proof.sop`](proofs/Cantor_Read_Only_Live_Codex_Adapter_Proof.sop)
+- [`proofs/Cantor_Candidate_Workspace_Admission_Proof.sop`](proofs/Cantor_Candidate_Workspace_Admission_Proof.sop)
 - [`proofs/CEB_Deterministic_Baseline_Release_Audit.sop`](proofs/CEB_Deterministic_Baseline_Release_Audit.sop)
 
 1. [`SOP_CORE_MAP.sop`](SOP_CORE_MAP.sop) — authority and project map

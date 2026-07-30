@@ -1,0 +1,22 @@
+Subject: Cantor Candidate Workspace Admission Reconciliation Source
+
+& [ReconciliationIdentity] is a pre-implementation SJS correction
+  + [source_uuid] is 3416b850-49ef-49b6-a3f8-beaed21b5f48
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30T11:10:45.6912794-05:00
+  + [status] is reconciled_before_implementation
+
+& [DetectedContradiction] is nondeterministic time inside deterministic identity
+  + [prior_claim] is AdmissionReceipt is deterministic and also contains observed elapsed milliseconds
+  + [finding] is physical elapsed time can differ across otherwise semantically identical admissions
+  + [risk] is receipt bytes and digest would drift while repository, policy, tool, and command observations remain identical
+
+& [Correction] preserves both needs without conflation
+  + [receipt_resource_account] is deterministic process count, received byte count, and configured elapsed budget
+  + [runtime_deadline] is enforced against a monotonic clock
+  + [observed_elapsed] may be captured by optional operational evidence outside AdmissionReceipt identity
+  + [fault_account] preserves deterministic counts accumulated before failure
+  = must: exclude measured wall-clock or monotonic duration from canonical receipt bytes and receipt digest
+  = must: retain timeout enforcement and proof that timeout faults are bounded
+
+- never: overwrite the original source selection or silently edit the canonical contradiction without this reconciliation trace

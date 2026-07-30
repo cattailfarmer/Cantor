@@ -18,6 +18,7 @@ Subject: Cantor Engine Build Slice Index
   @ [supervised_lifecycle_activation_authority] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
   @ [supervised_mock_loop_activation_authority] C:\Project\Cantor\specifications\Cantor_Supervised_Mock_Loop_Activation.sop
   @ [read_only_live_Codex_activation_authority] C:\Project\Cantor\specifications\Cantor_Read_Only_Live_Codex_Adapter.sop
+  @ [candidate_workspace_admission_authority] C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
 
 @ [slice_1] C:\Project\Cantor\feature_support\slices\CEB_Slice_01_Core_IR.sop
 @ [slice_2] C:\Project\Cantor\feature_support\slices\CEB_Slice_02_Trusted_Package.sop
@@ -33,6 +34,7 @@ Subject: Cantor Engine Build Slice Index
 @ [supervised_local_lifecycle] C:\Project\Cantor\feature_support\slices\SupervisedLocalLifecycle.sop
 @ [supervised_mock_loop] C:\Project\Cantor\feature_support\slices\SupervisedMockLoop.sop
 @ [read_only_live_Codex] C:\Project\Cantor\feature_support\slices\ReadOnlyLiveCodexAdapter.sop
+@ [candidate_workspace_admission] C:\Project\Cantor\feature_support\slices\CandidateWorkspaceAdmission.sop
 
 & [DependencyOrder] is the only authorized normal progression
   + [edge] is Core_IR before Trusted_Package
@@ -44,6 +46,8 @@ Subject: Cantor Engine Build Slice Index
   + [edge] is stable software protocol, reference oracle, measured workload, and explicit target before FPGA_Execution_Profiles
   + [edge] is Cantor core CLI MCP resident service and supervised local lifecycle before SupervisedMockLoop
   + [edge] is SupervisedMockLoop before read_only_live_Codex
+  + [edge] is read_only_live_Codex before CandidateWorkspaceAdmission
+  + [edge] is CandidateWorkspaceAdmission before any bounded candidate mutation
 
 & [ReadinessSummary] is the present state
   + [CEB_Slice_01_Core_IR] is complete
@@ -59,6 +63,7 @@ Subject: Cantor Engine Build Slice Index
   + [ServiceBackedMCP] is complete_with_pinned_client_exact_projection_live_combined_transport_and_embedded_rollback
   + [SupervisedLocalServiceLifecycle] is complete_with_authenticated_readiness_PID_safe_health_and_graceful_shutdown
   + [SupervisedMockLoop] is complete_with_effect_free_seven_message_cycle_57_focused_tests_and_coherent_outcome_verification
-  + [ReadOnlyLiveCodexAdapter] is complete_with_twenty_one_focused_tests_one_exact_live_Cantor_call_resource_hardening_and_accepted_seven_message_outcome
-  + [next_candidate] is Phase3ScopedWrite_source_selection_and_SJS
-  + [next_candidate_state] is not_implemented_and_requires_separate_signed_effect_authority
+  + [ReadOnlyLiveCodexAdapter] is complete_with_twenty_two_focused_tests_one_exact_live_Cantor_call_resource_hardening_and_accepted_seven_message_outcome
+  + [CandidateWorkspaceAdmission] is complete_with_exact_linked_worktree_proof_deterministic_receipt_and_no_mutation
+  + [next_candidate] is Phase3B_BoundedCandidateMutation_source_selection_and_SJS
+  + [next_candidate_state] is inactive_with_workspace_write_and_all_later_authority_locked

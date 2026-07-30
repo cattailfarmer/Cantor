@@ -1,0 +1,37 @@
+Subject: Cantor Candidate Workspace Admission Operational Faults
+
+& [FaultLedgerIdentity] is the Phase3A implementation fault record
+  + [ledger_uuid] is 7a87fd6b-8a32-44dc-b0db-b5bd98a86848
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30
+  + [status] is complete
+
+& [PhaseConflation] is found during support review
+  + [fault] is scoped write initially appeared as one implementation phase
+  + [risk] is candidate mutation could be mistaken for review or promotion authority
+  + [repair] is separate Phase3A admission, Phase3B mutation, Phase3C seal and review, and Phase3D promotion
+  + [status] is resolved_in_SJS
+
+& [NondeterministicReceiptTime] is found during data-design review
+  + [fault] is measured elapsed milliseconds were included in a deterministic receipt
+  + [risk] is identical semantic observations produce different receipt bytes
+  + [repair] is preserve the reconciliation source, enforce monotonic timeout, and keep measured elapsed outside canonical receipt identity
+  + [status] is resolved_before_code
+
+& [AutomatedSplitTruncation] is found during source-shape refactoring
+  + [fault] is a tool-output capture inserted a literal truncation marker while attempting to split a large generated module
+  + [risk] is source corruption if output-display truncation is mistaken for exact file bytes
+  + [repair] is discard the corrupted reconstruction, rewrite the module from the signed forms through four focused source files, and rerun formatting, compile, tests, and lint
+  + [prevention] is never use display-capped shell output as a lossless source-edit transport
+  + [status] is resolved_and_verified
+
+& [WindowsCanonicalPathForm] is observed during the first real probe
+  + [fault] is ordinary C:\ paths are not byte-equal to Rust canonical \\?\C:\ paths
+  + [behavior] is the gate failed closed before any Git observation
+  + [repair] is supply exact canonical extended paths and document the Windows operator contract
+  + [status] is resolved_without_loosening_identity
+
+& [FinalGate] is pending
+  + [required] is global debug and release tests, lint, build, docs, audit, evidence manifest, proof hash closure, and clean pushed checkpoint
+  + [result] is 211 debug tests, 211 overflow-checked release tests, warnings-denied lint, release build, documentation, 112-dependency audit with zero vulnerabilities, clone-portable evidence, and proof closure passed
+  + [status] is resolved

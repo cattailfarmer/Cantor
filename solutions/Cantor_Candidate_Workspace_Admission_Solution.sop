@@ -1,0 +1,45 @@
+Subject: Cantor Candidate Workspace Admission Solution
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\CandidateWorkspaceAdmission.sop
+@ [matrix] C:\Project\Cantor\feature_support\CandidateWorkspaceAdmission_Requirement_Matrix.sop
+
+& [SolutionIdentity] is the Phase3A implementation record
+  + [solution_uuid] is 29703a49-e9f5-4634-9fd5-d5be16a4f331
+  + [implemented_at] is 2026-07-30
+  + [status] is implemented_and_proven
+
+& [SourceShape] is deliberately split
+  + [facade] is workspace_admission.rs with public strict forms, the fixed observation plan, reconciliation flow, receipt formation, and freshness API
+  + [validation] is workspace_admission/validation.rs with request, path, branch, object, executable, digest, and canonical-output validation
+  + [process] is workspace_admission/process.rs with exact direct child launch, sensitive Git-environment removal, bounded concurrent drain, monotonic timeout, and exact-child cleanup
+  + [inventory] is workspace_admission/inventory.rs with strict NUL-delimited worktree parsing and exact candidate reconciliation
+  + [tests] is workspace_admission/tests.rs with focused adversarial fixtures
+  + [operator] is examples/candidate_workspace_probe.rs with a bounded absolute input and JSON stdout
+
+& [ImplementedFlow] is closed
+  + [step_1] strictly decode and validate complete request data
+  + [step_2] prove exact canonical nonsymlink roots and hash-pinned Git executable
+  + [step_3] execute twelve fixed read-only Git observations without a shell
+  + [step_4] account process and byte limits before accepting each result
+  + [step_5] reconcile repository, linked-worktree, branch, base, inventory, clean status, and no-submodule facts
+  + [step_6] form request, observation, and self-excluding receipt SHA-256 identities
+  + [step_7] require exact receipt equality on immediate revalidation
+
+& [RealProbe] is an ignored disposable repository observation
+  + [git_version] is git version 2.54.0.windows.1
+  + [git_executable_sha256] is 81ef35ae005ca9318018d18e3327578ce939fb99feaad6b2d7c8ab15f3de8db5
+  + [base_commit] is ba7942168bb101a5c0058886b141d590a2aa180c
+  + [branch] is refs/heads/codex/candidate-admission
+  + [receipt_sha256] is e1b0aad4efe9ce2aa2949aaf868778ed4906b26cc205e8cb47ffd5617e709b65
+  + [observation_sha256] is a8e289a8c0bd427b669537cde8dac419631e6c0e3541018f5a301bac727b1c9f
+  + [account] is twelve processes and 832 received bytes
+  + [repeat] is two executions produced the same receipt
+  + [before_and_after] is principal and candidate status both empty with exact unchanged base and branch
+
+& [AbsentSurface] is intentional
+  + [filesystem_writes] are absent from the production admission module
+  + [Git_mutations] are absent from the observation enum and argument formation
+  + [model_and_shell] are absent
+  + [tests_and_hooks] are not executed
+  + [effect_and_promotion] are absent

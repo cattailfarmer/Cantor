@@ -1,0 +1,39 @@
+Subject: Cantor Candidate Workspace Admission Justification
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_scoped_write_delineation\Cantor_Phase3_Scoped_Write_Source_Selection.sop
+@ [reconciliation_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_scoped_write_delineation\Cantor_Candidate_Workspace_Admission_Reconciliation_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
+
+& [JustificationIdentity] is Phase3A activation reasoning
+  + [justification_uuid] is 728cf2ca-b108-42dc-a50f-fb1bcd926be7
+  + [status] is implementation_justified
+
+& [Need] is prove the future write target before supplying a writer
+  + [problem] is a correct workspace-write protocol still causes unacceptable damage if its cwd, repository, branch, base, or path boundary is substituted
+  + [dependency] is Phase 1 message/effect separation and Phase 2 stable live read-only control are complete and published
+  + [sequence] is admission must exist before mutation can be responsibly specified against executable facts
+
+& [SelectedSolution] is a small read-only Git admission module
+  + [reason] is Git already exposes independent facts for top-level, common directory, worktree inventory, full branch ref, HEAD, and clean status
+  + [method] is exact hash-pinned executable invocations through a closed command plan, reconciled into a deterministic receipt
+  + [language] is safe Rust in cantor_ecosystem to reuse strict data forms, resource accounting, SHA-256, and typed fault conventions
+  + [seam] is a runner abstraction so most adversarial proof does not mutate a real repository
+
+& [AlternativeAssessment] is explicit
+  + [trust_cwd_only] is rejected because a path string does not establish repository, worktree, branch, base, or clean-state identity
+  + [parse_dot_git_directly] is rejected because Git storage formats and platform path rules add avoidable compatibility risk
+  + [create_the_worktree] is deferred because preparation is itself a write and deletion/rollback authority problem
+  + [let_Codex_check] is rejected because model claims cannot authorize the target the model will mutate
+  + [use_Git_library] is deferred because adding a large native dependency is unnecessary for the fixed observation plan
+
+& [FailureCost] is bounded
+  + [false_reject] leaves the repository untouched and asks the operator to correct preparation
+  + [tool_or_output_drift] is visible as a typed admission fault
+  + [stale_receipt] is addressed by single-use immediate revalidation rather than pretending inspection removes TOCTOU
+  + [implementation_bug] has no intended write capability and retains all prior runtime surfaces as rollback
+
+& [Decision] is implement CWA-001 through CWA-014
+  + [active] is Phase3A read-only admission only
+  + [determinism] is canonical receipt identity excludes measured elapsed time while runtime deadline enforcement remains mandatory
+  + [later] is separate source, SJS, signature, implementation, and proof for bounded mutation, sealing/review, and governed promotion
+  - never: cite this justification as permission to run a workspace-write Codex turn

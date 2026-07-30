@@ -14,6 +14,7 @@ pub mod model;
 pub mod review;
 pub mod runtime;
 pub mod transcript;
+pub mod workspace_admission;
 
 pub use adapter::*;
 pub use live_codex::*;
@@ -21,6 +22,7 @@ pub use model::*;
 pub use review::*;
 pub use runtime::*;
 pub use transcript::*;
+pub use workspace_admission::*;
 
 /// Version of the bounded supervised mock-loop profile.
 pub const MOCK_LOOP_PROFILE: &str = "cantor-supervised-mock-loop/0.1";
