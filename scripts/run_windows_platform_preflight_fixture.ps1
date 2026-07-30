@@ -18,7 +18,7 @@ if ($repositoryRoot -cne $expectedRepositoryRoot) {
 if ($fixtureNativePath -cne $expectedFixtureNativePath) {
     throw "physical runner fixture path is not the signed root"
 }
-if ((git -C $repositoryRoot status --porcelain).Count -ne 0) {
+if (@(git -C $repositoryRoot status --porcelain).Count -ne 0) {
     throw "physical runner requires a clean signed source tree"
 }
 
