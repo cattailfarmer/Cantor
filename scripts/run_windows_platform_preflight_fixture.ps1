@@ -33,8 +33,8 @@ if ($resolvedFixture -cne $expectedFixtureNativePath) {
 
 $requestPath = Join-Path $fixtureNativePath "request.json"
 $request = [ordered]@{
-    request_profile = "cantor-windows-platform-preflight-request/0.1"
-    result_profile = "cantor-windows-platform-preflight/0.2"
+    request_profile = "cantor-windows-platform-preflight-request/0.2"
+    result_profile = "cantor-windows-platform-preflight/0.3"
     target_triple = "x86_64-pc-windows-msvc"
     input_root = $expectedFixtureRoot
 }
@@ -107,12 +107,11 @@ if ($null -eq $resultLine) {
 $resultJson = $resultLine.Substring($resultPrefix.Length)
 $result = $resultJson | ConvertFrom-Json
 $expectedResult = $false
-if ($result.outcome -eq "complete") {
-    $expectedResult = $result.profile -eq "cantor-windows-platform-preflight/0.2" `
+if ($result.outcome -eq "complete_local") {
+    $expectedResult = $result.profile -eq "cantor-windows-platform-preflight/0.3" `
         -and $result.target_triple -eq "x86_64-pc-windows-msvc" `
         -and $result.input_root -ceq $expectedFixtureRoot `
         -and $result.volume.file_system_name -eq "NTFS" `
-        -and [uint32]$result.remote_protocol.protocol -eq 0 `
         -and $result.disposition -eq "eligible_local_ntfs"
 }
 $probePassed = $probeExitCode -eq 0 -and $expectedResult
@@ -128,7 +127,7 @@ $boundPaths = @(
     "crates/cantor_windows_preflight/src/lib.rs",
     "crates/cantor_windows_preflight/tests/runtime_contract.rs",
     "scripts/run_windows_platform_preflight_fixture.ps1",
-    "specifications/Cantor_M2B_Windows_Platform_Preflight_Runtime.sop"
+    "specifications/Cantor_M2B_Platform_Location_Classification_Revision.sop"
 )
 $sourceArtifacts = foreach ($path in $boundPaths) {
     $item = Get-Item -LiteralPath (Join-Path $repositoryRoot $path)
@@ -140,12 +139,12 @@ $sourceArtifacts = foreach ($path in $boundPaths) {
 }
 
 $observation = [ordered]@{
-    schema = "cantor-windows-platform-preflight-physical-observation/0.1"
-    observation_uuid = "5edea140-24ec-4777-bfa8-02a5e2b70137"
+    schema = "cantor-windows-platform-preflight-physical-observation/0.2"
+    observation_uuid = "27de5efb-4015-4af5-94e7-d711a26fe49c"
     captured_at_utc = [DateTime]::UtcNow.ToString("o")
     authority = [ordered]@{
-        canonical = "specifications/Cantor_M2B_Windows_Platform_Preflight_Runtime.sop"
-        satisfaction_signature_uuid = "2fc69987-c7de-4538-9993-c5956f889584"
+        canonical = "specifications/Cantor_M2B_Platform_Location_Classification_Revision.sop"
+        satisfaction_signature_uuid = "61c2b9cf-4608-4e7d-88ae-d674d52640e3"
         source_commit = $sourceCommit
     }
     host = [ordered]@{
@@ -175,7 +174,7 @@ $observation = [ordered]@{
         test = "exact_windows_fixture_emits_one_complete_local_ntfs_observation"
         exit_code = $probeExitCode
         calls = "one root preflight"
-        expected_relation = "complete local NTFS protocol zero and eligible"
+        expected_relation = "complete_local NTFS and eligible"
         status = if ($probePassed) { "passed" } else { "blocked_unexpected_result" }
     }
     source_artifacts = @($sourceArtifacts)

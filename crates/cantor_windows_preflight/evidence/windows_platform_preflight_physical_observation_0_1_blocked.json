@@ -1,0 +1,98 @@
+{
+    "schema":  "cantor-windows-platform-preflight-physical-observation/0.1",
+    "observation_uuid":  "5edea140-24ec-4777-bfa8-02a5e2b70137",
+    "captured_at_utc":  "2026-07-30T21:09:35.3056622Z",
+    "authority":  {
+                      "canonical":  "specifications/Cantor_M2B_Windows_Platform_Preflight_Runtime.sop",
+                      "satisfaction_signature_uuid":  "2fc69987-c7de-4538-9993-c5956f889584",
+                      "source_commit":  "5486058f79ce7dbc5c6c24229df8020663ffba89"
+                  },
+    "host":  {
+                 "operating_system":  "Microsoft Windows NT 10.0.26200.0",
+                 "rustc_host":  "x86_64-pc-windows-msvc",
+                 "architecture":  "X64",
+                 "drive_letter":  "C",
+                 "drive_type":  "Fixed",
+                 "file_system":  "NTFS",
+                 "health_status":  "Healthy",
+                 "operational_status":  [
+                                            "OK"
+                                        ]
+             },
+    "fixture":  {
+                    "input_root":  "\\\\?\\C:\\Project\\Cantor\\.local\\m2b-platform-preflight-fixture",
+                    "native_path":  "C:\\Project\\Cantor\\.local\\m2b-platform-preflight-fixture",
+                    "created_by_runner":  false,
+                    "cleanup_performed":  false
+                },
+    "executable":  {
+                       "file_name":  "runtime_contract-c3395c7fd4517f7a.exe",
+                       "sha256":  "5A65DADABACED3EA7F03A8123C483AC89E7199A5F8CED43DF16380786B675933",
+                       "bytes":  845312
+                   },
+    "request":  {
+                    "request_profile":  "cantor-windows-platform-preflight-request/0.1",
+                    "result_profile":  "cantor-windows-platform-preflight/0.2",
+                    "target_triple":  "x86_64-pc-windows-msvc",
+                    "input_root":  "\\\\?\\C:\\Project\\Cantor\\.local\\m2b-platform-preflight-fixture"
+                },
+    "result":  {
+                   "outcome":  "query_fault",
+                   "profile":  "cantor-windows-platform-preflight/0.2",
+                   "target_triple":  "x86_64-pc-windows-msvc",
+                   "input_root":  "\\\\?\\C:\\Project\\Cantor\\.local\\m2b-platform-preflight-fixture",
+                   "stage":  "remote_protocol_information",
+                   "error_code":  87
+               },
+    "probe":  {
+                  "test":  "exact_windows_fixture_emits_one_complete_local_ntfs_observation",
+                  "exit_code":  101,
+                  "calls":  "one root preflight",
+                  "expected_relation":  "complete local NTFS protocol zero and eligible",
+                  "status":  "blocked_unexpected_result"
+              },
+    "source_artifacts":  [
+                             {
+                                 "path":  "Cargo.toml",
+                                 "sha256":  "CEE3FFEE4CA4D49A7CF0480966D5D087034F2ED5B293BDF4665FF9CA3D3451D1",
+                                 "bytes":  631
+                             },
+                             {
+                                 "path":  "Cargo.lock",
+                                 "sha256":  "D6D0F6F7164E3EB798261597436D09A64D5E46A3627E730059CE0033871D26D2",
+                                 "bytes":  26481
+                             },
+                             {
+                                 "path":  "crates/cantor_windows_preflight/Cargo.toml",
+                                 "sha256":  "1506C841B805C916ECB9158C9930E1CED3666243783912CE49AC287B942EEC53",
+                                 "bytes":  491
+                             },
+                             {
+                                 "path":  "crates/cantor_windows_preflight/src/lib.rs",
+                                 "sha256":  "88C79430A28A94AE85EA49EC8CB6AEB6C43707C2A7460AC5F77DD65CD00D7862",
+                                 "bytes":  21367
+                             },
+                             {
+                                 "path":  "crates/cantor_windows_preflight/tests/runtime_contract.rs",
+                                 "sha256":  "0C80535F46C22C3F7D13FF9061C29D77938FE8555DF2460D2E698BF63D185FC5",
+                                 "bytes":  3438
+                             },
+                             {
+                                 "path":  "scripts/run_windows_platform_preflight_fixture.ps1",
+                                 "sha256":  "FFC0E4B765AB609E4536B555AE9DB6E69368887358F32C9A1A59BA783DFE6EC6",
+                                 "bytes":  8333
+                             },
+                             {
+                                 "path":  "specifications/Cantor_M2B_Windows_Platform_Preflight_Runtime.sop",
+                                 "sha256":  "11715C152B04F17F062ABDF2C7BEF5ABFA794FD428CB1ACC15A9863166231475",
+                                 "bytes":  15827
+                             }
+                         ],
+    "nonclaims":  [
+                      "no tree traversal",
+                      "no content read",
+                      "no scanner receipt",
+                      "no candidate admission",
+                      "no launch seal or promotion"
+                  ]
+}

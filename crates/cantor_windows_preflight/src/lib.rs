@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 
 /// Version of the isolated runtime behavior.
 pub const WINDOWS_PLATFORM_PREFLIGHT_RUNTIME_PROFILE: &str =
-    "cantor-windows-platform-preflight-runtime/0.1";
+    "cantor-windows-platform-preflight-runtime/0.2";
 
 /// Exact operation whose immediate operating-system error was unavailable.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -175,89 +175,103 @@ mod windows_runtime {
             let error = if length == 0 { GetLastError() } else { 0 };
             (length, error)
         };
-        if final_path_length == 0 {
+        if final_path_length == 0 && final_path_error == 0 {
             return operating_system_fault(
                 request,
                 Some(PlatformPreflightQueryStage::FinalVolumeGuidPath),
                 final_path_error,
             );
         }
-        let final_path_length =
-            usize::try_from(final_path_length).expect("u32 length fits usize on supported target");
-        if final_path_length >= final_path_buffer.len() {
-            return Ok(observation_fault(
-                request,
-                PlatformPreflightQueryStage::FinalVolumeGuidPath,
-                PlatformPreflightObservationFaultClass::ReturnedLengthLimit,
-            ));
-        }
-        let root_volume_guid_path =
-            match String::from_utf16(&final_path_buffer[..final_path_length]) {
-                Ok(path) => canonicalize_volume_guid(path),
-                Err(_) => {
+        if final_path_length != 0 {
+            let final_path_length = usize::try_from(final_path_length)
+                .expect("u32 length fits usize on supported target");
+            if final_path_length >= final_path_buffer.len() {
+                return Ok(observation_fault(
+                    request,
+                    PlatformPreflightQueryStage::FinalVolumeGuidPath,
+                    PlatformPreflightObservationFaultClass::ReturnedLengthLimit,
+                ));
+            }
+            let root_volume_guid_path =
+                match String::from_utf16(&final_path_buffer[..final_path_length]) {
+                    Ok(path) => canonicalize_volume_guid(path),
+                    Err(_) => {
+                        return Ok(observation_fault(
+                            request,
+                            PlatformPreflightQueryStage::FinalVolumeGuidPath,
+                            PlatformPreflightObservationFaultClass::InvalidUtf16,
+                        ));
+                    }
+                };
+
+            let mut volume_name_buffer = [0u16; VOLUME_TEXT_CAPACITY];
+            let mut file_system_name_buffer = [0u16; VOLUME_TEXT_CAPACITY];
+            let mut volume_serial_number = 0u32;
+            let mut maximum_component_length = 0u32;
+            let mut file_system_flags = 0u32;
+            // SAFETY: both initialized WCHAR buffers and all scalar outputs are writable, aligned,
+            // correctly sized, alive for the call, and consumed only after complete API success.
+            let (volume_success, volume_error) = unsafe {
+                let success = GetVolumeInformationByHandleW(
+                    borrowed_handle,
+                    volume_name_buffer.as_mut_ptr(),
+                    u32::try_from(volume_name_buffer.len()).expect("volume buffer fits u32"),
+                    &mut volume_serial_number,
+                    &mut maximum_component_length,
+                    &mut file_system_flags,
+                    file_system_name_buffer.as_mut_ptr(),
+                    u32::try_from(file_system_name_buffer.len())
+                        .expect("file-system buffer fits u32"),
+                );
+                let error = if success == 0 { GetLastError() } else { 0 };
+                (success, error)
+            };
+            if volume_success == 0 {
+                return operating_system_fault(
+                    request,
+                    Some(PlatformPreflightQueryStage::VolumeInformation),
+                    volume_error,
+                );
+            }
+            let volume_name = match decode_nul_terminated(&volume_name_buffer) {
+                Ok(value) => value,
+                Err(class) => {
                     return Ok(observation_fault(
                         request,
-                        PlatformPreflightQueryStage::FinalVolumeGuidPath,
-                        PlatformPreflightObservationFaultClass::InvalidUtf16,
+                        PlatformPreflightQueryStage::VolumeInformation,
+                        class,
                     ));
                 }
             };
-
-        let mut volume_name_buffer = [0u16; VOLUME_TEXT_CAPACITY];
-        let mut file_system_name_buffer = [0u16; VOLUME_TEXT_CAPACITY];
-        let mut volume_serial_number = 0u32;
-        let mut maximum_component_length = 0u32;
-        let mut file_system_flags = 0u32;
-        // SAFETY: both initialized WCHAR buffers and all scalar outputs are writable, aligned,
-        // correctly sized, alive for the call, and consumed only after complete API success.
-        let (volume_success, volume_error) = unsafe {
-            let success = GetVolumeInformationByHandleW(
-                borrowed_handle,
-                volume_name_buffer.as_mut_ptr(),
-                u32::try_from(volume_name_buffer.len()).expect("volume buffer fits u32"),
-                &mut volume_serial_number,
-                &mut maximum_component_length,
-                &mut file_system_flags,
-                file_system_name_buffer.as_mut_ptr(),
-                u32::try_from(file_system_name_buffer.len()).expect("file-system buffer fits u32"),
-            );
-            let error = if success == 0 { GetLastError() } else { 0 };
-            (success, error)
-        };
-        if volume_success == 0 {
-            return operating_system_fault(
-                request,
-                Some(PlatformPreflightQueryStage::VolumeInformation),
-                volume_error,
-            );
+            let file_system_name = match decode_nul_terminated(&file_system_name_buffer) {
+                Ok(value) => value,
+                Err(class) => {
+                    return Ok(observation_fault(
+                        request,
+                        PlatformPreflightQueryStage::VolumeInformation,
+                        class,
+                    ));
+                }
+            };
+            let volume = WindowsVolumeInformation {
+                volume_name,
+                volume_serial_number,
+                maximum_component_length,
+                file_system_flags,
+                file_system_name,
+            };
+            let disposition = local_disposition(&volume.file_system_name);
+            let complete = WindowsPlatformPreflightRecord::CompleteLocal {
+                profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
+                target_triple: request.target_triple.clone(),
+                input_root: request.input_root.clone(),
+                root_identity,
+                root_volume_guid_path,
+                volume,
+                disposition,
+            };
+            return release_complete(request, complete);
         }
-        let volume_name = match decode_nul_terminated(&volume_name_buffer) {
-            Ok(value) => value,
-            Err(class) => {
-                return Ok(observation_fault(
-                    request,
-                    PlatformPreflightQueryStage::VolumeInformation,
-                    class,
-                ));
-            }
-        };
-        let file_system_name = match decode_nul_terminated(&file_system_name_buffer) {
-            Ok(value) => value,
-            Err(class) => {
-                return Ok(observation_fault(
-                    request,
-                    PlatformPreflightQueryStage::VolumeInformation,
-                    class,
-                ));
-            }
-        };
-        let volume = WindowsVolumeInformation {
-            volume_name,
-            volume_serial_number,
-            maximum_component_length,
-            file_system_flags,
-            file_system_name,
-        };
 
         // SAFETY: output is correctly aligned and sized for FILE_REMOTE_PROTOCOL_INFO; the live
         // handle is borrowed, initialization is assumed only on success, and union reserved bytes
@@ -320,17 +334,28 @@ mod windows_runtime {
             protocol_revision: remote.protocol_revision,
             flags: remote.flags,
         };
-        let disposition = disposition(&volume.file_system_name, remote_protocol.protocol);
-        let complete = WindowsPlatformPreflightRecord::Complete {
+        if remote_protocol.protocol == 0 {
+            return Ok(observation_fault(
+                request,
+                PlatformPreflightQueryStage::RemoteProtocolInformation,
+                PlatformPreflightObservationFaultClass::InvalidObservation,
+            ));
+        }
+        let complete = WindowsPlatformPreflightRecord::CompleteRemote {
             profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
             target_triple: request.target_triple.clone(),
             input_root: request.input_root.clone(),
             root_identity,
-            root_volume_guid_path,
-            volume,
             remote_protocol,
-            disposition,
+            disposition: PlatformPreflightDisposition::RejectRemoteProtocol,
         };
+        release_complete(request, complete)
+    }
+
+    fn release_complete(
+        request: &WindowsPlatformPreflightRequest,
+        complete: WindowsPlatformPreflightRecord,
+    ) -> Result<WindowsPlatformPreflightRecord, WindowsPlatformPreflightRuntimeFault> {
         match complete.validate() {
             Ok(()) => Ok(complete),
             Err(fault) => Ok(observation_fault(
@@ -376,10 +401,8 @@ mod windows_runtime {
             .map_err(|_| PlatformPreflightObservationFaultClass::InvalidUtf16)
     }
 
-    fn disposition(file_system_name: &str, protocol: u32) -> PlatformPreflightDisposition {
-        if protocol != 0 {
-            PlatformPreflightDisposition::RejectRemoteProtocol
-        } else if file_system_name == "NTFS" {
+    fn local_disposition(file_system_name: &str) -> PlatformPreflightDisposition {
+        if file_system_name == "NTFS" {
             PlatformPreflightDisposition::EligibleLocalNtfs
         } else {
             PlatformPreflightDisposition::RejectUnsupportedFileSystem
@@ -473,16 +496,12 @@ mod windows_runtime {
         #[test]
         fn disposition_is_exact() {
             assert_eq!(
-                disposition("NTFS", 0),
+                local_disposition("NTFS"),
                 PlatformPreflightDisposition::EligibleLocalNtfs
             );
             assert_eq!(
-                disposition("ReFS", 0),
+                local_disposition("ReFS"),
                 PlatformPreflightDisposition::RejectUnsupportedFileSystem
-            );
-            assert_eq!(
-                disposition("NTFS", 1),
-                PlatformPreflightDisposition::RejectRemoteProtocol
             );
         }
 
@@ -529,7 +548,7 @@ mod tests {
     fn runtime_profile_is_exact() {
         assert_eq!(
             WINDOWS_PLATFORM_PREFLIGHT_RUNTIME_PROFILE,
-            "cantor-windows-platform-preflight-runtime/0.1"
+            "cantor-windows-platform-preflight-runtime/0.2"
         );
     }
 

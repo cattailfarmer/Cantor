@@ -78,19 +78,17 @@ fn exact_windows_fixture_emits_one_complete_local_ntfs_observation() {
         serde_json::to_string(&result).expect("result JSON")
     );
     match &result {
-        WindowsPlatformPreflightRecord::Complete {
+        WindowsPlatformPreflightRecord::CompleteLocal {
             volume,
-            remote_protocol,
             disposition,
             ..
         } => {
             assert_eq!(volume.file_system_name, "NTFS");
-            assert_eq!(remote_protocol.protocol, 0);
             assert_eq!(
                 *disposition,
                 PlatformPreflightDisposition::EligibleLocalNtfs
             );
         }
-        other => panic!("expected complete local NTFS preflight, got {other:?}"),
+        other => panic!("expected complete_local NTFS preflight, got {other:?}"),
     }
 }

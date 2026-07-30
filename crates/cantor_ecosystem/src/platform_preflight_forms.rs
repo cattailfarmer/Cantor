@@ -10,10 +10,10 @@ use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use crate::topology_forms::{StrongFileIdentity, ValidateTopologyForm, validate_volume_guid_path};
 
 /// Version of the pure platform-preflight vocabulary.
-pub const WINDOWS_PLATFORM_PREFLIGHT_PROFILE: &str = "cantor-windows-platform-preflight/0.2";
+pub const WINDOWS_PLATFORM_PREFLIGHT_PROFILE: &str = "cantor-windows-platform-preflight/0.3";
 /// Version of a request validated before a future platform observation.
 pub const WINDOWS_PLATFORM_PREFLIGHT_REQUEST_PROFILE: &str =
-    "cantor-windows-platform-preflight-request/0.1";
+    "cantor-windows-platform-preflight-request/0.2";
 /// Initial compilation target admitted by this vocabulary.
 pub const WINDOWS_PLATFORM_PREFLIGHT_TARGET: &str = "x86_64-pc-windows-msvc";
 
@@ -222,13 +222,20 @@ pub enum WindowsPlatformPreflightRecord {
         stage: PlatformPreflightQueryStage,
         class: PlatformPreflightObservationFaultClass,
     },
-    Complete {
+    CompleteLocal {
         profile: String,
         target_triple: String,
         input_root: String,
         root_identity: StrongFileIdentity,
         root_volume_guid_path: String,
         volume: WindowsVolumeInformation,
+        disposition: PlatformPreflightDisposition,
+    },
+    CompleteRemote {
+        profile: String,
+        target_triple: String,
+        input_root: String,
+        root_identity: StrongFileIdentity,
         remote_protocol: WindowsRemoteProtocolInformation,
         disposition: PlatformPreflightDisposition,
     },
@@ -263,14 +270,13 @@ impl ValidatePlatformPreflightForm for WindowsPlatformPreflightRecord {
                 stage: _,
                 class: _,
             } => validate_common(profile, target_triple, input_root),
-            Self::Complete {
+            Self::CompleteLocal {
                 profile,
                 target_triple,
                 input_root,
                 root_identity,
                 root_volume_guid_path,
                 volume,
-                remote_protocol,
                 disposition,
             } => {
                 validate_common(profile, target_triple, input_root)?;
@@ -289,8 +295,26 @@ impl ValidatePlatformPreflightForm for WindowsPlatformPreflightRecord {
                     )
                 })?;
                 volume.validate()?;
+                validate_local_disposition(volume, *disposition)
+            }
+            Self::CompleteRemote {
+                profile,
+                target_triple,
+                input_root,
+                root_identity,
+                remote_protocol,
+                disposition,
+            } => {
+                validate_common(profile, target_triple, input_root)?;
+                root_identity.validate().map_err(|fault| {
+                    PlatformPreflightFormFault::new(
+                        PlatformPreflightFormFaultCode::Identity,
+                        "root_identity",
+                        &fault.to_string(),
+                    )
+                })?;
                 remote_protocol.validate()?;
-                validate_disposition(volume, remote_protocol, *disposition)
+                validate_remote_disposition(remote_protocol, *disposition)
             }
         }
     }
@@ -405,14 +429,11 @@ fn validate_file_system_name(value: &str) -> Result<(), PlatformPreflightFormFau
     Ok(())
 }
 
-fn validate_disposition(
+fn validate_local_disposition(
     volume: &WindowsVolumeInformation,
-    remote_protocol: &WindowsRemoteProtocolInformation,
     disposition: PlatformPreflightDisposition,
 ) -> Result<(), PlatformPreflightFormFault> {
-    let expected = if remote_protocol.protocol != 0 {
-        PlatformPreflightDisposition::RejectRemoteProtocol
-    } else if volume.file_system_name == "NTFS" {
+    let expected = if volume.file_system_name == "NTFS" {
         PlatformPreflightDisposition::EligibleLocalNtfs
     } else {
         PlatformPreflightDisposition::RejectUnsupportedFileSystem
@@ -422,7 +443,28 @@ fn validate_disposition(
         return Err(PlatformPreflightFormFault::new(
             PlatformPreflightFormFaultCode::Disposition,
             "disposition",
-            "disposition is inconsistent with protocol and file-system evidence",
+            "local disposition is inconsistent with file-system evidence",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_remote_disposition(
+    remote_protocol: &WindowsRemoteProtocolInformation,
+    disposition: PlatformPreflightDisposition,
+) -> Result<(), PlatformPreflightFormFault> {
+    if remote_protocol.protocol == 0 {
+        return Err(PlatformPreflightFormFault::new(
+            PlatformPreflightFormFaultCode::RemoteProtocol,
+            "remote_protocol.protocol",
+            "remote completion requires a nonzero protocol",
+        ));
+    }
+    if disposition != PlatformPreflightDisposition::RejectRemoteProtocol {
+        return Err(PlatformPreflightFormFault::new(
+            PlatformPreflightFormFaultCode::Disposition,
+            "disposition",
+            "remote completion requires reject_remote_protocol",
         ));
     }
     Ok(())
@@ -470,12 +512,11 @@ mod tests {
         }
     }
 
-    fn complete(
+    fn complete_local(
         file_system_name: &str,
-        protocol: u32,
         disposition: PlatformPreflightDisposition,
     ) -> WindowsPlatformPreflightRecord {
-        WindowsPlatformPreflightRecord::Complete {
+        WindowsPlatformPreflightRecord::CompleteLocal {
             profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
             target_triple: WINDOWS_PLATFORM_PREFLIGHT_TARGET.to_owned(),
             input_root: r"\\?\C:\Project\Cantor".to_owned(),
@@ -483,6 +524,19 @@ mod tests {
             root_volume_guid_path:
                 r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\Project\Cantor".to_owned(),
             volume: volume(file_system_name),
+            disposition,
+        }
+    }
+
+    fn complete_remote(
+        protocol: u32,
+        disposition: PlatformPreflightDisposition,
+    ) -> WindowsPlatformPreflightRecord {
+        WindowsPlatformPreflightRecord::CompleteRemote {
+            profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
+            target_triple: WINDOWS_PLATFORM_PREFLIGHT_TARGET.to_owned(),
+            input_root: r"\\?\C:\Project\Cantor".to_owned(),
+            root_identity: identity(),
             remote_protocol: remote(protocol),
             disposition,
         }
@@ -511,7 +565,11 @@ mod tests {
                 stage: PlatformPreflightQueryStage::FinalVolumeGuidPath,
                 class: PlatformPreflightObservationFaultClass::ReturnedLengthLimit,
             },
-            complete("NTFS", 0, PlatformPreflightDisposition::EligibleLocalNtfs),
+            complete_local("NTFS", PlatformPreflightDisposition::EligibleLocalNtfs),
+            complete_remote(
+                0x0002_0000,
+                PlatformPreflightDisposition::RejectRemoteProtocol,
+            ),
         ];
 
         for value in values {
@@ -554,7 +612,7 @@ mod tests {
             PlatformPreflightFormFaultCode::Profile
         );
         invalid = request();
-        invalid.result_profile = "cantor-windows-platform-preflight/0.1".to_owned();
+        invalid.result_profile = "cantor-windows-platform-preflight/0.2".to_owned();
         assert_eq!(
             invalid.validate().expect_err("result profile").code,
             PlatformPreflightFormFaultCode::Profile
@@ -575,15 +633,15 @@ mod tests {
 
     #[test]
     fn profile_and_target_are_exact() {
-        let mut value = complete("NTFS", 0, PlatformPreflightDisposition::EligibleLocalNtfs);
-        if let WindowsPlatformPreflightRecord::Complete { profile, .. } = &mut value {
+        let mut value = complete_local("NTFS", PlatformPreflightDisposition::EligibleLocalNtfs);
+        if let WindowsPlatformPreflightRecord::CompleteLocal { profile, .. } = &mut value {
             *profile = "other".to_owned();
         }
         assert_eq!(
             value.validate().expect_err("profile").code,
             PlatformPreflightFormFaultCode::Profile
         );
-        if let WindowsPlatformPreflightRecord::Complete {
+        if let WindowsPlatformPreflightRecord::CompleteLocal {
             profile,
             target_triple,
             ..
@@ -706,7 +764,7 @@ mod tests {
             );
         }
 
-        let unknown_class = br#"{"outcome":"observation_fault","profile":"cantor-windows-platform-preflight/0.2","target_triple":"x86_64-pc-windows-msvc","input_root":"\\\\?\\C:\\","stage":"volume_information","class":"other"}"#;
+        let unknown_class = br#"{"outcome":"observation_fault","profile":"cantor-windows-platform-preflight/0.3","target_triple":"x86_64-pc-windows-msvc","input_root":"\\\\?\\C:\\","stage":"volume_information","class":"other"}"#;
         assert_eq!(
             decode_platform_preflight_json::<WindowsPlatformPreflightRecord>(unknown_class)
                 .expect_err("unknown observation fault class")
@@ -731,13 +789,13 @@ mod tests {
                 stage: PlatformPreflightQueryStage::FileIdInfo,
                 error_code: 87,
             },
-            complete("NTFS", 0, PlatformPreflightDisposition::EligibleLocalNtfs),
+            complete_local("NTFS", PlatformPreflightDisposition::EligibleLocalNtfs),
         ];
         for value in values {
             let mut json = serde_json::to_value(value).expect("serialize");
             json.as_object_mut().expect("object").insert(
                 "profile".to_owned(),
-                serde_json::json!("cantor-windows-platform-preflight/0.1"),
+                serde_json::json!("cantor-windows-platform-preflight/0.2"),
             );
             let bytes = serde_json::to_vec(&json).expect("serialize JSON");
             assert_eq!(
@@ -785,7 +843,10 @@ mod tests {
         value.structure_size = 115;
         assert!(value.validate().is_err());
 
-        let record = complete("NTFS", 0, PlatformPreflightDisposition::EligibleLocalNtfs);
+        let record = complete_remote(
+            0x0002_0000,
+            PlatformPreflightDisposition::RejectRemoteProtocol,
+        );
         let mut json = serde_json::to_value(record).expect("serialize");
         json.get_mut("remote_protocol")
             .and_then(serde_json::Value::as_object_mut)
@@ -803,22 +864,11 @@ mod tests {
 
     #[test]
     fn disposition_truth_table_is_exhaustive() {
-        for (file_system, protocol, expected) in [
-            ("NTFS", 0, PlatformPreflightDisposition::EligibleLocalNtfs),
+        for (file_system, expected) in [
+            ("NTFS", PlatformPreflightDisposition::EligibleLocalNtfs),
             (
                 "ReFS",
-                0,
                 PlatformPreflightDisposition::RejectUnsupportedFileSystem,
-            ),
-            (
-                "NTFS",
-                0x0002_0000,
-                PlatformPreflightDisposition::RejectRemoteProtocol,
-            ),
-            (
-                "ReFS",
-                0x0002_0000,
-                PlatformPreflightDisposition::RejectRemoteProtocol,
             ),
         ] {
             for disposition in [
@@ -827,11 +877,23 @@ mod tests {
                 PlatformPreflightDisposition::RejectUnsupportedFileSystem,
             ] {
                 assert_eq!(
-                    complete(file_system, protocol, disposition)
-                        .validate()
-                        .is_ok(),
+                    complete_local(file_system, disposition).validate().is_ok(),
                     disposition == expected,
-                    "{file_system} {protocol:#x} {disposition:?}"
+                    "{file_system} {disposition:?}"
+                );
+            }
+        }
+        for protocol in [0, 0x0002_0000] {
+            for disposition in [
+                PlatformPreflightDisposition::EligibleLocalNtfs,
+                PlatformPreflightDisposition::RejectRemoteProtocol,
+                PlatformPreflightDisposition::RejectUnsupportedFileSystem,
+            ] {
+                assert_eq!(
+                    complete_remote(protocol, disposition).validate().is_ok(),
+                    protocol != 0
+                        && disposition == PlatformPreflightDisposition::RejectRemoteProtocol,
+                    "{protocol:#x} {disposition:?}"
                 );
             }
         }
@@ -839,15 +901,15 @@ mod tests {
 
     #[test]
     fn shared_identity_and_volume_guid_grammar_are_enforced() {
-        let mut value = complete("NTFS", 0, PlatformPreflightDisposition::EligibleLocalNtfs);
-        if let WindowsPlatformPreflightRecord::Complete { root_identity, .. } = &mut value {
+        let mut value = complete_local("NTFS", PlatformPreflightDisposition::EligibleLocalNtfs);
+        if let WindowsPlatformPreflightRecord::CompleteLocal { root_identity, .. } = &mut value {
             root_identity.file_id_hex = "ABCDEF".repeat(6);
         }
         assert_eq!(
             value.validate().expect_err("identity").code,
             PlatformPreflightFormFaultCode::Identity
         );
-        if let WindowsPlatformPreflightRecord::Complete {
+        if let WindowsPlatformPreflightRecord::CompleteLocal {
             root_identity,
             root_volume_guid_path,
             ..
@@ -865,9 +927,8 @@ mod tests {
 
     #[test]
     fn strict_json_rejects_unknown_fields_variants_and_missing_values() {
-        let valid = serde_json::to_vec(&complete(
+        let valid = serde_json::to_vec(&complete_local(
             "NTFS",
-            0,
             PlatformPreflightDisposition::EligibleLocalNtfs,
         ))
         .expect("serialize");
