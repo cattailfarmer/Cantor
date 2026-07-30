@@ -1,0 +1,164 @@
+Subject: Cantor M2B Platform Location Classification Revision
+
+Description: Canonical replacement authority that splits local-volume completion from remote-protocol completion after the first exact local fixture disproved their required conjunction. It authorizes pure forms 0.3, isolated runtime 0.2, and one repeated exact local fixture only.
+
+& [CanonicalIdentity] is corrective replacement authority
+  + [canonical_uuid] is 1e86a20d-6940-44b2-bc55-c27c764b970b
+  + [version] is 0.1
+  + [request_profile] is cantor-windows-platform-preflight-request/0.2
+  + [result_profile] is cantor-windows-platform-preflight/0.3
+  + [runtime_profile] is cantor-windows-platform-preflight-runtime/0.2
+  + [lifecycle_state] is accepted
+  + [invalidated_signature_uuid] is 2fc69987-c7de-4538-9993-c5956f889584
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_location_classification_revision\Cantor_M2B_Platform_Location_Classification_Revision_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_location_classification_revision\Source_Document_Manifest.sop
+@ [physical_finding] C:\Project\Cantor\narrative\research\Cantor_Windows_Platform_Preflight_Physical_Remote_Query_Finding_2026-07-30.sop
+@ [versioning_decision] C:\Project\Cantor\narrative\research\Cantor_Platform_Preflight_Request_Profile_Versioning_Decision_2026-07-30.sop
+@ [blocked_observation] C:\Project\Cantor\crates\cantor_windows_preflight\evidence\windows_platform_preflight_physical_observation.json
+@ [prior_forms] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop
+@ [prior_runtime] C:\Project\Cantor\specifications\Cantor_M2B_Windows_Platform_Preflight_Runtime.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Platform_Location_Classification_Revision.exploded.sop
+@ [exploded_sha256] f815d72863726f0079bea22258bce1577db20bfab3a95e023b8d4fd0e4a06a0f
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Platform_Location_Classification_Revision_Justification.sop
+@ [justification_sha256] bc63b001a446696dfc8ba866431aad221e3432ee82529b4d022718915a73e1f8
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Platform_Location_Classification_Revision_Plan.sop
+@ [plan_sha256] 4b2e111be79e000d3e7849a2eba9d85402897b1fa2e57d04aa70a1e583805896
+@ [matrix] C:\Project\Cantor\feature_support\M2BPlatformLocationClassificationRevision_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BPlatformLocationClassificationRevision.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Platform_Location_Classification_Revision_Registry.sop
+@ [registry_sha256] c166bb68528cdf0fdc91d51741bd1286f40d7efb087250882ceae2bd6340ffeb
+
+& [AuthorizedFileSet] is exact
+  + [forms] is crates/cantor_ecosystem/src/platform_preflight_forms.rs
+  + [runtime] is crates/cantor_windows_preflight/src/lib.rs
+  + [contract_test] is crates/cantor_windows_preflight/tests/runtime_contract.rs
+  + [runner] is scripts/run_windows_platform_preflight_fixture.ps1
+  + [physical_observation] is crates/cantor_windows_preflight/evidence/windows_platform_preflight_physical_observation_0_1_blocked.json for preserved prior evidence
+  + [replacement_observation] is crates/cantor_windows_preflight/evidence/windows_platform_preflight_physical_observation.json
+  + [governance] is source, SJS, matrix, slice, registry, evidence, solution, proof, review, readiness, narrative, reentry, fault, turn, map, and conversation records
+  - never: change Cargo.toml, Cargo.lock, another Rust source, or add a remote fixture
+
+& [ProfileContract] is version exact
+  + [request_profile_0_2] requires result profile 0.3
+  + [result_profile_0_3] has five outcomes
+  + [runtime_profile_0_2] releases result profile 0.3 only
+  + [request_0_1] rejects in the replacement runtime
+  + [result_0_2] rejects as a current result
+  + [historical_files] remain immutable evidence
+
+& [FaultContract] is retained
+  + [OpenFault] is actual CreateFileW failure with nonzero immediate OS error
+  + [QueryFault] is actual named query failure with nonzero immediate OS error
+  + [ObservationFault] is returned-length, invalid-UTF16, or invalid-observation local rejection
+  + [runtime_provenance_fault] retains invalid request, unsupported target, and zero-error operation
+  + [partial_evidence] is absent
+
+& [CompleteLocalContract] is one closed product
+  + [fields] are profile, target, root, StrongFileIdentity, canonical root volume-GUID path, WindowsVolumeInformation, and disposition
+  + [remote_protocol] is structurally absent
+  + [EligibleLocalNtfs] requires exact filesystem name NTFS
+  + [RejectUnsupportedFileSystem] requires any other admitted filesystem name
+  + [RejectRemoteProtocol] is forbidden
+
+& [CompleteRemoteContract] is one closed product
+  + [fields] are profile, target, root, StrongFileIdentity, WindowsRemoteProtocolInformation, and disposition
+  + [volume_GUID_path] is structurally absent
+  + [volume_information] is structurally absent
+  + [protocol] must be nonzero
+  + [disposition] must be RejectRemoteProtocol
+
+& [RuntimeControlFlowContract] is exact
+  + [common_1] validate request before effects
+  + [common_2] open exact root and transfer one valid handle once
+  + [common_3] query FileIdInfo
+  + [branch_point] call GetFinalPathNameByHandleW with normalized volume-GUID flags
+  + [local_branch] on final-path success, strict-decode path, call GetVolumeInformationByHandleW, strict-decode volume, and return CompleteLocal
+  + [local_noncall] FileRemoteProtocolInfo is not called
+  + [remote_branch] on actual nonzero final-path OS failure, call FileRemoteProtocolInfo on the same handle
+  + [remote_success] nonzero protocol and zero reserved fields return CompleteRemote
+  + [remote_protocol_zero] returns ObservationFault InvalidObservation at RemoteProtocolInformation
+  + [remote_failure] returns QueryFault RemoteProtocolInformation with actual nonzero error
+  + [final_path_error] is branch evidence only and is not emitted as partial evidence after remote query
+
+& [SeamContract] is unchanged
+  + [unsafe_blocks] is exactly six
+  + [SAFETY_comments] is exactly six
+  + [owner] is one OwnedHandle
+  + [calls] are unchanged
+  + [remote_block] is conditional
+  + [access_flags_buffers_errors] remain those of the prior canonical
+  + [new_dependency_or_effect] is zero
+
+& [PhysicalContract] is exact local retry only
+  + [fixture] is \\?\C:\Project\Cantor\.local\m2b-platform-preflight-fixture
+  + [prior_observation] is copied byte-identically to windows_platform_preflight_physical_observation_0_1_blocked.json
+  + [runner] overwrites only the current observation path after clean-tree verification
+  + [expected] is CompleteLocal, filesystem NTFS, disposition EligibleLocalNtfs
+  + [remote_query] must not execute on this successful local branch
+  + [remote_physical_claim] is forbidden
+
+& [TestContract] is exact
+  + [forms] prove five outcomes, both products, field exclusion, protocol constraints, dispositions, profiles, legacy, bounds, and strict JSON
+  + [runtime_pure] proves branch decisions through injected pure outcome helpers
+  + [static] proves six blocks, six comments, same call set, conditional placement, and forbidden surface
+  + [default] keeps physical test ignored
+  + [physical] runs once only through the governed local runner after a clean implementation commit
+
+& [RequirementSet] is M2B-PLC-001 through M2B-PLC-015
+  + [lineage] binds physical contradiction and invalidation
+  + [forms] bind versioned disjoint products
+  + [runtime] binds conditional classification
+  + [physical] binds local retry and prohibits remote claim
+  + [closure] binds verification, evidence, rollback, review, and publication
+
+& [Acceptance] is exact
+  + [focused] forms and runtime tests pass in debug and overflow-checked release with physical ignored
+  + [static] Cargo and lock unchanged, six blocks/comments, call set unchanged, and forbidden surface absent
+  + [physical] exact current fixture yields CompleteLocal NTFS eligible and binds executable and source
+  + [global] debug/release, format, warnings-denied lint, release build, warnings-denied docs, and audit pass
+  + [evidence] current manifests verify after narrative closure
+  + [review] advances only local preflight gates
+
+& [AuthorityBoundary] is replacement only
+  + [allowed] is forms 0.3, runtime 0.2, tests, blocked-evidence archival, exact local retry, evidence, and proof
+  + [forbidden] is new dependency, seventh unsafe block, new call, write access, remote fixture, traversal, content, stream, candidate, scanner, receipt, cleanup, launch, seal, or promotion
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is corrective raw source, manifest, physical finding, and blocked observation
+  + [delineated] is local completion, remote completion, faults, runtime branch, and absent scanner
+  + [exploded] is fifteen requirements, twelve constraints, twelve failures, and ten verification gates
+  + [semantically_refined] is local, remote, complete, and not-applicable meaning
+  + [constraint_checked] is physical evidence, Microsoft boundaries, prior forms, and versioning decision
+  + [pruned] is synthesized protocol, error-87 locality, conjunction, optionals, new effects, and remote fixture
+  + [data_design_checked] is versioned request plus five-outcome provenance sum
+  + [exhaustion_reviewed] is seven_fold_phase_locked
+  + [justified] is claim, support, false options, counterarguments, invalidation, and rollback
+  + [planned] is ordered forms, runtime, prephysical, publication, physical, global, and proof work
+  + [registry_recorded] is graph-addressable nodes, edges, terms, and nonedges
+
+& [SignatureEvidenceTable] binds every stage
+  + [source_preserved] is Source_Document_Manifest.sop
+  + [delineated] is exploded BoundaryFormation
+  + [exploded] is Cantor_M2B_Platform_Location_Classification_Revision.exploded.sop
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded PruningTrace
+  + [data_design_checked] is exploded DataDesignModel
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Platform_Location_Classification_Revision_Justification.sop
+  + [planned] is Cantor_M2B_Platform_Location_Classification_Revision_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Platform_Location_Classification_Revision_Registry.sop
+
+& [SatisfactionSignature] is valid replacement authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 61c2b9cf-4608-4e7d-88ae-d674d52640e3
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Platform_Location_Classification_Revision.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Platform_Location_Classification_Revision.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_location_classification_revision\Cantor_M2B_Platform_Location_Classification_Revision_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 8df58e20-06da-4d89-acfa-9f4fabab92d1
+  + [implementation_authority] is platform_location_forms_0_3_runtime_0_2_and_exact_local_fixture_only
+  + [signature_status] is valid
+  + [invalidation_condition] is source drift, profile ambiguity, product overlap, synthesized code or protocol, error-87 inference, branch drift, unsafe or call delta, remote physical claim, scanner or receipt surface, failed local fixture, stale evidence, or failed gate

@@ -1,0 +1,146 @@
+Subject: Exploded Cantor M2B Platform Location Classification Revision
+
+& [ExplosionIdentity] is phase locked
+  + [explosion_uuid] is b5a65a1d-fedc-45e6-b432-523fb15ea578
+  + [request_profile] is cantor-windows-platform-preflight-request/0.2
+  + [result_profile] is cantor-windows-platform-preflight/0.3
+  + [runtime_profile] is cantor-windows-platform-preflight-runtime/0.2
+  + [phase] is seven_fold_phase_locked
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_location_classification_revision\Cantor_M2B_Platform_Location_Classification_Revision_Source.sop
+@ [physical_finding] C:\Project\Cantor\narrative\research\Cantor_Windows_Platform_Preflight_Physical_Remote_Query_Finding_2026-07-30.sop
+@ [versioning_decision] C:\Project\Cantor\narrative\research\Cantor_Platform_Preflight_Request_Profile_Versioning_Decision_2026-07-30.sop
+
+& [BoundaryFormation] separates two successful classifications
+  + [complete_local] is volume-GUID and volume-information evidence
+  + [complete_remote] is successful nonzero remote-protocol evidence
+  + [faults] remain open, query, local observation, and runtime provenance faults
+  + [scanner] remains absent
+
+& [AtomicRequirementSet] is complete
+  + [M2B-PLC-001] preserve physical QueryFault error 87 and invalidated signature lineage
+  + [M2B-PLC-002] advance request, result, and runtime profiles to 0.2, 0.3, and 0.2
+  + [M2B-PLC-003] reject request 0.1 and result 0.2 under replacement semantics
+  + [M2B-PLC-004] retain strict OpenFault, QueryFault, and ObservationFault provenance
+  + [M2B-PLC-005] define CompleteLocal with identity, GUID path, volume, and local disposition only
+  + [M2B-PLC-006] define CompleteRemote with identity, nonzero remote protocol, and reject disposition only
+  + [M2B-PLC-007] make complete-local and complete-remote products structurally disjoint
+  + [M2B-PLC-008] run local branch after successful GUID path and volume without remote query
+  + [M2B-PLC-009] run remote query only after actual final-GUID-path OS failure
+  + [M2B-PLC-010] reject successful protocol zero on the remote branch as invalid observation
+  + [M2B-PLC-011] keep same handle, exact six unsafe blocks, immediate errors, bounds, and ownership
+  + [M2B-PLC-012] prove local and injected remote control flow without a remote physical claim
+  + [M2B-PLC-013] rerun exact local fixture expecting CompleteLocal NTFS eligible
+  + [M2B-PLC-014] close global verification, evidence, rollback, review, and publication
+  + [M2B-PLC-015] retain traversal, scanner, receipt, candidate, cleanup, launch, seal, and promotion prohibitions
+
+& [RequestAtom] is version exact
+  + [request_profile_0_2] requires result profile 0.3
+  + [request_profile_0_1] remains historical and rejects
+  + [target_and_root] remain unchanged
+
+& [LocalAtom] is closed
+  + [required] strong identity, canonical volume-GUID final path, and volume information
+  + [forbidden] remote-protocol record
+  + [NTFS] is EligibleLocalNtfs
+  + [other_filesystem] is RejectUnsupportedFileSystem
+
+& [RemoteAtom] is closed
+  + [required] strong identity and remote-protocol record with protocol nonzero
+  + [required_disposition] is RejectRemoteProtocol
+  + [forbidden] volume-GUID path and volume-information record
+  + [physical_fixture] is absent
+
+& [ControlFlowAtom] is branch exact
+  + [common] open, own, and query identity
+  + [local_branch] final GUID success then volume success then CompleteLocal
+  + [remote_branch] final GUID OS failure then remote query
+  + [remote_success_nonzero] is CompleteRemote
+  + [remote_success_zero] is ObservationFault InvalidObservation
+  + [remote_failure] is QueryFault RemoteProtocolInformation
+  + [partial_evidence] is absent on every fault
+
+& [DataDesignModel] is a provenance sum
+  + [request_product] versions its result compatibility
+  + [result_sum] has five outcomes with two disjoint complete products
+  + [branch] consumes only evidence required by its product
+  + [runtime] returns one owned validated record or closed runtime fault
+  + [no_optionals] prevents missing evidence from masquerading as not applicable
+
+& [ConstraintLedger] is fail closed
+  + [C-01] change only existing pure forms, isolated runtime, contract test, runner, and governed records
+  + [C-02] Cargo.toml and Cargo.lock remain byte-identical
+  + [C-03] request profile 0.1 and result profile 0.2 reject
+  + [C-04] complete variants are field-disjoint
+  + [C-05] complete-local never calls or contains remote protocol
+  + [C-06] complete-remote requires actual nonzero returned protocol
+  + [C-07] error 87 alone proves neither local nor remote
+  + [C-08] exact six unsafe blocks and one owner remain
+  + [C-09] call set is unchanged and remote call becomes conditional
+  + [C-10] no partial evidence or synthesized code, protocol, or stage
+  + [C-11] local fixture is unchanged and remote fixture is forbidden
+  + [C-12] scanner and receipt surfaces remain absent
+
+& [FailureModeSet] is explicit
+  + [F-01] physical blocked evidence is overwritten
+  + [F-02] profile identifier keeps incompatible semantics
+  + [F-03] complete-local carries remote evidence
+  + [F-04] complete-remote carries local volume evidence
+  + [F-05] protocol zero becomes remote completion
+  + [F-06] error 87 becomes locality proof
+  + [F-07] remote query runs on successful local branch
+  + [F-08] remote branch bypasses final-path failure
+  + [F-09] unsafe, owner, call, flag, or buffer contract drifts
+  + [F-10] fault leaks partial evidence
+  + [F-11] remote physical claim appears
+  + [F-12] scanner or receipt authority leaks
+
+& [VerificationProgram] is ordered
+  + [V-01] verify source, physical evidence, invalidation, and replacement signature
+  + [V-02] prove strict request and five-outcome forms including legacy rejection
+  + [V-03] prove exhaustive local and remote disposition relations
+  + [V-04] inject branch outcomes to prove call ordering without new physical effects
+  + [V-05] statically preserve six blocks, one owner, exact calls, and forbidden surface
+  + [V-06] run focused debug and overflow-checked release with physical ignored
+  + [V-07] publish clean replacement implementation
+  + [V-08] run exact local fixture once and bind CompleteLocal evidence
+  + [V-09] run global debug/release, lint, build, docs, audit, and manifest verification
+  + [V-10] close solution, proof, review, readiness, narrative, reentry, and publication
+
+& [SemanticRefinementTrace] is exact
+  + [local] means successful volume-GUID and volume-information evidence, not error 87
+  + [remote] means successful nonzero FILE_REMOTE_PROTOCOL_INFO evidence
+  + [complete] means one classification product is complete, not both
+  + [not_applicable] is represented by sum shape, not an optional or fabricated record
+
+& [ConstraintCheckTrace] is grounded
+  + [physical] local root returned error 87 at remote stage
+  + [Microsoft] network shares lack volume-GUID paths and SMB lacks the selected volume function
+  + [forms] prior conjunction cannot complete on the measured local root
+  + [versioning] changed compatibility requires changed request profile
+
+& [PruningTrace] removes overreach
+  + [pruned] protocol-zero synthesis
+  + [pruned] error-87 locality inference
+  + [pruned] conjunctive local-plus-remote completion
+  + [pruned] optional ambiguous evidence
+  + [pruned] new calls, unsafe blocks, remote fixture, scanner, and receipt
+
+& [FoldTrace] is seven-fold
+  + [fold_1_intent] classify location without false evidence
+  + [fold_2_terms] local and remote completion are disjoint
+  + [fold_3_relations] branch evidence determines one complete product
+  + [fold_4_constraints] profiles, fields, flow, effects, and calls are closed
+  + [fold_5_failures] twelve invalidation paths are explicit
+  + [fold_6_verification] ten ordered proof gates are explicit
+  + [fold_7_nonclaims] no remote physical, scanner, or receipt proof exists
+
+& [ExhaustionReview] is phase locked
+  + [physical_contradiction] preserved
+  + [profile_versioning] complete
+  + [local_product] complete
+  + [remote_product] complete
+  + [branch_flow] complete
+  + [fault_provenance] complete
+  + [effect_boundary] complete
+  + [state] is seven_fold_phase_locked

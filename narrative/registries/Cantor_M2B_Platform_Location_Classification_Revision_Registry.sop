@@ -1,0 +1,29 @@
+Subject: Registry for Cantor M2B Platform Location Classification Revision
+
+& [RegistryIdentity] is graph-addressable
+  + [registry_uuid] is 8df58e20-06da-4d89-acfa-9f4fabab92d1
+  + [request_profile] is 0.2
+  + [result_profile] is 0.3
+  + [runtime_profile] is 0.2
+  + [state] is signed_replacement_authority
+
+& [Nodes] are blocked observation, corrective source, version decision, local completion, remote completion, branch, forms, runtime, fixture, evidence, proof, and review
+
+& [Edges] define meaning
+  + [GUID_and_volume_success] produces CompleteLocal
+  + [GUID_failure] permits remote query
+  + [remote_nonzero_success] produces CompleteRemote
+  + [remote_zero_success] produces InvalidObservation
+  + [error_87] does_not_imply local
+
+& [RetrievalTerms] include CompleteLocal, CompleteRemote, platform location, remote query error 87, profile 0.3, request 0.2, and conditional remote branch
+
+& [NonEdges] are explicit
+  + [absent] local completion contains remote protocol
+  + [absent] remote completion contains volume evidence
+  + [absent] local branch calls remote query
+  + [absent] replacement authorizes scanner or receipt
+
+& [Authority] is exact
+  + [canonical_uuid] is 1e86a20d-6940-44b2-bc55-c27c764b970b
+  + [signature_uuid] is 61c2b9cf-4608-4e7d-88ae-d674d52640e3

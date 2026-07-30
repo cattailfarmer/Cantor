@@ -1,0 +1,25 @@
+Subject: Cantor Platform Preflight Request Profile Versioning Decision
+
+& [DecisionIdentity] is SJS compatibility refinement
+  + [decision_uuid] is 6c4115a1-26cc-4af4-8c09-c476d1c0b966
+  + [captured_at] is 2026-07-30
+
+@ [corrective_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_platform_location_classification_revision\Cantor_M2B_Platform_Location_Classification_Revision_Source.sop
+@ [prior_authority] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop
+
+& [Conflict] is version semantic
+  + [request_profile_0_1] requires result_profile cantor-windows-platform-preflight/0.2
+  + [corrective_source] proposes retaining request profile 0.1 while requiring result profile 0.3
+  + [consequence] the same request-profile identifier would acquire incompatible validation semantics
+
+& [Decision] is explicit version advance
+  + [new_request_profile] is cantor-windows-platform-preflight-request/0.2
+  + [required_result_profile] is cantor-windows-platform-preflight/0.3
+  + [legacy_request_0_1] rejects under the replacement runtime
+  + [legacy_result_0_2] rejects under the replacement request
+  + [shape] remains four fields but meaning and compatibility relation are versioned
+
+& [SourcePreservation] is honest
+  + [raw_wording] remains immutable
+  + [canonical_refinement] records why request profile 0.1 cannot be retained
+  + [intent] remains strict pre-effect binding without silent semantic drift
