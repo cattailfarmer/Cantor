@@ -85,6 +85,34 @@ fn production_binaries_have_pid_safe_supervised_operator_lifecycle() {
         state_bytes
     );
 
+    let original_token = fs::read(&workspace.token_path).expect("token must read");
+    fs::write(&workspace.token_path, format!("{}\n", "f".repeat(64)))
+        .expect("alternate capability must write");
+    let unauthenticated_stop = run_script(
+        &stop_script,
+        &[
+            "-StatePath".into(),
+            path_text(&state_path),
+            "-ExitTimeoutMilliseconds".into(),
+            "5000".into(),
+        ],
+    );
+    assert!(
+        !unauthenticated_stop.status.success(),
+        "shutdown with a changed client capability must fail"
+    );
+    assert_eq!(
+        fs::read(&state_path).expect("state must survive rejected shutdown"),
+        state_bytes,
+        "rejected shutdown must preserve state byte-for-byte"
+    );
+    fs::write(&workspace.token_path, original_token).expect("token must restore");
+    let restored_health = run_script(
+        &health_script,
+        &["-StatePath".into(), path_text(&state_path)],
+    );
+    assert_success(&restored_health, "health after capability restoration");
+
     let forged_path = workspace.root.join("forged-state.json");
     let mut forged = state.clone();
     forged["process_start_time_utc"] = serde_json::json!("2000-01-01T00:00:00.0000000Z");
