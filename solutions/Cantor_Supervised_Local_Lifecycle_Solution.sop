@@ -25,7 +25,7 @@ Subject: Cantor Supervised Local Lifecycle Solution
 & [StartImplementation] is readiness before authority
   + [serialization] is a state-path-derived local Windows kernel mutex held until success or cleanup
   + [launch] is one hidden cantord with exactly --config and separate unique stdout and stderr logs
-  + [readiness] is repeated authenticated cantorctl status within explicit bounds
+  + [readiness] is repeated authenticated cantorctl status with every child timeout and retry sleep capped by the exact remaining outer deadline
   + [publication] occurs only after readiness and a second complete process-identity match
   + [duplicate] rejects a live matching state
   + [stale] requires explicit ReplaceStale after valid-state nonlive proof

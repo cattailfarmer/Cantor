@@ -43,3 +43,9 @@ Subject: Cantor Supervised Local Lifecycle Operational Faults
   + [repair] is hold a state-path-derived local kernel mutex across collision review, launch, readiness, state publication, and failed-start cleanup
   + [proof] is two simultaneous real-binary start attempts produced exactly one success, one healthy state owner, and one graceful stop
   + [status] is resolved
+
+& [ReadinessDeadlineDrift] is resolved during post-checkpoint review
+  + [observation] is the initial outer readiness deadline did not cap one client process or the final retry sleep
+  + [risk] is a short supervisor deadline could be exceeded by the service-configured client timeout
+  + [repair] is cap every client process and sleep interval to the exact remaining outer deadline
+  + [status] is resolved

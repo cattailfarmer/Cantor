@@ -10,7 +10,7 @@ Subject: Cantor Supervised Local Lifecycle Proof
   + [proof_uuid] is 272c8318-4c3d-42dc-b074-d98f20d96039
   + [captured_at] is 2026-07-29
   + [result] is passed_and_boundedly_activated
-  + [evidence_manifest_sha256] is DD6730B68156C21C4349B8691DB832E50E46B796D0A629344A0163D07A75BE11
+  + [evidence_manifest_sha256] is C94E47CD6950A98263CEEC98974514AA10D486266BB1280B3E31BBF696FED3D1
 
 & [AuthorityProof] is SLL-001 and SLL-009
   + [source_sha256] is 47FDD6111EC89ED5C9324613F21BA003C34F4255CEAB4E2BF0027B970CA290CC
@@ -46,6 +46,7 @@ Subject: Cantor Supervised Local Lifecycle Proof
 
 & [FaultProof] is SLL-007
   + [proof] is exactly one of two concurrent starts won the state-path mutex; live duplicate refusal, stale default refusal, explicit structurally valid stale replacement, forged PID identity rejection, unknown-state rejection, and failed-readiness cleanup passed
+  + [proof] is every readiness child and retry sleep is capped by the remaining outer deadline and a 1.5-second failed-readiness profile completed within the bounded five-second process-launch allowance
   + [proof] is failed-start cleanup revalidates the exact just-created PID, executable, and start time before signaling
   + [fault_ledger] is C:\Project\Cantor\narrative\operational_faults\1785385157430_supervised_local_lifecycle_faults.sop
   + [status] is passed

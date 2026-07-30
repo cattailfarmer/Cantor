@@ -9,6 +9,7 @@ use std::{
     net::TcpListener,
     path::{Path, PathBuf},
     process::{Command, ExitStatus, Output, Stdio},
+    time::{Duration, Instant},
 };
 
 use common::{TOKEN, TestWorkspace, write_json};
@@ -241,6 +242,7 @@ fn production_binaries_have_pid_safe_supervised_operator_lifecycle() {
     );
     assert_success(&concurrent_stop, "concurrent-start winner stop");
 
+    let failed_start_begin = Instant::now();
     let failed_start = start_service(
         &start_script,
         &server_path,
@@ -254,6 +256,10 @@ fn production_binaries_have_pid_safe_supervised_operator_lifecycle() {
     assert!(
         !failed_start.success(),
         "non-client readiness probe must fail"
+    );
+    assert!(
+        failed_start_begin.elapsed() < Duration::from_secs(5),
+        "the 1.5 second readiness deadline must cap child probes and retry sleeps"
     );
     assert!(
         !state_path.exists(),

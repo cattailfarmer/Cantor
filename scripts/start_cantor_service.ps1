@@ -108,6 +108,11 @@ try {
             throw "cantord exited before authenticated readiness (exit $($process.ExitCode))"
         }
         try {
+            $remainingMilliseconds = [Math]::Max(
+                1,
+                [Math]::Floor(($deadline - [DateTime]::UtcNow).TotalMilliseconds)
+            )
+            $probeTimeout = [UInt32][Math]::Min(70000, $remainingMilliseconds)
             $invocation = Invoke-CantorCtl `
                 -ClientPath $clientFullPath `
                 -Arguments @(
@@ -116,7 +121,8 @@ try {
                     $configFullPath,
                     "--request-id",
                     "request:supervisor_start_$($process.Id)_$attempt"
-                )
+                ) `
+                -TimeoutMilliseconds $probeTimeout
             $statusResponse = Assert-CantorSuccessfulStatus -Invocation $invocation
             break
         }
@@ -124,7 +130,14 @@ try {
             $lastReadinessFault = $_.Exception.Message
             $statusResponse = $null
         }
-        Start-Sleep -Milliseconds $ProbeIntervalMilliseconds
+        $remainingAfterProbe = [Math]::Floor(
+            ($deadline - [DateTime]::UtcNow).TotalMilliseconds
+        )
+        if ($remainingAfterProbe -gt 0) {
+            Start-Sleep -Milliseconds (
+                [Math]::Min($ProbeIntervalMilliseconds, $remainingAfterProbe)
+            )
+        }
     }
     if ($null -eq $statusResponse) {
         throw "cantord did not pass authenticated readiness within the bounded timeout: $lastReadinessFault"
