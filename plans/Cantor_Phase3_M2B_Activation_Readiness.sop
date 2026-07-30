@@ -1,0 +1,101 @@
+Subject: Cantor Phase3 M2B Activation Readiness
+
+Description: Non-authoritative readiness ledger for the dependency, ABI, platform, attribute, and unsafe review that must close before selecting an M2B implementation source.
+
+& [LedgerIdentity] is a planning and reentry surface
+  + [ledger_uuid] is 3b480fe2-6a22-4187-9181-fe801515a57f
+  + [captured_at] is 2026-07-30
+  + [status] is research_advanced_activation_not_ready
+
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [formation_plan] C:\Project\Cantor\plans\Cantor_Phase3_Topology_Scanner_Formation_Plan.sop
+@ [API_assessment] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_API_Assessment_2026-07-30.sop
+@ [unsafe_review] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Unsafe_Seam_Review_2026-07-30.sop
+@ [entry_policy] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Attribute_Name_Policy_2026-07-30.sop
+@ [M2A_proof] C:\Project\Cantor\proofs\Cantor_Phase3_Topology_Machine_Forms_Proof.sop
+
+& [DependencyGate] is mostly researched
+  + [D-01] windows-sys version 0.61.2 is locked with exact registry checksum is passed
+  + [D-02] current transitive origin and resolved feature union are recorded is passed
+  + [D-03] proposed direct target-specific features are Foundation, Security, and Storage_FileSystem is passed
+  + [D-04] MIT or Apache-2.0 generated binding license is recorded is passed
+  + [D-05] clean-copy direct-dependency Cargo and lock diff is pending
+  + [D-06] post-change dependency count and advisory audit is pending
+
+& [PlatformGate] is incomplete
+  + [P-01] minimum FileIdInfo API is Windows 8 or Server 2012 is passed
+  + [P-02] initial physical proof target is local x86_64 Windows desktop NTFS is passed_for_planning
+  + [P-03] GetVolumeInformationByHandleW exact success record on the target host is pending
+  + [P-04] FileRemoteProtocolInfo exact local-handle result is pending
+  + [P-05] remote, SMB, CSV, ReFS, FAT, exFAT, and unknown filesystem rejection matrix is pending
+  + [P-06] non-Windows explicit unsupported compilation is pending
+
+& [OwnershipGate] has a proposed complete shape
+  + [O-01] one successful CreateFileW raw handle transfers once into OwnedHandle is passed_for_design
+  + [O-02] INVALID_HANDLE_VALUE never enters an owning wrapper is passed_for_design
+  + [O-03] regular content reads through safe File from OwnedHandle is passed_for_design
+  + [O-04] no direct CloseHandle, ReadFile, stream-search handle, or raw-handle escape is passed_for_design
+  + [O-05] panic, early-return, and error-path destructor proof is pending
+  + [O-06] one line-specific safety comment and test obligation per unsafe block is pending
+
+& [SameHandleObservationGate] has a proposed complete shape
+  + [H-01] FileAttributeTagInfo is attributes and diagnostic tag is passed_for_design
+  + [H-02] FileIdInfo is volume serial and 128-bit identity is passed_for_design
+  + [H-03] FileStandardInfo is link count, length, directory, and delete-pending is passed_for_design
+  + [H-04] FileStreamInfo replaces path-based stream enumeration is passed_for_design
+  + [H-05] pre-read and post-read observations use the same File handle is passed_for_design
+  + [H-06] root final-path and admitted-root identity reconciliation is pending
+
+& [StreamGate] is bounded but unmeasured
+  + [S-01] one 4194304-byte 8-aligned buffer and one query attempt is passed_for_design
+  + [S-02] only successful complete chains are parsed is passed_for_design
+  + [S-03] offsets, lengths, alignment, signs, UTF-16, uniqueness, count, and terminal zero are checked is passed_for_design
+  + [S-04] partial failure bytes are ignored is passed_for_design
+  + [S-05] unnamed-file stream, no-directory-stream, named-stream, many-stream, and over-buffer target fixtures are pending
+
+& [EntryPolicyGate] is proposed but unmeasured
+  + [E-01] benign combinable attribute mask is 0x00002027 is passed_for_design
+  + [E-02] directory allowed mask is 0x00002037 with DIRECTORY required is passed_for_design
+  + [E-03] regular shape is NORMAL alone or a nonempty benign subset is passed_for_design
+  + [E-04] all behavior and unknown bits reject is passed_for_design
+  + [E-05] per-directory FileCaseSensitiveInfo Flags must equal zero is passed_for_design
+  + [E-06] strict components and reserved device stems reject is passed_for_design
+  + [E-07] target-host ordinary-file, marked-file, and directory attribute fixtures are pending
+  + [E-08] exact Git executable-mode reconciliation is pending
+
+& [OpenPolicyGate] remains unsettled
+  + [C-01] OPEN_EXISTING, OPEN_REPARSE_POINT, and BACKUP_SEMANTICS are passed_for_design
+  + [C-02] regular access FILE_GENERIC_READ and directory access FILE_READ_ATTRIBUTES are passed_for_design
+  + [C-03] share-read plus share-write plus share-delete is proposed
+  + [C-04] threat-model decision between non-perturbing sharing and quiescence-enforcing denial is pending
+  + [C-05] delete-pending always rejects but deny-launch versus quarantine consequence is pending
+  + [C-06] open permission and sharing fixtures are pending
+
+& [PathGate] remains materially incomplete
+  + [N-01] caller-supplied root must equal Phase3A root and strong identity is passed_for_design
+  + [N-02] exact extended-length DOS, volume-GUID, UNC, device, and NT namespace admission set is pending
+  + [N-03] GetFinalPathNameByHandleW mode and comparison normalization are pending
+  + [N-04] maximum component, total path, reserved name, trailing character, and Unicode fixtures are pending
+  + [N-05] case-preserved physical-to-Git inventory reconciliation is pending
+
+& [UnsafeActivationGate] is closed by default
+  + [U-01] exact call set and generated signatures must be copied into a new selected source
+  + [U-02] each pointer, size, alignment, lifetime, initialization, ownership, and error invariant must be canonical
+  + [U-03] forbid every nonlisted Windows call and every mutating access bit
+  + [U-04] require unsafe_op_in_unsafe_fn denial and a production-source unsafe-count assertion
+  + [U-05] require pure malformed-buffer parser tests before any FFI fixture
+  + [U-06] require a new satisfaction signature
+  + [status] is not_ready
+
+& [PhysicalProofGate] is separately locked
+  + [fixture_plan] is T-01 through T-14 in the Phase3 physical proof plan
+  + [root_authority] is absent
+  + [link_stream_case_attribute_fixture_authority] is absent
+  + [execution] is forbidden until M2C code and M2D source are separately signed
+
+& [NextAction] is close read-only M2B unknowns before source selection
+  + [first] decide and document share-mode threat semantics
+  + [second] pin root namespace and final-path reconciliation
+  + [third] design a no-effect compile probe for the exact direct windows-sys features
+  + [fourth] select an M2B implementation source only if every activation gate is closed
+  - never: treat passed_for_design as implementation or execution proof
