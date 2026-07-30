@@ -1,0 +1,56 @@
+Subject: Raw Revision Source for the Cantor M2B Windows Sys Compile Probe Lock Contract
+
+Captured: 2026-07-30
+Conversation: cab190f5-eda0-44e0-81a5-51f9605e0baa
+Source type: implementation-observed specification correction
+
+Preserve this source separately from canonical and exploded specifications.
+
+The 0.1 compile-probe authority required two things that Cargo cannot satisfy
+together:
+
+1. cantor_ecosystem must gain a direct cfg(windows) dependency on the already
+   locked windows-sys 0.61.2 package.
+2. Cargo.lock must remain byte-identical.
+
+The first locked build stopped before compilation and reported that Cargo.lock
+needed an update. The reason is structural: Cargo.lock records the dependency
+edges of local workspace packages as well as registry package identities. The
+registry package was already present, but cantor_ecosystem was not yet recorded
+as its direct consumer.
+
+No compile-probe implementation is retained from that failed attempt. No
+Windows function was called.
+
+Revise the contract to version 0.2:
+
+- preserve the exact target-specific windows-sys declaration from 0.1;
+- preserve the five no-call function-item checks, six structure layout checks,
+  six information-class checks, read-only constant checks, deterministic
+  in-memory fingerprint, and all effect prohibitions;
+- permit Cargo.lock to change in exactly one semantic way: add the existing
+  package name "windows-sys" to the dependency array of the local
+  cantor_ecosystem package;
+- require the registry package universe to remain 112 packages;
+- require every registry package version, source, and checksum to remain
+  unchanged;
+- require windows-sys to remain exactly 0.61.2 with checksum
+  ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc;
+- require the pre-change Cargo.lock SHA-256 to remain
+  7b2e1e879e387ccff1cf1e04de4ace1d72eb006d1443192ab26629f0c3a884a5;
+- require the modeled post-change Cargo.lock SHA-256 to be
+  ff20148aa6ff3c2774d07d454bc900f4f81d5594bd8f8e49af2a43217b7ee73a;
+- require the textual Cargo.lock diff to be exactly one added line,
+  ` "windows-sys",`, in cantor_ecosystem's dependency array;
+- prohibit additions, removals, upgrades, downgrades, source changes,
+  checksum changes, or feature resolution outside the declared direct edge.
+
+The model was produced in an isolated detached worktree from commit 7e72391 by
+adding only the intended target dependency and running Cargo offline. Cargo
+reported 112 packages and the expected direct feature tree. That model is
+research evidence, not implementation authority.
+
+The 0.1 canonical and exploded specifications remain immutably preserved in Git
+commit eb15842 and are explicitly invalidated by commit 7e72391. Reprocessing
+must issue a new satisfaction signature. It must not silently reuse the invalid
+0.1 signature.

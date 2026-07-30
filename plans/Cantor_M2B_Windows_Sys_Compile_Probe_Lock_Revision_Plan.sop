@@ -1,0 +1,55 @@
+Subject: Plan for the Cantor M2B Windows Sys Compile Probe Lock Revision
+
+& [PlanIdentity] is implementation ordered
+  + [profile] is cantor-windows-topology-abi-probe/0.2
+  + [authority_required] is a valid 0.2 satisfaction signature
+
+& [Step01] verify clean boundary
+  + assert Cargo.lock pre-hash
+  + assert Cargo.toml and probe file have no retained implementation delta
+
+& [Step02] implement dependency
+  + add the exact cfg(windows) target dependency and closed feature set
+
+& [Step03] implement no-call probe
+  + create one cfg(windows) integration test
+  + bind five generated function items without calling or casting them
+  + compare layouts, class codes, constants, and fingerprint
+
+& [Step04] resolve and gate lock
+  + allow Cargo to record the intended edge offline
+  + require the exact one-line diff
+  + require post-hash ff20148aa6ff3c2774d07d454bc900f4f81d5594bd8f8e49af2a43217b7ee73a
+  + require 112 packages
+
+& [Step05] static security scan
+  + reject the unsafe token
+  + reject each imported function in call-expression position
+  + reject production Rust delta
+
+& [Step06] focused verification
+  + run Windows debug probe
+  + run overflow-checked release probe
+  + inspect exact direct feature tree
+
+& [Step07] global verification
+  + run workspace debug and overflow-checked release tests
+  + run warnings-denied lint, release build, and rustdoc
+  + run dependency audit and license/checksum review
+
+& [Step08] evidence repair
+  + discover every manifest binding Cargo.toml or Cargo.lock
+  + regenerate affected manifests in predecessor order
+  + update each dependent proof hash
+  + verify clone portability and artifact hashes
+
+& [Step09] close records
+  + create solution and proof
+  + update requirement matrix and support ledger
+  + create completion review
+  + update turn, file-change, fault, registry, reentry, and conversation surfaces
+
+& [Step10] publish
+  + commit implementation separately from proof where useful
+  + push intentional checkpoints
+  + do not claim runtime scanner or physical proof readiness

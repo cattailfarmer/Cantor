@@ -1,0 +1,66 @@
+Subject: M2B Windows Sys Compile Probe Lock Revision Requirement Matrix
+
+& [MatrixIdentity] is requirement-to-proof control
+  + [profile] is cantor-windows-topology-abi-probe/0.2
+  + [state] is implementation_authorized
+  + [signature_uuid] is 56f266db-46db-4d8c-8078-8b9f926f3e63
+
+& [M2B-ABI-REV-001] source lineage
+  + [implementation] is source and manifest records
+  + [verification] is hashes, paths, prior Git blobs, and invalidation commit
+  + [status] is specified
+
+& [M2B-ABI-REV-002] exact dependency
+  + [implementation] is crates/cantor_ecosystem/Cargo.toml
+  + [verification] is manifest diff and cargo tree
+  + [status] is pending
+
+& [M2B-ABI-REV-003] exact features
+  + [implementation] is target dependency feature array
+  + [verification] is Cargo metadata and feature tree
+  + [status] is pending
+
+& [M2B-ABI-REV-004] exact local lock edge
+  + [implementation] is Cargo.lock
+  + [verification] is one-line diff and exact post-hash
+  + [status] is pending
+
+& [M2B-ABI-REV-005] package universe preserved
+  + [implementation] is Cargo resolver output
+  + [verification] is 112 packages plus identity comparison
+  + [status] is pending
+
+& [M2B-ABI-REV-006] generated function availability
+  + [implementation] is windows_topology_abi_probe.rs
+  + [verification] is focused compiler/linker test plus no-call static scan
+  + [status] is pending
+
+& [M2B-ABI-REV-007] structure layouts
+  + [implementation] is deterministic layout records
+  + [verification] is exact six-layout fingerprint
+  + [status] is pending
+
+& [M2B-ABI-REV-008] information classes
+  + [implementation] is exact assertions
+  + [verification] is six class values
+  + [status] is pending
+
+& [M2B-ABI-REV-009] read-only policy constants
+  + [implementation] is exact assertions and write-bit intersection
+  + [verification] is focused test
+  + [status] is pending
+
+& [M2B-ABI-REV-010] deterministic JSON
+  + [implementation] is ordered serializable fingerprint
+  + [verification] is exact literal comparison
+  + [status] is pending
+
+& [M2B-ABI-REV-011] effect absence
+  + [implementation] is cfg-only test with no production export
+  + [verification] is static scans and production diff
+  + [status] is pending
+
+& [M2B-ABI-REV-012] closure
+  + [implementation] is evidence, proof, solution, review, and support records
+  + [verification] is full gate set and publication audit
+  + [status] is pending

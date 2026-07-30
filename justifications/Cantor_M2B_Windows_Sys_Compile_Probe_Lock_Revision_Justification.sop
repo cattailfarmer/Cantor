@@ -1,0 +1,41 @@
+Subject: Justification for the Cantor M2B Windows Sys Compile Probe Lock Revision
+
+& [Claim] is narrow
+  + [statement] replace the impossible byte-identical lock invariant with one exact local dependency-edge delta and retain every no-call and no-effect gate
+  + [confidence] is high
+
+& [Support] is concrete
+  + [locked_failure] Cargo refused the 0.1 direct dependency under --locked before compilation
+  + [Cargo_model] an isolated offline worktree produced exactly one added lock line and no package-universe change
+  + [pre_lock_sha256] is 7b2e1e879e387ccff1cf1e04de4ace1d72eb006d1443192ab26629f0c3a884a5
+  + [modeled_post_lock_sha256] is ff20148aa6ff3c2774d07d454bc900f4f81d5594bd8f8e49af2a43217b7ee73a
+  + [package_count] remains 112
+  + [package_identity] windows-sys remains 0.61.2 with its existing checksum
+
+& [WhyNotPreserveByteIdentity] is causal
+  + [reason] Cargo.lock records local package dependency edges
+  + [consequence] a new direct edge must alter the cantor_ecosystem package entry
+  + [alternative] avoiding the lock delta would require avoiding the direct dependency, contradicting the ABI-probe purpose
+
+& [WhyExactSemanticDelta] is security preserving
+  + [reason] accepting an unconstrained lock update could hide upgrades or unrelated dependency drift
+  + [gate] exact one-line diff plus exact post-hash plus unchanged package universe
+  + [result] only the intended relationship changes
+
+& [Counterarguments] are answered
+  + [counterargument] use transitive windows-sys without a direct dependency
+  + [answer] that makes the consumer relationship implicit and does not provide a stable manifest contract
+  + [counterargument] permit any Cargo-generated lockfile
+  + [answer] Cargo output is still subject to repository policy and must match the isolated model exactly
+  + [counterargument] proceed directly to Windows calls
+  + [answer] declaration availability and runtime effect authority are separate risk boundaries
+
+& [Invalidation] is explicit
+  + [condition] any package addition, removal, version, source, checksum, nonlocal edge, feature, call, unsafe, production, physical effect, stale evidence, or overclaim drift
+  + [response] stop, remove unproven implementation, record the fault, and reprocess source before continuation
+
+& [Rollback] is bounded
+  + [Cargo] remove the exact target dependency
+  + [lock] remove only the exact local windows-sys edge and restore the pre-hash
+  + [test] remove the Windows-only integration probe
+  + [production] no rollback because production Rust must not change

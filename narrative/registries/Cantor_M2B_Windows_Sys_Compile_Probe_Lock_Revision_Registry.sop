@@ -1,0 +1,41 @@
+Subject: Registry for the Cantor M2B Windows Sys Compile Probe Lock Revision
+
+& [RegistryIdentity] is graph-addressable
+  + [registry_uuid] is 6d9bd00b-b684-472d-9d75-ae266b5fbbec
+  + [profile] is cantor-windows-topology-abi-probe/0.2
+  + [state] is specification_processed
+
+& [Nodes] are explicit
+  + [N1] revision raw source
+  + [N2] prior raw source
+  + [N3] invalidated 0.1 authority at eb15842
+  + [N4] operational contradiction at 7e72391
+  + [N5] isolated Cargo lock-edge model
+  + [N6] exploded 0.2 specification
+  + [N7] canonical 0.2 authority
+  + [N8] target dependency declaration
+  + [N9] exact local lock edge
+  + [N10] Windows-only no-call ABI probe
+  + [N11] evidence manifest
+  + [N12] proof and completion review
+
+& [Edges] define meaning
+  + [E1] N1 corrects N3
+  + [E2] N2 originated N3
+  + [E3] N4 invalidates N3
+  + [E4] N5 supports N1
+  + [E5] N1 plus N5 process_to N6
+  + [E6] N6 plus justification plus plan sign N7
+  + [E7] N7 authorizes N8, N9, and N10 only
+  + [E8] N8 causes N9
+  + [E9] N8 exposes declarations tested by N10
+  + [E10] N8 through N10 produce N11
+  + [E11] N11 supports N12
+
+& [RetrievalTerms] are indexed
+  + [terms] include windows-sys, direct dependency, Cargo.lock, dependency edge, ABI, no-call, topology, Win32, FILE_INFO_BY_HANDLE_CLASS, layout, fingerprint, and compile probe
+
+& [NonEdges] prevent overclaim
+  + [absent] compile probe authorizes Win32 invocation
+  + [absent] ABI availability proves scanner correctness
+  + [absent] lock resolution proves physical filesystem topology

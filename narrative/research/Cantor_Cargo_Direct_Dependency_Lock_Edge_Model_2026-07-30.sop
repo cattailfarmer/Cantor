@@ -1,0 +1,38 @@
+Subject: Cantor Cargo Direct Dependency Lock Edge Model
+
+& [ResearchIdentity] is bounded
+  + [research_uuid] is 13589708-109a-4ca6-b627-2615a85281ac
+  + [captured_at] is 2026-07-30
+  + [base_commit] is 7e72391
+  + [purpose] is determine the exact Cargo.lock consequence of the authorized direct windows-sys edge without mutating the governing worktree
+
+& [Method] is isolated and offline
+  + [worktree] is detached from 7e72391 under ignored local storage
+  + [only_source_edit] is the exact cfg(windows) windows-sys dependency table
+  + [resolver_command] is cargo check -p cantor_ecosystem --offline
+  + [inspection] is Git diff, SHA-256, package count, and cargo tree feature output
+  + [network] is absent
+
+& [Observation] is exact
+  + [pre_lock_sha256] is 7b2e1e879e387ccff1cf1e04de4ace1d72eb006d1443192ab26629f0c3a884a5
+  + [post_lock_sha256] is ff20148aa6ff3c2774d07d454bc900f4f81d5594bd8f8e49af2a43217b7ee73a
+  + [package_count_before] is 112
+  + [package_count_after] is 112
+  + [lock_diff_hunks] is 1
+  + [added_lines] is 1
+  + [removed_lines] is 0
+  + [added_line] is the windows-sys dependency name in cantor_ecosystem dependencies
+  + [registry_package_delta] is none
+
+& [FeatureObservation] is direct
+  + [consumer] is cantor_ecosystem
+  + [package] is windows-sys 0.61.2
+  + [features] are Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem
+  + [transitive_generated_features] are Win32 and Win32_Storage
+  + [windows_link] is the already locked 0.2.1 dependency
+
+& [Conclusion] is a specification correction
+  + [claim] byte-identical Cargo.lock is incompatible with adding a new direct package edge
+  + [replacement_invariant] is exact semantic lock delta with an unchanged package universe and unchanged registry identities
+  + [confidence] is high because Cargo produced the same single-line delta in an isolated copy and refused the governing worktree under --locked
+  + [nonclaim] this does not prove any Win32 invocation, scanner behavior, or physical topology observation

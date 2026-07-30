@@ -1,0 +1,154 @@
+Subject: Cantor M2B Windows Sys Direct Feature and ABI Compile Probe Lock Revision
+
+Description: Replacement canonical implementation authority for the exact target dependency, exact one-edge Cargo.lock correction, and Windows-only no-call ABI integration test. It supersedes the invalidated 0.1 authority and does not authorize Windows API invocation or scanner behavior.
+
+& [CanonicalIdentity] is the 0.2 compile-probe specification
+  + [canonical_uuid] is f09bcf79-9642-444e-95c6-9ca44373e2e9
+  + [version] is 0.2
+  + [profile] is cantor-windows-topology-abi-probe/0.2
+  + [lifecycle_state] is accepted
+  + [supersedes_signature_uuid] is 636448aa-295d-486e-ba3c-d1b4f12cd264
+  + [superseded_state] is invalidated_by_implementation_contradiction
+
+@ [revision_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_sys_compile_probe_lock_revision\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_sys_compile_probe_lock_revision\Source_Document_Manifest.sop
+@ [prior_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_sys_compile_probe\Cantor_M2B_Windows_Sys_Compile_Probe_Source.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision.exploded.sop
+@ [exploded_sha256] 5693c12d0edb40c5bbe51bb80e49e1d3ad6884376f431b0657f4f636399fd5ce
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Justification.sop
+@ [justification_sha256] f2b4f3b47884ff548503ab5cbc9fe8a89264cd2fd1f7d49f7cd0e113c5598805
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Plan.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BWindowsSysCompileProbeLockRevision_Requirement_Matrix.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Registry.sop
+@ [model_research] C:\Project\Cantor\narrative\research\Cantor_Cargo_Direct_Dependency_Lock_Edge_Model_2026-07-30.sop
+@ [fault_ledger] C:\Project\Cantor\narrative\operational_faults\1785438389539_m2b_windows_sys_compile_probe_faults.sop
+
+& [AuthorizedFileSet] is exact
+  + [dependency_file] is crates/cantor_ecosystem/Cargo.toml
+  + [lock_file] is Cargo.lock
+  + [probe_file] is crates/cantor_ecosystem/tests/windows_topology_abi_probe.rs
+  + [governance_files] are source, canonical, exploded, justification, plan, matrix, slice, registry, solution, proof, evidence, fault, file-change, turn, reentry, and completion-review records
+  - never: edit production Rust source, lib.rs, workspace Cargo.toml, or another crate manifest
+
+& [DependencyContract] is exact
+  + [target] is cfg(windows)
+  + [package] is windows-sys
+  + [version] is =0.61.2
+  + [default_features] is false
+  + [features] are exactly Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem
+  + [checksum] is ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc
+  + [license] is MIT OR Apache-2.0
+
+& [LockContract] is one exact semantic edge
+  + [lock_sha256_before] is 7b2e1e879e387ccff1cf1e04de4ace1d72eb006d1443192ab26629f0c3a884a5
+  + [required_lock_sha256_after] is ff20148aa6ff3c2774d07d454bc900f4f81d5594bd8f8e49af2a43217b7ee73a
+  + [diff_hunks] is 1
+  + [added_lines] is 1
+  + [removed_lines] is 0
+  + [added_edge] is cantor_ecosystem depends on the existing windows-sys package
+  + [package_count] remains 112
+  + [registry_identity_delta] is none
+  - never: add, remove, upgrade, downgrade, change source, change checksum, or alter a nonlocal dependency edge
+
+& [ProbeContract] is no-call
+  + [cfg] is windows
+  + [profile] is cantor-windows-topology-abi-probe/0.2
+  + [function_items] are CreateFileW, GetFileInformationByHandleEx, GetFinalPathNameByHandleW, GetVolumeInformationByHandleW, and GetLastError
+  + [operation] is reference each function item as a value without invocation or address cast
+  + [structures] are FILE_ATTRIBUTE_TAG_INFO, FILE_CASE_SENSITIVE_INFO, FILE_ID_INFO, FILE_STANDARD_INFO, FILE_STREAM_INFO, and FILE_REMOTE_PROTOCOL_INFO
+  + [structure_operation] is size_of and align_of
+  + [machine_fingerprint] is deterministic in-memory JSON compared to one exact expected string
+  - never: use an imported function call expression
+  - never: create, initialize, transmute, dereference, or parse a generated structure
+
+& [LayoutContract] is exact for the supported Windows target
+  + [FILE_ATTRIBUTE_TAG_INFO] is size 8 alignment 4
+  + [FILE_CASE_SENSITIVE_INFO] is size 4 alignment 4
+  + [FILE_ID_INFO] is size 24 alignment 8
+  + [FILE_STANDARD_INFO] is size 24 alignment 8
+  + [FILE_STREAM_INFO] is size 32 alignment 8
+  + [FILE_REMOTE_PROTOCOL_INFO] is size 116 alignment 4
+
+& [ClassContract] is exact
+  + [FileStandardInfo] is 1
+  + [FileStreamInfo] is 7
+  + [FileAttributeTagInfo] is 9
+  + [FileRemoteProtocolInfo] is 13
+  + [FileIdInfo] is 18
+  + [FileCaseSensitiveInfo] is 23
+
+& [PolicyConstantContract] is read-only
+  + [OPEN_EXISTING] is 3
+  + [share] is FILE_SHARE_READ 1 plus FILE_SHARE_WRITE 2 plus FILE_SHARE_DELETE 4
+  + [flags] are FILE_FLAG_BACKUP_SEMANTICS 33554432 and FILE_FLAG_OPEN_REPARSE_POINT 2097152
+  + [attributes] include NORMAL 128, SPARSE_FILE 512, and REPARSE_POINT 1024
+  + [access] includes FILE_READ_ATTRIBUTES 128 and FILE_GENERIC_READ 1179785
+  + [write_guard] FILE_GENERIC_READ must have zero intersection with FILE_WRITE_DATA and FILE_WRITE_ATTRIBUTES
+  + [path_flags] are FILE_NAME_NORMALIZED 0 and VOLUME_NAME_GUID 1
+
+& [RequirementSet] is M2B-ABI-REV-001 through M2B-ABI-REV-012
+  + [lineage] preserves correction, original source, invalidated authority, fault, and model
+  + [dependency] fixes target, package, version, checksum, and features
+  + [lock] fixes one edge, before and after hashes, diff shape, and package universe
+  + [ABI] fixes functions, layouts, classes, constants, and fingerprint
+  + [effects] forbids calls, unsafe, production, and physical surfaces
+  + [closure] requires focused, global, evidence, review, and publication proof
+
+& [StaticGuards] are required
+  + [unsafe_token] is absent from the test
+  + [call_expression] is absent for every imported Windows function
+  + [production_delta] is absent
+  + [Cargo_scope] is only the closed dependency table
+  + [lock_delta] is only the modeled local edge
+  + [forbidden_constant] is no create, truncate, delete, write-data, write-attributes, or generic-write value used as an authorized mask
+
+& [Acceptance] is exact
+  + [focused] Windows probe compiles, links, and passes in debug and overflow-checked release
+  + [fingerprint] exact machine JSON matches
+  + [dependency] cargo tree shows cantor_ecosystem as a direct windows-sys consumer with the declared features
+  + [lock] exact diff, post-hash, 112 packages, and unchanged registry identities
+  + [global] debug, overflow-checked release, lint, build, rustdoc, and audit pass
+  + [evidence] current and affected predecessor manifests are clone-portable
+
+& [AuthorityBoundary] is compile-only
+  + [allowed] is exact Cargo dependency declaration, one exact lock edge, one cfg(windows) integration test, deterministic assertions, evidence generation, and proof
+  + [forbidden] is FFI invocation, unsafe, production wrapper, public runtime API, path, handle, filesystem, clock, random, environment, process, network, model call, fixture, candidate, sandbox, mutation, seal, cleanup, launch, promotion, or physical readiness claim
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is exact correction source, prior source, immutable prior authority, and manifest
+  + [delineated] is dependency edge, package identity, ABI availability, and runtime behavior separated
+  + [exploded] is twelve atomic requirements, twelve constraints, ten failure modes, and ten verification steps
+  + [semantically_refined] is exact direct edge, lock delta, package identity, no-call, ABI, and nonclaim meaning
+  + [constraint_checked] is locked failure, isolated Cargo model, generated source, completed review, and readiness grounding
+  + [pruned] is byte identity, broad lock update, production wrapper, FFI call, fixture, and platform overclaim
+  + [data_design_checked] is dependency, lock-edge, ABI, fingerprint, and proof graph
+  + [exhaustion_reviewed] is seven_fold_phase_locked
+  + [justified] is claim, support, counterargument, invalidation, and rollback
+  + [planned] is ordered implementation, lock, security, verification, evidence, and publication work
+  + [registry_recorded] is complete node and edge lineage
+
+& [SignatureEvidenceTable] binds every stage
+  + [source_preserved] is Source_Document_Manifest.sop with source, prior Git blob, hash, and invalidation bindings
+  + [delineated] is exploded BoundaryFormation
+  + [exploded] is Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision.exploded.sop
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded PruningTrace
+  + [data_design_checked] is exploded DataDesignModel
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Justification.sop
+  + [planned] is Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Registry.sop
+
+& [SatisfactionSignature] is valid replacement compile-probe implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 56f266db-46db-4d8c-8078-8b9f926f3e63
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_sys_compile_probe_lock_revision\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 6d9bd00b-b684-472d-9d75-ae266b5fbbec
+  + [implementation_authority] is exact_target_dependency_exact_local_lock_edge_and_no_call_windows_ABI_integration_test_only
+  + [signature_status] is valid
+  + [invalidation_condition] is source change, package identity change, feature change, lock delta mismatch, call expression, unsafe, production API, physical effect, stale evidence, missing trace, failed gate, or implementation contradiction
