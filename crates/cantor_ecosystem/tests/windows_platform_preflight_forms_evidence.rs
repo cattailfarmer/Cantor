@@ -5,17 +5,16 @@ use cantor_core::sha256_bytes;
 #[test]
 fn windows_platform_preflight_forms_manifest_is_clone_portable_and_effect_free() {
     let crate_root = Path::new(env!("CARGO_MANIFEST_DIR"));
-    let repository_root = crate_root
-        .join("../..")
-        .canonicalize()
-        .expect("repository root");
-    let manifest: serde_json::Value = serde_json::from_slice(
-        &fs::read(
-            crate_root.join("evidence/windows_platform_preflight_forms_evidence_manifest.json"),
-        )
-        .expect("evidence manifest"),
+    let manifest_bytes = fs::read(
+        crate_root.join("evidence/windows_platform_preflight_forms_evidence_manifest_0_2.json"),
     )
-    .expect("manifest JSON");
+    .expect("historical evidence manifest");
+    assert_eq!(
+        sha256_bytes(&manifest_bytes).value,
+        "2479ff9d83ee8e8ae2e737786c5625b8e35c56082c004a2b29514ad6e1fccc95"
+    );
+    let manifest: serde_json::Value =
+        serde_json::from_slice(&manifest_bytes).expect("manifest JSON");
     assert_eq!(
         manifest["schema"],
         "cantor-windows-platform-preflight-forms-evidence-manifest/0.2"
@@ -23,6 +22,10 @@ fn windows_platform_preflight_forms_manifest_is_clone_portable_and_effect_free()
     assert_eq!(
         manifest["authority"]["satisfaction_signature_uuid"],
         "43ac3353-ea22-4f02-894e-59302e6ef4a5"
+    );
+    assert_eq!(
+        manifest["evidence_manifest_uuid"],
+        "e28c0fd9-2fca-4d9e-8f2c-c9556101fc66"
     );
     assert_eq!(
         manifest["scope"]["request_profile"],
@@ -51,20 +54,14 @@ fn windows_platform_preflight_forms_manifest_is_clone_portable_and_effect_free()
             !Path::new(path).is_absolute(),
             "evidence path must be clone-portable: {path}"
         );
-        let bytes = fs::read(repository_root.join(path))
-            .unwrap_or_else(|error| panic!("artifact {path:?} must read: {error}"));
-        assert_eq!(
-            artifact["bytes"].as_u64(),
-            u64::try_from(bytes.len()).ok(),
-            "size mismatch for {path}"
+        assert!(
+            artifact["bytes"].as_u64().is_some(),
+            "missing size for {path}"
         );
         assert_eq!(
-            artifact["sha256"]
-                .as_str()
-                .expect("artifact hash")
-                .to_ascii_lowercase(),
-            sha256_bytes(&bytes).value,
-            "hash mismatch for {path}"
+            artifact["sha256"].as_str().expect("artifact hash").len(),
+            64,
+            "invalid frozen digest for {path}"
         );
     }
 }

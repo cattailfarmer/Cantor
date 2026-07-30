@@ -1,0 +1,51 @@
+Subject: Cantor M2B Platform Location Classification Revision Solution
+
+& [SolutionIdentity] is implemented and physically local-proven
+  + [solution_uuid] is b4879cd8-24ef-43bf-bdf6-7b3d28164aff
+  + [authority_signature_uuid] is 61c2b9cf-4608-4e7d-88ae-d674d52640e3
+  + [implementation_commit] is 216cf92224aec12759cbff209e973fa239c5526b
+  + [status] is complete_local_physical_and_global_evidence_passed
+
+& [FormsSolution] is disjoint
+  + [request] is profile 0.2 bound to result 0.3
+  + [faults] retain open, query, and local observation provenance
+  + [CompleteLocal] owns identity, GUID path, volume, and local disposition only
+  + [CompleteRemote] owns identity, nonzero remote protocol, and reject disposition only
+  + [legacy] request 0.1 and result 0.2 reject
+
+& [RuntimeSolution] is conditional
+  + [profile] is runtime 0.2
+  + [local] final GUID and volume success return CompleteLocal before the remote block
+  + [remote] final GUID failure alone permits remote query
+  + [remote_zero] is InvalidObservation
+  + [remote_failure] is an actual QueryFault
+  + [seam] remains six blocks, six comments, one owner, and unchanged calls
+
+& [PhysicalSolution] is exact
+  + [blocked_archive] preserves profile 0.2 QueryFault error 87 byte-identically
+  + [replacement_observation] is profile 0.3 CompleteLocal
+  + [fixture] is exact ignored local NTFS root
+  + [disposition] is EligibleLocalNtfs
+  + [source_commit] is 216cf92224aec12759cbff209e973fa239c5526b
+  + [observation_sha256] is 3B52E87929AC4C42D640C7C29F70BA88D43A6417C31CEB361F59172803924D46
+  + [remote_physical_claim] is absent
+
+& [PrephysicalVerification] is complete
+  + [forms] is 12 debug and 12 overflow-checked release passed
+  + [runtime] is 7 passed and 1 physical ignored in debug and release
+  + [lint] is warnings denied passed
+  + [Cargo_delta] is zero
+
+& [GlobalVerification] is complete
+  + [workspace_debug] is 259 passed and 1 explicitly ignored
+  + [workspace_overflow_checked_release] is 259 passed and 1 explicitly ignored
+  + [format_lint_build_docs_audit] are passed
+  + [runtime_evidence_manifest] is clone-portable and current
+
+& [Rollback] is direct
+  + [forms_and_runtime] restore blocked profile 0.2 and runtime 0.1 files
+  + [physical_records] remain immutable history
+  + [state_migration] is none
+
+& [Nonclaim] is mandatory
+  - never: cite this solution as remote branch physical proof, topology traversal, scanner, receipt, candidate, launch, seal, or promotion authority

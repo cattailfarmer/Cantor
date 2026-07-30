@@ -1,0 +1,75 @@
+Subject: Cantor M2B Platform Location Classification Revision Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Location_Classification_Revision.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BPlatformLocationClassificationRevision.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BPlatformLocationClassificationRevision_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Platform_Location_Classification_Revision_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BPlatformLocationClassificationRevision_Completion_Review.sop
+@ [evidence_manifest] C:\Project\Cantor\crates\cantor_windows_preflight\evidence\windows_platform_preflight_runtime_evidence_manifest.json
+
+& [ProofIdentity] is the disjoint local and remote classification proof
+  + [proof_uuid] is d270e235-04d0-42f7-9a00-8540262e8775
+  + [authority_signature_uuid] is 61c2b9cf-4608-4e7d-88ae-d674d52640e3
+  + [solution_uuid] is b4879cd8-24ef-43bf-bdf6-7b3d28164aff
+  + [implementation_commit] is 216cf92224aec12759cbff209e973fa239c5526b
+  + [status] is passed
+  + [evidence_manifest_schema] is cantor-windows-platform-preflight-runtime-evidence-manifest/0.1
+  + [evidence_manifest_uuid] is aec65378-786a-4aeb-96a4-6d7b13ca6a58
+  + [evidence_manifest_sha256] is 7F7C86CC97809625941108B6E341A166503B576B7F1E2E96E25FA885F0F891C6
+  + [evidence_manifest_bytes] is 23144
+  + [evidence_artifacts] is 61
+
+& [AuthorityAndShapeProof] is exact
+  + [request_profile] is cantor-windows-platform-preflight-request/0.2
+  + [result_profile] is cantor-windows-platform-preflight/0.3
+  + [runtime_profile] is cantor-windows-platform-preflight-runtime/0.2
+  + [CompleteLocal] owns identity, canonical volume GUID path, volume information, and local disposition
+  + [CompleteRemote] owns identity, nonzero remote protocol information, and remote rejection
+  + [faults] preserve open, query, and local observation provenance without partial evidence
+  + [legacy] request 0.1 and result 0.2 reject
+
+& [RuntimeProof] is bounded
+  + [local_branch] final GUID and volume success return before remote query
+  + [remote_branch] is reached only after actual final GUID failure
+  + [remote_zero] fails as InvalidObservation
+  + [unsafe_blocks] are exactly six with six line-specific SAFETY comments
+  + [owner] is one OwnedHandle with no raw-handle escape or direct CloseHandle
+  + [calls] are the signed read-only set with no content read, write, delete, move, or mutation call
+
+& [PhysicalProof] is local and honest
+  + [blocked_observation_sha256] is 67832AA3573707257E8B4A2144AF177E352BD7AE64BCEC12577837F8E2D075B8
+  + [blocked_result] is QueryFault RemoteProtocolInformation error 87
+  + [repair] did not synthesize protocol zero or infer locality from error 87
+  + [complete_local_observation_sha256] is 3B52E87929AC4C42D640C7C29F70BA88D43A6417C31CEB361F59172803924D46
+  + [complete_local_result] is NTFS EligibleLocalNtfs
+  + [source_commit] is clean implementation commit 216cf92224aec12759cbff209e973fa239c5526b
+  + [remote_physical_success] is unproven
+
+& [VerificationProof] is complete
+  + [forms_debug_and_release] are 12 passed each
+  + [runtime_default] is 7 passed and 1 governed physical test ignored
+  + [runtime_evidence] is 1 passed
+  + [workspace_debug] is 259 passed and 1 ignored
+  + [workspace_overflow_checked_release] is 259 passed and 1 ignored
+  + [format] is passed
+  + [warnings_denied_lint] is passed
+  + [release_build] is passed
+  + [warnings_denied_docs] is passed
+  + [audit] is 113 locked packages against 1174 advisories with zero vulnerabilities
+
+& [EvidenceProof] is current and clone-portable
+  + [artifacts] are 61 repository-relative records with exact byte counts and SHA-256
+  + [historical_forms_0_2] is frozen byte-identically at SHA-256 2479FF9D83EE8E8AE2E737786C5625B8E35C56082C004A2B29514AD6E1FCCC95
+  + [historical_blocked_physical] is frozen byte-identically at SHA-256 67832AA3573707257E8B4A2144AF177E352BD7AE64BCEC12577837F8E2D075B8
+  + [current_local_physical] is bound at SHA-256 3B52E87929AC4C42D640C7C29F70BA88D43A6417C31CEB361F59172803924D46
+  + [predecessor_chain] is regenerated in dependency order and all current integration tests rehash without fault
+
+& [OperationalFaultProof] is complete
+  + [physical_finding] expected local remote-protocol success instead returned Windows error 87
+  + [correction] replaced one conjunctive product with disjoint local and remote products under new SJS authority
+  + [evidence_formation_fault] imported a byte-hash helper from a crate that exports the file-hash helper
+  + [consequence] compilation rejected before test execution or platform effect
+  + [repair] uses the exported streaming file-hash helper and passes both profiles
+
+& [Nonclaim] is mandatory
+  - never: cite this proof as remote-share physical success, SMB behavior proof, topology traversal, entry inspection, receipt production, candidate mutation, launch, seal, cleanup, promotion, or additional Win32 execution authority

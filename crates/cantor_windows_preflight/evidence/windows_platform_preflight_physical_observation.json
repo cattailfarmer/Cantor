@@ -1,11 +1,11 @@
 {
-    "schema":  "cantor-windows-platform-preflight-physical-observation/0.1",
-    "observation_uuid":  "5edea140-24ec-4777-bfa8-02a5e2b70137",
-    "captured_at_utc":  "2026-07-30T21:09:35.3056622Z",
+    "schema":  "cantor-windows-platform-preflight-physical-observation/0.2",
+    "observation_uuid":  "27de5efb-4015-4af5-94e7-d711a26fe49c",
+    "captured_at_utc":  "2026-07-30T21:22:14.0651990Z",
     "authority":  {
-                      "canonical":  "specifications/Cantor_M2B_Windows_Platform_Preflight_Runtime.sop",
-                      "satisfaction_signature_uuid":  "2fc69987-c7de-4538-9993-c5956f889584",
-                      "source_commit":  "5486058f79ce7dbc5c6c24229df8020663ffba89"
+                      "canonical":  "specifications/Cantor_M2B_Platform_Location_Classification_Revision.sop",
+                      "satisfaction_signature_uuid":  "61c2b9cf-4608-4e7d-88ae-d674d52640e3",
+                      "source_commit":  "216cf92224aec12759cbff209e973fa239c5526b"
                   },
     "host":  {
                  "operating_system":  "Microsoft Windows NT 10.0.26200.0",
@@ -27,29 +27,40 @@
                 },
     "executable":  {
                        "file_name":  "runtime_contract-c3395c7fd4517f7a.exe",
-                       "sha256":  "5A65DADABACED3EA7F03A8123C483AC89E7199A5F8CED43DF16380786B675933",
-                       "bytes":  845312
+                       "sha256":  "633BBDC5BA38470E4EFAB0798FD68E0CA99092BE00FE083F8C58EA6316D40304",
+                       "bytes":  850432
                    },
     "request":  {
-                    "request_profile":  "cantor-windows-platform-preflight-request/0.1",
-                    "result_profile":  "cantor-windows-platform-preflight/0.2",
+                    "request_profile":  "cantor-windows-platform-preflight-request/0.2",
+                    "result_profile":  "cantor-windows-platform-preflight/0.3",
                     "target_triple":  "x86_64-pc-windows-msvc",
                     "input_root":  "\\\\?\\C:\\Project\\Cantor\\.local\\m2b-platform-preflight-fixture"
                 },
     "result":  {
-                   "outcome":  "query_fault",
-                   "profile":  "cantor-windows-platform-preflight/0.2",
+                   "outcome":  "complete_local",
+                   "profile":  "cantor-windows-platform-preflight/0.3",
                    "target_triple":  "x86_64-pc-windows-msvc",
                    "input_root":  "\\\\?\\C:\\Project\\Cantor\\.local\\m2b-platform-preflight-fixture",
-                   "stage":  "remote_protocol_information",
-                   "error_code":  87
+                   "root_identity":  {
+                                         "volume_serial":  16162462862463870964,
+                                         "file_id_hex":  "0bd7020000004d010000000000000000"
+                                     },
+                   "root_volume_guid_path":  "\\\\?\\Volume{3ca93d52-bee3-4c52-9c03-263040cc104d}\\Project\\Cantor\\.local\\m2b-platform-preflight-fixture",
+                   "volume":  {
+                                  "volume_name":  "Windows",
+                                  "volume_serial_number":  1285171188,
+                                  "maximum_component_length":  255,
+                                  "file_system_flags":  65482495,
+                                  "file_system_name":  "NTFS"
+                              },
+                   "disposition":  "eligible_local_ntfs"
                },
     "probe":  {
                   "test":  "exact_windows_fixture_emits_one_complete_local_ntfs_observation",
-                  "exit_code":  101,
+                  "exit_code":  0,
                   "calls":  "one root preflight",
-                  "expected_relation":  "complete local NTFS protocol zero and eligible",
-                  "status":  "blocked_unexpected_result"
+                  "expected_relation":  "complete_local NTFS and eligible",
+                  "status":  "passed"
               },
     "source_artifacts":  [
                              {
@@ -69,23 +80,23 @@
                              },
                              {
                                  "path":  "crates/cantor_windows_preflight/src/lib.rs",
-                                 "sha256":  "88C79430A28A94AE85EA49EC8CB6AEB6C43707C2A7460AC5F77DD65CD00D7862",
-                                 "bytes":  21367
+                                 "sha256":  "57C4CC17B41A62C040D77861256DF1504B571DD74329BCD1F2709C0F411E0683",
+                                 "bytes":  22512
                              },
                              {
                                  "path":  "crates/cantor_windows_preflight/tests/runtime_contract.rs",
-                                 "sha256":  "0C80535F46C22C3F7D13FF9061C29D77938FE8555DF2460D2E698BF63D185FC5",
-                                 "bytes":  3438
+                                 "sha256":  "E7A4BDF1BCB0F53B9774E015A8D82B23CB2A8FA49AABAD3D83C12512D6AEFBB3",
+                                 "bytes":  3361
                              },
                              {
                                  "path":  "scripts/run_windows_platform_preflight_fixture.ps1",
-                                 "sha256":  "FFC0E4B765AB609E4536B555AE9DB6E69368887358F32C9A1A59BA783DFE6EC6",
-                                 "bytes":  8333
+                                 "sha256":  "4357CE344BC6768710C0799EBD1BDE97A0D40945CB1A670471BDF66CB3216F3D",
+                                 "bytes":  8277
                              },
                              {
-                                 "path":  "specifications/Cantor_M2B_Windows_Platform_Preflight_Runtime.sop",
-                                 "sha256":  "11715C152B04F17F062ABDF2C7BEF5ABFA794FD428CB1ACC15A9863166231475",
-                                 "bytes":  15827
+                                 "path":  "specifications/Cantor_M2B_Platform_Location_Classification_Revision.sop",
+                                 "sha256":  "4354E8382CD8D1FDF3C4A65F0C1408B48BDB51749BBCA13C05829899238B1B8B",
+                                 "bytes":  11849
                              }
                          ],
     "nonclaims":  [

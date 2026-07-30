@@ -5,7 +5,7 @@ Subject: Cantor M2B Current Reentry
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [captured_at] is 2026-07-30
   + [branch] is codex/self-hosted-corpus
-  + [status] is location_classification_replacement_prephysical_passed
+  + [status] is location_classification_complete
 
 & [CompletedCheckpointSet] is exact
   + [M2A_receipt_revision_authority] is 9f6ed9f
@@ -23,6 +23,12 @@ Subject: Cantor M2B Current Reentry
   + [M2B_fault_provenance_implementation] is d7dfe40
   + [M2B_fault_provenance_proof] is 15ca016
   + [M2B_runtime_source] is daaec7d
+  + [M2B_runtime_authority] is 54e66bb
+  + [M2B_runtime_implementation] is f40e5ca
+  + [M2B_runtime_runner_repair] is ffe45c3
+  + [M2B_blocked_observation] is 958626f
+  + [M2B_location_replacement_authority] is 84088f9
+  + [M2B_location_replacement_implementation] is 216cf92
 
 @ [M2A_proof] C:\Project\Cantor\proofs\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Proof.sop
 @ [M2B_proof] C:\Project\Cantor\proofs\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop
@@ -34,6 +40,10 @@ Subject: Cantor M2B Current Reentry
 @ [M2B_fault_provenance_solution] C:\Project\Cantor\solutions\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Solution.sop
 @ [M2B_fault_provenance_proof] C:\Project\Cantor\proofs\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Proof.sop
 @ [M2B_runtime_authority] C:\Project\Cantor\specifications\Cantor_M2B_Windows_Platform_Preflight_Runtime.sop
+@ [M2B_location_replacement_authority] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Location_Classification_Revision.sop
+@ [M2B_location_solution] C:\Project\Cantor\solutions\Cantor_M2B_Platform_Location_Classification_Revision_Solution.sop
+@ [M2B_location_review] C:\Project\Cantor\feature_support\reviews\M2BPlatformLocationClassificationRevision_Completion_Review.sop
+@ [M2B_location_proof] C:\Project\Cantor\proofs\Cantor_M2B_Platform_Location_Classification_Revision_Proof.sop
 @ [readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
 
 & [CurrentFacts] are measured
@@ -44,11 +54,11 @@ Subject: Cantor M2B Current Reentry
   + [platform_preflight_request_profile] is cantor-windows-platform-preflight-request/0.1
   + [platform_preflight_result_profile] is cantor-windows-platform-preflight/0.2
   + [windows_sys] is direct exact 0.61.2 with the three closed features
-  + [Cargo_lock] is exact one-edge delta with 112 packages
+  + [Cargo_lock] contains 113 packages across six workspace members; the direct windows-sys registry identity delta remains zero
   + [preflight_form_focused_tests] are 12 debug and 12 overflow-checked release passed
-  + [global_tests] are 251 debug and 251 overflow-checked release passed
+  + [historical_forms_global_tests] are 251 debug and 251 overflow-checked release passed
   + [resolved_fault] is stale predecessor evidence rejected changed lib.rs bytes and was repaired by topological regeneration
-  + [evidence_manifest] is crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest.json
+  + [historical_forms_evidence_manifest] is crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_2.json
   + [runtime_profile] is cantor-windows-platform-preflight-runtime/0.1
   + [runtime_signature_uuid] is 2fc69987-c7de-4538-9993-c5956f889584
   + [runtime_prephysical_tests] are 7 passed and 1 ignored in debug and release
@@ -60,20 +70,25 @@ Subject: Cantor M2B Current Reentry
   + [replacement_runtime_profile] is cantor-windows-platform-preflight-runtime/0.2
   + [replacement_signature_uuid] is 61c2b9cf-4608-4e7d-88ae-d674d52640e3
   + [replacement_focused] is 12 forms and 7 runtime passed in debug and release with physical ignored
+  + [replacement_physical] is CompleteLocal NTFS EligibleLocalNtfs from clean commit 216cf92
+  + [replacement_observation_sha256] is 3B52E87929AC4C42D640C7C29F70BA88D43A6417C31CEB361F59172803924D46
+  + [replacement_global] is 259 passed and 1 ignored in debug and overflow-checked release
+  + [replacement_evidence_manifest] is crates/cantor_windows_preflight/evidence/windows_platform_preflight_runtime_evidence_manifest.json
 
 & [StillLocked] is explicit
-  + [Win32_invocation] is stopped after exact blocked evidence
-  + [path_or_handle] was invoked only for the exact ignored fixture and released by OwnedHandle
-  + [platform_volume_and_remote_observation] is absent
-  + [production_unsafe] is absent
+  + [further_Win32_invocation] is locked after exact replacement physical proof
+  + [path_or_handle] was invoked only for the exact governed fixture and released by OwnedHandle
+  + [platform_volume_observation] is exact local NTFS
+  + [remote_protocol_success_observation] is absent
+  + [production_unsafe] is exactly six reviewed blocks in the isolated crate
   + [topology_scanner] is absent
-  + [physical_fixture] is absent
+  + [additional_physical_fixture] is absent
   + [candidate_mutation] is absent
 
-& [NextDependencyReadySlice] is corrective implementation first
-  + [candidate] is M2BPlatformLocationClassificationRevision result profile 0.3 and runtime profile 0.2
-  + [first_action] is publish the clean replacement implementation
-  + [effect_order] replacement implementation and prephysical proof are satisfied for exact local reproof
+& [NextDependencyReadySlice] is formation first
+  + [candidate] is a non-effect topology scanner prerequisite selected from remaining gates
+  + [first_action] is preserve source and process SJS before implementation
+  + [effect_order] exact local proof is complete; further physical scope is locked
   + [stop] is any synthesized protocol zero, error-87 locality inference, legacy ambiguity, or scanner authority
 
 & [Mailbox] is checked
