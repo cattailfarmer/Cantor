@@ -16,13 +16,25 @@ fn phase3_topology_forms_manifest_is_clone_portable_and_effect_free() {
     .expect("manifest JSON");
     assert_eq!(
         manifest["schema"],
-        "cantor-phase3-topology-forms-evidence-manifest/0.1"
+        "cantor-phase3-topology-forms-evidence-manifest/0.2"
     );
     assert_eq!(
         manifest["authority"]["satisfaction_signature_uuid"],
-        "4e28ac73-3296-4d57-8dd9-30cc2ac1f01f"
+        "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2"
     );
-    assert_eq!(manifest["scope"]["focused_tests"], 8);
+    assert_eq!(
+        manifest["scope"]["forms_profile"],
+        "cantor-phase3-topology-forms/0.2"
+    );
+    assert_eq!(
+        manifest["scope"]["receipt_profile"],
+        "cantor-phase3-topology-receipt/0.2"
+    );
+    assert_eq!(
+        manifest["scope"]["scanner_profile"],
+        "cantor-windows-candidate-topology/0.1"
+    );
+    assert_eq!(manifest["scope"]["focused_tests"], 13);
     for authority in [
         "filesystem_authority",
         "windows_api_authority",
@@ -38,7 +50,7 @@ fn phase3_topology_forms_manifest_is_clone_portable_and_effect_free() {
         assert_eq!(manifest["scope"][authority], false, "{authority}");
     }
     let artifacts = manifest["artifacts"].as_array().expect("artifact records");
-    assert!(artifacts.len() >= 32);
+    assert!(artifacts.len() >= 44);
     for artifact in artifacts {
         let path = artifact["path"].as_str().expect("relative artifact path");
         assert!(

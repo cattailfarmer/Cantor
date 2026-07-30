@@ -11,7 +11,9 @@ use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use crate::ConsistencyClass;
 
 /// Version of this pure machine-form vocabulary.
-pub const TOPOLOGY_FORMS_PROFILE: &str = "cantor-phase3-topology-forms/0.1";
+pub const TOPOLOGY_FORMS_PROFILE: &str = "cantor-phase3-topology-forms/0.2";
+/// Version of the serialized topology-receipt contract.
+pub const TOPOLOGY_RECEIPT_PROFILE: &str = "cantor-phase3-topology-receipt/0.2";
 /// Scanner profile represented by a topology receipt.
 pub const WINDOWS_TOPOLOGY_PROFILE: &str = "cantor-windows-candidate-topology/0.1";
 
@@ -304,8 +306,11 @@ impl ValidateTopologyForm for TopologyEntryObservation {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TopologyReceipt {
-    pub profile: String,
+    pub receipt_profile: String,
+    pub scanner_profile: String,
     pub candidate_root: String,
+    pub root_identity: StrongFileIdentity,
+    pub root_volume_guid_path: String,
     pub admission_profile: String,
     pub admission_receipt_sha256: String,
     pub policy_sha256: String,
@@ -321,14 +326,23 @@ pub struct TopologyReceipt {
 
 impl ValidateTopologyForm for TopologyReceipt {
     fn validate(&self) -> Result<(), TopologyFormFault> {
-        if self.profile != WINDOWS_TOPOLOGY_PROFILE {
+        if self.receipt_profile != TOPOLOGY_RECEIPT_PROFILE {
             return Err(TopologyFormFault::new(
                 TopologyFormFaultCode::Receipt,
-                "profile",
+                "receipt_profile",
+                "unknown topology receipt profile",
+            ));
+        }
+        if self.scanner_profile != WINDOWS_TOPOLOGY_PROFILE {
+            return Err(TopologyFormFault::new(
+                TopologyFormFaultCode::Receipt,
+                "scanner_profile",
                 "unknown topology scanner profile",
             ));
         }
         validate_text(&self.candidate_root, "candidate_root", MAX_PATH_BYTES)?;
+        self.root_identity.validate()?;
+        validate_volume_guid_path(&self.root_volume_guid_path)?;
         validate_text(
             &self.admission_profile,
             "admission_profile",
@@ -551,6 +565,66 @@ fn validate_digest(value: &str, field: &str) -> Result<(), TopologyFormFault> {
     validate_lower_hex(value, 64, field, TopologyFormFaultCode::Digest)
 }
 
+fn validate_volume_guid_path(path: &str) -> Result<(), TopologyFormFault> {
+    const PREFIX: &str = r"\\?\Volume{";
+
+    validate_text(path, "root_volume_guid_path", MAX_PATH_BYTES)?;
+    let Some(rest) = path.strip_prefix(PREFIX) else {
+        return Err(TopologyFormFault::new(
+            TopologyFormFaultCode::Receipt,
+            "root_volume_guid_path",
+            "path must use the canonical volume-GUID namespace",
+        ));
+    };
+    let Some((guid, tail)) = rest.split_once(r"}\") else {
+        return Err(TopologyFormFault::new(
+            TopologyFormFaultCode::Receipt,
+            "root_volume_guid_path",
+            "path must contain a canonical GUID followed by a root separator",
+        ));
+    };
+    if !is_canonical_lower_guid(guid) {
+        return Err(TopologyFormFault::new(
+            TopologyFormFaultCode::Receipt,
+            "root_volume_guid_path",
+            "volume GUID must use canonical lowercase 8-4-4-4-12 hexadecimal form",
+        ));
+    }
+    if tail.is_empty() {
+        return Ok(());
+    }
+    if tail.contains('/') {
+        return Err(TopologyFormFault::new(
+            TopologyFormFaultCode::Receipt,
+            "root_volume_guid_path",
+            "volume-GUID path tail must use backslash separators",
+        ));
+    }
+    for component in tail.split('\\') {
+        if component.is_empty() || component == "." || component == ".." {
+            return Err(TopologyFormFault::new(
+                TopologyFormFaultCode::Receipt,
+                "root_volume_guid_path",
+                "volume-GUID path tail contains a noncanonical component",
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn is_canonical_lower_guid(value: &str) -> bool {
+    if value.len() != 36 {
+        return false;
+    }
+    value.bytes().enumerate().all(|(index, byte)| {
+        if matches!(index, 8 | 13 | 18 | 23) {
+            byte == b'-'
+        } else {
+            byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte)
+        }
+    })
+}
+
 fn validate_relative_path(path: &str) -> Result<(), TopologyFormFault> {
     if path.len() > MAX_PATH_BYTES
         || path.is_empty()
@@ -685,8 +759,12 @@ mod tests {
 
     fn receipt() -> TopologyReceipt {
         TopologyReceipt {
-            profile: WINDOWS_TOPOLOGY_PROFILE.to_owned(),
+            receipt_profile: TOPOLOGY_RECEIPT_PROFILE.to_owned(),
+            scanner_profile: WINDOWS_TOPOLOGY_PROFILE.to_owned(),
             candidate_root: r"C:\candidate".to_owned(),
+            root_identity: identity(),
+            root_volume_guid_path: r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\candidate"
+                .to_owned(),
             admission_profile: "cantor-candidate-workspace-admission/0.1".to_owned(),
             admission_receipt_sha256: digest('a'),
             policy_sha256: digest('b'),
@@ -838,8 +916,123 @@ mod tests {
         invalid.expires_tick = invalid.limits.deadline_tick + 1;
         assert!(invalid.validate().is_err());
         invalid = receipt();
-        invalid.profile = TOPOLOGY_FORMS_PROFILE.to_owned();
+        invalid.receipt_profile = TOPOLOGY_FORMS_PROFILE.to_owned();
         assert!(invalid.validate().is_err());
+        invalid = receipt();
+        invalid.scanner_profile = TOPOLOGY_RECEIPT_PROFILE.to_owned();
+        assert!(invalid.validate().is_err());
+    }
+
+    #[test]
+    fn receipt_schema_rejects_legacy_and_missing_root_bindings() {
+        let current = serde_json::to_value(receipt()).expect("serialize current receipt");
+
+        let mut legacy = current.clone();
+        let legacy_object = legacy.as_object_mut().expect("receipt object");
+        legacy_object.remove("receipt_profile");
+        legacy_object.remove("scanner_profile");
+        legacy_object.remove("root_identity");
+        legacy_object.remove("root_volume_guid_path");
+        legacy_object.insert(
+            "profile".to_owned(),
+            serde_json::Value::String(WINDOWS_TOPOLOGY_PROFILE.to_owned()),
+        );
+        let legacy_bytes = serde_json::to_vec(&legacy).expect("serialize legacy shape");
+        assert_eq!(
+            decode_topology_json::<TopologyReceipt>(&legacy_bytes)
+                .expect_err("legacy shape must reject")
+                .code,
+            TopologyFormFaultCode::Json
+        );
+
+        for field in [
+            "receipt_profile",
+            "scanner_profile",
+            "root_identity",
+            "root_volume_guid_path",
+        ] {
+            let mut missing = current.clone();
+            missing
+                .as_object_mut()
+                .expect("receipt object")
+                .remove(field);
+            let bytes = serde_json::to_vec(&missing).expect("serialize missing field");
+            assert_eq!(
+                decode_topology_json::<TopologyReceipt>(&bytes)
+                    .expect_err("required binding must reject")
+                    .code,
+                TopologyFormFaultCode::Json,
+                "{field}"
+            );
+        }
+    }
+
+    #[test]
+    fn receipt_profiles_and_root_identity_validate_independently() {
+        let mut invalid = receipt();
+        invalid.receipt_profile = WINDOWS_TOPOLOGY_PROFILE.to_owned();
+        assert_eq!(
+            invalid.validate().expect_err("receipt profile").field,
+            "receipt_profile"
+        );
+
+        invalid = receipt();
+        invalid.scanner_profile = TOPOLOGY_RECEIPT_PROFILE.to_owned();
+        assert_eq!(
+            invalid.validate().expect_err("scanner profile").field,
+            "scanner_profile"
+        );
+
+        invalid = receipt();
+        invalid.root_identity.file_id_hex = "ABCDEF".repeat(6);
+        assert_eq!(
+            invalid.validate().expect_err("root identity").code,
+            TopologyFormFaultCode::Identity
+        );
+    }
+
+    #[test]
+    fn volume_guid_path_accepts_root_and_exact_unicode_descendant() {
+        let root = r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\";
+        assert!(validate_volume_guid_path(root).is_ok());
+
+        let mut value = receipt();
+        value.root_volume_guid_path =
+            r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\WorkSpace\Ångström".to_owned();
+        let bytes = serde_json::to_vec(&value).expect("serialize");
+        let decoded = decode_topology_json::<TopologyReceipt>(&bytes).expect("valid receipt");
+        assert_eq!(decoded, value);
+    }
+
+    #[test]
+    fn volume_guid_path_rejects_noncanonical_shapes() {
+        for path in [
+            r"C:\candidate",
+            r"\\server\share",
+            r"\\.\C:\candidate",
+            r"\Device\HarddiskVolume1\candidate",
+            r"\\?\Volume{01234567-89ab-cdef-0123-456789abcde}\",
+            r"\\?\Volume{01234567_89ab-cdef-0123-456789abcdef}\",
+            r"\\?\Volume{01234567-89AB-cdef-0123-456789abcdef}\",
+            r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}",
+            r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\\candidate",
+            r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\candidate\",
+            r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\candidate\\file",
+            r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\.",
+            r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\..",
+            r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\a/b",
+        ] {
+            assert!(validate_volume_guid_path(path).is_err(), "{path:?}");
+        }
+    }
+
+    #[test]
+    fn volume_guid_path_enforces_nul_and_utf8_byte_bound() {
+        let root = r"\\?\Volume{01234567-89ab-cdef-0123-456789abcdef}\";
+        assert!(validate_volume_guid_path(&format!("{root}bad\0tail")).is_err());
+        assert!(
+            validate_volume_guid_path(&format!("{root}{}", "é".repeat(MAX_PATH_BYTES))).is_err()
+        );
     }
 
     #[test]

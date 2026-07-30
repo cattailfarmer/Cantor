@@ -1,0 +1,61 @@
+Subject: Cantor Phase3 Topology Receipt Root Binding Revision Solution
+
+& [SolutionIdentity] is the implemented pure revision
+  + [solution_uuid] is 74914f5c-3001-4315-907c-9de2db7b824b
+  + [authority_signature_uuid] is 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + [forms_profile] is cantor-phase3-topology-forms/0.2
+  + [receipt_profile] is cantor-phase3-topology-receipt/0.2
+  + [scanner_profile] is cantor-windows-candidate-topology/0.1
+  + [status] is implementation_complete
+  + [evidence_status] is final_manifest_pending
+
+& [Implementation] is one effect-free safe-Rust revision
+  + [module] is crates\cantor_ecosystem\src\topology_forms.rs
+  + [constant] TOPOLOGY_FORMS_PROFILE advances to 0.2
+  + [constant] TOPOLOGY_RECEIPT_PROFILE identifies receipt schema 0.2
+  + [constant] WINDOWS_TOPOLOGY_PROFILE remains scanner policy 0.1
+  + [TopologyReceipt] replaces profile with receipt_profile and scanner_profile
+  + [TopologyReceipt] requires root_identity and root_volume_guid_path
+  + [validator] enforces exact profile identity, existing StrongFileIdentity, and closed volume-GUID syntax
+  + [decoder] rejects the old JSON shape through required fields and deny_unknown_fields
+
+& [VolumeGuidGrammar] is pure and canonical
+  + [root] is \\?\Volume{8-4-4-4-12 lowercase hex}\
+  + [descendant] is root plus nonempty backslash-separated components
+  + [rejection] covers wrong namespace, malformed or uppercase GUID, missing separator, empty component, dot component, forward slash, NUL, and over-bound UTF-8
+  + [preservation] tail case and Unicode round-trip exactly
+  + [nonclaim] syntax does not prove existence, locality, NTFS, or identity correspondence
+
+& [FocusedBehavior] is thirteen tests
+  + [inherited] eight prior tests remain
+  + [new] old schema and missing binding rejection
+  + [new] independent profile and identity validation
+  + [new] volume root and exact Unicode descendant round trip
+  + [new] malformed namespace, GUID, separator, component, and slash rejection
+  + [new] NUL and UTF-8 byte-bound rejection
+
+& [PreEvidenceVerification] is passed
+  + [format] is cargo fmt check
+  + [lint] is workspace all-targets warnings denied
+  + [debug] is 233 non-manifest tests passed with only the intentionally stale current-manifest test skipped
+  + [release] is 233 non-manifest overflow-checked release tests passed with the same skip
+  + [build] is workspace all-targets release
+  + [documentation] is workspace no-deps with warnings denied
+  + [audit] is 112 locked dependencies against 1173 advisories with zero vulnerabilities
+
+& [Safety] is authority absence
+  + [dependency_change] is none
+  + [filesystem_Windows_unsafe] are absent
+  + [clock_random_environment] are absent
+  + [process_network_model_persistence] are absent
+  + [scanner_fixture_mutation_seal_cleanup_promotion] are absent
+
+& [Compatibility] is deliberate breakage
+  + [legacy_decoder] is none
+  + [migration] is none
+  + [consumer] is none before M2C
+
+& [Rollback] is source-safe
+  + [code] revert topology_forms to the 0.1 implementation
+  + [authority] retain the source snapshot and invalidation trace
+  + [condition] only before any M2C consumer exists

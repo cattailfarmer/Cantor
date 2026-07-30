@@ -26,4 +26,25 @@ Subject: Cantor Phase3 Topology Receipt Root Binding Revision Operational Faults
   + [status] is informational
 
 & [ImplementationFaults] is open
-  + [status] is none_observed_yet
+  + [status] is none_semantic
+
+& [ExpectedEvidenceStaleness] is fail-closed integration behavior
+  + [command] is cargo test -p cantor_ecosystem topology_forms --locked --offline
+  + [focused_result] is all 13 topology_forms unit tests passed
+  + [later_failure] is phase3_topology_forms_manifest_is_clone_portable_and_effect_free rejected the pre-revision canonical specification size
+  + [observed_old_bytes] is 6308
+  + [observed_current_bytes] is 13696
+  + [effect] no semantic form test failed and no evidence was silently accepted
+  + [repair] stabilize all bound artifacts, regenerate the M2A manifest, then rerun the integration and global gates
+  + [status] is repair_ready
+
+& [PreEvidenceGlobalGate] is complete
+  + [focused] is 13 passed
+  + [debug] is 233 non-manifest tests passed
+  + [overflow_checked_release] is 233 non-manifest tests passed
+  + [lint] is warnings denied
+  + [build] is release all targets
+  + [documentation] is no-deps with warnings denied
+  + [audit] is 112 locked dependencies against 1173 advisories with zero vulnerabilities
+  + [static] is zero forbidden production-source matches and zero Cargo delta
+  + [status] is passed

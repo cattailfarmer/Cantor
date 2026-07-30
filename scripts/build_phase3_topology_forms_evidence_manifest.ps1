@@ -32,11 +32,27 @@ $paths = @(
     "narrative/operational_faults/1785433555602_phase3_topology_machine_forms_faults.sop",
     "narrative/turns/1785433555602_cantor_phase3_topology_machine_forms.sop",
     "narrative/file_changes/1785433555602_phase3_topology_machine_forms_file_change.sop",
+    "source_documents/2026-07-30_cantor_phase3_topology_receipt_root_binding_revision/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Source.sop",
+    "source_documents/2026-07-30_cantor_phase3_topology_receipt_root_binding_revision/Cantor_Phase3_Topology_Machine_Forms_Pre_Revision_Snapshot.sop",
+    "source_documents/2026-07-30_cantor_phase3_topology_receipt_root_binding_revision/SJS_Reprocessing_Input_Manifest.sop",
+    "narrative/research/Cantor_Topology_Receipt_Revision_Decision_2026-07-30.sop",
+    "specifications/exploded/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision.exploded.sop",
+    "justifications/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Justification.sop",
+    "plans/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Plan.sop",
+    "feature_support/Phase3TopologyReceiptRootBindingRevision_Requirement_Matrix.sop",
+    "feature_support/slices/Phase3TopologyReceiptRootBindingRevision.sop",
+    "narrative/registries/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Registry.sop",
+    "solutions/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Solution.sop",
+    "narrative/operational_faults/1785436983061_phase3_topology_receipt_root_binding_revision_faults.sop",
+    "narrative/turns/1785436983061_cantor_second_four_hour_push.sop",
+    "narrative/file_changes/1785436983061_phase3_topology_receipt_root_binding_revision_file_change.sop",
     "crates/cantor_ecosystem/Cargo.toml",
     "crates/cantor_ecosystem/src/lib.rs",
     "crates/cantor_ecosystem/src/topology_forms.rs",
     "crates/cantor_ecosystem/tests/phase3_topology_forms_evidence.rs",
     "scripts/build_phase3_topology_forms_evidence_manifest.ps1",
+    "crates/cantor_ecosystem/evidence/phase3_topology_forms_evidence_manifest_0_1.json",
+    "proofs/Cantor_Phase3_Topology_Machine_Forms_Proof.sop",
     "crates/cantor_ecosystem/evidence/phase3_machine_forms_evidence_manifest.json",
     "proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop"
 )
@@ -51,17 +67,19 @@ $artifacts = foreach ($path in $paths) {
 }
 
 $manifest = [ordered]@{
-    schema = "cantor-phase3-topology-forms-evidence-manifest/0.1"
-    evidence_manifest_uuid = "aff771d6-5774-4a15-8351-1c5120da65e3"
+    schema = "cantor-phase3-topology-forms-evidence-manifest/0.2"
+    evidence_manifest_uuid = "ca7e7afa-a5d8-453e-9c5c-c3d25d8bb1e8"
     generated_at_utc = [DateTime]::UtcNow.ToString("o")
     authority = [ordered]@{
         canonical_specification = "specifications/Cantor_Phase3_Topology_Machine_Forms.sop"
-        satisfaction_signature_uuid = "4e28ac73-3296-4d57-8dd9-30cc2ac1f01f"
-        solution_uuid = "edfe12e3-49a3-4117-b829-8d3ec0764282"
+        satisfaction_signature_uuid = "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2"
+        solution_uuid = "74914f5c-3001-4315-907c-9de2db7b824b"
     }
     scope = [ordered]@{
-        profile = "cantor-phase3-topology-forms/0.1"
-        focused_tests = 8
+        forms_profile = "cantor-phase3-topology-forms/0.2"
+        receipt_profile = "cantor-phase3-topology-receipt/0.2"
+        scanner_profile = "cantor-windows-candidate-topology/0.1"
+        focused_tests = 13
         filesystem_authority = $false
         windows_api_authority = $false
         unsafe_authority = $false
@@ -76,8 +94,8 @@ $manifest = [ordered]@{
     verification = @(
         [ordered]@{ command = "cargo fmt --all -- --check"; status = "passed" },
         [ordered]@{ command = "cargo clippy --workspace --all-targets --locked --offline -- -D warnings"; status = "passed" },
-        [ordered]@{ command = "cargo test --workspace --all-targets --locked --offline"; tests = 229; status = "passed" },
-        [ordered]@{ command = "cargo test --workspace --all-targets --release --locked --offline"; tests = 229; status = "passed" },
+        [ordered]@{ command = "cargo test --workspace --all-targets --locked --offline"; tests = 234; status = "passed" },
+        [ordered]@{ command = "cargo test --workspace --all-targets --release --locked --offline"; tests = 234; status = "passed" },
         [ordered]@{ command = "cargo build --workspace --all-targets --release --locked --offline"; status = "passed" },
         [ordered]@{ command = "cargo doc --workspace --no-deps --locked --offline"; status = "passed" },
         [ordered]@{ command = "cargo audit --file Cargo.lock"; dependencies = 112; vulnerabilities = 0; status = "passed" }

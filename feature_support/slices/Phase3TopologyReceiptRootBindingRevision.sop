@@ -15,22 +15,19 @@ Subject: Phase3 Topology Receipt Root Binding Revision Feature Support Slice
 & [SupportRecordSet] is current
   + [source] is verified exact
   + [authority] is verified valid for pure implementation
-  + [data_model] is prepared
-  + [existing_module] is implemented at profile 0.1 and ready for bounded revision
-  + [proof_harness] is implemented but stale on code change
+  + [data_model] is verified
+  + [existing_module] is implemented at profile 0.2
+  + [proof_harness] is updated with final manifest generation pending
 
 & [SupportGapSet] is owned
-  + [implementation] is profile, fields, and path validator
-  + [focused_proof] is legacy, profile, identity, grammar, and round-trip coverage
-  + [global_proof] is full workspace and static gates
-  + [evidence_refresh] is manifest and proof digest
+  + [evidence_refresh] is current manifest, integration test, and proof digest only
 
 & [WorkSliceTransform] is one manager work slice
   + [summary] is implement and prove pure TopologyReceipt 0.2 root binding
   + [detail] is stages 1 through 7 of the revision plan
-  + [completion] requires P3TR-001 through P3TR-012 verified with no new support gap
+  + [completion] requires P3TR-011 evidence closure with every other requirement already verified
   + [forbidden] is dependency, unsafe, filesystem, Windows API, fixture, mutation, seal, cleanup, or promotion
 
 & [Freshness] is derived
   + [rule] any source, canonical, implementation, test, evidence, or proof change recomputes readiness
-  + [next_review] is completed-work support_delta and requirement_delta review before selecting M2B
+  + [next_review] is completed-work support_delta and requirement_delta review after evidence closure
