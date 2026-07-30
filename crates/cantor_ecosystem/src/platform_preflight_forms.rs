@@ -10,7 +10,10 @@ use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use crate::topology_forms::{StrongFileIdentity, ValidateTopologyForm, validate_volume_guid_path};
 
 /// Version of the pure platform-preflight vocabulary.
-pub const WINDOWS_PLATFORM_PREFLIGHT_PROFILE: &str = "cantor-windows-platform-preflight/0.1";
+pub const WINDOWS_PLATFORM_PREFLIGHT_PROFILE: &str = "cantor-windows-platform-preflight/0.2";
+/// Version of a request validated before a future platform observation.
+pub const WINDOWS_PLATFORM_PREFLIGHT_REQUEST_PROFILE: &str =
+    "cantor-windows-platform-preflight-request/0.1";
 /// Initial compilation target admitted by this vocabulary.
 pub const WINDOWS_PLATFORM_PREFLIGHT_TARGET: &str = "x86_64-pc-windows-msvc";
 
@@ -80,6 +83,29 @@ where
     })?;
     value.validate()?;
     Ok(value)
+}
+
+/// Strict effect-free input to a future platform observer.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct WindowsPlatformPreflightRequest {
+    pub request_profile: String,
+    pub result_profile: String,
+    pub target_triple: String,
+    pub input_root: String,
+}
+
+impl ValidatePlatformPreflightForm for WindowsPlatformPreflightRequest {
+    fn validate(&self) -> Result<(), PlatformPreflightFormFault> {
+        if self.request_profile != WINDOWS_PLATFORM_PREFLIGHT_REQUEST_PROFILE {
+            return Err(PlatformPreflightFormFault::new(
+                PlatformPreflightFormFaultCode::Profile,
+                "request_profile",
+                "unknown platform-preflight request profile",
+            ));
+        }
+        validate_common(&self.result_profile, &self.target_triple, &self.input_root)
+    }
 }
 
 /// Closed query stage at which a complete observation may fail.
@@ -163,6 +189,15 @@ pub enum PlatformPreflightDisposition {
     RejectUnsupportedFileSystem,
 }
 
+/// Closed local processing failures after a platform query reports success.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PlatformPreflightObservationFaultClass {
+    ReturnedLengthLimit,
+    InvalidUtf16,
+    InvalidObservation,
+}
+
 /// One closed platform-preflight result.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "outcome", rename_all = "snake_case", deny_unknown_fields)]
@@ -179,6 +214,13 @@ pub enum WindowsPlatformPreflightRecord {
         input_root: String,
         stage: PlatformPreflightQueryStage,
         error_code: u32,
+    },
+    ObservationFault {
+        profile: String,
+        target_triple: String,
+        input_root: String,
+        stage: PlatformPreflightQueryStage,
+        class: PlatformPreflightObservationFaultClass,
     },
     Complete {
         profile: String,
@@ -214,6 +256,13 @@ impl ValidatePlatformPreflightForm for WindowsPlatformPreflightRecord {
                 validate_common(profile, target_triple, input_root)?;
                 validate_error_code(*error_code)
             }
+            Self::ObservationFault {
+                profile,
+                target_triple,
+                input_root,
+                stage: _,
+                class: _,
+            } => validate_common(profile, target_triple, input_root),
             Self::Complete {
                 profile,
                 target_triple,
@@ -412,6 +461,15 @@ mod tests {
         }
     }
 
+    fn request() -> WindowsPlatformPreflightRequest {
+        WindowsPlatformPreflightRequest {
+            request_profile: WINDOWS_PLATFORM_PREFLIGHT_REQUEST_PROFILE.to_owned(),
+            result_profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
+            target_triple: WINDOWS_PLATFORM_PREFLIGHT_TARGET.to_owned(),
+            input_root: r"\\?\C:\Project\Cantor".to_owned(),
+        }
+    }
+
     fn complete(
         file_system_name: &str,
         protocol: u32,
@@ -446,6 +504,13 @@ mod tests {
                 stage: PlatformPreflightQueryStage::FileIdInfo,
                 error_code: 87,
             },
+            WindowsPlatformPreflightRecord::ObservationFault {
+                profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
+                target_triple: WINDOWS_PLATFORM_PREFLIGHT_TARGET.to_owned(),
+                input_root: r"\\?\C:\Project\Cantor".to_owned(),
+                stage: PlatformPreflightQueryStage::FinalVolumeGuidPath,
+                class: PlatformPreflightObservationFaultClass::ReturnedLengthLimit,
+            },
             complete("NTFS", 0, PlatformPreflightDisposition::EligibleLocalNtfs),
         ];
 
@@ -457,6 +522,55 @@ mod tests {
                 value
             );
         }
+    }
+
+    #[test]
+    fn request_validates_every_pre_effect_identity_field() {
+        let value = request();
+        let bytes = serde_json::to_vec(&value).expect("serialize");
+        assert_eq!(
+            decode_platform_preflight_json::<WindowsPlatformPreflightRequest>(&bytes)
+                .expect("valid request"),
+            value
+        );
+        let mut unknown = serde_json::to_value(&value).expect("serialize request");
+        unknown
+            .as_object_mut()
+            .expect("request object")
+            .insert("extra".to_owned(), serde_json::json!(true));
+        assert_eq!(
+            decode_platform_preflight_json::<WindowsPlatformPreflightRequest>(
+                &serde_json::to_vec(&unknown).expect("serialize unknown request")
+            )
+            .expect_err("unknown request field")
+            .code,
+            PlatformPreflightFormFaultCode::Json
+        );
+
+        let mut invalid = request();
+        invalid.request_profile = "other".to_owned();
+        assert_eq!(
+            invalid.validate().expect_err("request profile").code,
+            PlatformPreflightFormFaultCode::Profile
+        );
+        invalid = request();
+        invalid.result_profile = "cantor-windows-platform-preflight/0.1".to_owned();
+        assert_eq!(
+            invalid.validate().expect_err("result profile").code,
+            PlatformPreflightFormFaultCode::Profile
+        );
+        invalid = request();
+        invalid.target_triple = "aarch64-pc-windows-msvc".to_owned();
+        assert_eq!(
+            invalid.validate().expect_err("target").code,
+            PlatformPreflightFormFaultCode::Target
+        );
+        invalid = request();
+        invalid.input_root = r"C:\Project\Cantor".to_owned();
+        assert_eq!(
+            invalid.validate().expect_err("input root").code,
+            PlatformPreflightFormFaultCode::Path
+        );
     }
 
     #[test]
@@ -542,6 +656,97 @@ mod tests {
             .code,
             PlatformPreflightFormFaultCode::Json
         );
+    }
+
+    #[test]
+    fn observation_fault_classes_round_trip_without_os_error_or_partial_evidence() {
+        for class in [
+            PlatformPreflightObservationFaultClass::ReturnedLengthLimit,
+            PlatformPreflightObservationFaultClass::InvalidUtf16,
+            PlatformPreflightObservationFaultClass::InvalidObservation,
+        ] {
+            let value = WindowsPlatformPreflightRecord::ObservationFault {
+                profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
+                target_triple: WINDOWS_PLATFORM_PREFLIGHT_TARGET.to_owned(),
+                input_root: r"\\?\C:\Project\Cantor".to_owned(),
+                stage: PlatformPreflightQueryStage::VolumeInformation,
+                class,
+            };
+            let bytes = serde_json::to_vec(&value).expect("serialize");
+            assert_eq!(
+                decode_platform_preflight_json::<WindowsPlatformPreflightRecord>(&bytes)
+                    .expect("valid observation fault"),
+                value
+            );
+
+            let mut json = serde_json::to_value(&value).expect("serialize JSON");
+            json.as_object_mut()
+                .expect("object")
+                .insert("error_code".to_owned(), serde_json::json!(13));
+            assert_eq!(
+                decode_platform_preflight_json::<WindowsPlatformPreflightRecord>(
+                    &serde_json::to_vec(&json).expect("serialize invalid JSON")
+                )
+                .expect_err("observation fault OS error")
+                .code,
+                PlatformPreflightFormFaultCode::Json
+            );
+
+            let mut json = serde_json::to_value(&value).expect("serialize JSON");
+            json.as_object_mut()
+                .expect("object")
+                .insert("volume".to_owned(), serde_json::json!({}));
+            assert_eq!(
+                decode_platform_preflight_json::<WindowsPlatformPreflightRecord>(
+                    &serde_json::to_vec(&json).expect("serialize invalid JSON")
+                )
+                .expect_err("observation fault partial evidence")
+                .code,
+                PlatformPreflightFormFaultCode::Json
+            );
+        }
+
+        let unknown_class = br#"{"outcome":"observation_fault","profile":"cantor-windows-platform-preflight/0.2","target_triple":"x86_64-pc-windows-msvc","input_root":"\\\\?\\C:\\","stage":"volume_information","class":"other"}"#;
+        assert_eq!(
+            decode_platform_preflight_json::<WindowsPlatformPreflightRecord>(unknown_class)
+                .expect_err("unknown observation fault class")
+                .code,
+            PlatformPreflightFormFaultCode::Json
+        );
+    }
+
+    #[test]
+    fn legacy_result_profile_is_rejected_for_every_compatible_shape() {
+        let values = [
+            WindowsPlatformPreflightRecord::OpenFault {
+                profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
+                target_triple: WINDOWS_PLATFORM_PREFLIGHT_TARGET.to_owned(),
+                input_root: r"\\?\C:\".to_owned(),
+                error_code: 5,
+            },
+            WindowsPlatformPreflightRecord::QueryFault {
+                profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
+                target_triple: WINDOWS_PLATFORM_PREFLIGHT_TARGET.to_owned(),
+                input_root: r"\\?\C:\".to_owned(),
+                stage: PlatformPreflightQueryStage::FileIdInfo,
+                error_code: 87,
+            },
+            complete("NTFS", 0, PlatformPreflightDisposition::EligibleLocalNtfs),
+        ];
+        for value in values {
+            let mut json = serde_json::to_value(value).expect("serialize");
+            json.as_object_mut().expect("object").insert(
+                "profile".to_owned(),
+                serde_json::json!("cantor-windows-platform-preflight/0.1"),
+            );
+            let bytes = serde_json::to_vec(&json).expect("serialize JSON");
+            assert_eq!(
+                decode_platform_preflight_json::<WindowsPlatformPreflightRecord>(&bytes)
+                    .expect_err("legacy result profile")
+                    .code,
+                PlatformPreflightFormFaultCode::Profile
+            );
+        }
     }
 
     #[test]
