@@ -5,10 +5,10 @@ Subject: Cantor Engine Build Plan
 
 & [BuildPlanIdentity] is the dependency-ordered execution plan
   + [plan_uuid] is 7a5120ad-760e-48dc-97fe-7612c22d821e
-  + [plan_status] is SelfHostingIngestion_complete
+  + [plan_status] is ResidentService_complete
   + [completed] is Phase0 through Phase6 and CEB-001 through CEB-015
   + [active_phase] is none
-  + [next_candidate] is Phase7RoutingExperiment inactive until a labeled routing corpus and adoption gates pass
+  + [next_candidate] is ServiceBackedMCP inactive until separate source preservation and SJS activation; Phase7RoutingExperiment remains blocked by labeled-corpus adoption gates
   + [implementation_language] is safe Rust edition 2024
   + [initial_workspace] is one Cargo workspace with cantor_core, cantor_cli, and cantor_mcp
   + [work_rule] is implement and prove one contiguous slice before activating its dependent
@@ -100,6 +100,16 @@ Subject: Cantor Engine Build Plan
   + [decision] is activate bounded source ingestion and retain every unsupported semantic profile behind later SJS authority
   @ [proof_record] C:\Project\Cantor\proofs\Cantor_Self_Hosting_Ingestion_Proof.sop
   - never: treat the initial semantic corpus as a labeled neural-routing corpus
+
+& [ResidentService] is share one verified generation across local callers
+  + [status] is complete
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+  + [depends_on] is PreparedRuntime and SelfHostingIngestion
+  + [actions] is strict operator artifacts, shared complete preflight, authenticated loopback server, thin client, immutable generation snapshots, compare-and-refresh, rollback, and shutdown
+  + [proof] is exact core and CLI equivalence, fail-closed startup, token secrecy, resource bounds, concurrency isolation, deterministic restart, real corpus lifecycle, and three-run final-code measurements
+  + [decision] is activate bounded local cantord and cantorctl while retaining direct CLI and standalone MCP rollback
+  @ [proof_record] C:\Project\Cantor\proofs\Cantor_Resident_Service_Proof.sop
+  - never: infer remote service, sessions, notifications, faculties, effects, learned routing, or independent semantic authority
 
 & [Phase8FPGAExecutionProfiles] is implement CEB-021 through CEB-030 only when separately activated
   + [depends_on] is stable software protocol, deterministic software oracle, measured workload, explicit device target, and hardware threat model

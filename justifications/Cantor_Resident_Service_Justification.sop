@@ -1,0 +1,46 @@
+Subject: Cantor Resident Service Justification
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_resident_service_activation\Dictated_Cantor_Resident_Service_Activation_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+
+& [JustificationIdentity] is the SJS implementation rationale
+  + [justification_uuid] is 770a292c-a08f-4cb7-a2a4-73654dfbc85c
+  + [solution_uuid] is 143e3bdd-1cdd-4b8f-89af-72369f15c0eb
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+
+& [WhyNow] is supported by completed prerequisites
+  + [core] is deterministic signed query and inspection passed
+  + [prepared_runtime] is immutable generation replacement and concurrent snapshot execution passed
+  + [self_hosting] is a real governed SOP corpus compiled and queried through CLI and MCP
+  + [measurement] is prepared repeated reads are approximately two orders of magnitude below direct reload-and-admit queries
+  + [operator_need] is share one verified generation and activate replacements without restarting every caller
+
+& [WhyThisShape] is the least authority-expanding service
+  + [loopback] avoids remote exposure while retaining cross-platform local client support
+  + [explicit_config] preserves the no-listener-by-default requirement
+  + [token_file] avoids command-line secret disclosure
+  + [activation_descriptor] separates operator publication from model requests
+  + [monotonic_compare] prevents stale or replayed activation
+  + [core_delegation] prevents adapter semantic drift
+  + [one_request_per_connection] bounds state and simplifies failure recovery
+
+& [Alternatives] records rejected options
+  + [restart_per_query] is correct but cannot share prepared state or atomic refresh
+  + [automatic_file_watch] obscures activation causation and is deferred
+  + [HTTP_framework] adds premature surface and dependency weight
+  + [non_loopback_TCP] violates the local-only boundary
+  + [request_selected_path] lets untrusted callers steer runtime authority
+  + [service_compilation] collapses candidate building and trusted activation
+
+& [SecurityReview] is fail closed
+  + [secret] is fixed-length token content excluded from all outputs
+  + [path] is canonical root-contained environment activation
+  + [transport] is loopback-only with frame, connection, and timeout bounds
+  + [state] is complete immutable generation snapshots
+  + [failure] is typed and bounded without silent fallback
+
+& [ImplementationBoundary] is safe Rust
+  + [crate] is cantor_service with cantord and cantorctl binaries
+  + [core_change] is only shared environment preflight and runtime snapshot support when necessary
+  + [rollback] is retain direct cantor CLI and standalone cantor-mcp
+  - never: treat successful daemon startup as semantic admission proof without complete core preflight

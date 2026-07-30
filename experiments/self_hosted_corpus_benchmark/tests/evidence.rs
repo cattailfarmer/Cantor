@@ -48,6 +48,10 @@ fn tracked_three_run_summary_has_complete_zero_mismatch_shape() {
 #[test]
 fn evidence_manifest_hashes_every_declared_artifact() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let repository_root = root
+        .join("../..")
+        .canonicalize()
+        .expect("repository root must resolve");
     let manifest: serde_json::Value = serde_json::from_slice(
         &fs::read(root.join("artifacts/self_hosted_corpus_evidence_manifest.json"))
             .expect("evidence manifest must read"),
@@ -73,7 +77,11 @@ fn evidence_manifest_hashes_every_declared_artifact() {
         let path = artifact["path"]
             .as_str()
             .expect("artifact path must be text");
-        let bytes = fs::read(path)
+        assert!(
+            !Path::new(path).is_absolute(),
+            "evidence paths must remain clone-portable: {path}"
+        );
+        let bytes = fs::read(repository_root.join(path))
             .unwrap_or_else(|error| panic!("evidence artifact {path:?} must be readable: {error}"));
         assert_eq!(
             artifact["bytes"].as_u64(),

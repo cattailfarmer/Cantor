@@ -1,0 +1,65 @@
+Subject: Cantor Resident Service Operational Faults
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Resident_Service_Proof.sop
+
+& [FaultRecordIdentity] is the resolved resident-service operational-fault ledger
+  + [record_uuid] is 264750f7-6d51-49b6-bcdc-4030e6535d45
+  + [captured_at_ms] is 1785383067348
+  + [status] is resolved_with_no_open_product_fault
+
+& [PollingLatencyFault] is caught by final-code measurement
+  + [observation] is a nonblocking accept loop with a five-millisecond sleep produced approximately 5.4 millisecond local round trips
+  + [cause] is fixed polling delay rather than semantic execution
+  + [repair] is restore blocking accept and use one explicit local wake connection after authenticated shutdown
+  + [result] is final query median 625 through 652 microseconds
+  + [status] is resolved
+
+& [DetachedWorkerObservationFault] is caught by lifecycle review
+  + [observation] is retain on finished JoinHandle values detached them without observing panic results and manual decrement could leak connection accounting on panic
+  + [repair] is RAII ConnectionLease, explicit finished-worker reap and join, worker-panic status counter, and complete shutdown join
+  + [status] is resolved
+
+& [WindowsOverloadResetFault] is caught by a new connection-budget test
+  + [observation] is closing a rejected TCP connection with unread request bytes could cause Windows to reset the socket and erase the structured fault response
+  + [repair] is bounded-drain at most one frame for at most twenty-five milliseconds before safely writing overload or shutdown rejection
+  + [proof] is connection_limit_exceeded is now decoded and capacity recovery passes
+  + [status] is resolved
+
+& [UnrepresentableFaultEnvelope] is caught by boundary review
+  + [observation] is a positive but tiny configured frame could be smaller than the service fault envelope
+  + [repair] is require max_frame_bytes from 1024 through 1048576 and test rejection below the lower bound
+  + [status] is resolved
+
+& [ArtifactGrowthRace] is caught by read-bound review
+  + [observation] is metadata size precheck alone did not reject a file that grew between metadata and bounded read
+  + [repair] is read at most maximum plus one and reject any post-read length above the maximum
+  + [status] is resolved
+
+& [EvidencePortabilityFault] is caught by clone-verification review
+  + [observation] is the first summary and evidence-manifest scripts recorded absolute workstation paths
+  + [repair] is record repository-relative forward-slash paths and assert they remain nonabsolute and content-addressed in ResidentService, PreparedRuntime, and SelfHostingIngestion evidence
+  + [historical_integrity] is regenerate the two affected historical manifests and update their proof-bound manifest digests
+  + [status] is resolved
+
+& [LegacyPowerShellRuntimeFault] is local evidence tooling
+  + [observation] is Windows PowerShell lacked Path.GetRelativePath and Path.IsPathFullyQualified
+  + [repair] is use artifact names, URI-relative conversion, and Path.IsPathRooted
+  + [status] is resolved
+
+& [PowerShellPolicyFault] is evidence-script invocation
+  + [observation] is local execution policy rejected direct script invocation
+  + [repair] is run reviewed scripts with NoProfile and process-local ExecutionPolicy Bypass
+  + [status] is resolved
+
+& [PrematureToolTimeoutFault] is test invocation
+  + [observation] is a one-second shell timeout terminated cargo test and produced a broken-pipe test harness fault
+  + [repair] is rerun the unchanged test command with a proportionate bounded timeout
+  + [product_change] is none
+  + [status] is resolved
+
+& [LegacyProbeWorkspaceFault] is cross-experiment verification
+  + [observation] is the isolated llama_tool_reflection crate lacked an empty workspace table and Cargo therefore attached it to the parent workspace while excluding it from members
+  + [repair] is restore explicit isolated-workspace identity and forbid unsafe code
+  + [product_change] is none to the passed probe protocol or artifacts
+  + [status] is resolved

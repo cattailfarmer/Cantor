@@ -4,6 +4,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
+$repositoryRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 
 $fixedPaths = @(
     "source_documents/2026-07-29_cantor_self_hosting_ingestion/Dictated_Cantor_Self_Hosting_Ingestion_Source.sop",
@@ -32,16 +33,16 @@ $fixedPaths = @(
     "scripts/summarize_self_hosted_corpus_evidence.ps1",
     "scripts/build_self_hosted_corpus_evidence_manifest.ps1"
 )
-$rawPaths = Get-ChildItem -LiteralPath "experiments/self_hosted_corpus_benchmark/artifacts" -File |
+$rawPaths = Get-ChildItem -LiteralPath (Join-Path $repositoryRoot "experiments/self_hosted_corpus_benchmark/artifacts") -File |
     Where-Object { $_.Name -like "2026-07-29-run-*.json" } |
     Sort-Object Name |
-    ForEach-Object { $_.FullName }
+    ForEach-Object { "experiments/self_hosted_corpus_benchmark/artifacts/$($_.Name)" }
 $allPaths = @($fixedPaths) + @($rawPaths)
 
 $artifacts = foreach ($path in $allPaths) {
-    $item = Get-Item -LiteralPath $path
+    $item = Get-Item -LiteralPath (Join-Path $repositoryRoot $path)
     [ordered]@{
-        path = $item.FullName
+        path = $path.Replace("\", "/")
         sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $item.FullName).Hash
         bytes = $item.Length
     }
@@ -80,7 +81,12 @@ $manifest = [ordered]@{
 }
 
 $json = $manifest | ConvertTo-Json -Depth 10
-$outputFullPath = [IO.Path]::GetFullPath($OutputPath)
+$outputFullPath = if ([IO.Path]::IsPathRooted($OutputPath)) {
+    [IO.Path]::GetFullPath($OutputPath)
+}
+else {
+    [IO.Path]::GetFullPath((Join-Path $repositoryRoot $OutputPath))
+}
 $outputDirectory = [IO.Path]::GetDirectoryName($outputFullPath)
 [IO.Directory]::CreateDirectory($outputDirectory) | Out-Null
 [IO.File]::WriteAllText(

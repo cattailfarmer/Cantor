@@ -13,6 +13,7 @@ Subject: Cantor Engine Build Slice Index
   @ [prior_activation_authority] C:\Project\Cantor\specifications\Cantor_Persistence_Evidence_Gate.sop
   @ [current_activation_authority] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
   @ [latest_activation_authority] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+  @ [resident_service_activation_authority] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
 
 @ [slice_1] C:\Project\Cantor\feature_support\slices\CEB_Slice_01_Core_IR.sop
 @ [slice_2] C:\Project\Cantor\feature_support\slices\CEB_Slice_02_Trusted_Package.sop
@@ -23,6 +24,7 @@ Subject: Cantor Engine Build Slice Index
 @ [phase_6_persistence] C:\Project\Cantor\feature_support\slices\Phase6_Persistence_Decision.sop
 @ [prepared_runtime] C:\Project\Cantor\feature_support\slices\PreparedRuntime.sop
 @ [self_hosting_ingestion] C:\Project\Cantor\feature_support\slices\SelfHostingIngestion.sop
+@ [resident_service] C:\Project\Cantor\feature_support\slices\ResidentService.sop
 
 & [DependencyOrder] is the only authorized normal progression
   + [edge] is Core_IR before Trusted_Package
@@ -43,5 +45,6 @@ Subject: Cantor Engine Build Slice Index
   + [Phase6_Persistence_Decision] is complete_with_JSON_and_memory_retained
   + [PreparedRuntime] is complete_with_bounded_core_and_resident_MCP_activated
   + [SelfHostingIngestion] is complete_with_three_reviewed_sources_417_units_and_360_relations
-  + [next_candidate] is Phase7RoutingExperiment
-  + [next_candidate_state] is inactive_and_blocked_by_labeled_routing_corpus_and_adoption_gates
+  + [ResidentService] is complete_with_authenticated_loopback_exact_core_delegation_and_atomic_refresh
+  + [next_candidate] is ServiceBackedMCP
+  + [next_candidate_state] is inactive_pending_separate_source_preservation_and_SJS_activation

@@ -1,0 +1,106 @@
+Subject: Cantor Resident Service Solution
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_resident_service_activation\Dictated_Cantor_Resident_Service_Activation_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Resident_Service_Justification.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_service
+@ [operator_guide] C:\Project\Cantor\docs\RESIDENT_SERVICE.md
+@ [summary] C:\Project\Cantor\experiments\resident_service_benchmark\artifacts\2026-07-29-three-run-summary.json
+@ [evidence_manifest] C:\Project\Cantor\experiments\resident_service_benchmark\artifacts\resident_service_evidence_manifest.json
+@ [proof] C:\Project\Cantor\proofs\Cantor_Resident_Service_Proof.sop
+
+& [SolutionIdentity] is the completed bounded resident service
+  + [solution_uuid] is 143e3bdd-1cdd-4b8f-89af-72369f15c0eb
+  + [status] is completed_and_boundedly_activated
+  + [service_profile] is cantor-resident-service/0.1
+  + [protocol_profile] is cantor-service-protocol/0.1
+  + [configuration_profile] is cantor-service-config/0.1
+  + [activation_profile] is cantor-environment-activation/0.1
+
+& [SharedPreflight] is one core-owned admission gate
+  + [implementation] is cantor_core environment module
+  + [validation] is environment version, nonempty package set, semantic digest, every recognition certificate, trust admission, and complete SemanticFabric construction
+  + [reuse] is cantor-mcp and cantord call the same preflight
+  + [faults] are typed and bounded
+  - never: let an adapter invent independent semantic readiness rules
+
+& [ArtifactBoundary] is strict and operator-pinned
+  + [configuration] is absolute strict JSON with loopback address, activation path, allowed environment root, token path, frame range, connection ceiling, and timeouts
+  + [token] is exactly 64 hexadecimal characters loaded from a file and fixed-work compared
+  + [activation] is a positive sequence, canonical root-contained environment path, exact file SHA-256, and canonical descriptor digest
+  + [environment] is bounded to 64 MiB, strict JSON, fully preflighted, and converted to PreparedRuntime before use
+  + [read_safety] is metadata size precheck plus a maximum-plus-one read and post-read growth check
+  - never: accept request-selected artifact paths or unknown fields
+
+& [ResidentRuntime] is immutable snapshot execution
+  + [active_generation] is one Arc-backed PreparedRuntime and exact ActiveBinding behind a read-write lock
+  + [execute] clones one complete generation before releasing the lock and returns the unchanged core ProtocolResponse
+  + [refresh] loads the candidate outside the write lock then rechecks exact generation and activation sequence before a whole-generation swap
+  + [failure] leaves the previous valid generation active
+  + [rollback] is a previously valid environment published under a new higher sequence
+  + [shutdown] requires the exact active generation and serializes against refresh
+  - never: expose mixed old-and-new state or repair caller semantics
+
+& [TransportImplementation] is explicit authenticated loopback TCP
+  + [server] is cantord with one mandatory absolute configuration path
+  + [client] is cantorctl with status, query, inspect, refresh, and shutdown commands
+  + [framing] is one strict bounded JSON request plus LF and one bounded JSON response plus LF per connection
+  + [resource_bounds] is 1024 through 1048576 frame bytes, 1 through 256 concurrent workers, and 1 through 60000 millisecond read and write timeouts
+  + [overload] is visible connection-limit rejection after a bounded request drain when safely writable
+  + [worker_lifecycle] is RAII connection accounting, joined worker handles, panic counting, and interrupted-accept retry
+  + [shutdown_wake] is an explicit loopback wake connection rather than polling
+  - never: bind non-loopback, expose the token, claim encryption, or claim hostile multi-user isolation
+
+& [OperatorImplementation] is reproducible publication
+  + [initializer] is scripts\initialize_cantor_service.ps1 with cryptographic 256-bit capability generation, containment precheck, atomic artifact writes, and explicit replacement
+  + [publisher] is scripts\publish_cantor_activation.ps1 with increasing sequence enforcement, exact environment hash, and atomic descriptor replacement
+  + [publication_order] is immutable environment first, activation descriptor second, authenticated compare-and-refresh third
+  + [fallback] is direct cantor CLI and standalone cantor-mcp
+
+& [RealCorpusExecution] is production-path evidence
+  + [environment_bytes] is 1145513
+  + [package_count] is 1
+  + [source_unit_count] is 417
+  + [source_relation_count] is 360
+  + [startup_generation] is b0938f1e5b1911a039e6efbd686d92ac8145eadc08a5a0106dd9a35c3e34318f
+  + [query] is the exact Cantor governing line through release cantord and cantorctl
+  + [refresh] is a distinct trust-time-derived generation activated at sequence 2
+  + [stale_refresh] is rejected
+  + [rollback] is the original environment restored at sequence 3
+  + [shutdown] is exact-generation authenticated and process-complete
+
+& [MeasuredProfile] is final-code evidence
+  + [runs] is three independent release processes with thirty samples per measured stage
+  + [startup_microseconds] is 15445 through 16715
+  + [restart_preflight_median_microseconds] is 12656 through 13078
+  + [resident_dispatch_median_microseconds] is 15 through 15
+  + [status_round_trip_median_microseconds] is 528 through 566
+  + [query_round_trip_median_microseconds] is 625 through 652
+  + [correctness_comparisons] is 270 measured operations across resident, status, and query stages
+  + [correctness_mismatches] is 0
+
+& [SecurityDisposition] is bounded local capability authority
+  + [authentication_precedence] is token validation before protocol-version disclosure
+  + [unauthenticated_binding] is absent
+  + [path_escape] is rejected
+  + [digest_tamper] is rejected
+  + [remote_bind] is rejected
+  + [unknown_fields] is rejected
+  + [oversized_empty_unterminated_and_idle_frames] are visible bounded faults
+  + [connection_exhaustion] is visible and capacity recovers
+  + [dependency_audit] is zero vulnerabilities in root and benchmark lockfiles
+  + [unsafe] is forbidden
+
+& [NonclaimSet] is retained
+  + [service] is local bounded read-only runtime service rather than remote API or general agent host
+  + [authority] is semantic query and inspection plus lifecycle control rather than compilation, trust mutation, or effects
+  + [state] is immutable in-memory PreparedRuntime over canonical JSON rather than a physical database
+  + [routing] is deterministic core delegation rather than learned neural routing
+  + [coordination] is no sessions, notifications, token ring, faculties, or cooperative inference junction
+  + [hardware] is no FPGA activation
+
+& [ReentryGate] is explicit future work
+  + [candidate] is a service-backed MCP adapter so Codex can share the same refreshable generation instead of owning a separate process-local runtime
+  + [candidate] is durable operator health and supervised process lifecycle
+  + [candidate] is sessions or notifications only after separate protocol and threat-model authority
+  = must: retain exact core delegation, source preservation, token secrecy, generation binding, direct fallback, and evidence before extension

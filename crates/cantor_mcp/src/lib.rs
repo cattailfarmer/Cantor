@@ -8,8 +8,8 @@
 use std::{fmt, fs::File, io::Read, path::Path, sync::Arc};
 
 use cantor_core::{
-    EMBEDDED_ENVIRONMENT_VERSION, EmbeddedRuntimeEnvironment, PreparedRuntime, ProtocolRequest,
-    ProtocolResponse, ProtocolStatus, SemanticFabric, admit_package, embedded_environment_digest,
+    EmbeddedRuntimeEnvironment, PreparedRuntime, ProtocolRequest, ProtocolResponse, ProtocolStatus,
+    preflight_runtime_environment,
 };
 use rmcp::{
     ErrorData as McpError, ServerHandler,
@@ -207,52 +207,19 @@ pub fn load_environment_file(path: &Path) -> Result<EmbeddedRuntimeEnvironment, 
 }
 
 fn preflight_environment(environment: &EmbeddedRuntimeEnvironment) -> Result<(), StartupFault> {
-    if environment.environment_version != EMBEDDED_ENVIRONMENT_VERSION {
-        return Err(StartupFault {
-            code: "unsupported_environment_version",
-            message: format!(
-                "expected {EMBEDDED_ENVIRONMENT_VERSION}, received {}",
-                environment.environment_version
-            ),
-        });
-    }
-    if environment.packages.is_empty() {
-        return Err(StartupFault {
-            code: "empty_environment",
-            message: "at least one signed package is required".to_owned(),
-        });
-    }
-    embedded_environment_digest(environment).map_err(|error| StartupFault {
-        code: "environment_digest_failed",
-        message: bounded_message(&error.to_string()),
-    })?;
-    let mut admitted = Vec::with_capacity(environment.packages.len());
-    for package in &environment.packages {
-        let certificate = package.certificate.as_ref().ok_or_else(|| StartupFault {
-            code: "environment_package_rejected",
-            message: format!(
-                "package {} has no recognition certificate",
-                package.package_id
-            ),
-        })?;
-        admitted.push(
-            admit_package(
-                package,
-                &environment.trust_store,
-                &certificate.authority_scope,
-                environment.now_epoch_seconds,
-            )
-            .map_err(|fault| StartupFault {
-                code: "environment_package_rejected",
-                message: bounded_message(&fault.message),
-            })?,
-        );
-    }
-    SemanticFabric::from_admitted(admitted).map_err(|fault| StartupFault {
-        code: "environment_fabric_rejected",
-        message: bounded_message(&fault.message),
-    })?;
-    Ok(())
+    preflight_runtime_environment(environment)
+        .map(|_| ())
+        .map_err(|fault| StartupFault {
+            code: match fault.code.as_str() {
+                "unsupported_environment_version" => "unsupported_environment_version",
+                "empty_environment" => "empty_environment",
+                "environment_digest_failed" => "environment_digest_failed",
+                "environment_package_rejected" => "environment_package_rejected",
+                "environment_fabric_rejected" => "environment_fabric_rejected",
+                _ => "environment_preflight_failed",
+            },
+            message: bounded_message(&fault.message),
+        })
 }
 
 fn protocol_result(response: ProtocolResponse) -> CallToolResult {

@@ -4,6 +4,7 @@
 //! boundary, and proof-carrying in-memory query core. It does not implement
 //! neural, FPGA, provider, database, or distributed-runtime behavior.
 
+pub mod environment;
 pub mod evaluator;
 pub mod fixtures;
 pub mod machine;
@@ -15,6 +16,7 @@ pub mod review;
 pub mod sop;
 pub mod trust;
 
+pub use environment::*;
 pub use evaluator::evaluate;
 pub use fixtures::{FixtureId, FixtureReport, all_fixture_ids, run_fixture};
 pub use machine::{content_digest, from_machine_form, to_machine_form};

@@ -4,6 +4,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
+$repositoryRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 
 $fixedPaths = @(
     "source_documents/2026-07-29_cantor_prepared_runtime/Dictated_Cantor_Prepared_Runtime_Source.sop",
@@ -28,16 +29,16 @@ $fixedPaths = @(
     "scripts/summarize_prepared_runtime_evidence.ps1",
     "scripts/build_prepared_runtime_evidence_manifest.ps1"
 )
-$rawPaths = Get-ChildItem -LiteralPath "experiments/prepared_runtime_benchmark/artifacts" -File |
+$rawPaths = Get-ChildItem -LiteralPath (Join-Path $repositoryRoot "experiments/prepared_runtime_benchmark/artifacts") -File |
     Where-Object { $_.Name -like "latency_run_*.json" -or $_.Name -like "memory_run_*.json" } |
     Sort-Object Name |
-    ForEach-Object { $_.FullName }
+    ForEach-Object { "experiments/prepared_runtime_benchmark/artifacts/$($_.Name)" }
 $allPaths = @($fixedPaths) + @($rawPaths)
 
 $artifacts = foreach ($path in $allPaths) {
-    $item = Get-Item -LiteralPath $path
+    $item = Get-Item -LiteralPath (Join-Path $repositoryRoot $path)
     [ordered]@{
-        path = $item.FullName
+        path = $path.Replace("\", "/")
         sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $item.FullName).Hash
         bytes = $item.Length
     }
@@ -70,7 +71,7 @@ $manifest = [ordered]@{
 
 $json = $manifest | ConvertTo-Json -Depth 10
 [IO.File]::WriteAllText(
-    (Join-Path (Get-Location) $OutputPath),
+    (Join-Path $repositoryRoot $OutputPath),
     "$json`n",
     [Text.UTF8Encoding]::new($false)
 )

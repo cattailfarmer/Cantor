@@ -1,0 +1,104 @@
+Subject: Cantor Resident Service Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\ResidentService.sop
+@ [matrix] C:\Project\Cantor\feature_support\ResidentService_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Resident_Service_Solution.sop
+@ [summary] C:\Project\Cantor\experiments\resident_service_benchmark\artifacts\2026-07-29-three-run-summary.json
+@ [evidence_manifest] C:\Project\Cantor\experiments\resident_service_benchmark\artifacts\resident_service_evidence_manifest.json
+
+& [ProofIdentity] is the bounded resident service completion record
+  + [proof_uuid] is 94bd6a24-e6df-4217-af69-63451c793c1a
+  + [captured_at] is 2026-07-29
+  + [result] is passed_and_boundedly_activated
+  + [summary_sha256] is 6829F78B348C003F54A8C9E7F63A8CB90D61E6A27E19D0D0ED174C9431225129
+  + [evidence_manifest_sha256] is 5870D52F201527467198FCF1D88C1532E9DD2A3F96C918B5250CC681B6C85113
+
+& [AuthorityProof] is RS-AC1
+  + [source_sha256] is 4379F0E8CAC8D17736400BAC18C615F304EA3AE080CEE886CAEA59C039432DE3
+  + [exploded_sha256] is 11378FE2D5300DD85AD21A6F1DEA6F5D02B4AA010591A20283D1F5E4D75715D6
+  + [canonical_uuid] is 276ad3fd-d1fa-4b32-9bdd-5cd572bf1ece
+  + [satisfaction_signature_uuid] is bd09110a-d278-4177-bbcd-d7eb58fef217
+  + [status] is passed
+
+& [ArtifactAndStartupProof] is RS-AC2
+  + [test] is strict_artifacts_preflight_and_restart_reconstruct_exact_binding
+  + [test] is startup_rejects_remote_bind_digest_tamper_bad_token_and_path_escape
+  + [proof] is strict schemas, absolute paths, loopback, root containment, token shape, exact file digest, complete package admission, fabric readiness, PreparedRuntime construction, deterministic restart, frame lower bound, and unknown-field rejection passed
+  + [status] is passed
+
+& [ExactDelegationProof] is RS-AC3
+  + [test] is runtime_execute_is_exact_and_refresh_is_monotonic_fail_safe
+  + [test] is live_loopback_transport_authenticates_bounds_and_shuts_down_exactly
+  + [test] is strict_wire_faults_and_cantorctl_use_the_live_service_without_semantic_drift
+  + [comparison] is exact ProtocolResponse equality against execute_protocol_request and the production cantor CLI
+  + [status] is passed
+
+& [AuthenticationAndTransportProof] is RS-AC4
+  + [proof] is non-loopback bind rejected and all live operations require the 256-bit file capability
+  + [proof] is bad authentication precedes wrong-version disclosure and returns no active binding
+  + [proof] is token omitted from responses, diagnostics, status, and tracked runtime artifacts
+  + [proof] is empty, malformed, unknown-field, oversized, unterminated, idle, and unsupported-version requests remain visible bounded faults
+  + [status] is passed
+
+& [ResourceBoundProof] is RS-AC5
+  + [test] is connection_budget_rejects_excess_work_and_recovers_capacity
+  + [test] is idle_connection_times_out_with_a_bounded_visible_fault
+  + [proof] is frame, fault, connection, worker, and read/write bounds enforced
+  + [proof] is Windows unread-request reset was reproduced, repaired with bounded drain, and retested as a structured connection_limit_exceeded response
+  + [status] is passed
+
+& [LifecycleProof] is RS-AC6 and RS-AC7
+  + [proof] is successful distinct-generation refresh, stale generation, stale sequence, unchanged generation, non-increasing activation, digest tamper, invalid candidate, rollback, deterministic restart, and exact-generation shutdown passed
+  + [proof] is every failed candidate left the prior valid generation executable
+  + [production_run] is real signed self-hosted generation to distinct generation to stale rejection to higher-sequence rollback to clean shutdown
+  + [status] is passed
+
+& [ConcurrencyProof] is RS-AC8
+  + [test] is concurrent_readers_observe_only_complete_old_or_new_generations
+  + [load] is twelve readers times two hundred operations during replacement
+  + [proof] is every response was exactly the complete old or complete new oracle and no mixed generation appeared
+  + [proof] is snapshot execution releases the active lock before semantic work
+  + [status] is passed
+
+& [OperatorProof] is RS-AC9
+  + [proof] is cryptographic initializer, atomic activation publisher, explicit replacement, publication ordering, status, query, refresh, stale rejection, rollback, shutdown, and direct fallback documented and exercised
+  + [guide] is docs\RESIDENT_SERVICE.md
+  + [status] is passed
+
+& [MeasurementProof] is RS-AC10
+  + [method] is three isolated overflow-checked release runs with thirty samples per stage over a 1145513-byte signed real corpus
+  + [restart_preflight_median_microseconds] is 12656 through 13078
+  + [resident_dispatch_median_microseconds] is 15 through 15
+  + [status_round_trip_median_microseconds] is 528 through 566
+  + [query_round_trip_median_microseconds] is 625 through 652
+  + [correctness_mismatches] is 0
+  + [status] is passed
+
+& [VerificationProof] is RS-AC11
+  + [production] is formatting, warnings-denied all-target lint, 109 debug tests, 109 overflow-checked release tests, release all-target build, and documentation passed locked and offline
+  + [experiment] is isolated format, warnings-denied lint, locked offline release test, two evidence tests, and three final-code evidence runs passed
+  + [dependency_audit] is root 111-dependency and experiment 35-dependency locks scanned against 1173 RustSec advisories with zero vulnerabilities
+  + [unsafe] is forbidden by production and experiment workspace lint profiles
+  + [status] is passed
+
+& [GovernanceAndGitProof] is RS-AC12
+  @ [file_change] C:\Project\Cantor\narrative\file_changes\1785383067348_resident_service_file_change.sop
+  @ [turn] C:\Project\Cantor\narrative\turns\1785383067348_cantor_resident_service.sop
+  @ [faults] C:\Project\Cantor\narrative\operational_faults\1785383067348_resident_service_faults.sop
+  + [generated_runtime] is ignored under .local and not part of Git authority
+  + [checkpoint] is intentional repository commit after complete artifact and secret audit
+  + [status] is passed
+
+& [AcceptanceProof] is RS-001 through RS-010 and RS-AC1 through RS-AC12
+  + [RS-001] is passed
+  + [RS-002] is passed
+  + [RS-003] is passed
+  + [RS-004] is passed
+  + [RS-005] is passed
+  + [RS-006] is passed
+  + [RS-007] is passed
+  + [RS-008] is passed
+  + [RS-009] is passed
+  + [RS-010] is passed
+  = conclusion: Cantor now shares one fully admitted immutable generation through an authenticated bounded local service with exact core semantics, visible lifecycle proof, deterministic restart and rollback, and no remote, effect, learned-routing, session, or independent semantic authority

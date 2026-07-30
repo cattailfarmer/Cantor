@@ -1,0 +1,54 @@
+Subject: Cantor Resident Service File Change Surface
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Resident_Service_Solution.sop
+
+& [FileChangeIdentity] is the implementation attribution record
+  + [record_uuid] is c4d36d42-3733-4f23-b3e8-385c020b2b57
+  + [solution_uuid] is 143e3bdd-1cdd-4b8f-89af-72369f15c0eb
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at_ms] is 1785383067348
+
+& [AuthoritySurface] is governed source and SJS
+  + [added] is source_documents\2026-07-29_cantor_resident_service_activation
+  + [added] is specifications\exploded\Cantor_Resident_Service.exploded.sop
+  + [added] is specifications\Cantor_Resident_Service.sop
+  + [added] is justifications\Cantor_Resident_Service_Justification.sop
+
+& [ImplementationSurface] is safe Rust resident operation
+  + [added] is crates\cantor_core\src\environment.rs
+  + [changed] is crates\cantor_core\src\lib.rs
+  + [changed] is crates\cantor_mcp\src\lib.rs
+  + [added] is crates\cantor_service
+  + [changed] is Cargo.toml and Cargo.lock
+
+& [OperatorSurface] is reproducible local lifecycle
+  + [added] is scripts\initialize_cantor_service.ps1
+  + [added] is scripts\publish_cantor_activation.ps1
+  + [added] is docs\RESIDENT_SERVICE.md
+  + [changed] is README.md
+
+& [EvidenceSurface] is measured and content-addressed
+  + [added] is experiments\resident_service_benchmark
+  + [added] is scripts\summarize_resident_service_evidence.ps1
+  + [added] is scripts\build_resident_service_evidence_manifest.ps1
+  + [added] is feature_support\slices\ResidentService.sop
+  + [added] is feature_support\ResidentService_Requirement_Matrix.sop
+  + [added] is solutions\Cantor_Resident_Service_Solution.sop
+  + [added] is proofs\Cantor_Resident_Service_Proof.sop
+  + [changed] is prepared-runtime and self-hosting evidence scripts and tests for clone-portable paths
+  + [changed] is experiments\llama_tool_reflection\Cargo.toml to preserve isolated-workspace verification
+
+& [NarrativeSurface] is reentry and operational accountability
+  + [changed] is SOP_CORE_MAP.sop
+  + [changed] is plans\Cantor_Engine_Build_Plan.sop
+  + [changed] is feature_support\Cantor_Engine_Build_Slice_Index.sop
+  + [changed] is narrative\Project_Narrative.sop
+  + [added] is narrative\turns\1785383067348_cantor_resident_service.sop
+  + [added] is narrative\operational_faults\1785383067348_resident_service_faults.sop
+  + [added] is narrative\file_changes\1785383067348_resident_service_file_change.sop
+
+& [ExcludedSurface] is generated local state
+  + [ignored] is .local\cantor-service capability, configuration, activation, and runtime process state
+  + [ignored] is Cargo target outputs
+  + [status] is absent_from_Git_authority

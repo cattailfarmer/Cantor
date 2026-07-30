@@ -48,7 +48,12 @@ baseline:
 - `cantor-corpus` parses the bounded fail-closed
   `cantor-sop-source/0.1` profile, lowers exact source anchors and typed
   containment, compiles distinct-Ed25519 signed packages, and generates
-  verified runtime/query artifacts from three reviewed Cantor specifications.
+  verified runtime/query artifacts from three reviewed Cantor specifications;
+  and
+- `cantord` keeps one fully admitted immutable generation resident behind an
+  authenticated loopback-only protocol, while `cantorctl` provides strict
+  status, query, inspect, compare-and-refresh, and exact-generation shutdown
+  operations without acquiring semantic authority.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -62,6 +67,9 @@ The first real SOP self-hosting loop, operator commands, grammar boundary,
 identity rules, key handling, generated artifacts, measurements, and
 limitations are documented in
 [`docs/SELF_HOSTED_CORPUS.md`](docs/SELF_HOSTED_CORPUS.md).
+The resident service security boundary, operator publication sequence,
+rollback path, and client contract are documented in
+[`docs/RESIDENT_SERVICE.md`](docs/RESIDENT_SERVICE.md).
 
 Protocol digests prove binding and internal consistency, not authenticity
 against a hostile process that can replace both content and digest. The
@@ -81,9 +89,10 @@ The original eight SOP CoreAcceptance fixtures remain passing:
 8. a SKOS relation imports with declared fidelity and lineage.
 
 The earlier `llama.cpp` experiment proves a usable external tool-call
-checkpoint seam. A physical database, general resident daemon, learned neural routing,
-FPGA execution, faculty runtime, provider inference, and distributed execution
-remain deliberately inactive behind their evidence gates.
+checkpoint seam. A physical database, remote or general-purpose service,
+learned neural routing, FPGA execution, faculty runtime, provider inference,
+and distributed execution remain deliberately inactive behind their evidence
+gates.
 
 Run the proof and fixture-only CLI demonstration locally:
 
@@ -101,6 +110,14 @@ Compile the reviewed self-hosted corpus with operator-supplied distinct keys:
 ```powershell
 .\target\release\cantor-corpus.exe compile --manifest .\corpus\self_hosted\corpus.json --authority-key C:\secure\cantor-authority.key --compiler-key C:\secure\cantor-compiler.key --output .\.local\cantor-self-hosted
 .\target\release\cantor.exe query --environment .\.local\cantor-self-hosted\environment.json --input .\.local\cantor-self-hosted\query-semantic-unit.json
+```
+
+Initialize and run the bounded resident service over a compiled environment:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\initialize_cantor_service.ps1 -EnvironmentPath C:\Project\Cantor\.local\cantor-self-hosted\environment.json -RuntimeDirectory C:\Project\Cantor\.local\cantor-service
+.\target\release\cantord.exe --config C:\Project\Cantor\.local\cantor-service\service.json
+.\target\release\cantorctl.exe status --config C:\Project\Cantor\.local\cantor-service\service.json --request-id request:operator_status_1
 ```
 
 The generated demo uses public fixture keys and must never become real
@@ -124,6 +141,7 @@ Current executable proofs:
 - [`proofs/Phase6_Persistence_Decision_Proof.sop`](proofs/Phase6_Persistence_Decision_Proof.sop)
 - [`proofs/Cantor_Prepared_Runtime_Proof.sop`](proofs/Cantor_Prepared_Runtime_Proof.sop)
 - [`proofs/Cantor_Self_Hosting_Ingestion_Proof.sop`](proofs/Cantor_Self_Hosting_Ingestion_Proof.sop)
+- [`proofs/Cantor_Resident_Service_Proof.sop`](proofs/Cantor_Resident_Service_Proof.sop)
 - [`proofs/CEB_Deterministic_Baseline_Release_Audit.sop`](proofs/CEB_Deterministic_Baseline_Release_Audit.sop)
 
 1. [`SOP_CORE_MAP.sop`](SOP_CORE_MAP.sop) — authority and project map

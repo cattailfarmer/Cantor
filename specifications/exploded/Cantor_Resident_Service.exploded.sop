@@ -1,0 +1,101 @@
+Subject: Exploded Cantor Resident Service Activation
+
+@ [continuation_source] C:\Project\Cantor\source_documents\2026-07-29_cantor_resident_service_activation\Dictated_Cantor_Resident_Service_Activation_Source.sop
+@ [execution_surface_authority] C:\Project\Cantor\specifications\Cantor_Execution_Surface_Profile.sop
+@ [prepared_runtime_authority] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+@ [self_hosting_authority] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+
+& [Problem] is repeated callers cannot share one verified generation or activate a replacement without process restart
+  + [measured_reload_cost] is materially greater than prepared repeated-read cost
+  + [operational_gap] is no authenticated status, refresh, recovery, or shared generation boundary
+  + [maturity_boundary] is a resident service is one product slice rather than project-wide maturity
+
+& [ActivationDecision] is implement a bounded read-only local resident service
+  + [service] is cantord
+  + [client] is cantorctl
+  + [semantic_engine] is cantor_core without adapter-local query semantics
+  + [transport] is explicitly configured loopback TCP with bounded newline-delimited JSON frames
+  + [default_listener] is none because startup requires an operator configuration
+  + [operation_set] is status, execute, refresh, and shutdown
+  + [effect_scope] is local runtime lifecycle only
+  - never: expose a non-loopback listener
+  - never: compile SOP, mutate trust, choose an environment path from a request, or execute exterior effects
+
+& [OperatorConfiguration] is pinned startup authority
+  + [schema] is cantor-service-config/0.1
+  + [listen_address] is an explicit IP loopback address and port
+  + [activation_path] is the one descriptor path reread by refresh
+  + [allowed_environment_root] contains every activated environment
+  + [auth_token_path] is a file containing exactly one 256-bit hexadecimal bearer capability
+  + [maximum_frame_bytes] is bounded by compiled lower and upper limits that can represent one fault envelope
+  + [maximum_connections] is bounded by a compiled hard ceiling
+  + [read_timeout_milliseconds] and [write_timeout_milliseconds] are bounded
+  = must: reject unknown configuration fields
+  = must: canonicalize and containment-check authority paths
+  = must: omit token content from every result, fault, log, and state artifact
+
+& [EnvironmentActivation] is an immutable operator-published descriptor
+  + [schema] is cantor-environment-activation/0.1
+  + [sequence] is a monotonically increasing unsigned integer
+  + [environment_path] is canonical and contained by allowed_environment_root
+  + [environment_file_sha256] binds the exact serialized environment file
+  + [descriptor_digest] binds the canonical descriptor
+  + [runtime_generation] is independently derived by PreparedRuntime from semantic environment content
+  = must: load and preflight the complete candidate before replacement
+  = must: compare expected current generation and activation sequence
+  = must: publish only complete old or complete new state to readers
+  - never: modify the activation descriptor or environment from a service request
+  - never: accept an equal, lower, stale, malformed, uncontained, or hash-mismatched activation
+
+& [ServiceProtocol] is cantor-service-protocol/0.1
+  + [request_identity] is one validated semantic request identifier
+  + [authentication] is a fixed-length capability compared without early exit
+  + [status] returns service profile, active generation, activation, packages, runtime metrics, and bounded transport metrics
+  + [execute] carries one unchanged Cantor ProtocolRequest and returns its unchanged ProtocolResponse
+  + [refresh] rereads only the pinned activation path under exact generation and sequence preconditions
+  + [shutdown] stops acceptance only under exact generation precondition
+  + [response_binding] includes active generation and activation descriptor digest
+  + [faults] are typed, bounded, non-secret operational records
+  = must: reject unknown request fields, wrong protocol, malformed JSON, oversized frames, missing newline, invalid authentication, and stale preconditions
+  = must: use one request per connection and close after one response
+  = must: keep machine output free of diagnostic prose
+
+& [Concurrency] is bounded snapshot isolation
+  + [active_state] is one immutable service generation behind a read-write lock
+  + [reader] clones one complete generation before semantic execution
+  + [refresh_writer] prepares outside the active-state lock and swaps under an exact compare
+  + [connection_budget] rejects excess concurrent work visibly
+  + [shutdown] stops new acceptance while acquired snapshots may finish
+  = must: release the active-state lock before semantic execution or transport waits
+  = must: prove concurrent readers observe only old or new complete generations
+
+& [Recovery] is deterministic restart from operator artifacts
+  + [startup] loads configuration, token, activation descriptor, environment bytes, environment hash, semantic preflight, and PreparedRuntime
+  + [restart] reconstructs the same generation from unchanged artifacts
+  + [failed_refresh] leaves the prior active generation available
+  + [rollback] is a later higher-sequence descriptor that may point to a previously admitted environment
+  + [state_file] is optional operator observability and never semantic authority
+  = must: fail closed before listening when startup authority is invalid
+
+& [Client] is a thin local protocol adapter
+  + [commands] is status, query, inspect, refresh, and shutdown
+  + [input] is files or standard input for structured protocol requests
+  + [token] is read from the pinned configuration path and never accepted on the command line
+  + [output] is exactly one JSON service response on standard output
+  = must: preserve core ProtocolRequest and ProtocolResponse fields without reinterpretation
+
+& [Acceptance] is the bounded service proof set
+  + [RS-001] is strict configuration, activation, request, response, and fault schemas
+  + [RS-002] is startup fail-closed trust and path validation
+  + [RS-003] is exact embedded-versus-service ProtocolResponse equivalence
+  + [RS-004] is authenticated loopback-only operation with secret non-disclosure
+  + [RS-005] is bounded frames, connections, timeouts, and messages
+  + [RS-006] is atomic monotonic refresh with stale and tamper rejection
+  + [RS-007] is deterministic restart and explicit shutdown
+  + [RS-008] is concurrent old-or-new generation isolation
+  + [RS-009] is operator documentation and reproducible end-to-end workflow
+  + [RS-010] is measured resident round-trip, refresh, and restart behavior
+
+& [PrunedClaims] is what this activation does not mean
+  - [excluded] is HTTP, remote access, TLS termination, multi-user authorization, write-capable semantic operations, autonomous effects, sessions, faculties, notifications, provider pools, neural routing, terabyte scale, database mutation, and FPGA
+  - [excluded] is production maturity of the entire Cantor vision

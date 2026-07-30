@@ -1,0 +1,24 @@
+[package]
+name = "cantor_service"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "cantord"
+path = "src/server_main.rs"
+
+[[bin]]
+name = "cantorctl"
+path = "src/client_main.rs"
+
+[dependencies]
+cantor_core = { path = "../cantor_core" }
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+ed25519-dalek.workspace = true
+
+[lints]
+workspace = true

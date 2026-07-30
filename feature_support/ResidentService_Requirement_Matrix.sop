@@ -1,0 +1,38 @@
+Subject: Cantor Resident Service Requirement Matrix
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\ResidentService.sop
+
+& [MatrixIdentity] is implementation support accounting
+  + [matrix_uuid] is 5b5ee117-7948-4d42-ad2e-425c2ba0b0ad
+  + [status] is complete_with_evidence
+
+& [RS-001] is strict typed schemas
+  + [evidence] is strict Serde models and startup plus wire unknown-field rejection tests passed
+
+& [RS-002] is startup fail-closed validation
+  + [evidence] is malformed config, token, activation, environment digest, frame limit, remote bind, and containment tests passed
+
+& [RS-003] is exact semantic equivalence
+  + [evidence] is execute_protocol_request, PreparedRuntime, service library, real cantord, cantorctl, and direct CLI ProtocolResponse equality passed
+
+& [RS-004] is authenticated loopback-only operation
+  + [evidence] is non-loopback bind rejection, authentication precedence, absent unauthenticated binding, and secret-free response proof passed
+
+& [RS-005] is bounded transport resources
+  + [evidence] is frame lower and upper bounds, overload rejection and recovery, idle timeout, RAII worker accounting, and bounded-fault tests passed
+
+& [RS-006] is atomic monotonic refresh
+  + [evidence] is activation success, stale generation, stale sequence, non-increasing and unchanged candidates, hash tamper, invalid candidate, and old-or-new concurrency passed
+
+& [RS-007] is deterministic restart and shutdown
+  + [evidence] is repeated artifact reconstruction, real release restart, higher-sequence rollback, and exact-generation shutdown passed
+
+& [RS-008] is concurrent snapshot isolation
+  + [evidence] is twelve readers times two hundred operations during replacement observed only exact old or exact new responses
+
+& [RS-009] is operator workflow
+  + [evidence] is cryptographic initializer, atomic publisher, real server, client, status, query, refresh, stale rejection, rollback, shutdown, and guide passed
+
+& [RS-010] is measured behavior
+  + [evidence] is three final-code release runs of thirty samples with 15 microsecond resident and 625 through 652 microsecond query medians and zero mismatches

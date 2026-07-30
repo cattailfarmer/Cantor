@@ -357,6 +357,10 @@ mod tests {
 
     #[test]
     fn evidence_manifest_hashes_authority_implementation_and_measurements() {
+        let repository_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .canonicalize()
+            .expect("repository root must resolve");
         let manifest: Value = serde_json::from_slice(include_bytes!(
             "../artifacts/prepared_runtime_evidence_manifest.json"
         ))
@@ -373,7 +377,12 @@ mod tests {
             let path = artifact["path"]
                 .as_str()
                 .expect("artifact path must be text");
-            let bytes = fs::read(path).expect("manifest artifact must be readable");
+            assert!(
+                !Path::new(path).is_absolute(),
+                "manifest paths must remain clone-portable: {path}"
+            );
+            let bytes =
+                fs::read(repository_root.join(path)).expect("manifest artifact must be readable");
             assert_eq!(
                 bytes.len() as u64,
                 artifact["bytes"]

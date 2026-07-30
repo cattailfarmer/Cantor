@@ -1,0 +1,28 @@
+Subject: Cantor Resident Service Work Slice
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
+@ [matrix] C:\Project\Cantor\feature_support\ResidentService_Requirement_Matrix.sop
+
+& [SliceIdentity] is the contiguous resident-runtime activation
+  + [slice_uuid] is 74258620-370d-4bf3-919a-1c9dedec944d
+  + [status] is complete_with_proof
+  + [depends_on] is PreparedRuntime and SelfHostingIngestion complete
+  + [deliverable] is strict activation artifacts, cantord, cantorctl, exact equivalence, atomic refresh, restart, measurements, and proof
+  + [excluded] is sessions, faculties, notifications, effects, remote access, learned routing, and database mutation
+
+& [ExecutionOrder] is dependency locked
+  + [step] is add shared environment preflight without changing semantic outcomes
+  + [step] is add service protocol and strict artifact loading
+  + [step] is add immutable active generation and atomic refresh
+  + [step] is add bounded loopback transport and thin client
+  + [step] is prove faults, concurrency, restart, and equivalence
+  + [step] is measure and close governance
+
+& [Completion] is bounded activation
+  + [implementation] is crates\cantor_service with cantord and cantorctl
+  + [production_tests] is 109 debug and 109 release workspace tests
+  + [service_tests] is 8
+  + [evidence_runs] is 3
+  + [correctness_mismatches] is 0
+  @ [solution] C:\Project\Cantor\solutions\Cantor_Resident_Service_Solution.sop
+  @ [proof] C:\Project\Cantor\proofs\Cantor_Resident_Service_Proof.sop
