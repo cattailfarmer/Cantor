@@ -19,5 +19,15 @@ Subject: Cantor M2B Windows Sys Compile Probe Operational Faults
   + [remaining] dependency compile proof, platform preflight, unsafe activation, and physical fixtures remain separate
   + [status] is accounted
 
-& [ImplementationFaults] is open
-  + [status] is none_observed_yet
+& [ImplementationFaults] records the first locked probe
+  + [fault] is direct_dependency_lock_identity_contradiction
+  + [observed_at] is 2026-07-30T14:18:00-05:00
+  + [command] is cargo test -p cantor_ecosystem --test windows_topology_abi_probe --locked --offline
+  + [result] is Cargo refused because adding a direct dependency requires updating Cargo.lock
+  + [root_cause] is Cargo.lock records the dependency edge of the local cantor_ecosystem package even when the exact registry package is already present
+  + [contradiction] is canonical M2B-ABI-002 requires a new direct dependency while M2B-ABI-003 requires byte-identical Cargo.lock
+  + [effect] is no test compilation and no retained implementation delta
+  + [security_effect] is none; no generated Windows function was invoked
+  + [authority_effect] is signature 636448aa-295d-486e-ba3c-d1b4f12cd264 is invalidated by its implementation-contradiction clause
+  + [disposition] is preserve the failed authority and reprocess a 0.2 contract permitting only the exact local dependency-edge addition with no package-universe, version, source, or checksum change
+  + [status] is authority_reprocessing_required
