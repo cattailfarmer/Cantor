@@ -1,0 +1,43 @@
+Subject: Cantor Supervised Mock Loop File Change Surface
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Supervised_Mock_Loop_Activation.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Supervised_Mock_Loop_Solution.sop
+
+& [FileChangeIdentity] is implementation attribution
+  + [record_uuid] is 056bbe58-f997-4baf-92c2-7d7ffc680e37
+  + [solution_uuid] is 4711c0b4-bfeb-4e29-abdd-333bca962cf4
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at_ms] is 1785422987701
+
+& [AuthoritySurface] is source-preserved SJS
+  + [added] is source_documents\2026-07-30_cantor_supervised_mock_loop_activation
+  + [added] is specifications\exploded\Cantor_Supervised_Mock_Loop_Activation.exploded.sop
+  + [added] is specifications\Cantor_Supervised_Mock_Loop_Activation.sop
+  + [added] is justifications\Cantor_Supervised_Mock_Loop_Activation_Justification.sop
+
+& [ImplementationSurface] is one safe Rust library
+  + [changed] is Cargo.toml and Cargo.lock for the cantor_ecosystem workspace member
+  + [added] is crates\cantor_ecosystem\Cargo.toml
+  + [added] is crates\cantor_ecosystem\src\lib.rs
+  + [added] is crates\cantor_ecosystem\src\model.rs
+  + [added] is crates\cantor_ecosystem\src\transcript.rs
+  + [added] is crates\cantor_ecosystem\src\adapter.rs
+  + [added] is crates\cantor_ecosystem\src\review.rs
+  + [added] is crates\cantor_ecosystem\src\runtime.rs
+  - [unchanged] is prior core, CLI, MCP, resident-service, operator-lifecycle, parser, compiler, query, trust, and persistence behavior
+
+& [TestAndEvidenceSurface] is adversarial and clone-portable
+  + [added] is crates\cantor_ecosystem\tests\common\mod.rs
+  + [added] is crates\cantor_ecosystem\tests\admission_faults.rs with 32 tests
+  + [added] is crates\cantor_ecosystem\tests\supervised_cycle.rs with 25 tests
+  + [added] is crates\cantor_ecosystem\tests\evidence.rs with one manifest-verification test
+  + [added] is scripts\build_supervised_mock_loop_evidence_manifest.ps1
+  + [added] is crates\cantor_ecosystem\evidence\supervised_mock_loop_evidence_manifest.json
+  + [refreshed] is prerequisite evidence manifests whose artifact sets bind shared project maps and plans
+  + [refreshed] is prerequisite proof records whose manifest-digest bindings changed with those regenerated manifests
+
+& [DocumentationAndGovernanceSurface] is reentry state
+  + [added] is docs\SUPERVISED_MOCK_LOOP.md
+  + [added] is feature slice, requirement matrix, solution, proof, operational-fault, turn, and file-change records
+  + [changed] is README.md, SOP_CORE_MAP.sop, project narrative, build plan, and slice index
+  + [preserved] is live Codex, autonomous Shaliach, provider, notification, persistence, multi-worker, and effect work behind later separate authority

@@ -6,7 +6,7 @@ Subject: Cantor Engine Build Slice Index
 
 & [SliceIndexIdentity] is the contiguous feature-support boundary
   + [index_uuid] is 725ac2a3-52a3-4932-91b1-7f1da9f2b9e3
-  + [current_slice] is none
+  + [current_slice] is none_after_SupervisedMockLoop_completion
   + [activation_rule] is one slice active at a time unless independent proof work is explicitly separated
   + [support_rule] is no requirement is complete until implementation, test, proof, and fault behavior are recorded
   @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
@@ -16,6 +16,7 @@ Subject: Cantor Engine Build Slice Index
   @ [resident_service_activation_authority] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
   @ [service_backed_MCP_activation_authority] C:\Project\Cantor\specifications\Cantor_Service_Backed_MCP.sop
   @ [supervised_lifecycle_activation_authority] C:\Project\Cantor\specifications\Cantor_Supervised_Local_Lifecycle.sop
+  @ [supervised_mock_loop_activation_authority] C:\Project\Cantor\specifications\Cantor_Supervised_Mock_Loop_Activation.sop
 
 @ [slice_1] C:\Project\Cantor\feature_support\slices\CEB_Slice_01_Core_IR.sop
 @ [slice_2] C:\Project\Cantor\feature_support\slices\CEB_Slice_02_Trusted_Package.sop
@@ -29,6 +30,7 @@ Subject: Cantor Engine Build Slice Index
 @ [resident_service] C:\Project\Cantor\feature_support\slices\ResidentService.sop
 @ [service_backed_MCP] C:\Project\Cantor\feature_support\slices\ServiceBackedMCP.sop
 @ [supervised_local_lifecycle] C:\Project\Cantor\feature_support\slices\SupervisedLocalLifecycle.sop
+@ [supervised_mock_loop] C:\Project\Cantor\feature_support\slices\SupervisedMockLoop.sop
 
 & [DependencyOrder] is the only authorized normal progression
   + [edge] is Core_IR before Trusted_Package
@@ -38,6 +40,8 @@ Subject: Cantor Engine Build Slice Index
   + [edge] is deterministic baseline, corpus, and stable fabric before Neural_Routing
   + [edge] is bounded reviewed SOP ingestion before any labeled routing-corpus construction
   + [edge] is stable software protocol, reference oracle, measured workload, and explicit target before FPGA_Execution_Profiles
+  + [edge] is Cantor core CLI MCP resident service and supervised local lifecycle before SupervisedMockLoop
+  + [edge] is SupervisedMockLoop before read_only_live_Codex
 
 & [ReadinessSummary] is the present state
   + [CEB_Slice_01_Core_IR] is complete
@@ -52,5 +56,6 @@ Subject: Cantor Engine Build Slice Index
   + [ResidentService] is complete_with_authenticated_loopback_exact_core_delegation_and_atomic_refresh
   + [ServiceBackedMCP] is complete_with_pinned_client_exact_projection_live_combined_transport_and_embedded_rollback
   + [SupervisedLocalServiceLifecycle] is complete_with_authenticated_readiness_PID_safe_health_and_graceful_shutdown
-  + [next_candidate] is SupervisedCodexEcosystemMessaging
-  + [next_candidate_state] is inactive_pending_separate_source_preservation_identity_authority_recovery_and_SJS_activation
+  + [SupervisedMockLoop] is complete_with_effect_free_seven_message_cycle_57_focused_tests_and_coherent_outcome_verification
+  + [next_candidate] is ReadOnlyLiveCodexAdapter
+  + [next_candidate_state] is formation_ready_but_implementation_blocked_until_current_official_interface_research_and_separate_SJS

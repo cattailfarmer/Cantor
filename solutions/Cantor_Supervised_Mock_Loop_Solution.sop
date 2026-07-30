@@ -1,0 +1,73 @@
+Subject: Cantor Supervised Mock Loop Solution
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_supervised_mock_loop_activation\Dictated_Cantor_Supervised_Mock_Loop_Activation_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Supervised_Mock_Loop_Activation.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Supervised_Mock_Loop_Activation_Justification.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_ecosystem
+@ [operator_guide] C:\Project\Cantor\docs\SUPERVISED_MOCK_LOOP.md
+@ [proof] C:\Project\Cantor\proofs\Cantor_Supervised_Mock_Loop_Proof.sop
+
+& [SolutionIdentity] is the completed deterministic ecosystem prerequisite
+  + [solution_uuid] is 4711c0b4-bfeb-4e29-abdd-333bca962cf4
+  + [profile] is cantor-supervised-mock-loop/0.1
+  + [status] is completed_and_boundedly_activated
+  + [semantic_authority] is caller-supplied verified cantor_core execution
+  + [agent_authority] is one deterministic commissioned mock cycle
+  + [effect_authority] is none
+
+& [MachineFormSolution] is strict and bounded
+  + [forms] are participant address, authority grant, commission, work packet, acceptance criterion, envelope, expected response, candidate, review, decision, outcome, metrics, failure, and typed fault
+  + [serialization] is deterministic Serde JSON with unknown struct fields denied
+  + [text] is nonempty NUL-free and at most 4096 bytes
+  + [collections] are ordered and limited to 256 profile-owned items
+  + [digests] are lowercase hexadecimal SHA-256
+  + [outcome] is replayable and cross-validates transcript payloads, core response, Observer review, decision, progress, and metrics
+
+& [AuthoritySolution] is containment before delegation
+  + [dimensions] are project, semantic operation, tool capability, data scope, and effect class
+  + [intersection] can only retain values present in both grants
+  + [work_packet] must be contained by the commission
+  + [message] must be contained by commission and work packet
+  + [phase_1] rejects every nonempty effect-class grant
+  - never: infer effect authority from another dimension
+
+& [TranscriptSolution] is append-only admitted evidence
+  + [route] is principal to manager to Codex worker to Cantor participant to Codex worker to Observer to manager to principal
+  + [context] is exact commission correlation and work-packet frame
+  + [causation] requires an admitted predecessor that handed control to the sender
+  + [response_contract] requires the declared next kind at or before its logical deadline
+  + [replay] rejects duplicate message identity, idempotency identity, and equivalent semantic state
+  + [budgets] bind message count, canonical serialized bytes, logical ticks, and call depth
+  + [atomicity] is no index, metric, or transcript mutation before every gate passes
+  + [fault_control] is out of band with the immutable accepted prefix; Phase 1 admits no fault envelope
+
+& [AdapterSolution] is a deliberately narrow seam
+  + [MockCodexAdapter] accepts exactly one bound work packet and one response bound to its emitted request
+  + [FunctionCantorAdapter] calls one supplied executor and verifies the returned protocol response
+  + [fixture] compiles and signs one real SOP document then executes one inspect-fabric request through cantor_core
+  - never: call live Codex, a model provider, network, filesystem, process, notification, or effect surface
+
+& [ObserverSolution] is deterministic no-effects review
+  + [checks] are Honesty, Security, Protocol, AcceptanceCriteria, and EffectBoundary exactly once
+  + [honesty] requires known criterion claims plus declared evidence and proof references
+  + [protocol] requires a successful response that passes the core verifier
+  + [acceptance] requires all work-packet criteria
+  + [security] and [effect_boundary] require containment and no requested effect
+  + [decision] accepts only a coherent all-pass review and otherwise revises without action
+  - never: claim deterministic Phase 1 checks are model-based FacultyProgram execution
+
+& [DeterminismSolution] is a fixed seven-message computation
+  + [logical_ticks] are activation plus one through activation plus seven
+  + [call_depth] is 0, 1, 2, 2, 1, 1, 0
+  + [identities] derive from one caller-supplied semantic namespace
+  + [fixture_outcome_sha256] is 2ef72ed3edf4bf58e80e24c5d86bea18572ba10324e27e02aacc63569cd78b3c
+  + [termination] is first final decision or first typed fault
+  - never: retry, recurse, revise automatically, spawn another worker, or execute an effect
+
+& [NonclaimSet] is retained
+  + [Codex] is a mock adapter rather than a live task or control API
+  + [Observer] is mechanical validation rather than the seven compiled faculties
+  + [proof_refs] prove declared presence and lineage rather than exterior artifact authenticity
+  + [runtime] is in-memory and single-cycle rather than persistent, recoverable, notifying, or distributed
+  + [routing] is deterministic protocol routing rather than learned neural routing
+  + [manager] is a machine-form role boundary rather than an autonomous Shaliach agent

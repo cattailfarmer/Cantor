@@ -1,0 +1,106 @@
+Subject: Cantor Supervised Mock Loop Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Supervised_Mock_Loop_Activation.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\SupervisedMockLoop.sop
+@ [matrix] C:\Project\Cantor\feature_support\SupervisedMockLoop_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Supervised_Mock_Loop_Solution.sop
+@ [evidence_manifest] C:\Project\Cantor\crates\cantor_ecosystem\evidence\supervised_mock_loop_evidence_manifest.json
+
+& [ProofIdentity] is the bounded Phase 1 completion record
+  + [proof_uuid] is 45d7f98c-b1e0-4b24-a927-15b841c82f05
+  + [captured_at] is 2026-07-30
+  + [result] is passed_and_boundedly_activated
+  + [evidence_manifest_sha256] is FF4AF691CD3BB6F2C12A09D10337D5B3AF77771206CDE1BF695F763937CC73F2
+  + [fixture_outcome_sha256] is 2EF72ED3EDF4BF58E80E24C5D86BEA18572BA10324E27E02AACC63569CD78B3C
+
+& [AuthorityProof] is SML-001 and SML-011
+  + [source_sha256] is A1DD190C51D99DC23D60A5E65165DDD7CF63BE027B128309172A2204F26899F1
+  + [source_bytes] is 528
+  + [canonical_uuid] is 50f6f41c-f35b-4844-93cb-38593db6acc0
+  + [satisfaction_signature_uuid] is 497849e2-8156-41e4-a76d-d679b5a3f2ed
+  + [proof] is one separate safe-Rust library over caller-supplied core execution with no live Codex, model, network, process, filesystem-mutation, persistence, notification, multi-worker, or effect surface
+  + [proof] is nonempty commission effect authority is rejected before the first message and the EffectBroker role is never admitted
+  + [status] is passed
+
+& [MachineFormProof] is SML-001
+  + [proof] is strict unknown-field-denying JSON forms, validated SemanticId values, nonempty bounded text, 256-item collection limits, canonical lowercase SHA-256, and typed faults
+  + [proof] is transported CycleOutcome validation replays every envelope and cross-checks top-level payload copies, core response, review, decision, progress, and metrics
+  + [negative] is rewritten candidate, metrics, final reason, unsupported profile, payload kind, digest, criterion identity, and review-check structure rejection
+  + [status] is passed
+
+& [AuthorityContainmentProof] is SML-002
+  + [proof] is deterministic closed-set subset and intersection across project, semantic operation, tool capability, data scope, and effect class
+  + [negative] is expanded work packet, expanded message, oversized authority, and any Phase 1 effect grant rejection
+  + [status] is passed
+
+& [AddressAndCausationProof] is SML-003
+  + [route] is principal to manager to Codex worker to Cantor participant to Codex worker to Observer to manager to principal
+  + [proof] is exact consumer, complete role-plus-identity participant, frame, correlation, causal predecessor, control handoff, expected response kind, and response deadline
+  + [negative] is wrong consumer, unknown participant, wrong known-participant route, stale frame, other correlation, absent and unknown predecessor, broken handoff, wrong response kind, absent response contract, and late response
+  + [status] is passed
+
+& [ReplayAndBudgetProof] is SML-004 and SML-005
+  + [proof] is unique message identity, unique idempotency identity, equivalent-state fingerprint, monotonic logical tick, active lifetime, and append atomicity
+  + [proof] is exact message-count, canonical serialized-byte, logical-tick, call-depth, and profile collection limits
+  + [negative] is each replay class, nonmonotonic time, inactive lifecycle, outside lifetime, zero budget, and first-over-budget transition with immutable accepted prefix
+  + [status] is passed
+
+& [AdapterAndCoreProof] is SML-006
+  + [fixture] is one real one-document SOP corpus compiled with distinct deterministic test signers and admitted through the production trust boundary
+  + [Cantor] is one inspect-fabric ProtocolRequest executed by cantor_core and verified before return
+  + [Codex] is one two-call mock adapter bound to exact work-packet and request identities
+  + [negative] is repeated assignment, premature return, other request, invalid candidate, unverifiable response, and non-success response
+  + [status] is passed
+
+& [ObserverProof] is SML-007
+  + [checks] are Honesty, Security, Protocol, AcceptanceCriteria, and EffectBoundary exactly once
+  + [accept] is every criterion known and claimed, declared evidence and proof references present, core response verified successful, authority contained, and requested effects empty
+  + [revise] is exterior effect, missing criterion, unknown criterion, or missing proof with no action performed
+  + [negative] is contradictory or duplicate checks cannot validate as an accepting review
+  + [boundary] is deterministic review rather than model-based FacultyProgram execution
+  + [status] is passed
+
+& [ExactCycleProof] is SML-008 and SML-010
+  + [messages] is commission, assignment, cantor_query, cantor_return, candidate, review, and decision in exact order
+  + [logical_ticks] is activation plus one through seven
+  + [call_depth] is 0, 1, 2, 2, 1, 1, 0
+  + [adapter_calls] is exactly two mock Codex calls and one Cantor call
+  + [determinism] is repeated structural equality, exact JSON byte equality, and stable canonical fixture digest
+  + [transport] is serialization round trip followed by complete coherent-outcome validation
+  + [status] is passed
+
+& [FaultProof] is SML-009
+  + [focused_tests] is 32 admission and fault tests plus 25 cycle, adapter, Observer, determinism, and outcome tests
+  + [evidence_test] is one clone-portable exact-byte and SHA-256 artifact-manifest test
+  + [fault_ledger] is C:\Project\Cantor\narrative\operational_faults\1785422987701_supervised_mock_loop_faults.sop
+  + [result] is 58 new tests passed
+  + [status] is passed
+
+& [VerificationProof] is the complete release gate
+  + [production] is formatting, warnings-denied all-target lint, 174 debug tests, 174 overflow-checked release tests, release all-target build, and documentation passed locked and offline
+  + [dependency_audit] is 112 dependencies scanned against 1173 RustSec advisories with zero vulnerabilities
+  + [unsafe] is forbidden by the production workspace lint profile
+  + [evidence] is 35 clone-portable artifacts with exact byte counts and SHA-256 verification
+  + [status] is passed
+
+& [GovernanceAndGitProof] is attributable
+  @ [file_change] C:\Project\Cantor\narrative\file_changes\1785422987701_supervised_mock_loop_file_change.sop
+  @ [turn] C:\Project\Cantor\narrative\turns\1785422987701_cantor_supervised_mock_loop.sop
+  + [prior_evidence] is regenerated in dependency order after shared navigation changes and each prerequisite proof binds the refreshed manifest digest
+  + [generated_runtime] is ignored under .local and no production secret entered Git scope
+  + [checkpoint] is intentional repository commit after complete artifact, dependency, and secret audit
+  + [status] is passed
+
+& [AcceptanceProof] is SML-001 through SML-011
+  + [SML-001] is passed
+  + [SML-002] is passed
+  + [SML-003] is passed
+  + [SML-004] is passed
+  + [SML-005] is passed
+  + [SML-006] is passed
+  + [SML-007] is passed
+  + [SML-008] is passed
+  + [SML-009] is passed
+  + [SML-010] is passed
+  + [SML-011] is passed
+  = conclusion: Cantor now has a proved deterministic effect-free commissioned ecosystem protocol over one real signed core response without acquiring live Codex control, autonomous Shaliach, provider, session, notification, multi-worker, persistence, recovery, or exterior effect authority

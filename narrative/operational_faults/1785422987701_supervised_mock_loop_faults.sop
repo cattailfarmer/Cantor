@@ -1,0 +1,66 @@
+Subject: Cantor Supervised Mock Loop Operational Faults
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Supervised_Mock_Loop_Activation.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Supervised_Mock_Loop_Solution.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Supervised_Mock_Loop_Proof.sop
+
+& [FaultRecordIdentity] is the resolved Phase 1 ledger
+  + [record_uuid] is a91432eb-ea6b-4b14-b699-ccfd8c86c91c
+  + [captured_at_ms] is 1785422987701
+  + [status] is resolved_with_no_open_product_fault
+
+& [EmptyFixtureEnvironment] is caught by the first successful-cycle run
+  + [observation] is the existing core correctly rejects an inspect request whose expected package set is empty
+  + [cause] is the initial mock shortcut constructed an empty runtime rather than exercising a signed semantic authority
+  + [repair] is compile one real SOP document with distinct deterministic test signers and bind the request to its exact package digest and declared scope
+  + [security_result] is the success proof now crosses the same compilation, trust admission, request execution, and response-verification boundary as production core behavior
+  + [status] is resolved
+
+& [PackageDigestLocator] is caught while forming the signed fixture
+  + [observation] is package digest belongs to the optional recognition certificate rather than PackageContent
+  + [repair] is require a signed certificate and copy its digest into ExpectedPackage
+  + [status] is resolved
+
+& [RouteAdmissionGap] is found during post-success protocol review
+  + [observation] is knowing both participants did not prove that their sender-recipient pair was authorized for the declared message kind
+  + [risk] is a known participant could address a semantically wrong stage without leaving the commissioned participant set
+  + [repair] is enforce the fixed Phase 1 role-and-identity route for every message kind and reject fault envelopes as hidden control flow
+  + [proof] is wrong-route and effect-broker tests preserve the accepted prefix
+  + [status] is resolved
+
+& [ResponseContractGap] is found during post-success protocol review
+  + [observation] is expected response kind and deadline were serialized but not enforced at causal handoff
+  + [risk] is an accepted predecessor could be followed by the wrong stage or by a logically late response
+  + [repair] is validate each declared next kind locally and require the caused message to match that kind at or before its deadline
+  + [proof] is wrong-kind, absent-contract, late-response, and expiry tests
+  + [status] is resolved
+
+& [UnboundedProfileCollections] is found during machine-form audit
+  + [observation] is transcript byte budgets bounded accepted serialization but commission and payload collections had no explicit profile cardinality
+  + [repair] is cap each profile-owned collection at 256 items while retaining the stricter serialized-byte budget for admitted messages
+  + [proof] is oversized authority and acceptance-criterion tests
+  + [status] is resolved
+
+& [EffectGrantAmbiguity] is found during authority review
+  + [observation] is execution performed no effect but the initial commission validator allowed a nonempty effect-class capability
+  + [risk] is a Phase 1 record could appear to grant authority that the canonical activation explicitly withholds
+  + [repair] is reject every commission containing an exterior effect class before any transcript message
+  + [status] is resolved
+
+& [OutcomeCoherenceGap] is found during transport review
+  + [observation] is strict JSON decoding alone did not cross-check duplicated top-level values, transcript payloads, review, decision, and metrics
+  + [risk] is a syntactically valid transported outcome could contain internally rewritten claims
+  + [repair] is CycleOutcome validation replays all seven messages, verifies the core response, reproduces Observer review, checks decision and progress, and recomputes metrics
+  + [proof] is round-trip success plus rewritten metrics, candidate, and final-reason rejection
+  + [status] is resolved
+
+& [PriorEvidenceStaleness] is correctly caught by the first global run
+  + [observation] is earlier evidence tests rejected the changed shared slice index by exact byte count before later workspace tests ran
+  + [cause] is the project navigation and plan files are content-addressed by prerequisite proof manifests
+  + [repair] is finish the shared project surfaces then regenerate prepared-runtime, resident-service, service-backed-MCP, and supervised-lifecycle manifests in dependency order before generating the new manifest
+  + [status] is resolved_by_final_release_gate
+
+& [EvidenceMeaningBoundary] is documented rather than hidden
+  + [observation] is Phase 1 proof and evidence references establish identifier presence and lineage; they do not authenticate an arbitrary exterior artifact
+  + [resolution] is documentation and solution records state that signed SOP authenticity comes from verified cantor_core packages while broader artifact verification remains later authority
+  + [status] is bounded_nonclaim

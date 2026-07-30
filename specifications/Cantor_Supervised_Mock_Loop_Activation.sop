@@ -1,0 +1,190 @@
+Subject: Cantor Supervised Mock Loop Activation
+
+Description: Implementation authority for one deterministic, effect-free supervised ecosystem cycle that proves commission, addressed messaging, Cantor delegation, candidate review, replay defense, and bounded termination before any live Codex integration.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_supervised_mock_loop_activation\Dictated_Cantor_Supervised_Mock_Loop_Activation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_supervised_mock_loop_activation\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Supervised_Mock_Loop_Activation.exploded.sop
+@ [runtime_formation] C:\Project\Cantor\specifications\Cantor_Codex_Supervised_Ecosystem_Runtime.sop
+@ [role_boundary] C:\Project\Cantor\specifications\Cantor_Shaliach_Role_Delineation.sop
+@ [core_proof] C:\Project\Cantor\proofs\CEB_Deterministic_Baseline_Release_Audit.sop
+
+& [ActivationIdentity] is the bounded Phase 1 implementation authority
+  + [canonical_specification_uuid] is 50f6f41c-f35b-4844-93cb-38593db6acc0
+  + [profile] is cantor-supervised-mock-loop/0.1
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [implementation_unit] is a safe Rust cantor_ecosystem library crate
+  + [status] is authorized_for_phase_1_only
+  + [semantic_authority] remains in caller-supplied cantor_core protocol execution
+  + [agent_authority] is one deterministic commissioned mock cycle
+  + [effect_authority] is none
+
+& [AuthorityGrant] is the commission and work-packet capability set
+  + [projects] is a closed set of project identifiers
+  + [semantic_operations] is a closed set of Cantor operations
+  + [tool_capabilities] is a closed set of tool classes
+  + [data_scopes] is a closed set of readable or writable data boundaries
+  + [effect_classes] is a closed set of exterior action classes
+  = must: define subset containment and intersection deterministically
+  = must: reject any work packet or message authority not contained by the active commission
+  - never: infer effect authority from semantic, tool, project, or data authority
+
+& [CommissionContract] is the root agency boundary
+  + [profile] is cantor-commission/0.1
+  + [commission_uuid] is immutable identity and the cycle correlation root
+  + [principal] is one exact ParticipantAddress
+  + [manager] is one exact ParticipantAddress
+  + [purpose] is non-empty bounded text
+  + [requested_result] is non-empty bounded text
+  + [authority_grant] is AuthorityGrant
+  + [required_review_checks] includes honesty, security, protocol, acceptance_criteria, and effect_boundary
+  + [evidence_obligation] is a non-empty closed identifier set
+  + [proof_obligation] is a non-empty closed identifier set
+  + [budget] is maximum messages, serialized bytes, call depth, and logical ticks
+  + [activated_at_tick] is deterministic logical time
+  + [expires_at_tick] is greater than activated_at_tick
+  + [lifecycle] is active, revoked, expired, completed, or faulted
+  = must: validate identity, role, text, obligations, budget, lifetime, and active lifecycle before assignment
+  - never: let the manager issue, widen, reactivate, or extend its own commission
+
+& [WorkPacket] is one bounded assignment
+  + [profile] is cantor-work-packet/0.1
+  + [work_packet_uuid] is immutable identity
+  + [commission_uuid] is the governing commission
+  + [worker] is one exact CodexThread address
+  + [Cantor_participant] is one exact CantorParticipant address
+  + [Observer] is one exact Observer address
+  + [subject] is non-empty bounded semantic focus
+  + [purpose] is non-empty bounded assignment purpose
+  + [requested_result] is non-empty bounded result contract
+  + [acceptance_criteria] is a non-empty set of stable identifiers and descriptions
+  + [authority_grant] is a subset of CommissionContract authority
+  + [frame_digest] is a valid SHA-256 ContentDigest
+  + [budget] is no broader than the commission budget
+  = must: validate before the assignment envelope is admitted
+
+| [ParticipantRole] is (principal | manager | codex_thread | cantor_participant | observer | effect_broker)
+
+& [ParticipantAddress] is exact role plus stable SemanticId
+  + [role] is one ParticipantRole
+  + [identity] is a validated SemanticId
+  = must: compare role and identity together
+  - never: route by role alone when more than one identity can exist
+
+| [MessageKind] is (commission | assignment | cantor_query | cantor_return | candidate | review | decision | fault)
+
+& [EcosystemMessageEnvelope] is the shared message contract
+  + [profile] is cantor-ecosystem-message/0.1
+  + [message_uuid] is immutable SemanticId
+  + [causation_uuid] is absent only for the root commission message
+  + [correlation_uuid] is the active commission_uuid
+  + [sender] is one exact ParticipantAddress
+  + [recipient] is one exact ParticipantAddress
+  + [message_kind] is one MessageKind matching the typed payload variant
+  + [subject] is non-empty bounded text
+  + [frame_digest] is the WorkPacket frame digest
+  + [authority_scope] is contained by both commission and work packet where a work packet exists
+  + [payload] is CommissionContract, WorkPacket, ProtocolRequest, ProtocolResponse, CandidateArtifact, ReviewDecision, FinalDecision, or EcosystemFault
+  + [proof_refs] is a bounded ordered identifier set
+  + [expected_response] is optional exact response kind plus deadline tick and stop condition
+  + [idempotency_key] is immutable and unique inside the correlation
+  + [logical_tick] is deterministic and monotonic
+  = must: validate the complete envelope before append
+  = must: reject profile, payload-kind, identity, causation, correlation, address, frame, authority, deadline, replay, cycle, or budget faults without partial append
+
+& [MessageTranscript] is the append-only cycle evidence
+  + [messages] is accepted envelopes in exact order
+  + [seen_message_ids] is the uniqueness index
+  + [seen_idempotency_keys] is the replay index
+  + [seen_semantic_fingerprints] is the equivalent-state cycle index
+  + [serialized_bytes] is the canonical JSON byte total of accepted envelopes
+  = must: make append atomic from the caller's perspective
+  = must: require every non-root causation_uuid to identify an earlier message in the same correlation
+  = must: require the causal predecessor recipient to equal the caused message sender
+  = must: require logical ticks to increase
+  - never: edit or reorder an accepted message
+
+& [CandidateArtifact] is immutable mock worker output
+  + [candidate_uuid] is immutable identity
+  + [content_digest] is SHA-256 identity of candidate content supplied by the fixture
+  + [summary] is non-empty bounded text
+  + [satisfied_criterion_ids] is the worker claim set
+  + [proof_refs] is the supporting identifier set
+  + [requested_effects] is the exterior effect request set
+  = must: preserve requested_effects for Security review
+  - never: perform a requested effect inside this slice
+
+& [DeterministicAdapterSet] is the Phase 1 participant seam
+  + [MockCodexAdapter] accepts exactly one assignment and one Cantor return
+  + [MockCodexAdapter] emits exactly one fixture-owned ProtocolRequest and one CandidateArtifact
+  + [CantorParticipantAdapter] accepts exactly one Cantor query and returns one caller-supplied cantor_core ProtocolResponse
+  + [adapter_state] is new, assigned, query_returned, candidate_returned, or faulted
+  = must: reject wrong recipient, wrong kind, repeated stage, request identity mismatch, or non-success response
+  - never: call a live model, Codex process, network, filesystem mutation, or provider
+
+& [DeterministicObserver] is the Phase 1 acceptance governor
+  + [honesty_check] requires candidate criterion claims and proof references to match the work packet
+  + [security_check] requires requested_effects to be empty and authority to remain bounded
+  + [protocol_check] requires a successful verified cantor_core ProtocolResponse
+  + [acceptance_check] requires every WorkPacket criterion to be claimed
+  + [effect_boundary_check] requires no effect envelope or effect execution
+  + [disposition] is accept, revise, yield, stop, or fault
+  = must: record every check result and reason
+  = must: accept only when all required checks pass
+  - never: claim this deterministic review is model-based FacultyProgram execution
+
+& [SupervisedMockCycle] is the only authorized runtime operation
+  + [step_1] validates CommissionContract and WorkPacket
+  + [step_2] appends root commission and manager assignment
+  + [step_3] MockCodexAdapter emits one Cantor query
+  + [step_4] CantorParticipantAdapter returns one ProtocolResponse
+  + [step_5] MockCodexAdapter emits one CandidateArtifact
+  + [step_6] DeterministicObserver emits one ReviewDecision
+  + [step_7] manager emits one FinalDecision
+  + [step_8] runtime returns immutable CycleOutcome and metrics
+  = must: advance one lifecycle stage per accepted message
+  = must: return the first typed fault and preserved accepted prefix on failure
+  = must: terminate after decision or fault
+  - never: recurse, retry automatically, spawn another worker, or execute effects
+
+& [RequirementSet] is traceable
+  + [SML-001] is strict serializable machine forms for commission, authority, packet, participants, messages, candidate, review, outcome, and faults
+  + [SML-002] is commission and work-packet authority containment
+  + [SML-003] is exact addressing, frame, correlation, and causation admission
+  + [SML-004] is message, idempotency, and semantic-cycle replay defense
+  + [SML-005] is deterministic expiry and message, byte, tick, and depth budgets
+  + [SML-006] is one two-step mock Codex adapter and one existing-core Cantor adapter
+  + [SML-007] is one deterministic no-effects Observer review
+  + [SML-008] is one successful exact transcript from commission through decision
+  + [SML-009] is negative proof for every material admission, authority, budget, review, and adapter fault
+  + [SML-010] is deterministic JSON and repeated-run equality
+  + [SML-011] is no later-phase or exterior authority
+
+& [AcceptanceAndVerification] is the proof gate
+  + [unit_proof] is constructors, validation, subset, transcript admission, replay, cycle, budget, and review tests
+  + [fixture_proof] is one exact successful transcript with one real cantor_core ProtocolResponse
+  + [negative_proof] is wrong recipient, stale frame, broken causation, correlation mismatch, authority expansion, duplicate message, duplicate idempotency, equivalent-state cycle, expiry, message budget, byte budget, depth budget, effect request, missing criterion, missing proof, non-success core response, and adapter stage faults
+  + [determinism_proof] is repeated fixture outcome and canonical JSON equality
+  + [global_proof] is formatting, lint, debug tests, overflow-checked release tests, offline locked tests, release build, docs, and dependency audit
+
+& [SJSProcessingTrace] is the activation record
+  + [fold_1_subject] is continued governed work activates the existing runtime formation's first implementation phase
+  + [fold_2_boundary] is deterministic mock protocol inside and live or effect-bearing orchestration outside
+  + [fold_3_data_design] is commission, authority, participant, packet, envelope, transcript, candidate, review, decision, logical tick, budget, and fault
+  + [fold_4_governance] is exact addressing, subset authority, causation, correlation, replay, cycle, expiry, budget, effect denial, and immutable transcript
+  + [fold_5_solution_shape] is a safe Rust cantor_ecosystem library over caller-supplied cantor_core execution
+  + [fold_6_fault_review] is wrong identity, stale frame, broken lineage, replay, no-progress cycle, budget violation, hidden effect, rubber-stamp acceptance, and adapter overreach
+  + [fold_7_phase_lock] is SML-001 through SML-011 with later phases preserved as growth seeds
+  + [exhaustion_state] is phase_locked_for_effect_free_deterministic_mock_loop
+
+& [SatisfactionSignature] is valid Phase 1 implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 497849e2-8156-41e4-a76d-d679b5a3f2ed
+  + [source_snapshot_uuid] is ad95a2f6-6ef7-4fdd-bca7-b1e7b4e336b5
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Supervised_Mock_Loop_Activation.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_supervised_mock_loop_activation\Dictated_Cantor_Supervised_Mock_Loop_Activation_Source.sop
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Supervised_Mock_Loop_Activation.exploded.sop
+  + [processed_stage_set] is source_preserved, prior_gate_verified, delineated, exploded, inward_depth_formed, subcomponents_woven, cross_woven, data_designed, semantically_refined, constraint_checked, pruned, seven_fold_phase_locked, justified, registry_ready, and signed
+  + [signature_status] is valid_for_supervised_mock_loop_phase_1_only
+  + [implementation_authority] is cantor_ecosystem_library_machine_forms_admission_mock_adapters_observer_cycle_tests_docs_and_proof
+  + [invalidation_condition] is source_change, missing_trace, broken_lineage, authority_expansion, live_integration_leak, effect_execution, failed_quality_gate, or implementation_contradiction

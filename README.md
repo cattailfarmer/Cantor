@@ -60,7 +60,12 @@ baseline:
 - the Windows supervised lifecycle scripts start `cantord` hidden, require
   authenticated readiness before atomic secret-free state publication,
   provide fresh authenticated health, and stop only a PID/start-time/executable
-  match through exact-generation graceful shutdown.
+  match through exact-generation graceful shutdown; and
+- `cantor_ecosystem` proves one commissioned, effect-free seven-message
+  principal–manager–Codex–Cantor–Observer cycle with exact addressing,
+  causal response contracts, authority containment, replay and budget gates,
+  deterministic review, immutable failure prefixes, and a replay-verifiable
+  transported outcome over a real signed `cantor_core` response.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -77,6 +82,9 @@ limitations are documented in
 The resident service security boundary, operator publication sequence,
 rollback path, and client contract are documented in
 [`docs/RESIDENT_SERVICE.md`](docs/RESIDENT_SERVICE.md).
+The first executable ecosystem protocol, exact route, authority boundary,
+Observer checks, outcome verifier, and nonclaims are documented in
+[`docs/SUPERVISED_MOCK_LOOP.md`](docs/SUPERVISED_MOCK_LOOP.md).
 
 Protocol digests prove binding and internal consistency, not authenticity
 against a hostile process that can replace both content and digest. The
@@ -160,6 +168,7 @@ Current executable proofs:
 - [`proofs/Cantor_Resident_Service_Proof.sop`](proofs/Cantor_Resident_Service_Proof.sop)
 - [`proofs/Cantor_Service_Backed_MCP_Proof.sop`](proofs/Cantor_Service_Backed_MCP_Proof.sop)
 - [`proofs/Cantor_Supervised_Local_Lifecycle_Proof.sop`](proofs/Cantor_Supervised_Local_Lifecycle_Proof.sop)
+- [`proofs/Cantor_Supervised_Mock_Loop_Proof.sop`](proofs/Cantor_Supervised_Mock_Loop_Proof.sop)
 - [`proofs/CEB_Deterministic_Baseline_Release_Audit.sop`](proofs/CEB_Deterministic_Baseline_Release_Audit.sop)
 
 1. [`SOP_CORE_MAP.sop`](SOP_CORE_MAP.sop) — authority and project map
