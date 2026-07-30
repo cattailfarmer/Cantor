@@ -1,0 +1,211 @@
+Subject: Exploded Cantor M2B Windows Platform Preflight Runtime
+
+& [ExplosionIdentity] is phase locked
+  + [explosion_uuid] is ba00c5f3-0b31-4ae2-943d-edac1db8dedb
+  + [runtime_profile] is cantor-windows-platform-preflight-runtime/0.1
+  + [request_profile] is cantor-windows-platform-preflight-request/0.1
+  + [result_profile] is cantor-windows-platform-preflight/0.2
+  + [phase] is seven_fold_phase_locked
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_platform_preflight_runtime\Cantor_M2B_Windows_Platform_Preflight_Runtime_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_platform_preflight_runtime\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Windows_Platform_Preflight_Runtime_Closure_Assessment_2026-07-30.sop
+@ [forms_proof] C:\Project\Cantor\proofs\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Proof.sop
+@ [ABI_proof] C:\Project\Cantor\proofs\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop
+@ [zero_error_decision] C:\Project\Cantor\narrative\research\Cantor_Windows_Platform_Preflight_Zero_Error_Provenance_Decision_2026-07-30.sop
+
+& [BoundaryFormation] separates five layers
+  + [request] is pure validation before FFI
+  + [runtime] is target dispatch and one result
+  + [seam] is one private Windows module with owned resource discipline
+  + [probe] is opt-in exact-root physical observation
+  + [scanner] is absent
+
+& [AtomicRequirementSet] is complete
+  + [M2B-WPR-001] preserve raw source, research, forms proof, and ABI proof
+  + [M2B-WPR-002] create one isolated crate with runtime profile 0.1
+  + [M2B-WPR-003] validate the proven request before every possible Windows call
+  + [M2B-WPR-004] compile an explicit unsupported-target path without windows-sys on non-Windows
+  + [M2B-WPR-005] open only the validated path with exact read-only, sharing, creation, and no-follow flags
+  + [M2B-WPR-006] reject INVALID_HANDLE_VALUE before exactly one OwnedHandle transfer
+  + [M2B-WPR-007] query FileIdInfo, final GUID path, volume information, and remote protocol in exact order on one handle
+  + [M2B-WPR-008] use exact aligned fixed structures and fixed bounded WCHAR buffers
+  + [M2B-WPR-009] capture actual Windows errors immediately; emit nonzero OS faults or a distinct zero-error runtime provenance fault
+  + [M2B-WPR-010] map length, UTF-16, and semantic failures to local observation faults
+  + [M2B-WPR-011] copy complete strong identity, path, volume, remote, and disposition evidence into owned forms
+  + [M2B-WPR-012] deny unsafe by default and allow exactly six documented blocks in one private Windows module
+  + [M2B-WPR-013] forbid raw-handle escape, CloseHandle, write access, mutating calls, and partial evidence
+  + [M2B-WPR-014] provide pure boundary tests and exact static seam assertions
+  + [M2B-WPR-015] provide one ignored opt-in fixture probe bound to the exact ignored local root
+  + [M2B-WPR-016] preserve physical request, result, host, executable, and artifact digests
+  + [M2B-WPR-017] close global verification, audit, evidence, rollback, support, narrative, and publication
+  + [M2B-WPR-018] retain scanner, receipt, mutation, seal, launch, and promotion prohibitions
+
+& [RequestAtom] is pre-effect
+  + [validation] calls ValidatePlatformPreflightForm before target dispatch
+  + [invalid] returns InvalidRequest with no FFI
+  + [Windows] requires exact x86_64-pc-windows-msvc target already fixed by the form
+  + [input_root] remains caller-owned and canonical
+
+& [RuntimeAtom] is one safe function
+  + [function] is observe_platform_preflight
+  + [input] is borrowed WindowsPlatformPreflightRequest
+  + [success] is one owned WindowsPlatformPreflightRecord
+  + [runtime_fault] is InvalidRequest, UnsupportedTarget, or OperatingSystemErrorUnavailable with exact open or query operation
+  + [API_fault] remains inside the proven result sum
+
+& [OpenAtom] is exact
+  + [access] is FILE_READ_ATTRIBUTES
+  + [share] is FILE_SHARE_READ plus FILE_SHARE_WRITE plus FILE_SHARE_DELETE
+  + [creation] is OPEN_EXISTING
+  + [flags] are FILE_FLAG_OPEN_REPARSE_POINT plus FILE_FLAG_BACKUP_SEMANTICS
+  + [security] is null
+  + [template] is null
+  + [failure] is INVALID_HANDLE_VALUE plus immediate GetLastError
+  + [ownership] is one OwnedHandle from_raw_handle transfer after success only
+
+& [QueryAtom] is ordered
+  + [Q1] FileIdInfo into aligned MaybeUninit FILE_ID_INFO
+  + [Q2] normalized volume-GUID final path into 32768 initialized WCHARs
+  + [Q3] volume information into 261-WCHAR label and filesystem buffers plus scalars
+  + [Q4] FileRemoteProtocolInfo into aligned MaybeUninit FILE_REMOTE_PROTOCOL_INFO
+  + [handle] is borrowed from the same live OwnedHandle for every query
+  + [failure] consumes no output bytes
+
+& [TransformationAtom] is provenance preserving
+  + [identity] is the 16 FILE_ID_INFO bytes encoded lowercase in returned byte order
+  + [path] uses the successful returned character count and strict UTF-16
+  + [volume_text] requires a NUL terminator and strict UTF-16
+  + [remote_reserved] requires every top-level, generic, and protocol-specific reserved value to be zero
+  + [length_fault] is ReturnedLengthLimit
+  + [decode_fault] is InvalidUtf16
+  + [shape_fault] is InvalidObservation
+  + [zero_error_after_API_failure] is OperatingSystemErrorUnavailable and never an invented OS code or query stage
+  + [form_gate] validates the final record before release
+
+& [DispositionAtom] is inherited
+  + [protocol_nonzero] is RejectRemoteProtocol
+  + [protocol_zero_and_NTFS] is EligibleLocalNtfs
+  + [other_filesystem] is RejectUnsupportedFileSystem
+  + [other_relation] rejects during final form validation
+
+& [UnsafeBudget] is exact
+  + [block_1] open and immediate error capture
+  + [block_2] ownership transfer
+  + [block_3] identity query and immediate error capture
+  + [block_4] final-path query and immediate error capture
+  + [block_5] volume query and immediate error capture
+  + [block_6] remote query and immediate error capture
+  + [outside_module] is zero unsafe syntax
+  + [unsafe_function] is zero
+
+& [PhysicalProbeAtom] is opt-in
+  + [test_state] is ignored by default
+  + [runner] requires the exact repository and exact fixture root
+  + [fixture_root] is \\?\C:\Project\Cantor\.local\m2b-platform-preflight-fixture
+  + [fixture_mutation] is directory plus request and result evidence files under .local only
+  + [observation] is read only after fixture creation
+  + [expected] is complete local NTFS protocol zero and eligible disposition
+  + [unexpected] is preserved and blocks the success claim
+
+& [DataDesignModel] is boundary typed
+  + [validated_request] precedes effect
+  + [runtime_fault_sum] cannot impersonate an OS fault
+  + [result_sum] preserves OS, local, and complete provenance
+  + [OwnedHandle] contains resource lifetime
+  + [owned_result] contains no pointer, handle, buffer view, or partial record
+  + [physical_bundle] binds request, result, host, executable, and source artifacts
+
+& [ConstraintLedger] is fail closed
+  + [C-01] only the new crate, workspace membership, local package lock edge, governed runner, tests, and records may change
+  + [C-02] existing production crates remain unsafe-forbid and byte-identical except evidence references
+  + [C-03] windows-sys stays exact 0.61.2 with the proven three features
+  + [C-04] package universe may add only the new local crate and no registry package
+  + [C-05] request validation occurs before target dispatch and FFI
+  + [C-06] exact call set is CreateFileW, GetLastError, two GetFileInformationByHandleEx classes, GetFinalPathNameByHandleW, and GetVolumeInformationByHandleW
+  + [C-07] exact unsafe block count is six
+  + [C-08] INVALID_HANDLE_VALUE never enters OwnedHandle
+  + [C-09] one raw handle creates one owner and never escapes
+  + [C-10] every API failure captures its own immediate error and zero uses the distinct runtime provenance fault
+  + [C-11] every local failure uses observation_fault
+  + [C-12] every fault contains no partial evidence
+  + [C-13] every complete result validates before release
+  + [C-14] physical mutation is confined to the exact ignored fixture directory
+  + [C-15] default tests perform no physical preflight
+  + [C-16] scanner and receipt surfaces remain absent
+
+& [FailureModeSet] is explicit
+  + [F-01] invalid request reaches FFI
+  + [F-02] non-Windows imports or invokes windows-sys
+  + [F-03] open flags grant write or omit no-follow
+  + [F-04] invalid raw handle is owned
+  + [F-05] handle has zero or multiple owners
+  + [F-06] query order or handle identity drifts
+  + [F-07] failed output is read
+  + [F-08] error capture is delayed or zero is represented as an OS fault or invented query stage
+  + [F-09] buffer size, alignment, or lifetime is invalid
+  + [F-10] invalid UTF-16 is replaced rather than rejected
+  + [F-11] reserved remote fields are ignored
+  + [F-12] local fault is mislabeled as an OS fault
+  + [F-13] final record bypasses form validation
+  + [F-14] unsafe appears outside the one module or exceeds six blocks
+  + [F-15] default suite performs the physical call
+  + [F-16] probe escapes the exact ignored fixture root
+  + [F-17] physical unexpected outcome is normalized
+  + [F-18] runtime proof is cited as scanner or receipt authority
+
+& [VerificationProgram] is ordered
+  + [V-01] verify source, prior proofs, host preconditions, and signed authority
+  + [V-02] verify exact workspace, dependency, and lock delta
+  + [V-03] test invalid request and unsupported target before the seam
+  + [V-04] test pure UTF-16, identity, reserved, disposition, and result mapping
+  + [V-05] statically assert exact call names, flags, unsafe blocks, safety comments, and forbidden names
+  + [V-06] run focused debug and overflow-checked release without physical opt-in
+  + [V-07] compile and run the exact ignored fixture probe only through the governed runner
+  + [V-08] preserve exact physical request, output, host, source, and executable digests
+  + [V-09] run full debug and release, format, lint, build, docs, and audit
+  + [V-10] regenerate evidence and close solution, proof, review, readiness, narrative, reentry, and publication
+
+& [SemanticRefinementTrace] is exact
+  + [runtime] means bounded translation from one validated request to one proven result or one closed runtime-layer provenance fault
+  + [unsafe] means six auditable FFI or ownership operations, not general permission
+  + [read_only] means no write access and no mutating API; fixture creation is a separate runner authority
+  + [physical_success] means only the bound result observed on the named host and fixture
+  + [complete] means every profile 0.2 field validates
+
+& [ConstraintCheckTrace] is grounded
+  + [Microsoft] fixes call signatures, return shapes, path flags, volume buffers, and remote structure meaning
+  + [Rust] fixes FromRawHandle preconditions and OwnedHandle destructor responsibility
+  + [generated_bindings] fix the exact ABI items and constants
+  + [prior_forms_proof] fixes every released result shape and relation
+  + [prior_ABI_proof] fixes dependency version, features, layouts, and no-call baseline
+
+& [PruningTrace] removes overreach
+  + [pruned] tree traversal and content reads
+  + [pruned] stream, attribute, standard-info, and case-sensitive queries
+  + [pruned] retry, dynamic allocation growth, and partial evidence
+  + [pruned] direct CloseHandle and raw-handle API
+  + [pruned] automatic physical execution
+  + [pruned] candidate, scanner, receipt, mutation, seal, launch, and promotion
+
+& [FoldTrace] is seven-fold
+  + [fold_1_intent] make one honest physical root observation
+  + [fold_2_terms] request, runtime fault, OS fault, local fault, complete, and physical proof are distinct
+  + [fold_3_relations] one owner and one ordered query chain bind every result
+  + [fold_4_constraints] calls, flags, buffers, blocks, files, fixture, and effects are closed
+  + [fold_5_failures] eighteen invalidation paths are explicit
+  + [fold_6_verification] ten ordered proof gates are explicit
+  + [fold_7_nonclaims] no scanner, receipt, candidate, launch, or promotion authority exists
+
+& [ExhaustionReview] is phase locked
+  + [source] preserved
+  + [dependency] exact
+  + [request_boundary] complete
+  + [resource_boundary] complete
+  + [query_boundary] complete
+  + [fault_provenance] complete
+  + [unsafe_budget] complete
+  + [physical_fixture] complete
+  + [non_Windows] complete
+  + [scanner] intentionally absent
+  + [state] is seven_fold_phase_locked

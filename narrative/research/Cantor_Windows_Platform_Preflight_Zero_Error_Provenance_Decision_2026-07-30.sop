@@ -1,0 +1,41 @@
+Subject: Cantor Windows Platform Preflight Zero-Error Provenance Decision
+
+& [DecisionIdentity] is SJS constraint reconciliation
+  + [decision_uuid] is bee8371f-5c2e-4738-8616-197ad5240029
+  + [captured_at] is 2026-07-30
+  + [Windows_call_executed] is false
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_platform_preflight_runtime\Cantor_M2B_Windows_Platform_Preflight_Runtime_Source.sop
+@ [forms_authority] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop
+
+& [Conflict] is structural
+  + [source_intent] zero immediate error capture must never become an operating-system fault with a fabricated nonzero code
+  + [result_constraint] open_fault and query_fault require a nonzero error code
+  + [result_constraint] observation_fault requires one of four query stages and has no open stage
+  + [consequence] a failed CreateFileW followed by zero GetLastError cannot inhabit any honest profile 0.2 result variant
+
+& [RejectedInterpretation] is false provenance
+  + [option] map zero open error to observation_fault at an unrelated query stage
+  + [rejection] that invents both causal stage and result meaning
+  + [option] substitute ERROR_INVALID_DATA or another familiar nonzero code
+  + [rejection] that invents an operating-system report
+
+& [Decision] is a runtime-layer provenance fault
+  + [variant] is OperatingSystemErrorUnavailable
+  + [operation] is Open or Query with the exact PlatformPreflightQueryStage
+  + [error_code] is absent
+  + [partial_evidence] is absent
+  + [result_claim] is absent
+  + [effect] the handle owner still drops normally if acquisition had succeeded
+
+& [Boundary] is narrow
+  + [forms] remain unchanged and proven
+  + [normal_nonzero_error] remains open_fault or query_fault
+  + [local_success_processing_failure] remains observation_fault
+  + [zero_after_reported_failure] alone uses the runtime provenance fault
+  + [scanner_or_receipt_authority] is absent
+
+& [SJSConsequence] is required
+  + [canonical] must refine the raw phrase zero error maps to invalid_observation where that phrase is structurally impossible
+  + [tests] must prove zero cannot become an OS error or an invented query stage
+  + [invalidation] any synthesized code or stage invalidates the runtime signature

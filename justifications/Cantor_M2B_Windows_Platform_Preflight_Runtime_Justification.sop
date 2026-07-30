@@ -1,0 +1,50 @@
+Subject: Justification for Cantor M2B Windows Platform Preflight Runtime
+
+& [Claim] is activation bounded
+  + [statement] implement one isolated root-only Windows preflight now that its request, result, ABI, ownership, and fault provenance are explicit
+  + [confidence] is high for the implementation boundary and conditional for the first physical result
+
+& [Support] is concrete
+  + [forms] profile 0.2 can honestly carry open, query, local, and complete outcomes
+  + [ABI] windows-sys 0.61.2 functions, structures, constants, and features are compile proven
+  + [ownership] OwnedHandle closes on drop after one valid FromRawHandle transfer
+  + [buffers] every selected query has one closed fixed allocation
+  + [fixture] the exact ignored local root confines mutation and observation
+
+& [WhyNewCrate] is containment
+  + [false_option] relax unsafe_code across cantor_ecosystem
+  + [rejection] that would broaden the trusted computing base and weaken an already pure crate
+  + [solution] one target-specific crate denies unsafe by default and allows one private module
+
+& [WhySixBlocks] is auditability
+  + [reason] each FFI or ownership transition has distinct invariants and immediate error obligations
+  + [result] source count and line-specific safety comments are mechanically reviewable
+
+& [WhyRuntimeProvenanceFault] is honesty preserving
+  + [condition] a Windows function reports failure but immediate GetLastError is zero
+  + [forms_limit] proven OS faults require nonzero codes and open has no local observation stage
+  + [solution] OperatingSystemErrorUnavailable carries the exact open or query operation without a code, partial evidence, or result claim
+
+& [WhyPhysicalProbe] is evidence
+  + [reason] generated ABI availability does not establish actual target-host behavior
+  + [limit] one opt-in exact-root probe proves only its emitted facts
+  + [honesty] unexpected outcomes are preserved and block, not normalized
+
+& [Counterarguments] are answered
+  + [counterargument] use std::fs canonicalize and metadata only
+  + [answer] those APIs do not expose the required 128-bit identity, volume-GUID final path, volume record, or remote protocol record
+  + [counterargument] put all calls in one large unsafe block
+  + [answer] broad scope obscures the separate pointer, initialization, ownership, and error invariants
+  + [counterargument] implement the scanner in the same slice
+  + [answer] root platform eligibility is a prerequisite and does not justify traversal or content authority
+
+& [Invalidation] is explicit
+  + [condition] source drift, dependency drift, new call, new unsafe block, delayed or fabricated error, invented stage, ownership ambiguity, fixture escape, unexpected physical result, failed gate, or stale evidence
+  + [response] stop, preserve the fault, and reprocess before further effects
+
+& [Rollback] is direct
+  + [workspace] remove the new member
+  + [crate] remove cantor_windows_preflight
+  + [lock] remove only the local package entry and dependency edge
+  + [fixture] may remain ignored historical evidence or be removed under separate cleanup authority
+  + [state_migration] is none

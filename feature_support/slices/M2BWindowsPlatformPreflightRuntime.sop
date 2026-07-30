@@ -1,0 +1,30 @@
+Subject: M2B Windows Platform Preflight Runtime Slice
+
+& [SliceIdentity] is bounded
+  + [slice_uuid] is 0aeb743f-d718-4e1e-a892-a8de81f1a549
+  + [slice] is M2BWindowsPlatformPreflightRuntime
+  + [runtime_profile] is cantor-windows-platform-preflight-runtime/0.1
+  + [depends_on] is proven preflight result 0.2 and no-call ABI profile 0.2
+  + [authority_state] is signed_runtime_and_exact_fixture_authority
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_platform_preflight_runtime\Cantor_M2B_Windows_Platform_Preflight_Runtime_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_M2B_Windows_Platform_Preflight_Runtime.sop
+
+& [Files] are closed
+  + [workspace] Cargo.toml and Cargo.lock
+  + [crate] crates/cantor_windows_preflight/Cargo.toml and src/lib.rs
+  + [probe] crates/cantor_windows_preflight/examples/physical_probe.rs
+  + [tests] crates/cantor_windows_preflight/tests/runtime_contract.rs
+  + [runner] scripts/run_windows_platform_preflight_fixture.ps1
+  + [records] governed SJS, evidence, solution, proof, review, narrative, and reentry
+
+& [EffectBoundary] is exact
+  + [default] performs no physical preflight
+  + [opt_in] creates and observes only the exact ignored fixture root
+  + [runtime] is root-only read-only observation
+  + [scanner] is absent
+  + [receipt] is absent
+
+& [Implementation] is pending
+  + [signature_uuid] is 2fc69987-c7de-4538-9993-c5956f889584
+  + [state] is implementation_authorized_physical_probe_order_gated

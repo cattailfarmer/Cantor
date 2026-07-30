@@ -1,0 +1,223 @@
+Subject: Cantor M2B Windows Platform Preflight Runtime
+
+Description: Canonical implementation and exact-fixture execution authority for one isolated, root-only, read-only Windows platform preflight. It does not authorize topology traversal, content access, scanner output, receipt issuance, candidate admission, launch, seal, or promotion.
+
+& [CanonicalIdentity] is the initial runtime authority
+  + [canonical_uuid] is 59e670d4-2144-494d-80f8-788fff4601fe
+  + [version] is 0.1
+  + [runtime_profile] is cantor-windows-platform-preflight-runtime/0.1
+  + [request_profile] is cantor-windows-platform-preflight-request/0.1
+  + [result_profile] is cantor-windows-platform-preflight/0.2
+  + [lifecycle_state] is accepted
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_platform_preflight_runtime\Cantor_M2B_Windows_Platform_Preflight_Runtime_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_platform_preflight_runtime\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Windows_Platform_Preflight_Runtime_Closure_Assessment_2026-07-30.sop
+@ [forms_authority] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop
+@ [forms_proof] C:\Project\Cantor\proofs\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Proof.sop
+@ [ABI_authority] C:\Project\Cantor\specifications\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision.sop
+@ [ABI_proof] C:\Project\Cantor\proofs\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop
+@ [zero_error_decision] C:\Project\Cantor\narrative\research\Cantor_Windows_Platform_Preflight_Zero_Error_Provenance_Decision_2026-07-30.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Windows_Platform_Preflight_Runtime.exploded.sop
+@ [exploded_sha256] 86049c4017451dc4d18f2d9277fc796ca78623c5772b16b716ddad696fed139e
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Windows_Platform_Preflight_Runtime_Justification.sop
+@ [justification_sha256] 43476a5a5ed91ea1a8d9db9b518d6097dd656a890be5c65d5552be48dc7a1815
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Windows_Platform_Preflight_Runtime_Plan.sop
+@ [plan_sha256] cc224a1846d725942fd7b56931d803d2baca02b1659f1de4ba6ca3799c0bcd8d
+@ [matrix] C:\Project\Cantor\feature_support\M2BWindowsPlatformPreflightRuntime_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BWindowsPlatformPreflightRuntime.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Windows_Platform_Preflight_Runtime_Registry.sop
+@ [registry_sha256] d52d9821c3388373129025feea6e07217aaa6ccf884670ccf1013320af8658ed
+
+& [AuthorizedFileSet] is exact
+  + [workspace] is Cargo.toml and Cargo.lock
+  + [crate_manifest] is crates/cantor_windows_preflight/Cargo.toml
+  + [production] is crates/cantor_windows_preflight/src/lib.rs
+  + [physical_probe] is crates/cantor_windows_preflight/examples/physical_probe.rs
+  + [contract_tests] is crates/cantor_windows_preflight/tests/runtime_contract.rs
+  + [physical_runner] is scripts/run_windows_platform_preflight_fixture.ps1
+  + [evidence_builder] is scripts/build_windows_platform_preflight_runtime_evidence_manifest.ps1
+  + [evidence_test] is crates/cantor_windows_preflight/tests/runtime_evidence.rs
+  + [evidence_manifest] is crates/cantor_windows_preflight/evidence/windows_platform_preflight_runtime_evidence_manifest.json
+  + [physical_evidence] is crates/cantor_windows_preflight/evidence/windows_platform_preflight_physical_observation.json
+  + [governance] is source, canonical, exploded, justification, plan, matrix, slice, registry, solution, proof, review, fault, file-change, turn, map, narrative, readiness, reentry, and conversation records
+  - never: change an existing production Rust source file
+
+& [DependencyContract] is exact
+  + [new_workspace_member] is crates/cantor_windows_preflight
+  + [project_dependency] is cantor_ecosystem by local path
+  + [wire_dependencies] are workspace serde and serde_json
+  + [Windows_dependency] is windows-sys exactly 0.61.2 with default features false
+  + [Windows_features] are Win32_Foundation, Win32_Security, and Win32_Storage_FileSystem
+  + [registry_package_delta] is zero
+  + [lock_delta] is one new local package entry and its existing dependency edges only
+  + [existing_package_versions_sources_checksums] remain unchanged
+
+& [CrateSafetyContract] is isolated
+  + [crate_default] is deny unsafe_code and deny unsafe_op_in_unsafe_fn
+  + [Windows_module] is private and cfg(windows)
+  + [module_exception] is allow unsafe_code
+  + [unsafe_blocks] is exactly six
+  + [unsafe_functions] is zero
+  + [each_block] has one immediately preceding SAFETY comment stating pointer, size, initialization, lifetime, error, or ownership invariants
+  + [existing_crates] retain workspace unsafe_code forbid
+
+& [PublicRuntimeContract] is safe
+  + [constant] is WINDOWS_PLATFORM_PREFLIGHT_RUNTIME_PROFILE
+  + [function] is observe_platform_preflight
+  + [input] is borrowed WindowsPlatformPreflightRequest
+  + [output] is Result<WindowsPlatformPreflightRecord, WindowsPlatformPreflightRuntimeFault>
+  + [runtime_fault] is InvalidRequest with bounded proven form fault, UnsupportedTarget, or OperatingSystemErrorUnavailable
+  + [runtime_operation] is Open or Query with the exact PlatformPreflightQueryStage
+  + [request_validation] precedes cfg target dispatch and every possible Windows call
+  + [released_record] passes ValidatePlatformPreflightForm
+
+& [NonWindowsContract] is explicit
+  + [windows_sys_import] is absent
+  + [FFI] is absent
+  + [result] is UnsupportedTarget after request validation
+  + [physical_claim] is absent
+
+& [OpenContract] is exact
+  + [function] is CreateFileW
+  + [path] is one owned NUL-terminated UTF-16 copy of validated input_root
+  + [desired_access] is FILE_READ_ATTRIBUTES
+  + [share_mode] is FILE_SHARE_READ plus FILE_SHARE_WRITE plus FILE_SHARE_DELETE
+  + [creation_disposition] is OPEN_EXISTING
+  + [flags] are FILE_FLAG_OPEN_REPARSE_POINT plus FILE_FLAG_BACKUP_SEMANTICS
+  + [security_attributes] is null
+  + [template_handle] is null
+  + [failure] is INVALID_HANDLE_VALUE followed immediately by GetLastError
+  + [zero_error] becomes OperatingSystemErrorUnavailable for Open and never an OS fault or invented query stage
+  + [success] transfers exactly once into OwnedHandle
+
+& [OwnershipContract] is one-way
+  + [precondition] rejects INVALID_HANDLE_VALUE before FromRawHandle
+  + [transfer] is one OwnedHandle::from_raw_handle
+  + [borrow] uses AsRawHandle for calls while the owner is live
+  + [escape] is none
+  + [direct_CloseHandle] is forbidden
+  + [drop] is the only closure mechanism
+  + [released_result] contains no resource identity other than copied strong file identity
+
+& [QueryContract] is exact order on one handle
+  + [Q1] is GetFileInformationByHandleEx FileIdInfo into MaybeUninit<FILE_ID_INFO>
+  + [Q2] is GetFinalPathNameByHandleW FILE_NAME_NORMALIZED plus VOLUME_NAME_GUID into [u16; 32768]
+  + [Q3] is GetVolumeInformationByHandleW into [u16; 261] label, three u32 scalars, and [u16; 261] filesystem name
+  + [Q4] is GetFileInformationByHandleEx FileRemoteProtocolInfo into MaybeUninit<FILE_REMOTE_PROTOCOL_INFO>
+  + [fixed_structure_size] uses checked u32 conversion of size_of
+  + [success_only] permits assume_init or output consumption
+  + [failure] captures GetLastError in the same unsafe block before another FFI call
+  + [zero_error] becomes OperatingSystemErrorUnavailable for the exact query stage
+
+& [OutputTransformationContract] is strict
+  + [identity] is u64 VolumeSerialNumber and 16 FileId.Identifier bytes encoded as 32 lowercase hexadecimal digits in array order
+  + [final_path] consumes exactly the successful returned character count
+  + [final_path_return_zero] is QueryFault FinalVolumeGuidPath with actual nonzero error
+  + [final_path_return_at_or_above_capacity] is ObservationFault ReturnedLengthLimit
+  + [text] uses String::from_utf16 without replacement
+  + [volume_text] requires an in-buffer NUL terminator
+  + [remote_reserved] requires Reserved, GenericReserved.Reserved, and ProtocolSpecific.Reserved all zero
+  + [invalid_UTF16] is ObservationFault InvalidUtf16 at the producing stage
+  + [invalid_length_or_terminator] is ObservationFault ReturnedLengthLimit or InvalidObservation
+  + [invalid_structure_or_form] is ObservationFault InvalidObservation
+  + [zero_after_reported_failure] is a runtime provenance fault with no error code, partial evidence, or result claim
+  + [partial_evidence] is absent
+
+& [DispositionContract] is inherited
+  + [remote_protocol_nonzero] is RejectRemoteProtocol
+  + [protocol_zero_and_filesystem_NTFS] is EligibleLocalNtfs
+  + [protocol_zero_and_other_filesystem] is RejectUnsupportedFileSystem
+  + [final_validation] is authoritative
+
+& [ExactCallSet] is closed
+  + [allowed] is CreateFileW
+  + [allowed] is GetLastError
+  + [allowed] is GetFileInformationByHandleEx with FileIdInfo
+  + [allowed] is GetFinalPathNameByHandleW
+  + [allowed] is GetVolumeInformationByHandleW
+  + [allowed] is GetFileInformationByHandleEx with FileRemoteProtocolInfo
+  - never: call CloseHandle, ReadFile, write, delete, rename, enumerate, stream, privilege, device-control, process, network, clock, or random APIs
+
+& [DefaultVerificationContract] is effect free
+  + [physical_probe] is ignored
+  + [unit_tests] cover invalid request, non-Windows dispatch where applicable, strict text conversion, identity encoding, reserved values, disposition, local fault classification, and final form validation
+  + [static_test] asserts six unsafe blocks, six SAFETY comments, exact call set and flags, private module exception, and forbidden API and access absence
+  + [debug_and_release] run without physical opt-in
+
+& [PhysicalFixtureContract] is separately explicit
+  + [host] is the current x86_64-pc-windows-msvc desktop
+  + [fixture_root] is \\?\C:\Project\Cantor\.local\m2b-platform-preflight-fixture
+  + [runner_repository_root] is C:\Project\Cantor
+  + [allowed_mutation] is create that directory and write request and transient result files below it
+  + [forbidden_mutation] is every path outside that fixture root
+  + [probe] is opt-in and executes only after exact root and repository assertions
+  + [observation] performs only the authorized read-only call set
+  + [expected_result] is Complete with protocol zero, filesystem NTFS, EligibleLocalNtfs, valid strong identity, and canonical volume-GUID final path
+  + [unexpected_result] is preserved and blocks physical-success closure
+  + [cleanup] is not performed
+
+& [PhysicalEvidenceContract] is bound
+  + [record] contains runtime profile, captured-at time, exact request, exact result, host OS, rustc host, filesystem precondition, source commit, executable SHA-256, Cargo.lock SHA-256, and fixture-root identity
+  + [authority] is this signature UUID
+  + [claim] is limited to the recorded run
+  + [candidate_or_scanner_inference] is forbidden
+
+& [RequirementSet] is M2B-WPR-001 through M2B-WPR-018
+  + [lineage] preserves source and prior proofs
+  + [runtime] fixes crate, API, target dispatch, dependencies, and forms
+  + [resource] fixes open, owner, calls, buffers, and errors
+  + [provenance] fixes OS, local, complete, and no-partial outcomes
+  + [physical] fixes the exact opt-in fixture and evidence
+  + [closure] fixes focused, global, static, audit, evidence, rollback, support, and publication proof
+
+& [Acceptance] is exact
+  + [static] exact files, dependencies, call set, flags, six unsafe blocks, comments, and forbidden surface pass
+  + [focused] runtime pure and no-call paths pass in debug and overflow-checked release
+  + [physical] the governed exact-root probe emits and validates the expected Complete result
+  + [global] workspace debug, release, format, warnings-denied lint, release build, warnings-denied docs, and audit pass
+  + [evidence] current manifests verify after narrative closure
+  + [review] readiness advances only the directly observed gates
+
+& [AuthorityBoundary] is one runtime and fixture only
+  + [allowed] is the exact new crate, safe API, six-block Windows seam, exact ignored probe, exact local fixture mutation, read-only root observation, evidence, and proof
+  + [forbidden] is existing production Rust change, seventh unsafe block, new Win32 call, write access, traversal, content, stream, attributes, case policy, scanner, receipt, candidate, sandbox, cleanup, launch, seal, promotion, or non-fixture mutation
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is raw source plus immutable manifest and prior bindings
+  + [delineated] is request, runtime dispatch, resource seam, result, physical probe, and scanner absence
+  + [exploded] is eighteen requirements, sixteen constraints, eighteen failures, and ten verification gates
+  + [semantically_refined] is runtime, unsafe, read-only, physical success, and complete meaning
+  + [constraint_checked] is official Microsoft semantics, Rust ownership, generated bindings, and prior proofs
+  + [pruned] is traversal, content, streams, retries, broad unsafe, automatic physical execution, scanner, and receipt
+  + [data_design_checked] is validated request, runtime fault sum, proven result sum, one owner, and bound physical bundle
+  + [exhaustion_reviewed] is seven_fold_phase_locked
+  + [justified] is claim, support, false options, counterarguments, invalidation, and rollback
+  + [planned] is ordered authority, implementation, physical proof, global verification, evidence, and publication work
+  + [registry_recorded] is graph-addressable nodes, causal edges, retrieval terms, and nonedges
+
+& [SignatureEvidenceTable] binds every stage
+  + [source_preserved] is Source_Document_Manifest.sop
+  + [delineated] is exploded BoundaryFormation
+  + [exploded] is Cantor_M2B_Windows_Platform_Preflight_Runtime.exploded.sop
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded PruningTrace
+  + [data_design_checked] is exploded DataDesignModel
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Windows_Platform_Preflight_Runtime_Justification.sop
+  + [planned] is Cantor_M2B_Windows_Platform_Preflight_Runtime_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Windows_Platform_Preflight_Runtime_Registry.sop
+
+& [SatisfactionSignature] is valid isolated runtime and exact-fixture authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 2fc69987-c7de-4538-9993-c5956f889584
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Windows_Platform_Preflight_Runtime.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Windows_Platform_Preflight_Runtime.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_platform_preflight_runtime\Cantor_M2B_Windows_Platform_Preflight_Runtime_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 98e5db3c-3ecb-45ea-bfc2-0616f41aebf5
+  + [implementation_authority] is isolated_root_platform_preflight_runtime_and_exact_opt_in_fixture_only
+  + [signature_status] is valid
+  + [invalidation_condition] is source change, dependency drift, existing production Rust change, new call, new unsafe block, write access, ownership ambiguity, delayed or fabricated error, invented stage, partial evidence, fixture escape, normalized unexpected result, scanner or receipt surface, stale evidence, missing trace, or failed gate
