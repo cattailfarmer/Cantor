@@ -173,7 +173,7 @@ $report = [ordered]@{
     raw_artifacts = @($artifactHashes)
 }
 
-$json = $report | ConvertTo-Json -Depth 12
+$json = ($report | ConvertTo-Json -Depth 12).Replace("`r`n", "`n")
 [IO.File]::WriteAllText(
     (Join-Path (Get-Location) $OutputPath),
     "$json`n",

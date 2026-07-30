@@ -98,7 +98,7 @@ $outputDirectory = [IO.Path]::GetDirectoryName($outputFullPath)
 if (-not [string]::IsNullOrWhiteSpace($outputDirectory)) {
     [IO.Directory]::CreateDirectory($outputDirectory) | Out-Null
 }
-$json = $summary | ConvertTo-Json -Depth 8
+$json = ($summary | ConvertTo-Json -Depth 8).Replace("`r`n", "`n")
 [IO.File]::WriteAllText($outputFullPath, $json + "`n", [Text.UTF8Encoding]::new($false))
 
 [ordered]@{

@@ -7,6 +7,7 @@ Set-StrictMode -Version Latest
 $repositoryRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 
 $fixedPaths = @(
+    ".gitattributes",
     "source_documents/2026-07-29_cantor_self_hosting_ingestion/Dictated_Cantor_Self_Hosting_Ingestion_Source.sop",
     "source_documents/2026-07-29_cantor_self_hosting_ingestion/Source_Document_Manifest.sop",
     "specifications/exploded/Cantor_Self_Hosting_Ingestion.exploded.sop",
@@ -80,7 +81,7 @@ $manifest = [ordered]@{
     artifacts = @($artifacts)
 }
 
-$json = $manifest | ConvertTo-Json -Depth 10
+$json = ($manifest | ConvertTo-Json -Depth 10).Replace("`r`n", "`n")
 $outputFullPath = if ([IO.Path]::IsPathRooted($OutputPath)) {
     [IO.Path]::GetFullPath($OutputPath)
 }

@@ -372,7 +372,7 @@ mod tests {
         let artifacts = manifest["artifacts"]
             .as_array()
             .expect("manifest artifacts must be an array");
-        assert_eq!(artifacts.len(), 48);
+        assert_eq!(artifacts.len(), 49);
         for artifact in artifacts {
             let path = artifact["path"]
                 .as_str()

@@ -56,3 +56,9 @@ Subject: Cantor Supervised Local Lifecycle Operational Faults
   + [repair] is require strict UTF-8 without BOM and exact compact decode-encode byte equality before any field or process authority is used
   + [proof] is a duplicate schema member is rejected while the original canonical state remains healthy
   + [status] is resolved
+
+& [EvidenceLineEndingPortability] is resolved during repository audit
+  + [observation] is core.autocrlf was true while raw-byte evidence manifests hashed text artifacts and PowerShell JSON contained mixed CRLF and LF
+  + [risk] is a clean Windows checkout could change evidence bytes and invalidate a manifest described as clone-portable
+  + [repair] is enforce LF for every hashed non-SOP text type, preserve SOP bytes as non-text authority, emit LF-only generated JSON, and bind .gitattributes into every current evidence manifest
+  + [status] is resolved

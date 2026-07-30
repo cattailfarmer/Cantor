@@ -7,6 +7,7 @@ Set-StrictMode -Version Latest
 $repositoryRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 
 $fixedPaths = @(
+    ".gitattributes",
     "source_documents/2026-07-29_cantor_prepared_runtime/Dictated_Cantor_Prepared_Runtime_Source.sop",
     "source_documents/2026-07-29_cantor_prepared_runtime/Source_Document_Manifest.sop",
     "specifications/exploded/Cantor_Prepared_Runtime.exploded.sop",
@@ -69,7 +70,7 @@ $manifest = [ordered]@{
     artifacts = @($artifacts)
 }
 
-$json = $manifest | ConvertTo-Json -Depth 10
+$json = ($manifest | ConvertTo-Json -Depth 10).Replace("`r`n", "`n")
 [IO.File]::WriteAllText(
     (Join-Path $repositoryRoot $OutputPath),
     "$json`n",

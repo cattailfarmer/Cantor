@@ -84,7 +84,7 @@ else {
 }
 [IO.File]::WriteAllText(
     $outputFullPath,
-    "$($summary | ConvertTo-Json -Depth 10)`n",
+    "$(($summary | ConvertTo-Json -Depth 10).Replace("`r`n", "`n"))`n",
     [Text.UTF8Encoding]::new($false)
 )
 Write-Output $outputFullPath

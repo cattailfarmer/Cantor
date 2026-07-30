@@ -7,6 +7,7 @@ Set-StrictMode -Version Latest
 $repositoryRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 
 $paths = @(
+    ".gitattributes",
     "source_documents/2026-07-29_cantor_supervised_local_lifecycle/Dictated_Cantor_Supervised_Local_Lifecycle_Source.sop",
     "source_documents/2026-07-29_cantor_supervised_local_lifecycle/Source_Document_Manifest.sop",
     "specifications/exploded/Cantor_Supervised_Local_Lifecycle.exploded.sop",
@@ -77,7 +78,7 @@ else {
 [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($outputFullPath)) | Out-Null
 [IO.File]::WriteAllText(
     $outputFullPath,
-    "$($manifest | ConvertTo-Json -Depth 10)`n",
+    "$(($manifest | ConvertTo-Json -Depth 10).Replace("`r`n", "`n"))`n",
     [Text.UTF8Encoding]::new($false)
 )
 Write-Output $outputFullPath
