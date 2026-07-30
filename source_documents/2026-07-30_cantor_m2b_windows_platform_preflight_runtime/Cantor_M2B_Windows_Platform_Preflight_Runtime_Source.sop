@@ -1,0 +1,112 @@
+Subject: Raw Source for Cantor M2B Windows Platform Preflight Runtime
+
+Captured: 2026-07-30
+Conversation: cab190f5-eda0-44e0-81a5-51f9605e0baa
+Source type: manager-selected next slice after proven pure preflight profile 0.2
+
+Preserve this source separately from canonical and exploded specifications.
+
+Implement the smallest target-specific runtime that can turn one already
+validated cantor-windows-platform-preflight-request/0.1 value into one honest
+cantor-windows-platform-preflight/0.2 record.
+
+Isolation:
+
+- create one new workspace crate named cantor_windows_preflight;
+- keep every existing crate under the workspace unsafe_code prohibition;
+- make the new crate deny unsafe code by default;
+- allow unsafe code only on one private Windows module;
+- use exactly six documented unsafe blocks in that module;
+- expose only safe owned values from the module;
+- add no dependency version, source, checksum, or feature beyond the already
+  locked windows-sys 0.61.2 Foundation, Security, and Storage_FileSystem set;
+- add cantor_ecosystem as the only project dependency required for the proven
+  request and result forms.
+
+Runtime contract:
+
+- expose observe_platform_preflight(&WindowsPlatformPreflightRequest);
+- validate the request before any Windows call;
+- return invalid_request without effects when request validation fails;
+- return unsupported_target on non-Windows without importing or invoking
+  windows-sys;
+- on Windows, open exactly the caller's validated extended-DOS path;
+- request FILE_READ_ATTRIBUTES only;
+- share read, write, and delete;
+- use OPEN_EXISTING;
+- use FILE_FLAG_OPEN_REPARSE_POINT and FILE_FLAG_BACKUP_SEMANTICS;
+- pass null security attributes and null template handle;
+- classify INVALID_HANDLE_VALUE with an immediate nonzero GetLastError as
+  open_fault;
+- transfer every successful raw handle exactly once into OwnedHandle;
+- never call CloseHandle or expose a raw or borrowed handle.
+
+Use the same owned handle for this exact query order:
+
+1. GetFileInformationByHandleEx with FileIdInfo and exact FILE_ID_INFO;
+2. GetFinalPathNameByHandleW with FILE_NAME_NORMALIZED plus VOLUME_NAME_GUID
+   and one 32768-WCHAR fixed buffer;
+3. GetVolumeInformationByHandleW with 261-WCHAR volume-name and file-system
+   buffers and exact scalar outputs;
+4. GetFileInformationByHandleEx with FileRemoteProtocolInfo and exact
+   FILE_REMOTE_PROTOCOL_INFO.
+
+For each Windows function:
+
+- keep every input and output allocation alive, aligned, initialized as
+  required, and bounded for the call;
+- use checked u32 size conversion;
+- consume outputs only after the API reports success;
+- capture GetLastError immediately after ordinary failure;
+- never fabricate an operating-system error;
+- map an oversized successful path return to returned_length_limit;
+- map strict UTF-16 failure to invalid_utf16;
+- map missing terminators, nonzero reserved fields, zero error capture, or a
+  result rejected by the proven form validator to invalid_observation;
+- return no partial evidence on any fault.
+
+The complete result must contain:
+
+- the FILE_ID_INFO volume serial and lowercase 128-bit identity;
+- the canonical volume-GUID final path;
+- volume label, serial, maximum component length, flags, and filesystem name;
+- remote-protocol structure version, size, protocol version, and flags;
+- eligible_local_ntfs only for protocol zero and exact filesystem name NTFS;
+- reject_remote_protocol for nonzero protocol;
+- reject_unsupported_file_system otherwise.
+
+Physical proof is narrow and opt-in:
+
+- one ignored Windows-only probe may run only when explicitly selected;
+- its exact disposable root is
+  \\?\C:\Project\Cantor\.local\m2b-platform-preflight-fixture;
+- a governed PowerShell runner may create only that directory and its request
+  and result files under the matching .local fixture directory;
+- the probe performs read-only observation after fixture creation;
+- it must emit the exact request and result JSON plus host and binary digests;
+- the expected current-host result is complete, protocol zero, filesystem
+  NTFS, eligible_local_ntfs, valid strong identity, and a canonical
+  volume-GUID final path;
+- any other outcome is preserved as evidence and blocks the physical-success
+  claim instead of being normalized.
+
+Static and behavioral proof must establish:
+
+- request validation precedes the seam;
+- exact unsafe block count is six;
+- every block has its own safety justification;
+- no unsafe exists outside the private Windows module;
+- no CloseHandle, write access, mutating Win32 API, process, network, random,
+  clock, persistence, scanner, receipt, seal, launch, or promotion authority;
+- pure UTF-16, identity, reserved-field, disposition, and fault mapping tests;
+- non-Windows compilation behavior;
+- focused debug and overflow-checked release tests;
+- full workspace tests, formatting, warnings-denied lint, release build,
+  warnings-denied docs, dependency audit, evidence, rollback, and support
+  review.
+
+This source authorizes no tree traversal, content read, stream query, entry
+classification, candidate admission, receipt issuance, repository mutation,
+cleanup, launch, seal, or promotion. A successful root preflight establishes
+only the exact facts carried by its profile 0.2 result on the measured host and
+fixture at that run.

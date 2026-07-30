@@ -1,0 +1,85 @@
+Subject: Cantor Windows Platform Preflight Runtime Closure Assessment
+
+& [ResearchIdentity] is pre-SJS activation support
+  + [research_uuid] is 085855b4-d99a-4a7a-9344-dad6007bf402
+  + [captured_at] is 2026-07-30
+  + [purpose] is close the exact implementation and physical-proof boundary for one root platform preflight
+  + [Windows_call_executed] is false
+
+@ [raw_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_windows_platform_preflight_runtime\Cantor_M2B_Windows_Platform_Preflight_Runtime_Source.sop
+@ [forms_proof] C:\Project\Cantor\proofs\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Proof.sop
+@ [compile_probe_proof] C:\Project\Cantor\proofs\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop
+@ [Microsoft_CreateFileW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew
+@ [Microsoft_GetFileInformationByHandleEx] https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex
+@ [Microsoft_GetFinalPathNameByHandleW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew
+@ [Microsoft_GetVolumeInformationByHandleW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew
+@ [Microsoft_FILE_REMOTE_PROTOCOL_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_remote_protocol_info
+@ [Rust_FromRawHandle] https://doc.rust-lang.org/std/os/windows/io/trait.FromRawHandle.html
+@ [Rust_OwnedHandle] https://doc.rust-lang.org/std/os/windows/io/struct.OwnedHandle.html
+
+& [TargetHostFinding] is read-only preactivation fact
+  + [host] is x86_64-pc-windows-msvc
+  + [Windows_version] is Microsoft Windows NT 10.0.26200.0
+  + [rustc] is 1.96.0 (ac68faa20 2026-05-25)
+  + [drive] is C
+  + [drive_type] is fixed
+  + [filesystem] is NTFS
+  + [health] is healthy and operational
+  + [fixture_exists_at_assessment] is false
+
+& [GeneratedBindingFinding] is exact for windows-sys 0.61.2
+  + [CreateFileW] is gated by Win32_Security and returns raw HANDLE
+  + [GetFileInformationByHandleEx] returns BOOL and accepts class, void pointer, and u32 bytes
+  + [GetFinalPathNameByHandleW] returns u32 and accepts WCHAR pointer, u32 characters, and flags
+  + [GetVolumeInformationByHandleW] returns BOOL and accepts two WCHAR buffers plus three scalar outputs
+  + [GetLastError] returns WIN32_ERROR
+  + [FILE_ID_INFO] is u64 volume serial plus 16 identity bytes
+  + [FILE_REMOTE_PROTOCOL_INFO] is 116 bytes in the proven target ABI
+  + [dependency_features] are already pinned by the no-call compile probe
+
+& [OfficialReturnFinding] fixes causal classification
+  + [final_path_zero] is ordinary API failure followed by immediate GetLastError
+  + [final_path_at_or_above_buffer] is successful required-size information and maps to returned_length_limit
+  + [volume_zero] is not-all-requested-information and maps to query fault with immediate GetLastError
+  + [fixed_query_zero] maps to query fault with immediate GetLastError
+  + [zero_GetLastError] cannot satisfy the nonzero OS-fault form and maps to invalid_observation
+
+& [OwnershipFinding] is one-way
+  + [failure] INVALID_HANDLE_VALUE is rejected before ownership
+  + [success] one FromRawHandle transfer creates one OwnedHandle
+  + [borrow] every later call uses AsRawHandle while the owner remains live
+  + [closure] OwnedHandle drop closes the resource on every Rust return and unwind path
+  + [direct_close] is forbidden
+
+& [UnsafeBudgetFinding] is six blocks
+  + [block_1] CreateFileW plus immediate failure error capture
+  + [block_2] OwnedHandle from_raw_handle transfer
+  + [block_3] FileIdInfo query plus immediate failure error capture
+  + [block_4] final volume-GUID path query plus immediate failure error capture
+  + [block_5] volume-information query plus immediate failure error capture
+  + [block_6] remote-protocol query plus immediate failure error capture
+  + [module] is one private cfg(windows) module allowed under crate-level deny unsafe_code
+
+& [DataBoundaryFinding] separates wire and resource state
+  + [input] is the already proven strict request product
+  + [runtime_failure] is invalid_request or unsupported_target before observation
+  + [observed_result] is exactly one proven profile 0.2 record
+  + [fault] carries no partial output
+  + [complete] owns every copied string and scalar after the handle can drop
+
+& [FixtureFinding] is bounded and reversible
+  + [root] is \\?\C:\Project\Cantor\.local\m2b-platform-preflight-fixture
+  + [mutation] is directory creation plus request and result files only under that ignored root
+  + [observation] is read-only after creation
+  + [cleanup] is not automatic and is not required for proof
+  + [candidate_or_repository_authority] is absent
+
+& [Decision] is source-ready
+  + [selection] one isolated crate and one opt-in exact-root physical probe
+  + [scanner] remains absent
+  + [receipt] remains absent
+  + [physical_claim] is limited to the emitted preflight record and bound host facts
+  + [SJS_required] is true before Cargo, code, fixture, or Windows-call changes
+
+& [Nonclaim] is mandatory
+  - never: cite this assessment as implementation authority, an executed Windows call, an opened handle, fixture existence, physical success, scanner readiness, or receipt evidence
