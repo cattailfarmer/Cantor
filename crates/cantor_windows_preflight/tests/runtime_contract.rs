@@ -73,6 +73,10 @@ fn exact_windows_fixture_emits_one_complete_local_ntfs_observation() {
 
     let result = observe_platform_preflight(&request).expect("runtime-layer fault");
     result.validate().expect("released record validates");
+    println!(
+        "CANTOR_WINDOWS_PREFLIGHT_RESULT={}",
+        serde_json::to_string(&result).expect("result JSON")
+    );
     match &result {
         WindowsPlatformPreflightRecord::Complete {
             volume,
@@ -89,8 +93,4 @@ fn exact_windows_fixture_emits_one_complete_local_ntfs_observation() {
         }
         other => panic!("expected complete local NTFS preflight, got {other:?}"),
     }
-    println!(
-        "CANTOR_WINDOWS_PREFLIGHT_RESULT={}",
-        serde_json::to_string(&result).expect("result JSON")
-    );
 }

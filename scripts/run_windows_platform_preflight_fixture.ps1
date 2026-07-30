@@ -101,20 +101,21 @@ $resultLine = @($probeLines) |
     ForEach-Object { $_.ToString() } |
     Where-Object { $_.StartsWith($resultPrefix, [StringComparison]::Ordinal) } |
     Select-Object -Last 1
-if ($probeExitCode -ne 0 -or $null -eq $resultLine) {
-    throw "physical probe failed or emitted no exact result"
+if ($null -eq $resultLine) {
+    throw "physical probe emitted no exact result"
 }
 $resultJson = $resultLine.Substring($resultPrefix.Length)
 $result = $resultJson | ConvertFrom-Json
-if ($result.outcome -ne "complete" `
-    -or $result.profile -ne "cantor-windows-platform-preflight/0.2" `
-    -or $result.target_triple -ne "x86_64-pc-windows-msvc" `
-    -or $result.input_root -cne $expectedFixtureRoot `
-    -or $result.volume.file_system_name -ne "NTFS" `
-    -or [uint32]$result.remote_protocol.protocol -ne 0 `
-    -or $result.disposition -ne "eligible_local_ntfs") {
-    throw "physical probe result did not satisfy the signed expected relation"
+$expectedResult = $false
+if ($result.outcome -eq "complete") {
+    $expectedResult = $result.profile -eq "cantor-windows-platform-preflight/0.2" `
+        -and $result.target_triple -eq "x86_64-pc-windows-msvc" `
+        -and $result.input_root -ceq $expectedFixtureRoot `
+        -and $result.volume.file_system_name -eq "NTFS" `
+        -and [uint32]$result.remote_protocol.protocol -eq 0 `
+        -and $result.disposition -eq "eligible_local_ntfs"
 }
+$probePassed = $probeExitCode -eq 0 -and $expectedResult
 
 $volume = Get-Volume -DriveLetter C
 $rustcLines = rustc --version --verbose
@@ -174,7 +175,8 @@ $observation = [ordered]@{
         test = "exact_windows_fixture_emits_one_complete_local_ntfs_observation"
         exit_code = $probeExitCode
         calls = "one root preflight"
-        status = "passed"
+        expected_relation = "complete local NTFS protocol zero and eligible"
+        status = if ($probePassed) { "passed" } else { "blocked_unexpected_result" }
     }
     source_artifacts = @($sourceArtifacts)
     nonclaims = @(
@@ -205,3 +207,6 @@ if ([IO.Path]::GetDirectoryName($outputFullPath) -cne $allowedEvidenceDirectory)
 )
 
 Write-Output $outputFullPath
+if (-not $probePassed) {
+    throw "physical probe evidence was preserved but did not satisfy the signed expected relation"
+}
