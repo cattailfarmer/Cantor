@@ -77,6 +77,8 @@ try {
     }
 
     $env:CANTOR_WINDOWS_PREFLIGHT_REQUEST_PATH = $requestPath
+    $priorErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
     try {
         $probeLines = @(
             & $executablePath `
@@ -86,6 +88,7 @@ try {
         $probeExitCode = $LASTEXITCODE
     }
     finally {
+        $ErrorActionPreference = $priorErrorActionPreference
         Remove-Item Env:CANTOR_WINDOWS_PREFLIGHT_REQUEST_PATH -ErrorAction SilentlyContinue
     }
 }

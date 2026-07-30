@@ -20,3 +20,10 @@ Subject: Cantor M2B Windows Platform Preflight Runtime Implementation Operationa
   + [fixture_created] is false
   + [Windows_call] is zero
   + [effect_escape] is none
+  + [runner_fault_2] Windows PowerShell promoted the exact test binary stderr stream into a terminating NativeCommandError before the result line was captured
+  + [stage_2] is after exact fixture and request creation and exact test-binary launch
+  + [physical_call_2] is conservatively possible with outcome unrecorded
+  + [fixture_2] exact signed directory and request only
+  + [result_evidence_2] is absent
+  + [repair_2] temporarily use Continue only around the already bounded native test process, preserve exit code and merged output, then restore Stop
+  + [effect_escape_2] is none outside the signed fixture and exact test executable
