@@ -23,6 +23,7 @@ Subject: Cantor Supervised Local Lifecycle Solution
   + [state_write] is same-directory UTF-8 no-BOM temporary publication followed by atomic move
 
 & [StartImplementation] is readiness before authority
+  + [serialization] is a state-path-derived local Windows kernel mutex held until success or cleanup
   + [launch] is one hidden cantord with exactly --config and separate unique stdout and stderr logs
   + [readiness] is repeated authenticated cantorctl status within explicit bounds
   + [publication] occurs only after readiness and a second complete process-identity match
@@ -44,7 +45,7 @@ Subject: Cantor Supervised Local Lifecycle Solution
   - never: force-kill, remove state on timeout, or signal a mismatched identity
 
 & [AdversarialProof] is one real-binary lifecycle
-  + [cases] is ready start, exact state and token exclusion, health, duplicate refusal, forged start-time health and stop refusal, unknown-state refusal, graceful stop, listener release, stale default refusal, explicit stale replacement, and failed-readiness cleanup
+  + [cases] is ready start, exact state and token exclusion, health, duplicate refusal, forged start-time health and stop refusal, unknown-state refusal, graceful stop, listener release, stale default refusal, explicit stale replacement, exactly one concurrent-start winner, and failed-readiness cleanup
   + [binaries] are the Cargo-built production cantord and cantorctl targets
   + [result] is passed
 

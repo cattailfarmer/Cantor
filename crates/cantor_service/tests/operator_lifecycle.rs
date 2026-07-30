@@ -189,6 +189,58 @@ fn production_binaries_have_pid_safe_supervised_operator_lifecycle() {
     );
     assert_success(&replacement_stop, "replacement graceful stop");
 
+    let mut concurrent_a = start_command(
+        &start_script,
+        &server_path,
+        &client_path,
+        &workspace.config_path,
+        &state_path,
+        false,
+    )
+    .spawn()
+    .expect("first concurrent start must spawn");
+    let mut concurrent_b = start_command(
+        &start_script,
+        &server_path,
+        &client_path,
+        &workspace.config_path,
+        &state_path,
+        false,
+    )
+    .spawn()
+    .expect("second concurrent start must spawn");
+    let concurrent_statuses = [
+        concurrent_a
+            .wait()
+            .expect("first concurrent start must exit"),
+        concurrent_b
+            .wait()
+            .expect("second concurrent start must exit"),
+    ];
+    assert_eq!(
+        concurrent_statuses
+            .iter()
+            .filter(|status| status.success())
+            .count(),
+        1,
+        "the StatePath mutex must admit exactly one concurrent start"
+    );
+    let concurrent_health = run_script(
+        &health_script,
+        &["-StatePath".into(), path_text(&state_path)],
+    );
+    assert_success(&concurrent_health, "concurrent-start winner health");
+    let concurrent_stop = run_script(
+        &stop_script,
+        &[
+            "-StatePath".into(),
+            path_text(&state_path),
+            "-ExitTimeoutMilliseconds".into(),
+            "10000".into(),
+        ],
+    );
+    assert_success(&concurrent_stop, "concurrent-start winner stop");
+
     let failed_start = start_service(
         &start_script,
         &server_path,
@@ -246,6 +298,26 @@ fn start_service(
     state_path: &Path,
     replace_stale: bool,
 ) -> ExitStatus {
+    start_command(
+        script_path,
+        server_path,
+        client_path,
+        config_path,
+        state_path,
+        replace_stale,
+    )
+    .status()
+    .expect("PowerShell start script must execute")
+}
+
+fn start_command(
+    script_path: &Path,
+    server_path: &Path,
+    client_path: &Path,
+    config_path: &Path,
+    state_path: &Path,
+    replace_stale: bool,
+) -> Command {
     let mut arguments = vec![
         "-ServerPath".into(),
         path_text(server_path),
@@ -263,15 +335,15 @@ fn start_service(
     if replace_stale {
         arguments.push("-ReplaceStale".into());
     }
-    Command::new("powershell")
+    let mut command = Command::new("powershell");
+    command
         .args(["-NoProfile", "-ExecutionPolicy", "Bypass", "-File"])
         .arg(script_path)
         .args(&arguments)
         .stdin(Stdio::null())
         .stdout(Stdio::null())
-        .stderr(Stdio::null())
-        .status()
-        .expect("PowerShell start script must execute")
+        .stderr(Stdio::null());
+    command
 }
 
 fn run_script(script_path: &Path, arguments: &[String]) -> Output {

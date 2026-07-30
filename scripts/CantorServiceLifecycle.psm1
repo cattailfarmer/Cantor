@@ -58,6 +58,12 @@ function Resolve-CantorAbsoluteStatePath {
     if ([IO.Directory]::Exists($fullPath)) {
         throw "StatePath must not identify a directory"
     }
+    if ([IO.File]::Exists($fullPath)) {
+        $item = Get-Item -LiteralPath $fullPath -Force
+        if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+            throw "StatePath must not identify a reparse point"
+        }
+    }
     if ($RequireExisting -and -not [IO.File]::Exists($fullPath)) {
         throw "StatePath does not identify an existing supervisor state file"
     }
@@ -77,6 +83,57 @@ function Assert-CantorDistinctPaths {
         if (-not $seen.Add([IO.Path]::GetFullPath($path))) {
             throw "Lifecycle authority paths must be distinct"
         }
+    }
+}
+
+function Enter-CantorSupervisorStartMutex {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$StatePath
+    )
+
+    $normalized = [IO.Path]::GetFullPath($StatePath).ToUpperInvariant()
+    $sha256 = [Security.Cryptography.SHA256]::Create()
+    try {
+        $digest = $sha256.ComputeHash([Text.Encoding]::UTF8.GetBytes($normalized))
+    }
+    finally {
+        $sha256.Dispose()
+    }
+    $name = "Local\CantorServiceStart_$(
+        ([BitConverter]::ToString($digest)).Replace('-', '')
+    )"
+    $mutex = [Threading.Mutex]::new($false, $name)
+    $acquired = $false
+    try {
+        try {
+            $acquired = $mutex.WaitOne(0)
+        }
+        catch [Threading.AbandonedMutexException] {
+            $acquired = $true
+        }
+        if (-not $acquired) {
+            throw "Another start operation already owns this StatePath"
+        }
+        return $mutex
+    }
+    catch {
+        $mutex.Dispose()
+        throw
+    }
+}
+
+function Exit-CantorSupervisorStartMutex {
+    param(
+        [Parameter(Mandatory = $true)]
+        [Threading.Mutex]$Mutex
+    )
+
+    try {
+        $Mutex.ReleaseMutex()
+    }
+    finally {
+        $Mutex.Dispose()
     }
 }
 
@@ -444,6 +501,8 @@ Export-ModuleMember -Function @(
     "Assert-CantorStateProcessIdentity",
     "Assert-CantorSuccessfulStatus",
     "ConvertTo-CantorUtcText",
+    "Enter-CantorSupervisorStartMutex",
+    "Exit-CantorSupervisorStartMutex",
     "Get-CantorProcessIdentity",
     "Invoke-CantorCtl",
     "New-CantorSupervisorHealth",

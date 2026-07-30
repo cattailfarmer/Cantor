@@ -47,6 +47,8 @@ if ([string]::IsNullOrWhiteSpace($stateDirectory)) {
 }
 [IO.Directory]::CreateDirectory($stateDirectory) | Out-Null
 
+$startMutex = Enter-CantorSupervisorStartMutex -StatePath $stateFullPath
+try {
 if ([IO.File]::Exists($stateFullPath)) {
     $priorState = Read-CantorSupervisorState -StatePath $stateFullPath
     $priorIdentity = Get-CantorProcessIdentity `
@@ -174,3 +176,7 @@ if ([string]::IsNullOrWhiteSpace($outputJson)) {
     throw "Supervisor failed to construct its machine-readable start result"
 }
 [Console]::Out.WriteLine($outputJson)
+}
+finally {
+    Exit-CantorSupervisorStartMutex -Mutex $startMutex
+}

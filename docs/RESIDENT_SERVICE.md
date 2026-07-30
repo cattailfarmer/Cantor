@@ -128,6 +128,10 @@ may terminate only the exact process created by that start attempt. Stop never
 force-kills: rejected shutdown or an exit timeout preserves the state for
 operator review.
 
+Starts for the same state path are serialized by a state-path-derived local
+Windows kernel mutex. Concurrent attempts have exactly one admitted winner;
+the mutex is process-lifetime state and contains no capability material.
+
 This is a Windows process-lifecycle prerequisite, not a general service
 manager, automatic restart policy, OS-service installer, Codex controller, or
 Shaliach agent runtime.

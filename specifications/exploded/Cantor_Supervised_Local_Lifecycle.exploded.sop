@@ -16,12 +16,14 @@ Subject: Exploded Cantor Supervised Local Lifecycle
   + [future_seam] is a strict machine-readable state and health contract that a separately authorized manager may consume
 
 & [StartContract] is fail-closed
+  + [serialization] is a state-path-derived local kernel mutex
   + [inputs] are absolute regular cantord path, absolute regular cantorctl path, absolute service configuration path, and absolute state path
   + [launch] is hidden with separate append-free stdout and stderr log files
   + [readiness] is authenticated cantorctl status before state publication
   + [state] is atomically written only after readiness and binds PID, process start time, executable, config, client, logs, active generation, activation sequence, and start time
   + [collision] is an existing live matching state or any unapproved stale state
   = must: clean up only the exact process created by the failed start
+  = must: admit exactly one winner among concurrent starts for one state path
   - never: write the capability token into arguments, state, logs, or output
 
 & [IdentityContract] is PID-reuse safe

@@ -40,12 +40,14 @@ Description: A strict Windows operator profile that starts one local cantord pro
   - never: signal a PID-only match
 
 & [StartOperation] is explicit and fail-closed
+  + [serialization] is one state-path-derived local kernel mutex held across collision review, launch, readiness, and publication
   + [launch] is Start-Process with WindowStyle Hidden and separate new stdout and stderr log files
   + [arguments] are exactly --config plus the canonical configuration path
   + [readiness] is repeated authenticated cantorctl status until success or bounded timeout
   + [publication] records the ready status generation and activation sequence
   + [failure_cleanup] may stop only the exact newly returned process after revalidating its start time and executable
   + [existing_state] is refused unless explicit ReplaceStale proves the prior recorded identity is not live
+  = must: admit at most one concurrent start operation for the same StatePath
   - never: replace a live matching process or silently discard stale state
 
 & [HealthOperation] is two-part
