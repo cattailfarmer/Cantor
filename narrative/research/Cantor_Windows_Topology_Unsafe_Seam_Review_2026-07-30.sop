@@ -19,6 +19,8 @@ Description: Read-only M2B reconnaissance that minimizes and states the proposed
 @ [Microsoft_GetFileInformationByHandleEx] https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex
 @ [Microsoft_FILE_ID_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_id_info
 @ [Microsoft_FILE_STREAM_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_stream_info
+@ [Microsoft_MS_FSCC_FileStreamInformation] https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/f8762be6-3ab9-411e-a7d6-5cc68f70c78d
+@ [Microsoft_MS_FSA_FileStreamInformation] https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fsa/39679ad3-2ea1-4e5b-8af9-0fb88129b24e
 @ [Microsoft_FILE_REMOTE_PROTOCOL_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_remote_protocol_info
 @ [Microsoft_GetVolumeInformationByHandleW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew
 
@@ -85,6 +87,15 @@ Description: Read-only M2B reconnaissance that minimizes and states the proposed
   + [unsupported_or_insufficient] remains a typed failure until exact target-host behavior is proven
   - never: cast an unaligned Vec<u8> pointer to FILE_STREAM_INFO, trust an unchecked offset, or let a reference escape the backing buffer
 
+& [StreamBufferDecision] avoids partial-result ambiguity
+  + [protocol_evidence] Microsoft specifies STATUS_BUFFER_OVERFLOW can return only complete records when the output buffer fills
+  + [allocation] is one preallocated 4194304-byte 8-aligned buffer, subject to checked u32 conversion
+  + [attempts] is exactly one FileStreamInfo call per observation
+  + [success] parses the complete chain and requires a terminal zero NextEntryOffset
+  + [failure] ignores every buffer byte, captures the numeric error, and rejects as unsupported_or_resource_limited
+  + [partial] is never interpreted as complete stream evidence
+  + [reason] is a bounded single attempt is simpler and more honest than depending on undocumented Win32 required-size reporting
+
 & [ReadInvariant] uses safe standard I/O after one ownership transfer
   + [conversion] File from OwnedHandle is stable and consumes the OwnedHandle
   + [read] uses a fixed reusable buffer and checked cumulative byte count
@@ -111,7 +122,7 @@ Description: Read-only M2B reconnaissance that minimizes and states the proposed
   + [authority] is API candidate research only
 
 & [UnresolvedBeforeActivation] is blocking
-  + [stream_buffer_behavior] exact insufficient-buffer error and initialized-byte contract must be proven on the target OS
+  + [stream_buffer_behavior] the single-attempt success and bounded-failure policy must be confirmed on the target OS; no error-specific resize behavior is required
   + [share_policy] read-write-delete sharing versus a narrower quiescence-enforcing share mask needs an explicit threat-model decision
   + [attributes] exact admitted and rejected bit masks remain to be frozen
   + [delete_pending] must always reject and quarantine classification must be fixed
