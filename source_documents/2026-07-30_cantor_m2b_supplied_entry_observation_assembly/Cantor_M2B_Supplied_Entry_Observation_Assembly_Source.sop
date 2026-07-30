@@ -1,0 +1,53 @@
+Subject: Dictated Source for Cantor M2B Supplied Entry Observation Assembly
+
+& [SourceIdentity] is immutable selection input
+  + [source_snapshot_uuid] is c1e8077d-add0-4abf-9fc4-be1f59b61ff8
+  + [captured_at] is 2026-07-30
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [working_project] is C:\Project\Cantor
+
+& [SelectedIntent] is the next non-effect scanner prerequisite
+  + [purpose] is assemble already supplied fixed-query and stream facts into one structurally complete raw Windows entry observation
+  + [profile_candidate] is cantor-windows-supplied-entry-observation/0.1
+  + [input] is one closed supplied record for each required query class plus explicit caller-owned batch and entry-reference identities
+  + [output] is one immutable structurally coherent supplied observation or one closed assembly fault
+
+& [SuppliedRecordIntent] makes missing facts visible
+  + [attribute_tag] supplies exact attributes and diagnostic reparse tag
+  + [file_identity] supplies unsigned volume serial and exactly 16 file-ID bytes
+  + [standard] supplies allocation size, end-of-file length, link count, delete-pending flag, and directory flag
+  + [case] supplies exact case-sensitivity flags when the selected entry-policy profile requires them
+  + [streams] supplies either an explicitly complete ordered parsed record collection or an explicitly complete empty result
+  + [batch_identity] and [entry_reference_identity] must be nonzero and equal across every supplied record
+  + [presence] every required record is represented by a closed variant rather than an optional field with a default
+
+& [CoherenceIntent] is fail closed
+  + [identity] file ID length and representation are exact
+  + [links] link count is nonzero
+  + [sizes] allocation and end-of-file values are nonnegative before unsigned conversion
+  + [kind] directory flag, DIRECTORY attribute, and requested entry kind agree
+  + [delete_pending] always rejects
+  + [streams] parsed names are exact, unique, bounded, and preserve source order and raw size facts
+  + [policy] the existing pure entry-policy kernel receives the exact assembled attributes, case flags, kind, and component
+  + [projection] conversion toward an M2A TopologyEntryObservation remains explicit and cannot add content digest, Git mode, path provenance, or observation ordinal that was not separately supplied and validated
+  + [release] no partially assembled accepted value escapes any fault
+
+& [ProvenanceBoundary] is explicit
+  + [batch_identity] is correlation syntax only
+  + [entry_reference_identity] is correlation syntax only
+  + [structural_completeness] is not physical query completeness
+  + [structural_coherence] is not same-handle, same-object, freshness, temporal, filesystem-support, or path-binding proof
+  + [future_producer] must privately establish physical provenance under separate Win32 and unsafe authority
+  - never: accept a boolean assertion named same_handle, query_succeeded, fully_initialized, trusted, or complete as proof
+  - never: convert a missing, unsupported, failed, partial, stale, or uninitialized query result into a safe default
+
+& [AuthorityBoundary] is source preservation only
+  - never: call Windows, inspect or own a handle, dereference a pointer, read a file, enumerate a directory, inspect Git, traverse, create a topology receipt, admit a candidate, launch, mutate, seal, or promote
+  - never: use unsafe, windows-sys, filesystem, process, environment, clock, network, persistence, or model APIs
+  - never: treat this source as canonical specification or implementation authority until SJS produces and signs those later records
+
+@ [readiness_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Pure_Prerequisite_Readiness_Review_2026-07-30.sop
+@ [machine_forms] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [entry_policy] C:\Project\Cantor\specifications\Cantor_M2B_Pure_Windows_Entry_Policy.sop
+@ [stream_parser] C:\Project\Cantor\specifications\Cantor_M2B_Pure_Stream_Information_Parser.sop
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop

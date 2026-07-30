@@ -51,30 +51,34 @@ Description: Non-authoritative readiness ledger for the dependency, ABI, platfor
   + [O-05] panic, early-return, and error-path destructor proof is pending
   + [O-06] one line-specific safety comment and test obligation per unsafe block is pending
 
-& [SameHandleObservationGate] has a proposed complete shape
+& [SameHandleObservationGate] has a proposed query shape and an unformed assembly seam
   + [H-01] FileAttributeTagInfo is attributes and diagnostic tag is passed_for_design
   + [H-02] FileIdInfo is volume serial and 128-bit identity is passed_for_design
   + [H-03] FileStandardInfo is link count, length, directory, and delete-pending is passed_for_design
   + [H-04] FileStreamInfo replaces path-based stream enumeration is passed_for_design
   + [H-05] pre-read and post-read observations use the same File handle is passed_for_design
   + [H-06] hold root handle, capture stable final path, and reopen original name for same-identity reconciliation is passed_for_design
+  + [H-07] source snapshot c1e8077d-add0-4abf-9fc4-be1f59b61ff8 preserves a pure epoch-bound supplied-record assembly contract but grants no canonical or implementation authority
+  + [H-08] the future assembly must not infer query success, completeness, same-handle origin, temporal stability, or platform support from structurally valid values alone
 
-& [StreamGate] is bounded but unmeasured
+& [StreamGate] has a proven pure parser and an unmeasured physical producer
   + [S-01] one 4194304-byte 8-aligned buffer and one query attempt is passed_for_design
-  + [S-02] only successful complete chains are parsed is passed_for_design
-  + [S-03] offsets, lengths, alignment, signs, UTF-16, uniqueness, count, and terminal zero are checked is passed_for_design
-  + [S-04] partial failure bytes are ignored is passed_for_design
+  + [S-02] only caller-designated successful complete regions may enter the pure parser is passed_for_pure_parser
+  + [S-03] offsets, lengths, alignment, signs, UTF-16, names, count, and terminal extent are checked is passed_for_pure_parser
+  + [S-04] physical call failure bytes remain outside the parser contract and are unimplemented
   + [S-05] unnamed-file stream, no-directory-stream, named-stream, many-stream, and over-buffer target fixtures are pending
+  + [S-06] API completion truth and stream admission remain separate from byte-chain validity
 
-& [EntryPolicyGate] is proposed but unmeasured
-  + [E-01] benign combinable attribute mask is 0x00002027 is passed_for_design
-  + [E-02] directory allowed mask is 0x00002037 with DIRECTORY required is passed_for_design
-  + [E-03] regular shape is NORMAL alone or a nonempty benign subset is passed_for_design
-  + [E-04] all behavior and unknown bits reject is passed_for_design
-  + [E-05] per-directory FileCaseSensitiveInfo Flags must equal zero is passed_for_design
-  + [E-06] strict components and reserved device stems reject is passed_for_design
+& [EntryPolicyGate] has a proven pure kernel and unmeasured physical inputs
+  + [E-01] benign combinable attribute mask is 0x00002027 is passed_for_pure_policy
+  + [E-02] directory allowed mask is 0x00002037 with DIRECTORY required is passed_for_pure_policy
+  + [E-03] regular shape is NORMAL alone or a nonempty benign subset is passed_for_pure_policy
+  + [E-04] all behavior and unknown bits reject is passed_for_pure_policy
+  + [E-05] per-directory FileCaseSensitiveInfo Flags must equal zero is passed_for_pure_policy
+  + [E-06] strict components and reserved device stems reject is passed_for_pure_policy
   + [E-07] target-host ordinary-file, marked-file, and directory attribute fixtures are pending
   + [E-08] exact Git executable-mode reconciliation is pending
+  + [E-09] structural policy validity never proves the provenance or freshness of supplied attributes and case flags
 
 & [OpenPolicyGate] remains unsettled
   + [C-01] OPEN_EXISTING, OPEN_REPARSE_POINT, and BACKUP_SEMANTICS are passed_for_design
@@ -123,6 +127,7 @@ Description: Non-authoritative readiness ledger for the dependency, ABI, platfor
   + [completed_eleventh] 259 tests passed with one governed physical test ignored in debug and overflow-checked release; current evidence is regenerated and verified
   + [completed_twelfth] pure Windows attributes, case flags, component names, reserved devices, and UTF-8 ordering are implemented and globally proven without effects
   + [completed_thirteenth] pure FILE_STREAM_INFO chain parsing is implemented and globally proven without pointers, platform calls, or effects
-  + [next] keep physical stream query, entry observation, remote classification, and topology traversal gates separate
+  + [completed_fourteenth] post-slice readiness review distinguishes pure parser and policy proofs from physical producer, provenance, same-handle, temporal, admission, and traversal claims
+  + [next] process preserved supplied-record assembly source through SJS before any canonical or implementation authority
   + [later] select an M2B runtime implementation source only if every activation gate is closed
   - never: treat passed_for_design as implementation or execution proof

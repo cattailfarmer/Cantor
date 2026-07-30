@@ -1,0 +1,18 @@
+Subject: Cantor M2B Post Pure Prerequisite Readiness Review Operational Faults
+
+& [FaultLedgerIdentity] is closed
+  + [ledger_uuid] is 0e86d2d2-f128-49a4-aa90-e571508492ba
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [status] is repaired
+
+& [EvidenceGeneratorInvocationFault] is PowerShell execution policy rejection
+  + [observation] direct invocation of scripts/build_windows_entry_policy_evidence_manifest.ps1 was blocked before script execution
+  + [consequence] no artifact changed and the prior manifest remained present
+  + [repair] the same repository script ran in a child PowerShell process with NoProfile and process-scoped ExecutionPolicy Bypass
+  + [verification] the regenerated manifest and its dependent stream-parser manifest receive exact integration rehash tests
+  + [prevention] invoke repository PowerShell evidence generators through the established process-scoped command on this host
+
+& [BoundaryCheck] is passed
+  + no physical fixture was created or touched
+  + no Windows API, handle, pointer, filesystem observation, traversal, or Git admission operation was added
+  + no canonical, implementation, execution, physical, or publication authority was granted
