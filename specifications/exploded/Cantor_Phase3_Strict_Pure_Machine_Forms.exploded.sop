@@ -1,0 +1,40 @@
+Subject: Cantor Phase3 Strict Pure Machine Forms Exploded Specification
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Phase3_Strict_Pure_Machine_Forms.sop
+
+& [TypeAxis] is closed enums and deny-unknown structs
+  + [artifact] is typed digest reference
+  + [mutation] is stage and transition
+  + [seal_review] is stage and transition
+  + [fault] is consequence
+  + [strength] is consistency and immutability
+  + [path] is before-and-after regular-file evidence
+  + [review] is check and disposition
+
+& [PurityAxis] is compile-time inspectable
+  + [allowed_imports] is serde and thiserror plus standard collections
+  + [forbidden_imports] is fs, process, net, time, env, random, key, database, and provider clients
+  + [unsafe] is absent
+
+& [TransitionAxis] is exhaustive
+  + [test] iterates every ordered pair of stages
+  + [accepted] equals the canonical edge set
+  + [rejected] returns typed invalid_transition
+
+& [ChangeAxis] is table-driven
+  + [add] is none to some
+  + [modify] is some to different some
+  + [delete] is some to none
+  + [mode_change] is some to same-byte different-mode some
+  + [all_other_shapes] reject
+
+& [ReviewAxis] preserves epistemic distinctions
+  + [unknown] is not fail
+  + [not_applicable] may omit evidence
+  + [pass_fail_unknown] require evidence
+  + [eligible] is only a Phase3D consideration edge
+
+& [VerificationAxis] is proportional
+  + [unit] is scalar, path, transition, consequence, change, evidence, and JSON tests
+  + [API_scan] is no forbidden method or import
+  + [global] is all prior debug and release tests, lint, docs, audit, and evidence

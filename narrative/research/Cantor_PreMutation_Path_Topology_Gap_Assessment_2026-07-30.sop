@@ -1,0 +1,78 @@
+Subject: Cantor Pre-Mutation Path Topology Gap Assessment
+
+Description: Read-only audit of whether the proven Phase3A admission receipt is sufficient by itself to point a workspace-write sandbox at the candidate.
+
+& [AssessmentIdentity] is a post-proof boundary review
+  + [assessment_uuid] is 5d54cfa8-0890-470d-811e-fe712a14a59b
+  + [captured_at] is 2026-07-30
+  + [status] is material_activation_gap_found
+
+@ [Phase3A_specification] C:\Project\Cantor\specifications\Cantor_Candidate_Workspace_Admission.sop
+@ [Phase3A_implementation] C:\Project\Cantor\crates\cantor_ecosystem\src\workspace_admission
+@ [Phase3B_formation] C:\Project\Cantor\specifications\Cantor_Bounded_Candidate_Mutation.sop
+
+& [ObservedPhase3ABoundary] is correct for its read-only scope
+  + [root_validation] rejects a supplied candidate root whose terminal path is a symlink and requires the supplied root already equal its canonical path
+  + [allowed_path_validation] rejects lexical traversal, roots, drives, backslashes, NUL, .git segments, duplicates, and overlapping descendants
+  + [Git_validation] proves exact top level, common dir, Git dir, base, branch, clean status, inventory membership, and absent submodule state
+  + [nonclaim] is no recursive physical inventory of every existing candidate descendant
+  + [conclusion] is this is not a Phase3A proof defect because Phase3A grants no write authority
+
+& [ActivationGap] is internal topology before a workspace-root writer
+  + [symlink_or_junction] can make a lexically in-candidate write resolve outside the candidate
+  + [reparse_point] can redirect traversal under Windows without changing the admitted root identity
+  + [hard_link] can give an in-candidate regular-file name the same physical file identity as an outside sentinel
+  + [alternate_data_stream] can hide an effect outside ordinary filename inventory
+  + [nested_repository_or_control_file] can redirect later Git interpretation
+  + [sparse_checkout] can make the physical baseline differ from an assumed full-tree baseline
+  + [ignored_content] can be physically present while an ordinary clean-status interpretation does not make its full risk obvious
+  + [conclusion] is Phase3B needs a fresh complete physical topology preflight after receipt revalidation and before App Server launch
+
+& [WholeRootFinding] is broader than the allowed path set
+  + [sandbox_scope] is expected to make the candidate workspace root writable
+  + [path_policy] is a semantic allowlist observed reactively rather than an OS-enforced sub-root allowlist
+  + [consequence] is a hostile or mistaken worker can attempt any descendant before an event gate interrupts it
+  + [gate] is the entire candidate physical tree must be safe against outside aliases, not only allowed-path ancestors
+
+& [GitControlFileFinding] is a special candidate-root risk
+  + [shape] is a linked-worktree .git control file inside the candidate that points to metadata outside the candidate
+  + [uncertainty] is whether the exact target-host Codex sandbox independently protects that control file under workspace-write
+  + [requirement] is exact byte and identity admission plus a physical denied-write canary
+  + [fallback] is do not activate Phase3B if the control file can be changed
+
+& [HardLinkFinding] requires physical file identity
+  + [canonical_paths] do not reveal two regular-file names sharing one underlying file
+  + [Windows_evidence] needs volume identity, file identity, link count, and explicit same-object comparison
+  + [initial_policy] is reject every candidate regular file with an unexpected link count or an identity also observed outside the candidate fixture
+  + [proof] must use only synthetic files under a disposable probe root
+
+& [ReparseFinding] requires no-follow inspection
+  + [walk] must inspect each entry itself before descending
+  + [Windows_evidence] includes file attributes and reparse tag
+  + [initial_policy] is reject every reparse point, junction, mount point, or symlink in the candidate tree
+  + [future] may admit a narrower kind only under a separately proven resolution policy
+
+& [AlternateStreamFinding] requires stream enumeration
+  + [ordinary_read] addresses only the unnamed data stream
+  + [initial_policy] is reject any named stream beyond platform-standard metadata behavior explicitly admitted by profile
+  + [proof] includes a synthetic named-stream fixture and complete enumeration account
+
+& [SparseAndNestedFinding] closes repository reinterpretation
+  + [sparse] is rejected in the first mutation profile
+  + [nested_Git] is rejected whether tracked, untracked, or ignored
+  + [control_files] are separately classified rather than traversed as candidate content
+  + [configuration] that changes filters, object replacement, hooks, or worktree interpretation is fixed or rejected
+
+& [RequiredRepair] is a Phase3B prelaunch topology gate
+  + [input] is a freshly equal Phase3A receipt and exact candidate root
+  + [output] is a single-use TopologyReceipt bound into MutationWorkPacket and MutationRunRecord
+  + [scan] is complete, no-follow, resource-bounded, deterministic, and repeated immediately around sandbox setup
+  + [policy] rejects every alias, reparse, special, stream, nested repository, sparse state, and Git-control drift not explicitly supported
+  + [freshness] expires at App Server launch and is invalid after any candidate mutation
+  - never: broaden Phase3A's completed read-only claims retroactively
+
+& [AuthorityEffect] is blocking only
+  + [Phase3A_status] remains complete for read-only admission
+  + [Phase3B_status] remains formation_complete_implementation_blocked
+  + [current_action] is fixture and proof planning only
+  - never: execute a topology probe, create a link, or launch a workspace-write turn under this assessment

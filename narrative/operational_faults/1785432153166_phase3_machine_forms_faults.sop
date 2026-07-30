@@ -1,0 +1,29 @@
+Subject: Cantor Phase3 Strict Pure Machine Forms Operational Faults
+
+& [FaultLedgerIdentity] is the M1 implementation fault record
+  + [ledger_uuid] is f942cd1a-6117-4722-8df2-60444d80472d
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30
+  + [status] is complete
+
+& [PublicNameCollision] is found during first compile
+  + [fault] is the conceptual ReviewDisposition name collided with the established mock-loop public enum through glob re-exports
+  + [repair] is name the new closed type Phase3ReviewDisposition and record that implementation name in the canonical specification
+  + [authority_effect] is none because semantics and closed variants are unchanged
+  + [status] is resolved_and_tested
+
+& [ModeOnlyModifyAmbiguity] is found during post-compile adversarial review
+  + [fault] is an ordinary modify record initially admitted a same-byte mode-only change
+  + [risk] is two change kinds can describe the same physical transition
+  + [repair] is require modify to change bytes or length and reserve equal-byte different-mode state for mode_change
+  + [status] is resolved_and_tested
+
+& [ExpectedPredecessorManifestStaleness] is found during the first global gate
+  + [fault] is the CandidateWorkspaceAdmission evidence test detected its requirement matrix had changed during the new topology-boundary clarification
+  + [behavior] is the content-addressed predecessor proof failed closed exactly as designed
+  + [repair] is refresh the entire ordered predecessor evidence chain before generating the M1 manifest and rerun the global gate
+  + [status] is resolved_in_final_evidence_chain
+
+& [FinalGate] is complete
+  + [result] is 220 debug tests, 220 overflow-checked release tests, warnings-denied lint, release build, warnings-denied docs, audit, evidence manifest, and proof hash closure passed
+  + [status] is resolved

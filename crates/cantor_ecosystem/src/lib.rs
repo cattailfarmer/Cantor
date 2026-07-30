@@ -11,6 +11,7 @@
 pub mod adapter;
 pub mod live_codex;
 pub mod model;
+pub mod phase3_evidence;
 pub mod review;
 pub mod runtime;
 pub mod transcript;
@@ -19,6 +20,7 @@ pub mod workspace_admission;
 pub use adapter::*;
 pub use live_codex::*;
 pub use model::*;
+pub use phase3_evidence::*;
 pub use review::*;
 pub use runtime::*;
 pub use transcript::*;

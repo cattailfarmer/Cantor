@@ -1,0 +1,66 @@
+Subject: Cantor Phase3 Strict Pure Machine Forms Activation Source
+
+& [SourceIdentity] is a governed implementation-source reconciliation
+  + [source_uuid] is 04594766-eafa-4bf5-a833-0cb89df3f1de
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30T12:16:43.6622737-05:00
+  + [status] is selected_for_M1_only
+
+@ [Phase3B_formation] C:\Project\Cantor\specifications\Cantor_Bounded_Candidate_Mutation.sop
+@ [Phase3C_formation] C:\Project\Cantor\specifications\Cantor_Candidate_Seal_And_Independent_Review.sop
+@ [physical_proof_plan] C:\Project\Cantor\plans\Cantor_Phase3B_3C_Physical_Proof_Plan.sop
+@ [topology_gap] C:\Project\Cantor\narrative\research\Cantor_PreMutation_Path_Topology_Gap_Assessment_2026-07-30.sop
+
+& [SelectedIntention] is milestone M1 strict pure machine forms
+  + [purpose] is stabilize shared state, evidence-reference, path-record, fault-consequence, and review-disposition semantics before any filesystem or process work
+  + [implementation_location] is one focused safe-Rust module in cantor_ecosystem
+  + [input] is in-memory values or strict JSON bytes supplied by tests and later callers
+  + [output] is validated immutable values or typed validation faults
+
+& [SelectedForms] is intentionally minimal
+  + [ArtifactReference] binds one closed artifact kind, bounded profile, and canonical SHA-256
+  + [MutationStage] and [MutationTransition] express the one-way Phase3B lifecycle
+  + [SealReviewStage] and [SealReviewTransition] express the one-way Phase3C lifecycle
+  + [FaultConsequence] binds turn-start state to may-have-mutated and quarantine semantics
+  + [ConsistencyClass] distinguishes quiescent double inventory from proven platform snapshot
+  + [ImmutabilityClass] distinguishes content-addressed verification from proven platform enforcement
+  + [CandidatePathRecord] enforces add, modify, delete, and mode-change field coherence for regular-file evidence only
+  + [IndependentCheck] preserves pass, fail, unknown, or not-applicable plus exact evidence references
+  + [ReviewDisposition] is eligible_for_Phase3D_consideration, revise_in_new_candidate, reject, or quarantine
+
+& [ValidationRules] are closed
+  + [JSON] rejects unknown fields and unknown enum variants
+  + [digest] is exactly lowercase 64-character hexadecimal
+  + [profile] and [identity] are nonempty, bounded, and NUL-free
+  + [relative_path] is slash-normalized, nonrooted, and contains no empty, dot, dot-dot, backslash, colon, NUL, or .git segment
+  + [transition] permits only the canonical forward or quarantine edge
+  + [path_record] requires base and current fields exactly according to change kind
+  + [blob] is present exactly when current bytes are present and equals current SHA-256
+  + [evidence_refs] are sorted, unique, nonempty, and bounded
+
+& [ImplementationBoundary] is pure and effect-free
+  + [allowed] is types, strict serde, semantic validation, canonical transition checks, unit tests, JSON round trips, documentation, and proof
+  + [forbidden] is filesystem metadata, file open, directory walk, hashing actual files, subprocess, App Server, network, clock, random source, environment, key, signature, persistence, seal publication, reconstruction, test execution, model, cleanup, Git mutation, and promotion
+  + [dependencies] is existing workspace dependencies only
+  + [unsafe] is forbidden
+  = must: preserve every prior public interface and test
+
+& [Acceptance] is P3MF-001 through P3MF-010
+  + [P3MF-001] is strict closed JSON for every form
+  + [P3MF-002] is exact canonical digest, profile, identity, and path validation
+  + [P3MF-003] is complete accepted and rejected Phase3B transition matrix
+  + [P3MF-004] is complete accepted and rejected Phase3C transition matrix
+  + [P3MF-005] is fault consequence cannot deny possible mutation after turn start
+  + [P3MF-006] is every path change kind has coherent base, current, mode, length, digest, and blob fields
+  + [P3MF-007] is consistency and immutability strength remain explicit
+  + [P3MF-008] is independent checks preserve unknown and exact evidence
+  + [P3MF-009] is review dispositions expose no promotion operation
+  + [P3MF-010] is source, docs, lint, debug, overflow-checked release, audit, evidence, proof, and rollback closure
+
+& [Rollback] is remove one pure module and export
+  + [state_effect] is none
+  + [data_migration] is none
+
+& [ActivationBoundary] is M1 only
+  + [implementation_authority] is strict_pure_machine_forms_only
+  - never: cite this source as topology scan, sandbox, mutation, seal, test, reviewer execution, cleanup, or promotion authority

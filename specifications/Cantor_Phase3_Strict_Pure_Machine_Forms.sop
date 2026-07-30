@@ -1,0 +1,104 @@
+Subject: Cantor Phase3 Strict Pure Machine Forms
+
+Description: Narrow implementation authority for effect-free Phase3B and Phase3C value forms and lifecycle validation. It authorizes no operating-system observation or effect.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_machine_forms_activation\Cantor_Phase3_Machine_Forms_Activation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_machine_forms_activation\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Strict_Pure_Machine_Forms.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Phase3_Strict_Pure_Machine_Forms_Justification.sop
+@ [matrix] C:\Project\Cantor\feature_support\Phase3StrictPureMachineForms_Requirement_Matrix.sop
+
+& [ImplementationUnit] is one pure safe-Rust module
+  + [profile] is cantor-phase3-machine-forms/0.1
+  + [crate] is cantor_ecosystem
+  + [module] is phase3_evidence
+  + [dependencies] is existing serde and thiserror only
+  + [state] is caller-owned in-memory values
+  + [failure] is one bounded Phase3FormFault
+  - never: own a file, handle, process, socket, clock, random source, environment, key, database, or model
+
+& [ArtifactReference] is a typed digest edge
+  + [kind] is topology_receipt, mutation_run, candidate_capsule, capture_certificate, supervisor_test, or independent_review
+  + [profile] is nonempty, NUL-free, and at most 128 bytes
+  + [sha256] is canonical lowercase hexadecimal
+  = must: reject unknown kinds and fields
+
+& [MutationLifecycle] is exact
+  + [stages] is prepared, revalidated, sandbox_ready, turn_running, turn_terminal, handoff_pending_seal, quarantined, and closed
+  + [normal_edges] is prepared_to_revalidated, revalidated_to_sandbox_ready, sandbox_ready_to_turn_running, turn_running_to_turn_terminal, turn_terminal_to_handoff_pending_seal, and handoff_pending_seal_to_closed
+  + [quarantine_edges] are from revalidated, sandbox_ready, turn_running, turn_terminal, and handoff_pending_seal to quarantined
+  + [close_quarantine] is quarantined_to_closed
+  = must: reject self, reverse, skip, reopen, and prepared-to-quarantine edges
+
+& [SealReviewLifecycle] is exact
+  + [stages] is admitted, quiescing, capturing, publishing, sealed, reconstructing, testing, tested, reviewing, reviewed, quarantined, and unresolved
+  + [normal_edges] follow the declared order from admitted through reviewed
+  + [quarantine_edges] are from quiescing, capturing, publishing, reconstructing, and testing
+  + [unresolved_edges] are from sealed, tested, and reviewing
+  = must: reject reverse, skip, retry, cleanup, and promotion edges
+
+& [FaultConsequence] is honest
+  + [turn_started] is explicit
+  + [may_have_mutated] must be false before turn start and true after turn start
+  + [quarantine_required] must be false before turn start and true after turn start
+  - never: represent unknown post-start state as clean
+
+& [EvidenceStrength] is explicit
+  + [ConsistencyClass] is quiescent_double_inventory or os_snapshot_proven
+  + [ImmutabilityClass] is content_addressed_verified or platform_enforced
+  - never: infer the stronger variant from the weaker variant
+
+& [CandidatePathRecord] is coherent regular-file change evidence
+  + [relative_path] is a safe canonical relative path excluding .git
+  + [change_kind] is add, modify, delete, or mode_change
+  + [base] and [current] each contain mode, length, and canonical SHA-256 when present
+  + [add] requires absent base and present current
+  + [modify] and [mode_change] require present base and current
+  + [delete] requires present base and absent current
+  + [blob_sha256] is present exactly with current and equals current SHA-256
+  = must: reject identical modify records and unchanged mode_change records
+
+& [IndependentCheck] is one review fact
+  + [check_id] is a bounded canonical identifier
+  + [status] is pass, fail, unknown, or not_applicable
+  + [evidence] is a nonempty sorted unique bounded ArtifactReference set except not_applicable may be empty
+  + [reason] is nonempty, NUL-free, and bounded
+  = must: preserve unknown distinctly from fail
+
+& [ReviewDisposition] is closed and non-promotional
+  + [Rust_name] is Phase3ReviewDisposition to avoid collision with the established mock-loop ReviewDisposition
+  + [variants] is eligible_for_phase3d_consideration, revise_in_new_candidate, reject, or quarantine
+  - never: define accept, commit, merge, push, deploy, activate, cleanup, or promote
+
+& [Limits] are hard
+  + [maximum_text_bytes] is 1024
+  + [maximum_profile_bytes] is 128
+  + [maximum_path_bytes] is 1024
+  + [maximum_evidence_references] is 64
+
+& [RequirementSet] is P3MF-001 through P3MF-010
+  + [P3MF-001] is strict closed JSON
+  + [P3MF-002] is exact scalar and path validation
+  + [P3MF-003] is complete Phase3B transition matrix
+  + [P3MF-004] is complete Phase3C transition matrix
+  + [P3MF-005] is honest fault consequences
+  + [P3MF-006] is coherent path changes
+  + [P3MF-007] is explicit evidence strength
+  + [P3MF-008] is independent checks with exact evidence
+  + [P3MF-009] is non-promotional dispositions and API
+  + [P3MF-010] is global verification, proof, and rollback
+
+& [SJSProcessingTrace] is complete
+  + [subject] is pure shared semantic forms before any physical worker
+  + [boundary] is validation inside and every I/O or effect outside
+  + [data] is artifact ref, lifecycle, fault consequence, strength, path record, check, and disposition
+  + [faults] is unknown JSON, invalid digest, path escape, transition skip, false clean claim, incoherent change, duplicate evidence, and promotion vocabulary
+  + [rollback] is remove module and export with no state migration
+
+& [SatisfactionSignature] is M1 implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is ae44deed-29c7-4a6a-96d1-1a0091539575
+  + [source_snapshot_uuid] is 9e99c378-f535-4659-9dc1-57db1a8c0107
+  + [implementation_authority] is strict_pure_phase3_machine_forms_only
+  + [signature_status] is valid
+  + [invalidation] is source change, new dependency, unsafe, I/O, clock, random, environment, cryptography, persistence, process, network, model, physical authority, cleanup, or promotion surface

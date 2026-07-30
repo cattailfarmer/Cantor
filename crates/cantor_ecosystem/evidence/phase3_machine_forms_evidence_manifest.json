@@ -1,0 +1,208 @@
+{
+    "schema":  "cantor-phase3-machine-forms-evidence-manifest/0.1",
+    "evidence_manifest_uuid":  "a00deec7-87a2-4f43-9334-e6b0c9283a48",
+    "generated_at_utc":  "2026-07-30T17:27:57.6781040Z",
+    "authority":  {
+                      "canonical_specification":  "specifications/Cantor_Phase3_Strict_Pure_Machine_Forms.sop",
+                      "satisfaction_signature_uuid":  "ae44deed-29c7-4a6a-96d1-1a0091539575",
+                      "solution_uuid":  "be6aad5a-1842-405e-bbaf-493a9f38f09a"
+                  },
+    "scope":  {
+                  "profile":  "cantor-phase3-machine-forms/0.1",
+                  "focused_tests":  8,
+                  "filesystem_authority":  false,
+                  "process_authority":  false,
+                  "network_authority":  false,
+                  "model_authority":  false,
+                  "mutation_authority":  false,
+                  "seal_authority":  false,
+                  "test_execution_authority":  false,
+                  "promotion_authority":  false
+              },
+    "verification":  [
+                         {
+                             "command":  "cargo fmt --all -- --check",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --workspace --all-targets --locked --offline",
+                             "tests":  220,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --workspace --all-targets --release --locked --offline",
+                             "tests":  220,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo doc --workspace --no-deps --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo audit --file Cargo.lock",
+                             "dependencies":  112,
+                             "vulnerabilities":  0,
+                             "status":  "passed"
+                         }
+                     ],
+    "artifacts":  [
+                      {
+                          "path":  ".gitattributes",
+                          "sha256":  "52A5677DBDD956DCABD61442DF1967048ACC10F3A5F962EBF5243140E0746E07",
+                          "bytes":  167
+                      },
+                      {
+                          "path":  "README.md",
+                          "sha256":  "D6C9091FCC1F9CFC9952E1DA46C0B2224F0B9EDAE879FFC3FCE33E6A130D2112",
+                          "bytes":  13838
+                      },
+                      {
+                          "path":  "SOP_CORE_MAP.sop",
+                          "sha256":  "527C91A7B034126F9A22D079D68DDA835B302F228365F34CF9EAA8E1060B9438",
+                          "bytes":  21998
+                      },
+                      {
+                          "path":  "Cargo.toml",
+                          "sha256":  "88B8FCC6AB66BAE649F0A2B32C880208AAF996936133D71D6A478F6FC434ADB3",
+                          "bytes":  592
+                      },
+                      {
+                          "path":  "Cargo.lock",
+                          "sha256":  "7B2E1E879E387CCFF1CF1E04DE4ACE1D72EB006D1443192AB26629F0C3A884A5",
+                          "bytes":  26319
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_phase3_machine_forms_activation/Cantor_Phase3_Machine_Forms_Activation_Source.sop",
+                          "sha256":  "96F3BE5B7715715009A557C7B7E5D10872F740EA54331D0294413E4E62B34763",
+                          "bytes":  4604
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_phase3_machine_forms_activation/Source_Document_Manifest.sop",
+                          "sha256":  "9DF46622F023D05660C11D0CB760AD72232B42D0A4D65878C24209206933855E",
+                          "bytes":  706
+                      },
+                      {
+                          "path":  "specifications/Cantor_Phase3_Strict_Pure_Machine_Forms.sop",
+                          "sha256":  "013FA1B61859833025D7371B936B9A45FC2859A6CBF596BBBFE56915BACBD199",
+                          "bytes":  6262
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_Phase3_Strict_Pure_Machine_Forms.exploded.sop",
+                          "sha256":  "5B3C7FF45E72AA6039CE98E041EB694BE8994BF1D64A86AF04CE647B4DDE4C96",
+                          "bytes":  1597
+                      },
+                      {
+                          "path":  "justifications/Cantor_Phase3_Strict_Pure_Machine_Forms_Justification.sop",
+                          "sha256":  "6F7013A14FAC23EAF45AFEEF9BF468F194BB580E09CC8BA6F2BDABD6FACA4C85",
+                          "bytes":  989
+                      },
+                      {
+                          "path":  "feature_support/slices/Phase3StrictPureMachineForms.sop",
+                          "sha256":  "E7A747BD5F691B493ECC72260325EC122EA292C2DB9D8DB73B14279EF0F93EBE",
+                          "bytes":  770
+                      },
+                      {
+                          "path":  "feature_support/Phase3StrictPureMachineForms_Requirement_Matrix.sop",
+                          "sha256":  "BD5C8A21F68FDBDE217264F0F138047D04FC2B34E755F6D991935ED44093C028",
+                          "bytes":  1590
+                      },
+                      {
+                          "path":  "feature_support/Phase3_Physical_Proof_Requirement_Matrix.sop",
+                          "sha256":  "1E8C5016BED17C141CA397687D2F8589AD478D5A46E7FC9B59A027DE6F50527C",
+                          "bytes":  2040
+                      },
+                      {
+                          "path":  "feature_support/Cantor_Engine_Build_Slice_Index.sop",
+                          "sha256":  "9F3A0A95D146CBC79508FA83E590F514293B07B48ED70ADD63A3612ACB618EFA",
+                          "bytes":  7052
+                      },
+                      {
+                          "path":  "plans/Cantor_Engine_Build_Plan.sop",
+                          "sha256":  "7433A61D204A29BFD3C4827B37BBB912602B2F6B74CC3372689BE7AEF6CA7EB7",
+                          "bytes":  21302
+                      },
+                      {
+                          "path":  "plans/Cantor_Phase3B_3C_Physical_Proof_Plan.sop",
+                          "sha256":  "D085FE7B1E39C1AC87899915B236C365C05AF38535DE52995431BA7FD6BC27D1",
+                          "bytes":  13933
+                      },
+                      {
+                          "path":  "narrative/research/Cantor_PreMutation_Path_Topology_Gap_Assessment_2026-07-30.sop",
+                          "sha256":  "5A68CFE15417F23D45E69DED9050989050E9001EF02EFBEB480BDF4E325B956C",
+                          "bytes":  5769
+                      },
+                      {
+                          "path":  "narrative/Project_Narrative.sop",
+                          "sha256":  "109CEF5835B7A70493442A60D60824616AB0AEFAF1D68D9C4DC078606FA84B85",
+                          "bytes":  32721
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785432153166_phase3_machine_forms_faults.sop",
+                          "sha256":  "9607E66BC4DE6AD80A785CD240EFABBD1D64872ABC7474769660C508EB5593E1",
+                          "bytes":  1876
+                      },
+                      {
+                          "path":  "narrative/turns/1785432153166_cantor_phase3_machine_forms.sop",
+                          "sha256":  "F796BFEE16CAFF20F3D2F8FFE5A8EF2BFD63115D2D910EB897665396E47B5874",
+                          "bytes":  737
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785432153166_phase3_machine_forms_file_change.sop",
+                          "sha256":  "EA55148F5104281172640276CDE1BC528E8C7AB5BDAAFA6DE3CAAC58F89D7C57",
+                          "bytes":  772
+                      },
+                      {
+                          "path":  "docs/PHASE3_MACHINE_FORMS.md",
+                          "sha256":  "D48982026A87B580DBF4B651AAE48E059EAA16156922EA43DC4CC2ECC9E88177",
+                          "bytes":  1195
+                      },
+                      {
+                          "path":  "solutions/Cantor_Phase3_Strict_Pure_Machine_Forms_Solution.sop",
+                          "sha256":  "7E12555DFC05289B210846F49C2523E40A0D574D01B2F599C00EBEA67D966C5A",
+                          "bytes":  1272
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/Cargo.toml",
+                          "sha256":  "41E96C004849728387C76890FBD8FBF50E96A7179EBE690F56A19F8321351221",
+                          "bytes":  324
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/lib.rs",
+                          "sha256":  "F2BFC5082CF9AF96664CD2735C619685E86762FD52275AE044DA12D0FBF37CE4",
+                          "bytes":  1379
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/phase3_evidence.rs",
+                          "sha256":  "8B5465B3D6884D00C85FA5621F54224E8C1F5823E16221848E55954F0A6E57AC",
+                          "bytes":  28834
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/tests/phase3_machine_forms_evidence.rs",
+                          "sha256":  "2C2726315DA595B6A82E68F4F3200586412FD3739E6ABC59D9749E5E0309E31E",
+                          "bytes":  2109
+                      },
+                      {
+                          "path":  "scripts/build_phase3_machine_forms_evidence_manifest.ps1",
+                          "sha256":  "F3DF517B9119077E89A3498DE6276118D7DB29881B0FC9A11ABD6378DB537189",
+                          "bytes":  4588
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/evidence/candidate_workspace_admission_evidence_manifest.json",
+                          "sha256":  "8F13DEC7C5B3B59C610533D774AB0ED2D9E0DF269D6519CF04BFCFB8C51B00B0",
+                          "bytes":  13354
+                      },
+                      {
+                          "path":  "proofs/Cantor_Candidate_Workspace_Admission_Proof.sop",
+                          "sha256":  "D293E0A9268EA711C706F4E652874D3FE1C24AD9B34D1E17F7E763DF7517767B",
+                          "bytes":  6008
+                      }
+                  ]
+}

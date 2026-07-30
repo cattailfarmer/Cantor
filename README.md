@@ -135,6 +135,10 @@ Phase 3C is likewise formation-only. It separates physical capture,
 supervisor-owned tests over a reconstruction, and immutable-input review.
 A seal means “captured intact,” not “correct,” “accepted,” or “promoted.”
 
+The shared Phase 3 lifecycle and evidence vocabulary is implemented as a pure
+no-I/O Rust module. Physical topology scanning, workspace writes, sealing,
+test execution, review execution, cleanup, and promotion remain inactive.
+
 Run the proof and fixture-only CLI demonstration locally:
 
 ```powershell
@@ -197,6 +201,7 @@ Current executable proofs:
 - [`proofs/Cantor_Supervised_Mock_Loop_Proof.sop`](proofs/Cantor_Supervised_Mock_Loop_Proof.sop)
 - [`proofs/Cantor_Read_Only_Live_Codex_Adapter_Proof.sop`](proofs/Cantor_Read_Only_Live_Codex_Adapter_Proof.sop)
 - [`proofs/Cantor_Candidate_Workspace_Admission_Proof.sop`](proofs/Cantor_Candidate_Workspace_Admission_Proof.sop)
+- [`proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop`](proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop)
 - [`proofs/CEB_Deterministic_Baseline_Release_Audit.sop`](proofs/CEB_Deterministic_Baseline_Release_Audit.sop)
 
 1. [`SOP_CORE_MAP.sop`](SOP_CORE_MAP.sop) — authority and project map

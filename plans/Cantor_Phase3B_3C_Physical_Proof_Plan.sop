@@ -1,0 +1,200 @@
+Subject: Cantor Phase3B and Phase3C Physical Proof Plan
+
+Description: Non-live dependency plan for proving candidate containment, pre-mutation topology, sealing, reconstruction, tests, and independent review entirely on synthetic disposable state before either formation may gain implementation authority.
+
+@ [Phase3B] C:\Project\Cantor\specifications\Cantor_Bounded_Candidate_Mutation.sop
+@ [Phase3C] C:\Project\Cantor\specifications\Cantor_Candidate_Seal_And_Independent_Review.sop
+@ [topology_gap] C:\Project\Cantor\narrative\research\Cantor_PreMutation_Path_Topology_Gap_Assessment_2026-07-30.sop
+
+& [PlanIdentity] is a blocked physical-proof program
+  + [plan_uuid] is 6b639d3b-372b-4b5e-abf6-81bf84b4bcef
+  + [status] is designed_not_authorized_to_execute
+  + [host_profile] is Windows target host first
+  + [data_rule] is synthetic disposable files only
+  + [authority_rule] is each executable milestone requires reconciled source and renewed signature before execution
+
+& [ProofRoot] is one operator-created disposable tree
+  + [root] is absolute, canonical, empty, private, non-system, non-repository, and content-addressed in the experiment record
+  + [principal_repository] is a new synthetic Git repository with no remote and no user content
+  + [candidate_worktree] is a new linked worktree on a unique local branch
+  + [seal_root] is a separate empty sibling
+  + [test_root] is a separate empty sibling
+  + [parent_guard] and [sibling_guard] are synthetic sentinel locations
+  + [temporary_guard] is a unique synthetic sentinel under a newly created task-specific temp child
+  + [loopback_listener] is a task-owned no-data endpoint for network-denial observation
+  = must: record canonical roots and prove none overlaps C:\Project\Cantor, its Git common dir, user source, credential, or system paths
+
+& [SentinelRecord] makes every forbidden effect measurable
+  + [sentinel_uuid] and [purpose] and [path] are exact
+  + [initial_kind] and [initial_length] and [initial_sha256] are exact
+  + [file_identity] and [volume_identity] and [link_count] are captured where supported
+  + [ACL_digest] and [stream_inventory_digest] are captured where supported
+  + [expected_result] is changed or unchanged
+  + [final] repeats every physical observation
+  = must: fail the entire probe if any forbidden sentinel differs
+
+& [TopologyFixtureSet] exercises the prelaunch gap
+  + [T-01_plain_tree] is regular files and directories only and must admit
+  + [T-02_file_symlink] is an in-candidate file symlink to an outside synthetic sentinel and must reject
+  + [T-03_directory_junction] is an in-candidate junction to an outside synthetic directory and must reject
+  + [T-04_reparse] is every supported nonordinary reparse tag and must reject
+  + [T-05_hard_link] is an in-candidate hard link to an outside synthetic sentinel and must reject
+  + [T-06_named_stream] is one named NTFS data stream and must reject
+  + [T-07_nested_repository] is nested .git directory and control-file variants and must reject
+  + [T-08_sparse_checkout] is a sparse candidate and must reject
+  + [T-09_ignored_alias] places the special entry under an ignored directory and must still reject
+  + [T-10_case_alias] exercises case-only path spelling and must either normalize uniquely or reject
+  + [T-11_short_name] exercises an available 8.3 alias and must either bind the same identity or reject
+  + [T-12_extended_path] exercises canonical extended-length spelling without creating a second identity
+  + [T-13_budget] exceeds path, depth, byte, or elapsed limits and must fault without partial receipt
+  + [T-14_drift] changes one synthetic entry between scans and must fault
+
+& [TopologyReceipt] is proposed machine evidence
+  + [profile] is cantor-candidate-topology/0.1
+  + [receipt_uuid] and [correlation_uuid] and [admission_receipt_sha256] are exact
+  + [candidate_root] and [Git_control_file] and [repository_common_dir] are exact
+  + [entry_count] and [directory_count] and [regular_file_count] are exact
+  + [tree_digest] binds sorted path, kind, attributes, mode, length, file identity, link count, streams, and content digest
+  + [Git_control_digest] and [sparse_state_digest] and [nested_repository_count] are exact
+  + [resource_account] is exact
+  + [receipt_sha256] is canonical and self-excluding
+  + [single_use] binds the immediately following sandbox launch
+  - never: remain valid after a candidate write
+
+& [SandboxCanaryProgram] is a future hash-pinned deterministic helper
+  + [launch] is a direct executable and strict canonical plan file, never a shell
+  + [payload] is one unique nonsecret canary digest
+  + [operations] attempt create, overwrite, append, rename, delete, metadata change, child launch, and loopback connect only at enumerated synthetic targets
+  + [result] records requested target identity, OS result code, bytes attempted, bytes observed, and elapsed resources
+  + [self_boundary] is no path or endpoint can be supplied outside the signed probe plan
+  + [build] is reproducible safe Rust with unsafe isolated and justified only where Windows identity APIs require it
+  - never: accept model-authored target paths
+
+& [SandboxCanaryMatrix] distinguishes enforcement from detection
+  + [S-01_allowed_regular] creates and modifies one ordinary file inside the candidate and must succeed
+  + [S-02_disallowed_candidate] writes an out-of-policy candidate path and may physically succeed but must be detected and quarantined
+  + [S-03_Git_control] attempts to change the candidate .git control file and must be physically denied for activation
+  + [S-04_common_dir] attempts a synthetic sentinel in the Git common dir and must be physically denied
+  + [S-05_principal] attempts a synthetic sentinel in the principal worktree and must be physically denied
+  + [S-06_parent] attempts the probe parent guard and must be physically denied
+  + [S-07_sibling] attempts the sibling guard and must be physically denied
+  + [S-08_temp] attempts the unique temp guard and must be physically denied under the selected profile
+  + [S-09_network] attempts the task-owned listener and must be physically denied
+  + [S-10_link_escape] attempts every precreated alias fixture and must be denied or preflight-rejected
+  + [S-11_child] launches one bounded child and proves descendant ownership and termination
+  + [S-12_late_write] attempts a delayed child write after terminal state and must be denied or detected with quarantine
+  = must: call physically denied only when before-after state and OS result agree
+
+& [SandboxExecutionStages] require two complementary observations
+  + [stage_1_setup] creates and hashes only the synthetic proof root under explicit authority
+  + [stage_2_admit] runs Phase3A and proposed topology preflight without writes
+  + [stage_3_characterize] may use an official deterministic App Server sandbox execution surface only if research proves it shares the production sandbox backend
+  + [stage_4_confirm] runs one actual ephemeral workspace-write turn whose observed exact command invokes only the pinned canary plan
+  + [stage_5_interrupt] demonstrates reactive out-of-policy event handling separately from physical denial
+  + [stage_6_observe] hashes every sentinel, process, listener, Git invariant, and candidate path
+  + [stage_7_repeat] requires three clean reconstructions with equal normalized outcomes
+  - never: treat characterization alone as proof of actual-turn containment
+
+& [WorldWritableMatrix] is pre-turn setup evidence
+  + [W-01_clean_scan] records the complete successful setup notification path
+  + [W-02_relevant_warning] creates only a synthetic ACL condition expected to produce a relevant warning and must block before turn start
+  + [W-03_scan_failure] injects a scan failure and must block
+  + [W-04_unrelated_warning] requires an explicit classification rule rather than silent ignore
+  + [W-05_schema_drift] rejects unknown warning shape
+
+& [MutableProtocolFixtureSet] is fake-server first
+  + [P-01_normal] is exact command, file-change, one optional Cantor call, final message, and terminal
+  + [P-02_unknown_event] faults and interrupts
+  + [P-03_duplicate_start] faults
+  + [P-04_missing_completion] faults at terminal
+  + [P-05_wrong_correlation] faults
+  + [P-06_server_request] faults because approval policy is never
+  + [P-07_approval] faults
+  + [P-08_oversized_output] faults before retaining payload
+  + [P-09_late_event] faults and preserves may-have-mutated
+  + [P-10_forbidden_command_signal] interrupts and quarantines without prevention claim
+  + [P-11_outside_path_event] interrupts and quarantines without prevention claim
+  + [P-12_terminal_mismatch] faults
+  + [P-13_partial_spawn] reaps exact ownership
+  + [P-14_interrupt_failure] preserves unknown dirty state
+
+& [SealInventoryFixtureSet] reconciles three views
+  + [I-01_modify] tracked regular-file modification
+  + [I-02_add] untracked regular-file addition
+  + [I-03_delete] tracked deletion
+  + [I-04_empty] empty file and empty directory
+  + [I-05_mode] executable-mode or platform-mode change
+  + [I-06_ignored] ignored addition
+  + [I-07_index] staged or index mutation and must quarantine
+  + [I-08_special] every link, reparse, hard-link, stream, device, pipe, socket, and unknown kind and must quarantine
+  + [I-09_outside_policy] ordinary out-of-policy file and must quarantine
+  + [I-10_drift] lingering writer and unequal inventories
+  + [I-11_transient] demonstrates why double inventory retains residual uncertainty
+  + [I-12_budget] path, depth, per-file, aggregate, and elapsed exhaustion
+  + [I-13_Git_disagreement] Git and physical change sets differ
+
+& [PublicationFaultMatrix] covers every state boundary
+  + [A-01_success] publishes exact blobs, manifest, and certificate under manifest digest
+  + [A-02_blob_write] faults after any blob write and exposes no valid seal
+  + [A-03_manifest_write] faults after manifest write and exposes no valid seal
+  + [A-04_readback] corrupts staged bytes and rejects
+  + [A-05_capacity] exhausts declared capacity and rejects before valid publication
+  + [A-06_permission] rejects unsafe seal-root permissions
+  + [A-07_collision_equal] accepts only complete byte identity
+  + [A-08_collision_different] rejects and preserves both evidence paths
+  + [A-09_rename] injects atomic rename failure
+  + [A-10_durability] records unsupported or failed flush without overclaim
+  + [A-11_post_publish_tamper] verifier detects change under content_addressed_verified
+  + [A-12_platform_immutable] only a separately proven primitive may produce platform_enforced
+
+& [ReconstructionAndTestMatrix] keeps proof separate
+  + [R-01_exact] reconstructs base plus capsule to equal source projection
+  + [R-02_blob_substitution] rejects
+  + [R-03_base_substitution] rejects
+  + [R-04_path_escape] rejects
+  + [R-05_tool_drift] rejects
+  + [E-01_pass] exact benign supervisor test passes
+  + [E-02_fail] exact benign supervisor test fails visibly
+  + [E-03_timeout] kills and reaps exact descendants
+  + [E-04_output] bounds retained and drained bytes
+  + [E-05_network] malicious test network attempt is denied
+  + [E-06_repository] malicious test principal or common-dir attempt is denied
+  + [E-07_seal] malicious test seal-root attempt is denied
+  + [E-08_credentials] no credential-bearing environment is inherited
+  + [E-09_generated] generated artifacts are accounted outside the source projection
+
+& [IndependentReviewMatrix] proves structural separation
+  + [V-01_eligible] all deterministic gates and criteria pass
+  + [V-02_failed_gate] cannot be overridden by optional model commentary
+  + [V-03_unknown] remains unresolved
+  + [V-04_self_reviewer] rejects worker identity
+  + [V-05_mutable_input] rejects candidate or reconstruction paths
+  + [V-06_evidence_rewrite] rejects digest mismatch
+  + [V-07_missing_test] rejects incomplete required plan
+  + [V-08_promotion_language] rejects commit, merge, push, deploy, activate, or cleanup instructions
+  + [V-09_disagreement] preserves attributed deterministic and optional semantic findings
+
+& [EvidencePackage] is clone-portable and exact
+  + [inputs] are source, canonical specifications, fixture definitions, toolchain, host, App Server schemas, and executable pins
+  + [raw] is every request, response, notification, command, OS result, before-after sentinel, process, listener, inventory, artifact, and review record
+  + [normalized] excludes wall-clock and random root spelling only where explicitly mapped
+  + [manifest] binds every tracked proof artifact by relative path, length, and SHA-256
+  + [nonclaims] list untested platforms, filesystem modes, snapshot guarantees, physical immutability, and adversarial external writers
+
+& [MilestoneOrder] is the only safe progression
+  + [M1] is strict pure machine forms and state-transition fixtures
+  + [M2] is synthetic topology scanner and receipt under renewed implementation authority
+  + [M3] is sandbox canary helper and fake App Server protocol fixtures
+  + [M4] is operator-explicit target-host containment characterization
+  + [M5] is one actual-turn synthetic canary confirmation
+  + [M6] is read-only seal inventory and reconciliation
+  + [M7] is external seal-root publication
+  + [M8] is reconstruction and contained supervisor tests
+  + [M9] is independent review and Phase3D evidence handoff
+  = must: close source reconciliation, proof, faults, and rollback after each milestone
+  - never: begin the next milestone from a failed, ambiguous, or quarantined predecessor
+
+& [CurrentStopRule] is explicit
+  + [completed_now] is planning and threat coverage
+  + [blocked_now] is every file creation under a physical proof root, topology fixture, sandbox process, workspace-write turn, seal publication, reconstruction, test, reviewer, cleanup, and promotion
+  + [next_authority_work] is preserve a reconciliation source selecting M1 only and sign strict pure machine-form implementation if its APIs expose no physical effects
