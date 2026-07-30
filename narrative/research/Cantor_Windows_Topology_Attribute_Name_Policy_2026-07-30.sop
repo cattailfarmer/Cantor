@@ -1,0 +1,98 @@
+Subject: Cantor Windows Topology Attribute and Name Policy
+
+Description: Proposed fail-closed M2B profile for Windows entry attributes, per-directory case behavior, and path components. This is research, not activation authority.
+
+& [PolicyIdentity] is a pre-activation strict-profile proposal
+  + [policy_uuid] is 2563a009-a96e-4201-b02d-6f04bd3edc78
+  + [captured_at] is 2026-07-30
+  + [profile] is cantor-windows-candidate-topology/0.1
+  + [status] is proposed_pending_fixture_proof
+
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [unsafe_seam] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Unsafe_Seam_Review_2026-07-30.sop
+@ [Microsoft_attributes] https://learn.microsoft.com/en-us/windows/win32/fileio/file-attribute-constants
+@ [Microsoft_names] https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+@ [Microsoft_case_sensitivity] https://learn.microsoft.com/en-us/windows/wsl/case-sensitivity
+
+& [BenignAttributeSet] is the only combinable profile set
+  + [READONLY] is 0x00000001
+  + [HIDDEN] is 0x00000002
+  + [SYSTEM] is 0x00000004
+  + [ARCHIVE] is 0x00000020
+  + [NOT_CONTENT_INDEXED] is 0x00002000
+  + [combined_mask] is 0x00002027
+  + [reason] is these bits do not introduce alias traversal, deferred retrieval, alternate content, sparse allocation, encryption, compression, virtualization, or unsupported object behavior
+
+& [DirectoryAttributeRule] is exact
+  + [DIRECTORY] is 0x00000010 and must be set
+  + [allowed_mask] is DIRECTORY plus any BenignAttributeSet bit, numerically 0x00002037
+  + [NORMAL] must be absent because Microsoft defines it as valid only alone
+  + [unknown_bit] rejects
+  + [kind_mismatch] rejects
+
+& [RegularAttributeRule] is exact
+  + [DIRECTORY] must be absent
+  + [normal_shape] is exactly FILE_ATTRIBUTE_NORMAL 0x00000080
+  + [marked_shape] is one or more BenignAttributeSet bits and no other bit
+  + [zero] rejects because it does not prove a valid returned attribute shape
+  + [unknown_bit] rejects
+  + [kind_mismatch] rejects
+
+& [RejectedBehaviorBits] are closed for profile 0.1
+  + [DEVICE] is 0x00000040
+  + [TEMPORARY] is 0x00000100
+  + [SPARSE_FILE] is 0x00000200
+  + [REPARSE_POINT] is 0x00000400
+  + [COMPRESSED] is 0x00000800
+  + [OFFLINE] is 0x00001000
+  + [ENCRYPTED] is 0x00004000
+  + [INTEGRITY_STREAM] is 0x00008000
+  + [VIRTUAL] is 0x00010000
+  + [NO_SCRUB_DATA] is 0x00020000
+  + [EA_or_RECALL_ON_OPEN] is 0x00040000
+  + [PINNED] is 0x00080000
+  + [UNPINNED] is 0x00100000
+  + [RECALL_ON_DATA_ACCESS] is 0x00400000
+  + [reason] is initial reconstruction and containment semantics are not proven for any of these behaviors
+  - never: admit a behavior bit merely because ordinary logical reads happened to succeed
+
+& [CaseSensitivityRule] is per directory
+  + [query] is GetFileInformationByHandleEx FileCaseSensitiveInfo on the already opened directory handle
+  + [structure] is FILE_CASE_SENSITIVE_INFO with unsigned Flags
+  + [admission] requires Flags equal to zero
+  + [nonzero] rejects both the known case-sensitive-directory bit and any future unknown bit
+  + [why] is Windows tools can otherwise address case-distinct entries inconsistently and Git interpretation can diverge
+  + [Git_reconciliation] still requires exact case-preserved path equality between physical and Git inventories
+
+& [ComponentCharacterRule] is strict
+  + [encoding] is valid Unicode round-tripped from exact UTF-16 without replacement
+  + [length] is nonzero and within the volume maximum-component length and Cantor policy bound
+  + [forbidden] is NUL, U+0001 through U+001F, less-than, greater-than, colon, quote, slash, backslash, vertical-bar, question-mark, and asterisk
+  + [terminal] rejects a trailing space or period
+  + [navigation] rejects dot and dot-dot
+  + [Git_control] rejects .git under ordinal ASCII case-insensitive comparison
+  + [normalization] preserves exact code points and does not silently normalize Unicode
+
+& [ReservedDeviceRule] is stem-based and case-insensitive
+  + [stem] is the component before its first period
+  + [fixed] rejects CON, PRN, AUX, and NUL
+  + [numbered] rejects COM1 through COM9 and LPT1 through LPT9
+  + [superscript] rejects COM and LPT followed by ISO-8859-1 superscript 1, 2, or 3
+  + [extension] does not make a reserved stem safe
+  + [reason] is Win32 can interpret these as devices rather than ordinary candidate content
+
+& [OrderingRule] is evidence order not path equivalence
+  + [canonical_order] is exact UTF-8 bytes of slash-normalized relative paths
+  + [uniqueness] is exact byte uniqueness plus exact Git reconciliation
+  + [case] does not use locale-sensitive lowercase or uppercase transformations
+  + [case_sensitive_directory] is rejected before ordering
+
+& [UnresolvedBeforeFreeze] remains blocking
+  + [NORMAL_observation] target-host fixtures must confirm FileAttributeTagInfo returns NORMAL alone for an otherwise unmarked regular file
+  + [directory_READONLY] is allowed as an observed benign bit even though Microsoft says it is not honored for directories; the fixture must confirm no special folder behavior
+  + [Unicode] visually confusable or canonically equivalent distinct components are preserved, but any higher-level semantic collision policy is not yet specified
+  + [Git_modes] executable-bit truth comes from exact Git inventory and must not be inferred from these Windows attributes
+
+& [AuthorityEffect] is none
+  + [next_step] is incorporate only after source selection, fixture design, and an M2B satisfaction signature
+  - never: cite this policy as scanner, dependency, unsafe, fixture, sandbox, mutation, seal, cleanup, or promotion authority
