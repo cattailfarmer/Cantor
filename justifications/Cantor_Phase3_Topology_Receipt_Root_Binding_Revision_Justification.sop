@@ -1,0 +1,82 @@
+Subject: Cantor Phase3 Topology Receipt Root Binding Revision Justification
+
+& [JustificationIdentity] is the implementation rationale
+  + [justification_uuid] is c83e73ce-0fa3-4d61-a9d4-44aaf8bbf5a4
+  + [solution_uuid] is 74914f5c-3001-4315-907c-9de2db7b824b
+  + [canonical_uuid] is cc693583-4f96-44ee-ad90-1f71d9a3a966
+  + [status] is implementation_justified
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_receipt_root_binding_revision\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Source.sop
+@ [snapshot] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_receipt_root_binding_revision\Cantor_Phase3_Topology_Machine_Forms_Pre_Revision_Snapshot.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision.exploded.sop
+
+! [PrimaryClaim] the pure receipt revision is necessary and sufficient before M2C can represent physical root continuity honestly
+  @ [support] the selected source identifies missing root identity and stable final-path fields
+  @ [support] the root reconciliation research requires both fields at receipt issuance
+  @ [support] no physical API or truth check is needed to validate their syntax
+  + [confidence] is high for pure schema sufficiency and intentionally none for physical correspondence
+
+& [Problem] is an under-bound receipt and invalid authority identity
+  + [physical_gap] old receipts do not name the root StrongFileIdentity or stable volume-GUID final path
+  + [semantic_gap] one profile field conflates receipt schema with scanner policy
+  + [governance_gap] the prior specification names a non-governing satisfaction-protocol UUID
+  + [consequence] a future scanner could emit structurally valid evidence that does not commit the physical root object it observed
+
+& [WhyPureRevision] is dependency order
+  + [M2C_dependency] physical scanner output cannot be designed truthfully until its receipt schema can express root continuity
+  + [fail_early] malformed and weak evidence should reject before platform calls or supervisor integration exist
+  + [low_risk] the change has no I/O, unsafe, dependency, persistence, or migration surface
+  + [compiler_value] a breaking Rust field change exposes all internal construction sites
+
+& [WhyRejectLegacy] is security and honesty
+  + [weakness] the old shape lacks facts that cannot be reconstructed from its serialized fields
+  + [consumer_state] no scanner, ledger, persisted receipt, or external consumer exists
+  + [cost] a legacy decoder would permanently admit a second weaker evidence contract
+  + [decision] strict missing-field and unknown-field rejection is the smallest truthful compatibility policy
+
+& [WhySeparateProfiles] is data identity
+  + [forms] changes when the pure public vocabulary changes
+  + [receipt] changes when the serialized receipt contract changes
+  + [scanner] changes only when physical observation policy changes
+  + [benefit] later evolution can invalidate exactly the affected contract without semantic aliasing
+
+& [WhyVolumeGuidSyntax] is stable evidence without overclaim
+  + [value] a future scanner can record the normalized handle-derived namespace independently of the human reopen address
+  + [strictness] a closed lowercase GUID grammar avoids multiple spellings of the same evidence identity
+  + [preservation] tail text remains exact and is never case-folded or Unicode-normalized
+  + [limit] pure validation cannot prove existence, locality, NTFS, or correspondence to root_identity
+
+& [Counterarguments] are resolved
+  + [keep_profile] is rejected because the field cannot identify both schema and policy without ambiguity
+  + [optional_root_fields] is rejected because optional evidence recreates the original defect
+  + [default_root_fields] is rejected because defaults fabricate observation
+  + [validate_physical_match] is deferred because it requires the separately governed M2C effect boundary
+  + [normalize_tail] is rejected because it mutates the evidence string and can damage Unicode or case
+
+& [InvalidationConditions] are explicit
+  + [unexpected_consumer] is a real persisted or external 0.1 receipt consumer discovered before implementation
+  + [source_change] is correction source or preserved snapshot alteration
+  + [grammar_contradiction] is primary API evidence that normalized volume-GUID output cannot satisfy the closed grammar
+  + [implementation_contradiction] is a required field or validation rule that cannot remain pure
+  + [quality_failure] is any focused, global, evidence, or registry gate failure
+  = must: stop and reprocess rather than weakening the canonical specification in place
+
+& [FileChangeScope] is bounded
+  + [production] is crates\cantor_ecosystem\src\topology_forms.rs
+  + [tests] are the same module and its existing evidence integration test
+  + [governance] is source manifest, exploded, canonical, justification, plan, matrix, slice, registry, solution, proof, turn, fault, file-change, documentation, and evidence manifest
+  + [dependency] is unchanged
+  + [public_export] is unchanged because topology_forms is already exported
+
+& [VerificationJustification] is defense in depth
+  + [unit] proves profiles, field presence, identity, grammar, old-shape rejection, and exact round trip
+  + [static] proves no forbidden import, unsafe, or dependency drift
+  + [global] proves no regression across all workspace consumers
+  + [evidence] binds source, authority, implementation, tests, proof, and predecessor manifests
+
+& [Rollback] is zero-migration
+  + [action] revert the schema implementation and governed artifacts to commit aac126e
+  + [state] no durable receipt data exists
+  + [condition] rollback is allowed only before any M2C consumer is admitted
+  - never: roll back by accepting old receipts as equivalent to strengthened receipts

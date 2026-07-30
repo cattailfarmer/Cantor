@@ -1,0 +1,36 @@
+Subject: Phase3 Topology Receipt Root Binding Revision Feature Support Slice
+
+& [SliceFile] is one contiguous pure schema cluster
+  + [slice_file_id] is daa0f1b7-a37f-4e81-a34b-4828c1b62b46
+  + [slice_file_path] is feature_support/slices/Phase3TopologyReceiptRootBindingRevision.sop
+  + [feature_subject] is Phase3TopologyReceiptRootBindingRevision
+  + [requirement_set] is P3TR-001 through P3TR-012
+  + [enqueue_readiness] is ready
+  + [owner] is conversation cab190f5-eda0-44e0-81a5-51f9605e0baa
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [matrix] C:\Project\Cantor\feature_support\Phase3TopologyReceiptRootBindingRevision_Requirement_Matrix.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Plan.sop
+
+& [SupportRecordSet] is current
+  + [source] is verified exact
+  + [authority] is verified valid for pure implementation
+  + [data_model] is prepared
+  + [existing_module] is implemented at profile 0.1 and ready for bounded revision
+  + [proof_harness] is implemented but stale on code change
+
+& [SupportGapSet] is owned
+  + [implementation] is profile, fields, and path validator
+  + [focused_proof] is legacy, profile, identity, grammar, and round-trip coverage
+  + [global_proof] is full workspace and static gates
+  + [evidence_refresh] is manifest and proof digest
+
+& [WorkSliceTransform] is one manager work slice
+  + [summary] is implement and prove pure TopologyReceipt 0.2 root binding
+  + [detail] is stages 1 through 7 of the revision plan
+  + [completion] requires P3TR-001 through P3TR-012 verified with no new support gap
+  + [forbidden] is dependency, unsafe, filesystem, Windows API, fixture, mutation, seal, cleanup, or promotion
+
+& [Freshness] is derived
+  + [rule] any source, canonical, implementation, test, evidence, or proof change recomputes readiness
+  + [next_review] is completed-work support_delta and requirement_delta review before selecting M2B

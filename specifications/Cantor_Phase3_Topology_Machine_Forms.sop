@@ -1,20 +1,39 @@
 Subject: Cantor Phase3 Topology Machine Forms
 
-Description: Narrow M2A implementation authority for effect-free topology scanner values. It authorizes no platform observation or effect.
+Description: Canonical M2A 0.2 implementation authority for effect-free topology scanner values and explicit physical-root receipt bindings. It authorizes no platform observation or effect.
 
-@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_machine_forms_activation\Cantor_Phase3_Topology_Machine_Forms_Activation_Source.sop
-@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_machine_forms_activation\Source_Document_Manifest.sop
-@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
-@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Topology_Machine_Forms.exploded.sop
-@ [justification] C:\Project\Cantor\justifications\Cantor_Phase3_Topology_Machine_Forms_Justification.sop
-@ [matrix] C:\Project\Cantor\feature_support\Phase3TopologyMachineForms_Requirement_Matrix.sop
+& [CanonicalIdentity] is the reprocessed specification node
+  + [canonical_uuid] is cc693583-4f96-44ee-ad90-1f71d9a3a966
+  + [version] is 0.2
+  + [lifecycle_state] is accepted
+  + [supersedes_signature_uuid] is 4e28ac73-3296-4d57-8dd9-30cc2ac1f01f
+
+@ [original_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_machine_forms_activation\Cantor_Phase3_Topology_Machine_Forms_Activation_Source.sop
+@ [correction_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_receipt_root_binding_revision\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Source.sop
+@ [pre_revision_snapshot] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_receipt_root_binding_revision\Cantor_Phase3_Topology_Machine_Forms_Pre_Revision_Snapshot.sop
+@ [input_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_receipt_root_binding_revision\SJS_Reprocessing_Input_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision.exploded.sop
+@ [exploded_sha256] e5c49167d8d496c7e128ac6a24b89c2a29ca40cca6c83bd2b124684014dbd3fb
+@ [justification] C:\Project\Cantor\justifications\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Justification.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Plan.sop
+@ [matrix] C:\Project\Cantor\feature_support\Phase3TopologyReceiptRootBindingRevision_Requirement_Matrix.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Registry.sop
 
 & [ImplementationUnit] is one safe pure Rust module
-  + [profile] is cantor-phase3-topology-forms/0.1
+  + [forms_profile] is cantor-phase3-topology-forms/0.2
+  + [receipt_profile] is cantor-phase3-topology-receipt/0.2
+  + [scanner_profile] is cantor-windows-candidate-topology/0.1
   + [crate] is cantor_ecosystem
   + [module] is topology_forms
   + [dependencies] is existing serde and serde_json only
-  - never: import fs, os, process, net, time, env, random, key, database, provider, or model facilities
+  - never: import fs, os, process, net, time, env, random, key, database, provider, model, or unsafe facilities
+
+& [ProfileSeparation] is mandatory
+  + [forms_profile] identifies the complete pure machine-form vocabulary
+  + [receipt_profile] identifies the serialized TopologyReceipt contract
+  + [scanner_profile] identifies the physical observation policy a future producer claims
+  + [SJS_protocol] identifies specification processing and equals ad10f10f-d506-48ef-a805-f8b0a133766c
+  - never: accept one profile value in another profile field
 
 & [Limits] are positive and capped
   + [maximum_entries] is 1 through 1000000
@@ -51,9 +70,12 @@ Description: Narrow M2A implementation authority for effect-free topology scanne
   + [observation_ordinal] is caller-owned and nonzero
   - never: interpret a valid observation form as an admitted entry
 
-& [Receipt] is a fresh content-addressed claim
-  + [profile] equals cantor-phase3-topology/0.1
+& [Receipt] is a fresh content-addressed claim with explicit root binding
+  + [receipt_profile] equals cantor-phase3-topology-receipt/0.2
+  + [scanner_profile] equals cantor-windows-candidate-topology/0.1
   + [candidate_root] is nonempty, NUL-free, and at most 32768 bytes while physical canonicality remains M2C responsibility
+  + [root_identity] is a valid StrongFileIdentity
+  + [root_volume_guid_path] is valid canonical syntax under VolumeGuidPath
   + [admission_profile] is nonempty, NUL-free, and at most 128 bytes
   + [admission_receipt_sha256] and [policy_sha256] and [ordered_inventory_sha256] are canonical SHA-256
   + [scan_nonce] is nonempty, NUL-free, and at most 256 bytes
@@ -62,6 +84,25 @@ Description: Narrow M2A implementation authority for effect-free topology scanne
   + [consistency] is quiescent_double_inventory only
   + [issued_tick] is less than [expires_tick]
   + [expires_tick] is less than or equal to the bound scan deadline tick
+  - never: claim form validity proves candidate_root, root_identity, and root_volume_guid_path correspond physically
+
+& [VolumeGuidPath] is strict syntax
+  + [prefix] is exactly \\?\Volume{
+  + [GUID] is exactly 8-4-4-4-12 lowercase ASCII hexadecimal
+  + [root_suffix] is exactly }\
+  + [tail] is absent or one or more backslash-separated components
+  + [component] is nonempty, NUL-free, contains no forward slash, and is neither dot nor dot-dot
+  + [tail_case] is preserved exactly
+  + [maximum] is 32768 UTF-8 bytes
+  - never: accept DOS, UNC, device, NT, relative, uppercase-GUID, malformed-GUID, empty-component, dot-component, NUL, or over-bound forms
+  - never: claim syntax proves path existence, locality, filesystem type, or identity equality
+
+& [LegacyPolicy] is reject
+  + [old_field] is profile
+  + [old_missing_fields] are receipt_profile, scanner_profile, root_identity, and root_volume_guid_path
+  + [decoder] is strict deny-unknown-field JSON with no defaults
+  + [migration] is none because no scanner, persisted receipt, ledger, or external consumer exists
+  - never: synthesize missing physical evidence or retain an implicit legacy path
 
 & [Consumption] is immutable use evidence
   + [topology_receipt_sha256] and [mutation_work_packet_sha256] are canonical SHA-256
@@ -78,7 +119,7 @@ Description: Narrow M2A implementation authority for effect-free topology scanne
   + [changed_during_scan] requires may_have_changed true and quarantine_candidate
   + [deny_launch] requires may_have_changed false
 
-& [RequirementSet] is P3TF-001 through P3TF-010
+& [InheritedRequirementSet] is P3TF-001 through P3TF-010
   + [P3TF-001] is strict JSON and bounded faults
   + [P3TF-002] is hard positive scan limits
   + [P3TF-003] is canonical strong identity
@@ -90,17 +131,75 @@ Description: Narrow M2A implementation authority for effect-free topology scanne
   + [P3TF-009] is honest runtime-fault consequence
   + [P3TF-010] is no effect surface plus global verification and rollback
 
-& [SJSProcessingTrace] is complete
-  + [problem] is later platform code otherwise invents incompatible values and false claims
-  + [justification] is invalid structural evidence should be rejected before I/O is activated
-  + [solution] is a closed pure module shared by later scanner and supervisor slices
-  + [faults] are malformed identity, incoherent entry, ambiguous stream, stale receipt, false fault consequence, and authority leakage
-  + [rollback] is remove module and export without migration
+& [RevisionRequirementSet] is P3TR-001 through P3TR-012
+  + [P3TR-001] is exact multi-source preservation and lineage
+  + [P3TR-002] is honest prior-signature invalidation
+  + [P3TR-003] is forms profile 0.2
+  + [P3TR-004] is receipt profile 0.2
+  + [P3TR-005] is separate scanner profile 0.1
+  + [P3TR-006] is required strong root identity
+  + [P3TR-007] is canonical bounded volume-GUID path syntax
+  + [P3TR-008] is preservation of predecessor receipt invariants
+  + [P3TR-009] is strict fail-closed legacy and malformed-input rejection
+  + [P3TR-010] is unchanged pure no-effect boundary
+  + [P3TR-011] is focused/global proof, evidence, and rollback
+  + [P3TR-012] is valid SJS signature and complete registry lineage
 
-& [SatisfactionSignature] is M2A implementation authority
-  + [signature_protocol_uuid] is a75790bb-76f6-443d-be6b-b4a16989e532
-  + [signature_uuid] is 4e28ac73-3296-4d57-8dd9-30cc2ac1f01f
-  + [source_snapshot_uuid] is 2ad2fbf2-ed93-4924-a83d-9cfa52395651
-  + [implementation_authority] is strict_pure_topology_machine_forms_only
+& [Acceptance] is exact
+  + [schema] old JSON rejects and new valid JSON round-trips exactly
+  + [profiles] substitution and unknown values reject independently
+  + [identity] missing and malformed root identity reject
+  + [path] every grammar boundary has positive and negative tests
+  + [regression] all prior M2A tests and global workspace gates pass
+  + [purity] dependency set, imports, unsafe count, and effect surface do not expand
+  + [evidence] clone-portable manifest binds current source, specification, code, tests, solution, and proof
+
+& [ImplementationBoundary] is pure schema revision only
+  + [allowed] is constants, fields, pure validation, pure tests, documentation, evidence, proof, and rollback
+  + [forbidden] is dependency change, unsafe, Windows API, filesystem, clock, random, environment, persistence, process, network, model, scanner execution, fixture, sandbox, mutation, seal, cleanup, and promotion
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is correction source plus byte-identical pre-revision snapshot
+  + [delineated] is four identity domains and syntax-versus-truth boundary
+  + [exploded] is twelve atomic revision requirements and eight failure modes
+  + [semantically_refined] is exact field, grammar, role, authority, and compatibility meaning
+  + [constraint_checked] is ten-source-grounded constraints with the prior signature conflict repaired
+  + [pruned] is legacy upgrade, physical I/O, Unicode normalization, scanner version change, and Windows dependency growth
+  + [data_design_checked] is conceptual observation, logical receipt, physical JSON, projection lineage, and rescan invalidation
+  + [exhaustion_reviewed] is seven_fold_phase_locked
+  + [justified] is explicit safety, compatibility, timing, tradeoff, and rollback rationale
+  + [registry_recorded] is all durable nodes and lineage edges
+
+& [SignatureEvidenceTable] binds every claimed stage
+  + [source_preserved] is SJS_Reprocessing_Input_Manifest.sop with exact hashes and byte-equality record
+  + [delineated] is exploded specification BoundaryFormation and TruthBoundary
+  + [exploded] is the separate Cantor_Phase3_Topology_Receipt_Root_Binding_Revision.exploded.sop
+  + [semantically_refined] is exploded specification SemanticRefinementTrace
+  + [constraint_checked] is exploded specification ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded specification PruningTrace
+  + [seven_fold_phase_locked] is exploded specification FoldTrace and ExhaustionReview
+  + [data_design_checked] is exploded specification DataDesignModel and DataDesignQualityGate
+  + [justified] is justification PrimaryClaim, support anchors, confidence, Counterarguments, and InvalidationConditions
+  + [planned] is Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Plan.sop
+  + [registry_recorded] is Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Registry.sop
+
+& [PriorSignatureTrace] is preserved invalidity
+  + [prior_signature_uuid] is 4e28ac73-3296-4d57-8dd9-30cc2ac1f01f
+  + [prior_protocol_uuid] is a75790bb-76f6-443d-be6b-b4a16989e532
+  + [status] is invalidated
+  + [reason] is protocol mismatch plus source-selected schema revision
+  + [preserved_at] is C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_receipt_root_binding_revision\Cantor_Phase3_Topology_Machine_Forms_Pre_Revision_Snapshot.sop
+
+& [SatisfactionSignature] is valid M2A 0.2 implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_receipt_root_binding_revision\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Source.sop
+  + [source_snapshot] is C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_receipt_root_binding_revision\Cantor_Phase3_Topology_Machine_Forms_Pre_Revision_Snapshot.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, seven_fold_phase_locked, data_design_checked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is b447031b-c5ac-4e0e-917b-944f99ad73cc
+  + [implementation_authority] is strict_pure_topology_receipt_root_binding_revision_only
   + [signature_status] is valid
-  + [invalidation] is source change, new dependency, unsafe, filesystem, OS API, clock, random, environment, persistence, process, network, model, physical fixture, scanner authority, mutation, cleanup, or promotion
+  + [invalidation_condition] is source change, missing trace, failed quality gate, broken lineage, registry conflict, dependency change, unsafe, any effect surface, or implementation contradiction

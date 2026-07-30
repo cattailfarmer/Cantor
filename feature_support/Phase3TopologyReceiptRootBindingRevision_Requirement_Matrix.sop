@@ -1,0 +1,115 @@
+Subject: Phase3 Topology Receipt Root Binding Revision Requirement Matrix
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\Phase3TopologyReceiptRootBindingRevision.sop
+
+& [MatrixIdentity] is revision support accounting
+  + [matrix_uuid] is 123f475e-154a-4f5b-9fd3-c99d34592d62
+  + [feature_subject] is Phase3TopologyReceiptRootBindingRevision
+  + [status] is authorized_pending_implementation
+  + [freshness_rule] is recompute when source, canonical, code, tests, evidence, or proof changes
+
+& [P3TR-001] is exact multi-source preservation and lineage
+  + [requirement_uuid] is 2a6a2f62-633b-46a2-af0f-aeda8a0d9b62
+  + [requirement_type] is coordination
+  + [dependency_set] is correction source, exact pre-revision snapshot, input manifest, and decision
+  + [support_status] is verified
+  + [proof_ref] is byte equality and SHA-256 records in SJS_Reprocessing_Input_Manifest.sop
+  + [support_gap] is none
+
+& [P3TR-002] is honest prior-signature invalidation
+  + [requirement_uuid] is 8010dd15-65b4-4bc3-a308-daa07d0ff786
+  + [requirement_type] is safety
+  + [dependency_set] is SpecificationGovernance protocol UUID
+  + [support_status] is verified
+  + [proof_ref] is PriorSignatureTrace in the canonical specification
+  + [support_gap] is none
+
+& [P3TR-003] is forms profile 0.2
+  + [requirement_uuid] is b018a50e-86e1-4767-bf72-0625bde98c42
+  + [requirement_type] is data
+  + [dependency_set] is canonical profile separation
+  + [support_status] is prepared
+  + [proof_ref] is constant and focused test after implementation
+  + [support_gap] is implementation
+
+& [P3TR-004] is receipt profile 0.2
+  + [requirement_uuid] is bd7615de-42f4-4a98-8e26-e36e259db2a0
+  + [requirement_type] is data
+  + [dependency_set] is TopologyReceipt schema
+  + [support_status] is prepared
+  + [proof_ref] is serialized field and focused test after implementation
+  + [support_gap] is implementation
+
+& [P3TR-005] is separate scanner profile 0.1
+  + [requirement_uuid] is 10b9bec0-7c81-42cf-91e4-159795ea80e4
+  + [requirement_type] is data
+  + [dependency_set] is existing scanner policy identity
+  + [support_status] is prepared
+  + [proof_ref] is independent profile validation test after implementation
+  + [support_gap] is implementation
+
+& [P3TR-006] is required strong root identity
+  + [requirement_uuid] is 27665b33-fffc-4da1-9abb-a25b1d6b9303
+  + [requirement_type] is safety
+  + [dependency_set] is existing StrongFileIdentity
+  + [support_status] is prepared
+  + [proof_ref] is missing and malformed identity tests after implementation
+  + [support_gap] is implementation
+
+& [P3TR-007] is canonical bounded volume-GUID path syntax
+  + [requirement_uuid] is 1e7ccc40-38cb-48c6-91e5-140c1fddd4db
+  + [requirement_type] is implementation
+  + [dependency_set] is closed VolumeGuidPath grammar
+  + [support_status] is prepared
+  + [proof_ref] is positive, malformed, Unicode, NUL, and bound tests after implementation
+  + [support_gap] is implementation
+
+& [P3TR-008] is preservation of predecessor receipt invariants
+  + [requirement_uuid] is cda56219-8b45-4630-970f-e47bc8dbda8b
+  + [requirement_type] is safety
+  + [dependency_set] is existing receipt validation
+  + [support_status] is partial
+  + [proof_ref] is current M2A focused tests
+  + [support_limit] is schema revision has not yet rerun regression proof
+  + [support_gap] is post-change regression
+
+& [P3TR-009] is strict fail-closed legacy and malformed-input rejection
+  + [requirement_uuid] is 21e26b20-24f2-4be6-9552-e0fa0cedd42d
+  + [requirement_type] is safety
+  + [dependency_set] is serde deny_unknown_fields and required fields
+  + [support_status] is prepared
+  + [proof_ref] is old-shape and malformed-input tests after implementation
+  + [support_gap] is implementation
+
+& [P3TR-010] is unchanged pure no-effect boundary
+  + [requirement_uuid] is 0d3d8ebe-fbd5-4885-8b40-2afb37c457bd
+  + [requirement_type] is safety
+  + [dependency_set] is no dependency or module-boundary expansion
+  + [support_status] is partial
+  + [proof_ref] is current source and Cargo baseline
+  + [support_limit] is post-change static proof pending
+  + [support_gap] is static and global verification
+
+& [P3TR-011] is focused/global proof, evidence, and rollback
+  + [requirement_uuid] is d9be37b1-6cc6-4b9b-be6a-c3356e578413
+  + [requirement_type] is proof
+  + [dependency_set] is completed implementation
+  + [support_status] is required
+  + [proof_ref] is future solution, proof, evidence manifest, and rollback record
+  + [support_gap] is all post-implementation gates
+
+& [P3TR-012] is valid SJS signature and complete registry lineage
+  + [requirement_uuid] is 6eeb3033-5f75-4ee4-8929-88fbdfc4d979
+  + [requirement_type] is coordination
+  + [dependency_set] is complete SJS artifact set
+  + [support_status] is verified
+  + [proof_ref] is canonical SatisfactionSignature and revision registry
+  + [support_gap] is none
+
+& [SliceReadiness] is ready
+  + [ready_scope] is pure schema implementation and proof only
+  + [blocking_gaps] are intentionally owned by the same bounded slice
+  + [file_ownership] is single conversation cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [risk_state] is bounded and rollback-safe
+  - never: infer M2B, M2C, M2D, mutation, or promotion readiness

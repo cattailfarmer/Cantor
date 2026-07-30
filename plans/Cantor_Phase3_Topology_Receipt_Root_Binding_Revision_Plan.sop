@@ -1,0 +1,61 @@
+Subject: Cantor Phase3 Topology Receipt Root Binding Revision Plan
+
+& [PlanIdentity] is the authorized work order
+  + [plan_uuid] is f779f52e-e5d3-43cc-8a4e-6a867ff4add9
+  + [solution_uuid] is 74914f5c-3001-4315-907c-9de2db7b824b
+  + [signature_uuid] is 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + [status] is ready
+
+& [Stage1] is authority preservation
+  + [action] verify exact source and pre-revision snapshot hashes
+  + [action] verify canonical signature protocol and processed-stage bindings
+  + [gate] no production edit before this stage passes
+
+& [Stage2] is schema implementation
+  + [action] advance TOPOLOGY_FORMS_PROFILE to 0.2
+  + [action] add TOPOLOGY_RECEIPT_PROFILE 0.2
+  + [action] replace TopologyReceipt.profile with receipt_profile and scanner_profile
+  + [action] add root_identity and root_volume_guid_path
+  + [gate] compilation identifies every construction site
+
+& [Stage3] is pure validation
+  + [action] validate both profiles independently
+  + [action] reuse StrongFileIdentity validation
+  + [action] implement exact volume-GUID root and descendant grammar
+  + [action] preserve all predecessor validation
+  - never: perform path access, canonicalization, existence checks, case folding, or Unicode normalization
+
+& [Stage4] is focused proof
+  + [action] update valid receipt fixture
+  + [action] prove old shape and missing fields reject
+  + [action] prove profile substitution rejects
+  + [action] prove identity failures reject
+  + [action] prove every path grammar boundary
+  + [action] prove exact JSON round trip including Unicode and tail case
+
+& [Stage5] is global verification
+  + [action] run cargo fmt check
+  + [action] run focused and full debug tests
+  + [action] run overflow-checked release tests
+  + [action] run clippy with warnings denied
+  + [action] run release build
+  + [action] run rustdoc with warnings denied
+  + [action] run locked dependency audit
+
+& [Stage6] is evidence closure
+  + [action] update documentation, matrix, slice, solution, proof, fault, turn, and file-change records
+  + [action] update evidence builder to bind every new authority artifact
+  + [action] regenerate affected evidence in dependency order
+  + [action] verify manifest digest and clone-portable tests
+
+& [Stage7] is publication and next-slice review
+  + [action] review support_delta and requirement_delta
+  + [action] commit and push the pure revision as one intentional checkpoint
+  + [action] update the external conversation/reentry surface
+  + [action] select M2B work only from remaining dependency-ready, separately governed gates
+
+& [StopConditions] are fail-closed
+  + [authority_fault] stops implementation
+  + [unexpected_consumer] stops legacy rejection until compatibility is reprocessed
+  + [dependency_or_effect_delta] stops and requires a new source
+  + [test_or_evidence_contradiction] stops publication and triggers local rework
