@@ -1,0 +1,71 @@
+Subject: Cantor M2B Pure Windows Entry Policy Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Pure_Windows_Entry_Policy.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BPureWindowsEntryPolicy.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BPureWindowsEntryPolicy_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Pure_Windows_Entry_Policy_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BPureWindowsEntryPolicy_Completion_Review.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_entry_policy_evidence_manifest.json
+
+& [ProofIdentity] is complete
+  + [proof_uuid] is 1c28bf21-ca4c-4b21-b46b-2e5c301d92e6
+  + [authority_signature_uuid] is 554e84a7-988c-4c86-b67d-45958ab7166c
+  + [solution_uuid] is d14a27ad-1452-42e8-b8e0-56235abacd49
+  + [implementation_commit] is 04ca9abede2d49efb81e62644838a469a7cf4767
+  + [status] is passed
+  + [evidence_manifest_schema] is cantor-windows-entry-policy-evidence-manifest/0.1
+  + [evidence_manifest_uuid] is be4b80ed-da4c-4363-b075-b826c0c76fab
+  + [evidence_manifest_sha256] is 09973BBA5776E01C9CD93C381B2D97BBFF02E377582539698FEADFF0778D450D
+  + [evidence_manifest_bytes] is 14999
+  + [evidence_artifacts] is 38
+
+& [AttributeProof] is exhaustive
+  + [benign_mask] is 0x00002027
+  + [directory_mask] is 0x00002037 with DIRECTORY required
+  + [regular] admits NORMAL alone or a nonzero benign subset
+  + [single_bits] all 32 positions are tested for both kinds
+  + [combinations] all benign subsets and kind-crossing shapes are tested
+
+& [NameProof] is exact
+  + [characters] every forbidden scalar class, navigation component, Git control, and terminal hazard rejects
+  + [reserved] fixed, numbered, superscript, mixed-case, and extension-bearing device stems reject
+  + [near_names] COM0, COM10, LPT0, LPT10, CONsole, NULl, and auxiliary admit
+  + [length] counts UTF-16 units under a caller bound 1 through 32767
+  + [Unicode] exact scalar sequence is preserved
+  + [order] is canonical lowercase hex of exact UTF-8 bytes
+
+& [ShapeProof] is strict
+  + [profile] is exact cantor-windows-entry-policy/0.1
+  + [JSON] unknown fields and variants reject
+  + [case] directory requires Some zero and regular file requires None
+  + [faults] are closed profile, attribute, case_sensitivity, component, reserved_device, resource, and JSON classes
+  + [partial_decision] is absent on fault
+
+& [NoEffectProof] is structural
+  + [module_sha256] is 19AD251C59F313F74B159D5D68A59A6861E799DF5ACC7E19F93B226ED43EA0CD
+  + [unsafe_blocks] is zero
+  + [Windows_API_calls] is zero
+  + [filesystem_process_environment_clock_network] are absent
+  + [Cargo_manifest_delta] is zero
+  + [Cargo_lock_delta] is zero
+  + [filesystem_traversal_receipt_physical_authority] are false
+
+& [VerificationProof] is complete
+  + [focused_debug] is 9 unit plus 1 static passed
+  + [focused_overflow_checked_release] is 9 unit plus 1 static passed
+  + [evidence_debug_and_release] are 1 passed each
+  + [workspace_debug] is 270 passed and 1 governed physical test ignored
+  + [workspace_overflow_checked_release] is 270 passed and 1 governed physical test ignored
+  + [format] is passed
+  + [warnings_denied_lint] is passed
+  + [release_build] is passed
+  + [warnings_denied_docs] is passed
+  + [audit] is 113 locked packages against 1174 advisories with zero vulnerabilities
+
+& [EvidenceProof] is clone-portable
+  + [artifacts] are 38 repository-relative paths with exact byte counts and SHA-256
+  + [predecessors] include the regenerated platform-preflight runtime proof chain
+  + [integration] rehashes every current artifact in debug and release
+
+& [Nonclaim] is mandatory
+  - never: cite this proof as Windows observation, valid UTF-16 decoding from an API buffer, path or handle evidence, traversal, stream enumeration, Git reconciliation, physical fixture, topology receipt, candidate mutation, or additional effect authority

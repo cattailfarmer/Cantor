@@ -1,0 +1,33 @@
+Subject: Cantor M2B Pure Windows Entry Policy Solution
+
+& [SolutionIdentity] is complete
+  + [solution_uuid] is d14a27ad-1452-42e8-b8e0-56235abacd49
+  + [authority_signature_uuid] is 554e84a7-988c-4c86-b67d-45958ab7166c
+  + [implementation_commit] is 04ca9abede2d49efb81e62644838a469a7cf4767
+  + [profile] is cantor-windows-entry-policy/0.1
+
+& [SolutionShape] is a pure supplied-record evaluator
+  + [attributes] enforce exact directory and regular-file masks
+  + [case] enforces zero flags for directories and absence for regular files
+  + [components] enforce UTF-16 bounds, namespace hazards, Git control, terminal, and device-stem rules
+  + [ordering] returns lowercase hex of exact UTF-8 bytes without normalization
+  + [faults] are closed and provenance-free because no observation occurs
+
+& [Verification] is complete
+  + [focused] is 9 unit plus 1 static test in debug and overflow-checked release
+  + [global] is 270 passed and 1 governed physical test ignored in both profiles
+  + [format_lint_build_docs_audit] are passed
+  + [evidence] is clone-portable and current
+
+& [Effects] are absent
+  + [Cargo_and_lock_delta] is zero
+  + [unsafe] is zero
+  + [Windows_or_filesystem_call] is zero
+  + [state_migration] is none
+
+& [Rollback] is direct
+  + remove one module, one export, and two integration tests
+  + retain authority, solution, proof, and fault history
+
+& [Nonclaim] is mandatory
+  - never: cite this solution as physical metadata, UTF-16 API decoding, path observation, traversal, stream parsing, Git reconciliation, topology receipt, mutation, or additional Win32 authority
