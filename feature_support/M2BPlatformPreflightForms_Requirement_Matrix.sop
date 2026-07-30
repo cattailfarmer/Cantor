@@ -2,23 +2,32 @@ Subject: M2B Platform Preflight Forms Requirement Matrix
 
 & [MatrixIdentity] is requirement control
   + [profile] is cantor-windows-platform-preflight/0.1
-  + [state] is implementation_authorized
+  + [state] is verified
 
 & [M2B-PF-001] source lineage is satisfied by signed SJS authority
-& [M2B-PF-002] profile and target are pending
-& [M2B-PF-003] lexical root is pending
-& [M2B-PF-004] closed outcomes are pending
-& [M2B-PF-005] identity and final path reuse are pending
-& [M2B-PF-006] volume information is pending
-& [M2B-PF-007] remote protocol is pending
-& [M2B-PF-008] dispositions are pending
-& [M2B-PF-009] fault completeness is pending
-& [M2B-PF-010] strict JSON and bounds are pending
-& [M2B-PF-011] effect absence is pending
-& [M2B-PF-012] global closure is pending
+& [M2B-PF-002] profile and target are verified
+& [M2B-PF-003] lexical root is verified
+& [M2B-PF-004] closed outcomes are verified
+& [M2B-PF-005] identity and final path reuse are verified
+& [M2B-PF-006] volume information is verified
+& [M2B-PF-007] remote protocol is verified
+& [M2B-PF-008] dispositions are verified
+& [M2B-PF-009] fault completeness is verified
+& [M2B-PF-010] strict JSON and bounds are verified
+& [M2B-PF-011] effect absence is verified
+& [M2B-PF-012] global closure is verified
 
 & [ProofTargets] are exact
   + [module] is crates/cantor_ecosystem/src/platform_preflight_forms.rs
   + [export] is crates/cantor_ecosystem/src/lib.rs
   + [Cargo_delta] is zero
   + [physical_effect] is zero
+
+& [ImplementationEvidence] is exact
+  + [implementation_commit] is 5762fb1
+  + [focused_debug] is 9 passed
+  + [focused_overflow_checked_release] is 9 passed
+  + [expected_global_fault] is stale predecessor evidence rejected changed lib.rs bytes
+  + [repair_state] is topological regeneration completed
+  + [global_debug] is 248 passed
+  + [global_overflow_checked_release] is 248 passed

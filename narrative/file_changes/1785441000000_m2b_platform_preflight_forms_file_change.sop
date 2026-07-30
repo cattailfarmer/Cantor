@@ -1,9 +1,9 @@
 Subject: Cantor M2B Platform Preflight Forms File Change
 
-& [FileChangeIdentity] is planned
+& [FileChangeIdentity] is implemented
   + [change_uuid] is e7d515ee-9a4a-4674-9992-9bf1e0130af1
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
-  + [status] is no_code_change_before_signature
+  + [status] is implemented_at_5762fb1
 
 & [OwnedCodeFiles] are exact
   + [new] crates/cantor_ecosystem/src/platform_preflight_forms.rs
@@ -16,3 +16,16 @@ Subject: Cantor M2B Platform Preflight Forms File Change
   + [Win32_call] is absent
   + [unsafe] is absent
   + [physical_effect] is absent
+
+& [ActualDelta] is exact
+  + [new] crates/cantor_ecosystem/src/platform_preflight_forms.rs
+  + [changed] crates/cantor_ecosystem/src/topology_forms.rs makes one existing validator pub(crate)
+  + [changed] crates/cantor_ecosystem/src/lib.rs adds one module and re-export
+  + [new] crates/cantor_ecosystem/tests/windows_platform_preflight_forms_evidence.rs
+  + [new] scripts/build_windows_platform_preflight_forms_evidence_manifest.ps1
+  + [new] crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest.json
+  + [new] solutions/Cantor_M2B_Platform_Preflight_Forms_Solution.sop
+  + [new] proofs/Cantor_M2B_Platform_Preflight_Forms_Proof.sop
+  + [new] feature_support/reviews/M2BPlatformPreflightForms_Completion_Review.sop
+  + [changed] governed records, evidence, proof, narrative, map, and reentry only
+  + [unexpected_file] is none

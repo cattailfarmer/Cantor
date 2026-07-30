@@ -16,6 +16,10 @@ Subject: Cantor M2B Platform Preflight Forms Operational Faults
   + [response_1] is run the repository formatter and require a clean format check
   + [fault_2] is the first focused compile found two test-only overlapping mutable and immutable borrows
   + [response_2] is shorten each mutable match scope before validation
+  + [fault_3] is the first global debug and release runs reached the candidate evidence test and rejected the changed lib.rs byte count
+  + [classification_3] is expected fail-closed stale predecessor evidence, not a behavior regression
+  + [response_3] is regenerate the complete affected manifest and proof chain in dependency order before rerunning global proof
   + [production_semantic_fault] is none
   + [effect_escape] is none
-  + [status] is repaired_pending_global_proof
+  + [resolution_3] is predecessor and current manifests regenerated and evidence tests rerun
+  + [status] is closed

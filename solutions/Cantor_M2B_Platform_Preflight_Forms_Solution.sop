@@ -1,0 +1,78 @@
+Subject: Cantor M2B Platform Preflight Forms Solution
+
+& [SolutionIdentity] is the completed pure-form slice
+  + [solution_uuid] is 622b895c-e6e1-4b16-be8f-56388259bd53
+  + [authority_signature_uuid] is ad8dc3de-b45a-48c7-aebd-4bc47018ccf2
+  + [profile] is cantor-windows-platform-preflight/0.1
+  + [implementation_commit] is 5762fb1
+  + [status] is implemented_and_globally_verified
+
+& [ModuleSolution] is one safe-Rust vocabulary
+  + [file] is crates/cantor_ecosystem/src/platform_preflight_forms.rs
+  + [outcomes] are open_fault, query_fault, and complete
+  + [query_stages] are file_id_info, final_volume_guid_path, volume_information, and remote_protocol_information
+  + [complete_products] are strong identity, canonical volume-GUID path, volume information, remote-protocol information, and disposition
+  + [strict_decoder] rejects malformed JSON, unknown fields, unknown variants, missing values, and semantic contradictions
+
+& [PathSolution] is lexical and bounded
+  + [input] accepts only uppercase extended-DOS drive-root and descendant forms
+  + [root] accepts \\?\C:\
+  + [descendant] requires nonempty backslash-separated components
+  + [rejected] is relative, ordinary DOS, lowercase drive, UNC, volume GUID input, device, forward slash, NUL, repeated separator, dot, dot-dot, trailing descendant separator, and resource excess
+  + [existence_observation] is absent
+
+& [EvidenceShapeSolution] is complete or fault
+  + [open_fault] carries one nonzero error and no query evidence
+  + [query_fault] carries one closed stage and nonzero error but no partial evidence
+  + [complete] cannot omit identity, final path, volume, remote protocol, or disposition
+  + [volume] carries bounded volume name, u32 serial, component bound, raw flags, and bounded ASCII filesystem name
+  + [remote] carries version, exact structure size, protocol, version tuple, and flags without reserved fields
+
+& [DispositionSolution] is an exhaustive relation
+  + [eligible_local_ntfs] is exactly protocol zero plus filesystem name NTFS
+  + [reject_remote_protocol] is exactly nonzero protocol
+  + [reject_unsupported_file_system] is exactly protocol zero plus filesystem name other than NTFS
+  + [contradictory_pair] rejects
+  + [protocol_zero] remains an explicitly invalidatable policy inference
+
+& [ReuseSolution] prevents semantic drift
+  + [StrongFileIdentity] is reused directly
+  + [volume_GUID_validator] is reused through a crate-private visibility change only
+  + [topology_rule_delta] is zero
+  + [public_surface] is exported from cantor_ecosystem
+
+& [FocusedVerification] is complete
+  + [debug] is 9 passed
+  + [overflow_checked_release] is 9 passed
+  + [classes] cover all outcomes, profile and target, lexical roots, nonzero faults and no-partial JSON, volume bounds, remote bounds, disposition truth table, shared identity and final path, and strict JSON
+  + [lint] is warnings denied
+
+& [GlobalVerification] is complete after one intentional evidence phase
+  + [functional_debug] all non-evidence tests passed
+  + [functional_release] all non-evidence tests passed
+  + [expected_stale_gate] candidate workspace evidence rejected the changed lib.rs byte count in debug and release
+  + [response] regenerate every affected predecessor manifest and patch each consumed proof digest in topological order
+  + [final_debug] is 248 passed
+  + [final_overflow_checked_release] is 248 passed
+  + [evidence_manifest_test] is passed in debug and overflow-checked release
+  + [format_lint_build_docs] are passed
+  + [audit] is 112 dependencies checked against 1174 advisories with zero vulnerabilities
+
+& [EffectBoundary] is exact
+  + [Cargo_delta] is zero
+  + [lock_delta] is zero
+  + [Windows_function_call] is zero
+  + [unsafe] is zero
+  + [filesystem_or_path_observation] is zero
+  + [process_environment_clock_random_network_persistence] are zero
+  + [fixture_candidate_scanner_receipt_effect] is zero
+  + [physical_platform_claim] is absent
+
+& [Rollback] is direct
+  + [module] remove platform_preflight_forms.rs
+  + [export] remove its lib.rs module and re-export
+  + [visibility] restore the volume-GUID validator to module-private
+  + [state_migration] is none
+
+& [Nonclaim] is mandatory
+  - never: cite these supplied-record forms as a successful Windows call, opened path, owned resource, local NTFS fact, remote-protocol fact, scanner authorization, topology receipt, physical fixture, or write authority
