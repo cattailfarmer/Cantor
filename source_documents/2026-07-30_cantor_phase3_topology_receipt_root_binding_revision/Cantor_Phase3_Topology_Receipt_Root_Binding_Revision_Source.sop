@@ -1,0 +1,56 @@
+Subject: Cantor Phase3 Topology Receipt Root Binding Revision Source
+
+& [SourceIdentity] is a governed correction source
+  + [source_uuid] is dad5f5bb-1dc9-4db3-b6c2-11ef2ba4dadd
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30T13:08:14.9901500-05:00
+  + [status] is selected_for_SJS_only
+
+@ [M2A_specification] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [M2A_implementation] C:\Project\Cantor\crates\cantor_ecosystem\src\topology_forms.rs
+@ [root_reconciliation] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Root_Reconciliation_2026-07-30.sop
+@ [M2B_readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
+
+& [ObservedDefect] is profile conflation and missing physical-root binding
+  + [current_profile_field] equals the scanner policy profile
+  + [forms_profile_constant] exists but is not bound into TopologyReceipt
+  + [missing_identity] is root StrongFileIdentity
+  + [missing_final_path] is normalized volume-GUID final-path evidence
+  + [risk] is a structurally valid receipt can name a candidate root without committing the physical root object that the future scanner observed
+
+& [SelectedRevision] is a breaking pure schema correction
+  + [receipt_profile] is a new exact receipt-schema profile
+  + [scanner_profile] separately binds cantor-windows-candidate-topology/0.1
+  + [root_identity] is StrongFileIdentity
+  + [root_volume_guid_path] is bounded, NUL-free, and structurally identified as a volume-GUID absolute path
+  + [candidate_root] remains the exact Phase3A canonical human and reopen address
+  + [admission_profile] and [admission_receipt_sha256] remain exact predecessor bindings
+  + [policy_sha256] and [ordered_inventory_sha256] remain exact semantic and evidence bindings
+
+& [Versioning] must be honest
+  + [receipt_schema] receives a new profile rather than silently changing the existing JSON contract
+  + [forms_profile] receives a new version if its public vocabulary changes
+  + [scanner_policy] remains version 0.1 because this correction changes evidence binding rather than physical admission policy
+  + [old_receipt] remains decodable only through an explicitly named legacy type or is rejected as unsupported; the SJS decision must choose
+  - never: accept old JSON as though it carried the new root evidence
+
+& [Validation] is pure
+  + [root_identity] uses the existing exact 128-bit form
+  + [root_volume_guid_path] validates syntax only and does not claim the path exists or matches identity
+  + [cross_field] receipt candidate root, final path, and identity truth remains the future scanner's responsibility
+  + [strict_JSON] rejects missing new fields and unknown fields
+
+& [TestDelta] is focused
+  + [profile] rejects the former conflated field shape
+  + [identity] rejects missing or malformed root identity
+  + [final_path] rejects relative, DOS, UNC, device, NT, malformed GUID, missing terminal separator, NUL, and over-bound values
+  + [round_trip] preserves exact receipt schema and scanner profiles separately
+  + [nonclaim] proves only form coherence
+
+& [Boundary] remains effect-free
+  + [allowed_next] is source manifest, SJS, justification, pure code revision, tests, evidence, proof, and rollback
+  + [forbidden] is dependency change, unsafe, Windows API, filesystem, clock, random, process, network, model, scanner execution, fixture, sandbox, mutation, seal, cleanup, and promotion
+
+& [AuthorityEffect] is source selection only
+  + [implementation_authority] is absent until SJS and a new satisfaction signature
+  - never: cite this source alone as permission to edit production code
