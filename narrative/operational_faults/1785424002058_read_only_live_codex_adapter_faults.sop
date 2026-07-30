@@ -1,0 +1,71 @@
+Subject: Cantor Read Only Live Codex Adapter Operational Faults
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Read_Only_Live_Codex_Adapter.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Read_Only_Live_Codex_Adapter_Solution.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Read_Only_Live_Codex_Adapter_Proof.sop
+
+& [FaultRecordIdentity] is the resolved Phase 2 ledger
+  + [record_uuid] is f00dc1ca-b8ab-4c12-bccb-7eceaffde0b9
+  + [captured_at_ms] is 1785424002058
+  + [status] is resolved_with_bounded_nonclaims
+
+& [TerminalCorrelationShape] is caught from generated official schemas
+  + [observation] is item notifications use params.turnId while turn/completed uses params.turn.id
+  + [repair] is distinct exact correlation validators and a negative terminal-substitution test
+  + [status] is resolved
+
+& [CommentaryFinalDistinction] is caught before live activation
+  + [observation] is completed agent messages may be commentary or final_answer and legacy providers may omit phase
+  + [repair] is treat commentary as passive and allow exactly one final or legacy-phase message only after the exact tool completion
+  + [status] is resolved
+
+& [ProofReferenceForgery] is found during post-compile trust review
+  + [risk] is an untrusted model could name a syntactically valid proof identity and satisfy the mechanical Observer presence check
+  + [repair] is the supervisor supplies the exact admitted proof set, the prompt declares it, and the adapter requires set equality
+  + [proof] is the model-invented proof integration test
+  + [status] is resolved
+
+& [UnboundedLineAllocation] is found during transport review
+  + [risk] is checking line length only after `read_until` can allocate beyond the configured line budget
+  + [repair] is wrap each read with a maximum-plus-one `Take` before allocation and fault on the first excess byte
+  + [status] is resolved
+
+& [StrictSchemaUniqueItems] is caught by a real provider response
+  + [observation] is the model API rejects `uniqueItems` in the strict response schema
+  + [repair] is emit the supported array schema and independently reject duplicate strings before deserializing to ordered sets
+  + [proof] is duplicate-set parser test plus successful live schema admission
+  + [status] is resolved
+
+& [OutdatedCodexVersion] is caught by the first live model request
+  + [observation] is pinned codex-cli 0.135.0 is rejected for configured gpt-5.6-sol because a newer Codex is required
+  + [repair] is install official codex-cli 0.146.0 under ignored project-local runtime and regenerate exact path, version, and digest pins
+  + [global_effect] is none; the global Codex installation was not modified
+  + [status] is resolved_for_probe
+
+& [PassiveNotificationCoverage] is caught by live event admission
+  + [observations] are warning and thread/status/changed notifications before model completion
+  + [repair] is allow bounded official passive notifications, retain advisories as evidence, and keep `error` as an immediate typed fault with bounded detail
+  + [status] is resolved
+
+& [MissingToolLiveTurns] is observed twice on finalized candidate-binding code
+  + [observation] is the model produced a final response before the required Cantor call
+  + [correct_behavior] is the adapter faulted at assigned progress and admitted no query, response, or candidate
+  + [repair] is add a concise thread developer instruction in addition to the assignment primer
+  + [retry_boundary] is no automatic retry exists; the later positive probe was a separately invoked operator cycle
+  + [status] is fail_closed_with_nondeterminism_visible
+
+& [CandidateEvidenceBinding] is strengthened after live success review
+  + [risk] is a driver could supply candidate structure and evidence digests that do not bind the exact final message
+  + [repair] is retain final message, reparse it, compare the parsed candidate, independently recompute three digests, and bind candidate identity to turn plus message digest
+  + [status] is resolved
+
+& [ToolMaskingBoundary] is documented rather than overstated
+  + [observation] is stable App Server exposes built-in Codex capabilities in addition to configured MCP while this profile supplies read-only no-network sandbox and forbids every other started item
+  + [limit] is a forbidden read-only built-in action can begin before its started event reaches the client
+  + [resolution] is terminate at the first observable event and make no claim of provider-side pre-inference tool masking
+  + [status] is bounded_nonclaim
+
+& [EvidenceStaleness] is expected at global release gate
+  + [observation] is existing clone-portable manifests reject changed Cargo.lock and shared navigation files
+  + [repair] is complete all shared surfaces then regenerate prerequisite manifests in dependency order before the new live manifest
+  + [status] is pending_final_release_gate

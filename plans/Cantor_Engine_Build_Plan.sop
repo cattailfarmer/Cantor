@@ -5,10 +5,10 @@ Subject: Cantor Engine Build Plan
 
 & [BuildPlanIdentity] is the dependency-ordered execution plan
   + [plan_uuid] is 7a5120ad-760e-48dc-97fe-7612c22d821e
-  + [plan_status] is SupervisedMockLoop_active
+  + [plan_status] is ReadOnlyLiveCodexAdapter_complete
   + [completed] is Phase0 through Phase6 and CEB-001 through CEB-015
-  + [active_phase] is SupervisedMockLoop
-  + [next_candidate] is read-only live Codex adapter only after SupervisedMockLoop proof and current official interface research; Phase7RoutingExperiment remains blocked by labeled-corpus adoption gates
+  + [active_phase] is none_between_proven_slices
+  + [next_candidate] is Phase3ScopedWrite source selection and SJS only; implementation remains inactive until its narrower branch, effect, review, and rollback authority is signed
   + [implementation_language] is safe Rust edition 2024
   + [initial_workspace] is one Cargo workspace with cantor_core, cantor_cli, and cantor_mcp
   + [work_rule] is implement and prove one contiguous slice before activating its dependent
@@ -144,6 +144,19 @@ Subject: Cantor Engine Build Plan
   @ [proof_record] C:\Project\Cantor\proofs\Cantor_Supervised_Mock_Loop_Proof.sop
   + [rollback] is all prior cantor_core CLI MCP service and operator surfaces remain unchanged
   - never: infer live Codex, model, persistence, notification, multi-worker, promotion, or effect authority
+
+& [ReadOnlyLiveCodexAdapter] is replace only the mock worker boundary
+  + [status] is complete
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Read_Only_Live_Codex_Adapter.sop
+  + [depends_on] is SupervisedMockLoop and current official Codex app-server interface evidence
+  + [actions] is implement an exact stable stdio app-server client, one ephemeral read-only approval-never thread, one schema-bound turn, and one existing Cantor MCP query_sop observation
+  + [actions] is translate the observed request, response, and candidate through the existing seven-message runtime and deterministic Observer
+  + [proof] is deterministic fake-server protocol and fault tests followed by one explicit executable-and-environment-pinned live run
+  + [exit] is RLC-001 through RLC-012 implemented, live-proven, globally verified, and content-addressed
+  + [rollback] is remove or disable the live adapter while SupervisedMockLoop and every prior surface remain complete
+  + [result] is one fingerprinted live Codex turn, one exact Cantor query, one effect-free candidate, and deterministic accept decision with twenty focused tests
+  @ [proof_record] C:\Project\Cantor\proofs\Cantor_Read_Only_Live_Codex_Adapter_Proof.sop
+  - never: infer workspace write, persistent thread, steering, retry, approval forwarding, experimental dynamic tool, manager iteration, notification, multi-worker, or effect authority
 
 & [Phase8FPGAExecutionProfiles] is implement CEB-021 through CEB-030 only when separately activated
   + [depends_on] is stable software protocol, deterministic software oracle, measured workload, explicit device target, and hardware threat model

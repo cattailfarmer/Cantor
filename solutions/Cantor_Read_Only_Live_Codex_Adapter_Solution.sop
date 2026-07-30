@@ -1,0 +1,75 @@
+Subject: Cantor Read Only Live Codex Adapter Solution
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Cantor_Read_Only_Live_Codex_Activation_Source_Selection.sop
+@ [reconciliation_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Cantor_Read_Only_Live_Codex_Implementation_Reconciliation_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Read_Only_Live_Codex_Adapter.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Read_Only_Live_Codex_Adapter_Justification.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_ecosystem\src\live_codex.rs
+@ [operator_guide] C:\Project\Cantor\docs\READ_ONLY_LIVE_CODEX_ADAPTER.md
+@ [proof] C:\Project\Cantor\proofs\Cantor_Read_Only_Live_Codex_Adapter_Proof.sop
+
+& [SolutionIdentity] is the completed Phase 2 live seam
+  + [solution_uuid] is 6f4a7123-b8ca-4d44-9b26-e64762a4fa88
+  + [profile] is cantor-read-only-live-codex/0.1
+  + [status] is completed_and_boundedly_activated
+  + [semantic_authority] remains verified cantor_core ProtocolResponse
+  + [model_authority] is one separately invoked ephemeral turn
+  + [effect_authority] is none
+
+& [ConfigurationSolution] is exact local artifact admission
+  + [config_profile] is cantor-live-codex-config/0.1
+  + [files] are absolute canonical non-symlink regular files
+  + [pins] are canonical lowercase SHA-256 for Codex, Cantor MCP, and signed environment
+  + [version] is exact bounded Codex version output
+  + [route] is one bounded MCP server name and query_sop
+  + [budgets] are hard-capped timeout, JSONL line bytes, total bytes, and event count
+  - never: read or reproduce provider credentials
+
+& [TransportSolution] is strict bounded App Server JSONL
+  + [requests] are deterministic initialize, thread/start, and turn/start IDs
+  + [thread] is ephemeral, approval never, read-only, exact cwd, no experimental API, and exact developer instruction
+  + [turn] is approval never, readOnly networkAccess false, one text input, and provider-compatible closed schema
+  + [reader] bounds each line before unbounded allocation and independently bounds total bytes and events
+  + [server_requests] always fault
+  + [stderr] is concurrently boundedly drained and discarded
+  + [cleanup] closes stdin, waits briefly, and kills only the exact owned Child handle if necessary
+
+& [EventSolution] is allowlisted observation
+  + [passive] is correlated thread, turn, item, reasoning, message, plan, MCP progress, token usage, rate limit, startup, and bounded advisory notifications
+  + [started_call] must be the exact server, tool, arguments, and one call identity
+  + [completed_call] must preserve that identity, route, arguments, success status, and structuredContent
+  + [final] is one final_answer or legacy-phase agent message only after tool completion
+  + [terminal] is one completed turn whose nested turn identity matches
+  - never: admit command, file, web, dynamic, collaboration, image, second tool, second final, unknown item, or server request
+
+& [SemanticSolution] is proof-carrying translation
+  + [request] is exact object equality to the supervisor-issued ProtocolRequest
+  + [response] is strict ProtocolResponse plus cantor_core verification and Success status
+  + [candidate] is strict final JSON with duplicate-set rejection and all known acceptance criteria
+  + [proof_refs] equal the supervisor-admitted set rather than model-invented identifiers
+  + [effects] must be empty
+  + [digests] independently bind exact request serialization, response serialization, and final-message UTF-8 bytes
+  + [candidate_identity] binds work packet, exact turn identity, and final-message digest
+
+& [EcosystemSolution] is a buffered physical-to-logical bridge
+  + [LiveCodexAdapter] performs and validates the physical turn at assignment
+  + [ObservedCantorAdapter] releases the exact buffered response once for the matching logical query
+  + [LiveCodexAdapter] releases the candidate only after the logical response returns unchanged
+  + [runtime] remains the existing fixed seven-message `run_supervised_mock_cycle`
+  + [Observer] remains deterministic Honesty, Security, Protocol, AcceptanceCriteria, and EffectBoundary review
+  - never: claim transport buffering changes reasoning order inside the model
+
+& [ProofSolution] is deterministic plus explicit live evidence
+  + [unit_tests] is fifteen strict configuration, transcript, schema, route, identity, and adversarial tests
+  + [bridge_tests] is five physical-result, single-release, proof, effect, substitution, and accepted-cycle tests
+  + [live_success] is one fingerprinted current Codex turn, one exact Cantor call, verified response, seven logical messages, and accept decision
+  + [live_faults] are old CLI rejection, unsupported strict-schema keyword, and final-before-tool rejection without candidate admission
+  + [operator_tools] are separate preparation and execution examples
+
+& [NonclaimSet] is retained
+  + [tool_masking] is fail-fast observation over a read-only no-network sandbox rather than proof that provider-side built-in tool definitions are absent
+  + [determinism] applies to gates and translation; model compliance and prose are nondeterministic
+  + [retry] is absent inside the adapter; separately invoked operator probes are separate cycles
+  + [shared_inference] remains message and semantic-state transport rather than shared KV cache, hidden state, or mid-token control
+  + [manager] remains a protocol role rather than an autonomous Shaliach service
+  + [growth] leaves writes, persistence, notifications, steering, multiple workers, effects, learned routing, and FPGA authority locked

@@ -1,0 +1,37 @@
+Subject: Cantor Read Only Live Codex Implementation Reconciliation Source
+
+& [SourceIdentity] is implementation-discovered specification evidence
+  + [source_uuid] is 55a047cf-0211-428b-815c-ac275e74f1c6
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30
+  + [preservation] is immutable observation input to a renewed SJS satisfaction signature
+
+& [OfficialWireObservations] is schema-grounded
+  + [turn_completed] carries the turn identity at params.turn.id rather than params.turnId
+  + [agent_message] distinguishes commentary from final_answer while legacy phase may be absent
+  + [strict_output_schema] rejects uniqueItems although Cantor set semantics still require duplicate rejection
+  + [passive_notifications] include warning, thread/status/changed, MCP progress, reasoning deltas, and token usage in addition to lifecycle events
+
+& [TrustObservations] is fail-closed refinement
+  + [proof_reference_risk] is an untrusted model could invent a syntactically valid proof identity
+  + [required_repair] is the supervisor supplies the exact admitted proof set and candidate proof_refs must equal it
+  + [candidate_binding] is preserve the exact final agent-message bytes, parse them strictly, and bind their SHA-256 plus turn identity into CandidateArtifact
+  + [evidence_binding] is independently recompute request, response, and final-message digests before buffering the exchange
+
+& [LiveProbeObservations] is actual current interface behavior
+  + [old_cli] is codex-cli 0.135.0 rejected the configured gpt-5.6-sol model as requiring a newer Codex version
+  + [local_upgrade] is codex-cli 0.146.0 installed under ignored project-local runtime and admitted only by exact path, version, and digest
+  + [schema_fault] is uniqueItems rejected before inference and therefore replaced by Rust duplicate-set validation
+  + [model_nondeterminism] is two finalized-code probes returned a final message before the required tool and were rejected before ecosystem candidate admission
+  + [primer_repair] is add an exact thread developer instruction while retaining the assignment primer and no automatic retry
+  + [positive_result] is a separate operator-explicit probe completed one exact Cantor call and passed deterministic Observer review
+
+& [ProcessObservation] is least disclosure
+  + [stderr] is bounded and drained for deadlock prevention
+  + [evidence_rule] is stderr content is discarded rather than serialized because it is not semantic authority and may contain provider diagnostics
+  + [cleanup] is exact Child handles only
+
+& [AuthorityEffect] is a narrowing reconciliation
+  + [allowed] is update exploded and canonical forms, implementation, tests, documentation, evidence, and proof to these observations
+  + [forbidden] is writes, effects, automatic retry, steering, persistence, experimental dynamic tools, hidden-state access, manager iteration, and multiple workers
+  = [result] is renew the satisfaction signature only after every reconciliation is explicit

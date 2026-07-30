@@ -1,0 +1,41 @@
+Subject: Cantor Read Only Live Codex Adapter File Change Surface
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Read_Only_Live_Codex_Adapter.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Read_Only_Live_Codex_Adapter_Solution.sop
+
+& [FileChangeIdentity] is implementation attribution
+  + [record_uuid] is 4b426f23-f014-454a-b819-b4886b4212e1
+  + [solution_uuid] is 6f4a7123-b8ca-4d44-9b26-e64762a4fa88
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at_ms] is 1785424002058
+
+& [AuthoritySurface] is source-preserved renewed SJS
+  + [added] is source_documents\2026-07-30_cantor_read_only_live_codex_activation
+  + [added] is specifications\exploded\Cantor_Read_Only_Live_Codex_Adapter.exploded.sop
+  + [added] is specifications\Cantor_Read_Only_Live_Codex_Adapter.sop
+  + [added] is justifications\Cantor_Read_Only_Live_Codex_Adapter_Justification.sop
+  + [added] is narrative\research\Cantor_Codex_App_Server_Interface_Assessment_2026-07-30.sop
+  + [renewed] is source, explosion, canonical, and justification after implementation observations were separately preserved
+
+& [ImplementationSurface] is one optional safe Rust module
+  + [changed] is crates\cantor_ecosystem\Cargo.toml, Cargo.lock, and src\lib.rs
+  + [added] is crates\cantor_ecosystem\src\live_codex.rs
+  + [added] is examples\prepare_live_codex_probe.rs and examples\live_codex_probe.rs
+  + [added] is tests\live_codex_adapter.rs
+  - [unchanged] is cantor_core semantic authority, Cantor CLI, MCP behavior, service, lifecycle, mock-loop transcript, Observer, and decision logic
+
+& [TestAndEvidenceSurface] is deterministic plus live
+  + [unit] is fifteen live-session and machine-boundary tests
+  + [integration] is five adapter and complete ecosystem bridge tests
+  + [live] is one current fingerprinted accepted probe and multiple preserved fail-closed observations
+  + [added] is scripts\build_read_only_live_codex_evidence_manifest.ps1
+  + [added] is crates\cantor_ecosystem\evidence\read_only_live_codex_probe_outcome.json
+  + [added] is crates\cantor_ecosystem\evidence\read_only_live_codex_evidence_manifest.json
+  + [refreshed] is prerequisite manifests after shared project surfaces stabilized
+
+& [DocumentationAndGovernanceSurface] is reentry state
+  + [added] is docs\READ_ONLY_LIVE_CODEX_ADAPTER.md
+  + [added] is feature slice, requirement matrix, solution, proof, operational-fault, turn, and file-change records
+  + [changed] is build plan, slice index, README, SOP core map, and project narrative
+  + [preserved] is local Codex runtime, probe inputs, transient error outputs, generated schemas, signing material, and secrets under ignored .local only
+  + [locked] is write, persistence, steering, automatic retry, notifications, autonomous management, multi-worker, effects, hidden-state, learned routing, and FPGA authority

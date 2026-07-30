@@ -1,0 +1,169 @@
+Subject: Cantor Read Only Live Codex Adapter
+
+Description: Implementation authority for one operator-explicit, ephemeral, read-only Codex App Server turn that calls exactly one existing Cantor MCP query_sop tool, returns one schema-bound candidate, and enters the already proved deterministic ecosystem review without write or effect authority.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Cantor_Read_Only_Live_Codex_Activation_Source_Selection.sop
+@ [reconciliation_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Cantor_Read_Only_Live_Codex_Implementation_Reconciliation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Read_Only_Live_Codex_Adapter.exploded.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Codex_App_Server_Interface_Assessment_2026-07-30.sop
+@ [runtime_formation] C:\Project\Cantor\specifications\Cantor_Codex_Supervised_Ecosystem_Runtime.sop
+@ [phase_1] C:\Project\Cantor\specifications\Cantor_Supervised_Mock_Loop_Activation.sop
+@ [phase_1_proof] C:\Project\Cantor\proofs\Cantor_Supervised_Mock_Loop_Proof.sop
+
+& [ActivationIdentity] is bounded Phase 2 implementation authority
+  + [canonical_specification_uuid] is 4090fcfc-b61d-41d4-896e-c9eb88d82409
+  + [profile] is cantor-read-only-live-codex/0.1
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [status] is authorized_for_one_live_read_only_turn_profile
+  + [semantic_authority] remains verified cantor_core ProtocolResponse
+  + [agent_authority] is one ephemeral Codex thread and one turn
+  + [process_authority] is exact Codex app-server and exact cantor-mcp child only
+  + [filesystem_authority] is read_only
+  + [network_authority] is false inside the turn
+  + [effect_authority] is none
+
+& [LiveCodexConfig] is operator-explicit immutable input
+  + [profile] is cantor-live-codex-config/0.1
+  + [codex_executable] is canonical absolute regular non-symlink path
+  + [codex_executable_sha256] is expected lowercase SHA-256
+  + [codex_version] is exact expected bounded version output
+  + [cantor_mcp_executable] is canonical absolute regular non-symlink path
+  + [cantor_mcp_executable_sha256] is expected lowercase SHA-256
+  + [environment_path] is canonical absolute regular non-symlink path
+  + [environment_sha256] is expected lowercase SHA-256
+  + [working_directory] is canonical absolute directory
+  + [server_name] is the exact nonreserved MCP server name
+  + [tool_name] is query_sop
+  + [timeout_milliseconds] is positive and bounded
+  + [maximum_line_bytes] is positive and bounded
+  + [maximum_events] is positive and bounded
+  + [maximum_total_bytes] is positive and bounded
+  = must: validate and hash every path before process launch
+  - never: discover, copy, serialize, or log Codex credentials
+
+& [AppServerProtocol] is stable stdio JSONL
+  + [launch] is exact Codex executable with app-server and stable config overrides
+  + [transport] is piped stdin and stdout with separately drained bounded stderr
+  + [request_ids] are deterministic unique positive integers
+  + [initialize] supplies Cantor client name, title, and version without experimentalApi
+  + [initialized] follows only a successful initialize response
+  + [responses] must match one outstanding request id and contain result without error
+  + [notifications] are admitted only by method and typed parameters
+  + [server_requests] are unexpected and fail the profile
+  = must: reject malformed, oversized, duplicate, unknown-response, or premature messages
+
+& [ReadOnlyThread] is nonpersistent least authority
+  + [thread_start] sets ephemeral true, exact cwd, approvalPolicy never, sandbox read-only, and Cantor service name
+  + [thread_response] supplies one nonempty exact thread id
+  + [MCP_readiness] is required by app-server configuration and thread start fails if Cantor MCP cannot initialize
+  + [experimental_fields] are absent
+  - never: resume, fork, name, archive, persist, inject items, compact, roll back, or mutate metadata
+
+& [SingleTurn] is one bounded assignment
+  + [turn_start] names the exact thread id and one text input
+  + [sandboxPolicy] is readOnly with networkAccess false
+  + [approvalPolicy] is never
+  + [outputSchema] is a closed JSON object for summary, satisfied criterion identifiers, proof identifiers, and requested effects
+  + [model] is omitted so operator Codex configuration selects it
+  + [turn_response] supplies one nonempty exact turn id and inProgress state
+  - never: steer, retry, interrupt except timeout cleanup, invoke a skill, or provide an image
+
+& [AssignmentPrimer] is concise semantic control
+  + [identity] is exact commission, work packet, frame, subject, purpose, and requested result
+  + [authority] is exact allowed MCP server and tool with no other tool authority
+  + [request] is canonical JSON ProtocolRequest supplied as untrusted tool arguments to reproduce exactly
+  + [criteria] are exact work-packet identifiers and descriptions
+  + [proof] requires declared proof identifiers to be preserved
+  + [instruction] is call the Cantor tool exactly once then return only the schema-bound candidate
+  - never: ask Codex to inspect files, run commands, browse, write, or reason from unsigned semantic text instead of the tool result
+
+& [EventAdmission] is an immutable bounded observation ledger
+  + [allowed_notifications] are thread/started, thread/status/changed, turn/started, item/started, item/completed, item/agentMessage/delta, thread/tokenUsage/updated, warning, and turn/completed
+  + [required_item_1] is one completed mcpToolCall with exact server and query_sop tool
+  + [required_item_2] is one completed agentMessage with phase final_answer or absent legacy phase
+  + [terminal] is turn/completed for the exact turn with completed status
+  + [budgets] are timeout, line bytes, total bytes, and event count
+  + [ordering] is tool completion before final agent completion before terminal turn completion
+  = must: retain digests and typed summary for every admitted event
+  + [commentary] is passive and cannot substitute for the one final candidate
+  + [set_semantics] is enforced after strict JSON parsing because the provider strict-schema subset does not admit uniqueItems
+
+& [ForbiddenEventSet] is no hidden authority
+  + [forbidden_item] is commandExecution, fileChange, webSearch, dynamicToolCall, collabAgentToolCall, imageGeneration, or any unknown actionable item
+  + [forbidden_request] is approval, permission, user input, MCP elicitation, dynamic tool callback, attestation, or unknown server request
+  + [forbidden_state] is second tool call, second final message, other server, other tool, failed item, interrupted turn, or failed turn
+  = must: fault immediately and preserve the accepted observation prefix
+
+& [MCPTranslation] is exact Cantor evidence
+  + [arguments] decode as strict ProtocolRequest equal to the commissioned expected request
+  + [result] yields one strict ProtocolResponse
+  + [verification] is cantor_core verify_protocol_response plus Success status
+  + [identity] is exact request id, operation, expected environment digest, expected package set, scope, and caller context
+  - never: reconstruct a missing field from agent prose or trust the agent summary instead of tool result
+
+& [CandidateTranslation] is schema-bound untrusted output
+  + [summary] is bounded nonempty text
+  + [satisfied_criterion_ids] is a bounded set of known SemanticIds
+  + [proof_refs] is a bounded set of SemanticIds exactly equal to the supervisor-admitted proof set
+  + [requested_effects] must be returned without suppression
+  + [content_digest] is SHA-256 of exact final agent-message UTF-8 bytes
+  + [candidate_uuid] is deterministically derived from the work packet and turn identity
+  = must: pass CandidateArtifact validation before ecosystem append
+
+& [EcosystemBridge] is logical replay of observed physical events
+  + [CodexAdapter] performs the one live turn when accepting the assignment and buffers the immutable observed request, response, and candidate
+  + [ObservedCantorAdapter] exposes only the exact buffered ProtocolResponse when the ecosystem requests the matching ProtocolRequest
+  + [CodexAdapter] releases the candidate only when the ecosystem returns that exact response
+  + [runtime] remains the existing seven-message run_supervised_mock_cycle and deterministic Observer
+  = must: preserve query then return then candidate logical order even though the completed app-server turn is buffered before translation
+  - never: claim the buffer changes causal order inside Codex inference
+
+& [ProcessLifecycle] is bounded cleanup
+  + [normal] is close stdin after terminal completion and wait briefly for app-server shutdown
+  + [timeout_or_fault] is close stdin, request exact child kill if still live, wait, and return typed fault
+  + [stderr] is concurrently drained to a bounded buffer and discarded without entering protocol evidence or logs
+  + [MCP_child] is owned and reaped by app-server
+  - never: kill by PID without the exact Child handle or leave a detached process
+
+& [RequirementSet] is traceable
+  + [RLC-001] is source-selected SJS authority after passed mock prerequisite
+  + [RLC-002] is exact executable, environment, path, digest, version, and runtime configuration admission
+  + [RLC-003] is strict initialized app-server JSONL request and response protocol
+  + [RLC-004] is one ephemeral read-only approval-never thread
+  + [RLC-005] is one read-only no-network schema-bound turn
+  + [RLC-006] is one exact stable Cantor MCP query_sop call
+  + [RLC-007] is bounded correlated event ordering and completion
+  + [RLC-008] is fail-closed forbidden action, request, and state rejection
+  + [RLC-009] is exact ProtocolRequest and verified ProtocolResponse translation
+  + [RLC-010] is schema-bound CandidateArtifact and existing ecosystem bridge
+  + [RLC-011] is deterministic fake-server proof plus one explicit live fingerprinted proof
+  + [RLC-012] is no write, steering, retry, persistence, dynamic tool, manager iteration, notification, multi-worker, or effect authority
+
+& [Verification] is layered
+  + [unit] is configuration, path, digest, version, JSONL, identity, budget, event, tool, candidate, and cleanup tests
+  + [fake_integration] is a deterministic scripted app-server transcript proving emitted request order and every material negative gate
+  + [live_integration] is explicit operator-supplied paths and digests against one actual ephemeral read-only turn
+  + [live_acceptance] is exactly one successful Cantor call, zero forbidden actions, verified response, accepted Observer decision, and complete process cleanup
+  + [global] is format, warnings-denied lint, debug and overflow-checked release tests, release build, docs, dependency audit, evidence, fault, and Git proof
+
+& [SJSProcessingTrace] is seven-fold
+  + [fold_1] is phase_2 source selection and passed Phase 1 prerequisite
+  + [fold_2] is stable app-server control versus stable MCP tool versus deferred experimental dynamic tools
+  + [fold_3] is exact configuration, JSON-RPC, event, MCP, candidate, and evidence data
+  + [fold_4] is handshake, thread, turn, event, tool, and cleanup state machines
+  + [fold_5] is executable, credential, sandbox, approval, network, tool, and effect security
+  + [fold_6] is malformed, reordered, substituted, oversized, timed-out, interrupted, failed, and hidden-action faults
+  + [fold_7] is deterministic fake proof before one explicit fingerprinted live proof with every later phase locked
+
+& [SatisfactionSignature] is valid Phase 2 implementation authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is cf807996-e262-4e3b-8bc5-242dd3c066ee
+  + [source_snapshot_uuid] is 2a31e415-7832-4b9a-9c32-87ed05bf6cdf
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Read_Only_Live_Codex_Adapter.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_read_only_live_codex_activation\Cantor_Read_Only_Live_Codex_Activation_Source_Selection.sop
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Read_Only_Live_Codex_Adapter.exploded.sop
+  + [processed_stage_set] is source_selected, raw_sources_preserved, prerequisite_proven, official_interface_researched, delineated, exploded, data_designed, state_machine_formed, security_bounded, fault_reviewed, live_observed, reconciled, phase_locked, justified, feature_sliced, and renewed_signed
+  + [signature_status] is valid_for_one_live_read_only_Codex_turn_profile
+  + [implementation_authority] is safe_Rust_app_server_client_live_Codex_adapter_observed_Cantor_adapter_fake_protocol_tests_one_explicit_live_probe_docs_and_proof
+  + [invalidation_condition] is source_change, missing trace, failed prerequisite, unsupported interface drift, executable or environment substitution, experimental dependency, hidden action, authority expansion, failed live proof, or implementation contradiction

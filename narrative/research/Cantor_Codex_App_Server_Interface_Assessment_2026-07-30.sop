@@ -1,0 +1,70 @@
+Subject: Cantor Codex App Server Interface Assessment
+
+@ [official_manual] https://learn.chatgpt.com/docs/app-server.md
+@ [official_SDK] https://learn.chatgpt.com/docs/codex-sdk.md
+@ [official_source] https://github.com/openai/codex/tree/main/codex-rs/app-server
+@ [runtime_formation] C:\Project\Cantor\specifications\Cantor_Codex_Supervised_Ecosystem_Runtime.sop
+@ [mock_proof] C:\Project\Cantor\proofs\Cantor_Supervised_Mock_Loop_Proof.sop
+
+& [AssessmentIdentity] is current official-interface evidence
+  + [assessment_uuid] is 14006db6-3106-429f-bca0-54b24745e2f0
+  + [captured_at] is 2026-07-30
+  + [manual_refresh] is current Codex manual fetched through the OpenAI documentation workflow on 2026-07-30
+  + [local_Codex_version] is codex-cli 0.135.0
+  + [result] is phase_2_read_only_adapter_is_technically_supported_with_a_stable_control_and_MCP_profile
+
+& [StableControlSurface] is Codex App Server over local stdio
+  + [wire] is bidirectional headerless JSON-RPC 2.0 as newline-delimited JSON
+  + [handshake] is exactly one initialize request followed by initialized notification before other methods
+  + [thread] is thread/start or thread/resume with thread/started and later thread events
+  + [turn] is turn/start, optional turn/steer, turn/interrupt, and terminal turn/completed
+  + [events] are authoritative item/started and item/completed plus turn lifecycle notifications
+  + [read_only] is thread sandbox read-only and turn sandboxPolicy type readOnly with networkAccess false
+  + [approval] is approvalPolicy never; any server-initiated approval request is an unexpected fault in the Phase 2 profile
+  + [ephemerality] is thread/start ephemeral true so the proof worker is not a durable conversation
+  = decision: use the app-server wire directly from safe Rust because no official Rust Codex SDK is documented
+
+& [StableCantorToolSurface] is the existing local MCP server
+  + [configuration] is manager-owned exact cantor-mcp executable and exact compiled environment path supplied as app-server configuration overrides
+  + [tool] is one model-visible read-only query_sop operation
+  + [event] is an mcpToolCall item with server, tool, arguments, status, result, and error
+  + [translation] is exact tool arguments to ProtocolRequest and exact structured result to ProtocolResponse before ecosystem admission
+  = decision: reuse the already proved MCP projection rather than create a second semantic adapter
+
+& [ExperimentalSurface] is not required by Phase 2
+  + [dynamicTools] on thread/start and item/tool/call client callbacks require experimentalApi
+  + [benefit] is a direct client-executed Cantor callback without prior MCP configuration
+  + [cost] is experimental compatibility and a second tool projection
+  = decision: defer dynamicTools; compare only after stable MCP live proof identifies an unmet requirement
+
+& [EventAcceptanceProfile] is fail-closed
+  + [required] is one completed Cantor query_sop mcpToolCall and one completed final agentMessage
+  + [forbidden] is commandExecution, fileChange, webSearch, dynamicToolCall, collabAgentToolCall, approval request, user-input request, turn steer, and multiple Cantor calls
+  + [completion] is only turn/completed status completed after the required completed items
+  + [candidate] is the final agent message decoded through an explicit JSON output schema
+  + [fault] is unexpected event, wrong identity, malformed JSON, oversized line, timeout, premature EOF, process failure, non-success tool, missing proof, or extra action
+
+& [LocalSchemaEvidence] is version-specific and ignored runtime evidence
+  + [generator] is codex app-server generate-json-schema
+  + [schema_root] is C:\Project\Cantor\.local\codex-app-server-schema
+  + [ThreadStartParams_sha256] is E73C4B74ACFB3330CBB3BD6C8CEF191336F4F5D6ACC1BE6B76A85AA47A50D9E9
+  + [TurnStartParams_sha256] is 5A9AB37416400C94738511D04DE099C1A17C9FC3AB4105D7D45915AAA136F06A
+  + [ItemCompletedNotification_sha256] is 43EB2467648AB906FF062A71EF596956900C5BFF65FA6A3B71E57770B0B0C34C
+  + [TurnCompletedNotification_sha256] is 1168ADF9BBC136375945F1D6946CA674851E070BA9112B8DB9F4A119EACE1B96
+  + [Codex_executable_sha256] is FE12887B4AB4A4E988F0FA5BAAE9E5CB7D8505C26401378628E762DB9A2E798F
+  + [Codex_executable_bytes] is 242541872
+  - never: promote ignored generated schema or a machine-specific executable path into portable semantic authority
+
+& [SecurityBoundary] is explicit
+  + [authentication] is owned by the local Codex installation; Cantor never reads, copies, logs, or serializes its credential
+  + [process] is an operator-supplied canonical regular executable matched to expected SHA-256 and version output
+  + [MCP] is an operator-supplied canonical cantor-mcp executable and exact environment matched to expected digests
+  + [model] is not selected by Cantor Phase 2; the configured Codex default is used unless a later contract pins a discovered model
+  + [output] is untrusted candidate text until decoded, correlated, core-verified, and Observer-reviewed
+  - never: infer app-server access from API-key possession or bypass host approval, sandbox, policy, or managed requirements
+
+& [Conclusion] is a bounded live checkpoint seam
+  + [supported] is external manager to Codex thread and turn control plus Codex to Cantor MCP tool use with streamed inspectable events
+  + [not_supported_claim] is shared token-level inference, hidden-state exchange, KV-cache mutation, asynchronous mid-token notification, or direct model-attention control
+  + [implementation_candidate] is one ephemeral read-only turn that calls exactly one Cantor tool and returns one schema-bound candidate
+  + [next_gate] is source-preserved SJS activation, deterministic fake-server protocol tests, then one opt-in live proof on the locally fingerprinted executable

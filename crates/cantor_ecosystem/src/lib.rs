@@ -1,19 +1,22 @@
 //! Deterministic, effect-free Cantor supervised ecosystem protocol.
 //!
-//! This crate implements only the `cantor-supervised-mock-loop/0.1` profile:
-//! one commissioned manager, one mock Codex worker, one purpose-scoped Cantor
-//! participant, one deterministic Observer review, and one immutable returned
-//! transcript. It does not control live Codex threads, perform external
-//! effects, persist runtime state, invoke models, or implement multi-worker
+//! The base `cantor-supervised-mock-loop/0.1` profile supplies one commissioned
+//! manager, one worker, one purpose-scoped Cantor participant, one deterministic
+//! Observer review, and one immutable returned transcript. The optional
+//! read-only live adapter binds that same logical cycle to a hash-pinned Codex
+//! App Server process and exactly one stable Cantor MCP query. Neither profile
+//! grants effects, persists runtime state, or implements multi-worker
 //! orchestration.
 
 pub mod adapter;
+pub mod live_codex;
 pub mod model;
 pub mod review;
 pub mod runtime;
 pub mod transcript;
 
 pub use adapter::*;
+pub use live_codex::*;
 pub use model::*;
 pub use review::*;
 pub use runtime::*;
