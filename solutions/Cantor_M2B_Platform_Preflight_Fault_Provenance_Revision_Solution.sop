@@ -1,0 +1,57 @@
+Subject: Cantor M2B Platform Preflight Fault Provenance Revision Solution
+
+& [SolutionIdentity] is the completed pure correction
+  + [solution_uuid] is 7d7180f0-1ac6-4b3d-8854-3f854f38ad85
+  + [authority_signature_uuid] is 43ac3353-ea22-4f02-894e-59302e6ef4a5
+  + [result_profile] is cantor-windows-platform-preflight/0.2
+  + [request_profile] is cantor-windows-platform-preflight-request/0.1
+  + [implementation_commit] is d7dfe40
+  + [status] is implemented_and_globally_verified
+
+& [RequestSolution] is strict
+  + [type] is WindowsPlatformPreflightRequest
+  + [fields] are request profile, result profile, target triple, and input root
+  + [validation] reuses the exact common result identity and root grammar
+  + [strict_JSON] rejects unknown and missing fields
+  + [effect] is zero
+
+& [ResultSolution] is provenance disjoint
+  + [open_fault] is reserved for nonzero open API error
+  + [query_fault] is reserved for nonzero named query API error
+  + [observation_fault] carries closed stage plus returned_length_limit, invalid_utf16, or invalid_observation
+  + [complete] retains every profile 0.1 evidence product and relation under profile 0.2
+  + [fault_partial_evidence] is structurally absent
+
+& [LegacySolution] is fail closed
+  + [profile_0_1] is preserved by prior source, authority, manifest, solution, proof, review, and Git history
+  + [historical_manifest] is crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_1.json
+  + [result_0_1] rejects during semantic validation
+  + [request_bound_to_result_0_1] rejects
+
+& [FocusedVerification] is complete
+  + [debug] is 12 passed
+  + [overflow_checked_release] is 12 passed
+  + [classes] cover request identity and strict JSON, four outcomes, three local fault classes, no OS error or partial local evidence, legacy rejection, retained bounds, and disposition truth table
+
+& [GlobalVerification] is complete
+  + [expected_stops] prior 0.1 evidence rejected changed module bytes during broad focused selection and later rejected its old schema when the full suite preceded profile 0.2 manifest minting
+  + [repair] is preserve 0.1 manifest, regenerate current and affected predecessor evidence, and rebind proof digests
+  + [final_debug] is 251 passed
+  + [final_overflow_checked_release] is 251 passed
+  + [format_lint_build_docs] are passed
+  + [audit] is 112 dependencies checked against 1174 advisories with zero vulnerabilities
+
+& [EffectBoundary] is exact
+  + [production_delta] is one existing pure module
+  + [lib_Cargo_lock_delta] is zero
+  + [Windows_call] is zero
+  + [unsafe] is zero
+  + [filesystem_or_resource_observation] is zero
+  + [runtime_scanner_physical_claim] is absent
+
+& [Rollback] is direct
+  + [module] restore profile 0.1 and remove request and observation-fault vocabulary
+  + [state_migration] is none
+
+& [Nonclaim] is mandatory
+  - never: cite this correction as Windows invocation, raw or owned resource handling, target-host fact, runtime adapter, scanner, receipt, fixture, or write authority

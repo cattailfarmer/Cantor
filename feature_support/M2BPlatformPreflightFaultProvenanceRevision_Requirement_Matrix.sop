@@ -3,22 +3,28 @@ Subject: M2B Platform Preflight Fault Provenance Revision Requirement Matrix
 & [MatrixIdentity] is requirement control
   + [result_profile] is cantor-windows-platform-preflight/0.2
   + [request_profile] is cantor-windows-platform-preflight-request/0.1
-  + [state] is implementation_authorized
+  + [state] is verified
 
 & [M2B-PFR-001] lineage is satisfied by signed SJS authority
-& [M2B-PFR-002] profiles are pending
-& [M2B-PFR-003] strict request is pending
-& [M2B-PFR-004] four outcomes are pending
-& [M2B-PFR-005] OS error provenance is pending
-& [M2B-PFR-006] three local fault classes are pending
-& [M2B-PFR-007] closed stage binding is pending
-& [M2B-PFR-008] no error or partial local fault is pending
-& [M2B-PFR-009] complete relation preservation is pending
-& [M2B-PFR-010] legacy and unknown rejection is pending
-& [M2B-PFR-011] effect absence is pending
-& [M2B-PFR-012] global closure is pending
+& [M2B-PFR-002] profiles are verified
+& [M2B-PFR-003] strict request is verified
+& [M2B-PFR-004] four outcomes are verified
+& [M2B-PFR-005] OS error provenance is verified
+& [M2B-PFR-006] three local fault classes are verified
+& [M2B-PFR-007] closed stage binding is verified
+& [M2B-PFR-008] no error or partial local fault is verified
+& [M2B-PFR-009] complete relation preservation is verified
+& [M2B-PFR-010] legacy and unknown rejection is verified
+& [M2B-PFR-011] effect absence is verified
+& [M2B-PFR-012] global closure is verified
 
 & [ProofTargets] are exact
   + [module] is crates/cantor_ecosystem/src/platform_preflight_forms.rs
   + [Cargo_delta] is zero
   + [runtime_effect] is zero
+
+& [ImplementationEvidence] is exact
+  + [authority_commit] is 0d4e7ee
+  + [implementation_commit] is d7dfe40
+  + [focused] is 12 debug and 12 overflow-checked release passed
+  + [global] is 251 debug and 251 overflow-checked release passed

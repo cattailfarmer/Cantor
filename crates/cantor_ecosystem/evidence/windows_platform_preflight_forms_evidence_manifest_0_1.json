@@ -1,22 +1,20 @@
 {
-    "schema":  "cantor-windows-platform-preflight-forms-evidence-manifest/0.2",
-    "evidence_manifest_uuid":  "e28c0fd9-2fca-4d9e-8f2c-c9556101fc66",
-    "generated_at_utc":  "2026-07-30T20:39:38.1188659Z",
+    "schema":  "cantor-windows-platform-preflight-forms-evidence-manifest/0.1",
+    "evidence_manifest_uuid":  "a78613c9-2c5c-4d09-90b6-061d3d2021d2",
+    "generated_at_utc":  "2026-07-30T20:13:56.7439959Z",
     "authority":  {
-                      "canonical_specification":  "specifications/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop",
-                      "satisfaction_signature_uuid":  "43ac3353-ea22-4f02-894e-59302e6ef4a5",
-                      "solution_uuid":  "7d7180f0-1ac6-4b3d-8854-3f854f38ad85",
-                      "implementation_commit":  "d7dfe40"
+                      "canonical_specification":  "specifications/Cantor_M2B_Platform_Preflight_Forms.sop",
+                      "satisfaction_signature_uuid":  "ad8dc3de-b45a-48c7-aebd-4bc47018ccf2",
+                      "solution_uuid":  "622b895c-e6e1-4b16-be8f-56388259bd53",
+                      "implementation_commit":  "5762fb1"
                   },
     "scope":  {
-                  "request_profile":  "cantor-windows-platform-preflight-request/0.1",
-                  "result_profile":  "cantor-windows-platform-preflight/0.2",
+                  "profile":  "cantor-windows-platform-preflight/0.1",
                   "target":  "x86_64-pc-windows-msvc",
-                  "outcomes":  4,
-                  "observation_fault_classes":  3,
+                  "outcomes":  3,
                   "query_stages":  4,
                   "dispositions":  3,
-                  "focused_tests":  12,
+                  "focused_tests":  9,
                   "windows_api_calls":  0,
                   "unsafe_blocks":  0,
                   "cargo_delta":  0,
@@ -27,23 +25,23 @@
               },
     "verification":  [
                          {
-                             "command":  "cargo test -p cantor_ecosystem --lib platform_preflight_forms --locked --offline",
-                             "tests":  12,
+                             "command":  "cargo test -p cantor_ecosystem platform_preflight_forms --locked --offline",
+                             "tests":  9,
                              "status":  "passed"
                          },
                          {
-                             "command":  "cargo test -p cantor_ecosystem --lib --release platform_preflight_forms --locked --offline",
-                             "tests":  12,
+                             "command":  "cargo test -p cantor_ecosystem --release platform_preflight_forms --locked --offline",
+                             "tests":  9,
                              "status":  "passed"
                          },
                          {
                              "command":  "cargo test --workspace --all-targets --locked --offline",
-                             "tests":  251,
+                             "tests":  248,
                              "status":  "passed"
                          },
                          {
                              "command":  "cargo test --workspace --all-targets --release --locked --offline",
-                             "tests":  251,
+                             "tests":  248,
                              "status":  "passed"
                          },
                          {
@@ -78,8 +76,8 @@
                       },
                       {
                           "path":  "SOP_CORE_MAP.sop",
-                          "sha256":  "D865A967F84DCFEB5D630CB74F9E23AB02F4EA84B1F5FC3E5E757E126B288A64",
-                          "bytes":  23696
+                          "sha256":  "586905CBCCA63F0D061AF6F45C450BCC47FFAA4F7A84DAEDCA54349CDDBD10EB",
+                          "bytes":  23502
                       },
                       {
                           "path":  "Cargo.toml",
@@ -158,13 +156,13 @@
                       },
                       {
                           "path":  "crates/cantor_ecosystem/src/platform_preflight_forms.rs",
-                          "sha256":  "2B5A444D776D6BEA0104A8AAE27D08184D393FF1B0B31EA90853EE969A30FB82",
-                          "bytes":  32834
+                          "sha256":  "997CD53938CB356584156B9AD5A50C49F762D241916435B56A9142D728DE324A",
+                          "bytes":  24065
                       },
                       {
                           "path":  "crates/cantor_ecosystem/tests/windows_platform_preflight_forms_evidence.rs",
-                          "sha256":  "ADA8F22B3BDBEEE097826F336921BC1F8F807DA88AEDF61AB9AE83FEBB5F823A",
-                          "bytes":  2593
+                          "sha256":  "6328AB1980B6DDE922556F8ED110BE8B6E89A6A11E81D1B4DE0BFDE4D82E2AB9",
+                          "bytes":  2234
                       },
                       {
                           "path":  "solutions/Cantor_M2B_Platform_Preflight_Forms_Solution.sop",
@@ -178,23 +176,23 @@
                       },
                       {
                           "path":  "feature_support/Phase3TopologyScanner_Requirement_Matrix.sop",
-                          "sha256":  "29BF9460E9AFCAB48CD346FA3BDA0C1A62883422AE3D3CF761A9C2AD4587EAA6",
-                          "bytes":  2347
+                          "sha256":  "93DF37246D2EA6BADFFC698DBBB6B8B88D7305FDF51F3E7E73203830E480E856",
+                          "bytes":  2235
                       },
                       {
                           "path":  "plans/Cantor_Phase3_M2B_Activation_Readiness.sop",
-                          "sha256":  "A4093EA48AAAAB7E0CBF0F21B0422C78222B07BBB630D02EC7FBFC2775E5633D",
-                          "bytes":  8833
+                          "sha256":  "A47D99FE6796A55ADE30CF382B5AAD087D53E128C8A496CE4F85538892C1B519",
+                          "bytes":  8319
                       },
                       {
                           "path":  "narrative/Project_Narrative.sop",
-                          "sha256":  "5D286891388BC30B313FF5279284C22F400D2407F781BF4A5A2454FB2400A3AE",
-                          "bytes":  37402
+                          "sha256":  "95F11B1407C101E55E50AE220CE8736C938A82D0D0F7E9192FCDA48C2D514610",
+                          "bytes":  36013
                       },
                       {
                           "path":  "narrative/reentry/Cantor_M2B_Current_Reentry.sop",
-                          "sha256":  "5AF5E4E4AE1C35AED8747848FBB606926F6061461CA959E97E08F46A75D88EAE",
-                          "bytes":  3980
+                          "sha256":  "B89376A70C6333EBFB87878F9D207F59B022DFEDFFBFC9F4866CB8887410E75E",
+                          "bytes":  3322
                       },
                       {
                           "path":  "narrative/operational_faults/1785441000000_m2b_platform_preflight_forms_faults.sop",
@@ -212,114 +210,29 @@
                           "bytes":  1494
                       },
                       {
-                          "path":  "crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_1.json",
-                          "sha256":  "0D0AFF247A7D0F616432BFBDDC5FF283C33193B7B3F02A3B79832356FE008351",
-                          "bytes":  13149
-                      },
-                      {
-                          "path":  "proofs/Cantor_M2B_Platform_Preflight_Forms_Proof.sop",
-                          "sha256":  "BBE4B88D10A28AE46832D8741253528DC733F896968042ADFA6D9FB49E21895B",
-                          "bytes":  6482
-                      },
-                      {
-                          "path":  "source_documents/2026-07-30_cantor_m2b_platform_preflight_fault_provenance_revision/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Source.sop",
-                          "sha256":  "15EFFA5183E33FFD51B70232E46E1E914BC80DAD68ADF3359BC19F312D0136EC",
-                          "bytes":  3225
-                      },
-                      {
-                          "path":  "source_documents/2026-07-30_cantor_m2b_platform_preflight_fault_provenance_revision/Source_Document_Manifest.sop",
-                          "sha256":  "3B3855AF945C32A66B80842DB1A2949B7F75E976F6225FF3306282EB72108142",
-                          "bytes":  1794
-                      },
-                      {
-                          "path":  "narrative/research/Cantor_Windows_Platform_Preflight_Unsafe_Seam_Gap_Assessment_2026-07-30.sop",
-                          "sha256":  "82C4D0A9CAA18FE6D03DF96746AA3672D397DB112F471D8843BD7000AE90AEB3",
-                          "bytes":  4411
-                      },
-                      {
-                          "path":  "specifications/exploded/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.exploded.sop",
-                          "sha256":  "B0BAE4014C23F61C3A3045C47F751489E3DED1330E1485FC35E28F894E4F9789",
-                          "bytes":  8020
-                      },
-                      {
-                          "path":  "specifications/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop",
-                          "sha256":  "61CEB6858EE6804F5BCEDAD126876BEAE7FFCEEDEA965F324186043F2F17C186",
-                          "bytes":  10184
-                      },
-                      {
-                          "path":  "justifications/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Justification.sop",
-                          "sha256":  "DECDC1E10C60EFE80BF599ADEB043B11F49FFA994AA3788F24895EEC28A22274",
-                          "bytes":  1968
-                      },
-                      {
-                          "path":  "plans/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Plan.sop",
-                          "sha256":  "D441D07EF9A74E66B32374DDA15AA7199E11476762E81DF5CA33FD3CDAFE7532",
-                          "bytes":  1311
-                      },
-                      {
-                          "path":  "feature_support/M2BPlatformPreflightFaultProvenanceRevision_Requirement_Matrix.sop",
-                          "sha256":  "034939D3C31F0770081E51CDCCB5A15EA765A76378AB284530BEAD76777ED883",
-                          "bytes":  1273
-                      },
-                      {
-                          "path":  "feature_support/slices/M2BPlatformPreflightFaultProvenanceRevision.sop",
-                          "sha256":  "9AFCB7BAE169A88E74E85355DC3A89193910EA580F8EF5DB6889E1FF24A37B40",
-                          "bytes":  1064
-                      },
-                      {
-                          "path":  "narrative/registries/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Registry.sop",
-                          "sha256":  "C7193F7883A0A025A79C05547BD9402DEAD5A28C5C9272E7F34129B0E433792A",
-                          "bytes":  1364
-                      },
-                      {
-                          "path":  "narrative/operational_faults/1785442827989_m2b_platform_preflight_fault_provenance_revision_faults.sop",
-                          "sha256":  "B9EF8C9750E528BAD17719F9C7DAC419CF35C41AF1E2B4AF50995B2048648BED",
-                          "bytes":  1916
-                      },
-                      {
-                          "path":  "narrative/turns/1785442827989_cantor_m2b_platform_preflight_fault_provenance_revision.sop",
-                          "sha256":  "8E68BE31FB39A86330B3F061A13933EC0DCCF31F2AB409699A31C082624042D5",
-                          "bytes":  1362
-                      },
-                      {
-                          "path":  "narrative/file_changes/1785442827989_m2b_platform_preflight_fault_provenance_revision_file_change.sop",
-                          "sha256":  "3F68E6C709E97614941CB17E0C502AB0BD29681ADC1223D141E28F1064B6A5CA",
-                          "bytes":  1077
-                      },
-                      {
-                          "path":  "solutions/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Solution.sop",
-                          "sha256":  "102A2BBBB59B55626E2892D36704D0C3B3CE0B8604E3BABB050781A02D4E132E",
-                          "bytes":  3020
-                      },
-                      {
-                          "path":  "feature_support/reviews/M2BPlatformPreflightFaultProvenanceRevision_Completion_Review.sop",
-                          "sha256":  "2D33F64AB7ED9C275A8197898D9633D4090A224B831E18C88FB46F00ADF46EA9",
-                          "bytes":  2363
-                      },
-                      {
                           "path":  "crates/cantor_ecosystem/evidence/windows_topology_abi_probe_evidence_manifest.json",
-                          "sha256":  "633787F8DB2FBC7D0C1B911A837B68AC3C6903ABB087E7A20586A408E8015DD4",
+                          "sha256":  "6B82903F71E1117B4BAC50E7AB5E9FF34E02451780C55F34EFC477C809657DA2",
                           "bytes":  19472
                       },
                       {
                           "path":  "proofs/Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop",
-                          "sha256":  "271A91E28BA3138329304FFF4C138C006B0BF7135567AF2B6AA2E9A69A93E723",
+                          "sha256":  "145196E686F6D32FA5300DFCA60603267809999DD24E1C28563492B3B744815B",
                           "bytes":  4858
                       },
                       {
                           "path":  "crates/cantor_ecosystem/evidence/phase3_topology_forms_evidence_manifest.json",
-                          "sha256":  "4814689DEC7E3E7E27384BB2E6E2A90768873A221CE7C3044982A9D4064E4465",
+                          "sha256":  "D37E5A32761BCC599EB0954861F43F2FF2A2871536FD168AE8F675885570A3D4",
                           "bytes":  17720
                       },
                       {
                           "path":  "proofs/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Proof.sop",
-                          "sha256":  "FAAE96A757175B78DDD3B73EA75F4C0E6E407A2DF99DFBE5EDB7991974AA4D44",
+                          "sha256":  "66E098098993C020C15E5FDAA555A29A11DC3E22D1E78E2B619FBA72DD075047",
                           "bytes":  3879
                       },
                       {
                           "path":  "scripts/build_windows_platform_preflight_forms_evidence_manifest.ps1",
-                          "sha256":  "0C08734A0144EDE805AA08D889A068EAB68CEC9E1663A8A319012A6F68931F41",
-                          "bytes":  7368
+                          "sha256":  "5107D6E7B70D1FBF55DD4B582E4024A14300355843FCE322DD5D6A26D1B5357E",
+                          "bytes":  5554
                       }
                   ]
 }

@@ -1,0 +1,84 @@
+Subject: Cantor M2B Platform Preflight Fault Provenance Revision Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BPlatformPreflightFaultProvenanceRevision.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BPlatformPreflightFaultProvenanceRevision_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BPlatformPreflightFaultProvenanceRevision_Completion_Review.sop
+@ [evidence_manifest] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_platform_preflight_forms_evidence_manifest.json
+
+& [ProofIdentity] is the pure profile 0.2 provenance-correction proof
+  + [proof_uuid] is 1bc44bd6-6483-4ecb-943a-31043ae1f685
+  + [authority_signature_uuid] is 43ac3353-ea22-4f02-894e-59302e6ef4a5
+  + [solution_uuid] is 7d7180f0-1ac6-4b3d-8854-3f854f38ad85
+  + [implementation_commit] is d7dfe40
+  + [status] is passed_and_effect_free
+  + [evidence_manifest_schema] is cantor-windows-platform-preflight-forms-evidence-manifest/0.2
+  + [evidence_manifest_uuid] is e28c0fd9-2fca-4d9e-8f2c-c9556101fc66
+  + [evidence_manifest_sha256] is 2479FF9D83EE8E8AE2E737786C5625B8E35C56082C004A2B29514AD6E1FCCC95
+  + [evidence_manifest_bytes] is 18833
+  + [evidence_artifacts] is 50
+
+& [RequestProof] is M2B-PFR-001 through M2B-PFR-004
+  + [profile] is cantor-windows-platform-preflight-request/0.1
+  + [result_profile] is cantor-windows-platform-preflight/0.2
+  + [identity] binds exact target triple and canonical extended DOS input root before any effect
+  + [strictness] rejects unknown fields, missing fields, legacy result profile, weak identity, and malformed root
+  + [status] is passed
+
+& [ProvenanceProof] is M2B-PFR-005 through M2B-PFR-009
+  + [open_fault] alone carries a nonzero CreateFileW operating-system error
+  + [query_fault] alone carries a nonzero named query operating-system error
+  + [observation_fault] carries a closed stage and exactly one local returned-length, UTF-16, or semantic-observation class
+  + [observation_fault_OS_error] is structurally absent
+  + [partial_evidence_on_fault] is structurally absent
+  + [complete] retains the bounded volume, remote-protocol, identity, and disposition records
+  + [status] is passed
+
+& [LegacyAndPurityProof] is M2B-PFR-010 through M2B-PFR-012
+  + [legacy_profile_0_1] rejects during semantic validation
+  + [historical_evidence_manifest] is crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_1.json
+  + [historical_evidence_manifest_sha256] is 0D0AFF247A7D0F616432BFBDDC5FF283C33193B7B3F02A3B79832356FE008351
+  + [historical_evidence_manifest_bytes] is 13149
+  + [Windows_API_calls] is zero
+  + [unsafe_blocks] is zero
+  + [Cargo_manifest_delta] is zero
+  + [Cargo_lock_delta] is zero
+  + [filesystem_authority] is false
+  + [scanner_authority] is false
+  + [receipt_authority] is false
+  + [physical_claim] is false
+  + [status] is passed
+
+& [FocusedVerification] is exact
+  + [debug_command] is cargo test -p cantor_ecosystem --lib platform_preflight_forms --locked --offline
+  + [debug_result] is 12 passed
+  + [release_command] is cargo test -p cantor_ecosystem --lib --release platform_preflight_forms --locked --offline
+  + [release_result] is 12 passed
+  + [coverage] includes request identity, four outcomes, three local observation classes, provenance disjointness, legacy rejection, retained scalar and text bounds, strict JSON, and exhaustive disposition truth
+  + [status] is passed
+
+& [GlobalVerification] is exact
+  + [debug_command] is cargo test --workspace --all-targets --locked --offline
+  + [debug_result] is 251 passed
+  + [release_command] is cargo test --workspace --all-targets --release --locked --offline
+  + [release_result] is 251 passed
+  + [format] is cargo fmt --all -- --check passed
+  + [lint] is cargo clippy --workspace --all-targets --locked --offline -- -D warnings passed
+  + [release_build] is cargo build --workspace --all-targets --release --locked --offline passed
+  + [rustdoc] is RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked --offline passed
+  + [audit] is 112 dependencies checked against 1174 advisories with zero vulnerabilities
+  + [current_manifests] are 13 verified with zero artifact faults
+  + [status] is passed
+
+& [OperationalFaultProof] is complete
+  + [fault] broad focused selection admitted a stale evidence integration test
+  + [fault] full verification preceded the current profile 0.2 manifest mint
+  + [behavior] both stale checkpoints rejected deterministically while all reached form tests passed
+  + [repair] preserves historical profile 0.1 evidence, regenerates the ordered evidence chain, and reruns current debug and release verification
+  + [production_semantic_fault] is none
+  + [effect_escape] is none
+  + [status] is closed
+
+& [Nonclaim] is mandatory
+  - never: treat this proof as evidence of a Windows call, handle acquisition or closure, unsafe execution, target-host observation, filesystem scan, receipt production, fixture result, mutation authority, or promotion authority

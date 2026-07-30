@@ -19,4 +19,9 @@ Subject: Cantor M2B Platform Preflight Fault Provenance Revision Operational Fau
   + [response_1] is use the lib-only focused selector before planned evidence regeneration
   + [production_semantic_fault] is none
   + [effect_escape] is none
-  + [status] is repaired_pending_evidence_reproof
+  + [resolution_1] is historical manifest preservation plus current and predecessor evidence regeneration
+  + [fault_2] is full-suite verification was invoked after predecessor regeneration but before minting the current profile 0.2 manifest
+  + [result_2] all preceding tests passed and the platform evidence integration test rejected the still-current profile 0.1 manifest at its exact schema assertion
+  + [classification_2] is verification-order fault with expected fail-closed behavior, not a production or form behavior failure
+  + [response_2] is bind this ledger into the profile 0.2 manifest, mint that manifest, and rerun the full suites against it
+  + [status] is closed

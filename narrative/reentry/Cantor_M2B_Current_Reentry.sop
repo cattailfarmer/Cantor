@@ -5,7 +5,7 @@ Subject: Cantor M2B Current Reentry
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [captured_at] is 2026-07-30
   + [branch] is codex/self-hosted-corpus
-  + [status] is pure_preflight_forms_complete_runtime_not_ready
+  + [status] is fault_provenance_revision_complete_runtime_not_ready
 
 & [CompletedCheckpointSet] is exact
   + [M2A_receipt_revision_authority] is 9f6ed9f
@@ -18,6 +18,9 @@ Subject: Cantor M2B Current Reentry
   + [Cargo_bound_evidence_chain] is 572f4e8
   + [M2B_preflight_forms_authority] is 543d5a7
   + [M2B_preflight_forms_implementation] is 5762fb1
+  + [M2B_preflight_forms_proof] is 0c89dd3
+  + [M2B_fault_provenance_authority] is 0d4e7ee
+  + [M2B_fault_provenance_implementation] is d7dfe40
 
 @ [M2A_proof] C:\Project\Cantor\proofs\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Proof.sop
 @ [M2B_proof] C:\Project\Cantor\proofs\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop
@@ -25,6 +28,9 @@ Subject: Cantor M2B Current Reentry
 @ [M2B_preflight_forms_authority] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Forms.sop
 @ [M2B_preflight_forms_solution] C:\Project\Cantor\solutions\Cantor_M2B_Platform_Preflight_Forms_Solution.sop
 @ [M2B_preflight_forms_proof] C:\Project\Cantor\proofs\Cantor_M2B_Platform_Preflight_Forms_Proof.sop
+@ [M2B_fault_provenance_authority] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision.sop
+@ [M2B_fault_provenance_solution] C:\Project\Cantor\solutions\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Solution.sop
+@ [M2B_fault_provenance_proof] C:\Project\Cantor\proofs\Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Proof.sop
 @ [readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
 
 & [CurrentFacts] are measured
@@ -32,11 +38,12 @@ Subject: Cantor M2B Current Reentry
   + [receipt_profile] is cantor-phase3-topology-receipt/0.2
   + [scanner_policy_profile] is cantor-windows-candidate-topology/0.1
   + [ABI_probe_profile] is cantor-windows-topology-abi-probe/0.2
-  + [platform_preflight_profile] is cantor-windows-platform-preflight/0.1
+  + [platform_preflight_request_profile] is cantor-windows-platform-preflight-request/0.1
+  + [platform_preflight_result_profile] is cantor-windows-platform-preflight/0.2
   + [windows_sys] is direct exact 0.61.2 with the three closed features
   + [Cargo_lock] is exact one-edge delta with 112 packages
-  + [preflight_form_focused_tests] are 9 debug and 9 overflow-checked release passed
-  + [global_tests] are 248 debug and 248 overflow-checked release passed
+  + [preflight_form_focused_tests] are 12 debug and 12 overflow-checked release passed
+  + [global_tests] are 251 debug and 251 overflow-checked release passed
   + [resolved_fault] is stale predecessor evidence rejected changed lib.rs bytes and was repaired by topological regeneration
   + [evidence_manifest] is crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest.json
 
@@ -50,8 +57,8 @@ Subject: Cantor M2B Current Reentry
   + [candidate_mutation] is absent
 
 & [NextDependencyReadySlice] is formation first
-  + [candidate] is one target-host volume and remote physical preflight
-  + [first_action] is preserve raw source and research exact call, pointer, ownership, platform, target-root, and nonclaim boundaries
+  + [candidate] is one isolated unsafe target-host volume and remote physical preflight seam
+  + [first_action] is preserve raw source and exact crate lint, call, pointer, ownership, error, buffer, target-root, and nonclaim boundaries
   + [authority_rule] is no Windows function call before a new valid SJS satisfaction signature
   + [fallback] is select a pure non-Windows compile-boundary slice if read-only physical preflight cannot be authorized safely
 

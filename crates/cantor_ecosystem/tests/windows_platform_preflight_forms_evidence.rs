@@ -18,13 +18,23 @@ fn windows_platform_preflight_forms_manifest_is_clone_portable_and_effect_free()
     .expect("manifest JSON");
     assert_eq!(
         manifest["schema"],
-        "cantor-windows-platform-preflight-forms-evidence-manifest/0.1"
+        "cantor-windows-platform-preflight-forms-evidence-manifest/0.2"
     );
     assert_eq!(
         manifest["authority"]["satisfaction_signature_uuid"],
-        "ad8dc3de-b45a-48c7-aebd-4bc47018ccf2"
+        "43ac3353-ea22-4f02-894e-59302e6ef4a5"
     );
-    assert_eq!(manifest["scope"]["focused_tests"], 9);
+    assert_eq!(
+        manifest["scope"]["request_profile"],
+        "cantor-windows-platform-preflight-request/0.1"
+    );
+    assert_eq!(
+        manifest["scope"]["result_profile"],
+        "cantor-windows-platform-preflight/0.2"
+    );
+    assert_eq!(manifest["scope"]["outcomes"], 4);
+    assert_eq!(manifest["scope"]["observation_fault_classes"], 3);
+    assert_eq!(manifest["scope"]["focused_tests"], 12);
     assert_eq!(manifest["scope"]["windows_api_calls"], 0);
     assert_eq!(manifest["scope"]["unsafe_blocks"], 0);
     assert_eq!(manifest["scope"]["cargo_delta"], 0);
