@@ -1,0 +1,35 @@
+Subject: Dictated Source for Cantor M2B Pure Windows Entry Policy
+
+& [SourceIdentity] is immutable selection input
+  + [source_snapshot_uuid] is 3ffdebee-15aa-4ef6-ae4d-ad80b5912ce0
+  + [captured_at] is 2026-07-30
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [working_project] is C:\Project\Cantor
+
+& [SelectedIntent] is the next dependency-ready non-effect scanner prerequisite
+  + [purpose] is decide whether already observed Windows entry metadata is admissible before traversal or content interpretation
+  + [input] is entry kind, raw u32 attributes, per-directory case-sensitivity flags, exact Unicode component, and caller-supplied component bound
+  + [output] is one admitted pure policy record or one closed policy fault
+  + [profile] is cantor-windows-entry-policy/0.1
+
+& [AttributeIntent] is fail closed
+  + [benign_bits] are READONLY, HIDDEN, SYSTEM, ARCHIVE, and NOT_CONTENT_INDEXED
+  + [directory] requires DIRECTORY and otherwise permits only benign bits
+  + [regular] permits NORMAL alone or one nonempty subset of benign bits
+  + [zero_unknown_behavior_kind_mismatch] reject
+  + [case_flags] must equal zero for a directory
+
+& [NameIntent] is strict
+  + [characters] reject NUL, controls U+0001 through U+001F, less-than, greater-than, colon, quote, slash, backslash, vertical-bar, question-mark, and asterisk
+  + [terminal] rejects trailing space or period
+  + [components] reject empty, dot, dot-dot, and .git under ordinal ASCII case-insensitive comparison
+  + [devices] reject CON, PRN, AUX, NUL, COM1 through COM9, LPT1 through LPT9, and COM or LPT followed by superscript 1, 2, or 3, including when followed by an extension
+  + [Unicode] preserves exact scalar values and performs no normalization
+  + [ordering] compares exact UTF-8 bytes
+
+& [AuthorityBoundary] is pure only
+  - never: call Win32, inspect a path or handle, traverse, read content, enumerate streams, create a receipt, infer Git mode, mutate, or claim target-host behavior
+  - never: treat this source as implementation authority until SJS produces a signed canonical specification
+
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [prior_research] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_Attribute_Name_Policy_2026-07-30.sop

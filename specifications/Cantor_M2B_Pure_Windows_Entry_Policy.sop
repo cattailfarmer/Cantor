@@ -1,0 +1,78 @@
+Subject: Cantor M2B Pure Windows Entry Policy
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_windows_entry_policy\Cantor_M2B_Pure_Windows_Entry_Policy_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_windows_entry_policy\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Pure_Windows_Entry_Policy_Freeze_Decision_2026-07-30.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Pure_Windows_Entry_Policy.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Pure_Windows_Entry_Policy_Justification.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Pure_Windows_Entry_Policy_Plan.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BPureWindowsEntryPolicy_Requirement_Matrix.sop
+
+& [SpecificationIdentity] is pure implementation authority
+  + [specification_uuid] is 6621ce4a-d4ba-4323-a08e-e6d22b00a416
+  + [profile] is cantor-windows-entry-policy/0.1
+  + [source_snapshot_uuid] is 3ffdebee-15aa-4ef6-ae4d-ad80b5912ce0
+  + [target_module] is crates/cantor_ecosystem/src/windows_entry_policy.rs
+
+& [InputContract] is strict
+  + [kind] is directory or regular_file
+  + [attributes] is an exact u32
+  + [directory_case_sensitive_flags] is required and zero for directory, absent for regular_file
+  + [component] is exact nonempty Unicode
+  + [maximum_component_utf16_units] is 1 through 32767
+  = must: reject unknown JSON fields and unknown enum variants
+
+& [AttributeContract] is exhaustive
+  + [benign_mask] is 0x00002027
+  + [directory_bit] is 0x00000010
+  + [directory_allowed_mask] is 0x00002037
+  + [normal] is 0x00000080
+  + [directory] requires DIRECTORY and permits only the directory allowed mask
+  + [regular_normal] is exactly NORMAL
+  + [regular_marked] is a nonzero subset of benign mask
+  + [everything_else] rejects as attribute fault
+
+& [ComponentContract] is exact
+  + [UTF16_units] are nonzero and do not exceed the supplied bound
+  + [forbidden_scalars] are NUL, U+0001 through U+001F, <, >, :, quote, slash, backslash, vertical-bar, question-mark, and asterisk
+  + [terminal] space and period reject
+  + [navigation] dot and dot-dot reject
+  + [Git_control] .git rejects by ASCII case-insensitive equality
+  + [reserved_fixed] CON, PRN, AUX, and NUL reject before first period
+  + [reserved_numbered] COM1 through COM9 and LPT1 through LPT9 reject before first period
+  + [reserved_superscript] COM or LPT followed by superscript 1, 2, or 3 reject before first period
+  + [Unicode] is preserved without normalization
+
+& [OutputContract] is inspectable
+  + [decision] preserves exact input fields
+  + [order_key_hex] is canonical lowercase hex of exact component UTF-8 bytes
+  + [fault] exposes one closed code, field, and bounded reason
+  - never: output an OS, path, handle, Git, stream, receipt, or physical fact
+
+& [ImplementationBoundary] is zero effect
+  + [Cargo_delta] is zero
+  + [unsafe] is denied
+  + [production_module] may import only std, serde, and this crate's pure forms
+  - never: use windows-sys, filesystem, process, environment, clock, random, network, model, or persistence APIs
+
+& [Requirements] are M2B-WEP-001 through M2B-WEP-012
+  + [M2B-WEP-001] strict profile and JSON
+  + [M2B-WEP-002] exact attribute constants
+  + [M2B-WEP-003] exhaustive directory attributes
+  + [M2B-WEP-004] exhaustive regular attributes
+  + [M2B-WEP-005] exact case-field relation
+  + [M2B-WEP-006] UTF-16 resource bound
+  + [M2B-WEP-007] character and terminal rejection
+  + [M2B-WEP-008] navigation and Git rejection
+  + [M2B-WEP-009] reserved-device rejection
+  + [M2B-WEP-010] exact Unicode preservation and UTF-8 order key
+  + [M2B-WEP-011] pure no-effect static proof
+  + [M2B-WEP-012] verification, evidence, rollback, and nonclaims
+
+& [SatisfactionSignature] is valid for pure implementation
+  + [signature_protocol_uuid] is 5b397e2d-8197-4480-be5f-ca6f2c6156fd
+  + [signature_uuid] is 554e84a7-988c-4c86-b67d-45958ab7166c
+  + [status] is valid
+  + [implementation_authority] is one pure module, one export, tests, and governed proof records
+  + [execution_authority] is pure in-memory test execution only
+  + [invalidation] is any Win32 call, filesystem observation, unsafe, dependency delta, profile change, admitted reserved name, broadened attribute mask, normalization, or scanner claim

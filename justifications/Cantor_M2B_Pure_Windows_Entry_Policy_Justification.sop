@@ -1,0 +1,22 @@
+Subject: Cantor M2B Pure Windows Entry Policy Justification
+
+& [JustificationIdentity] is traceable
+  + [justification_uuid] is fdcf50e8-685e-404d-ab55-0011b8650604
+
+& [WhyNow] is dependency reduction
+  + the scanner cannot safely decide descent or content admission until supplied metadata has a closed policy interpretation
+  + encoding that interpretation in safe pure Rust makes later Windows calls data suppliers rather than policy owners
+  + pure exhaustive tests can find truth-table and namespace errors without constructing adversarial filesystem objects
+
+& [WhyNotBroader] is safety
+  + physical metadata completeness, enumeration, traversal, stream interpretation, and Git reconciliation require later authorities and fixtures
+  + Unicode normalization is excluded because no collision semantics have been selected
+  + regular executable mode is excluded because Windows attributes do not establish Git executable intent
+
+& [Cost] is bounded
+  + one source module and one library export
+  + zero dependency, lockfile, unsafe, state, and migration delta
+
+& [Rollback] is direct
+  + remove the module and export
+  + retain source, SJS, solution, proof, and fault history

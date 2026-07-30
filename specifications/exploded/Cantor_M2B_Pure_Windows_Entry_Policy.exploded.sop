@@ -1,0 +1,42 @@
+Subject: Exploded Cantor M2B Pure Windows Entry Policy
+
+& [ExplosionIdentity] is SJS decomposition
+  + [explosion_uuid] is 4a7a142a-142b-476c-a1fc-b632cb841122
+  + [source_snapshot_uuid] is 3ffdebee-15aa-4ef6-ae4d-ad80b5912ce0
+
+& [Problem] is policy ambiguity before scanner activation
+  + raw attribute values can contain unknown or behavior-bearing bits
+  + Windows names can invoke navigation, Git controls, or device aliases
+  + nonzero per-directory case flags can make physical and Git name interpretation diverge
+
+& [Data] is closed
+  + [EntryKind] is directory or regular_file
+  + [EntryPolicyInput] is kind, attributes, optional case flags, component, and maximum component UTF-16 units
+  + [EntryPolicyDecision] preserves exact kind, attributes, component, case flags, and canonical UTF-8 order key
+  + [EntryPolicyFaultCode] is kind, attribute, case_sensitivity, component, reserved_device, or resource
+
+& [Functions] are pure
+  + [evaluate] validates every field then releases one decision
+  + [validate_attributes] applies an exhaustive kind-specific truth table
+  + [validate_component] applies scalar, terminal, navigation, Git, and reserved-device rules
+  + [order_key] is exact component UTF-8 bytes
+
+& [Constraints] are exact
+  + [benign_mask] is 0x00002027
+  + [directory_mask] is 0x00002037 with DIRECTORY required
+  + [regular] is 0x00000080 alone or a nonzero subset of 0x00002027
+  + [case] directory requires Some(0); regular requires None
+  + [length] is measured in UTF-16 code units and bounded by caller value 1 through 32767
+  + [fault_text] is bounded and deterministic
+
+& [SecurityPruning] is explicit
+  - no operating-system symbols or calls
+  - no path existence or metadata query
+  - no normalization, locale casing, traversal, stream, Git, receipt, clock, randomness, network, model, or persistence
+  - no unsafe code and no dependency or lockfile delta
+
+& [Verification] is exhaustive
+  + every single known attribute bit is classified for both kinds
+  + every allowed subset boundary and forbidden combination is tested
+  + fixed, numbered, superscript, extension, mixed-case, navigation, Git, character, terminal, and UTF-16 bounds are tested
+  + unknown fields reject through strict JSON
