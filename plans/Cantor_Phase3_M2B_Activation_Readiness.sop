@@ -38,12 +38,12 @@ Description: Non-authoritative readiness ledger for the dependency, ABI, platfor
   + [P-04B] FileRemoteProtocolInfo exact successful target-host observation is pending
   + [P-05A] protocol and filesystem disposition truth table is implemented and focused-proven
   + [P-05B] remote, SMB, CSV, ReFS, FAT, exFAT, and unknown filesystem physical rejection matrix is pending
-  + [P-06] non-Windows explicit unsupported compilation is signed and implementation pending
+  + [P-06] non-Windows explicit unsupported source path is implemented and cross-target compile proof is pending
   + [P-07] strict pre-effect request and provenance-distinct local observation fault are passed
 
 & [OwnershipGate] has signed root-only implementation shape
-  + [O-01] one successful CreateFileW raw handle transfers once into OwnedHandle is signed and implementation pending
-  + [O-02] INVALID_HANDLE_VALUE never enters an owning wrapper is signed and implementation pending
+  + [O-01] one successful CreateFileW raw handle transfers once into OwnedHandle is statically implemented
+  + [O-02] INVALID_HANDLE_VALUE never enters an owning wrapper is statically implemented
   + [O-03] regular content reads through safe File from OwnedHandle is passed_for_design
   + [O-04] no direct CloseHandle, ReadFile, stream-search handle, or raw-handle escape is passed_for_design
   + [O-05] panic, early-return, and error-path destructor proof is pending
@@ -95,9 +95,9 @@ Description: Non-authoritative readiness ledger for the dependency, ABI, platfor
   + [U-02] each pointer, size, alignment, lifetime, initialization, ownership, and error invariant is canonical
   + [U-03] every nonlisted Windows call and every mutating access bit is forbidden
   + [U-04] unsafe_op_in_unsafe_fn denial and exact six-block production-source assertion are required
-  + [U-05] require pure malformed-buffer parser tests before any FFI fixture
+  + [U-05] pure UTF-16, terminator, identity, disposition, and static seam tests pass before the FFI fixture
   + [U-06] satisfaction signature 2fc69987-c7de-4538-9993-c5956f889584 is valid
-  + [status] is authority_ready_implementation_and_tests_pending
+  + [status] is implementation_and_prephysical_tests_passed
 
 & [PhysicalProofGate] is separately exact-root authorized
   + [fixture_plan] is T-01 through T-14 in the Phase3 physical proof plan
@@ -112,7 +112,8 @@ Description: Non-authoritative readiness ledger for the dependency, ABI, platfor
   + [completed_third] strict effect-free platform-preflight machine forms are implemented, globally proven, and evidence-bound
   + [completed_fourth] request and local observation-fault provenance revision is implemented, globally proven, and evidence-bound
   + [completed_fifth] isolated root preflight source and SJS authority are signed with six unsafe blocks and exact fixture scope
-  + [next] implement the signed crate and pass static and default tests
+  + [completed_sixth] signed crate and static/default debug and release gates pass with the physical probe ignored
+  + [next] publish the exact implementation source tree
   + [then] measure only the explicitly named target root and calls through the governed runner
   + [later] select an M2B runtime implementation source only if every activation gate is closed
   - never: treat passed_for_design as implementation or execution proof

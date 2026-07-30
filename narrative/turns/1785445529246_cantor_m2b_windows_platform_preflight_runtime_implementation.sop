@@ -1,0 +1,24 @@
+Subject: Cantor M2B Windows Platform Preflight Runtime Implementation Turn
+
+& [TurnIdentity] is attributed
+  + [turn_uuid] is 2a20f2fd-859b-4d62-b1ba-2036acf41ef1
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30
+  + [authority_signature_uuid] is 2fc69987-c7de-4538-9993-c5956f889584
+
+& [Implementation] is exact
+  + [workspace] adds one local member and one local lock package entry with no registry-package delta
+  + [crate] validates requests before target dispatch and exposes a safe result-or-runtime-fault API
+  + [Windows] uses one private module, exactly six unsafe blocks, one owner, and four ordered root queries
+  + [non_Windows] has an explicit unsupported result with no windows-sys import
+  + [runner] binds repository, fixture, request, test executable, result, and evidence paths
+
+& [PrephysicalGate] is passed
+  + [debug] is 6 unit passed plus 1 static contract passed and 1 physical ignored
+  + [release] is 6 unit passed plus 1 static contract passed and 1 physical ignored
+  + [lint] is warnings denied passed
+  + [unsafe_blocks] is six
+  + [SAFETY_comments] is six
+  + [physical_call] is zero
+
+& [Next] is commit the exact signed source tree, then invoke only the governed fixture runner from that clean commit

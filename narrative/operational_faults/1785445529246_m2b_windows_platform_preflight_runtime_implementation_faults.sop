@@ -1,0 +1,17 @@
+Subject: Cantor M2B Windows Platform Preflight Runtime Implementation Operational Faults
+
+& [FaultLedgerIdentity] is current
+  + [ledger_uuid] is a37f8cf1-c1ef-424d-8d15-c7610d26f5ea
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [status] is active_preproof
+
+& [ExpectedEvidenceStaleness] is preserved
+  + [fault] full workspace debug verification reached candidate-workspace evidence after the SJS narrative changed SOP_CORE_MAP.sop
+  + [behavior] the evidence test rejected the changed byte count exactly
+  + [classification] is expected fail-closed evidence staleness, not a runtime behavior failure
+  + [response] complete implementation and physical records, then regenerate the evidence chain once in dependency order
+  + [tests_before_stop] are passed
+  + [effect_escape] is none
+
+& [RuntimeFaults] are absent
+  + [reason] physical probe has not yet run
