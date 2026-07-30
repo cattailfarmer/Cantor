@@ -182,15 +182,29 @@ function Read-CantorSupervisorState {
     )
 
     $stateFullPath = Resolve-CantorAbsoluteStatePath -Path $StatePath -RequireExisting
+    $bytes = [IO.File]::ReadAllBytes($stateFullPath)
+    if (
+        $bytes.Length -ge 3 -and
+        $bytes[0] -eq 0xef -and
+        $bytes[1] -eq 0xbb -and
+        $bytes[2] -eq 0xbf
+    ) {
+        throw "Supervisor state must be UTF-8 without a byte-order mark"
+    }
     try {
-        $state = Get-Content -LiteralPath $stateFullPath -Raw -Encoding UTF8 |
-            ConvertFrom-Json
+        $strictUtf8 = [Text.UTF8Encoding]::new($false, $true)
+        $rawState = $strictUtf8.GetString($bytes)
+        $state = $rawState | ConvertFrom-Json
     }
     catch {
-        throw "StatePath does not contain valid supervisor JSON: $($_.Exception.Message)"
+        throw "StatePath does not contain strict UTF-8 supervisor JSON: $($_.Exception.Message)"
     }
     if ($null -eq $state -or $state -is [Array]) {
         throw "Supervisor state must be one JSON object"
+    }
+    $canonicalState = "$($state | ConvertTo-Json -Depth 5 -Compress)`n"
+    if ($rawState -cne $canonicalState) {
+        throw "Supervisor state is not exact canonical machine JSON"
     }
 
     $actualProperties = @($state.PSObject.Properties.Name | Sort-Object)

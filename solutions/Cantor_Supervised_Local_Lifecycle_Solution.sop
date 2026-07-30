@@ -17,7 +17,7 @@ Subject: Cantor Supervised Local Lifecycle Solution
 
 & [SharedLifecycleModule] is strict common behavior
   + [paths] are absolute, normalized, regular, non-reparse, and mutually distinct
-  + [state] has an exact property set, canonical paths and timestamps, positive PID and sequence, and lowercase SHA-256 generation
+  + [state] has strict UTF-8 no-BOM canonical bytes, an exact property set, canonical paths and timestamps, positive PID and sequence, and lowercase SHA-256 generation
   + [process_identity] is PID plus canonical executable plus exact UTC start time
   + [client] invokes the existing cantorctl with redirected bounded output and validates protocol, disposition, result kind, faults, and active binding
   + [state_write] is same-directory UTF-8 no-BOM temporary publication followed by atomic move

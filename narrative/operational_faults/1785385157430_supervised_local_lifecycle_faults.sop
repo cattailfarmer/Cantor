@@ -49,3 +49,10 @@ Subject: Cantor Supervised Local Lifecycle Operational Faults
   + [risk] is a short supervisor deadline could be exceeded by the service-configured client timeout
   + [repair] is cap every client process and sleep interval to the exact remaining outer deadline
   + [status] is resolved
+
+& [DuplicateStateMemberAcceptance] is resolved during post-checkpoint review
+  + [observation] is Windows PowerShell ConvertFrom-Json silently retains the last of two identically named properties
+  + [risk] is an ambiguous state record could pass property-set validation
+  + [repair] is require strict UTF-8 without BOM and exact compact decode-encode byte equality before any field or process authority is used
+  + [proof] is a duplicate schema member is rejected while the original canonical state remains healthy
+  + [status] is resolved

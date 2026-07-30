@@ -114,9 +114,11 @@ fn production_binaries_have_pid_safe_supervised_operator_lifecycle() {
     assert_success(&restored_health, "health after capability restoration");
 
     let forged_path = workspace.root.join("forged-state.json");
-    let mut forged = state.clone();
-    forged["process_start_time_utc"] = serde_json::json!("2000-01-01T00:00:00.0000000Z");
-    write_json(&forged_path, &forged);
+    let actual_start_time = state["process_start_time_utc"]
+        .as_str()
+        .expect("process start time must be text");
+    let forged_text = state_text.replacen(actual_start_time, "2000-01-01T00:00:00.0000000Z", 1);
+    fs::write(&forged_path, &forged_text).expect("canonical forged state must write");
     let forged_health = run_script(
         &health_script,
         &["-StatePath".into(), path_text(&forged_path)],
@@ -144,8 +146,13 @@ fn production_binaries_have_pid_safe_supervised_operator_lifecycle() {
     );
     assert_success(&still_healthy, "service after rejected forged stop");
 
-    forged["unexpected"] = serde_json::json!(true);
-    write_json(&forged_path, &forged);
+    let unknown_text = format!(
+        "{},\"unexpected\":true}}\n",
+        forged_text
+            .strip_suffix("}\n")
+            .expect("canonical state must end with object and LF")
+    );
+    fs::write(&forged_path, unknown_text).expect("unknown state must write");
     let unknown_state = run_script(
         &health_script,
         &["-StatePath".into(), path_text(&forged_path)],
@@ -153,6 +160,22 @@ fn production_binaries_have_pid_safe_supervised_operator_lifecycle() {
     assert!(
         !unknown_state.status.success(),
         "unknown state fields must fail"
+    );
+
+    let duplicate_path = workspace.root.join("duplicate-state.json");
+    let duplicate_text = state_text.replacen(
+        "\"schema\":",
+        "\"schema\":\"cantor-service-supervisor-state/0.1\",\"schema\":",
+        1,
+    );
+    fs::write(&duplicate_path, duplicate_text).expect("duplicate state must write");
+    let duplicate_state = run_script(
+        &health_script,
+        &["-StatePath".into(), path_text(&duplicate_path)],
+    );
+    assert!(
+        !duplicate_state.status.success(),
+        "duplicate JSON members must fail canonical state admission"
     );
 
     let stop = run_script(

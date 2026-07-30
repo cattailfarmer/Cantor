@@ -27,6 +27,7 @@ Description: A strict Windows operator profile that starts one local cantord pro
   + [schema] is cantor-service-supervisor-state/0.1
   + [fields] are schema, pid, process_start_time_utc, server_path, client_path, config_path, stdout_log_path, stderr_log_path, generation_id, activation_sequence, and started_at_utc
   + [write] is UTF-8 without BOM through same-directory temporary file and atomic move
+  + [read] requires an exact compact UTF-8 no-BOM round trip so duplicate, reordered, or reformatted members cannot acquire process authority
   = must: publish only after authenticated readiness succeeds
   = must: reject unknown, missing, malformed, noncanonical, or relative values on read
   - never: contain authentication token, token path, request content, or semantic content
