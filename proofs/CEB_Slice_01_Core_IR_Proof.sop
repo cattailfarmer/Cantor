@@ -1,0 +1,60 @@
+Subject: CEB Slice 01 Core IR Proof
+
+@ [slice] C:\Project\Cantor\feature_support\slices\CEB_Slice_01_Core_IR.sop
+@ [solution] C:\Project\Cantor\solutions\CEB_Slice_01_Core_IR_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\core_acceptance.rs
+
+& [ProofIdentity] is the implementation evidence record
+  + [proof_uuid] is ab1282a9-44c3-4b78-bd7d-cde0ee733b83
+  + [captured_at] is 2026-07-29T11:57:26.0008877-05:00
+  + [hardened_at] is 2026-07-29T15:20:16.2066888-05:00
+  + [working_tree] is C:\Project\Cantor
+  + [scope] is CEB-001, CEB-002, and CEB-003 only
+  + [result] is passed
+
+& [ToolchainEvidence] is the executed local environment
+  + [rustc] is 1.96.0 stable ac68faa20 for x86_64-pc-windows-msvc
+  + [cargo] is 1.96.0
+  + [edition] is Rust 2024
+  + [unsafe_scan] is no unsafe tokens under crates
+  + [dependency_boundary] is the later integrated baseline adds sha2 and ed25519-dalek to cantor_core while the Core IR itself remains serde machine forms
+
+& [CommandEvidence] is the final quality gate
+  + [cargo_fmt] is cargo fmt --all -- --check passed
+  + [cargo_clippy] is cargo clippy --workspace --all-targets -- -D warnings passed
+  + [cargo_test] is cargo test --workspace passed with eight named integration tests and zero failures
+  + [cargo_release] is cargo build --workspace --release passed
+  + [git_diff_check] is passed
+
+& [RequirementProof] is the traceable acceptance account
+  + [CEB-001] is passed by one Cargo workspace containing cantor_core and cantor_cli
+  + [CEB-002] is passed by versioned serializable SemanticUnit, SemanticRelation, SemanticContext, SourceAnchor, CompiledPackageManifest, CantorQueryRequest, CantorQueryResult, ProofBundle, TransitionTrace, and EvaluationFault forms
+  + [CEB-002_roundtrip] is fixture 1 serializes and restores a CoreMachineSchema containing every required form exactly
+  + [CEB-002_strict_decode] is unknown fields in yielded semantic state are rejected rather than silently discarded
+  + [CEB-003] is passed by eight accepted CoreAcceptance reports with before state, history review, decision grounds, after state, proof set, explicit fault set, immutable inference capsule, and review verdict
+
+& [FixtureProofSet] is deterministic machine-form evidence
+  + [fixture_1_aliases_and_context_SHA256] is 39e8b2986b842731ad8a1ed2c4d42e9f2d3fd6ab92fe07a29e7e00c6ae455ec3
+  + [fixture_2_inspectable_inference_SHA256] is 90c6482483d0de3aad2faef418ba87f539843c1747870af3068569e957a3f443
+  + [fixture_3_unknown_versus_invalid_SHA256] is 83849300d54a5006d5e554d7881e71aa7e473a4d53846f14a366c6ddad1a283d
+  + [fixture_4_pure_transformation_SHA256] is df66c3ff9007b16ccc0810a1690a89716e9a257faccf6cf57176ced39d5f7899
+  + [fixture_5_effect_authority_SHA256] is 91b340895444ce883d5bc05c0f10b4fe02d9e60f3699135a92057b62cf23a97c
+  + [fixture_6_yield_and_reentry_SHA256] is 79a9550ded922d9aaab7053334e3799af57af32c432b3bb05b2497e9643525ca
+  + [fixture_7_surface_equivalence_SHA256] is 4f73fc9e24d2a79ba3b2ca9395b42df39627c7bd923f8de3adb15431d780ca58
+  + [fixture_8_ontology_import_SHA256] is f5b3859c071b0bee3012e60ae551359e6536161ff869e993d7d139bd9714e68c
+  + [repeatability] is every fixture machine form was emitted twice and compared byte-for-byte before hashing
+
+& [NegativePathEvidence] is visible non-success behavior
+  + [unknown] is fixture 3 emits UnknownKnowledge for an absent value
+  + [invalid] is fixture 3 emits ConstraintViolation for a known empty value
+  + [denied_effect] is fixture 5 emits UnauthorizedEffect and no pending effect
+  + [authorized_effect] is fixture 5 records one authorized pending proposal without committing an external effect
+  + [semantic_loss] is the ontology import form supports partial and rejected fidelity while fixture 8 proves exact SKOS broader mapping
+  + [invalid_reentry] is the evaluator rejects reentry from a state not committed as yielded
+
+& [ScopeProof] is the anti-expansion check
+  + [present] is fixture-bounded IR, deterministic evaluator, history event, capsule review, strict machine serialization, and tests
+  + [schema_only] is package, query, and result types
+  + [outside_this_slice] is trusted package admission, cryptographic recognition, database, complete SOP parser, production query engine, MCP, provider adapter, neural router, FPGA execution, distributed runtime, faculty runtime, and user interface
+  + [digest_boundary] is fnv1a64-fixture-only provides deterministic content identity but never cryptographic authority
+  = conclusion: CEB Slice 01 is complete without activating a later slice

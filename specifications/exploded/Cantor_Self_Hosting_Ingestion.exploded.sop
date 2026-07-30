@@ -1,0 +1,204 @@
+Subject: Exploded Cantor Self-Hosting Ingestion
+
+Description: Source-grounded SJS explosion of the first real SOP-to-signed-fabric product loop.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_self_hosting_ingestion\Dictated_Cantor_Self_Hosting_Ingestion_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_self_hosting_ingestion\Source_Document_Manifest.sop
+@ [language] C:\Project\Cantor\specifications\SOP_Core.sop
+@ [compiler] C:\Project\Cantor\crates\cantor_core\src\trust\compiler.rs
+@ [protocol] C:\Project\Cantor\crates\cantor_core\src\protocol.rs
+
+& [ExplodedIdentity] is the separate derived self-hosting specification
+  + [exploded_specification_uuid] is d5711738-fa32-407a-b692-d164b3f1b0ff
+  + [source_snapshot_uuid] is cd5a3fb9-42f1-47d2-9496-6a0a27c5424c
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [source_sha256] is F04B0FA2997C409F8207E4F7BF3023FE4BD2CCFF281807107A4229D6BEA80AEE
+  + [status] is exploded_pending_canonical_signature
+
+& [DelineationTrace] is one real self-hosting product slice
+  + [inside] is bounded SOP parsing, deterministic lowering, exact source anchoring, signed package compilation, corpus manifest, operator compiler CLI, environment and request artifacts, direct CLI query, MCP query, tamper rejection, measurement, proof, and Git checkpoint
+  + [outside] is full SOP grammar, natural-language semantic interpretation, neural ranking, embeddings, database persistence, distributed service, model hidden state, FPGA execution, key generation, remote signing, and autonomous write effects
+  + [reference] is existing PackageCompiler, TrustStore, SemanticFabric, deterministic protocol, CLI, PreparedRuntime, and read-only MCP
+  + [uncertainty] is the future lowering semantics for unsupported SOP primitives and cross-document references
+  - never: silently reinterpret an unsupported line
+  - never: treat line numbers as semantic identity
+
+& [ConstraintLedger] is the non-waivable invariant set
+  + [source_preservation] is exact input bytes retained in the signed package
+  + [fail_closed] is every nonblank noncomment line is recognized or faults with document, byte span, line, and reason
+  + [determinism] is identical manifest, bytes, keys, validity, and compiler version produce byte-identical artifacts
+  + [identity] is semantic identity independent of file location and display line
+  + [anchor] is every lowered semantic unit owns one exact UTF-8 byte span and signed quote
+  + [scope] is project, namespace, semantic kind, perspective, and read capability explicit
+  + [signer_separation] is authority and compiler identities and keys distinct
+  + [secret_boundary] is private key material read only from explicit local key inputs and never emitted
+  + [artifact_boundary] is generated environments and requests separate from canonical source
+  + [protocol] is generated requests use the existing ProtocolRequest and ProtocolResponse contract
+  + [self_hosting] is at least one reviewed Cantor canonical specification compiled and queried through production CLI and MCP
+
+& [ConstraintCheckTrace] is grounding and repair
+  + [grounding] is PackageCompiler already signs exact source, unit, relation, index, quote, dependency, scope, and proof content
+  + [grounding] is the protocol already verifies trust, environment binding, package set, query proof, and result digest
+  + [repair] is replace the proposed learned or neural ingestion step with deterministic syntax lowering for the first product loop
+  + [repair] is replace fragile file and line identity with document identity plus hierarchical semantic key
+  + [repair] is represent only proven containment relations and preserve other references as queryable records
+  + [conflict] is full SOP expressiveness remains future work and is not implied by this bounded profile
+
+& [ConceptualDataModel] is the meaning layer
+  + [SopDocument] is stable document identity, display path, exact UTF-8 bytes, and parser profile
+  + [SopNode] is marker, local name when present, meaning text, hierarchy, and exact source span
+  + [SemanticKey] is document identity plus marker family plus normalized hierarchical names or content digest
+  + [LoweredUnit] is one SemanticUnit plus clause identity and exact source anchor
+  + [ContainmentRelation] is a deterministic broader-to-narrower edge between parent and child lowered units
+  + [CorpusManifest] is strict portable configuration for documents, semantic context, trust metadata, validity, and query templates
+  + [CorpusBuild] is signed package, embedded runtime environment, requests, artifact hashes, and public signer fingerprints
+
+& [LogicalDataModel] is constraint-bearing structure
+  + [document_key] is project plus namespace plus explicit document_id
+  + [node_key] is document_key plus marker family plus parent node key plus normalized local name when present plus SHA-256 of normalized body
+  + [file_id] is a deterministic digest-derived SemanticId over document_key
+  + [unit_id] is a deterministic digest-derived SemanticId over node_key
+  + [clause_id] is a deterministic digest-derived SemanticId over unit_id and clause profile
+  + [relation_id] is a deterministic digest-derived SemanticId over relation type and endpoint identities
+  + [duplicate_rule] is an identical marker, parent, name, and body in one corpus faults rather than gaining an encounter ordinal
+  + [path_rule] is manifest-relative path locates bytes but does not enter semantic identity
+
+& [BoundedGrammar] is cantor-sop-source/0.1
+  + [metadata] is one top-level Subject colon line followed by zero or one top-level Description colon line
+  + [subject] is ampersand space bracket name bracket followed by nonempty meaning
+  + [member] is plus space bracket name bracket followed by nonempty meaning
+  + [reference] is at sign space bracket name bracket followed by nonempty target text
+  + [claim] is exclamation mark space bracket name bracket followed by nonempty claim text
+  + [directive] is equals sign followed by nonempty directive text
+  + [constraint] is minus sign followed by nonempty constraint text
+  + [comment] is hash-prefixed and ignored
+  + [blank] is ignored
+  + [indentation] is spaces only in exact two-space levels
+  + [line_endings] is LF or CRLF while source spans exclude indentation and line ending
+  + [encoding] is UTF-8 without replacement decoding
+  - never: accept tabs, orphan indentation, empty names, empty bodies, duplicate metadata, unknown markers, or malformed brackets
+
+& [LoweringProfile] is cantor-sop-lowering/0.1
+  + [subject_kind] is Term
+  + [member_kind] is Declaration
+  + [reference_kind] is Relation
+  + [claim_kind] is Judgment
+  + [directive_kind] is Operation
+  + [constraint_kind] is Contract
+  + [status] is Asserted
+  + [meaning] is the exact trimmed body after the marker-local name
+  + [expression] is the bracket name for named forms and the directive or constraint body for unnamed forms
+  + [alias] is none inferred
+  + [source_set] is stable document identity and parser profile
+  + [context] is supplied only by CorpusManifest
+  + [containment] is parent Narrower child for syntactically nested lowered nodes
+  - never: infer synonymy, equivalence, contradiction, causation, permission, or cross-document target identity from prose
+
+& [ParserFaultContract] is inspectable rejection
+  + [fault_kind] is I/O, size, encoding, syntax, indentation, duplicate identity, invalid manifest, signing, trust, or artifact write
+  + [location] is document_id, path, one-based line, byte_start, and byte_end when available
+  + [message] is deterministic and excludes private key bytes
+  + [aggregation] is parser may return multiple ordered document faults before signing
+  + [exit] is nonzero and no usable environment is published
+
+& [CorpusManifestContract] is strict operator input
+  + [version] is cantor-sop-corpus/0.1
+  + [source_root] is one manifest-relative directory resolved before any document
+  + [documents] is ordered unique document_id and paths resolved beneath the canonical source_root
+  + [context] is project, namespace, scope, purpose, perspective, and world
+  + [compiler] is compiler identity, version, authority signer identity, and compiler signer identity
+  + [trust] is dependency lock, proof identifiers, issue time, not-before time, and not-after time
+  + [queries] is named templates with nonempty terms and requested details
+  + [unknown_fields] is rejected
+  + [limits] is bounded documents, bytes, lines, units, relations, and query templates
+  - never: place private seeds in the manifest
+  - never: let a document escape the declared source_root
+
+& [OperatorCompilerContract] is cantor-corpus compile
+  + [inputs] is corpus manifest, authority seed file, compiler seed file, output directory, and optional explicit replacement flag
+  + [key_format] is exactly thirty-two raw bytes or sixty-four ASCII hexadecimal digits with one optional final line ending
+  + [key_separation] is different seed bytes and different signer identities
+  + [outputs] is environment.json, inspect-fabric.json, one query JSON per template, and build-manifest.json
+  + [publication] is write temporary siblings, verify by loading and executing each request, then rename complete artifacts
+  + [replacement] is refused unless explicitly requested
+  + [stdout] is one machine-readable build receipt
+  + [stderr] is concise diagnostics without secrets
+
+& [SelfHostingCorpus] is a reviewed initial product corpus
+  + [document] is specifications\SOP_Core.sop
+  + [document] is specifications\Cantor_Semantic_Coprocessor_Identity.sop
+  + [document] is specifications\Cantor_Prepared_Runtime.sop
+  + [query] is SemanticUnit with source clause
+  + [query] is Cantor with source clause
+  + [query] is PreparedRuntime with source clause
+  + [inspect] is fabric
+  + [review_rule] is every selected file parses completely under the bounded profile before signing
+  + [growth_rule] is add documents only through reviewed manifest changes and reproducible compilation
+
+& [VerificationDepthContract] is proof over real governed bytes
+  + [parser] is LF, CRLF, Unicode, hierarchy, relocation stability, malformed lines, tabs, duplicates, and limits
+  + [lowering] is kind mapping, stable identities, containment, exact spans, and deterministic order
+  + [trust] is wrong key, same signer, tampered source, tampered package, expired validity, and scope mismatch rejection
+  + [build] is deterministic output, collision-safe names, replacement refusal, and partial-publication prevention
+  + [query] is exact production CLI results quote governing lines from selected canonical files
+  + [adapter] is real MCP stdio returns the exact core response for the generated request
+  + [benchmark] is parse, compile, load, exact query, and prepared repeated query reported separately
+  + [governance] is source, specification, justification, slice, matrix, solution, proof, narrative, conversation, fault record, and Git checkpoint
+
+& [PruningTrace] is adjacent work excluded
+  + [pruned] is embeddings, learned weights, neural gates, and model-generated lowering because deterministic meaning preservation is the first gate
+  + [pruned] is unrestricted full SOP interpretation because its semantics are not yet executable
+  + [pruned] is automatic key generation and key storage because operator trust bootstrap needs separate governance
+  + [pruned] is database and network service because signed artifact execution proves the local seam first
+  + [pruned] is FPGA because a stable IR and workload must precede hardware mapping
+  + [pruned] is cross-document reference resolution because prose targets are not safe identities
+
+& [SevenFoldTrace] is the explosion phase lock
+  + [fold_1] is product continuation to exact self-hosting loop
+  + [gain_1] is parser, lowerer, signer, artifact builder, and execution proof separated
+  + [fold_2] is SOP flexibility to bounded grammar
+  + [gain_2] is recognized line profile and fail-closed fault contract
+  + [fold_3] is source location to semantic identity
+  + [gain_3] is location-independent content-addressed hierarchy
+  + [fold_4] is parsed syntax to asserted meaning
+  + [gain_4] is conservative kind mapping and prohibited inferred semantics
+  + [fold_5] is private signing to operator interface
+  + [gain_5] is explicit key boundary, signer separation, atomic publication, and public receipt
+  + [fold_6] is synthetic fixtures to real corpus
+  + [gain_6] is three reviewed Cantor authorities and exact source-return tests
+  + [fold_7] is local success to reproducible product checkpoint
+  + [gain_7] is measurement, governance closure, clean artifact boundary, and intentional Git commit
+  + [exhaustion_state] is seven_fold_phase_locked_for_bounded_self_hosting_ingestion
+
+& [AcceptanceCriteria] is SHI-AC1 through SHI-AC15
+  + [SHI-AC1] is dictated continuation preserved and valid SJS authority exists before parser implementation
+  + [SHI-AC2] is bounded grammar and lowering profile are implemented exactly and unsupported syntax fails closed
+  + [SHI-AC3] is identities are deterministic, relocation-stable, collision-checked, and line-number independent
+  + [SHI-AC4] is every unit has an exact UTF-8 source span, quote digest, document digest, and certificate lineage
+  + [SHI-AC5] is containment relations are deterministic and no unsupported semantic relation is inferred
+  + [SHI-AC6] is strict portable corpus manifest and bounded resource limits are enforced
+  + [SHI-AC7] is explicit separated signing keys produce a package admitted by the generated trust store
+  + [SHI-AC8] is artifact publication is verified, atomic per file, replacement-safe, and secret-free
+  + [SHI-AC9] is three reviewed Cantor canonical files compile without ignored semantic lines
+  + [SHI-AC10] is generated exact queries return SemanticUnit, Cantor, and PreparedRuntime with verified governing quotes
+  + [SHI-AC11] is direct CLI and real MCP stdio responses are exact core-equivalent over the generated corpus
+  + [SHI-AC12] is malformed syntax, tampering, scope drift, signer misuse, and artifact conflicts fail closed
+  + [SHI-AC13] is parse, compile, load, query, and prepared-hit measurements plus honest limitations recorded
+  + [SHI-AC14] is formatting, lint, debug, release, offline, documentation, dependency, and evidence gates pass
+  + [SHI-AC15] is solution, proof, support, narrative, conversation, fault, source-map, and intentional Git checkpoint close the slice without generated build state
+
+& [GrowthSeedSet] is later governed work
+  + [seed] is additional SOP markers and executable modality semantics
+  + [seed] is explicit cross-document symbol and import resolution
+  + [seed] is incremental recompilation and package publication
+  + [seed] is persistent database and graph indexes
+  + [seed] is learned routing only over proven deterministic records and proof-preserving fallback
+  + [seed] is FPGA profiles after IR and workload stabilization
+
+& [ExplosionQualityGate] is passed for canonical authoring
+  + [coverage] is syntax, identity, lowering, data, trust, I/O, execution, failure, measurement, and governance explicit
+  + [truth] is existing compiler and protocol behavior distinguished from proposed ingestion behavior
+  + [delineation] is deterministic first product loop separated from later neural, database, distributed, and hardware work
+  + [data_design] is conceptual, logical, physical, identity, freshness, and publication boundaries explicit
+  + [pruning] is unsupported semantics preserved as future work rather than implied
+  + [stability] is phase_locked_for_canonical_authoring

@@ -1,0 +1,39 @@
+Subject: Cantor MCP Adapter Operational Faults
+
+@ [turn] C:\Project\Cantor\narrative\turns\1785360045181_cantor_read_only_mcp_adapter.sop
+@ [proof] C:\Project\Cantor\proofs\CEB_Slice_04_Codex_MCP_Proof.sop
+
+& [OperationalFaultRecord] is the visible workflow-fault account
+  + [record_uuid] is 27998d81-6e7c-4221-b86b-df29d96d6863
+  + [captured_at_ms] is 1785360045181
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [project] is Cantor
+
+& [Fault] is prematurely bounded long-running verification
+  + [symptom] is two compound Cargo verification calls were initially submitted with a one-second execution ceiling and continued briefly behind the yielded shell result
+  + [impact] is temporary build-directory locking and incomplete first output only
+  + [correction] is process state inspected and every command rerun with explicit 120 or 240 second ceilings
+  + [proof] is final debug, optimized, and locked-offline suites all passed
+  + [state] is resolved
+
+& [Fault] is incorrect first local audit-tool path
+  + [symptom] is the first advisory command checked audit-tools instead of the actual ignored audit-tool directory and used a PowerShell-incompatible recursive glob
+  + [impact] is one failed diagnostic command only
+  + [correction] is the exact installed path discovered read-only and the scan rerun successfully; Rust source inspection used an rg file filter
+  + [proof] is cargo-audit scanned 110 dependencies with zero known vulnerabilities and no unsafe source was found under crates
+  + [state] is resolved
+
+& [Fault] is broad preexisting working tree
+  + [symptom] is ninety-five status entries span the multi-turn project formation rather than this one adapter slice
+  + [impact] is no honest narrow staging or commit boundary can be inferred automatically
+  + [correction] is preserve the complete worktree unstaged and report the disposition
+  + [recovery] is no destructive Git operation occurred
+  + [state] is open_for_intentional_commit_partition
+
+& [Fault] is PowerShell Codex launcher policy
+  + [symptom] is bare codex resolved to the npm codex.ps1 launcher which local PowerShell execution policy refused to run
+  + [impact] is the first read-only help and list check did not execute
+  + [correction] is use the installed codex.cmd launcher for PowerShell
+  + [proof] is codex.cmd mcp add --help and codex.cmd mcp list completed; no configuration was changed
+  + [durable_prevention] is C:\Project\Cantor\docs\MCP_PROTOCOL.md
+  + [state] is resolved

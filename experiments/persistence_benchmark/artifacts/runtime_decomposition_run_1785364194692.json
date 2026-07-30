@@ -1,0 +1,101 @@
+{
+  "report_version": "cantor-runtime-decomposition/0.2",
+  "captured_at_epoch_milliseconds": 1785364194692,
+  "machine": "THEBRAIN",
+  "operating_system": "windows x86_64",
+  "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+  "compilation_boundary": "unsafe code forbidden; release overflow checks enabled",
+  "boundary": "warm in-process timing; prepared query excludes environment digest, expected-package comparison, signature admission, and fabric construction",
+  "scenarios": [
+    {
+      "package_count": 1,
+      "iterations": 200,
+      "environment_digest_microseconds": {
+        "minimum": 5,
+        "median": 5,
+        "p95": 6,
+        "maximum": 12
+      },
+      "admit_and_build_fabric_microseconds": {
+        "minimum": 70,
+        "median": 73,
+        "p95": 81,
+        "maximum": 177
+      },
+      "prepared_query_microseconds": {
+        "minimum": 10,
+        "median": 10,
+        "p95": 15,
+        "maximum": 45
+      },
+      "full_protocol_microseconds": {
+        "minimum": 88,
+        "median": 90,
+        "p95": 106,
+        "maximum": 213
+      },
+      "prepared_query_equals_protocol_query": true,
+      "repeated_protocol_response_equal": true
+    },
+    {
+      "package_count": 32,
+      "iterations": 100,
+      "environment_digest_microseconds": {
+        "minimum": 147,
+        "median": 177,
+        "p95": 214,
+        "maximum": 226
+      },
+      "admit_and_build_fabric_microseconds": {
+        "minimum": 2294,
+        "median": 2421,
+        "p95": 2594,
+        "maximum": 3468
+      },
+      "prepared_query_microseconds": {
+        "minimum": 14,
+        "median": 20,
+        "p95": 42,
+        "maximum": 58
+      },
+      "full_protocol_microseconds": {
+        "minimum": 2522,
+        "median": 2633,
+        "p95": 2801,
+        "maximum": 3760
+      },
+      "prepared_query_equals_protocol_query": true,
+      "repeated_protocol_response_equal": true
+    },
+    {
+      "package_count": 256,
+      "iterations": 30,
+      "environment_digest_microseconds": {
+        "minimum": 1263,
+        "median": 1783,
+        "p95": 2208,
+        "maximum": 2226
+      },
+      "admit_and_build_fabric_microseconds": {
+        "minimum": 18692,
+        "median": 19875,
+        "p95": 21356,
+        "maximum": 21427
+      },
+      "prepared_query_microseconds": {
+        "minimum": 38,
+        "median": 45,
+        "p95": 64,
+        "maximum": 66
+      },
+      "full_protocol_microseconds": {
+        "minimum": 20442,
+        "median": 22292,
+        "p95": 25165,
+        "maximum": 25431
+      },
+      "prepared_query_equals_protocol_query": true,
+      "repeated_protocol_response_equal": true
+    }
+  ]
+}

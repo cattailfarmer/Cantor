@@ -1,0 +1,30 @@
+Subject: CEB Slice 06 FPGA Execution Profiles
+
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_FPGA_Execution_Profiles.exploded.sop
+
+& [WorkSlice] is the optional hardware execution boundary
+  + [slice_uuid] is 471ca476-33fb-45e8-acd6-a4cb40f41b1e
+  + [status] is specification_only_and_target_blocked
+  + [depends_on] is stable software protocol, Rust reference oracle, measured workload, explicit FPGA target, toolchain, interface, budgets, and threat model
+  + [requirement_set] is CEB-021 through CEB-030
+  + [profile_1] is stable FPGA interpreter for bounded Cantor bytecode and reloadable signed package projections
+  + [profile_2] is native FPGA circuit compiled from one static bounded Cantor query kernel
+  + [excluded] is current Core IR implementation, raw SOP execution, unrestricted synthesis, and independent semantic authority
+
+& [SupportRecord] is a deliberate future-feature gap record
+  + [specification_support] is FPGA execution-profile explosion
+  + [software_oracle_support] is absent until deterministic query completion
+  + [target_support] is absent
+  + [hardware_toolchain_support] is not selected
+  + [implementation_support] is absent
+  + [proof_support] is absent
+  + [gap] is no measured hotspot, board, device, interface, resource budget, or security envelope yet authorizes implementation
+
+& [ActivationGate] is mandatory
+  = must: choose interpreter first when semantic flexibility and package reload dominate
+  = must: choose native compilation only for a measured stable hotspot
+  = must: preserve one protocol and software reference oracle
+  = must: bind every bitstream to its complete FPGAExecutionEnvelope
+  = must: prove simulation, synthesis, hardware-in-loop, and fault equivalence
+  = must: preserve deterministic software fallback
+  - never: activate this slice merely because FPGA implementation is technically possible

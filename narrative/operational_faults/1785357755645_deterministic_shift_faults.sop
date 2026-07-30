@@ -1,0 +1,38 @@
+Subject: Cantor Deterministic Shift Operational Faults
+
+@ [turn] C:\Project\Cantor\narrative\turns\1785354993630_cantor_deterministic_engine_shift.sop
+@ [release_audit] C:\Project\Cantor\proofs\CEB_Deterministic_Baseline_Release_Audit.sop
+
+& [OperationalFaultRecord] is the visible workflow-fault account
+  + [record_uuid] is cb2b89ba-2607-4e7a-b16e-1a2a46146793
+  + [captured_at_ms] is 1785357755645
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [project] is Cantor
+
+& [Fault] is legacy PowerShell native-pipeline encoding
+  + [symptom] is JSON sent through a legacy text pipeline did not preserve the required UTF-8 byte form
+  + [impact] is demonstration invocation failure only
+  + [correction] is explicit UTF-8 request files for PowerShell and raw UTF-8 stdin bytes for Codex subprocesses
+  + [durable_prevention] is C:\Project\Cantor\docs\CLI_PROTOCOL.md
+  + [state] is resolved
+
+& [Fault] is prematurely bounded command execution
+  + [symptom] is two nested test commands were given a one-second execution timeout and the test harness observed a closed pipe
+  + [impact] is interrupted verification only and no source corruption
+  + [correction] is direct bounded shell execution with a 120-second ceiling followed by complete reruns
+  + [proof] is the final debug, overflow-checked release, and locked-offline suites all passed
+  + [state] is resolved
+
+& [Fault] is missing advisory scanner
+  + [symptom] is cargo-audit was not installed in the host toolchain
+  + [impact] is dependency advisory evidence initially unavailable
+  + [correction] is cargo-audit 0.22.2 installed under ignored C:\Project\Cantor\.local\audit-tool only
+  + [proof] is the recorded RustSec scan found zero vulnerabilities and zero warnings
+  + [state] is resolved
+
+& [Fault] is broad preexisting working tree
+  + [symptom] is ninety-three status entries span the multi-turn project formation and are not a narrow independently attributable patch
+  + [impact] is no safe automatic commit boundary inferred during this shift
+  + [correction] is preserve all files unstaged and record the audited git base and disposition
+  + [recovery] is all source remains in the local working tree; no destructive Git operation occurred
+  + [state] is open_for_intentional_commit_partition

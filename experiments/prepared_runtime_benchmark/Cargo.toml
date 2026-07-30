@@ -1,0 +1,25 @@
+[package]
+name = "cantor-prepared-runtime-benchmark"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[profile.release]
+debug = 1
+overflow-checks = true
+
+[features]
+dhat-heap = ["dep:dhat"]
+
+[dependencies]
+cantor_core = { path = "../../crates/cantor_core" }
+dhat = { version = "0.3.3", optional = true }
+ed25519-dalek = "3.0.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha2 = "0.11.0"

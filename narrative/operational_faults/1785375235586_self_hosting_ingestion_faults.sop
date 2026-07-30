@@ -1,0 +1,46 @@
+Subject: Cantor Self-Hosting Ingestion Operational Faults
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Self_Hosting_Ingestion_Proof.sop
+
+& [FaultRecordIdentity] is the resolved operational-fault ledger
+  + [record_uuid] is 5cd12bed-bd67-456e-81f5-bc07640b0f44
+  + [captured_at_ms] is 1785375235586
+  + [status] is resolved_with_no_open_product_fault
+
+& [RepeatedNamedMemberIdentityFault] is caught before parser implementation
+  + [observation] is canonical SOP repeats names such as edge and deferred under one parent
+  + [cause] is the first proposed name-only sibling key was too narrow
+  + [repair] is include normalized body digest and parent node key without encounter ordinal
+  + [governance] is invalidate the first signature and issue a corrected signature
+  + [status] is resolved
+
+& [PortableSourceRootFault] is caught at filesystem design
+  + [observation] is a manifest under corpus\self_hosted cannot reach specifications while every path remains beneath the manifest directory
+  + [cause] is missing explicit portable source_root
+  + [repair] is add reviewed manifest-relative source_root and constrain every document beneath its canonical resolution
+  + [governance] is invalidate the second signature and issue the final corrected signature
+  + [status] is resolved
+
+& [IntegrationExpectationFault] is test-only
+  + [observation] is the Cantor record is a plus member rather than an ampersand subject in the selected source
+  + [repair] is assert the exact actual + [Cantor] governing line
+  + [product_change] is none
+  + [status] is resolved
+
+& [EvidenceKeyLengthFault] is ignored local evidence setup
+  + [observation] is the first public compiler evidence seed contained sixty-two rather than sixty-four hexadecimal digits
+  + [repair] is correct the ignored evidence-only file and rerun compilation
+  + [security] is no production key existed and no key entered Git
+  + [status] is resolved
+
+& [PowerShellPolicyFault] is evidence-script invocation
+  + [observation] is local execution policy rejected direct script invocation
+  + [repair] is run the reviewed local script with NoProfile and process-local ExecutionPolicy Bypass
+  + [status] is resolved
+
+& [VerificationCommandFault] is command-shape correction
+  + [observation] is this installed cargo-audit wrapper does not accept --locked
+  + [repair] is run cargo audit from each lockfile-owning working directory
+  + [result] is 1173 advisories loaded and zero vulnerabilities in root and experiment locks
+  + [status] is resolved

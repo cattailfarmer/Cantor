@@ -1,0 +1,381 @@
+{
+    "schema":  "cantor-prepared-runtime-evidence-summary/0.1",
+    "generated_at_utc":  "2026-07-29T23:14:38.6132333Z",
+    "method":  {
+                   "release_profile":  true,
+                   "overflow_checks":  true,
+                   "latency_runs_per_shape":  3,
+                   "latency_iterations_per_run":  40,
+                   "prepared_hit_samples_per_run":  160,
+                   "memory_runs_per_shape_and_mode":  3,
+                   "memory_profiler":  "dhat 0.3.3 process-wide allocation tracker",
+                   "memory_process_boundary":  "separate baseline and prepared release processes",
+                   "fixture":  "synthetic signed packages with one term and source per package",
+                   "package_shapes":  [
+                                          1,
+                                          32,
+                                          256
+                                      ],
+                   "rustc":  "rustc 1.96.0 (ac68faa20 2026-05-25)",
+                   "cargo":  "cargo 1.96.0 (30a34c682 2026-05-25)",
+                   "operating_system":  "Microsoft Windows NT 10.0.26200.0",
+                   "processor":  "AMD Ryzen 9 9950X 16-Core Processor"
+               },
+    "shapes":  [
+                   {
+                       "package_count":  1,
+                       "latency_median_us_range":  {
+                                                       "cold_process_prepare":  [
+                                                                                    91.5,
+                                                                                    94.6
+                                                                                ],
+                                                       "prepared_construct":  [
+                                                                                  8.5,
+                                                                                  8.7
+                                                                              ],
+                                                       "warm_scope_preparation":  [
+                                                                                      70.9,
+                                                                                      72.100000000000009
+                                                                                  ],
+                                                       "direct_request":  [
+                                                                              89.1,
+                                                                              89.5
+                                                                          ],
+                                                       "cold_runtime_first_request":  [
+                                                                                          95.2,
+                                                                                          98.9
+                                                                                      ],
+                                                       "prepared_scope_replacement_pair":  [
+                                                                                               161.9,
+                                                                                               166.70000000000002
+                                                                                           ],
+                                                       "prepared_hit":  [
+                                                                            12.1,
+                                                                            12.5
+                                                                        ]
+                                                   },
+                       "median_hit_speedup_range":  [
+                                                        7.16,
+                                                        7.3636363636363633
+                                                    ],
+                       "memory":  {
+                                      "baseline_current_bytes":  [
+                                                                     18074,
+                                                                     18074
+                                                                 ],
+                                      "prepared_current_bytes":  [
+                                                                     43283,
+                                                                     43283
+                                                                 ],
+                                      "retained_delta_bytes":  [
+                                                                   25209,
+                                                                   25209,
+                                                                   25209
+                                                               ],
+                                      "retained_ratio_range":  [
+                                                                   2.3947659621555828,
+                                                                   2.3947659621555828
+                                                               ],
+                                      "baseline_peak_bytes":  [
+                                                                  23688,
+                                                                  23688
+                                                              ],
+                                      "prepared_peak_bytes":  [
+                                                                  60906,
+                                                                  60906
+                                                              ],
+                                      "peak_ratio_range":  [
+                                                               2.5711752786220869,
+                                                               2.5711752786220869
+                                                           ]
+                                  },
+                       "exact_response_mismatches":  0
+                   },
+                   {
+                       "package_count":  32,
+                       "latency_median_us_range":  {
+                                                       "cold_process_prepare":  [
+                                                                                    2617.1,
+                                                                                    2663.6
+                                                                                ],
+                                                       "prepared_construct":  [
+                                                                                  272.3,
+                                                                                  288.6
+                                                                              ],
+                                                       "warm_scope_preparation":  [
+                                                                                      2354.9,
+                                                                                      2379.2000000000003
+                                                                                  ],
+                                                       "direct_request":  [
+                                                                              2560.7999999999997,
+                                                                              2582.2000000000003
+                                                                          ],
+                                                       "cold_runtime_first_request":  [
+                                                                                          2709.3,
+                                                                                          2769
+                                                                                      ],
+                                                       "prepared_scope_replacement_pair":  [
+                                                                                               4563.7000000000007,
+                                                                                               4605.7
+                                                                                           ],
+                                                       "prepared_hit":  [
+                                                                            22.7,
+                                                                            23
+                                                                        ]
+                                                   },
+                       "median_hit_speedup_range":  [
+                                                        111.82173913043475,
+                                                        112.81057268722466
+                                                    ],
+                       "memory":  {
+                                      "baseline_current_bytes":  [
+                                                                     276703,
+                                                                     276703
+                                                                 ],
+                                      "prepared_current_bytes":  [
+                                                                     629722,
+                                                                     629722
+                                                                 ],
+                                      "retained_delta_bytes":  [
+                                                                   353019,
+                                                                   353019,
+                                                                   353019
+                                                               ],
+                                      "retained_ratio_range":  [
+                                                                   2.27580474371438,
+                                                                   2.27580474371438
+                                                               ],
+                                      "baseline_peak_bytes":  [
+                                                                  405197,
+                                                                  405197
+                                                              ],
+                                      "prepared_peak_bytes":  [
+                                                                  658507,
+                                                                  658507
+                                                              ],
+                                      "peak_ratio_range":  [
+                                                               1.625152703499779,
+                                                               1.625152703499779
+                                                           ]
+                                  },
+                       "exact_response_mismatches":  0
+                   },
+                   {
+                       "package_count":  256,
+                       "latency_median_us_range":  {
+                                                       "cold_process_prepare":  [
+                                                                                    19849.2,
+                                                                                    20565.9
+                                                                                ],
+                                                       "prepared_construct":  [
+                                                                                  2220.8,
+                                                                                  2307.7000000000003
+                                                                              ],
+                                                       "warm_scope_preparation":  [
+                                                                                      18698.1,
+                                                                                      19068.3
+                                                                                  ],
+                                                       "direct_request":  [
+                                                                              20488.1,
+                                                                              20762.1
+                                                                          ],
+                                                       "cold_runtime_first_request":  [
+                                                                                          21832.1,
+                                                                                          22207.3
+                                                                                      ],
+                                                       "prepared_scope_replacement_pair":  [
+                                                                                               39695.3,
+                                                                                               40546.8
+                                                                                           ],
+                                                       "prepared_hit":  [
+                                                                            106.3,
+                                                                            106.4
+                                                                        ]
+                                                   },
+                       "median_hit_speedup_range":  [
+                                                        192.73847601128881,
+                                                        195.13251879699249
+                                                    ],
+                       "memory":  {
+                                      "baseline_current_bytes":  [
+                                                                     2149466,
+                                                                     2149466
+                                                                 ],
+                                      "prepared_current_bytes":  [
+                                                                     4903129,
+                                                                     4903129
+                                                                 ],
+                                      "retained_delta_bytes":  [
+                                                                   2753663,
+                                                                   2753663,
+                                                                   2753663
+                                                               ],
+                                      "retained_ratio_range":  [
+                                                                   2.2810916757929642,
+                                                                   2.2810916757929642
+                                                               ],
+                                      "baseline_peak_bytes":  [
+                                                                  3195464,
+                                                                  3195464
+                                                              ],
+                                      "prepared_peak_bytes":  [
+                                                                  5143370,
+                                                                  5143370
+                                                              ],
+                                      "peak_ratio_range":  [
+                                                               1.6095847113283079,
+                                                               1.6095847113283079
+                                                           ]
+                                  },
+                       "exact_response_mismatches":  0
+                   }
+               ],
+    "correctness":  {
+                        "measured_exact_response_mismatches":  0,
+                        "test_oracle":  "full ProtocolResponse equality"
+                    },
+    "limitations":  [
+                        "Synthetic fixtures are not a reviewed production SOP corpus.",
+                        "Dhat current bytes are allocation-level heap, not operating-system RSS or allocator fragmentation.",
+                        "Peak heap includes fixture compilation in both modes and preparation in prepared mode.",
+                        "Latency is local single-process release execution, not distributed or realtime service performance.",
+                        "Trust time remains the pinned environment now_epoch_seconds; no live wall-clock authority is claimed."
+                    ],
+    "raw_artifacts":  [
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\latency_run_1_packages_1.json",
+                              "sha256":  "07A2E1D3A0380C5BE6B7D258B809B215306FB376E61EA9645A60CA0ED61F180B",
+                              "bytes":  1357
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\latency_run_1_packages_256.json",
+                              "sha256":  "DF3E3D813BCEFCCD827C360B756CBAB9C3644F22765C82A53EECFE7085CB6E1D",
+                              "bytes":  1434
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\latency_run_1_packages_32.json",
+                              "sha256":  "7BC1B3669D566567ABAA6274432C92AA680952516D8BC29366B7F3176AE99E6B",
+                              "bytes":  1478
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\latency_run_2_packages_1.json",
+                              "sha256":  "1B5B46DB13FE5DAA4096AC9335FE8C3781ECA1F8FFDCD4A3574E68446BB016ED",
+                              "bytes":  1369
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\latency_run_2_packages_256.json",
+                              "sha256":  "C809E75575C849D8499F1F7BB63ECBF0A05BD6F0AAA231BBEA4C00B5ED1D16F2",
+                              "bytes":  1454
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\latency_run_2_packages_32.json",
+                              "sha256":  "4C687188B6B5B6C68A8D8A1B84A0776909B06DBC8D36B8E7B4F250AFB52D8C13",
+                              "bytes":  1415
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\latency_run_3_packages_1.json",
+                              "sha256":  "C06AEACE422E8057E854177DCD8073EFAE80DAAF000BCB01FF85BAC8B89D6CFD",
+                              "bytes":  1409
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\latency_run_3_packages_256.json",
+                              "sha256":  "D6960E190FC70105778350811DF2AB69ED390BDC8D0ABD139417F4B1ACC4E979",
+                              "bytes":  1419
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\latency_run_3_packages_32.json",
+                              "sha256":  "BAD32480A444427EA158B416535EDEE3797235C2BD7EFA0AA8806AB553316568",
+                              "bytes":  1402
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_1_baseline_packages_1.json",
+                              "sha256":  "E25B6FD2FD779B00C908EDF3A9EAAA1B4900D6E1A74CD7CC3D06ED5026CC1A3A",
+                              "bytes":  260
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_1_baseline_packages_256.json",
+                              "sha256":  "B643E4FF4CB37C70B7F67750F6A42FFDBAFA5FBCFBE9B590F4C16F9F17F1612B",
+                              "bytes":  275
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_1_baseline_packages_32.json",
+                              "sha256":  "F4B2C9AEEC8743F8DCD88ED30A77F076755C00D1540AA5147B9D998816391BF3",
+                              "bytes":  269
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_1_prepared_packages_1.json",
+                              "sha256":  "182D66AFC41E599DD524100B88916B639302DD75D60C108CA660AE1DC95BBD48",
+                              "bytes":  262
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_1_prepared_packages_256.json",
+                              "sha256":  "3A765B4A3111AF9BD3671FF595E18E6650348E9BC88F469D3277AEC90E59D449",
+                              "bytes":  276
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_1_prepared_packages_32.json",
+                              "sha256":  "27A270101500A2F3045D1BD61DE00B151917E8357A596EA391CE52E86EB1FEE3",
+                              "bytes":  269
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_2_baseline_packages_1.json",
+                              "sha256":  "E25B6FD2FD779B00C908EDF3A9EAAA1B4900D6E1A74CD7CC3D06ED5026CC1A3A",
+                              "bytes":  260
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_2_baseline_packages_256.json",
+                              "sha256":  "B643E4FF4CB37C70B7F67750F6A42FFDBAFA5FBCFBE9B590F4C16F9F17F1612B",
+                              "bytes":  275
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_2_baseline_packages_32.json",
+                              "sha256":  "F4B2C9AEEC8743F8DCD88ED30A77F076755C00D1540AA5147B9D998816391BF3",
+                              "bytes":  269
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_2_prepared_packages_1.json",
+                              "sha256":  "182D66AFC41E599DD524100B88916B639302DD75D60C108CA660AE1DC95BBD48",
+                              "bytes":  262
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_2_prepared_packages_256.json",
+                              "sha256":  "3A765B4A3111AF9BD3671FF595E18E6650348E9BC88F469D3277AEC90E59D449",
+                              "bytes":  276
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_2_prepared_packages_32.json",
+                              "sha256":  "27A270101500A2F3045D1BD61DE00B151917E8357A596EA391CE52E86EB1FEE3",
+                              "bytes":  269
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_3_baseline_packages_1.json",
+                              "sha256":  "E25B6FD2FD779B00C908EDF3A9EAAA1B4900D6E1A74CD7CC3D06ED5026CC1A3A",
+                              "bytes":  260
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_3_baseline_packages_256.json",
+                              "sha256":  "B643E4FF4CB37C70B7F67750F6A42FFDBAFA5FBCFBE9B590F4C16F9F17F1612B",
+                              "bytes":  275
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_3_baseline_packages_32.json",
+                              "sha256":  "F4B2C9AEEC8743F8DCD88ED30A77F076755C00D1540AA5147B9D998816391BF3",
+                              "bytes":  269
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_3_prepared_packages_1.json",
+                              "sha256":  "182D66AFC41E599DD524100B88916B639302DD75D60C108CA660AE1DC95BBD48",
+                              "bytes":  262
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_3_prepared_packages_256.json",
+                              "sha256":  "3A765B4A3111AF9BD3671FF595E18E6650348E9BC88F469D3277AEC90E59D449",
+                              "bytes":  276
+                          },
+                          {
+                              "path":  "C:\\Project\\Cantor\\experiments\\prepared_runtime_benchmark\\artifacts\\memory_run_3_prepared_packages_32.json",
+                              "sha256":  "27A270101500A2F3045D1BD61DE00B151917E8357A596EA391CE52E86EB1FEE3",
+                              "bytes":  269
+                          }
+                      ]
+}

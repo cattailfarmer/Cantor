@@ -1,0 +1,72 @@
+Subject: CEB Slice 04 Codex MCP Proof
+
+@ [slice] C:\Project\Cantor\feature_support\slices\CEB_Slice_04_CLI_And_Codex_Tool.sop
+@ [solution] C:\Project\Cantor\solutions\CEB_Slice_04_Codex_MCP_Solution.sop
+@ [MCP_tests] C:\Project\Cantor\crates\cantor_mcp\tests\mcp_protocol.rs
+@ [CLI_equivalence_test] C:\Project\Cantor\crates\cantor_cli\tests\cli_protocol.rs
+@ [operator_guide] C:\Project\Cantor\docs\MCP_PROTOCOL.md
+
+& [ProofIdentity] is the CEB-014 and CEB-015 implementation evidence record
+  + [proof_uuid] is 3e5fc457-f7cb-40a1-b698-ab281181fc67
+  + [captured_at] is 2026-07-29T16:16:46.8859754-05:00
+  + [working_tree] is C:\Project\Cantor
+  + [scope] is CEB-014 and CEB-015
+  + [result] is passed
+
+& [RequirementProof] is the traceable acceptance account
+  + [CEB-014] is passed by one official-SDK local STDIO server publishing exactly one query_sop tool with closed schema, read-only annotations, bounded inputs, startup admission, and no independent semantic executor
+  + [CEB-015] is passed by exact ProtocolResponse equality across direct cantor_core execution, the real cantor CLI subprocess, the MCP adapter seam, and a real MCP STDIO subprocess call
+
+& [MCPIntegrationProof] is seven adapter integration tests
+  + [metadata] is exactly one query_sop tool with output schema, a discovery payload below 32768 bytes, and read-only, non-destructive, idempotent, closed-world annotations
+  + [projection] is concise text under 160 bytes in the valid fixture while structuredContent preserves the full exact response
+  + [direct_equivalence] is adapter structuredContent exactly equals direct cantor_core execution
+  + [malformed_input] is unknown or incomplete outer input a visible bounded structured tool fault
+  + [argument_limit] is a request over 1048576 bytes rejected before protocol decoding
+  + [startup_trust] is signed package content changed after compilation rejected before serving
+  + [runtime_trust] is expected-environment mismatch preserved as the exact TrustFailure ProtocolResponse and marked as a tool error
+  + [real_STDIO] is the official rmcp client initializes the actual cantor-mcp subprocess, lists one tool, receives exact direct-core responses across twenty-five identical calls, observes one malformed call as a tool error, and receives the exact valid response again afterward
+
+& [CrossAdapterProof] is direct, CLI, and MCP semantic equivalence
+  + [CLI_test_count] is six real-subprocess tests
+  + [new_equivalence_test] is one signed environment and request yield equal ProtocolResponse values from cantor CLI and CantorMcpServer
+  + [transitive_oracle] is each adapter also equals cantor_core::execute_protocol_request
+  + [adapter_logic] is no copied query, scoring, trust, scope, or proof behavior
+
+& [IntegratedVerification] is eighty-one passing tests
+  + [Core_IR] is 8
+  + [trusted_package] is 27
+  + [deterministic_query] is 25
+  + [core_protocol] is 8
+  + [real_CLI_subprocess] is 6
+  + [MCP_adapter_and_real_STDIO] is 7
+  + [failures] is 0
+  + [cargo_fmt] is passed
+  + [cargo_check] is workspace all targets passed
+  + [cargo_clippy] is workspace all targets and all features with warnings denied passed
+  + [release_overflow] is workspace optimized test suite passed with overflow checks enabled
+  + [locked_offline] is complete workspace test suite passed using Cargo.lock without network
+  + [cargo_release] is workspace release build passed
+  + [cargo_doc] is workspace no-dependency documentation build passed
+  + [unsafe_source] is no unsafe Rust source under crates
+
+& [DependencyAudit] is current local RustSec evidence
+  + [scanner] is cargo-audit 0.22.2 from ignored local tooling
+  + [advisory_records] is 1173
+  + [lockfile_dependencies] is 110
+  + [vulnerabilities] is 0
+
+& [OperationalBoundaryProof] is explicit non-expansion
+  + [Codex_configuration] is documented but not mutated
+  + [network] is absent
+  + [persistent_database] is absent
+  + [trust_mutation] is absent
+  + [package_compilation] is absent from the server
+  + [model_inference] is absent
+  + [effects] is absent
+  + [resident_shared_state] is absent
+  + [learned_routing] is absent
+  + [FPGA] is absent
+  + [authenticity_boundary] remains the supervisor's executable, environment-path, caller-authentication, and local OS-channel responsibility
+  + [bootstrap_boundary] is an authorized ProtocolRequest template must be supplied by the supervisor; registration does not grant the model authority to guess bindings
+  = conclusion: the activated MCP slice is complete without activating the persistence, neural, service, deliberation, effect, or hardware tracks

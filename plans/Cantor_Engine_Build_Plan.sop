@@ -1,0 +1,117 @@
+Subject: Cantor Engine Build Plan
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+@ [slices] C:\Project\Cantor\feature_support\Cantor_Engine_Build_Slice_Index.sop
+
+& [BuildPlanIdentity] is the dependency-ordered execution plan
+  + [plan_uuid] is 7a5120ad-760e-48dc-97fe-7612c22d821e
+  + [plan_status] is SelfHostingIngestion_complete
+  + [completed] is Phase0 through Phase6 and CEB-001 through CEB-015
+  + [active_phase] is none
+  + [next_candidate] is Phase7RoutingExperiment inactive until a labeled routing corpus and adoption gates pass
+  + [implementation_language] is safe Rust edition 2024
+  + [initial_workspace] is one Cargo workspace with cantor_core, cantor_cli, and cantor_mcp
+  + [work_rule] is implement and prove one contiguous slice before activating its dependent
+  + [model_routing] is use deeper reasoning for trust, semantic-boundary, protocol, and adoption decisions; bounded fixtures, mechanical implementation, lint, and proof updates are lightweight-model-suitable after contracts stabilize
+
+& [Phase0Baseline] is preserve and measure the starting state
+  + [inputs] is canonical specification, exploded requirement set, existing eight CoreAcceptance fixtures, and passed llama.cpp seam probe
+  + [actions] is record toolchain versions, establish Cargo workspace layout, add fixture corpus paths, and create test command surface
+  + [proof] is clean build skeleton and reproducible test invocation
+  + [exit] is slice_1 can add machine forms without revisiting repository identity
+
+& [Phase1CoreIR] is implement CEB-001 through CEB-003
+  + [actions] is define versioned semantic IR, transition records, proof records, fault records, and eight fixture encodings
+  + [actions] is implement deterministic evaluator skeleton sufficient only for CoreAcceptance
+  + [proof] is all eight fixtures expose before state, decision, after state, trace, proof, and fault
+  + [checkpoint] is review type boundaries before trusted-package work
+  + [exit] is machine forms are stable enough to serialize and hash
+
+& [Phase2TrustedPackage] is implement CEB-004 through CEB-006
+  + [depends_on] is Phase1CoreIR
+  + [actions] is define fixture compiler or loader, canonical serialization, digests, test signer, recognition certificate, scope checks, and lifecycle checks
+  + [actions] is compile one bounded SOP package with semantic addresses and exact source spans
+  + [proof] is valid package admission plus unsigned, modified, corrupted, stale, revoked, mixed, downgraded, and scope-invalid rejection
+  + [proof] is line relocation followed by recompilation preserves semantic identity while display locators change
+  + [exit] is queries can consume only admitted package authority
+
+& [Phase3DeterministicQuery] is implement CEB-007 through CEB-010
+  + [depends_on] is Phase1CoreIR and Phase2TrustedPackage
+  + [actions] is implement request validation, exact lookup, contextual filtering, typed traversal, boundary accounting, quote recovery, proof assembly, and budgets
+  + [actions] is add lexical association only as a distinguishable derived candidate path
+  + [proof] is typed detail fixtures, ambiguity fixtures, exclusion fixtures, relation-path fixtures, digest-verified quote fixtures, and visible fault fixtures
+  + [baseline] is capture correctness, recall, latency, memory, result size, and proof-completeness data
+  + [exit] is direct-core query protocol and normalized result digest are stable
+
+& [Phase4CLI] is implement CEB-011 through CEB-013
+  + [depends_on] is Phase3DeterministicQuery
+  + [actions] is implement versioned JSON request on stdin or explicit file, machine-only stdout, diagnostic stderr, stable exit classes, inspect command, and query command
+  + [proof] is golden protocol fixtures, malformed input faults, package faults, budget faults, and direct-core semantic equivalence
+  + [Codex_use] is Codex may invoke the local CLI as a bounded read-only inference coprocessor through the documented subprocess contract
+  + [exit] is repeated subprocess calls are deterministic and operationally adequate
+
+& [Phase5CodexMCP] is implement CEB-014 and CEB-015
+  + [status] is complete
+  + [depends_on] is Phase4CLI stability and an explicit activation decision
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+  + [actions] is project the same request and result protocol through one read-only MCP query tool
+  + [proof] is MCP-to-core and MCP-to-CLI semantic equivalence plus visible tool failures
+  @ [proof_record] C:\Project\Cantor\proofs\CEB_Slice_04_Codex_MCP_Proof.sop
+  + [exit] is no adapter owns independent semantic logic
+
+& [Phase6PersistenceDecision] is select storage from evidence
+  + [status] is complete
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Persistence_Evidence_Gate.sop
+  + [depends_on] is Phase3DeterministicQuery baseline
+  + [actions] is benchmark in-memory snapshots against candidate embedded stores using observed package and query shapes
+  + [decision] is retain in-memory, select an embedded physical backend, or preserve a pluggable boundary
+  + [proof] is benchmark inputs, method, results, costs, and migration implications
+  + [decision] is retain canonical JSON environment snapshot and request-scoped admitted in-memory SemanticFabric
+  + [measured_followup] is immutable PreparedRuntime was handed to a separate source-preserved SJS slice and did not activate through Phase6 authority
+  + [followup_result] is PreparedRuntime later passed its separate authority and proof gate
+  @ [proof_record] C:\Project\Cantor\proofs\Phase6_Persistence_Decision_Proof.sop
+  - never: change the canonical logical authority model to fit a convenient backend
+
+& [Phase7RoutingExperiment] is implement CEB-016 through CEB-020 only when activated
+  + [depends_on] is deterministic baseline, reviewed routing corpus, stable semantic addresses, explicit metrics, failure threshold, and fallback proof
+  + [actions] is train or configure one smallest viable candidate router and bind its artifact digest to fabric and corpus digests
+  + [shadow_mode] is compare proposals against deterministic retrieval without granting result authority
+  + [adoption] is accept only a material measured gain with zero authority-gate bypass and acceptable regression bounds
+  + [rejection] is remove or retain as research when it fails the gate; deterministic operation remains complete
+
+& [PreparedRuntime] is implement and measure bounded resident preparation
+  + [status] is complete
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+  + [depends_on] is Phase6PersistenceDecision
+  + [actions] is preserve direct execution as oracle, share its gates and response construction, retain at most one exact-scope immutable projection, and add atomic whole-generation lifecycle control
+  + [proof] is exact direct-versus-prepared ProtocolResponse equality, scope isolation, invalidation, concurrency, latency decomposition, and allocation-level retained and peak heap
+  + [decision] is activate, retain_core_only, revise, or reject from complete evidence
+  + [rollback] is direct request-scoped execute_protocol_request remains complete
+  + [decision] is activate bounded core and resident read-only MCP while retaining direct CLI and oracle rollback
+  @ [proof_record] C:\Project\Cantor\proofs\Cantor_Prepared_Runtime_Proof.sop
+  - never: use this slice to activate Phase7, FPGA, live-clock, distributed, or database-mutation authority
+
+& [SelfHostingIngestion] is compile real governed SOP source
+  + [status] is complete
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+  + [depends_on] is TrustedPackage, DeterministicQuery, CLI, MCP, and PreparedRuntime
+  + [actions] is parse a bounded fail-closed SOP profile, lower stable units and containment, compile a signed package, generate verified artifacts, and query canonical Cantor source
+  + [proof] is three sources, 417 units, 360 relations, exact source lines, direct CLI, real MCP, negative security paths, three-run measurements, and complete release gates
+  + [decision] is activate bounded source ingestion and retain every unsupported semantic profile behind later SJS authority
+  @ [proof_record] C:\Project\Cantor\proofs\Cantor_Self_Hosting_Ingestion_Proof.sop
+  - never: treat the initial semantic corpus as a labeled neural-routing corpus
+
+& [Phase8FPGAExecutionProfiles] is implement CEB-021 through CEB-030 only when separately activated
+  + [depends_on] is stable software protocol, deterministic software oracle, measured workload, explicit device target, and hardware threat model
+  + [track_1] is define bounded Cantor bytecode, prove a software interpreter model, then implement one FPGA interpreter
+  + [track_2] is identify one measured hotspot, lower a static Cantor kernel through hardware IR or HLS to RTL, then synthesize one native profile
+  + [shared_proof] is Rust, interpreter model, RTL simulation, synthesis, hardware-in-loop, and cross-profile normalized-result equivalence
+  + [measure] is latency, throughput, area, memory, power estimate, compile time, and reconfiguration cost
+  + [adoption] is optional and target-specific; neither track changes semantic authority
+  + [rejection] is preserve software operation when hardware cost, mismatch, or trust risk outweighs measured gain
+
+& [GlobalVerification] is required at every phase
+  + [commands] is cargo fmt --check, cargo clippy with warnings denied, debug and overflow-checked release tests, locked offline tests, release build, documentation build, and dependency advisory audit
+  + [trace] is every requirement maps to a fixture, proof, fault, or explicit gap
+  + [change_control] is update source lineage, specification, feature support, narrative, and turn archive when understanding or authority changes
+  + [stop_rule] is stop expanding when the active slice passes and the next slice is not yet dependency-ready

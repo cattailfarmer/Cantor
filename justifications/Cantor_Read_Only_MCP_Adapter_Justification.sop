@@ -1,0 +1,43 @@
+Subject: Cantor Read-Only MCP Adapter Justification
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_read_only_mcp_activation\Dictated_Cantor_Read_Only_MCP_Activation_Source.sop
+@ [baseline_proof] C:\Project\Cantor\proofs\CEB_Deterministic_Baseline_Release_Audit.sop
+
+& [JustificationIdentity] is the SJS decision bridge
+  + [justification_uuid] is a67edcca-2e35-40d1-817e-806dab139969
+  + [solution_uuid] is a9aba131-4407-48ff-9b08-26c6eb03de6c
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [worktree_attribution] is existing broad uncommitted Cantor formation owned by this conversation with unrelated staging prohibited
+  + [decision] is activate CEB-014 and CEB-015 as the next dependency-ready slice
+
+& [SupportGraph] is the evidence for implementation
+  + [claim] is the CLI is stable enough to project
+    @ [support] 73 passing tests, release and offline proof, deterministic live output, and dependency audit in the baseline proof
+  + [claim] is Codex supports local STDIO MCP servers
+    @ [support] C:\Project\Cantor\narrative\research\Cantor_Read_Only_MCP_Adapter_Research.sop
+  + [claim] is safe Rust has an official MCP SDK path
+    @ [support] https://github.com/modelcontextprotocol/rust-sdk
+  + [claim] is the adapter can remain non-authoritative
+    @ [support] ProtocolRequest, EmbeddedRuntimeEnvironment, execute_protocol_request, and ProtocolResponse already exist in cantor_core
+
+& [AlternativeReview] is the rejected route set
+  + [manual_JSON_RPC] is rejected because protocol lifecycle and framing are standard machinery better owned by the official SDK
+  + [TypeScript_adapter] is rejected because it would introduce a second language and a second protocol model into the initial safe-Rust workspace
+  + [CLI_subprocess_inside_MCP] is rejected because it adds quoting, process, and double-serialization boundaries without improving semantic separation
+  + [HTTP_server] is deferred because local Codex STDIO satisfies the activated user goal with a smaller authority and attack surface
+
+& [RiskReview] is the pre-mortem
+  + [risk] is tool schema drifts from ProtocolRequest
+    + [mitigation] is handler deserializes the exact cantor_core ProtocolRequest and equivalence tests use the same request fixture
+  + [risk] is model supplies its own authority environment
+    + [mitigation] is environment is startup-only operator state and absent from tool arguments
+  + [risk] is MCP error hides Cantor proof or fault
+    + [mitigation] is reached core executions return the complete ProtocolResponse even when its status is fault
+  + [risk] is stdout diagnostics corrupt transport
+    + [mitigation] is all diagnostics go to stderr and real-STDIO tests parse every server frame
+  + [risk] is SDK version or protocol changes
+    + [mitigation] is lockfile pinning, offline tests, protocol metadata tests, and signature invalidation on drift
+
+! [ImplementationApproved] is accepted
+  @ [support] the selected route is bounded, reversible, testable, dependency-ready, and preserves single-engine authority

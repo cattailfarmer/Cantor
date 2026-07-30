@@ -1,0 +1,201 @@
+Subject: Cantor Tool Discovery and Addressed Deliberation
+
+Description: Cantor as an inference-tool framework that stages semantic capability loading, assigns verified participant addresses, and coordinates point, counterpoint, and reconciliation through typed multi-pass deliberation rather than uninspectable simulated voices.
+
+& [NormalToolCallingComparison] is the boundary with ordinary LLM tools
+  + [tool_definition] is a name, description, input schema, and application-owned implementation made available to a model
+  + [tool_call] is a model-produced request naming a tool and arguments
+  + [tool_execution] is the host application validating and executing the request
+  + [tool_output] is a call-correlated result returned to a later model continuation
+  + [ordinary_strength] is access to external data and actions through narrow typed operations
+  + [ordinary_limit] is the tool contract usually does not itself define semantic purpose, attention behavior, faculty judgment, deliberation identity, or proof-carrying reconciliation
+  = conclusion: Cantor contains ordinary tool calling but extends it with compiled semantic programs, staged frames, participant identity, addressed deliberation, validation, and provenance
+  - never: treat a model-emitted tool call as proof that the call is valid, authorized, or semantically appropriate
+
+& [CantorToolFramework] is the semantic meta-tool plane
+  + [capability_registry] is admitted operations, FacultyPrograms, contracts, participant roles, provider requirements, schemas, and package digests
+  + [discovery] is purpose and subject resolution to the minimum relevant capability descriptors
+  + [loading] is admission of exact operation schemas and governing SOP into the active frame
+  + [invocation] is a typed request bound to participant, purpose, frame, authority, and budget
+  + [execution] is deterministic operation, provider inference, faculty activation, or composed workflow
+  + [validation] is schema, trust, evidence, authority, Honesty, Security, and anti-enchantment checking
+  + [coordination] is routing validated outputs among addressed participants and Observer
+  + [proof] is complete source, call, message, derivation, decision, and effect lineage
+  = must: separate discovering a capability from gaining authority to invoke or act through it
+  = must: expose the smallest sufficient capability surface for the active purpose
+
+& [CantorCallTriggerPolicy] is when a reasoning participant must call Cantor
+  + [unbound_meaning] is a material term, relationship, proposition, or contextual anchor is missing or ambiguous
+  + [governing_contract] is a condition, prohibition, required operation, or continuation may apply
+  + [faculty_pressure] is truth, security, memory, refinement, planning, weaving, or reconciliation judgment is materially required
+  + [artifact_need] is a source, specification, proof, history, or implementation artifact is missing
+  + [conflict] is evidence, perspectives, instructions, associations, or authority disagree
+  + [consequence] is a conclusion or action crosses a declared consequence threshold
+  + [frame_change] is new material may require append, reframe, or capsule reset
+  + [direct_request] is the principal or governing SOP requires Cantor participation
+  = must: encode these triggers in the slim primer and FacultyPrograms
+  - never: rely only on the model remembering to call Cantor after it has already adopted an unsupported conclusion
+
+& [ToolLoadingPipeline] is staged Cantor capability admission
+  + [stage_1_bootstrap] is load only the Cantor namespace identity, slim primer, discovery operation, and mandatory call triggers
+  + [stage_2_preflight] is scan purpose, subject, consequence, actions, ambiguity, and likely faculty pressure
+  + [stage_3_discover] is resolve candidate operations, participants, schemas, and required SOP dependencies
+  + [stage_4_admit] is verify signatures, digests, versions, authority scope, provider compatibility, and budget
+  + [stage_5_load] is project the minimum exact operation descriptions and attention programs into context
+  + [stage_6_ready] is apply the FrameReadinessGate with the loaded capability manifest
+  + [stage_7_invoke] is accept model or manager calls only from the admitted set
+  + [stage_8_expand] is demand-load another capability when a new valid trigger appears
+  = must: preserve cache-friendly stable bootstrap content where the provider supports it
+  = must: make every dynamic load a visible frame transition
+  - never: load the full Cantor capability library into every inference context
+
+& [ProviderToolDiscoveryAdapter] is the provider-specific loading boundary
+  + [native_tool_search] is use provider-supported deferred tool discovery when available
+  + [generic_Cantor_discovery] is use one stable cantor discovery operation that returns signed capability descriptors when native search is absent
+  + [static_projection] is preselect a bounded tool set before the model call for providers that require complete schemas up front
+  + [programmatic_batch] is use code-mediated tool composition only for bounded predictable processing that does not require fresh semantic judgment between results
+  = must: normalize all discovery modes to one Cantor capability manifest
+  = must: use direct checkpointed inference when each result may change the next judgment
+  - never: let provider convenience change the authoritative meaning of a Cantor operation
+
+& [ParticipantAddress] is the verified identity of one deliberation participant
+  + [runtime_uuid] is the supervising runtime epoch
+  + [participant_uuid] is immutable participant identity within that runtime
+  + [display_alias] is a human-readable session-unique name such as Honesty, Security, Planner-A, Codex-Builder-2, or Observer
+  + [role] is the signed FacultyProgram, manager, worker, reviewer, or other admitted purpose
+  + [principal_and_commission] is the authority lineage when agency exists
+  + [package_and_program_digest] is the exact semantic and behavioral identity
+  + [session_and_frame_digest] is the active context identity
+  + [operation_scope] is the participant's permitted calls and message kinds
+  + [authentication] is the runtime binding, credential, signature, or local process identity needed to prevent impersonation
+  = must: route by immutable address rather than display alias alone
+  = must: require display aliases to be unique within the visible deliberation
+  = may: allow a participant to propose an alias
+  - never: allow self-naming to create role, authority, package admission, or trusted identity
+
+& [ParticipantRegistry] is the authoritative session directory
+  + [registration] is manager or runtime admission of ParticipantAddress and capability manifest
+  + [discovery_description] is a short purpose, subject, available judgment, and call condition
+  + [status] is proposed, admitted, active, waiting, yielded, stopped, revoked, faulted, or expired
+  + [mailbox] is ordered addressed messages and durable cursor
+  + [visibility] is which participants may discover, address, or observe this participant
+  + [revocation] is immediate invalidation of further calls and messages
+  = must: resolve aliases to exact addresses before message projection
+  = must: reject unknown, ambiguous, stale, spoofed, or out-of-scope recipients
+
+| [DeliberationMoveKind] is (point | counterpoint | support | challenge | question | answer | distinction | association | counterassociation | qualification | concession | synthesis | objection | proposal | vote | yield | stop)
+
+& [DeliberationMove] is one typed contribution to negotiated meaning
+  + [move_uuid] is immutable move identity
+  + [from] is exact ParticipantAddress
+  + [to] is one participant, a bounded group, Observer, or the deliberation session
+  + [kind] is DeliberationMoveKind
+  + [subject] is the exact semantic anchor under discussion
+  + [proposition] is the claim, distinction, association, or proposed transition
+  + [target_move] is the point or counterpoint being answered when applicable
+  + [attention_directives] is how the recipient should focus, bind, compare, challenge, or preserve the subject
+  + [support] is evidence, source, derivation, authority, or test anchors
+  + [uncertainty] is confidence limits, missing evidence, and unresolved alternatives
+  + [requested_response] is expected move kind, output schema, budget, and stopping condition
+  + [frame_digest] is the semantic frame under which the move was formed
+  = must: distinguish evidence from persuasion and association from entailment
+  = must: pass through Cantor validation before becoming active deliberation state
+  - never: accept a counterpoint merely because it is rhetorically opposed
+
+& [ExternalDeliberationLedger] is the authoritative shared cognition state
+  + [participant_registry] is the admitted identity and capability set
+  + [move_graph] is addressed point, counterpoint, support, challenge, response, and synthesis relations
+  + [frame_history] is every attention projection and material change
+  + [turn_state] is speaker eligibility, pending responses, barriers, budgets, and token ownership when used
+  + [decision_state] is accepted, rejected, qualified, unresolved, superseded, or escalated propositions
+  + [proof_state] is sources, validations, faculty reviews, and causal contribution
+  = must: exist outside model hidden state
+  = must: remain the authority for what was actually said, answered, and decided
+  - never: infer shared participant knowledge merely because text appeared in one model's context
+
+& [AttentionStreamProjection] is the bounded model-visible deliberation view
+  + [recipient_identity] is the receiving ParticipantAddress and role
+  + [current_subject] is the focused semantic anchor
+  + [purpose] is the local deliberation duty
+  + [pertinent_moves] is addressed messages and necessary surrounding point-counterpoint context
+  + [attention_program] is the receiving faculty or agent directives
+  + [response_contract] is the required DeliberationMove shape
+  + [residual] is unresolved differences and carried uncertainty
+  = must: project only the materially pertinent ledger slice
+  = must: label sender, recipient, move identity, support, and frame digest
+  = must: treat the projection as transient context rather than the durable record
+
+& [MultiPassDeliberationCycle] is negotiated association through inference checkpoints
+  + [pass_1_project] is Cantor prepares a participant-specific attention stream
+  + [pass_2_infer] is the participant forms one or more candidate DeliberationMoves
+  + [pass_3_validate] is Cantor checks identity, schema, support, authority, truthfulness, scope, and frame
+  + [pass_4_route] is accepted moves append to the ledger and addressed recipients receive mailbox updates
+  + [pass_5_counter] is recipients receive new projections and form answers, counterpoints, or revised associations
+  + [pass_6_observe] is Observer compares causal contributions, preserved differences, evidence, gates, and purpose
+  + [pass_7_continue] is dispatch another pass, request evidence, reframe, reconcile, yield, or stop
+  + [pass_8_freeze] is bind the final or unresolved state into an InferenceCapsule
+  = must: allow independent passes to run concurrently when they do not depend on each other's outputs
+  = must: serialize dependent point-counterpoint moves through validated checkpoints
+  = conclusion: genuine multi-participant deliberation is logically multi-pass even when a provider hides several passes inside one higher-level request
+
+& [SimulatedAndGenuineDeliberationBoundary] is the participation distinction
+  + [simulated_panel] is one model generates multiple named voices inside one uninterrupted response
+  + [structured_role_passes] is one model performs separately framed sequential participant activations
+  + [isolated_participants] is separate contexts, jobs, models, or deterministic faculties exchange addressed moves
+  + [genuine_requirement] is identity, independent opportunity to object, causal influence, validation, answer obligation, and durable trace
+  = may: use a simulated panel for brainstorming
+  = must: label it as one model's simulation rather than independent agreement
+  = should: use isolated participants for consequential disagreement, adversarial review, or correlated-failure reduction
+
+& [CandidateCantorToolNamespace] is the non-authoritative stable surface
+  + [discover] is find purpose-relevant capabilities and participants
+  + [open] is create a digest-bound session or participant activation
+  + [query] is retrieve signed semantic records, operations, and proof
+  + [message] is submit an addressed DeliberationMove
+  + [receive] is read validated mailbox moves and current projection
+  + [review] is run faculty and Observer validation over a candidate state
+  + [close] is freeze result, residual, and proof and terminate the session
+  = should: remain a small stable namespace while capabilities and participant roles are data-driven
+  - never: encode every Cantor participant as a permanent global tool name
+
+& [RequirementSet] is the traceable tool and deliberation collection
+  + [CTD-001] is extend ordinary tool calling with signed semantic programs, attention framing, participant identity, addressed deliberation, validation, and proof
+  + [CTD-002] is define mandatory Cantor call triggers before unsupported conclusions form
+  + [CTD-003] is stage tool bootstrap, discovery, admission, loading, readiness, invocation, and expansion
+  + [CTD-004] is adapt native tool search, generic discovery, static projection, and bounded programmatic batching to one capability manifest
+  + [CTD-005] is assign every participant an immutable address and session-unique human alias
+  + [CTD-006] is prohibit self-declared names from creating trusted identity or authority
+  + [CTD-007] is represent point and counterpoint as typed addressed DeliberationMoves
+  + [CTD-008] is keep the authoritative deliberation ledger outside hidden model state
+  + [CTD-009] is conduct dependent deliberation through validated multiple passes
+  + [CTD-010] is distinguish simulated voices, structured role passes, and genuine isolated participation
+
+& [SJSProcessingTrace] is the tool-discovery and deliberation justification record
+  + [fold_1_subject] is Cantor as an all-purpose inference-tool framework supporting named multi-agent point and counterpoint
+  + [fold_2_boundary] is typed semantic orchestration and projected attention inside; uninspectable hidden-state negotiation, self-authorized naming, and decorative consensus outside
+  + [fold_3_data_design] is capability, trigger, load manifest, participant address, registry, mailbox, deliberation move, move graph, attention projection, pass, and proof
+  + [fold_4_governance] is signed admission, minimum loading, immutable routing, anti-spoofing, evidence distinction, Observer review, and multi-pass checkpointing
+  + [fold_5_solution_shape] is bootstrap, preflight, discover, admit, load, ready, invoke, route, counter, observe, and freeze
+  + [fold_6_fault_review] is tool flooding, missed trigger, identity collision, alias spoofing, self-authority, context-only memory, forced consensus, unvalidated counterpoint, and pass explosion
+  + [fold_7_phase_lock] is interface and deliberation architecture formed while implementation remains behind the core, CLI, and single-participant proofs
+
+& [CantorToolDiscoveryAndAddressedDeliberationSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is c337ea11-6fba-4f97-b4a8-d7f0547aaeb4
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Tool_Discovery_And_Addressed_Deliberation.sop
+  + [source_snapshot_uuid] is df4e4503-2ea9-44e2-a20e-b60bcd5fcf23
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-29_cantor_tool_discovery_and_addressed_deliberation\Dictated_Cantor_Tool_Discovery_And_Addressed_Deliberation_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-29_cantor_tool_discovery_and_addressed_deliberation\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, ordinary_tools_compared, Cantor_meta_tool_formed, triggers_formed, loading_staged, discovery_adapted, participants_addressed, moves_typed, ledger_externalized, passes_formed, simulation_delineated, justified, and signed
+  + [signature_status] is valid_for_tool_discovery_and_addressed_deliberation_formation
+  + [implementation_authority] is absent_until_core_CLI_and_single_participant_message_proofs_pass
+
+@ [query_microkernel] C:\Project\Cantor\specifications\Cantor_SOP_Query_Microkernel.sop
+@ [frame_staging] C:\Project\Cantor\specifications\Cantor_Inference_Frame_Staging_And_Reentry.sop
+@ [faculty_runtime] C:\Project\Cantor\specifications\Cantor_Faculty_Deliberation_Runtime.sop
+@ [supervised_runtime] C:\Project\Cantor\specifications\Cantor_Codex_Supervised_Ecosystem_Runtime.sop
+@ [OpenAI_function_calling] https://developers.openai.com/api/docs/guides/function-calling
+@ [OpenAI_tool_search] https://developers.openai.com/api/docs/guides/tools-tool-search
+@ [OpenAI_programmatic_tool_calling] https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling
+@ [OpenAI_agent_orchestration] https://developers.openai.com/api/docs/guides/agents/orchestration
+@ [OpenAI_multi_agent] https://developers.openai.com/api/docs/guides/responses-multi-agent

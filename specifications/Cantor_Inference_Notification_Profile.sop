@@ -1,0 +1,124 @@
+Subject: Cantor Inference Notification Profile
+
+Description: The boundary by which a Cantor junction state change becomes visible to another isolated inference job without pretending to modify an already-running model context.
+
+& [ProfileIdentity] is the canonical notification decision
+  + [specification_uuid] is 98f07663-0dc5-4e86-8994-42ae32cd12a9
+  + [owner] is Cantor JunctionSession
+  + [recipient] is an InferenceJobController rather than a model decoder
+  + [purpose] is propagate semantic-state invalidation and new peer material across isolated inference jobs
+  + [core_rule] is shared Cantor state changes immediately while provider context changes only on a later inference request
+
+& [ThreeMemoryBoundary] is the required identity separation
+  + [Cantor_memory] is versioned shared JunctionSession state and exchange log
+  + [job_controller_memory] is pending notifications, participant cursor, request state, and restart policy
+  + [model_context] is messages and provider-private KV state for one active Ollama request
+  = must: identify which memory changed in every notification trace
+  - never: report a Cantor state change as an in-place model-context change
+
+& [OllamaRequestBoundary] is the verified provider limitation
+  + [request_shape] is one POST /api/chat request containing the messages and tools known at request start
+  + [response_shape] is one complete or streamed assistant response
+  + [tool_continuation] is tool results appended to messages and supplied in the next request
+  + [duplex_injection] is not exposed by the documented Ollama chat and tool-call interface
+  = conclusion: Cantor cannot inject a notification into an already-decoding Ollama request through the normal API
+  = must: introduce new semantic content through a later request
+
+& [CantorNotificationEvent] is the out-of-band controller notification
+  + [event_uuid] is immutable identity
+  + [session_uuid] is the changed junction
+  + [state_version] is the new monotonic session version
+  + [origin_participant_uuid] is the participant whose admitted packet caused the change
+  + [affected_subject_set] is semantic identities whose interpretation may have changed
+  + [previous_anchor_digest] is the recipient's known anchor state
+  + [current_anchor_digest] is the newly governing anchor state
+  + [urgency] is observe_at_checkpoint, invalidates_candidate, or stop_required
+  + [delivery_cursor] is recipient-specific ordered event position
+  + [summary] is bounded non-authoritative notification text
+  + [retrieval_reference] is the exact Cantor packet to load on resume
+  = must: notify identity and version before sending large semantic payloads
+
+& [NotificationTransport] is replaceable delivery from Cantor to job controllers
+  + [push] is local event stream, websocket, server-sent event, callback, or queue
+  + [pull] is long-poll, cursor poll, or explicit cantor.exchange poll
+  + [durable_fallback] is append-only event log inspected by participant cursor
+  = should: support push for latency and durable cursor replay for reliability
+  - never: require direct Ollama-instance-to-Ollama-instance messaging
+
+& [RecipientStatePolicy] is how the controller reacts
+  ? [recipient is idle or waiting at a barrier]
+    = start the next Ollama request with the admitted notification packet
+
+  ? [recipient is actively decoding and urgency is observe_at_checkpoint]
+    = buffer the event until the current turn completes
+    = mark the candidate with its starting state_version
+
+  ? [recipient is actively decoding and urgency is invalidates_candidate]
+    = mark the in-flight candidate stale immediately
+    = may: terminate or abandon the request only when adapter cancellation behavior is proven
+    = otherwise: let the request finish but prohibit commitment
+    = start a new request from the last committed state with the updated Cantor packet
+
+  ? [urgency is stop_required]
+    = prevent further semantic commitment
+    = stop or abandon provider work according to the proven adapter policy
+
+& [StaleContextGuard] is optimistic semantic concurrency
+  + [request_start_version] is the JunctionSession version projected into an inference request
+  + [candidate_version] is the version cited by the returned ProposedJudgment
+  + [current_commit_version] is the session version at validation time
+  ? [candidate_version differs from current_commit_version]
+    = require Cantor revalidation, revision, or rejection before commitment
+  = must: preserve useful stale output as attributed evidence when safe
+  - never: commit a state-dependent judgment merely because its inference request started earlier
+
+& [PeerCommunicationBoundary] is mediated semantic exchange
+  + [participant_A] sends a SemanticExchangePacket to Cantor through cantor.exchange
+  + [Cantor] validates, versions, stores, and emits CantorNotificationEvent
+  + [participant_B_controller] receives the event and projects the admitted packet into participant B's next request
+  + [participant_B] may respond through Cantor in a later turn
+  = must: keep Cantor in the path for authority, attribution, ordering, and disagreement
+  - never: use direct peer messages as authoritative context
+
+& [MinimumNotificationProof] is the deferred bounded fixture
+  + [step_1] is start mock job B at JunctionSession version 1
+  + [step_2] is mock job A appends a valid version-2 boundary packet
+  + [step_3] is Cantor emits one notification to B's controller
+  + [step_4] is B's version-1 candidate returns and is marked stale
+  + [step_5] is the controller replays B from its last committed state with the version-2 packet
+  + [step_6] is one duplicate notification ignored by cursor and one missed event recovered from the durable log
+  = must: prove this with deterministic mock jobs before Ollama cancellation or latency optimization
+
+& [RequirementSet] is the traceable notification collection
+  + [CIN-001] is let Cantor notify job controllers when anchored junction state changes
+  + [CIN-002] is distinguish Cantor memory, controller memory, and provider context
+  + [CIN-003] is inject semantic changes only through a later Ollama request
+  + [CIN-004] is support push notification with durable cursor replay
+  + [CIN-005] is buffer, invalidate, or stop according to notification urgency
+  + [CIN-006] is reject or revalidate candidates produced against stale session versions
+  + [CIN-007] is mediate peer exchange through Cantor rather than direct model messaging
+
+& [SJSProcessingTrace] is the notification-profile justification trace
+  + [fold_1_subject] is an anchored Cantor state change becoming pertinent to another active inference job
+  + [fold_2_boundary] is controller notification and next-request projection inside; in-place KV mutation and direct model messaging outside
+  + [fold_3_data_design] is event, session version, anchor digest, subject set, urgency, cursor, request version, candidate version, and commit version
+  + [fold_4_governance] is version checks, durable delivery, no authority bypass, visible staleness, and proven cancellation behavior
+  + [fold_5_solution_shape] is append, notify, buffer or invalidate, project, reinfer, validate, and commit
+  + [fold_6_fault_review] is lost notification, duplicate delivery, false in-place update, stale commit, direct-peer authority bypass, and unsafe cancellation
+  + [fold_7_phase_lock] is notification contract formed; deterministic mock proof precedes provider optimization
+
+& [CantorInferenceNotificationProfileSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 57808962-1a17-47ac-b9fa-d303cfc8ff51
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Inference_Notification_Profile.sop
+  + [source_snapshot_uuid] is c71673b8-c714-4b57-a86c-cb21d7bc5d96
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-28_cantor_inference_notification_boundary\Dictated_Cantor_Inference_Notification_Boundary_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-28_cantor_inference_notification_boundary\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, memory_delineated, provider_boundary_verified, event_modeled, staleness_guarded, peer_path_mediated, justified, and signed
+  + [signature_status] is valid_for_notification_formation
+  + [implementation_authority] is deferred_until_existing_single_job_and_junction_mock_proofs
+
+@ [junction] C:\Project\Cantor\specifications\Cantor_Cooperative_Inference_Junction_Profile.sop
+@ [Ollama_tool_calling] https://docs.ollama.com/capabilities/tool-calling
+@ [Ollama_streaming] https://docs.ollama.com/capabilities/streaming
+@ [Ollama_chat] https://docs.ollama.com/api/chat

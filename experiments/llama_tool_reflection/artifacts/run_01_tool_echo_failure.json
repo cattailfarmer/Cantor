@@ -1,0 +1,737 @@
+{
+  "base_url": "http://127.0.0.1:8080/v1",
+  "contract": "Cantor_Llama_CPP_Tool_Reflection_Probe.sop",
+  "cross_style_semantic_equal": false,
+  "finished_unix_ms": 1785341044750,
+  "model": "gpt-oss-20b",
+  "private_reasoning_recorded": false,
+  "probe": "cantor_llama_cpp_tool_reflection",
+  "provider": "llama.cpp",
+  "server": {
+    "chat_template_characters": 15836,
+    "chat_template_present": true,
+    "elapsed_ms": 2,
+    "model_path": "C:\\Users\\enjer\\.lmstudio\\models\\lmstudio-community\\gpt-oss-20b-GGUF\\gpt-oss-20b-MXFP4.gguf",
+    "status": "reachable",
+    "total_slots": 1
+  },
+  "started_unix_ms": 1785341022434,
+  "status": "failed",
+  "surface_forms_are_distinct": true,
+  "trials": [
+    {
+      "expression_style": "verbose",
+      "fault": "schema_fault",
+      "fault_detail": "second inference is not valid contract JSON: unknown field `semantic_expression`, expected one of `selected_identity`, `excluded_identity`, `purpose`, `next_action`, `expression_style`, `source_address` at line 1 column 51",
+      "first_request": {
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "You are executing a controlled tool-interface test. Do not answer the semantic request directly. Call cantor_reflect exactly once. Copy the subject, purpose, and requested expression_style exactly into its arguments. After its result is supplied, import that result and return only the requested normalized JSON. Do not invent or alter semantic identities.",
+            "role": "system"
+          },
+          {
+            "content": "Reflect subject \"bank\" for purpose \"decide where to deposit a paycheck\" using expression_style \"verbose\".",
+            "role": "user"
+          }
+        ],
+        "model": "gpt-oss-20b",
+        "parallel_tool_calls": false,
+        "temperature": 0,
+        "tool_choice": "required",
+        "tools": [
+          {
+            "function": {
+              "description": "Resolve one contextual semantic subject into a requested expression style.",
+              "name": "cantor_reflect",
+              "parameters": {
+                "additionalProperties": false,
+                "properties": {
+                  "expression_style": {
+                    "enum": [
+                      "verbose",
+                      "condensed",
+                      "directive"
+                    ],
+                    "type": "string"
+                  },
+                  "purpose": {
+                    "const": "decide where to deposit a paycheck",
+                    "type": "string"
+                  },
+                  "subject": {
+                    "const": "bank",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "subject",
+                  "purpose",
+                  "expression_style"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "function"
+          }
+        ]
+      },
+      "first_request_elapsed_ms": 18657,
+      "first_response": {
+        "choices": [
+          {
+            "finish_reason": "tool_calls",
+            "index": 0,
+            "message": {
+              "content": "",
+              "role": "assistant",
+              "tool_calls": [
+                {
+                  "function": {
+                    "arguments": "{\"expression_style\":\"verbose\",\"purpose\":\"decide where to deposit a paycheck\",\"subject\":\"bank\"}",
+                    "name": "cantor_reflect"
+                  },
+                  "id": "poipTwHJscmZtSu8ydykLebQqcnHiDhK",
+                  "type": "function"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1785341041,
+        "id": "chatcmpl-sc5oQQl0PVjdO4ryS7kpY7VT1YjfvvMv",
+        "model": "gpt-oss-20b",
+        "object": "chat.completion",
+        "system_fingerprint": "b10181-caa596ab3",
+        "timings": {
+          "cache_n": 0,
+          "predicted_ms": 2435.608,
+          "predicted_n": 207,
+          "predicted_per_second": 84.98904585631185,
+          "predicted_per_token_ms": 11.766222222222224,
+          "prompt_ms": 16217.838,
+          "prompt_n": 233,
+          "prompt_per_second": 14.366896500014366,
+          "prompt_per_token_ms": 69.60445493562231
+        },
+        "usage": {
+          "completion_tokens": 207,
+          "prompt_tokens": 233,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 440
+        }
+      },
+      "host_elapsed_ms": 19343,
+      "normalized_result": null,
+      "second_request": {
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "You are executing a controlled tool-interface test. Import the supplied cantor_reflect result. Return only normalized JSON matching the response schema. Preserve every semantic field exactly. Do not call a tool again.",
+            "role": "system"
+          },
+          {
+            "content": "Reflect subject \"bank\" for purpose \"decide where to deposit a paycheck\" using expression_style \"verbose\".",
+            "role": "user"
+          },
+          {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": [
+              {
+                "function": {
+                  "arguments": "{\"expression_style\":\"verbose\",\"purpose\":\"decide where to deposit a paycheck\",\"subject\":\"bank\"}",
+                  "name": "cantor_reflect"
+                },
+                "id": "poipTwHJscmZtSu8ydykLebQqcnHiDhK",
+                "type": "function"
+              }
+            ]
+          },
+          {
+            "content": "{\"expression_style\":\"verbose\",\"semantic_expression\":\"For the purpose \\\"decide where to deposit a paycheck\\\", interpret \\\"bank\\\" as the identity \\\"financial_institution\\\". Exclude the competing identity \\\"river_bank\\\". The next action is \\\"compare_account_options\\\".\",\"source_address\":\"fixture://bank/paycheck-deposit\",\"authority\":\"test_fixture_only\"}",
+            "role": "tool",
+            "tool_call_id": "poipTwHJscmZtSu8ydykLebQqcnHiDhK"
+          }
+        ],
+        "model": "gpt-oss-20b",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "excluded_identity": {
+                "const": "river_bank",
+                "type": "string"
+              },
+              "expression_style": {
+                "enum": [
+                  "verbose",
+                  "condensed",
+                  "directive"
+                ],
+                "type": "string"
+              },
+              "next_action": {
+                "const": "compare_account_options",
+                "type": "string"
+              },
+              "purpose": {
+                "const": "decide where to deposit a paycheck",
+                "type": "string"
+              },
+              "selected_identity": {
+                "const": "financial_institution",
+                "type": "string"
+              },
+              "source_address": {
+                "const": "fixture://bank/paycheck-deposit",
+                "type": "string"
+              }
+            },
+            "required": [
+              "selected_identity",
+              "excluded_identity",
+              "purpose",
+              "next_action",
+              "expression_style",
+              "source_address"
+            ],
+            "type": "object"
+          },
+          "type": "json_schema"
+        },
+        "temperature": 0
+      },
+      "second_request_elapsed_ms": 685,
+      "second_response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"expression_style\":\"verbose\",\"semantic_expression\":\"For the purpose \\\"decide where to deposit a paycheck\\\", interpret \\\"bank\\\" as the identity \\\"financial_institution\\\". Exclude the competing identity \\\"river_bank\\\". The next action is \\\"compare_account_options\\\".\",\"source_address\":\"fixture://bank/paycheck-deposit\",\"authority\":\"test_fixture_only\"}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1785341041,
+        "id": "chatcmpl-1lfjNud9qpsXpvMvZnCq4B4lTU3mLRMk",
+        "model": "gpt-oss-20b",
+        "object": "chat.completion",
+        "system_fingerprint": "b10181-caa596ab3",
+        "timings": {
+          "cache_n": 0,
+          "predicted_ms": 611.021,
+          "predicted_n": 220,
+          "predicted_per_second": 360.0530914649415,
+          "predicted_per_token_ms": 2.7773681818181815,
+          "prompt_ms": 67.96,
+          "prompt_n": 276,
+          "prompt_per_second": 4061.2124779281935,
+          "prompt_per_token_ms": 0.246231884057971
+        },
+        "usage": {
+          "completion_tokens": 220,
+          "prompt_tokens": 276,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 496
+        }
+      },
+      "status": "failed",
+      "tool_call": {
+        "function": {
+          "arguments": "{\"expression_style\":\"verbose\",\"purpose\":\"decide where to deposit a paycheck\",\"subject\":\"bank\"}",
+          "name": "cantor_reflect"
+        },
+        "id": "poipTwHJscmZtSu8ydykLebQqcnHiDhK",
+        "type": "function"
+      },
+      "tool_result": {
+        "authority": "test_fixture_only",
+        "expression_style": "verbose",
+        "semantic_expression": "For the purpose \"decide where to deposit a paycheck\", interpret \"bank\" as the identity \"financial_institution\". Exclude the competing identity \"river_bank\". The next action is \"compare_account_options\".",
+        "source_address": "fixture://bank/paycheck-deposit"
+      }
+    },
+    {
+      "expression_style": "condensed",
+      "fault": "schema_fault",
+      "fault_detail": "second inference is not valid contract JSON: unknown field `semantic_expression`, expected one of `selected_identity`, `excluded_identity`, `purpose`, `next_action`, `expression_style`, `source_address` at line 1 column 53",
+      "first_request": {
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "You are executing a controlled tool-interface test. Do not answer the semantic request directly. Call cantor_reflect exactly once. Copy the subject, purpose, and requested expression_style exactly into its arguments. After its result is supplied, import that result and return only the requested normalized JSON. Do not invent or alter semantic identities.",
+            "role": "system"
+          },
+          {
+            "content": "Reflect subject \"bank\" for purpose \"decide where to deposit a paycheck\" using expression_style \"condensed\".",
+            "role": "user"
+          }
+        ],
+        "model": "gpt-oss-20b",
+        "parallel_tool_calls": false,
+        "temperature": 0,
+        "tool_choice": "required",
+        "tools": [
+          {
+            "function": {
+              "description": "Resolve one contextual semantic subject into a requested expression style.",
+              "name": "cantor_reflect",
+              "parameters": {
+                "additionalProperties": false,
+                "properties": {
+                  "expression_style": {
+                    "enum": [
+                      "verbose",
+                      "condensed",
+                      "directive"
+                    ],
+                    "type": "string"
+                  },
+                  "purpose": {
+                    "const": "decide where to deposit a paycheck",
+                    "type": "string"
+                  },
+                  "subject": {
+                    "const": "bank",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "subject",
+                  "purpose",
+                  "expression_style"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "function"
+          }
+        ]
+      },
+      "first_request_elapsed_ms": 752,
+      "first_response": {
+        "choices": [
+          {
+            "finish_reason": "tool_calls",
+            "index": 0,
+            "message": {
+              "content": "",
+              "role": "assistant",
+              "tool_calls": [
+                {
+                  "function": {
+                    "arguments": "{\"expression_style\":\"condensed\",\"purpose\":\"decide where to deposit a paycheck\",\"subject\":\"bank\"}",
+                    "name": "cantor_reflect"
+                  },
+                  "id": "sXhTAYWsCy1iUHWZSQntKPFaLEwWSx7t",
+                  "type": "function"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1785341042,
+        "id": "chatcmpl-RwJVB5A03RmveI5v3Dodb5rfoDb5ehj2",
+        "model": "gpt-oss-20b",
+        "object": "chat.completion",
+        "system_fingerprint": "b10181-caa596ab3",
+        "timings": {
+          "cache_n": 228,
+          "predicted_ms": 724.49,
+          "predicted_n": 258,
+          "predicted_per_second": 356.1125757429364,
+          "predicted_per_token_ms": 2.8081007751937985,
+          "prompt_ms": 18.416,
+          "prompt_n": 6,
+          "prompt_per_second": 325.8036490008688,
+          "prompt_per_token_ms": 3.0693333333333332
+        },
+        "usage": {
+          "completion_tokens": 258,
+          "prompt_tokens": 234,
+          "prompt_tokens_details": {
+            "cached_tokens": 228
+          },
+          "total_tokens": 492
+        }
+      },
+      "host_elapsed_ms": 1335,
+      "normalized_result": null,
+      "second_request": {
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "You are executing a controlled tool-interface test. Import the supplied cantor_reflect result. Return only normalized JSON matching the response schema. Preserve every semantic field exactly. Do not call a tool again.",
+            "role": "system"
+          },
+          {
+            "content": "Reflect subject \"bank\" for purpose \"decide where to deposit a paycheck\" using expression_style \"condensed\".",
+            "role": "user"
+          },
+          {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": [
+              {
+                "function": {
+                  "arguments": "{\"expression_style\":\"condensed\",\"purpose\":\"decide where to deposit a paycheck\",\"subject\":\"bank\"}",
+                  "name": "cantor_reflect"
+                },
+                "id": "sXhTAYWsCy1iUHWZSQntKPFaLEwWSx7t",
+                "type": "function"
+              }
+            ]
+          },
+          {
+            "content": "{\"expression_style\":\"condensed\",\"semantic_expression\":\"PURPOSE decide where to deposit a paycheck | FOCUS bank@financial_institution | EXCLUDE bank@river_bank | NEXT compare_account_options\",\"source_address\":\"fixture://bank/paycheck-deposit\",\"authority\":\"test_fixture_only\"}",
+            "role": "tool",
+            "tool_call_id": "sXhTAYWsCy1iUHWZSQntKPFaLEwWSx7t"
+          }
+        ],
+        "model": "gpt-oss-20b",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "excluded_identity": {
+                "const": "river_bank",
+                "type": "string"
+              },
+              "expression_style": {
+                "enum": [
+                  "verbose",
+                  "condensed",
+                  "directive"
+                ],
+                "type": "string"
+              },
+              "next_action": {
+                "const": "compare_account_options",
+                "type": "string"
+              },
+              "purpose": {
+                "const": "decide where to deposit a paycheck",
+                "type": "string"
+              },
+              "selected_identity": {
+                "const": "financial_institution",
+                "type": "string"
+              },
+              "source_address": {
+                "const": "fixture://bank/paycheck-deposit",
+                "type": "string"
+              }
+            },
+            "required": [
+              "selected_identity",
+              "excluded_identity",
+              "purpose",
+              "next_action",
+              "expression_style",
+              "source_address"
+            ],
+            "type": "object"
+          },
+          "type": "json_schema"
+        },
+        "temperature": 0
+      },
+      "second_request_elapsed_ms": 582,
+      "second_response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"expression_style\":\"condensed\",\"semantic_expression\":\"PURPOSE decide where to deposit a paycheck | FOCUS bank@financial_institution | EXCLUDE bank@river_bank | NEXT compare_account_options\",\"source_address\":\"fixture://bank/paycheck-deposit\",\"authority\":\"test_fixture_only\"}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1785341043,
+        "id": "chatcmpl-iR8Tt5jZv5H5vLzJSWRn2abqunyGadpL",
+        "model": "gpt-oss-20b",
+        "object": "chat.completion",
+        "system_fingerprint": "b10181-caa596ab3",
+        "timings": {
+          "cache_n": 106,
+          "predicted_ms": 530.777,
+          "predicted_n": 190,
+          "predicted_per_second": 357.9657747038775,
+          "predicted_per_token_ms": 2.793563157894737,
+          "prompt_ms": 42.507,
+          "prompt_n": 145,
+          "prompt_per_second": 3411.2028607052957,
+          "prompt_per_token_ms": 0.293151724137931
+        },
+        "usage": {
+          "completion_tokens": 190,
+          "prompt_tokens": 251,
+          "prompt_tokens_details": {
+            "cached_tokens": 106
+          },
+          "total_tokens": 441
+        }
+      },
+      "status": "failed",
+      "tool_call": {
+        "function": {
+          "arguments": "{\"expression_style\":\"condensed\",\"purpose\":\"decide where to deposit a paycheck\",\"subject\":\"bank\"}",
+          "name": "cantor_reflect"
+        },
+        "id": "sXhTAYWsCy1iUHWZSQntKPFaLEwWSx7t",
+        "type": "function"
+      },
+      "tool_result": {
+        "authority": "test_fixture_only",
+        "expression_style": "condensed",
+        "semantic_expression": "PURPOSE decide where to deposit a paycheck | FOCUS bank@financial_institution | EXCLUDE bank@river_bank | NEXT compare_account_options",
+        "source_address": "fixture://bank/paycheck-deposit"
+      }
+    },
+    {
+      "expression_style": "directive",
+      "fault": "schema_fault",
+      "fault_detail": "second inference is not valid contract JSON: unknown field `semantic_expression`, expected one of `selected_identity`, `excluded_identity`, `purpose`, `next_action`, `expression_style`, `source_address` at line 1 column 53",
+      "first_request": {
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "You are executing a controlled tool-interface test. Do not answer the semantic request directly. Call cantor_reflect exactly once. Copy the subject, purpose, and requested expression_style exactly into its arguments. After its result is supplied, import that result and return only the requested normalized JSON. Do not invent or alter semantic identities.",
+            "role": "system"
+          },
+          {
+            "content": "Reflect subject \"bank\" for purpose \"decide where to deposit a paycheck\" using expression_style \"directive\".",
+            "role": "user"
+          }
+        ],
+        "model": "gpt-oss-20b",
+        "parallel_tool_calls": false,
+        "temperature": 0,
+        "tool_choice": "required",
+        "tools": [
+          {
+            "function": {
+              "description": "Resolve one contextual semantic subject into a requested expression style.",
+              "name": "cantor_reflect",
+              "parameters": {
+                "additionalProperties": false,
+                "properties": {
+                  "expression_style": {
+                    "enum": [
+                      "verbose",
+                      "condensed",
+                      "directive"
+                    ],
+                    "type": "string"
+                  },
+                  "purpose": {
+                    "const": "decide where to deposit a paycheck",
+                    "type": "string"
+                  },
+                  "subject": {
+                    "const": "bank",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "subject",
+                  "purpose",
+                  "expression_style"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "function"
+          }
+        ]
+      },
+      "first_request_elapsed_ms": 945,
+      "first_response": {
+        "choices": [
+          {
+            "finish_reason": "tool_calls",
+            "index": 0,
+            "message": {
+              "content": "",
+              "role": "assistant",
+              "tool_calls": [
+                {
+                  "function": {
+                    "arguments": "{\"expression_style\":\"directive\",\"purpose\":\"decide where to deposit a paycheck\",\"subject\":\"bank\"}",
+                    "name": "cantor_reflect"
+                  },
+                  "id": "2sW7MytdugW6ue36jWxzourVuIBfqocB",
+                  "type": "function"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1785341044,
+        "id": "chatcmpl-fZzsAx39y2A0p84urG2YU3gqmcqqV1pB",
+        "model": "gpt-oss-20b",
+        "object": "chat.completion",
+        "system_fingerprint": "b10181-caa596ab3",
+        "timings": {
+          "cache_n": 204,
+          "predicted_ms": 901.747,
+          "predicted_n": 307,
+          "predicted_per_second": 340.4502593299451,
+          "predicted_per_token_ms": 2.93728664495114,
+          "prompt_ms": 33.303,
+          "prompt_n": 29,
+          "prompt_per_second": 870.792421103204,
+          "prompt_per_token_ms": 1.1483793103448274
+        },
+        "usage": {
+          "completion_tokens": 307,
+          "prompt_tokens": 233,
+          "prompt_tokens_details": {
+            "cached_tokens": 204
+          },
+          "total_tokens": 540
+        }
+      },
+      "host_elapsed_ms": 1633,
+      "normalized_result": null,
+      "second_request": {
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "You are executing a controlled tool-interface test. Import the supplied cantor_reflect result. Return only normalized JSON matching the response schema. Preserve every semantic field exactly. Do not call a tool again.",
+            "role": "system"
+          },
+          {
+            "content": "Reflect subject \"bank\" for purpose \"decide where to deposit a paycheck\" using expression_style \"directive\".",
+            "role": "user"
+          },
+          {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": [
+              {
+                "function": {
+                  "arguments": "{\"expression_style\":\"directive\",\"purpose\":\"decide where to deposit a paycheck\",\"subject\":\"bank\"}",
+                  "name": "cantor_reflect"
+                },
+                "id": "2sW7MytdugW6ue36jWxzourVuIBfqocB",
+                "type": "function"
+              }
+            ]
+          },
+          {
+            "content": "{\"expression_style\":\"directive\",\"semantic_expression\":\"NAME bank AS financial_institution; BOUND purpose=\\\"decide where to deposit a paycheck\\\"; EXCLUDE river_bank; EMIT next_action=compare_account_options\",\"source_address\":\"fixture://bank/paycheck-deposit\",\"authority\":\"test_fixture_only\"}",
+            "role": "tool",
+            "tool_call_id": "2sW7MytdugW6ue36jWxzourVuIBfqocB"
+          }
+        ],
+        "model": "gpt-oss-20b",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "excluded_identity": {
+                "const": "river_bank",
+                "type": "string"
+              },
+              "expression_style": {
+                "enum": [
+                  "verbose",
+                  "condensed",
+                  "directive"
+                ],
+                "type": "string"
+              },
+              "next_action": {
+                "const": "compare_account_options",
+                "type": "string"
+              },
+              "purpose": {
+                "const": "decide where to deposit a paycheck",
+                "type": "string"
+              },
+              "selected_identity": {
+                "const": "financial_institution",
+                "type": "string"
+              },
+              "source_address": {
+                "const": "fixture://bank/paycheck-deposit",
+                "type": "string"
+              }
+            },
+            "required": [
+              "selected_identity",
+              "excluded_identity",
+              "purpose",
+              "next_action",
+              "expression_style",
+              "source_address"
+            ],
+            "type": "object"
+          },
+          "type": "json_schema"
+        },
+        "temperature": 0
+      },
+      "second_request_elapsed_ms": 688,
+      "second_response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"expression_style\":\"directive\",\"semantic_expression\":\"NAME bank AS financial_institution; BOUND purpose=\\\"decide where to deposit a paycheck\\\"; EXCLUDE river_bank; EMIT next_action=compare_account_options\",\"source_address\":\"fixture://bank/paycheck-deposit\",\"authority\":\"test_fixture_only\"}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1785341044,
+        "id": "chatcmpl-3VAMJEKmJZySETlNVwxtb1VsGy178xSL",
+        "model": "gpt-oss-20b",
+        "object": "chat.completion",
+        "system_fingerprint": "b10181-caa596ab3",
+        "timings": {
+          "cache_n": 106,
+          "predicted_ms": 635.613,
+          "predicted_n": 229,
+          "predicted_per_second": 360.2821213537168,
+          "predicted_per_token_ms": 2.7756026200873363,
+          "prompt_ms": 42.416,
+          "prompt_n": 150,
+          "prompt_per_second": 3536.4013579781213,
+          "prompt_per_token_ms": 0.2827733333333333
+        },
+        "usage": {
+          "completion_tokens": 229,
+          "prompt_tokens": 256,
+          "prompt_tokens_details": {
+            "cached_tokens": 106
+          },
+          "total_tokens": 485
+        }
+      },
+      "status": "failed",
+      "tool_call": {
+        "function": {
+          "arguments": "{\"expression_style\":\"directive\",\"purpose\":\"decide where to deposit a paycheck\",\"subject\":\"bank\"}",
+          "name": "cantor_reflect"
+        },
+        "id": "2sW7MytdugW6ue36jWxzourVuIBfqocB",
+        "type": "function"
+      },
+      "tool_result": {
+        "authority": "test_fixture_only",
+        "expression_style": "directive",
+        "semantic_expression": "NAME bank AS financial_institution; BOUND purpose=\"decide where to deposit a paycheck\"; EXCLUDE river_bank; EMIT next_action=compare_account_options",
+        "source_address": "fixture://bank/paycheck-deposit"
+      }
+    }
+  ]
+}

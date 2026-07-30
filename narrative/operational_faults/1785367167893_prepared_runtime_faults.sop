@@ -1,0 +1,67 @@
+Subject: Cantor Prepared Runtime Operational Faults
+
+@ [turn] C:\Project\Cantor\narrative\turns\1785367167893_cantor_prepared_runtime.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Prepared_Runtime_Proof.sop
+
+& [OperationalFaultRecord] is the visible workflow-fault account
+  + [record_uuid] is 9d520f31-99ba-45a6-b899-a8f9e297ca1c
+  + [captured_at_ms] is 1785367167893
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [project] is Cantor
+
+& [Fault] is PowerShell loop output piped directly from a statement block
+  + [symptom] is two aggregation attempts reported an empty pipe element
+  + [impact] is no project data changed and evidence aggregation stopped
+  + [correction] is assign loop output to a named collection before Format-Table
+  + [state] is resolved
+
+& [Fault] is Windows wildcard passed as a literal Rust source path
+  + [symptom] is one rg call against trust/*.rs returned operating-system error 123
+  + [impact] is that search branch produced no result while direct file reads remained valid
+  + [correction] is use rg include patterns or explicit files on Windows
+  + [state] is resolved
+
+& [Fault] is first prepared equivalence test over-applied response verification
+  + [symptom] is the verifier correctly rejected a response whose test request intentionally supplied a false environment digest
+  + [impact] is one test failed although direct and prepared responses were exactly equal
+  + [correction] is require exact equality for every case and invoke environment-backed verification only when the request environment binding is valid
+  + [state] is resolved
+
+& [Fault] is first heap snapshot dropped the prepared runtime
+  + [symptom] is prepared current bytes appeared smaller than baseline because the runtime binding ended at the match-arm boundary before HeapStats capture
+  + [impact] is the first prepared current-byte artifacts were invalid
+  + [correction] is retain the runtime through the stats snapshot, drop only the response, rebuild, and replace all eighteen memory artifacts
+  + [proof] is three identical allocation-level runs per shape and mode plus manifest hash verification
+  + [state] is resolved_and_superseded
+
+& [Fault] is local PowerShell script execution policy blocked direct invocation
+  + [symptom] is the evidence summarizer could not load through the ambient policy
+  + [impact] is no summary was produced by the first invocation
+  + [correction] is invoke a separate PowerShell process with NoProfile and ExecutionPolicy Bypass without changing machine policy
+  + [state] is resolved
+
+& [Fault] is first SHA-256 test assumed UpperHex for sha2 hybrid-array output
+  + [symptom] is the isolated evidence test did not compile
+  + [impact] is verification stopped before test execution
+  + [correction] is encode each digest byte explicitly as two uppercase hexadecimal digits
+  + [state] is resolved
+
+& [Fault] is warnings-denied lint rejected large unboxed response errors
+  + [symptom] is clippy reported result_large_err plus needless borrows in the shared protocol seams
+  + [impact] is the first lint gate failed
+  + [correction] is box internal ProtocolResponse errors and remove needless borrows without suppressing lint
+  + [proof] is production and experiment warnings-denied clippy passed
+  + [state] is resolved
+
+& [Fault] is cargo audit initially unavailable
+  + [symptom] is Cargo reported no audit subcommand
+  + [impact] is dependency advisory verification had not run
+  + [correction] is install locked cargo-audit 0.22.2; a first short bounded installation timed out, then the complete installation succeeded
+  + [proof] is both lockfiles scanned against 1173 RustSec advisories with zero vulnerabilities
+  + [state] is resolved
+
+& [Fault] is pre-implementation signature invalidated by its declared oracle-change condition
+  + [symptom] is the initial signature was still named in closure records after protocol.rs was refactored into shared direct and prepared seams
+  + [impact] is exact behavior passed but the original signature could not honestly remain active under its own invalidation condition
+  + [correction] is mark the prior signature invalidated, reprocess exact full-response equivalence, issue post-implementation confirmation signature 38e9e194-1b32-4785-92a4-1f34ba1bfed9, and regenerate the evidence manifest
+  + [state] is resolved_with_transparent_signature_supersession

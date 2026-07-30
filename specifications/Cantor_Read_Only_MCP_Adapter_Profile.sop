@@ -1,0 +1,75 @@
+Subject: Cantor Read-Only MCP Adapter Profile
+
+Description: Signed activation and implementation authority for one local read-only Codex MCP tool that projects the existing Cantor protocol without owning semantic logic.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_read_only_mcp_activation\Dictated_Cantor_Read_Only_MCP_Activation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_read_only_mcp_activation\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Read_Only_MCP_Adapter_Profile.exploded.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Read_Only_MCP_Adapter_Research.sop
+@ [parent] C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+
+& [CanonicalIdentity] is the accepted Phase5 activation authority
+  + [canonical_specification_uuid] is 91bb2d88-12d4-4cb7-8d17-3335bc099232
+  + [source_snapshot_uuid] is 730d4f89-7573-4c0d-a0a2-cc4cedddd600
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [requirement_set] is CEB-014 and CEB-015
+  + [implementation_language] is safe Rust edition 2024
+  + [transport] is local STDIO
+  + [activation_state] is active_for_bounded_implementation
+
+& [SingleToolBoundary] is the complete MCP surface
+  + [server_name] is cantor
+  + [tool_name] is query_sop
+  + [input] is one strict ProtocolRequest under a request field
+  + [operator_authority] is one EmbeddedRuntimeEnvironment loaded outside the model call
+  + [execution] is execute_protocol_request in cantor_core
+  + [output] is the unmodified semantic ProtocolResponse projected as structured content
+  + [annotations] is read_only, non_destructive, and closed_world
+  - never: expose effects, package compilation, trust mutation, model inference, HTTP, or adapter-local semantic behavior
+
+& [ImplementationInvariantSet] is non-waivable
+  = must: use the official Rust MCP SDK
+  = must: keep stdout exclusive to MCP frames and stderr for diagnostics
+  = must: fail startup when the pinned environment cannot be read or decoded
+  = must: cap environment and tool request sizes
+  = must: reject unknown ProtocolRequest fields
+  = must: preserve caller identity, purpose, package bindings, requested scope, budget, faults, proof, continuation, and digests
+  = must: make tool failure visible to the model without inventing a successful result
+  = must: prove direct-core, CLI, handler, and real-STDIO equivalence
+  - never: let the tool caller supply or replace trust roots, package bytes, environment time, or server configuration
+  - never: let an MCP SDK abstraction become semantic authority
+
+& [AcceptanceGate] is MCP-AC1 through MCP-AC7
+  @ [definition] C:\Project\Cantor\specifications\exploded\Cantor_Read_Only_MCP_Adapter_Profile.exploded.sop
+  = must: keep CEB-016 through CEB-030 inactive after this slice
+
+& [SJSProcessingTrace] is the preserved processing record
+  + [processed_stage_set] is source_preserved, delineated, researched, exploded, data_designed, semantically_refined, constraint_checked, pruned, seven_fold_phase_locked, justified, planned, registry_ready, and signed
+  + [constraint_check] is passed against parent build authority, execution surface authority, OpenAI Codex MCP support, MCP schema, and official Rust SDK
+  + [pruning_trace] is HTTP, plugin UI, effects, resident service, trust mutation, adapter-local semantics, and configuration mutation excluded
+  + [exhaustion_state] is seven_fold_phase_locked_for_one_local_read_only_tool
+
+& [RegistryRecord] is the SJS lineage record
+  + [registry_uuid] is c287eb66-ee73-461c-8a0d-e47f3fb67ed8
+  + [source_node_uuid] is 730d4f89-7573-4c0d-a0a2-cc4cedddd600
+  + [exploded_node_uuid] is a11ce2e8-62ac-4911-8154-1dd32acc1aec
+  + [canonical_node_uuid] is 91bb2d88-12d4-4cb7-8d17-3335bc099232
+  + [justification_node_uuid] is a67edcca-2e35-40d1-817e-806dab139969
+  + [signature_uuid] is 9c645f26-4ff8-4872-b62e-fa3af68cf068
+  + [edge] is source_node_uuid derived_to exploded_node_uuid
+  + [edge] is exploded_node_uuid promoted_to canonical_node_uuid
+  + [edge] is canonical_node_uuid justified_by justification_node_uuid
+  + [edge] is canonical_node_uuid signed_by signature_uuid
+
+& [SatisfactionSignature] is the valid SJS satisfaction signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 9c645f26-4ff8-4872-b62e-fa3af68cf068
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-29_cantor_read_only_mcp_activation\Dictated_Cantor_Read_Only_MCP_Activation_Source.sop
+  + [source_snapshot_uuid] is 730d4f89-7573-4c0d-a0a2-cc4cedddd600
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Read_Only_MCP_Adapter_Profile.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+  + [processed_stage_set] is source_preserved, delineated, researched, exploded, data_designed, semantically_refined, constraint_checked, pruned, seven_fold_phase_locked, justified, planned, registry_ready, and signed
+  + [exhaustion_state] is seven_fold_phase_locked_for_one_local_read_only_tool
+  + [signature_status] is valid
+  + [invalidation_condition] is source_change, parent_authority_change, protocol_change, tool_schema_drift, semantic_divergence, authority_bypass, missing_visible_failure, or proof_failure

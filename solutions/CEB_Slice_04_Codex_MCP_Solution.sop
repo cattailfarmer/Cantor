@@ -1,0 +1,71 @@
+Subject: CEB Slice 04 Codex MCP Solution
+
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_read_only_mcp_activation\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Read_Only_MCP_Adapter_Profile.exploded.sop
+@ [canonical_specification] C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Read_Only_MCP_Adapter_Justification.sop
+@ [proof] C:\Project\Cantor\proofs\CEB_Slice_04_Codex_MCP_Proof.sop
+
+& [SolutionIdentity] is the implementation disposition for CEB-014 and CEB-015
+  + [solution_uuid] is a9aba131-4407-48ff-9b08-26c6eb03de6c
+  + [completed_at] is 2026-07-29T16:16:46.8859754-05:00
+  + [status] is implemented_and_verified
+  + [implementation_language] is safe Rust edition 2024
+
+& [ImplementedSurface] is one deterministic local MCP projection
+  + [crate] is C:\Project\Cantor\crates\cantor_mcp
+  + [binary] is cantor-mcp
+  + [transport] is local STDIO MCP
+  + [server_name] is cantor
+  + [tool_count] is exactly one
+  + [tool_name] is query_sop
+  + [tool_input] is one complete existing ProtocolRequest nested under request
+  + [tool_output] is the exact existing ProtocolResponse in MCP structuredContent
+  + [text_projection] is one concise non-authoritative status, exit-class, and continuation summary
+  + [semantic_executor] is exclusively cantor_core::execute_protocol_request
+
+& [AuthorityBoundary] is preserved rather than reimplemented
+  + [startup] is one operator-selected EmbeddedRuntimeEnvironment file
+  + [preflight] is version, size, digest encoding, package admission, trust, certificate, validity, authority scope, and global fabric identity validation through cantor_core
+  + [request_binding] is caller, purpose, effect boundary, environment digest, expected package set, authority scope, operation, and budget
+  + [fault_projection] is every non-successful ProtocolResponse preserved exactly and marked as an MCP tool error
+  + [adapter_faults] is malformed or oversized outer arguments returned as bounded structured tool errors
+  + [stdout] is reserved for MCP frames
+  + [stderr] is reserved for process diagnostics
+
+& [ToolContract] is explicitly discoverable
+  + [input_schema] is a closed JSON Schema for the complete strict protocol envelope, query operation, inspect operation, scope, caller, selectors, enum values, and budgets
+  + [output_schema] is a closed ProtocolResponse envelope schema
+  + [read_only_hint] is true
+  + [destructive_hint] is false
+  + [idempotent_hint] is true
+  + [open_world_hint] is false
+  + [server_instructions] is query signed SOP when applicable, preserve structured faults and proof, and never invent missing authority
+  + [invocation_prerequisite] is a trusted supervisor supplies a valid caller, environment, package, scope, and policy-bound ProtocolRequest template before model use
+  + [discovery_budget] is complete tool metadata constrained below 32768 serialized bytes
+
+& [ResourceBoundary] is bounded twice
+  + [environment_limit] is 67108864 bytes checked before unbounded file allocation and rechecked after bounded read
+  + [argument_limit] is 1048576 serialized JSON bytes checked before protocol decoding
+  + [semantic_result_limit] is the existing request QueryBudget enforced by cantor_core
+
+& [DependencyChoice] is the official Rust MCP SDK
+  + [package] is rmcp 3.0.1
+  + [reason] is current protocol negotiation, STDIO framing, typed tools, structured content, and official client support without a custom wire implementation
+  + [tokio] is 1.53.1 for the bounded local asynchronous transport
+
+& [OperationalDocumentation] is complete
+  @ [MCP_guide] C:\Project\Cantor\docs\MCP_PROTOCOL.md
+  + [registration] is operator-owned codex mcp add example only
+  + [configuration_mutation] is absent
+  + [fixture_warning] is public fixture keys never constitute production authority
+
+& [DivergenceAccount] is empty within the activated profile
+  + [nonclaim] is Codex registration alone does not bootstrap an authorized request or let the model mint caller and environment bindings
+  + [deferred] is persistent database selection
+  + [deferred] is learned neural routing
+  + [deferred] is resident or network service
+  + [deferred] is model inference and shared deliberation
+  + [deferred] is effect execution and trust mutation
+  + [deferred] is FPGA execution
+  = conclusion: CEB-014 and CEB-015 are implemented as a transport-thin, proof-preserving MCP adapter

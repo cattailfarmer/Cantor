@@ -1,0 +1,46 @@
+Subject: Cantor Persistence Backend Research
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_persistence_decision\Dictated_Cantor_Persistence_Decision_Source.sop
+@ [parent_engine] C:\Project\Cantor\specifications\Cantor_Proof_Carrying_Semantic_Query_Engine.sop
+@ [build_plan] C:\Project\Cantor\plans\Cantor_Engine_Build_Plan.sop
+
+& [ResearchIdentity] is the current backend-candidate record
+  + [research_uuid] is 7f4ad741-ea3f-4756-812d-1b17061ba16e
+  + [captured_at] is 2026-07-29T16:30:13.5617838-05:00
+  + [question] is which physical persistence boundary is justified by current immutable signed-package and reconstruction workloads
+
+& [ObservedCantorShape] is the implemented logical workload
+  + [authority_unit] is immutable CompiledSourcePackage with recognition certificate and exact source material
+  + [runtime_unit] is EmbeddedRuntimeEnvironment containing trust policy, time, and an ordered package vector
+  + [query_unit] is deterministic in-memory SemanticFabric reconstructed only after package admission
+  + [write_pattern] is compile or replace immutable package snapshots outside query execution
+  + [read_pattern] is startup reconstruction followed by many read-only queries
+  + [consistency_oracle] is exact environment digest and exact ProtocolResponse equality
+
+& [Candidate_JSON] is the current simplest snapshot
+  + [shape] is one deterministic serde_json environment file
+  + [strength] is minimal dependencies, transparent inspection, exact existing protocol form, and simple backup
+  + [cost] is whole-file decode and rewrite, no selective package transaction, and weak large-corpus ergonomics
+
+& [Candidate_SQLite] is a relational application-file candidate
+  + [version] is SQLite through rusqlite 0.40.1
+  + [shape] is environment header plus ordinal immutable package rows and indexed package identities
+  + [strength] is stable single-file format, transactions, constraints, inspection tooling, and future normalized relational projections
+  + [cost] is C/FFI or alternate SQLite runtime dependency, SQL migration surface, and risk of letting physical schema distort semantic authority
+  @ [primary_documentation] https://www.sqlite.org/appfileformat.html
+  @ [Rust_binding] https://docs.rs/rusqlite/0.40.1/rusqlite/
+
+& [Candidate_redb] is a pure-Rust embedded key-value candidate
+  + [version] is redb 4.1.0
+  + [shape] is environment header plus ordinal package values in copy-on-write B-trees
+  + [strength] is safe-Rust-facing ACID transactions, MVCC, simple exact-key storage, and no SQL layer
+  + [cost] is Rust-specific inspection and interoperability, a younger format history, and no relational query language
+  @ [primary_repository] https://github.com/cberner/redb
+  @ [Rust_documentation] https://docs.rs/redb/4.1.0/redb/
+
+& [ResearchCaution] is evidence discipline
+  + [vendor_benchmarks] is orientation only and not Cantor workload evidence
+  + [warm_cache] is repeated local loads are page-cache-influenced and cannot be called cold-disk latency
+  + [synthetic_scale] is structural scaling evidence rather than a production corpus claim
+  + [security] is database files remain untrusted inputs until reconstructed packages pass Cantor admission
+  + [decision] is based on Cantor correctness, startup, size, complexity, and migration needs rather than generic database reputation

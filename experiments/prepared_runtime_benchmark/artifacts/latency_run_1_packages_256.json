@@ -1,0 +1,62 @@
+{
+  "schema": "cantor-prepared-runtime-latency/0.2",
+  "package_count": 256,
+  "iterations": 40,
+  "cold_process_prepare": {
+    "samples": 1,
+    "minimum_us": 19849.2,
+    "median_us": 19849.2,
+    "p95_us": 19849.2,
+    "maximum_us": 19849.2
+  },
+  "direct_request": {
+    "samples": 40,
+    "minimum_us": 20085.3,
+    "median_us": 20543.5,
+    "p95_us": 22112.7,
+    "maximum_us": 22155.0
+  },
+  "prepared_construct": {
+    "samples": 40,
+    "minimum_us": 2151.8,
+    "median_us": 2277.8,
+    "p95_us": 2458.5,
+    "maximum_us": 3512.6
+  },
+  "warm_scope_preparation": {
+    "samples": 40,
+    "minimum_us": 18616.4,
+    "median_us": 19068.3,
+    "p95_us": 19952.2,
+    "maximum_us": 20581.3
+  },
+  "cold_runtime_first_request": {
+    "samples": 40,
+    "minimum_us": 21205.399999999998,
+    "median_us": 21832.1,
+    "p95_us": 23299.2,
+    "maximum_us": 23941.3
+  },
+  "prepared_scope_replacement": {
+    "samples": 40,
+    "minimum_us": 37375.7,
+    "median_us": 39695.3,
+    "p95_us": 45746.4,
+    "maximum_us": 49692.8
+  },
+  "prepared_hit": {
+    "samples": 160,
+    "minimum_us": 104.9,
+    "median_us": 106.39999999999999,
+    "p95_us": 110.69999999999999,
+    "maximum_us": 176.60000000000002
+  },
+  "exact_response_mismatches": 0,
+  "runtime_metrics_after_hits": {
+    "projection_hits": 160,
+    "projection_misses": 81,
+    "projection_preparations": 81,
+    "projection_replacements": 80,
+    "executions": 240
+  }
+}

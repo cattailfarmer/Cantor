@@ -1,0 +1,139 @@
+Subject: Cantor Semantic Token Ring Protocol
+
+Description: An optional cooperative-inference protocol in which every required participant receives and passes one immutable semantic token before Cantor closes a round and mints the next semantic epoch.
+
+& [ProtocolIdentity] is the canonical token-ring formation
+  + [specification_uuid] is 0694821b-9685-4f2c-b893-1e1b10a7bddd
+  + [canonical_name] is Cantor Semantic Token Ring
+  + [owner] is Cantor JunctionSession
+  + [purpose] is deterministic, fair, inspectable circulation of one anchored semantic state through all required inference participants
+  + [inference_lifetime] is the logical multi-turn cooperative job rather than one continuously decoding provider request
+  = must: keep the cooperative job open until the round closes, faults, yields, or stops
+
+& [SemanticRoundToken] is the immutable object circulated during one round
+  + [token_uuid] is stable identity
+  + [session_uuid] is the owning JunctionSession
+  + [epoch] is the semantic round number
+  + [purpose_digest] is the frozen purpose contract
+  + [anchor_bundle_digest] is the frozen admitted SOP evidence
+  + [membership_digest] is the exact ordered required participant set
+  + [starting_state_version] is the Cantor session version at round opening
+  + [previous_token_digest] is lineage to the prior closed epoch
+  + [round_budget] is maximum time, handoffs, observations, tokens, and retries
+  + [token_digest] is immutable content identity
+  + [Cantor_signature] is origin and integrity proof
+  = must: remain byte-identical from issue through return
+  - never: carry mutable working conclusions inside the token
+
+& [TokenCustodyRecord] is one append-only handoff
+  + [handoff_uuid] is immutable identity
+  + [token_digest] is the unchanged token being transferred
+  + [sequence] is the monotonic custody position
+  + [sender_uuid] is Cantor or the current participant
+  + [recipient_uuid] is the next participant or Cantor
+  + [received_token_digest] is the digest independently verified by the recipient
+  + [disposition] is pass, challenge, yield, fault, or stop
+  + [observation_reference_set] is append-only records produced while holding the token
+  + [sender_signature] is attribution and integrity proof
+  = must: change custody by appending a record rather than modifying the token
+
+& [RingObservation] is bounded semantic work beside the token
+  + [observation_uuid] is immutable identity
+  + [token_digest] is the governing round
+  + [participant_uuid] is the author
+  + [faculty_role] is the signed perspective used when present
+  + [focus_subject] is the semantic subject inspected
+  + [claim_set] is proposed meaning or conclusion
+  + [evidence_reference_set] is signed anchors and exterior evidence
+  + [uncertainty_set] is unresolved material
+  + [requested_resolution] is accept, challenge, qualify, seek_evidence, preserve_difference, yield, or stop
+  + [observation_digest] is immutable identity
+  = must: remain an attributed proposal until Cantor reconciliation
+  - never: mutate the token, purpose, anchor bundle, or membership
+
+& [LogicalOpenInference] is participant continuity across circulation
+  + [job_controller] remains registered, retains committed state and cursor, and waits for token custody
+  + [Ollama_request] is a bounded inference burst begun when the participant receives the token
+  + [provider_context] is reconstructed from committed participant state, token, admitted observations, and attention directives
+  + [pass] ends the participant's current burst and returns control to Cantor
+  = must: distinguish an open cooperative job from an open HTTP response stream
+  - never: hold an Ollama request open while waiting indefinitely for other participants
+
+& [TwoPhaseRingRound] is parallel observation followed by serialized custody
+  + [phase_1_optional_independent_observation] lets participants inspect the same frozen anchors concurrently without committing shared state
+  + [phase_2_token_circulation] serializes attributed challenges, qualifications, and commit proposals in declared ring order
+  + [phase_3_close] lets Cantor verify complete custody, reconcile observations, and preserve residual disagreement
+  + [phase_4_next_epoch] mints a new token only when accepted state or membership changes
+  = should: use independent observation before circulation when false consensus risk matters
+  = must: prevent phase-1 observations from mutating shared state
+
+& [RoundClosure] is valid completion of one circulation
+  + [required_condition] is every required participant received and passed the exact token digest
+  + [required_condition] is token returned to Cantor
+  + [required_condition] is custody sequence complete without fork, duplication, or unauthorized skip
+  + [required_condition] is every observation and fault preserved
+  + [result] is accepted transition, revised next epoch, residual disagreement, yield, fault, or stop
+  = must: create a new semantic epoch rather than retroactively alter the closed token
+
+& [MembershipAndRecovery] is bounded ring governance
+  + [ring_order] is deterministic and included by digest
+  + [timeout_policy] is wait, retry, degraded_round, or abort
+  + [required_participant] may not be skipped without a new explicitly degraded epoch
+  + [optional_participant] may be skipped only through a signed timeout record
+  + [lost_or_corrupt_token] causes the current round to fault
+  + [recovery] is Cantor mints a new token with lineage to the faulted round
+  - never: silently regenerate, duplicate, or continue a damaged token
+
+& [ApplicabilityBoundary] is when the ring is useful
+  + [prefer_ring] is complete faculty review, deterministic causality, fairness, serialized semantic writes, auditability, or high-consequence consensus
+  + [prefer_event_junction] is low-latency exchange, large participant sets, opportunistic contributions, or independent parallel work
+  + [hybrid] is parallel read-only inference followed by one serialized token circulation for reconciliation
+  = conclusion: token ring is an optional Cantor junction policy rather than the only coordination mode
+
+& [AuthorityBoundary] is the limit of token possession
+  + [holder_authority] is inspect declared anchors and append one bounded RingObservation
+  + [shared_commit_authority] is Cantor under the compiled Observer contract
+  + [external_effect_authority] is absent
+  - never: let custody grant file mutation, trust-policy change, or exterior tool execution
+
+& [MinimumRingProof] is the deferred deterministic fixture
+  + [participants] is Observer, Honesty, and Security mock participants
+  + [token] is one immutable test-signed epoch
+  + [circulation] is three verified receipts and passes followed by return to Cantor
+  + [observations] is one acceptance, one challenge, and one qualification
+  + [next_epoch] is one Cantor-minted revision preserving all lineage
+  + [negative_proof] is one mutated token rejected and one required-participant timeout faulted
+  = must: prove digest invariance and custody completeness before Ollama integration
+
+& [RequirementSet] is the traceable token-ring collection
+  + [CSTR-001] is keep the cooperative inference job logically open through a complete round
+  + [CSTR-002] is circulate a byte-identical signed semantic token through every required participant
+  + [CSTR-003] is record custody and observations append-only beside the token
+  + [CSTR-004] is distinguish provider inference bursts from job lifetime
+  + [CSTR-005] is permit a parallel-read and serialized-reconciliation hybrid
+  + [CSTR-006] is close only after complete custody or explicit fault
+  + [CSTR-007] is mint a new epoch instead of mutating a circulated token
+  + [CSTR-008] is keep shared commit and effect authority outside token possession
+
+& [SJSProcessingTrace] is the token-ring justification trace
+  + [fold_1_subject] is immutable semantic custody circulating through all required cooperative inference participants
+  + [fold_2_boundary] is logical job continuity, custody, and append-only observations inside; persistent HTTP decoding and mutable tokens outside
+  + [fold_3_data_design] is token, epoch, purpose digest, anchor digest, membership digest, custody record, observation, participant cursor, closure, and fault
+  + [fold_4_governance] is immutable tokens, ordered custody, participant fairness, bounded timeouts, no effect authority, and new-epoch recovery
+  + [fold_5_solution_shape] is freeze, mint, receive, infer, append, pass, verify, reconcile, close, and mint next
+  + [fold_6_fault_review] is token mutation, duplication, loss, slow-holder deadlock, participant starvation, false consensus, and authority escalation
+  + [fold_7_phase_lock] is optional protocol formed; deterministic digest-and-custody proof precedes Ollama use
+
+& [CantorSemanticTokenRingProtocolSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is eb39562c-eed1-490c-8985-2a71bd0ae401
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Semantic_Token_Ring_Protocol.sop
+  + [source_snapshot_uuid] is 625e2a41-e95f-4886-a059-a9e6b8b34aa8
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-28_cantor_semantic_token_ring\Dictated_Cantor_Semantic_Token_Ring_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-28_cantor_semantic_token_ring\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, token_delineated, custody_modeled, inference_lifetime_bounded, closure_governed, faults_reviewed, justified, and signed
+  + [signature_status] is valid_for_optional_coordination_formation
+  + [implementation_authority] is deferred_until_existing_single_job_and_notification_mock_proofs
+
+@ [junction] C:\Project\Cantor\specifications\Cantor_Cooperative_Inference_Junction_Profile.sop
+@ [notifications] C:\Project\Cantor\specifications\Cantor_Inference_Notification_Profile.sop

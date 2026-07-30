@@ -1,0 +1,79 @@
+Subject: CEB Slice 04 CLI Only Proof
+
+@ [slice] C:\Project\Cantor\feature_support\slices\CEB_Slice_04_CLI_And_Codex_Tool.sop
+@ [solution] C:\Project\Cantor\solutions\CEB_Slice_04_CLI_Only_Solution.sop
+@ [protocol_tests] C:\Project\Cantor\crates\cantor_core\tests\protocol.rs
+@ [subprocess_tests] C:\Project\Cantor\crates\cantor_cli\tests\cli_protocol.rs
+
+& [ProofIdentity] is the CLI implementation evidence record
+  + [proof_uuid] is c2467358-0b3b-4a2f-bbee-e7633160320b
+  + [captured_at] is 2026-07-29T14:54:06.9642874-05:00
+  + [hardened_at] is 2026-07-29T15:20:16.2066888-05:00
+  + [working_tree] is C:\Project\Cantor
+  + [scope] is CEB-011, CEB-012, and CEB-013 only
+  + [result] is passed
+
+& [RequirementProof] is the traceable acceptance account
+  + [CEB-011] is passed by read-only query and four inspect targets over the same cantor_core protocol executor
+  + [CEB-012] is passed by one compact JSON stdout envelope, diagnostic-only stderr, and stable codes 0, 2, 3, 4, 5, 6, and 70
+  + [CEB-013] is passed by exact ProtocolResponse equality between direct core calls and real cantor subprocess calls over the same environment and request
+
+& [CoreProtocolProof] is eight integration tests
+  + [equivalence] is direct query result exactly equals protocol query result
+  + [inspection] is fabric, package, certificate, and semantic-unit state projected only after admission
+  + [trust] is expected-package mismatch, environment substitution, and stale package visibly fail as trust
+  + [binding] is caller, purpose, request, operation, environment, and package identities bound
+  + [machine_form] is request, environment, and response deterministic JSON round trips
+  + [strict_schema] is unknown root, nested query, and environment fields rejected
+  + [exit_classes] is every numeric class fixed and nonoverlapping
+  + [caller_verifier] is valid responses accepted while changed meaning, environment proof, exit status, continuation, or fault projection are rejected
+  + [source_inspection] is semantic-unit inspection binds its exact quote to the signed source-document digest
+  + [inspection_digest] is every successful inspect result recomputably digest-bound and a changed metric without a recomputed digest is rejected
+  + [environment_verifier] is valid output exactly equals deterministic re-execution against the pinned environment while a changed metric plus recomputed digest is rejected
+
+& [SubprocessProof] is five real executable integration tests
+  + [query] is exit 0, empty stderr, one JSON stdout line, exact core equivalence, and caller verification
+  + [inspect] is exit 0, exact core equivalence, caller verification, and byte-repeatability
+  + [invalid] is malformed JSON, invalid semantic identity, and command-operation mismatch return JSON plus exit 2
+  + [trust] is changed signed source returns JSON plus exit 3
+  + [unresolved] is unknown term preserves the core query result plus exit 4
+  + [policy] is unrelated caller package scope preserves denial plus exit 5
+  + [semantic] is payload budget exhaustion preserves the core result plus exit 6
+  + [file_input] is explicit request file semantically identical to UTF-8 standard-input operation
+
+& [AuthorityBoundaryProof] is anti-injection evidence
+  + [request_absence] is ProtocolRequest has no trust_store, packages, or trust-time fields
+  + [environment_presence] is EmbeddedRuntimeEnvironment exclusively owns trust_store, packages, and trust time
+  + [environment_binding] is request expected_environment_digest checked before package admission
+  + [package_binding] is exact expected package set and signed digest checked before admission
+  + [admitted_type] is AdmittedPackage cannot be deserialized into existence and exposes only read-only accessors
+  + [identity_type] is SemanticId validates every deserialized value and rejects invalid or over-512-byte identities
+  + [continuation_type] is finish, query_or_reframe, and stop are closed protocol values whose status consistency is caller-verified
+  + [scope_binding] is query package scopes must be a subset of the signed protocol request scope
+
+& [LiveReleaseProof] is the documented fixture execution
+  + [generator] is cargo run -p cantor_cli --example generate_demo -- .local\cantor-demo passed
+  + [release_build] is cargo build -p cantor_cli --release passed
+  + [query] is release cantor query over generated environment and request returned status success and exit 0
+  + [inspect] is release cantor inspect over generated environment and request returned status success and exit 0
+  + [query_result_digest] is 8ef9c312312e7531038c38f263fd6c3304fcc147702187ca575e47afc1a6b659
+  + [environment_digest] is e40bbbab2763aa0ecb2b4c76d7c5d73f63a39a579d4c2938a89712d51a26f912
+  + [inspect_result_digest] is a9aa8cb0dd06916f321e3f065570def601151d1099484856f5d8726478a19627
+
+& [ColdProcessBaseline] is local operational evidence
+  + [iterations] is 100 release-mode query subprocesses
+  + [successes] is 100
+  + [failures] is 0
+  + [elapsed_milliseconds_total] is 515.6215 on the final overflow-checked release rerun
+  + [average_milliseconds_per_call] is 5.156215
+  + [response_bytes] is 4230 including newline
+  + [boundary] is one local fixture package on this machine rather than a production throughput claim
+
+& [InactiveExtensionProof] is anti-expansion evidence
+  + [historical_boundary] is CEB-014 and CEB-015 were not implemented at this proof capture
+  + [subsequent_state] is CEB-014 and CEB-015 later passed under C:\Project\Cantor\proofs\CEB_Slice_04_Codex_MCP_Proof.sop
+  + [service] is absent
+  + [network] is absent
+  + [effects] is absent
+  + [response_signature] is absent; digests prove consistency while executable and local-channel authenticity remain supervisor responsibilities
+  = conclusion: the embedded CLI portion is complete without silently activating MCP or later runtime scope

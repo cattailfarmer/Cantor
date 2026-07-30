@@ -1,0 +1,109 @@
+Subject: Phase6 Persistence Decision Proof
+
+@ [slice] C:\Project\Cantor\feature_support\slices\Phase6_Persistence_Decision.sop
+@ [solution] C:\Project\Cantor\solutions\Phase6_Persistence_Decision_Solution.sop
+@ [experiment] C:\Project\Cantor\experiments\persistence_benchmark
+@ [summary] C:\Project\Cantor\experiments\persistence_benchmark\artifacts\2026-07-29_three_run_summary.json
+@ [evidence_manifest] C:\Project\Cantor\experiments\persistence_benchmark\artifacts\phase6_evidence_manifest.json
+
+& [ProofIdentity] is the Phase6 comparative evidence record
+  + [proof_uuid] is b0ce037a-8912-43a8-91b1-814188362871
+  + [captured_at] is 2026-07-29
+  + [result] is passed_with_JSON_and_memory_retained
+
+& [MethodProof] is reproducible
+  + [implementation] is isolated safe-Rust release benchmark
+  + [report_version] is cantor-persistence-benchmark/0.4 after metadata-integrity hardening and isolated unsafe-forbidden overflow-checked release enforcement
+  + [candidate] is serde_json 1.0.151 snapshot
+  + [candidate] is rusqlite 0.40.1 with bundled SQLite
+  + [candidate] is redb 4.1.0
+  + [scales] is 1, 32, and 256 signed immutable packages
+  + [independent_runs] is 3 profile-exact report-version 0.4 runs
+  + [measurement] is durable write, warm reopen and reconstruction distribution, query distribution, immediate and post-load file size
+  + [cache_boundary] is operating-system page cache not cleared
+
+& [SourceReportProof] is content-addressed
+  + [evidence_manifest_sha256] is ED8DCF737AC5CA904D79BE9A14B3F0830199B17A9053E0714930134B6A1B9AAE
+  + [tracked_summary_sha256] is 774C742D17F5EE5E778799FCA1CC1ECE1B5E342285C10D22F8746890BCE37582
+  + [run_1785364060549_sha256] is 2CD25ECE603A1D6188FE437C68F301C4E41B69174004C2F57114719FFE29E828
+  + [run_1785364063272_sha256] is EC547FA9DEE39B56AA6E3F04E13B290213381CA2725B8DB623430B7DF43ACE8E
+  + [run_1785364066001_sha256] is 5F430A6948DD727221C6193AC05C528CB1A00A455FA7FCC49ADA77BF0D8E1FB0
+  + [auditability] is all three raw reports are retained under the tracked artifact directory
+
+& [CorrectnessProof] is mandatory and passed
+  + [candidate_scale_combinations_per_run] is 9
+  + [total_candidate_scale_run_combinations] is 27
+  + [environment_equality_failures] is 0
+  + [digest_failures] is 0
+  + [admission_or_query_failures] is 0
+  + [ProtocolResponse_equality_failures] is 0
+  + [retained_regression_tests] is 10 passed
+  + [round_trip_test] is exact environment, digest, and ProtocolResponse equality across JSON, SQLite, and redb
+  + [tamper_test] is changed persisted semantic bytes produce visible environment_digest_mismatch trust failure across all candidates
+  + [malformed_artifact_test] is invalid physical bytes fail closed across all candidates
+  + [summary_test] is raw report hashes and every aggregate numerical range mechanically equal the tracked decision summary
+  + [runtime_decomposition_test] is three raw report hashes, distributions, equivalence flags, and every summary range mechanically checked
+  + [evidence_manifest_test] is twenty-one authority, research, benchmark-source, lock, raw-report, and summary paths confined to the repository and SHA-256 verified
+  + [prepared_fabric_concurrency_test] is Send plus Sync compile proof and 128 equal reads across eight threads against one immutable 32-package fabric
+  + [SJS_lineage_test] is source hash and length, snapshot, explosion, canonical signature, justification, slice, and solution links closed with seven distinct identities
+  + [SQLite_metadata_test] is ordinal continuity and redundant package identity and digest fields must match decoded signed package records
+  + [redb_metadata_test] is ordinal keys must remain contiguous before package-vector reconstruction
+
+& [LargestScenarioProof] is 256 packages and 1033485 canonical JSON bytes
+  + [JSON_load_median_microseconds_range] is 2738 through 3012
+  + [JSON_load_p95_microseconds_max] is 3679
+  + [JSON_post_load_bytes] is 1033485
+  + [SQLite_load_median_microseconds_range] is 3437 through 3727
+  + [SQLite_load_p95_microseconds_max] is 5134
+  + [SQLite_post_load_bytes] is 1220608
+  + [redb_load_median_microseconds_range] is 6138 through 6379
+  + [redb_load_p95_microseconds_max] is 7252
+  + [redb_post_write_bytes] is 2109440
+  + [redb_post_load_bytes] is 1118208
+  + [query_median_boundary] is approximately 20 through 22 milliseconds for all candidates because the same core executes after reconstruction
+
+& [RequestLifetimeDecomposition] is current implementation evidence
+  @ [artifact] C:\Project\Cantor\experiments\persistence_benchmark\artifacts\2026-07-29_runtime_decomposition_summary.json
+  + [summary_sha256] is 85E3F4732175F45C52A1ACD7143DDEF94398D5E292E35AAE3EF437869957E53F
+  + [run_1785364192582_sha256] is 59349950677615C19DC4C4D826C7250975EB1914C00BD39045B5880DED943FB0
+  + [run_1785364194692_sha256] is 6103EA700FBB8431D341AB6504CB418E69DE5228892899A9C05F0966A8D3777A
+  + [run_1785364196790_sha256] is 81A42BD2484B03807E16D9ED13D1B5E3758810DF30F770D78BEDE3EDB6495D06
+  + [environment_digest_median_at_256_microseconds_range] is 1629 through 1783
+  + [admit_and_build_median_at_256_microseconds_range] is 19665 through 19875
+  + [prepared_query_median_at_256_microseconds_range] is 44 through 45
+  + [full_protocol_median_at_256_microseconds_range] is 21943 through 22441
+  + [semantic_equivalence_failures] is 0
+  + [interpretation] is prepared immutable runtime deserves a separate experiment; no production cache is authorized here
+
+& [DecisionProof] is requirement-based
+  + [unmet_current_storage_requirement] is none demonstrated
+  + [JSON] is smallest final artifact and fastest reconstruction at every measured scale
+  + [SQLite] is operationally valuable but has no present measured advantage for the immutable whole-environment startup workload
+  + [redb] is operationally viable but has no present measured advantage and a substantial small-corpus allocation floor
+  + [selection] is retain JSON snapshot and in-memory fabric
+  + [production_dependency_change] is none
+  + [trust_bootstrap] is unchanged and remains operator-supervised outside every physical candidate
+
+& [FaultCorrectionProof] is visible
+  + [fault] is initial report-version 0.1 recorded only immediate post-write bytes although redb allocation changed after reopen
+  + [correction] is report-version 0.2 records both post-write and post-load bytes
+  + [disposition] is the initial run excluded, v0.2 superseded by loader hardening, and v0.3 superseded by final unsafe-forbidden overflow-checked v0.4 runs; runtime v0.1 is likewise superseded by profile-exact v0.2
+
+& [FinalVerificationProof] is complete
+  + [production_workspace] is format check, 81 debug tests, warnings-denied all-target all-feature clippy, 81 overflow-checked release tests, locked offline tests, release build, and documentation build passed
+  + [isolated_lab] is all-target locked offline check, warnings-denied clippy, ten overflow-checked release main-harness tests, and both release binaries built
+  + [runtime_execution] is actual runtime-decomposition binary completed three profile-exact runs
+  + [advisory_scan] is root 110-dependency and lab 46-dependency locks scanned against 1173 RustSec advisories with zero reported vulnerabilities
+  + [source_audit] is unsafe code forbidden, no unsafe syntax, no trailing whitespace, all JSON parsed, evidence manifest verified, and 152 absolute Cantor references resolved
+  + [host_policy] is Windows application-control harness denials remain visible; no policy was weakened and equivalent executable coverage is recorded
+
+& [AcceptanceProof] is PD-AC1 through PD-AC8
+  + [PD-AC1] is passed
+  + [PD-AC2] is passed
+  + [PD-AC3] is passed
+  + [PD-AC4] is passed
+  + [PD-AC5] is passed
+  + [PD-AC6] is passed
+  + [PD-AC7] is passed
+  + [PD-AC8] is passed
+  = conclusion: Phase6 closes without adding a physical database to the production Cantor runtime

@@ -1,0 +1,95 @@
+Subject: Cantor Read-Only MCP Adapter Profile Explosion
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_read_only_mcp_activation\Dictated_Cantor_Read_Only_MCP_Activation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_read_only_mcp_activation\Source_Document_Manifest.sop
+@ [parent_authority] C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+@ [execution_authority] C:\Project\Cantor\specifications\Cantor_Execution_Surface_Profile.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Read_Only_MCP_Adapter_Research.sop
+
+& [ExplodedIdentity] is the separate SJS-derived implementation surface
+  + [exploded_uuid] is a11ce2e8-62ac-4911-8154-1dd32acc1aec
+  + [source_snapshot_uuid] is 730d4f89-7573-4c0d-a0a2-cc4cedddd600
+  + [requirement_set] is CEB-014 and CEB-015
+  + [exhaustion_state] is seven_fold_phase_locked_for_one_local_read_only_tool
+
+/ [ContinuationRequest] -(Delineation)> [Inside], [Outside], [References], [Uncertainty]
+
+& [Inside] is the bounded adapter slice
+  + [crate] is cantor_mcp
+  + [transport] is local STDIO through the official Rust MCP SDK
+  + [operator_input] is one environment file path supplied when the server starts
+  + [model_input] is one strict ProtocolRequest object per tool invocation
+  + [tool] is query_sop
+  + [engine_call] is cantor_core execute_protocol_request
+  + [output] is one existing ProtocolResponse projected into MCP structuredContent and concise text
+  + [proof] is direct-core, CLI, adapter-handler, and real-STDIO equivalence
+
+& [Outside] is work not activated by the continuation request
+  + [HTTP] is streamable HTTP or any network listener
+  + [effects] is file mutation, package compilation, inference calls, notifications, or external actions
+  + [runtime] is resident service, session manager, or shared mutable state
+  + [routing] is embeddings, learned routing, or neural training
+  + [hardware] is FPGA execution
+  + [configuration_mutation] is editing the user's global or project Codex configuration
+
+& [DataDesign] is the source-projection boundary
+  + [conceptual_model] is one read-only semantic request answered by admitted signed authority
+  + [logical_model] is EmbeddedRuntimeEnvironment plus ProtocolRequest to ProtocolResponse
+  + [physical_model] is one immutable in-process environment and STDIO JSON-RPC transport
+  + [natural_identity] is request_id, environment_digest, package identity, and result_digest
+  + [source_data] is operator-controlled environment file and admitted packages
+  + [projection] is MCP tool metadata and CallToolResult
+  + [freshness_rule] is restart the adapter after the environment file changes
+  + [authority_rule] is the adapter never compiles or augments authority
+
+& [ToolContract] is the one supported user goal
+  + [name] is query_sop
+  + [title] is Query governed SOP
+  + [description] is use when Codex needs source-grounded Cantor terms, clauses, definitions, boundaries, relations, source spans, or proof from the pinned local environment
+  + [input] is request containing an exact ProtocolRequest object
+  + [output] is ProtocolResponse structured content plus a short status summary
+  + [annotation] is readOnlyHint true
+  + [annotation] is destructiveHint false
+  + [annotation] is openWorldHint false
+  + [failure] is schema, environment, trust, policy, semantic, or internal fault remains visible and never becomes fabricated SOP guidance
+
+& [ConstraintLedger] is the non-waivable boundary
+  = must: load and validate the operator-controlled environment before serving
+  = must: keep tool arguments unable to replace trust roots, packages, or environment time
+  = must: deserialize ProtocolRequest with unknown-field rejection inherited from cantor_core
+  = must: call only cantor_core for semantic execution
+  = must: preserve exact ProtocolResponse fields in structured output
+  = must: advertise only one read-only tool
+  = must: keep standard output exclusive to MCP transport
+  = must: route diagnostics to standard error
+  = must: cap environment and request input sizes
+  = must: prove visible invalid-input and semantic-fault behavior
+  - never: authorize through MCP metadata, descriptions, similarity, or model confidence
+  - never: add adapter-local semantic ranking, fallback, or source interpretation
+
+& [SevenFoldTrace] is the explosion and pruning record
+  + [fold_1] is continuation request mapped to the previously gated CEB-014 and CEB-015 frontier
+  + [fold_1_gain_delta] is explicit activation without broad activation of later slices
+  + [fold_2] is MCP possibility mapped to a single user goal
+  + [fold_2_gain_delta] is one query_sop tool rather than mirroring internal operations
+  + [fold_3] is caller data separated from operator authority data
+  + [fold_3_gain_delta] is model arguments cannot supply trust roots, packages, or time
+  + [fold_4] is adapter projection separated from semantic engine
+  + [fold_4_gain_delta] is ProtocolResponse remains the only semantic response form
+  + [fold_5] is local integration separated from public plugin deployment
+  + [fold_5_gain_delta] is STDIO only with no authentication fiction or network exposure
+  + [fold_6] is success path challenged by invalid schema, mismatched environment, trust fault, and protocol skew
+  + [fold_6_gain_delta] is every reached failure becomes visible tool content or transport error
+  + [fold_7] is proof requirements converged on handler and real-transport equivalence
+  + [fold_7_gain_delta] is adapter readiness can be established without configuring the user's Codex host
+  + [pruned_material] is HTTP, UI, plugin packaging, service state, effects, adapter-local semantics, generic multi-tool API, and premature configuration writes
+  + [growth_seed_set] is optional operator-approved Codex configuration, persistence benchmark, and later read-only inspect tool only after separate activation
+
+& [AcceptanceCriteria] is the completion gate
+  + [MCP-AC1] is the server initializes over STDIO and advertises exactly query_sop
+  + [MCP-AC2] is query_sop advertises accurate read-only, non-destructive, closed-world annotations
+  + [MCP-AC3] is a valid request produces the same ProtocolResponse as direct cantor_core execution
+  + [MCP-AC4] is the equivalent CLI request and MCP tool call preserve the same semantic result, proof, and digest
+  + [MCP-AC5] is malformed arguments, unknown fields, environment mismatch, and core faults remain visible
+  + [MCP-AC6] is model-supplied arguments cannot replace operator-owned environment authority
+  + [MCP-AC7] is format, lint, debug, release, offline, documentation, and advisory gates pass

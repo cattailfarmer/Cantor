@@ -1,0 +1,75 @@
+Subject: Cantor Prepared Runtime Solution
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_prepared_runtime\Dictated_Cantor_Prepared_Runtime_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Prepared_Runtime_Justification.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_core\src\prepared.rs
+@ [summary] C:\Project\Cantor\experiments\prepared_runtime_benchmark\artifacts\2026-07-29_three_run_summary.json
+@ [evidence_manifest] C:\Project\Cantor\experiments\prepared_runtime_benchmark\artifacts\prepared_runtime_evidence_manifest.json
+@ [proof] C:\Project\Cantor\proofs\Cantor_Prepared_Runtime_Proof.sop
+
+& [SolutionIdentity] is the completed PreparedRuntime disposition
+  + [solution_uuid] is 05c9ee54-f70c-4a88-aa8a-0b31352ef0e6
+  + [status] is completed_and_boundedly_activated
+  + [profile] is cantor-prepared-runtime/0.1
+  + [decision] is activate in cantor_core and the already-resident read-only MCP adapter while preserving direct request-scoped execution
+
+& [CoreImplementation] is one physical optimization over shared semantic policy
+  + [RuntimeGeneration] binds profile, protocol version, environment version, exact environment digest, pinned trust time, and ordered package identities
+  + [PreparedRuntime] owns one immutable shared environment and zero or one immutable exact-scope projection
+  + [ScopeProjection] contains a SemanticFabric admitted for one structurally equal AuthorityScope
+  + [projection_limit] is one; a different valid scope builds a complete replacement and never reuses the old projection
+  + [request_bootstrap] is every request independently supplies expected environment digest and complete package bindings before projection use
+  + [shared_policy] is direct and prepared paths call the same validation, fabric-preparation, query, inspect, proof, and response-construction functions
+  + [direct_rollback] is execute_protocol_request remains complete and public
+
+& [LifecycleImplementation] is whole-generation snapshot control
+  + [PreparedRuntimeSlot] retains zero or one immutable runtime generation behind a read-write coordination boundary
+  + [execute] clones one Arc snapshot and releases the generation lock before semantic execution
+  + [replace] compares the exact expected generation and installs only a complete replacement
+  + [invalidate] compares the exact expected generation and removes it atomically
+  + [replace_or_invalidate] deactivates the expected active generation when demanded replacement preparation fails
+  + [rollback] activates an independently reconstructed prior generation as a complete transition
+  + [in_flight_boundary] is an already acquired immutable old snapshot may finish while later acquisitions observe only the complete new state
+
+& [TrustBoundary] is unchanged
+  + [time] is environment now_epoch_seconds, pinned into the generation digest
+  + [time_change] is a new environment and generation
+  + [revocation_or_package_change] is a new environment and generation
+  + [bootstrap] is supervisor-controlled environment selection plus request digest and package bindings
+  - never: claim live wall-clock expiry, self-authorization, mutable trust publication, or distributed cache coherence
+
+& [AdapterActivation] is evidence-supported and narrow
+  + [cantor_mcp] owns one core PreparedRuntime instead of adapter-specific cache policy
+  + [tool_contract] is unchanged ProtocolRequest to exact ProtocolResponse
+  + [startup] is the existing environment preflight followed by core runtime construction
+  + [first_scope] is lazy and must pass the complete request binding and admission gates
+  + [scope_change] is exact-scope replacement in core
+  + [semantic_policy_in_adapter] is none
+  + [CLI] remains direct request-scoped execution because a subprocess does not provide a useful resident reuse boundary
+
+& [EvidenceDisposition] is benefit with disclosed cost
+  + [one_package] is 89.1 through 89.5 microseconds direct median versus 12.1 through 12.5 microseconds prepared-hit median
+  + [thirty_two_packages] is 2560.8 through 2582.2 microseconds direct median versus 22.7 through 23.0 microseconds prepared-hit median
+  + [two_hundred_fifty_six_packages] is 20488.1 through 20762.1 microseconds direct median versus 106.3 through 106.4 microseconds prepared-hit median
+  + [largest_hit_speedup] is 192.74 through 195.13 times
+  + [largest_cold_prepare] is 19849.2 through 20565.9 microseconds
+  + [largest_retained_heap] is 2149466 baseline bytes versus 4903129 prepared bytes
+  + [largest_peak_heap] is 3195464 baseline bytes versus 5143370 prepared bytes
+  + [largest_retained_delta] is 2753663 bytes
+  + [correctness_mismatches] is zero
+  + [interpretation] is the one-time cost is comparable to one direct request and the memory premium is material but bounded, making activation appropriate for repeated resident reads rather than universal execution
+
+& [NonclaimSet] is retained
+  + [corpus] is synthetic signed structural scaling rather than reviewed production SOP
+  + [memory] is allocation-level heap under dhat rather than RSS or allocator fragmentation
+  + [concurrency] is local snapshot safety rather than distributed, realtime, fair, or lock-free service behavior
+  + [performance] is this Windows host and release profile rather than a universal latency guarantee
+  + [future_cache] is no authority for multiple retained scopes or environment generations
+
+& [ReentryGate] is evidence-triggered
+  + [trigger] is production corpus memory or latency materially differs
+  + [trigger] is multi-scope thrash becomes an observed workload
+  + [trigger] is live wall-clock trust or publication becomes required
+  + [trigger] is shared multi-process or distributed runtime becomes required
+  = must: preserve full response equivalence, exact scope, generation invalidation, and direct rollback in any revision

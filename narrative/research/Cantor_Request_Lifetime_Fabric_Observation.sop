@@ -1,0 +1,60 @@
+Subject: Cantor Request-Lifetime Fabric Observation
+
+@ [persistence_decision] C:\Project\Cantor\solutions\Phase6_Persistence_Decision_Solution.sop
+@ [protocol] C:\Project\Cantor\crates\cantor_core\src\protocol.rs
+@ [MCP_adapter] C:\Project\Cantor\crates\cantor_mcp\src\lib.rs
+@ [profile] C:\Project\Cantor\experiments\persistence_benchmark\artifacts\2026-07-29_runtime_decomposition_summary.json
+
+& [ObservationIdentity] is a derived implementation finding
+  + [observation_uuid] is bc3290f2-6f9a-4a4a-b56d-6cf8a4e4102e
+  + [captured_at] is 2026-07-29
+  + [status] is measured_not_activated_for_production_change
+
+& [ImplementedLifetime] is request-scoped admission and fabric construction
+  + [MCP_resident_state] is Arc of EmbeddedRuntimeEnvironment
+  + [MCP_startup] is preflight admission and SemanticFabric construction for validation followed by discard of that fabric
+  + [each_request] is environment digest, expected-package comparison, package signature admission, SemanticFabric construction, query, and response proof
+  + [consequence] is the current persistence result retains JSON plus request-scoped admitted memory rather than a cached resident SemanticFabric
+
+& [MeasuredDecomposition] is three warm in-process structural profiles
+  + [summary_sha256] is 85E3F4732175F45C52A1ACD7143DDEF94398D5E292E35AAE3EF437869957E53F
+  + [independent_runs] is 3
+  + [scales] is 1, 32, and 256 signed packages
+  + [largest_environment_digest_median_microseconds_range] is 1629 through 1783
+  + [largest_admit_and_build_median_microseconds_range] is 19665 through 19875
+  + [largest_prepared_query_median_microseconds_range] is 44 through 45
+  + [largest_full_protocol_median_microseconds_range] is 21943 through 22441
+  + [equivalence] is prepared execute_query result exactly equals the query result inside ProtocolResponse at every measured scale
+  + [repeatability] is every repeated full ProtocolResponse equal to its oracle
+
+& [Interpretation] is bounded
+  + [finding] is physical persistence is not the dominant repeated-query cost in the current resident adapter
+  + [finding] is signature admission and fabric reconstruction dominate the 256-package measured path
+  + [finding] is the 44 through 45 versus 21943 through 22441 microsecond contrast identifies an optimization surface but is not a projected end-to-end prepared-runtime latency
+  - never: remove per-request caller, purpose, effect, scope, environment-digest, expected-package, budget, or proof checks
+  - never: treat startup admission as permanent authority across changed environment, trust time, revocation, or policy
+
+& [PreparedRuntimeCandidate] is not yet implementation authority
+  + [candidate] is cache an immutable fabric bound to the exact environment digest and admitted package set
+  + [candidate] is preserve cheap per-request envelope, scope, expected-set, budget, and response-proof validation
+  + [invalidation] is any environment, trust-store, time, revocation, package, compiler-policy, or protocol-policy change
+  + [proof_gate] is exact ProtocolResponse equivalence for success, partial, trust, policy, budget, ambiguity, and inspect outcomes
+  + [concurrency_gate] is immutable thread-safe reads and bounded memory
+  + [security_gate] is no stale admission, bootstrap weakening, caller self-authorization, or proof omission
+  + [activation] is a separately source-preserved and SJS-processed slice rather than an implicit Phase6 database change
+
+& [OwnershipAndMemoryBoundary] is unresolved before activation
+  + [current_environment] owns every CompiledSourcePackage
+  + [current_admission] clones the complete CompiledSourcePackage into AdmittedPackage
+  + [current_fabric] additionally clones semantic units, relations, labels, and identities into query indexes
+  + [naive_cache_risk] is retaining both EmbeddedRuntimeEnvironment and SemanticFabric duplicates package content and adds index copies for the resident lifetime
+  + [candidate_ownership] is share immutable packages through explicit ownership or let PreparedRuntime replace rather than duplicate the raw environment after preserving digest, trust, time, and expected-package proof inputs
+  + [memory_gate] is measured peak and retained heap at representative source, unit, relation, quote, and label shapes
+  - never: infer heap cost from serialized JSON bytes alone
+
+& [ReadConcurrencyProbe] is candidate evidence rather than protocol proof
+  + [compile_property] is SemanticFabric is Send and Sync
+  + [probe] is eight threads each execute sixteen queries against one immutable Arc SemanticFabric
+  + [scale] is 32 signed packages
+  + [result] is 128 prepared query results exactly equal each other and the query result inside the full ProtocolResponse
+  + [limitation] is no concurrent preparation, invalidation, environment swap, protocol-envelope execution, memory, latency, or service-load claim

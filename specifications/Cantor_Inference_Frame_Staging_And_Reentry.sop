@@ -1,0 +1,142 @@
+Subject: Cantor Inference Frame Staging and Reentry
+
+Description: The anticipatory pre-inference stages, readiness gate, late-discovery classifier, and clean reentry rules that load materially required SOP before consequential inference while preserving bounded demand unfolding.
+
+& [InferenceFrameManifest] is the immutable description of one prepared inference frame
+  + [frame_uuid] is stable frame identity
+  + [input_snapshot] is the exact user or job input
+  + [subject_binding] is the focused semantic identity and known aliases
+  + [purpose_binding] is the intended result and non-goals
+  + [consequence_class] is the harm, authority, cost, reversibility, and uncertainty profile
+  + [term_binding_set] is resolved material terms and contextual anchors
+  + [dependency_closure] is the signed SOP definitions, contracts, operations, faculties, schemas, and policies required before inference
+  + [artifact_set] is digest-bound source and reference material admitted to the frame
+  + [faculty_set] is required and conditionally available FacultyPrograms
+  + [query_trigger_set] is unresolved semantic conditions that must cause demand loading
+  + [exclusion_set] is deliberately omitted material with criterion and justification
+  + [unknown_set] is material limits that remain unresolved
+  + [budget] is token, retrieval, traversal, inference, review, time, and effect limits
+  + [frame_digest] is the immutable identity of all authoritative frame inputs
+  = must: distinguish authoritative dependencies from optional background
+  = must: remain compact through semantic addresses and verified projections rather than copying every source in full
+
+& [AnticipatoryInferenceStaging] is the pre-inference preparation pipeline
+  + [stage_1_capture] is freeze the exact input, caller, requested result, and conversation or job state
+  + [stage_2_orient] is bind subject, purpose, non-goals, consequence, authority, and current-state claims
+  + [stage_3_scan] is extract material terms, ambiguities, entities, actions, effects, claims, and likely faculty pressures
+  + [stage_4_resolve] is query Cantor for signed definitions, governing contracts, operations, policies, and source artifacts
+  + [stage_5_close] is traverse declared required dependencies until closure, bounded stop, or unresolved fault
+  + [stage_6_challenge] is seek counterevidence, conflicting authority, excluded perspectives, dangerous assumptions, and anti-enchantment faults
+  + [stage_7_compose] is build the minimum materially sufficient InferenceFrameManifest and faculty plan
+  + [stage_8_readiness] is apply the FrameReadinessGate
+  + [stage_9_infer] is invoke the provider only after readiness or an explicitly bounded exploratory exception
+  + [stage_10_checkpoint] is validate the return and classify every newly requested or discovered dependency
+  + [stage_11_review] is freeze the result in an InferenceCapsule and determine accept, revise, reframe, reset, query, yield, or stop
+  = must: perform retrieval planning without adopting a substantive conclusion before frame readiness
+  = must: scale staging depth with consequence and semantic novelty
+  - never: use preflight anticipation as a claim that later retrieval will be unnecessary
+
+& [AnticipatoryDependencyResolver] is the bounded prediction of required SOP and artifacts
+  + [deterministic_inputs] is explicit terms, file references, operation names, effect types, contracts, and declared dependencies
+  + [graph_inputs] is semantic neighbors, required edges, faculty activation predicates, and policy closure
+  + [model_assistance] is optional non-authoritative classification of implicit topics, ambiguities, missing perspectives, and likely dependencies
+  + [closure_rule] is follow every required dependency edge until resolved, rejected, deferred with reason, cyclic, or budget-bounded
+  + [sufficiency_rule] is all root meanings, governing contracts, hard gates, required faculties, effect policies, and material evidence classes are bound
+  = must: validate model-proposed dependencies through Cantor before admission
+  = must: record unresolved dependencies and their consequence
+  - never: let correlation weight alone make an artifact authoritative
+
+& [FrameReadinessGate] is the decision to permit substantive inference
+  + [ready] is material identity, purpose, authority, governing SOP, evidence classes, required faculties, and hard constraints are sufficiently bound
+  + [ready_with_declared_limits] is unresolved items are explicit and do not prevent an honest bounded result
+  + [exploratory_only] is inference may ask questions or propose retrieval but may not form a consequential conclusion
+  + [not_ready] is a material term, authority, gate, artifact, contradiction, or required perspective remains unbound
+  = must: block consequential inference while not_ready
+  = must: include the frame digest in every provider call and return
+  = must: make the readiness reason inspectable
+
+& [LateDiscovery] is an artifact, dependency, condition, or meaning found after inference begins
+  + [discovery_anchor] is its source, digest, retrieval cause, and discovery checkpoint
+  + [affected_set] is prior bindings, premises, faculty selections, gates, conclusions, and effects that it may change
+  + [materiality] is whether a reasonable compliant inference could differ after admitting it
+  + [authority_impact] is whether purpose, principal, permission, policy, or governing SOP changes
+  + [frame_delta_digest] is the identity difference between the old and proposed frame
+  = must: classify the discovery before using it to continue inference
+  = must: suspend effects until its impact is resolved
+
+| [FrameChangeClass] is (append_safe | reframe_required | capsule_reset)
+
+& [AppendSafeChange] is a non-material extension
+  + [criterion] is the discovery adds detail without changing authority, semantic identity, polarity, hard gates, required faculties, material evidence balance, or any adopted premise
+  + [transition] is append the verified artifact, update the frame digest, perform local validation, and continue from the checkpoint
+  = must: preserve the old and new digest relationship
+  - never: classify contradictory or conclusion-changing evidence as append_safe
+
+& [ReframeRequiredChange] is a material change within the same job identity
+  + [criterion] is the discovery changes a material definition, premise, evidence balance, counterevidence, faculty need, constraint, or inference path while subject, purpose, principal, and root authority remain stable
+  + [transition] is freeze the current candidate as superseded, rebuild the frame, and rerun inference from the last clean pre-inference checkpoint
+  + [anchoring_control] is the clean rerun receives the immutable input and corrected frame, not the invalidated reasoning text
+  + [comparison] is a later review may compare old and new capsules without making the old candidate authoritative
+  = must: explain which prior propositions were invalidated or require reconsideration
+
+& [CapsuleResetChange] is a foundational identity or authority change
+  + [criterion] is subject identity, root purpose, principal, authority grant, governing policy, signed package, consequence class, or foundational input changes enough to define a different inference event
+  + [transition] is close the prior capsule with reset lineage and start a fresh capsule, frame, and provider context
+  = must: carry source history and unresolved facts as provenance
+  = must: avoid carrying invalidated conclusions as active context
+  - never: silently continue under the old frame digest
+
+& [MidInferenceQueryBoundary] is safe demand unfolding after readiness
+  + [allowed_query] is an unanticipated term, subject criterion, operation dependency, contradiction, or review fault triggers sop_query
+  + [provider_behavior] is the current generation yields or emits a tool request and continuation occurs in a new checkpointed provider call
+  + [admission] is Cantor verifies the returned bundle and applies FrameChangeClass
+  + [continuation] is append, reframe, or reset according to materiality rather than provider preference
+  = must: preserve the complete query, bundle, frame-delta, and continuation chain
+  - never: let the model absorb a material late artifact and continue as though its earlier reasoning were unaffected
+
+& [DriftAndHallucinationControls] is the frame-integrity policy
+  + [digest_binding] is every call is bound to exact input, frame, faculty, and dependency digests
+  + [premise_ledger] is material conclusions cite the bindings and evidence on which they depend
+  + [uncertainty_carry] is unresolved uncertainty survives every continuation
+  + [context_freshness] is material reframing uses a clean provider pass
+  + [candidate_isolation] is invalidated reasoning is retained for audit but excluded from the clean active frame
+  + [review] is a separate capsule review checks missed dependencies, unsupported claims, frame drift, and incorrect change classification
+  = must: prefer an explicit reset over preserving conversational momentum when foundational meaning changes
+  - never: treat a fresh context as sufficient without correcting the frame that caused the fault
+
+& [RequirementSet] is the traceable inference-staging collection
+  + [CFS-001] is create an immutable InferenceFrameManifest before substantive inference
+  + [CFS-002] is anticipate material SOP and artifact dependencies through deterministic, graph, and bounded model-assisted resolution
+  + [CFS-003] is require a consequence-sensitive FrameReadinessGate
+  + [CFS-004] is retain demand unfolding for genuinely unanticipated dependencies
+  + [CFS-005] is classify late discoveries as append_safe, reframe_required, or capsule_reset
+  + [CFS-006] is rerun material frame changes from a clean checkpoint without invalidated reasoning as active context
+  + [CFS-007] is reset the capsule when subject, purpose, principal, authority, policy, package, or foundational input changes
+  + [CFS-008] is bind calls and continuations to frame digests and preserve complete lineage
+  + [CFS-009] is review missed dependencies, hallucination, drift, and incorrect materiality classification
+
+& [SJSProcessingTrace] is the inference-staging justification record
+  + [fold_1_subject] is anticipating SOP attention-language and artifact needs before consequential inference
+  + [fold_2_boundary] is minimum material dependency readiness inside; impossible total foresight and whole-library loading outside
+  + [fold_3_data_design] is frame manifest, dependency closure, readiness, late discovery, materiality, frame delta, checkpoint, capsule, and reset lineage
+  + [fold_4_governance] is consequence-scaled staging, signed admission, effects suspension, digest binding, clean reframing, and anti-enchantment review
+  + [fold_5_solution_shape] is capture, orient, scan, resolve, close, challenge, compose, gate, infer, checkpoint, and review
+  + [fold_6_fault_review] is premature inference, missed dependency, false closure, late anchoring, silent frame mutation, reset avoidance, and invalidated-reasoning carryover
+  + [fold_7_phase_lock] is staging architecture formed while implementation remains within the existing bounded query-microkernel and capsule proof sequence
+
+& [CantorInferenceFrameStagingSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is a80e21e8-82ec-42ca-9d9c-bdcd24ad03b3
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Inference_Frame_Staging_And_Reentry.sop
+  + [source_snapshot_uuid] is 372ce729-b255-471e-a33e-aec2cff375bd
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-29_cantor_inference_frame_staging\Dictated_Cantor_Inference_Frame_Staging_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-29_cantor_inference_frame_staging\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, pre_inference_stages_formed, dependency_readiness_gated, late_discovery_classified, clean_reentry_formed, drift_controls_formed, justified, and signed
+  + [signature_status] is valid_for_inference_frame_staging_formation
+  + [implementation_authority] is limited_to_extending_the_existing_query_microkernel_and_capsule_fixtures_after_the_current_core_gate
+
+@ [query_microkernel] C:\Project\Cantor\specifications\Cantor_SOP_Query_Microkernel.sop
+@ [reflective_capsule] C:\Project\Cantor\specifications\SOP_Reflective_Inference_Capsule.sop
+@ [reflective_vm] C:\Project\Cantor\specifications\SOP_Reflective_Virtual_Machine.sop
+@ [faculty_runtime] C:\Project\Cantor\specifications\Cantor_Faculty_Deliberation_Runtime.sop
+@ [truthful_frame] C:\Project\Cantor\specifications\Cantor_Truthful_Observation_Frame.sop

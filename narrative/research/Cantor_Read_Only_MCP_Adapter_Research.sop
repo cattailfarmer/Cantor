@@ -1,0 +1,37 @@
+Subject: Cantor Read-Only MCP Adapter Research
+
+& [ResearchIdentity] is the primary-source implementation review
+  + [research_uuid] is 701850c4-3f63-4d3d-a842-5d4b1aa2d1a0
+  + [researched_at] is 2026-07-29
+  + [question] is whether a local safe-Rust Cantor adapter can expose one read-only tool to Codex without changing cantor_core semantics
+
+@ [OpenAI_Codex_manual] https://learn.chatgpt.com/docs/extend/mcp.md
+  ! [local_stdio_support] is accepted
+    @ [support] local Codex clients support MCP STDIO servers started by a configured command
+  ! [server_instructions_support] is accepted
+    @ [support] Codex reads initialization instructions alongside tool metadata
+
+@ [OpenAI_MCP_server_guidance] https://developers.openai.com/plugins/build/mcp-server.md
+  ! [tool_contract_guidance] is accepted
+    @ [support] tools need stable action-oriented identity, explicit input, useful structured output, accurate safety annotations, authorization, and visible failure
+  ! [read_only_annotation] is accepted
+    @ [support] readOnlyHint is true only when the tool cannot change state
+
+@ [MCP_schema] https://modelcontextprotocol.io/specification/2025-11-25/schema
+  ! [protocol_surface] is accepted
+    @ [support] initialize, tools/list, and tools/call are typed JSON-RPC operations and tool failures remain model-visible
+
+@ [official_Rust_SDK] https://github.com/modelcontextprotocol/rust-sdk
+  ! [Rust_implementation_path] is accepted
+    @ [support] the official rmcp SDK supplies safe-Rust server, tool, and STDIO transport support
+
+& [ResearchDisposition] is implement_with_official_Rust_SDK
+  + [transport] is local STDIO
+  + [tool_count] is one
+  + [tool_name] is query_sop
+  + [state_owner] is operator-supplied EmbeddedRuntimeEnvironment loaded before serving
+  + [semantic_owner] is cantor_core execute_protocol_request
+  + [result_shape] is the existing ProtocolResponse as structured content
+  + [failure_shape] is MCP-visible tool error containing a bounded ProtocolResponse fault when request execution is reached
+  + [security_annotations] is readOnlyHint true, destructiveHint false, openWorldHint false
+  - never: add effects, model calls, network listeners, package compilation, trust-root mutation, or independent query semantics

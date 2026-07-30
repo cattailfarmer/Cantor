@@ -1,0 +1,177 @@
+Subject: Cantor Engine Neural Fabric and CLI Build
+
+Description: Canonical staged build authority for the safe-Rust Cantor engine, its signed proof-carrying semantic fabric, parameterized query protocol, CLI and Codex tool surfaces, and evidence-gated learned routing projection.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_engine_neural_fabric_cli_build\Dictated_Cantor_Engine_Neural_Fabric_CLI_Build_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_engine_neural_fabric_cli_build\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Engine_Neural_Fabric_CLI_Build.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Engine_Neural_Fabric_CLI_Build_Justification.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_Engine_Build_Plan.sop
+@ [feature_support] C:\Project\Cantor\feature_support\Cantor_Engine_Build_Slice_Index.sop
+@ [FPGA_source_addendum] C:\Project\Cantor\source_documents\2026-07-29_cantor_fpga_execution_profiles\Dictated_Cantor_FPGA_Execution_Profiles_Source.sop
+@ [FPGA_explosion] C:\Project\Cantor\specifications\exploded\Cantor_FPGA_Execution_Profiles.exploded.sop
+
+& [CanonicalBuildIdentity] is the accepted implementation authority
+  + [canonical_specification_uuid] is b1e3b070-ac8f-44b2-a9ae-aa5d016a4944
+  + [source_snapshot_uuid] is e2bf3dff-70ac-46d9-9cb5-ecdd46ee44fe
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [implementation_language] is safe Rust edition 2024
+  + [root_purpose] is resolve governed SOP meaning for a declared subject and use case while preserving boundaries and returning inspectable source-grounded proof
+  + [initial_runtime] is one local process with cantor_core embedded by cantor CLI
+  + [mature_runtime] is the same versioned core protocol projected through approved adapters
+  + [authority_state] is valid_for_staged_implementation
+
+& [BuildBoundary] is the phase-locked scope
+  + [inside] is semantic IR, immutable test-signed packages, authoritative semantic graph, deterministic query, proof bundles, CLI, and later read-only Codex MCP adapter
+  + [conditionally_inside] is learned candidate routing after deterministic baselines, reviewed corpus, and adoption proof
+  + [conditionally_inside] is equivalent FPGA interpreter and native-compiled execution profiles after the software oracle and a target-specific adoption gate stabilize
+  + [outside] is provider modification, hidden-state control, distributed deliberation, production key administration, effect execution, and unsupported database-supremacy claims
+  = must: route new outside subjects through source preservation and SJS before implementation
+
+& [AuthorityInvariantSet] is non-waivable
+  = must: admit SOP authority only from a compiled package whose recognition signature, package digest, file digest, semantic unit digest, scope, and lifecycle state validate
+  = must: use stable semantic identity and content digest as authority while treating file and line as human-readable source locators
+  = must: preserve subject, purpose, use case, included boundary, excluded boundary, ambiguity, contradiction, and uncertainty as distinct fields
+  = must: run exact identity and contextual filters before typed traversal, lexical association, or learned routing
+  = must: let approximate or learned routing propose candidates only
+  = must: let deterministic gates admit candidates, exact hashes resolve them, and proof records explain them
+  = must: preserve deterministic fallback when a derived projection is unavailable, stale, or rejected
+  = must: keep one authoritative core protocol across direct calls, CLI, tests, and later MCP
+  - never: accept raw file text, a live line number, lexical similarity, embedding similarity, or model confidence as authority by itself
+  - never: allow retrieved instructions to authorize effects outside the caller's authority context
+
+& [SemanticFabricContract] is the authoritative logical model
+  + [SemanticUnit] is stable identity, kind, normalized term, meaning, subject context, source anchor, content digest, status, and authority scope
+  + [SubjectContext] is subject identity, purpose set, use-case set, included boundaries, excluded boundaries, perspective set, and ambiguity state
+  + [SemanticRelation] is source unit, relation type, target unit, direction, conditions, source anchor, digest, and lifecycle state
+  + [SourceAnchor] is package identity, file identity, semantic unit identity, clause identity, source span, span digest, and display line range
+  + [CompiledSemanticPackage] is immutable manifest, source files, semantic units, relations, indexes, recognition certificate, digest set, and lifecycle state
+  + [ProofBundle] is package checks, source checks, query decisions, relation paths, exclusions, omissions, and result digest
+  + [authoritative_store] is admitted package manifests, semantic units, relations, source anchors, recognition records, and revocation state
+  + [derived_projection] is exact index, lexical index, graph adjacency, embedding index, learned router, cache, and display locator
+  = must: rebuild or invalidate derived projections when supporting authority changes
+
+& [CantorQueryRequest] is the versioned semantic demand
+  + [identity] is protocol_version and request_uuid
+  + [focus] is term_set, subject, purpose, and use_case_set
+  + [boundaries] is include_boundary_set and exclude_boundary_set
+  + [description_need] is optional desired description or semantic question
+  + [requested_detail_kind] is zero or more of term, clause, definition, description, use_case, boundary, condition, relation, instruction, authority, evidence, fault, source_span, or derivation
+  + [search_mode] is zero or more of exact, contextual, relational, lexical, routed, or composed
+  + [relation_filter] is requested relation types and traversal limits
+  + [criteria] is required conditions, perspectives, known semantic units, and source scopes
+  + [authority_context] is caller identity, allowed package scopes, operation, and effect boundary
+  + [budget] is maximum records, paths, depth, bytes, and elapsed time
+  = must: reject unknown protocol versions and malformed authority contexts visibly
+
+& [CantorQueryResult] is the versioned proof-carrying response
+  + [resolution] is resolved subjects and contextual semantic identities
+  + [records] is typed SOP terms, clauses, definitions, descriptions, use cases, boundaries, conditions, relations, instructions, authority records, evidence, faults, source spans, or derivations
+  + [quotes] is exact source text whose span digest validates against an admitted package
+  + [paths] is typed relationship paths with every traversed unit and edge identified
+  + [boundary_account] is admitted, excluded, ambiguous, contradictory, unknown, stale, unauthorized, and budget-clipped material
+  + [association_account] is deterministic and optional router contributions kept distinguishable
+  + [proof] is ProofBundle
+  + [continuation] is a bounded opaque continuation token when more valid results exist
+  + [result_digest] is a digest over the normalized result
+
+& [DeterministicQueryPipeline] is the mandatory execution order
+  + [stage_1] is parse and validate request
+  + [stage_2] is resolve authority context
+  + [stage_3] is select admitted package set
+  + [stage_4] is normalize terms without erasing identity
+  + [stage_5] is resolve exact semantic identities
+  + [stage_6] is apply purpose, use-case, subject, and boundary filters
+  + [stage_7] is traverse allowed typed relations
+  + [stage_8] is optionally add lexical candidates
+  + [stage_9] is optionally ask an admitted router for candidates
+  + [stage_10] is deterministically gate, resolve, rank, and budget candidates
+  + [stage_11] is recover and digest-verify source material
+  + [stage_12] is emit result, proof, faults, omissions, and digest
+  - never: skip an earlier authority or boundary stage because a later rank is confident
+
+& [ImplementationRequirementSet] is the canonical requirement index
+  + [core_IR] is CEB-001, CEB-002, and CEB-003
+  + [trusted_package] is CEB-004, CEB-005, and CEB-006
+  + [deterministic_query] is CEB-007, CEB-008, CEB-009, and CEB-010
+  + [CLI_and_Codex] is CEB-011, CEB-012, CEB-013, CEB-014, and CEB-015
+  + [learned_routing] is CEB-016, CEB-017, CEB-018, CEB-019, and CEB-020
+  + [FPGA_execution] is CEB-021 through CEB-030
+  @ [definition] C:\Project\Cantor\specifications\exploded\Cantor_Engine_Neural_Fabric_CLI_Build.exploded.sop
+  = must: preserve requirement identifiers across plans, slices, tests, and proof
+
+& [StageAuthority] is the dependency-ordered implementation permission
+  + [slice_1] is Core IR and eight acceptance fixtures may begin
+  + [slice_2] is trusted test-package compilation and admission begins after slice_1 machine forms stabilize
+  + [slice_3] is deterministic proof-carrying query begins after slices_1 and 2 provide admitted semantic material
+  + [slice_4a] is CLI begins after the direct-core query contract stabilizes
+  + [slice_4b] is Codex MCP begins only after CLI golden and equivalence proof
+  + [slice_5] is neural routing remains blocked until deterministic baselines and every adoption prerequisite pass
+  + [slice_6] is FPGA execution remains blocked until the deterministic protocol stabilizes, a target workload and device are selected, and equivalence proof is planned
+  = must: use C:\Project\Cantor\feature_support\Cantor_Engine_Build_Slice_Index.sop as the contiguous work boundary
+
+& [AcceptanceGateSet] is the release proof
+  + [A1] is Cargo build, test, format, lint, and release build pass
+  + [A2] is all eight SOP CoreAcceptance fixtures emit inspectable state and proof
+  + [A3] is semantic identity survives source line relocation and recompilation
+  + [A4] is contextual identity resolves while excluded meanings remain excluded
+  + [A5] is every requested detail kind returns a typed result or an explicit absence
+  + [A6] is every returned quote validates against its package span digest
+  + [A7] is CLI golden output and direct-core semantic equivalence pass
+  + [A8] is MCP and CLI semantic equivalence pass before MCP readiness
+  + [A9] is no learned router is admitted without signed baseline, metric, failure, and fallback evidence
+  + [A10] is an admitted router has zero mandatory-gate bypasses
+  + [A11] is any FPGA profile proves normalized semantic and fault equivalence to the Rust reference oracle
+  + [A12] is any admitted FPGA image binds protocol, compiler, toolchain, target, package, plan, and bitstream digests
+
+& [SJSDisposition] is the specification-to-build decision
+  + [source_preservation] is complete
+  + [delineation] is complete
+  + [explosion] is seven_fold_phase_locked
+  + [semantic_refinement] is complete for the staged build
+  + [constraint_check] is passed
+  + [pruning] is complete with deferred work retained
+  + [data_design] is logical_authority_separated_from_derived_projection
+  + [feature_support] is sliced
+  + [remaining_definition_need] is local to owning implementation slices, not a blocker to slice_1
+  + [reprocess_when] is source intent changes, an invariant fails, a new effect authority is requested, or empirical proof contradicts the architecture
+
+& [RegistryRecord] is the SJS lineage graph
+  + [registry_uuid] is 293f5d25-f8f1-4f9b-98f0-c02a5e37e741
+  + [source_node_uuid] is e2bf3dff-70ac-46d9-9cb5-ecdd46ee44fe
+  + [source_addendum_node_uuid] is e35872b0-b289-4b12-9262-803ae6783ee3
+  + [exploded_node_uuid] is 5cd1bf4d-d1d4-48ce-ba66-ea2aabb1d101
+  + [FPGA_exploded_node_uuid] is 7e118c28-16cc-4809-bf9f-6fe65bc2e060
+  + [canonical_node_uuid] is b1e3b070-ac8f-44b2-a9ae-aa5d016a4944
+  + [justification_node_uuid] is 32c9df98-c226-4e59-8f35-f4f8356d777b
+  + [plan_node_uuid] is 7a5120ad-760e-48dc-97fe-7612c22d821e
+  + [feature_support_node_uuid] is 725ac2a3-52a3-4932-91b1-7f1da9f2b9e3
+  + [signature_uuid] is e2859e4c-57e2-47dd-8226-f7ce687019af
+  + [edge] is source_node_uuid derived_to exploded_node_uuid
+  + [edge] is source_addendum_node_uuid derived_to FPGA_exploded_node_uuid
+  + [edge] is exploded_node_uuid and FPGA_exploded_node_uuid promoted_to canonical_node_uuid
+  + [edge] is canonical_node_uuid justified_by justification_node_uuid
+  + [edge] is canonical_node_uuid planned_by plan_node_uuid
+  + [edge] is canonical_node_uuid sliced_by feature_support_node_uuid
+  + [edge] is canonical_node_uuid signed_by signature_uuid
+
+& [SupersededSatisfactionSignature] is the pre-FPGA-addendum signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 65a9a904-3667-4e62-ab30-1f3ea53030b3
+  + [signature_status] is superseded
+  + [superseded_by] is e2859e4c-57e2-47dd-8226-f7ce687019af
+  + [supersession_reason] is user-added FPGA execution profiles reopened and extended the hardware boundary
+
+& [SatisfactionSignature] is the valid SJS satisfaction signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is e2859e4c-57e2-47dd-8226-f7ce687019af
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-29_cantor_engine_neural_fabric_cli_build\Dictated_Cantor_Engine_Neural_Fabric_CLI_Build_Source.sop
+  + [source_snapshot_uuid] is e2bf3dff-70ac-46d9-9cb5-ecdd46ee44fe
+  + [source_addendum_snapshot_uuid] is e35872b0-b289-4b12-9262-803ae6783ee3
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Engine_Neural_Fabric_CLI_Build.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, inward_depth_reviewed, subcomponent_woven, cross_woven, seven_fold_phase_locked, data_designed, feature_support_sliced, justified, planned, registry_ready, and signed
+  + [exhaustion_state] is phase_locked_with_implementation_slices
+  + [signature_status] is valid
+  + [invalidation_condition] is source_document_change, failed_constraint_gate, broken_lineage, implementation_contradiction, authority_bypass, or signature_registry_conflict

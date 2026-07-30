@@ -1,0 +1,166 @@
+Subject: Cantor Prepared Runtime
+
+Description: Signed implementation authority for a bounded, scope-safe resident projection that preserves Cantor's exact deterministic protocol.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_prepared_runtime\Dictated_Cantor_Prepared_Runtime_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_prepared_runtime\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Prepared_Runtime.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Prepared_Runtime_Justification.sop
+@ [parent] C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+@ [protocol_oracle] C:\Project\Cantor\crates\cantor_core\src\protocol.rs
+
+& [CanonicalIdentity] is the accepted PreparedRuntime authority
+  + [canonical_specification_uuid] is 73d6dba4-df9b-4856-90cf-2a40a32c98df
+  + [source_snapshot_uuid] is 521e7bab-69b5-4222-9c2b-bdc9cb4489b2
+  + [exploded_specification_uuid] is a354533f-be52-4789-82d9-dc6a2cadfa4c
+  + [justification_uuid] is 1fdfb333-ea00-4f82-ac74-fa031fca636c
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [prepared_runtime_profile] is cantor-prepared-runtime/0.1
+  + [activation_state] is active_for_bounded_implementation_and_evidence
+  + [implementation_language] is safe Rust edition 2024
+
+& [AuthorityBoundary] is non-waivable
+  = must: preserve execute_protocol_request as the direct deterministic oracle
+  = must: use independently supplied request environment digest and complete package bindings before cached semantic use
+  = must: preserve exact requested_scope admission
+  = must: preserve exact ProtocolResponse status, exit_class, result, faults, proof, continuation, ordering, and digests
+  = must: keep physical preparation and synchronization outside semantic meaning
+  = must: keep canonical JSON persistence unchanged
+  - never: let PreparedRuntime mint caller, purpose, effect, scope, package, trust, or semantic authority
+  - never: activate Phase7, neural routing, FPGA execution, database mutation, distributed runtime, or model-hidden-state work through this slice
+
+& [RuntimeGeneration] is immutable semantic input identity
+  + [environment] is one immutable EmbeddedRuntimeEnvironment
+  + [environment_digest] is the exact canonical digest of environment
+  + [generation_id] is the digest of prepared_runtime_profile, protocol version, environment version, and environment_digest
+  + [pinned_trust_time] is environment now_epoch_seconds
+  + [package_order] is environment package vector order and remains digest-significant
+  + [trust_state] is embedded TrustStore content and remains subordinate to independent request bindings
+  + [lifecycle] is candidate, active, superseded, invalidated, or rolled_back
+  = must: create a different generation when any bound input changes
+  - never: mutate generation identity or environment in place
+
+& [ScopeProjection] is one immutable admitted runtime view
+  + [scope] is one structurally exact AuthorityScope
+  + [fabric] is SemanticFabric built from packages admitted under scope
+  + [admitted_package_ids] is the deterministic fabric package identity set
+  + [projection_key] is generation_id plus canonical exact scope
+  + [freshness] is current only for the owning generation and exact scope
+  = must: retain at most one projection in this profile
+  = must: rebuild and replace the complete projection when scope differs
+  - never: reuse a projection for a broader, narrower, overlapping, or similar scope
+
+& [PreparedRuntime] is the core request director
+  + [source_environment] is immutable shared ownership retained for exact fallback and scope re-preparation
+  + [generation] is RuntimeGeneration metadata
+  + [projection_slot] is zero or one immutable ScopeProjection
+  + [metrics] is non-authoritative hit, miss, preparation, replacement, and execution observation
+  + [interface] is ProtocolRequest to ProtocolResponse
+  = must: validate request environment, protocol, caller, purpose, effect, package set, and scope prerequisites before projection use
+  = must: share request validation and response construction with direct execution
+  = must: release projection coordination locks before query or inspection execution
+  = must: return the exact direct response for every accepted request and every constructible fault path
+  = must: replace only a complete projection
+
+& [PreparedRuntimeSlot] is whole-generation activation
+  + [active_generation] is zero or one complete PreparedRuntime
+  + [execute] is acquire one immutable generation snapshot and release the slot lock before semantic execution
+  + [replace] is compare expected current generation then atomically install a fully constructed replacement
+  + [invalidate] is compare expected current generation then atomically remove it
+  + [replace_or_invalidate] is install a valid demanded replacement or deactivate when demanded security-state preparation fails
+  + [rollback] is prepare an independently supplied prior environment and activate it as another complete transition
+  + [transition_receipt] is previous generation, next generation, disposition, and fault when present
+  = must: reject stale expected-generation transitions
+  = must: make every new acquisition observe either the complete prior state or complete next state
+  = may: let an already acquired immutable request snapshot finish against its exact generation
+  - never: silently keep stale authority active after a demanded revocation, staleness, trust-time, or package replacement fails
+
+& [TrustTimeBoundary] is deterministic and explicit
+  + [current_authority] is the pinned now_epoch_seconds inside EmbeddedRuntimeEnvironment
+  + [time_update] is a new environment generation and digest
+  + [live_clock] is not implemented
+  + [supervisor_obligation] is publish and activate a new trusted-time generation when validity interpretation must change
+  - never: claim PreparedRuntime independently enforces wall-clock certificate expiry
+
+& [MemoryBoundary] is measured and bounded
+  + [baseline] is the same resident environment without retained admitted fabric
+  + [retained] is baseline plus at most one scope projection and coordination metadata
+  + [peak] is maximum live heap during preparation and replacement
+  + [measurement] is allocation-level retained and peak bytes from isolated repeatable processes
+  = must: report absolute bytes and comparable ratios
+  = must: evaluate memory and lifecycle cost with latency gain before adapter activation
+  - never: use serialized JSON bytes as heap evidence
+  - never: introduce an unbounded scope cache
+
+& [ConcurrencyBoundary] is snapshot-safe
+  + [reader] is query or inspection over one acquired immutable generation and projection
+  + [writer] is projection preparation, generation replacement, invalidation, or rollback
+  + [visibility] is old-or-new whole state only
+  = must: prove deterministic concurrent reads
+  = must: prove replacement and invalidation cannot expose partial state
+  = must: prove semantic execution occurs after coordination lock release
+  - never: claim distributed, realtime, fairness, or lock-free guarantees
+
+& [ProtocolEquivalenceGate] is PR-AC5 and PR-AC6
+  + [query_matrix] is success, partial unresolved, ambiguity, budget exhaustion, invalid request, policy denial, trust failure, proof gap, semantic fault, and internal fault where fixtures can construct them
+  + [inspect_matrix] is fabric, package, certificate, semantic-unit success plus invalid, policy, trust, unknown-identity, and proof-gap paths
+  + [comparison] is direct ProtocolResponse equality before and after serialization
+  + [verification] is verify_protocol_response and deterministic direct re-execution
+  - never: accept selected-field or success-only equivalence
+
+& [AdoptionGate] is evidence-driven
+  + [correctness] is zero ProtocolResponse, digest, scope, lifecycle, or concurrency mismatch
+  + [latency] is warm preparation, cold process preparation, direct repeated request, prepared miss, and prepared hit measured separately
+  + [memory] is retained and peak allocation measured over representative multi-shape fixtures
+  + [complexity] is lifecycle, synchronization, fault, dependency, and adapter surface recorded
+  + [disposition] is activate, retain_core_only, revise, or reject
+  = must: select disposition from the complete evidence set
+  = must: preserve direct request-scoped execution as rollback
+  - never: activate merely because a prepared query microbenchmark is fast
+
+& [AcceptanceGate] is PR-AC1 through PR-AC14
+  @ [definition] C:\Project\Cantor\specifications\exploded\Cantor_Prepared_Runtime.exploded.sop
+
+& [SJSProcessingTrace] is the artifact-bound processing record
+  + [processed_stage_set] is source_preserved, delineated, data_designed, exploded, semantically_refined, constraint_checked, pruned, seven_fold_phase_locked, justified, planned, registry_recorded, and signed
+  + [source_sha256] is FC8D5E14D3E189C23C64769EAB0FFFB8491B7741915872D359FE20F4E8137221
+  + [exploded_sha256] is 1FEF47FFCF4DD4931F934D37030285C89140BB24991645B074B51B02B7AB7A15
+  + [delineation_evidence] is Exploded Cantor Prepared Runtime DelineationTrace
+  + [data_design_evidence] is ConceptualDataModel, LogicalDataModel, and PhysicalModelCandidate
+  + [semantic_refinement_evidence] is global prepared fabric refined to exact-scope projection and trust time refined to pinned generation time
+  + [constraint_check_evidence] is Exploded Cantor Prepared Runtime ConstraintCheckTrace
+  + [pruning_evidence] is Exploded Cantor Prepared Runtime PruningTrace
+  + [fold_evidence] is Exploded Cantor Prepared Runtime SevenFoldTrace
+  + [justification_evidence] is C:\Project\Cantor\justifications\Cantor_Prepared_Runtime_Justification.sop
+  + [exhaustion_state] is seven_fold_phase_locked_for_one_generation_one_scope_projection_runtime
+
+& [RegistryRecord] is SJS lineage
+  + [registry_uuid] is a06c82f6-9524-4455-921b-c965a7570884
+  + [source_node_uuid] is 521e7bab-69b5-4222-9c2b-bdc9cb4489b2
+  + [exploded_node_uuid] is a354533f-be52-4789-82d9-dc6a2cadfa4c
+  + [canonical_node_uuid] is 73d6dba4-df9b-4856-90cf-2a40a32c98df
+  + [justification_node_uuid] is 1fdfb333-ea00-4f82-ac74-fa031fca636c
+  + [solution_node_uuid] is 05c9ee54-f70c-4a88-aa8a-0b31352ef0e6
+  + [prior_signature_uuid] is dab7f9eb-a1f2-47a1-a33b-caca94a8ebd9
+  + [signature_uuid] is 38e9e194-1b32-4785-92a4-1f34ba1bfed9
+  + [edge] is source_node_uuid derived_to exploded_node_uuid
+  + [edge] is exploded_node_uuid promoted_to canonical_node_uuid
+  + [edge] is canonical_node_uuid justified_by justification_node_uuid
+  + [edge] is canonical_node_uuid implemented_as solution_node_uuid
+  + [edge] is canonical_node_uuid signed_by signature_uuid
+
+& [SatisfactionSignature] is valid SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 38e9e194-1b32-4785-92a4-1f34ba1bfed9
+  + [prior_signature_uuid] is dab7f9eb-a1f2-47a1-a33b-caca94a8ebd9
+  + [prior_signature_disposition] is invalidated_by_authorized_protocol_oracle_refactor
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-29_cantor_prepared_runtime\Dictated_Cantor_Prepared_Runtime_Source.sop
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Prepared_Runtime.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+  + [registry_record] is Cantor Prepared Runtime RegistryRecord
+  + [processed_stage_set] is source_preserved, delineated, data_designed, exploded, semantically_refined, constraint_checked, pruned, seven_fold_phase_locked, justified, planned, registry_recorded, signed, implemented, protocol_equivalence_verified, and post_implementation_confirmed
+  + [exhaustion_state] is seven_fold_phase_locked_for_one_generation_one_scope_projection_runtime
+  + [post_implementation_confirmation] is shared-seam protocol refactor passed exact full-response direct equivalence, debug and release suites, adapter equivalence, and evidence-manifest verification
+  + [signature_status] is valid_post_implementation_confirmation
+  + [invalidation_condition] is source change, broken artifact hash, missing trace, future semantic protocol-oracle change without exact equivalence reprocessing, scope-boundary contradiction, lifecycle contradiction, failed acceptance gate, or registry conflict

@@ -1,0 +1,51 @@
+Subject: CEB Slice 01 Core IR Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\CEB_Slice_01_Core_IR.sop
+@ [proof] C:\Project\Cantor\proofs\CEB_Slice_01_Core_IR_Proof.sop
+
+& [SolutionIdentity] is the implemented SJS solution record
+  + [solution_uuid] is b229977e-aace-4b71-9d37-373919cc3877
+  + [implemented_at] is 2026-07-29T11:52:56.3618221-05:00
+  + [requirement_set] is CEB-001, CEB-002, and CEB-003
+  + [status] is implemented_and_proven
+
+& [WorkspaceSolution] is the executable shape
+  + [root] is C:\Project\Cantor\Cargo.toml
+  + [cantor_core] is C:\Project\Cantor\crates\cantor_core
+  + [cantor_cli] is C:\Project\Cantor\crates\cantor_cli
+  + [lockfile] is C:\Project\Cantor\Cargo.lock
+  + [dependency_choice] is serde and serde_json are justified only by deterministic machine forms, exact reentry, capsule inspection, and CLI fixture output
+
+& [CoreModuleSet] is the responsibility boundary
+  + [model] is versioned semantic identities, units, contexts, relations, state, instructions, package/query/result schemas, judgments, traces, effects, faults, and proof records
+  + [evaluator] is one deterministic immutable-before-state to immutable-after-state transition function
+  + [machine] is deterministic JSON machine form and explicitly non-cryptographic fixture content identity
+  + [review] is fixture-local pertinent-history events, immutable inference capsules, and a bounded deterministic review program
+  + [fixtures] is the eight CoreAcceptance programs, transitions, proof assertions, and decisions
+  + [CLI] is a fixture-only list and run shell rather than the later production query protocol
+
+& [SemanticDecisionSet] is the implemented meaning
+  + [identity] is labels and aliases may address multiple units while contextual scope selects without merging
+  + [inference] is conclusions preserve premises, named rule, evidence, and inferred status
+  + [constraint] is missing knowledge emits unknown while a known violating value emits invalid
+  + [transformation] is pure state change emits no effect
+  + [effect] is denied or authorized as a pending proposal; no Core v0.1 instruction commits external change
+  + [reentry] is serialized yielded state must restore exactly before control resumes
+  + [surface] is verbose and condensed provenance may differ while normalized semantic IR remains equal
+  + [ontology] is SKOS mapping preserves source construct, native relation, and declared fidelity
+
+& [DeliberateLimitationSet] is retained
+  + [compiler] is fixture seven accepts only its two governed surfaces
+  + [digest] is fixture-only FNV-1a and grants no package authority
+  + [package] is schema-only until CEB Slice 02
+  + [query] is schema-only until CEB Slice 03
+  + [CLI] is a fixture shell until CEB Slice 04
+  + [history] is explicit no-match fixture-local review rather than database retrieval
+  + [review] is deterministic harness validation rather than independent model judgment
+  - never: claim these limits as later-slice capability
+
+& [SolutionDisposition] is accepted
+  + [proof] is C:\Project\Cantor\proofs\CEB_Slice_01_Core_IR_Proof.sop
+  + [successor] is CEB_Slice_02_Trusted_Package
+  + [successor_state] is completed_and_proven

@@ -1,0 +1,67 @@
+Subject: CEB Slice 02 Trusted Package Proof
+
+@ [slice] C:\Project\Cantor\feature_support\slices\CEB_Slice_02_Trusted_Package.sop
+@ [solution] C:\Project\Cantor\solutions\CEB_Slice_02_Trusted_Package_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\trusted_package.rs
+
+& [ProofIdentity] is the implementation evidence record
+  + [proof_uuid] is f2673e1f-3e1a-4744-8311-32bf32fbaf66
+  + [captured_at] is 2026-07-29T13:39:03.8726330-05:00
+  + [hardened_at] is 2026-07-29T15:20:16.2066888-05:00
+  + [working_tree] is C:\Project\Cantor
+  + [scope] is CEB-004, CEB-005, and CEB-006 only
+  + [result] is passed
+
+& [ToolchainEvidence] is the executed local environment
+  + [rustc] is 1.96.0 stable ac68faa20 for x86_64-pc-windows-msvc
+  + [cargo] is 1.96.0
+  + [cryptography] is sha2 0.11 and ed25519-dalek 3.0 with strict verification
+  + [unsafe_scan] is no unsafe tokens under crates
+
+& [CommandEvidence] is the final quality gate
+  + [cargo_fmt] is cargo fmt --all -- --check passed
+  + [cargo_clippy] is cargo clippy --workspace --all-targets -- -D warnings passed
+  + [cargo_test] is cargo test --workspace passed with eight Core IR and twenty-seven trusted-package integration tests and zero failures
+  + [cargo_release] is cargo build --workspace --release passed
+
+& [RequirementProof] is the traceable acceptance account
+  + [CEB-004] is passed by deterministic package compilation, SHA-256 package/semantic/source roots, stable semantic identities, canonical order, exact indexes, exact byte spans, proof identifiers, and dependency lock
+  + [CEB-005] is passed by separate authority and compiler Ed25519 signatures, certificate identity, signer roles, validity, revocation, staleness, compiler allowlist, dependency lock, and authority-scope admission gates
+  + [CEB-006] is passed by byte-exact quote validation against signed source snapshots, span digests, package-bound anchors, and human-readable line coordinates
+
+& [RejectionMatrix] is visible fail-closed evidence
+  + [unsigned] is rejected as UnsignedPackage
+  + [modified] is rejected as PackageDigestMismatch
+  + [corrupted_index] is identified structurally as IndexCorruption and rejected at admission
+  + [stale] is rejected as Stale
+  + [revoked] is rejected as Revoked
+  + [mixed] is rejected as PackageDigestMismatch
+  + [downgraded] is rejected as CompilerVersionRejected even with a valid test signature
+  + [scope_invalid] is rejected as ScopeViolation
+  + [invalid_signature] is rejected as InvalidSignature
+  + [validity_tamper] is rejected as InvalidPackageIdentity
+  + [expired] is rejected as Expired
+  + [dependency_drift] is rejected as DependencyLockMismatch
+  + [anchor_substitution] is rejected as ReferentialIntegrity
+  + [noncanonical_order] is rejected as MachineForm
+  + [invalid_identity_decode] is rejected before a machine form can bypass SemanticId construction
+  + [signer_record_substitution] is rejected as SignerIdentityMismatch
+  + [signer_key_collapse] is rejected as SignerSeparationViolation during compilation and admission policy checks
+  + [non_UTF8_source] is rejected as InvalidSourceEncoding
+  + [duplicate_source_path] is rejected as DuplicateIdentity
+  + [incomplete_context] is rejected as MachineForm
+  + [content_scope_escape] is rejected as ScopeViolation when a unit kind or perspective exceeds the signed declared scope
+  + [blank_semantics] is rejected as MachineForm for blank meaning, alias, source path, relation source, proof identity, source set, dependency identity or version, or compiler version
+  + [Unicode_span] is rejected as InvalidSourceSpan when a quote begins or ends inside a UTF-8 character
+
+& [RelocationProof] is semantic identity without address fragility
+  + [input] is the same semantic clause after one source line is inserted
+  + [package_identity] is different after required recompilation
+  + [semantic_identity] is unchanged
+  + [span_digest] is unchanged because the quoted semantic bytes are unchanged
+  + [display_line] is incremented and remains only the current human-readable locator
+
+& [ScopeProof] is the anti-expansion check
+  + [present] is immutable signed test packages, local recognition, exact source proof, and deterministic structural admission
+  + [outside_this_slice] is production key administration, remote revocation, deterministic semantic query, CLI query protocol, MCP, neural routing, FPGA execution, and external effects
+  = conclusion: CEB Slice 02 is complete and its admitted package boundary authorizes deterministic query work

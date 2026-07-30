@@ -1,0 +1,61 @@
+Subject: CEB Slice 03 Deterministic Query Proof
+
+@ [slice] C:\Project\Cantor\feature_support\slices\CEB_Slice_03_Deterministic_Query.sop
+@ [solution] C:\Project\Cantor\solutions\CEB_Slice_03_Deterministic_Query_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\deterministic_query.rs
+
+& [ProofIdentity] is the implementation evidence record
+  + [proof_uuid] is 22e14d85-b12a-4fd4-b1c5-ef3654657d6c
+  + [captured_at] is 2026-07-29T14:22:40.6335652-05:00
+  + [hardened_at] is 2026-07-29T15:20:16.2066888-05:00
+  + [working_tree] is C:\Project\Cantor
+  + [scope] is CEB-007, CEB-008, CEB-009, and CEB-010 only
+  + [result] is passed
+
+& [CommandEvidence] is the final quality gate
+  + [cargo_fmt] is cargo fmt --all -- --check passed
+  + [cargo_clippy] is cargo clippy --workspace --all-targets -- -D warnings passed
+  + [cargo_test] is cargo test --workspace passed with eight Core IR, twenty-seven trusted-package, and twenty-five deterministic-query tests and zero failures
+  + [cargo_release] is cargo build --workspace --release passed
+
+& [RequirementProof] is the traceable acceptance account
+  + [CEB-007] is passed by active subject, purpose, use-case, boundary, description, requested-detail, relationship, criteria, scope, perspective, known-unit, authority, and budget fields
+  + [CEB-008] is passed by recognized snapshot, exact semantic identity and alias with opt-in deterministic lexical candidate fallback, contextual selection, and typed traversal in that order
+  + [CEB-009] is passed by typed records, certificate- and document-bound verified quotes, package-bound typed relationship steps, boundary account, omissions, per-detail account, structured package proof, and recomputable result digest
+  + [CEB-010] is passed by distinct invalid request, unknown identity, ambiguity, unauthorized candidate, upstream stale rejection, contradiction, missing-detail, unsupported-mode, proof-gap, and budget-exhausted forms
+
+& [AcceptanceProofSet] is observable behavior
+  + [context] is finance and deposits select financial bank while geography is excluded
+  + [ambiguity] is unqualified bank preserves both equal meanings
+  + [exclusion] is an excluded geography meaning cannot reenter through relation traversal
+  + [relations] is DistinctFrom returns its relation identity, type, endpoints, source reference, and package owner
+  + [details] is every requested kind returned, already resident, explicitly absent, or budget clipped
+  + [known_units] is resolved without redundant record transmission while newly requested quote, path, and authority details remain independently returnable
+  + [multi_term] is reinforcing terms select one identity without falsely marking the repeated candidate unknown
+  + [multi_subject] is independently named terms return multiple resolved subjects without false ambiguity
+  + [criteria] is mandatory and description need contributes an explained deterministic score
+  + [authority] is two recognized candidates visibly denied to an unrelated caller scope
+  + [budgets] is shared record, typed-path, verified-quote, and elapsed clipping visible in both boundary and fault sets
+  + [repeatability] is repeated complete result JSON byte-equivalent and result digest verified
+  + [empty_term] is rejected as invalid rather than acting as a lexical wildcard
+  + [empty_selector] is rejected for blank optional selectors, blank authority scope, or an absent requested-detail demand
+  + [compiled_index] is normalized exact and alias lookup served from the admitted signed index rather than a second runtime reconstruction
+  + [authority_detail] is returned from package proof even when the separate record projection is byte-clipped
+  + [global_identity] is duplicate semantic-unit or relation identity across admitted packages rejected before query
+  + [bounded_explanation] is scoring reasons capped with an explicit omission count without changing resolution
+
+& [FixtureBaseline] is the release-mode deterministic measurement
+  + [corpus] is one admitted package, two contextual bank meanings, one DistinctFrom relation, two exact quotes, and 147 signed source bytes
+  + [serialized_package_bytes] is 6014
+  + [serialized_result_bytes] is 4302
+  + [iterations] is 1000 complete queries with digest recomputation
+  + [elapsed_microseconds_total] is 20600 on the final overflow-checked release rerun
+  + [average_microseconds_per_query] is 20.600 on this local run
+  + [correctness] is 1000 of 1000 expected identity and digest checks passed
+  + [proof_completeness] is package certificate/root proof, quote document/span proof, selection decisions, typed path proof, boundary account, detail account, omission account, and result digest present
+  + [measurement_boundary] is a fixture baseline rather than a production capacity claim or full heap profiler
+
+& [ScopeProof] is the anti-expansion check
+  + [present] is admitted in-memory fabric, deterministic query, lexical fallback, structured proof, metrics, and tests
+  + [absent] is physical database, embeddings, learned routing, provider inference, MCP, daemon, neural network, FPGA, and external effects
+  = conclusion: CEB Slice 03 is complete and authorizes the bounded embedded CLI implementation

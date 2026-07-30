@@ -1,0 +1,90 @@
+{
+  "summary_version": "cantor-runtime-decomposition-summary/0.2",
+  "captured_date": "2026-07-29",
+  "machine": "THEBRAIN",
+  "operating_system": "windows x86_64",
+  "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+  "method_boundary": {
+    "independent_runs": 3,
+    "scales": [1, 32, 256],
+    "iterations_by_scale": {
+      "1": 200,
+      "32": 100,
+      "256": 30
+    },
+    "cache": "warm in-process timing without operating-system cache control",
+    "compilation": "unsafe code forbidden; release overflow checks enabled",
+    "prepared_query_excludes": [
+      "environment digest",
+      "expected-package comparison",
+      "signature admission",
+      "fabric construction",
+      "protocol envelope validation",
+      "protocol proof assembly"
+    ],
+    "nonclaims": [
+      "not a projected end-to-end PreparedRuntime latency",
+      "not a production corpus",
+      "not a memory-cost measurement",
+      "not PreparedRuntime implementation authority"
+    ]
+  },
+  "source_reports": [
+    {
+      "captured_at_epoch_milliseconds": 1785364192582,
+      "sha256": "59349950677615C19DC4C4D826C7250975EB1914C00BD39045B5880DED943FB0"
+    },
+    {
+      "captured_at_epoch_milliseconds": 1785364194692,
+      "sha256": "6103EA700FBB8431D341AB6504CB418E69DE5228892899A9C05F0966A8D3777A"
+    },
+    {
+      "captured_at_epoch_milliseconds": 1785364196790,
+      "sha256": "81A42BD2484B03807E16D9ED13D1B5E3758810DF30F770D78BEDE3EDB6495D06"
+    }
+  ],
+  "scenarios": [
+    {
+      "package_count": 1,
+      "environment_digest_median_microseconds_range": [5, 5],
+      "environment_digest_p95_microseconds_max": 6,
+      "admit_and_build_median_microseconds_range": [71, 73],
+      "admit_and_build_p95_microseconds_max": 81,
+      "prepared_query_median_microseconds_range": [10, 10],
+      "prepared_query_p95_microseconds_max": 15,
+      "full_protocol_median_microseconds_range": [90, 90],
+      "full_protocol_p95_microseconds_max": 106
+    },
+    {
+      "package_count": 32,
+      "environment_digest_median_microseconds_range": [175, 179],
+      "environment_digest_p95_microseconds_max": 214,
+      "admit_and_build_median_microseconds_range": [2364, 2427],
+      "admit_and_build_p95_microseconds_max": 2594,
+      "prepared_query_median_microseconds_range": [16, 23],
+      "prepared_query_p95_microseconds_max": 42,
+      "full_protocol_median_microseconds_range": [2633, 2654],
+      "full_protocol_p95_microseconds_max": 2856
+    },
+    {
+      "package_count": 256,
+      "environment_digest_median_microseconds_range": [1629, 1783],
+      "environment_digest_p95_microseconds_max": 2208,
+      "admit_and_build_median_microseconds_range": [19665, 19875],
+      "admit_and_build_p95_microseconds_max": 21356,
+      "prepared_query_median_microseconds_range": [44, 45],
+      "prepared_query_p95_microseconds_max": 64,
+      "full_protocol_median_microseconds_range": [21943, 22441],
+      "full_protocol_p95_microseconds_max": 25165
+    }
+  ],
+  "correctness": {
+    "prepared_query_equivalence_failures": 0,
+    "repeated_protocol_response_failures": 0
+  },
+  "disposition": {
+    "finding": "request-scoped admission and fabric construction dominate the measured 256-package path",
+    "candidate": "immutable environment-bound PreparedRuntime",
+    "activation": "not authorized by this evidence artifact"
+  }
+}

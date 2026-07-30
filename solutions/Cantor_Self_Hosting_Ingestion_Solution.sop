@@ -1,0 +1,102 @@
+Subject: Cantor Self-Hosting Ingestion Solution
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_self_hosting_ingestion\Dictated_Cantor_Self_Hosting_Ingestion_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Self_Hosting_Ingestion_Justification.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_core\src\sop.rs
+@ [operator] C:\Project\Cantor\crates\cantor_cli\src\corpus_main.rs
+@ [corpus] C:\Project\Cantor\corpus\self_hosted\corpus.json
+@ [summary] C:\Project\Cantor\experiments\self_hosted_corpus_benchmark\artifacts\2026-07-29-three-run-summary.json
+@ [evidence_manifest] C:\Project\Cantor\experiments\self_hosted_corpus_benchmark\artifacts\self_hosted_corpus_evidence_manifest.json
+@ [proof] C:\Project\Cantor\proofs\Cantor_Self_Hosting_Ingestion_Proof.sop
+
+& [SolutionIdentity] is the completed first self-hosting product loop
+  + [solution_uuid] is bb88172a-e70e-4a1a-aba3-20dfa572ec40
+  + [status] is completed_and_boundedly_activated
+  + [source_profile] is cantor-sop-source/0.1
+  + [lowering_profile] is cantor-sop-lowering/0.1
+  + [corpus_profile] is cantor-sop-corpus/0.1
+
+& [ParserImplementation] is strict source preservation
+  + [metadata] is one Subject and optional Description
+  + [markers] is ampersand, plus, at sign, exclamation, equals, and minus
+  + [indentation] is exact two-space hierarchy
+  + [encoding] is strict UTF-8 with LF and CRLF support
+  + [fault] is ordered structured document, line, byte, kind, preview, and message
+  + [limits] is bounded documents, bytes, lines, nodes, relations, depth, names, bodies, and queries
+  - never: ignore or model-guess unsupported semantic syntax
+
+& [LoweringImplementation] is conservative typed fabric
+  + [kind_mapping] is Term, Declaration, Relation record, Judgment, Operation, and Contract
+  + [status] is Asserted
+  + [identity] is document, marker, parent, name, and normalized body digest without path, line, or ordinal
+  + [quote] is marker-through-body exact bytes excluding indentation and line ending
+  + [relation] is only directly observed parent Narrower child
+  + [repeated_names] is distinct bodies produce stable distinct identities independent of order
+  - never: infer aliases, reference endpoints, causation, contradiction, permission, or authority from prose
+
+& [OperatorImplementation] is verified local compilation
+  + [binary] is cantor-corpus
+  + [command] is compile
+  + [manifest] is strict unknown-field-rejecting JSON with explicit source_root
+  + [key_input] is two distinct 32-byte Ed25519 seeds in raw or hexadecimal form
+  + [preflight] is parsing, lowering, collision detection, signing, trust admission, generated request execution, and exact response verification
+  + [publication] is conflict preflight, same-directory temporary file, flush, atomic rename, and build manifest last
+  + [replacement] is explicit only
+  + [secret_boundary] is no seed bytes or key paths in artifacts, receipts, or faults
+
+& [SelfHostedCorpus] is real governed source
+  + [source_count] is 3
+  + [unit_count] is 417
+  + [relation_count] is 360
+  + [source_bytes] is 33551
+  + [source] is SOP_Core
+  + [source] is Cantor_Semantic_Coprocessor_Identity
+  + [source] is Cantor_Prepared_Runtime
+  + [query] is SemanticUnit at SOP_Core display line 15
+  + [query] is Cantor at Cantor identity display line 13
+  + [query] is PreparedRuntime at PreparedRuntime display line 53
+
+& [RuntimeIntegration] is unchanged proof-carrying protocol
+  + [package_id] is package:sha256:4e6e4b14d13c022b60643b77ced08081b8b5efc6a75152953c3d97f83b0ade30 for the public evidence-key build
+  + [certificate_id] is certificate:sha256:8840c662049e6230f76ebed4eaf051834a7896525aee4a5490c0814a12a2b70a for the public evidence-key build
+  + [environment_digest] is e59ea0ba39303627a7fad47a9c2892173e2f75e17bf91bc14dac5ffb00e7545b for the public evidence-key build
+  + [CLI] is exact production query and inspect ProtocolResponse
+  + [MCP] is real STDIO query_sop response exactly equal to core
+  + [PreparedRuntime] is one projection preparation followed by exact repeated hits
+
+& [MeasuredProfile] is evidence rather than scale claim
+  + [runs] is three release processes with thirty samples per stage
+  + [parse_lower_median_microseconds] is 1460.5 through 1539.3
+  + [signed_compile_median_microseconds] is 6644.1 through 6753.2
+  + [full_build_preflight_median_microseconds] is 67924.6 through 68262.7
+  + [environment_load_median_microseconds] is 2253.5 through 2273.2
+  + [direct_query_median_microseconds] is 6131.4 through 6287.3
+  + [prepared_hit_median_microseconds] is 47.0 through 47.5
+  + [correctness_mismatches] is 0
+
+& [SecurityDisposition] is bounded local authority
+  + [changed_source] is rejected without recompilation
+  + [tampered_package] is rejected
+  + [scope_drift] is rejected
+  + [same_signer_seed] is rejected
+  + [path_escape] is rejected
+  + [artifact_conflict] is rejected without explicit replacement
+  + [generated_local_artifacts] is ignored under .local and absent from Git authority
+
+& [NonclaimSet] is retained
+  + [grammar] is bounded profile rather than full SOP
+  + [semantics] is syntax-directed lowering rather than natural-language semantic understanding
+  + [scale] is three sources rather than terabytes
+  + [storage] is signed canonical JSON environment rather than physical database
+  + [routing] is deterministic exact and typed query rather than learned neural routing
+  + [keys] is explicit operator input rather than production key administration
+  + [service] is local CLI and STDIO MCP rather than network or distributed service
+  + [hardware] is no FPGA activation
+
+& [ReentryGate] is explicit future work
+  + [trigger] is a reviewed unsupported SOP marker with settled lowering semantics
+  + [trigger] is explicit cross-document symbols and imports
+  + [trigger] is observed incremental compilation or selective-loading need
+  + [trigger] is a labeled routing corpus and threshold sufficient for Phase7 shadow evaluation
+  = must: preserve exact source, deterministic fallback, trust admission, and proof in every extension

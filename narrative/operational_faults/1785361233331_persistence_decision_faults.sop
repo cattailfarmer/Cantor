@@ -1,0 +1,154 @@
+Subject: Cantor Persistence Decision Operational Faults
+
+@ [turn] C:\Project\Cantor\narrative\turns\1785361233331_cantor_persistence_decision.sop
+@ [proof] C:\Project\Cantor\proofs\Phase6_Persistence_Decision_Proof.sop
+
+& [OperationalFaultRecord] is the visible workflow-fault account
+  + [record_uuid] is fcbdbbe4-1b52-4ac9-ae64-59dab3923153
+  + [captured_at_ms] is 1785361233331
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [project] is Cantor
+
+& [Fault] is initial size-column ambiguity
+  + [symptom] is report-version 0.1 recorded database bytes immediately after write while redb later changed allocation during reopen
+  + [impact] is the first run could not support a stable size comparison
+  + [correction] is report-version 0.2 records both post-write and post-load bytes
+  + [recovery] is the initial run excluded and three corrected independent runs captured
+  + [state] is resolved
+
+& [Fault] is first compile integration defects
+  + [symptom] is the initial lab compile omitted redb ReadableDatabase trait import and attempted automatic conversion of a non-Error protocol verification fault
+  + [impact] is compile failure before benchmark execution
+  + [correction] is import the explicit trait and map verification faults with their code and message
+  + [proof] is release build, clippy warnings denied, and all corrected benchmark runs passed
+  + [state] is resolved
+
+& [Fault] is prematurely bounded Cargo calls
+  + [symptom] is initial compile and release-run calls used a one-second ceiling and yielded before completion
+  + [impact] is incomplete first command output and temporary build locking only
+  + [correction] is inspect process state and rerun with explicit 240-second bounds
+  + [state] is resolved
+
+& [Fault] is absent sqlite3 command-line utility
+  + [symptom] is host sqlite3 executable unavailable
+  + [impact] is no external CLI inspection during this run
+  + [correction] is use rusqlite 0.40.1 with bundled SQLite in the isolated lab and record command-line inspection as unavailable
+  + [state] is resolved_for_benchmark
+
+& [Fault] is duplicate slice and solution UUID
+  + [symptom] is the first governance pass reused the reserved solution UUID as the Phase6 work-slice UUID
+  + [impact] is ambiguous governance identity without implementation or evidence impact
+  + [detection] is explicit post-close identity audit
+  + [correction] is assign slice UUID 07beb0a5-b9fc-48fa-817d-df7cb72bf54d while preserving solution UUID a6fe47fc-54bd-443a-af25-9deff7d58896
+  + [state] is resolved
+
+& [Fault] is raw-report archive newline normalization
+  + [symptom] is preserving ignored raw reports through patch application added one terminal newline to each tracked copy
+  + [impact] is tracked byte digests differ from the original ignored local files while parsed evidence is unchanged
+  + [correction] is compute and record digests of the actual tracked artifacts, update the summary and proof, and add a test that recomputes every tracked raw-report digest and aggregate range
+  + [state] is resolved_and_mechanically_guarded
+
+& [Fault] is cargo audit launcher absent from PATH
+  + [symptom] is cargo audit was not registered as a Cargo subcommand in the current process PATH
+  + [impact] is the first advisory-audit invocation failed before scanning
+  + [correction] is invoke C:\Project\Cantor\.local\audit-tool\bin\cargo-audit.exe directly
+  + [proof] is root 110-dependency and experiment 46-dependency lockfiles scanned against 1173 advisories with zero reported vulnerabilities
+  + [state] is resolved
+
+& [Fault] is runtime-profile first lint failure
+  + [symptom] is the first runtime-decomposition compile retained one unused ProtocolRequest import
+  + [impact] is clippy with warnings denied stopped before profile execution
+  + [correction] is remove the unused import and rerun formatting, clippy, and release profile
+  + [state] is resolved
+
+& [Fault] is Windows application-control denial of rebuilt debug lab test
+  + [symptom] is Windows blocked the newly rebuilt debug test executable before process start with operating-system error 4551
+  + [impact] is rebuilt debug main and later release zero-test runtime harness invocations did not execute under the host policy
+  + [boundary] is no application-control setting was disabled or weakened
+  + [recovery] is the release main harness ran all ten lab tests, both actual release binaries built, and the actual runtime-decomposition binary completed all three profile-exact runs
+  + [verification_shape] is cargo check and clippy cover all targets while executable tests are scoped to the nonblocked main harness
+  + [production_workspace] is unaffected and its debug, release, locked-offline, clippy, build, and documentation gates passed
+  + [state] is host_policy_visible_with_release_verification
+
+& [Fault] is concurrency-probe QueryFault conversion assumption
+  + [symptom] is the first concurrency-probe compile used question-mark and to_string on QueryFault although that structured fault intentionally implements neither standard Error nor Display
+  + [impact] is compile failure before the probe ran
+  + [correction] is preserve fault kind and message through an explicit bounded test-only conversion
+  + [proof] is warnings-denied clippy and seven release-profile lab tests passed
+  + [state] is resolved
+
+& [Fault] is first SJS-lineage assertion vocabulary mismatch
+  + [symptom] is the first lineage test expected byte_count while the source manifest correctly declares byte_length
+  + [impact] is one release test failed without changing an authority artifact
+  + [correction] is bind the test to the manifest's actual byte_length vocabulary
+  + [state] is resolved
+
+& [Fault] is first SJS-lineage assertion overconstrained the justification
+  + [symptom] is the lineage test expected the canonical UUID inside justification although that artifact links canonical authority by exact file path
+  + [impact] is one release test failed despite an intact SJS path link
+  + [correction] is verify the exact canonical path while retaining distinct UUID checks for declared identity nodes
+  + [proof] is all eight release-profile lab tests passed
+  + [state] is resolved
+
+& [Fault] is first absolute-reference audit regex escaped incorrectly
+  + [symptom] is PowerShell received an under-escaped Windows path as a regular expression and reported malformed character escapes
+  + [impact] is the first audit printed a false success line after nonterminating regex errors
+  + [correction] is enable terminating errors, construct the prefix through Regex Escape, and rerun
+  + [proof] is all 69 absolute Phase6 references resolve
+  + [state] is resolved
+
+& [Fault] is SQLite redundant metadata was not cross-checked
+  + [symptom] is the first candidate loader decoded package_json but ignored its redundant ordinal, package_id, and package_digest inspection columns
+  + [impact] is request digest and package admission still prevented semantic authorization, but corrupted SQL metadata could mislead operators or inspection tooling
+  + [correction] is require contiguous ordinals and exact identity and recognition-certificate digest equality during reconstruction
+  + [proof] is mutation tests for all three metadata fields fail closed
+  + [state] is resolved
+
+& [Fault] is redb ordinal gaps were not cross-checked
+  + [symptom] is the first redb loader iterated values in key order but discarded ordinal keys without requiring a contiguous package sequence
+  + [impact] is package vector order remained deterministic, but corrupt physical ordering metadata could survive reconstruction when the relative value order was unchanged
+  + [correction] is compare every redb key to its expected contiguous ordinal before decoding its package value
+  + [proof] is ordinal mutation from 1 to 10 fails closed
+  + [state] is resolved
+
+& [Fault] is loader hardening made v0.2 timing evidence nonreproducible from retained source
+  + [symptom] is SQLite and redb integrity checks added measured load work after the original three v0.2 reports
+  + [impact] is retaining v0.2 as current evidence would separate benchmark source from its timing artifact
+  + [correction] is bump report schema to 0.3, execute three new complete release runs, mechanically regenerate all ranges and hashes, and replace the superseded tracked v0.2 raw reports
+  + [recovery] is the superseded files were generated experiment artifacts and remain recoverable from the ignored local run directory during this session
+  + [state] is superseded_by_v0.4_profile_correction
+
+& [Fault] is isolated lab did not inherit root safety and overflow profiles
+  + [symptom] is the experiment's separate workspace boundary omitted the production workspace unsafe-code prohibition and overflow-checked release profile
+  + [impact] is v0.3 reports were produced from hardened loader source but not the final declared compilation boundary
+  + [correction] is add unsafe_code forbid and release overflow checks locally, bump backend reports to 0.4 and runtime decomposition to 0.2, and execute three replacement runs for each
+  + [recovery] is superseded v0.3 and runtime v0.1 reports remain recoverable from ignored local run directories during this session
+  + [state] is resolved_with_profile_exact_evidence
+
+& [Fault] is first unsafe-source grep matched a disclosure string
+  + [symptom] is a broad word search treated the report text unsafe code forbidden as unsafe Rust syntax
+  + [impact] is the first source audit stopped with a false positive
+  + [correction] is search unsafe blocks, functions, impls, traits, extern declarations, and lint allowances structurally and rely on compiler-level unsafe_code forbid
+  + [proof] is no unsafe syntax found and warnings-denied compilation passed
+  + [state] is resolved
+
+& [Fault] is final governance audit assumed nonexistent directory names
+  + [symptom] is the first closeout search named governance and project_management directories that are not Cantor paths
+  + [impact] is the terminating audit stopped before its hash and diff checks despite finding no authority mismatch
+  + [correction] is derive the searchable surface from rg --files and search the repository's actual plans, feature_support, narrative, conversation, proof, and map paths
+  + [proof] is the corrected audit found the Phase6 identities and closure state across their actual authority surfaces
+  + [state] is resolved
+
+& [Fault] is PowerShell promoted a benign Git line-ending warning
+  + [symptom] is ErrorActionPreference Stop converted Git's CRLF warning on stderr into a terminating NativeCommandError
+  + [impact] is the first diff audit stopped even though Git had not reported a whitespace defect
+  + [correction] is run the read-only Git check with native warnings nonterminating and preserve its process exit code
+  + [proof] is git diff --check passed with no substantive finding
+  + [state] is resolved
+
+& [Fault] is broad absolute-path audit treated prose as locators
+  + [symptom] is the first repository-wide reference pass captured sentence suffixes and two paths joined by the word and
+  + [impact] is valid explanatory prose produced false missing-file findings
+  + [correction] is restrict authoritative filesystem resolution to standalone SOP reference declarations using the at-sign bracket-name path grammar
+  + [proof] is every declared absolute reference resolves after the grammar-aware rerun
+  + [state] is resolved

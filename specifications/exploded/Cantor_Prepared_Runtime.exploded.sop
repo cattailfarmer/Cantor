@@ -1,0 +1,239 @@
+Subject: Exploded Cantor Prepared Runtime
+
+Description: Source-grounded SJS explosion of a bounded resident runtime that accelerates repeated protocol execution without becoming semantic authority.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_prepared_runtime\Dictated_Cantor_Prepared_Runtime_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_prepared_runtime\Source_Document_Manifest.sop
+@ [phase6_decision] C:\Project\Cantor\solutions\Phase6_Persistence_Decision_Solution.sop
+@ [request_lifetime_evidence] C:\Project\Cantor\narrative\research\Cantor_Request_Lifetime_Fabric_Observation.sop
+@ [research_handoff] C:\Project\Cantor\docs\PREPARED_RUNTIME_CANDIDATE.md
+@ [protocol_oracle] C:\Project\Cantor\crates\cantor_core\src\protocol.rs
+@ [admission_oracle] C:\Project\Cantor\crates\cantor_core\src\trust\admission.rs
+@ [fabric_oracle] C:\Project\Cantor\crates\cantor_core\src\query\fabric.rs
+
+& [ExplodedIdentity] is the separate derived PreparedRuntime specification
+  + [exploded_specification_uuid] is a354533f-be52-4789-82d9-dc6a2cadfa4c
+  + [source_snapshot_uuid] is 521e7bab-69b5-4222-9c2b-bdc9cb4489b2
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [source_sha256] is FC8D5E14D3E189C23C64769EAB0FFFB8491B7741915872D359FE20F4E8137221
+  + [status] is exploded_pending_canonical_signature
+
+& [DelineationTrace] is the PreparedRuntime subject boundary
+  + [inside] is immutable environment-generation identity, cached digest and package binding, exact-scope admitted fabric projection, protocol-equivalent execution, bounded cache replacement, concurrency, activation, invalidation, rollback, memory measurement, latency measurement, proof, and adapter delegation
+  + [outside] is changing SOP meaning, changing package signatures, changing query ranking, inventing caller authority, live database mutation, neural routing, FPGA execution, distributed consensus, multi-tenant policy, hidden-state access, and Phase7 activation
+  + [references] is canonical JSON persistence, current MCP projection, signed package admission, deterministic query, and future publisher work
+  + [uncertainty] is production-corpus heap and workload behavior beyond the measured fixture family
+  - never: let performance state become semantic or trust authority
+  - never: call a scope projection reusable for a different AuthorityScope
+
+& [ConstraintLedger] is the source-grounded invariant set
+  + [source_preservation] is the dictated source remains unchanged and separate
+  + [semantic_oracle] is execute_protocol_request and its exact ProtocolResponse remain the correctness oracle
+  + [trust_bootstrap] is embedded TrustStore data is subordinate to a supervisor-controlled environment path and independently supplied request digest and package bindings
+  + [scope_integrity] is admission remains a function of exact requested_scope
+  + [request_gate_integrity] is protocol, caller, purpose, effect, digest, package-set, scope, operation, query, budget, proof, status, exit, fault, and continuation gates remain active
+  + [generation_integrity] is environment bytes, trust store, pinned trust time, package order, protocol version, or preparation profile change creates a different generation
+  + [invalidation_integrity] is failed replacement or explicit invalidation cannot leave stale authority silently active
+  + [ownership_integrity] is retained and peak memory are measured rather than inferred from serialized bytes
+  + [bounded_state] is one active scope projection per environment generation unless a later signed specification authorizes a different cache policy
+  + [adapter_boundary] is MCP transports requests and responses but owns no semantic decision
+  + [evidence_gate] is production activation follows measured equivalence, latency, memory, concurrency, and lifecycle evidence
+
+& [ConstraintCheckTrace] is the grounding and repair record
+  + [source_preservation] is grounded in the user objective and Specification Governance
+  + [semantic_oracle] is grounded in the user objective, Phase6 proof, and current protocol implementation
+  + [trust_bootstrap] is grounded in Phase6 bootstrap analysis
+  + [scope_integrity] is grounded in admit_package requiring requested_scope and certificate authority containment
+  + [generation_integrity] is grounded in EmbeddedRuntimeEnvironment digesting environment_version, now_epoch_seconds, TrustStore, ordered packages, and package bytes
+  + [ownership_integrity] is grounded in the observed package and index cloning path
+  + [repair] is replace the vague idea of one globally prepared fabric with an exact-scope projection
+  + [repair] is distinguish pinned trust time from an unimplemented trusted wall-clock service
+  + [conflict] is none remaining inside the bounded prototype
+
+& [ConceptualDataModel] is the meaning layer
+  + [EnvironmentGeneration] is one immutable semantic environment identified by its exact environment digest and preparation profile
+  + [RuntimeAuthorityBinding] is the request-supplied environment digest and complete package set that independently bind semantic use
+  + [ScopeProjection] is one immutable admitted SemanticFabric valid for exactly one AuthorityScope within one EnvironmentGeneration
+  + [PreparedRuntime] is the core director that validates requests and retains at most one ScopeProjection for an EnvironmentGeneration
+  + [PreparedRuntimeSlot] is the activation boundary that exposes zero or one whole PreparedRuntime generation
+  + [GenerationTransition] is an atomic activation, replacement, invalidation, or rollback event
+  + [RuntimeMetrics] is non-authoritative observation of preparation, hit, miss, latency, retained heap, peak heap, and concurrency behavior
+
+& [LogicalDataModel] is the constraint-bearing structure
+  + [generation_natural_key] is environment_digest plus prepared_runtime_profile plus protocol_version
+  + [scope_projection_natural_key] is generation_natural_key plus canonical exact AuthorityScope
+  + [environment_source] is the immutable EmbeddedRuntimeEnvironment retained for exact fallback and new-scope preparation
+  + [derived_projection] is SemanticFabric plus admitted package identities for one exact requested_scope
+  + [source_to_projection] is deterministic admission and fabric construction
+  + [freshness_rule] is projection current only while generation identity and exact requested_scope are unchanged
+  + [recompute_rule] is re-admit from environment_source and atomically replace the complete projection
+  + [invalidation_rule] is generation replacement or explicit invalidation removes the old generation from new request selection
+  + [rollback_rule] is prepare and activate a separately supplied independently bound prior environment as a new transition
+  - never: patch an admitted fabric or generation identity in place
+
+& [PhysicalModelCandidate] is bounded safe Rust
+  + [environment_ownership] is shared immutable ownership inside one runtime generation
+  + [scope_projection_ownership] is shared immutable ownership selected through a lock-protected single-entry slot
+  + [request_read_path] is clone current generation or projection handle, release coordination lock, then execute read-only
+  + [scope_change_path] is prepare an entire projection under exact scope and replace the projection slot as one value
+  + [generation_change_path] is prepare an entire runtime then compare-and-replace the active slot as one value
+  + [in_flight_rule] is a request that acquired a generation before replacement may finish against that exact snapshot while every later acquisition observes the new state
+  + [inactive_rule] is a slot with no active generation refuses execution outside ProtocolResponse rather than fabricating semantic proof
+  + [dependency_rule] is use Rust standard synchronization and existing production dependencies unless measurement proves otherwise
+
+& [TrustBootstrapDepthContract] is authority before preparation
+  + [activation_trigger] is a supervisor supplies an environment and later sends a complete ProtocolRequest
+  + [actor] is the supervisor controlling environment selection and request bindings
+  + [data] is environment digest, ordered signed package set, TrustStore, pinned trust time, requested scope, and caller context
+  + [policy_gate] is request digest and complete package set exactly match the active generation before admission or cache use
+  + [proof_gate] is exact response verification and generation metadata
+  + [failure_mode] is an attacker controlling environment, request binding, and supervisor trust together remains outside repair by caching
+  + [lifecycle] is unbound_environment to request_bound_generation to scope_prepared_generation or trust_fault
+
+& [ScopeProjectionDepthContract] is scope-safe retained execution
+  + [activation_trigger] is a request passes environment, protocol, caller, effect, and package binding gates
+  + [data] is exact AuthorityScope, admitted packages, SemanticFabric, and admitted package identities
+  + [transform] is package admission followed by deterministic fabric construction
+  + [policy_gate] is cached requested_scope equals request requested_scope by structural equality
+  + [replacement] is a different scope prepares a new complete projection and replaces the prior single projection
+  + [proof_gate] is response equals request-scoped execute_protocol_request byte-for-byte after canonical serialization and value-for-value before serialization
+  + [failure_mode] is scope mismatch, trust failure, fabric ambiguity, duplicate identity, or resource exhaustion
+  - never: reuse a broader, narrower, overlapping, or merely similar scope projection
+
+& [ProtocolEquivalenceDepthContract] is shared gate and outcome construction
+  + [activation_trigger] is PreparedRuntime receives ProtocolRequest
+  + [interface] is ProtocolRequest to ProtocolResponse with no adapter-specific semantic result
+  + [gate_order] is environment version, environment digest, protocol version, caller policy, nonempty packages, exact expected package set, scope admission, fabric construction, operation binding, query scope, query or inspect execution, proof construction, and result verification
+  + [query_outcomes] is success, partial unresolved, ambiguity, budget exhaustion, invalid request, policy denial, trust failure, semantic fault, and internal fault where constructible
+  + [inspect_outcomes] is fabric, package, certificate, semantic-unit success, unknown identity, proof gap, invalid request, policy denial, and trust failure
+  + [equivalence] is exact ProtocolResponse status, exit_class, result, faults, proof, continuation, ordering, and normalized digest
+  + [implementation_rule] is direct and prepared paths share request validation and result construction functions
+  - never: duplicate protocol policy in the MCP adapter
+  - never: replace exact equivalence with selected-field comparison
+
+& [GenerationLifecycleDepthContract] is atomic activation and fail-closed invalidation
+  + [state_set] is inactive, active, replacing, invalidated, superseded, or rolled_back
+  + [activate] is inactive to active after whole runtime construction
+  + [replace] is active generation A to active generation B through expected-generation compare-and-replace
+  + [invalidate] is active to inactive through expected-generation compare-and-invalidate
+  + [failed_replacement] is active to inactive when a demanded trust, revocation, staleness, or time update cannot prepare safely
+  + [stale_transition] is rejected when expected current generation differs from actual current generation
+  + [rollback] is inactive or active to a separately reconstructed prior environment after current supervisor binding
+  + [proof_gate] is transition receipt identifies previous generation, next generation, and disposition
+  + [in_flight_rule] is already acquired immutable snapshots may finish; invalidation controls all later acquisition
+  - never: partially mutate an active generation
+  - never: silently retain the old generation after a demanded security-state replacement fails
+
+& [TrustTimeDepthContract] is pinned deterministic time
+  + [current_model] is now_epoch_seconds belongs to EmbeddedRuntimeEnvironment and therefore its digest
+  + [prepared_rule] is use the same pinned trust time as direct execution
+  + [time_change] is a new environment generation with a new digest
+  + [expiry_boundary] is no live trusted wall-clock enforcement exists in the current protocol
+  + [supervisor_duty] is activate a new time-bound environment before relying on changed certificate validity
+  + [nonclaim] is PreparedRuntime does not repair the current pinned-time model or claim autonomous wall-clock revocation
+
+& [MemoryOwnershipDepthContract] is measured retained state
+  + [baseline] is resident EmbeddedRuntimeEnvironment without a retained admitted fabric
+  + [prepared_retained] is environment plus one admitted package/fabric projection plus coordination metadata
+  + [prepared_peak] is maximum heap during scope or generation preparation and replacement
+  + [measurement] is allocation-level retained and peak bytes in isolated processes over representative sources, units, relations, aliases, quotes, labels, and packages
+  + [comparison] is absolute bytes and ratios against the same-process baseline
+  + [decision_gate] is measured latency gain must be evaluated with retained and peak memory plus lifecycle complexity
+  - never: call serialized JSON size a heap measurement
+  - never: retain an unbounded per-scope cache in this slice
+
+& [ConcurrencyDepthContract] is deterministic shared execution
+  + [readers] is concurrent requests against one immutable scope projection
+  + [writers] is scope replacement, generation replacement, or invalidation
+  + [read_rule] is no coordination lock remains held during semantic query or inspection execution
+  + [write_rule] is complete replacement becomes visible atomically to later acquisitions
+  + [race_rule] is requests use exactly the generation and projection handle they acquired
+  + [proof_gate] is repeated mixed query and inspect readers plus replacement races return only complete old or complete new generation outcomes
+  + [nonclaim] is no distributed, multiprocess, lock-free, realtime, or fairness guarantee
+
+& [SubcomponentWeaveTraceSet] is local source and fabric binding
+  + [EnvironmentGeneration] is derived from immutable admission and invalidation requirements and binds EmbeddedRuntimeEnvironment plus Phase6 trust bootstrap
+  + [RuntimeAuthorityBinding] is derived from no skipped trust gates and binds ProtocolRequest expected_environment_digest plus expected_packages
+  + [ScopeProjection] is derived from admission's requested_scope input and binds AuthorityScope, AdmittedPackage, and SemanticFabric
+  + [PreparedRuntime] is derived from the user runtime objective and binds cantor_core rather than MCP semantic code
+  + [PreparedRuntimeSlot] is derived from whole-generation replacement and binds standard synchronization plus lifecycle proof
+  + [RuntimeMetrics] is derived from the benchmark objective and remains research/proof data rather than authority
+  + [revision_result] is accepted after global-fabric language was refined to exact-scope projection
+
+& [CrossWeaveTrace] is relation to Cantor's existing fabric
+  + [supports] is Phase6 finding that request-scoped admission and fabric construction dominate repeated execution
+  + [depends_on] is CEB-003 through CEB-015 deterministic package, query, protocol, CLI, and MCP behavior
+  + [constrains] is the current MCP adapter must remain a projection of cantor_core
+  + [preserves] is canonical JSON persistence and no production database dependency
+  + [leaves_frontier] is live trusted-clock policy, production publisher, multi-scope cache policy, multi-tenant service, Phase7 routing, and production corpus qualification
+  + [conflict] is none after exact-scope and pinned-time boundaries are explicit
+
+& [PruningTrace] is material excluded from canonical authority
+  + [pruned] is one globally reusable prepared fabric because package admission is scope-dependent
+  + [pruned] is K/V cache, hidden-state, model-weight, neural-network, and llama.cpp modification work
+  + [pruned] is unbounded scope cache and background refresh service
+  + [pruned] is live wall-clock expiry because it would change direct protocol semantics
+  + [pruned] is database adoption because Phase6 found no current requirement
+  + [pruned] is claimed production-corpus or service-load adequacy before representative evidence exists
+  + [quarantine] is future independently governed work rather than hidden implementation
+
+& [SevenFoldTrace] is the SJS explosion and phase-lock record
+  + [fold_1_edge_probe] is user objective to source-preserved implementation boundary
+  + [fold_1_gain_delta] is immutable generation, trust bootstrap, invalidation, memory, concurrency, and exact equivalence made atomic obligations
+  + [fold_2_edge_probe] is global preparation to admission scope
+  + [fold_2_gain_delta] is exact-scope projection and cross-scope rebuild rule
+  + [fold_3_edge_probe] is immutable runtime to lifecycle coordination
+  + [fold_3_gain_delta] is immutable generation plus atomic active slot and explicit in-flight snapshot semantics
+  + [fold_4_edge_probe] is performance cache to semantic authority
+  + [fold_4_gain_delta] is derived-projection identity, request binding before reuse, and adapter non-authority
+  + [fold_5_edge_probe] is deterministic pinned time to revocation and expiry
+  + [fold_5_gain_delta] is trust-time generation binding and honest live-clock nonclaim
+  + [fold_6_edge_probe] is latency win to memory and lifecycle cost
+  + [fold_6_gain_delta] is allocation-level retained and peak heap plus rejection gate
+  + [fold_7_edge_probe] is prototype evidence to production activation
+  + [fold_7_gain_delta] is exact outcome matrix, mixed concurrency, stale replacement, rollback, and governance proof requirements
+  + [exhaustion_state] is seven_fold_phase_locked_for_one_generation_one_scope_projection_runtime
+
+& [AcceptanceCriteria] is PR-AC1 through PR-AC14
+  + [PR-AC1] is dictated source preserved separately and valid SJS signature issued before implementation
+  + [PR-AC2] is PreparedRuntime generation identity binds exact environment digest, profile, protocol, ordered package set, TrustStore, and pinned trust time
+  + [PR-AC3] is independent request digest and package bindings pass before a scope projection is used
+  + [PR-AC4] is one retained scope projection is valid only for structurally equal AuthorityScope and cross-scope reuse never occurs
+  + [PR-AC5] is direct and prepared ProtocolResponse values are exactly equal across query, inspect, success, partial, invalid, trust, policy, unresolved, ambiguity, proof-gap, and budget cases supported by fixtures
+  + [PR-AC6] is direct and prepared execution share the same request gates and response construction rather than parallel policy copies
+  + [PR-AC7] is immutable concurrent reads are deterministic and no semantic execution holds the projection or generation coordination lock
+  + [PR-AC8] is whole-generation activation, replacement, invalidation, stale-transition rejection, failed-security-replacement deactivation, and rollback are tested
+  + [PR-AC9] is trust-store revocation, stale package, pinned trust-time change, package change, protocol change, and scope change cannot silently reuse prior prepared state
+  + [PR-AC10] is warm preparation, cold process preparation, repeated direct request, repeated prepared request, retained heap, and peak heap are separately measured over representative multi-shape fixtures
+  + [PR-AC11] is the adoption record evaluates latency benefit against retained memory, peak memory, lifecycle complexity, limitations, and nonclaims
+  + [PR-AC12] is MCP contains no semantic policy and, if activated, delegates to the core PreparedRuntime interface with exact adapter/core equivalence
+  + [PR-AC13] is production formatting, lint, debug, release, locked-offline, documentation, and dependency audit gates pass with no unrelated staging
+  + [PR-AC14] is solution, proof, feature support, file-change surface, narrative, conversation, and operational-fault records bind the exact implementation and evidence
+
+& [VerificationPlan] is completion evidence
+  + [unit] is generation and scope identities, exact binding validation, hit, miss, replacement, invalidation, stale compare, rollback, and unavailable execution
+  + [equivalence] is table-driven direct versus prepared ProtocolResponse equality over all constructible outcome families
+  + [tamper] is environment, package, trust, time, revocation, staleness, scope, request, proof, and budget mutations
+  + [concurrency] is multi-reader same-generation, scope replacement, generation replacement, invalidation, and old-or-new-only result proof
+  + [benchmark] is isolated reproducible machine-readable latency and allocation evidence with raw reports, summaries, source hashes, method, and limits
+  + [integration] is core, CLI, MCP projection, and live MCP subprocess equivalence where activation occurs
+  + [governance] is source hash, artifact existence, unique UUID, signature binding, matrix coverage, and declared-reference resolution
+
+& [GrowthSeedSet] is post-slice frontier
+  + [seed] is live trusted-clock and certificate-expiry policy
+  + [seed] is production publisher and independently authenticated generation activation
+  + [seed] is production-corpus memory qualification and service workload testing
+  + [seed] is multi-scope or multi-tenant cache policy only after observed workload requires it
+  + [seed] is lock-free generation selection only after profiler evidence
+  + [seed] is Phase7 routing only after its existing reviewed-corpus and adoption gates
+
+& [ExplosionQualityGate] is passed for canonical authoring
+  + [coverage_check] is obligations, interfaces, data, lifecycle, trust, scope, memory, concurrency, failure, proof, and non-goals explicit
+  + [truth_check] is direct protocol, admission, Phase6 evidence, and user objective ground the surface
+  + [data_design_check] is source, projection, identity, freshness, recompute, invalidation, and physical ownership separated
+  + [inward_depth_check] is trust bootstrap, scope projection, equivalence, lifecycle, time, memory, and concurrency deepened
+  + [cross_weaving_check] is existing protocol, admission, fabric, MCP, Phase6 decision, and blocked Phase7 related explicitly
+  + [subcomponent_weaving_check] is each accepted subcomponent has source origin and local fabric relation
+  + [pruning_check] is unsafe or unsupported adjacent work preserved outside canonical output
+  + [exhaustion_check] is seven distinct edge probes converge on the bounded runtime
+  + [stability] is phase_locked_for_canonical_authoring

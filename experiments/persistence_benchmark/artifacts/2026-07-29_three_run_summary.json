@@ -1,0 +1,156 @@
+{
+  "summary_version": "cantor-persistence-benchmark-summary/0.3",
+  "captured_date": "2026-07-29",
+  "machine": "THEBRAIN",
+  "operating_system": "windows x86_64",
+  "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+  "candidate_versions": {
+    "json": "serde_json 1.0.151",
+    "sqlite": "rusqlite 0.40.1 with bundled SQLite",
+    "redb": "redb 4.1.0"
+  },
+  "method_boundary": {
+    "runs": 3,
+    "scales": [1, 32, 256],
+    "package_shape": "one signed term unit and one source per immutable package",
+    "load": "repeated local reopen and reconstruction without clearing the operating-system page cache",
+    "write": "new file, committed durable transaction or file sync",
+    "loader_integrity": "SQLite ordinals and redundant identity/digest metadata and redb ordinal keys are checked before reconstruction",
+    "correctness": "exact EmbeddedRuntimeEnvironment equality, environment digest equality, admission through normal core execution, and exact ProtocolResponse equality",
+    "nonclaims": [
+      "not cold-disk latency",
+      "not a production corpus",
+      "not a concurrent service workload",
+      "not a terabyte-scale result"
+    ]
+  },
+  "source_reports": [
+    {
+      "captured_at_epoch_milliseconds": 1785364060549,
+      "sha256": "2CD25ECE603A1D6188FE437C68F301C4E41B69174004C2F57114719FFE29E828"
+    },
+    {
+      "captured_at_epoch_milliseconds": 1785364063272,
+      "sha256": "EC547FA9DEE39B56AA6E3F04E13B290213381CA2725B8DB623430B7DF43ACE8E"
+    },
+    {
+      "captured_at_epoch_milliseconds": 1785364066001,
+      "sha256": "5F430A6948DD727221C6193AC05C528CB1A00A455FA7FCC49ADA77BF0D8E1FB0"
+    }
+  ],
+  "scenarios": [
+    {
+      "package_count": 1,
+      "canonical_json_bytes": 5248,
+      "candidates": [
+        {
+          "candidate": "json",
+          "load_median_microseconds_range": [36, 39],
+          "load_p95_microseconds_max": 98,
+          "durable_write_microseconds_range": [1367, 6127],
+          "query_median_microseconds_range": [85, 88],
+          "post_load_bytes": 5248,
+          "size_ratio_to_json": 1.0
+        },
+        {
+          "candidate": "sqlite",
+          "load_median_microseconds_range": [228, 239],
+          "load_p95_microseconds_max": 385,
+          "durable_write_microseconds_range": [10392, 14641],
+          "query_median_microseconds_range": [85, 87],
+          "post_load_bytes": 20480,
+          "size_ratio_to_json": 3.902
+        },
+        {
+          "candidate": "redb",
+          "load_median_microseconds_range": [2585, 2791],
+          "load_p95_microseconds_max": 4391,
+          "durable_write_microseconds_range": [12962, 13539],
+          "query_median_microseconds_range": [84, 86],
+          "post_load_bytes": 1056768,
+          "size_ratio_to_json": 201.366
+        }
+      ]
+    },
+    {
+      "package_count": 32,
+      "canonical_json_bytes": 129411,
+      "candidates": [
+        {
+          "candidate": "json",
+          "load_median_microseconds_range": [379, 397],
+          "load_p95_microseconds_max": 515,
+          "durable_write_microseconds_range": [1104, 1122],
+          "query_median_microseconds_range": [2527, 2579],
+          "post_load_bytes": 129411,
+          "size_ratio_to_json": 1.0
+        },
+        {
+          "candidate": "sqlite",
+          "load_median_microseconds_range": [604, 626],
+          "load_p95_microseconds_max": 758,
+          "durable_write_microseconds_range": [10199, 12873],
+          "query_median_microseconds_range": [2478, 2539],
+          "post_load_bytes": 163840,
+          "size_ratio_to_json": 1.266
+        },
+        {
+          "candidate": "redb",
+          "load_median_microseconds_range": [2993, 3195],
+          "load_p95_microseconds_max": 4282,
+          "durable_write_microseconds_range": [7978, 15279],
+          "query_median_microseconds_range": [2502, 2565],
+          "post_load_bytes": 1056768,
+          "size_ratio_to_json": 8.166
+        }
+      ]
+    },
+    {
+      "package_count": 256,
+      "canonical_json_bytes": 1033485,
+      "candidates": [
+        {
+          "candidate": "json",
+          "load_median_microseconds_range": [2738, 3012],
+          "load_p95_microseconds_max": 3679,
+          "durable_write_microseconds_range": [3516, 11119],
+          "query_median_microseconds_range": [20758, 24218],
+          "post_load_bytes": 1033485,
+          "size_ratio_to_json": 1.0
+        },
+        {
+          "candidate": "sqlite",
+          "load_median_microseconds_range": [3437, 3727],
+          "load_p95_microseconds_max": 5134,
+          "durable_write_microseconds_range": [14081, 18316],
+          "query_median_microseconds_range": [20440, 21865],
+          "post_load_bytes": 1220608,
+          "size_ratio_to_json": 1.181
+        },
+        {
+          "candidate": "redb",
+          "load_median_microseconds_range": [6138, 6379],
+          "load_p95_microseconds_max": 7252,
+          "durable_write_microseconds_range": [12396, 15198],
+          "query_median_microseconds_range": [20530, 22987],
+          "post_write_bytes": 2109440,
+          "post_load_bytes": 1118208,
+          "size_ratio_to_json": 1.082
+        }
+      ]
+    }
+  ],
+  "correctness": {
+    "candidate_scale_combinations": 9,
+    "independent_runs": 3,
+    "digest_failures": 0,
+    "environment_equality_failures": 0,
+    "response_equality_failures": 0
+  },
+  "decision": {
+    "selected_current_boundary": "canonical JSON environment snapshot plus admitted in-memory SemanticFabric",
+    "sqlite_status": "not adopted; preserve as candidate when incremental relational operations or inspection requirements become measured",
+    "redb_status": "not adopted; preserve as candidate when exact-key incremental storage becomes measured",
+    "production_dependency_change": "none"
+  }
+}

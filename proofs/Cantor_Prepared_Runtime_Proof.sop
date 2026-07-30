@@ -1,0 +1,117 @@
+Subject: Cantor Prepared Runtime Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\PreparedRuntime.sop
+@ [matrix] C:\Project\Cantor\feature_support\PreparedRuntime_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Prepared_Runtime_Solution.sop
+@ [summary] C:\Project\Cantor\experiments\prepared_runtime_benchmark\artifacts\2026-07-29_three_run_summary.json
+@ [evidence_manifest] C:\Project\Cantor\experiments\prepared_runtime_benchmark\artifacts\prepared_runtime_evidence_manifest.json
+
+& [ProofIdentity] is the PreparedRuntime completion record
+  + [proof_uuid] is e146b19c-6a9a-44d6-b7c6-462225a72f32
+  + [captured_at] is 2026-07-29
+  + [result] is passed_and_boundedly_activated
+  + [summary_sha256] is A7A639C83914639279F74C8AE891CD8892E2FA883EB50A558CE9CA599772DE05
+  + [evidence_manifest_sha256] is 529CF1153EAE79DD4FD397CAB19557E5E112F816FE48A0E967CA926344F27558
+
+& [AuthorityProof] is PR-AC1
+  + [source_sha256] is FC8D5E14D3E189C23C64769EAB0FFFB8491B7741915872D359FE20F4E8137221
+  + [exploded_sha256] is 1FEF47FFCF4DD4931F934D37030285C89140BB24991645B074B51B02B7AB7A15
+  + [canonical_uuid] is 73d6dba4-df9b-4856-90cf-2a40a32c98df
+  + [satisfaction_signature_uuid] is 38e9e194-1b32-4785-92a4-1f34ba1bfed9
+  + [prior_signature_uuid] is dab7f9eb-a1f2-47a1-a33b-caca94a8ebd9 invalidated and transparently superseded after the authorized protocol-oracle refactor
+  + [implementation_order] is source, explosion, justification, canonical signature, active slice, then code
+  + [status] is passed
+
+& [GenerationAndBootstrapProof] is PR-AC2, PR-AC3, and PR-AC9
+  + [test] is generation_identity_changes_with_trust_time_and_trust_store_content
+  + [test] is invalid_trust_state_is_exact_and_never_becomes_a_projection
+  + [test] is failed_demanded_security_replacement_deactivates_the_expected_generation
+  + [binding] is environment digest includes ordered package vector, complete TrustStore, and pinned trust time
+  + [binding] is generation digest includes profile, protocol, environment version, and environment digest
+  + [gate] is independent request environment digest and exact package set validation before projection acquisition
+  + [status] is passed
+
+& [ScopeProof] is PR-AC4
+  + [test] is structurally_different_scopes_replace_instead_of_reusing_projection
+  + [proof] is three valid scope preparations and two complete replacements observed when original, narrower, then original scope execute
+  + [proof] is prepared_scope always reports the exact latest structural AuthorityScope
+  + [cache_bound] is zero or one projection
+  + [status] is passed
+
+& [ProtocolEquivalenceProof] is PR-AC5 and PR-AC6
+  + [test] is direct_and_prepared_paths_are_exact_across_success_partial_and_request_faults
+  + [test] is invalid_trust_state_is_exact_and_never_becomes_a_projection
+  + [test] is prepared_success_partial_and_fault_shapes_remain_visible
+  + [matrix] is query success, ambiguity, unresolved, record budget, digest mismatch, protocol mismatch, policy denial, empty package binding, envelope mismatch, excessive query scope, every inspect target, unknown semantic identity, and revoked certificate
+  + [comparison] is full Rust ProtocolResponse equality and exact serialized JSON byte equality
+  + [shared_seam] is validate_protocol_request, prepare_protocol_fabric, and execute_protocol_fabric are called by both paths
+  + [constructibility_boundary] is internal serialization failure and admitted-fabric proof-gap cannot be safely constructed from the strict valid fixture types
+  + [measured_mismatches] is zero across all nine latency reports
+  + [status] is passed
+
+& [ConcurrencyAndLifecycleProof] is PR-AC7 and PR-AC8
+  + [test] is prepared_runtime_and_slot_are_send_sync_snapshot_types
+  + [test] is concurrent_reads_are_deterministic_and_share_one_complete_projection
+  + [test] is concurrent_generation_replacement_exposes_only_complete_old_or_new_results
+  + [test] is generation_slot_transitions_are_atomic_stale_safe_and_reversible
+  + [test] is failed_demanded_security_replacement_deactivates_the_expected_generation
+  + [concurrent_readers] is sixteen simultaneous exact responses with one complete projection preparation
+  + [replacement_stress] is eight threads and eight hundred slot calls produced only complete old-generation or complete new-generation oracle responses
+  + [lock_release] is projection and generation Arc snapshots are acquired inside explicit lock scopes and semantic execution occurs after guard drop
+  + [transitions] is activate, stale rejection, invalidate, unavailable, rollback, and failed demanded replacement deactivation
+  + [status] is passed
+
+& [MeasurementProof] is PR-AC10 and PR-AC11
+  + [method] is three independent overflow-checked release processes at 1, 32, and 256 signed packages with forty latency samples and one hundred sixty hit samples per report
+  + [heap_method] is dhat 0.3.3 process-wide allocation tracking in separate baseline and prepared release processes, repeated three times per shape and mode
+  + [cold_process_prepare_at_256_microseconds] is 19849.2 through 20565.9
+  + [warm_scope_prepare_at_256_microseconds] is 18698.1 through 19068.3
+  + [direct_at_256_microseconds] is 20488.1 through 20762.1
+  + [prepared_hit_at_256_microseconds] is 106.3 through 106.4
+  + [hit_speedup_at_256] is 192.74 through 195.13
+  + [retained_heap_at_256] is baseline 2149466 bytes and prepared 4903129 bytes
+  + [peak_heap_at_256] is baseline 3195464 bytes and prepared 5143370 bytes
+  + [tradeoff] is a roughly one-direct-request preparation cost and 2.28-times retained allocation in exchange for repeated-hit latency below 0.11 milliseconds at the largest measured shape
+  + [disposition] is activate bounded core and resident MCP, retain direct CLI and oracle rollback
+  + [status] is passed
+
+& [AdapterProof] is PR-AC12
+  + [implementation] is CantorMcpServer owns Arc PreparedRuntime and calls runtime.execute
+  + [test] is adapter_result_is_exactly_core_equivalent
+  + [test] is real_stdio_server_lists_and_executes_the_tool
+  + [cache_test] is two equal adapter calls produce one projection preparation and one projection hit
+  + [policy] is no adapter-specific semantic validation, admission, query, proof, or response construction
+  + [status] is passed
+
+& [VerificationProof] is PR-AC13
+  + [production] is format check, warnings-denied all-target clippy, 91 debug locked-offline tests, 91 overflow-checked release locked-offline tests, release build, and documentation build passed
+  + [experiment] is format check, warnings-denied all-target clippy with and without dhat, three evidence tests, locked release builds, and exact raw-artifact hash verification passed
+  + [dependency_audit] is root 110-dependency and experiment 54-dependency locks scanned against 1173 RustSec advisories with zero reported vulnerabilities
+  + [unsafe] is forbidden by production and isolated workspace lint profiles
+  + [staging] is none performed
+  + [status] is passed
+
+& [GovernanceProof] is PR-AC14
+  @ [file_change] C:\Project\Cantor\narrative\file_changes\1785367167893_prepared_runtime_file_change.sop
+  @ [turn] C:\Project\Cantor\narrative\turns\1785367167893_cantor_prepared_runtime.sop
+  @ [faults] C:\Project\Cantor\narrative\operational_faults\1785367167893_prepared_runtime_faults.sop
+  + [artifacts] is source, manifest, explosion, canonical, justification, slice, matrix, solution, proof, decision, research, evidence summary, evidence manifest, narrative, conversation, map, and fault record
+  + [status] is passed
+
+& [AcceptanceProof] is PR-AC1 through PR-AC14
+  + [PR-AC1] is passed
+  + [PR-AC2] is passed
+  + [PR-AC3] is passed
+  + [PR-AC4] is passed
+  + [PR-AC5] is passed
+  + [PR-AC6] is passed
+  + [PR-AC7] is passed
+  + [PR-AC8] is passed
+  + [PR-AC9] is passed
+  + [PR-AC10] is passed
+  + [PR-AC11] is passed
+  + [PR-AC12] is passed
+  + [PR-AC13] is passed
+  + [PR-AC14] is passed
+  = conclusion: PreparedRuntime closes as a bounded exact-scope core optimization activated in the resident read-only MCP adapter with direct execution retained

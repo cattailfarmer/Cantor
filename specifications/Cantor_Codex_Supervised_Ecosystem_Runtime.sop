@@ -1,0 +1,173 @@
+Subject: Cantor Codex Supervised Ecosystem Runtime
+
+Description: A commissioned Shaliach manager hosted by the Cantor runtime that conducts bidirectional, inspectable work with Codex while Codex calls purpose-scoped Cantor participants to build and review the Cantor ecosystem.
+
+& [SupervisedEcosystemRuntime] is the duplex Cantor and Codex operating environment
+  + [semantic_engine] is one authoritative cantor_core and its admitted signed packages
+  + [resident_runtime] is the later persistent Cantor service holding sessions, frames, packages, queues, cursors, and proof
+  + [manager_role] is one commissioned ShaliachManager
+  + [Codex_control_plane] is the supported Codex app-server or SDK interface
+  + [Cantor_tool_plane] is a local MCP server or bounded cantor CLI through which Codex requests Cantor operations
+  + [worker_set] is one or more isolated Codex threads under manager-assigned work packets
+  + [participant_set] is purpose-scoped CantorParticipant sessions used by manager and workers
+  + [effect_plane] is an explicit EffectBroker enforcing the CommissionContract
+  = must: preserve one semantic authority while permitting multiple sessions and roles
+  = must: keep every message, response, tool request, decision, and effect joined by immutable correlation identity
+  - never: collapse the manager, Codex worker, Cantor participant, semantic authority, and effect committer into one uninspectable agent
+
+& [CodexControlChannel] is Cantor-to-Codex messaging
+  + [preferred_interface] is Codex app-server JSON-RPC or an official Codex SDK over that server
+  + [connection] is initialized once and kept open for streamed events
+  + [thread_operations] is start, resume, fork, read, list, name, and archive
+  + [turn_operations] is start, steer, interrupt, and observe completion
+  + [event_stream] is thread, turn, item, agent-message, command, file-change, tool, approval, fault, and completion events
+  + [batch_fallback] is codex exec for isolated noninteractive jobs
+  = must: bind every Codex thread and turn to a Shaliach work packet and Cantor trace
+  = must: treat streamed Codex output as candidate state until validated
+  = should: use the app-server or SDK rather than repeated codex exec calls for ongoing manager conversations
+
+& [CantorToolChannel] is Codex-to-Cantor semantic participation
+  + [preferred_interface] is one local Cantor MCP server exposing typed read-only reflection operations first
+  + [bootstrap_interface] is the structured cantor CLI
+  + [operation_set] is query, inspect, prepare_frame, reflect, activate_faculty, validate, and return_proof
+  + [session_binding] is purpose, subject, package set, faculty program, authority, consequence, frame digest, and budget
+  + [return] is typed records, frame material, faculty judgment, gates, continuation, faults, and proof
+  = must: validate all Codex-supplied query context as untrusted candidate input
+  = must: prevent a Codex worker from selecting a broader package, faculty, or authority scope than its work packet grants
+  - never: let a tool call convert retrieved SOP into exterior effect authority
+
+& [ShaliachManager] is the commissioned ecosystem manager agent
+  + [principal] is the human or authorized organization commissioning ecosystem work
+  + [CommissionContract] is purpose, requested result, authority, budgets, required faculties, evidence, approvals, effects, expiry, and revocation
+  + [manager_program] is a signed SOP state machine with optional bounded manager-model inference
+  + [portfolio] is active work packets, Codex threads, Cantor participants, dependencies, branches, tests, reviews, and acceptance state
+  + [dispatch] is create or continue a Codex work thread with the minimum sufficient frame and permission set
+  + [supervision] is observe events, answer permitted questions, route Cantor queries, detect drift, enforce budgets, and interrupt faults
+  + [acceptance] is validate worker output against specification, proof, tests, Honesty, Security, and Observer reconciliation
+  + [report] is return progress, results, unresolved conflicts, effects, and proof to the principal
+  = must: remain bound by its CommissionContract throughout the lifecycle
+  = must: request principal judgment when specification, authority, destructive action, or material product direction is unresolved
+  - never: issue its own commission, expand its own authority, or treat successful code generation as acceptance
+
+& [CantorParticipant] is a purpose-scoped semantic deliberation session
+  + [participant_uuid] is stable session identity
+  + [role] is manager_reflector, Honesty, Security, Scribe, Refiner, Planner, Weaver, Observer, reviewer, or another admitted role
+  + [package_view] is exact signed package and record scope
+  + [subject_view] is the active semantic subject and contextual boundary
+  + [operation_scope] is permitted read, judgment, proposal, and validation operations
+  + [state] is frame, observations, faculty returns, unresolved matters, and cursor
+  = must: prefer multiple isolated sessions over multiple duplicated Cantor engines when only perspective or purpose differs
+  = may: use a distinct Cantor process or host when trust, failure, performance, or security isolation requires it
+  - never: imply independent agency merely because a participant has a separate session
+
+& [EcosystemMessageEnvelope] is the shared runtime message identity
+  + [message_uuid] is immutable identity
+  + [causation_uuid] is the exact message, event, decision, or observation that caused this message
+  + [correlation_uuid] is the work packet or deliberation chain
+  + [sender] is principal, ShaliachManager, Codex thread, CantorParticipant, Observer, or EffectBroker
+  + [recipient] is the exact addressed role or session
+  + [message_kind] is commission, assignment, question, response, event, query, return, objection, approval, decision, effect, result, yield, or fault
+  + [subject] is the semantic focus
+  + [frame_digest] is the governing inference frame identity
+  + [authority_scope] is the sender's effective authority for this message
+  + [payload] is typed content or a digest-bound artifact reference
+  + [evidence_and_proof] is source, derivation, test, faculty, and validation anchors
+  + [expected_response] is schema, deadline, budget, and stop condition
+  + [idempotency_key] is required for any state-changing operation
+  = must: reject stale frame, wrong recipient, broken causation, invalid authority, and replayed effect messages
+
+& [SupervisedBuildCycle] is the manager, Codex, and Cantor ecosystem loop
+  + [step_1_commission] is the principal grants a bounded ecosystem CommissionContract
+  + [step_2_frame] is Cantor stages purpose, specifications, pertinent history, dependencies, faculties, acceptance criteria, and permissions
+  + [step_3_assign] is ShaliachManager sends one bounded WorkPacket to a Codex thread
+  + [step_4_execute] is Codex inspects the repository, calls Cantor participants when semantic conditions require, and forms candidate artifacts
+  + [step_5_stream] is the manager observes Codex events, handles permitted responses, and interrupts drift, faults, or budget violations
+  + [step_6_return] is Codex returns artifacts, tests, decisions, uncertainty, and Cantor proof anchors
+  + [step_7_review] is Honesty, Security, specialist faculties, and Observer evaluate the immutable result capsule
+  + [step_8_decide] is the manager accepts, revises, reassigns, reframes, escalates, yields, or stops
+  + [step_9_effect] is EffectBroker performs only separately authorized commits, pushes, deployments, releases, or other exterior actions
+  + [step_10_account] is Scribe records the complete message, artifact, decision, effect, and reentry lineage
+  = must: make every iteration measurably advance an acceptance condition or terminate
+  - never: allow an unbounded Codex-Cantor-Codex recursion to substitute for progress
+
+& [DuplexReentrancyControl] is protection against deadlock and recursive explosion
+  + [control_lane] is manager-to-Codex thread and turn traffic
+  + [tool_lane] is Codex-to-Cantor MCP or CLI operations
+  + [event_lane] is Codex-to-manager streamed notifications
+  + [effect_lane] is separately serialized authorized mutations
+  + [maximum_call_depth] is a commission-bounded Codex, Cantor, faculty, and provider recursion limit
+  + [cycle_detector] is repeated equivalent subject, frame, operation, and expected-result state
+  + [progress_measure] is accepted artifact, resolved fault, reduced uncertainty, passed test, or satisfied requirement
+  = must: keep Cantor semantic operations available while the manager waits on Codex
+  = must: release session locks before external model or tool waits
+  = must: yield, reframe, or stop on cycles, no gain, starvation, budget exhaustion, or stale state
+
+& [ApprovalAndEffectBoundary] is the authority bridge
+  + [Codex_sandbox] is never broader than the effective CommissionContract and current WorkPacket
+  + [approval_request] is streamed to the principal unless the exact action class is pre-authorized
+  + [manager_approval] is valid only for authority explicitly delegated to the manager
+  + [semantic_approval] is Cantor validation and does not itself authorize an external effect
+  + [effect_commit] is an idempotent EffectBroker operation after acceptance
+  = must: preserve user and workspace approval requirements exposed by Codex
+  = must: deny destructive, remote, credential, release, or deployment actions absent exact authority
+
+& [ReflexiveEcosystemBuildBoundary] is safe use of the system to build itself
+  + [running_authority] is the immutable Cantor version, signed package set, manager program, and CommissionContract currently supervising work
+  + [candidate_generation] is Codex may modify only a candidate workspace, branch, package, test, or executable
+  + [candidate_review] is a fresh review context validates specifications, tests, security, proof, migration, and rollback
+  + [promotion] is a separately authorized signature and activation event
+  + [reentry] is the promoted version begins a new runtime epoch with explicit state migration
+  + [rollback] is the prior trusted version remains recoverable
+  = must: ensure the running Cantor cannot silently rewrite the authority that governs its current session
+  = must: require human or separately commissioned promotion authority until an explicit later governance proof changes that rule
+  - never: load self-generated SOP, code, weights, certificates, or permissions as current authority without admission and promotion
+
+& [ImplementationProgression] is the bounded manifestation order
+  + [phase_1_mock_loop] is a deterministic manager sends one work packet to a mock Codex adapter, receives one Cantor query, and reviews a candidate without effects
+  + [phase_2_read_only_Codex] is one live Codex app-server thread inspects the repository and calls one read-only Cantor tool
+  + [phase_3_scoped_write] is one workspace-write Codex thread changes a candidate branch and returns tests and proof for review
+  + [phase_4_manager_iteration] is ShaliachManager requests one revision and verifies acceptance without unbounded continuation
+  + [phase_5_multi_worker] is two isolated Codex threads coordinate through manager-owned work packets and Cantor sessions
+  + [phase_6_reflexive_candidate] is the runtime supervises one candidate improvement to its own ecosystem without promoting it
+  + [phase_7_governed_promotion] is the principal admits and activates the candidate in a new epoch with rollback
+  = must: keep later phases locked until earlier message, authority, reentry, and proof invariants pass
+
+& [RequirementSet] is the traceable supervised-runtime collection
+  + [CSR-RT-001] is provide a bidirectional Cantor-to-Codex control channel through a supported Codex programmatic interface
+  + [CSR-RT-002] is provide a Codex-to-Cantor tool channel through MCP or the structured CLI
+  + [CSR-RT-003] is host a commissioned ShaliachManager that supervises Codex work packets and responses
+  + [CSR-RT-004] is represent specialist Cantors primarily as purpose-scoped sessions over one authoritative engine
+  + [CSR-RT-005] is correlate every message, event, query, artifact, decision, and effect
+  + [CSR-RT-006] is preserve streamed approvals, sandbox limits, authority, and effect separation
+  + [CSR-RT-007] is prevent reentrant deadlock, unbounded recursive calls, stale state, and no-progress loops
+  + [CSR-RT-008] is require immutable candidate generation, independent review, separate promotion, new-epoch activation, and rollback for self-building
+  + [CSR-RT-009] is prove the runtime incrementally from mock loop through governed reflexive candidate
+
+& [SJSProcessingTrace] is the supervised-runtime justification record
+  + [fold_1_subject] is a Cantor runtime that exchanges messages with Codex and hosts a Shaliach manager using Codex and Cantor participants to build the ecosystem
+  + [fold_2_boundary] is supervised duplex orchestration inside; self-authorization, hidden recursion, duplicated authority, and live self-modification outside
+  + [fold_3_data_design] is commission, manager, participant, work packet, thread, turn, message, event, frame, artifact, decision, effect, epoch, and proof
+  + [fold_4_governance] is authority intersection, sandbox bounding, approval forwarding, effect brokering, anti-enchantment, recursion control, candidate isolation, and promotion
+  + [fold_5_solution_shape] is commission, frame, assign, execute, stream, return, review, decide, effect, and account
+  + [fold_6_fault_review] is authority loop, manager-worker collapse, stale messages, reentrant deadlock, recursion explosion, rubber-stamp review, self-trust, and unrecoverable promotion
+  + [fold_7_phase_lock] is architecture formed while live Codex runtime implementation remains gated behind the embedded Cantor CLI and core acceptance proofs
+
+& [CantorCodexSupervisedEcosystemRuntimeSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is cf17b722-b5ba-4ea4-a8dd-40a69232c748
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Codex_Supervised_Ecosystem_Runtime.sop
+  + [source_snapshot_uuid] is 27cd5318-2541-4b42-980f-f0c96f3328ff
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-29_cantor_codex_supervised_ecosystem_runtime\Dictated_Cantor_Codex_Supervised_Ecosystem_Runtime_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-29_cantor_codex_supervised_ecosystem_runtime\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, duplex_runtime_formed, Codex_control_channel_formed, Cantor_tool_channel_formed, Shaliach_manager_formed, participants_bounded, message_protocol_formed, recursion_controlled, reflexive_build_governed, phased, justified, and signed
+  + [signature_status] is valid_for_supervised_ecosystem_runtime_formation
+  + [implementation_authority] is absent_until_the_embedded_Cantor_CLI_and_core_acceptance_proofs_pass
+
+@ [execution_surfaces] C:\Project\Cantor\specifications\Cantor_Execution_Surface_Profile.sop
+@ [Shaliach_role] C:\Project\Cantor\specifications\Cantor_Shaliach_Role_Delineation.sop
+@ [faculty_runtime] C:\Project\Cantor\specifications\Cantor_Faculty_Deliberation_Runtime.sop
+@ [junction] C:\Project\Cantor\specifications\Cantor_Cooperative_Inference_Junction_Profile.sop
+@ [Codex_app_server] https://learn.chatgpt.com/docs/app-server.md
+@ [Codex_SDK] https://learn.chatgpt.com/docs/codex-sdk.md
+@ [Codex_MCP_Agents] https://learn.chatgpt.com/docs/mcp-server.md
+@ [Codex_noninteractive] https://learn.chatgpt.com/docs/non-interactive-mode.md

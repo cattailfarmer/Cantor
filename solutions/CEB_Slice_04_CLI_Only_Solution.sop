@@ -1,0 +1,83 @@
+Subject: CEB Slice 04 CLI Only Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Execution_Surface_Profile.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\CEB_Slice_04_CLI_And_Codex_Tool.sop
+@ [proof] C:\Project\Cantor\proofs\CEB_Slice_04_CLI_Only_Proof.sop
+@ [operator_guide] C:\Project\Cantor\docs\CLI_PROTOCOL.md
+
+& [SolutionIdentity] is the implemented SJS solution record
+  + [solution_uuid] is 2a88a7a4-1e4b-4542-9ed2-616f25c36f8a
+  + [implemented_at] is 2026-07-29T14:54:06.9642874-05:00
+  + [requirement_set] is CEB-011, CEB-012, and CEB-013
+  + [status] is implemented_and_proven
+
+& [SingleEngineSolution] is one semantic implementation
+  + [protocol_owner] is C:\Project\Cantor\crates\cantor_core\src\protocol.rs
+  + [query_owner] is C:\Project\Cantor\crates\cantor_core\src\query
+  + [trust_owner] is C:\Project\Cantor\crates\cantor_core\src\trust
+  + [CLI_adapter] is C:\Project\Cantor\crates\cantor_cli\src\main.rs
+  + [executable] is cantor
+  = conclusion: CLI parsing, transport, diagnostics, and exit mapping add no independent semantic resolution logic
+
+& [AuthoritySeparation] is the local embedded runtime boundary
+  + [semantic_request] carries caller identity, purpose, read-only boundary, requested scope, exact expected environment digest, expected package identities and digests, and query or inspect operation
+  + [runtime_environment] separately carries operator-controlled trust roots, signed compiled packages, and trust time
+  + [selection] is an explicit supervisor-pinned environment path rather than model-generated trust data inside the request
+  + [substitution_gate] rejects any environment or package differing from request bindings before semantic lookup
+  + [response_proof] returns observed environment digest, full admitted package set, and a core query-or-inspection result digest on success
+  - never: allow request content to create or replace trust roots
+
+& [ProtocolSolution] is the versioned machine surface
+  + [protocol] is cantor-protocol/0.1
+  + [environment] is cantor-embedded-environment/0.1
+  + [query] is cantor-query/0.1
+  + [commands] is query and inspect
+  + [input] is UTF-8 JSON on standard input or explicit request file
+  + [environment_input] is a separate explicit local file with a 64 MiB reader cap
+  + [stdout] is exactly one compact JSON response plus one newline
+  + [stderr] is diagnostics only
+  + [strictness] is unknown protocol, environment, trust, package, query, and identity fields rejected rather than ignored
+
+& [ExitClassSolution] is stable
+  + [0] is success
+  + [2] is invalid request
+  + [3] is trust failure
+  + [4] is unresolved semantic dependency
+  + [5] is policy denial
+  + [6] is semantic or proof fault
+  + [70] is internal fault
+  = must: preserve a structured JSON response for every handled nonzero class
+
+& [CallerVerificationSolution] is fail-closed response use
+  + [function] is verify_protocol_response
+  + [checks] is request identity, operation, protocol, environment digest, admitted package set, package digests, status, exit, outcome, continuation, exact fault projection, core digest binding, recomputed core result digest, and selected package provenance
+  + [stronger_function] is verify_protocol_response_against_environment
+  + [stronger_check] is exact deterministic re-execution against the supervisor-pinned signed environment
+  + [digest_boundary] is digest consistency is not response authentication when an attacker can replace both content and digest
+  + [Codex_rule] is only a verified response may become reflection context
+  + [fallback_rule] is nonzero exit or verification failure remains a visible fault and never permission to invent SOP
+
+& [InspectableSurface] is read-only
+  + [query] returns the exact core CantorQueryResult
+  + [inspect_fabric] returns counts, signed source bytes, serialized package bytes, and package identities
+  + [inspect_package] returns package proof plus unit and relation identities
+  + [inspect_certificate] returns the recognition certificate
+  + [inspect_semantic_unit] returns unit, package, certificate, signed source-document digest, and exact quote
+  + [inspect_integrity] recomputably binds every typed inspect result to its protocol proof digest
+  - never: mutate files, packages, trust, runtime state, or external effects
+
+& [DeliberateLimitationSet] is retained
+  + [trust_root_storage] is an operator-controlled local environment file; production key ceremony, ACL policy, HSM, and rotation remain outside this slice
+  + [time_and_replay] is embedded trust time operator-supplied; production trusted-clock, freshness, revocation retention, and anti-rollback remain outside this slice
+  + [caller_authentication] is outside this CLI; caller identity and scope are envelope declarations that a production supervisor must derive from authenticated ACL policy
+  + [demo] is generated with public fixture keys and is never authority
+  + [service] is no daemon, session store, cache, or network listener
+  + [MCP] is not implemented or activated
+  + [provider] is no Ollama, OpenAI, or other inference call
+  + [effects] is read-only only
+  - never: claim CEB-014 or CEB-015 from CLI evidence
+
+& [SolutionDisposition] is accepted
+  + [proof] is C:\Project\Cantor\proofs\CEB_Slice_04_CLI_Only_Proof.sop
+  + [completed] is CEB-011, CEB-012, and CEB-013
+  + [inactive] is CEB-014 and CEB-015 pending explicit MCP activation

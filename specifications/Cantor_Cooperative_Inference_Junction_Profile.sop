@@ -1,0 +1,145 @@
+Subject: Cantor Cooperative Inference Junction Profile
+
+Description: The provider-independent Cantor seam through which isolated Ollama inference jobs negotiate semantic boundaries around one signed purpose and shared SOP anchor set.
+
+& [ProfileIdentity] is the canonical junction ownership decision
+  + [specification_uuid] is 7b294403-e4cc-4d3d-9a02-92192e29a584
+  + [canonical_name] is Cantor Cooperative Inference Junction
+  + [owner] is Cantor
+  + [provider_profile] is Ollama first and replaceable
+  + [project_decision] is a Cantor subsystem rather than a separate project
+  + [purpose] is coordinate independent inference jobs through inspectable semantic exchange without sharing hidden model state
+
+& [OllamaToolBoundary] is the natural provider interface
+  + [request] is POST /api/chat with model, messages, tools, and optional structured-output or thinking controls
+  + [model_event] is assistant message containing zero or more tool_calls
+  + [host_action] is the client executes an allowed tool outside Ollama
+  + [continuation] is the client appends assistant tool_calls and role-tool results to messages and invokes the next inference turn
+  + [streaming_variant] accumulates thinking, content, and tool_calls before the continuation request
+  + [parallel_requests] permits distinct inference jobs when server memory and concurrency configuration allow
+  = conclusion: Ollama natively supplies the correct checkpointed tool-call loop for Cantor integration
+  - never: interpret tool calling as an in-token synchronous callback into model internals
+  - never: interpret Ollama concurrency as shared semantic memory between jobs
+
+& [CantorJunctionBoundary] is the division of responsibility
+  + [Ollama] owns model loading, isolated token inference, streaming, and tool-call proposals
+  + [inference_job] owns one participant context projection and provider request sequence
+  + [Cantor] owns shared purpose, signed anchors, participant identities, negotiation state, barriers, packet validation, reconciliation, and archive
+  + [transport] carries requests and packets but does not decide semantic authority
+  = must: keep participant contexts isolated
+  = must: exchange attributed semantic packets rather than raw KV caches or hidden activations
+  = must: make Cantor the single semantic consistency seam
+  - never: make Ollama chat history the authoritative shared state
+
+& [JunctionSession] is the shared anchored coordination subject
+  + [session_uuid] is stable identity
+  + [purpose_contract] is the signed task, completion criteria, and consequence policy
+  + [anchor_bundle_digest] is the exact admitted SOP evidence set
+  + [participant_set] is two or more independently identified InferenceParticipant records
+  + [state_version] is monotonic compare-and-append version
+  + [exchange_log] is ordered immutable SemanticExchangePacket records
+  + [barrier_state] is open, awaiting, reconciling, resumable, blocked, complete, or stopped
+  + [round_budget] is maximum rounds, packets, tokens, time, and unresolved depth
+  + [resolution] is reconciled result plus residual disagreement and uncertainty
+  = must: bind every participant to the same purpose and anchor bundle digest
+  = must: reject stale writes against an unexpected state_version
+
+& [InferenceParticipant] is one isolated cooperative inference job
+  + [participant_uuid] is stable identity
+  + [job_uuid] is provider execution identity
+  + [model_identity] is provider, model, quantization, template, and capability profile
+  + [faculty_role] is optional signed role contract
+  + [context_cursor] is the greatest admitted exchange packet observed
+  + [effect_authority] is none unless granted outside the junction protocol
+  = must: preserve authorship on every proposal
+  - never: infer or claim access to another participant's hidden reasoning state
+
+& [CantorExchangeTool] is the stateful semantic coordination operation
+  + [logical_name] is cantor.exchange
+  + [operation] is propose, challenge, qualify, cite, reconcile, poll, acknowledge, yield, or stop
+  + [input] is session_uuid, participant_uuid, expected_state_version, focus_subject, packet_kind, semantic_payload, evidence_references, and requested_response
+  + [output] is admitted_packet, current_state_version, delivered_peer_packets, active_barrier, next_directive, unresolved_set, or junction_fault
+  + [state_effect] is append-only mutation of the JunctionSession exchange log
+  + [internal_reflection] may invoke cantor.reflect and sop_query against the admitted anchor bundle
+  = must: validate participant, schema, signature scope, evidence digest, state version, and budget before admission
+  = must: return peer packets as attributed untrusted proposals until Cantor review
+  - never: authorize external effects or silently rewrite a participant packet
+
+& [CheckpointedNegotiationCycle] is cooperative inference through bounded turns
+  + [step_1] is Cantor opens a JunctionSession and freezes its purpose and anchor bundle
+  + [step_2] is the scheduler projects the same anchored state into two isolated Ollama jobs
+  + [step_3] is each model independently reasons until it emits cantor.exchange or reaches a required barrier
+  + [step_4] is the client executes the tool call and Cantor validates and appends the packet
+  + [step_5] is Cantor delivers admissible peer packets and attention directives in the next provider request
+  + [step_6] is participants challenge, qualify, support, or revise propositions in later rounds
+  + [step_7] is Cantor or the compiled Observer contract reconciles agreements, differences, and residual uncertainty
+  + [step_8] is Cantor emits the final junction packet and archives complete lineage
+  = must: synchronize at semantic barriers rather than cross-feed arbitrary token streams
+  = must: allow concurrent independent inference between barriers
+  = must: preserve disagreement when the signed evidence does not settle it
+
+& [ProjectBoundary] is the condition for later extraction
+  + [inside_Cantor] is purpose anchoring, SOP trust, semantic packets, reflection, barriers, reconciliation, and lineage
+  + [replaceable_adapter] is Ollama, llama.cpp, Codex, or other provider transport
+  + [possible_future_package] is a reusable provider-neutral scheduler or message transport
+  + [extraction_trigger] is independent consumers, release cadence, scaling boundary, security boundary, or operation without Cantor semantics
+  = must: keep the protocol and semantic authority in Cantor even if transport is extracted
+  - never: create a separate project merely because two provider jobs run concurrently
+
+& [JunctionFaultSet] is the required failure vocabulary
+  + [false_consensus] is agreement caused by peer influence without independent support
+  + [echo_loop] is recursive restatement without semantic gain
+  + [anchor_skew] is participants using different evidence under one apparent session
+  + [stale_write] is packet submission against an obsolete state version
+  + [deadlock] is participants indefinitely waiting at a barrier
+  + [starvation] is one participant or faculty denied a fair inference turn
+  + [authority_laundering] is peer output presented as signed Cantor authority
+  + [context_poisoning] is adversarial content admitted as instruction
+  + [budget_runaway] is unbounded rounds, tools, or injected context
+  = must: detect, report, and archive faults without fabricating reconciliation
+
+& [MinimumJunctionProof] is the deferred bounded manifestation
+  + [participants] is two deterministic mock jobs before two Ollama jobs
+  + [anchors] is one test-signed SOP package and one purpose contract
+  + [exchange] is one proposal, one evidence-grounded challenge, one revision, and one residual disagreement
+  + [barriers] is two bounded negotiation barriers
+  + [negative_proof] is reject one stale write and one unsigned authority claim
+  + [provider_proof] is replay the same exchange through two Ollama contexts using native tool calls and structured packets
+  = must: begin only after the existing single-job Cantor proof passes
+
+& [RequirementSet] is the traceable junction requirement collection
+  + [CIJ-001] is use Ollama native tool calls as checkpointed requests for external Cantor operations
+  + [CIJ-002] is keep tool execution and authoritative shared state in the Cantor host
+  + [CIJ-003] is coordinate isolated inference jobs through one anchored JunctionSession
+  + [CIJ-004] is exchange structured attributed packets at barriers rather than hidden states or token streams
+  + [CIJ-005] is make Cantor the semantic seam while keeping providers replaceable
+  + [CIJ-006] is preserve disagreement, evidence lineage, concurrency control, and bounded recursion
+  + [CIJ-007] is retain the feature inside Cantor until a proven infrastructure boundary justifies extraction
+  + [CIJ-008] is prove one deterministic two-job exchange before Ollama provider execution
+
+& [SJSProcessingTrace] is the junction-profile justification trace
+  + [fold_1_subject] is two isolated inference jobs negotiating around one anchored Cantor
+  + [fold_2_boundary] is semantic packets and shared external state inside; token-level crossfeeding, hidden activation access, and KV sharing outside
+  + [fold_3_data_design] is session, purpose, anchor bundle, participant, job, state version, exchange packet, barrier, directive, resolution, and fault
+  + [fold_4_governance] is signed anchors, untrusted peer proposals, append-only exchange, optimistic concurrency, no effect authority, and explicit disagreement
+  + [fold_5_solution_shape] is anchor, infer independently, call tool, append, deliver, challenge, reconcile, and archive
+  + [fold_6_fault_review] is false consensus, echo, anchor skew, stale writes, deadlock, starvation, authority laundering, poisoning, and runaway
+  + [fold_7_phase_lock] is Cantor-owned protocol formed; implementation deferred until the single-job proof passes
+
+& [CantorCooperativeInferenceJunctionProfileSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 0c8ab8c6-9636-4a91-8b0c-8ad4b48edbc4
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Cooperative_Inference_Junction_Profile.sop
+  + [source_snapshot_uuid] is f50ee3f8-19b8-450b-babb-badce418dbde
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-28_cantor_cooperative_inference_junction\Dictated_Cantor_Cooperative_Inference_Junction_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-28_cantor_cooperative_inference_junction\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, provider_boundary_verified, ownership_delineated, session_modeled, negotiation_bounded, extraction_gated, justified, and signed
+  + [signature_status] is valid_for_architecture_formation
+  + [implementation_authority] is deferred_until_existing_single_job_Cantor_proof_passes
+
+@ [exchange_portal] C:\Project\Cantor\specifications\Cooperative_Model_Exchange_Portal_Formation.sop
+@ [Ollama_profile] C:\Project\Cantor\specifications\SOP_Ollama_Client_Profile.sop
+@ [reflection_protocol] C:\Project\Cantor\specifications\Cantor_Codex_Reflection_Protocol.sop
+@ [Ollama_tool_calling] https://docs.ollama.com/capabilities/tool-calling
+@ [Ollama_structured_outputs] https://docs.ollama.com/capabilities/structured-outputs
+@ [Ollama_concurrency] https://docs.ollama.com/faq

@@ -1,0 +1,25 @@
+Subject: Cantor Prepared Runtime Evidence Interpretation
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+@ [summary] C:\Project\Cantor\experiments\prepared_runtime_benchmark\artifacts\2026-07-29_three_run_summary.json
+@ [manifest] C:\Project\Cantor\experiments\prepared_runtime_benchmark\artifacts\prepared_runtime_evidence_manifest.json
+@ [dhat_documentation] https://docs.rs/dhat/0.3.3/dhat/
+
+& [ResearchFinding] is repeated exact-scope preparation is a material local cost
+  + [observation] is direct request median grows from about 89 microseconds at one package to about 20.5 milliseconds at 256 packages
+  + [observation] is prepared-hit median grows from about 12 microseconds to about 106 microseconds over the same shapes
+  + [observation] is cold preparation remains comparable to one direct request
+  + [interpretation] is immutable reuse is justified only when a generation and exact scope receive repeated calls
+
+& [MemoryFinding] is the gain is not free
+  + [method] is dhat 0.3.3 process-wide allocation current and peak counters
+  + [observation] is prepared retained heap is 2.28 times baseline at 256 packages
+  + [observation] is prepared peak heap is 1.61 times baseline at 256 packages
+  + [interpretation] is one projection is an important bound and an unbounded scope map remains unjustified
+
+& [AdoptionFinding] is resident adapter activation with direct rollback
+  + [reason] is MCP is already a long-lived environment owner and can reuse an exact scope
+  + [reason] is CLI subprocess calls do not share a resident lifetime
+  + [reason] is full ProtocolResponse equivalence and lifecycle safety passed
+  + [reason] is the largest measured absolute retained delta is 2753663 bytes, material but bounded
+  + [boundary] is synthetic fixtures require later production-corpus confirmation

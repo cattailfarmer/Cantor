@@ -1,0 +1,168 @@
+Subject: Cantor FPGA Execution Profiles Exploded Specification
+
+Description: Locally reopened Specification Explosion for two optional FPGA implementations of the Cantor protocol: a stable semantic-bytecode interpreter and a package-specialized native circuit.
+
+@ [source_addendum] C:\Project\Cantor\source_documents\2026-07-29_cantor_fpga_execution_profiles\Dictated_Cantor_FPGA_Execution_Profiles_Source.sop
+@ [parent_explosion] C:\Project\Cantor\specifications\exploded\Cantor_Engine_Neural_Fabric_CLI_Build.exploded.sop
+@ [canonical_build] C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+@ [AMD_HLS_evidence] https://docs.amd.com/r/en-US/ug1399-vitis-hls/Running-C-Synthesis
+@ [CIRCT_evidence] https://circt.llvm.org/docs/Charter/
+
+& [FPGAExplosionIdentity] is the future execution-profile expansion
+  + [exploded_specification_uuid] is 7e118c28-16cc-4809-bf9f-6fe65bc2e060
+  + [source_snapshot_uuid] is e35872b0-b289-4b12-9262-803ae6783ee3
+  + [purpose] is offer hardware acceleration without creating a second semantic authority
+  + [profile_set] is FPGAInterpretiveProfile and FPGANativeProfile
+  + [implementation_state] is research_specification_only
+  + [activation_state] is blocked_until_stable_software_oracle_and_explicit_hardware_target
+
+## Delineation
+
+& [Inside] is future bounded hardware work
+  + [shared_protocol] is the canonical CantorQueryRequest, CantorQueryResult, package, proof, fault, and digest machine forms
+  + [interpretive_profile] is a stable hardware or soft-core semantic virtual machine consuming compiled signed Cantor bytecode packages
+  + [native_profile] is a compiler lowering a frozen bounded Cantor plan and admitted fabric projection through a hardware IR to synthesizable RTL and a target bitstream
+  + [accelerator_candidate] is digest verification, exact hash lookup, typed adjacency traversal, boundary filtering, candidate scoring, and proof-trace event generation
+  + [host_control] is software package admission, device loading, lifecycle policy, result verification, and fault handling unless later proof safely relocates them
+
+& [Outside] is not implied by offering FPGA support
+  + [raw_SOP_execution] is uncompiled or unsigned text interpreted as authority
+  + [arbitrary_SOP_synthesis] is unrestricted language-to-circuit compilation
+  + [self_modifying_hardware] is runtime logic mutation outside governed partial-reconfiguration protocol
+  + [neural_authority] is learned weights resolving or authorizing meaning
+  + [device_selection] is a vendor, board, capacity, clock, interface, or tool license commitment
+  + [production_security] is a claim that test signing, bitstream encryption, or secure boot is production-safe without a target threat model
+
+& [Uncertainty] is retained by the future slice
+  + [hardware_target] is vendor, device family, board, toolchain, and host interface
+  + [IR_path] is handwritten RTL, HLS, CIRCT or MLIR lowering, or a constrained combination
+  + [bytecode] is opcode set, width, memory model, control flow, fault semantics, and versioning
+  + [resource_model] is block RAM, LUT, DSP, routing, clock, bandwidth, power, and reconfiguration cost
+  + [trust_partition] is which admission and verification steps occur on host, programmable logic, or both
+
+## Shared Hardware Contract
+
+& [FPGAExecutionEnvelope] is the immutable target binding
+  + [protocol_digest] is the Cantor machine-form protocol digest
+  + [compiler_digest] is the compiler and lowering-pipeline identity
+  + [toolchain_digest] is synthesis, place, route, and bitstream tool identity
+  + [target_digest] is device, board, interface, clock, and constraint identity
+  + [package_digest] is the admitted semantic package or allowed package schema identity
+  + [plan_digest] is the interpreted bytecode version or native query-plan identity
+  + [bitstream_digest] is the produced device image identity
+  + [equivalence_profile] is the software-oracle comparison contract
+  = must: make every result traceable to this envelope
+
+& [SoftwareReferenceOracle] is the safe-Rust Cantor core
+  = must: remain the semantic acceptance oracle until FPGA equivalence is proven
+  = must: run identical normalized requests and admitted packages against software and hardware profiles
+  = must: compare normalized records, boundary accounts, relation paths, faults, omissions, quotes, and result digests
+  - never: waive a mismatch as a harmless optimization without an explicit semantic proof
+
+## Profile One: FPGA Interpreter
+
+& [FPGAInterpretiveProfile] is a stable programmable semantic machine
+  + [input] is versioned Cantor bytecode plus an admitted package projection
+  + [hardware_shape] is finite-state control or a soft processor, bounded memories, exact indexes, typed traversal units, boundary gates, and trace output
+  + [update_model] is load a new recognized bytecode or data package without resynthesizing the bitstream
+  + [strength] is flexibility across SOP packages and query plans
+  + [cost] is instruction dispatch, wider control state, and lower specialization than native circuits
+  + [best_first_use] is prove hardware execution semantics and measure real bottlenecks
+  = must: define bounded execution, instruction count, memory, traversal, and output budgets
+  = must: reject unknown opcodes, protocol versions, packages, and authority scopes visibly
+
+& [InterpreterInstructionFamilies] is candidate bytecode structure
+  + [admission] is CHECK_ENVELOPE, CHECK_PACKAGE, and CHECK_SCOPE
+  + [focus] is RESOLVE_TERM, FILTER_SUBJECT, FILTER_PURPOSE, FILTER_USE_CASE, INCLUDE_BOUNDARY, and EXCLUDE_BOUNDARY
+  + [graph] is FOLLOW_RELATION, ADMIT_CANDIDATE, REJECT_CANDIDATE, and LIMIT_DEPTH
+  + [source] is RESOLVE_ANCHOR and VERIFY_SPAN
+  + [proof] is TRACE_DECISION, TRACE_FAULT, EMIT_RECORD, EMIT_PATH, EMIT_OMISSION, and FINALIZE_DIGEST
+  + [control] is bounded branch, bounded loop, yield, and stop
+  = must: derive final opcode names and encodings only after the software IR stabilizes
+
+## Profile Two: Native FPGA
+
+& [FPGANativeProfile] is a specialized circuit generated from a bounded Cantor plan
+  + [input] is stable semantic IR, fixed query-plan subset, admitted fabric projection, target profile, and hardware constraints
+  + [lowering] is Cantor IR to hardware-oriented IR to RTL or HLS output to synthesis, place, route, and bitstream
+  + [hardware_shape] is pipelined and parallel exact-lookup, boundary, traversal, verification, or scoring datapaths
+  + [update_model] is recompile and resynthesize when bound plan, fabric, target, or governing package changes
+  + [strength] is throughput, predictable latency, and specialization
+  + [cost] is long compile time, device specificity, reduced flexibility, and larger verification obligation
+  + [best_first_use] is specialize one measured hotspot after the interpreter or software baseline identifies it
+  = must: limit native lowering to a statically bounded synthesizable subset
+  = must: reject dynamic allocation, recursion, unbounded graph walk, unbounded result growth, and unspecified timing
+
+& [HardwareLoweringPipeline] is the native transform
+  + [stage_1] is validate signed source package and canonical Cantor IR
+  + [stage_2] is freeze permitted query-plan and authority envelope
+  + [stage_3] is specialize widths, relation sets, memory maps, traversal limits, and budgets
+  + [stage_4] is lower to explicit control, datapath, stream, memory, and interface IR
+  + [stage_5] is emit synthesizable RTL directly or through a reviewed HLS path
+  + [stage_6] is simulate and compare against the software oracle
+  + [stage_7] is synthesize, place, route, and record timing and resource reports
+  + [stage_8] is load hardware, run hardware-in-loop fixtures, and verify result digests
+  + [stage_9] is sign or recognize the complete FPGAExecutionEnvelope
+
+## Trust, Proof, and Failure
+
+& [HardwareTrustBoundary] is stricter than ordinary execution
+  + [threat] is stale, substituted, downgraded, or corrupted bitstream
+  + [threat] is package and bitstream digest mismatch
+  + [threat] is compiler or vendor-tool nondeterminism
+  + [threat] is timing failure, memory overflow, deadlock, or interface backpressure
+  + [threat] is partial-reconfiguration boundary violation
+  + [threat] is fault or proof event loss under throughput pressure
+  + [threat] is side-channel leakage of protected semantic material
+  = must: fail closed on envelope, scope, digest, timing-health, memory, or protocol mismatch
+  = must: preserve visible deterministic software fallback
+
+& [FPGAEquivalenceProof] is the minimum evidence ladder
+  + [level_1] is Rust reference fixture proof
+  + [level_2] is bytecode-interpreter software model equivalence
+  + [level_3] is RTL or HLS simulation equivalence
+  + [level_4] is C-to-RTL or IR-to-RTL co-simulation where applicable
+  + [level_5] is synthesis timing and resource acceptance
+  + [level_6] is hardware-in-loop semantic and fault equivalence
+  + [level_7] is cross-profile interpreter, native, and Rust normalized-result equivalence
+  = must: retain counterexamples and mismatches as OperationalFaults
+
+## Atomic Requirements
+
+& [FPGARequirementSet] is the later feature collection
+  + [CEB-021] is preserve one versioned Cantor protocol across Rust, interpreter FPGA, and native FPGA
+  + [CEB-022] is define FPGAExecutionEnvelope and fail closed on every binding mismatch
+  + [CEB-023] is define a bounded Cantor bytecode and software interpreter model
+  + [CEB-024] is implement one FPGA interpreter target only after bytecode and software equivalence stabilize
+  + [CEB-025] is define a statically synthesizable Cantor hardware subset and lowering contract
+  + [CEB-026] is compile one measured deterministic query kernel through hardware IR or HLS to RTL
+  + [CEB-027] is prove normalized result, proof, omission, and fault equivalence at every evidence level
+  + [CEB-028] is record latency, throughput, area, memory, power estimate, compile time, and reconfiguration cost
+  + [CEB-029] is preserve signed-package authority, mandatory gates, exact source resolution, and software fallback
+  + [CEB-030] is prevent FPGA acceleration and neural routing from jointly bypassing deterministic authority
+
+## Further Explosion and Pruning
+
+& [FPGAFoldTrace] is the locally reopened seven-fold trace
+  + [fold_1] is FPGA idea split into interpreter and native compilation profiles
+  + [fold_2] is raw SOP input refined into compiled bytecode or stable semantic IR
+  + [fold_3] is native language refined into hardware IR, synthesizable RTL or HLS, and vendor bitstream
+  + [fold_4] is hardware speed separated from semantic authority by the software reference oracle
+  + [fold_5] is update behavior separated into package reload versus resynthesis
+  + [fold_6] is verification expanded from unit tests through simulation, synthesis, and hardware-in-loop equivalence
+  + [fold_7] is feature offering bounded by target selection, benchmark evidence, trust envelope, and adoption decision
+  + [exhaustion_state] is phase_locked_as_future_hardware_slice
+
+& [PruningTrace] is the protected scope boundary
+  + [pruned] is FPGA as a replacement semantic authority
+  + [pruned] is raw prose directly synthesized to hardware
+  + [pruned] is whole-system native compilation before hotspot evidence
+  + [pruned] is a vendor commitment before target requirements
+  + [pruned] is FPGA implementation inside the current Core IR slice
+  + [retained_seed] is a software bytecode interpreter model after the core protocol stabilizes
+
+& [FPGAQualityGate] is passed_for_future_feature_registration
+  + [implementation_readiness] is blocked
+  + [specification_readiness] is sufficient_for_research_and_later_target_selection
+  + [first_decision] is choose an explicit workload and board only after deterministic software profiles exist
+

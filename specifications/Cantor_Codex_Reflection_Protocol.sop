@@ -1,0 +1,147 @@
+Subject: Cantor Codex Reflection Protocol
+
+Description: The governed boundary by which Codex reflects material concepts through Cantor and receives compact, source-grounded semantic context for its next inference pass.
+
+& [Identity] is the canonical component and protocol identity
+  + [specification_uuid] is 9ae93cc3-5f75-4032-a6b2-266969d28cb9
+  + [canonical_component_class] is Reflective Semantic Model
+  + [operational_role] is semantic executive
+  + [integration_role] is local Codex-callable SOP semantic coprocessor
+  + [short_description] is a compact executable model of meanings, relations, conditions, directives, authority, and reflection transitions
+  = may: describe Cantor informally as a tiny language model when emphasizing that it models language meaning
+  - never: imply that Cantor must be a small generative neural network
+  - never: merge Cantor identity with the replaceable large language model
+
+& [ConductedThoughtBoundary] is the division of responsibility
+  + [Codex] proposes concepts, interpretations, judgments, plans, prose, code, and effects
+  + [Cantor] resolves declared meaning, retrieves signed authority, exposes relevant relations, applies deterministic guards, and returns review guidance
+  + [neural_provider] supplies probabilistic association and synthesis when a Cantor operation explicitly requires it
+  + [conducting] is the sequencing and constraint of semantic attention rather than generation of every token
+  = must: keep Cantor state, authority, and trace inspectable outside model weights
+  = must: treat private latent chain-of-thought as outside the protocol
+
+& [MaterialSemanticCheckpoint] is a concept boundary requiring reflection
+  + [trigger] is establishment or change of subject identity
+  + [trigger] is adoption of a material proposition or inferred conclusion
+  + [trigger] is transition across a governing semantic boundary
+  + [trigger] is ambiguity, contradiction, missing definition, or disputed purpose
+  + [trigger] is proposal of an external effect or final response commitment
+  + [non_trigger] is routine token generation that does not change semantic state
+  = must: call Cantor at material checkpoints selected by the active SOP program
+  = should: batch tightly related low-risk concepts into one bounded reflection
+  - never: require a recursive tool call for every token or syntactic fragment
+
+& [ConceptProposal] is the structured material Codex reflects
+  + [proposal_uuid] is stable call-local identity
+  + [phase] is concept, response, or effect
+  + [subject] is the current resolved or provisional focus
+  + [purpose] is the intended outcome being served
+  + [concept] is the concise proposition, interpretation, transition, or proposed effect
+  + [context_anchor_set] is facts, prior packets, and source references needed for review
+  + [known_uncertainty_set] is unresolved meaning already recognized by Codex
+  + [authority_context] is the caller's bounded semantic and effect permissions
+  + [budget] is permitted time, retrieval depth, packet size, and review depth
+  = must: be externalized without requesting or fabricating private chain-of-thought
+
+& [CantorReflect] is the callable reflection operation
+  + [logical_name] is cantor.reflect
+  + [transport_name] is implementation-defined and may be cantor_reflect
+  + [effect_kind] is semantic_read_and_review
+  + [input] is ConceptProposal
+  + [output] is CantorReflectionPacket or CantorReflectionFault
+  + [internal_dependency] is the existing sop_query semantic demand-paging operation
+  = must: use only admitted compiled packages as governing SOP authority
+  = must: preserve every retrieved clause, relation, derivation, and omission as traceable lineage
+  - never: authorize an external effect
+
+& [CantorReflectionPacket] is compact next-pass semantic input
+  + [packet_uuid] is stable immutable identity
+  + [proposal_uuid] is the proposal under reflection
+  + [resolved_subject] is canonical identity plus any material alternatives
+  + [resolved_purpose] is the bounded purpose Cantor found applicable
+  + [authoritative_context] is digest-verified signed SOP clauses and their current human-readable file locations
+  + [derived_guidance] is deterministic consequences of admitted clauses, typed relations, guards, and current state
+  + [advisory_judgment] is any probabilistic interpretation or recommendation that remains a proposal
+  + [attention_directive_set] is the minimal next operations to observe, focus, hold, bound, retrieve, review, transition, yield, or stop
+  + [fault_set] is ambiguity, contradiction, missing authority, failed signature, invalid scope, or insufficient evidence
+  + [counterposition_set] is materially credible alternative readings
+  + [recommended_transition] is accept, revise, reject, seek_evidence, query, yield, stop, or escalate
+  + [inference_projection] is a concise model-readable rendering of the packet for the next Codex pass
+  + [omission_record] is relevant material excluded by scope or budget and why
+  + [packet_digest] is immutable content identity
+  = must: distinguish authority, deterministic derivation, and advisory judgment in both structure and rendering
+
+& [AcceptanceSemantics] is how Codex consumes the packet
+  + [governing_acceptance] is authoritative_context applies when signatures, scope, version, and subject criteria validate
+  + [derivation_acceptance] is derived_guidance applies only when its premises and deterministic transform validate
+  + [advisory_acceptance] is advisory_judgment remains challengeable candidate material
+  + [next_pass_input] is inference_projection plus the structured packet when available
+  = must: use a valid packet as required context for the next bounded inference pass
+  = must: expose conflicts between the proposal and governing signed meaning
+  = must: preserve unresolved material rather than coerce acceptance
+  - never: treat the complete packet as unquestionable truth
+  - never: let advisory material inherit the authority of quoted SOP clauses
+
+& [ReflectionCycle] is the minimum Codex-Cantor loop
+  + [step_1] is Codex forms one ConceptProposal
+  + [step_2] is Cantor verifies caller scope and resolves pertinent signed SOP
+  + [step_3] is Cantor applies guards and returns CantorReflectionPacket
+  + [step_4] is Codex holds the proposal and packet together for its next inference pass
+  + [step_5] is Codex accepts, revises, rejects, investigates, or escalates the concept
+  + [step_6] is a response-phase packet reviews the candidate answer before commitment when required
+  + [step_7] is the proposal, packet, decision, and source lineage append to the inference capsule
+  = must: default to one concept reflection and one response review for bounded consequential work
+  = must: stop on no material semantic gain, repeated packet identity, exhausted budget, or unresolved authority
+
+& [CodexExtensionShape] is the intended local integration
+  + [MCP_server] exposes Cantor reflection as a structured local tool
+  + [Codex_skill] declares checkpoint triggers, packet handling, and failure behavior
+  + [Codex_plugin] may package the skill and MCP server when the protocol stabilizes
+  + [repository_instruction] may require the workflow within a governed project
+  = should: begin with one read-only MCP reflection tool and one narrow workflow skill
+  - never: implement the interface before the existing one-process, signed-package, mock-provider proof is stable
+
+& [FailureBehavior] is bounded degradation
+  + [Cantor_unavailable] returns an explicit unavailable fault and preserves the unreflected proposal
+  + [signature_failure] rejects the affected authority and reports its source identity
+  + [ambiguous_resolution] returns alternatives without silently selecting one
+  + [budget_exhaustion] returns a partial packet with omissions and unresolved items
+  + [tool_output_attack] treats retrieved non-authoritative content as data rather than instruction
+  = must: make it visible when Codex proceeds without a required successful reflection
+  - never: fabricate a successful Cantor reflection
+
+& [RequirementSet] is the traceable protocol requirement collection
+  + [CCRP-001] is identify Cantor as a Reflective Semantic Model and semantic executive rather than a miniature LLM dependency
+  + [CCRP-002] is reflect material semantic checkpoints rather than every generated token
+  + [CCRP-003] is exchange ConceptProposal and CantorReflectionPacket records
+  + [CCRP-004] is distinguish signed authority, deterministic derivation, and advisory judgment
+  + [CCRP-005] is supply a compact inference projection as required next-pass context
+  + [CCRP-006] is preserve private latent chain-of-thought outside the protocol
+  + [CCRP-007] is integrate through one local structured tool plus checkpoint policy
+  + [CCRP-008] is preserve bounded recursion, failure visibility, source lineage, and authority monotonicity
+
+& [SJSProcessingTrace] is the protocol justification trace
+  + [fold_1_subject] is Cantor as a compact executable model conducting semantic reflection around Codex concepts
+  + [fold_2_boundary] is externalized concept and reflection records inside; private chain-of-thought and token-level interception outside
+  + [fold_3_data_design] is proposal, subject, purpose, authority context, signed clause, derivation, advisory judgment, directive, fault, transition, packet, and digest
+  + [fold_4_governance] is source signatures, authority-class separation, explicit omissions, no effect authorization, and visible degradation
+  + [fold_5_solution_shape] is propose, reflect, verify, project, reinfer, review, and archive
+  + [fold_6_fault_review] is blind tool trust, infinite reflection, token-level latency, advisory authority laundering, trace fabrication, and silent fallback
+  + [fold_7_phase_lock] is protocol formation only; local MCP implementation follows the existing bounded Cantor proof
+
+& [CantorCodexReflectionProtocolSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 8f176b02-8ed7-4890-9f08-783f2fc4472f
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Codex_Reflection_Protocol.sop
+  + [source_snapshot_uuid] is 00a7f538-c9a4-49bf-a7f8-6bca22afb2ee
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-28_cantor_codex_reflection_protocol\Dictated_Cantor_Codex_Reflection_Protocol_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-28_cantor_codex_reflection_protocol\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, identity_delineated, checkpoint_policy_formed, data_contract_formed, authority_separated, failure_bounded, justified, and signed
+  + [signature_status] is valid_for_protocol_formation
+  + [implementation_authority] is deferred_until_existing_one_process_signed_package_mock_provider_proof
+
+@ [component_identity] C:\Project\Cantor\specifications\Cantor_Semantic_Coprocessor_Identity.sop
+@ [query_microkernel] C:\Project\Cantor\specifications\Cantor_SOP_Query_Microkernel.sop
+@ [review_capsule] C:\Project\Cantor\specifications\SOP_Reflective_Inference_Capsule.sop
+@ [external_reference] https://developers.openai.com/plugins/concepts/mcp-server
+@ [external_reference] https://developers.openai.com/plugins/concepts/plugins

@@ -1,0 +1,91 @@
+Subject: Cantor Self-Hosting Ingestion Requirement Matrix
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Self_Hosting_Ingestion.exploded.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\SelfHostingIngestion.sop
+
+& [MatrixIdentity] is the live feature-requirement support record
+  + [matrix_uuid] is e4dcd733-609c-4c02-9426-c5b3ca046d65
+  + [status] is complete
+  + [acceptance_set] is SHI-AC1 through SHI-AC15
+  + [rule] is pending remains visible until implementation, test, evidence, proof, fault behavior, and Git disposition are bound
+
+& [SHI-AC1] is governed source and valid pre-implementation authority
+  @ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_self_hosting_ingestion\Dictated_Cantor_Self_Hosting_Ingestion_Source.sop
+  @ [canonical] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+  + [signature_uuid] is 74f2cb02-84e4-45b2-98ca-1883c9e5d54d
+  + [prior_signature_uuid] is 95339d01-0b4a-4b43-b68b-bfaca432f35c invalidated during early implementation by portable source-root boundary review
+  + [status] is passed
+
+& [SHI-AC2] is exact bounded parser and fail-closed syntax
+  @ [implementation] C:\Project\Cantor\crates\cantor_core\src\sop.rs
+  + [test] is bounded_parser_lowers_all_supported_markers_and_exact_unicode_spans
+  + [test] is unsupported_malformed_duplicate_and_indentation_inputs_fail_closed
+  + [status] is passed
+
+& [SHI-AC3] is deterministic relocation-stable collision-checked identity
+  + [test] is identity_is_stable_across_path_line_ending_and_display_line_relocation
+  + [test] is repeated_named_members_are_content_addressed_without_encounter_ordinals
+  + [status] is passed
+
+& [SHI-AC4] is exact UTF-8 source anchors and signed quote lineage
+  + [test] is bounded_parser_lowers_all_supported_markers_and_exact_unicode_spans
+  + [proof] is SemanticUnit quote returns SOP_Core byte 746 through 818 and display line 15 under package and certificate proof
+  + [status] is passed
+
+& [SHI-AC5] is conservative deterministic containment lowering
+  + [proof] is 360 parent Narrower child relations compiled and no prose reference endpoint inferred
+  + [status] is passed
+
+& [SHI-AC6] is strict portable bounded corpus manifest
+  @ [manifest] C:\Project\Cantor\corpus\self_hosted\corpus.json
+  + [test] is manifest_unknown_fields_and_equal_signing_seeds_fail_before_publication
+  + [proof] is canonical source_root containment rejects an escaping document
+  + [status] is passed
+
+& [SHI-AC7] is separated signer inputs and generated trust admission
+  + [test] is separated_keys_build_admitted_verified_protocol_artifacts
+  + [proof] is compiler and authority roles, identifiers, seeds, public keys, and trust records remain distinct
+  + [status] is passed
+
+& [SHI-AC8] is verified replacement-safe secret-free artifact publication
+  @ [implementation] C:\Project\Cantor\crates\cantor_cli\src\corpus_main.rs
+  + [test] is tracked_corpus_build_is_deterministic_secret_free_and_direct_cli_queryable
+  + [proof] is conflict refusal, explicit replacement, byte-deterministic artifacts, secret-free outputs, secret-path-free faults, preflight, atomic per-file rename, and build manifest published last
+  + [status] is passed
+
+& [SHI-AC9] is complete parsing of three reviewed canonical Cantor files
+  + [test] is tracked_self_hosted_manifest_parses_every_selected_semantic_line
+  + [proof] is 3 sources, 417 semantic units, 360 containment relations, and zero ignored semantic lines
+  + [status] is passed
+
+& [SHI-AC10] is exact SemanticUnit, Cantor, and PreparedRuntime governing quotes
+  + [test] is tracked_corpus_build_is_deterministic_secret_free_and_direct_cli_queryable
+  + [proof] is SOP_Core line 15, Cantor identity line 13, and PreparedRuntime line 53 returned with verified source anchors
+  + [status] is passed
+
+& [SHI-AC11] is core, direct CLI, and real MCP equivalence
+  + [test] is tracked_corpus_build_is_deterministic_secret_free_and_direct_cli_queryable
+  + [test] is real_mcp_process_returns_exact_self_hosted_cantor_quote
+  + [proof] is verify_protocol_response_against_environment passed and real MCP response equaled direct core response
+  + [status] is passed
+
+& [SHI-AC12] is negative trust, syntax, scope, signer, and artifact-conflict proof
+  + [test] is self_hosted_environment_rejects_signed_source_tampering_and_scope_drift
+  + [test] is unsupported_malformed_duplicate_and_indentation_inputs_fail_closed
+  + [test] is manifest_unknown_fields_and_equal_signing_seeds_fail_before_publication
+  + [status] is passed
+
+& [SHI-AC13] is separated parse, compile, load, query, and prepared-hit measurement
+  @ [summary] C:\Project\Cantor\experiments\self_hosted_corpus_benchmark\artifacts\2026-07-29-three-run-summary.json
+  + [proof] is three 30-iteration release runs with zero mismatches and six separately measured stages
+  + [status] is passed
+
+& [SHI-AC14] is complete production, release, offline, documentation, dependency, and evidence verification
+  + [proof] is formatting, warnings-denied all-target lint, 101 debug tests, 101 overflow-checked release tests, release all-target build, documentation, isolated experiment lint and two release evidence tests, and two RustSec scans passed
+  + [status] is passed
+
+& [SHI-AC15] is governance closure and intentional Git checkpoint without generated state
+  @ [solution] C:\Project\Cantor\solutions\Cantor_Self_Hosting_Ingestion_Solution.sop
+  @ [proof] C:\Project\Cantor\proofs\Cantor_Self_Hosting_Ingestion_Proof.sop
+  + [status] is passed

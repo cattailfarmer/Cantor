@@ -1,0 +1,86 @@
+Subject: Cantor llama.cpp Tool Reflection Probe Result
+
+Description: Evidence and interpretation from the first bounded Cantor tool-reflection experiment against an unmodified official llama.cpp server and a local GPT-OSS model.
+
+& [ProbeResultIdentity] is the completed experiment record
+  + [result_uuid] is 130eb8ab-0ec1-4dcf-b9ed-4b2173f0fd6a
+  + [evidence_set_uuid] is 4569f1ee-b12b-43f0-ab27-4cbbd54d05a2
+  + [captured_at] is 2026-07-29T11:09:39.0771130-05:00
+  + [governing_specification] is C:\Project\Cantor\specifications\Cantor_Llama_CPP_Tool_Reflection_Probe.sop
+  + [provider] is official ggml-org llama.cpp b10181
+  + [provider_commit] is caa596ab3
+  + [model] is gpt-oss-20b-MXFP4.gguf
+  + [host] is cantor-llama-tool-reflection safe-Rust executable
+  + [final_status] is passed_three_consecutive_runs
+
+& [VerifiedCapabilitySet] is what the experiment actually proves
+  + [capability] is an unmodified llama-server can expose an OpenAI-compatible tool interface to the local model
+  + [capability] is the model emitted exactly one cantor_reflect call with exact subject, purpose, and requested expression_style for every final trial
+  + [capability] is the host can validate the call before returning a deterministic semantic expression
+  + [capability] is a subsequent inference request can receive the prior assistant tool call and tool result through ordinary chat history
+  + [capability] is the model can import verbose, condensed, and directive expressions into one normalized semantic contract
+  + [capability] is a strict host validator can reject schema and semantic drift without treating plausible wording as success
+  + [capability] is provider-private reasoning fields can be excluded from durable evidence
+  = limit: this is checkpointed multi-request inference, not a mid-token external intervention
+  = limit: the deterministic fixture is not yet a signed SOP database or semantic router
+  = limit: one ambiguity fixture and one model do not establish general reliability, scale, or cross-model portability
+
+& [FinalExpressionSet] is the accepted transportable semantic state
+  + [verbose] is For the stated purpose, interpret bank as financial_institution, exclude river_bank, and proceed to compare_account_options
+  + [condensed] is SUBJECT bank | PURPOSE decide where to deposit a paycheck | SELECT financial_institution | EXCLUDE river_bank | NEXT compare_account_options
+  + [directive] is OBSERVE subject=bank; NAME selected_identity=financial_institution; EXCLUDE excluded_identity=river_bank; BOUND purpose; EMIT next_action=compare_account_options
+  = invariant: every form names the semantic role of each identity rather than relying on punctuation or word order alone
+
+& [ObservedFaultProgression] is retained negative evidence
+  + [run_01] is exact tool calls followed by unnormalized tool-result echo
+  + [run_02] is an explicit second checkpoint without a repeated tool declaration still followed by echo
+  + [run_03] is repeated tool declaration without tool_choice none still followed by echo or empty final content
+  + [run_04] is tool_choice none with a schema constraint but without schema field semantics articulated to the model still produced the wrong six fields
+  + [run_05] is verbose and directive passed while condensed bank@financial_institution was interpreted as the whole selected identity
+  + [run_06] is verbose and revised condensed passed while NAME bank AS financial_institution was nondeterministically interpreted as bank being the selected identity
+  + [correction] is explicitly declare the second-checkpoint field roles and make every compact and directive identity boundary syntactically named
+  = finding: concise organization improved reliability only after semantic roles became explicit
+
+& [RepeatabilityEvidence] is the three-run final acceptance set
+  + [run_07_status] is passed
+  + [run_07_host_trial_total_ms] is 4576
+  + [run_07_prompt_tokens] is 2034
+  + [run_07_completion_tokens] is 1394
+  + [run_07_sha256] is 19867b724168ea169e6f66860ad284458f63c12f51e16d1bc3ddbcd307d37e45
+  + [run_08_status] is passed
+  + [run_08_host_trial_total_ms] is 4416
+  + [run_08_prompt_tokens] is 2034
+  + [run_08_completion_tokens] is 1392
+  + [run_08_sha256] is 5b6afa31ffadbc02d83930e870cd84247d78c3a3ccbc296291184a239716f412
+  + [run_09_status] is passed
+  + [run_09_host_trial_total_ms] is 4383
+  + [run_09_prompt_tokens] is 2034
+  + [run_09_completion_tokens] is 1404
+  + [run_09_sha256] is 9b1c598babddbe2584d32186b7cf10a4f7174343761f1b522e1dbff8fe370472
+  + [surface_forms_are_distinct] is true
+  + [cross_style_semantic_equal] is true
+  + [private_reasoning_recorded] is false
+
+& [ProviderSpecificFinding] is the llama.cpp and GPT-OSS boundary
+  + [finding] is response_format constrained final JSON but did not itself give the model a semantic understanding of the intended field meanings
+  + [required_instruction] is articulate the output field roles in the visible second-checkpoint instruction
+  + [required_protocol] is preserve the prior assistant tool call, append the tool result, repeat the tool declaration, set tool_choice to none, and issue an explicit continuation checkpoint
+  = caution: this observed recipe is provider-and-template evidence, not a universal tool-loop law
+
+& [DesignConsequence] is the minimum Cantor inference seam now supported by evidence
+  + [stage_1] is model identifies a need and emits typed Cantor parameters
+  + [stage_2] is host validates authority and argument integrity
+  + [stage_3] is Cantor returns a source-addressed semantic expression
+  + [stage_4] is a new inference checkpoint imports the expression under an explicit output role contract
+  + [stage_5] is host validates normalized meaning and records faults
+  = consequence: Cantor can begin as an external checkpointed semantic coprocessor without modifying llama.cpp
+  = next_gate: replace the hard-coded fixture with one minimal digest-bound signed semantic record lookup while preserving this exact harness boundary
+
+@ [run_01] C:\Project\Cantor\experiments\llama_tool_reflection\artifacts\run_01_tool_echo_failure.json
+@ [run_05] C:\Project\Cantor\experiments\llama_tool_reflection\artifacts\run_05_condensed_identity_boundary_failure.json
+@ [run_06] C:\Project\Cantor\experiments\llama_tool_reflection\artifacts\run_06_directive_identity_boundary_failure.json
+@ [run_07] C:\Project\Cantor\experiments\llama_tool_reflection\artifacts\run_07_pass_01.json
+@ [run_08] C:\Project\Cantor\experiments\llama_tool_reflection\artifacts\run_08_pass_02.json
+@ [run_09] C:\Project\Cantor\experiments\llama_tool_reflection\artifacts\run_09_pass_03.json
+@ [official_server] https://github.com/ggml-org/llama.cpp/blob/b10181/tools/server/README.md
+@ [official_function_calling] https://github.com/ggml-org/llama.cpp/blob/b10181/docs/function-calling.md

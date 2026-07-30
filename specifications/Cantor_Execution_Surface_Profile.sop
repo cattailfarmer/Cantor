@@ -1,0 +1,123 @@
+Subject: Cantor Execution Surface Profile
+
+Description: One authoritative Cantor engine exposed first through an embedded command-line interface for Codex and later through a persistent local service, without duplicating semantic implementation or authority.
+
+& [SingleEngineInvariant] is the non-duplication boundary
+  + [authoritative_core] is the cantor_core Rust library and its versioned semantic protocol
+  + [execution_surface_set] is cantor CLI, persistent Cantor service, and later protocol adapters
+  + [semantic_equivalence] is equivalent requests over the same packages, state snapshot, policy, and engine version produce equivalent result and proof envelopes
+  + [authority_source] is admitted compiled SOP packages rather than an interface-specific prompt or configuration
+  = must: implement query, framing, validation, transition, and proof semantics exactly once in cantor_core
+  = must: treat every surface as an adapter around the same typed operations
+  - never: create a CLI Cantor and service Cantor with divergent semantic rules
+
+& [CantorCLI] is the native executable surface for Codex, humans, scripts, and fixtures
+  + [executable_name] is cantor
+  + [initial_mode] is embedded_core
+  + [later_mode] is service_client
+  + [transport] is process arguments plus standard input, standard output, standard error, and exit status
+  + [machine_output] is one versioned JSON result envelope on standard output
+  + [diagnostics] is human-readable operational diagnostics on standard error
+  + [input_modes] is file, standard input, or explicitly bounded arguments
+  + [initial_effect_scope] is read-only semantic operations and local fixture execution
+  = must: support non-interactive deterministic invocation
+  = must: accept large or sensitive structured input through standard input rather than shell arguments
+  = must: keep machine output free of banners, progress text, and diagnostic noise
+  = must: produce meaningful stable exit classes for success, invalid request, trust failure, unresolved dependency, policy denial, inference fault, and internal fault
+  - never: require Codex to parse prose to determine whether an operation succeeded
+
+& [CantorService] is the later resident semantic-coprocessor surface
+  + [candidate_executable_name] is cantord
+  + [lifecycle] is a persistent local process
+  + [owns] is admitted package residency, compiled indexes, caches, session state, provider pools, faculty activations, junction state, notification cursors, and durable trace coordination
+  + [interface] is a local versioned request and response protocol derived from cantor_core operations
+  + [access_scope] is local-only by default
+  + [concurrency] is bounded isolated sessions over explicitly versioned shared state
+  = must: authenticate or otherwise bind local callers before effect-capable operations exist
+  = must: isolate session state and bind every response to package, state, policy, and frame digests
+  = must: make restart, recovery, migration, and cache invalidation explicit
+  - never: become an independent semantic authority separate from cantor_core
+  - never: expose a network listener by default
+
+& [CantorProtocolEnvelope] is the shared typed interface
+  + [protocol_version] is the request and response schema version
+  + [request_uuid] is immutable call identity
+  + [operation] is query, inspect, prepare_frame, reflect, validate, resume, status, or a later admitted operation
+  + [caller_context] is caller identity, purpose, conversation or job, authority scope, and consequence class
+  + [input] is the operation-specific typed payload
+  + [expected_package_set] is admitted package identities and digests
+  + [expected_state] is optional session and frame version precondition
+  + [budget] is traversal, retrieval, time, inference, and output bounds
+  + [result] is the typed operation result
+  + [proof] is sources, derivations, package identities, frame digest, validation, and trace anchors
+  + [continuation] is finish, query, reframe, reset, resume, yield, or stop
+  + [fault_set] is structured operational, semantic, trust, policy, and inference faults
+  = must: remain identical across embedded CLI, service client, MCP, and testing adapters
+
+& [CodexCLIIntegration] is the first external caller path
+  + [invocation] is Codex runs cantor as a bounded local subprocess
+  + [request] is a CantorProtocolEnvelope supplied through standard input
+  + [response] is a validated JSON envelope read from standard output
+  + [next_pass] is Codex uses only admitted result and proof fields as its Cantor reflection context
+  + [failure] is nonzero exit status or invalid envelope causes a visible fault rather than silent fallback to invented SOP
+  = must: make command construction resistant to shell quoting and injection faults
+  = must: set time, output, and recursion limits for each call
+  = must: preserve request UUID and trace anchor in the surrounding Codex task record
+  - never: let an unavailable CLI be interpreted as permission to fabricate Cantor guidance
+
+& [ExecutionSurfaceProgression] is the implementation order
+  + [phase_1_core] is cantor_core implements the bounded in-memory deterministic acceptance path
+  + [phase_2_embedded_CLI] is cantor embeds cantor_core for fixtures, inspection, and first Codex subprocess calls
+  + [phase_3_service_boundary] is stable protocol tests prove equivalent embedded and client-server behavior
+  + [phase_4_resident_service] is cantord owns persistent packages, caches, and sessions
+  + [phase_5_CLI_client] is cantor selects embedded or service mode without changing operation schemas
+  + [phase_6_MCP_adapter] is a narrow local MCP tool maps directly onto the same protocol
+  = must: keep the current one-process proof intact through phase_2
+  = must: add the resident service only when measured reload cost, shared state, concurrency, or notification requirements justify it
+  - never: block core proof on daemon, IPC, MCP, plugin, or distributed-runtime formation
+
+& [CandidateCLICommandSet] is the non-authoritative command projection
+  + [query] is resolve signed records, relationships, operations, and proof
+  + [inspect] is display package, record, frame, trace, or certificate state
+  + [frame_prepare] is construct and readiness-check an InferenceFrameManifest
+  + [reflect] is evaluate a ConceptProposal and return a CantorReflectionPacket
+  + [validate] is validate a candidate result, faculty return, effect proposal, or capsule
+  + [resume] is continue a digest-bound checkpoint
+  + [status] is report engine, protocol, package, and service compatibility
+  = may: change command spelling before CLI schema freeze
+  = must: keep the underlying operations stable and typed
+
+& [RequirementSet] is the traceable execution-surface collection
+  + [CES-001] is implement one authoritative cantor_core shared by all surfaces
+  + [CES-002] is provide a non-interactive structured cantor CLI suitable for Codex subprocess calls
+  + [CES-003] is use standard input for substantial request payloads and standard output exclusively for machine results
+  + [CES-004] is define one versioned CantorProtocolEnvelope across embedded, service, MCP, and test adapters
+  + [CES-005] is begin with an embedded one-process CLI and defer the resident service until justified
+  + [CES-006] is allow the later CLI to become a thin service client without changing semantic operations
+  + [CES-007] is make CLI failure explicit and prohibit fabricated fallback guidance
+  + [CES-008] is prove semantic equivalence across execution surfaces
+
+& [SJSProcessingTrace] is the execution-surface justification record
+  + [fold_1_subject] is two ways to run Cantor, including a CLI that Codex can call
+  + [fold_2_boundary] is one engine with multiple adapters inside; duplicated semantic implementations and authorities outside
+  + [fold_3_data_design] is core operation, protocol envelope, request, caller context, result, proof, continuation, fault, mode, and version
+  + [fold_4_governance] is local-only defaults, structured I/O, digest binding, explicit failure, semantic equivalence, and deferred effects
+  + [fold_5_solution_shape] is core, embedded CLI, stable protocol, resident service, CLI client, and MCP adapter
+  + [fold_6_fault_review] is implementation drift, prose parsing, shell injection, stale service state, silent fallback, protocol skew, and premature daemon complexity
+  + [fold_7_phase_lock] is embedded CLI belongs to the bounded core path while persistent service and MCP remain gated extensions
+
+& [CantorExecutionSurfaceProfileSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is bbe71280-040a-4502-ae2e-22384cdeb24b
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Execution_Surface_Profile.sop
+  + [source_snapshot_uuid] is e4f2d16e-343c-475d-9f7f-406dd6795371
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-29_cantor_cli_and_service_surfaces\Dictated_Cantor_CLI_And_Service_Surfaces_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-29_cantor_cli_and_service_surfaces\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, single_engine_invariant_formed, CLI_formed, service_formed, protocol_shared, Codex_path_formed, progression_gated, justified, and signed
+  + [signature_status] is valid_for_execution_surface_formation
+  + [implementation_authority] is CLI_embedded_mode_only_inside_the_current_bounded_core_slice
+
+@ [Rust_profile] C:\Project\Cantor\specifications\Cantor_Rust_Engine_Implementation_Profile.sop
+@ [coprocessor_identity] C:\Project\Cantor\specifications\Cantor_Semantic_Coprocessor_Identity.sop
+@ [Codex_reflection] C:\Project\Cantor\specifications\Cantor_Codex_Reflection_Protocol.sop
+@ [frame_staging] C:\Project\Cantor\specifications\Cantor_Inference_Frame_Staging_And_Reentry.sop

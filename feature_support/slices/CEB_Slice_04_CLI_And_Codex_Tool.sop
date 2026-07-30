@@ -1,0 +1,29 @@
+Subject: CEB Slice 04 CLI and Codex Tool
+
+& [WorkSlice] is the external read-only execution surface
+  + [slice_uuid] is a59cdc5d-ad8d-411b-a344-8e42c42ff263
+  + [status] is complete
+  + [depends_on] is CEB_Slice_03_Deterministic_Query
+  + [requirement_set] is CEB-011, CEB-012, CEB-013, CEB-014, and CEB-015
+  + [deliverable_1] is deterministic JSON CLI with query and inspect operations
+  + [deliverable_2] is one read-only Codex MCP projection only after CLI stability
+  + [excluded] is independent adapter logic, effect execution, resident daemon, and multi-agent deliberation
+  @ [MCP_activation_authority] C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+
+& [SupportRecord] is complete
+  + [specification_support] is Cantor Execution Surface Profile and canonical build specification
+  + [experimental_support] is passed llama.cpp native tool-reflection seam probe
+  + [implementation_support] is C:\Project\Cantor\crates\cantor_core\src\protocol.rs and C:\Project\Cantor\crates\cantor_cli
+  + [test_support] is eight core-protocol tests, six real-subprocess CLI tests, and seven MCP adapter including real-STDIO tests
+  + [CLI_proof_support] is C:\Project\Cantor\proofs\CEB_Slice_04_CLI_Only_Proof.sop
+  + [MCP_proof_support] is C:\Project\Cantor\proofs\CEB_Slice_04_Codex_MCP_Proof.sop
+  + [gap] is none within CEB-011 through CEB-015
+
+& [CompletionProof] is required
+  + [proof] is stdout machine-only, stderr diagnostic-only, and exit classes stable passed for CLI
+  + [proof] is direct-core and CLI results are semantically equivalent passed
+  + [proof] is a Codex-style bounded subprocess can invoke the CLI and preserve faults passed
+  + [proof] is MCP, CLI, and direct core are semantically equivalent passed
+  + [proof] is malformed, oversized, startup-trust, and runtime-trust failures are visible passed
+  + [completed_requirement_set] is CEB-011, CEB-012, CEB-013, CEB-014, and CEB-015
+  + [active_requirement_set] is none

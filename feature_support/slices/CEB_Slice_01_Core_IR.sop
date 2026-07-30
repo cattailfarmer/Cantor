@@ -1,0 +1,27 @@
+Subject: CEB Slice 01 Core IR
+
+& [WorkSlice] is the first implementation boundary
+  + [slice_uuid] is d430f08e-14ef-4cd9-915c-a9ad267353a7
+  + [status] is complete
+  + [requirement_set] is CEB-001, CEB-002, and CEB-003
+  + [input] is SOP Core v0.1 and its eight CoreAcceptance fixtures
+  + [deliverable] is Cargo workspace, cantor_core, cantor_cli shell, versioned machine forms, fixture corpus, evaluator skeleton, and tests
+  + [excluded] is trusted package crypto, persistence, MCP, neural routing, distributed agents, and user interface
+
+& [SupportRecord] is proven
+  + [specification_support] is canonical and exploded build specifications
+  + [toolchain_support] is verified safe Rust, Cargo, and MSVC profile
+  + [fixture_support] is eight named SOP CoreAcceptance cases
+  + [implementation_support] is C:\Project\Cantor\crates\cantor_core and C:\Project\Cantor\crates\cantor_cli
+  + [test_support] is C:\Project\Cantor\crates\cantor_core\tests\core_acceptance.rs
+  + [proof_support] is C:\Project\Cantor\proofs\CEB_Slice_01_Core_IR_Proof.sop
+  + [solution_support] is C:\Project\Cantor\solutions\CEB_Slice_01_Core_IR_Solution.sop
+  + [gap] is none inside CEB-001 through CEB-003
+
+& [CompletionProof] is required
+  + [proof] is all eight fixtures produce typed before, decision, after, trace, proof, and fault records
+  + [proof] is serialization is deterministic and versioned
+  + [proof] is build, test, format, lint, and release build pass
+  + [handoff] is stable machine forms activate CEB_Slice_02_Trusted_Package
+  + [result] is passed
+  + [handoff_state] is ready_for_explicit_activation_but_not_active

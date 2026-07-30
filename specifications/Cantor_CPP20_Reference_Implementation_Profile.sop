@@ -1,0 +1,142 @@
+Subject: Cantor C++20 Reference Implementation Profile
+
+Description: The bounded implementation-language, toolchain, target, and verification decisions for manifesting SOP Core v0.1 without activating deferred Cantor subsystems.
+
+& [ProfileIdentity] is the canonical first implementation choice
+  + [specification_uuid] is f863349d-20ee-4266-a89d-fc9d8b28cd7d
+  + [language] is modern C++20
+  + [reference_platform] is Windows x64
+  + [first_compiler] is Microsoft Visual C++ 19.44 or compatible
+  + [build_system] is CMake with Visual Studio 17 2022 generator
+  + [portability_target] is standard C++ core with provider and operating-system behavior behind adapters
+  + [decision] is use C++ rather than C for the Cantor reference implementation
+
+& [LanguageJustification] is why C++20 fits Cantor
+  + [semantic_fit] is enums, value types, variants, containers, algorithms, and explicit ownership for typed semantic IR
+  + [runtime_fit] is deterministic local execution, low overhead, embeddability, and native concurrency when later justified
+  + [integration_fit] is HTTP, SQLite, cryptography, Ollama, llama.cpp, and MCP adapters can be added without changing the core identity
+  + [verification_fit] is static typing, isolated libraries, deterministic fixtures, and sanitizer-capable alternate compilers
+  + [C_boundary] is a future optional stable ABI around selected Cantor services
+  = must: use RAII and value semantics by default
+  = must: isolate unavoidable platform code
+  - never: use C-style global state, ownership ambiguity, or untyped string protocols inside the semantic core
+
+& [VerifiedDeveloperToolchain] is the inspected local capability
+  + [Visual_Studio_Build_Tools] is 2022 version 17.14.33 and complete
+  + [MSVC] is compiler version 19.44.35227 for x64
+  + [MSBuild] is installed with the Build Tools
+  + [Windows_SDK] is 10.1.26100.7705
+  + [CMake] is 4.3.3
+  + [Git] is 2.54.0.windows.1
+  + [Ollama] is 0.32.1
+  + [alternate_compiler] is LLVM-MinGW 22.1.6 installed outside PATH
+  + [full_Visual_Studio_IDE] is not required and was not identified
+  = conclusion: no additional compiler installation is required for the first slice
+
+& [BuildContract] is the portable developer entry
+  + [minimum_CMake] is 3.25
+  + [language_standard] is C++20 without compiler extensions
+  + [configure] is cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+  + [build] is cmake --build build --config Debug
+  + [test] is ctest --test-dir build -C Debug --output-on-failure
+  + [release_build] is cmake --build build --config Release
+  = must: make configure, build, and test work without opening an IDE
+  = must: keep generated output under an ignored build directory
+
+& [InitialTargetSet] is the smallest coherent executable structure
+  + [cantor_core] is a static library containing semantic IR, validation, evaluation, and transition trace behavior
+  + [cantor_cli] is a thin executable that runs a fixture or prints a trace
+  + [cantor_core_tests] is one CTest-registered executable covering the eight CoreAcceptance fixtures
+  = must: separate command-line interface behavior from semantic core behavior
+  = must: keep tests capable of invoking cantor_core without a process boundary
+  - never: create a service daemon, GUI, plugin, or database target in this slice
+
+& [CoreDataShape] is the first typed semantic waist
+  + [SemanticUnit] is identity, kind, expression, normalized meaning, context, sources, and status
+  + [MeaningContract] is identity, criteria, relations, inferences, constraints, authority, evidence, and faults
+  + [SemanticEnvironment] is bindings, contexts, inference regime, libraries, authority, and versions
+  + [SemanticState] is purpose, focus fields, evidence, uncertainty, budget, pending effects, and status
+  + [SemanticInstruction] is one of DECLARE, SCOPE, RELATE, ATTEND, INFER, CONSTRAIN, TRANSFORM, CONTROL, EFFECT, or EMIT
+  + [SemanticContract] is entry, invariant, authority, output, effect, fault, and termination agreement
+  + [SemanticProgram] is contract, instruction graph, dependencies, entry, exit, and proof set
+  + [SemanticTransition] is immutable before state, instruction, judgments, after state, effects, and trace
+  = must: prefer closed enums and domain value types over free strings where the vocabulary is stable
+  = must: keep transformation, validation, mutation, and effect brokering separate
+
+& [DependencyBoundary] is the first-slice restraint
+  + [required_dependency] is the C++20 standard library
+  + [test_harness] is a small repository-owned CTest executable until a third-party framework proves necessary
+  + [persistence] is in-memory fixture state
+  + [serialization] is the smallest deterministic machine form required for exact reentry and equivalence proof
+  + [future_dependency] is SQLite after CoreAcceptance
+  + [future_dependency] is a vetted cryptographic library for Recognition Certificate proof
+  + [future_dependency] is an HTTP and JSON adapter for Ollama and MCP
+  = should: avoid a package manager until the first dependency is justified by a fixture
+  - never: implement cryptography, JSON, HTTP, SQL, embeddings, or graph storage from scratch merely to avoid dependencies
+
+& [FirstImplementationSlice] is the only authorized coding scope
+  + [fixture_1] is aliases and contextual meanings
+  + [fixture_2] is inspectable inference derivation
+  + [fixture_3] is unknown distinguished from invalid
+  + [fixture_4] is pure transformation
+  + [fixture_5] is denied and authorized effect proposals without real external effects
+  + [fixture_6] is yield, serialization, restoration, and exact reentry
+  + [fixture_7] is verbose and condensed forms producing equivalent IR
+  + [fixture_8] is one bounded SKOS, RDFS, or SHACL import with declared fidelity
+  + [completion] is all eight fixtures pass through CTest with inspectable transition traces
+  = must: implement the smallest semantic behavior needed by these fixtures
+  - never: activate Ollama, Codex, database, faculties, cooperative junction, notifications, token ring, or production trust in this slice
+
+& [VerificationContract] is the evidence required for acceptance
+  + [configure_proof] is clean CMake configure
+  + [compile_proof] is warning-clean Debug build under MSVC
+  + [test_proof] is eight passing named fixture cases
+  + [trace_proof] is each case emits inspectable before state, instruction, judgment, after state, and reason
+  + [reentry_proof] is serialized yielded state restores equal to the original committed state
+  + [equivalence_proof] is verbose and condensed inputs compare equal at normalized IR
+  + [negative_proof] is invalid constraints and unauthorized effects fail visibly
+  = must: treat passing tests as proof of implemented behavior rather than proof of universal semantic correctness
+
+& [RepositoryShape] is the initial file organization
+  + [include_cantor] owns public core headers
+  + [src_core] owns core implementations
+  + [src_cli] owns command-line composition
+  + [tests_core] owns the acceptance harness
+  + [tests_fixtures] owns governed fixture inputs and expected traces
+  + [CMakeLists] owns targets and warning policy
+  + [CMakePresets] may provide named local workflows after the basic commands pass
+  = must: organize by core semantic responsibility as identities stabilize
+  = should: avoid deep directory ceremony before more than one implementation unit requires it
+
+& [RequirementSet] is the traceable implementation-profile collection
+  + [CXX-001] is implement the Cantor reference core in portable C++20
+  + [CXX-002] is use the verified MSVC and CMake toolchain without requiring the full IDE
+  + [CXX-003] is build one core library, one thin CLI, and one fixture test executable
+  + [CXX-004] is model SOP Core identities through typed values and explicit state transitions
+  + [CXX-005] is keep first-slice dependencies and persistence minimal
+  + [CXX-006] is implement only the eight signed CoreAcceptance fixtures
+  + [CXX-007] is prove configure, compilation, traces, reentry, equivalence, and negative paths
+  + [CXX-008] is defer runtime adapters and distributed features until the core gate passes
+
+& [SJSProcessingTrace] is the C++20 implementation-profile justification trace
+  + [fold_1_subject] is the smallest native Cantor reference implementation capable of proving SOP Core v0.1
+  + [fold_2_boundary] is typed core, CLI, and eight fixture tests inside; persistence, providers, services, faculties, and coordination outside
+  + [fold_3_data_design] is semantic unit, meaning, environment, state, instruction, contract, program, transition, trace, fixture, and result
+  + [fold_4_governance] is signed CoreAcceptance scope, explicit effects, visible faults, deterministic tests, and deferred dependencies
+  + [fold_5_solution_shape] is configure, model, evaluate, trace, serialize, restore, compare, and test
+  + [fold_6_fault_review] is premature platform construction, C-style ownership faults, dependency inflation, hidden effects, opaque serialization, and testless semantics
+  + [fold_7_phase_lock] is language and toolchain selected; implementation limited to the eight CoreAcceptance fixtures
+
+& [CantorCPP20ReferenceImplementationProfileSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is dc18816c-25ba-4430-95fa-8d63786c35da
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_CPP20_Reference_Implementation_Profile.sop
+  + [source_snapshot_uuid] is a3f3e757-58d8-44d5-8f20-b57dc3f48d9b
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-28_cantor_cpp20_implementation_profile\Dictated_Cantor_CPP20_Implementation_Profile_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-28_cantor_cpp20_implementation_profile\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, toolchain_inspected, language_selected, targets_bounded, data_modeled, dependencies_pruned, verification_formed, justified, and signed
+  + [signature_status] is valid_for_core_reference_implementation
+  + [implementation_authority] is limited_to_CPP20_scaffold_and_eight_CoreAcceptance_fixtures
+
+@ [core] C:\Project\Cantor\specifications\SOP_Core.sop
+@ [core_map] C:\Project\Cantor\SOP_CORE_MAP.sop

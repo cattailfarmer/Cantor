@@ -1,0 +1,51 @@
+Subject: CEB Slice 03 Deterministic Query Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Proof_Carrying_Semantic_Query_Engine.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\CEB_Slice_03_Deterministic_Query.sop
+@ [proof] C:\Project\Cantor\proofs\CEB_Slice_03_Deterministic_Query_Proof.sop
+
+& [SolutionIdentity] is the implemented SJS solution record
+  + [solution_uuid] is 72ad7d55-7e37-4ea0-b1f4-8ce2eb7b438a
+  + [implemented_at] is 2026-07-29T14:22:40.6335652-05:00
+  + [requirement_set] is CEB-007, CEB-008, CEB-009, and CEB-010
+  + [status] is implemented_and_proven
+
+& [QueryModuleSet] is the executable boundary
+  + [fabric] is an immutable in-memory projection of admitted packages using the admission-verified signed exact label index plus package-owner and relation indexes
+  + [engine] is request validation, exact identity and alias resolution, deterministic lexical candidate fallback, contextual filtering, typed traversal, projection, detail accounting, proof assembly, visible faults, and result digest verification
+  + [metrics] is package, unit, relation, signed-source-byte, and serialized-package-byte accounting
+
+& [ResolutionDecisionSet] is the implemented meaning
+  + [order] is trust snapshot before exact identity or opt-in lexical fallback candidates, context, typed relationships, projection, and proof
+  + [context] is subject, purpose, use case, source scope, perspective, include boundary, exclude boundary, criteria, and description need
+  + [ambiguity] is equally applicable meanings remain present and faulted rather than collapsed
+  + [known_units] is exact resident units may resolve without record retransmission and receive an AlreadyResident account while new source, path, or authority detail remains eligible
+  + [relationship] is each path contains package-bound typed relation steps rather than unexplained hop identities
+  + [quote] is each returned quote carries its source anchor, whole-document digest, certificate identity, and verified status
+  + [authority] is read-only semantic access checked against caller and recognized package scopes
+  + [budgets] is records, paths, traversal depth, serialized record bytes, and elapsed time
+  + [digest] is the normalized complete result and structured proof are SHA-256 bound and independently recomputable
+
+& [FaultDecisionSet] is visible
+  + [unknown] is an unmatched term without making the request structurally invalid
+  + [invalid] is a rejected protocol, empty semantic demand, invalid budget, or invalid operation boundary
+  + [unauthorized] is a recognized candidate outside caller read scope
+  + [ambiguous] is a tied contextual meaning set
+  + [contradictory] is an explicit Contradicts edge on a returned typed path
+  + [budget_clipped] is deterministic record, byte, path, depth, or elapsed truncation
+  + [missing_detail] is an explicit account when admitted material cannot supply a requested record kind
+  + [stale] is rejected before fabric construction by Slice 02 admission and therefore cannot masquerade as an empty query result
+
+& [DeliberateLimitationSet] is retained
+  + [persistence] is in-memory only pending observed workload evidence
+  + [lexical] is deterministic substring containment and is reported separately from exact identity
+  + [routing] is Routed and Composed search remain visibly unsupported and grant no authority
+  + [factual_truth] is proof establishes admitted-source lineage and engine selection, not universal exterior truth
+  + [derivation] is returned only for already compiled inferred units; no new inference calculus is introduced here
+  + [cross_package_relation] is absent because this baseline requires both relation endpoints inside one signed package; a link authority profile must precede cross-package edges
+  - never: interpret score, path distance, lexical containment, or result digest as semantic authority
+
+& [SolutionDisposition] is accepted
+  + [proof] is C:\Project\Cantor\proofs\CEB_Slice_03_Deterministic_Query_Proof.sop
+  + [successor] is CEB_Slice_04_CLI_Only
+  + [successor_state] is completed_and_proven

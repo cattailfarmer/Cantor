@@ -1,0 +1,214 @@
+{
+    "schema":  "cantor-self-hosted-corpus-evidence-manifest/0.1",
+    "evidence_manifest_uuid":  "31b4c578-ec1d-4604-978d-9420341ee7e0",
+    "generated_at_utc":  "2026-07-30T01:44:08.4479592Z",
+    "authority":  {
+                      "canonical_specification_uuid":  "470b328b-0b4c-432b-9e7b-b7d84a1cca0e",
+                      "satisfaction_signature_uuid":  "74f2cb02-84e4-45b2-98ca-1883c9e5d54d",
+                      "solution_uuid":  "bb88172a-e70e-4a1a-aba3-20dfa572ec40"
+                  },
+    "corpus":  {
+                   "source_count":  3,
+                   "unit_count":  417,
+                   "relation_count":  360,
+                   "package_id":  "package:sha256:4e6e4b14d13c022b60643b77ced08081b8b5efc6a75152953c3d97f83b0ade30",
+                   "evidence_environment_digest":  "e59ea0ba39303627a7fad47a9c2892173e2f75e17bf91bc14dac5ffb00e7545b",
+                   "generated_runtime_artifacts_tracked":  false
+               },
+    "verification":  [
+                         {
+                             "command":  "cargo fmt --all -- --check",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --workspace --all-targets --locked --offline",
+                             "status":  "passed",
+                             "tests":  101
+                         },
+                         {
+                             "command":  "cargo test --workspace --all-targets --release --locked --offline",
+                             "status":  "passed",
+                             "tests":  101
+                         },
+                         {
+                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo doc --workspace --no-deps --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo clippy --all-targets --locked --offline -- -D warnings",
+                             "working_directory":  "experiments/self_hosted_corpus_benchmark",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --release --locked --offline",
+                             "working_directory":  "experiments/self_hosted_corpus_benchmark",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo audit",
+                             "working_directory":  "repository root",
+                             "status":  "passed",
+                             "dependencies":  110,
+                             "advisories_loaded":  1173,
+                             "vulnerabilities":  0
+                         },
+                         {
+                             "command":  "cargo audit",
+                             "working_directory":  "experiments/self_hosted_corpus_benchmark",
+                             "status":  "passed",
+                             "dependencies":  34,
+                             "advisories_loaded":  1173,
+                             "vulnerabilities":  0
+                         }
+                     ],
+    "artifacts":  [
+                      {
+                          "path":  "C:\\Project\\Cantor\\source_documents\\2026-07-29_cantor_self_hosting_ingestion\\Dictated_Cantor_Self_Hosting_Ingestion_Source.sop",
+                          "sha256":  "F04B0FA2997C409F8207E4F7BF3023FE4BD2CCFF281807107A4229D6BEA80AEE",
+                          "bytes":  761
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\source_documents\\2026-07-29_cantor_self_hosting_ingestion\\Source_Document_Manifest.sop",
+                          "sha256":  "A1EB9C7B7121D90B78A5A8F51F7715C1E10A1548EF99BB6AC793CB6A9502BA2E",
+                          "bytes":  1237
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\specifications\\exploded\\Cantor_Self_Hosting_Ingestion.exploded.sop",
+                          "sha256":  "2860E9C4B3A96E0AB8C4AE5B7C259651D0BE2B2CB08A123473D1E0BC43ACDA8F",
+                          "bytes":  15614
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\specifications\\Cantor_Self_Hosting_Ingestion.sop",
+                          "sha256":  "4B9C0922D07A2CE4B9C2AA0BEE30A1909DC8193B897E92811B1D5BEC9129F34B",
+                          "bytes":  14827
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\justifications\\Cantor_Self_Hosting_Ingestion_Justification.sop",
+                          "sha256":  "887C77C01B253455056FA6400F12135D2D691404ACE50DFA8DF3D460D2B92FED",
+                          "bytes":  4001
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\feature_support\\slices\\SelfHostingIngestion.sop",
+                          "sha256":  "A51156C20A03B585843B635248760CFE3914A851B16B3870E91489FF5EB39772",
+                          "bytes":  1973
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\feature_support\\SelfHostingIngestion_Requirement_Matrix.sop",
+                          "sha256":  "473CEB847EDC624F758E4D313E397E93F60DE9584F5FC5EE8632099EE1466A73",
+                          "bytes":  5582
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\corpus\\self_hosted\\corpus.json",
+                          "sha256":  "9D7AB1A2D9E790932254AC346DEC5C1BF42836BE508DCA45636A3131BB8145C5",
+                          "bytes":  1919
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\Cargo.toml",
+                          "sha256":  "563CF87729340E6D0A18BE1EB865B81032A0BD8CAB3DF43DA4F565B9581D82B6",
+                          "bytes":  517
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\Cargo.lock",
+                          "sha256":  "3B0468420F21B4DE0F190D7ED98019233D839BBD6F82C3737436373AA00CEDCD",
+                          "bytes":  26023
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\crates\\cantor_core\\src\\lib.rs",
+                          "sha256":  "4A6E0FC4D1C242F2E58C78ADFC4283B08AE12231480C720F165944FA2D4E985D",
+                          "bytes":  871
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\crates\\cantor_core\\src\\sop.rs",
+                          "sha256":  "93AC8352B7A71D7F13AC6F6F16713CE1D06F405A5FB7225184AFCD08035C6183",
+                          "bytes":  44975
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\crates\\cantor_core\\tests\\sop_ingestion.rs",
+                          "sha256":  "55D79F5716B2E3F0773CD8A5EB5B6F5B81A76639F515D808860F3207DDC34F0C",
+                          "bytes":  12945
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\crates\\cantor_cli\\Cargo.toml",
+                          "sha256":  "5FA6AC7E692D3DC0733FE0C3EE1FCB55A56FCB918864007F59A4204C3D0A45F7",
+                          "bytes":  473
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\crates\\cantor_cli\\src\\corpus_main.rs",
+                          "sha256":  "9ED78C6226EEF28ECA6FA6A8CC55AC8897DD6F6A99FF1ADD97BF74FC00FD5BB6",
+                          "bytes":  20072
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\crates\\cantor_cli\\tests\\corpus_cli.rs",
+                          "sha256":  "B86AEF001633362ABB1EE3C97C4EB43AACAB656B9A3C8D4E229E6BBD96D99D6D",
+                          "bytes":  10420
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\crates\\cantor_mcp\\tests\\self_hosted_corpus.rs",
+                          "sha256":  "A2289F83E0EEAE90CBF9A3E222706B4A719355B116AAEFF07A28E31F1726DCBE",
+                          "bytes":  4331
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\docs\\SELF_HOSTED_CORPUS.md",
+                          "sha256":  "02DA00EEEAD66B6C895B7004AD88301A11BF664337BC7ECE92D328F7137CC239",
+                          "bytes":  6336
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\experiments\\self_hosted_corpus_benchmark\\Cargo.toml",
+                          "sha256":  "2DEF56F9FE3C9CA3575B7CEB04FB043A47F82C5DBF18BBDF3D37C15BEC4508A4",
+                          "bytes":  360
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\experiments\\self_hosted_corpus_benchmark\\Cargo.lock",
+                          "sha256":  "36834F00FB71AC31BAB9F0FB7862D8E1705C3A4A6109470000C951703F2DD275",
+                          "bytes":  7597
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\experiments\\self_hosted_corpus_benchmark\\src\\main.rs",
+                          "sha256":  "1B9FB31C255DCFD9FA0FE4C8077E5251A73C6A19FB79C3A997ACB8F428456BA3",
+                          "bytes":  9555
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\experiments\\self_hosted_corpus_benchmark\\tests\\evidence.rs",
+                          "sha256":  "DF673FC60D2452BA1A137473E1CEBA90223AB4C21472ECCCFCB37E407019108D",
+                          "bytes":  3136
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\experiments\\self_hosted_corpus_benchmark\\artifacts\\2026-07-29-three-run-summary.json",
+                          "sha256":  "AC0E73ADFFDB1A9DF6206E7FB1D6CFE242158A6DBD7CAD8EC1D4B1CCA396A54D",
+                          "bytes":  4453
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\scripts\\summarize_self_hosted_corpus_evidence.ps1",
+                          "sha256":  "D324BBFDF41D542592431F2450B88DAD9B90B163EE45CB0EF05DE5C609FD6364",
+                          "bytes":  3552
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\scripts\\build_self_hosted_corpus_evidence_manifest.ps1",
+                          "sha256":  "E79C825F931E992716FEC8FD5B43F7EB5D97F6D013B24E74A02063B69C1FC564",
+                          "bytes":  4763
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\experiments\\self_hosted_corpus_benchmark\\artifacts\\2026-07-29-run-1.json",
+                          "sha256":  "29553BED3061CF9A37609214F127ADC78B42676D04121F02261CB095FE7D33B9",
+                          "bytes":  1150
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\experiments\\self_hosted_corpus_benchmark\\artifacts\\2026-07-29-run-2.json",
+                          "sha256":  "354AD97A93616A531A0536A29865FE86E54E65CF76423D8D9F008B56064EB93F",
+                          "bytes":  1096
+                      },
+                      {
+                          "path":  "C:\\Project\\Cantor\\experiments\\self_hosted_corpus_benchmark\\artifacts\\2026-07-29-run-3.json",
+                          "sha256":  "98C7953F9C30E2FC707D1FAC703531897EB30753E8543D5302405B2BE332F039",
+                          "bytes":  1104
+                      }
+                  ]
+}

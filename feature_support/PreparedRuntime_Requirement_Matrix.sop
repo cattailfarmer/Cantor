@@ -1,0 +1,104 @@
+Subject: Cantor Prepared Runtime Requirement Matrix
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Prepared_Runtime.exploded.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\PreparedRuntime.sop
+
+& [MatrixIdentity] is the live feature-requirement support record
+  + [matrix_uuid] is ea95d3f8-1356-4bf8-8e9c-712c89b0a5bd
+  + [status] is complete
+  + [acceptance_set] is PR-AC1 through PR-AC14
+  + [rule] is pending remains visible until implementation, test, evidence, proof, and fault behavior are bound
+
+& [PR-AC1] is governed source and SJS authority
+  @ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_prepared_runtime\Dictated_Cantor_Prepared_Runtime_Source.sop
+  @ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_prepared_runtime\Source_Document_Manifest.sop
+  @ [canonical] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+  + [source_sha256] is FC8D5E14D3E189C23C64769EAB0FFFB8491B7741915872D359FE20F4E8137221
+  + [signature_uuid] is 38e9e194-1b32-4785-92a4-1f34ba1bfed9
+  + [prior_signature_uuid] is dab7f9eb-a1f2-47a1-a33b-caca94a8ebd9 invalidated by the authorized protocol-oracle refactor
+  + [status] is passed
+
+& [PR-AC2] is exact immutable generation identity
+  @ [implementation] C:\Project\Cantor\crates\cantor_core\src\prepared.rs
+  + [test] is generation_identity_changes_with_trust_time_and_trust_store_content
+  + [proof] is profile, protocol, environment version, exact environment digest, pinned trust time, and ordered package identities bound
+  + [status] is passed
+
+& [PR-AC3] is independent request binding before projection use
+  + [test] is invalid_trust_state_is_exact_and_never_becomes_a_projection
+  + [test] is direct_and_prepared_paths_are_exact_across_success_partial_and_request_faults
+  + [proof] is request digest and exact package set validate before acquire_projection
+  + [status] is passed
+
+& [PR-AC4] is one exact-scope projection with no cross-scope reuse
+  + [test] is structurally_different_scopes_replace_instead_of_reusing_projection
+  + [proof] is zero or one projection and structural AuthorityScope equality
+  + [status] is passed
+
+& [PR-AC5] is exact direct and prepared response equivalence
+  + [test] is direct_and_prepared_paths_are_exact_across_success_partial_and_request_faults
+  + [test] is invalid_trust_state_is_exact_and_never_becomes_a_projection
+  + [proof] is full ProtocolResponse and serialized JSON equality across all constructible fixture paths
+  + [measured_mismatches] is zero
+  + [status] is passed
+
+& [PR-AC6] is shared gates and response construction
+  @ [implementation] C:\Project\Cantor\crates\cantor_core\src\protocol.rs
+  + [shared] is validate_protocol_request, prepare_protocol_fabric, and execute_protocol_fabric
+  + [status] is passed
+
+& [PR-AC7] is deterministic concurrent reads and lock-release behavior
+  + [test] is prepared_runtime_and_slot_are_send_sync_snapshot_types
+  + [test] is concurrent_reads_are_deterministic_and_share_one_complete_projection
+  + [test] is concurrent_generation_replacement_exposes_only_complete_old_or_new_results
+  + [proof] is Arc snapshots outlive explicitly scoped coordination guards
+  + [status] is passed
+
+& [PR-AC8] is whole-generation lifecycle behavior
+  + [test] is generation_slot_transitions_are_atomic_stale_safe_and_reversible
+  + [test] is failed_demanded_security_replacement_deactivates_the_expected_generation
+  + [proof] is activate, stale reject, invalidate, fail closed, unavailable, and rollback
+  + [status] is passed
+
+& [PR-AC9] is security-state and semantic-input invalidation
+  + [test] is generation_identity_changes_with_trust_time_and_trust_store_content
+  + [test] is failed_demanded_security_replacement_deactivates_the_expected_generation
+  + [proof] is environment digest binds time, trust, revocation, packages, and order while generation binds protocol
+  + [status] is passed
+
+& [PR-AC10] is separated latency and allocation-level heap evidence
+  @ [summary] C:\Project\Cantor\experiments\prepared_runtime_benchmark\artifacts\2026-07-29_three_run_summary.json
+  + [test] is tracked_summary_has_three_complete_correct_shapes
+  + [test] is tracked_summary_hashes_every_raw_measurement
+  + [proof] is cold process, construction, warm scope preparation, direct, cold first request, scope replacement, hit, retained heap, and peak heap separated
+  + [status] is passed
+
+& [PR-AC11] is complete adoption tradeoff and nonclaims
+  @ [decision] C:\Project\Cantor\docs\PREPARED_RUNTIME_DECISION.md
+  @ [solution] C:\Project\Cantor\solutions\Cantor_Prepared_Runtime_Solution.sop
+  + [disposition] is activate bounded core and resident MCP with direct rollback
+  + [limitations] is synthetic corpus, allocation not RSS, pinned trust time, local concurrency, and no universal speed claim
+  + [status] is passed
+
+& [PR-AC12] is core ownership and adapter equivalence
+  @ [adapter] C:\Project\Cantor\crates\cantor_mcp\src\lib.rs
+  + [test] is adapter_result_is_exactly_core_equivalent
+  + [test] is real_stdio_server_lists_and_executes_the_tool
+  + [proof] is one preparation and one hit after two exact adapter calls
+  + [status] is passed
+
+& [PR-AC13] is complete verification and dependency gates
+  @ [evidence_manifest] C:\Project\Cantor\experiments\prepared_runtime_benchmark\artifacts\prepared_runtime_evidence_manifest.json
+  + [test] is evidence_manifest_hashes_authority_implementation_and_measurements
+  + [proof] is format, lint, 91 debug tests, 91 release tests, locked offline, build, docs, 3 evidence tests, and two RustSec scans passed
+  + [staging] is none
+  + [status] is passed
+
+& [PR-AC14] is complete governance and evidence closure
+  @ [proof] C:\Project\Cantor\proofs\Cantor_Prepared_Runtime_Proof.sop
+  @ [file_change] C:\Project\Cantor\narrative\file_changes\1785367167893_prepared_runtime_file_change.sop
+  @ [turn] C:\Project\Cantor\narrative\turns\1785367167893_cantor_prepared_runtime.sop
+  @ [faults] C:\Project\Cantor\narrative\operational_faults\1785367167893_prepared_runtime_faults.sop
+  + [unsupported_requirements] is none within the bounded profile
+  + [status] is passed

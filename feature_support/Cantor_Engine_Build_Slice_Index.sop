@@ -1,0 +1,47 @@
+Subject: Cantor Engine Build Slice Index
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Engine_Neural_Fabric_CLI_Build.exploded.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_Engine_Build_Plan.sop
+
+& [SliceIndexIdentity] is the contiguous feature-support boundary
+  + [index_uuid] is 725ac2a3-52a3-4932-91b1-7f1da9f2b9e3
+  + [current_slice] is none
+  + [activation_rule] is one slice active at a time unless independent proof work is explicitly separated
+  + [support_rule] is no requirement is complete until implementation, test, proof, and fault behavior are recorded
+  @ [activation_authority] C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+  @ [prior_activation_authority] C:\Project\Cantor\specifications\Cantor_Persistence_Evidence_Gate.sop
+  @ [current_activation_authority] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+  @ [latest_activation_authority] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+
+@ [slice_1] C:\Project\Cantor\feature_support\slices\CEB_Slice_01_Core_IR.sop
+@ [slice_2] C:\Project\Cantor\feature_support\slices\CEB_Slice_02_Trusted_Package.sop
+@ [slice_3] C:\Project\Cantor\feature_support\slices\CEB_Slice_03_Deterministic_Query.sop
+@ [slice_4] C:\Project\Cantor\feature_support\slices\CEB_Slice_04_CLI_And_Codex_Tool.sop
+@ [slice_5] C:\Project\Cantor\feature_support\slices\CEB_Slice_05_Neural_Routing.sop
+@ [slice_6] C:\Project\Cantor\feature_support\slices\CEB_Slice_06_FPGA_Execution_Profiles.sop
+@ [phase_6_persistence] C:\Project\Cantor\feature_support\slices\Phase6_Persistence_Decision.sop
+@ [prepared_runtime] C:\Project\Cantor\feature_support\slices\PreparedRuntime.sop
+@ [self_hosting_ingestion] C:\Project\Cantor\feature_support\slices\SelfHostingIngestion.sop
+
+& [DependencyOrder] is the only authorized normal progression
+  + [edge] is Core_IR before Trusted_Package
+  + [edge] is Core_IR and Trusted_Package before Deterministic_Query
+  + [edge] is Deterministic_Query before CLI
+  + [edge] is stable CLI before Codex_MCP
+  + [edge] is deterministic baseline, corpus, and stable fabric before Neural_Routing
+  + [edge] is bounded reviewed SOP ingestion before any labeled routing-corpus construction
+  + [edge] is stable software protocol, reference oracle, measured workload, and explicit target before FPGA_Execution_Profiles
+
+& [ReadinessSummary] is the present state
+  + [CEB_Slice_01_Core_IR] is complete
+  + [CEB_Slice_02_Trusted_Package] is complete
+  + [CEB_Slice_03_Deterministic_Query] is complete
+  + [CEB_Slice_04_CLI_And_Codex_Tool] is complete
+  + [CEB_Slice_05_Neural_Routing] is specification_only_and_adoption_blocked
+  + [CEB_Slice_06_FPGA_Execution_Profiles] is specification_only_and_target_blocked
+  + [Phase6_Persistence_Decision] is complete_with_JSON_and_memory_retained
+  + [PreparedRuntime] is complete_with_bounded_core_and_resident_MCP_activated
+  + [SelfHostingIngestion] is complete_with_three_reviewed_sources_417_units_and_360_relations
+  + [next_candidate] is Phase7RoutingExperiment
+  + [next_candidate_state] is inactive_and_blocked_by_labeled_routing_corpus_and_adoption_gates

@@ -1,0 +1,248 @@
+{
+  "report_version": "cantor-persistence-benchmark/0.4",
+  "captured_at_epoch_milliseconds": 1785364066001,
+  "machine": "THEBRAIN",
+  "operating_system": "windows x86_64",
+  "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+  "cargo": "cargo 1.96.0 (30a34c682 2026-05-25)",
+  "rusqlite_version": "0.40.1",
+  "redb_version": "4.1.0",
+  "cache_boundary": "repeated local reopen and reconstruction; operating-system page cache is not cleared",
+  "corpus_boundary": "synthetic public-key fixture packages with one term unit and one source each",
+  "scenarios": [
+    {
+      "package_count": 1,
+      "canonical_json_bytes": 5248,
+      "environment_digest": "7d769bf9321173b13822ccb5a1b78ff44f693c3cb42adf392b2f4c0c67729661",
+      "load_iterations": 50,
+      "query_iterations": 100,
+      "candidates": [
+        {
+          "candidate": "json",
+          "post_write_physical_bytes": 5248,
+          "post_load_physical_bytes": 5248,
+          "post_load_size_ratio_to_json": 1.0,
+          "durable_write_microseconds": 1367,
+          "load_microseconds": {
+            "samples": 50,
+            "minimum": 35,
+            "median": 36,
+            "p95": 54,
+            "maximum": 151
+          },
+          "query_microseconds": {
+            "samples": 100,
+            "minimum": 86,
+            "median": 86,
+            "p95": 93,
+            "maximum": 1038
+          },
+          "digest_equal": true,
+          "response_equal": true
+        },
+        {
+          "candidate": "sqlite",
+          "post_write_physical_bytes": 20480,
+          "post_load_physical_bytes": 20480,
+          "post_load_size_ratio_to_json": 3.902439024390244,
+          "durable_write_microseconds": 10392,
+          "load_microseconds": {
+            "samples": 50,
+            "minimum": 218,
+            "median": 234,
+            "p95": 287,
+            "maximum": 392
+          },
+          "query_microseconds": {
+            "samples": 100,
+            "minimum": 84,
+            "median": 85,
+            "p95": 88,
+            "maximum": 90
+          },
+          "digest_equal": true,
+          "response_equal": true
+        },
+        {
+          "candidate": "redb",
+          "post_write_physical_bytes": 1056768,
+          "post_load_physical_bytes": 1056768,
+          "post_load_size_ratio_to_json": 201.3658536585366,
+          "durable_write_microseconds": 13539,
+          "load_microseconds": {
+            "samples": 50,
+            "minimum": 2463,
+            "median": 2628,
+            "p95": 3289,
+            "maximum": 6849
+          },
+          "query_microseconds": {
+            "samples": 100,
+            "minimum": 84,
+            "median": 84,
+            "p95": 88,
+            "maximum": 117
+          },
+          "digest_equal": true,
+          "response_equal": true
+        }
+      ]
+    },
+    {
+      "package_count": 32,
+      "canonical_json_bytes": 129411,
+      "environment_digest": "b86234dca929313348d9015360bc37ddc2b63880c8b2805a4682003744242b98",
+      "load_iterations": 25,
+      "query_iterations": 50,
+      "candidates": [
+        {
+          "candidate": "json",
+          "post_write_physical_bytes": 129411,
+          "post_load_physical_bytes": 129411,
+          "post_load_size_ratio_to_json": 1.0,
+          "durable_write_microseconds": 1104,
+          "load_microseconds": {
+            "samples": 25,
+            "minimum": 341,
+            "median": 382,
+            "p95": 436,
+            "maximum": 442
+          },
+          "query_microseconds": {
+            "samples": 50,
+            "minimum": 2463,
+            "median": 2527,
+            "p95": 3082,
+            "maximum": 3692
+          },
+          "digest_equal": true,
+          "response_equal": true
+        },
+        {
+          "candidate": "sqlite",
+          "post_write_physical_bytes": 163840,
+          "post_load_physical_bytes": 163840,
+          "post_load_size_ratio_to_json": 1.2660438448045375,
+          "durable_write_microseconds": 12873,
+          "load_microseconds": {
+            "samples": 25,
+            "minimum": 564,
+            "median": 604,
+            "p95": 744,
+            "maximum": 867
+          },
+          "query_microseconds": {
+            "samples": 50,
+            "minimum": 2458,
+            "median": 2491,
+            "p95": 2750,
+            "maximum": 3309
+          },
+          "digest_equal": true,
+          "response_equal": true
+        },
+        {
+          "candidate": "redb",
+          "post_write_physical_bytes": 1056768,
+          "post_load_physical_bytes": 1056768,
+          "post_load_size_ratio_to_json": 8.165982798989267,
+          "durable_write_microseconds": 8064,
+          "load_microseconds": {
+            "samples": 25,
+            "minimum": 2862,
+            "median": 2993,
+            "p95": 4282,
+            "maximum": 5403
+          },
+          "query_microseconds": {
+            "samples": 50,
+            "minimum": 2408,
+            "median": 2513,
+            "p95": 2660,
+            "maximum": 2730
+          },
+          "digest_equal": true,
+          "response_equal": true
+        }
+      ]
+    },
+    {
+      "package_count": 256,
+      "canonical_json_bytes": 1033485,
+      "environment_digest": "962952e76b573966f8248b502fc3559c1a868dffe51e4b52667812227f35ee7c",
+      "load_iterations": 10,
+      "query_iterations": 20,
+      "candidates": [
+        {
+          "candidate": "json",
+          "post_write_physical_bytes": 1033485,
+          "post_load_physical_bytes": 1033485,
+          "post_load_size_ratio_to_json": 1.0,
+          "durable_write_microseconds": 6014,
+          "load_microseconds": {
+            "samples": 10,
+            "minimum": 2646,
+            "median": 2738,
+            "p95": 3028,
+            "maximum": 3028
+          },
+          "query_microseconds": {
+            "samples": 20,
+            "minimum": 20015,
+            "median": 20758,
+            "p95": 21844,
+            "maximum": 22016
+          },
+          "digest_equal": true,
+          "response_equal": true
+        },
+        {
+          "candidate": "sqlite",
+          "post_write_physical_bytes": 1220608,
+          "post_load_physical_bytes": 1220608,
+          "post_load_size_ratio_to_json": 1.1810601992288228,
+          "durable_write_microseconds": 18316,
+          "load_microseconds": {
+            "samples": 10,
+            "minimum": 3298,
+            "median": 3437,
+            "p95": 3744,
+            "maximum": 3744
+          },
+          "query_microseconds": {
+            "samples": 20,
+            "minimum": 19981,
+            "median": 20440,
+            "p95": 21954,
+            "maximum": 22049
+          },
+          "digest_equal": true,
+          "response_equal": true
+        },
+        {
+          "candidate": "redb",
+          "post_write_physical_bytes": 2109440,
+          "post_load_physical_bytes": 1118208,
+          "post_load_size_ratio_to_json": 1.0819779677498949,
+          "durable_write_microseconds": 15198,
+          "load_microseconds": {
+            "samples": 10,
+            "minimum": 5987,
+            "median": 6379,
+            "p95": 7252,
+            "maximum": 7252
+          },
+          "query_microseconds": {
+            "samples": 20,
+            "minimum": 19939,
+            "median": 20530,
+            "p95": 22192,
+            "maximum": 22763
+          },
+          "digest_equal": true,
+          "response_equal": true
+        }
+      ]
+    }
+  ]
+}

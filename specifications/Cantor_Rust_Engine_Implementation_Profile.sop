@@ -1,0 +1,138 @@
+Subject: Cantor Rust Engine Implementation Profile
+
+Description: The engine-language decision selecting Rust for Cantor's authoritative semantic runtime while preserving Python for exploratory tooling and C++ for optional future native-provider integration.
+
+& [DecisionIdentity] is the canonical engine-language selection
+  + [specification_uuid] is 258b1351-6e9a-4074-a70e-76249cc307ad
+  + [engine_language] is Rust edition 2024
+  + [reference_target] is x86_64-pc-windows-msvc
+  + [build_system] is Cargo
+  + [decision] is Rust is preferred over Python and C++ for the authoritative Cantor engine
+  + [superseded_candidate] is C:\Project\Cantor\specifications\Cantor_CPP20_Reference_Implementation_Profile.sop
+  = must: preserve the C++ profile as prior justified exploration
+  = must: route new core implementation authority through this profile
+
+& [DecisionAxes] is the responsibility-weighted comparison
+  + [semantic_IR] favors Rust because enums, structs, pattern matching, and exhaustive checking express closed semantic states
+  + [authority_and_signatures] favors Rust because memory safety and explicit error handling reduce trust-boundary faults
+  + [state_machine] favors Rust because ownership, immutability, and result types support inspectable transitions
+  + [concurrency] favors Rust because isolated ownership and message passing fit junction sessions and notification controllers
+  + [deployment] favors Rust and C++ because either can produce a standalone native executable
+  + [iteration_speed] favors Python
+  + [ontology_experimentation] favors Python
+  + [in_process_llama_cpp] favors C++
+  + [current_provider_boundary] favors Rust because Ollama and Codex are external tool or HTTP providers
+  = conclusion: Cantor's present duties weight Rust highest
+
+& [RustEngineRole] is the durable authoritative runtime
+  + [owns] is semantic IR, program evaluation, contracts, transition traces, signed-package admission, state versioning, persistence boundaries, and coordination protocols
+  + [type_strategy] is domain newtypes, closed enums, immutable records, explicit Result errors, and narrow mutable owners
+  + [concurrency_strategy] is message passing and versioned state rather than shared mutable global state
+  + [interface_strategy] is CLI first, then provider-independent service and tool adapters
+  = must: keep unsafe Rust absent from the core unless a measured adapter requires it
+  = must: isolate I/O from deterministic semantic evaluation
+
+& [PythonRole] is optional non-authoritative experimentation and tooling
+  + [use] is corpus exploration, ontology experiments, fixture generation, visualization, notebooks, and one-time import analysis
+  + [exchange] is versioned machine-form files or a stable Cantor process interface
+  + [authority] is proposal generation only unless output is compiled, validated, and admitted by Cantor
+  = should: use Python where iteration speed materially improves research
+  - never: let an ad hoc Python object graph become authoritative runtime state
+  - never: require Python for the minimum Cantor engine deployment
+
+& [CPPFutureRole] is optional measured native integration
+  + [use] is a C ABI, llama.cpp embedding, device-specific integration, or performance-critical extension proven by profiling
+  + [boundary] is a narrow adapter around stable Cantor data contracts
+  = may: reactivate C++ only after an in-process provider or measured performance requirement exists
+  - never: choose C++ merely because llama.cpp may be used through an HTTP provider
+
+& [VerifiedRustToolchain] is the inspected local capability
+  + [rustc] is 1.96.0 stable for x86_64-pc-windows-msvc
+  + [cargo] is 1.96.0
+  + [LLVM] is 22.1.2 through the Rust compiler
+  + [MSVC_linker] is supplied by the installed Visual Studio Build Tools 2022
+  + [Windows_SDK] is installed
+  = conclusion: no Rust or linker installation is required
+
+& [InitialWorkspace] is the smallest coherent Cargo structure
+  + [cantor_core] is a library crate for semantic IR, validation, evaluation, serialization contracts, and transition traces
+  + [cantor_cli] is a binary crate for fixture execution and trace inspection
+  + [core_acceptance] is integration tests containing the eight signed SOP Core fixtures
+  = must: begin with one Cargo workspace
+  = must: keep cantor_core independent from async runtimes, HTTP servers, databases, and model providers
+  - never: create crates for deferred subsystems before the core requires a stable boundary
+
+& [BuildContract] is the developer workflow
+  + [build] is cargo build --workspace
+  + [test] is cargo test --workspace
+  + [format_check] is cargo fmt --all -- --check
+  + [lint] is cargo clippy --workspace --all-targets -- -D warnings
+  + [release_build] is cargo build --workspace --release
+  = must: make build and test work from an ordinary PowerShell session
+  = must: keep generated output under ignored target
+
+& [DependencyPolicy] is bounded adoption
+  + [initial_runtime] is standard library plus only dependencies directly justified by a CoreAcceptance fixture
+  + [likely_first_dependency] is serde and a deterministic machine-form serializer for reentry and IR equivalence
+  + [future_candidate] is thiserror for typed fault surfaces
+  + [future_candidate] is uuid for validated identities
+  + [future_candidate] is cryptographic digest and signature crates for Recognition Certificates
+  + [future_candidate] is rusqlite, petgraph, tokio, reqwest, and a service framework only after their owning features activate
+  = must: pin dependency versions through Cargo.lock for executable reproducibility
+  = must: review cryptographic and persistence dependencies before authority use
+  - never: preinstall the eventual architecture as dependencies
+
+& [FirstImplementationSlice] is unchanged by the language decision
+  + [fixture_1] is aliases and contextual meanings
+  + [fixture_2] is inspectable inference derivation
+  + [fixture_3] is unknown distinguished from invalid
+  + [fixture_4] is pure transformation
+  + [fixture_5] is denied and authorized effect proposals without committing external effects
+  + [fixture_6] is yield and exact reentry
+  + [fixture_7] is verbose and condensed forms producing equivalent IR
+  + [fixture_8] is one bounded SKOS, RDFS, or SHACL import with declared fidelity
+  + [completion] is all eight fixtures pass with inspectable transition traces
+  = must: preserve SOP Core semantics independent of the implementation language
+  - never: activate the database, provider adapters, faculties, junction, notifications, or token ring inside this slice
+
+& [VerificationContract] is the engine proof
+  + [compile] is cargo build succeeds without warnings promoted by project policy
+  + [tests] is eight named acceptance fixtures pass
+  + [trace] is every evaluated fixture exposes before state, instruction, judgments, after state, reasons, evidence, authority, and uncertainty
+  + [reentry] is a yielded state serializes and restores equal to its committed form
+  + [equivalence] is verbose and condensed input normalize to equal IR
+  + [negative_paths] is invalid constraints and unauthorized effects fail visibly
+  + [quality] is cargo fmt and cargo clippy pass
+
+& [RequirementSet] is the traceable language-decision collection
+  + [RUST-001] is implement the authoritative Cantor engine in safe Rust edition 2024
+  + [RUST-002] is use the verified Windows MSVC Rust toolchain
+  + [RUST-003] is begin with cantor_core, cantor_cli, and eight integration fixtures
+  + [RUST-004] is preserve Python as optional proposal and research tooling
+  + [RUST-005] is preserve C++ as an optional future measured native adapter
+  + [RUST-006] is keep provider, database, and coordination concerns outside the first core
+  + [RUST-007] is verify build, tests, format, lint, traces, reentry, and equivalence
+  + [RUST-008] is supersede the prior C++ engine choice without erasing its provenance
+
+& [SJSProcessingTrace] is the engine-language decision trace
+  + [fold_1_subject] is the safest durable language for Cantor's authoritative semantic engine
+  + [fold_2_boundary] is Rust authoritative core inside; Python research and C++ native adapters outside
+  + [fold_3_data_design] is typed semantic states, immutable transitions, explicit results, serialized machine form, and provider-independent interfaces
+  + [fold_4_governance] is safe core, pinned dependencies, isolated I/O, no premature async or unsafe code, and preserved supersession
+  + [fold_5_solution_shape] is model, validate, evaluate, trace, serialize, restore, and test through Cargo
+  + [fold_6_fault_review] is Python authority drift, C++ memory faults, premature hybrid complexity, dependency inflation, and language-driven semantic changes
+  + [fold_7_phase_lock] is Rust selected; the same eight-fixture CoreAcceptance boundary remains active
+
+& [CantorRustEngineImplementationProfileSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 3e4bd5ad-8bfd-4503-9989-bdf6d9b5a7e2
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Rust_Engine_Implementation_Profile.sop
+  + [source_snapshot_uuid] is 571423ad-de00-478a-a533-6f4417607444
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-28_cantor_engine_language_decision\Dictated_Cantor_Engine_Language_Decision_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-28_cantor_engine_language_decision\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, candidates_compared, responsibilities_weighted, toolchain_verified, roles_delineated, prior_choice_superseded, justified, and signed
+  + [signature_status] is valid_for_core_reference_implementation
+  + [implementation_authority] is limited_to_Rust_scaffold_and_eight_CoreAcceptance_fixtures
+
+@ [core] C:\Project\Cantor\specifications\SOP_Core.sop
+@ [supersedes] C:\Project\Cantor\specifications\Cantor_CPP20_Reference_Implementation_Profile.sop

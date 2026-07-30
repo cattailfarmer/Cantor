@@ -1,0 +1,162 @@
+Subject: Cantor Proof-Carrying Semantic Query Engine
+
+Description: The executable engine identity in which Cantor queries compiled SOP by exact identity, context, typed relationships, and bounded association, then returns records, relationship paths, and inspectable proof.
+
+& [EngineIdentity] is the canonical executable center
+  + [specification_uuid] is 44157fd2-7abf-4694-822f-d22b441641aa
+  + [canonical_engine_role] is proof-carrying semantic query engine
+  + [input] is SemanticQuery
+  + [data_subject] is admitted compiled SOP semantic fabric
+  + [output] is SemanticQueryResult
+  + [product_role] is SOP semantic coprocessor
+  + [interaction_role] is Reflective Semantic Model
+  + [implementation_language] is safe Rust
+  = conclusion: database query processing is Cantor's executable center without exhausting Cantor's compiler, trust, runtime, review, and coordination responsibilities
+
+& [DatabaseBoundary] is the distinction between engine and persistence
+  + [Cantor_engine] owns identity resolution, query planning, association traversal, ranking, validation, proof construction, and projection
+  + [semantic_store] owns durable records, indexes, versions, and transactions
+  + [physical_backend] may later be in-memory, SQLite, another relational store, a graph store, or a composed backend
+  + [logical_schema] remains stable across physical backends
+  = must: define query meaning independently from SQL dialect or storage engine
+  = must: begin with an in-memory semantic store
+  - never: let a persistence backend decide semantic authority or relation meaning
+
+& [LogicalSemanticTables] is the normalized queryable fabric
+  + [semantic_unit] stores stable identity, kind, status, context identity, and normalized meaning identity
+  + [surface_form] stores verbose, condensed, machine, preferred, alternate, historical, and imported expressions
+  + [meaning_contract] stores intension, extension, authority, constraints, faults, and applicable inference regime
+  + [semantic_relation] stores typed directed relation, source unit, target unit, scope, guards, weight components, and provenance
+  + [semantic_instruction] stores operation family, operands, preconditions, authority, effects, and termination
+  + [source_anchor] stores package, file identity, semantic locator, current human-readable location, content digest, and version
+  + [compiled_package] stores immutable package identity, dependency set, compiler version, and content manifest
+  + [recognition_certificate] stores signer, scope, validity, revocation state, and package binding
+  + [derivation_step] stores premise identities, rule identity, conclusion identity, evidence, and uncertainty
+  + [query_trace] stores plan, candidates, exclusions, score components, traversed paths, and result digest
+  = must: preserve stable semantic identities separately from labels and file positions
+
+& [SemanticQuery] is the contextual semantic demand
+  + [query_uuid] is stable identity
+  + [term_set] is words, clauses, aliases, semantic identifiers, or candidate propositions
+  + [purpose] is the intended use governing relevance
+  + [subject] is current focus and protected identity boundary
+  + [context] is scope, assumptions, perspective, faculty, world, and pertinent state
+  + [requested_record_kind_set] is definition, relation, contract, instruction, condition, authority, evidence, fault, provenance, or derivation
+  + [criterion_set] is facts and conditions that records must satisfy
+  + [authority_context] is caller read scope and governing obligations
+  + [known_version_set] is already resident semantic units and packages
+  + [budget] is results, path depth, association expansion, tokens, time, and proof detail
+  = must: make purpose and context first-class query terms rather than hidden ranking hints
+
+& [SemanticQueryPlan] is the explainable association pipeline
+  + [stage_1_trust] admits only recognized package records in caller scope
+  + [stage_2_exact_identity] resolves UUID, namespace, canonical label, version, and exact alias matches
+  + [stage_3_context] separates incompatible contextual meanings and selects applicable candidates
+  + [stage_4_structure] filters kinds, guards, contracts, authority, and requested record shapes
+  + [stage_5_relationship] traverses bounded typed graph paths
+  + [stage_6_lexical] discovers candidates by articulated text
+  + [stage_7_association] expands by explainable correlation signals
+  + [stage_8_optional_vector] proposes additional candidates only after deterministic channels
+  + [stage_9_rank] orders candidates by named score components
+  + [stage_10_validate] checks versions, signatures, criteria, guards, permissions, contradictions, and proof completeness
+  + [stage_11_project] forms the smallest sufficient SemanticQueryResult
+  = must: execute exact identity and typed semantics before approximate association
+  = must: record every stage that admitted, rejected, or reordered a material candidate
+
+& [AssociationAccount] is inspectable contextual ranking
+  + [identity_match] is exact canonical or alias correspondence
+  + [purpose_alignment] is relevance to the declared intended use
+  + [context_alignment] is compatibility with scope, assumptions, perspective, and world
+  + [relation_path] is typed proximity and path applicability
+  + [contract_applicability] is bearing on active operations, conditions, and constraints
+  + [authority_strength] is admitted source and signer scope
+  + [evidence_strength] is support quality and derivation coverage
+  + [contradiction_value] is relevance as a meaningful challenge
+  + [recency_and_version] is applicability of the current compiled package
+  + [vector_similarity] is optional approximate discovery evidence
+  + [retrieval_cost] is context, traversal, and token burden
+  + [component_score_set] is the individually reported contribution of each active signal
+  - never: collapse association into an unexplained neural weight
+  - never: treat similarity, path length, or aggregate rank as equivalence, truth, or authority
+
+& [SemanticQueryResult] is records, relationships, and proof
+  + [result_uuid] is immutable identity
+  + [query_uuid] is the originating demand
+  + [resolved_identity_set] is selected canonical units and material alternatives
+  + [record_set] is the requested definitions, contracts, instructions, conditions, authority, faults, and provenance
+  + [relationship_path_set] is typed source-to-target paths with guards and context
+  + [proof_bundle] is ProvenanceProof, SelectionProof, ApplicabilityProof, and DerivationProof
+  + [association_account_set] is why each result was found and ranked
+  + [ambiguity_set] is unresolved competing meanings
+  + [contradiction_set] is materially conflicting authority, evidence, or conclusions
+  + [omission_record] is excluded, clipped, unauthorized, invalid, stale, or budget-limited material and reasons
+  + [continuation_set] is bounded next queries licensed by unresolved dependencies
+  + [result_digest] is immutable content identity
+  = must: let a caller inspect why every governing record is present
+
+& [ProofBundle] is the returned proof stack
+  + [ProvenanceProof] binds records to admitted compiled packages, certificates, source digests, versions, and semantic locators
+  + [SelectionProof] records query stages, matches, score components, candidates, exclusions, and ranking decisions
+  + [ApplicabilityProof] records context, purpose, guards, criteria, contracts, and authority that make a result applicable
+  + [RelationshipProof] records each typed edge and bounded path connecting query subjects to returned records
+  + [DerivationProof] records named inference rules, premises, conclusions, evidence, and uncertainty
+  + [CompletenessBoundary] records budgets, unavailable indexes, clipped branches, and unresolved dependencies
+  = must: distinguish retrieved assertions from engine-derived conclusions
+  = must: distinguish cryptographic integrity from semantic validity and factual truth
+  - never: claim that query proof establishes exterior-world truth beyond its premises and evidence
+
+& [QueryEngineInterface] is the Rust core boundary
+  + [SemanticStore] is the read interface over normalized logical records
+  + [QueryPlanner] transforms SemanticQuery into deterministic and optional approximate stages
+  + [QueryExecutor] evaluates the plan without mutating authoritative source records
+  + [ProofBuilder] constructs and validates ProofBundle from the trace
+  + [ResultProjector] bounds the returned material to purpose and budget
+  + [QueryFault] is unknown identity, ambiguity, no authority, invalid certificate, stale package, contradictory records, proof gap, cycle, or budget exhaustion
+  = must: keep query execution side-effect-free except for separately owned cache and trace appends
+  = must: make optional association providers replaceable
+
+& [FirstQueryProof] is the smallest manifestation
+  + [store] is in-memory normalized records derived from governed fixture data
+  + [query] is one term with an alias and two contextual meanings
+  + [relationship] is one typed applicable path and one inapplicable path
+  + [record] is one governing MeaningContract
+  + [proof] is source provenance, selection account, context applicability, and one derivation step
+  + [negative_case] is one unsigned record rejected and one ambiguous meaning preserved
+  + [integration] is align this proof with the existing eight CoreAcceptance fixtures rather than create a ninth expansion fixture
+  = must: postpone physical database and vector selection until CoreAcceptance passes
+
+& [RequirementSet] is the traceable query-engine collection
+  + [PCQ-001] is identify Cantor's executable center as a proof-carrying semantic query engine
+  + [PCQ-002] is query compiled admitted SOP by terms, purpose, context, criteria, relationships, and authority
+  + [PCQ-003] is preserve normalized logical tables independently from the physical backend
+  + [PCQ-004] is resolve exact identity before approximate association
+  + [PCQ-005] is return records, typed relationship paths, and an inspectable proof bundle
+  + [PCQ-006] is explain association scores and candidate omissions
+  + [PCQ-007] is distinguish provenance and derivation proof from universal truth
+  + [PCQ-008] is prove the query contract in memory through the existing CoreAcceptance boundary
+
+& [SJSProcessingTrace] is the proof-carrying query-engine trace
+  + [fold_1_subject] is Cantor querying the compiled SOP fabric by association and returning records, relationships, and proof
+  + [fold_2_boundary] is query planning, semantic resolution, proof, and projection in Cantor; physical persistence and exterior truth outside
+  + [fold_3_data_design] is unit, surface, contract, relation, instruction, anchor, package, certificate, derivation, query, plan, score, result, proof, omission, and trace
+  + [fold_4_governance] is admitted packages, authority scope, exact-before-approximate resolution, explained ranking, proof-type separation, and visible completeness limits
+  + [fold_5_solution_shape] is trust, resolve, filter, traverse, associate, rank, validate, prove, and project
+  + [fold_6_fault_review] is raw-file authority, opaque embeddings, context collapse, rank-as-truth, unsigned records, missing proof, and premature database commitment
+  + [fold_7_phase_lock] is engine identity formed; in-memory proof remains inside the eight CoreAcceptance boundary
+
+& [CantorProofCarryingSemanticQueryEngineSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 7da81d51-ec62-4d9c-ba4c-c814f26f7bbf
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Proof_Carrying_Semantic_Query_Engine.sop
+  + [source_snapshot_uuid] is e8e23acb-c7e1-4f55-8a6f-d8037aa1be51
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-29_cantor_proof_carrying_query_engine\Dictated_Cantor_Proof_Carrying_Query_Engine_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-29_cantor_proof_carrying_query_engine\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, engine_identity_converged, database_boundary_delineated, logical_schema_formed, query_pipeline_formed, proof_stack_delineated, first_proof_bounded, justified, and signed
+  + [signature_status] is valid_for_engine_identity_and_in_memory_query_formation
+  + [implementation_authority] is limited_to_in_memory_query_behavior_required_by_the_eight_CoreAcceptance_fixtures
+
+@ [query_microkernel] C:\Project\Cantor\specifications\Cantor_SOP_Query_Microkernel.sop
+@ [definition_service] C:\Project\Cantor\specifications\SOP_Fabric_Definition_Service.sop
+@ [semantic_fabric] C:\Project\Cantor\specifications\SOP_Semantic_Fabric_Graph.sop
+@ [component_identity] C:\Project\Cantor\specifications\Cantor_Semantic_Coprocessor_Identity.sop
+@ [Rust_engine] C:\Project\Cantor\specifications\Cantor_Rust_Engine_Implementation_Profile.sop

@@ -1,0 +1,113 @@
+Subject: Cantor llama.cpp Tool Reflection Probe
+
+Description: The minimum falsification experiment proving or rejecting whether an unmodified llama.cpp server can emit a structured Cantor tool call, receive a deterministic semantic expression, import it through a subsequent inference call, and preserve equivalent intended meaning across verbose, condensed, and directive forms.
+
+& [ProbeIdentity] is the bounded provider experiment
+  + [specification_uuid] is 93bcb4be-e3a0-4ace-9519-375768597049
+  + [solution_uuid] is f12c48dd-0887-4553-9566-e4fba1f0d864
+  + [provider] is official ggml-org llama.cpp llama-server
+  + [provider_version] is pinned release b10181
+  + [provider_interface] is OpenAI-compatible POST /v1/chat/completions with tool calls and JSON-schema response
+  + [model] is local gpt-oss-20b-MXFP4.gguf unless its embedded chat template cannot perform the probe
+  + [host] is a small safe-Rust experiment executable
+  + [tool] is cantor_reflect
+  + [scope] is one ambiguous term, one purpose, three expression styles, and one normalized result contract
+  = must: remain isolated from the authoritative Cantor core
+  = must: treat any failure as useful evidence rather than repair it through unbounded prompting
+
+& [ProbeSubject] is the controlled semantic ambiguity
+  + [term] is bank
+  + [purpose] is decide where to deposit a paycheck
+  + [intended_identity] is financial_institution
+  + [excluded_identity] is river_bank
+  + [next_action] is compare_account_options
+  = rationale: the fixture is small, verifiable, and requires contextual identity discrimination
+
+| [ExpressionStyle] is (verbose | condensed | directive)
+
+& [CantorReflectInput] is the model-generated tool argument contract
+  + [subject] is bank
+  + [purpose] is decide where to deposit a paycheck
+  + [expression_style] is one ExpressionStyle requested by the fixture
+  = must: reject missing, malformed, extra, or semantically changed arguments
+
+& [CantorReflectOutput] is the deterministic host-generated semantic expression
+  + [expression_style] is the requested ExpressionStyle
+  + [semantic_expression] is a style-specific articulation of intended identity, excluded identity, purpose, and next action
+  + [source_address] is fixture://bank/paycheck-deposit
+  + [authority] is test_fixture_only
+  = must: vary surface organization while preserving identical normalized meaning
+  - never: call another model to synthesize the tool result
+
+& [InferenceImportResult] is the schema-constrained second-pass result
+  + [selected_identity] is financial_institution
+  + [excluded_identity] is river_bank
+  + [purpose] is decide where to deposit a paycheck
+  + [next_action] is compare_account_options
+  + [expression_style] is the style actually imported
+  + [source_address] is fixture://bank/paycheck-deposit
+  = must: be produced by the model after the tool result enters message history
+  = must: be parsed and validated independently by the Rust host
+
+& [CheckpointedProbeCycle] is one expression-style trial
+  + [step_1_request] is send system instruction, user request, tool schema, and forced relevant style
+  + [step_2_parse] is require exactly one cantor_reflect tool call
+  + [step_3_validate] is validate tool name and CantorReflectInput before executing the fixture
+  + [step_4_reflect] is return the deterministic CantorReflectOutput
+  + [step_5_continue] is append the assistant tool call and tool result to a second chat-completion request
+  + [step_6_import] is require an InferenceImportResult through JSON-schema constrained output
+  + [step_7_compare] is validate normalized meaning and compare it with the other expression styles
+  + [step_8_record] is emit sanitized requests, tool call, tool result, final result, token usage, timings, and faults
+  = must: exclude provider-private reasoning content from the durable trace
+
+& [AcceptanceSet] is the minimum pass condition
+  + [LTP-001] is llama-server advertises a usable chat template and responds on localhost
+  + [LTP-002] is each style produces exactly one parseable cantor_reflect call
+  + [LTP-003] is each tool call preserves the exact subject, purpose, and requested style
+  + [LTP-004] is the host returns three different surface expressions with one normalized meaning
+  + [LTP-005] is each second inference imports the expression into the required normalized result
+  + [LTP-006] is all three normalized results are semantically equal
+  + [LTP-007] is the trace distinguishes model output, deterministic tool output, validation, usage, timing, and failure
+  + [LTP-008] is rerunning the probe preserves the contract even when wording varies
+
+& [FaultSet] is the required negative evidence
+  + [server_unavailable] is llama-server cannot be reached
+  + [template_unsupported] is tool schema is not rendered or parsed correctly
+  + [tool_not_called] is the model answers directly or emits no call
+  + [wrong_tool] is any tool other than cantor_reflect
+  + [argument_fault] is malformed or semantically incorrect tool parameters
+  + [tool_loop] is the second pass calls the tool again instead of importing the result
+  + [schema_fault] is the final content is not valid InferenceImportResult
+  + [semantic_fault] is any normalized field changes across styles
+  + [provider_fault] is timeout, context overflow, refusal, malformed response, or process failure
+  = must: fail visibly and preserve sanitized evidence
+
+& [ImplementationBoundary] is the anti-expansion rule
+  + [inside] is pinned llama.cpp installation metadata, local server launcher, Rust HTTP tool-loop harness, deterministic fixture, validation, and sanitized trace
+  + [outside] is SOP parser, database, neural router, Faculty runtime, NarrativeCantor, distributed agents, hidden states, KV transport, model training, and external effects
+  = must: complete or reject this probe before adding another Cantor tool
+
+& [SJSProcessingTrace] is the tool-reflection probe justification record
+  + [fold_1_subject] is minimum llama.cpp tool call that returns alternative semantic expressions for import into a later inference checkpoint
+  + [fold_2_boundary] is structured tool parameters, deterministic reflection, second-pass semantic import, and equivalence inside; full Cantor and provider modification outside
+  + [fold_3_data_design] is trial, style, tool call, arguments, expression, source address, normalized import result, usage, timing, and fault
+  + [fold_4_governance] is localhost binding, pinned provider, exact validation, test-only authority, sanitized traces, no private reasoning, and visible failure
+  + [fold_5_solution_shape] is request, parse, validate, reflect, continue, import, compare, and record
+  + [fold_6_fault_review] is unsupported template, direct answer, malformed arguments, tool loop, schema failure, semantic drift, prompt overfitting, and provider failure
+  + [fold_7_phase_lock] is one isolated falsification probe authorized without reactivating deferred Cantor architecture
+
+& [CantorLlamaCPPToolReflectionProbeSatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is dc0f2e21-ae0d-43c5-9e74-58d786a64304
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Llama_CPP_Tool_Reflection_Probe.sop
+  + [source_snapshot_uuid] is 0561114f-6e6d-4fdb-9cd3-42c45bee6370
+  + [source_document] is C:\Project\Cantor\source_documents\2026-07-29_llama_cpp_tool_reflection_probe\Dictated_Llama_CPP_Tool_Reflection_Probe_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-07-29_llama_cpp_tool_reflection_probe\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved, provider_verified, fixture_bounded, tool_contract_formed, checkpoint_cycle_formed, acceptance_formed, faults_formed, implementation_isolated, justified, and signed
+  + [signature_status] is valid_for_minimum_llama_cpp_probe_implementation
+  + [implementation_authority] is limited_to_the_isolated_llama_cpp_tool_reflection_probe
+
+@ [official_server] https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md
+@ [official_function_calling] https://github.com/ggml-org/llama.cpp/blob/master/docs/function-calling.md
+@ [attention_scrutiny] C:\Project\Cantor\narrative\research\Cantor_Inference_Articulation_And_Tooling_Scrutiny_2026-07-29.sop
+@ [transportable_state] C:\Project\Cantor\specifications\Cantor_Transportable_Semantic_State_Compilation.sop

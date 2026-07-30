@@ -1,0 +1,47 @@
+Subject: Cantor Prepared Runtime File Change Surface
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Prepared_Runtime_Solution.sop
+
+& [FileChangeIdentity] is the implementation attribution record
+  + [record_uuid] is 28ceb2d0-d0cc-479f-a80f-29fdf7e970a4
+  + [solution_uuid] is 05c9ee54-f70c-4a88-aa8a-0b31352ef0e6
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at_ms] is 1785367167893
+
+& [AuthoritySurface] is source and SJS
+  + [added] is source_documents\2026-07-29_cantor_prepared_runtime
+  + [added] is specifications\exploded\Cantor_Prepared_Runtime.exploded.sop
+  + [added] is specifications\Cantor_Prepared_Runtime.sop
+  + [added] is justifications\Cantor_Prepared_Runtime_Justification.sop
+
+& [ImplementationSurface] is safe Rust core and MCP
+  + [added] is crates\cantor_core\src\prepared.rs
+  + [changed] is crates\cantor_core\src\protocol.rs to share validation, preparation, and response execution
+  + [changed] is crates\cantor_core\src\lib.rs to export PreparedRuntime
+  + [added] is crates\cantor_core\tests\prepared_runtime.rs
+  + [changed] is crates\cantor_core\tests\common\mod.rs for shared signed fixtures
+  + [changed] is crates\cantor_mcp\src\lib.rs to own core PreparedRuntime
+  + [changed] is crates\cantor_mcp\tests\mcp_protocol.rs to prove one preparation and one hit
+
+& [EvidenceSurface] is isolated and content-addressed
+  + [added] is experiments\prepared_runtime_benchmark
+  + [added] is scripts\summarize_prepared_runtime_evidence.ps1
+  + [added] is scripts\build_prepared_runtime_evidence_manifest.ps1
+  + [added] is docs\PREPARED_RUNTIME_DECISION.md
+  + [changed] is docs\PREPARED_RUNTIME_CANDIDATE.md to mark the handoff superseded
+
+& [GovernanceSurface] is closed
+  + [added] is feature_support\slices\PreparedRuntime.sop
+  + [added] is feature_support\PreparedRuntime_Requirement_Matrix.sop
+  + [added] is solutions\Cantor_Prepared_Runtime_Solution.sop
+  + [added] is proofs\Cantor_Prepared_Runtime_Proof.sop
+  + [added] is narrative\research\Cantor_Prepared_Runtime_Evidence.sop
+  + [added] is narrative\operational_faults\1785367167893_prepared_runtime_faults.sop
+  + [added] is narrative\turns\1785367167893_cantor_prepared_runtime.sop
+  + [changed] is plan, slice index, project narrative, conversation surface, README, and SOP core map
+
+& [Protection] is preservation of unrelated work
+  + [staging] is none
+  + [commit] is none
+  + [unrelated_changes] is preserved

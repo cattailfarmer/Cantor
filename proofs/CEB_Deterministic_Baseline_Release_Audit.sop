@@ -1,0 +1,106 @@
+Subject: Cantor Deterministic Baseline Release Audit
+
+@ [core_proof] C:\Project\Cantor\proofs\CEB_Slice_01_Core_IR_Proof.sop
+@ [trust_proof] C:\Project\Cantor\proofs\CEB_Slice_02_Trusted_Package_Proof.sop
+@ [query_proof] C:\Project\Cantor\proofs\CEB_Slice_03_Deterministic_Query_Proof.sop
+@ [CLI_proof] C:\Project\Cantor\proofs\CEB_Slice_04_CLI_Only_Proof.sop
+@ [subsequent_MCP_proof] C:\Project\Cantor\proofs\CEB_Slice_04_Codex_MCP_Proof.sop
+@ [operator_guide] C:\Project\Cantor\docs\CLI_PROTOCOL.md
+@ [build_plan] C:\Project\Cantor\plans\Cantor_Engine_Build_Plan.sop
+
+& [AuditIdentity] is the integrated CEB-001 through CEB-013 hardening record
+  + [audit_uuid] is 2a2bb640-a0a3-45c9-a157-f06770dab289
+  + [captured_at] is 2026-07-29T15:20:16.2066888-05:00
+  + [finalized_at] is 2026-07-29T15:43:10.4768578-05:00
+  + [working_tree] is C:\Project\Cantor
+  + [git_base] is 03a7118 on main and origin/main
+  + [result] is passed_with_explicit_nonclaims
+
+& [IntegratedTestEvidence] is seventy-three passing tests
+  + [Core_IR] is 8
+  + [trusted_package] is 27
+  + [deterministic_query] is 25
+  + [core_protocol] is 8
+  + [real_CLI_subprocess] is 5
+  + [failures] is 0
+  + [cargo_fmt] is passed
+  + [cargo_clippy] is workspace all targets with warnings denied passed
+  + [cargo_release] is workspace release build passed
+  + [release_overflow] is arithmetic overflow checking enabled and the complete optimized test suite passed
+  + [cargo_doc] is workspace no-dependency documentation build passed
+  + [locked_offline] is the complete workspace test suite passed with Cargo.lock and no network
+  + [unsafe_source] is no unsafe block, function, implementation, or trait declaration under either crate source tree
+
+& [DependencyAuditEvidence] is the current local RustSec scan
+  + [scanner] is cargo-audit 0.22.2 installed only under ignored .local audit tooling
+  + [advisory_database_records] is 1173
+  + [advisory_database_commit] is 7c7ccac53056b87f69ac677f15ea2d9a98a6f8e2
+  + [advisory_database_updated] is 2026-07-29T08:17:10-07:00
+  + [lockfile_dependencies] is 34
+  + [vulnerabilities] is 0
+  + [warnings] is 0
+
+& [ManualReviewCorrections] is implemented fault-driven hardening
+  + [scope_content] is every unit kind and perspective constrained by the signed package authority scope
+  + [scope_request] is query package scope constrained by the enclosing protocol request scope
+  + [package_set] is the runtime package set unique and exactly equal to caller bindings
+  + [semantic_completeness] is blank meaning, alias, source set, source path, relation source, proof identity, dependency identity or version, and compiler version rejected before signing
+  + [Unicode_source] is every quoted byte span constrained to valid UTF-8 character boundaries
+  + [strict_machine_form] is unknown nested state, package, query, result, and protocol fields rejected rather than ignored
+  + [bounded_identity_fault] is invalid long semantic identity reported by byte length and bounded preview rather than echoed in full
+  + [bounded_query_fault] is long unknown caller text reported by bounded preview and byte length rather than echoed in full
+  + [bounded_explanation] is per-candidate scoring explanation count capped with visible omission accounting
+  + [exact_index] is normalized exact and alias lookup served from the admission-verified signed index
+  + [global_identity] is semantic-unit and relation identities unique across the loaded package set
+  + [empty_term] is whitespace query input invalid rather than a lexical wildcard
+  + [request_completeness] is blank selectors and missing requested-detail demand rejected before lookup
+  + [authority_detail] is package proof accounted independently from record projection clipping
+  + [resident_detail] is a caller-resident unit suppresses only redundant record transmission and not newly requested source proof
+  + [inspection_proof] is inspect results digest-bound and semantic-unit inspection includes the signed source-document digest
+  + [continuation] is a closed typed protocol value verified against status
+  + [fault_projection] is partial protocol faults exactly equal core query faults
+  + [strong_verification] is exact deterministic re-execution available against a supervisor-pinned signed environment
+
+& [LiveReleaseEvidence] is freshly regenerated fixture operation
+  + [query_exit] is 0
+  + [query_status] is success
+  + [query_result_digest] is 8ef9c312312e7531038c38f263fd6c3304fcc147702187ca575e47afc1a6b659
+  + [environment_digest] is e40bbbab2763aa0ecb2b4c76d7c5d73f63a39a579d4c2938a89712d51a26f912
+  + [inspect_exit] is 0
+  + [inspect_status] is success
+  + [inspect_result_digest] is a9aa8cb0dd06916f321e3f065570def601151d1099484856f5d8726478a19627
+  + [stdout] is one JSON line for each operation
+  + [cold_process_iterations] is 100
+  + [cold_process_successes] is 100
+  + [cold_process_failures] is 0
+  + [cold_process_elapsed_milliseconds] is 515.6215
+  + [cold_process_average_milliseconds] is 5.156215
+  + [response_bytes] is 4230 including newline
+  + [core_iterations] is 1000 release queries with digest verification
+  + [core_elapsed_microseconds] is 20600
+  + [core_average_microseconds] is 20.600
+  + [measurement_boundary] is one small local fixture on this machine and not a production capacity claim
+
+& [ExplicitNonclaimSet] is retained honesty
+  + [security_review] is a focused implementation audit and test expansion rather than a third-party penetration test or formal verification
+  + [dependency_scan] is only as current and complete as the recorded RustSec database
+  + [response_digest] is consistency rather than authentication when an attacker can replace content and digest together
+  + [response_authenticity] remains the supervisor's trusted-executable and local-channel responsibility
+  + [keys] are public fixture keys and never production authority
+  + [signer_operation] is distinct cryptographic keys and roles but not production separation of duty because the fixture compiler process holds both signers
+  + [time_replay] is environment time operator-supplied and coordinated replay of an old request plus once-valid environment requires supervisor anti-rollback policy
+  + [caller_authentication] is absent; Cantor enforces declared scope containment while the supervisor must authenticate caller identity and derive ACL scope
+  + [relation_boundary] is relationship edges package-local until a separately governed cross-package link authority exists
+  + [canonical_interchange] is deterministic version-locked Rust serde_json rather than a proven cross-language canonical encoding
+  + [persistence] is in-memory only
+  + [MCP] is inactive_at_this_audit_capture; CEB-014 and CEB-015 were subsequently activated and passed under the linked separate proof
+  + [neural_routing] is inactive
+  + [FPGA] is inactive
+  + [provider_inference] is inactive
+  + [service_and_effects] are inactive
+  + [git_disposition] is audited changes remain unstaged in the preexisting broad working tree pending an intentional commit boundary
+
+& [AuditDisposition] is bounded baseline readiness
+  + [ready] is local embedded read-only signed-package query and inspect experimentation
+  + [not_ready] is production authority, hostile transport, remote service, large corpus, cross-package relation, or external effect execution
+  = conclusion: CEB-001 through CEB-013 form a coherent executable baseline with explicit trust and nonclaim boundaries

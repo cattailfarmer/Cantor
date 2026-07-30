@@ -1,0 +1,198 @@
+Subject: Cantor Self-Hosting Ingestion
+
+Description: Signed implementation authority for deterministic SOP parsing, signed corpus construction, and proof-carrying queries over Cantor's own canonical specifications.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-29_cantor_self_hosting_ingestion\Dictated_Cantor_Self_Hosting_Ingestion_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-29_cantor_self_hosting_ingestion\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Self_Hosting_Ingestion.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Self_Hosting_Ingestion_Justification.sop
+@ [language] C:\Project\Cantor\specifications\SOP_Core.sop
+@ [trust_compiler] C:\Project\Cantor\crates\cantor_core\src\trust\compiler.rs
+@ [protocol] C:\Project\Cantor\crates\cantor_core\src\protocol.rs
+
+& [CanonicalIdentity] is the accepted bounded ingestion authority
+  + [canonical_specification_uuid] is 470b328b-0b4c-432b-9e7b-b7d84a1cca0e
+  + [source_snapshot_uuid] is cd5a3fb9-42f1-47d2-9496-6a0a27c5424c
+  + [exploded_specification_uuid] is d5711738-fa32-407a-b692-d164b3f1b0ff
+  + [justification_uuid] is a1687296-09d0-460a-aeff-0f4a660a2572
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [source_profile] is cantor-sop-source/0.1
+  + [lowering_profile] is cantor-sop-lowering/0.1
+  + [corpus_profile] is cantor-sop-corpus/0.1
+  + [implementation_language] is safe Rust edition 2024
+  + [activation_state] is active_for_bounded_implementation_and_evidence
+
+& [AuthorityBoundary] is non-waivable
+  = must: preserve exact source bytes and bind every lowered unit to one verified quote
+  = must: reject every unsupported, malformed, ambiguous, duplicate, or out-of-limit input before signing
+  = must: use stable semantic identity independent of display path and line number
+  = must: keep private key material outside source, manifest, environment, request, response, log, and receipt artifacts
+  = must: preserve PackageCompiler, TrustStore, ProtocolRequest, ProtocolResponse, CLI, PreparedRuntime, and MCP semantic authority
+  - never: infer semantic relationships not declared by the bounded lowering profile
+  - never: claim full SOP, neural, database, service, distributed, model-state, or FPGA implementation through this slice
+
+& [BoundedSourceGrammar] is exact
+  + [metadata_subject] is exactly one unindented Subject colon followed by nonempty text
+  + [metadata_description] is zero or one unindented Description colon followed by nonempty text
+  + [named_subject] is ampersand, one space, bracketed nonempty name, one space, and nonempty body
+  + [named_member] is plus, one space, bracketed nonempty name, one space, and nonempty body
+  + [named_reference] is at sign, one space, bracketed nonempty name, one space, and nonempty body
+  + [named_claim] is exclamation mark, one space, bracketed nonempty name, one space, and nonempty body
+  + [directive] is equals sign, one space, and nonempty body
+  + [constraint] is minus sign, one space, and nonempty body
+  + [ignored] is blank lines and lines whose first nonspace byte is hash
+  + [indentation] is ASCII spaces in exact two-space levels with no tab
+  + [parent] is the nearest prior lowered node exactly one indentation level shallower
+  + [root] is a lowered node at zero indentation
+  + [encoding] is valid UTF-8
+  + [line_endings] is LF or CRLF
+  + [source_span] is marker through final non-line-ending byte and excludes indentation and line ending
+  - never: ignore an unknown nonblank line or decode invalid UTF-8 with replacement
+
+& [LoweringProfile] is conservative asserted meaning
+  + [ampersand] is UnitKind Term
+  + [plus] is UnitKind Declaration
+  + [at_sign] is UnitKind Relation
+  + [exclamation] is UnitKind Judgment
+  + [equals] is UnitKind Operation
+  + [minus] is UnitKind Contract
+  + [status] is Asserted
+  + [named_expression] is exact bracketed name content after outer whitespace trim
+  + [unnamed_expression] is exact body after outer whitespace trim
+  + [meaning] is exact body after outer whitespace trim
+  + [aliases] is empty
+  + [context] is exact manifest scope, purpose, perspective, and world
+  + [source_set] is stable document identity and source profile
+  + [containment] is one Narrower relation from the syntactic parent to each syntactic child
+  - never: resolve reference body text to an endpoint in this profile
+  - never: infer alias, equivalence, causation, support, contradiction, permission, or authority from prose
+
+& [StableIdentity] is digest-derived and collision-checked
+  + [document_key] is lowercase project, namespace, and explicit document_id joined with length-delimited canonical encoding
+  + [file_id] is file colon sop colon followed by lowercase first thirty-two hexadecimal SHA-256 digits of document_key
+  + [node_key] is document_key, marker family, parent node key, normalized local name when present, and SHA-256 of normalized body
+  + [normalization] is Unicode-preserving outer trim with ASCII case folding only
+  + [unit_id] is unit colon sop colon followed by lowercase sixty-four hexadecimal SHA-256 digits of node_key
+  + [clause_id] is clause colon sop colon followed by lowercase sixty-four hexadecimal SHA-256 digits of unit_id and source profile
+  + [relation_id] is relation colon sop colon followed by lowercase sixty-four hexadecimal SHA-256 digits of Narrower plus endpoints
+  + [relocation] is path and line number excluded from every semantic key
+  + [duplicate] is any repeated document_key, node_key, file_id, unit_id, clause_id, or relation_id faults
+  - never: append an encounter ordinal to repair identity collision
+
+& [ParserFault] is deterministic inspectable failure
+  + [kind] is InvalidManifest, Io, ResourceLimit, InvalidEncoding, InvalidSyntax, InvalidIndentation, DuplicateIdentity, Signing, Trust, ArtifactConflict, ArtifactWrite, or Verification
+  + [document_id] is present for document faults
+  + [path] is present when a file has been resolved
+  + [line] is one-based when a line exists
+  + [byte_start] is zero-based inclusive when a span exists
+  + [byte_end] is zero-based exclusive when a span exists
+  + [message] is deterministic and contains no source or private key bytes beyond a bounded escaped line preview
+  + [ordering] is document manifest order then byte_start then kind
+  = must: publish no environment when any parser or compilation fault exists
+
+& [ResourceLimits] is bounded before allocation growth
+  + [maximum_documents] is 256
+  + [maximum_document_bytes] is 16777216
+  + [maximum_corpus_bytes] is 67108864
+  + [maximum_lines_per_document] is 200000
+  + [maximum_nodes] is 1000000
+  + [maximum_relations] is 1000000
+  + [maximum_depth] is 128
+  + [maximum_name_bytes] is 512
+  + [maximum_body_bytes] is 65536
+  + [maximum_query_templates] is 256
+
+& [CorpusManifest] is strict portable configuration
+  + [version] is cantor-sop-corpus/0.1
+  + [source_root] is one relative directory resolved from the manifest directory
+  + [document] is unique document_id and a relative path resolved beneath canonical source_root
+  + [context] is nonempty project, namespace, scope, purpose, perspective, and world
+  + [compiler] is valid SemanticId compiler_id, compiler_version, authority_signer_id, and compiler_signer_id
+  + [trust] is nonempty dependency lock, proof identifiers, issue time, not-before time, and not-after time
+  + [query_template] is a filesystem-safe unique name, nonempty term set, optional subject, and nonempty requested detail set
+  + [unknown_fields] is rejected recursively
+  + [source_root_escape] is allowed only because source_root itself is an explicit reviewed manifest field
+  + [document_escape] is rejected after canonical resolution against source_root
+  - never: include private key bytes or key file paths
+
+& [OperatorCompiler] is the cantor-corpus binary
+  + [command] is cantor-corpus compile
+  + [required] is --manifest, --authority-key, --compiler-key, and --output
+  + [optional] is --replace
+  + [seed] is exactly thirty-two raw bytes or sixty-four ASCII hexadecimal digits plus zero or one final LF or CRLF
+  + [separation] is signer identifiers differ and seed bytes differ
+  + [preflight] is parse all documents, lower all units, detect all collisions, compile, construct trust store, admit package, construct requests, execute requests, and verify responses in memory
+  + [output] is environment.json, inspect-fabric.json, query-NAME.json, and build-manifest.json
+  + [publication] is same-directory temporary file, flush, close, and atomic rename for each absent or explicitly replaceable target
+  + [receipt] is one JSON record containing profiles, public key fingerprints, package identity, certificate identity, environment digest, unit count, relation count, source count, artifact hashes, and timings
+  + [replacement] is rejected unless --replace is explicit
+  - never: emit, copy, hash into receipt, or persist private seed bytes
+
+& [InitialSelfHostedCorpus] is tracked and reviewed
+  + [manifest] is corpus\self_hosted\corpus.json
+  + [source] is specifications\SOP_Core.sop
+  + [source] is specifications\Cantor_Semantic_Coprocessor_Identity.sop
+  + [source] is specifications\Cantor_Prepared_Runtime.sop
+  + [query] is SemanticUnit requesting Term, Clause, SourceSpan, and Authority
+  + [query] is Cantor requesting Term, Clause, SourceSpan, and Authority
+  + [query] is PreparedRuntime requesting Term, Clause, SourceSpan, and Authority
+  + [inspect] is fabric
+  = must: compile every nonblank noncomment semantic line or reject the source
+
+& [ArtifactAuthorityBoundary] is explicit
+  + [tracked] is corpus manifest, source documents, schema contract, tests, benchmark method, and proof hashes
+  + [generated_local] is key inputs, signed environment, requests, build receipt, and benchmark raw output
+  + [ignore] is generated_local under .local
+  + [rebuild] is mandatory after any selected source, manifest, compiler, dependency, validity, or key change
+  + [runtime] is authorized only by recognized signatures, current TrustStore, exact environment digest, expected package set, requested scope, and proof verification
+  - never: authorize a changed source through a previously generated package
+
+& [AcceptanceGate] is SHI-AC1 through SHI-AC15
+  @ [definition] C:\Project\Cantor\specifications\exploded\Cantor_Self_Hosting_Ingestion.exploded.sop
+
+& [SJSProcessingTrace] is artifact-bound
+  + [processed_stage_set] is source_preserved, delineated, data_designed, exploded, semantically_refined, constraint_checked, pruned, seven_fold_phase_locked, justified, planned, registry_recorded, and signed
+  + [source_sha256] is F04B0FA2997C409F8207E4F7BF3023FE4BD2CCFF281807107A4229D6BEA80AEE
+  + [exploded_sha256] is 2860E9C4B3A96E0AB8C4AE5B7C259651D0BE2B2CB08A123473D1E0BC43ACDA8F
+  + [delineation_evidence] is Exploded Cantor Self-Hosting Ingestion DelineationTrace
+  + [data_design_evidence] is ConceptualDataModel and LogicalDataModel
+  + [semantic_refinement_evidence] is neural ingestion refined to deterministic bounded source lowering before learned routing
+  + [constraint_check_evidence] is Exploded Cantor Self-Hosting Ingestion ConstraintCheckTrace
+  + [pruning_evidence] is Exploded Cantor Self-Hosting Ingestion PruningTrace
+  + [fold_evidence] is Exploded Cantor Self-Hosting Ingestion SevenFoldTrace
+  + [justification_evidence] is C:\Project\Cantor\justifications\Cantor_Self_Hosting_Ingestion_Justification.sop
+  + [exhaustion_state] is seven_fold_phase_locked_for_bounded_self_hosting_ingestion
+
+& [RegistryRecord] is SJS lineage
+  + [registry_uuid] is bdca872c-36e6-4088-9acb-a4de1b03cf1f
+  + [source_node_uuid] is cd5a3fb9-42f1-47d2-9496-6a0a27c5424c
+  + [exploded_node_uuid] is d5711738-fa32-407a-b692-d164b3f1b0ff
+  + [canonical_node_uuid] is 470b328b-0b4c-432b-9e7b-b7d84a1cca0e
+  + [justification_node_uuid] is a1687296-09d0-460a-aeff-0f4a660a2572
+  + [solution_node_uuid] is bb88172a-e70e-4a1a-aba3-20dfa572ec40
+  + [superseded_signature_uuid] is 22a33f78-83a5-453b-b923-92b23c2f10a5
+  + [prior_signature_uuid] is 95339d01-0b4a-4b43-b68b-bfaca432f35c
+  + [signature_uuid] is 74f2cb02-84e4-45b2-98ca-1883c9e5d54d
+  + [edge] is source_node_uuid derived_to exploded_node_uuid
+  + [edge] is exploded_node_uuid promoted_to canonical_node_uuid
+  + [edge] is canonical_node_uuid justified_by justification_node_uuid
+  + [edge] is canonical_node_uuid reserved_for solution_node_uuid
+  + [edge] is canonical_node_uuid signed_by signature_uuid
+
+& [SatisfactionSignature] is valid post-implementation SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 74f2cb02-84e4-45b2-98ca-1883c9e5d54d
+  + [prior_signature_uuid] is 95339d01-0b4a-4b43-b68b-bfaca432f35c
+  + [prior_signature_disposition] is invalidated_during_early_implementation_by_portable_source_root_boundary_review
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-29_cantor_self_hosting_ingestion\Dictated_Cantor_Self_Hosting_Ingestion_Source.sop
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Self_Hosting_Ingestion.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+  + [registry_record] is Cantor Self-Hosting Ingestion RegistryRecord
+  + [processed_stage_set] is source_preserved, delineated, data_designed, exploded, semantically_refined, constraint_checked, pruned, seven_fold_phase_locked, justified, planned, registry_recorded, signed, implemented, self_hosted_corpus_compiled, exact_queries_verified, direct_CLI_verified, real_MCP_verified, measured, release_verified, and post_implementation_confirmed
+  + [exhaustion_state] is seven_fold_phase_locked_for_bounded_self_hosting_ingestion
+  + [post_implementation_confirmation] is 3 reviewed sources lowered to 417 signed units and 360 containment relations; exact SemanticUnit, Cantor, and PreparedRuntime quotes passed core, release CLI, and real MCP execution; 101 debug and 101 release tests, formatting, warnings-denied lint, release build, documentation, experiment, and RustSec gates passed
+  + [package_id] is package:sha256:4e6e4b14d13c022b60643b77ced08081b8b5efc6a75152953c3d97f83b0ade30 for the public local evidence-key build
+  + [environment_digest] is e59ea0ba39303627a7fad47a9c2892173e2f75e17bf91bc14dac5ffb00e7545b for the public local evidence-key build
+  + [signature_status] is valid_post_implementation_confirmation
+  + [invalidation_condition] is source change, broken source or explosion hash, missing trace, grammar contradiction, silent syntax loss, identity instability, source-anchor mismatch, private-key disclosure, failed acceptance gate, or registry conflict

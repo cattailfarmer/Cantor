@@ -1,0 +1,84 @@
+{
+  "corpus_version": "cantor-sop-corpus/0.1",
+  "source_root": "../..",
+  "context": {
+    "project": "cantor",
+    "namespace": "self_hosted",
+    "source_scope": "cantor_self_hosted",
+    "purpose": "resolve governed Cantor meaning",
+    "perspective": "canonical",
+    "world": "cantor-self-hosted/0.1"
+  },
+  "compiler": {
+    "compiler_id": "compiler:cantor_sop_0_1",
+    "compiler_version": "0.1.0",
+    "authority_signer_id": "signer:cantor_self_hosted_authority",
+    "compiler_signer_id": "signer:cantor_self_hosted_compiler"
+  },
+  "dependency_lock": {
+    "cantor-core": "0.1.0",
+    "cantor-sop-lowering": "0.1",
+    "cantor-sop-source": "0.1"
+  },
+  "proof_ids": [
+    "sjs:74f2cb02-84e4-45b2-98ca-1883c9e5d54d"
+  ],
+  "issued_at_epoch_seconds": 1785373380,
+  "not_before_epoch_seconds": 1785283200,
+  "not_after_epoch_seconds": 2103840000,
+  "documents": [
+    {
+      "document_id": "sop_core",
+      "path": "specifications/SOP_Core.sop"
+    },
+    {
+      "document_id": "cantor_identity",
+      "path": "specifications/Cantor_Semantic_Coprocessor_Identity.sop"
+    },
+    {
+      "document_id": "prepared_runtime",
+      "path": "specifications/Cantor_Prepared_Runtime.sop"
+    }
+  ],
+  "queries": [
+    {
+      "name": "semantic-unit",
+      "terms": [
+        "SemanticUnit"
+      ],
+      "subject": null,
+      "requested_detail_kinds": [
+        "Term",
+        "Clause",
+        "SourceSpan",
+        "Authority"
+      ]
+    },
+    {
+      "name": "cantor",
+      "terms": [
+        "Cantor"
+      ],
+      "subject": null,
+      "requested_detail_kinds": [
+        "Term",
+        "Clause",
+        "SourceSpan",
+        "Authority"
+      ]
+    },
+    {
+      "name": "prepared-runtime",
+      "terms": [
+        "PreparedRuntime"
+      ],
+      "subject": null,
+      "requested_detail_kinds": [
+        "Term",
+        "Clause",
+        "SourceSpan",
+        "Authority"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+Subject: Cantor Self-Hosting Ingestion File Change Surface
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Self_Hosting_Ingestion_Solution.sop
+
+& [FileChangeIdentity] is the implementation attribution record
+  + [record_uuid] is 5987dc70-83c4-4a6c-a6af-2bb58855807b
+  + [solution_uuid] is bb88172a-e70e-4a1a-aba3-20dfa572ec40
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at_ms] is 1785375235586
+
+& [AuthoritySurface] is governed source and SJS
+  + [added] is source_documents\2026-07-29_cantor_self_hosting_ingestion
+  + [added] is specifications\exploded\Cantor_Self_Hosting_Ingestion.exploded.sop
+  + [added] is specifications\Cantor_Self_Hosting_Ingestion.sop
+  + [added] is justifications\Cantor_Self_Hosting_Ingestion_Justification.sop
+
+& [ImplementationSurface] is safe Rust parser and operator compiler
+  + [added] is crates\cantor_core\src\sop.rs
+  + [changed] is crates\cantor_core\src\lib.rs
+  + [added] is crates\cantor_core\tests\sop_ingestion.rs
+  + [added] is crates\cantor_cli\src\corpus_main.rs
+  + [changed] is crates\cantor_cli\Cargo.toml
+  + [added] is crates\cantor_cli\tests\corpus_cli.rs
+  + [added] is crates\cantor_mcp\tests\self_hosted_corpus.rs
+  + [added] is corpus\self_hosted\corpus.json
+
+& [EvidenceSurface] is measured and content-addressed
+  + [added] is experiments\self_hosted_corpus_benchmark
+  + [added] is scripts\summarize_self_hosted_corpus_evidence.ps1
+  + [added] is scripts\build_self_hosted_corpus_evidence_manifest.ps1
+  + [added] is docs\SELF_HOSTED_CORPUS.md
+  + [changed] is README.md
+
+& [GovernanceSurface] is complete
+  + [added] is feature_support\slices\SelfHostingIngestion.sop
+  + [added] is feature_support\SelfHostingIngestion_Requirement_Matrix.sop
+  + [added] is solutions\Cantor_Self_Hosting_Ingestion_Solution.sop
+  + [added] is proofs\Cantor_Self_Hosting_Ingestion_Proof.sop
+  + [added] is narrative\operational_faults\1785375235586_self_hosting_ingestion_faults.sop
+  + [added] is narrative\turns\1785375235586_cantor_self_hosting_ingestion.sop
+  + [changed] is plan, slice index, project narrative, conversation surface, README, and SOP core map
+
+& [Protection] is separation of generated and unrelated state
+  + [generated_local] is .local\cantor-self-hosted ignored and excluded from Git
+  + [build_state] is target directories ignored and excluded from Git
+  + [secrets] is no tracked private key input
+  + [checkpoint] is one intentional project-wide baseline commit because all prior governed product files were still untracked after the repository seed

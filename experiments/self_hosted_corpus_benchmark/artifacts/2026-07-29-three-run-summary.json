@@ -1,0 +1,73 @@
+{
+    "profile":  "cantor-self-hosted-corpus-evidence/0.1",
+    "captured_at":  "2026-07-29",
+    "run_count":  3,
+    "iterations_per_run":  30,
+    "source_count":  3,
+    "unit_count":  417,
+    "relation_count":  360,
+    "source_bytes":  33551,
+    "environment_bytes":  1145521,
+    "request_bytes":  1912,
+    "correctness_mismatches":  0,
+    "prepared_projection_preparations_per_run":  1,
+    "prepared_projection_hits_per_run":  30,
+    "ranges_microseconds":  {
+                                "parse_lower":  {
+                                                    "median_min":  1460.5,
+                                                    "median_max":  1539.3,
+                                                    "p95_min":  1572.7,
+                                                    "p95_max":  1683
+                                                },
+                                "compile_signed_package":  {
+                                                               "median_min":  6644.1,
+                                                               "median_max":  6753.2,
+                                                               "p95_min":  7075.4,
+                                                               "p95_max":  7328.4
+                                                           },
+                                "full_build_preflight":  {
+                                                             "median_min":  67924.6,
+                                                             "median_max":  68262.7,
+                                                             "p95_min":  71486.8,
+                                                             "p95_max":  74953.5
+                                                         },
+                                "environment_load":  {
+                                                         "median_min":  2253.5,
+                                                         "median_max":  2273.2,
+                                                         "p95_min":  2472.9,
+                                                         "p95_max":  2762
+                                                     },
+                                "direct_query":  {
+                                                     "median_min":  6131.4000000000005,
+                                                     "median_max":  6287.3,
+                                                     "p95_min":  6850.5,
+                                                     "p95_max":  7461.2999999999993
+                                                 },
+                                "prepared_hit":  {
+                                                     "median_min":  47,
+                                                     "median_max":  47.5,
+                                                     "p95_min":  50.3,
+                                                     "p95_max":  75.6
+                                                 }
+                            },
+    "raw_reports":  {
+                        "2026-07-29-run-1.json":  {
+                                                      "sha256":  "29553BED3061CF9A37609214F127ADC78B42676D04121F02261CB095FE7D33B9",
+                                                      "bytes":  1150
+                                                  },
+                        "2026-07-29-run-2.json":  {
+                                                      "sha256":  "354AD97A93616A531A0536A29865FE86E54E65CF76423D8D9F008B56064EB93F",
+                                                      "bytes":  1096
+                                                  },
+                        "2026-07-29-run-3.json":  {
+                                                      "sha256":  "98C7953F9C30E2FC707D1FAC703531897EB30753E8543D5302405B2BE332F039",
+                                                      "bytes":  1104
+                                                  }
+                    },
+    "limitations":  [
+                        "one Windows host and one release build profile",
+                        "three reviewed Cantor specifications rather than a terabyte-scale corpus",
+                        "in-process latency rather than service transport latency",
+                        "fixed public benchmark-only signing seeds"
+                    ]
+}
