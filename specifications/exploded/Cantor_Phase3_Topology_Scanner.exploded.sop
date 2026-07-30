@@ -1,0 +1,61 @@
+Subject: Cantor Phase3 Topology Scanner Exploded Specification
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+
+& [IdentityAxis] distinguishes names from physical objects
+  + [path] is a canonical candidate-relative name
+  + [strong_identity] is volume serial plus 128-bit file ID
+  + [link_count] detects additional names
+  + [scope] is one scan and never timeless identity
+
+& [TraversalAxis] makes descent conditional
+  + [enumerate] names a prospective child
+  + [open_no_follow] obtains the terminal entry
+  + [classify] records attributes, identity, links, and streams
+  + [gate] admits ordinary directory descent only after every precondition passes
+  + [repeat] detects intervening changes
+
+& [AliasAxis] is uniformly rejecting
+  + [symlink] is reparse
+  + [junction] is reparse
+  + [mount_point] is reparse
+  + [other_reparse] is reparse
+  + [hard_link] is link count not one
+  + [same_object] is duplicate strong identity
+
+& [StreamAxis] distinguishes absence from inability to observe
+  + [unnamed_default] is ordinary file content
+  + [named_data] is rejected
+  + [no_streams] is valid only where platform semantics permit it
+  + [unsupported] is an admission-denying platform fact
+  + [error] preserves operation and OS code
+
+& [RepositoryAxis] treats Git controls as interpretation authority
+  + [candidate_content] excludes the admitted control boundary
+  + [top_level_control] is fixed and separately digested
+  + [nested_control] is rejected
+  + [sparse_or_submodule] is rejected
+  + [configuration_drift] is rejected
+
+& [LimitAxis] bounds every multiplicative dimension
+  + [breadth] is entry count
+  + [depth] is directory depth
+  + [name] is path bytes
+  + [content] is per-file and aggregate bytes
+  + [streams] is per-entry enumeration
+  + [duration] is monotonic deadline
+
+& [RaceAxis] states evidence strength honestly
+  + [handle] stabilizes terminal-object queries
+  + [pre_post] catches many object changes
+  + [double_inventory] catches many tree changes
+  + [gap] is not atomic snapshot
+  + [response] is quarantine on observed or possible drift
+
+& [AuthorityAxis] is five separately activated stages
+  + [M2A] forms
+  + [M2B] binding and unsafe review
+  + [M2C] read-only implementation
+  + [M2D] fixtures
+  + [M2E] integration
+  - never: infer a later authority from an earlier artifact

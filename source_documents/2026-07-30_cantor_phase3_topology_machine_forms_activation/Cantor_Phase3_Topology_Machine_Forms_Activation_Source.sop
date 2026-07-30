@@ -1,0 +1,65 @@
+Subject: Cantor Phase3 Topology Machine Forms Activation Source
+
+& [SourceIdentity] is a governed M2A implementation-source reconciliation
+  + [source_uuid] is 6bde3ee4-b0e1-45f3-94fe-9b842ac289cf
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30T12:39:56.3468108-05:00
+  + [status] is selected_for_M2A_only
+
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [formation_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_scanner_formation\Cantor_Phase3_Topology_Scanner_Formation_Source.sop
+@ [API_assessment] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_API_Assessment_2026-07-30.sop
+@ [M1_forms] C:\Project\Cantor\specifications\Cantor_Phase3_Strict_Pure_Machine_Forms.sop
+
+& [SelectedIntention] is M2A strict pure topology forms
+  + [purpose] is make scanner inputs, observations, receipts, consumption evidence, and runtime-fault reports compiler-checkable before any operating-system adapter exists
+  + [implementation_location] is one focused safe-Rust module in cantor_ecosystem
+  + [input] is caller-owned in-memory values or strict JSON bytes
+  + [output] is validated immutable values or a bounded typed form fault
+
+& [SelectedForms] are minimal dependencies for M2B and M2C
+  + [TopologyScanLimits] bounds entries, depth, path bytes, per-file bytes, total bytes, streams per entry, and one monotonic deadline tick
+  + [StrongFileIdentity] is volume serial plus canonical 128-bit file ID
+  + [TopologyEntryObservation] represents root, directory, or regular-file evidence with coherent content fields
+  + [TopologyStreamFact] distinguishes the unnamed default data stream from a named stream
+  + [TopologyReceipt] binds the predecessor, policy, nonce, inventory, limits, counts, consistency class, and freshness interval
+  + [TopologyReceiptConsumption] binds one receipt digest to one mutation-work-packet digest at one in-range monotonic tick
+  + [TopologyRuntimeFault] preserves a closed operation, fault class, optional safe path, optional OS code, possible-change flag, and exact disposition
+
+& [Validation] is strict and closed
+  + [JSON] rejects unknown fields and enum variants
+  + [text] is nonempty where required, NUL-free, and bounded
+  + [digest] is exactly 64 lowercase hexadecimal characters
+  + [file_ID] is exactly 32 lowercase hexadecimal characters
+  + [path] is absent for the root and otherwise canonical relative syntax excluding .git
+  + [entry] root path and kind, directory mode, regular content, link count, and stream facts are coherent
+  + [streams] are sorted, unique, bounded, and contain at most one unnamed default
+  + [receipt] has nonzero count, total within scan limits, quiescent-double-inventory strength only, and increasing freshness ticks
+  + [consumption] occurs within the declared freshness interval
+  + [fault] possible change always requires quarantine while deny-launch is only pre-change
+
+& [ImplementationBoundary] is effect-free
+  + [allowed] is closed types, semantic validation, strict serde, exhaustive unit tests, documentation, proof, and existing dependency use
+  + [forbidden] is filesystem, Windows API, raw handle, unsafe, path resolution, hashing actual files, clock, random source, environment, process, App Server, network, model, database, persistence, receipt ledger, candidate mutation, fixture, seal, cleanup, Git effect, and promotion
+  + [dependencies] is existing workspace dependencies only
+  = must: preserve every prior public interface and test
+
+& [Acceptance] is P3TF-001 through P3TF-010
+  + [P3TF-001] is strict JSON and bounded faults
+  + [P3TF-002] is hard positive scan limits
+  + [P3TF-003] is canonical strong identity
+  + [P3TF-004] is coherent entry and content evidence
+  + [P3TF-005] is sorted unique bounded stream evidence
+  + [P3TF-006] is canonical root-versus-descendant path semantics
+  + [P3TF-007] is complete receipt binding and honest consistency
+  + [P3TF-008] is in-range immutable consumption evidence
+  + [P3TF-009] is honest runtime-fault consequence
+  + [P3TF-010] is no effect surface plus global verification and rollback
+
+& [Rollback] is remove one pure module and one export
+  + [state_effect] is none
+  + [data_migration] is none
+
+& [ActivationBoundary] is M2A only
+  + [implementation_authority] is strict_pure_topology_machine_forms_only
+  - never: cite this source as dependency, unsafe, Win32, filesystem observation, physical fixture, scanner, sandbox, mutation, seal, cleanup, or promotion authority

@@ -1,0 +1,106 @@
+Subject: Cantor Phase3 Topology Machine Forms
+
+Description: Narrow M2A implementation authority for effect-free topology scanner values. It authorizes no platform observation or effect.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_machine_forms_activation\Cantor_Phase3_Topology_Machine_Forms_Activation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_phase3_topology_machine_forms_activation\Source_Document_Manifest.sop
+@ [formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Topology_Machine_Forms.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Phase3_Topology_Machine_Forms_Justification.sop
+@ [matrix] C:\Project\Cantor\feature_support\Phase3TopologyMachineForms_Requirement_Matrix.sop
+
+& [ImplementationUnit] is one safe pure Rust module
+  + [profile] is cantor-phase3-topology-forms/0.1
+  + [crate] is cantor_ecosystem
+  + [module] is topology_forms
+  + [dependencies] is existing serde and serde_json only
+  - never: import fs, os, process, net, time, env, random, key, database, provider, or model facilities
+
+& [Limits] are positive and capped
+  + [maximum_entries] is 1 through 1000000
+  + [maximum_depth] is 1 through 256
+  + [maximum_path_bytes] is 1 through 32768
+  + [maximum_file_bytes] is 1 through 1099511627776
+  + [maximum_total_bytes] is 1 through 4398046511104
+  + [maximum_streams_per_entry] is 1 through 1024
+  + [deadline_tick] is nonzero
+  = must: maximum_file_bytes cannot exceed maximum_total_bytes
+
+& [StrongFileIdentity] is exact
+  + [volume_serial] is unsigned 64-bit
+  + [file_id_hex] is exactly 32 lowercase hexadecimal characters
+  + [scope] is caller-owned and scan-local
+
+& [StreamFact] is coherent
+  + [name] is nonempty, NUL-free, and at most 1024 bytes
+  + [size] is unsigned 64-bit
+  + [kind] is unnamed_default or named_data
+  + [unnamed_default] requires name ::$DATA
+  + [named_data] rejects name ::$DATA
+
+& [EntryObservation] is structurally coherent
+  + [kind] is root_directory, directory, or regular_file
+  + [relative_path] is absent exactly for root_directory
+  + [descendant_path] is canonical, at most 32768 bytes, and excludes empty, dot, dot-dot, colon, backslash, NUL, and .git segments
+  + [mode_class] is directory, regular_non_executable, or regular_executable and matches kind
+  + [attributes] is caller-observed u32 without policy interpretation
+  + [identity] is required
+  + [number_of_links] is nonzero
+  + [streams] are sorted by name, unique, at most 1024, and contain at most one unnamed_default
+  + [length] and [content_sha256] are present exactly for regular_file
+  + [observation_ordinal] is caller-owned and nonzero
+  - never: interpret a valid observation form as an admitted entry
+
+& [Receipt] is a fresh content-addressed claim
+  + [profile] equals cantor-phase3-topology/0.1
+  + [candidate_root] is nonempty, NUL-free, and at most 32768 bytes while physical canonicality remains M2C responsibility
+  + [admission_profile] is nonempty, NUL-free, and at most 128 bytes
+  + [admission_receipt_sha256] and [policy_sha256] and [ordered_inventory_sha256] are canonical SHA-256
+  + [scan_nonce] is nonempty, NUL-free, and at most 256 bytes
+  + [entry_count] is nonzero and within limits
+  + [total_file_bytes] is within limits
+  + [consistency] is quiescent_double_inventory only
+  + [issued_tick] is less than [expires_tick]
+  + [expires_tick] is less than or equal to the bound scan deadline tick
+
+& [Consumption] is immutable use evidence
+  + [topology_receipt_sha256] and [mutation_work_packet_sha256] are canonical SHA-256
+  + [issued_tick] is less than or equal to [consumed_tick]
+  + [consumed_tick] is strictly less than [expires_tick]
+  - never: claim the pure form enforces global uniqueness; the future supervisor ledger must do so
+
+& [RuntimeFault] is honest
+  + [operation] is validate_request, enumerate_directory, open_entry, query_attributes, query_identity, query_links, enumerate_streams, read_content, repeat_inventory, or issue_receipt
+  + [class] is invalid_request, limit, path, reparse, hard_link, duplicate_identity, stream, attribute, special_entry, Git_topology, unsupported_platform, access, not_found, changed_during_scan, or other_OS
+  + [relative_path] when present obeys descendant path rules
+  + [os_error] is optional signed 32-bit evidence
+  + [may_have_changed] true requires quarantine_candidate
+  + [changed_during_scan] requires may_have_changed true and quarantine_candidate
+  + [deny_launch] requires may_have_changed false
+
+& [RequirementSet] is P3TF-001 through P3TF-010
+  + [P3TF-001] is strict JSON and bounded faults
+  + [P3TF-002] is hard positive scan limits
+  + [P3TF-003] is canonical strong identity
+  + [P3TF-004] is coherent entry and content evidence
+  + [P3TF-005] is sorted unique bounded stream evidence
+  + [P3TF-006] is canonical root-versus-descendant path semantics
+  + [P3TF-007] is complete receipt binding and honest consistency
+  + [P3TF-008] is in-range immutable consumption evidence
+  + [P3TF-009] is honest runtime-fault consequence
+  + [P3TF-010] is no effect surface plus global verification and rollback
+
+& [SJSProcessingTrace] is complete
+  + [problem] is later platform code otherwise invents incompatible values and false claims
+  + [justification] is invalid structural evidence should be rejected before I/O is activated
+  + [solution] is a closed pure module shared by later scanner and supervisor slices
+  + [faults] are malformed identity, incoherent entry, ambiguous stream, stale receipt, false fault consequence, and authority leakage
+  + [rollback] is remove module and export without migration
+
+& [SatisfactionSignature] is M2A implementation authority
+  + [signature_protocol_uuid] is a75790bb-76f6-443d-be6b-b4a16989e532
+  + [signature_uuid] is 4e28ac73-3296-4d57-8dd9-30cc2ac1f01f
+  + [source_snapshot_uuid] is 2ad2fbf2-ed93-4924-a83d-9cfa52395651
+  + [implementation_authority] is strict_pure_topology_machine_forms_only
+  + [signature_status] is valid
+  + [invalidation] is source change, new dependency, unsafe, filesystem, OS API, clock, random, environment, persistence, process, network, model, physical fixture, scanner authority, mutation, cleanup, or promotion

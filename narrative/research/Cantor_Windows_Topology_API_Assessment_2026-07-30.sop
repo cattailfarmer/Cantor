@@ -1,0 +1,111 @@
+Subject: Cantor Windows Topology API Assessment
+
+Description: Primary-source assessment of the smallest Windows observation surface capable of supporting Cantor Phase3B pre-mutation topology proof without following filesystem aliases.
+
+& [AssessmentIdentity] is a read-only design decision
+  + [assessment_uuid] is 03e24ad4-9f01-420c-9200-d535a2d55c4c
+  + [captured_at] is 2026-07-30T12:33:52.2008553-05:00
+  + [host] is x86_64-pc-windows-msvc
+  + [rustc] is 1.96.0 (ac68faa20 2026-05-25)
+  + [status] is stable_std_insufficient_narrow_Win32_adapter_required
+
+@ [topology_gap] C:\Project\Cantor\narrative\research\Cantor_PreMutation_Path_Topology_Gap_Assessment_2026-07-30.sop
+@ [physical_plan] C:\Project\Cantor\plans\Cantor_Phase3B_3C_Physical_Proof_Plan.sop
+@ [Rust_MetadataExt] C:\Users\enjer\.rustup\toolchains\stable-x86_64-pc-windows-msvc\share\doc\rust\html\std\os\windows\fs\trait.MetadataExt.html
+@ [Microsoft_file_attributes] https://learn.microsoft.com/en-us/windows/win32/fileio/file-attribute-constants
+@ [Microsoft_reparse_operations] https://learn.microsoft.com/en-us/windows/win32/fileio/reparse-point-operations
+@ [Microsoft_reparse_file_operations] https://learn.microsoft.com/en-us/windows/win32/fileio/reparse-points-and-file-operations
+@ [Microsoft_CreateFile] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew
+@ [Microsoft_GetFileInformationByHandle] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfileinformationbyhandle
+@ [Microsoft_BY_HANDLE_FILE_INFORMATION] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/ns-fileapi-by_handle_file_information
+@ [Microsoft_GetFileInformationByHandleEx] https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex
+@ [Microsoft_FILE_ID_INFO] https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_id_info
+@ [Microsoft_FindFirstStreamW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirststreamw
+@ [Microsoft_FindNextStreamW] https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findnextstreamw
+
+& [StableRustFinding] is safe but incomplete
+  + [available] is read_dir, symlink_metadata, MetadataExt.file_attributes, File open, streaming read, and hashing
+  + [file_attributes] has been stable since Rust 1.1.0
+  + [volume_serial_number] is nightly-only under windows_by_handle issue 63010
+  + [number_of_links] is nightly-only under windows_by_handle issue 63010
+  + [file_index] is nightly-only under windows_by_handle issue 63010
+  + [alternate_stream_enumeration] is absent from stable std
+  + [conclusion] is stable std alone cannot prove hard-link or alternate-stream policy
+
+& [ReparseFinding] is reject before descent
+  + [attribute] FILE_ATTRIBUTE_REPARSE_POINT is 0x00000400 and covers files or directories with an associated reparse point including symbolic links
+  + [open] CreateFileW with FILE_FLAG_OPEN_REPARSE_POINT prevents normal reparse processing for the terminal entry
+  + [directory] FILE_FLAG_BACKUP_SEMANTICS is required to obtain a directory handle
+  + [profile_0_1] rejects every reparse point regardless of tag
+  + [tag] may be captured for diagnosis through FileAttributeTagInfo but is not an admission discriminator
+  = must: inspect the entry itself before any descent
+  - never: canonicalize or open normally and then claim the alias was not followed
+
+& [IdentityFinding] requires the 128-bit form
+  + [legacy_identity] BY_HANDLE_FILE_INFORMATION exposes volume serial, 64-bit file index, and link count
+  + [legacy_limit] Microsoft states the 64-bit identifier is not guaranteed unique on ReFS
+  + [strong_identity] GetFileInformationByHandleEx with FileIdInfo returns FILE_ID_INFO
+  + [identity_tuple] is 64-bit volume serial plus 128-bit file identifier
+  + [scope] uniquely identifies a file on one computer according to the API contract
+  + [link_count] still comes from BY_HANDLE_FILE_INFORMATION.nNumberOfLinks
+  + [lifetime_limit] file identifiers can be reused or can change under filesystem-specific operations
+  = must: bind identity observations to one bounded scan and never treat them as timeless object names
+
+& [HardLinkFinding] is fail closed
+  + [ordinary_regular_file] requires number_of_links equal to one in profile 0.1
+  + [duplicate_identity] rejects two admitted paths with the same strong identity
+  + [unsupported_filesystem] rejects absent, partial, or inconsistent identity evidence
+  + [outside_alias_limit] link count greater than one proves another name exists but does not enumerate or locate it
+  + [policy_effect] rejection does not need to discover the outside alias
+
+& [StreamFinding] is complete named-data-stream accounting
+  + [enumeration] FindFirstStreamW yields the first ::$DATA stream and FindNextStreamW continues
+  + [file_default] ordinary files have the unnamed ::$DATA stream
+  + [directory_default] directories do not have an unnamed data stream by default
+  + [profile_0_1] rejects every named ::$DATA stream
+  + [unsupported] ERROR_INVALID_PARAMETER means the filesystem does not support streams and must be represented explicitly
+  + [empty] ERROR_HANDLE_EOF is a distinct no-stream result, not a generic success or failure
+  = must: close every stream-enumeration handle with FindClose
+
+& [ProposedAdapter] is one Windows-only observation seam
+  + [module] is windows_topology
+  + [open_entry_no_follow] returns an owned no-follow handle without exposing a raw handle to callers
+  + [query_attributes_and_tag] returns closed attribute and optional diagnostic-tag values
+  + [query_strong_identity] returns volume serial and 128-bit file identifier
+  + [query_link_count] returns the exact link count or a typed unsupported/error result
+  + [enumerate_data_streams] returns bounded canonical stream facts or a typed unsupported/error result
+  + [close] is RAII for file and enumeration handles
+  + [unsafe] if later authorized is confined to this module and individually justified around generated Win32 calls
+  - never: write, delete, rename, create, truncate, follow a reparse point, expose a raw handle, or suppress an operating-system error
+
+& [DependencyDecision] prefers generated bindings
+  + [current_lockfile] contains no windows-sys package
+  + [candidate] is a direct target-specific windows-sys dependency with only required Win32 feature groups
+  + [reason] is generated signatures, structures, constants, and handle types reduce handwritten ABI risk
+  + [rejection] is handwritten extern declarations unless a later measured dependency review proves generated bindings unsuitable
+  + [authority] is dependency proposal only
+
+& [RaceBoundary] remains visible
+  + [handle_strength] querying an opened no-follow handle reduces terminal-path substitution between metadata calls
+  + [walk_limit] directory enumeration and opening each child is not an atomic directory snapshot
+  + [double_inventory] detects many intervening changes but cannot prove atomicity
+  + [candidate_state] must remain quiescent and any identity or inventory drift quarantines the run
+  + [seal_strength] remains quiescent_double_inventory unless a separately proven OS snapshot is used
+  - never: label double inventory as an atomic snapshot
+
+& [ErrorPolicy] is closed and typed
+  + [not_found] is drift
+  + [access_denied] is unproven topology
+  + [unsupported] is unsupported topology
+  + [invalid_encoding] is unrepresentable path
+  + [resource_limit] is bounded-scan refusal
+  + [changed_during_scan] is quarantine
+  + [other_os_error] preserves operation and numeric Windows error without admitting the candidate
+  - never: downgrade observation failure to absence
+
+& [ActivationDecision] is form before effect
+  + [M2A] is strict scanner request, observation, policy, result, and fault forms with no I/O
+  + [M2B] is dependency and unsafe seam review
+  + [M2C] is read-only adapter and synthetic fixture implementation only after new authority
+  + [M2D] is adversarial fixture execution only after exact fixture-root authorization
+  + [current_authority] is M2A specification formation only

@@ -1,0 +1,55 @@
+Subject: Cantor Phase3 Topology Machine Forms Operational Faults
+
+& [FaultLedgerIdentity] is the M2A implementation fault record
+  + [ledger_uuid] is 83915cab-ac6f-418d-9282-22d092a362e9
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30
+  + [status] is complete
+
+& [HarnessTimeout] is a verification-command fault
+  + [fault] is the first focused invocation used a one-second process timeout and broke the Rust test-harness output pipe after compilation
+  + [effect] is no repository content or semantic test result changed
+  + [repair] is rerun with a thirty-second bound
+  + [status] is resolved
+
+& [FormatGate] is expected first-pass feedback
+  + [fault] is handwritten source had rustfmt ordering and wrapping deltas
+  + [repair] is apply cargo fmt and rerun the check
+  + [status] is resolved
+
+& [StreamOrderingFixture] is found by focused tests
+  + [fault] is the positive fixture placed :named:$DATA before ::$DATA despite canonical byte order
+  + [repair] is correct the fixture while preserving strict ordered evidence
+  + [status] is resolved_and_retested
+
+& [ReceiptLimitBinding] is found by adversarial review
+  + [fault] is the first receipt form embedded limits but did not constrain expiry to their monotonic deadline
+  + [repair] is bind expiry at or before the scan deadline and add a failing boundary fixture
+  + [status] is resolved_and_retested
+
+& [PowerShellExecutionPolicy] is a local evidence-command fault
+  + [fault] is direct invocation of the manifest script was blocked by the host execution policy
+  + [effect] is the first invocation made no content change
+  + [repair] is invoke the repository script through powershell with an explicit process-scoped Bypass policy
+  + [status] is resolved
+
+& [PredecessorManifestStaleness] is expected fail-closed evidence behavior
+  + [fault] is the first global release gate found the older Candidate Workspace Admission manifest still bound the pre-M2A public lib.rs
+  + [repair] is regenerate the complete resident-service through M1 predecessor evidence chain in dependency order and patch every proof digest
+  + [status] is resolved_and_rechecked
+
+& [EvidenceCardinalityFixture] is found by the release gate
+  + [fault] is the new verifier expected at least 33 artifacts while its explicit closed list contains 32
+  + [repair] is correct the assertion to the actual minimum without removing any evidence path
+  + [status] is resolved_and_rechecked
+
+& [OuterReleaseGateTimeout] is a verification-command fault
+  + [fault] is the first combined global release command reached its sixty-second outer bound after successful compilation and closed the test output pipe
+  + [effect] is no semantic test failure and no repository mutation
+  + [repair] is rerun the cached release suite alone with a larger bound
+  + [status] is resolved_and_full_suite_passed
+
+& [FinalGate] is complete
+  + [result] is 229 debug tests, 229 overflow-checked release tests, warnings-denied lint, release build, warnings-denied documentation, clone-portable current and predecessor evidence, and audit
+  + [audit] is 112 locked dependencies checked against 1173 advisories with zero vulnerabilities
+  + [status] is resolved

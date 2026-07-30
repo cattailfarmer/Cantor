@@ -14,6 +14,7 @@ pub mod model;
 pub mod phase3_evidence;
 pub mod review;
 pub mod runtime;
+pub mod topology_forms;
 pub mod transcript;
 pub mod workspace_admission;
 
@@ -23,6 +24,7 @@ pub use model::*;
 pub use phase3_evidence::*;
 pub use review::*;
 pub use runtime::*;
+pub use topology_forms::*;
 pub use transcript::*;
 pub use workspace_admission::*;
 

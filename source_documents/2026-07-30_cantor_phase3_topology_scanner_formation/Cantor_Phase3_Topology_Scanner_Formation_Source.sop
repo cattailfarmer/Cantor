@@ -1,0 +1,96 @@
+Subject: Cantor Phase3 Topology Scanner Formation Source
+
+& [SourceIdentity] is a governed design-source reconciliation
+  + [source_uuid] is c1195648-76dc-4780-99af-9ce1245e9d6b
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-30T12:33:52.2008553-05:00
+  + [status] is selected_for_M2A_formation_only
+
+@ [Phase3B_formation] C:\Project\Cantor\specifications\Cantor_Bounded_Candidate_Mutation.sop
+@ [topology_gap] C:\Project\Cantor\narrative\research\Cantor_PreMutation_Path_Topology_Gap_Assessment_2026-07-30.sop
+@ [physical_proof_plan] C:\Project\Cantor\plans\Cantor_Phase3B_3C_Physical_Proof_Plan.sop
+@ [API_assessment] C:\Project\Cantor\narrative\research\Cantor_Windows_Topology_API_Assessment_2026-07-30.sop
+
+& [SelectedIntention] is specify the complete M2 topology scanner before effect code
+  + [purpose] is prove the entire candidate descendant topology safe for the initial mutation profile
+  + [placement] is after fresh Phase3A receipt equality and before any writable App Server launch
+  + [input] is exact candidate root, admission receipt digest and profile, scan profile, and hard limits
+  + [output] is a single-use TopologyReceipt or a typed fail-closed fault
+
+& [Profile] is cantor-windows-candidate-topology/0.1
+  + [platform] is Windows desktop on a locally observed filesystem
+  + [entries] are directories and regular files only
+  + [reparse] every reparse point is rejected
+  + [hard_link] every regular file with link count other than one is rejected
+  + [identity] every duplicate strong file identity is rejected
+  + [stream] every named data stream is rejected
+  + [special] every device, socket-like, unknown, offline, recall-on-open, recall-on-data-access, or unsupported entry is rejected
+  + [Git] nested repositories, nested .git entries, sparse checkout, submodules, and control drift are rejected
+
+& [Completeness] is whole candidate not only allowed paths
+  + [walk] is deterministic, no-follow, entry-before-descent, and resource-bounded
+  + [ordering] is canonical relative path byte order
+  + [records] include path, kind, attributes, identity, link count, stream facts, length, mode class, and content digest where applicable
+  + [root] is included as an observed directory record
+  + [boundary] excludes Git metadata as candidate content but separately proves its fixed control facts
+
+& [StrongIdentity] is scan-local
+  + [tuple] is volume serial plus 128-bit file identifier
+  + [link_count] is obtained separately from the opened entry
+  + [handle] is opened without following terminal reparse processing
+  + [reuse] is never interpreted beyond the bounded scan
+
+& [Freshness] is single use
+  + [receipt] binds candidate root identity, Phase3A receipt digest, scan profile, policy digest, ordered inventory root, scan nonce supplied by caller, and result
+  + [expiry] is any candidate observation or mutation mismatch, App Server launch attempt, elapsed freshness bound, or use attempt
+  + [consumption] is exactly once by a matching MutationWorkPacket
+  - never: reuse a receipt across jobs, roots, admission receipts, policies, or launches
+
+& [Limits] are caller-declared and policy-bounded
+  + [maximum_entries] is finite
+  + [maximum_depth] is finite
+  + [maximum_path_bytes] is finite
+  + [maximum_file_bytes] is finite
+  + [maximum_total_bytes] is finite
+  + [maximum_streams_per_entry] is finite
+  + [deadline] is explicit and monotonic
+  = must: reject before exceeding any limit
+
+& [Faults] are admission-denying
+  + [topology_drift] is changed, vanished, replaced, or newly appeared entry
+  + [alias] is reparse point, unexpected link count, or duplicate identity
+  + [stream] is named, malformed, unbounded, or unobservable data stream
+  + [special] is unsupported entry or attribute
+  + [Git] is nested control, sparse, submodule, or control mismatch
+  + [platform] is unsupported identity, stream, filesystem, encoding, or API behavior
+  + [resource] is any hard bound
+  + [OS] preserves operation and numeric error
+  + [consequence] is no writable worker may launch and candidate state is unresolved if drift is possible
+
+& [ImplementationSequence] is gated
+  + [M2A] strict pure request, observation, policy, receipt, and fault forms
+  + [M2B] target-specific windows-sys dependency and unsafe-seam review
+  + [M2C] safe scanner plus confined read-only Windows adapter
+  + [M2D] authorized synthetic adversarial fixtures and exact-boundary proof
+  + [M2E] integration into fresh receipt revalidation and MutationWorkPacket
+
+& [CurrentBoundary] is formation only
+  + [allowed] is source preservation, SJS, canonical specification, exploded axes, justification, plan, requirement accounting, and research
+  + [forbidden] is Cargo dependency change, unsafe, Win32 call, filesystem scan, fixture creation, link or stream creation, writable sandbox, App Server launch, mutation, seal, cleanup, Git publication of a candidate, and promotion
+  - never: cite this source as implementation or execution authority
+
+& [Acceptance] is P3TS-001 through P3TS-014
+  + [P3TS-001] is whole-root deterministic no-follow inventory
+  + [P3TS-002] is entry-before-descent reparse rejection
+  + [P3TS-003] is 128-bit scan-local identity
+  + [P3TS-004] is hard-link and duplicate-identity rejection
+  + [P3TS-005] is complete named-stream accounting
+  + [P3TS-006] is special and unsupported entry rejection
+  + [P3TS-007] is nested Git and sparse-state rejection
+  + [P3TS-008] is hard resource and deadline limits
+  + [P3TS-009] is typed fail-closed OS and platform faults
+  + [P3TS-010] is single-use receipt binding and expiry
+  + [P3TS-011] is explicit non-atomic race boundary
+  + [P3TS-012] is isolated generated Win32 binding proposal
+  + [P3TS-013] is no authority leakage across M2 gates
+  + [P3TS-014] is verification, evidence, rollback, and later integration closure
