@@ -1,0 +1,101 @@
+Subject: Cantor M2B Post Supplied Topology Inventory Assembly Architecture Review
+
+Description: Between-slice review after supplied mixed-carrier set coherence is proven. It selects one zero-effect canonical ordered-inventory encoding and digest boundary while separating a supplied structural commitment from physical enumeration, completeness, double inventory, receipt, and admission.
+
+@ [topology_forms] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [scanner_formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [inventory_assembly] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Topology_Inventory_Assembly.sop
+@ [inventory_proof] C:\Project\Cantor\proofs\Cantor_M2B_Supplied_Topology_Inventory_Assembly_Proof.sop
+
+& [ReviewIdentity] is exact
+  + [review_uuid] is 031c4756-031d-47ca-9912-dfd8112bf50b
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [baseline_commit] is 3b4c33b3b50731da7e4c298775ac0eabdf5ad257
+  + [status] is checkpoint_complete_next_pure_boundary_selected
+
+& [ClosedSupport] is exact
+  + the output-only assembly owns one root carrier and every ordered descendant carrier without accepting raw observations
+  + current M2A validation, common volume, five duplicate classes, limits, parent closure, component-aware order, contiguous ordinals, entry count, and total file bytes are proven
+  + the assembly exposes immutable ordered members and each member exposes its complete TopologyEntryObservation
+  + physical origin, enumeration completeness, traversal provenance, Git reconciliation, double inventory, receipt, and admission remain absent
+
+& [SupportDelta] now exposes the inventory commitment seam
+  + [closed] one deterministic structurally coherent observation order
+  + [still_open] one versioned canonical byte grammar for every observation field
+  + [still_open] unambiguous type, field, optional-value, string, byte, sequence, and entry framing
+  + [still_open] one aggregate SHA-256 over the exact ordered observation sequence
+  + [still_open] physical producer, enumeration completeness, Git reconciliation, repeated inventory equality, receipt issuance, and admission
+
+& [CandidateComparison] is dependency ordered
+  + [candidate_A] physical producer or scanner
+    - rejected because platform enumeration, per-entry handle provenance, traversal, and further physical execution remain unsigned
+  + [candidate_B] TopologyReceipt construction
+    - rejected because a receipt requires physical root binding, policy and predecessor bindings, nonce and time semantics, quiescent double inventory, and issuance authority that are absent
+  + [candidate_C] generic JSON serialization hash
+    - rejected because serializer configuration and textual representation are not the explicit stable binary contract required for a long-lived inventory commitment
+  + [candidate_D] hash complete carrier serialization
+    - rejected because carrier identities and supplied lineage are not fields of the scanner inventory record and would make the digest incompatible with its intended semantic subject
+  + [candidate_E] supplied canonical ordered-inventory digest
+    + consumes exactly one completed WindowsSuppliedTopologyInventoryAssembly
+    + retains that complete assembly in a new output-only wrapper
+    + revalidates its exposed observations and derived counts without reconstructing carrier success
+    + encodes only the ordered TopologyEntryObservation vocabulary under one versioned domain
+    + computes one SHA-256 with bounded streaming updates and no intermediate whole-inventory byte allocation
+    + produces no receipt, consistency class, physical claim, or effect
+
+& [SelectedBoundary] is supplied ordered topology inventory digest
+  + [profile] is cantor-windows-supplied-ordered-topology-inventory-digest/0.1
+  + [target_module] is crates/cantor_ecosystem/src/windows_supplied_ordered_topology_inventory_digest.rs
+  + [input] is one WindowsSuppliedTopologyInventoryAssembly and never raw members or observations
+  + [output] is a private Serialize-only wrapper retaining the complete assembly, canonical encoding profile, and lowercase 64-hex digest
+  + [validation] current M2A validation reruns for every exposed observation and assembly count and byte-total correlations are checked
+  + [digest_subject] is entry count followed by every observation in existing assembly order
+  + [excluded_subject] is assembly plan, limits, deadline, assembly identity, projection identities, entry-reference identities, carrier profiles, and lower supplied lineage
+  + [reason] excluded values describe policy or proof lineage rather than the ordered inventory record committed by TopologyReceipt.ordered_inventory_sha256
+
+& [CanonicalEncoding] is explicit and versioned
+  + [domain] exact ASCII profile plus one terminal zero byte opens the hash stream
+  + [integer] unsigned integers use fixed-width big-endian bytes
+  + [enum] each closed enum uses one specified nonzero byte tag; Rust discriminants and serializer names are never hashed
+  + [option] one byte presence tag is zero for absent and one for present, followed by the present value encoding
+  + [text] u64 big-endian UTF-8 byte length followed by exact UTF-8 bytes
+  + [digest] lowercase 64-hex input is decoded to exactly 32 raw bytes before framing
+  + [sequence] u64 big-endian element count precedes elements in validated order
+  + [entry] one entry tag and one kind tag precede fields in canonical specification order
+  + [fields] relative path, kind, mode class, attributes, volume serial, file identity bytes, link count, streams, length, content digest, and observation ordinal are all committed
+  + [stream] stream name, size, and stream-kind tag are all committed in current validated stream order
+  + [framing] distinct field tags precede variable and optional fields so no concatenation ambiguity or schema-position alias exists
+  - never: hash Debug output, JSON, platform-native integer layout, enum discriminants, path normalization, Unicode normalization, locale collation, or hidden defaults
+
+& [DigestSemantics] is narrow
+  + equal canonical digests mean equal encoded observation sequences under this profile except for ordinary SHA-256 collision assumptions
+  + the digest is deterministic across process, architecture, and operating-system endianness
+  + the existing ordered assembly determines sequence; the digest step neither sorts nor repairs
+  + content_sha256 values are committed as supplied structural fields whose lower bindings are already preserved by carriers
+  - never: infer physical byte origin, physical inventory completeness, temporal equality, atomic snapshot, Git agreement, or admission
+
+& [ReuseBoundary] prefers the proven private SHA-256 implementation
+  + source-level reuse or careful extraction from windows_supplied_content_digest may be proposed only under the new SJS authority
+  + no new dependency, Cargo change, unsafe, platform call, file read, clock, environment, randomness, network, or persistence is required
+  + private implementation reuse must not widen the prior content-digest public authority
+
+& [EvidenceGrade] is supplied structurally closed ordered inventory commitment
+  + [supplied] lower observations and content bytes remain caller supplied at their original boundaries
+  + [preserved] complete non-deserializable carriers and assembly remain owned by the result
+  + [revalidated] current M2A observation form and assembly accounting only
+  + [committed] exact versioned canonical bytes for the supplied ordered observations
+  + [physical_enumerated_complete_double_checked_receipted_admitted] absent
+
+& [RequirementDelta] is proposed M2B-SOTID-001 through M2B-SOTID-015
+  + [authority_state] unprocessed_source_not_yet_preserved
+  + [effect_state] zero
+
+& [StopBoundary] is mandatory
+  - no filesystem, Windows call, handle, pointer, unsafe, process, environment, clock, randomness, network, persistence, database, Git command, fixture, traversal, physical inventory, double inventory, receipt, admission, mutation, seal, test-execution effect, cleanup, or promotion
+  - stop if policy or carrier lineage is silently mixed into the inventory digest subject
+  - stop if the resulting digest is described as physical or receipt-grade evidence
+
+& [Decision] is continue only through source preservation and governing SJS before implementation
+  + [next] preserve the selected boundary byte-exactly as a new raw source document
+  + [then] run full SJS explosion, constraints, data design, justification, plan, registry, matrix, slice, and satisfaction signature
+  + [implementation_authority] absent until that signature exists
