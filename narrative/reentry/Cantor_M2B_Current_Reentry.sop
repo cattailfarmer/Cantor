@@ -5,7 +5,7 @@ Subject: Cantor M2B Current Reentry
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [captured_at] is 2026-07-31
   + [branch] is codex/self-hosted-corpus
-  + [status] is supplied_directory_topology_projection_complete_post_completion_review_required
+  + [status] is post_directory_review_complete_supplied_root_projection_selected_unprocessed
 
 & [CompletedCheckpointSet] is exact
   + [M2A_receipt_revision_authority] is 9f6ed9f
@@ -217,19 +217,15 @@ Subject: Cantor M2B Current Reentry
   + [additional_physical_fixture] is absent
   + [candidate_mutation] is absent
 
-& [NextDependencyReadySlice] is pure supplied directory topology projection
-  + [candidate] is cantor-windows-supplied-directory-topology-projection/0.1
-  + [completed_profile] is cantor-windows-supplied-regular-file-topology-projection/0.1
-  + [completed_signature_uuid] is dd8005c2-ae65-4b91-be87-88315a0334c2
-  + [completed_implementation_commit] is 056713c7a0768fe2686fd611c529271cf003d5cb
-  + [source_snapshot_uuid] is 3546eb38-36a5-4d88-8097-ecb86b5b40a0
-  + [source_sha256] is C8BD158B415DA9AAFDB3439324293EB975959B20FCC9E4627CCE583665ECFD37
-  + [source_bytes] is 15096
-  + [signature_uuid] is 2f24b78e-90ab-4413-9189-2c2bbcf65187
-  + [implementation_commit] is 869a95f9939125397017894b817fc6fa98103429
-  + [authority_state] is complete_between_slices
+& [NextDependencyReadySlice] is pure supplied root topology projection
+  + [candidate] is cantor-windows-supplied-root-topology-projection/0.1
+  + [completed_profile] is cantor-windows-supplied-directory-topology-projection/0.1
+  + [completed_source_snapshot_uuid] is 3546eb38-36a5-4d88-8097-ecb86b5b40a0
+  + [completed_signature_uuid] is 2f24b78e-90ab-4413-9189-2c2bbcf65187
+  + [completed_implementation_commit] is 869a95f9939125397017894b817fc6fa98103429
+  + [authority_state] is selected_unprocessed_source_not_yet_preserved
   + [physical_authority] is absent
-  + [first_action] is fresh post-completion architecture and support-delta review before source selection
+  + [first_action] is preserve selected raw source, then complete governing SJS before code
   + [effect_order] exact local proof is complete; further physical scope is locked
   + [stop] is any unpreserved source, wrapper accepted as physical or admitted proof, declared path or mode accepted as filesystem or Git truth, ordinal accepted as traversal proof, hidden default, new effect, or scanner authority
 
