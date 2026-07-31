@@ -1,0 +1,265 @@
+Subject: Exploded Cantor M2B Supplied Entry Stability Reconciliation
+
+Description: Seven-fold SJS expansion of the preserved source for a strict pure transform that independently assembles caller-supplied pre-read and post-read entry records, compares a closed entry-local field set, and releases one inspectable stable pair or one typed fault without claiming physical time or provenance.
+
+& [ExplosionIdentity] is phase locked
+  + [explosion_uuid] is eb3ea9a5-3744-46ae-8b44-6cd4462b9fcb
+  + [profile] is cantor-windows-supplied-entry-stability/0.1
+  + [source_snapshot_uuid] is f4df1444-d714-4d1a-b474-b297929df3e4
+  + [phase] is seven_fold_phase_locked
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_entry_stability_reconciliation\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_entry_stability_reconciliation\Source_Document_Manifest.sop
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Supplied_Assembly_Architecture_Review_2026-07-31.sop
+@ [assembly] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
+@ [topology_formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+
+& [BoundaryFormation] separates deterministic reconciliation from physical observation
+  + [inside] one exact outer profile, one nonzero caller-owned reconciliation identity, and two strict supplied-entry assembly inputs named pre_read and post_read
+  + [inside] independent nested assembly, syntax-identity validation, closed exact field comparison, deterministic first-difference classification, and atomic stable-pair or fault release
+  + [outside] query invocation, buffer initialization, actual order, same-handle or same-object proof, clocks, paths, content reads, digests, Git modes, ordinals, directory inventories, traversal, receipts, admission, and effects
+  + [input_roles] pre_read and post_read are declaration labels rather than observed temporal facts
+  + [output_strength] stable means equal under the exact supplied field comparison profile only
+
+& [AtomicRequirementSet] is complete
+  + [M2B-ESR-001] require exact outer profile, strict JSON, preserved source, governing protocol, and both nonoptional nested inputs
+  + [M2B-ESR-002] invoke the current supplied-entry assembly validator independently for pre_read and post_read and preserve a nested fault side
+  + [M2B-ESR-003] require a nonzero caller-owned reconciliation identity and preserve it without assigning physical meaning
+  + [M2B-ESR-004] require nonzero equal entry-reference identities after both assemblies pass
+  + [M2B-ESR-005] require nonzero distinct pre-read and post-read batch identities without treating distinctness as order proof
+  + [M2B-ESR-006] compare kind, full policy decision, diagnostic reparse tag, strong identity, allocation size, end-of-file, link count, and raw stream records exactly in canonical order
+  + [M2B-ESR-007] stop at the first canonical difference and emit one closed difference-field identity
+  + [M2B-ESR-008] release exactly one complete stable pair or one bounded typed fault with no partial pair
+  + [M2B-ESR-009] preserve both admitted observations, the reconciliation identity, common entry reference, distinct batch identities, and the fixed comparison-field account
+  + [M2B-ESR-010] reject unknown outer or nested fields, variants, omissions, wrong types, and malformed input without bypassing nested assembly validation
+  + [M2B-ESR-011] state that labels and syntax identities do not prove physical provenance, order, sameness, freshness, supported platform, path binding, content stability, or trust
+  + [M2B-ESR-012] preserve zero dependency, unsafe, platform-call, I/O, traversal, receipt, admission, mutation, seal, or promotion delta and bind complete verification
+
+& [DataDesignModel] is one pure composite transform
+  + [ReconciliationRequest] is outer profile, reconciliation_identity u64, pre_read AssemblyInput, and post_read AssemblyInput
+  + [NestedAssembly] is the existing pure transform applied independently to each nested input
+  + [AdmittedPreObservation] is the successful pre_read assembly result
+  + [AdmittedPostObservation] is the successful post_read assembly result
+  + [SyntaxIdentityGate] checks reconciliation identity, shared entry reference, and distinct batch identities
+  + [StabilityComparedField] is the closed ordered enumeration kind, policy_decision, reparse_tag, strong_identity, allocation_size, end_of_file, number_of_links, and supplied_stream_records
+  + [ComparisonAccount] is a fixed array containing every StabilityComparedField exactly once in declaration order
+  + [StablePair] preserves profile, reconciliation identity, common entry reference, distinct batch identities, comparison account, and both admitted observations
+  + [ReconciliationFault] is one closed code, optional nested side, optional difference field, bounded field name, and bounded reason
+  + [source_data] is the two strict nested assembly inputs
+  + [derived_projection] is the stable pair or fault
+  + [state] is absent
+  + [persistence] is absent
+
+& [IdentityDiscipline] keeps every namespace local
+  + [natural_request_key] is profile plus reconciliation_identity inside the caller's unstated scope
+  + [technical_identity] is unnecessary because the transform is stateless and returns no registry object
+  + [entry_reference_identity] is caller syntax shared by two nested batches
+  + [batch_identity] is caller syntax scoped to one nested record batch
+  + [identity_authority] is the caller for syntax only
+  + [identity_stability_window] is this one transform call
+  - never: treat any identity as globally unique, authenticated, persistent, or physically sourced
+
+& [ConceptualLogicalPhysicalSeparation] is explicit
+  + [conceptual] two caller-designated observations are compared for exact supplied entry-local equality
+  + [logical] strict request, independent assembly results, syntax gates, ordered comparison, stable pair, and typed fault
+  + [physical] one in-memory safe-Rust transform over owned values and serde JSON
+  + [model_independence] later physical producers may construct the nested inputs without changing comparison meaning
+  - never: let the physical representation create temporal or provenance truth
+
+& [LifecycleAndTransformOrder] is linear and fail closed
+  + [stage_1] decode outer request strictly when using the JSON entry point
+  + [stage_2] verify outer profile and nonzero reconciliation identity
+  + [stage_3] assemble pre_read independently
+  + [stage_4] assemble post_read independently
+  + [stage_5] require equal nonzero entry-reference identities
+  + [stage_6] require distinct nonzero batch identities
+  + [stage_7] compare each closed field in canonical order
+  + [stage_8] release one stable pair only after every comparison passes
+  + [terminal_fault] any failure stops later stages and releases no pair
+
+& [NestedAssemblyTruthTable] is exhaustive
+  + [pre_and_post_pass] proceeds to syntax identity
+  + [pre_fails] emits pre_read nested fault and does not assemble post_read
+  + [pre_passes_post_fails] emits post_read nested fault and no pair
+  + [nested_fault_identity] preserves the existing assembly fault code through a closed side-specific wrapper
+  - never: compare raw invalid inputs directly
+
+& [SyntaxIdentityTruthTable] is exhaustive
+  + [outer_reconciliation_nonzero] is required
+  + [entry_references_nonzero_and_equal] proceeds
+  + [entry_reference_difference] rejects before field comparison
+  + [batch_identities_nonzero_and_distinct] proceeds
+  + [batch_identity_equal] rejects reuse of one declared batch as both roles
+  + [meaning] all identities remain caller-owned syntax only
+
+& [ComparisonTruthTable] is exact
+  + [all_eight_fields_equal] releases stable pair
+  + [kind_differs] emits kind as first difference
+  + [policy_decision_differs_after_kind_equal] emits policy_decision
+  + [reparse_tag_differs_after_prior_equal] emits reparse_tag
+  + [strong_identity_differs_after_prior_equal] emits strong_identity
+  + [allocation_size_differs_after_prior_equal] emits allocation_size
+  + [end_of_file_differs_after_prior_equal] emits end_of_file
+  + [number_of_links_differs_after_prior_equal] emits number_of_links
+  + [supplied_stream_records_differs_after_prior_equal] emits supplied_stream_records
+  + [comparison_semantics] use exact PartialEq over admitted deterministic value shapes
+  - never: reorder, normalize, tolerate, score, or compare only a subset
+
+& [FaultTruthTable] is closed
+  + [profile] unknown outer profile
+  + [reconciliation_identity] zero caller reconciliation identity
+  + [pre_read] nested pre-read assembly fault
+  + [post_read] nested post-read assembly fault
+  + [entry_reference] unequal admitted entry-reference identities
+  + [batch_identity] equal admitted batch identities
+  + [difference] first exact field difference
+  + [resource] bounded diagnostic or representation limit not covered elsewhere
+  + [json] malformed, unknown, omitted, wrong-type, or unknown-variant serialized input
+  + [difference_field] is present only for difference
+  + [nested_side] is present only for pre_read or post_read
+
+& [StableOutputContract] is inspectable and non-authorizing
+  + [profile] is exact outer profile
+  + [reconciliation_identity] is exact caller input
+  + [entry_reference_identity] is the common admitted syntax token
+  + [pre_batch_identity] is exact admitted pre-read batch token
+  + [post_batch_identity] is exact admitted post-read batch token
+  + [compared_fields] is the exact fixed eight-value ordered array
+  + [pre_read] and [post_read] preserve the exact admitted observations
+  + [no_boolean_collapse] the output retains the data that justified structural equality
+  - never: expose stable together with a fault
+  - never: upgrade stable pair to physical temporal evidence
+
+& [ConstraintLedger] is fail closed
+  + [C-01] source and manifest remain byte-bound and separate from derived artifacts
+  + [C-02] outer profile is exactly cantor-windows-supplied-entry-stability/0.1
+  + [C-03] pre_read and post_read are nonoptional strict AssemblyInput values
+  + [C-04] current governing supplied-entry assembly signature remains valid
+  + [C-05] both nested inputs pass the existing assembly transform independently
+  + [C-06] reconciliation identity is nonzero
+  + [C-07] entry-reference identities are nonzero and equal
+  + [C-08] batch identities are nonzero and distinct
+  + [C-09] comparison field set is closed, ordered, and exhaustive for every admitted observation field except batch identity and shared entry-reference identity already handled by syntax gates
+  + [C-10] first-difference output is deterministic
+  + [C-11] faults release no partial stable pair
+  + [C-12] output preserves both observations and fixed comparison account
+  + [C-13] no type or field claims actual before, after, elapsed, same handle, same object, path, Windows, completeness, freshness, or trust
+  + [C-14] no TopologyEntryObservation, content digest, receipt, or admission output exists
+  + [C-15] production imports remain std, serde, and the existing pure assembly module
+  + [C-16] Cargo, lockfile, dependency, unsafe, platform, filesystem, process, environment, clock, network, persistence, model, and effect deltas remain zero
+
+& [SubcomponentWeaveTrace] is source grounded
+  + [request] originates in InputShape and weaves to strict serde and outer validation tests
+  + [nested_assembly] originates in the no-bypass clause and weaves to side-specific nested faults
+  + [syntax_identities] originate in SyntaxIdentity and weave to zero, equality, and distinctness tests
+  + [comparison_fields] originate in ExactComparison and weave to fixed enum order plus one test per difference
+  + [stable_pair] originates in StableOutput and weaves to exact preservation and atomic release tests
+  + [fault] originates in FaultShape and weaves to closed code, side, field, and reason invariants
+  + [nonclaims] originate in the source AuthorityBoundary and weave to module docs, static surface tests, and proof language
+
+& [CrossWeaveTrace] joins existing fabric
+  + [assembly] supplies the only nested admission path and exact observation vocabulary
+  + [entry_policy] is transitively revalidated through each nested assembly
+  + [stream_parser_vocabulary] is transitively revalidated through each nested assembly
+  + [topology_RacePolicy] receives one entry-local supplied-equality prerequisite without physical order proof
+  + [future_content_read] remains separate because no content bytes or digest exist here
+  + [future_physical_producer] may supply inputs only under separate same-handle and query-completion authority
+  + [future_traversal] may use stable pairs only after path, mode, digest, ordinal, directory repetition, and whole-root gates close
+
+& [FailureModeSet] is explicit
+  + [F-01] source or manifest bytes drift
+  + [F-02] unknown outer profile, field, enum variant, omission, or wrong type admits
+  + [F-03] nested input bypasses current assembly validation
+  + [F-04] nested fault side or code is concealed
+  + [F-05] zero reconciliation identity admits
+  + [F-06] unequal entry reference admits
+  + [F-07] identical batch identities admit as two roles
+  + [F-08] a compared field is omitted, reordered, normalized, tolerated, or probabilistically scored
+  + [F-09] first-difference output changes with evaluation path
+  + [F-10] partial stable pair accompanies a fault
+  + [F-11] stable pair drops one source observation or syntax identity
+  + [F-12] comparison label or identity is cited as physical time, origin, sameness, freshness, completeness, or trust
+  + [F-13] complete topology observation, receipt, or admission is constructed
+  + [F-14] dependency, unsafe, platform call, or runtime effect appears
+  + [F-15] prerequisite assembly authority or evidence becomes stale
+
+& [VerificationProgram] is ordered
+  + [V-01] verify preserved source SHA-256 F721E1C92B7D9BE8AA987FED988F16BADB6CA8EE13297CAB04C0E4CB4E263270 and 5590 bytes
+  + [V-02] verify governing satisfaction signature and every SJS artifact binding
+  + [V-03] run unit tests for strict decoding, nested side faults, syntax identity gates, all eight canonical differences, and stable preservation
+  + [V-04] run an independent static no-effect, no-physical-provenance, and no-downstream-authority surface test
+  + [V-05] run focused tests in debug and overflow-checked release
+  + [V-06] verify exact Cargo, lockfile, dependency, unsafe, and effect deltas
+  + [V-07] generate a clone-portable artifact manifest with exact hashes and byte counts
+  + [V-08] run evidence rehash tests in debug and overflow-checked release
+  + [V-09] run workspace debug and overflow-checked release tests
+  + [V-10] run format, warnings-denied lint, release build, warnings-denied docs, and dependency audit
+  + [V-11] publish solution, proof, review, narrative, reentry, registry, and feature-support closure
+  + [V-12] keep physical producer, content read, traversal, fixture, admission, mutation, seal, and promotion gates locked
+
+& [SemanticRefinementTrace] is exact
+  + [pre_read] means caller-designated left role, not proven earlier physical time
+  + [post_read] means caller-designated right role, not proven later physical time
+  + [stable] means exact equality of the closed admitted entry-local field set
+  + [reconciliation] means deterministic comparison and accounting, not repair, merge, or truth adjudication
+  + [batch_distinct] prevents literal role reuse but proves neither separate calls nor order
+  + [entry_reference_equal] means syntax equality only
+  + [difference] means supplied admitted values differ, not that the underlying file changed
+
+& [ConstraintCheckTrace] is grounded
+  + [source] requires independent assembly, strict syntax identity, exact ordered comparison, inspectable stable pair, typed faults, and explicit nonclaims
+  + [selection_review] chooses this seam before physical production so race semantics do not hide in unsafe code
+  + [assembly] provides public strict input and output types plus one validating transform and prohibits physical claims
+  + [topology_formation] requires entry-local pre-read and post-read facts while separately requiring directory and whole-root repetition
+  + [data_design] requires explicit identity namespaces, transform order, source-versus-derived distinction, and conceptual-logical-physical separation
+  + [framework] requires source preservation, separate explosion, justification, plan, registry, and governing signature evidence
+
+& [ConstraintReapplicationTrace] preserves repairs
+  + [repair_1] compare nested assembly inputs only after invoking the existing validator rather than trusting public structs
+  + [repair_2] require distinct batch identities but state that distinctness is not order proof
+  + [repair_3] compare full policy decision so component, attributes, case, and order key cannot drift invisibly
+  + [repair_4] compare raw ordered stream records rather than only derived sorted stream facts
+  + [repair_5] preserve both admitted observations instead of reducing evidence to one boolean
+  + [unresolved] physical acquisition and actual order remain separate future authority
+
+& [PruningTrace] removes overreach
+  + [pruned] a boolean stable input or output without inspectable values
+  + [pruned] caller assertions named same_handle, queried, complete, trusted, fresh, or ordered
+  + [pruned] clocks, timestamps, durations, or generated identities
+  + [pruned] tolerant, subset, unordered, normalized, lexical, probabilistic, or learned comparison
+  + [pruned] direct content-digest, path, Git-mode, ordinal, TopologyEntryObservation, receipt, or admission construction
+  + [pruned] physical query, buffer, pointer, handle, Win32, filesystem, traversal, and effect behavior
+  + [pruned] persistence because the stable pair is returned data rather than durable state
+
+& [FoldTrace] is seven-fold
+  + [fold_1_subject] isolates entry-local supplied stability reconciliation from physical acquisition
+  + [fold_1_gain_delta] exact inside, outside, role, and output-strength boundaries
+  + [fold_2_terms] fixes pre_read, post_read, stable, reconciliation, difference, and identity meanings
+  + [fold_2_gain_delta] nonclaims become type, documentation, and proof obligations
+  + [fold_3_data] closes request, two nested assembly results, syntax gate, field enum, comparison account, stable pair, fault, lifecycle, and absent state
+  + [fold_3_gain_delta] conceptual, logical, and physical models separate cleanly
+  + [fold_4_relations] cross-weaves assembly, RacePolicy, content-read, physical producer, and traversal boundaries
+  + [fold_4_gain_delta] dependency order prevents unsafe-code semantic leakage
+  + [fold_5_constraints] preserves sixteen source, identity, comparison, output, and effect guards
+  + [fold_5_gain_delta] every admitted observation field is accounted or separately gated
+  + [fold_6_failures] exposes fifteen invalidation paths and five concrete repairs
+  + [fold_6_gain_delta] first-difference and nested-side faults become deterministic
+  + [fold_7_proof] binds twelve verification gates, rollback, and downstream stop rules
+  + [fold_7_gain_delta] no remaining entry-local pure obligation is hidden
+
+& [GrowthSeedSet] is bounded
+  + [seed_1] is a separately sourced content-read result binding that adds bytes-read and digest evidence between stable entry observations
+  + [seed_2] is a separately sourced private physical producer proving query completion and common owned-handle provenance
+  + [seed_3] is a separately sourced path, Git-mode, digest, ordinal, and stable-observation projection completion seam
+  + [seed_4] is later directory and whole-root repeat reconciliation under traversal authority
+  - never: treat a growth seed as authorized here
+
+& [ExhaustionReview] is phase locked
+  + [source_preservation] complete
+  + [boundary_and_terms] complete
+  + [data_identity_and_transform] complete
+  + [nested_and_comparison_truth_tables] complete
+  + [constraints_failures_and_repairs] complete
+  + [weaving_pruning_and_nonclaims] complete
+  + [verification_rollback_and_growth] complete
+  + [state] is seven_fold_phase_locked

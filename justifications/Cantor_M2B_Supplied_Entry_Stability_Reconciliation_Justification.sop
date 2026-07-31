@@ -1,0 +1,58 @@
+Subject: Cantor M2B Supplied Entry Stability Reconciliation Justification
+
+& [JustificationIdentity] is traceable
+  + [justification_uuid] is 716dca28-cc55-4111-b3a0-a95bc4350982
+  + [profile] is cantor-windows-supplied-entry-stability/0.1
+  + [source_snapshot_uuid] is f4df1444-d714-4d1a-b474-b297929df3e4
+
+& [Claim] is exact entry-local stability semantics should be proven before a physical producer or content reader is implemented
+  + [support] is the topology formation RacePolicy requiring pre-read and post-read identity, length, and write-fact comparison
+  + [support] is the completed assembly proof, which deliberately grants no temporal or physical claim
+  + [support] is the post-assembly architecture review rejecting placement of comparison rules inside later unsafe code
+  + [support_type] is deduction from established stage boundaries and fail-closed provenance constraints
+  + [confidence] is high for the pure seam and low for any physical inference from its syntax
+
+& [Selection] is two independently assembled observations plus a fixed exact comparison account
+  + [selected] use two strict AssemblyInput values so public output structs cannot bypass nested validation
+  + [selected] require one nonzero reconciliation identity, equal entry references, and distinct batch identities as syntax gates
+  + [selected] compare every admitted entry-local observation field except already separately handled batch and entry-reference identities
+  + [selected] compare full policy decision and raw ordered stream records rather than lossy projections
+  + [selected] stop at the first canonical difference for deterministic fault identity
+  + [selected] preserve both admitted observations and the comparison-field account
+  + [rejected] trust preassembled public observations because callers can construct or deserialize them directly
+  + [rejected] compare only identity and length because attributes, case, component, link, allocation, and stream facts could drift invisibly
+  + [rejected] compare derived topology seeds because raw record order and diagnostic facts would be lost
+  + [rejected] add timestamps because caller-supplied time cannot establish physical order
+  + [rejected] use scoring because this safety gate has an exact closed equality rule
+
+& [Counterarguments] are preserved
+  + [counterargument] a future same-handle adapter can compare values internally with less public API surface
+    + [answer] a separate pure contract minimizes unsafe responsibilities, enables exhaustive cross-platform tests, and makes drift semantics independently reviewable
+  + [counterargument] distinct batch identities add no physical assurance
+    + [answer] they intentionally add only syntax assurance by rejecting literal reuse; the nonclaim is part of the contract
+  + [counterargument] preserving both equal observations duplicates data
+    + [answer] inspection and provenance lineage matter more than a small bounded in-memory duplication, and later projections may choose one only under separate authority
+  + [counterargument] exact stream allocation sizes may change without content change
+    + [answer] profile 0.1 is deliberately conservative; any difference denies structural stability rather than guessing harmlessness
+
+& [DataDesignJustification] is explicit
+  + [conceptual_model] two caller-designated observations are evaluated for closed supplied equality
+  + [logical_model] request to nested assembly to syntax gates to ordered comparison to stable pair or fault
+  + [physical_model] one safe in-memory Rust module with strict serde
+  + [natural_identity] caller-scoped reconciliation and entry-reference tokens
+  + [derived_projection] stable pair preserves both source observations and its comparison account
+  + [state] none
+  + [persistence] none
+
+& [RiskAndRollback] are bounded
+  + [residual_risk] callers may describe a structural stable pair as proof of physical before-and-after observation
+  + [mitigation] role documentation, fault language, static tests, proof nonclaims, and downstream gates repeat the limitation
+  + [residual_risk] the comparison set may become stale if the assembly observation gains a field
+  + [mitigation] static source checks and exhaustive construction tests bind the current field set; upstream type changes invalidate signature and evidence
+  + [residual_risk] first-difference reporting omits later simultaneous differences
+  + [mitigation] the result is a rejection classifier, not a complete diff; deterministic first-fault behavior is explicitly selected
+  + [cost] one pure Rust module, one export, focused tests, static test, evidence, and governance records
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [rollback] remove the module, export, tests, and evidence then supersede the signature
+  + [invalidation_condition] is source drift, assembly signature drift, validation bypass, omitted compared field, nondeterministic fault order, syntax-to-physical overclaim, downstream authority invention, dependency or effect drift, failed proof, or stale evidence

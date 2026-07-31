@@ -5,7 +5,7 @@ Subject: Cantor M2B Current Reentry
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [captured_at] is 2026-07-30
   + [branch] is codex/self-hosted-corpus
-  + [status] is supplied_assembly_complete_post_assembly_review_selects_pure_stability_reconciliation
+  + [status] is supplied_entry_stability_canonical_signed_implementation_pending
 
 & [CompletedCheckpointSet] is exact
   + [M2A_receipt_revision_authority] is 9f6ed9f
@@ -77,6 +77,9 @@ Subject: Cantor M2B Current Reentry
 @ [M2B_post_assembly_checkpoint] C:\Project\Cantor\feature_support\reviews\M2BSuppliedEntryObservationProgram_Checkpoint_Review.sop
 @ [M2B_stability_source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_entry_stability_reconciliation\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Source.sop
 @ [M2B_stability_source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_entry_stability_reconciliation\Source_Document_Manifest.sop
+@ [M2B_stability_canonical] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+@ [M2B_stability_explosion] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.exploded.sop
+@ [M2B_stability_plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Plan.sop
 @ [readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
 
 & [CurrentFacts] are measured
@@ -139,7 +142,10 @@ Subject: Cantor M2B Current Reentry
   + [stability_source_snapshot_uuid] is f4df1444-d714-4d1a-b474-b297929df3e4
   + [stability_source_sha256] is F721E1C92B7D9BE8AA987FED988F16BADB6CA8EE13297CAB04C0E4CB4E263270
   + [stability_source_bytes] is 5590
-  + [stability_source_state] is preserved_unprocessed
+  + [stability_source_state] is preserved_and_processed_to_canonical
+  + [stability_profile] is cantor-windows-supplied-entry-stability/0.1
+  + [stability_signature_uuid] is cbeb4260-0db0-413c-89c6-2ca164775243
+  + [stability_authority_state] is canonical_signed_implementation_pending
 
 & [StillLocked] is explicit
   + [further_Win32_invocation] is locked after exact replacement physical proof
@@ -153,7 +159,7 @@ Subject: Cantor M2B Current Reentry
 
 & [NextDependencyReadySlice] is post-assembly formation first
   + [candidate] is pure pre-read and post-read supplied-entry stability reconciliation
-  + [first_action] is process preserved source f4df1444-d714-4d1a-b474-b297929df3e4 through SJS before canonical or implementation work
+  + [first_action] is implement only the signed pure module and focused tests under signature cbeb4260-0db0-413c-89c6-2ca164775243
   + [effect_order] exact local proof is complete; further physical scope is locked
   + [stop] is any unpreserved source, pre/post label accepted as physical order proof, same-handle assertion accepted as proof, synthesized query completion, hidden default, new effect, or scanner authority
 

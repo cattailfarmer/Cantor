@@ -1,0 +1,15 @@
+Subject: M2B Stability SJS Binding Verifier Command Fault
+
+& [FaultIdentity] is an operational verification-command fault
+  + [fault_uuid] is a302e2b1-eec6-4815-b7f8-4e1b623717d0
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [scope] is temporary read-only PowerShell audit expression
+
+& [Observed] is string interpolation parsed a colon after a variable name as a scoped-variable token
+  + [first_result] is parser error before any binding check executed
+  + [production_effect] is zero
+  + [artifact_effect] is zero
+
+& [Repair] is use the PowerShell format operator for diagnostic string construction
+  + [rerun] passed with zero artifact-binding failures
+  + [lesson] avoid adjacent colon interpolation in future verifier expressions

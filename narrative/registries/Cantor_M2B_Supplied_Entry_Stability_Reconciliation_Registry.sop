@@ -1,0 +1,45 @@
+Subject: Cantor M2B Supplied Entry Stability Reconciliation Registry
+
+& [RegistryIdentity] is canonical lookup
+  + [registry_uuid] is d0a09663-6d35-4abe-a84f-b1fd09e5748d
+  + [profile] is cantor-windows-supplied-entry-stability/0.1
+  + [signature_uuid] is cbeb4260-0db0-413c-89c6-2ca164775243
+  + [state] is signed_implementation_pending
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_entry_stability_reconciliation\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_entry_stability_reconciliation\Source_Document_Manifest.sop
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Supplied_Assembly_Architecture_Review_2026-07-31.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.exploded.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Justification.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Plan.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedEntryStabilityReconciliation_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedEntryStabilityReconciliation.sop
+@ [assembly] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
+
+& [Nodes] are source, manifest, selection review, explosion, canonical, justification, plan, signature, registry, matrix, slice, prerequisite assembly, future implementation, tests, evidence, solution, proof, and later physical producer
+
+& [Edges] define lineage
+  + [source] selected_by [architecture_review]
+  + [source] processed_to [explosion]
+  + [explosion] refined_to [canonical]
+  + [justification] supports [exact_pair_selection]
+  + [plan] orders [implementation_and_proof]
+  + [assembly] validates [pre_read_and_post_read]
+  + [signature] authorizes [pure_implementation_only]
+  + [future_implementation] may_satisfy [canonical_requirements]
+  + [future_physical_producer] may_supply [assembly_inputs] only under later authority
+
+& [RetrievalTerms] include supplied entry stability, pre-read, post-read, nested assembly, reconciliation identity, entry-reference identity, distinct batch identity, exact field comparison, first difference, stable pair, RacePolicy, and temporal nonclaim
+
+& [NonEdges] are explicit
+  + [absent] pre_read label proves earlier physical time
+  + [absent] post_read label proves later physical time
+  + [absent] entry-reference equality proves same handle, object, or path
+  + [absent] batch distinctness proves separate queries
+  + [absent] stable pair proves physical freshness, content stability, platform support, or trust
+  + [absent] canonical authority grants physical execution or scanner admission
+
+& [Dispatch] is exact
+  + [applies_when] two strict supplied-entry assembly inputs require deterministic entry-local equality checking before later producer or content-read work
+  + [does_not_apply] to acquisition, query success, handles, buffers, pointers, Win32, physical order, paths, content reads, traversal, Git, receipts, admission, mutation, seal, or promotion
