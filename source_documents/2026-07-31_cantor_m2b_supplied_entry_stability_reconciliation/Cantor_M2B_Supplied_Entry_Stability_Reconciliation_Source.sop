@@ -1,0 +1,91 @@
+Subject: Cantor M2B Supplied Entry Stability Reconciliation Source
+
+& [SourceIdentity] is a preserved selected build source
+  + [source_uuid] is 62673b6f-ff16-4afc-9a79-18ba9f009125
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31T09:31:36.3849935-05:00
+  + [status] is preserved_unprocessed
+
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Supplied_Assembly_Architecture_Review_2026-07-31.sop
+@ [assembly_authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
+@ [topology_formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+
+& [SelectedIntention] is compare two complete supplied entry observations before physical producer design
+  + [purpose] is detect entry-local drift between caller-designated pre-read and post-read record batches
+  + [placement] is after pure supplied-entry assembly and before content-read, physical adapter, traversal, or receipt work
+  + [profile] is cantor-windows-supplied-entry-stability/0.1
+  + [result] is one inspectable stable pair or one closed typed fault
+
+& [InputShape] is strict and complete
+  + [profile] is exact
+  + [reconciliation_identity] is a nonzero caller-owned u64 token
+  + [pre_read] is one complete WindowsSuppliedEntryAssemblyInput
+  + [post_read] is one complete WindowsSuppliedEntryAssemblyInput
+  = must: run the current assembly function independently for pre_read and post_read
+  = must: reject either nested assembly fault without comparing or releasing a stable pair
+  - never: accept preassembled public fields without revalidation
+
+& [SyntaxIdentity] is explicit but non-proving
+  + [entry_reference_identity] must be nonzero and equal across admitted pre_read and post_read observations
+  + [pre_batch_identity] and [post_batch_identity] must both be nonzero and distinct
+  + [reconciliation_identity] is preserved in the result
+  + [field_names] pre_read and post_read declare roles only
+  - never: infer actual query order, elapsed time, same thread, same handle, same object, same path, Windows origin, or physical event from these identities or labels
+
+& [ExactComparison] is closed
+  + [kind] must be equal
+  + [policy_decision] must be equal in full
+  + [reparse_tag] must be equal
+  + [strong_identity] must be equal
+  + [allocation_size] must be equal
+  + [end_of_file] must be equal
+  + [number_of_links] must be equal
+  + [supplied_stream_records] must be equal in exact raw order and values
+  + [comparison_order] is the declaration order above
+  = must: stop at the first differing field and emit its closed field identity
+  - never: use tolerance, score, likelihood, lexical equivalence, unordered comparison, or learned judgment
+
+& [StableOutput] is immutable and inspectable
+  + [profile] is exact
+  + [reconciliation_identity] is preserved
+  + [entry_reference_identity] is preserved
+  + [pre_batch_identity] and [post_batch_identity] are preserved distinctly
+  + [compared_fields] is the exact fixed ordered comparison field set
+  + [pre_read] is the admitted pre-read observation
+  + [post_read] is the admitted post-read observation
+  = must: release the pair only after all syntax and field comparisons pass
+  - never: collapse two source observations into an uninspectable boolean
+  - never: construct TopologyEntryObservation, TopologyReceipt, admission, or launch authority
+
+& [FaultShape] is closed and bounded
+  + [codes] are profile, reconciliation_identity, pre_read, post_read, entry_reference, batch_identity, difference, resource, and json
+  + [difference_field] is absent unless code is difference and otherwise is one closed comparison field
+  + [reason] is deterministic and limited to 256 Unicode scalar values
+  + [nested_fault] identifies pre_read or post_read without disguising the existing assembly fault class
+  - never: release a partial stable pair with a fault
+  - never: include unbounded serialized observations in a diagnostic
+
+& [DataBoundary] is entry-local
+  + [inside] profile, caller syntax identities, two strict assembly inputs, two admitted observations, exact comparison, stable pair, and typed faults
+  + [outside] handles, pointers, query calls, buffers, filesystems, paths, content reads, digests, Git modes, ordinals, directory children, traversal, clocks, receipts, admission, mutation, seal, review execution, cleanup, and promotion
+
+& [AuthorityBoundary] is source only
+  + [allowed] source preservation, manifest, SJS processing, architecture analysis, and requirement planning
+  + [implementation_authority] is absent
+  + [execution_authority] is absent
+  + [physical_authority] is absent
+  - never: cite this source as canonical authority or implemented behavior
+
+& [AcceptanceIntent] is M2B-ESR-001 through M2B-ESR-012
+  + [M2B-ESR-001] strict outer profile and unknown-field rejection
+  + [M2B-ESR-002] independent reuse of the current assembly validator for both inputs
+  + [M2B-ESR-003] nonzero reconciliation identity
+  + [M2B-ESR-004] equal nonzero entry-reference identity
+  + [M2B-ESR-005] distinct nonzero batch identities
+  + [M2B-ESR-006] exact closed field comparison in canonical order
+  + [M2B-ESR-007] deterministic first-difference classification
+  + [M2B-ESR-008] atomic stable-pair or fault release
+  + [M2B-ESR-009] preservation of both admitted observations and syntax identities
+  + [M2B-ESR-010] strict nested and outer serialization behavior
+  + [M2B-ESR-011] explicit provenance, ordering, temporal, and downstream nonclaims
+  + [M2B-ESR-012] zero-effect implementation and complete proof closure
