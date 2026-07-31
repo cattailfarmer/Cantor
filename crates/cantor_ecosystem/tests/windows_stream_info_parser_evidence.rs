@@ -19,6 +19,14 @@ fn windows_stream_info_parser_manifest_is_current_portable_and_effect_free() {
         manifest["evidence_manifest_uuid"],
         "263b3f53-8f37-4c4d-b465-c92733e95781"
     );
+    assert_eq!(
+        manifest["authority"]["satisfaction_signature_uuid"],
+        "f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ee"
+    );
+    assert_eq!(
+        manifest["authority"]["superseded_signature_uuid"],
+        "4c36dfd3-93b4-4654-b8f7-5031d0ec83cc"
+    );
     assert_eq!(manifest["scope"]["unsafe_blocks"], 0);
     assert_eq!(manifest["scope"]["pointer_casts"], 0);
     assert_eq!(manifest["scope"]["windows_api_calls"], 0);

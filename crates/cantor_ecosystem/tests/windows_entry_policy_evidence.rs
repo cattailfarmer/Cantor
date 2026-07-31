@@ -25,6 +25,10 @@ fn windows_entry_policy_manifest_is_current_clone_portable_and_effect_free() {
     );
     assert_eq!(
         manifest["authority"]["satisfaction_signature_uuid"],
+        "fbb835f2-5ab6-4362-a392-5d72692f8d1c"
+    );
+    assert_eq!(
+        manifest["authority"]["superseded_signature_uuid"],
         "554e84a7-988c-4c86-b67d-45958ab7166c"
     );
     assert_eq!(manifest["scope"]["unsafe_blocks"], 0);

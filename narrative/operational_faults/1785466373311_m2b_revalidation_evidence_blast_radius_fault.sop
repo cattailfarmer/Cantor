@@ -1,0 +1,26 @@
+Subject: M2B Revalidation Evidence Blast Radius Operational Fault
+
+& [FaultIdentity] is local evidence-topology correction
+  + [fault_uuid] is 78d1820e-eb76-47c4-b250-0ab6d65b3902
+  + [recognition] first full workspace revalidation rejected stale SOP_CORE_MAP bytes in candidate admission evidence
+  + [behavior_fault] is absent
+  + [evidence_fault] is confirmed
+
+& [Cause] is shared-surface transitive dependency
+  + [SOP_CORE_MAP] and [Project_Narrative] are bound by older manifests
+  + successor manifests bind predecessor manifests and proof-digest edges
+  + the candidate-admission builder couples artifact hashing to an opt-in physical probe requiring a clean workspace
+
+& [Repair] is bounded
+  + regenerate safe evidence nodes in topological order
+  + update each proof digest before generating its successor
+  + patch only four stale artifact records in candidate-admission evidence
+  + mark that patch metadata_only_no_physical_probe
+  + preserve the original admission probe summary and all physical fields
+  + verify every current manifest recursively after repair
+
+& [Prevention] is a future source-selected tool
+  + decouple artifact-only rehash from physical fixture execution
+  + compute manifest and proof dependencies before shared-surface edits
+  + reject recursive staleness before the full workspace suite
+  - never: implement that tool without separate source preservation and SJS authority

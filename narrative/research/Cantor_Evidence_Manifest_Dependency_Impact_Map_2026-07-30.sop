@@ -10,7 +10,7 @@ Description: Read-only closure analysis of current evidence builders and manifes
 
 & [MeasuredState] is exact at closure
   + [current_manifests] is 15 files matching *evidence_manifest.json outside .local
-  + [artifact_references] is 566
+  + [artifact_references] is 586
   + [missing_artifacts] is zero
   + [byte_mismatches] is zero
   + [sha256_mismatches] is zero
@@ -42,10 +42,11 @@ Description: Read-only closure analysis of current evidence builders and manifes
   + the full workspace run found one direct stale record, and the independent recursive sweep found the earlier opaque stale predecessor
 
 & [CurrentRepair] is complete
-  + [ABI_manifest_sha256] is 331215FD808A54708DCE15956580CFE9C67B46EC993A04D30298A27E617D5DB2
-  + [runtime_manifest_sha256] is BD2BD643914E0CD4DF88D8F38BA409A3AEC1959CD7D12BC686DE1638C5AC9A6B
-  + [entry_policy_manifest_sha256] is 307DA674A678CB0B59993154718D5BF5B307B4E2C402FCE4C45BA1356BA756A0
-  + [stream_parser_manifest_sha256] is 5FFBB81BA7E59419A7EABC5852BBB000CD251244494316B34FAD76EF47AC4778
+  + [ABI_manifest_sha256_before_final_narrative_refresh] is C0D087883100F688341F0D63FA0064F652E72233C3A69A9FE018678CAF121B63
+  + [runtime_manifest_sha256_before_final_narrative_refresh] is B9A2A94040208283D5720BDC257A9B148A7FE2FEEF42D763150D184559656B3A
+  + [entry_policy_manifest_sha256_before_final_narrative_refresh] is 8953C59F77A21AA208A80388FBD3DCA099D05333233B135256E970DBC1E98E68
+  + [stream_parser_manifest_sha256_before_final_narrative_refresh] is 3F3BF973F697C5C6CE154ABBF2B822A0BBA8289BED4551F757278FD4A524FCC7
+  + [authority_correction_note] final current digests are refreshed after closure narrative and recorded in the corresponding proof files
 
 & [FutureToolCandidate] is research only
   + parse every current builder's output, artifact inputs, and proof-digest edges into one explicit dependency DAG

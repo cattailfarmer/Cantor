@@ -5,7 +5,7 @@ Subject: Cantor M2B Current Reentry
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [captured_at] is 2026-07-30
   + [branch] is codex/self-hosted-corpus
-  + [status] is post_pure_prerequisite_review_complete_supplied_assembly_source_preserved
+  + [status] is pure_prerequisite_authority_corrected_and_revalidated_supplied_assembly_SJS_ready
 
 & [CompletedCheckpointSet] is exact
   + [M2A_receipt_revision_authority] is 9f6ed9f
@@ -36,6 +36,8 @@ Subject: Cantor M2B Current Reentry
   + [M2B_stream_parser_authority] is 368a52e
   + [M2B_stream_parser_implementation] is 02d750d
   + [M2B_stream_parser_proof] is c2e32c5
+  + [M2B_prerequisite_authority_correction_source] is 96d09a7
+  + [M2B_prerequisite_authority_correction] is 9c0b0fa
 
 @ [M2A_proof] C:\Project\Cantor\proofs\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Proof.sop
 @ [M2B_proof] C:\Project\Cantor\proofs\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop
@@ -92,17 +94,26 @@ Subject: Cantor M2B Current Reentry
   + [replacement_global] is 259 passed and 1 ignored in debug and overflow-checked release
   + [replacement_evidence_manifest] is crates/cantor_windows_preflight/evidence/windows_platform_preflight_runtime_evidence_manifest.json
   + [entry_policy_profile] is cantor-windows-entry-policy/0.1
+  + [entry_policy_superseded_signature] is 554e84a7-988c-4c86-b67d-45958ab7166c
+  + [entry_policy_governing_signature] is fbb835f2-5ab6-4362-a392-5d72692f8d1c
   + [entry_policy_focused] is 9 unit and 1 static test passed in debug and overflow-checked release
   + [entry_policy_global] is 270 passed and 1 governed physical test ignored in both profiles
   + [entry_policy_effects] are zero
   + [stream_parser_profile] is cantor-windows-stream-info-parser/0.1
+  + [stream_parser_superseded_signature] is 4c36dfd3-93b4-4654-b8f7-5031d0ec83cc
+  + [stream_parser_governing_signature] is f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ee
   + [stream_parser_focused] is 8 parser and 1 static test passed in both profiles
   + [stream_parser_global] is 280 passed and 1 governed physical test ignored in both profiles
   + [stream_parser_effects] are zero
+  + [authority_revalidation_global] is 280 passed and 1 governed physical ignore in debug and overflow-checked release
+  + [authority_revalidation_quality] is format, warnings-denied lint, release build, warnings-denied docs, and zero-vulnerability audit passed
+  + [recursive_evidence] is 15 current manifests, 586 artifact references, and zero stale records
+  + [candidate_evidence_rehash] is metadata-only with no physical admission probe
   + [post_pure_review] separates structural validity from query completion, physical provenance, same-handle origin, freshness, temporal stability, and admission
   + [supplied_assembly_source_snapshot_uuid] is c1e8077d-add0-4abf-9fc4-be1f59b61ff8
   + [supplied_assembly_source_sha256] is 0A9C3F9AEF5B4E5AF9B2302152795D9516E98C9B489A3191EA144F8442C37998
-  + [supplied_assembly_authority] is absent
+  + [authority_correction] both pure prerequisite profiles have governing replacement signatures and byte-identical focused, global, and recursive evidence revalidation
+  + [supplied_assembly_authority] is absent and its preserved source is ready for SJS processing
 
 & [StillLocked] is explicit
   + [further_Win32_invocation] is locked after exact replacement physical proof

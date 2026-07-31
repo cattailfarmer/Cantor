@@ -18,6 +18,8 @@ $paths = @(
     "crates/cantor_ecosystem/tests/windows_stream_info_parser_evidence.rs",
     "source_documents/2026-07-30_cantor_m2b_pure_stream_information_parser/Cantor_M2B_Pure_Stream_Information_Parser_Source.sop",
     "source_documents/2026-07-30_cantor_m2b_pure_stream_information_parser/Source_Document_Manifest.sop",
+    "source_documents/2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction/Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_Source.sop",
+    "source_documents/2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction/Source_Document_Manifest.sop",
     "narrative/research/Cantor_FILE_STREAM_INFO_Pure_Parser_Decision_2026-07-30.sop",
     "specifications/Cantor_Phase3_Topology_Scanner.sop",
     "specifications/exploded/Cantor_M2B_Pure_Stream_Information_Parser.exploded.sop",
@@ -35,6 +37,14 @@ $paths = @(
     "narrative/turns/1785449400000_cantor_m2b_pure_stream_information_parser_completion.sop",
     "narrative/operational_faults/1785448800000_m2b_pure_stream_information_parser_authority_faults.sop",
     "narrative/operational_faults/1785449100000_m2b_pure_stream_information_parser_implementation_faults.sop",
+    "narrative/research/Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_2026-07-30.sop",
+    "narrative/turns/1785465542348_cantor_m2b_pure_prerequisite_authority_correction.sop",
+    "narrative/operational_faults/1785465542348_m2b_pure_prerequisite_authority_lineage_fault.sop",
+    "narrative/file_changes/1785465542348_m2b_pure_prerequisite_authority_correction_file_change.sop",
+    "narrative/research/Cantor_M2B_Pure_Prerequisite_Authority_Revalidation_2026-07-30.sop",
+    "narrative/turns/1785466373311_cantor_m2b_pure_prerequisite_revalidation.sop",
+    "narrative/file_changes/1785466373311_m2b_pure_prerequisite_revalidation_file_change.sop",
+    "narrative/operational_faults/1785466373311_m2b_revalidation_evidence_blast_radius_fault.sop",
     "narrative/file_changes/1785448800000_m2b_pure_stream_information_parser_authority_file_change.sop",
     "narrative/file_changes/1785449100000_m2b_pure_stream_information_parser_implementation_file_change.sop",
     "narrative/file_changes/1785449400000_m2b_pure_stream_information_parser_completion_file_change.sop",
@@ -60,7 +70,8 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString("o")
     authority = [ordered]@{
         canonical_specification = "specifications/Cantor_M2B_Pure_Stream_Information_Parser.sop"
-        satisfaction_signature_uuid = "4c36dfd3-93b4-4654-b8f7-5031d0ec83cc"
+        satisfaction_signature_uuid = "f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ee"
+        superseded_signature_uuid = "4c36dfd3-93b4-4654-b8f7-5031d0ec83cc"
         solution_uuid = "3bb91af2-bc81-4159-8c70-3b5d6e64d2ba"
         implementation_commit = "02d750d5a5b039a1ca26d106fb4eb6e334454c69"
     }

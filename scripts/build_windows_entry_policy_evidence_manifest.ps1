@@ -18,6 +18,8 @@ $paths = @(
     "crates/cantor_ecosystem/tests/windows_entry_policy_evidence.rs",
     "source_documents/2026-07-30_cantor_m2b_pure_windows_entry_policy/Cantor_M2B_Pure_Windows_Entry_Policy_Source.sop",
     "source_documents/2026-07-30_cantor_m2b_pure_windows_entry_policy/Source_Document_Manifest.sop",
+    "source_documents/2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction/Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_Source.sop",
+    "source_documents/2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction/Source_Document_Manifest.sop",
     "narrative/research/Cantor_Windows_Topology_Attribute_Name_Policy_2026-07-30.sop",
     "narrative/research/Cantor_Pure_Windows_Entry_Policy_Freeze_Decision_2026-07-30.sop",
     "specifications/Cantor_Phase3_Topology_Scanner.sop",
@@ -36,6 +38,14 @@ $paths = @(
     "narrative/turns/1785448500000_cantor_m2b_pure_windows_entry_policy_completion.sop",
     "narrative/operational_faults/1785447900000_m2b_pure_windows_entry_policy_authority_faults.sop",
     "narrative/operational_faults/1785448200000_m2b_pure_windows_entry_policy_implementation_faults.sop",
+    "narrative/research/Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_2026-07-30.sop",
+    "narrative/turns/1785465542348_cantor_m2b_pure_prerequisite_authority_correction.sop",
+    "narrative/operational_faults/1785465542348_m2b_pure_prerequisite_authority_lineage_fault.sop",
+    "narrative/file_changes/1785465542348_m2b_pure_prerequisite_authority_correction_file_change.sop",
+    "narrative/research/Cantor_M2B_Pure_Prerequisite_Authority_Revalidation_2026-07-30.sop",
+    "narrative/turns/1785466373311_cantor_m2b_pure_prerequisite_revalidation.sop",
+    "narrative/file_changes/1785466373311_m2b_pure_prerequisite_revalidation_file_change.sop",
+    "narrative/operational_faults/1785466373311_m2b_revalidation_evidence_blast_radius_fault.sop",
     "narrative/file_changes/1785447900000_m2b_pure_windows_entry_policy_authority_file_change.sop",
     "narrative/file_changes/1785448200000_m2b_pure_windows_entry_policy_implementation_file_change.sop",
     "narrative/file_changes/1785448500000_m2b_pure_windows_entry_policy_completion_file_change.sop",
@@ -65,7 +75,8 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString("o")
     authority = [ordered]@{
         canonical_specification = "specifications/Cantor_M2B_Pure_Windows_Entry_Policy.sop"
-        satisfaction_signature_uuid = "554e84a7-988c-4c86-b67d-45958ab7166c"
+        satisfaction_signature_uuid = "fbb835f2-5ab6-4362-a392-5d72692f8d1c"
+        superseded_signature_uuid = "554e84a7-988c-4c86-b67d-45958ab7166c"
         solution_uuid = "d14a27ad-1452-42e8-b8e0-56235abacd49"
         implementation_commit = "04ca9abede2d49efb81e62644838a469a7cf4767"
     }
@@ -87,8 +98,8 @@ $manifest = [ordered]@{
     verification = @(
         [ordered]@{ command = "cargo test -p cantor_ecosystem windows_entry_policy --locked --offline"; passed = 10; status = "passed" },
         [ordered]@{ command = "RUSTFLAGS=-C overflow-checks=on cargo test -p cantor_ecosystem windows_entry_policy --release --locked --offline"; passed = 10; status = "passed" },
-        [ordered]@{ command = "cargo test --workspace --all-targets --locked --offline"; passed = 270; ignored = 1; status = "passed" },
-        [ordered]@{ command = "RUSTFLAGS=-C overflow-checks=on cargo test --workspace --all-targets --release --locked --offline"; passed = 270; ignored = 1; status = "passed" },
+        [ordered]@{ command = "cargo test --workspace --all-targets --locked --offline"; passed = 280; ignored = 1; status = "passed" },
+        [ordered]@{ command = "RUSTFLAGS=-C overflow-checks=on cargo test --workspace --all-targets --release --locked --offline"; passed = 280; ignored = 1; status = "passed" },
         [ordered]@{ command = "cargo fmt --all -- --check"; status = "passed" },
         [ordered]@{ command = "cargo clippy --workspace --all-targets --locked --offline -- -D warnings"; status = "passed" },
         [ordered]@{ command = "cargo build --workspace --all-targets --release --locked --offline"; status = "passed" },

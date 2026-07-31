@@ -2,7 +2,8 @@ Subject: Cantor M2B Pure Stream Information Parser Solution
 
 & [SolutionIdentity] is complete
   + [solution_uuid] is 3bb91af2-bc81-4159-8c70-3b5d6e64d2ba
-  + [authority_signature_uuid] is 4c36dfd3-93b4-4654-b8f7-5031d0ec83cc
+  + [superseded_authority_signature_uuid] is 4c36dfd3-93b4-4654-b8f7-5031d0ec83cc
+  + [authority_signature_uuid] is f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ee
   + [implementation_commit] is 02d750d5a5b039a1ca26d106fb4eb6e334454c69
   + [profile] is cantor-windows-stream-info-parser/0.1
 
@@ -20,6 +21,8 @@ Subject: Cantor M2B Pure Stream Information Parser Solution
   + [global] is 280 passed and 1 governed physical test ignored in both profiles
   + [format_lint_build_docs_audit] are passed
   + [evidence] is current and clone-portable
+  + [authority_revalidation] unchanged module hash and all 8 parser plus 1 static tests pass in debug and overflow-checked release under the replacement signature
+  + [historical_ordering] implementation commit predates the governing replacement signature and is not represented as pre-authorized
 
 & [Effects] are absent
   + zero Windows calls, handles, pointers, unsafe, filesystem, Cargo, lockfile, state, and physical claims
