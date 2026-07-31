@@ -1,0 +1,40 @@
+Subject: M2B Supplied Entry Stability Preclosure Evidence Operational Fault
+
+& [FaultIdentity] is expected stale-evidence rejection
+  + [fault_uuid] is eb75b229-e7cb-4abc-875c-59043a54c0d1
+  + [recognition] the first global debug workspace sweep rejected the older candidate-workspace-admission manifest after the governed slice index changed
+  + [reported_path] is feature_support/Cantor_Engine_Build_Slice_Index.sop
+  + [old_bytes] is 7052
+  + [current_bytes] is 7269 at recognition time
+  + [implementation_failure] is absent
+
+& [Cause] is evidence ordering
+  + the new SJS authority and readiness state were published after the predecessor manifest was generated
+  + recursive evidence regeneration intentionally waits until the complete support graph is stable
+
+& [Repair] is deterministic
+  + complete the stability solution, review, support, narrative, and evidence surfaces
+  + regenerate every current manifest topologically without executing any physical fixture
+  + rerun all evidence tests and both workspace profiles
+  - never: edit expected hashes by hand or cite the failed preclosure sweep as passed
+
+& [BulkRefreshGuard] preserved physical authority
+  + [first_bulk_command] stopped immediately when the candidate-workspace builder required its mandatory ProbeRequestPath
+  + [candidate_probe_execution] is absent
+  + [artifact_effect] is absent for that stopped builder
+  + [repair] excludes the candidate builder from ordinary generation and performs its later artifact-only rehash without rerunning admission
+
+& [Closure] is passed
+  + [recursive_audit] is seventeen current manifests, 668 artifact references, and zero stale records
+  + [workspace_debug_rerun] is 306 passed with one governed physical ignore
+  + [physical_probe_rerun] is absent
+
+& [RecursiveAuditParserRepair] is nonsemantic
+  + [first_final_audit] treated the legacy Phase6 manifest's absent artifacts array as one blank record
+  + [reported_stale_path] was blank
+  + [artifact_fault] is absent
+  + [repair] count and inspect artifact records only when the manifest actually contains an artifacts array
+  + [corrected_rerun] is the cited seventeen-manifest, 668-reference, zero-failure result
+  + [later_diagnostic] a Cargo-delta character-count formatter received null because the exact scoped git diff was empty and threw only while formatting the zero-delta diagnostic
+  + [Cargo_or_lock_delta] is absent
+  + [repair] report the empty scoped diff directly without applying string Join to a null pipeline value

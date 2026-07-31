@@ -4,7 +4,7 @@ Subject: Cantor M2B Supplied Entry Stability Reconciliation Registry
   + [registry_uuid] is d0a09663-6d35-4abe-a84f-b1fd09e5748d
   + [profile] is cantor-windows-supplied-entry-stability/0.1
   + [signature_uuid] is cbeb4260-0db0-413c-89c6-2ca164775243
-  + [state] is signed_implementation_pending
+  + [state] is accepted_and_verified
 
 @ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_entry_stability_reconciliation\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Source.sop
 @ [manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_entry_stability_reconciliation\Source_Document_Manifest.sop
@@ -16,6 +16,11 @@ Subject: Cantor M2B Supplied Entry Stability Reconciliation Registry
 @ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedEntryStabilityReconciliation_Requirement_Matrix.sop
 @ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedEntryStabilityReconciliation.sop
 @ [assembly] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_ecosystem\src\windows_supplied_entry_stability.rs
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedEntryStabilityReconciliation_Completion_Review.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Proof.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_supplied_entry_stability_evidence_manifest.json
 
 & [Nodes] are source, manifest, selection review, explosion, canonical, justification, plan, signature, registry, matrix, slice, prerequisite assembly, future implementation, tests, evidence, solution, proof, and later physical producer
 
@@ -27,7 +32,9 @@ Subject: Cantor M2B Supplied Entry Stability Reconciliation Registry
   + [plan] orders [implementation_and_proof]
   + [assembly] validates [pre_read_and_post_read]
   + [signature] authorizes [pure_implementation_only]
-  + [future_implementation] may_satisfy [canonical_requirements]
+  + [implementation] satisfies [canonical_requirements]
+  + [evidence] binds [clone_portable_artifacts]
+  + [proof] closes [pure_stability_slice]
   + [future_physical_producer] may_supply [assembly_inputs] only under later authority
 
 & [RetrievalTerms] include supplied entry stability, pre-read, post-read, nested assembly, reconciliation identity, entry-reference identity, distinct batch identity, exact field comparison, first difference, stable pair, RacePolicy, and temporal nonclaim

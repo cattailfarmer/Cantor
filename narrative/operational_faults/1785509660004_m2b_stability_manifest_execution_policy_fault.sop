@@ -1,0 +1,18 @@
+Subject: M2B Supplied Entry Stability Manifest Execution Policy Operational Fault
+
+& [FaultIdentity] is command-path policy
+  + [fault_uuid] is 1ddbc9fb-e9ef-47e2-bb2f-ea07761a2847
+  + [recognition] direct invocation of the new manifest builder was blocked before script execution because PowerShell script execution is disabled for the host command path
+  + [consequence] the following debug and release evidence tests reported only that their not-yet-generated manifest file was absent
+  + [artifact_generation] is absent on the failed command
+  + [production_behavior_fault] is absent
+
+& [Repair] is bounded and established
+  + invoke a child PowerShell process with -NoProfile -ExecutionPolicy Bypass -File for this repository-local builder
+  + do not change machine or user execution policy
+  + regenerate the manifest, then rerun both evidence profiles unchanged
+  + cite only the successful reruns as verification
+
+& [Prevention] is explicit
+  + use the established child-process invocation for every repository manifest builder on this host
+  - never: infer that a missing generated artifact is an implementation failure before verifying builder execution

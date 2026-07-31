@@ -1,0 +1,85 @@
+Subject: Cantor M2B Supplied Entry Stability Reconciliation Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedEntryStabilityReconciliation.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedEntryStabilityReconciliation_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedEntryStabilityReconciliation_Completion_Review.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_supplied_entry_stability_evidence_manifest.json
+
+& [ProofIdentity] is complete
+  + [proof_uuid] is 6e5cc711-de7c-48af-b41e-fdd2f041081a
+  + [authority_signature_uuid] is cbeb4260-0db0-413c-89c6-2ca164775243
+  + [assembly_signature_uuid] is 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719
+  + [solution_uuid] is c58dfcb7-2a0b-494c-9ba3-0bb9a09a86d0
+  + [implementation_commit] is 96c45fb8e804fb8c55905687ff1cfd13c8ae5b17
+  + [status] is passed
+  + [evidence_manifest_schema] is cantor-windows-supplied-entry-stability-evidence-manifest/0.1
+  + [evidence_manifest_uuid] is 7c52a0e7-fda0-48d6-8daf-bf9f0e59fad8
+  + [evidence_manifest_sha256] is 400906CE913CF32DD610BDF8A97AD68B4C253126095491D5D43062501909759C
+  + [evidence_manifest_bytes] is 17584
+  + [evidence_artifacts] is 43
+
+& [NestedValidationProof] is fail closed
+  + [outer_first] profile and nonzero reconciliation identity reject before either nested validator
+  + [pre_first] pre_read assembly always executes before post_read and its failure short circuits later work
+  + [post_second] post_read failure is possible only after pre_read admission
+  + [preservation] every nested wrapper retains the exact assembly fault plus one exact side
+  + [bypass_absence] no public input accepts a preassembled observation
+
+& [SyntaxIdentityProof] is exact and nonphysical
+  + [reconciliation_identity] zero rejects and the admitted value is preserved
+  + [entry_reference] both admitted values must be equal and nonzero
+  + [batch] both admitted values must be nonzero and distinct
+  + [scope] identities are caller-owned equality syntax for one invocation
+  - never: interpret a role or identity as time, order, session, query, handle, object, process, path, or provenance
+
+& [ComparisonProof] is exhaustive and deterministic
+  + [fixed_order] is kind, policy decision, reparse tag, strong identity, allocation size, end-of-file, number of links, and supplied stream records
+  + [coverage] observation profile is fixed by nested assembly, entry reference is equality-gated, batch is distinctness-gated, and every remaining field is compared
+  + [exactness] full value equality preserves component, attributes, conditional case facts, ordering key, volume identity, raw stream order, names, sizes, allocation sizes, and source offsets
+  + [first_difference] combined test inputs prove an earlier unequal field masks every later unequal field
+  + [normalization] is absent
+  + [learned_or_weighted_judgment] is absent
+
+& [AtomicOutputProof] preserves its account
+  + [success] contains exact outer profile, reconciliation identity, common entry reference, both batch identities, fixed comparison array, and both admitted observations
+  + [fault] contains one closed code, conditionally exact nested side and fault or difference field, deterministic field, and at most 256 Unicode scalar values of message
+  + [partial_pair] is impossible through the Result return type
+  + [boolean_collapse] is absent
+
+& [NoEffectProof] is structural
+  + [module_sha256] is 345CA4FF2B0E253700051095CBB8D04C784327961B705663680D1726D32F6364
+  + [module_bytes] is 23013
+  + [unsafe_blocks] is zero
+  + [Windows_API_calls] is zero
+  + [filesystem_process_environment_clock_network_model_persistence] are absent
+  + [Cargo_manifest_delta] is zero
+  + [Cargo_lock_delta] is zero
+  + [physical_query_content_read_traversal_receipt_admission_mutation_seal_review_execution_promotion_authority] are absent
+
+& [VerificationProof] is complete
+  + [focused_debug] is 11 unit plus 1 static passed
+  + [focused_overflow_checked_release] is 11 unit plus 1 static passed
+  + [evidence_debug_and_release] are 1 passed each
+  + [workspace_debug] is 306 passed and 1 governed physical test ignored
+  + [workspace_overflow_checked_release] is 306 passed and 1 governed physical test ignored
+  + [format] is passed
+  + [warnings_denied_lint] is passed
+  + [release_build] is passed
+  + [warnings_denied_docs] is passed
+  + [audit] is 113 locked packages against 1175 advisories with zero vulnerabilities
+
+& [EvidenceProof] is clone portable
+  + [artifacts] are 43 repository-relative paths with exact byte counts and SHA-256
+  + [recursive_graph] is 17 current manifests with zero stale records
+  + [physical_rerun] is absent
+  + [candidate_admission_rehash] remains metadata_only_no_physical_probe
+
+& [OperationalFaultProof] is honest
+  + [preclosure_evidence] the first debug workspace sweep correctly rejected a predecessor manifest after governed support drift; it was not cited as passed
+  + [application_control] the first release workspace sweep was refused once by host policy; the later complete unchanged sweep passed 306 tests with one governed physical ignore
+  + [manifest_command_path] direct script invocation was blocked before generation; the established child-process bypass invocation generated the artifact without changing host policy, then both evidence profiles passed
+
+& [Nonclaim] is mandatory
+  - never: cite this proof as physical before-after evidence, same-handle or same-object origin, query completion, initialized-buffer evidence, Windows provenance, freshness, stream completeness, content stability, filesystem support, path binding, traversal, Git reconciliation, topology receipt, candidate admission, mutation, seal, review execution, or promotion authority

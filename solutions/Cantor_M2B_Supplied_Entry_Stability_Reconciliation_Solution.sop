@@ -1,0 +1,47 @@
+Subject: Cantor M2B Supplied Entry Stability Reconciliation Solution
+
+& [SolutionIdentity] is pure and traceable
+  + [solution_uuid] is c58dfcb7-2a0b-494c-9ba3-0bb9a09a86d0
+  + [profile] is cantor-windows-supplied-entry-stability/0.1
+  + [authority_signature_uuid] is cbeb4260-0db0-413c-89c6-2ca164775243
+  + [assembly_signature_uuid] is 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719
+  + [implementation_commit] is 96c45fb8e804fb8c55905687ff1cfd13c8ae5b17
+  + [status] is passed
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+@ [module] C:\Project\Cantor\crates\cantor_ecosystem\src\windows_supplied_entry_stability.rs
+@ [static_test] C:\Project\Cantor\crates\cantor_ecosystem\tests\windows_supplied_entry_stability_static.rs
+
+& [Implementation] is one deterministic reconciliation transform
+  + [input] is exact outer profile, nonzero reconciliation identity, and two nonoptional supplied-entry assembly inputs
+  + [nested_validation] invokes the current assembler for pre_read first and post_read second without accepting preassembled observations
+  + [nested_fault] preserves the exact assembly fault and its pre_read or post_read role
+  + [syntax_gate] requires equal nonzero entry-reference identities and distinct nonzero batch identities
+  + [comparison] checks kind, full policy decision, reparse tag, strong identity, allocation size, end-of-file, link count, and exact raw stream vector in one fixed order
+  + [difference] stops at the first unequal canonical field
+  + [release] returns both admitted observations, every syntax identity, and the full comparison account or one closed bounded fault
+
+& [Verification] is complete
+  + [focused_debug] is 11 unit and 1 static passed
+  + [focused_overflow_checked_release] is 11 unit and 1 static passed
+  + [format] is passed
+  + [warnings_denied_crate_lint] is passed
+  + [evidence_debug_and_release] is 1 passed each
+  + [workspace_debug] is 306 passed and 1 governed physical ignore
+  + [workspace_overflow_checked_release] is 306 passed and 1 governed physical ignore
+  + [warnings_denied_workspace_lint] is passed
+  + [release_build] is passed
+  + [warnings_denied_docs] is passed
+  + [dependency_audit] is 113 locked packages, 1175 advisories, and zero vulnerabilities
+  + [module_sha256] is 345CA4FF2B0E253700051095CBB8D04C784327961B705663680D1726D32F6364
+  + [module_bytes] is 23013
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [unsafe_blocks] is zero
+  + [Windows_API_calls] is zero
+
+& [SemanticLimit] is mandatory
+  + [pre_read] and [post_read] are caller-designated roles
+  + [stable] means exact equality under this supplied-value profile
+  + [identity] values are caller-owned syntax local to one invocation
+  - never: cite this solution as proof of physical order, elapsed time, same handle, object, query, process, path, Windows origin, freshness, initialized buffers, complete stream enumeration, content stability, platform support, trust, traversal, receipt, admission, mutation, seal, review execution, or promotion

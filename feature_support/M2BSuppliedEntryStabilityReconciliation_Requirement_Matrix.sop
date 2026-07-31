@@ -3,21 +3,21 @@ Subject: M2B Supplied Entry Stability Reconciliation Requirement Matrix
 & [MatrixIdentity] is authority accounting
   + [matrix_uuid] is 78c3e812-10c9-48b8-86a0-de62411e9ac5
   + [profile] is cantor-windows-supplied-entry-stability/0.1
-  + [status] is canonical_authorized_implementation_pending
+  + [status] is passed
 
 & [RequirementSet] is atomic
-  + [M2B-ESR-001] strict outer profile and serialization is authorized_pending
-  + [M2B-ESR-002] independent nested assembly validation is authorized_pending
-  + [M2B-ESR-003] nonzero reconciliation identity is authorized_pending
-  + [M2B-ESR-004] equal nonzero entry-reference identity is authorized_pending
-  + [M2B-ESR-005] distinct nonzero batch identities are authorized_pending
-  + [M2B-ESR-006] exact closed canonical field comparison is authorized_pending
-  + [M2B-ESR-007] deterministic first-difference classification is authorized_pending
-  + [M2B-ESR-008] atomic stable-pair or fault release is authorized_pending
-  + [M2B-ESR-009] preservation of observations, identities, and comparison account is authorized_pending
-  + [M2B-ESR-010] strict nested and outer serialization behavior is authorized_pending
-  + [M2B-ESR-011] physical, temporal, provenance, and downstream nonclaims are authorized_pending
-  + [M2B-ESR-012] zero-effect implementation and proof closure is authorized_pending
+  + [M2B-ESR-001] strict outer profile and serialization is passed by exact profile and strict outer decoding tests
+  + [M2B-ESR-002] independent nested assembly validation is passed by ordered side-qualified nested-fault tests
+  + [M2B-ESR-003] nonzero reconciliation identity is passed by preassembly rejection tests
+  + [M2B-ESR-004] equal nonzero entry-reference identity is passed by independent admitted-input mismatch tests
+  + [M2B-ESR-005] distinct nonzero batch identities are passed by equal-batch rejection tests
+  + [M2B-ESR-006] exact closed canonical field comparison is passed by all eight field tests and static vocabulary proof
+  + [M2B-ESR-007] deterministic first-difference classification is passed by combined earlier-and-later difference tests
+  + [M2B-ESR-008] atomic stable-pair or fault release is passed by Result type and fault-path tests
+  + [M2B-ESR-009] preservation of observations, identities, and comparison account is passed by exact stable-output equality tests
+  + [M2B-ESR-010] strict nested and outer serialization behavior is passed by unknown, omitted, and nested-bypass JSON tests
+  + [M2B-ESR-011] physical, temporal, provenance, and downstream nonclaims are passed by docs and independent static surface proof
+  + [M2B-ESR-012] zero-effect implementation and proof closure is passed by static, Cargo-delta, global, and recursive evidence proof
 
 & [DependencyGate] is exact
   + [assembly_profile] is cantor-windows-supplied-entry-observation/0.1
@@ -25,10 +25,10 @@ Subject: M2B Supplied Entry Stability Reconciliation Requirement Matrix
   + [assembly_proof] is C:\Project\Cantor\proofs\Cantor_M2B_Supplied_Entry_Observation_Assembly_Proof.sop
   + [dependency_state] is current
 
-& [SupportGap] remains implementation and proof
-  + [implementation] is absent
-  + [focused_tests] are absent
-  + [static_test] is absent
-  + [evidence] is absent
-  + [solution_and_proof] are absent
+& [SupportClosure] is exact
+  + [implementation] is commit 96c45fb8e804fb8c55905687ff1cfd13c8ae5b17
+  + [focused_tests] are eleven passed in both profiles
+  + [static_test] is one passed in both profiles
+  + [evidence] is clone-portable and current
+  + [solution_review_and_proof] are complete
   + [physical_authority] is absent by design
