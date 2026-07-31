@@ -517,10 +517,10 @@ fn bounded(value: &str, maximum_chars: usize) -> String {
 mod tests {
     use super::*;
     use crate::{
-        FILE_ATTRIBUTE_DIRECTORY, FILE_ATTRIBUTE_NORMAL, PlatformPreflightDisposition,
-        StrongFileIdentity, TopologyModeClass, WINDOWS_PLATFORM_PREFLIGHT_PROFILE,
-        WINDOWS_PLATFORM_PREFLIGHT_TARGET, WindowsEntryPolicyKind, WindowsPlatformPreflightRecord,
-        WindowsVolumeInformation,
+        FILE_ATTRIBUTE_DIRECTORY, FILE_ATTRIBUTE_NORMAL, FILE_ATTRIBUTE_READONLY,
+        PlatformPreflightDisposition, StrongFileIdentity, TopologyModeClass,
+        WINDOWS_PLATFORM_PREFLIGHT_PROFILE, WINDOWS_PLATFORM_PREFLIGHT_TARGET,
+        WindowsEntryPolicyKind, WindowsPlatformPreflightRecord, WindowsVolumeInformation,
         windows_supplied_content_digest::{
             WINDOWS_SUPPLIED_CONTENT_DIGEST_PROFILE, WindowsSuppliedContentDigestPlan,
             begin_windows_supplied_content_digest, bind_windows_supplied_content_digest,
@@ -833,6 +833,14 @@ mod tests {
 
         for (bytes, code) in [
             (
+                br#"{"profile":}"#.as_slice(),
+                WindowsSuppliedOrderedTopologyInventoryDigestReconciliationFaultCode::Json,
+            ),
+            (
+                br#"{"profile":"cantor-windows-supplied-ordered-topology-inventory-digest-reconciliation/0.1"}"#.as_slice(),
+                WindowsSuppliedOrderedTopologyInventoryDigestReconciliationFaultCode::Json,
+            ),
+            (
                 br#"{"profile":"wrong","reconciliation_identity":7}"#.as_slice(),
                 WindowsSuppliedOrderedTopologyInventoryDigestReconciliationFaultCode::Profile,
             ),
@@ -942,22 +950,91 @@ mod tests {
 
     #[test]
     fn unequal_complete_limits_fail_before_a_relation_is_released() {
-        let left_limits = limits();
-        let mut right_limits = limits();
-        right_limits.maximum_depth += 1;
-        let fault = reconcile_windows_supplied_ordered_topology_inventory_digests(
-            plan(804),
-            digest(701, assembly(1, left_limits, 19, 0, None)),
-            digest(702, assembly(2, right_limits, 19, 0, None)),
+        let mutations: [fn(&mut TopologyScanLimits); 7] = [
+            |value| value.maximum_entries += 1,
+            |value| value.maximum_depth += 1,
+            |value| value.maximum_path_bytes += 1,
+            |value| value.maximum_file_bytes += 1,
+            |value| value.maximum_total_bytes += 1,
+            |value| value.maximum_streams_per_entry += 1,
+            |value| value.deadline_tick += 1,
+        ];
+        for mutate in mutations {
+            let left_limits = limits();
+            let mut right_limits = limits();
+            mutate(&mut right_limits);
+            let fault = reconcile_windows_supplied_ordered_topology_inventory_digests(
+                plan(804),
+                digest(701, assembly(1, left_limits, 19, 0, None)),
+                digest(702, assembly(2, right_limits, 19, 0, None)),
+            )
+            .unwrap_err();
+            assert_eq!(
+                fault.code,
+                WindowsSuppliedOrderedTopologyInventoryDigestReconciliationFaultCode::Limits
+            );
+            assert_eq!(fault.field, "limits");
+            assert!(fault.side.is_none());
+            assert!(fault.nested_digest_fault.is_none());
+        }
+    }
+
+    #[test]
+    fn root_observation_change_outside_scope_is_different() {
+        let left = digest(701, assembly(1, limits(), 19, 0, None));
+        let mut root_stability =
+            stability_input(211, "Cantor", WindowsEntryPolicyKind::Directory, 19, 0, 0);
+        root_stability.pre_read.attribute_tag.attributes |= FILE_ATTRIBUTE_READONLY;
+        root_stability.post_read.attribute_tag.attributes |= FILE_ATTRIBUTE_READONLY;
+        let changed_root = project_windows_supplied_root_topology(
+            WindowsSuppliedRootTopologyProjectionPlan {
+                profile: WINDOWS_SUPPLIED_ROOT_TOPOLOGY_PROJECTION_PROFILE.to_owned(),
+                projection_identity: 201,
+                entry_reference_identity: 211,
+            },
+            WindowsPlatformPreflightRecord::CompleteLocal {
+                profile: WINDOWS_PLATFORM_PREFLIGHT_PROFILE.to_owned(),
+                target_triple: WINDOWS_PLATFORM_PREFLIGHT_TARGET.to_owned(),
+                input_root: r"\\?\C:\Cantor".to_owned(),
+                root_identity: identity(19, 0),
+                root_volume_guid_path: format!("{GUID_ROOT}Cantor"),
+                volume: WindowsVolumeInformation {
+                    volume_name: "Work".to_owned(),
+                    volume_serial_number: 42,
+                    maximum_component_length: 255,
+                    file_system_flags: 0,
+                    file_system_name: "NTFS".to_owned(),
+                },
+                disposition: PlatformPreflightDisposition::EligibleLocalNtfs,
+            },
+            root_stability,
         )
-        .unwrap_err();
+        .unwrap();
+        let changed = assemble_windows_supplied_topology_inventory(
+            WindowsSuppliedTopologyInventoryAssemblyPlan {
+                profile: WINDOWS_SUPPLIED_TOPOLOGY_INVENTORY_ASSEMBLY_PROFILE.to_owned(),
+                assembly_identity: 291,
+                limits: limits(),
+            },
+            changed_root,
+            vec![],
+            vec![],
+        )
+        .unwrap();
+        let result = reconcile_windows_supplied_ordered_topology_inventory_digests(
+            plan(810),
+            left,
+            digest(702, changed),
+        )
+        .unwrap();
         assert_eq!(
-            fault.code,
-            WindowsSuppliedOrderedTopologyInventoryDigestReconciliationFaultCode::Limits
+            result.disposition(),
+            WindowsSuppliedOrderedTopologyInventoryDigestReconciliationDisposition::Different
         );
-        assert_eq!(fault.field, "limits");
-        assert!(fault.side.is_none());
-        assert!(fault.nested_digest_fault.is_none());
+        assert_eq!(
+            result.common_scope().root_file_id(),
+            identity(19, 0).file_id_hex
+        );
     }
 
     #[test]
