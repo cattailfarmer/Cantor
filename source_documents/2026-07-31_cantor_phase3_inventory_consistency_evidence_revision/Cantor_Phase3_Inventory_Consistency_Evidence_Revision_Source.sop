@@ -1,0 +1,236 @@
+Subject: Cantor Phase3 Inventory Consistency Evidence Revision Source
+
+Description: Raw selected build source for repairing the Phase3 and topology-receipt consistency vocabulary before any M2C physical scanner or receipt issuer. This source preserves the intended semantic contract. It is not canonical authority and authorizes no code or effect until complete SJS and a replacement satisfaction signature.
+
+& [SourceIdentity] is exact
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [selected_after_commit] is c08af4b
+  + [candidate_profile] is cantor-phase3-inventory-consistency-evidence-revision/0.1
+  + [status] is raw_preserved_unprocessed
+
+& [Problem] is semantic authority inflation in machine vocabulary
+  + current phase3_evidence exposes ConsistencyClass.QuiescentDoubleInventory
+  + current TopologyReceipt stores consistency and permits only quiescent_double_inventory
+  + current scanner formation proposes assigning that value after two complete inventories compare equal
+  + pure digest reconciliation deliberately proves only supplied comparable Equal or Different and cannot supply physical or temporal evidence
+  + two actual equal inventories are stronger than two supplied equal values but still do not prove an uninterrupted quiescent world state
+  + a change can occur and be restored between two non-atomic walks
+  + a change can occur after the second walk and before a consumer acts
+  + a supervisor can stop or account for its own processes without excluding every external writer
+  + quiescent is therefore not the weakest honest name for the evidence the future scanner can initially prove
+  + documentation cannot neutralize a stronger serialized machine token whose ordinary meaning implies an unsupported state
+
+& [Purpose] is name evidence rather than assert state
+  + replace the generic state-sounding ConsistencyClass with InventoryConsistencyEvidence
+  + replace QuiescentDoubleInventory with NonAtomicRepeatedInventoryEqual
+  + serialize the selected variant exactly as non_atomic_repeated_inventory_equal
+  + rename TopologyReceipt.consistency to TopologyReceipt.consistency_evidence
+  + preserve OsSnapshotProven as a reserved stronger variant serialized as os_snapshot_proven
+  + make every evidence grade explicitly lineage dependent and non-self-authorizing
+
+& [SelectedMeaning_NonAtomicRepeatedInventoryEqual] is exact
+  + NonAtomic means there is no snapshot, transaction, tree lock, uninterrupted interval, or platform immutability claim
+  + RepeatedInventory means two actual complete physical inventory acquisitions occurred
+  + actual means a future separately authorized physical producer performed them; caller-supplied values alone are insufficient
+  + first acquisition completed before the second acquisition began or an equally precise ordered acquisition relation is separately evidenced
+  + both acquisitions use the same exact scanner profile, encoding profile, scan limits, root path, root kind, root volume serial, root file identity, and policy identity
+  + each acquisition is complete under its own authorized producer contract
+  + each complete acquisition has its own retained lineage and canonical ordered-inventory digest
+  + both digest carriers pass current independent rederivation
+  + the exact comparison disposition is Equal
+  + Equal concerns only canonical committed inventory subjects under the exact common scope
+  + the evidence does not deny intermediate change-and-restore
+  + the evidence does not deny change after the second acquisition
+  + the evidence does not deny an unobserved external writer
+  + the evidence does not claim freshness beyond separately bound issue and expiry rules
+  + the evidence does not imply quiescence, atomicity, immutability, admission, mutation safety, seal validity, or promotion eligibility
+
+& [SelectedMeaning_OsSnapshotProven] is reserved
+  + OsSnapshotProven means a separately authorized producer bound the inventory to an identified platform snapshot primitive with exact provenance
+  + pure form validity never proves the snapshot exists or that its producer is authorized
+  + this revision retains the vocabulary to preserve the already delineated evidence lattice
+  + TopologyReceipt 0.3 does not admit os_snapshot_proven until a later source defines the required snapshot fields, primitive, issuer, and proof
+  + therefore the revised topology receipt initially permits only non_atomic_repeated_inventory_equal
+  + no automatic conversion from NonAtomicRepeatedInventoryEqual to OsSnapshotProven exists
+
+& [DeferredMeaning_SupervisorQuiescedRepeatedInventoryEqual] is not added
+  + supervisor-owned process shutdown and write exclusion may become additional evidence later
+  + that evidence still would not automatically exclude external writers
+  + its exact name, fields, enforcement boundary, and consumer need are not mature
+  + speculative variant growth is prohibited in this revision
+
+& [Phase3MachineFormsRevision] is exact
+  + PHASE3_MACHINE_FORMS_PROFILE changes from cantor-phase3-machine-forms/0.1 to cantor-phase3-machine-forms/0.2
+  + public enum ConsistencyClass is removed
+  + public enum InventoryConsistencyEvidence is added
+  + InventoryConsistencyEvidence has exactly NonAtomicRepeatedInventoryEqual and OsSnapshotProven
+  + serde uses exact snake_case tokens
+  + ValidatePhase3 remains pure and structurally accepts either closed enum variant
+  + no deprecated type alias, From, Into, default, catch-all, or string coercion preserves the old name
+  + JSON containing quiescent_double_inventory fails strict enum decoding
+  + compile-time callers naming ConsistencyClass must revise explicitly
+
+& [TopologyFormsRevision] is exact
+  + TOPOLOGY_FORMS_PROFILE changes from cantor-phase3-topology-forms/0.2 to cantor-phase3-topology-forms/0.3
+  + TOPOLOGY_RECEIPT_PROFILE changes from cantor-phase3-topology-receipt/0.2 to cantor-phase3-topology-receipt/0.3
+  + WINDOWS_TOPOLOGY_PROFILE remains cantor-windows-candidate-topology/0.1 because no scanner implementation or behavior changes here
+  + topology_forms imports InventoryConsistencyEvidence instead of ConsistencyClass
+  + TopologyReceipt removes public field consistency
+  + TopologyReceipt adds public field consistency_evidence of type InventoryConsistencyEvidence in the same semantic position
+  + validation initially requires InventoryConsistencyEvidence.NonAtomicRepeatedInventoryEqual
+  + OsSnapshotProven is rejected for TopologyReceipt 0.3 with a bounded Receipt fault because the required snapshot provenance is not yet present
+  + receipt validation failure field is consistency_evidence
+  + the validation message says receipt 0.3 permits only non_atomic_repeated_inventory_equal
+  + all other TopologyReceipt fields and invariants remain exact
+
+& [LegacyRejection] is strict
+  + TopologyReceipt JSON with receipt_profile cantor-phase3-topology-receipt/0.2 rejects
+  + JSON with field consistency rejects as an unknown field
+  + JSON missing consistency_evidence rejects
+  + JSON with consistency_evidence quiescent_double_inventory rejects
+  + JSON with old and new fields together rejects
+  + phase3 machine-form tests reject the old enum string
+  + no decoder rewrites, aliases, defaults, migrations, or compatibility shims exist
+  + no persisted topology receipt or external scanner consumer exists, so fail-closed schema replacement is selected
+  + historical proof artifacts keep their original bytes and meanings rather than being silently reinterpreted
+
+& [UnchangedTopologyReceiptInvariants] are mandatory
+  + receipt_profile is exact 0.3
+  + scanner_profile remains exact cantor-windows-candidate-topology/0.1
+  + candidate_root remains bounded nonempty NUL-free caller text whose physical canonicality is not proven by validation
+  + root_identity remains exact StrongFileIdentity
+  + root_volume_guid_path remains exact canonical syntax only
+  + admission_profile, admission_receipt_sha256, policy_sha256, scan_nonce, and ordered_inventory_sha256 remain required and bounded
+  + TopologyScanLimits remain complete, positive, capped, and relationally valid
+  + entry_count remains nonzero and within limits
+  + total_file_bytes remains within limits
+  + issued_tick remains less than expires_tick
+  + expires_tick remains at or before the limit deadline tick
+  + validation remains syntax and relation checking, not physical receipt issuance
+
+& [ProducerBoundary] is absent but explicitly constrained
+  + this revision creates no physical producer record
+  + this revision does not add acquisition identities or start and completion ticks
+  + this revision does not accept WindowsSuppliedOrderedTopologyInventoryDigestReconciliation as proof of repeated physical acquisition
+  + a future M2C source must bind two distinct actual acquisition lineages and an ordered temporal relation
+  + a future M2C source must prove exact common scanner, policy, root, limits, and encoding scope
+  + a future M2C source must prove both acquisitions complete under physical traversal authority
+  + a future M2C source may use the pure reconciliation transform only as one subordinate equality check
+  + a future receipt issuer must prove its authority independently from form construction
+
+& [ConsumerBoundary] is absent
+  + no mutation work packet is created
+  + no receipt consumption ledger is implemented
+  + no single-use enforcement is implemented
+  + no freshness clock is observed
+  + no admission decision is released
+  + no candidate is marked safe, clean, quiescent, sealed, immutable, eligible, or promotable
+
+& [ImplementationScope] is two existing pure modules and support
+  + crates/cantor_ecosystem/src/phase3_evidence.rs may change only the profile constant, enum name, enum variants, validation implementation target, and directly related tests and documentation
+  + crates/cantor_ecosystem/src/topology_forms.rs may change only the two form profile constants, imported type name, receipt field, receipt validation, and directly related tests and documentation
+  + crate public glob export behavior remains unchanged
+  + no new production module is required
+  + evidence tests, manifests, solution, review, proof, narrative, and reentry may change as governed support
+  + Cargo.toml and Cargo.lock must remain byte identical
+
+& [PublicAPIRules] are exact
+  + InventoryConsistencyEvidence is public because TopologyReceipt contains it
+  + the enum has no Default
+  + the enum has no Unknown or Other variant
+  + the enum has no public string parser outside strict serde
+  + TopologyReceipt remains a caller-constructible pure form and never becomes an output-only physical proof
+  + form construction is not evidence issuance
+  + documentation must state the nonclaims beside the type and field
+
+& [FaultRules] are exact
+  + malformed or legacy JSON produces Json
+  + wrong receipt profile produces Receipt at receipt_profile
+  + OsSnapshotProven without snapshot provenance produces Receipt at consistency_evidence
+  + all faults remain bounded and atomic
+  + no fault includes a partial receipt, acquisition carrier, digest reconciliation, or physical observation
+  + no old token is silently classified as the new token
+
+& [TestRequirements] are direct
+  + exact new Phase3 profile constant
+  + exact new topology forms and receipt profile constants with unchanged scanner profile
+  + exact snake_case serialization for both new enum variants
+  + old quiescent_double_inventory token rejection
+  + strict receipt round-trip with consistency_evidence non_atomic_repeated_inventory_equal
+  + old receipt profile rejection
+  + old consistency field rejection
+  + missing new field rejection
+  + simultaneous old and new field rejection
+  + OsSnapshotProven receipt rejection at exact field and fault code
+  + preservation of every preexisting receipt invariant and negative case
+  + static absence of ConsistencyClass and QuiescentDoubleInventory in production Rust
+  + static absence of compatibility aliases, default, conversion, effects, dependency growth, and physical vocabulary upgrade
+  + debug and overflow-checked release tests
+  + complete workspace regression, format, warnings-denied lint, release build, warnings-denied docs, dependency audit, recursive evidence, and clean Git proof
+
+& [RequirementSet] is P3ICER-001 through P3ICER-014
+  + [P3ICER-001] exact source preservation and multi-authority lineage
+  + [P3ICER-002] evidence-versus-state semantic delineation
+  + [P3ICER-003] Phase3 machine forms profile 0.2
+  + [P3ICER-004] exact InventoryConsistencyEvidence enum
+  + [P3ICER-005] topology forms and receipt profiles 0.3 with scanner profile unchanged
+  + [P3ICER-006] exact consistency_evidence receipt field and initial allowed grade
+  + [P3ICER-007] strict legacy type, field, token, and profile rejection
+  + [P3ICER-008] preservation of all unrelated receipt invariants
+  + [P3ICER-009] reserved OsSnapshotProven rejection without provenance
+  + [P3ICER-010] producer, consumer, and physical authority absence
+  + [P3ICER-011] safe pure two-module implementation with zero dependency delta
+  + [P3ICER-012] focused semantic and static proof
+  + [P3ICER-013] global quality, audit, recursive evidence, provenance, and rollback closure
+  + [P3ICER-014] valid SJS phase lock and replacement satisfaction signatures for every superseded authority
+
+& [MultiAuthorityRevision] is explicit
+  + phase3_evidence was governed by the Phase3 Strict Pure Machine Forms source and signature
+  + topology_forms was governed by the Phase3 Topology Machine Forms and receipt root-binding revision sources and replacement signature
+  + scanner and seal formations use the old term but grant no implementation authority
+  + the new source must preserve exact predecessor artifacts and declare which signatures are superseded for the changed machine meaning
+  + unchanged prior behavior outside the selected delta remains inherited, not reauthored
+  + one canonical revision may coordinate the cross-module vocabulary only if every affected authority and artifact hash is bound
+
+& [SJSRequiredStages] are complete before code
+  + source preservation
+  + SJS input audit across every affected authority
+  + delineation and exploded atomic requirements
+  + semantic refinement of evidence, observation, state, issuer, and consumer roles
+  + constraint ledger and post-artifact reapplication
+  + pruning and growth disposition
+  + seven-fold identity, language, provenance, ownership, fault, effect, and evolution exhaustion
+  + data design for types, fields, relations, versions, lineage, states, and representations
+  + justification, implementation plan, registry, requirement matrix, build slice, phase lock, canonical revision, and replacement satisfaction signatures
+  + SJS artifact binding guard with exact paths, bytes, hashes, and prerequisite signatures
+
+& [Effects] are zero
+  + no unsafe
+  + no Windows API
+  + no filesystem observation or mutation in production
+  + no process, environment, clock, random, network, persistence, database, Git runtime, model, tool, or FPGA operation
+  + no physical fixture, topology scan, acquisition, receipt issuance, admission, mutation, seal, test-execution effect, cleanup, or promotion
+
+& [StopConditions] are mandatory
+  + stop if quiescent remains in the new public machine meaning
+  + stop if the old field, enum, token, or profiles decode successfully
+  + stop if supplied pair Equal is accepted as repeated physical evidence
+  + stop if OsSnapshotProven is admitted without new provenance fields and authority
+  + stop if unchanged scanner profile is treated as scanner implementation authority
+  + stop if a new dependency, unsafe block, platform call, effect, migration shim, default, alias, or public constructor broadening appears
+  + stop if any predecessor source is overwritten
+  + stop if an affected authority is omitted from the SJS input manifest
+  + stop on stale evidence or failed verification
+
+& [Rollback] is exact
+  + before implementation, remove only derived revision artifacts and retain this raw source
+  + after implementation, restore the two modules and their tests to the pre-revision commit and remove revision closure artifacts
+  + no database migration, physical cleanup, receipt invalidation job, or external coordination is needed because no producer or persisted consumer exists
+
+& [SourceBoundary] is non-authorizing
+  + this document records selected intent
+  + it does not supersede predecessor signatures by itself
+  + it does not authorize implementation
+  + it does not authorize physical execution
+  + only complete SJS, explicit supersession, artifact-bound replacement signatures, implementation proof, and publication can change those states

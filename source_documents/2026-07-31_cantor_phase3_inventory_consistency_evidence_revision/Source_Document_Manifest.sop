@@ -1,0 +1,39 @@
+Subject: Phase3 Inventory Consistency Evidence Revision Source Document Manifest
+
+& [ManifestIdentity] is exact
+  + [manifest_uuid] is 16712b7e-47c7-44f6-9ed8-b42a3084488f
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+
+& [SourceArtifact] is immutable raw input
+  + [path] is C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop
+  + [bytes] is 16758
+  + [sha256] is BB805C0B239C25426B99D521F101FDFD8DCF06FE8A466467B8646860359905F7
+  + [status] is preserved_unprocessed
+
+& [SelectionLineage] is exact
+  + [baseline_commit] is 99d4e81582b8d0afc5f329a83b480955f8292ef1
+  + [selection_commit] is c08af4b
+  + [architecture_review] is C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Supplied_Digest_Reconciliation_Architecture_Review_2026-07-31.sop
+  + [architecture_review_sha256] is 7A083FE68D291F47CFAFD60093BEE987F76F3E37C16EF7F1464051A9BE895F0D
+  + [checkpoint_sha256] is 9F23ABAEF9FEC6D12A2F43B4F179134A5FFAE7F6BF50D212B1947B2A5A3C1139
+  + [semantic_fault_sha256] is CADA3829C3C74883E482EADBE887028F464468B73BEEBF976F98449294FAA1F2
+
+& [PredecessorSourceSet] is retained
+  + [phase3_machine_forms_source_sha256] is 96F3BE5B7715715009A557C7B7E5D10872F740EA54331D0294413E4E62B34763
+  + [topology_receipt_root_revision_source_sha256] is 01EA89B89D16E86B3311104EDB742067E793178D778ADC06B0D84E334D6C22A5
+  + [phase3_machine_forms_canonical_sha256] is 013FA1B61859833025D7371B936B9A45FC2859A6CBF596BBBFE56915BACBD199
+  + [topology_forms_canonical_sha256] is 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+  + [predecessor_interpretation] is not changed by source preservation
+
+& [Selection] is narrow
+  + [candidate_profile] is cantor-phase3-inventory-consistency-evidence-revision/0.1
+  + [selected_delta] InventoryConsistencyEvidence, non_atomic_repeated_inventory_equal, consistency_evidence, profile revisions, strict legacy rejection, and reserved snapshot grade
+  + [implementation_authority] is absent
+  + [physical_authority] is absent
+
+& [PreservationRule] is mandatory
+  + raw source is never overwritten by exploded, canonical, implementation, or proof artifacts
+  + any correction is a separate revision source and reprocessing manifest
+  + exact path, bytes, SHA-256, and snapshot identity must appear in every later SJS authority table
