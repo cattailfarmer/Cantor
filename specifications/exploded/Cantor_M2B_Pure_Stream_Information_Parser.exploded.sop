@@ -1,29 +1,162 @@
 Subject: Exploded Cantor M2B Pure Stream Information Parser
 
-& [ExplosionIdentity] is SJS decomposition
-  + [explosion_uuid] is f525871c-e2db-458c-8980-c074d443c38f
+Description: Corrective seven-fold SJS expansion for the unchanged pure FILE_STREAM_INFO parser profile after governance reentry found that its first signature used a non-governing protocol.
+
+& [ExplosionIdentity] is corrective and phase locked
+  + [explosion_uuid] is 0185186a-b592-4fdf-942d-cc83b287bb0a
+  + [profile] is cantor-windows-stream-info-parser/0.1
   + [source_snapshot_uuid] is 538c3eed-9bc7-458a-ab3d-2a16ce1560f8
+  + [correction_snapshot_uuid] is 384aea9e-f513-410d-b753-f5fb5d34dd37
+  + [prior_explosion_uuid] is f525871c-e2db-458c-8980-c074d443c38f
+  + [phase] is seven_fold_phase_locked
 
-& [Data] is closed
-  + [ParseLimits] is maximum entries 1 through 1024 and maximum name units 1 through 32767
-  + [RawStreamRecord] is exact name, stream size u64, allocation size u64, and source offset u32
-  + [Fault] is limit, header, offset, alignment, length, size, UTF16, name, terminal, or resource
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_stream_information_parser\Cantor_M2B_Pure_Stream_Information_Parser_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_stream_information_parser\Source_Document_Manifest.sop
+@ [correction_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_Source.sop
+@ [correction_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Source_Document_Manifest.sop
 
-& [Algorithm] is bounded
-  + validate limits and nonempty region
-  + before each header ensure entry budget and 24 available bytes
-  + decode little-endian scalars without pointer casting
-  + validate positive even name-byte length and bounded units
-  + validate name range inside the current entry boundary
-  + decode UTF-16LE strictly and validate wrapper grammar
-  + for nonzero next require eight-byte alignment and forward in-region progress
-  + for zero next require exact region exhaustion and release all records once
+& [BoundaryFormation] separates parsing from acquisition and admission
+  + [inside] one exact caller-supplied successful byte region and explicit resource limits
+  + [inside] checked scalar decoding, chain traversal, strict UTF-16, exact stream-name grammar, and all-or-fault release
+  + [outside] making the Win32 call, owning a handle, dereferencing a pointer, proving API success, completeness, same-handle origin, filesystem support, or freshness
+  + [outside] named-stream admission, entry observation, traversal, Git reconciliation, topology receipt, mutation, seal, and promotion
+  + [correction_only] authority lineage changes while profile semantics and production behavior remain unchanged
 
-& [FaultSecurity] is fail closed
-  + arithmetic uses checked operations
-  + padding is skipped exactly through NextEntryOffset
-  + partial records never release
-  + trailing bytes never disappear
+& [AtomicRequirementSet] is complete
+  + [M2B-SIP-001] bind strict profile, exact region, explicit limits, source snapshot, and governing correction source
+  + [M2B-SIP-002] decode the fixed 24-byte little-endian header without pointer casts
+  + [M2B-SIP-003] require every nonterminal offset to progress, fit, and align to eight bytes
+  + [M2B-SIP-004] require positive even name-byte lengths within the caller UTF-16-unit bound
+  + [M2B-SIP-005] decode strict UTF-16LE without replacement or NUL termination
+  + [M2B-SIP-006] admit exactly the default DATA name or a nonempty named DATA stream grammar
+  + [M2B-SIP-007] reject negative signed stream and allocation sizes before unsigned release
+  + [M2B-SIP-008] require the terminal record to exhaust the exact supplied region
+  + [M2B-SIP-009] preserve source order and source offsets while ignoring uninterpreted alignment padding
+  + [M2B-SIP-010] preserve closed faults, bounded allocation, no partial release, proof, rollback, and nonclaims
+  + [M2B-SIP-011] preserve zero dependency, zero unsafe, and zero runtime-effect boundaries
+  + [M2B-SIP-012] supersede the prior non-governing signature without erasing it
+  + [M2B-SIP-013] revalidate the unchanged implementation and evidence under the governing replacement signature
 
-& [Pruning] is complete
-  - no unsafe, pointer, Windows call, filesystem, handle, traversal, content, stream admission, Git, receipt, clock, mutation, or dependency delta
+& [DataDesignModel] is one bounded parser
+  + [ParseLimits] is maximum entries 1 through 1024 and maximum name UTF-16 units 1 through 32767
+  + [RawStreamRecord] is exact decoded name, stream size u64, allocation size u64, and source byte offset u32
+  + [ParseFault] is one closed limit, header, offset, alignment, length, size, UTF-16, name, terminal, or resource code with bounded detail
+  + [lifecycle] is exact bytes to per-record validation to complete vector or one fault
+  + [state] is local parser variables only
+  + [provenance] is byte-region structure and caller-supplied syntax only
+  - never: return records accumulated before a later fault
+
+& [ChainAlgorithm] is checked
+  + [step_1] validate limits and minimum nonempty region
+  + [step_2] enforce entry budget before each header
+  + [step_3] require 24 header bytes and decode little-endian fields from slices
+  + [step_4] validate positive even bounded name-byte length
+  + [step_5] establish current entry boundary from terminal region end or checked nonterminal next offset
+  + [step_6] require name end within current entry boundary
+  + [step_7] decode strict UTF-16LE and exact DATA-stream wrapper grammar
+  + [step_8] reject negative sizes and preserve exact nonnegative values
+  + [step_9] preserve source order and source byte offset
+  + [step_10] advance exactly by nonterminal offset or require terminal exact exhaustion and release once
+
+& [ConstraintLedger] is fail closed
+  + [C-01] original and correction sources remain byte-bound and separate from derived artifacts
+  + [C-02] profile remains cantor-windows-stream-info-parser/0.1
+  + [C-03] production code and behavior remain unchanged during authority correction
+  + [C-04] arithmetic is checked and offset progress is exact
+  + [C-05] nonterminal offsets are eight-byte aligned and remain inside the region
+  + [C-06] names are positive, even, bounded, and strict UTF-16LE
+  + [C-07] grammar is exactly ::$DATA or :nonempty:$DATA
+  + [C-08] signed sizes reject before u64 conversion
+  + [C-09] terminal exhaustion is exact and padding is ignored only inside a nonterminal record boundary
+  + [C-10] partial records never release
+  + [C-11] Cargo, lockfile, dependency, pointer, unsafe, and effect deltas are zero
+  + [C-12] physical completeness, provenance, and stream-admission claims are absent
+  + [C-13] old authority is preserved as superseded, not rewritten
+
+& [SubcomponentWeaveTrace] is source grounded
+  + [header] originates in ChainIntent and weaves to little-endian fixture tests
+  + [offset] originates in alignment and terminal intent and weaves to progress, alignment, bounds, and exhaustion tests
+  + [name] originates in ChainIntent and weaves to length, strict UTF-16, and grammar tests
+  + [sizes] originate in ChainIntent and weave to negative-value rejection tests
+  + [padding] originates in ChainIntent and weaves to nonzero-padding acceptance tests
+  + [authority] originates in ObservedFault and weaves to canonical supersession and binding evidence
+
+& [CrossWeaveTrace] joins existing fabric
+  + [unsafe_seam_research] supplies the future byte-copy boundary but receives no implementation authority
+  + [entry_policy] is a sibling prerequisite and does not interpret stream records
+  + [supplied_observation_assembly] may consume parser outputs only after corrected authority revalidation and applies separate uniqueness and admission rules
+  + [topology_scanner] remains formation authority only
+  + [evidence_manifest] binds source, canonical, module, tests, solution, proof, and narrative without proving physical enumeration
+
+& [FailureModeSet] is explicit
+  + [F-01] source or correction bytes drift
+  + [F-02] prior signature is silently relabeled valid
+  + [F-03] replacement signature omits stage evidence
+  + [F-04] profile or behavior changes during governance repair
+  + [F-05] header or arithmetic reads outside the region
+  + [F-06] offset stalls, misaligns, or escapes
+  + [F-07] odd, empty, excessive, or malformed UTF-16 name admits
+  + [F-08] wrapper grammar overaccepts
+  + [F-09] negative size converts
+  + [F-10] terminal trailing bytes disappear
+  + [F-11] partial record vector escapes
+  + [F-12] pointer, unsafe, dependency, or runtime effect appears
+  + [F-13] parser success is cited as physical query completeness or stream admission
+
+& [VerificationProgram] is ordered
+  + [V-01] verify both source manifests against exact bytes and SHA-256
+  + [V-02] verify replacement signature protocol, supersession, and binding table
+  + [V-03] run eight focused parser tests in debug and overflow-checked release
+  + [V-04] run the independent pointer-free no-effect test in both profiles
+  + [V-05] verify production module hash remains A4C968AFA570827C0A9E61B2B2DEFABF55E4EBD9EAABBD180E91794F69A2E732
+  + [V-06] regenerate evidence with the replacement signature
+  + [V-07] run evidence rehash tests in both profiles
+  + [V-08] run workspace debug and overflow-checked release tests
+  + [V-09] run format, warnings-denied lint, release build, warnings-denied docs, and dependency audit
+  + [V-10] publish corrected solution, proof, review, narrative, reentry, and evidence bindings
+
+& [SemanticRefinementTrace] is exact
+  + [successful_region] is a caller assertion about the supplied region, not proof that Cantor made or authenticated a successful API call
+  + [complete_vector] means the entire supplied region parsed, not that physical stream enumeration was complete
+  + [raw_stream_record] means structurally decoded syntax, not an admitted topology stream
+  + [valid_signature] means processed under the governing SJS protocol with externally bound stage evidence
+
+& [ConstraintCheckTrace] is grounded
+  + [source] preserves exact header, alignment, terminal, UTF-16, grammar, size, padding, bounds, and zero-effect intent
+  + [Microsoft] supplies external structure context but does not broaden the preserved source
+  + [framework] requires protocol ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [artifact_guard] requires separate evidence for each processed stage
+  + [implementation] matches the intended profile and remains byte-identical
+  + [conflict_repair] replaces authority lineage only and does not retrofit pre-implementation authorization
+
+& [PruningTrace] removes overreach
+  + [pruned] treating either local protocol UUID as governing SJS authority
+  + [pruned] rewriting history to claim valid authority preceded implementation
+  + [pruned] new parser semantics or profile version
+  + [pruned] query success, completeness, same-handle, filesystem-support, admission, traversal, receipt, and mutation claims
+  + [pruned] interpreting or requiring zero alignment padding
+  + [pruned] decorative expansion without a requirement, constraint, fault, proof, or relation gain
+
+& [FoldTrace] is seven-fold
+  + [fold_1_subject] separates authority correction from parser behavior
+  + [fold_2_terms] fixes successful-region, complete-vector, raw-record, and valid-signature meanings
+  + [fold_3_data] closes limits, records, faults, lifecycle, and local state
+  + [fold_4_relations] cross-weaves seam research, policy, assembly, scanner, tests, and evidence
+  + [fold_5_constraints] preserves thirteen source and effect guards
+  + [fold_6_failures] exposes thirteen invalidation paths
+  + [fold_7_proof] binds ten verification gates and historical supersession
+
+& [GrowthSeedSet] is bounded
+  + [seed_1] is supplied entry-observation assembly after corrected prerequisite authority
+  + [seed_2] is future physical same-handle stream query under separate Win32 and unsafe authority
+  + [seed_3] is a reusable repository SJS signature-protocol linter under separate source and authority
+  - never: treat any seed as completed by this correction
+
+& [ExhaustionReview] is phase locked
+  + [source_preservation] complete
+  + [parser_boundary] complete
+  + [authority_correction] complete
+  + [data_design] complete
+  + [constraint_and_pruning] complete
+  + [verification_route] complete
+  + [state] is seven_fold_phase_locked

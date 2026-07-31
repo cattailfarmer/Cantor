@@ -1,42 +1,172 @@
 Subject: Exploded Cantor M2B Pure Windows Entry Policy
 
-& [ExplosionIdentity] is SJS decomposition
-  + [explosion_uuid] is 4a7a142a-142b-476c-a1fc-b632cb841122
+Description: Corrective seven-fold SJS expansion for the unchanged pure entry-policy profile after governance reentry found that its first signature used a non-governing protocol.
+
+& [ExplosionIdentity] is corrective and phase locked
+  + [explosion_uuid] is d6efcedf-b412-44f7-98d3-49695676a9ee
+  + [profile] is cantor-windows-entry-policy/0.1
   + [source_snapshot_uuid] is 3ffdebee-15aa-4ef6-ae4d-ad80b5912ce0
+  + [correction_snapshot_uuid] is 384aea9e-f513-410d-b753-f5fb5d34dd37
+  + [prior_explosion_uuid] is 4a7a142a-142b-476c-a1fc-b632cb841122
+  + [phase] is seven_fold_phase_locked
 
-& [Problem] is policy ambiguity before scanner activation
-  + raw attribute values can contain unknown or behavior-bearing bits
-  + Windows names can invoke navigation, Git controls, or device aliases
-  + nonzero per-directory case flags can make physical and Git name interpretation diverge
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_windows_entry_policy\Cantor_M2B_Pure_Windows_Entry_Policy_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_windows_entry_policy\Source_Document_Manifest.sop
+@ [correction_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_Source.sop
+@ [correction_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Source_Document_Manifest.sop
 
-& [Data] is closed
+& [BoundaryFormation] separates policy from observation
+  + [inside] exact caller-supplied entry kind, attributes, directory case flags, component, and component bound
+  + [inside] pure deterministic validation and exact UTF-8 order-key projection
+  + [outside] acquiring, authenticating, timing, correlating, or physically interpreting any input
+  + [outside] stream parsing, traversal, Git reconciliation, topology receipt, admission, mutation, seal, and promotion
+  + [correction_only] authority lineage changes while profile semantics and production behavior remain unchanged
+
+& [AtomicRequirementSet] is complete
+  + [M2B-WEP-001] bind strict profile, strict JSON, source snapshot, and governing correction source
+  + [M2B-WEP-002] preserve exact Windows attribute constants and closed known-bit classification
+  + [M2B-WEP-003] require DIRECTORY and permit only the exact directory mask for directory kind
+  + [M2B-WEP-004] admit exactly NORMAL alone or one nonzero benign subset for regular-file kind
+  + [M2B-WEP-005] require supplied case flags Some(0) for directory and None for regular file
+  + [M2B-WEP-006] measure exact component length in UTF-16 units under a caller bound from 1 through 32767
+  + [M2B-WEP-007] reject forbidden scalars, terminal space, and terminal period
+  + [M2B-WEP-008] reject empty, dot, dot-dot, and ASCII-case-insensitive .git components
+  + [M2B-WEP-009] reject fixed, numbered, superscript, mixed-case, and extension-bearing reserved device stems
+  + [M2B-WEP-010] preserve exact Unicode scalar sequence without normalization and derive exact UTF-8 byte order
+  + [M2B-WEP-011] preserve zero dependency, zero unsafe, and zero runtime-effect boundaries
+  + [M2B-WEP-012] preserve closed faults, exhaustive proof, rollback, and mandatory nonclaims
+  + [M2B-WEP-013] supersede the prior non-governing signature without erasing it
+  + [M2B-WEP-014] revalidate the unchanged implementation and evidence under the governing replacement signature
+
+& [DataDesignModel] is one closed pure transform
   + [EntryKind] is directory or regular_file
-  + [EntryPolicyInput] is kind, attributes, optional case flags, component, and maximum component UTF-16 units
-  + [EntryPolicyDecision] preserves exact kind, attributes, component, case flags, and canonical UTF-8 order key
-  + [EntryPolicyFaultCode] is kind, attribute, case_sensitivity, component, reserved_device, or resource
+  + [EntryPolicyInput] is profile, kind, exact attributes, optional directory case flags, exact component, and maximum UTF-16 units
+  + [EntryPolicyDecision] preserves profile, kind, attributes, case flags, component, and lowercase hexadecimal exact UTF-8 order key
+  + [EntryPolicyFault] is one closed code, field, and bounded deterministic reason
+  + [lifecycle] is supplied input to validation to one decision or one fault
+  + [state] is absent
+  + [provenance] is caller-supplied syntax only and does not become physical evidence
+  - never: release a partial decision
 
-& [Functions] are pure
-  + [evaluate] validates every field then releases one decision
-  + [validate_attributes] applies an exhaustive kind-specific truth table
-  + [validate_component] applies scalar, terminal, navigation, Git, and reserved-device rules
-  + [order_key] is exact component UTF-8 bytes
-
-& [Constraints] are exact
+& [AttributeTruthTable] is exhaustive
+  + [READONLY] is 0x00000001
+  + [HIDDEN] is 0x00000002
+  + [SYSTEM] is 0x00000004
+  + [DIRECTORY] is 0x00000010
+  + [ARCHIVE] is 0x00000020
+  + [NORMAL] is 0x00000080
+  + [NOT_CONTENT_INDEXED] is 0x00002000
   + [benign_mask] is 0x00002027
-  + [directory_mask] is 0x00002037 with DIRECTORY required
-  + [regular] is 0x00000080 alone or a nonzero subset of 0x00002027
-  + [case] directory requires Some(0); regular requires None
-  + [length] is measured in UTF-16 code units and bounded by caller value 1 through 32767
-  + [fault_text] is bounded and deterministic
+  + [directory_allowed_mask] is 0x00002037
+  + [directory] requires DIRECTORY and no bit outside directory_allowed_mask
+  + [regular_normal] is exactly NORMAL
+  + [regular_marked] is a nonzero subset of benign_mask
+  + [all_other_values] reject
 
-& [SecurityPruning] is explicit
-  - no operating-system symbols or calls
-  - no path existence or metadata query
-  - no normalization, locale casing, traversal, stream, Git, receipt, clock, randomness, network, model, or persistence
-  - no unsafe code and no dependency or lockfile delta
+& [ComponentTruthTable] is exact
+  + [forbidden_scalars] are NUL, U+0001 through U+001F, less-than, greater-than, colon, quote, slash, backslash, vertical-bar, question-mark, and asterisk
+  + [terminal_rejection] is trailing space or period
+  + [navigation_rejection] is dot or dot-dot
+  + [Git_control_rejection] is .git by ordinal ASCII case-insensitive equality
+  + [fixed_devices] are CON, PRN, AUX, and NUL before the first period
+  + [numbered_devices] are COM1 through COM9 and LPT1 through LPT9 before the first period
+  + [superscript_devices] are COM or LPT followed by superscript one, two, or three before the first period
+  + [Unicode] is exact and unnormalized
 
-& [Verification] is exhaustive
-  + every single known attribute bit is classified for both kinds
-  + every allowed subset boundary and forbidden combination is tested
-  + fixed, numbered, superscript, extension, mixed-case, navigation, Git, character, terminal, and UTF-16 bounds are tested
-  + unknown fields reject through strict JSON
+& [ConstraintLedger] is fail closed
+  + [C-01] original and correction sources remain byte-bound and separate from derived artifacts
+  + [C-02] profile remains cantor-windows-entry-policy/0.1
+  + [C-03] production code and behavior remain unchanged during authority correction
+  + [C-04] attribute admission is an exhaustive truth table, not a permissive unknown-bit filter
+  + [C-05] case-field presence follows kind exactly
+  + [C-06] component bounds and namespace hazards reject before decision release
+  + [C-07] Unicode normalization, locale casing, and lossy conversion are absent
+  + [C-08] order-key bytes are exact UTF-8 bytes
+  + [C-09] faults release no partial accepted value
+  + [C-10] Cargo, lockfile, dependency, unsafe, and effect deltas are zero
+  + [C-11] observation and physical-provenance claims are absent
+  + [C-12] old authority is preserved as superseded, not rewritten
+
+& [SubcomponentWeaveTrace] is source grounded
+  + [attributes] originate in AttributeIntent and weave to exhaustive unit tests
+  + [case_flags] originate in AttributeIntent and weave to entry-kind relation tests
+  + [component] originates in NameIntent and weaves to scalar, terminal, navigation, Git, and device tests
+  + [ordering] originates in NameIntent and weaves to exact-byte output tests
+  + [faults] originate in fail-closed intent and weave to strict JSON plus no-partial-result behavior
+  + [authority] originates in ObservedFault and weaves to the canonical supersession and binding table
+
+& [CrossWeaveTrace] joins existing fabric
+  + [topology_forms] supplies kind vocabulary but receives no new physical claim
+  + [topology_scanner_formation] requires later policy use but receives no scanner authority
+  + [stream_parser] is a sibling pure prerequisite and not an input to this transform
+  + [supplied_observation_assembly] may consume the decision only after corrected authority revalidation
+  + [evidence_manifest] binds source, canonical, module, tests, solution, proof, and narrative without becoming authority
+
+& [FailureModeSet] is explicit
+  + [F-01] source or correction bytes drift
+  + [F-02] prior signature is silently relabeled valid
+  + [F-03] replacement signature omits stage evidence
+  + [F-04] profile or behavior changes during governance repair
+  + [F-05] unknown attribute bit admits
+  + [F-06] NORMAL combines with another regular-file bit
+  + [F-07] kind and case-field relation diverge
+  + [F-08] reserved or navigation component admits
+  + [F-09] Unicode normalizes or order bytes change
+  + [F-10] partial decision escapes
+  + [F-11] dependency, unsafe, or runtime effect appears
+  + [F-12] policy output is cited as observation or physical provenance
+
+& [VerificationProgram] is ordered
+  + [V-01] verify both source manifests against exact bytes and SHA-256
+  + [V-02] verify replacement signature protocol, supersession, and binding table
+  + [V-03] run nine focused unit tests in debug and overflow-checked release
+  + [V-04] run the independent static no-effect test in both profiles
+  + [V-05] verify production module hash remains 19AD251C59F313F74B159D5D68A59A6861E799DF5ACC7E19F93B226ED43EA0CD
+  + [V-06] regenerate evidence with the replacement signature
+  + [V-07] run evidence rehash tests in both profiles
+  + [V-08] run workspace debug and overflow-checked release tests
+  + [V-09] run format, warnings-denied lint, release build, warnings-denied docs, and dependency audit
+  + [V-10] publish corrected solution, proof, review, narrative, reentry, and evidence bindings
+
+& [SemanticRefinementTrace] is exact
+  + [policy] means interpretation of supplied syntax, not observation
+  + [admitted] means valid under this profile, not safe, trusted, fresh, physically present, or Git-equivalent
+  + [exact] means no normalization, no default, and no unknown-field tolerance
+  + [valid_signature] means processed under the governing SJS protocol with externally bound stage evidence
+
+& [ConstraintCheckTrace] is grounded
+  + [source] preserves exact attribute, case, component, ordering, and zero-effect intent
+  + [framework] requires protocol ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [artifact_guard] requires separate evidence for each processed stage
+  + [implementation] matches the intended profile and remains byte-identical
+  + [conflict_repair] replaces authority lineage only and does not retrofit pre-implementation authorization
+
+& [PruningTrace] removes overreach
+  + [pruned] treating either local protocol UUID as governing SJS authority
+  + [pruned] rewriting history to claim valid authority preceded implementation
+  + [pruned] new policy semantics or profile version
+  + [pruned] observation, trust, safety, physical, traversal, Git, receipt, and mutation claims
+  + [pruned] decorative expansion without a requirement, constraint, fault, proof, or relation gain
+
+& [FoldTrace] is seven-fold
+  + [fold_1_subject] separates authority correction from behavior change
+  + [fold_2_terms] fixes policy, admitted, exact, and valid-signature meanings
+  + [fold_3_data] closes inputs, decision, fault, lifecycle, and absent state
+  + [fold_4_relations] cross-weaves topology, parser, assembly, tests, and evidence
+  + [fold_5_constraints] preserves twelve source and effect guards
+  + [fold_6_failures] exposes twelve invalidation paths
+  + [fold_7_proof] binds ten verification gates and historical supersession
+
+& [GrowthSeedSet] is bounded
+  + [seed_1] is supplied entry-observation assembly after corrected prerequisite authority
+  + [seed_2] is a reusable repository SJS signature-protocol linter under separate source and authority
+  - never: treat either seed as completed by this correction
+
+& [ExhaustionReview] is phase locked
+  + [source_preservation] complete
+  + [behavior_boundary] complete
+  + [authority_correction] complete
+  + [data_design] complete
+  + [constraint_and_pruning] complete
+  + [verification_route] complete
+  + [state] is seven_fold_phase_locked

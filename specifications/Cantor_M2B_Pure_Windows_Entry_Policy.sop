@@ -1,18 +1,35 @@
 Subject: Cantor M2B Pure Windows Entry Policy
 
-@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_windows_entry_policy\Cantor_M2B_Pure_Windows_Entry_Policy_Source.sop
-@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_windows_entry_policy\Source_Document_Manifest.sop
-@ [research] C:\Project\Cantor\narrative\research\Cantor_Pure_Windows_Entry_Policy_Freeze_Decision_2026-07-30.sop
-@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Pure_Windows_Entry_Policy.exploded.sop
-@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Pure_Windows_Entry_Policy_Justification.sop
-@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Pure_Windows_Entry_Policy_Plan.sop
-@ [matrix] C:\Project\Cantor\feature_support\M2BPureWindowsEntryPolicy_Requirement_Matrix.sop
+Description: Corrected canonical SJS authority for the unchanged zero-effect Windows entry-policy kernel. The first local signature is preserved as superseded because it did not use the governing SJS protocol.
 
-& [SpecificationIdentity] is pure implementation authority
+& [CanonicalIdentity] is corrected pure implementation authority
   + [specification_uuid] is 6621ce4a-d4ba-4323-a08e-e6d22b00a416
+  + [revision] is authority-lineage-correction-1
   + [profile] is cantor-windows-entry-policy/0.1
   + [source_snapshot_uuid] is 3ffdebee-15aa-4ef6-ae4d-ad80b5912ce0
+  + [correction_snapshot_uuid] is 384aea9e-f513-410d-b753-f5fb5d34dd37
   + [target_module] is crates/cantor_ecosystem/src/windows_entry_policy.rs
+  + [lifecycle_state] is accepted_for_unchanged_implementation_revalidation
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_windows_entry_policy\Cantor_M2B_Pure_Windows_Entry_Policy_Source.sop
+@ [source_sha256] 6DB85BE1DBBAA48F1B23121024FD50A95559A38D3D0E33494C977B675E554CC2
+@ [source_bytes] 2294
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_windows_entry_policy\Source_Document_Manifest.sop
+@ [correction_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_Source.sop
+@ [correction_source_sha256] 831F8BE75F86015BFD7313EFCB488355CB7B6CDB280C0775BA17E287AF5318F6
+@ [correction_source_bytes] 3724
+@ [correction_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_Pure_Windows_Entry_Policy_Freeze_Decision_2026-07-30.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Pure_Windows_Entry_Policy.exploded.sop
+@ [exploded_sha256] 34217CF75CC7D2EDF336501217579185C03033F0A9BA09C7C7AAEBEFF8C134C0
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Pure_Windows_Entry_Policy_Justification.sop
+@ [justification_sha256] EF32A5EDC76E576A440B79D49755DDD9760B721ED90E06053FAAC0BDD9D51188
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Pure_Windows_Entry_Policy_Plan.sop
+@ [plan_sha256] 782EDBC4F9724DE2DC0BDC119F0115D78F543644C8147893C8A38A91DE1304F9
+@ [matrix] C:\Project\Cantor\feature_support\M2BPureWindowsEntryPolicy_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BPureWindowsEntryPolicy.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Pure_Windows_Entry_Policy_Registry.sop
+@ [registry_sha256] 1118FE3AEB9F0FE063BFF518CD82E3AE308A77656292BD047D6F9D6C813AEF75
 
 & [InputContract] is strict
   + [kind] is directory or regular_file
@@ -20,59 +37,114 @@ Subject: Cantor M2B Pure Windows Entry Policy
   + [directory_case_sensitive_flags] is required and zero for directory, absent for regular_file
   + [component] is exact nonempty Unicode
   + [maximum_component_utf16_units] is 1 through 32767
-  = must: reject unknown JSON fields and unknown enum variants
+  = must: reject unknown serialized fields, unknown enum variants, invalid limits, and incoherent kind-field relations
 
 & [AttributeContract] is exhaustive
+  + [READONLY] is 0x00000001
+  + [HIDDEN] is 0x00000002
+  + [SYSTEM] is 0x00000004
+  + [DIRECTORY] is 0x00000010
+  + [ARCHIVE] is 0x00000020
+  + [NORMAL] is 0x00000080
+  + [NOT_CONTENT_INDEXED] is 0x00002000
   + [benign_mask] is 0x00002027
-  + [directory_bit] is 0x00000010
   + [directory_allowed_mask] is 0x00002037
-  + [normal] is 0x00000080
-  + [directory] requires DIRECTORY and permits only the directory allowed mask
+  + [directory] requires DIRECTORY and permits only directory_allowed_mask
   + [regular_normal] is exactly NORMAL
-  + [regular_marked] is a nonzero subset of benign mask
+  + [regular_marked] is a nonzero subset of benign_mask
   + [everything_else] rejects as attribute fault
 
 & [ComponentContract] is exact
   + [UTF16_units] are nonzero and do not exceed the supplied bound
-  + [forbidden_scalars] are NUL, U+0001 through U+001F, <, >, :, quote, slash, backslash, vertical-bar, question-mark, and asterisk
+  + [forbidden_scalars] are NUL, U+0001 through U+001F, less-than, greater-than, colon, quote, slash, backslash, vertical-bar, question-mark, and asterisk
   + [terminal] space and period reject
   + [navigation] dot and dot-dot reject
-  + [Git_control] .git rejects by ASCII case-insensitive equality
-  + [reserved_fixed] CON, PRN, AUX, and NUL reject before first period
-  + [reserved_numbered] COM1 through COM9 and LPT1 through LPT9 reject before first period
-  + [reserved_superscript] COM or LPT followed by superscript 1, 2, or 3 reject before first period
+  + [Git_control] .git rejects by ordinal ASCII case-insensitive equality
+  + [reserved_fixed] CON, PRN, AUX, and NUL reject before the first period
+  + [reserved_numbered] COM1 through COM9 and LPT1 through LPT9 reject before the first period
+  + [reserved_superscript] COM or LPT followed by superscript one, two, or three reject before the first period
   + [Unicode] is preserved without normalization
 
 & [OutputContract] is inspectable
-  + [decision] preserves exact input fields
-  + [order_key_hex] is canonical lowercase hex of exact component UTF-8 bytes
-  + [fault] exposes one closed code, field, and bounded reason
-  - never: output an OS, path, handle, Git, stream, receipt, or physical fact
+  + [decision] preserves exact input profile, kind, attributes, component, and case fields
+  + [order_key_hex] is canonical lowercase hexadecimal encoding of exact component UTF-8 bytes
+  + [fault] exposes one closed code, field, and bounded deterministic reason
+  - never: output an OS, path, handle, Git, stream, receipt, same-handle, freshness, trust, or physical fact
 
 & [ImplementationBoundary] is zero effect
+  + [authorized_file] is crates/cantor_ecosystem/src/windows_entry_policy.rs
+  + [authorized_export] is the exact library-module export
+  + [authorized_tests] are focused unit, strict serialization, static no-effect, evidence, and workspace regression tests
   + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
   + [unsafe] is denied
-  + [production_module] may import only std, serde, and this crate's pure forms
-  - never: use windows-sys, filesystem, process, environment, clock, random, network, model, or persistence APIs
+  + [production_module_imports] are only std, serde, and this crate's pure forms
+  - never: use windows-sys, filesystem, process, environment, clock, random, network, model, persistence, traversal, stream query, Git, receipt, mutation, seal, or promotion APIs
 
-& [Requirements] are M2B-WEP-001 through M2B-WEP-012
-  + [M2B-WEP-001] strict profile and JSON
-  + [M2B-WEP-002] exact attribute constants
-  + [M2B-WEP-003] exhaustive directory attributes
-  + [M2B-WEP-004] exhaustive regular attributes
-  + [M2B-WEP-005] exact case-field relation
-  + [M2B-WEP-006] UTF-16 resource bound
-  + [M2B-WEP-007] character and terminal rejection
-  + [M2B-WEP-008] navigation and Git rejection
-  + [M2B-WEP-009] reserved-device rejection
-  + [M2B-WEP-010] exact Unicode preservation and UTF-8 order key
-  + [M2B-WEP-011] pure no-effect static proof
-  + [M2B-WEP-012] verification, evidence, rollback, and nonclaims
+& [RequirementSet] is M2B-WEP-001 through M2B-WEP-014
+  + [policy_requirements] are strict input, exhaustive attributes, exact case relation, bounded components, namespace rejection, exact Unicode, order bytes, closed faults, and zero effects
+  + [correction_requirements] are historical supersession and unchanged-implementation revalidation
 
-& [SatisfactionSignature] is valid for pure implementation
+& [AcceptanceContract] is exact
+  + [source] both manifests match exact bytes and SHA-256
+  + [focused] nine unit tests and one independent static test pass in debug and overflow-checked release
+  + [module] SHA-256 remains 19AD251C59F313F74B159D5D68A59A6861E799DF5ACC7E19F93B226ED43EA0CD
+  + [effects] Cargo, lockfile, dependency, unsafe, and runtime-effect deltas remain zero
+  + [evidence] manifest names the replacement signature and rehashes current artifacts
+  + [global] workspace debug and release tests, format, warnings-denied lint, release build, warnings-denied docs, and audit pass
+  + [dependency_gate] supplied entry-observation assembly remains unprocessed until this acceptance is recorded
+
+& [AuthorityBoundary] is replacement and revalidation only
+  + [allowed] unchanged pure module, export, tests, evidence, solution, proof, review, narrative, and dependent-policy citation after revalidation
+  + [forbidden] production behavior change, profile change, dependency change, unsafe, physical observation, Win32, filesystem, traversal, stream query, Git reconciliation, receipt, admission, mutation, seal, or promotion
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is original source and correction source with exact manifests
+  + [delineated] is pure policy versus acquisition, provenance, and downstream effects
+  + [exploded] is fourteen requirements, twelve constraints, twelve failures, and ten verification gates
+  + [semantically_refined] is policy, admitted, exact, and valid-signature meaning
+  + [constraint_checked] is source, framework protocol, artifact guard, and byte-identical implementation
+  + [pruned] is false protocol authority, retroactive authorization, semantic drift, and physical overclaim
+  + [data_design_checked] is one closed input-to-decision-or-fault transform
+  + [seven_fold_phase_locked] is subject, terms, data, relations, constraints, failures, and proof convergence
+  + [justified] is truthful supersession with support, confidence, counterargument, residual risk, invalidation, and rollback
+  + [planned] is ordered preservation, processing, signing, revalidation, evidence, proof, and publication
+  + [registry_recorded] is graph-addressable source, correction, signature, implementation, evidence, and dependency lineage
+
+& [SignatureEvidenceTable] binds every claimed stage
+  + [source_preserved] is both Source_Document_Manifest.sop files and their exact hash and byte fields
+  + [delineated] is exploded BoundaryFormation
+  + [exploded] is Cantor_M2B_Pure_Windows_Entry_Policy.exploded.sop
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded PruningTrace
+  + [data_design_checked] is exploded DataDesignModel
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Pure_Windows_Entry_Policy_Justification.sop
+  + [planned] is Cantor_M2B_Pure_Windows_Entry_Policy_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Pure_Windows_Entry_Policy_Registry.sop
+
+& [SupersededRecordedSignature] is preserved fault trace
   + [signature_protocol_uuid] is 5b397e2d-8197-4480-be5f-ca6f2c6156fd
   + [signature_uuid] is 554e84a7-988c-4c86-b67d-45958ab7166c
-  + [status] is valid
-  + [implementation_authority] is one pure module, one export, tests, and governed proof records
-  + [execution_authority] is pure in-memory test execution only
-  + [invalidation] is any Win32 call, filesystem observation, unsafe, dependency delta, profile change, admitted reserved name, broadened attribute mask, normalization, or scanner claim
+  + [signed_subject] is the prior revision of C:\Project\Cantor\specifications\Cantor_M2B_Pure_Windows_Entry_Policy.sop
+  + [signature_status] is superseded_non_governing_protocol
+  + [superseded_by] is fbb835f2-5ab6-4362-a392-5d72692f8d1c
+  + [supersession_reason] is the recorded protocol UUID is not the governing Cantor SJS satisfaction-signature protocol
+  - never: treat this prior signature as current authority
+
+& [SatisfactionSignature] is valid replacement authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is fbb835f2-5ab6-4362-a392-5d72692f8d1c
+  + [previous_signature_uuid] is 554e84a7-988c-4c86-b67d-45958ab7166c
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Pure_Windows_Entry_Policy.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Pure_Windows_Entry_Policy.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_windows_entry_policy\Cantor_M2B_Pure_Windows_Entry_Policy_Source.sop
+  + [correction_source] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 529e4a16-0a03-470c-8a0f-1918dc047c9b
+  + [implementation_authority] is unchanged_pure_entry_policy_module_revalidation_only
+  + [execution_authority] is in-memory supplied-record tests only
+  + [signature_status] is valid
+  + [invalidation_condition] is source drift, correction-source drift, missing stage evidence, signature-registry conflict, behavior or profile drift, admitted invalid attribute or component, normalization, dependency or unsafe delta, runtime effect, stale evidence, failed proof, or dependent physical overclaim

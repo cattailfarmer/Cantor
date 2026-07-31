@@ -1,61 +1,138 @@
 Subject: Cantor M2B Pure Stream Information Parser
 
-@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_stream_information_parser\Cantor_M2B_Pure_Stream_Information_Parser_Source.sop
-@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_stream_information_parser\Source_Document_Manifest.sop
-@ [research] C:\Project\Cantor\narrative\research\Cantor_FILE_STREAM_INFO_Pure_Parser_Decision_2026-07-30.sop
-@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Pure_Stream_Information_Parser.exploded.sop
-@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Pure_Stream_Information_Parser_Justification.sop
-@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Pure_Stream_Information_Parser_Plan.sop
+Description: Corrected canonical SJS authority for the unchanged zero-effect FILE_STREAM_INFO parser kernel. The first local signature is preserved as superseded because it did not use the governing SJS protocol.
 
-& [SpecificationIdentity] is pure implementation authority
+& [CanonicalIdentity] is corrected pure implementation authority
   + [specification_uuid] is 41b3f145-0c4f-4dae-8e29-cc2c29823a34
+  + [revision] is authority-lineage-correction-1
   + [profile] is cantor-windows-stream-info-parser/0.1
   + [source_snapshot_uuid] is 538c3eed-9bc7-458a-ab3d-2a16ce1560f8
+  + [correction_snapshot_uuid] is 384aea9e-f513-410d-b753-f5fb5d34dd37
   + [target_module] is crates/cantor_ecosystem/src/windows_stream_info_parser.rs
+  + [lifecycle_state] is accepted_for_unchanged_implementation_revalidation
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_stream_information_parser\Cantor_M2B_Pure_Stream_Information_Parser_Source.sop
+@ [source_sha256] 221F4263F191DBCB1C143CE6BF3691229934509A0BFAEF431A9746BD1577D37C
+@ [source_bytes] 1996
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_stream_information_parser\Source_Document_Manifest.sop
+@ [correction_source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_Source.sop
+@ [correction_source_sha256] 831F8BE75F86015BFD7313EFCB488355CB7B6CDB280C0775BA17E287AF5318F6
+@ [correction_source_bytes] 3724
+@ [correction_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_FILE_STREAM_INFO_Pure_Parser_Decision_2026-07-30.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Pure_Stream_Information_Parser.exploded.sop
+@ [exploded_sha256] 943A1F09F2D6E7ABC35CF2C8F5624F7D10A6133EB391634D6A02EDCC6E9A427E
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Pure_Stream_Information_Parser_Justification.sop
+@ [justification_sha256] 4A581D8F1E908332ADBAA747E4B810B0F02CBEC0A1ED6F9AC3BE80EA2ADFDDE7
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Pure_Stream_Information_Parser_Plan.sop
+@ [plan_sha256] B8C6242CACE7D51F96ECFEA094AA103FB9FCE01E802DEB282B955BDE610DDA9F
+@ [matrix] C:\Project\Cantor\feature_support\M2BPureStreamInformationParser_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BPureStreamInformationParser.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Pure_Stream_Information_Parser_Registry.sop
+@ [registry_sha256] 80C507F0F56ACCD44A2D46684A98EE61C93FFB7D11FCCB2DF5E8D8153B8C0216
 
 & [InputContract] is exact
-  + [bytes] are the exact successful returned region
+  + [bytes] are one exact caller-supplied successful returned region
   + [maximum_entries] is 1 through 1024
   + [maximum_name_utf16_units] is 1 through 32767
   + [minimum_nonempty_region] is one 24-byte header plus one UTF-16 code unit
+  = must: reject invalid limits, empty or undersized regions, and every malformed chain before releasing output
 
 & [EntryContract] is structural
   + [header_size] is 24
   + [endianness] is little endian
-  + [next_offset] zero terminates; nonzero is at least header plus name, divisible by eight, and within the region
+  + [next_offset] zero terminates; nonzero is at least header plus name, divisible by eight, forward-progressing, and within the region
   + [name_length] is positive even bytes and within the caller unit limit
   + [sizes] are nonnegative signed inputs released as u64
   + [name] decodes strict UTF-16LE without replacement or NUL termination
   + [grammar] is exactly ::$DATA or :nonempty:$DATA
   + [terminal] final header plus name ends exactly at region length
-  + [padding] between name end and next offset is ignored
+  + [padding] between name end and nonterminal next offset is ignored
 
 & [OutputContract] is inspectable
-  + records retain source order and source byte offset
-  + names retain exact decoded scalar sequence
-  + no sorting, uniqueness, default-stream count, named-stream admission, or kind policy occurs
+  + [records] retain source order, exact decoded names, sizes, allocation sizes, and source byte offsets
+  + [fault] exposes one closed code and bounded deterministic detail
+  + [sorting] is absent
+  + [uniqueness] is absent
+  + [default_stream_count] is absent
+  + [named_stream_admission] is absent
+  + [entry_kind_policy] is absent
+  - never: output query success, physical completeness, same-handle origin, trust, freshness, filesystem support, admission, or receipt facts
 
-& [Requirements] are M2B-SIP-001 through M2B-SIP-010
-  + strict limits and exact region
-  + little-endian header decode
-  + checked offsets and eight-byte alignment
-  + positive even bounded names
-  + strict UTF-16 and stream-name grammar
-  + nonnegative sizes
-  + exact terminal exhaustion
-  + ignored padding
-  + closed faults and no partial release
-  + zero-effect verification, evidence, rollback, and nonclaims
-
-& [ImplementationBoundary] is pure
-  + [Cargo_and_lock_delta] is zero
+& [ImplementationBoundary] is zero effect
+  + [authorized_file] is crates/cantor_ecosystem/src/windows_stream_info_parser.rs
+  + [authorized_export] is the exact library-module export
+  + [authorized_tests] are focused parser, strict serialization, static pointer-free no-effect, evidence, and workspace regression tests
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
   + [unsafe] is zero
-  - never: import windows-sys or use filesystem, process, environment, clock, network, persistence, model, or physical APIs
+  + [pointer_cast_or_dereference] is zero
+  - never: import windows-sys or use filesystem, handle, process, environment, clock, network, persistence, model, traversal, content, admission, receipt, mutation, seal, or promotion APIs
 
-& [SatisfactionSignature] is valid for pure implementation
+& [RequirementSet] is M2B-SIP-001 through M2B-SIP-013
+  + [parser_requirements] are strict limits, exact region, little-endian headers, checked offsets, alignment, lengths, strict UTF-16, grammar, nonnegative sizes, terminal exhaustion, source order, ignored padding, closed faults, and zero effects
+  + [correction_requirements] are historical supersession and unchanged-implementation revalidation
+
+& [AcceptanceContract] is exact
+  + [source] both manifests match exact bytes and SHA-256
+  + [focused] eight parser tests and one independent static test pass in debug and overflow-checked release
+  + [module] SHA-256 remains A4C968AFA570827C0A9E61B2B2DEFABF55E4EBD9EAABBD180E91794F69A2E732
+  + [effects] Cargo, lockfile, dependency, pointer, unsafe, and runtime-effect deltas remain zero
+  + [evidence] manifest names the replacement signature and rehashes current artifacts
+  + [global] workspace debug and release tests, format, warnings-denied lint, release build, warnings-denied docs, and audit pass
+  + [dependency_gate] supplied entry-observation assembly remains unprocessed until this acceptance is recorded
+
+& [AuthorityBoundary] is replacement and revalidation only
+  + [allowed] unchanged pure parser module, export, tests, evidence, solution, proof, review, narrative, and dependent-parser citation after revalidation
+  + [forbidden] production behavior change, profile change, dependency change, pointer, unsafe, physical query or completeness, Win32, filesystem, stream admission, traversal, receipt, mutation, seal, or promotion
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is original source and correction source with exact manifests
+  + [delineated] is pure parsing versus acquisition, provenance, admission, and downstream effects
+  + [exploded] is thirteen requirements, thirteen constraints, thirteen failures, and ten verification gates
+  + [semantically_refined] is successful-region, complete-vector, raw-record, and valid-signature meaning
+  + [constraint_checked] is source, external structure context, framework protocol, artifact guard, and byte-identical implementation
+  + [pruned] is false protocol authority, retroactive authorization, semantic drift, padding overinterpretation, and physical overclaim
+  + [data_design_checked] is one bounded exact-region-to-complete-vector-or-fault parser
+  + [seven_fold_phase_locked] is subject, terms, data, relations, constraints, failures, and proof convergence
+  + [justified] is truthful supersession with support, confidence, counterargument, residual risk, invalidation, and rollback
+  + [planned] is ordered preservation, processing, signing, revalidation, evidence, proof, and publication
+  + [registry_recorded] is graph-addressable source, correction, signature, implementation, evidence, and dependency lineage
+
+& [SignatureEvidenceTable] binds every claimed stage
+  + [source_preserved] is both Source_Document_Manifest.sop files and their exact hash and byte fields
+  + [delineated] is exploded BoundaryFormation
+  + [exploded] is Cantor_M2B_Pure_Stream_Information_Parser.exploded.sop
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded PruningTrace
+  + [data_design_checked] is exploded DataDesignModel
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Pure_Stream_Information_Parser_Justification.sop
+  + [planned] is Cantor_M2B_Pure_Stream_Information_Parser_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Pure_Stream_Information_Parser_Registry.sop
+
+& [SupersededRecordedSignature] is preserved fault trace
   + [signature_protocol_uuid] is 876a8675-dcb1-4126-87e0-30c92732ce4b
   + [signature_uuid] is 4c36dfd3-93b4-4654-b8f7-5031d0ec83cc
-  + [status] is valid
-  + [implementation_authority] is one pure parser module, export, tests, and proof records
+  + [signed_subject] is the prior revision of C:\Project\Cantor\specifications\Cantor_M2B_Pure_Stream_Information_Parser.sop
+  + [signature_status] is superseded_non_governing_protocol
+  + [superseded_by] is f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ee
+  + [supersession_reason] is the recorded protocol UUID is not the governing Cantor SJS satisfaction-signature protocol
+  - never: treat this prior signature as current authority
+
+& [SatisfactionSignature] is valid replacement authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ee
+  + [previous_signature_uuid] is 4c36dfd3-93b4-4654-b8f7-5031d0ec83cc
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Pure_Stream_Information_Parser.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Pure_Stream_Information_Parser.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_stream_information_parser\Cantor_M2B_Pure_Stream_Information_Parser_Source.sop
+  + [correction_source] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_pure_prerequisite_authority_lineage_correction\Cantor_M2B_Pure_Prerequisite_Authority_Lineage_Correction_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 5c5be232-a797-4c49-9ed4-7c4368559050
+  + [implementation_authority] is unchanged_pure_stream_parser_module_revalidation_only
   + [execution_authority] is in-memory supplied-byte tests only
-  + [invalidation] is any platform call, pointer dereference, unsafe, partial success, unbounded allocation, admitted malformed chain, profile change, dependency delta, or physical claim
+  + [signature_status] is valid
+  + [invalidation_condition] is source drift, correction-source drift, missing stage evidence, signature-registry conflict, behavior or profile drift, malformed-chain admission, partial release, dependency, pointer, or unsafe delta, runtime effect, stale evidence, failed proof, or dependent physical overclaim
