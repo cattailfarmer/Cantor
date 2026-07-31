@@ -1,0 +1,161 @@
+Subject: Dictated Cantor M2B Supplied Content Digest Source
+
+Description: Raw selected build input for a pure streaming SHA-256 accumulator over caller-supplied chunks and a binding transform that revalidates the existing supplied-entry stability input before associating the derived digest with stable regular-file metadata. This source grants no physical byte-read, file, handle, path, platform, temporal, traversal, receipt, or admission authority.
+
+& [SourceIdentity] is preserved build input
+  + [source_uuid] is fe1ee76c-e3ef-4d9d-8eb5-f535b522c6f3
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [selected_by_review_uuid] is c6df28b6-ab1c-47e5-9234-b47c52cb17f2
+  + [working_profile] is cantor-windows-supplied-content-digest/0.1
+  + [prerequisite_stability_signature_uuid] is cbeb4260-0db0-413c-89c6-2ca164775243
+  + [prerequisite_assembly_signature_uuid] is 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719
+  + [authority_state] is unprocessed_source
+
+& [Purpose] derives inspectable digest evidence from exact supplied bytes before physical I/O is introduced
+  + calculate SHA-256 incrementally over the exact concatenation of caller-supplied chunks
+  + account for expected content length, observed content length, maximum content bytes, and maximum chunk count
+  + permit a successful supplied-content observation only through the accumulator's finalize operation
+  + bind that observation only after re-running the current supplied-entry stability reconciliation
+  + require the stable observation to describe one regular file with the same caller-owned entry reference and exact content length
+  + preserve the complete stable pair and supplied-content observation in the binding output
+  - never: accept a caller-declared digest string as proof of digest derivation
+
+& [PlanShape] is strict and serializable
+  + [profile] is exactly cantor-windows-supplied-content-digest/0.1
+  + [content_read_identity] is a nonzero caller-owned u64 local to one accumulator
+  + [entry_reference_identity] is a nonzero caller-owned u64 expected to match the later stable pair
+  + [expected_content_length] is a u64 and may be zero
+  + [maximum_content_bytes] is a positive u64 not greater than 1099511627776
+  + [maximum_chunks] is a positive u32 not greater than 1048576
+  = must: expected_content_length is not greater than maximum_content_bytes
+  = must: strict JSON rejects unknown fields, omissions, wrong types, unknown profile, and malformed scalar values
+  = must: any decode entry point rejects an encoded plan larger than a separately fixed small bound before JSON decoding
+  - never: place content chunks, paths, handles, clocks, or claimed digest text in the plan
+
+& [AccumulatorConstruction] is the only digest-observation origin
+  + validate the complete plan before constructing the accumulator
+  + initialize one SHA-256 state, zero observed bytes, and zero observed chunks
+  + keep the hash state, counters, and plan private
+  + do not implement Deserialize for the accumulator or successful content observation
+  + expose read-only counter and limit inspection only where useful
+  - never: expose mutable hash state or a constructor for a successful observation
+
+& [ChunkTransition] is consuming and atomic
+  + [input] is one borrowed caller-supplied byte slice
+  + [method] consumes the accumulator and returns either the next accumulator or one fault
+  + [chunk] must be nonempty
+  + [chunk_length] converts exactly to u64 or faults as resource
+  + [next_chunk_count] uses checked addition and cannot exceed maximum_chunks
+  + [next_observed_length] uses checked addition and cannot exceed expected_content_length or maximum_content_bytes
+  + [hash] updates only after every check passes and uses the bytes without normalization or framing
+  + [fault] consumes and drops the prior accumulator without returning partial state
+  - never: skip, reorder, duplicate, normalize, decode as text, or hash a chunk length or delimiter
+  - never: permit a caller to continue the same accumulator after a rejected chunk
+
+& [EmptyContent] is exact
+  + expected_content_length zero requires zero chunks
+  + finalize over zero chunks produces the standard SHA-256 of the empty byte string
+  + any nonempty chunk rejects because it exceeds the exact expected length
+  - never: represent empty content with one empty chunk
+
+& [Finalization] is consuming and fail closed
+  + consume the accumulator
+  + require observed length exactly equals expected content length
+  + finalize SHA-256 exactly once
+  + encode the digest as canonical lowercase 64-character hexadecimal
+  + return one supplied-content observation containing the exact profile, content-read identity, entry-reference identity, expected and observed lengths, maximum-content budget, maximum chunk budget, observed chunk count, and derived digest
+  + successful observation fields are inspectable and serializable but not externally constructible or deserializable
+  - never: return a digest observation for short content, excess content, rejected chunks, or an invalid plan
+
+& [StabilityBinding] reuses current authority instead of trusting public output structs
+  + [input_1] is one successful supplied-content observation created by finalization
+  + [input_2] is one WindowsSuppliedEntryStabilityInput
+  + invoke reconcile_windows_supplied_entry_stability on input_2
+  + preserve an exact nested stability fault when reconciliation rejects
+  + require the stable pair kind is regular_file
+  + require the content observation entry-reference identity equals the stable pair common entry-reference identity
+  + require content expected length and observed length both equal pre-read and post-read end_of_file
+  + preserve the stability reconciliation identity and both distinct batch identities
+  + return one supplied-content stable binding containing the exact content profile, complete content observation, and complete stable pair
+  - never: accept WindowsSuppliedEntryStablePair as direct unvalidated binding input
+  - never: accept directory content, tolerate a length delta, or select only one stable observation
+
+& [FaultShape] is closed, conditional, and bounded
+  + [codes] include json, profile, content_read_identity, entry_reference_identity, limit, chunk, length, stability, kind, entry_reference, metadata_length, resource
+  + [nested_stability_fault] is present only for stability and preserves the exact existing stability fault
+  + [field] is deterministic and bounded
+  + [message] is limited to 256 Unicode scalar values
+  + every failure returns no successful content observation and no binding
+  - never: place supplied bytes, an accumulator state, or unbounded nested JSON in a fault
+
+& [ResourceBoundary] is exact
+  + maximum content bytes is at most 1099511627776 to align with the existing topology maximum-file bound
+  + maximum chunks is at most 1048576
+  + plan JSON has a small fixed encoded-byte cap before allocation-intensive decode
+  + counter arithmetic is checked before hash-state mutation
+  + the accumulator stores constant-size hash and accounting state rather than retaining chunks
+  + output size is independent of supplied content length
+  - never: allocate a buffer proportional to total content inside this module
+
+& [SemanticStrength] prevents provenance inflation
+  + [supplied_chunk] means bytes presented by the caller to this in-memory function
+  + [derived_digest] means SHA-256 of the exact supplied chunk concatenation
+  + [content_observation] means derived supplied-byte evidence under this profile
+  + [stable_binding] means exact syntax and length agreement with a revalidated supplied stable pair
+  + [content_read_identity] and [entry_reference_identity] remain caller-owned syntax
+  - never: claim the chunks came from the stable file, a filesystem, an owned handle, Windows, a path, one query, or one read operation
+  - never: claim pre-read, content, and post-read physical order from function call order or role labels
+  - never: claim freshness, query completion, initialized buffers, physical completeness, content stability, supported platform, trust, atomic snapshot, or immutability
+
+& [DataDesign] separates source, derived values, state, and future physical facts
+  + [source_data] is strict plan values and caller-supplied chunk bytes
+  + [derived_state] is private SHA-256 state plus checked counters
+  + [derived_observation] is final supplied-byte digest evidence
+  + [prerequisite_derived_input] is stable pair produced only by re-running the current reconciler
+  + [derived_binding] is the complete observation plus complete stable pair
+  + [persistence] is absent
+  + [global_identity] is absent
+  + [physical_read_result] is absent
+
+& [ImplementationBoundary] is one pure module and support only
+  + [target_module] is crates/cantor_ecosystem/src/windows_supplied_content_digest.rs
+  + [export] is one exact module declaration
+  + [dependencies] are std, serde, sha2, and the existing supplied-entry stability module
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [unsafe] is forbidden
+  + [effects] filesystem, process, environment, clock, random, network, model, persistence, and platform calls are forbidden
+  + [downstream] path, Git mode, ordinal, TopologyEntryObservation, receipt, admission, traversal, mutation, seal, review execution, cleanup, and promotion are forbidden
+
+& [Verification] is required before acceptance
+  + exact plan profile, identities, limits, strict JSON, and encoded-plan bound tests
+  + exact known SHA-256 vectors for empty, one chunk, and multiple chunk partitions
+  + repeatability across equal byte concatenations with different valid chunk partitions while preserving different chunk counts
+  + consuming rejection tests for empty chunk, chunk-count excess, length excess, byte-budget excess, and short finalization
+  + stable regular-file binding success with exact preservation
+  + nested stability, directory-kind, entry-reference, and metadata-length fault tests
+  + independent static no-effect, no-forge, no-physical-provenance, and no-downstream-authority test
+  + focused debug and overflow-checked release tests
+  + clone-portable evidence rehash in both profiles
+  + global debug and overflow-checked release workspace tests
+  + format, warnings-denied lint, release build, warnings-denied docs, dependency audit, and recursive evidence closure
+
+& [RequirementSet] is proposed
+  + [M2B-SCD-001] strict bounded plan and exact profile
+  + [M2B-SCD-002] private accumulator construction and state
+  + [M2B-SCD-003] consuming atomic chunk transition
+  + [M2B-SCD-004] checked byte and chunk resource accounting
+  + [M2B-SCD-005] exact incremental SHA-256 over supplied concatenation
+  + [M2B-SCD-006] exact empty-content behavior
+  + [M2B-SCD-007] consuming exact-length finalization
+  + [M2B-SCD-008] unforgeable serializable supplied-content observation
+  + [M2B-SCD-009] mandatory nested stability revalidation
+  + [M2B-SCD-010] regular-file, entry-reference, and metadata-length binding
+  + [M2B-SCD-011] complete stable-pair and content-observation preservation
+  + [M2B-SCD-012] closed bounded atomic faults
+  + [M2B-SCD-013] physical, temporal, provenance, and downstream nonclaims
+  + [M2B-SCD-014] zero-effect implementation and proof closure
+
+& [AuthorityBoundary] is source input only
+  + [allowed_after_SJS] pure accumulator, supplied-byte digest observation, stability binding, tests, evidence, and governed records
+  - never: infer canonical, implementation, execution, or physical authority from this preserved source alone

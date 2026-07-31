@@ -5,7 +5,7 @@ Subject: Cantor M2B Current Reentry
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [captured_at] is 2026-07-30
   + [branch] is codex/self-hosted-corpus
-  + [status] is supplied_content_digest_boundary_selected_source_preservation_pending
+  + [status] is supplied_content_digest_source_preserved_SJS_pending
 
 & [CompletedCheckpointSet] is exact
   + [M2A_receipt_revision_authority] is 9f6ed9f
@@ -89,6 +89,8 @@ Subject: Cantor M2B Current Reentry
 @ [M2B_stability_proof] C:\Project\Cantor\proofs\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Proof.sop
 @ [M2B_post_stability_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Stability_Architecture_Review_2026-07-31.sop
 @ [M2B_post_stability_checkpoint] C:\Project\Cantor\feature_support\reviews\M2BSuppliedEntryStabilityProgram_Checkpoint_Review.sop
+@ [M2B_content_digest_source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_content_digest\Cantor_M2B_Supplied_Content_Digest_Source.sop
+@ [M2B_content_digest_source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_content_digest\Source_Document_Manifest.sop
 @ [readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
 
 & [CurrentFacts] are measured
@@ -174,7 +176,9 @@ Subject: Cantor M2B Current Reentry
 & [NextDependencyReadySlice] is source governance first
   + [candidate] is pure supplied-content digest derivation and stability binding
   + [profile] is cantor-windows-supplied-content-digest/0.1
-  + [first_action] is preserve the selected source and process it through governing SJS before code
+  + [source_snapshot_uuid] is 3b3c292f-e00b-45c9-b277-fe55da559d83
+  + [source_sha256] is FFFCC2A39C33621C084ABE44A8953B0DBB136FBD4CE4B8B58E4FA1B419A84CEC
+  + [first_action] is process the preserved source through governing SJS before code
   + [effect_order] exact local proof is complete; further physical scope is locked
   + [stop] is any unpreserved source, pre/post label accepted as physical order proof, same-handle assertion accepted as proof, synthesized query completion, hidden default, new effect, or scanner authority
 
