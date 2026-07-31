@@ -1,0 +1,64 @@
+Subject: Cantor Phase3 Inventory Consistency Evidence Revision SJS Processing Input Manifest
+
+& [ManifestIdentity] is exact
+  + [manifest_uuid] is b6ede1f9-5aac-4f62-88bb-a74c7e207bfb
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+  + [captured_at] is 2026-07-31
+  + [baseline_commit] is d5fc77c121703bfe8ebbefbcb62332bb368ce299
+  + [state] is multi_authority_SJS_processing_open_unsigned
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\Source_Document_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_SJS_Input_Audit_2026-07-31.sop
+
+& [SourceBinding] is immutable
+  + [source_sha256] is BB805C0B239C25426B99D521F101FDFD8DCF06FE8A466467B8646860359905F7
+  + [source_bytes] is 16758
+  + [source_manifest_sha256] is D8D33FD9EA7FDDE5882D903AA91F7C10ACBB2AF85037D927E42A6123452CB66C
+
+& [Phase3MachineFormsPredecessor] is exact
+  + [source_sha256] is 96F3BE5B7715715009A557C7B7E5D10872F740EA54331D0294413E4E62B34763
+  + [canonical_sha256] is 013FA1B61859833025D7371B936B9A45FC2859A6CBF596BBBFE56915BACBD199
+  + [proof_sha256] is 0E6BF9DF0349FE7D72605BD41C12C95CDDA191A77C354C8707E9916661846609
+  + [signature_uuid] is ae44deed-29c7-4a6a-96d1-1a0091539575
+  + [module_sha256] is 8B5465B3D6884D00C85FA5621F54224E8C1F5823E16221848E55954F0A6E57AC
+
+& [TopologyFormsPredecessor] is exact
+  + [activation_source_sha256] is A8FD1BD48FBF2A592A1D442D0479EB882823B06A3D1BDF1077E0A1466D988346
+  + [root_revision_source_sha256] is 01EA89B89D16E86B3311104EDB742067E793178D778ADC06B0D84E334D6C22A5
+  + [pre_revision_snapshot_sha256] is 728E7C48FFC2716096CBD8B38567C5CB08636207546B1E4622623104269EE900
+  + [reprocessing_manifest_sha256] is A4A7D4CE258EC71D3243E918C6F7035C624FC76F9643DE3E5F9A582CCCD79CF4
+  + [canonical_sha256] is 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+  + [proof_sha256] is A8E76BD5DDF5F4FF067E5BED2320C356B3B9B5D186B43A3EEE8CA39698920ECC
+  + [signature_uuid] is 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + [module_sha256] is 5C686AB894467C2576F19FBB0854F029145FAB630D5788A00470CD07E40DD179
+
+& [FormationCompatibilitySet] is exact
+  + [scanner_source_sha256] is 1B797B4C5CBDE683718AFD8E182BA9EB7B5C8B0E65897DACD8634AC85D14B81D
+  + [scanner_canonical_sha256] is DFB51683CA47360F299ACF87A54825DF8771204AEDDE6EF3A3C3B654CFAA2E7F
+  + [scanner_signature_uuid] is 040c8eb3-4c55-42c7-b731-f1223fb6b05f
+  + [scanner_authority] is formation_only
+  + [seal_source_sha256] is CFC78D0DFC0A6FBFFEC476C23B8FCD5B7EFC6D481C527C8AC70412C70CFC77D1
+  + [seal_canonical_sha256] is 4202033527F85D48970FCE2D3308F158EB652FA5D1076412E4D8001CE5E2EC9E
+  + [seal_authority] is formation_only
+
+& [LowerEvidenceBoundary] is exact
+  + [reconciliation_canonical_sha256] is 76003E27D937BBEFAEFD9C08DA51C171AB5FDD3577495955ACBCB7665887EB83
+  + [reconciliation_proof_sha256] is 92464EAF01785C5DEF3FE8B45043A1ABDA7E6A1B69CF2FAA3CDADE3DEEED0E15
+  + [reconciliation_signature_uuid] is a763535f-3b13-4539-9aba-d74f09e3de5c
+  + [boundary] supplied Equal never satisfies repeated physical acquisition evidence
+
+& [SupersessionIntent] is scoped
+  + phase3 machine forms signature is affected only at machine-form profile and inventory consistency evidence vocabulary
+  + topology forms signature is affected only at forms and receipt profiles, receipt evidence field, allowed value, and legacy rejection
+  + scanner and seal formations need later compatibility revisions but grant no implementation authority to supersede
+  + unchanged requirements are inherited and must be revalidated
+
+& [ProcessingRule] is fail closed
+  + every derived artifact cites this manifest and preserved source identity
+  + source or predecessor drift invalidates the processing run
+  + every canonical signature table binds both implementation-governing predecessors
+  + exploded and canonical artifacts remain separate from raw source
+  + no partial SJS artifact authorizes code or effect
+  - never: infer M2C, M2D, physical acquisition, receipt issuance, admission, mutation, sealing, or promotion authority
