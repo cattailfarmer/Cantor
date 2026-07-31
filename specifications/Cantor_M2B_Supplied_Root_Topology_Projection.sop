@@ -1,0 +1,141 @@
+Subject: Cantor M2B Supplied Root Topology Projection
+
+Description: Canonical SJS authority for a zero-effect transform that revalidates complete supplied preflight and directory-stability inputs, correlates their root identities and components, and releases one output-only wrapper around a current-M2A-valid RootDirectory form without claiming runtime, physical, inventory, receipt, or admission provenance.
+
+& [CanonicalIdentity] is pure implementation authority
+  + [specification_uuid] is cfade686-c34b-496e-bd98-6ef0284fd03e
+  + [revision] is 1
+  + [profile] is cantor-windows-supplied-root-topology-projection/0.1
+  + [source_snapshot_uuid] is b633f2a2-35f1-44ec-b37d-a9de93525c6e
+  + [target_module] is crates/cantor_ecosystem/src/windows_supplied_root_topology_projection.rs
+  + [lifecycle_state] is implementation_ready
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_root_topology_projection\Cantor_M2B_Supplied_Root_Topology_Projection_Source.sop
+@ [source_sha256] 5D47C2B0ABFCF61A0D644735658EEA24EF962E9E3C441880CDC138BF9838137D
+@ [source_bytes] 14759
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_root_topology_projection\Source_Document_Manifest.sop
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Supplied_Directory_Topology_Projection_Architecture_Review_2026-07-31.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Root_Topology_Projection.exploded.sop
+@ [exploded_sha256] BC6D8BF164E28D72AC1B92738DB031840DC7087F444E8EB53C80B53F3FA5F959
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Supplied_Root_Topology_Projection_Justification.sop
+@ [justification_sha256] 6C3AE1CF98A6FD9A47ECDFF1AF58139060E29039E5BB3CD3FE5FC6924BF870D0
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Root_Topology_Projection_Plan.sop
+@ [plan_sha256] 8030B2002AFBB59413B45F0C3B59BF2E08C77734B7C1B6141DEF065AEFB4D0BF
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedRootTopologyProjection_Requirement_Matrix.sop
+@ [matrix_sha256] E6657CBAB09C6CFF352A28AF6924B40817D55E539BE8E05991B718FBD5EF0F4F
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedRootTopologyProjection.sop
+@ [slice_sha256] C2E6CBAB276AE23EBB5A1AAA75ACC95D8388B53714FB804A7375B65254A4C98D
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Supplied_Root_Topology_Projection_Registry.sop
+@ [registry_sha256] 1C8292FCB6BCC33715DB7FFB3AB7D06AE38D537AD359D681928185435B77B6C9
+@ [platform_authority] C:\Project\Cantor\specifications\Cantor_M2B_Platform_Location_Classification_Revision.sop
+@ [platform_authority_sha256] 4354E8382CD8D1FDF3C4A65F0C1408B48BDB51749BBCA13C05829899238B1B8B
+@ [platform_signature] 61c2b9cf-4608-4e7d-88ae-d674d52640e3
+@ [stability_authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+@ [stability_authority_sha256] 6B63092DD56343C2698B1112308A6F34F0C21B570B6330F355D8315334AC0DE3
+@ [stability_signature] cbeb4260-0db0-413c-89c6-2ca164775243
+@ [topology_authority] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [topology_authority_sha256] 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+@ [topology_signature] 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+
+& [PlanContract] is strict
+  + exact profile, nonzero projection identity, nonzero entry-reference identity, and 4096-byte predecode cap
+  + serde denies unknown, missing, malformed, and mistyped fields
+  + no caller path, mode, ordinal, root identity, length, digest, metadata, or provenance field exists
+
+& [InputContract] requires complete supplied forms
+  + public functions accept one WindowsPlatformPreflightRecord and one WindowsSuppliedEntryStabilityInput by value
+  + current ValidatePlatformPreflightForm and reconcile_windows_supplied_entry_stability calls are mandatory
+  + exact nested PlatformPreflightFormFault and WindowsSuppliedEntryStabilityFault values are preserved
+  - never: accept a bare stable pair, root identity, preflight success fragment, seed, or topology observation
+
+& [PreflightContract] is exact
+  + current validation precedes variant inspection
+  + only CompleteLocal with EligibleLocalNtfs proceeds
+  + every other variant or disposition returns preflight_disposition
+  + complete preflight record remains unchanged in successful wrapper
+  - never: claim valid supplied form proves runtime origin or current physical state
+
+& [EvaluationContract] is ordered
+  + validate plan
+  + validate complete preflight record
+  + require eligible CompleteLocal
+  + reconcile complete stability input
+  + require exact plan and pair entry-reference equality
+  + derive seed and require Directory
+  + require exact complete seed identity and preflight root identity equality
+  + extract nonempty input-root and volume-GUID-path final components
+  + require both components equal stable policy component exactly
+  + construct fixed root candidate and invoke current M2A validation
+  + release one output-only wrapper
+  + first failure returns no partial success
+
+& [IdentityAndComponentContract] is exact supplied correlation
+  + StrongFileIdentity comparison includes volume_serial and complete lowercase file_id_hex value through derived Eq
+  + input root and volume-GUID path have already passed current preflight syntax validation
+  + drive root or any empty final component rejects distinctly
+  + extracted components and stable policy component compare by exact String equality
+  + no case folding, Unicode normalization, path normalization, filesystem lookup, partial identity, or volume-serial reinterpretation is permitted
+
+& [RootProjectionContract] is fixed
+  + relative_path None
+  + kind TopologyEntryKind RootDirectory
+  + mode_class TopologyModeClass Directory
+  + attributes, identity, number_of_links, and streams exact from stable directory seed
+  + length None
+  + content_sha256 None
+  + observation_ordinal 1
+  + current ValidateTopologyForm is mandatory and exact fault is nested
+
+& [OutputContract] is non-forgeable
+  + WindowsSuppliedRootTopologyProjection has private profile, plan, preflight_record, stable_pair, and topology_observation fields
+  + derives Serialize but not Deserialize or Default
+  + immutable getters only
+  + no public constructor, public field, mutable getter, From, or Into
+
+& [FaultContract] is closed, bounded, and atomic
+  + codes are json, profile, projection_identity, entry_reference_identity, preflight, preflight_disposition, stability, entry_reference, kind, identity, input_root_component, final_path_component, component, topology_form, and resource
+  + nested preflight, stability, and topology faults appear only under matching codes
+  + field and message caps are 64 and 256 Unicode scalars
+  + no fault contains success
+
+& [SemanticBoundary] is mandatory
+  + supplied, revalidated, derived, correlated, and projected grades remain distinct
+  - never: claim runtime origin, physical root identity, path existence or correspondence, handle continuity, actual order, freshness, enumeration, traversal, inventory completeness, Git truth, receipt, admission, mutation safety, or promotion authority
+
+& [ImplementationBoundary] is zero effect
+  + one module, one export, module tests, one static test, one evidence test, and governed closure
+  + production imports only std formatting, serde, platform forms, stability, and topology forms
+  + Cargo, lockfile, unsafe, Windows-call, filesystem, process, environment, clock, random, network, persistence, model, Git, traversal, inventory, receipt, admission, mutation, sealing, cleanup, and promotion deltas are zero
+
+& [RequirementSet] is M2B-SRTPR-001 through M2B-SRTPR-014
+
+& [AcceptanceContract] requires exact source and SJS hashes, direct tests for every gate and mapping, focused and workspace debug and overflow-checked release, format, warnings-denied lint, release build, warnings-denied docs, dependency audit, clone-portable evidence, recursive closure, rollback, and zero physical execution
+
+& [SJSProcessingTrace] is complete
+  + source preserved; boundary delineated; fourteen requirements exploded; terms refined; fourteen constraints checked and reapplied; unsafe and redundant surface pruned; downstream growth seeded; data, identity, mapping, cardinality, ownership, faults, and seven folds phase locked; justification, plan, registry, matrix, and slice separately recorded
+
+& [SignatureEvidenceTable] binds stages
+  + source 5D47C2B0ABFCF61A0D644735658EEA24EF962E9E3C441880CDC138BF9838137D and 14759 bytes
+  + exploded BC6D8BF164E28D72AC1B92738DB031840DC7087F444E8EB53C80B53F3FA5F959
+  + justification 6C3AE1CF98A6FD9A47ECDFF1AF58139060E29039E5BB3CD3FE5FC6924BF870D0
+  + plan 8030B2002AFBB59413B45F0C3B59BF2E08C77734B7C1B6141DEF065AEFB4D0BF
+  + registry 1C8292FCB6BCC33715DB7FFB3AB7D06AE38D537AD359D681928185435B77B6C9
+  + matrix E6657CBAB09C6CFF352A28AF6924B40817D55E539BE8E05991B718FBD5EF0F4F
+  + slice C2E6CBAB276AE23EBB5A1AAA75ACC95D8388B53714FB804A7375B65254A4C98D
+  + platform prerequisite signature 61c2b9cf-4608-4e7d-88ae-d674d52640e3 and hash 4354E8382CD8D1FDF3C4A65F0C1408B48BDB51749BBCA13C05829899238B1B8B
+  + stability prerequisite signature cbeb4260-0db0-413c-89c6-2ca164775243 and hash 6B63092DD56343C2698B1112308A6F34F0C21B570B6330F355D8315334AC0DE3
+  + topology prerequisite signature 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2 and hash 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+
+& [SatisfactionSignature] is valid canonical authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 6af7c461-07ed-426c-9684-819405223bf6
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Root_Topology_Projection.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Root_Topology_Projection.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_root_topology_projection\Cantor_M2B_Supplied_Root_Topology_Projection_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, constraint_reapplied, pruned, growth_seeded, data_design_checked, seven_fold_phase_locked, justified, planned, registry_recorded, matrix_recorded, and slice_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 825ddf52-2655-41ee-ac02-e0784da0a66f
+  + [implementation_authority] is current pure supplied root topology projection module and bounded support only
+  + [execution_authority] is in-memory supplied-value tests only
+  + [signature_status] is valid
+  + [invalidation_condition] is any source, stage, hash, or prerequisite drift; validator bypass; wrong disposition; direct success fragment; partial identity; normalized join; fixed-shape drift; wrapper forgeability; provenance inflation; dependency, unsafe, platform-call, or effect delta; stale evidence; failed proof; or implementation contradiction

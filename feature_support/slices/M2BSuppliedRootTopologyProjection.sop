@@ -1,0 +1,14 @@
+Subject: M2B Supplied Root Topology Projection Slice
+
+& [SliceIdentity] is exact
+  + [slice_uuid] is 1bdb8333-42b3-4c41-a3ac-823bb6c70dbb
+  + [profile] is cantor-windows-supplied-root-topology-projection/0.1
+  + [source_snapshot_uuid] is b633f2a2-35f1-44ec-b37d-a9de93525c6e
+  + [requirements] are M2B-SRTPR-001 through M2B-SRTPR-014
+  + [state] is implementation_ready
+
+& [Inputs] are strict identity-only plan, complete WindowsPlatformPreflightRecord, and complete WindowsSuppliedEntryStabilityInput
+& [Output] is zero or one output-only WindowsSuppliedRootTopologyProjection
+& [Behavior] is current preflight validation, eligible local gate, current stability reconciliation, exact reference, directory kind, full identity, dual component joins, fixed root mapping, current M2A validation, and complete lineage preservation
+& [Effects] are none
+& [StopBoundary] excludes bare fragments, drive root, physical provenance, mixed inventory, traversal, Git, receipt, admission, and every effect
