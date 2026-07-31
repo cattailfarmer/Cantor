@@ -1,0 +1,48 @@
+Subject: Cantor M2B Supplied Content Digest Solution
+
+& [SolutionIdentity] is pure and traceable
+  + [solution_uuid] is e93871fe-2ab3-42ef-bd25-37dcdcbece78
+  + [profile] is cantor-windows-supplied-content-digest/0.1
+  + [authority_signature_uuid] is 44749466-30d8-44e9-85b8-e51f1bafea33
+  + [stability_signature_uuid] is cbeb4260-0db0-413c-89c6-2ca164775243
+  + [implementation_commit] is 21f98fabc4dd3dfa6c66450486ad5b29229339f2
+  + [status] is passed
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Content_Digest.sop
+@ [module] C:\Project\Cantor\crates\cantor_ecosystem\src\windows_supplied_content_digest.rs
+@ [static_test] C:\Project\Cantor\crates\cantor_ecosystem\tests\windows_supplied_content_digest_static.rs
+
+& [Implementation] is one deterministic supplied-byte transform
+  + [plan] strictly validates exact profile, nonzero local identities, expected length, a positive maximum-content budget at most 1 TiB, a positive maximum-chunk budget at most 1048576, and a 4096-byte predecode cap
+  + [accumulator] holds private validated plan, SHA-256 state, observed byte count, and observed chunk count without retaining content
+  + [transition] consumes state, rejects empty chunks, checks every counter and limit before hashing, and returns no resumable accumulator on failure
+  + [finalization] consumes state, requires exact length, and returns canonical lowercase SHA-256
+  + [observation] has private fields, immutable getters, Serialize only, no Default, and no public constructor
+  + [binding] re-runs current stability reconciliation and requires regular-file kind, exact entry reference, and exact pre/post EOF agreement
+  + [binding_output] has private fields, immutable getters, Serialize only, and preserves both complete derived records
+  + [fault] is closed, bounded, atomic, and preserves an exact boxed nested stability fault only for the stability code
+
+& [Verification] is complete
+  + [focused_debug] is 11 unit and 1 static passed
+  + [focused_overflow_checked_release] is 11 unit and 1 static passed
+  + [format] is passed
+  + [warnings_denied_lint] is passed
+  + [evidence_debug_and_release] is 1 passed each
+  + [workspace_debug] is 319 passed and 1 governed physical ignore
+  + [workspace_overflow_checked_release] is 319 passed and 1 governed physical ignore
+  + [release_execution_note] proof-only Rust metadata changed symbol identity after host policy repeatedly refused one cached executable; source and runtime semantics were unchanged
+  + [release_build] is passed
+  + [warnings_denied_docs] is passed
+  + [dependency_audit] is 113 locked packages, 1175 advisories, and zero vulnerabilities
+  + [module_sha256] is 0E8B50DB3B6F4B92E24944130EB52EA3B137ECD5E8083FFCA94F2DDAF6570A58
+  + [module_bytes] is 31663
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [unsafe_blocks] is zero
+  + [Windows_API_calls] is zero
+
+& [SemanticLimit] is mandatory
+  + [derived_digest] means SHA-256 of exact caller-supplied accepted chunks
+  + [stable_binding] means structural equality with newly reconciled supplied metadata
+  + [identities] remain caller-owned syntax local to immediate values
+  - never: cite this solution as proof of filesystem or file origin, handle continuity, physical order, one read, freshness, completeness, content stability, authenticity, supported platform, path binding, traversal, Git projection, receipt, admission, mutation, seal, review execution, cleanup, or promotion

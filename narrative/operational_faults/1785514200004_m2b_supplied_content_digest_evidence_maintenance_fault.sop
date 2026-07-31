@@ -1,0 +1,17 @@
+Subject: M2B Supplied Content Digest Evidence Maintenance Fault
+
+& [FaultIdentity] is an evidence-refresh procedure correction
+  + [fault_uuid] is bbb0c451-75ed-4f65-b2f3-1490fa66388f
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+
+& [Observed] has two nonproduct errors
+  + an unordered metadata refresh changed dependency manifests after their consumers and temporarily left an upper manifest stale
+  + the same refresh mistakenly rewrote three version-suffixed frozen historical manifests
+  + the first exact-byte restore helper used an unavailable ProcessStartInfo ArgumentList surface and stopped without a successful write
+
+& [Repair] is dependency order plus historical immutability
+  + current manifests were rehashed in dependency order without any physical probe
+  + phase3 topology 0.1 and platform-preflight forms 0.1 and 0.2 were restored exactly from committed Git blobs
+  + the platform-preflight 0.2 digest again equals its pinned 2479ff9d83ee8e8ae2e737786c5625b8e35c56082c004a2b29514ad6e1fccc95 value
+  + all ecosystem integration and evidence tests then passed
+  + [physical_effect] is zero

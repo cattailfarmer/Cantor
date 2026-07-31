@@ -1,0 +1,15 @@
+Subject: M2B Supplied Content Digest Lint Fault
+
+& [FaultIdentity] is a preclosure representation finding
+  + [fault_uuid] is 13fd5375-c5fb-4cf2-afe5-0bac5b044d9e
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+
+& [Observed] is warnings-denied Clippy rejected a 168-byte Result error variant and redundant EOF conversions
+  + [cause] full nested stability fault was stored inline in every supplied-content fault
+  + [semantic_failure] is absent
+  + [proof_status] was not yet complete and the failed lint was not cited as passed
+
+& [Repair] is fixed-size outer error representation
+  + nested stability fault is boxed while its exact value and serde shape remain preserved
+  + stable EOF values are compared directly in their derived u64 representation
+  + focused tests and warnings-denied crate lint pass after repair commit 21f98fa
