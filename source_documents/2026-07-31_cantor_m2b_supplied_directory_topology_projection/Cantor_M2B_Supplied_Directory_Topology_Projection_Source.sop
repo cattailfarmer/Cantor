@@ -1,0 +1,243 @@
+Subject: Cantor M2B Supplied Directory Topology Projection Source
+
+Description: Raw selected build source for one pure projection that turns a caller-supplied directory stability input and caller-declared descendant placement into a complete M2A directory form while preserving exact lineage and making no physical, traversal, inventory, receipt, or admission claim.
+
+& [SourceIdentity] is selected and unprocessed
+  + [source_uuid] is fde99cce-e274-458c-aee1-a1d565c432eb
+  + [source_snapshot_uuid] is 3546eb38-36a5-4d88-8097-ecb86b5b40a0
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+  + [working_profile] is cantor-windows-supplied-directory-topology-projection/0.1
+  + [selection_review_uuid] is 7d0ae4a1-508a-4235-ae47-002599d51145
+  + [authority_state] is preserved_source_only_after_manifest_binding
+
+& [Purpose] is close one supplied structural directory carrier
+  + accept one strict caller placement plan
+  + accept one complete WindowsSuppliedEntryStabilityInput by value
+  + invoke the current supplied-entry stability reconciler inside the projection path
+  + reject any non-directory result
+  + join the plan to the revalidated pair through exact entry-reference and final-component equality
+  + construct one complete current-M2A directory TopologyEntryObservation
+  + preserve the complete plan, revalidated stable pair, and completed topology observation in one output-only wrapper
+  - never: accept a bare WindowsSuppliedEntryStablePair as sufficient input
+  - never: perform or imply physical observation
+
+& [WhyThisSlice] is dependency ordered
+  + the regular-file supplied structural carrier is complete and proven
+  + the supplied assembly seed already represents directories without length or digest
+  + the supplied stability reconciler already compares directory facts under its declared supplied-value semantics
+  + M2A already defines the complete structural directory shape
+  + a complete directory carrier is required before a later mixed-entry inventory may be coherently represented
+  + physical production remains a larger unsafe-adjacent contract and is not needed to prove this pure composition
+
+& [CriticalProvenanceRule] forbids direct stable-pair trust
+  + WindowsSuppliedEntryStablePair is currently a public Serialize and Deserialize data form
+  + callers can construct that form without executing the current stability reconciler
+  + accepting it directly would let a forged or stale lower success enter a new non-forgeable wrapper
+  + the new operation therefore accepts WindowsSuppliedEntryStabilityInput and calls reconcile_windows_supplied_entry_stability itself
+  + the exact nested stability fault must survive if lower reconciliation rejects
+  + the successful stable pair returned by the current reconciler becomes the sole metadata source for projection
+
+& [PlacementPlan] is strict caller syntax
+  + [profile] exact cantor-windows-supplied-directory-topology-projection/0.1
+  + [projection_identity] nonzero unsigned 64-bit caller-local identity
+  + [entry_reference_identity] nonzero unsigned 64-bit correlation identity
+  + [relative_path] caller-declared descendant path to be checked by current M2A validation
+  + [observation_ordinal] nonzero unsigned 64-bit caller-declared ordinal
+  + [encoded_plan_maximum_bytes] is 262144 before JSON decoding
+  + unknown JSON fields reject
+  + missing, malformed, or type-invalid fields reject
+  + no mode field exists because directory mode is fixed by this profile
+  + no digest or length field exists because directory shape forbids both
+
+& [Inputs] are complete and bounded by existing contracts
+  + [plan] is WindowsSuppliedDirectoryTopologyProjectionPlan
+  + [stability_input] is WindowsSuppliedEntryStabilityInput
+  + stability input retains both complete supplied assembly inputs
+  + existing assembly and stability limits remain authoritative for nested values
+  + no bare observation, stable pair, seed, topology observation, or asserted digest is accepted as the evidence carrier
+
+& [EvaluationOrder] is deterministic and fail closed
+  + [step_1] validate the placement plan profile, encoded bound when decoded, identities, and ordinal
+  + [step_2] invoke current reconcile_windows_supplied_entry_stability on the complete supplied stability input
+  + [step_3] require exact plan entry-reference equality with the successful stable pair
+  + [step_4] derive the topology projection seed from the successful stable pair pre-read
+  + [step_5] require seed kind Directory
+  + [step_6] map exact seed-supported fields plus caller placement into one candidate M2A topology observation
+  + [step_7] invoke current ValidateTopologyForm on the candidate
+  + [step_8] obtain the final component only from the M2A-validated descendant relative path
+  + [step_9] require exact byte-for-byte final-component equality with the stable pre-read policy component
+  + [step_10] release one complete output-only wrapper
+  + first failure terminates evaluation
+  + no failure returns partial successful state
+
+& [ExactMapping] distinguishes evidence grades
+  + [kind] is Directory from the stable pre-read projection seed
+  + [mode_class] is TopologyModeClass Directory fixed by the profile
+  + [attributes] copies exact seed attributes
+  + [identity] copies exact seed strong identity
+  + [number_of_links] copies exact seed link count
+  + [streams] copies exact seed stream vector without invention
+  + [length] is None
+  + [content_sha256] is None
+  + [relative_path] copies the plan declaration
+  + [observation_ordinal] copies the plan declaration
+  + [projection_identity] remains wrapper plan metadata and is not inserted into M2A
+  + [entry_reference_identity] remains wrapper plan and stable-pair correlation metadata and is not inserted into M2A
+
+& [DirectoryShape] is exact
+  + the revalidated seed must be TopologyEntryKind Directory
+  + mode is always TopologyModeClass Directory
+  + relative path must be a current-M2A-valid descendant path
+  + length is absent
+  + content digest is absent
+  + stable supplied assembly already requires directory-compatible case-sensitivity and stream facts
+  + root directory is not represented by this contract
+  - never: translate a directory seed into RootDirectory
+  - never: synthesize content length zero or an empty-content hash
+
+& [ReferenceJoin] is exact equality only
+  + plan entry-reference identity must be nonzero
+  + successful stable-pair entry-reference identity is established by current stability reconciliation
+  + the two values must be exactly equal
+  + mismatch rejects before topology form construction
+  + equality is a caller-supplied structural correlation only
+  - never: call equality proof of physical object identity, handle continuity, path identity, or time
+
+& [ComponentJoin] is exact equality only
+  + current M2A validation must first accept the descendant relative path
+  + final component is the substring after the final forward slash, or the whole one-component descendant path
+  + final component must equal stable pre-read policy-decision component exactly
+  + comparison is case sensitive and byte exact over Rust strings
+  + mismatch rejects
+  + successful equality does not prove the physical path was resolved or traversed
+
+& [CurrentM2AValidation] is mandatory
+  + construct one candidate TopologyEntryObservation only from the closed mapping
+  + invoke its current ValidateTopologyForm implementation
+  + preserve the exact TopologyFormFault as a compact nested fault
+  + do not duplicate or weaken the M2A path, identity, link, stream, kind, mode, length, digest, or ordinal rules
+  + later M2A rule changes must be observed by this projection through the current validator
+
+& [SuccessWrapper] is output only
+  + [name] is WindowsSuppliedDirectoryTopologyProjection
+  + fields are private
+  + wrapper derives Serialize but not Deserialize
+  + wrapper has no Default implementation
+  + wrapper has no public constructor
+  + wrapper has immutable getters for profile, plan, stable pair, and topology observation
+  + wrapper preserves the complete placement plan
+  + wrapper preserves the complete revalidated WindowsSuppliedEntryStablePair
+  + wrapper preserves the complete validated TopologyEntryObservation
+  + wrapper has no From or Into conversion that drops lineage or evidence grade
+
+& [FaultVocabulary] is closed
+  + [json] malformed, unknown, missing, or type-invalid plan JSON
+  + [profile] unsupported plan profile
+  + [projection_identity] zero projection identity
+  + [entry_reference_identity] zero plan entry reference
+  + [stability] nested current stability reconciliation failure
+  + [entry_reference] plan and successful stable-pair reference mismatch
+  + [kind] successful pair is not a directory
+  + [topology_form] nested current M2A validation failure
+  + [component] final relative-path component mismatch
+  + [ordinal] zero observation ordinal
+  + [resource] encoded plan exceeds the cap or an impossible post-validation extraction invariant fails
+  + fault code is a closed enum
+  + nested stability and topology faults remain distinct
+  + field text is capped at 64 Unicode scalar values
+  + message text is capped at 256 Unicode scalar values
+  + faults serialize deterministically
+  + no fault contains a successful projection
+
+& [Functions] are minimal
+  + decode_windows_supplied_directory_topology_projection_plan accepts bounded bytes and returns a validated plan or fault
+  + decode_and_project_windows_supplied_directory_topology accepts plan bytes plus stability input and returns projection or fault
+  + project_windows_supplied_directory_topology accepts a plan plus stability input and returns projection or fault
+  + private plan validation and bounded-text helpers support those paths only
+
+& [PurityBoundary] is strict
+  + deterministic in-memory transformation only
+  + no unsafe code
+  + no Windows API
+  + no filesystem or path-resolution API
+  + no process, environment, clock, randomness, network, persistence, database, model, or tool call
+  + no Cargo dependency or lockfile change
+  + no physical fixture
+  + no candidate admission, mutation, seal, test execution, cleanup, or promotion
+
+& [EvidenceGrades] remain explicit
+  + [supplied] both lower metadata assemblies originate as caller-provided values
+  + [revalidated] the current pure assembly and stability rules have executed in this call
+  + [derived] topology seed fields are deterministic transforms of the revalidated supplied pair
+  + [declared] path, ordinal, projection identity, and plan reference are caller syntax
+  + [correlated] reference and component values passed exact structural equality gates
+  + [projected] the candidate passed current M2A structural validation
+  + [physical] absent
+  + [complete_inventory] absent
+  + [admitted] absent
+
+& [SemanticNonclaims] are mandatory
+  - never: claim supplied records came from Windows, a filesystem, a directory handle, or one physical object
+  - never: claim pre-read occurred before post-read or both came from the same handle or epoch
+  - never: claim the relative path exists, is rooted, was resolved, or names the supplied identity
+  - never: claim the ordinal came from enumeration or traversal
+  - never: claim directory streams were physically queried or complete
+  - never: claim root membership, canonical ordering, duplicate freedom, inventory completeness, or aggregate digest
+  - never: claim Git state, executable mode, receipt issuance, candidate admission, mutation safety, or promotion authority
+
+& [RequirementSet] is proposed
+  + [M2B-SDTP-001] strict bounded placement-plan decoding and validation
+  + [M2B-SDTP-002] complete supplied stability input is the only lower evidence input
+  + [M2B-SDTP-003] current stability reconciliation is mandatory and exact faults are nested
+  + [M2B-SDTP-004] exact nonzero entry-reference correlation
+  + [M2B-SDTP-005] directory-only kind and fixed-mode discipline
+  + [M2B-SDTP-006] exact closed field mapping with no digest or length invention
+  + [M2B-SDTP-007] current M2A validation is mandatory and exact faults are nested
+  + [M2B-SDTP-008] exact final-component correlation after M2A validation
+  + [M2B-SDTP-009] output-only complete lineage wrapper
+  + [M2B-SDTP-010] closed bounded deterministic fault surface and atomic failure
+  + [M2B-SDTP-011] explicit evidence grades and semantic nonclaims
+  + [M2B-SDTP-012] zero-effect and zero-dependency implementation boundary
+  + [M2B-SDTP-013] focused, static, global, quality, audit, and recursive evidence closure
+
+& [TestObligations] are direct
+  + strict JSON rejects unknown fields, malformed data, oversized encoding, wrong profile, and zero identities or ordinal
+  + nested stability failure is exact and distinguishable
+  + direct stable-pair input is absent from every public projection function
+  + regular-file stability input rejects at the directory kind gate
+  + plan reference mismatch rejects
+  + invalid path reaches and preserves the current nested M2A fault
+  + final-component mismatch rejects after M2A validation
+  + valid one-component and multi-component descendant paths project exactly
+  + output preserves the complete plan and successful stable pair
+  + output JSON preserves complete nested lineage and topology form
+  + static test proves private output fields, absence of Deserialize and public constructor, mandatory reconciler call, current validator call, fixed directory mapping, and forbidden effect vocabulary
+  + focused tests pass in debug and overflow-checked release
+  + workspace regression and quality gates pass
+  + clone-portable evidence hashes every cited artifact
+
+& [ImplementationShape] is one pure Rust module
+  + [module] is crates/cantor_ecosystem/src/windows_supplied_directory_topology_projection.rs
+  + [export] is one public module declaration in cantor_ecosystem lib
+  + [unit_tests] live beside the module
+  + [static_test] is one independent source-surface test
+  + [evidence_test] is one clone-portable manifest rehash test
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [unsafe_delta] is zero
+  + [platform_call_delta] is zero
+
+& [DownstreamBoundary] remains separate
+  + root-directory projection needs its own root binding and null-path contract
+  + mixed-entry inventory reconciliation may consume output-only regular-file and directory projections only after its own source and SJS
+  + physical production must preserve handle and query provenance under separate unsafe review and fixture authority
+  + Git reconciliation needs a separate evidence vocabulary and producer contract
+  + traversal, receipt, and admission require repeated whole-root evidence and freshness semantics not present here
+
+& [SourceExit] is preservation before interpretation
+  + preserve this file byte exactly with a separate manifest
+  + do not overwrite it during explosion or canonical refinement
+  + process it through the governing SJS protocol before implementation
+  + bind the current supplied-entry-stability and M2A topology-form authorities
+  + issue no implementation or execution authority merely from this source
