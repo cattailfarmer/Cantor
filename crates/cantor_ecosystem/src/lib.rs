@@ -19,6 +19,7 @@ pub mod topology_forms;
 pub mod transcript;
 pub mod windows_entry_policy;
 pub mod windows_stream_info_parser;
+pub mod windows_supplied_entry_observation;
 pub mod workspace_admission;
 
 pub use adapter::*;
@@ -32,6 +33,7 @@ pub use topology_forms::*;
 pub use transcript::*;
 pub use windows_entry_policy::*;
 pub use windows_stream_info_parser::*;
+pub use windows_supplied_entry_observation::*;
 pub use workspace_admission::*;
 
 /// Version of the bounded supervised mock-loop profile.
