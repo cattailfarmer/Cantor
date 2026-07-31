@@ -1,0 +1,50 @@
+Subject: Cantor M2B Supplied Entry Observation Assembly Solution
+
+& [SolutionIdentity] is pure and traceable
+  + [solution_uuid] is 1dd7d09c-8416-46dd-a70b-0902b5de799d
+  + [profile] is cantor-windows-supplied-entry-observation/0.1
+  + [authority_signature_uuid] is 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719
+  + [implementation_commit] is 3383448529fc1e98365ee02ad8bd1dea3f08d376
+  + [status] is passed
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
+@ [module] C:\Project\Cantor\crates\cantor_ecosystem\src\windows_supplied_entry_observation.rs
+@ [static_test] C:\Project\Cantor\crates\cantor_ecosystem\tests\windows_supplied_entry_observation_static.rs
+
+& [Implementation] is one deterministic transform
+  + [input] is exact profile, kind, component, component bound, and five nonoptional supplied record classes
+  + [correlation] rejects zero or unequal batch and entry-reference identities across every record
+  + [identity] validates exactly sixteen bytes and derives canonical lowercase file-ID hex
+  + [standard] rejects negative sizes before conversion, zero links, delete pending, and directory-kind mismatch
+  + [case] requires explicit zero directory flags or explicit regular-file not-applicable
+  + [streams] distinguishes explicit empty from nonempty ordered records and revalidates count, grammar, UTF-16 bound, uniqueness, and increasing source offsets
+  + [policy] delegates exact kind, attributes, case, component, and bound to the current pure entry-policy evaluator
+  + [release] returns one immutable supplied observation or one closed bounded fault
+
+& [Projection] is intentionally incomplete
+  + [present] kind, attributes, strong identity, links, name-sorted derived stream facts, and kind-shaped length
+  + [preserved_elsewhere] raw stream order, allocation sizes, and source offsets remain in the supplied observation
+  + [absent] relative path, mode class, content digest, and observation ordinal
+  + [direct_TopologyEntryObservation_conversion] is absent
+
+& [Verification] is complete
+  + [focused_debug] is 11 unit and 1 static passed
+  + [focused_overflow_checked_release] is 11 unit and 1 static passed
+  + [format] is passed
+  + [warnings_denied_crate_lint] is passed
+  + [evidence_debug_and_release] is 1 passed each
+  + [workspace_debug] is 293 passed and 1 governed physical ignore
+  + [workspace_overflow_checked_release] is 293 passed and 1 governed physical ignore
+  + [warnings_denied_workspace_lint] is passed
+  + [release_build] is passed
+  + [warnings_denied_docs] is passed
+  + [dependency_audit] is 113 locked packages, 1175 advisories, and zero vulnerabilities
+  + [module_sha256] is 94617B29276422CD99C5275E614E5DD2A83A87C48646224800933884AD340715
+  + [module_bytes] is 31858
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [unsafe_blocks] is zero
+  + [Windows_API_calls] is zero
+
+& [Nonclaim] is mandatory
+  - never: cite this solution as proof of query success, initialized buffers, Windows origin, physical stream completeness, same-handle or same-object origin, freshness, filesystem support, path binding, traversal, Git reconciliation, receipt, admission, mutation, seal, or promotion

@@ -1,0 +1,24 @@
+Subject: M2B Supplied Entry Observation Test Oracle Operational Fault
+
+& [FaultIdentity] is focused-test expectation only
+  + [fault_uuid] is b2906abf-bd84-4f42-bc09-42c024d78304
+  + [recognition] first focused run failed the derived topology-stream ordering assertion
+  + [second_recognition] first evidence run rejected the correct stream-parser signature because the assertion contained a transcribed six-character suffix instead of the authoritative four-character suffix
+  + [production_behavior_fault] is absent
+  + [test_oracle_fault] is confirmed
+
+& [Cause] is exact lexical ordering
+  + the expected vector placed named streams before ::$DATA
+  + Rust String ordering compares exact bytes and dollar-sign sorts before alphabetic inner names after the common leading colon
+  + the implementation had already produced the correct ascending order required by M2A forms
+
+& [Repair] is bounded
+  + change only the expected vector and the corresponding size index
+  + change only the evidence-test literal from f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ce4b to authoritative f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ee
+  + rerun unit and static tests in debug and overflow-checked release
+  + regenerate the manifest because it binds the corrected test and fault record
+  + preserve raw supplied stream order and production projection behavior
+
+& [Prevention] is explicit
+  + derive expected canonical ordering from exact byte comparison when punctuation-bearing names are present
+  - never: normalize, case-fold, or special-case ::$DATA ordering

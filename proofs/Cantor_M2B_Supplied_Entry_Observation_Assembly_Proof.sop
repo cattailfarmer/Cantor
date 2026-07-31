@@ -1,0 +1,87 @@
+Subject: Cantor M2B Supplied Entry Observation Assembly Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedEntryObservationAssembly.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedEntryObservationAssembly_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Entry_Observation_Assembly_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedEntryObservationAssembly_Completion_Review.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_supplied_entry_observation_evidence_manifest.json
+
+& [ProofIdentity] is complete
+  + [proof_uuid] is a3889f53-c290-4202-ae26-b05ff278d500
+  + [authority_signature_uuid] is 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719
+  + [solution_uuid] is 1dd7d09c-8416-46dd-a70b-0902b5de799d
+  + [implementation_commit] is 3383448529fc1e98365ee02ad8bd1dea3f08d376
+  + [status] is passed
+  + [evidence_manifest_schema] is cantor-windows-supplied-entry-observation-evidence-manifest/0.1
+  + [evidence_manifest_uuid] is 2973edde-d2dc-4d74-86ce-7e337ba7e614
+  + [evidence_manifest_sha256] is 06E717C19D99E45B141DC9F03B91A0F0DD289F9F39F5566FC35E65880951373F
+  + [evidence_manifest_bytes] is 16352
+  + [evidence_artifacts] is 39
+
+& [RecordProof] is structural
+  + [required_classes] are attribute-tag, file identity, standard information, case disposition, and stream-set disposition
+  + [presence] every class is a nonoptional input field or closed variant
+  + [correlation] both identities must be nonzero and equal across all five records
+  + [identity] exactly sixteen supplied bytes become exact lowercase 32-character file-ID hex
+  + [syntax_only] correlation grants no handle, object, query, path, epoch, or physical claim
+
+& [CoherenceProof] is fail closed
+  + [sizes] negative allocation or end-of-file values reject before unsigned conversion
+  + [links] zero rejects
+  + [delete_pending] true rejects
+  + [kind] requested kind and standard-information directory flag must agree
+  + [case] directory requires explicit zero flags and regular file requires explicit not-applicable
+  + [policy] exact kind, attributes, case, component, and bound pass through the proven pure entry-policy evaluator
+  + [fault] one closed bounded fault escapes without any partial observation
+
+& [StreamProof] is exact
+  + [variants] explicit_empty is distinct from ordered_records
+  + [cardinality] ordered records require one through 1024 entries
+  + [name] exact DATA-stream grammar and one-through-32767 UTF-16 units are revalidated
+  + [uniqueness] exact duplicate names reject
+  + [source_order] offsets increase strictly and raw record order is preserved
+  + [raw_facts] stream size, allocation size, and source offset are preserved
+  + [nonclaim] neither variant proves parser execution, Windows origin, enumeration completeness, or physical absence
+
+& [ProjectionProof] prevents invention
+  + [present] kind, attributes, strong identity, links, exact-name-sorted derived stream facts, and kind-shaped length
+  + [absent_by_type] relative path, mode class, content digest, and observation ordinal
+  + [direct_conversion] no From or Into implementation constructs TopologyEntryObservation
+  + [raw_order] remains separately preserved in the supplied observation
+
+& [NoEffectProof] is structural
+  + [module_sha256] is 94617B29276422CD99C5275E614E5DD2A83A87C48646224800933884AD340715
+  + [module_bytes] is 31858
+  + [unsafe_blocks] is zero
+  + [Windows_API_calls] is zero
+  + [filesystem_process_environment_clock_network_model_persistence] are absent
+  + [Cargo_manifest_delta] is zero
+  + [Cargo_lock_delta] is zero
+  + [physical_query_traversal_receipt_admission_mutation_seal_promotion_authority] are absent
+
+& [VerificationProof] is complete
+  + [focused_debug] is 11 unit plus 1 static passed
+  + [focused_overflow_checked_release] is 11 unit plus 1 static passed
+  + [evidence_debug_and_release] are 1 passed each
+  + [workspace_debug] is 293 passed and 1 governed physical test ignored
+  + [workspace_overflow_checked_release] is 293 passed and 1 governed physical test ignored
+  + [format] is passed
+  + [warnings_denied_lint] is passed
+  + [release_build] is passed
+  + [warnings_denied_docs] is passed
+  + [audit] is 113 locked packages against 1175 advisories with zero vulnerabilities
+
+& [EvidenceProof] is clone portable
+  + [artifacts] are 39 repository-relative paths with exact byte counts and SHA-256
+  + [recursive_graph] is 16 current manifests, 625 artifact references, and zero stale records
+  + [physical_rerun] is absent
+  + [candidate_admission_rehash] remains metadata_only_no_physical_probe
+
+& [OperationalFaultProof] is honest
+  + [test_oracle] one stream-order expectation and one signature literal were corrected without production semantic change
+  + [application_control] one debug executable was refused once by host policy and the immediate unchanged isolated rerun passed 91 tests
+  + [combined_verifier_timeout] no result from the timed-out combined call was cited; bounded reruns supplied every closure result
+
+& [Nonclaim] is mandatory
+  - never: cite this proof as query success, initialized-buffer evidence, Windows origin, physical stream completeness, same-handle or same-object origin, freshness, filesystem support, path binding, traversal, Git reconciliation, topology receipt, candidate admission, mutation, seal, or promotion authority

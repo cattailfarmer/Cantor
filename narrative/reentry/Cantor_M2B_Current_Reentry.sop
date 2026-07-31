@@ -5,7 +5,7 @@ Subject: Cantor M2B Current Reentry
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [captured_at] is 2026-07-30
   + [branch] is codex/self-hosted-corpus
-  + [status] is supplied_assembly_canonical_signed_pure_implementation_ready
+  + [status] is supplied_assembly_pure_implementation_and_proof_complete_physical_producer_locked
 
 & [CompletedCheckpointSet] is exact
   + [M2A_receipt_revision_authority] is 9f6ed9f
@@ -38,6 +38,9 @@ Subject: Cantor M2B Current Reentry
   + [M2B_stream_parser_proof] is c2e32c5
   + [M2B_prerequisite_authority_correction_source] is 96d09a7
   + [M2B_prerequisite_authority_correction] is 9c0b0fa
+  + [M2B_prerequisite_authority_revalidation] is 50ebf9c
+  + [M2B_supplied_assembly_authority] is 3822ce1
+  + [M2B_supplied_assembly_implementation] is 3383448
 
 @ [M2A_proof] C:\Project\Cantor\proofs\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Proof.sop
 @ [M2B_proof] C:\Project\Cantor\proofs\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop
@@ -66,6 +69,9 @@ Subject: Cantor M2B Current Reentry
 @ [M2B_supplied_assembly_authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
 @ [M2B_supplied_assembly_explosion] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Entry_Observation_Assembly.exploded.sop
 @ [M2B_supplied_assembly_plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Entry_Observation_Assembly_Plan.sop
+@ [M2B_supplied_assembly_solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Entry_Observation_Assembly_Solution.sop
+@ [M2B_supplied_assembly_review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedEntryObservationAssembly_Completion_Review.sop
+@ [M2B_supplied_assembly_proof] C:\Project\Cantor\proofs\Cantor_M2B_Supplied_Entry_Observation_Assembly_Proof.sop
 @ [readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
 
 & [CurrentFacts] are measured
@@ -118,8 +124,12 @@ Subject: Cantor M2B Current Reentry
   + [authority_correction] both pure prerequisite profiles have governing replacement signatures and byte-identical focused, global, and recursive evidence revalidation
   + [supplied_assembly_profile] is cantor-windows-supplied-entry-observation/0.1
   + [supplied_assembly_signature] is 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719 under governing protocol ad10f10f-d506-48ef-a805-f8b0a133766c
-  + [supplied_assembly_authority] is canonical, phase locked, and bounded to one pure module plus support
-  + [supplied_assembly_implementation] is absent
+  + [supplied_assembly_authority] is canonical, phase locked, and satisfied by one pure module plus support
+  + [supplied_assembly_implementation] is commit 3383448 with module SHA-256 94617B29276422CD99C5275E614E5DD2A83A87C48646224800933884AD340715
+  + [supplied_assembly_focused] is 11 unit and 1 static test passed in debug and overflow-checked release
+  + [supplied_assembly_global] is 293 passed and 1 governed physical ignore in both profiles
+  + [supplied_assembly_quality] is format, warnings-denied lint, release build, warnings-denied docs, and zero-vulnerability audit passed
+  + [supplied_assembly_recursive_evidence] is 16 manifests with zero stale references
   + [supplied_assembly_physical_authority] is absent
 
 & [StillLocked] is explicit
@@ -132,11 +142,11 @@ Subject: Cantor M2B Current Reentry
   + [additional_physical_fixture] is absent
   + [candidate_mutation] is absent
 
-& [NextDependencyReadySlice] is pure implementation first
-  + [candidate] is pure epoch-bound supplied entry observation assembly
-  + [first_action] is implement only the signed pure module, export, focused tests, static test, and evidence support
+& [NextDependencyReadySlice] is post-assembly formation first
+  + [candidate] is architecture review and source selection for the next non-effect dependency or later private physical producer
+  + [first_action] is review the closed assembly proof and preserve any newly selected source before canonical or implementation work
   + [effect_order] exact local proof is complete; further physical scope is locked
-  + [stop] is any same-handle assertion accepted as proof, synthesized query completion, hidden default, new effect, or scanner authority
+  + [stop] is any unpreserved source, same-handle assertion accepted as proof, synthesized query completion, hidden default, new effect, or scanner authority
 
 & [Mailbox] is checked
   + [inbox_state] is absent

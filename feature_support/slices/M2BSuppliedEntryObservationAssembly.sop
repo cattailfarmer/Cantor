@@ -1,9 +1,9 @@
 Subject: M2B Supplied Entry Observation Assembly Slice
 
-& [SliceIdentity] is canonical and implementation pending
+& [SliceIdentity] is closed
   + [slice_uuid] is 789e4ea1-8aad-4cd6-91d4-f43a0acdbf49
   + [signature_uuid] is 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719
-  + [authority_state] is canonical_signed_implementation_pending
+  + [authority_state] is canonical_signed_implemented_and_proven
   + [depends_on] is corrected pure entry-policy, corrected pure stream parser, and M2A topology forms
 
 & [Files] are bounded
@@ -20,8 +20,12 @@ Subject: M2B Supplied Entry Observation Assembly Slice
   + [absent] relative path, mode class, content digest, and observation ordinal
   - no direct TopologyEntryObservation conversion
 
-& [CompletionState] is pending
-  + [implementation] is absent
-  + [verification] is absent
-  + [evidence] is absent
-  + [proof] is absent
+& [CompletionState] is passed
+  + [implementation_commit] is 3383448529fc1e98365ee02ad8bd1dea3f08d376
+  + [module_sha256] is 94617B29276422CD99C5275E614E5DD2A83A87C48646224800933884AD340715
+  + [focused] is 11 unit and 1 static passed in debug and overflow-checked release
+  + [evidence] is 1 rehash test passed in debug and overflow-checked release
+  + [global] is 293 passed and 1 governed physical ignore in both profiles
+  + [quality] format, warnings-denied lint, release build, warnings-denied docs, and zero-vulnerability audit passed
+  + [Cargo_lock_unsafe_effect_delta] is zero
+  + [proof] is complete

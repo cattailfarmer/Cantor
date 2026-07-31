@@ -8,7 +8,7 @@ Description: Canonical SJS authority for a zero-effect transform that correlates
   + [profile] is cantor-windows-supplied-entry-observation/0.1
   + [source_snapshot_uuid] is c1e8077d-add0-4abf-9fc4-be1f59b61ff8
   + [target_module] is crates/cantor_ecosystem/src/windows_supplied_entry_observation.rs
-  + [lifecycle_state] is canonical_signed_implementation_pending
+  + [lifecycle_state] is accepted_and_verified
 
 @ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_supplied_entry_observation_assembly\Cantor_M2B_Supplied_Entry_Observation_Assembly_Source.sop
 @ [source_sha256] 0A9C3F9AEF5B4E5AF9B2302152795D9516E98C9B489A3191EA144F8442C37998
@@ -20,11 +20,15 @@ Description: Canonical SJS authority for a zero-effect transform that correlates
 @ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Supplied_Entry_Observation_Assembly_Justification.sop
 @ [justification_sha256] 236BDD29D979ECB4EA60A3904F59DE58A6D7B513F4112BC769D9E755B5C92547
 @ [plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Entry_Observation_Assembly_Plan.sop
-@ [plan_sha256] 598C477C8DD250B2B0C46D94F6A156AD70FB10A5BF653B262829C37873C0A5F5
+@ [plan_sha256] 8FCFB1FE7140FD9D0ADD05D2A5ED87D356596D7B20AF38193C76D24B4E29D0CB
 @ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedEntryObservationAssembly_Requirement_Matrix.sop
 @ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedEntryObservationAssembly.sop
 @ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Supplied_Entry_Observation_Assembly_Registry.sop
-@ [registry_sha256] AB76F5BC8BDFA3CCD7E1B535E08EABCCB1CB0DA327819260D3594C07CA54F6B7
+@ [registry_sha256] 642B2E238E8B39D6D83EC1EBE6055E7582456FE38B28A090EB11F754D6BBE321
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Entry_Observation_Assembly_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedEntryObservationAssembly_Completion_Review.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_M2B_Supplied_Entry_Observation_Assembly_Proof.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_supplied_entry_observation_evidence_manifest.json
 
 & [InputContract] is strict and required
   + [profile] is exactly cantor-windows-supplied-entry-observation/0.1
@@ -162,6 +166,18 @@ Description: Canonical SJS authority for a zero-effect transform that correlates
   + [global] workspace debug and release tests, format, warnings-denied lint, release build, warnings-denied docs, and audit pass
   + [downstream_gate] physical producer and traversal remain absent
 
+& [ImplementationRecord] is exact
+  + [implementation_commit] is 3383448529fc1e98365ee02ad8bd1dea3f08d376
+  + [module_sha256] is 94617B29276422CD99C5275E614E5DD2A83A87C48646224800933884AD340715
+  + [module_bytes] is 31858
+  + [focused_debug] is 11 unit and 1 static passed
+  + [focused_overflow_checked_release] is 11 unit and 1 static passed
+  + [evidence_debug_and_release] are 1 passed each
+  + [workspace_debug] is 293 passed and 1 governed physical ignore
+  + [workspace_overflow_checked_release] is 293 passed and 1 governed physical ignore
+  + [quality] format, warnings-denied lint, release build, warnings-denied docs, and zero-vulnerability audit passed
+  + [Cargo_lock_unsafe_effect_delta] is zero
+
 & [AuthorityBoundary] is pure implementation only
   + [allowed] one deterministic in-memory module, export, serialization, focused tests, static test, evidence support, proof, solution, review, and governed narrative
   + [forbidden] Win32, windows-sys, unsafe, handles, pointers, buffers, filesystem, process, environment, clock, network, persistence, models, physical fixtures, query execution, traversal, Git, receipts, admission, mutation, seal, or promotion
@@ -201,7 +217,7 @@ Description: Canonical SJS authority for a zero-effect transform that correlates
   + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
   + [exhaustion_state] is phase_locked
   + [registry_uuid] is 79ea027e-a88a-475d-9958-b62897275a39
-  + [implementation_authority] is one pure supplied-entry assembly module and bounded support
+  + [implementation_authority] is current pure supplied-entry assembly module and bounded support
   + [execution_authority] is in-memory supplied-record tests only
   + [signature_status] is valid
   + [invalidation_condition] is source drift, missing stage evidence, signature-registry conflict, prerequisite authority drift, optional or defaulted required record, correlation overclaim, admitted incoherence, raw-fact drift, projection invention, dependency or unsafe delta, runtime effect, stale evidence, failed proof, or downstream physical overclaim

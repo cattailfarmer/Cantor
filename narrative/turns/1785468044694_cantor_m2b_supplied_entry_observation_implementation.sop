@@ -1,0 +1,23 @@
+Subject: Cantor M2B Supplied Entry Observation Implementation Turn
+
+& [TurnIdentity] is attributed
+  + [turn_uuid] is 83fa86ac-d94b-4e2f-bf89-b2cd0a1129e1
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [authority_commit] is 3822ce1
+  + [implementation_commit] is 3383448529fc1e98365ee02ad8bd1dea3f08d376
+
+& [Work] is signed pure implementation
+  + [module] implements five required records, exact correlation, coherence checks, policy reuse, atomic output, and incomplete projection
+  + [export] is one library module and re-export
+  + [tests] are eleven focused unit tests and one independent static no-effect test
+  + [first_test_run] exposed one incorrect expected lexical stream order
+  + [repair] changed only the expected order and index because exact String ordering places dollar-sign before alphabetic inner names
+  + [focused_result] all twelve tests pass in debug and overflow-checked release
+  + [lint] formatting and warnings-denied crate lint pass
+
+& [Boundary] is unchanged
+  + [Cargo_and_lock] unchanged
+  + [unsafe] zero
+  + [platform_calls] zero
+  + [physical_execution] zero
+  + [next] evidence refresh and global proof
