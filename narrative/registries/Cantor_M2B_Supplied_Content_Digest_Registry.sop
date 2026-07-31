@@ -1,0 +1,51 @@
+Subject: Cantor M2B Supplied Content Digest Registry
+
+& [RegistryIdentity] is canonical lookup
+  + [registry_uuid] is 1b6bb569-e84d-4a5e-b5e9-ea18b5c1c749
+  + [profile] is cantor-windows-supplied-content-digest/0.1
+  + [signature_uuid] is 44749466-30d8-44e9-85b8-e51f1bafea33
+  + [state] is implementation_ready
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_content_digest\Cantor_M2B_Supplied_Content_Digest_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_content_digest\Source_Document_Manifest.sop
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Stability_Architecture_Review_2026-07-31.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Content_Digest.exploded.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Content_Digest.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Supplied_Content_Digest_Justification.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Content_Digest_Plan.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedContentDigest_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedContentDigest.sop
+@ [stability] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_ecosystem\src\windows_supplied_content_digest.rs
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Content_Digest_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedContentDigest_Completion_Review.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_M2B_Supplied_Content_Digest_Proof.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_supplied_content_digest_evidence_manifest.json
+
+& [Nodes] are source, manifest, selection review, explosion, canonical, justification, plan, signature, registry, matrix, slice, prerequisite stability, future implementation, tests, evidence, solution, proof, and future physical producer
+
+& [Edges] define lineage
+  + [source] selected_by [architecture_review]
+  + [source] processed_to [explosion]
+  + [explosion] refined_to [canonical]
+  + [justification] supports [streaming_and_revalidation_selection]
+  + [plan] orders [implementation_and_proof]
+  + [stability] validates [binding_metadata]
+  + [signature] authorizes [pure_implementation_only]
+  + [implementation] will_satisfy [canonical_requirements]
+  + [future_evidence] will_bind [clone_portable_artifacts]
+  + [future_physical_producer] may_supply [chunks_and_stability_input] only under later authority
+
+& [RetrievalTerms] include supplied content digest, SHA-256, streaming accumulator, consuming transition, exact length, content-read identity, entry-reference identity, stable binding, regular file, metadata length, output-only observation, and byte-origin nonclaim
+
+& [NonEdges] are explicit
+  + [absent] supplied chunk proves physical file origin
+  + [absent] content-read identity proves one read or handle
+  + [absent] stability binding proves content stability or physical order
+  + [absent] digest proves authenticity, trust, signature, or immutability
+  + [absent] canonical authority grants filesystem access, traversal, receipt, admission, or mutation
+
+& [Dispatch] is exact
+  + [applies_when] exact caller-supplied chunks require deterministic bounded SHA-256 derivation and structural association with revalidated supplied regular-file metadata
+  + [does_not_apply] to byte acquisition, handles, paths, clocks, platform calls, physical order, provenance, traversal, Git projection, receipts, admission, mutation, sealing, cleanup, or promotion
+

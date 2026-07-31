@@ -1,0 +1,59 @@
+Subject: Cantor M2B Supplied Content Digest Justification
+
+& [JustificationIdentity] is traceable
+  + [justification_uuid] is 3328502a-8450-402b-a529-93ea5a9909e9
+  + [profile] is cantor-windows-supplied-content-digest/0.1
+  + [source_snapshot_uuid] is 3b3c292f-e00b-45c9-b277-fe55da559d83
+
+& [Claim] is exact supplied-byte digest behavior should be proven before physical content acquisition
+  + [support] is the topology formation requirement for content hashing
+  + [support] is the current stability reconciler, which supplies exact structural metadata without physical provenance
+  + [support] is the post-stability review selecting the smallest dependency-ready pure seam
+  + [support_type] is deduction from current dependency and authority boundaries
+  + [confidence] is high for the pure digest contract and intentionally absent for byte origin
+
+& [Selection] is private streaming SHA-256 plus revalidated structural binding
+  + [selected] use sha2 already present as a direct dependency
+  + [selected] validate a small strict plan before accumulator construction
+  + [selected] consume accumulator state at every transition and finalization to make rejection nonresumable
+  + [selected] check all counters and limits before hash mutation
+  + [selected] make successful observations output-only at the public Rust surface
+  + [selected] invoke the stability reconciler inside binding rather than accept its constructible output
+  + [selected] preserve complete derived records for inspectability
+  + [rejected] accept digest text because assertion is not derivation
+  + [rejected] add physical reads because no file/handle/platform authority exists
+  + [rejected] retain chunks because SHA-256 streaming state is sufficient
+  + [rejected] use neural scoring because hash and equality rules are exact
+
+& [Counterarguments] are preserved
+  + [counterargument] consuming self is less ergonomic than mutable borrowing
+    + [answer] it makes failed transitions terminal in the type-level API and prevents accidental continuation
+  + [counterargument] output-only records complicate fixture creation
+    + [answer] externally constructible success records would let callers bypass derivation; tests can obtain them through the real accumulator
+  + [counterargument] re-running stability duplicates work when a caller already has a stable pair
+    + [answer] public stable-pair construction and deserialization mean only the reconciler input can preserve current validation authority
+  + [counterargument] structural binding still cannot prove bytes came from the stable file
+    + [answer] that is correct and is an explicit nonclaim until a separately governed physical producer exists
+
+& [DataDesignJustification] is explicit
+  + [conceptual_model] account for exact supplied bytes then associate derived evidence with revalidated supplied metadata
+  + [logical_model] plan to streaming state to observation, independently stability input to stable pair, then exact join gates
+  + [physical_model] safe deterministic in-memory Rust using serde and sha2
+  + [natural_identity] caller-owned content-read and entry-reference tokens
+  + [derived_projection] supplied-content observation and supplied-content stable binding
+  + [state] ephemeral accumulator only
+  + [persistence] none
+
+& [RiskAndRollback] are bounded
+  + [residual_risk] downstream code may overstate supplied-byte evidence as physical file provenance
+  + [mitigation] naming, documentation, output semantics, static checks, and proof repeat the nonclaim
+  + [residual_risk] a very large but authorized chunk still imposes caller-owned hashing work
+  + [mitigation] exact expected and maximum byte budgets bound total accepted work; host-level scheduling remains outside this pure slice
+  + [residual_risk] exact metadata equality may conservatively reject acceptable future producer cases
+  + [mitigation] revision requires new source and SJS rather than silent tolerance
+  + [cost] one pure Rust module, one export, focused and static tests, evidence, and governance records
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [rollback] remove the module, export, tests, and evidence then supersede the signature
+  + [invalidation_condition] is source drift, stability signature drift, observation forgeability, validation bypass, digest mismatch, limit bypass, provenance inflation, dependency or effect drift, failed proof, or stale evidence
+

@@ -1,0 +1,216 @@
+Subject: Exploded Cantor M2B Supplied Content Digest
+
+Description: Seven-fold SJS expansion of the preserved source for a strict constant-state SHA-256 accumulator over caller-supplied chunks and a separate binding transform that re-runs supplied-entry stability before associating the derived digest with exact regular-file metadata.
+
+& [ExplosionIdentity] is phase locked
+  + [explosion_uuid] is d8b82b16-b5ce-41a4-9971-4ff03c03da7a
+  + [profile] is cantor-windows-supplied-content-digest/0.1
+  + [source_snapshot_uuid] is 3b3c292f-e00b-45c9-b277-fe55da559d83
+  + [phase] is seven_fold_phase_locked
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_content_digest\Cantor_M2B_Supplied_Content_Digest_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_content_digest\Source_Document_Manifest.sop
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Stability_Architecture_Review_2026-07-31.sop
+@ [stability] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+
+& [BoundaryFormation] separates supplied-byte derivation from physical acquisition
+  + [inside] strict plan decoding, private streaming SHA-256 state, checked chunk and byte accounting, consuming finalization, output-only content observation, and revalidated stability binding
+  + [outside] file opening, handle ownership, physical read order, paths, clocks, platform calls, filesystem facts, traversal, Git projection, receipts, admission, mutation, sealing, cleanup, and promotion
+  + [supplied_chunk] means only one byte slice passed by the caller to one transition
+  + [derived_digest] means SHA-256 of the exact ordered concatenation accepted by that accumulator
+  + [stable_binding] means value agreement with one newly reconciled supplied stable pair, not physical byte provenance
+
+& [AtomicRequirementSet] is complete
+  + [M2B-SCD-001] require exact profile, nonzero local identities, bounded scalar values, strict JSON, and a 4096-byte encoded-plan cap
+  + [M2B-SCD-002] create private accumulator state only after complete plan validation and expose no successful-observation constructor
+  + [M2B-SCD-003] make each chunk transition consuming, reject empty chunks, and return no resumable state on failure
+  + [M2B-SCD-004] use checked chunk and byte arithmetic before mutating SHA-256 state and enforce exact plan budgets
+  + [M2B-SCD-005] hash only accepted bytes in supplied order without framing, normalization, decoding, retention, or delimiter insertion
+  + [M2B-SCD-006] represent empty content as zero chunks and derive the standard SHA-256 digest of the empty byte string
+  + [M2B-SCD-007] consume the accumulator at finalization and require exact observed-to-expected length equality
+  + [M2B-SCD-008] release one serializable, inspectable, externally nonconstructible and nondeserializable supplied-content observation
+  + [M2B-SCD-009] bind only by invoking the current supplied-entry stability reconciler over its input
+  + [M2B-SCD-010] require regular_file, exact entry-reference equality, and exact pre/post EOF equality to both expected and observed lengths
+  + [M2B-SCD-011] preserve the complete content observation and complete stable pair in one output-only binding
+  + [M2B-SCD-012] return one closed bounded atomic fault with exact nested stability fault only for the stability class
+  + [M2B-SCD-013] deny physical, temporal, platform, origin, completeness, freshness, immutability, content-stability, and downstream claims
+  + [M2B-SCD-014] preserve zero effect, zero unsafe, zero Cargo delta, and complete focused, static, evidence, global, and quality proof
+
+& [PlanModel] is strict source data
+  + [profile] is exactly cantor-windows-supplied-content-digest/0.1
+  + [content_read_identity] is caller-owned nonzero u64 local syntax
+  + [entry_reference_identity] is caller-owned nonzero u64 expected at later binding
+  + [expected_content_length] is u64 and may be zero
+  + [maximum_content_bytes] is positive u64 at most 1099511627776
+  + [maximum_chunks] is positive u32 at most 1048576
+  + [relation] expected_content_length is not greater than maximum_content_bytes
+  + [encoded_plan_cap] is exactly 4096 bytes before serde decoding
+  - never: accept chunks, paths, handles, digest text, clocks, or unknown fields in the plan
+
+& [AccumulatorModel] is private constant-size derived state
+  + [state] is validated plan, Sha256 state, observed_length u64, and observed_chunks u32
+  + [construction] is available only through validated begin or decode-and-begin entry points
+  + [inspection] may expose immutable plan and counter getters
+  + [transition] consumes self and returns Result of next self or fault
+  + [mutation_order] calculates and validates next counters before updating the hasher
+  + [storage] retains no supplied content chunks
+  - never: implement Clone, Serialize, or Deserialize for accumulator state
+
+& [ChunkTruthTable] is exhaustive
+  + [nonempty_within_all_limits] increments checked counters, hashes exact bytes, and returns next accumulator
+  + [empty] returns chunk fault and consumes prior accumulator
+  + [chunk_count_overflow_or_limit] returns limit or resource fault before hash update
+  + [byte_count_overflow] returns resource fault before hash update
+  + [expected_length_excess] returns length fault before hash update
+  + [maximum_content_excess] returns limit fault before hash update
+  + [usize_to_u64_failure] returns resource fault before hash update
+
+& [FinalizationTruthTable] is exhaustive
+  + [observed_equals_expected] finalizes once and returns exact lowercase 64-character SHA-256 observation
+  + [zero_expected_zero_chunks] returns SHA-256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  + [observed_below_expected] returns length fault and no observation
+  + [observed_above_expected] cannot arise from an admitted transition
+  + [repeatability] equal concatenated bytes produce equal digest regardless of valid chunk partition while accounting for actual chunk count
+
+& [ObservationModel] is derived output only
+  + [fields] are profile, content-read identity, entry-reference identity, expected length, observed length, maximum-content budget, maximum-chunk budget, observed chunk count, and derived digest
+  + [construction] is private to successful consuming finalization
+  + [public_surface] is Serialize plus immutable getters
+  - never: derive Deserialize, expose public fields, provide Default, or provide a public constructor
+
+& [BindingTruthTable] is exact
+  + [stability_rejects] returns stability fault preserving the exact nested fault
+  + [stable_kind_directory] returns kind fault
+  + [entry_reference_differs] returns entry_reference fault
+  + [pre_EOF_differs_from_content_length] returns metadata_length fault
+  + [post_EOF_differs_from_content_length] returns metadata_length fault
+  + [all_gates_pass] returns complete observation plus complete stable pair
+  - never: accept WindowsSuppliedEntryStablePair directly or reconstruct only part of it
+
+& [FaultModel] is closed and bounded
+  + [codes] are json, profile, content_read_identity, entry_reference_identity, limit, chunk, length, stability, kind, entry_reference, metadata_length, and resource
+  + [nested_stability_fault] is present exactly for stability and absent otherwise
+  + [field] is a closed implementation-selected string no longer than 64 Unicode scalar values
+  + [message] is no longer than 256 Unicode scalar values
+  + [atomicity] every failure returns no content observation, binding, or resumable failed accumulator
+  - never: disclose supplied bytes, hash state, or encoded unbounded nested input
+
+& [DataDesignModel] separates authority layers
+  + [source_data] is validated plan plus borrowed supplied chunks plus later stability input
+  + [derived_state] is private hasher and checked counters
+  + [derived_observation] is output-only evidence about supplied bytes
+  + [prerequisite_derived_input] is a stable pair recreated through the existing reconciler
+  + [derived_binding] is structural agreement between the two derived records
+  + [physical_data] is absent
+  + [persistence] is absent
+  + [global_identity] is absent
+
+& [IdentityDiscipline] keeps namespaces local
+  + [content_read_identity] is unique only as far as the caller guarantees within unstated caller scope
+  + [entry_reference_identity] is syntax joined to the existing local reconciliation namespace
+  + [stability_reconciliation_identity] and batch identities are preserved from the stable pair
+  + [identity_stability_window] is the immediate values supplied to the pure functions
+  - never: infer authenticated, global, durable, physical, process, handle, or filesystem identity
+
+& [ConceptualLogicalPhysicalSeparation] is explicit
+  + [conceptual] account for exact caller-supplied bytes and compare their declared length/reference against stable supplied metadata
+  + [logical] plan to accumulator transitions to observation, then stability input to stable pair to binding
+  + [physical] safe in-memory Rust using sha2 and serde only
+  + [future_physical] a separately authorized producer may later supply bytes and stability inputs
+
+& [ConstraintLedger] is closed
+  + [C01] profile exactness
+  + [C02] 4096 encoded-plan bytes maximum
+  + [C03] both identities nonzero
+  + [C04] maximum content positive and at most 1099511627776
+  + [C05] maximum chunks positive and at most 1048576
+  + [C06] expected content not greater than maximum content
+  + [C07] chunks nonempty
+  + [C08] checked counters precede hash mutation
+  + [C09] final observed length equals expected length
+  + [C10] observation is output-only
+  + [C11] binding invokes stability reconciler
+  + [C12] stable kind is regular_file
+  + [C13] entry reference agrees exactly
+  + [C14] both stable EOF values equal both content lengths
+  + [C15] faults are closed and bounded
+  + [C16] no effects, unsafe, new dependency, or downstream authority
+
+& [FailureCatalogue] is explicit
+  + [F01] oversized JSON is rejected before decode
+  + [F02] malformed or non-strict JSON is rejected
+  + [F03] profile is rejected
+  + [F04] either zero identity is rejected with its distinct code
+  + [F05] plan limit relation is rejected
+  + [F06] empty chunk is rejected
+  + [F07] chunk budget is rejected
+  + [F08] content byte budget is rejected
+  + [F09] expected-length excess is rejected
+  + [F10] short finalization is rejected
+  + [F11] nested stability failure is preserved
+  + [F12] directory binding is rejected
+  + [F13] entry-reference mismatch is rejected
+  + [F14] either EOF mismatch is rejected
+  + [F15] arithmetic or conversion impossibility is classified resource
+  + [F16] artifact, prerequisite, dependency, or proof drift invalidates authority
+
+& [SemanticRefinementTrace] resolves ambiguous source terms
+  + [content_read] is renamed semantically to caller-designated identity and does not assert a read occurred
+  + [stable] is restricted to exact comparison under the prerequisite supplied-value profile
+  + [content] is restricted to accepted caller-supplied byte concatenation
+  + [binding] is structural association, not causal or provenance proof
+  + [hash] is SHA-256 digest derivation, not a lookup-table identity or signature
+
+& [PruningTrace] removes unjustified mechanisms
+  - removed: neural or learned routing because digest derivation is exact
+  - removed: physical read adapter because platform and I/O authority are absent
+  - removed: caller-asserted digest because it bypasses derivation
+  - removed: direct stable-pair input because public construction could bypass validation
+  - removed: chunk retention because streaming state is sufficient
+  - removed: timestamps and sequence claims because call order is not physical order
+  - removed: downstream topology projection because path, mode, ordinal, and admission facts are absent
+
+& [GrowthSeedSet] is gated
+  + [seed_1] separately authorized same-handle physical content producer
+  + [seed_2] separately authorized path and Git-mode projection
+  + [seed_3] separately authorized directory and whole-root stability composition
+  + [seed_4] separately authorized traversal, receipt, and admission integration
+  - never: treat a seed as present authority
+
+& [FoldTrace] is seven fold
+  + [fold_1_subject] separated supplied-byte derivation from physical acquisition
+  + [fold_2_parts] decomposed plan, accumulator, transition, finalization, observation, stability gate, binding, and fault
+  + [fold_3_relations] defined checked order, identity joins, exact length equalities, and preservation edges
+  + [fold_4_constraints] reapplied all sixteen constraints across every component
+  + [fold_5_failures] enumerated sixteen rejection and invalidation classes
+  + [fold_6_proofs] mapped requirements to unit, static, evidence, global, and quality checks
+  + [fold_7_exhaustion] found no additional dependency-ready pure subcomponent required for this slice
+
+& [ConstraintCheckTrace] is passed
+  + every success route crosses C01 through C16 where applicable
+  + every rejection route returns one fault and no partial success value
+  + observation forgery is blocked at the Rust public type surface
+  + stability validation bypass is blocked at the binding input surface
+  + semantic nonclaims are repeated in canonical, docs, static test, and proof
+
+& [ConstraintReapplicationTrace] is passed
+  + [plan] applies C01 through C06 and C15
+  + [accumulator] applies C07 through C09 and C16
+  + [observation] applies C10 and C15
+  + [binding] applies C11 through C14
+  + [all_components] apply C16 and the semantic nonclaims
+
+& [VerificationMap] is complete
+  + [unit] strict decode, scalar limits, standard vectors, partition repeatability, transition failures, finalization, and binding truth table
+  + [static] no effects, no unsafe, no observation forge surface, no physical provenance vocabulary, and no downstream types
+  + [focused] debug and overflow-checked release
+  + [evidence] clone-portable artifact rehash in both profiles
+  + [global] full workspace debug and overflow-checked release
+  + [quality] format, warnings-denied clippy, release build, warnings-denied docs, dependency audit, and recursive evidence closure
+
+& [ExhaustionReview] is phase locked
+  + [remaining_ambiguity] physical origin of supplied chunks is intentionally unresolved and forbidden
+  + [remaining_dependency] physical producer requires new preserved source and signed SJS
+  + [implementation_ready] one pure module, one export, focused/static/evidence support, and governed records only
+  + [authority_expansion] none
+

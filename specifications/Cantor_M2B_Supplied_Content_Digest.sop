@@ -1,0 +1,198 @@
+Subject: Cantor M2B Supplied Content Digest
+
+Description: Canonical SJS authority for a zero-effect streaming SHA-256 transform over caller-supplied byte chunks and a separate revalidated structural binding to supplied stable regular-file metadata, without claiming physical byte origin, read order, or content stability.
+
+& [CanonicalIdentity] is pure implementation authority
+  + [specification_uuid] is 7b1a82b3-f814-438e-8334-9801a8db7399
+  + [revision] is 1
+  + [profile] is cantor-windows-supplied-content-digest/0.1
+  + [source_snapshot_uuid] is 3b3c292f-e00b-45c9-b277-fe55da559d83
+  + [target_module] is crates/cantor_ecosystem/src/windows_supplied_content_digest.rs
+  + [lifecycle_state] is implementation_ready
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_content_digest\Cantor_M2B_Supplied_Content_Digest_Source.sop
+@ [source_sha256] FFFCC2A39C33621C084ABE44A8953B0DBB136FBD4CE4B8B58E4FA1B419A84CEC
+@ [source_bytes] 11546
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_content_digest\Source_Document_Manifest.sop
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Stability_Architecture_Review_2026-07-31.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Content_Digest.exploded.sop
+@ [exploded_sha256] BEAF7F1FAEBE618A9CCD7014AF540B619AB9DB1F87D3FE89B1F20567CBADDA6F
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Supplied_Content_Digest_Justification.sop
+@ [justification_sha256] 2A4AF5EE72584104AAEA68C7A57B695AD2D39980D66E5CF719FD014C62DE8472
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Content_Digest_Plan.sop
+@ [plan_sha256] D65DD49C0E39DBE9E3F50E0A8DB275548C9EE28F80CC1CDFADAFF8ECA5D200C0
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedContentDigest_Requirement_Matrix.sop
+@ [matrix_sha256] 60F9F6A39B55FD74DFC86ACF35059B0FA9D8FEABA24826917D31A9A7022EBF50
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedContentDigest.sop
+@ [slice_sha256] DCA62BC1B019051154672457FC09159A05FFE818D10190DF3A25CC98FC73EB53
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Supplied_Content_Digest_Registry.sop
+@ [registry_sha256] 616FA05F48A6803DBDF2FDD2F44249F7B1C72091C03011943FB7EA1E3FF8F624
+@ [stability_authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+@ [stability_signature] cbeb4260-0db0-413c-89c6-2ca164775243
+
+& [PlanContract] is strict and bounded
+  + [profile] is exactly cantor-windows-supplied-content-digest/0.1
+  + [content_read_identity] is a nonzero caller-owned u64
+  + [entry_reference_identity] is a nonzero caller-owned u64
+  + [expected_content_length] is a u64 and may be zero
+  + [maximum_content_bytes] is positive and not greater than 1099511627776
+  + [maximum_chunks] is positive and not greater than 1048576
+  + [encoded_plan_cap] is exactly 4096 bytes before JSON decode
+  = must: expected_content_length is not greater than maximum_content_bytes
+  = must: serde JSON denies unknown fields, omissions, wrong types, malformed scalars, and unknown profile
+  - never: place supplied chunks, paths, handles, digest assertions, or clocks in the plan
+
+& [AccumulatorContract] is private and validated
+  + [construction] occurs only after full plan validation
+  + [state] is one Sha256 state, validated plan, observed length zero, and observed chunk count zero
+  + [public_inspection] is immutable plan and counter getters only
+  + [state_size] is independent of total content length
+  - never: expose mutable hash state, retain chunks, implement serialization, or offer an unchecked constructor
+
+& [ChunkTransitionContract] is consuming and atomic
+  + [input] is one borrowed nonempty caller-supplied byte slice
+  + [signature] consumes accumulator and returns Result of next accumulator or one fault
+  + [chunk_length] converts exactly to u64 or faults resource
+  + [next_chunk_count] uses checked addition and does not exceed maximum_chunks
+  + [next_observed_length] uses checked addition and does not exceed expected_content_length or maximum_content_bytes
+  + [mutation_order] validates all next values before hashing exact input bytes
+  + [hash_input] is accepted chunks in call order with no framing, delimiter, normalization, text decoding, skip, reorder, or duplication
+  + [fault] returns no accumulator or observation
+
+& [EmptyContentContract] is exact
+  + expected length zero admits zero chunks only
+  + consuming finalization from the initial state derives e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  + any empty chunk is rejected as chunk
+  + any nonempty chunk under zero expected length is rejected as length
+
+& [FinalizationContract] is consuming and exact
+  + consume the accumulator exactly once
+  + require observed length equals expected content length
+  + finalize SHA-256 and encode lowercase 64-character hexadecimal
+  + return one supplied-content observation with every plan field, observed length, observed chunk count, and digest
+  - never: return success for short, excessive, or rejected content
+
+& [ObservationContract] is output only
+  + [fields] are profile, content-read identity, entry-reference identity, expected length, observed length, maximum-content bytes, maximum chunks, observed chunks, and digest
+  + [inspection] is immutable getters and serde Serialize
+  + [construction] is private to successful finalization
+  - never: expose fields publicly, derive Deserialize, implement Default, or provide a public constructor
+
+& [StabilityBindingContract] reuses current authority
+  + [input_1] is one successful supplied-content observation
+  + [input_2] is one WindowsSuppliedEntryStabilityInput
+  + [validation] calls reconcile_windows_supplied_entry_stability on input_2
+  + [nested_failure] preserves exact WindowsSuppliedEntryStabilityFault under code stability
+  + [kind] requires regular_file
+  + [entry_reference] requires exact equality between observation and stable-pair common entry reference
+  + [metadata_length] requires pre-read and post-read end_of_file both equal expected and observed content lengths
+  + [output] preserves complete observation and complete stable pair
+  - never: accept WindowsSuppliedEntryStablePair as direct input
+  - never: accept directory kind, tolerate a length delta, or collapse the stable pair
+
+& [BindingOutputContract] is output only
+  + [profile] is exactly cantor-windows-supplied-content-digest/0.1
+  + [content_observation] is complete
+  + [stable_pair] is complete
+  + [inspection] is immutable getters and serde Serialize
+  - never: derive Deserialize, provide public fields, or provide a public constructor
+
+& [FaultContract] is closed and bounded
+  + [codes] are json, profile, content_read_identity, entry_reference_identity, limit, chunk, length, stability, kind, entry_reference, metadata_length, and resource
+  + [nested_stability_fault] is present exactly for stability and absent otherwise
+  + [field] is deterministic and no longer than 64 Unicode scalar values
+  + [message] is deterministic and no longer than 256 Unicode scalar values
+  + [release] is exactly one fault with no partial success or resumable failed accumulator
+  - never: include supplied bytes, hash state, or unbounded encoded input in diagnostics
+
+& [SemanticStrengthContract] prevents provenance inflation
+  + [supplied_chunk] means bytes presented by the caller
+  + [derived_digest] means SHA-256 of exact accepted chunk concatenation
+  + [content_observation] means derived evidence about supplied bytes only
+  + [stable_binding] means structural syntax and length agreement with a newly reconciled supplied stable pair
+  + [identities] remain caller-owned local syntax
+  - never: claim bytes came from a file, handle, path, filesystem, platform, one read, or the stable metadata subject
+  - never: claim physical order, freshness, query completion, initialized buffers, completeness, content stability, supported platform, trust, authenticity, atomic snapshot, or immutability
+
+& [DataDesignContract] is explicit
+  + [conceptual_model] derive exact supplied-byte digest then join it to revalidated supplied stable metadata under closed gates
+  + [logical_model] strict plan to accumulator transitions to observation, then stability reconciliation to binding
+  + [physical_model] safe deterministic in-memory Rust using serde and sha2
+  + [identity_namespace] caller-owned and invocation local
+  + [source_data] plan, borrowed chunks, and stability input
+  + [derived_state] private accumulator
+  + [derived_projection] content observation or stable binding
+  + [persistence] absent
+
+& [ImplementationBoundary] is zero effect
+  + [authorized_file] is crates/cantor_ecosystem/src/windows_supplied_content_digest.rs
+  + [authorized_export] is one exact library-module export
+  + [authorized_tests] are module unit tests, one independent static test, one evidence rehash test, and workspace regression tests
+  + [plan_json_byte_cap] is 4096
+  + [message_scalar_cap] is 256
+  + [field_scalar_cap] is 64
+  + [Cargo_delta] is zero because sha2 is already a direct dependency
+  + [lockfile_delta] is zero
+  + [unsafe] is denied
+  + [production_imports] are std, serde, sha2, and windows_supplied_entry_stability
+  - never: use windows-sys, filesystem, process, environment, clock, random, network, model, persistence, handle, pointer, physical query, path, traversal, Git, receipt, admission, mutation, seal, cleanup, or promotion APIs
+
+& [RequirementSet] is M2B-SCD-001 through M2B-SCD-014
+  + [requirements] are strict plan, private state, consuming transition, checked accounting, exact SHA-256, empty behavior, exact finalization, output-only observation, stability revalidation, exact join gates, preservation, bounded faults, semantic nonclaims, and proof closure
+
+& [AcceptanceContract] is exact
+  + [source] manifest matches exact SHA-256 and byte count
+  + [authority] governing signature binds every processed SJS stage and current stability signature
+  + [focused] unit and independent static tests pass in debug and overflow-checked release
+  + [vectors] empty, abc, multi-chunk, and partition-equivalent exact digests pass
+  + [behavior] every requirement, limit, transition fault, finalize gate, binding gate, and output preservation rule has a direct test or static proof edge
+  + [effects] Cargo, lockfile, dependency, unsafe, platform, and runtime-effect deltas remain zero
+  + [evidence] clone-portable manifest hashes canonical, module, tests, solution, proof, review, and narrative
+  + [global] workspace debug and release tests, format, warnings-denied lint, release build, warnings-denied docs, and audit pass
+  + [downstream_gate] physical producer, path and Git projection, directory and root stability, traversal, receipt, and admission remain absent
+
+& [AuthorityBoundary] is pure implementation only
+  + [allowed] one deterministic module, export, serialization, focused tests, static test, evidence support, solution, proof, review, and governed narrative
+  + [forbidden] physical I/O or origin claims, Win32, windows-sys, unsafe, handles, pointers, filesystems, process, environment, clocks, networks, persistence, models, paths, traversal, Git, receipts, admission, mutation, sealing, cleanup, or promotion
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is exact Source_Document_Manifest.sop binding
+  + [delineated] is exploded BoundaryFormation and SemanticStrengthContract
+  + [exploded] is fourteen requirements, sixteen constraints, sixteen failures, six verification classes, and seven folds
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger, ConstraintCheckTrace, and ConstraintReapplicationTrace
+  + [pruned] is exploded PruningTrace
+  + [growth_seeded] is exploded GrowthSeedSet
+  + [data_design_checked] is exploded data, identity, separation, and truth-table sections
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Supplied_Content_Digest_Justification.sop
+  + [planned] is Cantor_M2B_Supplied_Content_Digest_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Supplied_Content_Digest_Registry.sop
+
+& [SignatureEvidenceTable] binds every claimed stage
+  + [source_preserved] is Source_Document_Manifest.sop with exact source hash and bytes
+  + [delineated] is exploded BoundaryFormation and SemanticStrengthContract
+  + [exploded] is separate exploded specification with SHA-256 BEAF7F1FAEBE618A9CCD7014AF540B619AB9DB1F87D3FE89B1F20567CBADDA6F
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger, ConstraintCheckTrace, and ConstraintReapplicationTrace
+  + [pruned] is exploded PruningTrace
+  + [growth_seeded] is exploded GrowthSeedSet
+  + [data_design_checked] is exploded DataDesignModel, IdentityDiscipline, ConceptualLogicalPhysicalSeparation, and truth tables
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is justification SHA-256 2A4AF5EE72584104AAEA68C7A57B695AD2D39980D66E5CF719FD014C62DE8472
+  + [planned] is plan SHA-256 D65DD49C0E39DBE9E3F50E0A8DB275548C9EE28F80CC1CDFADAFF8ECA5D200C0
+  + [registry_recorded] is registry SHA-256 616FA05F48A6803DBDF2FDD2F44249F7B1C72091C03011943FB7EA1E3FF8F624
+
+& [SatisfactionSignature] is valid canonical authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 44749466-30d8-44e9-85b8-e51f1bafea33
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Content_Digest.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Content_Digest.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_content_digest\Cantor_M2B_Supplied_Content_Digest_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, growth_seeded, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 1b6bb569-e84d-4a5e-b5e9-ea18b5c1c749
+  + [implementation_authority] is current pure supplied-content digest module and bounded support only
+  + [execution_authority] is in-memory supplied-value tests only
+  + [signature_status] is valid
+  + [invalidation_condition] is source drift, missing stage evidence, artifact hash drift, signature-registry conflict, prerequisite stability authority drift, plan or limit bypass, observation forgeability, non-consuming failure, digest mismatch, stability revalidation bypass, metadata gate omission, partial output, provenance inflation, downstream authority invention, dependency or unsafe delta, runtime effect, stale evidence, failed proof, or implementation contradiction
