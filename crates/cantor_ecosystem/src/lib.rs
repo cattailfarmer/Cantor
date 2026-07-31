@@ -20,6 +20,7 @@ pub mod transcript;
 pub mod windows_entry_policy;
 pub mod windows_stream_info_parser;
 pub mod windows_supplied_content_digest;
+pub mod windows_supplied_directory_topology_projection;
 pub mod windows_supplied_entry_observation;
 pub mod windows_supplied_entry_stability;
 pub mod windows_supplied_regular_file_topology_projection;
