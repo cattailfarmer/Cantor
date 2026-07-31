@@ -1,0 +1,110 @@
+Subject: Cantor M2B Supplied Root Topology Projection Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Root_Topology_Projection.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedRootTopologyProjection.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedRootTopologyProjection_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Root_Topology_Projection_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedRootTopologyProjection_Completion_Review.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_supplied_root_topology_projection_evidence_manifest.json
+
+& [ProofIdentity] is complete
+  + [proof_uuid] is 076250a4-6585-4847-bed9-758879bde2ee
+  + [authority_signature_uuid] is 6af7c461-07ed-426c-9684-819405223bf6
+  + [solution_uuid] is 0689c40c-35c9-49f3-9f72-d76d7f9a0b05
+  + [implementation_commit] is 6f7db5b24c805250c1646196857faefeb43af6e4
+  + [status] is passed
+  + [evidence_manifest_schema] is cantor-windows-supplied-root-topology-projection-evidence-manifest/0.1
+  + [evidence_manifest_uuid] is 311a8d59-54a5-42f3-9b0a-244e96c461ee
+  + [evidence_manifest_sha256] is 0C31A27124FCEB120571DFF56C486904F7C36773AEB73AE82BB423B2D31501B6
+  + [evidence_manifest_bytes] is 20086
+  + [evidence_artifacts] is 48
+
+& [PlanProof] is strict
+  + exact profile, 4096-byte predecode cap, denied unknown fields, and required typed fields are tested
+  + zero projection and entry-reference identities reject distinctly
+  + caller path, mode, ordinal, root identity, length, digest, metadata, lower success fragments, and provenance fields are absent
+
+& [MandatoryRevalidationProof] blocks forged lower success
+  + both public projection functions accept complete WindowsPlatformPreflightRecord and WindowsSuppliedEntryStabilityInput values
+  + neither public function accepts a preflight success fragment or WindowsSuppliedEntryStablePair
+  + production calls current ValidatePlatformPreflightForm and reconcile_windows_supplied_entry_stability explicitly
+  + exact nested PlatformPreflightFormFault and WindowsSuppliedEntryStabilityFault values are preserved under distinct classes
+  + successful wrapper retains the complete supplied preflight record and complete pair returned by current reconciliation
+
+& [EligibilityAndJoinProof] is ordered and exact
+  + only CompleteLocal with exact EligibleLocalNtfs disposition proceeds
+  + plan and revalidated pair entry references require exact equality
+  + revalidated seed must be TopologyEntryKind Directory
+  + complete StrongFileIdentity equality binds the preflight root and stable seed
+  + validated input-root and volume-GUID final components must both be nonempty and equal the stable policy component exactly
+  + drive root and empty volume-root component reject distinctly
+  + no case folding, Unicode normalization, path normalization, filesystem lookup, partial identity, or volume-serial reinterpretation exists
+
+& [ShapeAndValidationProof] is fixed
+  + relative path is None, kind is RootDirectory, mode is Directory, and observation ordinal is one
+  + attributes, identity, link count, and streams copy the exact stable directory seed
+  + length and content digest are None and cannot be caller supplied
+  + current ValidateTopologyForm is called on the complete candidate
+  + an M2A resource fault is preserved as the exact nested TopologyFormFault
+
+& [OutputSurfaceProof] blocks forged projection success
+  + private fields preserve profile, complete plan, complete preflight record, complete revalidated pair, and complete topology observation
+  + successful wrapper derives Serialize but not Deserialize or Default
+  + no public constructor, public field, mutable getter, From, or Into downgrade exists
+  + independent static test inspects both public signatures, required calls, fixed mapping, private fields, derivation surface, and forbidden effects
+
+& [NoEffectProof] is structural
+  + [module_sha256] is FA5188BC1057CF8A4A0497DBB32125610287B5E0DA9D44A8326C8E4C6B7D1783
+  + [module_bytes] is 28927
+  + [unsafe_blocks] zero
+  + [Windows_API_calls] zero
+  + [filesystem_process_environment_clock_random_network_model_persistence] absent
+  + [Cargo_manifest_delta] zero
+  + [Cargo_lock_delta] zero
+  + [runtime_origin_physical_root_same_handle_freshness_enumeration_traversal_inventory_Git_receipt_admission_mutation_seal_cleanup_promotion_authority] absent
+
+& [VerificationProof] is complete
+  + [focused_debug] 11 unit plus 1 static passed
+  + [focused_overflow_checked_release] 11 unit plus 1 static passed
+  + [evidence_debug_and_release] 1 passed each
+  + [workspace_debug] 358 passed and 1 governed physical test ignored
+  + [workspace_overflow_checked_release] 56 test binaries, 358 passed, zero failed, and 1 governed physical test ignored
+  + [release_identity] actually executed overflow-checked proof used metadata cantor_m2b_srtpr_impl without changing source or semantics
+  + [format] passed
+  + [warnings_denied_lint] passed
+  + [release_build] passed
+  + [warnings_denied_docs] passed
+  + [audit] 113 locked packages against 1177 advisories with zero vulnerabilities
+
+& [AuthorityHashProof] is exact
+  + [source] 5D47C2B0ABFCF61A0D644735658EEA24EF962E9E3C441880CDC138BF9838137D and 14759 bytes
+  + [exploded] BC6D8BF164E28D72AC1B92738DB031840DC7087F444E8EB53C80B53F3FA5F959
+  + [justification] 6C3AE1CF98A6FD9A47ECDFF1AF58139060E29039E5BB3CD3FE5FC6924BF870D0
+  + [plan] 8030B2002AFBB59413B45F0C3B59BF2E08C77734B7C1B6141DEF065AEFB4D0BF
+  + [registry] 1C8292FCB6BCC33715DB7FFB3AB7D06AE38D537AD359D681928185435B77B6C9
+  + [matrix] E6657CBAB09C6CFF352A28AF6924B40817D55E539BE8E05991B718FBD5EF0F4F
+  + [slice] C2E6CBAB276AE23EBB5A1AAA75ACC95D8388B53714FB804A7375B65254A4C98D
+  + [canonical] FC80BFE64A11FAC4F63023A0817D03AD61B076922EB012AD854EDD743B3A3ADB
+  + [platform_prerequisite] 4354E8382CD8D1FDF3C4A65F0C1408B48BDB51749BBCA13C05829899238B1B8B
+  + [stability_prerequisite] 6B63092DD56343C2698B1112308A6F34F0C21B570B6330F355D8315334AC0DE3
+  + [topology_forms_prerequisite] 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+
+& [EvidenceProof] is clone portable
+  + [projection_manifest] 48 repository-relative artifacts with exact bytes and SHA-256
+  + [recursive_graph] 20 current artifact manifests, 849 artifact references, and zero stale records
+  + [dependency_order] prepared runtime through service, lifecycle, live adapter, admission, Phase3 forms, ABI, preflight, policy, and parser was rehashed prerequisite first
+  + [frozen_history] three version-suffixed historical manifests retain pinned exact bytes
+  + [physical_rerun] absent
+  + [candidate_admission_rehash] metadata_only_no_physical_probe
+
+& [OperationalFaultProof] is honest
+  + direct builder invocation was denied by host script execution policy before builder execution
+  + unchanged builder ran successfully under an explicit per-process bypass
+  + the first root rehash correctly rejected a test file formatted after manifest generation
+  + the first global debug run correctly rejected an older manifest after SOP_CORE_MAP changed
+  + neither failed attempt is cited as a passing test result
+  + stable artifacts were rehashed in dependency order and all subsequent focused, recursive, and global checks passed
+  + no physical path, fixture, scanner, or candidate-admission probe ran during evidence maintenance
+
+& [Nonclaim] is mandatory
+  - never: cite this proof as runtime Windows or filesystem origin, physical root identity, same-handle or same-object evidence, actual pre-post order, freshness, path existence or correspondence, enumeration, traversal order, stream completeness, duplicate freedom, canonical inventory, aggregate digest, Git truth, topology receipt, candidate admission, mutation, seal, review execution, cleanup, or promotion authority

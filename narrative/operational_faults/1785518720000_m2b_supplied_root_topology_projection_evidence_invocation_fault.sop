@@ -1,0 +1,24 @@
+Subject: M2B Supplied Root Topology Projection Evidence Invocation Fault
+
+& [FaultIdentity] is exact
+  + [fault_uuid] is f4bffa45-3e5e-4df5-b26d-49f7ff09542d
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+  + [fault_class] is host_invocation_and_evidence_order
+
+& [Observation] preserves both pre-proof faults
+  + direct invocation of the unchanged PowerShell builder was denied by the host script execution policy before builder execution
+  + explicit per-process ExecutionPolicy Bypass then generated the manifest successfully
+  + the first evidence rehash ran after cargo fmt changed the evidence-test source, so the previously generated manifest correctly rejected that stale byte count
+  + the first global debug run reached an older candidate-admission evidence test and correctly rejected the changed SOP_CORE_MAP byte count before global completion
+
+& [Correction] is bounded
+  + the builder source and product implementation were unchanged for the execution-policy retry
+  + formatting now precedes final manifest generation
+  + all current manifests are metadata-only rehashed after all listed artifacts are stable, then recursive and global rehash tests are rerun
+  + frozen historical manifests remain byte-exact and no physical builder is invoked
+  + no failed result is represented as passing evidence
+
+& [ProductImpact] is none
+  + no production path was invoked by either fault
+  + no physical observation, fixture, scan, mutation, sealing, test execution effect, cleanup, admission, or promotion occurred
