@@ -16,13 +16,25 @@ fn phase3_machine_forms_manifest_is_clone_portable_and_effect_free() {
     .expect("manifest JSON");
     assert_eq!(
         manifest["schema"],
-        "cantor-phase3-machine-forms-evidence-manifest/0.1"
+        "cantor-phase3-machine-forms-evidence-manifest/0.2"
+    );
+    assert_eq!(
+        manifest["authority"]["canonical_specification"],
+        "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop"
     );
     assert_eq!(
         manifest["authority"]["satisfaction_signature_uuid"],
-        "ae44deed-29c7-4a6a-96d1-1a0091539575"
+        "c681b74d-7543-43be-96a1-a8ccb89181fb"
     );
-    assert_eq!(manifest["scope"]["focused_tests"], 8);
+    assert_eq!(
+        manifest["authority"]["joint_topology_signature_uuid"],
+        "1edee945-9957-41d7-bd17-0765ec54f5cb"
+    );
+    assert_eq!(
+        manifest["scope"]["profile"],
+        "cantor-phase3-machine-forms/0.2"
+    );
+    assert_eq!(manifest["scope"]["focused_tests"], 9);
     for authority in [
         "filesystem_authority",
         "process_authority",

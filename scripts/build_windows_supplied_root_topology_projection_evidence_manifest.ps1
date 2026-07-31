@@ -78,7 +78,7 @@ $manifest = [ordered]@{
         satisfaction_signature_uuid = "6af7c461-07ed-426c-9684-819405223bf6"
         platform_signature_uuid = "61c2b9cf-4608-4e7d-88ae-d674d52640e3"
         stability_signature_uuid = "cbeb4260-0db0-413c-89c6-2ca164775243"
-        topology_forms_signature_uuid = "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2"
+        topology_forms_signature_uuid = "1edee945-9957-41d7-bd17-0765ec54f5cb"
         solution_uuid = "0689c40c-35c9-49f3-9f72-d76d7f9a0b05"
         implementation_commit = "6f7db5b24c805250c1646196857faefeb43af6e4"
     }

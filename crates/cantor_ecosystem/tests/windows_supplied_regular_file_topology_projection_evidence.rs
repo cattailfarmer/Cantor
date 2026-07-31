@@ -35,7 +35,7 @@ fn supplied_regular_file_topology_projection_manifest_is_current_and_effect_free
     );
     assert_eq!(
         manifest["authority"]["topology_forms_signature_uuid"],
-        "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2"
+        "1edee945-9957-41d7-bd17-0765ec54f5cb"
     );
     assert_eq!(manifest["scope"]["focused_unit_tests"], 11);
     assert_eq!(manifest["scope"]["focused_static_tests"], 1);

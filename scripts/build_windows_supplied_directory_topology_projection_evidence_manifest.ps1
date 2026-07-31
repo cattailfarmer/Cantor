@@ -74,7 +74,7 @@ $manifest = [ordered]@{
         canonical_specification = "specifications/Cantor_M2B_Supplied_Directory_Topology_Projection.sop"
         satisfaction_signature_uuid = "2f24b78e-90ab-4413-9189-2c2bbcf65187"
         stability_signature_uuid = "cbeb4260-0db0-413c-89c6-2ca164775243"
-        topology_forms_signature_uuid = "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2"
+        topology_forms_signature_uuid = "1edee945-9957-41d7-bd17-0765ec54f5cb"
         solution_uuid = "0461573f-053d-42cb-8be7-2a55c08a4f13"
         implementation_commit = "869a95f9939125397017894b817fc6fa98103429"
     }

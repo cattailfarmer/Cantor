@@ -1,0 +1,84 @@
+Subject: Cantor Phase3 Inventory Consistency Evidence Revision Solution
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is 4d874ac7-a91d-4f9c-bdf0-e29deb541fc4
+  + [profile] is cantor-phase3-inventory-consistency-evidence-revision/0.1
+  + [canonical_sha256] is 471C63DA8EBAAD61776114513AB41F7D2B5EBE96136F632DA699251A8633B606
+  + [machine_forms_signature_uuid] is c681b74d-7543-43be-96a1-a8ccb89181fb
+  + [topology_forms_signature_uuid] is 1edee945-9957-41d7-bd17-0765ec54f5cb
+  + [implementation_commit] is a8267a9541c7f9b32586d72e8a6502c50ac71f20
+  + [state] is accepted_and_verified
+
+& [MachineFormsSolution] is exact
+  + PHASE3_MACHINE_FORMS_PROFILE is 0.2
+  + InventoryConsistencyEvidence replaces ConsistencyClass
+  + NonAtomicRepeatedInventoryEqual replaces QuiescentDoubleInventory
+  + OsSnapshotProven remains the only other closed variant
+  + serde tokens are exact snake_case
+  + structural validation is pure and rustdoc denies acquisition, lineage, issuer, and world-state proof
+  + [module_sha256] is 2E852FB7FA56E7ECB191098676C5A4BF5014154D143436C3C4E6B096E9D3D905
+
+& [TopologyFormsSolution] is exact
+  + topology forms and receipt profiles are 0.3
+  + scanner profile remains 0.1
+  + required consistency_evidence replaces consistency
+  + receipt 0.3 admits only NonAtomicRepeatedInventoryEqual
+  + OsSnapshotProven returns Receipt at consistency_evidence with the exact bounded message
+  + all unrelated receipt fields, invariants, and validation order remain intact
+  + [module_sha256] is 5D2213C8A49DE278109503F51789A1648B61266F7581AE2AF743BF5EF324A11D
+
+& [LegacyProof] is direct
+  + well-formed old enum token rejects as Json
+  + otherwise current-shaped old receipt profile rejects at receipt_profile
+  + old consistency field rejects as Json
+  + missing consistency_evidence rejects as Json
+  + simultaneous old and new fields reject as Json
+  + old token in the new field rejects as Json
+  + production Rust contains none of ConsistencyClass, QuiescentDoubleInventory, or quiescent_double_inventory
+
+& [StaticBoundary] is independent
+  + [static_test_sha256] is 735DCD5ED2B9F23E4D53DEC6049850D406A5604D3B469DF240029C9F67E63725
+  + exact new profiles, names, enum cardinality, field, validation, message, and nonclaims are required
+  + old vocabulary, alias, default, conversion, direct reconciliation dependency, unsafe, platform, filesystem, process, and clock surfaces are rejected
+
+& [FocusedVerification] passes
+  + debug passes 8 Phase3 unit, 15 topology unit, and 1 static test
+  + unique-metadata overflow-checked release passes the same 24 tests
+  + package all-target warnings-denied lint passes
+  + complete package test compilation passes
+
+& [GlobalExecutionProof] is uninterrupted
+  + Windows Smart App Control remains enabled and no policy exception or security weakening was requested
+  + WSL2 Ubuntu-24.04 supplies the isolated execution environment for freshly linked test harnesses
+  + locked offline workspace debug passes 390 tests in 63 result groups with zero failed and zero ignored
+  + locked offline workspace release with overflow checks passes the same 390 tests in 63 result groups with zero failed and zero ignored
+  + the Linux proof does not claim Windows physical execution, Windows API authority, or satisfaction of any locked physical slice
+
+& [QualityVerification] is complete
+  + cargo fmt all check passes
+  + Windows workspace all-target warnings-denied clippy passes
+  + Windows workspace all-target release build passes
+  + Windows workspace no-deps documentation passes with warnings denied
+  + 113 locked dependencies scan against 1177 RustSec advisories with zero vulnerabilities
+
+& [EvidenceClosure] is recursive
+  + eight directly affected evidence integration tests pass on Windows
+  + 23 current evidence manifests reconcile 1030 repository-relative artifact references with zero stale links
+  + frozen historical manifests remain excluded from rewrite
+  + source, processing inputs, signed canonical authority, implementation commit, solution, operational fault, and exact platform proof remain distinguishable
+
+& [DependenciesAndEffects] remain zero
+  + repository Cargo.toml, Cargo.lock, and crate Cargo.toml are byte unchanged
+  + production delta is exactly phase3_evidence.rs and topology_forms.rs
+  + no new production module, dependency, unsafe, platform call, filesystem, clock, producer, issuer, consumer, or effect
+  + no physical fixture or effect-bearing builder was invoked
+
+& [Rollback] is source-safe
+  + revert the two production modules, their tests, documentation, current evidence builders, and current derived manifests together
+  + restore the superseded machine and topology signature references only if the implementation reverts to their exact governing profiles
+  + preserve raw source, SJS processing inputs, canonical revision, invalidation lineage, operational fault, and publication history
+  + no database, persisted user state, filesystem candidate, physical receipt, or external consumer migration requires reversal
+
+& [Nonclaim] is mandatory
+  - never: treat non_atomic_repeated_inventory_equal as quiescence, atomicity, snapshot, stability, physical correspondence, authorization, or world-state truth
+  - never: treat WSL proof as Windows physical execution or use this solution to unlock scanning, mutation, sealing, cleanup, promotion, neural routing, distributed inference, or FPGA execution

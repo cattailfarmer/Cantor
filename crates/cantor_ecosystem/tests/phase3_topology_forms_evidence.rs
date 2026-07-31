@@ -16,25 +16,33 @@ fn phase3_topology_forms_manifest_is_clone_portable_and_effect_free() {
     .expect("manifest JSON");
     assert_eq!(
         manifest["schema"],
-        "cantor-phase3-topology-forms-evidence-manifest/0.2"
+        "cantor-phase3-topology-forms-evidence-manifest/0.3"
+    );
+    assert_eq!(
+        manifest["authority"]["canonical_specification"],
+        "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop"
     );
     assert_eq!(
         manifest["authority"]["satisfaction_signature_uuid"],
-        "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2"
+        "1edee945-9957-41d7-bd17-0765ec54f5cb"
+    );
+    assert_eq!(
+        manifest["authority"]["joint_machine_forms_signature_uuid"],
+        "c681b74d-7543-43be-96a1-a8ccb89181fb"
     );
     assert_eq!(
         manifest["scope"]["forms_profile"],
-        "cantor-phase3-topology-forms/0.2"
+        "cantor-phase3-topology-forms/0.3"
     );
     assert_eq!(
         manifest["scope"]["receipt_profile"],
-        "cantor-phase3-topology-receipt/0.2"
+        "cantor-phase3-topology-receipt/0.3"
     );
     assert_eq!(
         manifest["scope"]["scanner_profile"],
         "cantor-windows-candidate-topology/0.1"
     );
-    assert_eq!(manifest["scope"]["focused_tests"], 13);
+    assert_eq!(manifest["scope"]["focused_tests"], 16);
     for authority in [
         "filesystem_authority",
         "windows_api_authority",

@@ -1,0 +1,40 @@
+Subject: Phase3 Inventory Consistency Evidence Revision Windows Application Control Fault
+
+& [FaultIdentity] is exact
+  + [fault_uuid] is c490b6c1-36d6-41a9-ac0e-cea57b599417
+  + [class] is host_application_control_execution_denial
+  + [stage] is first complete workspace debug test attempt after current evidence migration
+  + [implementation_commit] is a8267a9541c7f9b32586d72e8a6502c50ac71f20
+
+& [Observation] is preserved
+  + all preceding workspace suites and 179 cantor_ecosystem library tests passed
+  + Windows denied execution of newly linked target/debug/deps/live_codex_adapter-f31cd0435b2c9e7d.exe
+  + cargo reported os error 4551 and never executed that harness
+  + no test assertion failed and no partial semantic result is cited
+  + a second identical complete workspace attempt was denied at the same fresh binary identity
+  + a distinct metadata identity advanced past that harness and was then denied at a different freshly linked self_hosted_corpus harness
+
+& [Diagnosis] is bounded
+  + failure is host Application Control policy over a fresh binary identity
+  + it is not evidence of a Cantor source, schema, signature, or test contradiction
+  + the repository has prior preserved occurrences of the same host-policy class
+  + Code Integrity event 3077 and Smart App Control event 3118 identify policy 0283AC0F-FFF1-49AE-ADA1-8A933130CAD6 at enterprise signing level
+  + VerifiedAndReputablePolicyState is 1 and Device Guard user-mode policy enforcement status is 2
+  + no current-user or local-machine code-signing private certificate is available
+
+& [Recovery] is honest
+  + exact isolated live_codex_adapter target passes all 5 tests without source change
+  + repeated fresh Windows identities are not treated as a reliable proof lane
+  + Smart App Control remains enabled and no per-file bypass is claimed
+  + existing WSL2 Ubuntu-24.04 receives its standard build-essential toolchain without repository dependency change
+  + locked offline WSL2 workspace debug passes 390 tests in 63 result groups with zero failed and zero ignored
+  + locked offline WSL2 overflow-checked release passes the same 390 tests in 63 result groups with zero failed and zero ignored
+  + WSL2 execution is cited only for cross-platform pure and static proof, never as Windows physical proof
+
+& [Effects] are absent
+  + no physical fixture, scanner, filesystem mutation, candidate mutation, seal, cleanup, or promotion operation was invoked
+  + host security policy was not disabled, relaxed, or rewritten
+
+& [Authority] is unchanged
+  + implementation authority remains the exact signed pure slice
+  + physical authority remains absent

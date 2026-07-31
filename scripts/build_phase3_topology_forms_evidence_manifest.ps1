@@ -24,6 +24,13 @@ $paths = @(
     "source_documents/2026-07-30_cantor_phase3_topology_machine_forms_activation/Cantor_Phase3_Topology_Machine_Forms_Activation_Source.sop",
     "source_documents/2026-07-30_cantor_phase3_topology_machine_forms_activation/Source_Document_Manifest.sop",
     "specifications/Cantor_Phase3_Topology_Machine_Forms.sop",
+    "source_documents/2026-07-31_cantor_phase3_inventory_consistency_evidence_revision/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop",
+    "source_documents/2026-07-31_cantor_phase3_inventory_consistency_evidence_revision/SJS_Processing_Input_Manifest.sop",
+    "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop",
+    "specifications/exploded/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.exploded.sop",
+    "narrative/registries/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Phase_Lock.sop",
+    "solutions/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Solution.sop",
+    "narrative/operational_faults/1785536700000_phase3_inventory_consistency_evidence_revision_windows_application_control_fault.sop",
     "specifications/exploded/Cantor_Phase3_Topology_Machine_Forms.exploded.sop",
     "justifications/Cantor_Phase3_Topology_Machine_Forms_Justification.sop",
     "feature_support/Phase3TopologyMachineForms_Requirement_Matrix.sop",
@@ -50,6 +57,7 @@ $paths = @(
     "crates/cantor_ecosystem/src/lib.rs",
     "crates/cantor_ecosystem/src/topology_forms.rs",
     "crates/cantor_ecosystem/tests/phase3_topology_forms_evidence.rs",
+    "crates/cantor_ecosystem/tests/phase3_inventory_consistency_evidence_revision_static.rs",
     "scripts/build_phase3_topology_forms_evidence_manifest.ps1",
     "crates/cantor_ecosystem/evidence/phase3_topology_forms_evidence_manifest_0_1.json",
     "proofs/Cantor_Phase3_Topology_Machine_Forms_Proof.sop",
@@ -67,19 +75,23 @@ $artifacts = foreach ($path in $paths) {
 }
 
 $manifest = [ordered]@{
-    schema = "cantor-phase3-topology-forms-evidence-manifest/0.2"
-    evidence_manifest_uuid = "ca7e7afa-a5d8-453e-9c5c-c3d25d8bb1e8"
+    schema = "cantor-phase3-topology-forms-evidence-manifest/0.3"
+    evidence_manifest_uuid = "5cae3376-f1c1-4750-b810-dad4fa4e9e1d"
     generated_at_utc = [DateTime]::UtcNow.ToString("o")
     authority = [ordered]@{
-        canonical_specification = "specifications/Cantor_Phase3_Topology_Machine_Forms.sop"
-        satisfaction_signature_uuid = "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2"
-        solution_uuid = "74914f5c-3001-4315-907c-9de2db7b824b"
+        canonical_specification = "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop"
+        satisfaction_signature_uuid = "1edee945-9957-41d7-bd17-0765ec54f5cb"
+        superseded_signature_uuid = "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2"
+        joint_machine_forms_signature_uuid = "c681b74d-7543-43be-96a1-a8ccb89181fb"
+        solution_uuid = "4d874ac7-a91d-4f9c-bdf0-e29deb541fc4"
     }
     scope = [ordered]@{
-        forms_profile = "cantor-phase3-topology-forms/0.2"
-        receipt_profile = "cantor-phase3-topology-receipt/0.2"
+        forms_profile = "cantor-phase3-topology-forms/0.3"
+        receipt_profile = "cantor-phase3-topology-receipt/0.3"
         scanner_profile = "cantor-windows-candidate-topology/0.1"
-        focused_tests = 13
+        focused_tests = 16
+        focused_unit_tests = 15
+        focused_static_tests = 1
         filesystem_authority = $false
         windows_api_authority = $false
         unsafe_authority = $false
@@ -94,11 +106,11 @@ $manifest = [ordered]@{
     verification = @(
         [ordered]@{ command = "cargo fmt --all -- --check"; status = "passed" },
         [ordered]@{ command = "cargo clippy --workspace --all-targets --locked --offline -- -D warnings"; status = "passed" },
-        [ordered]@{ command = "cargo test --workspace --all-targets --locked --offline"; tests = 234; status = "passed" },
-        [ordered]@{ command = "cargo test --workspace --all-targets --release --locked --offline"; tests = 234; status = "passed" },
+        [ordered]@{ command = "WSL2 Ubuntu-24.04: CARGO_TARGET_DIR=/tmp/cantor-p3icer-target cargo test --workspace --all-targets --locked --offline"; platform = "linux-x86_64-wsl2"; result_groups = 63; tests = 390; ignored = 0; status = "passed" },
+        [ordered]@{ command = "WSL2 Ubuntu-24.04: CARGO_TARGET_DIR=/tmp/cantor-p3icer-target RUSTFLAGS='-C overflow-checks=on -C metadata=cantor_p3icer_wsl_release' cargo test --workspace --all-targets --release --locked --offline"; platform = "linux-x86_64-wsl2"; result_groups = 63; tests = 390; ignored = 0; status = "passed" },
         [ordered]@{ command = "cargo build --workspace --all-targets --release --locked --offline"; status = "passed" },
-        [ordered]@{ command = "cargo doc --workspace --no-deps --locked --offline"; status = "passed" },
-        [ordered]@{ command = "cargo audit --file Cargo.lock"; dependencies = 112; vulnerabilities = 0; status = "passed" }
+        [ordered]@{ command = "RUSTDOCFLAGS='-D warnings' cargo doc --workspace --no-deps --locked --offline"; status = "passed" },
+        [ordered]@{ command = "cargo audit --file Cargo.lock"; dependencies = 113; advisories = 1177; vulnerabilities = 0; status = "passed" }
     )
     artifacts = @($artifacts)
 }

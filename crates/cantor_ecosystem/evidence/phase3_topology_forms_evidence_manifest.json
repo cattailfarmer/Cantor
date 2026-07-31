@@ -1,17 +1,21 @@
 {
-    "schema":  "cantor-phase3-topology-forms-evidence-manifest/0.2",
-    "evidence_manifest_uuid":  "ca7e7afa-a5d8-453e-9c5c-c3d25d8bb1e8",
-    "generated_at_utc":  "2026-07-31T22:19:57.7293971Z",
+    "schema":  "cantor-phase3-topology-forms-evidence-manifest/0.3",
+    "evidence_manifest_uuid":  "5cae3376-f1c1-4750-b810-dad4fa4e9e1d",
+    "generated_at_utc":  "2026-07-31T22:42:22.4420164Z",
     "authority":  {
-                      "canonical_specification":  "specifications/Cantor_Phase3_Topology_Machine_Forms.sop",
-                      "satisfaction_signature_uuid":  "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2",
-                      "solution_uuid":  "74914f5c-3001-4315-907c-9de2db7b824b"
+                      "canonical_specification":  "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop",
+                      "satisfaction_signature_uuid":  "1edee945-9957-41d7-bd17-0765ec54f5cb",
+                      "superseded_signature_uuid":  "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2",
+                      "joint_machine_forms_signature_uuid":  "c681b74d-7543-43be-96a1-a8ccb89181fb",
+                      "solution_uuid":  "4d874ac7-a91d-4f9c-bdf0-e29deb541fc4"
                   },
     "scope":  {
-                  "forms_profile":  "cantor-phase3-topology-forms/0.2",
-                  "receipt_profile":  "cantor-phase3-topology-receipt/0.2",
+                  "forms_profile":  "cantor-phase3-topology-forms/0.3",
+                  "receipt_profile":  "cantor-phase3-topology-receipt/0.3",
                   "scanner_profile":  "cantor-windows-candidate-topology/0.1",
-                  "focused_tests":  13,
+                  "focused_tests":  16,
+                  "focused_unit_tests":  15,
+                  "focused_static_tests":  1,
                   "filesystem_authority":  false,
                   "windows_api_authority":  false,
                   "unsafe_authority":  false,
@@ -33,13 +37,19 @@
                              "status":  "passed"
                          },
                          {
-                             "command":  "cargo test --workspace --all-targets --locked --offline",
-                             "tests":  234,
+                             "command":  "WSL2 Ubuntu-24.04: CARGO_TARGET_DIR=/tmp/cantor-p3icer-target cargo test --workspace --all-targets --locked --offline",
+                             "platform":  "linux-x86_64-wsl2",
+                             "result_groups":  63,
+                             "tests":  390,
+                             "ignored":  0,
                              "status":  "passed"
                          },
                          {
-                             "command":  "cargo test --workspace --all-targets --release --locked --offline",
-                             "tests":  234,
+                             "command":  "WSL2 Ubuntu-24.04: CARGO_TARGET_DIR=/tmp/cantor-p3icer-target RUSTFLAGS=\u0027-C overflow-checks=on -C metadata=cantor_p3icer_wsl_release\u0027 cargo test --workspace --all-targets --release --locked --offline",
+                             "platform":  "linux-x86_64-wsl2",
+                             "result_groups":  63,
+                             "tests":  390,
+                             "ignored":  0,
                              "status":  "passed"
                          },
                          {
@@ -47,12 +57,13 @@
                              "status":  "passed"
                          },
                          {
-                             "command":  "cargo doc --workspace --no-deps --locked --offline",
+                             "command":  "RUSTDOCFLAGS=\u0027-D warnings\u0027 cargo doc --workspace --no-deps --locked --offline",
                              "status":  "passed"
                          },
                          {
                              "command":  "cargo audit --file Cargo.lock",
-                             "dependencies":  112,
+                             "dependencies":  113,
+                             "advisories":  1177,
                              "vulnerabilities":  0,
                              "status":  "passed"
                          }
@@ -144,6 +155,41 @@
                           "bytes":  13696
                       },
                       {
+                          "path":  "source_documents/2026-07-31_cantor_phase3_inventory_consistency_evidence_revision/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop",
+                          "sha256":  "BB805C0B239C25426B99D521F101FDFD8DCF06FE8A466467B8646860359905F7",
+                          "bytes":  16758
+                      },
+                      {
+                          "path":  "source_documents/2026-07-31_cantor_phase3_inventory_consistency_evidence_revision/SJS_Processing_Input_Manifest.sop",
+                          "sha256":  "23FF74E1250C4442C0307239E12AC565BE1D30C67FFE9D396F0FC275E46CB4B7",
+                          "bytes":  4368
+                      },
+                      {
+                          "path":  "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop",
+                          "sha256":  "471C63DA8EBAAD61776114513AB41F7D2B5EBE96136F632DA699251A8633B606",
+                          "bytes":  25956
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.exploded.sop",
+                          "sha256":  "EEA349B32CD49D2C4A81FD13C9BB99C5C7781CB786551EFC77E89BC67C4AC6E6",
+                          "bytes":  12540
+                      },
+                      {
+                          "path":  "narrative/registries/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Phase_Lock.sop",
+                          "sha256":  "AEFA05678E7EB832BDD48C566876B7DAE268B20F957ED4D94EF4F02E779A8F4E",
+                          "bytes":  7559
+                      },
+                      {
+                          "path":  "solutions/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Solution.sop",
+                          "sha256":  "A497BDFC53B742D51F7705CFCAF0520C248F6E81FFCB02CEA420E747CD07E25E",
+                          "bytes":  5403
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785536700000_phase3_inventory_consistency_evidence_revision_windows_application_control_fault.sop",
+                          "sha256":  "2B4DB1069F1021E469FDD4381AECE96C0663F1565E39F7C761FDBF85F82EB115",
+                          "bytes":  2638
+                      },
+                      {
                           "path":  "specifications/exploded/Cantor_Phase3_Topology_Machine_Forms.exploded.sop",
                           "sha256":  "112F922B6E8DCF0D89BF930F2D52ED24F0CEB662F6D86E8EECFABB612A64FFEB",
                           "bytes":  1474
@@ -160,8 +206,8 @@
                       },
                       {
                           "path":  "docs/PHASE3_TOPOLOGY_FORMS.md",
-                          "sha256":  "243EE81D40264616B2C25CAB7298C83466A6B6DC805B8CCD1B64D938E24B21AB",
-                          "bytes":  1388
+                          "sha256":  "8F72F2277924CB40D1C17FAB706B602C5494BF0662ECDD7ABA2D43298D213131",
+                          "bytes":  1904
                       },
                       {
                           "path":  "solutions/Cantor_Phase3_Topology_Machine_Forms_Solution.sop",
@@ -265,18 +311,23 @@
                       },
                       {
                           "path":  "crates/cantor_ecosystem/src/topology_forms.rs",
-                          "sha256":  "5C686AB894467C2576F19FBB0854F029145FAB630D5788A00470CD07E40DD179",
-                          "bytes":  37773
+                          "sha256":  "5D2213C8A49DE278109503F51789A1648B61266F7581AE2AF743BF5EF324A11D",
+                          "bytes":  42216
                       },
                       {
                           "path":  "crates/cantor_ecosystem/tests/phase3_topology_forms_evidence.rs",
-                          "sha256":  "B2F2F062E749BF9A0BC564A0AB92B7B2556EAF65896EA0D5FDB65E8A8B5E5AA7",
-                          "bytes":  2512
+                          "sha256":  "098D38004736AC7AAC658B13B49758ECD4D85AAF4AE973A0C141B1F6E52972D6",
+                          "bytes":  2815
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/tests/phase3_inventory_consistency_evidence_revision_static.rs",
+                          "sha256":  "735DCD5ED2B9F23E4D53DEC6049850D406A5604D3B469DF240029C9F67E63725",
+                          "bytes":  2900
                       },
                       {
                           "path":  "scripts/build_phase3_topology_forms_evidence_manifest.ps1",
-                          "sha256":  "9A9223E9036287C1AC22262DE7CCAAA16DB8757FFE6EB74F9860E4D762078AFF",
-                          "bytes":  6874
+                          "sha256":  "390D2FBBB51DA1BA324379215E8F3BBC98CA578996643DEFE9C1A4834DCBFF2F",
+                          "bytes":  8352
                       },
                       {
                           "path":  "crates/cantor_ecosystem/evidence/phase3_topology_forms_evidence_manifest_0_1.json",
@@ -290,8 +341,8 @@
                       },
                       {
                           "path":  "crates/cantor_ecosystem/evidence/phase3_machine_forms_evidence_manifest.json",
-                          "sha256":  "82AD39D76946FAA0B3C9BFA1EF4F7CEB233E7F127495D311858EC340A253D01D",
-                          "bytes":  11319
+                          "sha256":  "9D378BBA1001D4E25828D7DE3F974CA8E71D71083CEA4F1680E72A0A3AD4E134",
+                          "bytes":  14896
                       },
                       {
                           "path":  "proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop",
