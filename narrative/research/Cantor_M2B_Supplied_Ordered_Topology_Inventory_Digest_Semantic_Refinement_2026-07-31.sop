@@ -1,0 +1,128 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Semantic Refinement
+
+Description: Governing SJS semantic refinement for the unsigned exploded supplied ordered-inventory digest boundary. It fixes term identities, roles, claims, exclusions, and compatibility meanings before constraint checking and canonical authoring.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Source.sop
+@ [input_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest\SJS_Processing_Input_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest.exploded.sop
+
+& [RefinementIdentity] is exact
+  + [refinement_uuid] is 788e4205-ac1b-4c1d-9be7-763632089b72
+  + [source_snapshot_uuid] is 9096f760-1128-4b0e-a412-4e68ec8b51ea
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [captured_at] is 2026-07-31
+  + [state] is semantic_refinement_complete_unsigned
+
+& [Supplied] means caller-provided at an earlier pure boundary
+  + it describes epistemic origin, not physical origin
+  + a supplied value may be structurally valid and lineage preserving without having been observed from Windows
+  + the qualifier survives every result and evidence-grade description in this slice
+  - never: shorten supplied ordered inventory commitment to physical inventory commitment
+
+& [Topology] means the closed M2A observation vocabulary and structural relationships
+  + it includes kind, relative path, mode class, attributes, strong identity syntax, link count, stream facts, length, content digest, and ordinal
+  + it does not independently mean filesystem truth, Git tree truth, graph reachability, alias freedom, or traversal history
+
+& [Inventory] means the complete member sequence of the supplied assembly subject
+  + complete means every member in that supplied input set is committed exactly once
+  + it does not mean every physical descendant was enumerated
+  + it does not mean ignored, hidden, system, nested-repository, stream, or hard-link cases were physically discovered
+  + inventory count is the committed assembly entry count, not an inferred directory enumeration count
+
+& [Ordered] means existing assembly sequence identity
+  + root is first and descendants already satisfy component-aware raw UTF-8 structural order and contiguous declared ordinals
+  + this slice preserves and commits that sequence without sorting or repairing it
+  + ordered does not mean Windows collation, filesystem enumeration order, Git tree order, Unicode-normalized order, causal order, or temporal order
+
+& [Canonical] means unique bytes under one exact encoding profile
+  + canonicality is relative to cantor-ordered-topology-observation-encoding/0.1
+  + it follows declared field order, tags, widths, byte order, option form, sequence counts, UTF-8 bytes, and decoded fixed-width hex
+  + it does not mean canonical filesystem path, Unicode canonical equivalence, canonical JSON, canonical CBOR, or a globally universal topology encoding
+  + changing the profile changes the semantic comparison domain even if a future encoding happens to yield equal bytes
+
+& [EncodingProfile] names byte grammar, not authority grade
+  + exact equality is mandatory and no aliases, defaults, or negotiation exist
+  + the encoding profile is committed as the zero-terminated hash domain
+  + it cannot upgrade supplied observations to physical evidence
+
+& [Digest] means one SHA-256 output over the exact canonical update stream
+  + lowercase 64-hex is the result representation, while 32 raw bytes are the cryptographic value
+  + content_sha256 fields inside observations are decoded to raw 32-byte values before inclusion
+  + digest is aggregate and sequence sensitive but is not a Merkle root, signature, MAC, receipt, proof of possession, or authorization token
+
+& [Commitment] means deterministic collision-resistant reference to one encoded subject
+  + commitment does not imply that a trusted party produced, signed, witnessed, or persisted the subject
+  + equal commitment under the exact same encoding profile supports equality of encoded subjects only under ordinary SHA-256 collision assumptions
+  + unequal commitment proves encoded subjects differ but does not classify which observation is physically correct
+
+& [Identity] remains role qualified
+  + commitment_identity is nonzero caller correlation syntax retained in the result and excluded from the digest subject
+  + assembly_identity, projection_identity, and entry_reference_identity remain separate supplied correlation roles and are excluded
+  + StrongFileIdentity fields volume_serial and file_id are inventory-record content and are included
+  + SHA-256 digest identity is derived content addressing and is never substituted for strong file identity
+  - never: compare or exchange values across identity roles merely because their machine type is integer or text
+
+& [Lineage] means retained derivation context
+  + the result owns the complete assembly and therefore every nested carrier and lower supplied record
+  + lineage is not serialized into the inventory digest subject because it describes how the supplied record was formed, not the record itself
+  + exclusion from the hash is not erasure, downgrade, or permission to return a bare digest
+
+& [Revalidation] means current pure structural checking at this boundary
+  + current ValidateTopologyForm reruns over each exposed observation
+  + count, root-first shape, ordinal position, and checked byte-total correlations rerun against assembly getters
+  + revalidation does not rerun entry policy, stream parser, stability, content hashing, projection construction, assembly construction, or any physical query
+
+& [Complete] is always subject qualified
+  + complete_observation_fields means every M2A semantic field is encoded
+  + complete_assembly_retention means the entire input wrapper is owned by the result
+  + complete_supplied_sequence means every assembly member is encoded in order
+  + physical_enumeration_complete is a different absent claim
+  - never: use unqualified complete in public proof prose
+
+& [Same] is always comparison qualified
+  + same_digest_string without same exact profile is insufficient
+  + same_encoded_subject is conditioned on same profile and collision assumptions
+  + same_supplied_sequence does not mean same physical tree at one or two times
+  + same_physical_inventory requires separately authorized observation and temporal reconciliation
+
+& [Receipt] is a later compound authority object
+  + TopologyReceipt binds candidate root, strong root identity, root volume-GUID path, admission receipt, policy, scanner profile, nonce, counts, totals, ordered inventory digest, quiescent-double-inventory class, and time interval
+  + this slice produces only one candidate value for the ordered-inventory-digest role from supplied structural data
+  + it produces none of the physical, predecessor, policy, nonce, consistency, timing, issuance, or single-use claims required for a receipt
+  - never: name the output a receipt fragment if that wording implies partial receipt authority
+
+& [ResultProfile] names the transform contract
+  + cantor-windows-supplied-ordered-topology-inventory-digest/0.1 governs input, validation, retention, faults, effects, and output
+  + it is distinct from the encoding profile that governs only hash bytes
+  + both exact profile strings are present in the result
+
+& [Fault] means bounded denial without partial success
+  + a fault class identifies the first failed contract boundary
+  + nested TopologyFormFault is retained only when current M2A validation failed
+  + internal identifies an implementation contradiction and never masks an expected caller error
+  + faults never release digest bytes, partial encoded bytes, full observations, or lower records
+
+& [Atomic] means function-result atomicity only
+  + success returns the complete output wrapper and failure returns one bounded fault
+  + it does not mean filesystem atomicity, snapshot isolation, transactional persistence, or atomic receipt issuance
+
+& [Streaming] means incremental hash input without whole-subject buffering
+  + existing text slices and fixed stack arrays may be fed directly to sha2
+  + it does not mean I/O streaming, async execution, file reads, chunk protocol, or caller-controlled segmentation
+  + canonical output is independent of internal update-call segmentation
+
+& [Compatibility] is strict profile rejection
+  + version 0.1 has no legacy decoder, alternate tag table, default, migration, or negotiation
+  + any grammar change requires a new encoding profile and new result authority review
+  + existing digests remain interpretable only with their exact profile identity
+
+& [AuthorityStatement] is refined
+  + successful output proves that this pure implementation accepted one completed supplied assembly, reran named structural checks, encoded the exact exposed observation sequence under the exact profile, and derived the reported SHA-256
+  + successful output does not prove physical origin, enumeration, completeness, freshness, traversal, Git agreement, temporal repetition, quiescence, receipt validity, admission, or any effect
+
+& [RefinementResult] is ready for constraint checking
+  + overloaded terms have role-qualified meanings
+  + digest subject and retained lineage are noncompeting projections of the same output
+  + canonical byte identity and evidence authority grade are explicitly separated
+  + no source revision is required
+  + implementation authority remains absent
