@@ -1,0 +1,55 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Solution
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is fba84020-edf1-436f-9a98-1f39ee715581
+  + [profile] is cantor-windows-supplied-ordered-topology-inventory-digest/0.1
+  + [encoding_profile] is cantor-ordered-topology-observation-encoding/0.1
+  + [authority_signature_uuid] is 63c58b74-0eb9-4ab8-9c95-4bfe3bb92af8
+  + [implementation_commit] is ce26deeda98f97d49829172cc0f6c6bff8cf3830
+
+& [Implementation] is one pure subject-local module
+  + [module] is crates/cantor_ecosystem/src/windows_supplied_ordered_topology_inventory_digest.rs
+  + [module_sha256] is 7DB7A392D05F3F578F6429CB06D6F27B06F9F27F75722790D76E9DEA5314634D
+  + [module_bytes] is 49147
+  + [static_test_sha256] is 15595851FE156D4D2958D56448B8BA62445AE8827BAE1124A8D0DF66B37DB772
+  + [export] is one public module declaration in lib.rs
+  + [Cargo_lock_unsafe_platform_call_delta] is zero
+
+& [Behavior] is requirement complete
+  + strict 4096-byte capped plan rejects unknown syntax, wrong profiles, and zero commitment identity
+  + public success accepts only one complete WindowsSuppliedTopologyInventoryAssembly by value
+  + current topology validation reruns for every ordered observation
+  + exact assembly profile, nonzero representable count, root-first shape, positional ordinals, and checked regular-file total rerun
+  + exact zero-terminated encoding domain and u64 entry count precede ordered entries
+  + every observation and stream semantic field is encoded once with named field tags, fixed big-endian integers, explicit enum tags, explicit option presence, UTF-8 byte lengths, sequence counts, and decoded fixed-width hex
+  + one private Sha256 writer consumes stack arrays and borrowed text slices without a whole-inventory canonical byte vector
+  + private Serialize-only output retains exact plan, profiles, complete assembly, and lowercase digest
+  + bounded atomic faults expose no partial digest, canonical bytes, observation, carrier, or assembly
+
+& [KnownVectors] are independently fixed
+  + [root_only] is 89bd2d81e81799a838f9f4028076f14f1b3c3c9ca75fe78ebcbccd9015508f6a
+  + [mixed_nested] is fa6e4153f4ec5e25d6aebae3323698ef917c4ae0a12205e926ef2a14823e92bd
+  + mixed_nested is independently reproduced by test-only manual canonical byte construction rather than production writer reuse
+
+& [EvidenceGrade] is canonically_committed_supplied_ordered_sequence_only
+  + current revalidation is distinguished from lower carrier construction
+  + complete supplied sequence is distinguished from physical enumeration completeness
+  + digest equality is profile-qualified and collision-assumption qualified
+  + plan and carrier-only proof lineage are excluded from digest bytes but retained in the result
+  + physical, enumerated, fresh, temporally repeated, quiescent, receipted, admitted, and mutation grades are absent
+
+& [FocusedVerification] is passed
+  + [unit_debug] 10 passed
+  + [static_debug] 1 passed
+  + [unit_overflow_checked_release] 10 passed
+  + [static_overflow_checked_release] 1 passed
+  + [warnings_denied_crate_lint] passed
+
+& [GlobalVerification] is closure measured
+  + [workspace_debug] 382 passed and 1 governed physical ignore
+  + [workspace_overflow_checked_release] 382 passed and 1 governed physical ignore
+  + [quality] format, warnings-denied lint, release build, warnings-denied docs, and dependency audit passed
+  + [recursive_evidence] 22 current manifests with zero stale artifact references
+  + [physical_execution] zero
+
+& [Rollback] is bounded to one module, export, static and evidence tests, builder, manifest, and derived closure records with no state cleanup
