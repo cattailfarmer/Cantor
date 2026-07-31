@@ -1,0 +1,42 @@
+Subject: Cantor M2B Supplied Entry Observation Assembly Justification
+
+& [JustificationIdentity] is traceable
+  + [justification_uuid] is 893058df-dfe8-4a12-84b7-123b84a8121e
+  + [profile] is cantor-windows-supplied-entry-observation/0.1
+  + [source_snapshot_uuid] is c1e8077d-add0-4abf-9fc4-be1f59b61ff8
+
+& [Claim] is a strict pure assembly seam is required before any physical Windows producer
+  + [support] is the preserved source and exact manifest
+  + [support] is the readiness review finding that independently valid pure records do not yet form one coherent entry candidate
+  + [support] is the existing entry-policy and stream-parser proof boundary
+  + [support] is the M2A form requirement for values not available from fixed metadata alone
+  + [confidence] is high that a typed deterministic seam reduces later unsafe and provenance ambiguity
+
+& [Selection] is a correlated five-record input with an incomplete projection seed
+  + [selected] require one nonoptional typed record for attributes, identity, standard information, case disposition, and streams
+  + [selected] use nonzero equality-checked u64 correlation syntax because the source authorizes comparison but no physical interpretation
+  + [selected] revalidate public raw stream records at assembly time
+  + [selected] preserve raw stream order while sorting only separate derived M2A stream facts
+  + [selected] omit path, mode, digest, and ordinal from the projection type so invention is structurally impossible
+  + [rejected] direct TopologyEntryObservation construction because required facts are not supplied
+  + [rejected] optional records or defaults because absence would be concealed
+  + [rejected] a completeness or same-handle boolean because assertion is not provenance
+  + [rejected] learned scoring because every safety relation is deterministic
+
+& [Counterargument] is the future physical producer could perform these checks privately
+  + [answer] centralizing the pure coherence contract makes unsafe code smaller, exhaustive tests possible without Windows, and physical claims separately auditable
+  + [counterargument] duplicated stream grammar can drift from the parser
+  + [answer] assembly must distrust publicly constructible raw records; focused parity tests and evidence bind both profiles while later refactoring can share a private validator under new authority
+  + [counterargument] correlation equality may look like same-handle proof
+  + [answer] type and documentation name it syntax only and all same-handle, object, freshness, and physical claims are forbidden
+
+& [RiskAndRollback] are bounded
+  + [residual_risk] future callers may misdescribe supplied syntax as physically observed outside the type system
+  + [mitigation] names, docs, faults, tests, proof, and downstream stop gates repeat the provenance boundary
+  + [residual_risk] a future topology projection could fill omitted fields without new evidence
+  + [mitigation] profile 0.1 exposes a seed type and no From or Into conversion to TopologyEntryObservation
+  + [cost] one pure Rust module, one export, focused tests, static tests, evidence, and governance records
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [rollback] remove the module, export, tests, and evidence then supersede the signature
+  + [invalidation_condition] is source drift, prerequisite authority drift, correlation overclaim, missing required record, admitted incoherence, projection invention, dependency or effect drift, failed proof, or stale evidence

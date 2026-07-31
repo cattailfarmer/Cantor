@@ -1,0 +1,208 @@
+Subject: Exploded Cantor M2B Supplied Entry Observation Assembly
+
+Description: Seven-fold SJS expansion of the preserved source for a strict, pure transform that correlates already supplied Windows entry records without claiming that any physical query occurred.
+
+& [ExplosionIdentity] is phase locked
+  + [explosion_uuid] is 7bcc5a29-a0dd-407a-8a8a-bc0e0bb81fb4
+  + [profile] is cantor-windows-supplied-entry-observation/0.1
+  + [source_snapshot_uuid] is c1e8077d-add0-4abf-9fc4-be1f59b61ff8
+  + [phase] is seven_fold_phase_locked
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_supplied_entry_observation_assembly\Cantor_M2B_Supplied_Entry_Observation_Assembly_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_supplied_entry_observation_assembly\Source_Document_Manifest.sop
+@ [readiness_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Pure_Prerequisite_Readiness_Review_2026-07-30.sop
+@ [entry_policy] C:\Project\Cantor\specifications\Cantor_M2B_Pure_Windows_Entry_Policy.sop
+@ [stream_parser] C:\Project\Cantor\specifications\Cantor_M2B_Pure_Stream_Information_Parser.sop
+@ [machine_forms] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+
+& [BoundaryFormation] separates structural assembly from acquisition
+  + [inside] one exact profile, requested entry kind, component, component bound, and five required supplied record classes
+  + [inside] correlation equality, cross-field coherence, stream revalidation, pure entry-policy evaluation, and explicit projection
+  + [outside] query success, buffer initialization, handle ownership, same-handle provenance, physical completeness, freshness, filesystem support, path binding, traversal, Git interpretation, receipts, and effects
+  + [required_records] are attribute-tag, file-identity, standard-information, case-sensitivity disposition, and stream-set disposition
+  + [presence] is enforced by nonoptional fields and closed variants rather than defaults
+
+& [AtomicRequirementSet] is complete
+  + [M2B-SEO-001] bind strict profile, strict JSON, preserved source, governing protocol, and required nonoptional records
+  + [M2B-SEO-002] require every supplied record to carry nonzero equal batch and entry-reference identities
+  + [M2B-SEO-003] preserve exact attributes and diagnostic reparse tag without turning either into provenance
+  + [M2B-SEO-004] require exactly sixteen supplied file-ID bytes and derive only canonical lowercase hexadecimal identity text
+  + [M2B-SEO-005] reject negative allocation size or end-of-file length before unsigned conversion
+  + [M2B-SEO-006] require nonzero link count and reject every delete-pending record
+  + [M2B-SEO-007] require requested kind, standard-information directory flag, and DIRECTORY attribute interpretation to agree
+  + [M2B-SEO-008] require directory case flags as an exact flags record for directory and an explicit not-applicable record for regular file
+  + [M2B-SEO-009] invoke the current pure entry-policy kernel with exact profile, kind, attributes, case flags, component, and component bound
+  + [M2B-SEO-010] require streams as either an explicit empty variant or an ordered-records variant with no completeness boolean
+  + [M2B-SEO-011] revalidate stream grammar, exact uniqueness, count and UTF-16 bounds, and strictly increasing source offsets while preserving supplied order and raw sizes
+  + [M2B-SEO-012] release one immutable observation or one closed bounded fault with no partial accepted value
+  + [M2B-SEO-013] expose only an explicit M2A projection seed that omits path, mode class, content digest, and observation ordinal
+  + [M2B-SEO-014] keep correlation and structural coherence explicitly weaker than physical provenance, completeness, or trust
+  + [M2B-SEO-015] preserve zero dependencies, zero unsafe, zero platform calls, and zero runtime effects
+  + [M2B-SEO-016] bind focused, static, evidence, global, rollback, and downstream stop-gate proof
+
+& [DataDesignModel] is one closed pure transform
+  + [RecordCorrelation] is batch_identity u64 plus entry_reference_identity u64
+  + [SuppliedAttributeTagRecord] is correlation, exact attributes u32, and diagnostic reparse_tag u32
+  + [SuppliedFileIdentityRecord] is correlation, volume_serial u64, and file_id_bytes fixed at sixteen u8 values
+  + [SuppliedStandardInformationRecord] is correlation, allocation_size i64, end_of_file i64, number_of_links u32, delete_pending bool, and directory bool
+  + [SuppliedCaseSensitivityRecord] is directory_flags with correlation and flags or not_applicable with correlation
+  + [SuppliedStreamSet] is explicit_empty with correlation or ordered_records with correlation and raw parser records
+  + [AssemblyInput] is profile, kind, component, component bound, and exactly one value of every required record class
+  + [SuppliedEntryObservation] preserves the shared correlation, policy decision, diagnostic tag, strong identity, nonnegative sizes, links, and supplied stream order
+  + [TopologyProjectionSeed] contains only kind, attributes, strong identity, links, canonical stream facts, and kind-shaped length
+  + [AssemblyFault] is one closed code, field, and bounded deterministic reason
+  + [lifecycle] is supplied syntax to correlation to coherence to policy to one observation or one fault
+  + [state] is absent
+  - never: release a partial observation
+
+& [CorrelationTruthTable] is exhaustive
+  + [all_nonzero_and_equal] proceeds
+  + [any_zero_batch_identity] rejects as correlation fault
+  + [any_zero_entry_reference_identity] rejects as correlation fault
+  + [any_batch_difference] rejects as correlation fault
+  + [any_entry_reference_difference] rejects as correlation fault
+  + [meaning] correlation syntax permits equality checks only
+
+& [KindAndCaseTruthTable] is exhaustive
+  + [directory] requires standard directory true, DIRECTORY attribute admitted by the entry policy, and directory_flags variant with exact zero flags
+  + [regular_file] requires standard directory false, no DIRECTORY attribute admitted by the entry policy, and explicit not_applicable case variant
+  + [all_other_combinations] reject before observation release
+  + [delete_pending_true] always rejects
+  + [number_of_links_zero] always rejects
+  + [negative_size] always rejects before conversion
+
+& [StreamTruthTable] is exact
+  + [explicit_empty] releases an empty raw stream vector and makes no physical-enumeration claim
+  + [ordered_records] requires one through 1024 records
+  + [name] is exact default grammar ::$DATA or exact nonempty named grammar :name:$DATA with no inner colon or NUL
+  + [name_bound] is one through 32767 UTF-16 code units
+  + [uniqueness] is exact String equality across the collection
+  + [order] preserves supplied record order and requires source_offset to increase strictly
+  + [raw_facts] preserve stream_size, allocation_size, and source_offset
+  + [projection] clones and sorts only derived TopologyStreamFact values by exact name for M2A shape compatibility
+  - never: infer that Windows returned the collection or that enumeration was complete
+
+& [ProjectionDelineation] prevents invented M2A facts
+  + [derived] regular-file length is supplied end_of_file and directory length is absent
+  + [derived] parser default name maps to unnamed_default and every admitted named DATA stream maps to named_data
+  + [derived] strong identity hex is exact lowercase encoding of sixteen supplied bytes
+  + [omitted] relative_path
+  + [omitted] mode_class
+  + [omitted] content_sha256
+  + [omitted] observation_ordinal
+  + [not_constructed] TopologyEntryObservation
+  - never: implement From or Into that silently fills an omitted field
+
+& [ConstraintLedger] is fail closed
+  + [C-01] source and manifest remain byte-bound and separate from derived artifacts
+  + [C-02] profile is exactly cantor-windows-supplied-entry-observation/0.1
+  + [C-03] all five required records are nonoptional
+  + [C-04] no input field is named same_handle, query_succeeded, fully_initialized, trusted, or complete
+  + [C-05] correlation identities are nonzero and equal across every record
+  + [C-06] fixed file identity is exactly sixteen bytes
+  + [C-07] signed sizes reject before unsigned conversion, links reject at zero, and delete pending always rejects
+  + [C-08] kind, directory flag, case variant, and entry-policy result agree
+  + [C-09] raw stream records are independently revalidated because public structs can be constructed without the parser
+  + [C-10] stream order is preserved in the raw observation and projection sorting occurs only in a distinct derived value
+  + [C-11] faults contain no partial observation
+  + [C-12] M2A projection cannot represent unsupplied path, Git mode, digest, or ordinal
+  + [C-13] production imports remain std, serde, and existing pure crate modules
+  + [C-14] Cargo, lockfile, unsafe, platform, filesystem, process, environment, clock, network, persistence, model, and effect deltas remain zero
+  + [C-15] current entry-policy and stream-parser authority must remain valid
+  + [C-16] no evidence language upgrades syntax or coherence into physical proof
+
+& [SubcomponentWeaveTrace] is source grounded
+  + [correlation] originates in SuppliedRecordIntent and weaves through every record and fault-path test
+  + [identity] originates in file_identity and weaves to fixed-array decoding and strong-identity projection
+  + [standard] originates in standard and weaves to signed size, link, delete-pending, and kind tests
+  + [case] originates in conditional case intent and weaves to a closed explicit variant
+  + [streams] originate in parsed collection intent and weave to independent grammar, bound, uniqueness, order, and preservation tests
+  + [policy] originates in CoherenceIntent and weaves to the exact existing evaluator
+  + [projection] originates in the anti-invention clause and weaves to a deliberately incomplete seed type
+
+& [CrossWeaveTrace] joins existing fabric
+  + [entry_policy] supplies exact kind, attribute, case, component, and order decision
+  + [stream_parser] supplies the raw record vocabulary but no physical-completeness claim
+  + [topology_forms] supplies strong identity, stream fact, stream kind, and entry kind projection vocabularies
+  + [topology_scanner] may consume this seam only through later physical-producer and temporal authority
+  + [evidence_manifest] may bind artifacts without becoming observation authority
+
+& [FailureModeSet] is explicit
+  + [F-01] source or manifest bytes drift
+  + [F-02] unknown profile, field, enum variant, or omitted required record admits
+  + [F-03] zero or unequal correlation identity admits
+  + [F-04] nonexact file identity admits
+  + [F-05] negative size converts or link count zero admits
+  + [F-06] delete-pending input admits
+  + [F-07] requested kind diverges from directory flag, attribute policy, or case variant
+  + [F-08] malformed, duplicate, over-bound, or nonmonotonic stream records admit
+  + [F-09] raw stream order or raw size facts change
+  + [F-10] nested entry-policy fault is concealed as success
+  + [F-11] partial observation escapes a fault
+  + [F-12] projection invents path, mode, digest, or ordinal
+  + [F-13] dependency, unsafe, platform call, or runtime effect appears
+  + [F-14] structural result is cited as physical, fresh, complete, trusted, or same-handle evidence
+  + [F-15] prerequisite authority becomes stale
+
+& [VerificationProgram] is ordered
+  + [V-01] verify preserved source hash 0A9C3F9AEF5B4E5AF9B2302152795D9516E98C9B489A3191EA144F8442C37998 and 4124 bytes
+  + [V-02] verify governing satisfaction signature and every SJS stage binding
+  + [V-03] run focused unit tests for strict decoding and every truth-table boundary
+  + [V-04] run an independent static no-effect and anti-provenance surface test
+  + [V-05] run focused tests in debug and overflow-checked release
+  + [V-06] verify exact Cargo, lockfile, dependency, unsafe, and effect deltas
+  + [V-07] generate a clone-portable artifact manifest with exact hashes and byte counts
+  + [V-08] run evidence rehash tests in debug and overflow-checked release
+  + [V-09] run workspace debug and overflow-checked release tests
+  + [V-10] run format, warnings-denied lint, release build, warnings-denied docs, and dependency audit
+  + [V-11] publish solution, proof, review, narrative, reentry, registry, and feature-support closure
+  + [V-12] keep physical producer, fixture, traversal, admission, mutation, seal, and promotion gates locked
+
+& [SemanticRefinementTrace] is exact
+  + [supplied] means caller-constructed syntax, not observed, authenticated, trusted, or fresh
+  + [correlated] means nonzero identifiers compare equal, not same handle, object, query, or time
+  + [structurally_complete] means every required variant is present, not that a platform query completed
+  + [coherent] means declared fields satisfy this deterministic profile, not that they describe reality
+  + [projection] means a lossy derived seed with explicit omissions, not a TopologyEntryObservation
+  + [explicit_empty] means caller supplied the empty variant, not that Windows proved no streams
+
+& [ConstraintCheckTrace] is grounded
+  + [source] requires five supplied record classes, cross-field coherence, no defaults, and explicit nonclaims
+  + [readiness] requires an epoch-bound pure composition seam before any physical adapter
+  + [entry_policy] accepts exact caller-supplied values and returns no physical fact
+  + [stream_parser] exposes public raw records whose constructor bypass requires assembly revalidation
+  + [machine_forms] require sorted stream facts and additional path, mode, digest, and ordinal facts not present here
+  + [framework] requires governing protocol ad10f10f-d506-48ef-a805-f8b0a133766c and evidence for every processed stage
+
+& [PruningTrace] removes overreach
+  + [pruned] generic optional fact bag and safe defaults
+  + [pruned] booleans asserting completeness, success, initialization, trust, or same-handle provenance
+  + [pruned] a direct TopologyEntryObservation conversion
+  + [pruned] neural scoring at a deterministic safety seam
+  + [pruned] physical query, pointer, handle, Win32, filesystem, traversal, Git, receipt, admission, and mutation behavior
+  + [pruned] sorting or normalizing the raw supplied stream collection
+  + [pruned] decorative types without a requirement, constraint, failure, or proof role
+
+& [FoldTrace] is seven-fold
+  + [fold_1_subject] isolates supplied-record structural assembly
+  + [fold_2_terms] fixes supplied, correlated, complete, coherent, projection, and empty meanings
+  + [fold_3_data] closes records, input, observation, projection seed, fault, lifecycle, and absent state
+  + [fold_4_relations] cross-weaves the two pure prerequisites and M2A machine forms
+  + [fold_5_constraints] preserves sixteen source, type, effect, and provenance guards
+  + [fold_6_failures] exposes fifteen invalidation paths
+  + [fold_7_proof] binds twelve verification gates and downstream stop rules
+
+& [GrowthSeedSet] is bounded
+  + [seed_1] is a separately sourced private physical Win32 producer that constructs these records from one owned handle
+  + [seed_2] is a separately sourced temporal comparison layer for pre-read and post-read facts
+  + [seed_3] is later scanner integration after disposable physical fixture proof
+  - never: treat any growth seed as authorized here
+
+& [ExhaustionReview] is phase locked
+  + [source_preservation] complete
+  + [boundary_and_terms] complete
+  + [data_and_relations] complete
+  + [constraints_and_failures] complete
+  + [pruning_and_nonclaims] complete
+  + [verification_and_rollback] complete
+  + [state] is seven_fold_phase_locked

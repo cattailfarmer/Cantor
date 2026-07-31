@@ -1,0 +1,48 @@
+Subject: Cantor M2B Supplied Entry Observation Assembly Design Decision
+
+Description: SJS design record resolving how caller-supplied fixed-query and parsed-stream values become one structurally coherent pure observation without becoming physical evidence.
+
+& [DecisionIdentity] is pre-implementation
+  + [decision_uuid] is 350154b7-0b6a-411b-a583-3f3d2be5845a
+  + [captured_at] is 2026-07-30T22:09:50.2944457-05:00
+  + [baseline_commit] is 50ebf9c
+  + [source_snapshot_uuid] is c1e8077d-add0-4abf-9fc4-be1f59b61ff8
+
+& [Problem] is independent pure values lack a common coherence boundary
+  + the entry policy accepts supplied attributes, case flags, kind, and component
+  + the stream parser emits publicly constructible raw records
+  + neither kernel correlates fixed-query classes or checks standard-information relations
+  + M2A TopologyEntryObservation requires path, mode, digest, and ordinal facts not available here
+
+& [Decision] is five mandatory records and one deliberately incomplete projection
+  + correlation identities are u64 syntax checked nonzero and equal across all records
+  + file identity input is a fixed sixteen-byte array and output identity text is exact lowercase hex
+  + signed standard-information sizes reject before conversion
+  + case presence is a closed directory_flags or not_applicable variant
+  + streams are a closed explicit_empty or ordered_records variant
+  + raw stream records are revalidated and retained in supplied order
+  + derived M2A stream facts are separately sorted by exact name
+  + the projection seed omits path, mode, digest, and ordinal at the type level
+
+& [TerminologyDecision] prevents evidence inflation
+  + [supplied] is syntax
+  + [correlated] is equality only
+  + [structurally_complete] is required-field presence only
+  + [coherent] is profile consistency only
+  + [explicit_empty] is a caller-selected variant only
+  + [observation] in the profile name is a supplied observation value, not proof of an OS observation event
+
+& [EffectDecision] is pure only
+  + [authorized] deterministic in-memory validation, conversion, serialization, and tests
+  + [forbidden] Windows calls, handles, pointers, unsafe, filesystem, process, environment, clock, network, persistence, models, traversal, Git, receipts, admission, mutation, seal, and promotion
+
+& [Consequence] is a smaller later physical seam
+  + a future private adapter can focus on obtaining records from one owned handle
+  + the adapter still must prove query success, initialized buffers, same-handle origin, supported filesystem behavior, freshness, and temporal checks
+  + this slice cannot be cited for any of those later obligations
+
+& [AuthorityEffect] is canonical formation only
+  + [canonical_authority] is issued by governing signature 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719
+  + [implementation_authority] is bounded to the pure slice
+  + [execution_authority] is in-memory supplied-value tests only
+  + [physical_authority] is absent

@@ -1,0 +1,207 @@
+Subject: Cantor M2B Supplied Entry Observation Assembly
+
+Description: Canonical SJS authority for a zero-effect transform that correlates caller-supplied Windows fixed-query and parsed-stream records into one structurally coherent supplied observation or one closed fault.
+
+& [CanonicalIdentity] is pure implementation authority
+  + [specification_uuid] is afafede6-9b96-4cd5-af7c-321229e78ded
+  + [revision] is 1
+  + [profile] is cantor-windows-supplied-entry-observation/0.1
+  + [source_snapshot_uuid] is c1e8077d-add0-4abf-9fc4-be1f59b61ff8
+  + [target_module] is crates/cantor_ecosystem/src/windows_supplied_entry_observation.rs
+  + [lifecycle_state] is canonical_signed_implementation_pending
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_supplied_entry_observation_assembly\Cantor_M2B_Supplied_Entry_Observation_Assembly_Source.sop
+@ [source_sha256] 0A9C3F9AEF5B4E5AF9B2302152795D9516E98C9B489A3191EA144F8442C37998
+@ [source_bytes] 4124
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_supplied_entry_observation_assembly\Source_Document_Manifest.sop
+@ [research] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Entry_Observation_Assembly_Design_Decision_2026-07-30.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Entry_Observation_Assembly.exploded.sop
+@ [exploded_sha256] C91672C4435C5F265FEBD94FF11F83A1F3CFB9EE278C1AE14C845A609196A11A
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Supplied_Entry_Observation_Assembly_Justification.sop
+@ [justification_sha256] 236BDD29D979ECB4EA60A3904F59DE58A6D7B513F4112BC769D9E755B5C92547
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Entry_Observation_Assembly_Plan.sop
+@ [plan_sha256] 598C477C8DD250B2B0C46D94F6A156AD70FB10A5BF653B262829C37873C0A5F5
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedEntryObservationAssembly_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedEntryObservationAssembly.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Supplied_Entry_Observation_Assembly_Registry.sop
+@ [registry_sha256] AB76F5BC8BDFA3CCD7E1B535E08EABCCB1CB0DA327819260D3594C07CA54F6B7
+
+& [InputContract] is strict and required
+  + [profile] is exactly cantor-windows-supplied-entry-observation/0.1
+  + [kind] is directory or regular_file
+  + [component] is exact Unicode supplied to the entry-policy kernel
+  + [maximum_component_utf16_units] is supplied unchanged to the entry-policy kernel
+  + [attribute_tag] is one required SuppliedAttributeTagRecord
+  + [file_identity] is one required SuppliedFileIdentityRecord
+  + [standard] is one required SuppliedStandardInformationRecord
+  + [case_sensitivity] is one required closed SuppliedCaseSensitivityRecord variant
+  + [streams] is one required closed SuppliedStreamSet variant
+  = must: reject unknown serialized fields, variants, omitted records, unknown profile, and incoherent relations
+
+& [CorrelationContract] is syntax only
+  + [RecordCorrelation] contains batch_identity u64 and entry_reference_identity u64
+  + [each_record] carries its own RecordCorrelation
+  + [nonzero] both identities in every record are nonzero
+  + [equality] both identities equal the attribute-tag record values across all five records
+  + [released_identity] preserves the common values
+  - never: interpret equality as proof of same handle, object, query, buffer, thread, time, path, or physical event
+
+& [AttributeTagContract] preserves supplied facts
+  + [attributes] is exact u32
+  + [reparse_tag] is exact diagnostic u32
+  + [policy] receives exact attributes
+  + [diagnostic] reparse_tag is preserved but grants no exception and proves no platform response
+
+& [FileIdentityContract] is exact
+  + [volume_serial] is supplied u64
+  + [file_id_bytes] is a fixed array of exactly sixteen u8 values
+  + [file_id_hex] is derived as exactly 32 canonical lowercase hexadecimal characters in supplied byte order
+  + [StrongFileIdentity] contains exact volume_serial and derived file_id_hex
+  - never: assign persistence, uniqueness outside the future scan, path binding, or physical provenance
+
+& [StandardInformationContract] is fail closed
+  + [allocation_size] is supplied i64 and must be nonnegative before conversion to u64
+  + [end_of_file] is supplied i64 and must be nonnegative before conversion to u64
+  + [number_of_links] is supplied u32 and must be nonzero
+  + [delete_pending] is supplied bool and true always rejects
+  + [directory] is supplied bool and must equal requested directory kind
+  + [regular_file] requires directory false
+  + [directory] requires directory true
+
+& [CaseSensitivityContract] makes conditional presence explicit
+  + [directory_flags] is a closed variant containing correlation and flags u32
+  + [not_applicable] is a closed variant containing correlation and no flags
+  + [directory_kind] requires directory_flags with exact zero flags
+  + [regular_file_kind] requires not_applicable
+  + [policy_projection] is Some(flags) for directory_flags and None for not_applicable
+  - never: use an omitted Option or default to conceal an absent conditional record
+
+& [StreamContract] distrusts publicly constructible parser records
+  + [explicit_empty] is a closed variant containing correlation and no records
+  + [ordered_records] is a closed variant containing correlation and one through 1024 WindowsRawStreamRecord values
+  + [name_bound] every name is one through 32767 UTF-16 code units
+  + [default_name] is exactly ::$DATA
+  + [named_name] begins with colon, ends with :$DATA, and has a nonempty inner name containing neither colon nor NUL
+  + [uniqueness] exact names do not repeat
+  + [source_order] records remain in supplied order and source_offset values increase strictly
+  + [raw_preservation] name, stream_size, allocation_size, and source_offset are unchanged
+  + [explicit_empty_meaning] is only that the caller chose the empty variant
+  - never: infer parser execution, API success, Windows origin, enumeration completeness, or absence of physical streams
+
+& [EntryPolicyContract] reuses current authority
+  + [profile] is cantor-windows-entry-policy/0.1
+  + [kind] is exact requested kind
+  + [attributes] are exact supplied attributes
+  + [directory_case_sensitive_flags] are derived only from the explicit case variant
+  + [component] and [maximum_component_utf16_units] are passed unchanged
+  + [decision] is preserved in the assembled observation
+  + [fault] maps to a closed assembly policy fault without partial release
+  + [required_signature] is fbb835f2-5ab6-4362-a392-5d72692f8d1c
+
+& [OutputContract] is immutable and inspectable
+  + [profile] preserves the exact assembly profile
+  + [batch_identity] and [entry_reference_identity] preserve common correlation syntax
+  + [policy_decision] preserves exact admitted kind, attributes, case, component, and order key
+  + [reparse_tag] preserves the diagnostic supplied value
+  + [identity] is exact StrongFileIdentity
+  + [allocation_size] and [end_of_file] are exact nonnegative u64 conversions
+  + [number_of_links] is exact and nonzero
+  + [supplied_stream_records] preserve exact raw order and facts
+  + [fault] exposes one closed code, field, and reason truncated to 256 Unicode scalar values
+  - never: release an observation together with a fault or expose a partial accepted observation
+
+& [ProjectionContract] cannot construct a complete M2A entry
+  + [function] is explicit topology_projection_seed on an admitted observation
+  + [kind] maps directory to TopologyEntryKind::Directory and regular_file to TopologyEntryKind::RegularFile
+  + [attributes] preserve exact attributes
+  + [identity] preserves exact StrongFileIdentity
+  + [number_of_links] preserves exact count
+  + [streams] classify exact names and sort derived TopologyStreamFact values by exact name
+  + [length] is None for directory and Some(end_of_file) for regular_file
+  + [relative_path] is absent from the seed type
+  + [mode_class] is absent from the seed type
+  + [content_sha256] is absent from the seed type
+  + [observation_ordinal] is absent from the seed type
+  - never: implement direct From or Into conversion to TopologyEntryObservation
+
+& [FaultContract] is closed
+  + [codes] are profile, correlation, identity, size, link, delete_pending, kind, case_sensitivity, stream, policy, resource, and json
+  + [profile] covers unknown assembly profile
+  + [correlation] covers zero or unequal identities
+  + [identity] covers nonexact serialized fixed-array identity
+  + [size] covers negative standard-information sizes
+  + [link] covers zero links
+  + [delete_pending] covers every true delete flag
+  + [kind] covers requested-kind and standard directory-flag mismatch
+  + [case_sensitivity] covers case variant or flags mismatch
+  + [stream] covers variant cardinality, name grammar, bound, duplicate, and source-order faults
+  + [policy] covers any existing entry-policy rejection
+  + [resource] covers bounded collection or conversion failures not otherwise classified
+  + [json] covers malformed, unknown-field, unknown-variant, omitted-field, and wrong-type serialized input
+
+& [ImplementationBoundary] is zero effect
+  + [authorized_file] is crates/cantor_ecosystem/src/windows_supplied_entry_observation.rs
+  + [authorized_export] is one exact library-module export
+  + [authorized_tests] are module unit tests, one static surface test, one evidence rehash test, and workspace regression tests
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [unsafe] is denied
+  + [production_imports] are std, serde, windows_entry_policy, windows_stream_info_parser, and topology_forms
+  - never: use windows-sys, filesystem, process, environment, clock, random, network, model, persistence, handle, pointer, buffer, physical query, traversal, Git, receipt, admission, mutation, seal, or promotion APIs
+
+& [RequirementSet] is M2B-SEO-001 through M2B-SEO-016
+  + [requirements] are strict records, exact correlation, raw preservation, fixed identity, signed sizes, links, delete rejection, kind and case coherence, policy reuse, explicit stream variants, independent stream validation, atomic release, incomplete projection, provenance nonclaims, zero effects, and proof closure
+
+& [AcceptanceContract] is exact
+  + [source] manifest matches exact SHA-256 and byte count
+  + [authority] governing signature binds every processed SJS stage
+  + [focused] all module unit tests and one independent static test pass in debug and overflow-checked release
+  + [behavior] every requirement and failure mode has a test or static proof edge
+  + [effects] Cargo, lockfile, dependency, unsafe, platform, and runtime-effect deltas remain zero
+  + [evidence] clone-portable manifest hashes canonical, module, tests, solution, proof, review, and narrative
+  + [global] workspace debug and release tests, format, warnings-denied lint, release build, warnings-denied docs, and audit pass
+  + [downstream_gate] physical producer and traversal remain absent
+
+& [AuthorityBoundary] is pure implementation only
+  + [allowed] one deterministic in-memory module, export, serialization, focused tests, static test, evidence support, proof, solution, review, and governed narrative
+  + [forbidden] Win32, windows-sys, unsafe, handles, pointers, buffers, filesystem, process, environment, clock, network, persistence, models, physical fixtures, query execution, traversal, Git, receipts, admission, mutation, seal, or promotion
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is exact Source_Document_Manifest.sop binding
+  + [delineated] is exploded BoundaryFormation and ProjectionDelineation
+  + [exploded] is sixteen requirements, sixteen constraints, fifteen failures, and twelve verification gates
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded PruningTrace
+  + [data_design_checked] is exploded DataDesignModel and truth tables
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Supplied_Entry_Observation_Assembly_Justification.sop
+  + [planned] is Cantor_M2B_Supplied_Entry_Observation_Assembly_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Supplied_Entry_Observation_Assembly_Registry.sop
+
+& [SignatureEvidenceTable] binds every claimed stage
+  + [source_preserved] is Source_Document_Manifest.sop with exact source hash and bytes
+  + [delineated] is exploded BoundaryFormation and ProjectionDelineation
+  + [exploded] is Cantor_M2B_Supplied_Entry_Observation_Assembly.exploded.sop
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger and ConstraintCheckTrace
+  + [pruned] is exploded PruningTrace
+  + [data_design_checked] is exploded DataDesignModel, CorrelationTruthTable, KindAndCaseTruthTable, and StreamTruthTable
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Supplied_Entry_Observation_Assembly_Justification.sop
+  + [planned] is Cantor_M2B_Supplied_Entry_Observation_Assembly_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Supplied_Entry_Observation_Assembly_Registry.sop
+
+& [SatisfactionSignature] is valid canonical authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Entry_Observation_Assembly.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_supplied_entry_observation_assembly\Cantor_M2B_Supplied_Entry_Observation_Assembly_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, data_design_checked, seven_fold_phase_locked, justified, planned, and registry_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 79ea027e-a88a-475d-9958-b62897275a39
+  + [implementation_authority] is one pure supplied-entry assembly module and bounded support
+  + [execution_authority] is in-memory supplied-record tests only
+  + [signature_status] is valid
+  + [invalidation_condition] is source drift, missing stage evidence, signature-registry conflict, prerequisite authority drift, optional or defaulted required record, correlation overclaim, admitted incoherence, raw-fact drift, projection invention, dependency or unsafe delta, runtime effect, stale evidence, failed proof, or downstream physical overclaim

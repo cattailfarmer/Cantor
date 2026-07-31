@@ -1,0 +1,42 @@
+Subject: Cantor M2B Supplied Entry Observation Assembly Registry
+
+& [RegistryIdentity] is canonical lookup
+  + [registry_uuid] is 79ea027e-a88a-475d-9958-b62897275a39
+  + [profile] is cantor-windows-supplied-entry-observation/0.1
+  + [signature_uuid] is 4b2bf473-b10e-4ca6-a39b-f68c3a7f3719
+  + [state] is signed_canonical_implementation_pending
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_supplied_entry_observation_assembly\Cantor_M2B_Supplied_Entry_Observation_Assembly_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-30_cantor_m2b_supplied_entry_observation_assembly\Source_Document_Manifest.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Entry_Observation_Assembly.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Supplied_Entry_Observation_Assembly_Justification.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Entry_Observation_Assembly_Plan.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedEntryObservationAssembly_Requirement_Matrix.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedEntryObservationAssembly.sop
+
+& [Nodes] are source, manifest, explosion, canonical, justification, plan, signature, registry, matrix, slice, prerequisites, future implementation, tests, evidence, solution, proof, and later physical producer
+
+& [Edges] define lineage
+  + [source] processed_to [explosion]
+  + [explosion] refined_to [canonical]
+  + [justification] supports [selection]
+  + [plan] orders [implementation_and_proof]
+  + [entry_policy] constrains [attributes_case_component]
+  + [stream_parser] supplies [raw_stream_record_vocabulary]
+  + [assembly] projects_incompletely_toward [M2A_topology_forms]
+  + [signature] authorizes [pure_implementation_only]
+  + [future_physical_producer] may_construct [supplied_records] only under later authority
+
+& [RetrievalTerms] include supplied entry observation, correlated records, batch identity, entry reference identity, FILE_ATTRIBUTE_TAG_INFO, FILE_ID_INFO, FILE_STANDARD_INFO, case sensitivity, parsed streams, structural coherence, projection seed, and provenance boundary
+
+& [NonEdges] are explicit
+  + [absent] correlation proves same handle or object
+  + [absent] explicit stream set proves platform enumeration completeness
+  + [absent] structural coherence proves freshness, filesystem support, path binding, or physical truth
+  + [absent] projection constructs TopologyEntryObservation
+  + [absent] canonical authority grants physical execution
+
+& [Dispatch] is exact
+  + [applies_when] caller-supplied typed fixed-query and parsed-stream values need deterministic cross-field assembly
+  + [does_not_apply] to acquisition, query success, handle ownership, buffers, pointers, Win32, physical completeness, traversal, Git, receipts, admission, mutation, seal, or promotion
