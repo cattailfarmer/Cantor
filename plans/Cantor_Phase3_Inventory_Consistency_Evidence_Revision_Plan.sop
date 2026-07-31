@@ -1,0 +1,104 @@
+Subject: Cantor Phase3 Inventory Consistency Evidence Revision Plan
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop
+@ [input_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\SJS_Processing_Input_Manifest.sop
+
+& [PlanIdentity] is exact
+  + [plan_uuid] is 84b1196a-4904-42b2-883f-55c860b208d6
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+  + [status] is planned_unsigned
+
+& [Step01_Authority] is fail closed
+  + verify raw source, source manifest, processing input manifest, audit, every SJS stage hash, predecessor canonical hashes and signatures, phase lock, and both replacement signatures
+  + verify both signatures name the same canonical revision but retain separate module scopes and supersession edges
+  + stop before code on any drift, omission, contradiction, or partial signature
+
+& [Step02_PreimplementationBaseline] is measured
+  + record hashes for phase3_evidence.rs, topology_forms.rs, Cargo.toml, and Cargo.lock
+  + run focused existing machine-form and topology-form tests before modification
+  + confirm current legacy symbols occur only on the expected production and governed support surfaces
+
+& [Step03_Phase3MachineForms] is exact
+  + change PHASE3_MACHINE_FORMS_PROFILE from 0.1 to 0.2
+  + replace ConsistencyClass with public InventoryConsistencyEvidence
+  + replace QuiescentDoubleInventory with NonAtomicRepeatedInventoryEqual
+  + retain OsSnapshotProven
+  + retain exact snake_case serde and pure ValidatePhase3 for the closed two-variant enum
+  + add rustdoc that structural validity is not acquisition or issuer proof
+  + change no unrelated form, validator, field, constant, or public behavior
+
+& [Step04_TopologyForms] is exact
+  + change TOPOLOGY_FORMS_PROFILE from 0.2 to 0.3
+  + change TOPOLOGY_RECEIPT_PROFILE from 0.2 to 0.3
+  + leave WINDOWS_TOPOLOGY_PROFILE exactly 0.1
+  + import InventoryConsistencyEvidence
+  + replace TopologyReceipt.consistency with required consistency_evidence in the same semantic position
+  + permit only NonAtomicRepeatedInventoryEqual in receipt 0.3
+  + reject OsSnapshotProven with Receipt at consistency_evidence and exact bounded message
+  + add rustdoc denying acquisition, issuance, and state proof
+  + preserve every unrelated receipt invariant and validation order
+
+& [Step05_CompileMigration] is strict
+  + revise every in-repository current Rust caller and fixture to the new type, variant, and field explicitly
+  + add no alias, default, conversion, parser, rewrite, or compatibility module
+  + let unknown external compile callers fail rather than silently reinterpret meaning
+
+& [Step06_LegacyFixtures] is direct
+  + prove old enum token rejection
+  + prove old receipt profile rejection in otherwise current-shaped data
+  + prove old consistency field rejection
+  + prove missing consistency_evidence rejection
+  + prove simultaneous old and new fields rejection
+  + prove old token in the new field rejects
+  + prove OsSnapshotProven returns exact Receipt fault at consistency_evidence
+
+& [Step07_PositiveAndInvariantTests] is complete
+  + prove exact three revised profiles and unchanged scanner profile
+  + prove exact snake_case serialization for both enum variants
+  + prove current valid receipt round-trip with non_atomic_repeated_inventory_equal
+  + rerun every preexisting receipt invariant and negative case
+  + prove enum structural validation accepts both variants while receipt semantic validation admits only the weaker current grade
+
+& [Step08_StaticBoundary] is independent
+  + require InventoryConsistencyEvidence, NonAtomicRepeatedInventoryEqual, consistency_evidence, and new profiles
+  + reject ConsistencyClass, QuiescentDoubleInventory, quiescent_double_inventory, legacy field declarations, aliases, defaults, conversions, extra variants, direct reconciliation-to-receipt conversion, producer or consumer APIs, unsafe, platform, filesystem, clock, and effect surfaces
+  + assert exactly two production modules changed and no Cargo or lockfile delta
+  + scan documentation for explicit evidence-versus-proof nonclaims
+
+& [Step09_FocusedVerification] is proportional
+  + run machine-forms and topology-forms unit, static, and evidence tests in debug
+  + run the same focused set in unique-metadata overflow-checked release
+  + perform no physical fixture or effect-bearing builder invocation
+
+& [Step10_GlobalVerification] is complete
+  + run complete workspace tests in debug and unique-metadata overflow-checked release while retaining the governed physical ignore
+  + run format check, warnings-denied workspace lint, release build, warnings-denied docs, and dependency audit
+  + confirm test counts and exact expected ignore count
+
+& [Step11_EvidenceMigration] is governed
+  + update phase3 machine-forms evidence builder, manifest, and evidence assertion to the machine-forms replacement signature and joint canonical revision
+  + update topology-forms evidence builder, manifest, and evidence assertion to the topology-forms replacement signature and joint canonical revision
+  + update current dependent topology evidence builders and assertions from the superseded topology signature to its replacement
+  + preserve frozen historical manifests and proof bytes unchanged
+  + add one subject-local revision evidence manifest and proof surface if required by the final evidence design
+
+& [Step12_Closure] is recursive
+  + create solution, completion review, proof, turn, file-change, narrative, reentry, registry, requirement, slice, readiness, and plan updates
+  + rehash current evidence manifests dependency-first and verify zero stale records
+  + verify source, SJS, canonical, phase lock, signature, module, evidence, and proof hashes
+  + reapply C01 through C24 after all closure artifacts
+
+& [Step13_Publication] is pure milestone release
+  + review exact production and support diffs against the signed slice
+  + commit and push implementation separately from proof closure when useful for exact implementation identity
+  + leave a clean tree and precise reentry
+
+& [Rollback] is exact
+  + restore only phase3_evidence.rs, topology_forms.rs, their current tests and evidence support, and revision closure artifacts to the pre-revision commit
+  + restore current evidence references to the two predecessor signatures if implementation is rolled back
+  + retain raw source, SJS artifacts, supersession history, and proof records
+  + no database migration, physical cleanup, receipt invalidation, or external coordination exists
+
+& [Stop] is mandatory
+  + stop on source or predecessor drift, missing signature, old-schema acceptance, snapshot receipt success, supplied-pair acquisition claim, scanner profile change, unrelated receipt delta, third production module, alias, migration, default, conversion, dependency, unsafe, platform call, filesystem, clock, producer, consumer, effect, stale evidence, or failed proof
+  + all physical tests and effect-bearing builders remain uninvoked

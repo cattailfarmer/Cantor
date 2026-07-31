@@ -1,0 +1,117 @@
+Subject: Cantor Phase3 Inventory Consistency Evidence Revision Justification
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop
+@ [input_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\SJS_Processing_Input_Manifest.sop
+@ [exhaustion] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Seven_Fold_Exhaustion_2026-07-31.sop
+@ [data_design] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Data_Design_2026-07-31.sop
+
+& [JustificationIdentity] is exact
+  + [justification_uuid] is 8e791d6b-9eeb-4336-b112-2d2e6056cc6f
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+  + [status] is justified_unsigned
+
+& [Claim] is narrow
+  + replace the current state-inflating consistency vocabulary before any physical scanner or receipt issuer is implemented
+  + name the weakest intended evidence NonAtomicRepeatedInventoryEqual and expose it through consistency_evidence
+  + retain OsSnapshotProven only as reserved vocabulary and reject it in current receipt validation
+  + revise the three affected form profiles while preserving the scanner profile and every unrelated invariant
+  + perform the change as a strict two-module pure schema replacement with no migration, dependency, producer, consumer, or effect
+
+& [Support] is direct
+  + two non-atomic inventory walks with equal commitments do not prove uninterrupted quiescence
+  + change-and-restore can occur between walks
+  + change can occur after the second walk before a consumer acts
+  + a supervisor may account for its own processes without excluding external writers
+  + the current token quiescent_double_inventory therefore carries a stronger ordinary meaning than the intended producer can initially prove
+  + documentation beside an overstated serialized token cannot remove that semantic inflation
+  + NonAtomicRepeatedInventoryEqual embeds the key limitation in the machine vocabulary itself
+
+& [TimingReason] is ordered
+  + the overstatement is already present in shared machine forms and receipt forms
+  + the future scanner formation proposes using the overstated value after two equal acquisitions
+  + correcting vocabulary before a producer exists avoids persistence, migration, and external-consumer obligations
+  + physical scanner work should consume an already honest evidence taxonomy rather than invent a local reinterpretation
+  + receipt issuance should consume explicit acquisition support rather than repair the form after the fact
+
+& [AlternativeA_DocumentationOnly] is rejected
+  + callers and serialized-data consumers primarily encounter the type, field, and token
+  + quiescent remains a positive world-state implication even when prose later narrows it
+  + static and schema-level honesty is stronger than relying on every consumer to discover a caveat
+
+& [AlternativeB_KeepConsistencyClassRenameOnlyVariant] is rejected
+  + ConsistencyClass still sounds like a classification of state rather than a grade of support
+  + TopologyReceipt.consistency would still invite consumers to read the label as a direct property of the candidate
+  + type and field must both expose their evidentiary role
+
+& [AlternativeC_UseRepeatedInventoryEqual] is rejected
+  + it removes quiescence but leaves atomic or snapshot interpretation unstated
+  + non-atomicity is the central limitation and belongs in the weakest public token
+
+& [AlternativeD_RemoveOsSnapshotProven] is rejected for this revision
+  + predecessor design already delineates a stronger snapshot evidence point
+  + retaining the closed token preserves the intended lattice without granting receipt admissibility
+  + exact rejection at consistency_evidence makes the missing provenance operationally visible
+
+& [AlternativeE_AdmitOsSnapshotProvenNow] is rejected
+  + current data has no snapshot primitive, identity, producer, view, lifetime, or acquisition binding
+  + enum selection cannot stand in for those missing provenance edges
+  + admission would repeat the exact evidence inflation this revision repairs
+
+& [AlternativeF_AddSupervisorQuiescedGrade] is deferred
+  + supervisor-owned process shutdown does not automatically exclude external writers
+  + exact enforcement, observation, failure, and consumer semantics are not mature
+  + speculative taxonomy growth would make the revision harder to verify and easier to misuse
+
+& [AlternativeG_MigrateLegacyJSON] is rejected
+  + no live producer or persisted consumer is evidenced
+  + rewriting quiescent_double_inventory to non_atomic_repeated_inventory_equal would silently assign a new meaning to old bytes
+  + explicit decode and compile failure forces a conscious semantic update
+
+& [AlternativeH_WaitForPhysicalScanner] is rejected
+  + it would couple a pure vocabulary correction to handles, traversal, acquisition order, completeness, and physical fixtures
+  + those effects remain separately locked
+  + the form boundary is independently testable and should be settled before physical code depends on it
+
+& [Counterargument] is considered
+  + the old enum is currently only a pure form and no producer yet releases it
+  + therefore immediate operational harm is limited
+  + but shared public vocabulary is itself an authority surface, and leaving the inflated term in place would cause future code, tests, and documentation to build around the wrong concept
+  + pre-producer correction is the lowest-cost and highest-integrity point to act
+
+& [TwoSignatureReason] is explicit
+  + phase3_evidence.rs and topology_forms.rs are governed by distinct existing canonical specifications and satisfaction signatures
+  + one coordinating revision source is appropriate because the type and its receipt field must change atomically in source meaning
+  + one undifferentiated replacement signature would obscure which prior authority and module scope it supersedes
+  + two scoped replacement signatures under one canonical revision preserve atomic coordination and module-specific lineage
+  + the machine-forms signature supersedes ae44deed-29c7-4a6a-96d1-1a0091539575 only for the selected machine-forms meaning
+  + the topology-forms signature supersedes 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2 only for the selected topology-forms meaning
+  + unchanged historical proofs remain immutable and inspectable
+
+& [Confidence] is high inside the pure boundary
+  + seven independent folds converge without material question
+  + twenty-four source constraints reapply without conflict
+  + data identity, ownership, cardinality, representation, validation, fault, version, and provenance models close
+  + the exact code surface is already identified and requires no new type payload, collection, dependency, or effect
+  + remaining uncertainty belongs to future physical acquisition and issuance, which this revision excludes
+
+& [Risk] is explicit
+  + highest risk is treating a structurally valid evidence label as self-proving support
+  + next risk is silently accepting the old token or field through serde compatibility
+  + next risk is admitting OsSnapshotProven because the enum structurally validates it
+  + next risk is widening the revision into physical acquisition or receipt issuance
+  + documentation nonclaims, strict negative fixtures, static scans, exact receipt rejection, two scoped signatures, and production-diff limits mitigate those risks
+
+& [InvalidationCondition] is exact
+  + raw source or SJS input manifest drift
+  + either affected predecessor authority is omitted or misidentified
+  + old type, variant, field, token, or profile remains accepted
+  + snapshot value succeeds in TopologyReceipt 0.3
+  + supplied reconciliation is treated as actual repeated acquisition proof
+  + scanner profile changes
+  + unrelated receipt invariant changes
+  + migration, alias, default, conversion, extra variant, producer, consumer, dependency, unsafe, platform call, filesystem, clock, effect, stale evidence, or failed proof appears
+
+& [Decision] is proceed only through complete replacement authority
+  + canonicalize one coordinated revision with two exact scoped replacement signatures
+  + implement only the exact two-module pure schema delta and governed support after both signatures validate
+  + preserve physical scanning, acquisition, issuance, consumption, admission, mutation, seal, cleanup, promotion, neural, distributed, FPGA, and every effect boundary as absent

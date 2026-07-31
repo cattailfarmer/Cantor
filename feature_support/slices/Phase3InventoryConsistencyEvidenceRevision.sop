@@ -1,0 +1,88 @@
+Subject: Phase3 Inventory Consistency Evidence Revision Build Slice
+
+& [SliceIdentity] is exact
+  + [slice_uuid] is fdeb175f-04f2-4866-ab88-9559d303901e
+  + [profile] is cantor-phase3-inventory-consistency-evidence-revision/0.1
+  + [requirements] are P3ICER-001 through P3ICER-014
+  + [state] is implementation_pending_both_signatures
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+
+& [AuthorityInputs] are closed
+  + one immutable revision source and exact processing manifest
+  + predecessor machine-forms signature ae44deed-29c7-4a6a-96d1-1a0091539575
+  + predecessor topology-forms signature 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + scanner and seal compatibility formations
+  + lower pure reconciliation authority a763535f-3b13-4539-9aba-d74f09e3de5c as an explicit non-physical boundary
+  + both scoped replacement signatures must be valid before any code delta
+
+& [MachineFormsDelta] is exact
+  + target crates/cantor_ecosystem/src/phase3_evidence.rs
+  + revise PHASE3_MACHINE_FORMS_PROFILE from 0.1 to 0.2
+  + replace ConsistencyClass with InventoryConsistencyEvidence
+  + replace QuiescentDoubleInventory with NonAtomicRepeatedInventoryEqual
+  + retain OsSnapshotProven
+  + retain closed snake_case serde and pure structural ValidatePhase3
+  + add direct nonclaim rustdoc and focused tests
+
+& [TopologyFormsDelta] is exact
+  + target crates/cantor_ecosystem/src/topology_forms.rs
+  + revise TOPOLOGY_FORMS_PROFILE and TOPOLOGY_RECEIPT_PROFILE from 0.2 to 0.3
+  + retain WINDOWS_TOPOLOGY_PROFILE at 0.1
+  + import InventoryConsistencyEvidence
+  + replace TopologyReceipt.consistency with required consistency_evidence
+  + admit only NonAtomicRepeatedInventoryEqual
+  + reject OsSnapshotProven with Receipt at consistency_evidence
+  + preserve every unrelated field, invariant, and validation order
+  + add direct nonclaim rustdoc and focused tests
+
+& [CurrentCallerMigration] is explicit support
+  + update in-repository compile callers and fixtures to new Rust names
+  + update current strict JSON fixtures to the new profile, field, and token
+  + add direct rejection fixtures for every old representation
+  + no compatibility route remains
+
+& [EvidenceAuthorityMigration] is current support only
+  + phase3 machine-forms current evidence names c681b74d-7543-43be-96a1-a8ccb89181fb and the joint canonical revision
+  + topology-forms current evidence names 1edee945-9957-41d7-bd17-0765ec54f5cb and the joint canonical revision
+  + current dependent topology evidence references use the topology replacement signature
+  + frozen historical manifests and proof artifacts remain byte exact
+
+& [ProductionTargetLimit] is two existing modules
+  + crates/cantor_ecosystem/src/phase3_evidence.rs
+  + crates/cantor_ecosystem/src/topology_forms.rs
+  + crate public glob export behavior remains unchanged
+  + no third production module or new production file
+
+& [SupportTargets] are bounded
+  + directly related unit, integration, static, and evidence tests
+  + directly related current evidence builders and manifests
+  + one solution, completion review, proof, turn, file-change attribution, narrative, reentry, registry, matrix, slice, readiness, and recursive evidence closure
+  + no unrelated refactor or formatting churn
+
+& [Dependencies] are existing and exact
+  + serde and current workspace Cargo graph only
+  + Cargo.toml and Cargo.lock remain byte identical
+  + no new crate, feature, build script, platform binding, or tool runtime
+
+& [Effects] are zero
+  + strict supplied-value serde, constant comparison, structural validation, bounded diagnostics, and tests only
+  + no unsafe, platform, filesystem, handle, process, environment, clock, random, network, persistence, database, Git runtime, model, tool, fixture, acquisition, issuance, consumption, admission, mutation, seal, cleanup, promotion, neural, distributed, or FPGA operation
+  + all physical and effect-bearing tests remain uninvoked
+
+& [Proof] is proportional
+  + exact profiles and tokens
+  + strict positive receipt round-trip
+  + old profile, field, missing field, dual field, and token rejection
+  + reserved snapshot receipt rejection
+  + unchanged receipt invariants
+  + public-vocabulary and compatibility static scan
+  + focused and workspace debug and overflow-release tests
+  + format, lint, release build, docs, dependency audit, recursive evidence, provenance, rollback, and clean publication
+
+& [StopBoundary] is exact
+  + stop on source, SJS, or predecessor drift; missing replacement signature; old-schema acceptance; snapshot success; supplied reconciliation as acquisition evidence; scanner profile change; unrelated receipt delta; third production module; alias; migration; default; conversion; dependency; unsafe; platform call; effect; stale evidence; or failed proof
+
+& [Rollback] restores the exact pre-revision current implementation
+  + restore the two production modules, related tests, and current evidence references
+  + remove only revision implementation and closure artifacts
+  + preserve raw source, SJS, supersession history, and historical evidence

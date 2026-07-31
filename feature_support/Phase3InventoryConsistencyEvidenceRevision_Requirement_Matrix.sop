@@ -1,0 +1,81 @@
+Subject: Phase3 Inventory Consistency Evidence Revision Requirement Matrix
+
+& [MatrixIdentity] is exact
+  + [matrix_uuid] is d3890f49-71dd-4317-8066-b280c01fb059
+  + [profile] is cantor-phase3-inventory-consistency-evidence-revision/0.1
+  + [state] is planned_unsigned
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+
+& [P3ICER-001] is exact source preservation and multi-authority lineage
+  + [support] raw source, source manifest, processing input manifest, audit, both predecessor implementation authorities, scanner and seal formations, and lower reconciliation evidence are exact
+  + [proof_route] immutable hash table, UUID table, signature table, source rehash, and artifact-binding guard
+
+& [P3ICER-002] is evidence-versus-state semantic delineation
+  + [support] public names and rustdoc separate evidence label, support lineage, form validity, acquisition, issuance, consumption, and world state
+  + [proof_route] semantic review plus static required and forbidden vocabulary assertions
+
+& [P3ICER-003] is Phase3 machine forms profile 0.2
+  + [support] PHASE3_MACHINE_FORMS_PROFILE equals cantor-phase3-machine-forms/0.2 exactly
+  + [proof_route] direct constant test, serialized form fixture, and static literal assertion
+
+& [P3ICER-004] is exact InventoryConsistencyEvidence enum
+  + [support] public closed enum has only NonAtomicRepeatedInventoryEqual and OsSnapshotProven with exact snake_case serde and pure structural validation
+  + [proof_route] serialization, deserialization, validation, equality, cardinality, and static no-default/no-alias tests
+
+& [P3ICER-005] is topology forms and receipt profiles 0.3 with scanner unchanged
+  + [support] TOPOLOGY_FORMS_PROFILE and TOPOLOGY_RECEIPT_PROFILE equal exact 0.3 values while WINDOWS_TOPOLOGY_PROFILE remains exact 0.1
+  + [proof_route] direct constant tests, current receipt fixture, and structural diff
+
+& [P3ICER-006] is exact consistency_evidence receipt field and initial allowed grade
+  + [support] required InventoryConsistencyEvidence field replaces consistency in the same semantic position and receipt 0.3 permits only NonAtomicRepeatedInventoryEqual
+  + [proof_route] Rust construction, strict JSON round-trip, field-name assertion, valid receipt test, and snapshot negative
+
+& [P3ICER-007] is strict legacy type, field, token, and profile rejection
+  + [support] no compatibility alias or migration and all old representations fail explicitly
+  + [proof_route] compile/static old-symbol absence plus old profile, field, missing field, dual field, old token, and new-field-old-token negative fixtures
+
+& [P3ICER-008] is preservation of unrelated receipt invariants
+  + [support] candidate root, root identity, volume path, admission, digests, nonce, limits, counts, totals, and tick relations remain exact
+  + [proof_route] full preexisting topology forms positive and negative suite plus production structural diff
+
+& [P3ICER-009] is reserved OsSnapshotProven rejection without provenance
+  + [support] enum structural validation accepts the reserved label while TopologyReceipt 0.3 rejects it with Receipt at consistency_evidence
+  + [proof_route] paired enum-positive and receipt-negative tests with exact code, field, and bounded message
+
+& [P3ICER-010] is producer, consumer, and physical authority absence
+  + [support] no acquisition, reconciliation conversion, snapshot primitive, issuer, ledger, freshness read, work packet, admission, mutation, or seal behavior
+  + [proof_route] public API and static forbidden-surface scan plus zero-effect review
+
+& [P3ICER-011] is safe pure two-module implementation with zero dependency delta
+  + [support] production changes only phase3_evidence.rs and topology_forms.rs using safe supplied-value validation
+  + [proof_route] Git production diff, Cargo and lockfile byte equality, unsafe/platform/effect scan, build, and audit
+
+& [P3ICER-012] is focused semantic and static proof
+  + [support] positive profiles, tokens, round-trip, receipt admissibility, legacy negatives, snapshot rejection, docs, and forbidden compatibility routes are directly exercised
+  + [proof_route] focused debug and unique-metadata overflow-checked release unit, integration, static, and evidence tests
+
+& [P3ICER-013] is global quality, audit, recursive evidence, provenance, and rollback closure
+  + [support] whole workspace, format, lint, build, docs, dependency, manifest graph, frozen evidence, source hashes, narrative, clean tree, commit, and push all close
+  + [proof_route] solution, completion review, proof, evidence manifests, recursive verifier, provenance audit, rollback audit, and publication record
+
+& [P3ICER-014] is valid SJS phase lock and replacement satisfaction signatures
+  + [support] every SJS artifact is byte/hash bound and two scoped signatures prospectively supersede the two affected current implementation authorities
+  + [proof_route] phase-lock table, canonical signature blocks, registry edges, current evidence signature migration, and post-implementation authority audit
+
+& [ConstraintCoverage] is complete
+  + C01 and C02 map to P3ICER-001
+  + C03 through C07 map to P3ICER-002
+  + C08 through C10 map to P3ICER-003 and P3ICER-004
+  + C11 through C15 map to P3ICER-005, P3ICER-006, and P3ICER-009
+  + C16 through C18 map to P3ICER-007 and P3ICER-008
+  + C19 through C22 map to P3ICER-010 and P3ICER-011
+  + C23 maps to P3ICER-012 and P3ICER-013
+  + C24 maps to P3ICER-014
+
+& [Coverage] is complete and implementation pending
+  + [requirements] is 14
+  + [mapped] is 14
+  + [unmapped] is 0
+  + [constraint_count] is 24
+  + [implementation_status] is forbidden_until_both_signatures
+  + [physical_authority] is absent
