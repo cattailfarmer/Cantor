@@ -63,7 +63,7 @@ pub enum WindowsSuppliedContentDigestFaultCode {
 #[serde(deny_unknown_fields)]
 pub struct WindowsSuppliedContentDigestFault {
     pub code: WindowsSuppliedContentDigestFaultCode,
-    pub nested_stability_fault: Option<WindowsSuppliedEntryStabilityFault>,
+    pub nested_stability_fault: Option<Box<WindowsSuppliedEntryStabilityFault>>,
     pub field: String,
     pub message: String,
 }
@@ -82,7 +82,7 @@ impl WindowsSuppliedContentDigestFault {
         let message = format!("supplied-entry stability rejected: {fault}");
         Self {
             code: WindowsSuppliedContentDigestFaultCode::Stability,
-            nested_stability_fault: Some(fault),
+            nested_stability_fault: Some(Box::new(fault)),
             field: "stability_input".to_owned(),
             message: bounded(&message, 256),
         }
@@ -365,12 +365,12 @@ pub fn bind_windows_supplied_content_digest(
             "content and stable-pair entry-reference identities differ",
         ));
     }
-    let pre_length = u64::try_from(stable_pair.pre_read.end_of_file).ok();
-    let post_length = u64::try_from(stable_pair.post_read.end_of_file).ok();
-    if pre_length != Some(observation.expected_content_length)
-        || post_length != Some(observation.expected_content_length)
-        || pre_length != Some(observation.observed_content_length)
-        || post_length != Some(observation.observed_content_length)
+    let pre_length = stable_pair.pre_read.end_of_file;
+    let post_length = stable_pair.post_read.end_of_file;
+    if pre_length != observation.expected_content_length
+        || post_length != observation.expected_content_length
+        || pre_length != observation.observed_content_length
+        || post_length != observation.observed_content_length
     {
         return Err(WindowsSuppliedContentDigestFault::simple(
             WindowsSuppliedContentDigestFaultCode::MetadataLength,
