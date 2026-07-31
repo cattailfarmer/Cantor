@@ -1,0 +1,121 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Constraint Ledger
+
+Description: Source-grounded SJS constraint check and reapplication trace for the unsigned supplied ordered-inventory digest specification.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Source.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest.exploded.sop
+@ [semantic_refinement] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Semantic_Refinement_2026-07-31.sop
+
+& [LedgerIdentity] is exact
+  + [ledger_uuid] is fb8b1b40-a2f0-4491-8a7b-7fb2aece87af
+  + [source_snapshot_uuid] is 9096f760-1128-4b0e-a412-4e68ec8b51ea
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [captured_at] is 2026-07-31
+  + [state] is constraint_checked_and_reapplied_unsigned
+
+& [Grounding] is closed for this pass
+  + preserved source SHA-256 C2D1334B74A3C7D94B945F9F2CCB95DAEEA1035CB042C065DD61A3CAEAE45683
+  + topology forms SHA-256 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A under signature 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + inventory assembly SHA-256 EC77E48E70797B76A16732A72D2D34A7CB17B1873D9FEFAA9D5B3AE555839D08 under signature 9c92f968-054a-42de-a27f-90925bb5081e
+  + supplied content digest SHA-256 91C4853D6A7B0E4DF03B81C3EB757C4788925216C2341065A8835EB8EF310787 under signature 44749466-30d8-44e9-85b8-e51f1bafea33
+  + governing SJS protocol ad10f10f-d506-48ef-a805-f8b0a133766c
+
+& [C01_SourceImmutability] passes
+  + derived artifacts cite the preserved snapshot and do not overwrite it
+  + reapplication retains exact source hash and byte count
+
+& [C02_ProfileSeparation] passes
+  + result profile governs transform behavior and encoding profile governs byte grammar
+  + reapplication requires exact equality for both and prohibits alias, default, or negotiation
+
+& [C03_InputCapability] passes
+  + only the complete non-deserializable assembly is accepted by value
+  + reapplication rejects raw observations, member vectors, lower carriers, and caller-supplied digest values
+
+& [C04_CurrentValidation] passes
+  + current M2A validation reruns for every observation
+  + reapplication preserves nested TopologyFormFault only for that gate and does not claim lower operations reran
+
+& [C05_AssemblyCorrelation] passes
+  + representable count, exact getter count, root-first shape, existing positional ordinals, and checked regular-file byte total are required
+  + reapplication adds no sort, repair, or reconstructed success path
+
+& [C06_DomainSeparation] passes
+  + exact encoding-profile ASCII plus one zero byte precedes fixed-width entry count
+  + reapplication forbids omission, alternate terminator, result-profile substitution, or implicit domain
+
+& [C07_IntegerEncoding] passes
+  + u32 and u64 widths and big-endian order are exact
+  + reapplication forbids usize, native endianness, variable integer coding, text numbers, and serializer output
+
+& [C08_EnumEncoding] passes
+  + every kind, mode, and stream kind has an explicit closed nonzero byte
+  + reapplication forbids Rust discriminants, serde labels, unknown tags, and fallback variants
+
+& [C09_Framing] passes
+  + option presence, UTF-8 byte length, sequence count, entry start, stream start, and field tags are explicit
+  + reapplication preserves exact field order and removes concatenation and omission ambiguity
+
+& [C10_HexEncoding] passes
+  + validated file identity and content digest hex are decoded to exact 16-byte and 32-byte values
+  + reapplication forbids hashing hex text, accepting uppercase, truncation, padding, or variable width
+
+& [C11_FieldCoverage] passes
+  + every TopologyEntryObservation and TopologyStreamFact semantic field appears exactly once in declared order
+  + reapplication requires perturbation tests by field class and an independent reference byte vector
+
+& [C12_SubjectExclusion] passes
+  + policy, limits, deadlines, correlation identities, carrier profiles, and proof lineage remain outside inventory bytes
+  + reapplication retains the full assembly in output so exclusion never becomes lineage erasure or bare digest release
+
+& [C13_StreamingResource] passes
+  + fixed arrays and existing slices feed sha2 without a whole-inventory encoding allocation
+  + reapplication permits no public byte buffer, duplicate observation collection, unbounded intermediate, or alternate dependency
+
+& [C14_OutputNonforgeability] passes
+  + private Serialize-only result retains exact plan, encoding profile, complete assembly, and digest
+  + reapplication forbids Deserialize, Default, public fields, mutable getters, raw From or Into, and public success constructor
+
+& [C15_FaultAtomicity] passes
+  + closed bounded faults return no partial digest, bytes, assembly, or observation
+  + reapplication reserves internal for implementation contradiction and keeps caller faults role specific
+
+& [C16_EvidenceHonesty] passes
+  + authority grade remains supplied structurally closed ordered inventory commitment
+  + reapplication forbids physical origin, enumeration completeness, freshness, traversal, Git agreement, temporal equality, quiescent double inventory, receipt, and admission claims
+
+& [C17_DependencyStability] passes
+  + existing workspace sha2 is sufficient and Cargo graph remains unchanged
+  + reapplication rejects new dependency, feature, lockfile, unsafe, platform-call, or FFI delta
+
+& [C18_EffectBoundary] passes
+  + required behavior is deterministic in-memory validation and hashing only
+  + reapplication keeps filesystem, process, environment, clock, randomness, network, persistence, database, Git, model, tool, fixture, test-execution effect, mutation, seal, cleanup, and promotion absent
+
+& [C19_Compatibility] passes
+  + version 0.1 rejects every legacy, alternate, malformed, or unknown representation
+  + reapplication requires a new separately governed profile for any grammar change
+
+& [C20_VerificationAndRollback] passes
+  + exact vectors, field and order perturbations, intentional exclusion tests, static surface checks, both build profiles, workspace regression, quality, audit, evidence, and rollback are required
+  + reapplication keeps physical tests and effect-bearing builders uninvoked
+
+& [ConflictSearch] finds none requiring source revision
+  + carrier lineage retention and lineage exclusion from digest bytes are complementary projections
+  + encoding-profile domain separation and result-profile identity are distinct rather than redundant
+  + existing sha2 use satisfies dependency stability without extracting the prior accumulator
+  + source tag overlaps occur only in structurally delimited namespaces and cannot form a second valid field parse
+  + TopologyReceipt compatibility is semantic-role alignment only and does not grant receipt authority
+
+& [ConstraintPruningPressure] is identified but not yet executed
+  + generic encoder abstraction lacks a second governed consumer
+  + accumulator extraction adds coupling without dependency reduction
+  + canonical decoder and public byte output have no current requirement
+  + Merkle structure exceeds the aggregate receipt-field contract
+
+& [Result] is passed and ready for pruning
+  + [constraints_checked] is C01 through C20
+  + [constraints_reapplied] is C01 through C20
+  + [source_revision_required] is false
+  + [next] formal pruning, growth-seed disposition, and remaining SJS stages
+  + [implementation_authority] is absent
