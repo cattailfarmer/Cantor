@@ -1,0 +1,102 @@
+Subject: Cantor M2B Post Stability Architecture Review
+
+Description: Between-slice review after the pure supplied-entry stability proof. It reconciles the remaining RacePolicy and topology support gaps and selects the smallest next zero-effect dependency without granting implementation authority.
+
+@ [scanner_formation] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Scanner.sop
+@ [topology_forms] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [assembly] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Observation_Assembly.sop
+@ [stability] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+@ [stability_proof] C:\Project\Cantor\proofs\Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Proof.sop
+@ [readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
+
+& [ReviewIdentity] is a non-authorizing architecture checkpoint
+  + [review_uuid] is c6df28b6-ab1c-47e5-9234-b47c52cb17f2
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+  + [baseline_commit] is 0c031ce89e8dc550c7d938e619ecb7720684da0d
+  + [status] is checkpoint_complete_next_pure_boundary_selected
+
+& [ClosedSupport] is exact
+  + strict topology forms and receipt-root syntax are proven
+  + entry policy, stream parsing, and supplied-record assembly are proven without effects
+  + two independently revalidated supplied observations now reconcile through exact syntax gates and eight ordered field comparisons
+  + a stable pair preserves both complete admitted observations and does not collapse evidence to a boolean
+  + current global debug and overflow-checked release evidence is 306 passed with one governed physical ignore
+  + seventeen current manifests bind 668 artifact references with zero stale records at the completion baseline
+
+& [SupportDelta] closes entry-local supplied stability only
+  + [closed] exact metadata equality and first-difference classification for caller-designated pre_read and post_read roles
+  + [closed] common entry-reference syntax, distinct batch syntax, and complete comparison accounting
+  + [still_open] computation and binding of a content digest to the stable entry-local facts
+  + [still_open] physical byte-read provenance, common owned-handle provenance, and actual pre-read/read/post-read order
+  + [still_open] relative path, Git mode, and observation ordinal assignment
+  + [still_open] physical fixed-query and stream producer
+  + [still_open] directory inventory repetition, whole-root traversal, Git reconciliation, receipt production, and admission integration
+  + [still_open] remote and non-NTFS classification plus adversarial physical fixtures
+
+& [CandidateComparison] is dependency ordered
+  + [candidate_A] is jump to a private Windows metadata and content producer
+    - rejected now because hashing, byte accounting, and stable-fact binding would then be designed inside a physical and unsafe-adjacent slice
+  + [candidate_B] is accept a caller-declared digest string and attach it to the stable pair
+    - rejected because canonical digest syntax alone does not prove derivation from any supplied bytes
+  + [candidate_C] is pure streaming digest derivation and stable-pair binding over caller-supplied chunks
+    + derives SHA-256 from exact supplied bytes through the already-present sha2 dependency
+    + accounts for expected length, observed length, chunk count, and resource limits before releasing a binding
+    + re-runs the signed stability input rather than trusting a publicly constructible stable-pair value
+    + can be reused by a future physical adapter without importing filesystem or handle behavior into the digest kernel
+    + leaves byte origin, actual order, handle sameness, paths, traversal, and admission unresolved
+  + [candidate_D] is complete TopologyEntryObservation from arbitrary supplied path, Git mode, digest, and ordinal
+    - rejected because path ownership, Git reconciliation, ordinal assignment, and physical digest provenance remain separate open contracts
+  + [candidate_E] is directory or whole-root repetition
+    - rejected because traversal and canonical path inventories are not yet formed as a proven producer
+
+& [SelectedBoundary] is pure supplied-content digest derivation and stability binding
+  + [working_profile] is cantor-windows-supplied-content-digest/0.1
+  + [plan_input] is exact profile, nonzero caller-owned content-read identity, nonzero entry-reference identity, positive maximum-content byte budget, exact expected length, and a maximum chunk count
+  + [accumulator] accepts nonempty caller-supplied byte chunks, hashes their exact concatenation incrementally, and checks every addition before mutation
+  + [empty_file] is represented by zero expected bytes, zero chunks, and the SHA-256 of the empty byte string
+  + [observation] is constructible only by successful accumulator finalization and preserves length, digest, chunk count, identities, and declared budget
+  + [binding_input] is the existing strict WindowsSuppliedEntryStabilityInput rather than a caller-supplied StablePair
+  + [binding] invokes reconcile_windows_supplied_entry_stability, requires a regular file, exact common entry reference, and exact equality between supplied byte length and both stable end-of-file values
+  + [output] preserves the full stable pair plus the derived supplied-content observation
+  + [failure] is one closed bounded fault with nested stability preservation when applicable
+  + [Cargo_delta] is zero because sha2 is already a direct workspace dependency
+  - never: deserialize or directly construct a successful content observation
+  - never: accept an externally asserted digest as derived evidence
+  - never: claim the supplied chunks came from a file, handle, path, Windows, or the stable entry
+  - never: claim physical read order, freshness, query completion, content stability, or atomic snapshot
+  - never: construct TopologyEntryObservation or issue a TopologyReceipt
+
+& [DataBoundary] separates supplied bytes from physical content
+  + [content_plan] is caller-owned resource and correlation syntax
+  + [supplied_chunk] is an in-memory byte slice presented to the pure accumulator
+  + [derived_digest] is SHA-256 of the exact concatenated supplied chunks
+  + [content_observation] proves only supplied-byte derivation and accounting under this profile
+  + [stable_binding] proves only equality between the supplied-byte length and stable supplied metadata plus exact syntax correlation
+  + [physical_read_result] remains absent
+
+& [FailureBoundary] is fail closed
+  + unknown profile, malformed plan, zero identity, zero budget, zero chunk budget, or over-cap limit rejects before accumulation
+  + empty chunk, excess chunk count, arithmetic overflow, byte-budget excess, or expected-length excess rejects before state mutation
+  + finalize before exact expected length rejects without an observation
+  + nested stability fault remains exact and side qualified inside the new wrapper
+  + directory input, entry-reference mismatch, or end-of-file mismatch rejects without a binding
+  + no partial digest observation or stable binding accompanies a fault
+
+& [RequirementDelta] is a new pure prerequisite set
+  + [proposed_requirements] are M2B-SCD-001 through M2B-SCD-014
+  + [authority_state] is unprocessed_source_not_yet_preserved
+  + [implementation_state] is absent
+  + [effect_state] is zero
+
+& [NextAction] is source preservation before authority
+  + preserve the selected boundary as a raw source document and manifest
+  + process that source through the governing SJS protocol before canonical specification or code
+  + require distinct satisfaction signature and exact prerequisite-signature bindings
+  + keep Win32, unsafe, filesystem, handle, path, content-read, traversal, Git, receipt, admission, mutation, seal, review execution, cleanup, and promotion authority absent
+
+& [AuthorityEffect] is none
+  + [canonical_authority] is absent
+  + [implementation_authority] is absent
+  + [execution_authority] is absent
+  + [physical_authority] is absent
