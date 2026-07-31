@@ -1,0 +1,106 @@
+Subject: Cantor M2B Supplied Directory Topology Projection Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Directory_Topology_Projection.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedDirectoryTopologyProjection.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedDirectoryTopologyProjection_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Directory_Topology_Projection_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedDirectoryTopologyProjection_Completion_Review.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_supplied_directory_topology_projection_evidence_manifest.json
+
+& [ProofIdentity] is complete
+  + [proof_uuid] is 6a8b3c8b-06a6-46d1-88e7-447ff284dce8
+  + [authority_signature_uuid] is 2f24b78e-90ab-4413-9189-2c2bbcf65187
+  + [solution_uuid] is 0461573f-053d-42cb-8be7-2a55c08a4f13
+  + [implementation_commit] is 869a95f9939125397017894b817fc6fa98103429
+  + [status] is passed
+  + [evidence_manifest_schema] is cantor-windows-supplied-directory-topology-projection-evidence-manifest/0.1
+  + [evidence_manifest_uuid] is 46081753-f671-4042-a9e1-cb337b7aa103
+  + [evidence_manifest_sha256] is 164A088332F891D9A5D3DC4FB982DC1724ACAF479173A9EF2EE1114CBE61D785
+  + [evidence_manifest_bytes] is 19068
+  + [evidence_artifacts] is 45
+
+& [PlanProof] is strict
+  + exact profile, 262144-byte predecode cap, denied unknown fields, and required typed fields are tested
+  + zero projection identity, entry-reference identity, and observation ordinal reject distinctly
+  + mode, length, digest, metadata, seed, stable pair, and provenance fields are absent from the plan
+
+& [MandatoryRevalidationProof] blocks forged lower success
+  + both public projection functions accept WindowsSuppliedEntryStabilityInput by value
+  + neither public projection function accepts WindowsSuppliedEntryStablePair
+  + production calls reconcile_windows_supplied_entry_stability explicitly
+  + exact nested WindowsSuppliedEntryStabilityFault is preserved under the stability class
+  + successful wrapper retains the complete pair returned by that current call
+
+& [ShapeAndMappingProof] is exact
+  + revalidated seed must be TopologyEntryKind Directory
+  + regular-file seed rejects at the kind gate
+  + mode is fixed TopologyModeClass Directory
+  + length and content digest are None and cannot be caller supplied
+  + attributes, identity, link count, and streams copy the exact stable pre-read seed
+  + relative path and ordinal copy exact plan declarations
+  + no field is defaulted, normalized, omitted, or invented
+
+& [JoinAndValidationProof] is ordered
+  + plan and revalidated pair entry references require exact equality before candidate construction
+  + current ValidateTopologyForm is called on the complete candidate
+  + malformed descendant syntax preserves the exact nested TopologyFormFault
+  + final component is extracted only from the validated path
+  + component comparison is exact and case sensitive
+  + one-component and multi-component descendant paths preserve exact caller syntax
+
+& [OutputSurfaceProof] blocks forged projection success
+  + private fields preserve profile, complete plan, complete revalidated pair, and complete topology observation
+  + successful wrapper derives Serialize but not Deserialize or Default
+  + no public constructor, public field, mutable getter, From, or Into downgrade exists
+  + independent static test inspects both public signatures, required calls, fixed mapping, private fields, derivation surface, and forbidden effects
+
+& [NoEffectProof] is structural
+  + [module_sha256] is 9015B6DBB99C2E7D686C639204673CD19731364548DA53F557CD53F671FB004E
+  + [module_bytes] is 24031
+  + [unsafe_blocks] zero
+  + [Windows_API_calls] zero
+  + [filesystem_process_environment_clock_random_network_model_persistence] absent
+  + [Cargo_manifest_delta] zero
+  + [Cargo_lock_delta] zero
+  + [physical_path_enumeration_traversal_inventory_Git_receipt_admission_mutation_seal_cleanup_promotion_authority] absent
+
+& [VerificationProof] is complete
+  + [focused_debug] 11 unit plus 1 static passed
+  + [focused_overflow_checked_release] 11 unit plus 1 static passed
+  + [evidence_debug_and_release] 1 passed each
+  + [workspace_debug] 345 passed and 1 governed physical test ignored
+  + [workspace_overflow_checked_release] 345 passed and 1 governed physical test ignored
+  + [release_identity] the actually executed overflow-checked release proof used metadata cantor_m2b_sdtp_impl without changing source or semantics
+  + [format] passed
+  + [warnings_denied_lint] passed
+  + [release_build] passed
+  + [warnings_denied_docs] passed
+  + [audit] 113 locked packages against 1177 advisories with zero vulnerabilities
+
+& [AuthorityHashProof] is exact
+  + [source] C8BD158B415DA9AAFDB3439324293EB975959B20FCC9E4627CCE583665ECFD37 and 15096 bytes
+  + [exploded] D86936CDC2C46AB406CD1F66211E1D9CD5D654B2D31DEB8F0B51568D94A1E556
+  + [justification] 4858B88EFFF7479B2E6C433175E8EBF7258FC0E04D73853D83F194134992605E
+  + [plan] 0449C44B8C61C894105FEE986C0F5DCEF9E0766F638C0621497A2D7343C1A509
+  + [registry] FBC587F07F1222A40F442FAA4F8D8C9CCF6B652F2660A8303CF98C9ABAFDC4BB
+  + [matrix] FA5B2EA8A1AA40B6DBADC64D26640C5BDAA62806B17DFC5E3521C7BFE9579404
+  + [slice] DB8768D3602190EA983DC4015A6BC23E9A63EC82F16659CF13EA59FAAA1D62EF
+  + [canonical] FCD7AD2D2E2352D4862E10A5109CF208B80B9377CBD36B5A0A4E9DE7CC8BF4C5
+  + [stability_prerequisite] 6B63092DD56343C2698B1112308A6F34F0C21B570B6330F355D8315334AC0DE3
+  + [topology_forms_prerequisite] 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+
+& [EvidenceProof] is clone portable
+  + [projection_manifest] 45 repository-relative artifacts with exact bytes and SHA-256
+  + [recursive_graph] 19 current artifact manifests, 801 artifact references, and zero stale records
+  + [frozen_history] three version-suffixed historical manifests retain pinned exact bytes
+  + [physical_rerun] absent
+  + [candidate_admission_rehash] metadata_only_no_physical_probe
+
+& [OperationalFaultProof] is honest
+  + first release evidence attempt under a new proof metadata identity was denied by Windows Application Control before target execution
+  + the denied attempt is not cited as a test result
+  + unchanged source executed and passed under the already-executed implementation metadata identity with overflow checks enabled
+  + no physical path, fixture, scanner, or candidate admission operation ran during evidence maintenance
+
+& [Nonclaim] is mandatory
+  - never: cite this proof as physical Windows or filesystem origin, same-handle or same-object evidence, actual pre-post order, freshness, path existence, root membership, enumeration, traversal order, directory-stream completeness, duplicate freedom, canonical inventory, aggregate digest, Git truth, topology receipt, candidate admission, mutation, seal, review execution, cleanup, or promotion authority
