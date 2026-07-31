@@ -1,0 +1,34 @@
+Subject: Phase3 Quiescent Double Inventory Semantic Authority Fault
+
+& [FaultIdentity] is exact
+  + [fault_uuid] is 46ac61cb-4689-4c35-94dd-586d5a294bd5
+  + [detected_after] is supplied digest reconciliation proof closure
+  + [status] is contained_before_M2C
+
+& [Conflict] is public machine meaning
+  + existing shared ConsistencyClass exposes quiescent_double_inventory
+  + TopologyReceipt 0.2 requires that value
+  + scanner formation assigns it from two repeated inventories
+  + current reconciliation authority states quiescence additionally requires lifecycle and writer accounting
+
+& [WhyItMatters] is honesty and security
+  + equal observations can miss transient change-and-restore
+  + equal observations say nothing about a change after the second observation
+  + supervisor process accounting does not by itself exclude external writers
+  + a state-sounding label can be used as authority stronger than its proof lineage
+
+& [Containment] is complete
+  + no physical scanner, receipt issuer, persisted receipt, mutation consumer, or external consumer exists
+  + M2C, M2D, receipt issuance, mutation, sealing, and every physical effect remain locked
+  + no existing implementation has emitted the value as physical evidence
+
+& [Repair] is selected but unsigned
+  + preserve a revision source for explicit InventoryConsistencyEvidence
+  + select non_atomic_repeated_inventory_equal as the weakest future repeated physical acquisition grade
+  + rename TopologyReceipt.consistency to consistency_evidence
+  + revise affected profiles and reject legacy serialized forms
+  + run full SJS and replacement signature before code
+
+& [HistoricalRecord] remains immutable
+  + prior formation fault correctly rejected atomic snapshot meaning but its retained quiescent label is now superseded by more precise analysis
+  + historical source, specifications, proofs, and manifests remain attributable to their original authority state
