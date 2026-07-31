@@ -1,0 +1,31 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Reconciliation SJS Processing Input Manifest
+
+& [ManifestIdentity] is exact
+  + [manifest_uuid] is 036c53bb-b677-412c-a729-9dec353827d3
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [source_snapshot_uuid] is bc966e32-751a-4910-ae35-d3fcd271bc56
+  + [captured_at] is 2026-07-31
+  + [state] is SJS_processing_open_unsigned
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Source.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Source_Document_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_SJS_Input_Audit_2026-07-31.sop
+
+& [SourceBinding] is immutable
+  + [source_sha256] is 1869AD7A9C06E531946376F8FCF4B2501FA6DAA343DFDC1D690079ABF00083B1
+  + [source_bytes] is 16554
+
+& [PrerequisiteSet] is closed for this processing run
+  + [topology_forms_sha256] is 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+  + [topology_forms_signature_uuid] is 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + [inventory_assembly_sha256] is EC77E48E70797B76A16732A72D2D34A7CB17B1873D9FEFAA9D5B3AE555839D08
+  + [inventory_assembly_signature_uuid] is 9c92f968-054a-42de-a27f-90925bb5081e
+  + [ordered_digest_sha256] is 2D8C6076DB92263497A3B23C983954D5D825CAB2C06F0FAB44C622D54C086921
+  + [ordered_digest_signature_uuid] is 63c58b74-0eb9-4ab8-9c95-4bfe3bb92af8
+
+& [ProcessingRule] is fail closed
+  + every derived artifact cites this manifest and preserved source identity
+  + prerequisite or source drift invalidates this processing run
+  + exploded and canonical artifacts remain separate from raw source
+  + no satisfaction signature is valid until every required stage and registry binding closes
+  - never: treat partial SJS artifacts as implementation authority

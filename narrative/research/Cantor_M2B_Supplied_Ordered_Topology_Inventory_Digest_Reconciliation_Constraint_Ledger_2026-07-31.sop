@@ -1,0 +1,134 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Reconciliation Constraint Ledger
+
+Description: Unsigned SJS constraint extraction, source check, and reapplication record for preserved snapshot bc966e32-751a-4910-ae35-d3fcd271bc56. Every constraint is applied to the exploded and semantically refined design before any authority may be signed.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Source.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation.exploded.sop
+@ [refinement] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Semantic_Refinement_2026-07-31.sop
+
+& [LedgerIdentity] is exact
+  + [ledger_uuid] is eafed844-f9ca-4f59-b0ca-292a524e93ae
+  + [source_snapshot_uuid] is bc966e32-751a-4910-ae35-d3fcd271bc56
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [state] is constraints_checked_and_reapplied_unsigned
+
+& [C01_SourceIdentity] is immutable
+  + source snapshot, SHA-256, bytes, and SJS input manifest must remain exact
+  + [source_check] passed
+  + [reapplication] every derived artifact cites the same snapshot and no source rewrite is proposed
+
+& [C02_PrerequisiteAuthority] is exact
+  + topology forms, assembly, and ordered digest canonical hashes and signatures must remain valid
+  + [source_check] passed
+  + [reapplication] reconciliation composes only their current public values and transform
+
+& [C03_PlanSyntax] is strict and bounded
+  + encoded plan maximum is 4096 bytes before deny-unknown-fields JSON decode
+  + profile is exact and reconciliation identity is nonzero u64
+  + [source_check] passed
+  + [reapplication] no digest, operand, limit, time, expectation, receipt, or default field is admitted
+
+& [C04_InputClosure] is exact two output-only carriers
+  + success accepts two WindowsSuppliedOrderedTopologyInventoryDigest values by value
+  + [source_check] passed
+  + [reapplication] bare digest, plan, assembly, member, observation, root, reference, variadic, and caller-disposition routes remain absent
+
+& [C05_LeftRederivation] is mandatory and first
+  + left retained plan and assembly clones pass the current public digest transform and complete equality
+  + [source_check] passed
+  + [reapplication] left nested fault is exact and no right or scope gate runs after left failure
+
+& [C06_RightRederivation] is mandatory and independent
+  + right follows the same current transform only after left success
+  + [source_check] passed
+  + [reapplication] right nested fault is exact and no scope gate runs after right failure
+
+& [C07_ProfileScope] is exact
+  + both result profiles, encoding profiles, retained digest-plan profiles, and assembly profiles equal current constants
+  + [source_check] passed
+  + [reapplication] version coercion, migration, fallback, alias, or serializer-name equality remains absent
+
+& [C08_LimitScope] is complete exact equality
+  + left and right complete TopologyScanLimits values are equal
+  + [source_check] passed
+  + [reapplication] no minimum, maximum, union, intersection, default, weakening, strengthening, or partial-field comparison exists
+
+& [C09_RootStructuralScope] is exact
+  + both validated first members expose empty relative path and Directory kind
+  + [source_check] passed
+  + [reapplication] missing, nonroot, or wrong-kind shapes fault before disposition
+
+& [C10_RootStrongIdentityScope] is exact
+  + volume serial and lowercase 32-hex file identity are equal
+  + [source_check] passed
+  + [reapplication] cross-volume or cross-file root comparison faults rather than producing Different
+
+& [C11_RootContentBoundary] preserves valid difference
+  + mode, attributes, links, streams, optional length, optional content digest, and ordinal remain committed sequence fields
+  + [source_check] passed
+  + [reapplication] these fields never enter common scope and their inequality may produce Different
+
+& [C12_Disposition] is closed and nonfaulting
+  + Equal follows exact validated digest byte equality and Different follows inequality
+  + [source_check] passed
+  + [reapplication] named enum replaces bool and Different never becomes fault or policy denial
+
+& [C13_Lineage] is complete and private
+  + result owns plan, left carrier, right carrier, common scope, and disposition exactly once
+  + [source_check] passed
+  + [reapplication] private Serialize-only fields and immutable getters preserve inspection without construction
+
+& [C14_Order] is retained without temporal inference
+  + left-right operand order is preserved exactly
+  + [source_check] passed
+  + [reapplication] no sorting, canonical operand order, before, after, earlier, later, or baseline semantics exist
+
+& [C15_CorrelationRoles] are excluded from scope and disposition
+  + reconciliation, commitment, assembly, projection, and entry-reference identities remain provenance
+  + [source_check] passed
+  + [reapplication] they remain retained but are not compared for sequence equality or common scope
+
+& [C16_Faults] are closed, bounded, and atomic
+  + codes, nested side conditions, 64-scalar field, and 256-scalar message are exact
+  + [source_check] passed
+  + [reapplication] no operand, digest, scope, carrier, observation, or partial disposition appears in a fault
+
+& [C17_VocabularyGrade] prohibits evidence inflation
+  + stable, before, after, double_inventory, quiescent_double_inventory, receipt, and admission claims are absent
+  + [source_check] passed
+  + [reapplication] docs, public identifiers, result fields, tests, and evidence use only supplied pair vocabulary
+
+& [C18_Effects] are zero
+  + no unsafe, Windows, filesystem, handle, process, environment, clock, random, network, persistence, database, model, Git, tool, fixture, mutation, sealing, cleanup, or promotion operation
+  + [source_check] passed
+  + [reapplication] implementation remains deterministic in-memory safe Rust only
+
+& [C19_Compatibility] is additive and dependency neutral
+  + one module and export may be added later without changing prerequisite semantics, Cargo, or lockfile
+  + [source_check] passed
+  + [reapplication] no encoder duplication, profile revision, migration, or new dependency is proposed
+
+& [C20_VerificationAndRollback] is complete
+  + focused positive, negative, scope, disposition, side, lineage, order, static, global, quality, audit, evidence, provenance, and rollback checks are required
+  + [source_check] passed
+  + [reapplication] physical tests and effect-bearing builders stay uninvoked and rollback preserves source and history
+
+& [CrossConstraintReview] passes
+  + C05 and C06 cannot be bypassed by C12 because disposition occurs only after both rederive
+  + C08 through C10 cannot be collapsed into Different because scope precedes disposition
+  + C10 and C11 separate root identity substitution from valid root-content difference
+  + C13 and C15 preserve correlation lineage without allowing it to change the semantic pair relation
+  + C14 and C17 prevent argument position from becoming an inferred temporal order
+  + C18 and C20 prevent proof work from silently invoking the future physical protocol
+
+& [ConstraintOutcome] is closed
+  + [constraints_total] is 20
+  + [source_checks_passed] is 20
+  + [reapplications_passed] is 20
+  + [source_revision_required] is false
+  + [unresolved_contradiction] is none
+  + [implementation_authority] is absent
+
+& [Next] is formal pruning and growth-seed disposition
+  + only surfaces consistent with all twenty constraints may survive
+  + every later canonical statement must preserve this ledger or invalidate processing
