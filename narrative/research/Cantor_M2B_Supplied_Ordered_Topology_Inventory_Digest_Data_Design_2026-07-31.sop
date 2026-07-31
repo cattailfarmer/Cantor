@@ -1,0 +1,141 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Data Design
+
+Description: Unsigned Data-Driven Design quality-gate record for the supplied ordered-inventory digest. It defines data identity, ownership, relations, transforms, lifecycle, provenance, and physical representation without adding persistence, decoding, effects, or receipt authority.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Source.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest.exploded.sop
+@ [semantic_refinement] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Semantic_Refinement_2026-07-31.sop
+@ [constraint_ledger] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Constraint_Ledger_2026-07-31.sop
+@ [exhaustion] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Seven_Fold_Exhaustion_2026-07-31.sop
+
+& [DataDesignIdentity] is exact
+  + [model_uuid] is c5bbb33d-240a-4e9f-985b-82164edda234
+  + [source_snapshot_uuid] is 9096f760-1128-4b0e-a412-4e68ec8b51ea
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [captured_at] is 2026-07-31
+  + [state] is data_design_checked_unsigned
+
+& [ConceptualModel] defines distinct data subjects
+  + [digest_plan] is strict caller syntax selecting one transform profile, one nonzero correlation identity, and one exact encoding profile
+  + [inventory_assembly] is the complete owned supplied input and lineage root
+  + [inventory_member] is one ordered complete root, directory, or regular-file carrier
+  + [topology_observation] is the semantic record exposed by one inventory member
+  + [stream_fact] is one ordered stream record nested in an observation
+  + [canonical_update_stream] is the transient exact byte sequence fed incrementally to SHA-256
+  + [ordered_inventory_digest] is the 32-byte SHA-256 value represented publicly as lowercase 64-hex
+  + [digest_result] is the private output wrapper retaining digest plan, exact profiles, complete assembly, and ordered inventory digest
+  + [digest_fault] is one bounded denial record with optional nested topology-form fault only at the current validation boundary
+  + [proof_artifact] is test, static boundary record, evidence manifest, audit, solution, or provenance closure outside the runtime result
+
+& [IdentityModel] preserves roles
+  + [plan_identity] is commitment_identity and is caller correlation only
+  + [transform_identity] is exact result profile cantor-windows-supplied-ordered-topology-inventory-digest/0.1
+  + [encoding_identity] is exact encoding profile cantor-ordered-topology-observation-encoding/0.1
+  + [sequence_identity] is exact assembly member count plus ordered observation values under encoding_identity
+  + [member_identity] remains the nested carrier identity and is retained but not encoded as proof lineage
+  + [file_identity] is volume_serial plus decoded 16-byte file_id and is committed observation content
+  + [content_identity] is optional decoded 32-byte content_sha256 and is committed observation content
+  + [digest_identity] is encoding_identity plus ordered_inventory_digest under ordinary SHA-256 collision assumptions
+  - never: substitute one identity role for another because two roles share an integer, string, or digest representation
+
+& [OwnershipAndCardinality] are exact
+  + one digest_plan governs one successful digest_result
+  + one digest_result owns exactly one complete inventory_assembly
+  + one inventory_assembly owns one or more ordered inventory_members because the root is mandatory
+  + each inventory_member exposes exactly one topology_observation
+  + each topology_observation owns zero or more ordered stream_facts
+  + one successful transform derives exactly one ordered_inventory_digest
+  + failure returns exactly one digest_fault and no digest_result
+  + proof_artifacts cite runtime subjects but are not embedded in the digest subject
+
+& [RelationModel] distinguishes containment, derivation, and exclusion
+  + digest_result contains digest_plan, inventory_assembly, encoding_identity, transform_identity, and ordered_inventory_digest
+  + inventory_assembly contains ordered inventory_members
+  + inventory_member exposes topology_observation without transferring or reconstructing lineage
+  + topology_observation contains ordered stream_facts
+  + canonical_update_stream derives from encoding_identity, sequence cardinality, ordered topology_observations, and their stream_facts
+  + ordered_inventory_digest derives from canonical_update_stream
+  + digest_plan correlates digest_result but does not contribute commitment_identity to canonical_update_stream
+  + inventory_assembly preserves proof lineage but does not contribute carrier-only lineage to canonical_update_stream
+
+& [LogicalCanonicalRecord] is one exact sequence
+  + [domain_record] is exact encoding-profile ASCII bytes followed by zero
+  + [count_record] is one u64 big-endian entry count
+  + [entry_record] begins with entry-start and encodes every declared observation field in the closed field order
+  + [stream_sequence_record] encodes one u64 count and each stream record in existing order
+  + [option_record] is absent byte zero or present byte one followed by the value
+  + [text_record] is u64 big-endian UTF-8 byte count plus exact UTF-8 bytes
+  + [identity_record] is exact decoded 16 bytes
+  + [digest_record] is exact decoded 32 bytes
+  + [integer_record] is fixed u32 or u64 big endian
+  + [enum_record] is one declared nonzero byte
+  + each field occurs exactly once and no implicit padding, delimiter, discriminant, default, normalization, or serializer metadata exists
+
+& [TransformModel] separates query, validation, encoding, and result formation
+  + [decode_plan] is bytes to validated digest_plan or digest_fault and has no external effect
+  + [validate_assembly] is immutable inventory_assembly inspection to validated correlations or digest_fault
+  + [encode_observation] is topology_observation plus private hash sink to ordered canonical updates or digest_fault
+  + [encode_stream_fact] is stream_fact plus private hash sink to ordered canonical updates or digest_fault
+  + [finalize_digest] is private hash sink to ordered_inventory_digest
+  + [form_result] is validated digest_plan plus consumed inventory_assembly plus ordered_inventory_digest to digest_result
+  + [public_transform] composes the preceding pure operations in fail-closed order and exposes Result digest_result or digest_fault
+  + every helper remains subject local and private unless the canonical specification explicitly states otherwise
+
+& [StateAndLifecycle] are bounded
+  + [unparsed] plan bytes exist outside transform authority
+  + [plan_validated] exact profiles and nonzero identity are accepted
+  + [assembly_validated] profile, count, root, ordinal, current forms, and accounting are accepted
+  + [hashing] canonical_update_stream is being supplied to a private accumulator and no public intermediate exists
+  + [succeeded] one complete digest_result owns the input and digest
+  + [failed] one digest_fault exists and the caller receives no digest result or partial byte state
+  + [superseded_profile] is never inferred; it requires new source and authority
+  + no persisted runtime lifecycle, mutation lifecycle, receipt lifecycle, or cleanup lifecycle exists in this slice
+
+& [PhysicalModel] is in-memory Rust only
+  + digest_plan is a strict serde-deserialized private-field struct with immutable getters
+  + inventory_assembly is the existing output-only Rust type consumed by value after validation
+  + digest_result is a private-field Serialize-only Rust struct and does not derive Deserialize or Default
+  + canonical_update_stream is never stored as one collection; private writer methods call sha2 update with stack arrays and borrowed UTF-8 slices
+  + decoded identity and digest values use fixed 16-byte and 32-byte stack arrays
+  + tag values are private named constants grouped by grammar namespace
+  + digest_fault is a bounded serializable value with a closed code and optional nested topology fault
+  + no database row, file, cache, index, network message, FFI structure, Windows handle, or public canonical byte buffer is introduced
+
+& [ProvenanceModel] is explicit
+  + source snapshot and SJS artifact hashes govern implementation authority
+  + digest_result provenance is the complete retained inventory_assembly and exact plan
+  + digest bytes attest only to encoded observation content and order under encoding_identity
+  + proof_artifacts attest implementation behavior and remain separate from runtime lineage
+  + stale source, prerequisite authority, canonical specification, implementation, or proof invalidates readiness according to its governing record
+  - never: infer physical provenance from retained supplied lineage or cryptographic determinism
+
+& [IntegrityRules] close illegal states
+  + exact profiles and nonzero commitment identity
+  + exact assembly profile and representable equal count
+  + root first with exact root shape and one-based ordinal correspondence
+  + current topology validation for every observation
+  + checked regular-file byte recomputation equal to assembly total
+  + exact closed grammar and all semantic fields present once
+  + fixed-width lowercase hex validation before decoding
+  + complete assembly retained on success and no partial result on failure
+  + zero effects, unsafe, dependency delta, platform calls, and whole-inventory buffer
+
+& [AccessPatterns] are minimal and sufficient
+  + public create operation is one pure transform from plan bytes and complete assembly to result or fault
+  + public read access is immutable getters over result profile, encoding profile, plan, assembly, and digest
+  + no public update, delete, decode, rehydrate, alternate constructor, normalization, negotiation, or comparison operation exists
+  + proof access uses tests and evidence artifacts rather than runtime mutation or introspection hooks
+
+& [DataDesignQualityGate] passes
+  + [identity_check] is passed with correlation, file, content, sequence, profile, and digest roles distinct
+  + [relationship_check] is passed with containment, exposure, derivation, correlation, and exclusion explicit
+  + [cardinality_check] is passed with one result, one assembly, ordered nonempty members, ordered streams, and atomic fault alternative
+  + [transform_check] is passed with validation, encoding, hashing, and formation responsibilities separated
+  + [state_check] is passed with no public partial-success state
+  + [lifecycle_check] is passed with profile evolution and downstream receipt work outside authority
+  + [provenance_check] is passed with retained lineage distinct from digest subject and proof lineage
+  + [physical_check] is passed with bounded in-memory Rust representation and no persistence or effects
+  + [requirement_coverage] is M2B-SOTID-001 through M2B-SOTID-015
+  + [source_revision_required] is false
+  + [next] canonical specification, justification, plan, registry, matrix, slice, phase lock, and signature
+  + [implementation_authority] is absent
