@@ -1,0 +1,98 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Reconciliation Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedOrderedTopologyInventoryDigestReconciliation_Completion_Review.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_supplied_ordered_topology_inventory_digest_reconciliation_evidence_manifest.json
+
+& [ProofIdentity] is complete
+  + [proof_uuid] is 6e46ac08-0872-43d7-8b4e-95e3a90aff62
+  + [authority_signature_uuid] is a763535f-3b13-4539-9aba-d74f09e3de5c
+  + [solution_uuid] is b5f07002-7beb-4107-a8b6-b1fa4e273d0b
+  + [implementation_commit] is 15809a5ea18187f2ee0f38ae7da082c7dc81b61f
+  + [status] is passed
+  + [evidence_manifest_uuid] is b35763ec-0947-48ef-8bce-a51f9a4a3c7f
+  + [evidence_manifest_sha256] is 3554715662AD7D42A24C5D25C1ED42DCF1A81FC55C56A3EC7FD3CED89622CE43
+  + [evidence_manifest_bytes] is 24430
+  + [evidence_artifacts] is 64
+
+& [InputAndRederivationProof] is exact
+  + strict decoding enforces a 4096-byte cap, exact reconciliation profile, nonzero identity, required fields, and unknown-field rejection
+  + public success accepts exactly two complete WindowsSuppliedOrderedTopologyInventoryDigest values by value
+  + left then right are each rederived through the prerequisite public transform from their retained plan and assembly clones
+  + complete rederived carrier equality is required before either operand contributes to scope or disposition
+  + opaque prerequisite results are constructed only through prerequisite public transforms; invalid private carriers are not fabricated for tests
+
+& [ScopeProof] is closed before disposition
+  + result, encoding, retained-plan, and assembly profile roles are checked against current exact constants on both sides
+  + all seven TopologyScanLimits fields require exact complete equality and each has an independent perturbation test
+  + both root paths are absent, both kinds are exact RootDirectory, and volume serial plus file ID match
+  + root attribute content outside this identity scope changes the commitment and yields Different rather than widening scope
+  + unequal root volume serial or file ID yields RootScope without releasing a relation
+
+& [DispositionAndLineageProof] is non-temporal
+  + equal canonical digest strings produce the closed Equal disposition
+  + changed file content, root content, and member count produce the closed Different disposition after scope passes
+  + distinct commitment, assembly, projection, and correlation lineage can remain Equal because proof lineage is outside the prerequisite digest subject
+  + swapping unequal operands preserves exact left and right positions and the symmetric disposition
+  + no acquisition order, before, after, freshness, temporal repetition, stability, double inventory, or quiescence is inferred
+
+& [OutputAndFaultProof] is atomic
+  + plan, scope, and result fields are private with immutable getters
+  + scope and result are Serialize-only without Deserialize, Default, public constructors, From, or Into surfaces
+  + successful JSON retains profile, plan, complete left, complete right, common scope, and disposition and is repeatable
+  + closed faults bound field to 64 and message to 256 Unicode scalar values
+  + nested prerequisite digest faults are side-qualified exactly and no failure releases operands, scope, disposition, or partial success
+
+& [PurityProof] is static and dependency neutral
+  + [module_sha256] is D2561D6F2E2D8C03354975FA040B8F0EE2BACA4720E4D8BA2898FC0082BE8189
+  + [module_bytes] is 44202
+  + [static_test_sha256] is 12C859540876D7CEA55EB6E55819F33B3B6C7AB0BB7E8030B999F05CF00C66CE
+  + no canonical encoder, SHA-256 implementation, raw digest constructor, lower fragment overload, unsafe block, Windows API, filesystem, process, environment, clock, network, persistence, Git runtime, model, or effect surface exists
+  + Cargo.toml and Cargo.lock are unchanged
+
+& [VerificationProof] is complete
+  + focused debug and release each pass 11 unit plus 1 static test
+  + evidence rehash test passes in debug and release
+  + complete workspace debug passes 395 tests with 1 governed physical ignore
+  + unique-metadata overflow-checked workspace release passes 395 tests with 1 governed physical ignore
+  + canonical format and workspace warnings-denied lint pass
+  + release build and warnings-denied documentation pass
+  + dependency audit scans 113 dependencies against 1177 advisories with zero vulnerabilities
+
+& [AuthorityHashProof] is corrected and exact
+  + original source 1869AD7A9C06E531946376F8FCF4B2501FA6DAA343DFDC1D690079ABF00083B1 and 16554 bytes remains immutable
+  + corrective source A6A83EAE5A0890854C3B2F12C601A6805B5411622347CD6FA96E01540515437B and 3367 bytes changes root kind only to exact RootDirectory
+  + reprocessing manifest 7C9B496E9F403A0CF4A7DB2D3841929319BB281B0D6C1B75BF41F314266CC357
+  + correction audit 99656AFEF1307096A8CDACFAD3E9449CB82CD2F5752EC75AD1D7CD7EE3EAE374
+  + corrected exploded C19FBC97588BCAFDC56ADCF05C1319F67FBA81EB744BBAAF3CF6587793B4737D
+  + corrected semantic refinement B9F0C8FC7D1F9895974B6717D2645FD083D151C9512B615167F79C8CB7743EEC
+  + corrected constraint ledger 96B0161FEFDB336109A0E5CD664C6FD96E2E1A42E677D51E87C0D7C36417C0E2
+  + corrected pruning and growth C95A069D6BE022D1C70B23F1932F61ED78899957EDE73B0085F5947270BD0C20
+  + corrected seven-fold exhaustion 88180EE4CAFFA1ABB48DB2D4AF8E7B2B3DCD0F6E061535A977EB30926124BD16
+  + corrected data design 049AA9A88103CF3201663EBB3A546D0A9DDCA678C9E71867BED987C6D24D4FEC
+  + corrected justification 0DAD1EFA15E243DC99D5E9E4B068DC50B61820FFE20BBF5738D1BF36763685AC
+  + corrected plan CA58378F02386C91F1EB8428BA63BBED4A793322672989BC7BD0896D72D11506
+  + corrected registry 5BC67B63FFE96DA93EC2898B8C83D8A949FA267A04E98480C3177DAE66FE2DBC
+  + preimplementation matrix A28C04F61B62F3D0AF4A6C91945AABE42892C635CB2432BE3798498213CF97BB
+  + signed build slice FF11CC3E6A1A8BD7C1BD397A12B5DF196FF377D609526981E5C859BC7961845B
+  + phase lock 3C71D5E95175BDE82DA007ABDF941BB29448F450697A12F35AE9A868E1A6ABAD
+  + canonical 76003E27D937BBEFAEFD9C08DA51C171AB5FDD3577495955ACBCB7665887EB83 and 24827 bytes
+  + prerequisite topology, inventory assembly, and ordered digest canonical hashes and signatures remain unchanged
+
+& [RecursiveEvidenceProof] is clone portable
+  + new manifest contains 64 repository-relative exact artifacts
+  + current graph contains 23 manifests, 1014 artifact references, and zero stale records
+  + frozen phase3 topology 0.1 remains B53BC3DB1233D1EAD90D1B692264585CBDD54B0E8EAA87B20785683FB59A1287
+  + frozen Windows preflight forms 0.1 remains 0D0AFF247A7D0F616432BFBDDC5FF283C33193B7B3F02A3B79832356FE008351
+  + frozen Windows preflight forms 0.2 remains 2479FF9D83EE8E8AE2E737786C5625B8E35C56082C004A2B29514AD6E1FCCC95
+  + candidate admission and every physical builder, fixture, and probe remain unexecuted during closure
+
+& [OperationalFaultProof] is honest
+  + the first full debug run passed production tests and stopped only at the designed stale lib.rs artifact record
+  + the reusable rehasher failed closed on host API compatibility and overbroad copied-manifest discovery before mutation
+  + corrected tracked-scope discovery, dependency-first update, and independent verify-only passes converge on the exact zero-stale graph
+  + neither provisional invocation is cited as passing closure evidence
+
+& [Nonclaim] is mandatory
+  - never: cite Equal or this proof as physical origin, acquisition equality, same physical tree, enumeration completeness, actual traversal, Git reconciliation, temporal repetition, freshness, stability, double inventory, quiescence, receipt, admission, mutation, sealing, test-execution authority, cleanup, promotion, neural routing, distributed inference, or FPGA execution
