@@ -1,0 +1,193 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Reconciliation Data Design
+
+Description: Unsigned Data-Driven Design quality-gate record for the pure supplied digest reconciliation. It defines data identity, ownership, relations, cardinality, transforms, lifecycle, physical representation, and provenance before canonical authority.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Source.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation.exploded.sop
+@ [refinement] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Semantic_Refinement_2026-07-31.sop
+@ [constraints] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Constraint_Ledger_2026-07-31.sop
+@ [exhaustion] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Seven_Fold_Exhaustion_2026-07-31.sop
+
+& [DesignIdentity] is exact
+  + [design_uuid] is ec313490-84b5-423c-9563-39a2b8a77966
+  + [source_snapshot_uuid] is bc966e32-751a-4910-ae35-d3fcd271bc56
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [state] is data_design_checked_unsigned
+
+& [ConceptualModel] is one typed comparison fact
+  + a ReconciliationPlan identifies one pure operation request
+  + a DigestCarrier is a complete prerequisite output with retained canonical sequence and lineage
+  + a DigestPair has exactly one left and one right DigestCarrier
+  + CurrentRederivation proves each supplied DigestCarrier matches present prerequisite semantics
+  + CommonScope is the intersection established only by exact equality of declared scope values
+  + Disposition is Equal or Different over the two comparable canonical sequence identities
+  + ReconciliationResult owns the plan, pair, common scope, and disposition
+  + ReconciliationFault explains why no complete result exists
+
+& [DataIdentities] are distinct
+  + [operation_identity] is nonzero reconciliation_identity plus exact reconciliation profile
+  + [left_operand_identity] is the complete left digest carrier value
+  + [right_operand_identity] is the complete right digest carrier value
+  + [digest_transform_identity] is cantor-windows-supplied-ordered-topology-inventory-digest/0.1
+  + [encoding_identity] is cantor-ordered-topology-observation-encoding/0.1
+  + [sequence_identity] is encoding identity plus ordered_inventory_sha256 under ordinary SHA-256 collision assumptions
+  + [capability_scope_identity] is exact complete TopologyScanLimits
+  + [root_scope_identity] is empty relative path plus Directory kind plus volume serial plus 16-byte file identity
+  + [common_scope_identity] is encoding, capability, and root scope identity together
+  + [disposition_identity] is the named Equal or Different relation for the retained operand order
+  + [lineage_identity] includes every retained lower plan, correlation, carrier, and evidence record
+  - never: substitute one identity because another uses the same integer, string, digest, or nested object
+
+& [LogicalRecords] are closed
+  + ReconciliationPlan contains profile and reconciliation_identity
+  + DigestPair contains left and right complete WindowsSuppliedOrderedTopologyInventoryDigest values
+  + CommonScope contains encoding_profile, limits, root_relative_path, root_kind, root_volume_serial, and root_file_id
+  + ReconciliationDisposition is Equal or Different
+  + ReconciliationResult contains result profile, plan, left, right, common_scope, and disposition
+  + ReconciliationFault contains code, optional side, optional nested digest fault, field, and message
+  + no timestamp, nonce, deadline, expected result, path handle, process, receipt, or admission record exists
+
+& [OwnershipModel] is explicit
+  + caller owns plan bytes and two complete carriers before invocation
+  + decoder creates one bounded ReconciliationPlan
+  + transform borrows plan and carriers during validation and cloning
+  + current rederivation owns clones of each prerequisite plan and assembly and consumes those clones
+  + original left and right carriers remain owned by transform until success
+  + success moves plan, left, right, common scope, and disposition into one result
+  + failure drops all temporary clones and releases only a bounded fault
+  + result getters lend immutable references and never transfer mutable authority
+
+& [Cardinality] is exact
+  + one invocation has exactly one plan
+  + one invocation has exactly one left and one right operand
+  + each operand has exactly one retained digest plan and one retained assembly
+  + each assembly has one or more bounded members under prerequisite authority
+  + exactly one root is first in each assembly
+  + successful scope has exactly one encoding profile, limits value, root path, root kind, volume serial, and file ID
+  + successful result has exactly one disposition
+  + fault has zero or one side and zero or one nested digest fault under an exact relation
+
+& [Relations] are explicit
+  + plan correlates result but never decides disposition
+  + left rederives from a clone of left.plan and left.assembly
+  + right rederives from a clone of right.plan and right.assembly
+  + each rederived value must equal its complete source operand
+  + common profile derives from exact equality to current constants on both sides
+  + common limits derives from exact left-right equality
+  + common root scope derives from exact structural and strong identity equality
+  + disposition derives from exact left-right digest value equality or inequality
+  + result contains both original operands regardless of disposition
+  + future physical wrapper may contain this result but this result never contains future physical state
+
+& [TransformPipeline] is deterministic
+  + bound encoded plan bytes
+  + strictly decode plan
+  + validate plan profile and nonzero identity
+  + current-rederive left and require complete equality
+  + current-rederive right and require complete equality
+  + validate current profiles in deterministic field order
+  + compare complete limits
+  + extract and validate left root scope
+  + extract and validate right root scope
+  + compare root volume serial and file ID
+  + construct one CommonScope from exact common values
+  + compare digest strings and select one disposition
+  + move all owned values into one result
+  + any failure terminates before all later transitions
+
+& [StateMachine] is finite and single pass
+  + [EncodedPlan] transitions to DecodedPlan or Fault
+  + [DecodedPlan] transitions to LeftRederived or Fault
+  + [LeftRederived] transitions to RightRederived or Fault
+  + [RightRederived] transitions to ProfilesComparable or Fault
+  + [ProfilesComparable] transitions to LimitsComparable or Fault
+  + [LimitsComparable] transitions to RootComparable or Fault
+  + [RootComparable] transitions to DispositionSelected or Fault
+  + [DispositionSelected] transitions to Released exactly once
+  + Fault and Released are terminal
+  + no retry, repair, partial release, persistence, or resumable state exists
+
+& [ComparisonModel] keeps two equality domains separate
+  + complete rederivation equality compares each carrier with its own fresh derived reproduction
+  + scope equality compares selected profile, limits, and root identity values across operands
+  + sequence equality compares only validated digest values across operands
+  + correlation and lineage equality is neither required nor inferred across operands
+  + Different is a positive state transition, not exceptional control flow
+
+& [FaultRelations] are normalized
+  + Json, Profile, ReconciliationIdentity, ScopeProfile, Limits, RootScope, Resource, and Internal have no side and no nested fault
+  + LeftDigest has side Left and exactly one nested digest fault
+  + RightDigest has side Right and exactly one nested digest fault
+  + no other combination is valid
+  + field and message scalar limits are enforced at construction
+  + fault payload cannot contain plan, operand, digest value, scope, observation, carrier, or partial result
+
+& [PhysicalRepresentation] is bounded in-memory safe Rust
+  + plan input is at most 4096 bytes
+  + plan is one owned String and one u64 after decode
+  + two prerequisite carriers are already bounded by signed TopologyScanLimits
+  + current rederivation clones at most one operand's retained plan and assembly at a time if implementation chooses sequential temporary release
+  + common root file ID remains validated lowercase text in the result; no duplicate decoder is required
+  + disposition is one closed enum
+  + no canonical byte buffer, additional digest, map, set, filesystem object, handle, pointer, database row, or persistent state is created
+
+& [SerializationModel] is inspectable but not constructive
+  + plan and faults support strict Deserialize where caller or machine input requires it
+  + disposition, common scope, and result support Serialize
+  + result and common scope do not support Deserialize or Default
+  + serialized result retains left before right exactly
+  + serialization is evidence presentation and never the equality algorithm
+  + repeated structurally equal inputs yield byte-equivalent JSON under the same serde implementation and field order
+
+& [ProvenanceModel] is layered
+  + prerequisite output-only type proves construction route, not physical origin
+  + current rederivation proves present pure semantic reproduction, not fresh observation
+  + common scope proves supplied comparison compatibility, not physical continuity
+  + disposition proves supplied canonical sequence relation, not time relation
+  + complete retained lineage permits downstream inspection without increasing evidence grade
+  + future physical acquisition, completeness, time order, quiescence, receipt, and admission each require new independent provenance edges
+
+& [ResourceModel] is inherited and explicit
+  + plan byte budget is local
+  + operand members, paths, streams, and bytes inherit prerequisite TopologyScanLimits
+  + cloning cost is bounded by those limits and is accepted because complete rederivation is mandatory
+  + no caller-configured elapsed budget exists because no clock authority exists
+  + no unbounded diagnostic formatting, recursive traversal beyond bounded carriers, or whole-corpus allocation exists
+
+& [CompatibilityModel] is fail closed
+  + exact string profiles reject older, newer, or alias values
+  + prerequisite canonical hash or signature drift invalidates SJS authority before compilation trust
+  + Rust type or getter drift produces compile failure rather than implicit reinterpretation
+  + TopologyScanLimits field growth enters complete Eq automatically but still requires signature and static review
+  + no schema migration, default, lossy projection, or compatibility shim exists
+
+& [DataQualityRules] are testable
+  + every accepted plan has exact profile and nonzero identity
+  + every released operand exactly rederives
+  + every released common scope equals both operand scope values
+  + every Equal result has equal digest values
+  + every Different result has unequal digest values
+  + every result retains input order and complete values
+  + every fault satisfies code-side-nested cardinality
+  + no result or field names a temporal or physical grade
+
+& [DataRisks] are controlled
+  + root scope underselection is controlled by four explicit fields
+  + root content overclassification is controlled by excluding mutable committed fields from scope
+  + limit mismatch laundering is controlled by complete Eq
+  + stale semantic carrier risk is controlled by current complete rederivation
+  + detached disposition risk is controlled by owned lineage
+  + evidence-language inflation is controlled by closed public vocabulary and static checks
+
+& [DataDesignGate] passes
+  + identity is explicit and role separated
+  + ownership and mutation are explicit
+  + cardinality and ordering are explicit
+  + containment and derivation relations are explicit
+  + state and fault transitions are finite
+  + physical representation and resource bounds are explicit
+  + provenance grades and nonclaims are explicit
+  + compatibility and rollback behavior are explicit
+  + [source_revision_required] is false
+  + [unresolved_data_question] is none inside the selected slice
+  + [implementation_authority] is absent pending canonical authority
