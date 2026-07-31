@@ -1,0 +1,61 @@
+Subject: Cantor M2B Supplied Regular File Topology Projection Justification
+
+& [JustificationIdentity] is traceable
+  + [justification_uuid] is 0c3f40c4-d7c6-4502-98ca-f34a857a366f
+  + [profile] is cantor-windows-supplied-regular-file-topology-projection/0.1
+  + [source_snapshot_uuid] is 6d302fd4-5fd5-44d5-99e0-fb7d65959ec2
+
+& [Claim] is a provenance-preserving supplied projection should precede inventory and physical producer work
+  + [support] M2A already defines TopologyEntryObservation as a structural caller-supplied form rather than admission proof
+  + [support] supplied assembly intentionally left path, mode, digest, and ordinal absent
+  + [support] supplied-content authority now provides the missing derived digest in an output-only binding
+  + [support] path, mode, and ordinal can be admitted only at declared structural grade until Git and traversal producers exist
+  + [support_type] is deduction from current type, dependency, and authority boundaries
+  + [confidence] is high for pure structural composition and intentionally absent for physical or scanner provenance
+
+& [Selection] is strict placement plus output-only binding composition
+  + [selected] consume the content binding so callers cannot assert a digest or forge its stable association
+  + [selected] keep placement fields in a separate strict plan
+  + [selected] require exact entry-reference and final-component equality
+  + [selected] use current M2A validation rather than a weaker duplicate validator
+  + [selected] preserve plan, binding, and topology form in one output-only wrapper
+  + [selected] deny From and Into downgrade paths to a bare form
+  + [rejected] bare arbitrary topology form because it erases how each field was obtained
+  + [rejected] physical producer because handle, query, buffer, platform, and fixture authority is larger and still open
+  + [rejected] inventory repetition because a lineage-preserving complete entry carrier is not yet available
+  + [rejected] Git mode reconciliation because its evidence vocabulary and producer are not yet separately governed
+  + [rejected] neural scoring because every selected relation is exact
+
+& [Counterarguments] are preserved
+  + [counterargument] M2A form validation already accepts caller-built values
+    + [answer] the wrapper adds construction lineage, derived-digest enforcement, exact cross-layer joins, and a safe downstream carrier that a bare form cannot express
+  + [counterargument] caller-declared path, mode, and ordinal are too weak to be useful
+    + [answer] they are useful for deterministic pure composition and later fixture tests as long as their grade remains explicit and downstream physical use is gated
+  + [counterargument] consuming the binding makes retries less ergonomic
+    + [answer] failure atomicity and one controlled construction path are more important at this safety seam; callers may recreate the pure binding from original inputs
+  + [counterargument] component equality does not prove physical path identity
+    + [answer] correct; it detects supplied-value inconsistency only and is expressly not a provenance claim
+  + [counterargument] returning a nested TopologyEntryObservation invites downstream misuse
+    + [answer] private wrapper fields, reference getters, no downgrade conversion, naming, static checks, and stop gates preserve the distinction; M2A itself already states form validity is not admission
+
+& [DataDesignJustification] is explicit
+  + [conceptual_model] join a derived supplied evidence node and declared placement node under exact relations
+  + [logical_model] strict plan plus content binding to validation and mapping to output wrapper
+  + [physical_model] safe deterministic in-memory Rust using current types
+  + [identity] caller-owned projection and entry-reference syntax
+  + [derived_projection] complete M2A form nested with its full lineage
+  + [state] none
+  + [persistence] none
+
+& [RiskAndRollback] are bounded
+  + [residual_risk] downstream code may cite supplied placement as scanner or Git truth
+  + [mitigation] type and profile names, preserved wrapper, documentation, static proof, and explicit nonclaims
+  + [residual_risk] later M2A revisions may change validation semantics
+  + [mitigation] the current topology-forms signature is an exact prerequisite and drift invalidates this authority
+  + [residual_risk] path validation occurs before component mismatch, affecting which fault wins
+  + [mitigation] canonical evaluation order is explicit and tested
+  + [cost] one pure module, one export, focused and static tests, evidence, and governed records
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [rollback] remove module, export, tests, and evidence then supersede the signature; retain historical governance records
+  + [invalidation_condition] is source or prerequisite drift, binding bypass, mapping invention, M2A validation bypass, wrapper forgeability or downgrade, semantic inflation, dependency or effect drift, failed proof, or stale evidence

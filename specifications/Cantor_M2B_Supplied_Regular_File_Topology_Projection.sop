@@ -1,0 +1,240 @@
+Subject: Cantor M2B Supplied Regular File Topology Projection
+
+Description: Canonical SJS authority for a zero-effect transform that consumes one output-only supplied-content stable binding, validates a strict caller placement plan, and releases one lineage-preserving wrapper around a complete structurally valid M2A regular-file topology projection without claiming physical, Git, traversal, stream-completeness, receipt, or admission provenance.
+
+& [CanonicalIdentity] is pure implementation authority
+  + [specification_uuid] is c1c55e2e-2fbc-4566-8ee0-cbe127cd221a
+  + [revision] is 1
+  + [profile] is cantor-windows-supplied-regular-file-topology-projection/0.1
+  + [source_snapshot_uuid] is 6d302fd4-5fd5-44d5-99e0-fb7d65959ec2
+  + [target_module] is crates/cantor_ecosystem/src/windows_supplied_regular_file_topology_projection.rs
+  + [lifecycle_state] is implementation_ready
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_regular_file_topology_projection\Cantor_M2B_Supplied_Regular_File_Topology_Projection_Source.sop
+@ [source_sha256] 9B59741E2E4950CE3F6A9D000A6E4BB5B613C9A6AF643CEF6A8BFCB3E04930E4
+@ [source_bytes] 18408
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_regular_file_topology_projection\Source_Document_Manifest.sop
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Supplied_Content_Digest_Architecture_Review_2026-07-31.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Regular_File_Topology_Projection.exploded.sop
+@ [exploded_sha256] 145E0A46DC268013D8114F1A2E88C61DF36B45D7A6B6376319501F770D53444F
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Supplied_Regular_File_Topology_Projection_Justification.sop
+@ [justification_sha256] 6B7C02C5DAAEFF1FC9FDEC386240CDDB3E51A5350F23A34C85B2EE1E8158598B
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Regular_File_Topology_Projection_Plan.sop
+@ [plan_sha256] 5544045889AE3BBFCE14FDE5D04E7C2A11512C447175CCFDD7BBC4D3A948B5F8
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedRegularFileTopologyProjection_Requirement_Matrix.sop
+@ [matrix_sha256] AF64728A91F310BD22E6460F18E1FCF171A95B0474EDC0775E0346D7D18B492A
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedRegularFileTopologyProjection.sop
+@ [slice_sha256] 3AC54AFBD479037F82BDB597D054D0BBCB344A6BAB899AD40CAD743D762487AB
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Supplied_Regular_File_Topology_Projection_Registry.sop
+@ [registry_sha256] 4CF68D46B98E2D40F524757C739E6BD129B5565D5678CC576CDBBCCB9C348254
+@ [content_authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Content_Digest.sop
+@ [content_authority_sha256] 91C4853D6A7B0E4DF03B81C3EB757C4788925216C2341065A8835EB8EF310787
+@ [content_signature] 44749466-30d8-44e9-85b8-e51f1bafea33
+@ [topology_forms_authority] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [topology_forms_authority_sha256] 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+@ [topology_forms_signature] 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+
+& [PlacementPlanContract] is strict and bounded
+  + [profile] is exactly cantor-windows-supplied-regular-file-topology-projection/0.1
+  + [projection_identity] is a nonzero caller-owned u64
+  + [entry_reference_identity] is a nonzero caller-owned u64
+  + [relative_path] is a required String later validated as an M2A descendant path
+  + [mode_class] is a required TopologyModeClass
+  + [observation_ordinal] is a nonzero caller-owned u64
+  + [encoded_plan_cap] is exactly 262144 bytes before JSON decode
+  = must: serde JSON denies unknown fields, omissions, wrong types, malformed scalars, and unknown enum variants
+  - never: include metadata, digest, binding, seed, root, handle, clock, or claimed provenance in the plan
+
+& [PlanValidationContract] is deterministic
+  + validate exact profile first after decode
+  + validate projection_identity nonzero
+  + validate entry_reference_identity nonzero
+  + accept mode_class exactly regular_non_executable or regular_executable
+  + reject directory mode
+  + validate observation_ordinal nonzero
+  + relative-path grammar is not duplicated here and is enforced by current M2A validation on the completed candidate
+
+& [BindingInputContract] preserves prerequisite authority
+  + [input] is one WindowsSuppliedContentStableBinding passed by value
+  + [construction] remains available only through the signed supplied-content binding path
+  + [entry_reference] reads the binding content-observation entry-reference identity
+  + [stable_pair] reads the complete nested stable pair
+  + [seed] derives only through stable_pair.pre_read.topology_projection_seed
+  - never: accept serialized binding JSON, asserted digest text, standalone digest observation, standalone stable pair, or standalone projection seed
+  - never: add Deserialize, Default, public fields, or a public constructor to the prerequisite binding
+
+& [EntryReferenceJoinContract] is exact
+  + require plan.entry_reference_identity equals binding.content_observation.entry_reference_identity
+  + prerequisite authority already requires that binding identity equals stable-pair common entry-reference identity
+  + mismatch returns entry_reference fault before successful projection release
+  - never: interpret equality as physical object, path, handle, file, process, global, durable, or authenticated identity
+
+& [ProjectionMappingContract] is closed
+  + call topology_projection_seed on binding.stable_pair.pre_read
+  + require seed.kind is regular_file
+  + [relative_path] is Some exact plan.relative_path
+  + [kind] is exact seed.kind
+  + [mode_class] is exact validated plan.mode_class
+  + [attributes] is exact seed.attributes
+  + [identity] is exact seed.identity
+  + [number_of_links] is exact seed.number_of_links
+  + [streams] is exact seed.streams in its current canonical seed order
+  + [length] is exact seed.length
+  + [content_sha256] is Some exact binding.content_observation.derived_sha256
+  + [observation_ordinal] is exact plan.observation_ordinal
+  - never: default, normalize, recompute, discard, reorder, synthesize, or substitute a mapped field
+
+& [M2AValidationContract] reuses current authority
+  + invoke ValidateTopologyForm::validate on the completed TopologyEntryObservation
+  + current M2A validation owns descendant-path grammar, strong identity, link, stream, kind, mode, length, digest, and ordinal structural coherence
+  + an M2A rejection returns topology_form with the exact nested TopologyFormFault
+  + nested topology fault is boxed to keep the outer Result error bounded in size
+  - never: replace current validation with a weaker local approximation
+  - never: interpret validation success as observation, admission, or physical truth
+
+& [ComponentJoinContract] is exact
+  + evaluate only after M2A validation succeeds
+  + take the final slash-separated relative-path component without normalization
+  + require exact String equality with binding.stable_pair.pre_read.policy_decision.component
+  + prerequisite stability proves the pre-read and post-read policy decisions are exactly equal
+  + mismatch returns component fault
+  - never: case fold, Unicode normalize, trim, resolve, canonicalize, join to a root, inspect a filesystem, or claim physical path binding
+
+& [ModeMeaningContract] is declaration only
+  + accepted mode is copied from the caller plan
+  + Windows attributes remain an independent mapped seed fact
+  + this slice performs no Git lookup, tree comparison, index query, extension inference, or platform-mode inference
+  - never: describe accepted mode as Git-observed, reconciled, or authoritative
+
+& [OrdinalMeaningContract] is declaration only
+  + accepted ordinal is copied from the caller plan after a nonzero gate
+  + no single-entry rule proves monotonicity, uniqueness, contiguity, canonical order, or traversal ownership
+  - never: describe accepted ordinal as scanner-assigned or inventory-valid
+
+& [OutputContract] preserves complete lineage
+  + [profile] is exactly cantor-windows-supplied-regular-file-topology-projection/0.1
+  + [plan] preserves the complete validated placement plan
+  + [content_binding] preserves the complete consumed supplied-content stable binding
+  + [topology_observation] preserves the complete validated M2A projection
+  + [inspection] is immutable getters plus serde Serialize
+  + [construction] is private to successful projection
+  - never: derive Deserialize, implement Default, expose public fields or mutable getters, or provide a public constructor
+  - never: implement From or Into conversion that returns a bare TopologyEntryObservation and loses the wrapper
+
+& [FaultContract] is closed and bounded
+  + [codes] are json, profile, projection_identity, entry_reference_identity, entry_reference, component, mode, ordinal, kind, topology_form, and resource
+  + [nested_topology_fault] is present exactly for topology_form and absent otherwise
+  + [field] is deterministic and no longer than 64 Unicode scalar values
+  + [message] is deterministic and no longer than 256 Unicode scalar values
+  + [release] is exactly one fault with no plan, binding, topology form, partial wrapper, or resumable success value
+  - never: disclose content chunks, hash state, complete encoded input, or serialized binding
+
+& [EvaluationOrderContract] is exact
+  + [step_1] pre-decode encoded-plan cap when decoding
+  + [step_2] strict JSON decode
+  + [step_3] exact profile
+  + [step_4] projection identity
+  + [step_5] entry-reference identity
+  + [step_6] regular mode
+  + [step_7] observation ordinal
+  + [step_8] plan-to-binding entry-reference equality
+  + [step_9] exact candidate mapping
+  + [step_10] current M2A validation
+  + [step_11] exact final-component equality
+  + [step_12] output-only wrapper
+  = must: release the first deterministic failure in this order
+
+& [SemanticStrengthContract] prevents provenance inflation
+  + [derived] metadata and digest fields are exact transforms of previously accepted supplied values
+  + [declared] placement fields are exact caller plan values
+  + [correlated] entry reference and final component pass exact equality gates
+  + [projected] complete M2A form passes structural validation and remains nested with its lineage
+  + [physical] is absent
+  + [admitted] is absent
+  - never: claim physical origin, existence, root membership, same-object or same-epoch provenance, stream completeness, actual time order, Git truth, traversal truth, trust, authenticity, freshness, atomic snapshot, immutability, admission, receipt, or mutation safety
+
+& [DataDesignContract] is explicit
+  + [conceptual_model] join derived supplied evidence and declared placement under exact structural relations
+  + [logical_model] strict plan plus output-only binding to gates to candidate to current validation to wrapper
+  + [physical_model] safe deterministic in-memory Rust using serde and existing crate modules
+  + [source_data] placement plan and supplied-content stable binding
+  + [derived_projection] complete M2A topology observation inside lineage wrapper
+  + [identity_namespace] caller-owned and invocation local
+  + [state] absent
+  + [persistence] absent
+
+& [ImplementationBoundary] is zero effect
+  + [authorized_file] is crates/cantor_ecosystem/src/windows_supplied_regular_file_topology_projection.rs
+  + [authorized_export] is one exact library-module export
+  + [authorized_tests] are module unit tests, one independent static test, one evidence rehash test, and workspace regression tests
+  + [plan_json_byte_cap] is 262144
+  + [message_scalar_cap] is 256
+  + [field_scalar_cap] is 64
+  + [Cargo_delta] is zero
+  + [lockfile_delta] is zero
+  + [unsafe] is denied
+  + [production_imports] are std formatting, serde, topology_forms, windows_supplied_entry_observation seed support, and windows_supplied_content_digest binding support
+  - never: use windows-sys, filesystem, path resolution, process, environment, clock, random, network, persistence, database, model, handle, pointer, buffer, platform query, Git, traversal, inventory, receipt, admission, mutation, seal, cleanup, review execution, or promotion APIs
+
+& [RequirementSet] is M2B-SRTP-001 through M2B-SRTP-014
+  + [requirements] are strict plan, local identities, binding-only input, exact reference join, current M2A validation, exact component join, regular mode, nonzero ordinal, exact mapping, nested topology fault, output-only wrapper, bounded atomic faults, semantic nonclaims, and proof closure
+
+& [AcceptanceContract] is exact
+  + [source] manifest matches exact SHA-256 and byte count
+  + [authority] governing signature binds every SJS stage and both current prerequisite signatures
+  + [focused] module unit tests and one independent static test pass in debug and overflow-checked release
+  + [behavior] every requirement, evaluation stage, mapping edge, fault, bound, and output rule has a direct test or static proof edge
+  + [effects] Cargo, lockfile, dependency, unsafe, platform, and runtime-effect deltas remain zero
+  + [evidence] clone-portable manifest hashes canonical, module, tests, solution, proof, review, and narratives
+  + [global] workspace debug and overflow-checked release tests, format, warnings-denied lint, release build, warnings-denied docs, audit, and recursive evidence closure pass
+  + [downstream_gate] directory projection, inventory reconciliation, physical producer, Git reconciliation, traversal, receipt, and admission remain absent
+
+& [AuthorityBoundary] is pure implementation only
+  + [allowed] one deterministic module, export, serialization, focused tests, static test, evidence support, solution, proof, review, and governed narrative
+  + [forbidden] every physical, platform, filesystem, Git, traversal, receipt, admission, and mutation-related behavior or claim
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] is exact Source_Document_Manifest.sop binding
+  + [delineated] is exploded BoundaryFormation and EvidenceGradeTable
+  + [exploded] is fourteen requirements, sixteen constraints, sixteen failures, exact truth tables, and seven folds
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger, ConstraintCheckTrace, and ConstraintReapplicationTrace
+  + [pruned] is exploded PruningTrace including removal of redundant standalone path fault
+  + [growth_seeded] is exploded GrowthSeedSet
+  + [data_design_checked] is exploded data, grade, identity, mapping, and relation models
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is Cantor_M2B_Supplied_Regular_File_Topology_Projection_Justification.sop
+  + [planned] is Cantor_M2B_Supplied_Regular_File_Topology_Projection_Plan.sop
+  + [registry_recorded] is Cantor_M2B_Supplied_Regular_File_Topology_Projection_Registry.sop
+
+& [SignatureEvidenceTable] binds every claimed stage
+  + [source_preserved] is Source_Document_Manifest.sop with exact source hash and bytes
+  + [delineated] is exploded BoundaryFormation and EvidenceGradeTable
+  + [exploded] is separate exploded specification with SHA-256 145E0A46DC268013D8114F1A2E88C61DF36B45D7A6B6376319501F770D53444F
+  + [semantically_refined] is exploded SemanticRefinementTrace
+  + [constraint_checked] is exploded ConstraintLedger, ConstraintCheckTrace, and ConstraintReapplicationTrace
+  + [pruned] is exploded PruningTrace
+  + [growth_seeded] is exploded GrowthSeedSet
+  + [data_design_checked] is exploded DataDesignModel, EvidenceGradeTable, IdentityDiscipline, and mapping/relation truth tables
+  + [seven_fold_phase_locked] is exploded FoldTrace and ExhaustionReview
+  + [justified] is justification SHA-256 6B7C02C5DAAEFF1FC9FDEC386240CDDB3E51A5350F23A34C85B2EE1E8158598B
+  + [planned] is plan SHA-256 5544045889AE3BBFCE14FDE5D04E7C2A11512C447175CCFDD7BBC4D3A948B5F8
+  + [registry_recorded] is registry SHA-256 4CF68D46B98E2D40F524757C739E6BD129B5565D5678CC576CDBBCCB9C348254
+  + [matrix_recorded] is matrix SHA-256 AF64728A91F310BD22E6460F18E1FCF171A95B0474EDC0775E0346D7D18B492A
+  + [slice_recorded] is slice SHA-256 3AC54AFBD479037F82BDB597D054D0BBCB344A6BAB899AD40CAD743D762487AB
+  + [content_prerequisite] is signature 44749466-30d8-44e9-85b8-e51f1bafea33 and canonical SHA-256 91C4853D6A7B0E4DF03B81C3EB757C4788925216C2341065A8835EB8EF310787
+  + [topology_forms_prerequisite] is signature 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2 and canonical SHA-256 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+
+& [SatisfactionSignature] is valid canonical authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is dd8005c2-ae65-4b91-be87-88315a0334c2
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Regular_File_Topology_Projection.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Regular_File_Topology_Projection.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_regular_file_topology_projection\Cantor_M2B_Supplied_Regular_File_Topology_Projection_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, pruned, growth_seeded, data_design_checked, seven_fold_phase_locked, justified, planned, registry_recorded, matrix_recorded, and slice_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 14992e25-5790-4ba1-9983-a91beac88a0a
+  + [implementation_authority] is current pure supplied regular-file topology projection module and bounded support only
+  + [execution_authority] is in-memory supplied-value tests only
+  + [signature_status] is valid
+  + [invalidation_condition] is source drift, missing stage evidence, artifact hash drift, signature-registry conflict, either prerequisite signature or canonical drift, binding input bypass, mapping invention, M2A validation bypass, component or reference gate omission, wrapper forgeability or downgrade, fault or bound drift, provenance inflation, downstream authority invention, dependency or unsafe delta, runtime effect, stale evidence, failed proof, or implementation contradiction
