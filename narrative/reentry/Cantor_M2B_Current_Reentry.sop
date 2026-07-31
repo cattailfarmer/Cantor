@@ -245,9 +245,16 @@ Subject: Cantor M2B Current Reentry
   + [checkpoint] is C:\Project\Cantor\feature_support\reviews\M2BSuppliedTopologyInventoryAssemblyProgramCheckpointReview.sop
   + [baseline_commit] is 3b4c33b3b50731da7e4c298775ac0eabdf5ad257
   + [candidate] is cantor-windows-supplied-ordered-topology-inventory-digest/0.1
-  + [authority_state] is selected_unpreserved_unprocessed
+  + [authority_state] is preserved_unprocessed_SJS_required
   + [first_action] is preserve the reviewed boundary as raw source, then process it through governing SJS
   + [physical_authority] is absent
+
+& [LatestSourcePreservation] is exact
+  + [source_snapshot_uuid] is 9096f760-1128-4b0e-a412-4e68ec8b51ea
+  + [source_sha256] is C2D1334B74A3C7D94B945F9F2CCB95DAEEA1035CB042C065DD61A3CAEAE45683
+  + [source_bytes] is 14584
+  + [authority_state] is preserved_unprocessed
+  + [first_action] is run complete governing SJS; implementation remains forbidden
 
 & [Mailbox] is checked
   + [inbox_state] is absent

@@ -1,0 +1,193 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Source
+
+Description: Raw selected build source for one zero-effect, versioned, architecture-independent canonical encoding and SHA-256 commitment over the ordered TopologyEntryObservation sequence retained by a completed supplied topology inventory assembly. It confers no physical enumeration, completeness, temporal, double-inventory, receipt, or admission authority.
+
+& [SourceIdentity] is selected and unprocessed
+  + [source_uuid] is 0d6bcbe5-4002-49ac-84af-44c931a01d28
+  + [source_snapshot_uuid] is 9096f760-1128-4b0e-a412-4e68ec8b51ea
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+  + [profile] is cantor-windows-supplied-ordered-topology-inventory-digest/0.1
+  + [selection_commit] is 11ee98ce1b17f3718ff7c7b31b06642c07a59e04
+  + [state] is preserved_before_SJS
+
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Supplied_Topology_Inventory_Assembly_Architecture_Review_2026-07-31.sop
+@ [checkpoint] C:\Project\Cantor\feature_support\reviews\M2BSuppliedTopologyInventoryAssemblyProgramCheckpointReview.sop
+@ [topology_forms] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [inventory_assembly] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Topology_Inventory_Assembly.sop
+@ [content_digest_precedent] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Content_Digest.sop
+
+& [SelectedPurpose] is one pure supplied ordered-inventory commitment
+  + consume exactly one completed WindowsSuppliedTopologyInventoryAssembly by value
+  + retain that complete non-deserializable assembly in one new output-only result
+  + reapply current M2A validation to every exposed TopologyEntryObservation
+  + verify assembly member count, entry count, and total regular-file byte count remain exactly correlated
+  + encode every ordered observation under one explicit stable binary grammar
+  + derive one lowercase SHA-256 digest by bounded streaming updates
+  - never: accept raw observations, member vectors, carrier fragments, or caller-declared digest success
+  - never: sort, normalize, repair, renumber, or reinterpret an observation
+  - never: construct TopologyReceipt or claim physical inventory evidence
+
+& [WhyThisSlice] is dependency ordered
+  + the completed assembly supplies exactly one root-first, parent-closed, duplicate-free, bounded observation order
+  + an aggregate inventory commitment is undefined until that structural subject and order are fixed
+  + explicit canonical encoding prevents serializer, endianness, enum-layout, and concatenation ambiguity
+  + TopologyReceipt already separates ordered_inventory_sha256 from policy_sha256 and admission_receipt_sha256
+  + the inventory digest must therefore commit observation content and order without mixing in policy or proof-lineage syntax
+  + physical producer, Git reconciliation, repeat-inventory equality, receipt issuance, and admission remain later boundaries
+
+& [Input] is one completed assembly only
+  + [type] WindowsSuppliedTopologyInventoryAssembly
+  + input is consumed by value only after every pure check succeeds
+  + ordered_members is read through its immutable getter
+  + each member observation is read through topology_observation
+  + complete root, directory, regular-file, stability, content-binding, preflight, projection, and assembly lineage remains nested in the retained input
+  - never: derive Deserialize, Default, From raw observations, public fields, or a public success constructor for the input or output
+
+& [Plan] is strict and bounded
+  + [type] WindowsSuppliedOrderedTopologyInventoryDigestPlan
+  + [profile] exact cantor-windows-supplied-ordered-topology-inventory-digest/0.1
+  + [commitment_identity] is a nonzero unsigned 64-bit caller correlation value
+  + [encoding_profile] is exact cantor-ordered-topology-observation-encoding/0.1
+  + [encoded_plan_maximum_bytes] is 4096 before strict JSON decoding
+  + unknown, missing, malformed, overlong, wrong-profile, and zero-identity values reject
+  - never: include a supplied digest, entries, limits, deadline, physical claim, consistency class, receipt, or admission decision in the plan
+
+& [DigestSubject] is exact
+  + the domain separator is exact ASCII cantor-ordered-topology-observation-encoding/0.1 followed by one zero byte
+  + one u64 entry count follows the domain separator
+  + observations follow in the assembly's existing root-first structural order
+  + every observation commits relative_path, kind, mode_class, attributes, identity volume_serial, identity file_id, number_of_links, streams, length, content_sha256, and observation_ordinal
+  + every stream commits name, size, and kind in current validated stream order
+  + the stream sequence count and every optional-field presence are committed
+  - never: include assembly plan, limits, deadline, assembly identity, commitment identity, projection identity, entry-reference identity, carrier profiles, or lower proof-lineage records
+  - never: describe exclusion of lineage as discarding it; the output wrapper retains the complete assembly separately from the digest subject
+
+& [PrimitiveEncoding] is architecture independent
+  + [u32] exactly four big-endian bytes
+  + [u64] exactly eight big-endian bytes
+  + [enum] exactly one specified nonzero byte tag and never a Rust discriminant or serializer label
+  + [option] exactly one zero byte for absent or one byte for present followed by the value encoding
+  + [text] u64 big-endian UTF-8 byte count followed by exact UTF-8 bytes
+  + [hex_digest] validated lowercase 64-hex is decoded to exactly 32 raw bytes
+  + [file_identity] validated lowercase 32-hex is decoded to exactly 16 raw bytes
+  + [sequence] u64 big-endian element count followed by each element encoding
+  + [field] one specified nonzero field tag precedes every field
+  + [entry] one entry-start tag precedes one complete observation
+  - never: use platform-native integer layout, usize, Debug, JSON, CBOR, serde field order, locale, Unicode normalization, or implicit delimiters
+
+& [ClosedTags] are explicit source requirements
+  + entry-start is 0x01
+  + relative_path is 0x10, kind is 0x11, mode_class is 0x12, attributes is 0x13
+  + volume_serial is 0x14, file_id is 0x15, number_of_links is 0x16, streams is 0x17
+  + length is 0x18, content_sha256 is 0x19, observation_ordinal is 0x1A
+  + root_directory, directory, and regular_file kind tags are 0x01, 0x02, and 0x03
+  + directory, regular_non_executable, and regular_executable mode tags are 0x01, 0x02, and 0x03
+  + unnamed_default and named_data stream-kind tags are 0x01 and 0x02
+  + each stream begins with 0x20; its name, size, and kind field tags are 0x21, 0x22, and 0x23
+  + all unlisted tags and alternate encodings reject at any future decoder boundary
+
+& [EvaluationOrder] is fail closed
+  + decode and validate the exact plan before consuming assembly success
+  + require assembly profile remain exact
+  + require ordered member length convert exactly to u64 and equal assembly entry_count
+  + invoke current ValidateTopologyForm for each member observation
+  + require root-first kind and path shape and require each observation ordinal equal its one-based sequence position
+  + recompute regular-file length sum with checked arithmetic and require exact assembly total_file_bytes equality
+  + initialize the bounded streaming SHA-256 accumulator
+  + write exact domain, entry count, tags, framing, and field values in declared order
+  + finalize one 32-byte digest and expose canonical lowercase 64-hex
+  + release one output-only result retaining plan and complete assembly
+  + first failure returns no digest success or partial output
+
+& [StreamingBound] is constant-space with respect to inventory bytes
+  + fixed-width values update the accumulator from stack arrays
+  + strings update with their encoded u64 length and existing UTF-8 slice without copying the full inventory
+  + validated hex values decode through fixed 16-byte or 32-byte arrays
+  + no complete canonical byte vector or duplicate observation collection is allocated
+  + existing assembly storage is retained rather than cloned for success
+  + SHA-256 implementation may be reused or carefully extracted from the proven supplied-content-digest implementation only if SJS authorizes the exact source change
+  + no new dependency or Cargo.lock change is required
+
+& [Output] is a nonforgeable supplied commitment
+  + [type] WindowsSuppliedOrderedTopologyInventoryDigest
+  + private fields are profile, encoding_profile, plan, assembly, and ordered_inventory_sha256
+  + derives Serialize but not Deserialize or Default
+  + immutable getters expose the exact profile strings, plan, retained assembly, and digest
+  + no public field, mutable getter, public success constructor, From, or Into exists
+  - never: expose digest success apart from the retained assembly that formed its subject
+
+& [DigestSemantics] are narrow
+  + equal digest values under the same exact encoding profile mean equal encoded ordered observation sequences except for ordinary SHA-256 collision assumptions
+  + changing any committed field, stream fact, optional presence, sequence count, entry count, or member order changes the encoded subject
+  + changing only policy, limits, deadline, correlation identities, carrier profiles, or lower lineage does not change the inventory digest subject
+  + the output is a supplied structural commitment suitable only as a future input to separately authorized physical and receipt logic
+  - never: equate a digest with physical origin, completeness, freshness, temporal equality, atomicity, Git agreement, or admission
+
+& [Faults] are bounded and atomic
+  + [codes] are json, profile, commitment_identity, encoding_profile, topology_form, assembly, count, ordinal, accounting, hex, arithmetic, resource, and internal
+  + exact nested TopologyFormFault is present only for topology_form
+  + field is at most 64 Unicode scalars and message is at most 256 Unicode scalars
+  + no fault contains a partial digest, full observation, carrier, assembly, or lower record
+  + no partial success is returned
+
+& [EvidenceGrades] remain explicit
+  + [supplied] lower observations and content bytes at their original boundaries
+  + [carrier_projected] complete output-only entry carriers
+  + [structurally_assembled] bounded ordered supplied set
+  + [current_revalidated] M2A observation validity and assembly accounting at this boundary
+  + [canonically_committed] exact supplied ordered observation bytes under the selected encoding profile
+  + [physically_observed] absent
+  + [enumerated_complete] absent
+  + [temporally_repeated] absent
+  + [quiescent_double_inventory] absent
+  + [receipted] absent
+  + [admitted] absent
+
+& [EffectBoundary] is zero
+  + deterministic in-memory validation, encoding, and hashing only
+  + no unsafe, Windows API, filesystem, path resolution, process, environment, clock, randomness, network, persistence, database, model, or tool call
+  + no enumeration, traversal, Git reconciliation, physical fixture, double inventory, receipt, admission, mutation, seal, test-execution effect, cleanup, or promotion
+  + no new Cargo dependency or lockfile delta
+
+& [Requirements] are proposed
+  + [M2B-SOTID-001] strict bounded plan with exact commitment and encoding profiles
+  + [M2B-SOTID-002] complete output-only assembly input only
+  + [M2B-SOTID-003] current M2A revalidation for every ordered observation
+  + [M2B-SOTID-004] exact assembly count, root-first, kind, path, and ordinal correlations
+  + [M2B-SOTID-005] checked total regular-file byte accounting correlation
+  + [M2B-SOTID-006] exact domain separator and entry-count commitment
+  + [M2B-SOTID-007] fixed big-endian integer and explicit enum-tag encoding
+  + [M2B-SOTID-008] explicit option, text, digest, identity, sequence, field, entry, and stream framing
+  + [M2B-SOTID-009] every TopologyEntryObservation and TopologyStreamFact semantic field committed
+  + [M2B-SOTID-010] policy, correlation, carrier-profile, and proof-lineage exclusion from digest subject
+  + [M2B-SOTID-011] bounded streaming SHA-256 without whole-inventory encoding allocation
+  + [M2B-SOTID-012] private Serialize-only output retaining complete assembly and digest
+  + [M2B-SOTID-013] closed bounded fault vocabulary and atomic failure
+  + [M2B-SOTID-014] zero effects, unsafe, platform calls, dependencies, and lockfile delta
+  + [M2B-SOTID-015] focused vectors, static boundary, global regression, evidence, audit, rollback, and provenance proof
+
+& [Verification] must be proportional and effect free
+  + exact known vectors include empty-descendant root-only and mixed nested inventory cases
+  + field, optional-presence, stream, member-order, and entry-count perturbations demonstrate subject sensitivity
+  + policy and correlation-identity perturbations demonstrate intentional subject exclusion while retained lineage changes
+  + manual reference bytes independently reproduce at least one expected digest
+  + static test rejects Deserialize, public success fields, alternate hash dependency, unsafe, platform calls, filesystem calls, and effect surfaces
+  + focused debug and overflow-checked release, workspace regression, format, warnings-denied lint, release build, warnings-denied docs, audit, and recursive evidence must pass
+  + physical tests and effect-bearing builders remain uninvoked
+
+& [Rollback] is exact
+  + remove only the future module, export, tests, evidence, and closure records authorized by the future SJS signature
+  + retain this raw source, manifest, SJS products, faults, and proof as immutable history
+  + rollback never activates a different encoding or receipt path
+
+& [StopBoundary] is mandatory
+  - stop before code until this exact source is processed through governing SJS
+  - stop on any hidden default, serializer-dependent byte form, native endianness, unspecified tag, unbounded allocation, or digest-subject ambiguity
+  - stop on any claim that supplied canonical commitment proves physical inventory, completeness, temporal stability, quiescent equality, receipt validity, or admission
+  - stop on any effect, dependency growth, unsafe, platform call, or authority beyond this pure slice
+
+& [Next] is governing SJS only
+  + preserve source SHA-256 and byte count in a separate source manifest
+  + delineate, explode, refine, constrain, reapply constraints, prune, seed growth, data-design, justify, plan, register, phase lock, and sign before implementation
+  + no implementation authority exists in this raw source
