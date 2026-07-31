@@ -1,0 +1,177 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Exploded Specification
+
+Description: Unsigned delineation and specification explosion of preserved snapshot 9096f760-1128-4b0e-a412-4e68ec8b51ea. It expands the pure canonical-encoding and supplied aggregate-digest boundary without granting implementation authority.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Source.sop
+@ [input_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest\SJS_Processing_Input_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_SJS_Input_Audit_2026-07-31.sop
+
+& [ExplosionIdentity] is exact
+  + [explosion_uuid] is 4bdb0a6b-fd59-462e-9cea-b03de4820532
+  + [source_snapshot_uuid] is 9096f760-1128-4b0e-a412-4e68ec8b51ea
+  + [source_sha256] is C2D1334B74A3C7D94B945F9F2CCB95DAEEA1035CB042C065DD61A3CAEAE45683
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [state] is delineated_and_exploded_unsigned
+
+& [Delineation] is one pure commitment transform
+  + [inside] strict plan, complete assembly consumption and retention, current observation validation, assembly correlation checks, canonical byte streaming, SHA-256 finalization, output-only wrapper, bounded faults, tests, evidence, and rollback
+  + [outside] physical observation, enumeration, completeness, traversal, Git reconciliation, repeated inventory, temporal claim, receipt issuance, admission, mutation, seal, execution effect, cleanup, and promotion
+  + [predecessor] cantor-windows-supplied-topology-inventory-assembly/0.1
+  + [successor_frontier] separately governed physical repeat-inventory and receipt logic
+  + [stable_identity] is cantor-windows-supplied-ordered-topology-inventory-digest/0.1
+
+& [Roles] are separated
+  + [caller] supplies one strict plan and one completed assembly
+  + [assembly] preserves carrier lineage and determines exact observation order
+  + [encoder] emits only declared domain, framing, tags, and values into a hash sink
+  + [hasher] derives SHA-256 over exact encoder updates
+  + [validator] reruns current observation validity and output correlations
+  + [result] retains plan, full assembly, encoding profile, and digest without being deserializable
+  + [future_receipt_issuer] is absent and gains no authority here
+
+& [Obligations] are expanded
+  + preserve exact result profile cantor-windows-supplied-ordered-topology-inventory-digest/0.1
+  + preserve exact encoding profile cantor-ordered-topology-observation-encoding/0.1
+  + cap encoded plan at 4096 bytes before strict JSON decode
+  + require nonzero commitment identity
+  + accept only a completed assembly by value
+  + require exact assembly profile, representable count, count equality, root-first shape, existing ordinal sequence, and checked total-file-byte equality
+  + rerun current ValidateTopologyForm on every observation
+  + begin hash input with exact ASCII encoding profile and one zero byte
+  + encode entry count as u64 big endian
+  + encode each observation in existing order with exact entry and field tags
+  + encode every integer with fixed declared width and big endian
+  + encode every enum with a closed explicit tag
+  + encode optional presence, text byte length, sequence count, file identity bytes, and digest bytes exactly
+  + encode every stream fact in existing validated order
+  + finalize lowercase 64-hex SHA-256
+  + retain the complete assembly in a private Serialize-only result
+  + return no partial digest success on any failure
+
+& [CanonicalTagTable] is closed
+  + [entry_start] is 0x01
+  + [entry_fields] relative_path 0x10, kind 0x11, mode_class 0x12, attributes 0x13, volume_serial 0x14, file_id 0x15, number_of_links 0x16, streams 0x17, length 0x18, content_sha256 0x19, observation_ordinal 0x1A
+  + [kind_values] root_directory 0x01, directory 0x02, regular_file 0x03
+  + [mode_values] directory 0x01, regular_non_executable 0x02, regular_executable 0x03
+  + [stream_start] is 0x20
+  + [stream_fields] name 0x21, size 0x22, kind 0x23
+  + [stream_kind_values] unnamed_default 0x01, named_data 0x02
+  + [option_values] absent 0x00, present 0x01
+  - never: infer a tag from source-language discriminants or serialization names
+
+& [FieldOrder] is exact
+  + entry_start
+  + relative_path tag and option-encoded text
+  + kind tag and kind value
+  + mode_class tag and mode value
+  + attributes tag and u32
+  + volume_serial tag and u64
+  + file_id tag and decoded 16 bytes
+  + number_of_links tag and u32
+  + streams tag, u64 count, then each stream start, name tag and text, size tag and u64, kind tag and value
+  + length tag and option-encoded u64
+  + content_sha256 tag and option-encoded decoded 32 bytes
+  + observation_ordinal tag and u64
+
+& [DigestSubject] is deliberately smaller than retained lineage
+  + [included] encoding domain, count, order, and every TopologyEntryObservation and TopologyStreamFact semantic field
+  + [excluded] plans, limits, deadlines, correlation identities, projection identities, entry references, carrier profiles, preflight, stability records, content-read process records, and proof lineage
+  + [reason] receipt policy and predecessor bindings have distinct fields while ordered_inventory_sha256 names inventory-record content
+  + [preservation] excluded lineage remains nested in the retained assembly and is not erased
+
+& [Constraints] are source grounded
+  + no raw observation or digest input can create success
+  + no alternate encoding profile, default, migration, normalization, repair, or sorting exists
+  + no whole-inventory canonical byte allocation exists
+  + no new dependency, Cargo change, unsafe, platform call, or effect exists
+  + field and message diagnostics remain bounded and omit partial digest and full record state
+  + equality claims remain conditioned on profile equality and ordinary SHA-256 collision assumptions
+  + supplied commitment is never physical, complete, fresh, repeated, quiescent, receipted, or admitted evidence
+
+& [Dependencies] are exact
+  + valid topology forms signature 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + valid assembly signature 9c92f968-054a-42de-a27f-90925bb5081e
+  + valid content-digest precedent signature 44749466-30d8-44e9-85b8-e51f1bafea33
+  + existing workspace sha2 dependency and locked Cargo graph
+  + governing SJS protocol ad10f10f-d506-48ef-a805-f8b0a133766c
+
+& [Assumptions] are explicit
+  + current assembly nonforgeability and getters remain unchanged
+  + current M2A validation defines accepted observation structure
+  + existing validated stream order is the committed stream order
+  + SHA-256 collision resistance is the cryptographic comparison assumption
+  + future receipt code will independently prove physical and temporal prerequisites
+
+& [NonGoals] are mandatory
+  + no canonical decoder
+  + no public canonical byte buffer
+  + no generic serialization framework
+  + no policy digest
+  + no admission-receipt digest
+  + no filesystem scan, Git tree, Merkle tree, database index, neural route, distributed protocol, or FPGA path
+  + no TopologyReceipt construction or consistency-class assignment
+
+& [Risks] are ranked
+  + [R1] provenance inflation from deterministic digest to physical inventory claim
+  + [R2] field omission or serializer-dependent bytes hidden behind a correct SHA-256 API
+  + [R3] accidental policy or proof-lineage inclusion destabilizing receipt semantics
+  + [R4] unbounded whole-inventory buffering
+  + [R5] alternate enum, endianness, option, length, or hex encodings
+  + [R6] digest success detached from its complete assembly lineage
+
+& [FailureModes] are closed for later canonical authoring
+  + malformed or oversized plan
+  + wrong result or encoding profile
+  + zero commitment identity
+  + invalid observation form
+  + assembly profile, count, root, kind, path, ordinal, or accounting contradiction
+  + invalid fixed-width hex despite prerequisite validation drift
+  + checked arithmetic or conversion failure
+  + internal impossible tag or field mapping
+  + resource limit violation
+
+& [AcceptanceCriteria] are proposed M2B-SOTID-001 through M2B-SOTID-015
+  + strict plan and complete assembly-only input
+  + current observation and assembly-correlation validation
+  + exact domain, tag table, field order, primitive encodings, sequence, option, identity, and digest framing
+  + all semantic fields committed and non-subject policy and lineage excluded
+  + bounded streaming SHA-256 and lowercase output
+  + private Serialize-only lineage-retaining result
+  + bounded atomic faults
+  + zero effect and dependency delta
+  + focused vectors, static boundary, global quality, evidence, audit, and rollback proof
+
+& [VerificationPlan] is expanded
+  + independently calculate root-only and nested mixed-inventory reference bytes and digests
+  + perturb every fixed-width, enum, optional, text, identity, digest, sequence, stream, count, and order field class
+  + verify plan and carrier-only lineage perturbations do not alter the digest subject while result lineage differs
+  + verify invalid current forms and every assembly correlation fail before digest success
+  + statically reject Deserialize, public fields, raw-input constructors, JSON hashing, alternate hash dependencies, unsafe, platform and filesystem APIs, and effects
+  + pass focused debug and overflow-checked release, workspace regression, format, warnings-denied lint, release build, warnings-denied docs, audit, and recursive evidence
+  + keep all physical and effect-bearing tests uninvoked
+
+& [PruningCandidates] await the formal pruning stage
+  + generic encoder abstraction may be unnecessary for one closed grammar
+  + extracting the prior content accumulator may add coupling without reducing dependency surface
+  + public canonical-byte output may invite alternate authority and allocation
+  + decoder and migration logic have no current consumer
+  + Merkle subdivision and random-access proofs exceed the receipt field's current aggregate SHA-256 contract
+
+& [GrowthSeeds] remain unaccepted until constraint reapplication
+  + private hash-sink encoder helpers may make field coverage auditable
+  + a test-only reference encoder may independently construct bytes for known vectors
+  + compile-time tag constants may centralize the closed grammar
+  + a future separate comparison wrapper may bind two independently produced digest results without constructing a receipt
+
+& [OpenSJSFrontier] is exact
+  + semantic refinement and term-role disambiguation
+  + source-grounded constraint ledger and reapplication trace
+  + pruning decision and growth-seed disposition
+  + seven-fold exhaustion review
+  + canonical specification, justification, implementation plan, registry, matrix, slice, and phase lock
+  + satisfaction signature only after every prior item closes
+
+& [AuthorityState] is unsigned partial processing
+  + [processed_stage_set] is source_preserved, delineated, and exploded
+  + [implementation_authority] is absent
+  - never: cite this exploded artifact alone as permission to code
