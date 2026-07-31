@@ -1,0 +1,50 @@
+Subject: Cantor M2B Supplied Directory Topology Projection Justification
+
+& [JustificationIdentity] is traceable
+  + [justification_uuid] is cbf4dbc2-a6e5-45da-81d3-8f7230da266c
+  + [profile] is cantor-windows-supplied-directory-topology-projection/0.1
+  + [source_snapshot_uuid] is 3546eb38-36a5-4d88-8097-ecb86b5b40a0
+
+& [Claim] is a revalidated supplied directory carrier should precede mixed inventory and physical producer work
+  + M2A already defines the structural directory shape
+  + supplied assembly already derives every non-placement directory field
+  + supplied stability already validates and compares complete directory metadata inputs
+  + mixed inventory needs a lineage-preserving directory carrier alongside the completed regular-file carrier
+  + physical production is separable and requires materially larger provenance and unsafe authority
+  + [confidence] is high for pure structural composition and absent for physical provenance
+
+& [Selection] is mandatory stability revalidation plus strict placement
+  + accept complete WindowsSuppliedEntryStabilityInput and run the current reconciler
+  + reject direct WindowsSuppliedEntryStablePair because it is publicly constructible and deserializable
+  + fix kind and mode to directory and leave length and digest absent
+  + require exact entry-reference and final-component equality
+  + use current M2A validation rather than duplicating path grammar
+  + preserve plan, revalidated pair, and topology form in one output-only wrapper
+  + reject root projection, mixed inventory, physical production, Git reconciliation, receipt, and admission as separate authority boundaries
+
+& [Counterarguments] are answered
+  + [counterargument] the stability pair has already been validated somewhere
+    + [answer] its public data surface cannot prove that history to this call; internal reconciliation makes the construction path inspectable and current
+  + [counterargument] reassembling and reconciling costs extra work
+    + [answer] the operation is bounded and pure, while avoiding forged success at a provenance boundary is more important than avoiding duplicate deterministic validation
+  + [counterargument] M2A callers can construct a directory form directly
+    + [answer] the new wrapper proves only this pure construction path and preserves complete lower lineage; it does not change M2A public syntax or claim admission
+  + [counterargument] component equality proves the declared path
+    + [answer] it proves only supplied-value consistency, never physical resolution or root membership
+
+& [DataDesignJustification] is explicit
+  + [conceptual] revalidated supplied metadata joins declared placement under exact relations
+  + [logical] strict plan and stability input flow through current reconciliation, mapping, M2A validation, and output-only wrapping
+  + [physical] safe in-memory Rust with no dependency or effect
+  + [identity] caller-owned syntax with no global or physical claim
+  + [lineage] complete successful stable pair remains nested rather than flattened
+
+& [RiskBalance] favors the selected seam
+  + [reduced] direct forged stable-pair trust, field invention, validation drift, lineage erasure, and provenance inflation
+  + [retained] caller can supply internally consistent fictional records and placement because physical origin is intentionally outside scope
+  + [mitigated] explicit naming, output-only wrapper, nonclaims, static tests, and downstream gates prevent supplied structure from becoming admission proof
+
+& [Decision] is proceed only under a distinct satisfaction signature
+  + [implementation_scope] one pure module, export, tests, evidence, and governed closure
+  + [physical_scope] none
+  + [downstream] root and inventory remain later source-selection decisions

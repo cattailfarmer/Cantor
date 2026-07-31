@@ -1,0 +1,35 @@
+Subject: M2B Supplied Directory Topology Projection Slice
+
+& [SliceIdentity] is exact
+  + [slice_uuid] is e4ade22e-82ae-495a-a62d-bba80b28d6c4
+  + [profile] is cantor-windows-supplied-directory-topology-projection/0.1
+  + [source_snapshot_uuid] is 3546eb38-36a5-4d88-8097-ecb86b5b40a0
+  + [requirements] are M2B-SDTP-001 through M2B-SDTP-013
+  + [state] is implementation_ready
+
+& [Inputs] are one strict placement plan and one complete WindowsSuppliedEntryStabilityInput
+& [Output] is zero or one output-only WindowsSuppliedDirectoryTopologyProjection
+
+& [Behavior] is bounded
+  + decode and validate strict plan under 262144 bytes
+  + run current supplied-entry stability reconciliation
+  + require exact reference equality and directory seed kind
+  + map fixed directory shape and exact seed and plan fields
+  + run current M2A validation
+  + require exact final-component equality
+  + preserve plan, revalidated stable pair, and topology form
+
+& [Effects] are none
+  + no dependency, lockfile, unsafe, Windows, filesystem, process, environment, clock, random, network, persistence, model, Git, traversal, inventory, receipt, admission, or mutation delta
+
+& [ProofSurface] is direct
+  + module unit tests
+  + one independent static test
+  + one clone-portable evidence test
+  + workspace and quality regression
+  + solution, completion review, proof, narrative, and rollback
+
+& [StopBoundary] is exact
+  - never: accept a stable pair directly
+  - never: synthesize mode, length, digest, path provenance, or traversal provenance
+  - never: represent root directory, inventory completion, receipt, admission, or physical observation

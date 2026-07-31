@@ -1,0 +1,200 @@
+Subject: Cantor M2B Supplied Directory Topology Projection
+
+Description: Canonical SJS authority for a zero-effect transform that consumes one complete supplied stability input, reruns current stability reconciliation, validates strict caller placement, and releases one lineage-preserving wrapper around a current-M2A-valid directory form without claiming physical, traversal, inventory, receipt, or admission provenance.
+
+& [CanonicalIdentity] is pure implementation authority
+  + [specification_uuid] is cd73eac6-d696-4490-ade0-c755c9633656
+  + [revision] is 1
+  + [profile] is cantor-windows-supplied-directory-topology-projection/0.1
+  + [source_snapshot_uuid] is 3546eb38-36a5-4d88-8097-ecb86b5b40a0
+  + [target_module] is crates/cantor_ecosystem/src/windows_supplied_directory_topology_projection.rs
+  + [lifecycle_state] is implementation_ready
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_directory_topology_projection\Cantor_M2B_Supplied_Directory_Topology_Projection_Source.sop
+@ [source_sha256] C8BD158B415DA9AAFDB3439324293EB975959B20FCC9E4627CCE583665ECFD37
+@ [source_bytes] 15096
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_directory_topology_projection\Source_Document_Manifest.sop
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Supplied_Regular_File_Topology_Projection_Architecture_Review_2026-07-31.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Directory_Topology_Projection.exploded.sop
+@ [exploded_sha256] D86936CDC2C46AB406CD1F66211E1D9CD5D654B2D31DEB8F0B51568D94A1E556
+@ [justification] C:\Project\Cantor\justifications\Cantor_M2B_Supplied_Directory_Topology_Projection_Justification.sop
+@ [justification_sha256] 4858B88EFFF7479B2E6C433175E8EBF7258FC0E04D73853D83F194134992605E
+@ [plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Directory_Topology_Projection_Plan.sop
+@ [plan_sha256] 0449C44B8C61C894105FEE986C0F5DCEF9E0766F638C0621497A2D7343C1A509
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedDirectoryTopologyProjection_Requirement_Matrix.sop
+@ [matrix_sha256] FA5B2EA8A1AA40B6DBADC64D26640C5BDAA62806B17DFC5E3521C7BFE9579404
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedDirectoryTopologyProjection.sop
+@ [slice_sha256] DB8768D3602190EA983DC4015A6BC23E9A63EC82F16659CF13EA59FAAA1D62EF
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_M2B_Supplied_Directory_Topology_Projection_Registry.sop
+@ [registry_sha256] FBC587F07F1222A40F442FAA4F8D8C9CCF6B652F2660A8303CF98C9ABAFDC4BB
+@ [stability_authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop
+@ [stability_authority_sha256] 6B63092DD56343C2698B1112308A6F34F0C21B570B6330F355D8315334AC0DE3
+@ [stability_signature] cbeb4260-0db0-413c-89c6-2ca164775243
+@ [topology_forms_authority] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [topology_forms_authority_sha256] 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+@ [topology_forms_signature] 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+
+& [PlacementPlanContract] is strict and bounded
+  + [type] WindowsSuppliedDirectoryTopologyProjectionPlan
+  + [profile] exactly cantor-windows-supplied-directory-topology-projection/0.1
+  + [projection_identity] nonzero caller-owned u64
+  + [entry_reference_identity] nonzero caller-owned u64
+  + [relative_path] required String later validated as an M2A descendant path
+  + [observation_ordinal] nonzero caller-owned u64
+  + [encoded_plan_cap] exactly 262144 bytes before JSON decode
+  + serde denies unknown fields, omissions, wrong types, and malformed values
+  - never: expose a plan mode, length, digest, metadata, stable pair, seed, root, handle, clock, or provenance assertion
+
+& [LowerInputContract] requires current revalidation
+  + [accepted_input] exactly WindowsSuppliedEntryStabilityInput by value
+  + [mandatory_operation] reconcile_windows_supplied_entry_stability
+  + [successful_carrier] the returned current WindowsSuppliedEntryStablePair is retained completely
+  + [lower_failure] exact WindowsSuppliedEntryStabilityFault is boxed and nested under stability
+  - never: accept WindowsSuppliedEntryStablePair directly
+  - never: accept a bare supplied observation, projection seed, topology observation, digest, or serialized projection wrapper
+
+& [EvaluationContract] is canonical order
+  + validate plan
+  + reconcile complete stability input under current authority
+  + require exact plan-to-pair entry-reference equality
+  + derive the pre-read topology projection seed
+  + require exact Directory kind
+  + map one candidate using the closed mapping
+  + invoke current ValidateTopologyForm
+  + extract the final component from the validated descendant path
+  + require exact final-component-to-policy-component equality
+  + release one complete output-only wrapper
+  = must: terminate at the first fault and release no partial success
+
+& [DirectoryProjectionContract] is closed
+  + [relative_path] Some exact plan value
+  + [kind] exact seed Directory
+  + [mode_class] fixed TopologyModeClass Directory
+  + [attributes] exact seed value
+  + [identity] exact seed value
+  + [number_of_links] exact seed value
+  + [streams] exact seed vector
+  + [length] None
+  + [content_sha256] None
+  + [observation_ordinal] exact plan value
+  + no default, case fold, Unicode normalization, path normalization, filesystem lookup, or invented value is permitted
+  - never: project RootDirectory or RegularFile
+  - never: synthesize zero length or an empty-content digest
+
+& [EntryReferenceContract] is exact
+  + plan reference is checked nonzero before lower processing
+  + successful stable-pair reference is established by current lower validation
+  + values must compare equal under exact u64 equality
+  + mismatch returns entry_reference before candidate construction
+  - never: interpret equality as physical object, handle, path, time, or cryptographic identity
+
+& [TopologyValidationContract] is current
+  + candidate must invoke its current ValidateTopologyForm implementation
+  + every current identity, link, stream, descendant-path, directory-mode, absent-length, absent-digest, and ordinal rule remains authoritative
+  + exact TopologyFormFault is boxed and nested only under topology_form
+  - never: duplicate a weaker path or topology validator
+
+& [ComponentContract] is exact and post-validation
+  + final component is obtained only after current M2A accepts the descendant path
+  + one-component paths use the whole validated path
+  + multi-component paths use the substring after the final forward slash
+  + final component equals stable pre-read policy component by exact String equality
+  + mismatch returns component
+  - never: infer physical path existence, resolution, root membership, or traversal
+
+& [OutputContract] prevents forged success
+  + [type] WindowsSuppliedDirectoryTopologyProjection
+  + fields are private and preserve exact profile, plan, stable pair, and topology observation
+  + derives Clone, Debug, PartialEq, Eq, and Serialize only
+  + exposes immutable reference getters only
+  + has no Deserialize, Default, public constructor, public fields, mutable getters, From, or Into
+  + serialized output is inspectable evidence and not a trusted reconstruction format
+
+& [FaultContract] is closed, bounded, and atomic
+  + [codes] json, profile, projection_identity, entry_reference_identity, stability, entry_reference, kind, topology_form, component, ordinal, and resource
+  + [nested_stability_fault] Some only for stability
+  + [nested_topology_fault] Some only for topology_form
+  + [field_cap] 64 Unicode scalar values
+  + [message_cap] 256 Unicode scalar values
+  + [atomicity] no fault contains or accompanies successful projection state
+
+& [EvidenceGradeContract] is non-inflating
+  + [supplied] lower records and placement syntax originate with caller
+  + [revalidated] current pure assembly and stability rules executed in this call
+  + [derived] seed fields are exact deterministic transforms
+  + [declared] path, ordinal, projection identity, and plan reference remain caller syntax
+  + [correlated] exact structural reference and component equality passed
+  + [projected] current M2A structural validation passed
+  + [physical_enumerated_inventory_complete_admitted] are absent
+
+& [SemanticBoundary] is mandatory
+  - never: claim supplied inputs came from Windows, a filesystem, one directory handle, or one physical object
+  - never: claim actual pre-post time order, handle continuity, freshness, or same epoch
+  - never: claim path existence, root membership, enumeration, traversal order, directory-stream completeness, canonical inventory order, duplicate freedom, aggregate digest, Git truth, receipt, admission, or mutation safety
+  - never: authorize filesystem, process, network, model, persistence, mutation, sealing, test execution, cleanup, or promotion effects
+
+& [ImplementationBoundary] is zero effect
+  + [authorized_file] crates/cantor_ecosystem/src/windows_supplied_directory_topology_projection.rs
+  + [authorized_export] one exact library module export
+  + [authorized_tests] module unit tests, one independent static test, one evidence rehash test, and workspace regression
+  + [plan_json_byte_cap] 262144
+  + [message_scalar_cap] 256
+  + [field_scalar_cap] 64
+  + [Cargo_delta] zero
+  + [lockfile_delta] zero
+  + [unsafe] denied
+  + [production_imports] std formatting, serde, topology forms, supplied observation seed support, and supplied stability support
+  - never: use windows-sys, filesystem, path resolution, process, environment, clock, random, network, persistence, database, model, handle, pointer, buffer, platform query, Git, traversal, inventory, receipt, admission, mutation, seal, cleanup, review execution, or promotion APIs
+
+& [RequirementSet] is M2B-SDTP-001 through M2B-SDTP-013
+  + strict plan, stability-input-only input, current lower revalidation, exact reference join, directory shape, exact mapping, current M2A validation, exact component join, output-only wrapper, bounded atomic faults, semantic nonclaims, zero effects, and proof closure
+
+& [AcceptanceContract] is exact
+  + source manifest matches exact SHA-256 and bytes
+  + governing signature binds every SJS stage and both prerequisite signatures
+  + module unit and independent static tests pass in debug and overflow-checked release
+  + every requirement, mapping edge, gate, fault, bound, and output rule has a direct test or static proof edge
+  + Cargo, lockfile, dependency, unsafe, platform, and effect deltas remain zero
+  + clone-portable evidence hashes canonical, module, tests, solution, proof-support, review, and narrative artifacts
+  + workspace tests, format, warnings-denied lint, release build, warnings-denied docs, audit, and recursive evidence closure pass
+  + root, inventory, physical producer, Git, traversal, receipt, and admission remain absent
+
+& [SJSProcessingTrace] is complete
+  + [source_preserved] exact Source_Document_Manifest binding
+  + [delineated] exploded BoundaryFormation and EvidenceGradeTable
+  + [exploded] thirteen requirements, fourteen constraints, exact truth and mapping tables, and closed faults
+  + [semantically_refined] exploded SemanticRefinementTrace
+  + [constraint_checked] exploded ConstraintLedger and ConstraintCheckTrace
+  + [constraint_reapplied] exploded ConstraintReapplicationTrace
+  + [pruned] exploded PruningTrace
+  + [growth_seeded] exploded GrowthSeedSet
+  + [data_design_checked] exploded DataDesignModel, IdentityDiscipline, mapping, cardinality, and ownership
+  + [seven_fold_phase_locked] exploded FoldTrace and ExhaustionReview
+  + [justified] separate justification
+  + [planned] separate implementation and proof plan
+  + [registry_matrix_slice] separately recorded and hash bound
+
+& [SignatureEvidenceTable] binds every claimed stage
+  + [source_preserved] source SHA-256 C8BD158B415DA9AAFDB3439324293EB975959B20FCC9E4627CCE583665ECFD37 and 15096 bytes
+  + [exploded] SHA-256 D86936CDC2C46AB406CD1F66211E1D9CD5D654B2D31DEB8F0B51568D94A1E556
+  + [justified] SHA-256 4858B88EFFF7479B2E6C433175E8EBF7258FC0E04D73853D83F194134992605E
+  + [planned] SHA-256 0449C44B8C61C894105FEE986C0F5DCEF9E0766F638C0621497A2D7343C1A509
+  + [registry_recorded] SHA-256 FBC587F07F1222A40F442FAA4F8D8C9CCF6B652F2660A8303CF98C9ABAFDC4BB
+  + [matrix_recorded] SHA-256 FA5B2EA8A1AA40B6DBADC64D26640C5BDAA62806B17DFC5E3521C7BFE9579404
+  + [slice_recorded] SHA-256 DB8768D3602190EA983DC4015A6BC23E9A63EC82F16659CF13EA59FAAA1D62EF
+  + [stability_prerequisite] signature cbeb4260-0db0-413c-89c6-2ca164775243 and canonical SHA-256 6B63092DD56343C2698B1112308A6F34F0C21B570B6330F355D8315334AC0DE3
+  + [topology_forms_prerequisite] signature 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2 and canonical SHA-256 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+
+& [SatisfactionSignature] is valid canonical authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 2f24b78e-90ab-4413-9189-2c2bbcf65187
+  + [signed_subject] is C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Directory_Topology_Projection.exploded.sop
+  + [canonical_source_specification] is C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Directory_Topology_Projection.sop
+  + [source_specification] is C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_directory_topology_projection\Cantor_M2B_Supplied_Directory_Topology_Projection_Source.sop
+  + [processed_stage_set] is source_preserved, delineated, exploded, semantically_refined, constraint_checked, constraint_reapplied, pruned, growth_seeded, data_design_checked, seven_fold_phase_locked, justified, planned, registry_recorded, matrix_recorded, and slice_recorded
+  + [exhaustion_state] is phase_locked
+  + [registry_uuid] is 759b0af6-9727-4318-9737-abf6ef3a98ea
+  + [implementation_authority] is current pure supplied directory topology projection module and bounded support only
+  + [execution_authority] is in-memory supplied-value tests only
+  + [signature_status] is valid
+  + [invalidation_condition] is source drift, missing SJS stage, artifact hash drift, prerequisite drift, direct stable-pair input, reconciler bypass, kind or fixed-shape drift, mapping invention, M2A bypass, join normalization, wrapper forgeability or downgrade, fault or bound drift, provenance inflation, dependency or unsafe delta, runtime effect, stale evidence, failed proof, or implementation contradiction
