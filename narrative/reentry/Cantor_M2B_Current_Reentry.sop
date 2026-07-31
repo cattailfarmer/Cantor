@@ -5,7 +5,7 @@ Subject: Cantor M2B Current Reentry
   + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
   + [captured_at] is 2026-07-31
   + [branch] is codex/self-hosted-corpus
-  + [status] is supplied_regular_file_topology_projection_signed_implementation_ready
+  + [status] is supplied_regular_file_topology_projection_complete_post_completion_review_required
 
 & [CompletedCheckpointSet] is exact
   + [M2A_receipt_revision_authority] is 9f6ed9f
@@ -54,6 +54,8 @@ Subject: Cantor M2B Current Reentry
   + [M2B_content_proof] is 37bbf2d
   + [M2B_projection_selection] is d40faf9
   + [M2B_projection_source] is f13d4e5
+  + [M2B_projection_authority] is 025760d
+  + [M2B_projection_implementation] is 056713c
 
 @ [M2A_proof] C:\Project\Cantor\proofs\Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Proof.sop
 @ [M2B_proof] C:\Project\Cantor\proofs\Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop
@@ -107,6 +109,9 @@ Subject: Cantor M2B Current Reentry
 @ [M2B_projection_canonical] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Regular_File_Topology_Projection.sop
 @ [M2B_projection_explosion] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Regular_File_Topology_Projection.exploded.sop
 @ [M2B_projection_plan] C:\Project\Cantor\plans\Cantor_M2B_Supplied_Regular_File_Topology_Projection_Plan.sop
+@ [M2B_projection_solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Regular_File_Topology_Projection_Solution.sop
+@ [M2B_projection_review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedRegularFileTopologyProjection_Completion_Review.sop
+@ [M2B_projection_proof] C:\Project\Cantor\proofs\Cantor_M2B_Supplied_Regular_File_Topology_Projection_Proof.sop
 @ [readiness] C:\Project\Cantor\plans\Cantor_Phase3_M2B_Activation_Readiness.sop
 
 & [CurrentFacts] are measured
@@ -187,7 +192,11 @@ Subject: Cantor M2B Current Reentry
   + [projection_source_sha256] is 9B59741E2E4950CE3F6A9D000A6E4BB5B613C9A6AF643CEF6A8BFCB3E04930E4
   + [projection_profile] is cantor-windows-supplied-regular-file-topology-projection/0.1
   + [projection_signature_uuid] is dd8005c2-ae65-4b91-be87-88315a0334c2
-  + [projection_authority_state] is implementation_ready
+  + [projection_authority_state] is accepted_and_verified
+  + [projection_implementation] is commit 056713c with module SHA-256 4B8F3BA81ADF5C1BCFE969036B95A03DF70D3D6E85ACA0256FA738C16A489562
+  + [projection_focused] is eleven unit and one static test passed in both profiles
+  + [projection_global] is 332 passed and one governed physical ignore in both profiles
+  + [projection_quality] is format, warnings-denied lint, release build, warnings-denied docs, and zero-vulnerability audit passed
   + [projection_physical_authority] is absent
 
 & [StillLocked] is explicit
@@ -200,17 +209,16 @@ Subject: Cantor M2B Current Reentry
   + [additional_physical_fixture] is absent
   + [candidate_mutation] is absent
 
-& [NextDependencyReadySlice] is signed pure implementation
-  + [candidate] is pure supplied regular-file topology projection
-  + [profile] is cantor-windows-supplied-regular-file-topology-projection/0.1
-  + [source_snapshot_uuid] is 6d302fd4-5fd5-44d5-99e0-fb7d65959ec2
-  + [source_sha256] is 9B59741E2E4950CE3F6A9D000A6E4BB5B613C9A6AF643CEF6A8BFCB3E04930E4
-  + [signature_uuid] is dd8005c2-ae65-4b91-be87-88315a0334c2
-  + [authority_state] is implementation_ready
+& [NextDependencyReadySlice] is architecture review first
+  + [candidate] is not selected
+  + [completed_profile] is cantor-windows-supplied-regular-file-topology-projection/0.1
+  + [completed_signature_uuid] is dd8005c2-ae65-4b91-be87-88315a0334c2
+  + [completed_implementation_commit] is 056713c7a0768fe2686fd611c529271cf003d5cb
+  + [authority_state] is between_slices
   + [physical_authority] is absent
-  + [first_action] is implement one authorized pure module, export, and focused/static tests
+  + [first_action] is fresh post-completion architecture and support-delta review before source selection
   + [effect_order] exact local proof is complete; further physical scope is locked
-  + [stop] is any binding bypass, mapping invention, M2A validation bypass, wrapper downgrade, declared placement accepted as physical or Git truth, hidden default, new effect, or scanner authority
+  + [stop] is any unpreserved source, wrapper accepted as physical or admitted proof, declared path or mode accepted as filesystem or Git truth, ordinal accepted as traversal proof, hidden default, new effect, or scanner authority
 
 & [Mailbox] is checked
   + [inbox_state] is absent

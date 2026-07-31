@@ -1,0 +1,81 @@
+Subject: Cantor M2B Supplied Regular File Topology Projection Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_M2B_Supplied_Regular_File_Topology_Projection.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\M2BSuppliedRegularFileTopologyProjection.sop
+@ [matrix] C:\Project\Cantor\feature_support\M2BSuppliedRegularFileTopologyProjection_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_M2B_Supplied_Regular_File_Topology_Projection_Solution.sop
+@ [review] C:\Project\Cantor\feature_support\reviews\M2BSuppliedRegularFileTopologyProjection_Completion_Review.sop
+@ [evidence] C:\Project\Cantor\crates\cantor_ecosystem\evidence\windows_supplied_regular_file_topology_projection_evidence_manifest.json
+
+& [ProofIdentity] is complete
+  + [proof_uuid] is 6e54bcd3-e6d9-4668-a3e4-4fad2d50eb55
+  + [authority_signature_uuid] is dd8005c2-ae65-4b91-be87-88315a0334c2
+  + [solution_uuid] is 1edd895d-6837-4ca1-a023-af4863d2db0e
+  + [implementation_commit] is 056713c7a0768fe2686fd611c529271cf003d5cb
+  + [status] is passed
+  + [evidence_manifest_schema] is cantor-windows-supplied-regular-file-topology-projection-evidence-manifest/0.1
+  + [evidence_manifest_uuid] is 7540ed95-5872-4ff7-9411-db45ef9264b2
+  + [evidence_manifest_sha256] is 8B81527391F47F3C5CA7330F365528811D0F71E3795AB434607E89B366438605
+  + [evidence_manifest_bytes] is 18575
+  + [evidence_artifacts] is 44
+
+& [PlanProof] is strict
+  + [profile] exact cantor-windows-supplied-regular-file-topology-projection/0.1 is required
+  + [JSON] unknown fields, missing fields, malformed values, and encoded input beyond 262144 bytes reject
+  + [identities] projection and entry-reference zero values reject distinctly
+  + [mode] only regular_file_normal and regular_file_executable admit
+  + [placement] relative path is structurally validated and observation ordinal is nonzero
+
+& [InputAndJoinProof] is exact
+  + [input] accepts one output-only WindowsSuppliedContentStableBinding and one strict plan
+  + [reference] plan and nested stable binding entry-reference identities must agree exactly
+  + [component] final plan path component and stable canonical policy component must agree exactly
+  + [order] plan decoding, reference join, candidate mapping, current M2A validation, and component join are deterministic
+  + [failure] no rejected transition returns or serializes a successful projection
+
+& [MappingAndValidationProof] is complete
+  + [seed] exact volume, file identity, entry name, canonical policy component, timestamps, EOF, attributes, reparse data, and ADS digest flow from the supplied stable binding
+  + [digest] exact derived content digest flows from the supplied content observation
+  + [placement] projection identity, relative path, regular-file mode, and ordinal remain caller declarations
+  + [validation] current ValidateTopologyForm is mandatory and its exact fault remains nested
+  + [success] private output preserves the complete plan, binding, and topology form through immutable getters and Serialize only
+  + [downgrade] no From or Into conversion drops the preserved lineage
+
+& [NoEffectProof] is structural
+  + [module_sha256] is 4B8F3BA81ADF5C1BCFE969036B95A03DF70D3D6E85ACA0256FA738C16A489562
+  + [module_bytes] is 25898
+  + [unsafe_blocks] is zero
+  + [Windows_API_calls] is zero
+  + [filesystem_process_environment_clock_random_network_model_persistence] are absent
+  + [Cargo_manifest_delta] is zero
+  + [Cargo_lock_delta] is zero
+  + [physical_read_path_traversal_Git_receipt_admission_mutation_seal_cleanup_promotion_authority] are absent
+
+& [VerificationProof] is complete
+  + [focused_debug] is 11 unit plus 1 static passed
+  + [focused_overflow_checked_release] is 11 unit plus 1 static passed
+  + [evidence_debug_and_release] are 1 passed each
+  + [workspace_debug] is 332 passed and 1 governed physical test ignored
+  + [workspace_overflow_checked_release] is 332 passed and 1 governed physical test ignored
+  + [release_identity] a proof-only Rust metadata tag changed executable identity without changing source, overflow checks, or runtime semantics
+  + [format] is passed
+  + [warnings_denied_lint] is passed
+  + [release_build] is passed
+  + [warnings_denied_docs] is passed
+  + [audit] is 113 locked packages against 1175 advisories with zero vulnerabilities
+
+& [EvidenceProof] is clone portable
+  + [projection_manifest] is 44 repository-relative artifacts with exact byte counts and SHA-256
+  + [recursive_graph] is 18 current artifact manifests, 756 artifact references, and zero stale records
+  + [frozen_history] three version-suffixed historical manifests retain their pinned exact bytes
+  + [physical_rerun] is absent
+  + [candidate_admission_rehash] remains metadata_only_no_physical_probe
+
+& [OperationalFaultProof] is honest
+  + [static_match] an exact wrapper declaration check replaced an overbroad prefix match after one pre-proof static-test failure
+  + [evidence_staleness] shared project surfaces made predecessor evidence stale and were repaired in dependency order
+  + [refresh_commands] one parse error, one line-ending overload error, and one execution-policy denial all stopped before product or physical execution
+  + [historical_integrity] frozen manifests stayed byte exact through every maintenance pass
+
+& [Nonclaim] is mandatory
+  - never: cite this proof as physical file-byte origin, same-handle or same-object evidence, physical pre-content-post order, one read, stream completeness, Windows provenance, freshness, authenticity, actual path placement, root membership, Git mode truth, traversal order, duplicate identity, directory or whole-root coverage, topology receipt, candidate admission, mutation, seal, review execution, cleanup, or promotion authority

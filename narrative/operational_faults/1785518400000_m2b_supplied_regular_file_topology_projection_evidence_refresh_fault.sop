@@ -1,0 +1,36 @@
+Subject: M2B Supplied Regular File Topology Projection Evidence Refresh Fault
+
+& [FaultIdentity] is evidence maintenance
+  + [fault_uuid] is 8def9eb5-8a6b-4154-a679-b14beef799a6
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+  + [class] is stale_shared_surface_and_repair_command_syntax
+
+& [Observed] has no product failure
+  + the first full workspace run stopped because candidate-workspace evidence retained the prior SOP_CORE_MAP size
+  + the first inline metadata-refresh command stopped at PowerShell parse time because compressed foreach syntax omitted required whitespace
+  + the first final-chain refresh attempt stopped before its first write because the line-ending normalization expression selected a character overload with a two-character CRLF argument
+  + direct invocation of the evidence builder was denied before script execution by the host PowerShell execution policy; an explicit process-scoped Bypass invocation was required
+  + neither failed command ran a physical candidate probe or changed production behavior
+
+& [Repair] is metadata only and dependency ordered
+  + recompute artifact sizes and SHA-256 values for current manifests in explicit manifest-dependency order
+  + do not run the candidate-workspace builder or any physical fixture
+  + preserve phase3 topology 0.1 and platform-preflight forms 0.1 and 0.2 historical manifests byte exactly
+  + rerun recursive artifact validation after refresh
+  + rerun the full workspace tests after the stale evidence is repaired
+
+& [MeasuredIntermediateClosure] is exact
+  + [current_manifests] is 17 before adding this slice's evidence manifest
+  + [artifact_references] is 712
+  + [stale_references] is zero after repair
+  + [physical_probe] is zero
+  + [production_change] is zero
+
+& [MeasuredFinalClosure] is exact
+  + [current_manifests] is 18 including this slice's evidence manifest
+  + [artifact_references] is 756
+  + [stale_references] is zero after dependency-ordered repair and recursive validation
+  + [historical_manifests_unchanged] is three
+  + [physical_probe] is zero
+  + [production_change] is zero

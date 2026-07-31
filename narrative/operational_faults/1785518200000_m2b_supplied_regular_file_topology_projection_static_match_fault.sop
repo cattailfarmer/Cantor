@@ -1,0 +1,27 @@
+Subject: M2B Supplied Regular File Topology Projection Static Match Fault
+
+& [FaultIdentity] is implementation evidence
+  + [fault_uuid] is 3f0e936e-1db5-4ce6-a782-3046215ca3bb
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+  + [class] is test_predicate_overmatch
+
+& [Observation] is exact
+  + all eleven behavioral unit tests passed
+  + the independent static test rejected the successful wrapper as Deserialize-capable
+  + the inspected production wrapper actually derives Serialize without Deserialize
+
+& [Cause] is an ambiguous prefix match
+  + the predicate searched for pub struct WindowsSuppliedRegularFileTopologyProjection without the opening brace
+  + that prefix first matched the longer WindowsSuppliedRegularFileTopologyProjectionPlan declaration
+  + the plan correctly derives Deserialize because it is caller input
+
+& [Repair] is minimal
+  + match the exact successful wrapper declaration including its opening brace
+  + retain the same derive-region and private-field assertions
+  + rerun the focused static and behavioral tests
+
+& [AuthorityEffect] is none
+  + [production_change] is zero
+  + [semantic_change] is zero
+  + [effect_change] is zero
