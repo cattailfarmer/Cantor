@@ -1,0 +1,43 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Reconciliation SJS Reprocessing Input Manifest
+
+& [ManifestIdentity] is exact correction input
+  + [manifest_uuid] is 44a4437d-853e-4cc9-a8db-6b331a7cfbd2
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [base_source_snapshot_uuid] is bc966e32-751a-4910-ae35-d3fcd271bc56
+  + [revision_source_snapshot_uuid] is 1616efd9-aad3-437a-9635-1ac9cc00ab6f
+  + [captured_at] is 2026-07-31
+  + [state] is SJS_correction_reprocessing_open_unsigned
+
+@ [base_source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Source.sop
+@ [base_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Source_Document_Manifest.sop
+@ [revision_source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Root_Kind_Revision_Source.sop
+@ [revision_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Source_Revision_Manifest.sop
+@ [fault] C:\Project\Cantor\narrative\operational_faults\1785533105126_m2b_supplied_digest_reconciliation_root_kind_source_fault.sop
+@ [prior_input_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\SJS_Processing_Input_Manifest.sop
+
+& [SourceBinding] is immutable composition
+  + [base_source_sha256] is 1869AD7A9C06E531946376F8FCF4B2501FA6DAA343DFDC1D690079ABF00083B1
+  + [base_source_bytes] is 16554
+  + [revision_source_sha256] is A6A83EAE5A0890854C3B2F12C601A6805B5411622347CD6FA96E01540515437B
+  + [revision_source_bytes] is 3367
+  + [fault_sha256] is BF5978D1A5F0E63A12728DE244DF4EAA9AC8E4F06283423DA16D2CE475724592
+
+& [CorrectionRule] is exact
+  + RootDirectory supersedes Directory only where the base source means the root observation TopologyEntryKind
+  + every other base statement remains active
+  + all corrected derived artifacts bind both source snapshots and this manifest
+  + pre-correction derived hashes are superseded for authority and retained in Git history
+
+& [PrerequisiteSet] remains closed
+  + [topology_forms_sha256] is 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+  + [topology_forms_signature_uuid] is 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + [inventory_assembly_sha256] is EC77E48E70797B76A16732A72D2D34A7CB17B1873D9FEFAA9D5B3AE555839D08
+  + [inventory_assembly_signature_uuid] is 9c92f968-054a-42de-a27f-90925bb5081e
+  + [ordered_digest_sha256] is 2D8C6076DB92263497A3B23C983954D5D825CAB2C06F0FAB44C622D54C086921
+  + [ordered_digest_signature_uuid] is 63c58b74-0eb9-4ab8-9c95-4bfe3bb92af8
+
+& [ProcessingRule] is fail closed
+  + exact enum feasibility is rerun before source_revision_required may become false
+  + constraint, exhaustion, data-design, justification, plan, registry, matrix, slice, and phase-lock checks rerun after correction
+  + no satisfaction signature is valid until corrected hashes are bound
+  - never: treat prior partial SJS conclusions as current authority

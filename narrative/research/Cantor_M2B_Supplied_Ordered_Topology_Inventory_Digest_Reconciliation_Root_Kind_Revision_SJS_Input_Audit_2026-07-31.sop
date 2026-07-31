@@ -1,0 +1,50 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Reconciliation Root Kind Revision SJS Input Audit
+
+Description: Corrective pre-processing audit after the original SJS input audit failed to map the source word Directory to the exact prerequisite RootDirectory enum variant. It validates the composed base and corrective sources before corrected artifact binding.
+
+@ [base_source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Source.sop
+@ [revision_source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Root_Kind_Revision_Source.sop
+@ [reprocessing_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\SJS_Reprocessing_Input_Manifest.sop
+@ [fault] C:\Project\Cantor\narrative\operational_faults\1785533105126_m2b_supplied_digest_reconciliation_root_kind_source_fault.sop
+
+& [AuditIdentity] is exact
+  + [audit_uuid] is 34473551-1475-47b6-b959-4fbaf51571fa
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+  + [status] is correction_ready_for_full_reprocessing
+
+& [SourceBinding] is exact composition
+  + [base_source_snapshot_uuid] is bc966e32-751a-4910-ae35-d3fcd271bc56
+  + [base_source_sha256] is 1869AD7A9C06E531946376F8FCF4B2501FA6DAA343DFDC1D690079ABF00083B1
+  + [revision_source_snapshot_uuid] is 1616efd9-aad3-437a-9635-1ac9cc00ab6f
+  + [revision_source_sha256] is A6A83EAE5A0890854C3B2F12C601A6805B5411622347CD6FA96E01540515437B
+  + original source remains byte immutable
+
+& [ExactEnumAudit] passes
+  + TopologyEntryKind variants are RootDirectory, Directory, and RegularFile
+  + ValidateTopologyForm requires RootDirectory for an observation whose relative_path is absent
+  + Directory requires a present nonroot relative path and cannot represent the root
+  + corrected root structural scope is absent relative_path plus RootDirectory exactly
+  + no other source term maps to a contradictory existing closed enum variant
+
+& [CorrectionScopeAudit] passes
+  + one semantic token role changes from generic Directory to exact RootDirectory
+  + profile, inputs, rederivation, other scope fields, disposition, output, faults, effects, requirements, verification, and rollback remain unchanged
+  + requirement identifiers remain stable because the intended root structural gate did not change, only its incorrect variant name
+
+& [PriorConclusion] is superseded
+  + original input audit source_revision_required false was incorrect
+  + original partial SJS artifacts are not implementation authority and their pre-correction hashes cannot be signed
+  + no canonical signature or code escaped the guard
+
+& [ReprocessingRoute] is complete
+  + correct derived root-kind occurrences to RootDirectory
+  + bind revision source and reprocessing manifest in corrected artifacts
+  + rerun C01 through C20, all seven exhaustion folds, data design, justification, plan, registry, matrix, slice, and phase lock
+  + recompute every corrected artifact hash
+  + issue satisfaction signature only after artifact binding passes
+
+& [Decision] is corrected reprocessing may continue
+  + [source_revision_required] is satisfied_by_snapshot_1616efd9-aad3-437a-9635-1ac9cc00ab6f
+  + [implementation_authority] is absent
+  + [physical_authority] is absent

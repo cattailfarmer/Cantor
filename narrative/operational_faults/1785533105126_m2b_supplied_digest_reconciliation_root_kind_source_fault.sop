@@ -1,0 +1,39 @@
+Subject: M2B Supplied Digest Reconciliation Root Kind Source Fault
+
+& [FaultIdentity] is exact
+  + [fault_uuid] is d9cd9158-0851-4d82-8154-c01e282da824
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [detected_at_stage] is canonical feasibility review before satisfaction signature
+  + [severity] is authority_blocking_source_contradiction
+  + [status] is correction_source_preserved_reprocessing_required
+
+& [Observed] is exact
+  + preserved base source says root kinds must both be Directory
+  + prerequisite TopologyEntryKind has RootDirectory, Directory, and RegularFile as distinct closed variants
+  + prerequisite validation requires RootDirectory with empty relative path for a root observation
+  + the proposed Directory check would reject every valid prerequisite root and could never release success
+
+& [AffectedUnsignedArtifacts] are traceable
+  + SJS input audit incorrectly reported source revision unnecessary
+  + exploded, semantic refinement, constraint, exhaustion, data-design, justification, matrix, and phase-lock drafts inherited or failed to detect the wrong variant
+  + no canonical specification, satisfaction signature, implementation, test, evidence manifest, or physical execution was produced from the defect
+
+& [RootCause] is vocabulary generalization across a closed enum
+  + natural-language directory category was substituted for the exact RootDirectory machine variant
+  + prerequisite code feasibility was inspected too late, during canonical authoring rather than initial SJS input audit
+
+& [Correction] is governed
+  + preserve a new raw corrective source snapshot naming RootDirectory
+  + keep the original source immutable
+  + bind both sources and this fault in SJS reprocessing input
+  + correct derived artifacts and mark pre-correction conclusions superseded
+  + remeasure hashes and rerun artifact binding before any signature
+
+& [ReusableGuardrail] is exact-enum feasibility audit
+  + every source term mapped to an existing closed enum must be checked against the exact code and canonical prerequisite variant set before source_revision_required can be false
+  + category words such as directory, file, root, stream, mode, or disposition never substitute for exact enum variants
+
+& [EffectAccount] is zero
+  + no implementation or physical action occurred
+  + no prerequisite, source history, Cargo file, lockfile, or runtime state changed
+  + correction remains specification-only

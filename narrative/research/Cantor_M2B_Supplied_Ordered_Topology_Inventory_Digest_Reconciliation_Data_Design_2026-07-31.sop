@@ -3,6 +3,8 @@ Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Reconciliation Da
 Description: Unsigned Data-Driven Design quality-gate record for the pure supplied digest reconciliation. It defines data identity, ownership, relations, cardinality, transforms, lifecycle, physical representation, and provenance before canonical authority.
 
 @ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Source.sop
+@ [revision_source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Root_Kind_Revision_Source.sop
+@ [reprocessing_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\SJS_Reprocessing_Input_Manifest.sop
 @ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation.exploded.sop
 @ [refinement] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Semantic_Refinement_2026-07-31.sop
 @ [constraints] C:\Project\Cantor\narrative\research\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Constraint_Ledger_2026-07-31.sop
@@ -11,8 +13,9 @@ Description: Unsigned Data-Driven Design quality-gate record for the pure suppli
 & [DesignIdentity] is exact
   + [design_uuid] is ec313490-84b5-423c-9563-39a2b8a77966
   + [source_snapshot_uuid] is bc966e32-751a-4910-ae35-d3fcd271bc56
+  + [revision_source_snapshot_uuid] is 1616efd9-aad3-437a-9635-1ac9cc00ab6f
   + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
-  + [state] is data_design_checked_unsigned
+  + [state] is correction_reprocessed_data_design_checked_unsigned
 
 & [ConceptualModel] is one typed comparison fact
   + a ReconciliationPlan identifies one pure operation request
@@ -32,7 +35,7 @@ Description: Unsigned Data-Driven Design quality-gate record for the pure suppli
   + [encoding_identity] is cantor-ordered-topology-observation-encoding/0.1
   + [sequence_identity] is encoding identity plus ordered_inventory_sha256 under ordinary SHA-256 collision assumptions
   + [capability_scope_identity] is exact complete TopologyScanLimits
-  + [root_scope_identity] is empty relative path plus Directory kind plus volume serial plus 16-byte file identity
+  + [root_scope_identity] is empty relative path plus RootDirectory kind plus volume serial plus 16-byte file identity
   + [common_scope_identity] is encoding, capability, and root scope identity together
   + [disposition_identity] is the named Equal or Different relation for the retained operand order
   + [lineage_identity] includes every retained lower plan, correlation, carrier, and evidence record
@@ -188,6 +191,6 @@ Description: Unsigned Data-Driven Design quality-gate record for the pure suppli
   + physical representation and resource bounds are explicit
   + provenance grades and nonclaims are explicit
   + compatibility and rollback behavior are explicit
-  + [source_revision_required] is false
+  + [source_revision_required] is satisfied_by_snapshot_1616efd9-aad3-437a-9635-1ac9cc00ab6f
   + [unresolved_data_question] is none inside the selected slice
   + [implementation_authority] is absent pending canonical authority

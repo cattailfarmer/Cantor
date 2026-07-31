@@ -1,0 +1,49 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest Reconciliation Root Kind Revision Source
+
+Description: Raw corrective source for one exact prerequisite-vocabulary defect found before satisfaction signature. It supersedes only the base source statement that names the validated topology root kind as Directory; the prerequisite authority names that enum variant RootDirectory.
+
+& [SourceIdentity] is corrective and unprocessed
+  + [source_uuid] is 0fd930a2-2838-4003-83c4-2c93adc15223
+  + [source_snapshot_uuid] is 1616efd9-aad3-437a-9635-1ac9cc00ab6f
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+  + [profile] is cantor-windows-supplied-ordered-topology-inventory-digest-reconciliation/0.1
+  + [base_source_snapshot_uuid] is bc966e32-751a-4910-ae35-d3fcd271bc56
+  + [state] is preserved_before_SJS_reprocessing
+
+@ [base_source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest_reconciliation\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Reconciliation_Source.sop
+@ [prerequisite] C:\Project\Cantor\specifications\Cantor_Phase3_Topology_Machine_Forms.sop
+@ [fault] C:\Project\Cantor\narrative\operational_faults\1785533105126_m2b_supplied_digest_reconciliation_root_kind_source_fault.sop
+
+& [Defect] is exact
+  + base source line 96 states that left and right root kinds must both be Directory
+  + TopologyEntryKind defines distinct RootDirectory and Directory variants
+  + prerequisite root validation requires RootDirectory for the root observation
+  + Directory is the descendant-directory kind and cannot satisfy root structural scope
+
+& [Correction] is one token-level semantic replacement
+  + every reconciliation source or derived statement that means the topology root observation kind must name RootDirectory
+  + root structural scope is exact empty relative_path plus TopologyEntryKind::RootDirectory
+  + Directory remains valid only for nonroot directory observations and is never an alias
+
+& [UnchangedBoundary] is complete
+  + profile and requirement identifiers are unchanged
+  + output-only two-carrier input is unchanged
+  + current left and right rederivation is unchanged
+  + exact profiles, complete limits, volume serial, and file identity scope are unchanged
+  + Equal and Different disposition semantics are unchanged
+  + ownership, lineage, faults, effects, nonclaims, verification, and rollback are unchanged
+
+& [CorrectionGovernance] is fail closed
+  + original source snapshot remains byte immutable and visible as fault history
+  + every derived artifact used for signing must bind this corrective snapshot in addition to the base snapshot
+  + pre-correction derived hashes are superseded for authority and remain visible in Git history
+  + no satisfaction signature may issue until corrected artifacts are rehashed and all constraints reapply
+  - never: silently edit the original source
+  - never: treat Directory and RootDirectory as compatible or normalize between them
+
+& [Next] is SJS correction reprocessing only
+  + bind original source, corrective source, fault, and prerequisites in a reprocessing input manifest
+  + correct every derived semantic occurrence
+  + rerun constraint, exhaustion, data-design, artifact-binding, and phase-lock checks before signing
+  + implementation authority remains absent
