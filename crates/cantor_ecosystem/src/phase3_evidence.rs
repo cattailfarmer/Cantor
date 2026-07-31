@@ -10,7 +10,7 @@ use std::fmt;
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
 
 /// Version of the effect-free Phase 3 machine-form profile.
-pub const PHASE3_MACHINE_FORMS_PROFILE: &str = "cantor-phase3-machine-forms/0.1";
+pub const PHASE3_MACHINE_FORMS_PROFILE: &str = "cantor-phase3-machine-forms/0.2";
 
 const MAX_TEXT_BYTES: usize = 1_024;
 const MAX_PROFILE_BYTES: usize = 128;
@@ -300,14 +300,19 @@ impl ValidatePhase3 for FaultConsequence {
     }
 }
 
+/// Closed labels for inventory-consistency evidence.
+///
+/// Structural validity names an evidence grade only. It does not prove that
+/// physical acquisitions, supporting lineage, an authorized issuer, or a
+/// corresponding world state exists.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum ConsistencyClass {
-    QuiescentDoubleInventory,
+pub enum InventoryConsistencyEvidence {
+    NonAtomicRepeatedInventoryEqual,
     OsSnapshotProven,
 }
 
-impl ValidatePhase3 for ConsistencyClass {
+impl ValidatePhase3 for InventoryConsistencyEvidence {
     fn validate(&self) -> Result<(), Phase3FormFault> {
         Ok(())
     }
@@ -825,9 +830,30 @@ mod tests {
     #[test]
     fn evidence_strength_and_dispositions_are_closed_json_vocabularies() {
         assert_eq!(
-            serde_json::to_string(&ConsistencyClass::QuiescentDoubleInventory)
-                .expect("consistency"),
-            "\"quiescent_double_inventory\""
+            serde_json::to_string(&InventoryConsistencyEvidence::NonAtomicRepeatedInventoryEqual)
+                .expect("inventory consistency evidence"),
+            "\"non_atomic_repeated_inventory_equal\""
+        );
+        assert_eq!(
+            serde_json::to_string(&InventoryConsistencyEvidence::OsSnapshotProven)
+                .expect("snapshot evidence label"),
+            "\"os_snapshot_proven\""
+        );
+        assert!(
+            InventoryConsistencyEvidence::NonAtomicRepeatedInventoryEqual
+                .validate()
+                .is_ok()
+        );
+        assert!(
+            InventoryConsistencyEvidence::OsSnapshotProven
+                .validate()
+                .is_ok()
+        );
+        assert_eq!(
+            decode_phase3_json::<InventoryConsistencyEvidence>(br#""quiescent_double_inventory""#)
+                .expect_err("legacy evidence token")
+                .code,
+            Phase3FormFaultCode::Json
         );
         assert_eq!(
             serde_json::to_string(&ImmutabilityClass::ContentAddressedVerified)
@@ -863,7 +889,7 @@ mod tests {
     fn module_profile_is_exact_and_stable() {
         assert_eq!(
             PHASE3_MACHINE_FORMS_PROFILE,
-            "cantor-phase3-machine-forms/0.1"
+            "cantor-phase3-machine-forms/0.2"
         );
     }
 }

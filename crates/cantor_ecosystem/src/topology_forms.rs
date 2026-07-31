@@ -8,12 +8,12 @@ use std::fmt;
 
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
 
-use crate::ConsistencyClass;
+use crate::InventoryConsistencyEvidence;
 
 /// Version of this pure machine-form vocabulary.
-pub const TOPOLOGY_FORMS_PROFILE: &str = "cantor-phase3-topology-forms/0.2";
+pub const TOPOLOGY_FORMS_PROFILE: &str = "cantor-phase3-topology-forms/0.3";
 /// Version of the serialized topology-receipt contract.
-pub const TOPOLOGY_RECEIPT_PROFILE: &str = "cantor-phase3-topology-receipt/0.2";
+pub const TOPOLOGY_RECEIPT_PROFILE: &str = "cantor-phase3-topology-receipt/0.3";
 /// Scanner profile represented by a topology receipt.
 pub const WINDOWS_TOPOLOGY_PROFILE: &str = "cantor-windows-candidate-topology/0.1";
 
@@ -302,7 +302,10 @@ impl ValidateTopologyForm for TopologyEntryObservation {
     }
 }
 
-/// Fresh content-addressed evidence from a future successful topology scan.
+/// Caller-constructible topology-receipt form for a future authorized issuer.
+///
+/// Structural validity does not prove physical acquisition, evidence lineage,
+/// receipt issuance, quiescence, or any external world state.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TopologyReceipt {
@@ -319,7 +322,8 @@ pub struct TopologyReceipt {
     pub limits: TopologyScanLimits,
     pub entry_count: u64,
     pub total_file_bytes: u64,
-    pub consistency: ConsistencyClass,
+    /// Caller-supplied evidence label; not self-authenticating support or proof.
+    pub consistency_evidence: InventoryConsistencyEvidence,
     pub issued_tick: u64,
     pub expires_tick: u64,
 }
@@ -367,11 +371,13 @@ impl ValidateTopologyForm for TopologyReceipt {
                 "total file bytes exceed scan limits",
             ));
         }
-        if self.consistency != ConsistencyClass::QuiescentDoubleInventory {
+        if self.consistency_evidence
+            != InventoryConsistencyEvidence::NonAtomicRepeatedInventoryEqual
+        {
             return Err(TopologyFormFault::new(
                 TopologyFormFaultCode::Receipt,
-                "consistency",
-                "M2A receipt permits only quiescent_double_inventory",
+                "consistency_evidence",
+                "receipt 0.3 permits only non_atomic_repeated_inventory_equal",
             ));
         }
         if self.issued_tick >= self.expires_tick {
@@ -773,7 +779,7 @@ mod tests {
             limits: limits(),
             entry_count: 3,
             total_file_bytes: 42,
-            consistency: ConsistencyClass::QuiescentDoubleInventory,
+            consistency_evidence: InventoryConsistencyEvidence::NonAtomicRepeatedInventoryEqual,
             issued_tick: 100,
             expires_tick: 200,
         }
@@ -901,8 +907,16 @@ mod tests {
     fn receipt_binds_limits_strength_and_freshness() {
         assert!(receipt().validate().is_ok());
         let mut invalid = receipt();
-        invalid.consistency = ConsistencyClass::OsSnapshotProven;
-        assert!(invalid.validate().is_err());
+        invalid.consistency_evidence = InventoryConsistencyEvidence::OsSnapshotProven;
+        let fault = invalid
+            .validate()
+            .expect_err("snapshot provenance is absent");
+        assert_eq!(fault.code, TopologyFormFaultCode::Receipt);
+        assert_eq!(fault.field, "consistency_evidence");
+        assert_eq!(
+            fault.message,
+            "receipt 0.3 permits only non_atomic_repeated_inventory_equal"
+        );
         invalid = receipt();
         invalid.entry_count = invalid.limits.maximum_entries + 1;
         assert!(invalid.validate().is_err());
@@ -921,6 +935,100 @@ mod tests {
         invalid = receipt();
         invalid.scanner_profile = TOPOLOGY_RECEIPT_PROFILE.to_owned();
         assert!(invalid.validate().is_err());
+    }
+
+    #[test]
+    fn profile_revisions_are_exact_and_scanner_profile_is_unchanged() {
+        assert_eq!(TOPOLOGY_FORMS_PROFILE, "cantor-phase3-topology-forms/0.3");
+        assert_eq!(
+            TOPOLOGY_RECEIPT_PROFILE,
+            "cantor-phase3-topology-receipt/0.3"
+        );
+        assert_eq!(
+            WINDOWS_TOPOLOGY_PROFILE,
+            "cantor-windows-candidate-topology/0.1"
+        );
+    }
+
+    #[test]
+    fn receipt_consistency_evidence_schema_is_strict() {
+        let expected = receipt();
+        let current_bytes = serde_json::to_vec(&expected).expect("serialize current receipt");
+        let current = decode_topology_json::<TopologyReceipt>(&current_bytes)
+            .expect("current receipt must round trip");
+        assert_eq!(current, expected);
+        let current_object = serde_json::to_value(&current).expect("current receipt value");
+        assert!(current_object.get("consistency_evidence").is_some());
+        assert!(current_object.get("consistency").is_none());
+        assert_eq!(
+            current_object["consistency_evidence"],
+            serde_json::Value::String("non_atomic_repeated_inventory_equal".to_owned())
+        );
+
+        let mut old_profile = current_object.clone();
+        old_profile["receipt_profile"] =
+            serde_json::Value::String("cantor-phase3-topology-receipt/0.2".to_owned());
+        let fault = decode_topology_json::<TopologyReceipt>(
+            &serde_json::to_vec(&old_profile).expect("serialize old profile"),
+        )
+        .expect_err("old receipt profile");
+        assert_eq!(fault.code, TopologyFormFaultCode::Receipt);
+        assert_eq!(fault.field, "receipt_profile");
+
+        let mut old_field = current_object.clone();
+        let old_field_object = old_field.as_object_mut().expect("receipt object");
+        let evidence = old_field_object
+            .remove("consistency_evidence")
+            .expect("current evidence field");
+        old_field_object.insert("consistency".to_owned(), evidence);
+        assert_eq!(
+            decode_topology_json::<TopologyReceipt>(
+                &serde_json::to_vec(&old_field).expect("serialize old field")
+            )
+            .expect_err("old consistency field")
+            .code,
+            TopologyFormFaultCode::Json
+        );
+
+        let mut missing = current_object.clone();
+        missing
+            .as_object_mut()
+            .expect("receipt object")
+            .remove("consistency_evidence");
+        assert_eq!(
+            decode_topology_json::<TopologyReceipt>(
+                &serde_json::to_vec(&missing).expect("serialize missing field")
+            )
+            .expect_err("missing consistency evidence")
+            .code,
+            TopologyFormFaultCode::Json
+        );
+
+        let mut dual = current_object.clone();
+        dual.as_object_mut().expect("receipt object").insert(
+            "consistency".to_owned(),
+            serde_json::Value::String("non_atomic_repeated_inventory_equal".to_owned()),
+        );
+        assert_eq!(
+            decode_topology_json::<TopologyReceipt>(
+                &serde_json::to_vec(&dual).expect("serialize dual fields")
+            )
+            .expect_err("old and new fields")
+            .code,
+            TopologyFormFaultCode::Json
+        );
+
+        let mut old_token = current_object;
+        old_token["consistency_evidence"] =
+            serde_json::Value::String("quiescent_double_inventory".to_owned());
+        assert_eq!(
+            decode_topology_json::<TopologyReceipt>(
+                &serde_json::to_vec(&old_token).expect("serialize old token")
+            )
+            .expect_err("old evidence token")
+            .code,
+            TopologyFormFaultCode::Json
+        );
     }
 
     #[test]
