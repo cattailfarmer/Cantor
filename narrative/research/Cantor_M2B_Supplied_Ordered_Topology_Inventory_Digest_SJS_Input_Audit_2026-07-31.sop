@@ -1,0 +1,100 @@
+Subject: Cantor M2B Supplied Ordered Topology Inventory Digest SJS Input Audit
+
+Description: Pre-processing audit of the preserved digest source, its prerequisite authorities, canonical byte grammar, implementation feasibility, semantic exclusions, and effect boundary. This review decides only whether full SJS may begin without altering the immutable source.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest\Cantor_M2B_Supplied_Ordered_Topology_Inventory_Digest_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_m2b_supplied_ordered_topology_inventory_digest\Source_Document_Manifest.sop
+@ [selection_review] C:\Project\Cantor\narrative\research\Cantor_M2B_Post_Supplied_Topology_Inventory_Assembly_Architecture_Review_2026-07-31.sop
+
+& [AuditIdentity] is exact
+  + [audit_uuid] is ff68ca92-6bda-49fa-8825-73b9c98fb88d
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+  + [baseline_commit] is 3eb1fbc06add836a4c6997f067cc1a9bb3b2bd25
+  + [status] is ready_for_governing_SJS_without_source_revision
+
+& [SourceBinding] is current
+  + [source_snapshot_uuid] is 9096f760-1128-4b0e-a412-4e68ec8b51ea
+  + [source_sha256] is C2D1334B74A3C7D94B945F9F2CCB95DAEEA1035CB042C065DD61A3CAEAE45683
+  + [source_bytes] is 14584
+  + [encoding] is UTF-8 with LF endings
+  + source and manifest values were recomputed before this audit
+
+& [PrerequisiteAuthority] is exact
+  + [topology_forms_sha256] is 7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A
+  + [topology_forms_signature_uuid] is 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2 and valid
+  + [inventory_assembly_sha256] is EC77E48E70797B76A16732A72D2D34A7CB17B1873D9FEFAA9D5B3AE555839D08
+  + [inventory_assembly_signature_uuid] is 9c92f968-054a-42de-a27f-90925bb5081e and valid
+  + [content_digest_precedent_sha256] is 91C4853D6A7B0E4DF03B81C3EB757C4788925216C2341065A8835EB8EF310787
+  + [content_digest_signature_uuid] is 44749466-30d8-44e9-85b8-e51f1bafea33 and valid
+  + [selection_commit] is 11ee98ce1b17f3718ff7c7b31b06642c07a59e04
+  + [preservation_commit] is 3eb1fbc06add836a4c6997f067cc1a9bb3b2bd25
+
+& [SemanticSubjectAudit] passes
+  + the committed subject is exactly the existing ordered TopologyEntryObservation sequence plus its count and encoding domain
+  + every public M2A observation and stream semantic field is included
+  + assembly limits, deadline, policy syntax, correlation identities, carrier profiles, and proof lineage are excluded for the explicit reason that they are not scanner inventory-record content
+  + exclusion from digest subject does not discard lineage because the complete assembly is retained in the output-only result
+  + the proposed digest can later be supplied to receipt logic only through separate physical, repeat-inventory, and issuance authority
+  - never: promote this supplied commitment directly to TopologyReceipt.ordered_inventory_sha256 proof
+
+& [AmbiguityAudit] passes subject to canonical restatement
+  + the zero-terminated ASCII domain is self-delimiting before a fixed-width entry count
+  + all unsigned integers have fixed big-endian width
+  + every enum has an explicit closed one-byte tag independent of Rust and serde
+  + option presence, text length, sequence count, entry start, stream start, and field tags remove concatenation ambiguity
+  + file identity and SHA-256 hex strings have exact validated decoded byte widths
+  + field order is source-declared and can be repeated verbatim in canonical authority
+  + tag values overlap only across structurally delimited namespaces and cannot alias another valid parse
+  + no locale, path rewrite, Unicode normalization, native layout, Debug, or serializer output participates
+
+& [DataDesignAudit] passes
+  + conceptual subject is an ordered inventory observation sequence
+  + logical representation is one domain, one count, and repeated tagged field tuples
+  + physical representation is an incremental SHA-256 input stream, not a persisted canonical-byte file
+  + lineage representation is a private output-only wrapper retaining the entire assembly beside the digest
+  + authority representation remains supplied_structurally_closed_ordered_inventory_commitment only
+  + compatibility is profile exact with no implicit migration or default
+
+& [ImplementationFeasibility] is dependency ready
+  + cantor_ecosystem already has workspace sha2 available and locked; no new dependency or Cargo delta is needed
+  + WindowsSuppliedTopologyInventoryAssembly exposes immutable ordered members, entry_count, total_file_bytes, and plan
+  + each closed member exposes its TopologyEntryObservation while retaining its complete carrier
+  + TopologyEntryObservation and nested values expose every required field to safe Rust
+  + fixed arrays and direct slice updates satisfy the no-whole-inventory-allocation rule
+  + implementation should use the existing sha2 API directly; extracting or widening the prior private accumulator is unnecessary unless canonical SJS finds a proven reduction
+  + zero unsafe and zero platform or filesystem calls are sufficient
+
+& [ConstraintAudit] identifies canonical obligations
+  + restate exact tag table and field order without abbreviation
+  + distinguish encoding profile from result profile and require both exact
+  + bind the source and all three prerequisite hashes and signatures
+  + specify checked usize-to-u64 count conversion and checked byte-total recomputation
+  + specify lowercase output hex independent of serde
+  + require at least one independently computed reference vector and perturbation vectors for every field class
+  + prohibit accepting a digest, raw observation sequence, or reconstructed assembly as success input
+  + prohibit claims of physical origin, completeness, freshness, equality between scans, atomicity, receipt, or admission
+
+& [RiskAudit] is bounded
+  + [highest_risk] a stable-looking digest could be rhetorically inflated into physical inventory proof
+  + [second_risk] implementation could hash JSON or omit a field while appearing deterministic
+  + [third_risk] policy or proof-lineage fields could leak into the inventory subject and make future receipt semantics unstable
+  + [fourth_risk] whole-inventory buffering could violate resource intent despite valid output
+  + exact canonical grammar, retained lineage, negative static checks, reference vectors, and evidence-grade naming address these risks
+
+& [EffectAudit] passes
+  + required implementation is deterministic in-memory validation and hashing only
+  + filesystem, Windows, handle, process, environment, clock, randomness, network, persistence, database, Git, model, tool, fixture, mutation, seal, test-execution effect, cleanup, and promotion authority remain absent
+  + physical scanning and all previously locked effect paths remain locked
+
+& [SJSRouting] is exact
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [required] delineation, explosion, semantic refinement, constraint check and reapplication, pruning, growth seed, data-driven design, justification, plan, registry, matrix, slice, phase lock, and satisfaction signature
+  + [proposed_requirements] are M2B-SOTID-001 through M2B-SOTID-015
+  + [source_revision_required] is false
+  + [implementation_authority] is absent
+
+& [Decision] is begin full governing SJS next
+  + source remains immutable and preserved_unprocessed until all SJS stages close
+  + this audit is advisory process readiness, not canonical specification or signature
+  + stop before implementation if any prerequisite digest or signature drifts
