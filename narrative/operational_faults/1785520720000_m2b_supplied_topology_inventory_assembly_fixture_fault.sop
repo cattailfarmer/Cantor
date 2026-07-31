@@ -1,0 +1,27 @@
+Subject: M2B Supplied Topology Inventory Assembly Fixture Fault
+
+& [FaultIdentity] is exact
+  + [fault_uuid] is 897c0699-861f-43b7-bac5-1ac6a8d89fc4
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-07-31
+
+& [Observation] first focused run failed all ten tests at the prerequisite preflight gate because the new fixture supplied C:\Cantor instead of required extended-DOS \\?\C:\Cantor
+& [Correction] changed only fixture input syntax; unchanged production assembly then passed all focused tests
+& [GlobalObservation] first summary-only workspace debug invocation later exited 101 after reporting 323 passing tests but retained no panic or failed-test line
+  + immediate unchanged diagnostic rerun completed successfully with no panic, error, or failed-test line
+  + the unexplained exited invocation is not cited as passing proof
+  + final workspace proof uses the subsequent complete debug pass and independently measured complete overflow-checked release pass
+& [VerificationInvocationObservation] final consumer-side evidence verification first used non-existent Cargo package identifier cantor-ecosystem and exited before compiling or running any test
+  + corrected invocation used repository-declared package identifier cantor_ecosystem
+  + unchanged evidence test then passed one of one
+  + the rejected invocation is not cited as product proof
+& [EvidenceBuilderInvocationObservation] direct invocation of the repository evidence builder was blocked before execution by the host PowerShell script policy
+  + the unchanged manifest digest confirmed that the blocked invocation performed no write
+  + correction uses a child PowerShell process with process-scoped ExecutionPolicy Bypass
+  + no machine policy is changed and the blocked invocation is not cited as proof
+& [RecursiveVerifierScopeObservation] first recursive metadata-only verifier descended into ignored .local compile-probe repository copies
+  + it counted thirty-three manifests and resolved copied manifest artifact paths against the outer repository root
+  + its eighty-four reported stale references therefore do not describe the authoritative worktree manifest set and are not cited as proof
+  + correction enumerates Git-tracked current manifests plus the new untracked assembly manifest explicitly
+& [EvidenceRule] failed fixture run is not cited as product proof
+& [ProductAndPhysicalImpact] is none
