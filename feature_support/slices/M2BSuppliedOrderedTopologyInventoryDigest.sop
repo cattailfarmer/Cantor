@@ -1,0 +1,19 @@
+Subject: M2B Supplied Ordered Topology Inventory Digest Slice
+
+& [SliceIdentity] is exact
+  + [slice_uuid] is 4114c2c3-b561-4d9b-ae48-9493a5d9d4c4
+  + [profile] is cantor-windows-supplied-ordered-topology-inventory-digest/0.1
+  + [encoding_profile] is cantor-ordered-topology-observation-encoding/0.1
+  + [source_snapshot_uuid] is 9096f760-1128-4b0e-a412-4e68ec8b51ea
+  + [requirements] are M2B-SOTID-001 through M2B-SOTID-015
+  + [state] is implementation_ready_after_signature
+
+& [Inputs] are one strict plan byte slice and one complete WindowsSuppliedTopologyInventoryAssembly by value
+& [Output] is zero or one private Serialize-only WindowsSuppliedOrderedTopologyInventoryDigest retaining exact plan, profiles, complete assembly, and lowercase SHA-256
+& [Behavior] is current observation validation, exact assembly correlations, exact closed canonical update streaming, SHA-256 finalization, and atomic result formation
+& [EvidenceGrade] is canonically_committed_supplied_ordered_sequence_only
+& [Effects] are none
+& [Target] is crates/cantor_ecosystem/src/windows_supplied_ordered_topology_inventory_digest.rs plus one lib export, subject-local tests, one independent static test, evidence, and governed closure
+& [Dependencies] are existing topology forms, completed inventory assembly, serde, sha2, and standard library only
+& [Proof] is known vectors, complete field sensitivity, intentional subject exclusion, invalid-form and correlation denial, bounded faults, static API and effect checks, two build profiles, global quality, audit, recursive evidence, provenance, and rollback
+& [StopBoundary] excludes raw observations, sorting, repair, public bytes, decoder, negotiation, new dependency, unsafe, platform and filesystem calls, physical enumeration, completeness, Git, repeated inventory, receipt, admission, mutation, seal, cleanup, promotion, neural routing, distribution, and FPGA execution
