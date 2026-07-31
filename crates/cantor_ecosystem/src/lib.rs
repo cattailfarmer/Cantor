@@ -22,6 +22,7 @@ pub mod windows_stream_info_parser;
 pub mod windows_supplied_content_digest;
 pub mod windows_supplied_entry_observation;
 pub mod windows_supplied_entry_stability;
+pub mod windows_supplied_regular_file_topology_projection;
 pub mod workspace_admission;
 
 pub use adapter::*;
