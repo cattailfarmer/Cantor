@@ -1,0 +1,152 @@
+Subject: Cantor Phase3 Inventory Consistency Evidence Revision Semantic Refinement
+
+Description: Independent term, clause, role, and inference audit of the preserved source and exploded requirements. It fixes the intended meaning of evidence, consistency, equality, repetition, non-atomicity, quiescence, snapshot, receipt, producer, and validator before canonicalization.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Inventory_Consistency_Evidence_Revision.exploded.sop
+
+& [RefinementIdentity] is exact
+  + [refinement_uuid] is 7fdfff23-991d-4beb-a62c-ab42297b63da
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+  + [state] is semantic_refinement_complete_unsigned
+
+& [Evidence] means an inspectable supported claim with provenance
+  + evidence is not merely a value that can be serialized
+  + evidence requires a subject, observation or derivation method, authority, lineage, and limits
+  + a pure form can represent a claimed evidence grade without proving the claim is true
+  + therefore InventoryConsistencyEvidence names the grade a future authorized issuer must substantiate
+
+& [Consistency] is not selected as an unqualified state
+  + consistency may describe agreement among observations
+  + consistency must not silently become continuous world-state invariance
+  + the old type name allowed both readings
+  + the revised type explicitly resolves the ambiguity toward evidence grade
+
+& [Inventory] means one complete ordered observation subject under one exact producer policy and scope
+  + it is not a list of arbitrary caller values
+  + complete is always relative to signed enumeration and resource rules
+  + pure supplied assembly completeness is structural, not physical enumeration completeness
+
+& [RepeatedInventory] means two actual inventory acquisitions
+  + repetition is a physical and temporal relation
+  + two copies of one value are not repetition
+  + two caller-supplied carriers are not repetition without producer lineage
+  + distinct correlation identities alone are not repetition
+  + future acquisition lineage must establish actual production and order
+
+& [Equal] means exact equality of committed canonical subjects under exact common scope
+  + equality is assessed at the observation boundaries
+  + equality does not state why subjects match
+  + equality does not deny hidden collisions beyond ordinary digest assumptions
+  + equality does not imply continuous sameness
+
+& [NonAtomic] is a mandatory denial
+  + no snapshot or transaction boundary
+  + no tree-wide lock
+  + no indivisible acquisition
+  + no denial of interleaving
+  + no denial of change-and-restore
+  + no denial of post-observation change
+
+& [Quiescent] is reserved
+  + ordinary meaning is absence of relevant activity or change
+  + two equal observations alone cannot prove that absence
+  + supervisor-owned process accounting may narrow uncertainty but not eliminate external writers
+  + no current variant uses quiescent
+
+& [Stable] and [Unchanged] are reserved
+  + both require a stated interval or transition relation
+  + repeated equality supplies boundary observations but not uninterrupted interval proof
+  + public API, faults, docs, evidence, and proof must not use them as aliases for the new grade
+
+& [OsSnapshotProven] is a provenance-demanding reserved grade
+  + OS identifies a platform primitive rather than generic software copying
+  + Snapshot identifies an immutable or point-in-time subject according to that primitive
+  + Proven requires exact primitive, issuer, identity, and binding evidence
+  + enum presence does not satisfy those requirements
+  + TopologyReceipt 0.3 therefore rejects it
+
+& [Receipt] means a content-addressed claim envelope
+  + pure TopologyReceipt validation checks schema and internal relations
+  + a receipt is not authoritative merely because a caller constructs it
+  + an issuer identity and proof are separate future obligations
+  + consistency_evidence is one claim field inside the envelope
+
+& [Producer] means an authority-bearing operation that creates evidence from observation
+  + no producer is introduced here
+  + a serializer is not a producer
+  + a validator is not a producer
+  + the digest reconciler is not an acquisition producer
+
+& [Validator] means a pure syntax and relation checker
+  + it may accept NonAtomicRepeatedInventoryEqual as a coherent claimed grade
+  + it cannot observe that two acquisitions occurred
+  + it rejects OsSnapshotProven in the receipt because required relations cannot be represented
+
+& [Profile] means exact machine-contract identity
+  + machine meaning changes require profile changes
+  + phase3 forms 0.2 identifies the new evidence vocabulary
+  + topology forms 0.3 identifies the revised type use
+  + receipt 0.3 identifies the renamed field and new allowed token
+  + scanner 0.1 remains because physical behavior is untouched
+
+& [Legacy] means a prior serialized contract, not malformed history
+  + history remains valid evidence of what the prior system specified
+  + revised decoders reject legacy input prospectively
+  + rejection is not migration and does not rewrite history
+
+& [ClauseRefinement_Actual] is exact
+  + actual always modifies physical acquisition, not truth of caller claims
+  + only later producer authority can establish actual
+
+& [ClauseRefinement_Complete] is scoped
+  + physical acquisition completeness depends on later signed traversal policy
+  + pure carrier completeness does not upgrade it
+
+& [ClauseRefinement_Ordered] is temporal only with acquisition provenance
+  + left and right are not first and second
+  + order requires explicit acquisition relation
+
+& [ClauseRefinement_InitiallyPermitsOnly] is validator policy
+  + TopologyReceipt 0.3 accepts only the weakest representable grade
+  + it does not say every future scanner has already proven the grade
+
+& [ClauseRefinement_Reserved] means named but unavailable for receipt success
+  + reserved token supports a closed lattice without prematurely authorizing its use
+  + a later profile may add provenance and permit it
+
+& [InferenceRules] are closed
+  + actual repeated acquisition plus exact scope plus complete first and second lineage plus Equal may support NonAtomicRepeatedInventoryEqual
+  + supplied Equal alone cannot support it
+  + NonAtomicRepeatedInventoryEqual cannot support Quiescent
+  + NonAtomicRepeatedInventoryEqual cannot support OsSnapshotProven
+  + form-valid receipt cannot support issuer authority
+  + historical 0.2 receipt shape cannot support 0.3 meaning
+
+& [AntiInferenceRules] are mandatory
+  - never: infer actual from caller supplied
+  - never: infer repeated from two values
+  - never: infer temporal order from left and right
+  - never: infer quiescent from equal
+  - never: infer unchanged interval from equal boundaries
+  - never: infer snapshot from double inventory
+  - never: infer admission from receipt syntax
+  - never: infer implementation authority from SJS intermediate
+
+& [PublicVocabularyDisposition] is exact
+  + accept InventoryConsistencyEvidence
+  + accept NonAtomicRepeatedInventoryEqual
+  + accept non_atomic_repeated_inventory_equal
+  + accept OsSnapshotProven only as reserved enum vocabulary
+  + accept consistency_evidence
+  + remove ConsistencyClass
+  + remove QuiescentDoubleInventory
+  + remove quiescent_double_inventory from current production Rust
+  + remove consistency from current TopologyReceipt JSON
+
+& [RefinementDecision] is passed
+  + no source correction required
+  + every ambiguous term has one selected meaning or explicit reservation
+  + constraints and pruning remain separate next stages
+  + implementation authority is absent
+  + physical authority is absent

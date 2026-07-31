@@ -1,0 +1,223 @@
+Subject: Cantor Phase3 Inventory Consistency Evidence Revision Exploded Specification
+
+Description: Delineated and atomized interpretation of preserved source 4625e9c8-0dbd-4c18-a818-e42df71735bc. This artifact separates evidence grade, observed relation, candidate state, producer authority, receipt syntax, and consumer authority. It is an unsigned SJS intermediate and authorizes no implementation or effect.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop
+@ [input_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\SJS_Processing_Input_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_SJS_Input_Audit_2026-07-31.sop
+
+& [ExplodedIdentity] is exact
+  + [exploded_uuid] is ab7f77d9-28bb-412d-80b2-d16ae28608cd
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+  + [protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [requirements] are P3ICER-001 through P3ICER-014
+  + [state] is delineated_exploded_unsigned
+
+& [Delineation_A_EvidenceGrade] is one closed semantic type
+  + answers what class of evidence an authorized issuer claims to bind
+  + does not answer whether the candidate is presently unchanged
+  + does not identify who produced the evidence
+  + does not create acquisition lineage
+
+& [Delineation_B_ObservedRelation] is separate
+  + supplied pair Equal is a pure relation between two supplied canonical commitments
+  + non-atomic repeated-inventory equality is an evidence grade over two actual temporally ordered complete acquisitions
+  + snapshot proof is an evidence grade over one separately identified platform snapshot primitive
+  + no relation creates its own provenance
+
+& [Delineation_C_CandidateState] is unknown beyond observations
+  + no evidence grade asserts uninterrupted quiescence unless its exact stronger contract says so
+  + no repeated observation denies intermediate change-and-restore
+  + no repeated observation denies later change
+  + no supervisor-local evidence denies every external writer
+
+& [Delineation_D_ProducerAuthority] is absent
+  + pure enum and receipt values are caller constructible
+  + a future producer must be separately signed for physical acquisition
+  + form validity is never producer admission
+  + this revision changes no Win32, traversal, clock, or issuance path
+
+& [Delineation_E_ReceiptSyntax] is pure
+  + TopologyReceipt expresses a caller claim and validates internal relations
+  + consistency_evidence names the grade of evidence a future issuer must substantiate
+  + receipt profile 0.3 rejects prior field and value meaning
+  + exact syntax does not prove physical facts
+
+& [Delineation_F_ConsumerAuthority] is absent
+  + no work packet, ledger, freshness observation, single-use enforcement, admission, or mutation authorization is added
+  + downstream consumers must verify issuer and lineage separately
+
+& [Delineation_G_HistoricalAuthority] is immutable
+  + predecessor source and proofs retain original meaning and hashes
+  + replacement signatures supersede changed machine meaning prospectively
+  + historical evidence is not rewritten or reinterpreted as new evidence
+
+& [P3ICER-001_SourceAndLineage] is atomic
+  + bind new source path, snapshot UUID, bytes, SHA-256, source manifest, input audit, and processing manifest
+  + bind both implementation-governing predecessor sources, canonicals, proofs, signatures, and module hashes
+  + bind scanner and seal formation compatibility artifacts
+  + bind lower reconciliation authority and proof
+  = verify: exact artifact table and unchanged predecessor hashes
+  - reject: missing affected authority or overwritten source
+
+& [P3ICER-002_EvidenceVersusState] is atomic
+  + define evidence grade as a provenance-dependent claim class
+  + define candidate state as not inferred beyond observation boundaries
+  + prohibit quiescent, stable, unchanged, atomic, immutable, or safe aliases for non-atomic repeated equality
+  = verify: semantic refinement, public documentation, and static vocabulary checks
+
+& [P3ICER-003_Phase3Profile] is atomic
+  + PHASE3_MACHINE_FORMS_PROFILE is exactly cantor-phase3-machine-forms/0.2
+  + old 0.1 is not the current profile
+  + no fallback profile exists
+  = verify: exact constant and regression tests
+
+& [P3ICER-004_InventoryConsistencyEvidence] is atomic
+  + public enum name is exactly InventoryConsistencyEvidence
+  + variants are exactly NonAtomicRepeatedInventoryEqual and OsSnapshotProven
+  + tokens are exactly non_atomic_repeated_inventory_equal and os_snapshot_proven
+  + enum has Serialize, Deserialize, Clone, Copy, Debug, PartialEq, and Eq only as needed
+  + no Default, Unknown, Other, alias, conversion, or free string parser
+  = verify: compile surface, JSON vectors, legacy token rejection, and static scan
+
+& [P3ICER-005_TopologyProfiles] is atomic
+  + TOPOLOGY_FORMS_PROFILE is exactly cantor-phase3-topology-forms/0.3
+  + TOPOLOGY_RECEIPT_PROFILE is exactly cantor-phase3-topology-receipt/0.3
+  + WINDOWS_TOPOLOGY_PROFILE remains exactly cantor-windows-candidate-topology/0.1
+  + old form and receipt profiles are rejected where validated
+  = verify: exact constant vectors and substitution tests
+
+& [P3ICER-006_ReceiptEvidenceField] is atomic
+  + TopologyReceipt has required field consistency_evidence
+  + its type is InventoryConsistencyEvidence
+  + field consistency is absent
+  + validation initially admits only NonAtomicRepeatedInventoryEqual
+  + Receipt fault field is consistency_evidence
+  + exact message names receipt 0.3 and non_atomic_repeated_inventory_equal
+  = verify: valid round-trip, field reflection, and reserved-value fault
+
+& [P3ICER-007_LegacyRejection] is atomic
+  + reject old receipt 0.2 profile
+  + reject consistency as unknown
+  + reject missing consistency_evidence
+  + reject old quiescent_double_inventory token
+  + reject old and new fields together
+  + reject legacy enum type use at compile time by removing it
+  + perform no migration
+  = verify: strict JSON negative table and static absence
+
+& [P3ICER-008_UnchangedReceiptInvariants] is atomic
+  + preserve scanner profile, candidate root text, root identity, volume-GUID path grammar, admission profile and digest, policy digest, nonce, ordered digest, limits, entry count, total bytes, issued tick, expiry tick, and deadline relation
+  + preserve all fault classes outside selected field wording
+  + preserve caller-constructible form boundary
+  = verify: every existing receipt positive and negative fixture still passes after explicit fixture revision
+
+& [P3ICER-009_SnapshotReservation] is atomic
+  + retain OsSnapshotProven enum token
+  + reject it in TopologyReceipt 0.3 because snapshot provenance fields are absent
+  + require a later source for primitive identity, issuer, snapshot identity, acquisition binding, and consumer rules
+  + no conversion edge from repeated equality
+  = verify: exact semantic fault and no success fixture
+
+& [P3ICER-010_AuthorityAbsence] is atomic
+  + no physical producer, acquisition record, clock observation, receipt issuer, consumer ledger, mutation packet, admission, seal, or promotion surface
+  + pure caller construction remains non-evidentiary without external issuer proof
+  = verify: imports, dependencies, public API, and nonclaim documentation
+
+& [P3ICER-011_PureImplementation] is atomic
+  + production changes are limited to phase3_evidence.rs and topology_forms.rs
+  + change only constants, enum, import, field, validation, and local documentation
+  + Cargo.toml and Cargo.lock remain byte identical
+  + safe Rust only
+  = verify: diff boundary, static scan, and dependency audit
+
+& [P3ICER-012_FocusedProof] is atomic
+  + test both new enum tokens
+  + test all legacy shapes
+  + test valid receipt and reserved snapshot rejection
+  + rerun every prior form and receipt invariant
+  + add independent static production-vocabulary and purity check
+  + run debug and overflow-checked release
+
+& [P3ICER-013_GlobalClosure] is atomic
+  + complete workspace debug and overflow-checked release
+  + canonical format, warnings-denied lint, release build, warnings-denied docs, and dependency audit
+  + clone-portable evidence manifest and recursive dependency-first rehash
+  + solution, completion review, proof, narrative, reentry, rollback, commit, push, and clean tree
+
+& [P3ICER-014_SJSAndSignatures] is atomic
+  + complete every required SJS stage with separate artifacts
+  + phase lock all constraints after derived artifacts
+  + issue replacement authority explicitly superseding changed portions of ae44deed-29c7-4a6a-96d1-1a0091539575 and 0e2cfacb-8659-41c2-b804-0eb1b49ff5b2
+  + never treat scanner or seal formation signatures as implementation authority
+  + implementation begins only after exact artifact-bound replacement signatures
+
+& [RoleTable] is closed
+  + [caller] may construct pure values but cannot self-authorize evidence
+  + [future_acquirer] performs one actual complete inventory under later authority
+  + [future_repeater] binds two acquisition lineages and order under later authority
+  + [reconciler] compares complete commitments but proves no physical acquisition
+  + [future_issuer] substantiates receipt evidence under later authority
+  + [future_consumer] verifies issuer, freshness, lineage, and single use under later authority
+  + [pure_validator] checks syntax and internal relations only
+
+& [MeaningTable] is exact
+  + [supplied_equal] two supplied commitments compare equal; physical and time grades absent
+  + [non_atomic_repeated_inventory_equal] two actual complete ordered acquisitions compare equal; intermediate, later, and external change remain possible
+  + [os_snapshot_proven] identified platform snapshot provenance exists under later authority
+  + [quiescent] no selected value
+  + [stable] no selected value
+  + [unchanged] no selected value
+  + [safe] no selected value
+
+& [StateModel] is monotonic only through proof
+  + raw_source_preserved
+  + multi_authority_input_audited
+  + delineated_exploded
+  + refined_constrained_pruned
+  + exhaustion_and_data_design_closed
+  + justified_planned_registered
+  + phase_locked
+  + replacement_signed
+  + implemented
+  + proven
+  - no transition skips replacement_signed before implemented
+  - no transition grants physical authority
+
+& [FailureTable] is explicit
+  + [F01] old enum remains publicly constructible
+  + [F02] old token decodes through alias
+  + [F03] old field decodes through serde alias or default
+  + [F04] profiles fail to advance with changed JSON meaning
+  + [F05] OsSnapshotProven receipt succeeds without provenance
+  + [F06] supplied Equal is described as repeated physical evidence
+  + [F07] non-atomic evidence is called quiescent, stable, or unchanged
+  + [F08] one predecessor authority is omitted from supersession
+  + [F09] scanner profile changes and implies physical policy change
+  + [F10] unrelated receipt invariant drifts
+  + [F11] effect or dependency surface expands
+  + [F12] historical evidence is rewritten
+  + [F13] partial SJS is treated as code authority
+  + [F14] stale evidence is published
+
+& [AcceptanceTable] is exact
+  + [AC01] preserved source and all predecessor hashes match
+  + [AC02] new profiles and tokens are exact
+  + [AC03] all legacy shapes reject
+  + [AC04] valid new receipt round-trips and validates
+  + [AC05] snapshot receipt rejects at exact field
+  + [AC06] every unrelated invariant remains tested
+  + [AC07] production old vocabulary count is zero
+  + [AC08] Cargo and effect deltas are zero
+  + [AC09] focused and global gates pass in both profiles
+  + [AC10] recursive evidence and frozen manifests remain exact
+
+& [Traceability] is complete
+  + every P3ICER requirement originates in preserved source sections Problem, Purpose, SelectedMeaning, Phase3MachineFormsRevision, TopologyFormsRevision, LegacyRejection, UnchangedTopologyReceiptInvariants, ProducerBoundary, ConsumerBoundary, ImplementationScope, TestRequirements, MultiAuthorityRevision, Effects, StopConditions, and SourceBoundary
+  + no exploded requirement widens code or effect scope
+  + future producer and consumer requirements are constraints and deferrals, not implementation tasks
+
+& [ExhaustionEntry] is open
+  + semantic refinement, constraint ledger, pruning, seven-fold exhaustion, and data design remain separate artifacts
+  + implementation authority is absent
+  + physical authority is absent

@@ -1,0 +1,145 @@
+Subject: Cantor Phase3 Inventory Consistency Evidence Revision Seven-Fold Exhaustion
+
+Description: Unsigned SJS exhaustion review of the cross-module evidence-vocabulary repair. Seven independent folds challenge whether the selected names, profiles, rejection rules, ownership boundaries, faults, effects, and evolution behavior remain honest without importing a physical producer or consumer.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop
+@ [input_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\SJS_Processing_Input_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Inventory_Consistency_Evidence_Revision.exploded.sop
+@ [refinement] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Semantic_Refinement_2026-07-31.sop
+@ [constraints] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Constraint_Ledger_2026-07-31.sop
+@ [pruning] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Pruning_Growth_2026-07-31.sop
+
+& [ExhaustionIdentity] is exact
+  + [exhaustion_uuid] is 39eeb7ce-402c-4501-ad66-62813ecf4f92
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+  + [input_manifest_uuid] is b6ede1f9-c488-4646-877f-9c8e89f64f1f
+  + [fold_count] is 7
+  + [state] is seven_fold_phase_locked_unsigned
+
+& [Fold01_IdentityBoundary] asks what identity is being named
+  + [probe] separate evidence type identity, evidence variant identity, physical acquisition identity, receipt representation identity, issuer identity, and world-state identity
+  + InventoryConsistencyEvidence identifies a closed vocabulary of evidence grades, not a consistency state of the world
+  + NonAtomicRepeatedInventoryEqual identifies a lineage-dependent relation between two actual complete acquisitions
+  + the variant contains no acquisition identities and therefore cannot create that lineage by construction
+  + TopologyReceipt.consistency_evidence names the grade a later issuer must support, not the issuer or support itself
+  + receipt_profile identifies the current receipt representation and validation contract
+  + scanner_profile continues to identify the unchanged prospective scanner contract
+  + OsSnapshotProven identifies a reserved evidence kind but has no current receipt representation capable of carrying its provenance
+  + [edge_equal_supplied_digest_pair] is insufficient because operand equality is not actual acquisition identity
+  + [edge_same_physical_tree_at_one_instant] is insufficient because neither an instant nor atomic snapshot is observed by two ordinary walks
+  + [finding] every identity retains one role and no serialized enum value becomes an issuer, observation, or state fact
+
+& [Fold02_LinguisticTruth] asks what each public word may honestly imply
+  + [probe] compare quiescent, stable, unchanged, snapshot, atomic, repeated, inventory, equal, and evidence
+  + quiescent implies an absence or controlled cessation of relevant change that ordinary repeated walks cannot prove
+  + stable and unchanged imply a temporal continuity stronger than endpoint equality
+  + snapshot and atomic imply one indivisible observation boundary or platform primitive
+  + repeated means two actual acquisitions and therefore cannot be inferred from duplicated or caller-supplied values
+  + inventory means complete acquisition under a separately authorized producer contract, not any arbitrary digest carrier
+  + equal means the two exact canonical committed inventory subjects compare equal within one common scope
+  + evidence means inspectable support whose admissibility and lineage must still be checked by its consumer
+  + NonAtomic explicitly denies the snapshot, transaction, lock, and uninterrupted-interval implications
+  + [edge_change_then_restore] remains compatible with NonAtomicRepeatedInventoryEqual
+  + [edge_change_after_second_walk] remains compatible with NonAtomicRepeatedInventoryEqual
+  + [edge_external_writer] remains compatible even if a supervisor accounts for its own processes
+  + [finding] the replacement is the weakest honest current public machine phrase and preserves explicit nonclaims
+
+& [Fold03_AdversarialProvenance] asks how evidence could be laundered
+  + [probe_fabricated_form] caller constructs a valid TopologyReceipt and selects the admitted enum
+    - structural validation succeeds only as form validation; documentation and absent issuer API deny physical proof
+  + [probe_duplicated_carrier] caller supplies the same reconciliation carrier twice
+    - pure reconciliation may report Equal but no current conversion to repeated acquisition evidence exists
+  + [probe_old_json] caller submits consistency plus quiescent_double_inventory
+    - deny through strict unknown-field and closed-enum decoding
+  + [probe_dual_fields] caller submits both consistency and consistency_evidence
+    - deny because consistency remains unknown under deny_unknown_fields
+  + [probe_snapshot_token] caller selects os_snapshot_proven without snapshot lineage
+    - structural enum validation alone passes, but TopologyReceipt semantic validation rejects at consistency_evidence
+  + [probe_old_profile_new_field] caller changes only the field while retaining receipt 0.2
+    - exact receipt profile rejects
+  + [probe_new_profile_old_token] caller changes only the profile
+    - strict enum decoding rejects before semantic validation
+  + [probe_historical_artifact] preserved proof contains the old token
+    - historical bytes remain inspectable but are never automatically decoded as current authority
+  + [finding] strict replacement, no conversion, and issuer absence block every examined provenance-laundering route
+
+& [Fold04_DataOwnershipAndCardinality] asks what the two pure modules can own and prove
+  + InventoryConsistencyEvidence is one closed Copy value with exactly two variants
+  + TopologyReceipt owns exactly one consistency_evidence value in the same semantic position as the removed field
+  + the enum owns no acquisition record, snapshot record, issuer signature, clock, or policy proof
+  + the receipt retains every existing scalar, identity, limits, digest, nonce, and tick field unchanged
+  + semantic validation borrows the receipt and returns no newly owned proof object
+  + successful validation does not enrich, replace, sign, or persist the caller-owned receipt
+  + failure releases one bounded atomic TopologyFormFault and no partial receipt
+  + [edge_zero_evidence_fields] strict deserialization rejects missing consistency_evidence
+  + [edge_two_evidence_fields] impossible in the Rust struct and rejected in old-plus-new JSON
+  + [edge_extra_variant] impossible without source and enum change
+  + [finding] representation cardinality stays one evidence label while proof cardinality remains zero inside this revision
+
+& [Fold05_FaultAndControlFlow] asks whether every invalid form fails at the right boundary
+  + malformed JSON, unknown legacy field, missing new field, dual fields, and old token are Json faults
+  + exact structural decode occurs before semantic receipt validation
+  + receipt profile 0.2 reaches a bounded Receipt fault at receipt_profile only when otherwise decodable current JSON is constructed
+  + OsSnapshotProven reaches a bounded Receipt fault at consistency_evidence
+  + NonAtomicRepeatedInventoryEqual proceeds to all unchanged receipt invariants in their established deterministic order
+  + evidence grade failure never falls back to a weaker or older value
+  + no fault carries a receipt, acquisition, reconciliation result, physical observation, or partial success
+  + a failed validation does not mutate caller data or global state
+  + [edge_snapshot_plus_other_invalid_field] deterministic existing validation order remains canonical; tests target an otherwise valid snapshot receipt for exact attribution
+  + [edge_legacy_profile_raw_json] malformed representation is Json; semantically wrong current-shaped profile is Receipt, preserving parser-versus-validator separation
+  + [finding] fault taxonomy stays atomic and the revision introduces no repair or migration control flow
+
+& [Fold06_EffectAndThreatSurface] asks what execution can observe or change
+  + enum serialization and deserialization operate only on supplied in-memory values
+  + ValidatePhase3 for InventoryConsistencyEvidence performs closed structural validation only
+  + TopologyReceipt validation reads supplied fields and applies bounded pure predicates
+  + no physical acquisition, filesystem access, Windows API, process observation, clock read, randomness, network, persistence, database, Git runtime, model, tool, fixture, mutation, seal, cleanup, or promotion is invoked
+  + no unsafe block, handle, pointer, external dependency, thread, lock, callback, or effect-bearing constructor is added
+  + Cargo.toml and Cargo.lock remain byte identical
+  + [edge_claim_by_type_name] machine vocabulary can still mislead a consumer; direct rustdoc nonclaims and static vocabulary tests are therefore required security controls
+  + [edge_denial_of_service] no new variable-sized payload or recursion is introduced
+  + [edge_false_assurance] reserved snapshot value is fail-closed at the only revised receipt consumer
+  + [finding] the slice reduces semantic threat surface while leaving operational effect surface exactly zero
+
+& [Fold07_EvolutionAndCompatibility] asks how the replacement behaves under future work
+  + machine forms 0.1, topology forms 0.2, and receipt 0.2 fail current exact-profile validation rather than migrate
+  + compiled callers using ConsistencyClass or consistency fail at compile time and must make a conscious semantic change
+  + serialized callers using old field or token fail at decode and must make a conscious schema change
+  + OsSnapshotProven remains available for future source expansion but current receipt rejection prevents premature use
+  + future snapshot support requires exact provenance fields, primitive, producer, issuer, proof, profile revision, and replacement authority
+  + future supervisor-quiesced evidence requires a newly named variant and explicit external-writer nonclaims
+  + future M2C may consume pure reconciliation only as a subordinate equality edge beside two actual acquisition lineages
+  + future receipt issuance must remain distinct from public form construction and validation
+  + rollback restores two modules and their tests without migration because no live producer or persisted consumer exists
+  + [edge_historical_proof] retained old artifacts continue to mean what their then-current signatures declared; no retroactive reinterpretation occurs
+  + [finding] compatibility fails closed at compile, decode, and profile boundaries while history remains immutable
+
+& [CrossFoldConvergence] is explicit
+  + Fold01 role-separated identity supports Fold02 precise language and prevents Fold03 provenance laundering
+  + Fold02 non-atomic wording makes Fold06 absence of physical effects visible in the machine token itself
+  + Fold03 strict replacement is implementable with Fold04 one-field cardinality and Fold05 parser-versus-validator faults
+  + Fold04 zero embedded provenance explains why Fold03 issuer absence and snapshot rejection are mandatory
+  + Fold05 atomic failure preserves Fold01 identity boundaries instead of coercing one grade into another
+  + Fold06 zero effects keeps Fold04 ownership pure and forces future physical meaning into Fold07 separate authority
+  + Fold07 fail-closed evolution protects every prohibition established by Folds01 through 06
+
+& [ResidualQuestions] are dispositioned
+  + [Q1_should_the_weak_variant_be_only_RepeatedInventoryEqual] no because atomicity denial is a material public boundary
+  + [Q2_should_OsSnapshotProven_be_removed_until_implemented] no because source deliberately preserves the prior evidence lattice, while receipt rejection prevents admission
+  + [Q3_should_enum_validation_reject_OsSnapshotProven] no because the enum describes vocabulary; the receipt describes current admissibility
+  + [Q4_should_TopologyReceipt_be_output_only] no because that would conflate pure form construction with later issuer proof and exceed this slice
+  + [Q5_should_old_json_be_migrated] no because no live producer or persisted consumer is evidenced and reinterpretation would be semantically unsafe
+  + [Q6_should_scanner_profile_change] no because no scanner behavior changes and form schema identity is already independently revised
+  + [Q7_should_equal_supplied_reconciliation_construct_the_grade] no because actual repeated physical acquisition is an independent prerequisite
+
+& [PhaseLock] is reached
+  + all seven folds converge on evidence vocabulary rather than world-state vocabulary
+  + all seven folds converge on exact NonAtomicRepeatedInventoryEqual meaning and explicit nonclaims
+  + all seven folds converge on reserved but currently inadmissible OsSnapshotProven
+  + all seven folds converge on strict legacy rejection without alias or migration
+  + all seven folds converge on two pure existing modules, zero dependencies, and zero effects
+  + all seven folds converge on form validity remaining distinct from acquisition and issuer proof
+  + all seven folds converge on separate future authority for producers, consumers, snapshots, and operational work
+  + [unresolved_material_question] is none inside the selected slice
+  + [implementation_authority] is absent pending data design and remaining signed artifacts
+  + [physical_authority] is absent

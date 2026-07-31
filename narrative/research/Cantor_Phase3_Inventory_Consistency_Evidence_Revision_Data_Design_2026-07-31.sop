@@ -1,0 +1,213 @@
+Subject: Cantor Phase3 Inventory Consistency Evidence Revision Data Design
+
+Description: Unsigned Data-Driven Design quality-gate record for the cross-module evidence-vocabulary repair. It fixes data identities, representations, ownership, relations, cardinality, validation states, provenance boundaries, versioning, and failure behavior before canonical authority.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop
+@ [input_manifest] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_inventory_consistency_evidence_revision\SJS_Processing_Input_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Inventory_Consistency_Evidence_Revision.exploded.sop
+@ [refinement] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Semantic_Refinement_2026-07-31.sop
+@ [constraints] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Constraint_Ledger_2026-07-31.sop
+@ [exhaustion] C:\Project\Cantor\narrative\research\Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Seven_Fold_Exhaustion_2026-07-31.sop
+
+& [DesignIdentity] is exact
+  + [design_uuid] is 044b7e4b-fcb5-4c3d-9b8c-764a96863db8
+  + [source_snapshot_uuid] is 4625e9c8-0dbd-4c18-a818-e42df71735bc
+  + [input_manifest_uuid] is b6ede1f9-c488-4646-877f-9c8e89f64f1f
+  + [state] is data_design_checked_unsigned
+
+& [ConceptualModel] distinguishes label, support, form, and proof
+  + InventoryConsistencyEvidence is a closed semantic label for the kind of support a future issuer claims to possess
+  + NonAtomicRepeatedInventoryEqual is the weakest selected label for two actual complete ordered acquisitions whose comparable canonical commitments are equal
+  + OsSnapshotProven is a reserved stronger label whose provenance representation is not yet defined
+  + TopologyReceipt is a pure caller-constructible form containing exactly one evidence label among its existing bounded claims
+  + receipt validation proves syntax and internal relations only
+  + a future acquisition envelope must own the two actual acquisition lineages
+  + a future issuer proof must bind the acquisition envelope, equality evidence, receipt content, and issuer authority
+  + a future consumer decision must independently check issuer, freshness, single-use, policy, and current operational preconditions
+
+& [DataIdentities] remain role separated
+  + [machine_forms_schema_identity] is cantor-phase3-machine-forms/0.2
+  + [topology_forms_schema_identity] is cantor-phase3-topology-forms/0.3
+  + [topology_receipt_schema_identity] is cantor-phase3-topology-receipt/0.3
+  + [scanner_contract_identity] remains cantor-windows-candidate-topology/0.1
+  + [evidence_type_identity] is the Rust and schema name InventoryConsistencyEvidence
+  + [weak_evidence_value_identity] is NonAtomicRepeatedInventoryEqual plus non_atomic_repeated_inventory_equal
+  + [reserved_snapshot_value_identity] is OsSnapshotProven plus os_snapshot_proven
+  + [receipt_field_identity] is consistency_evidence
+  + [physical_acquisition_identity] is absent from current data and cannot equal a digest, nonce, tick, or enum value
+  + [issuer_identity] is absent from current data and cannot equal public form construction
+  + [world_state_identity] is never represented by either current enum variant
+
+& [LogicalSchemaDelta] is closed
+  + remove ConsistencyClass with variants QuiescentDoubleInventory and OsSnapshotProven
+  + add InventoryConsistencyEvidence with variants NonAtomicRepeatedInventoryEqual and OsSnapshotProven
+  + replace TopologyReceipt.consistency of ConsistencyClass with consistency_evidence of InventoryConsistencyEvidence
+  + change exactly three schema profile constants to their selected revisions
+  + preserve WINDOWS_TOPOLOGY_PROFILE and every other type, field, order, relation, constant, and visibility
+  + add no acquisition, snapshot, issuer, consumer, migration, or effect record
+
+& [InventoryConsistencyEvidenceRepresentation] is exact
+  + Rust derives Clone, Copy, Debug, PartialEq, Eq, Serialize, and Deserialize
+  + serde rename_all is snake_case
+  + serialized NonAtomicRepeatedInventoryEqual is exactly non_atomic_repeated_inventory_equal
+  + serialized OsSnapshotProven is exactly os_snapshot_proven
+  + deserialization accepts exactly those two strings
+  + ValidatePhase3 is a pure total function over the closed enum and returns Ok for either structural value
+  + no Default, Unknown, Other, alias, type synonym, string parser, From, Into, or fallback exists
+  + the value has fixed enum cardinality and owns no variable-sized payload
+
+& [TopologyReceiptRepresentation] remains bounded
+  + receipt_profile is one bounded exact schema string
+  + scanner_profile is one bounded exact scanner-contract string
+  + candidate_root is bounded nonempty NUL-free caller text without a physical-canonicality claim
+  + root_identity is one StrongFileIdentity
+  + root_volume_guid_path is one syntactically canonical volume GUID path
+  + admission_profile, admission_receipt_sha256, policy_sha256, scan_nonce, and ordered_inventory_sha256 remain required
+  + limits is one complete TopologyScanLimits value
+  + entry_count and total_file_bytes remain bounded u64 summaries
+  + consistency_evidence is one required InventoryConsistencyEvidence value
+  + issued_tick and expires_tick remain supplied u64 relation values without a clock observation in validation
+  + field ordering changes only by replacing the evidence field in its existing semantic position
+
+& [OwnershipModel] is pure and caller controlled
+  + a caller constructs or deserializes InventoryConsistencyEvidence and TopologyReceipt values
+  + strict serde owns decoded strings and nested values exactly as before
+  + ValidatePhase3 borrows an evidence value immutably
+  + ValidateTopologyForm borrows a receipt immutably
+  + successful validation returns unit and does not wrap, stamp, sign, or consume the receipt
+  + failed validation returns one owned bounded fault and leaves the borrowed value unchanged
+  + no global, persistent, thread-local, platform, or external owner is introduced
+
+& [Cardinality] is exact
+  + InventoryConsistencyEvidence has exactly two representable variants
+  + a TopologyReceipt has exactly one required consistency_evidence field
+  + a valid TopologyReceipt 0.3 admits exactly one of the two representable variants
+  + NonAtomicRepeatedInventoryEqual is the one admitted current receipt grade
+  + OsSnapshotProven is representable but contributes zero valid current receipt instances
+  + a receipt has zero embedded acquisition lineages, snapshot proofs, issuer proofs, or consumption decisions
+  + a validation result has either unit success or exactly one atomic fault
+
+& [EvidenceRelationModel] is explicit
+  + NonAtomicRepeatedInventoryEqual semantically depends on two distinct actual complete acquisitions
+  + the first acquisition completes before the second begins or another separately specified precise acquisition order is proven
+  + both acquisitions share exact scanner, encoding, limits, root, policy, and comparison scope
+  + each acquisition retains independent lineage and passes its own current rederivation
+  + exact pure reconciliation disposition is Equal
+  + none of those support edges is stored in this revision's enum or receipt
+  + therefore enum selection and receipt validation never derive the evidence relation
+  + a future issuer must introduce explicit data edges rather than treat the label as self-authentication
+
+& [SnapshotRelationModel] is fail closed
+  + OsSnapshotProven semantically depends on an identified platform snapshot primitive and exact provenance
+  + no current field identifies the primitive, snapshot, creation event, mounted view, producer, lifetime, or acquisition relation
+  + current receipt validation therefore rejects the value regardless of all other fields
+  + no implicit downgrade converts OsSnapshotProven to NonAtomicRepeatedInventoryEqual
+  + no future consumer may infer snapshot proof from enum structural validity
+
+& [ValidationPipeline] preserves deterministic order
+  + strictly deserialize a current-shaped receipt or release Json
+  + require exact receipt_profile 0.3
+  + require unchanged exact scanner_profile 0.1
+  + validate candidate_root, root identity, and volume GUID path
+  + validate admission profile, digests, nonce, and scan limits
+  + require entry_count nonzero and at most maximum_entries
+  + require total_file_bytes at most maximum_total_bytes
+  + require consistency_evidence equal NonAtomicRepeatedInventoryEqual
+  + require issued_tick less than expires_tick
+  + require expires_tick at or before limits.deadline_tick
+  + release unit success only after every predicate passes
+
+& [StateMachine] is finite
+  + [Encoded] transitions to Decoded or JsonFault
+  + [Decoded] transitions to ProfileValid or ReceiptFault
+  + [ProfileValid] transitions through unchanged bounded field-validation states or their established faults
+  + [CountsValid] transitions to EvidenceAdmissible or ReceiptFault at consistency_evidence
+  + [EvidenceAdmissible] transitions through unchanged tick relations or ReceiptFault
+  + [RelationsValid] transitions to StructurallyValid exactly once
+  + JsonFault, ReceiptFault, and StructurallyValid are terminal for one invocation
+  + no migration, retry, fallback, repair, issuance, persistence, or consumption transition exists
+
+& [LegacyRejectionMatrix] is data complete
+  + receipt profile 0.2 in otherwise current-shaped data decodes and fails Receipt at receipt_profile
+  + field consistency is unknown and fails strict JSON decoding
+  + absent consistency_evidence fails strict JSON decoding
+  + value quiescent_double_inventory fails closed-enum JSON decoding
+  + simultaneous consistency and consistency_evidence fails unknown-field JSON decoding
+  + old Rust type and variant names fail compilation rather than produce runtime data
+  + historical artifacts are not current decoder inputs and retain their original byte identity
+
+& [FaultRelations] preserve atomicity
+  + malformed schema shapes and legacy field or token failures map to Json
+  + wrong current-shaped receipt profile maps to Receipt with field receipt_profile
+  + reserved snapshot value maps to Receipt with field consistency_evidence
+  + unchanged nested validations preserve their existing fault codes and fields
+  + exactly one earliest fault is released for one validation call
+  + no fault embeds a partial receipt, evidence support, acquisition, reconciliation, or physical observation
+  + diagnostic field and message remain within existing bounded construction rules
+
+& [SerializationAndRoundTripModel] is strict
+  + new valid receipt JSON contains consistency_evidence and never consistency
+  + new valid receipt JSON contains non_atomic_repeated_inventory_equal and never quiescent_double_inventory
+  + current receipt serialization followed by strict deserialization preserves complete structural equality
+  + enum serialization followed by deserialization preserves either exact variant
+  + round-trip equality proves representation stability only and never acquisition or issuer provenance
+
+& [VersionAndCompatibilityModel] is fail closed
+  + each changed machine representation receives an exact new profile
+  + unchanged scanner behavior retains its exact existing profile
+  + no prefix matching, range matching, aliases, defaults, migrations, or compatibility shims exist
+  + source callers must revise old Rust names explicitly
+  + data callers must revise old profile, field, and token explicitly
+  + predecessor proofs remain immutable historical authorities and are superseded only for current implementation meaning by replacement signatures
+
+& [ResourceModel] has zero material growth
+  + enum payload size remains fixed and contains no heap allocation
+  + receipt field count and variable-sized payload count remain unchanged
+  + validation performs constant additional comparison work only
+  + no new collection, recursion, canonical buffer, digest computation, clone, database row, or persistent object exists
+  + existing field and diagnostic bounds remain authoritative
+
+& [EffectModel] is empty
+  + all transforms are supplied-value serde, comparison, and pure validation
+  + no unsafe, platform call, filesystem, process, environment, clock, randomness, network, persistence, database, Git runtime, model, tool, physical fixture, mutation, seal, cleanup, or promotion effect exists
+  + Cargo.toml and Cargo.lock remain byte identical
+  + no public effect-bearing entry point is created
+
+& [ProvenanceModel] is layered
+  + enum structural validity proves membership in a vocabulary only
+  + receipt structural validity proves current syntax and internal relations only
+  + NonAtomicRepeatedInventoryEqual meaning requires later explicit acquisition and equality support
+  + OsSnapshotProven meaning requires later explicit platform snapshot support
+  + issuer authority requires later explicit construction and proof
+  + consumption and admission require later explicit policy, freshness, and single-use checks
+  + no higher layer can be inferred from a lower layer without a separately authorized edge
+
+& [DataQualityRules] are testable
+  + exact profile constants match the three selected revisions and one unchanged scanner profile
+  + enum cardinality and serialization tokens are exact
+  + old public vocabulary is absent from production Rust
+  + current valid receipt round-trips exactly
+  + all five legacy JSON shapes fail at their specified boundary
+  + OsSnapshotProven fails receipt validation at the exact field and code
+  + every unrelated receipt positive and negative invariant remains unchanged
+  + production diff touches exactly two modules and no dependency manifests
+
+& [DataRisks] are controlled
+  + state-claim inflation is controlled by evidence type and field names
+  + atomicity inflation is controlled by the NonAtomic token
+  + provenance laundering is controlled by absent conversions and explicit layer boundaries
+  + snapshot inflation is controlled by current receipt rejection
+  + legacy reinterpretation is controlled by strict decode and exact profiles
+  + schema drift is controlled by replacement signatures and static fixtures
+  + operational expansion is controlled by the zero-effect and two-module limits
+
+& [DataDesignGate] passes
+  + identity, ownership, cardinality, ordering, representation, and relations are explicit
+  + validation and fault state transitions are finite and deterministic
+  + legacy schema and current schema cannot be confused
+  + evidence, form, producer, issuer, and consumer provenance remain separate
+  + resource and effect growth are exactly bounded
+  + all C01 through C24 constraints reapply without collision
+  + [unresolved_data_question] is none inside the selected slice
+  + [implementation_authority] is absent pending canonical authority and replacement signatures
+  + [physical_authority] is absent
