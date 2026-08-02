@@ -1,0 +1,43 @@
+Subject: Cantor Embodied Agent Identity And Binding SJS Processing Input Manifest
+
+& [ManifestIdentity] is exact
+  + [manifest_uuid] is 4949e223-1329-4d05-8d5d-f6a1999518ff
+  + [processing_protocol_uuid] is 1c57c949-864a-4b99-a671-816274c10f60
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [created_at] is 2026-08-02T14:58:11.543-05:00
+  + [candidate_profile] is cantor-embodied-agent-identity-binding/0.1
+  + [status] is corrected_inputs_bound_for_SJS_unsigned
+
+& [PreservedInputs] are byte bound
+  + [base_source_snapshot_uuid] is 179d6fef-3fe6-4abb-849f-f74ec71d6cf3
+  + [base_source_sha256] is 639C89123C750638730DB60BB7A29B4702D1B92F6DF7C75051D3AE0CDBF417E0
+  + [base_source_bytes] is 14243
+  + [base_manifest_sha256] is FE6BDC8A1B492C2BE9E6B5C4C02959EC8C592F94F6AE8065EBE6522DF5FD6C7D
+  + [revision_source_snapshot_uuid] is 65388d84-e6e1-4f34-8e22-3068eb32e83b
+  + [revision_source_sha256] is 874C08FF53D19AE999B4E90F40C75CBC18B3A8B4B4F135B2479E430AD4BAD4AE
+  + [revision_source_bytes] is 10460
+  + [revision_manifest_sha256] is D94604AAC547CF17041790A4568490419A0D48D9840D13173373ECDEB1036ECE
+
+& [FaultAndAuditInputs] are exact
+  + [blocking_audit_sha256] is 051B718C2CD8A4F6B86F0707B5D6320B2E4C7D6E2D8803886867433F5A209575
+  + [identity_state_fault_uuid] is e33153f9-5a20-4d06-abdb-633ba62be016
+  + [identity_state_fault_sha256] is 7B93ED5485A30CCB7497C10D78EBA95D97D19CD3EC9AD5D6CA395C3099C559BC
+
+& [CantorAuthorityInputs] are exact at intake
+  + [resident_service_sha256] is 3C8FFA3B822A69817FEF7DB0ECEF8775CEED5C84D21E8E88B79DFEB4AF38E6FC
+  + [supervised_mock_loop_sha256] is C8ECD5152C66D6C024F9E784AB30B7BC58CAAF2A8AF2644BFC1520100DF530A6
+  + [transportable_state_sha256] is 0B14C9DF0F708E76CAC8B6A421542C8F003938B8FB9C6F2809C4297D514D32F6
+  + [implemented_ecosystem_model_sha256] is 3A7DFE4F361AECABC8F51F6954921B76F15EA82281BD35668D47BFB8AEE97B6D
+  + [implemented_prepared_runtime_sha256] is 28D7FA970441361CF0596AB7798BB599E512B85F731D2989526F98AB437ED830
+
+& [GovernanceInputs] are exact at intake
+  + [SJS_sha256] is CF41434A6A76F9A72EB9BB6E5C891909F6054367761D850EF160DE2441A60083
+  + [data_driven_design_sha256] is 9034892F28AF555C950307A58C05B6E62028DCA5E9EAAE245E74E7AFD538EDCA
+  + [feature_requirement_support_sha256] is 0D9B020BEE4E6A70108BFE6C2918025332457C67BD3C770DD7C9C953FDB53580
+
+& [ProcessingRule] is fail closed
+  + derived artifacts bind both source snapshots, both manifests, the blocking fault, and the prior audit
+  + the corrected input audit cites this manifest as its exact input set
+  + any input-byte change invalidates this manifest and requires a new processing input
+  + original and corrective sources remain separate
+  - never: infer canonical, implementation, execution, environment, or effect authority from this manifest

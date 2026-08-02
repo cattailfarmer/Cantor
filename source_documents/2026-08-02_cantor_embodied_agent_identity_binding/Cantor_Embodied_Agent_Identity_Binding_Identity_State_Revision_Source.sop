@@ -1,0 +1,153 @@
+Subject: Cantor Embodied Agent Identity And Binding Identity State Revision Source
+
+Description: Corrective source preserving the base CEA-001 intention while separating stable identity keys, immutable definition revisions, and ordered lifecycle snapshots before SJS explosion.
+
+@ [base_source] C:\Project\Cantor\source_documents\2026-08-02_cantor_embodied_agent_identity_binding\Cantor_Embodied_Agent_Identity_Binding_Source.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_Embodied_Agent_Identity_Binding_SJS_Input_Audit_2026-08-02.sop
+@ [fault] C:\Project\Cantor\narrative\operational_faults\1785700579530_cantor_embodied_agent_identity_state_collision_fault.sop
+
+& [SourceIdentity] is corrective and unprocessed
+  + [source_uuid] is 2058c5a4-173c-453a-a170-17b36159b830
+  + [source_snapshot_uuid] is 65388d84-e6e1-4f34-8e22-3068eb32e83b
+  + [base_source_snapshot_uuid] is 179d6fef-3fe6-4abb-849f-f74ec71d6cf3
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-08-02T14:56:19.527-05:00
+  + [candidate_profile] is cantor-embodied-agent-identity-binding/0.1
+  + [state] is preserved_before_SJS_reprocessing
+  + [implementation_authority] is absent
+
+& [CorrectionPrinciple] is identity, definition, and state separation
+  + a stable key answers which continuing subject is referenced
+  + an immutable revision answers which exact purpose, program, policy, or endpoint definition applies
+  + an immutable snapshot answers what lifecycle and cursor state was accepted at one transition position
+  + an ordered transition answers how one snapshot lawfully followed another
+  = must: bind each record to its exact profile and content digest when later canonicalized
+  - never: place a normally mutable field in a stable key
+
+& [StableKeySet] contains only durable coordinates
+  + [AgentKey] contains one nonzero agent_uuid
+  + [EnvironmentKey] contains one nonzero environment_uuid
+  + [EndpointKey] contains one EnvironmentKey and one nonzero endpoint_uuid
+  + [SessionKey] contains one nonzero session_uuid
+  + [ProviderJobKey] contains one disposable provider_job_uuid for attribution only
+  = must: compare complete keys exactly
+  = must: treat UUID uniqueness as a registration obligation rather than proof contained by the value
+  - never: infer purpose, program, authority, availability, physical existence, lifecycle, or effect capability from a key
+
+& [AgentDefinitionRevision] is immutable configured meaning for one AgentKey
+  + [definition_revision_uuid] is immutable identity
+  + [agent_key] is one AgentKey
+  + [predecessor_definition_digest] is absent for the first revision or binds the prior complete revision
+  + [purpose_contract_digest] identifies the admitted purpose and completion boundary
+  + [program_set_digest] identifies the admitted Cantor program set
+  + [maximum_authority_digest] identifies the ceiling available for later projection
+  + [created_from] identifies commissioning or registration lineage
+  + [definition_digest] binds the complete canonical revision content
+  = must: create a new revision for every purpose, program, or maximum-authority change
+  - never: mutate an accepted definition revision in place
+
+& [AgentRuntimeSnapshot] is immutable accepted state for one AgentKey
+  + [agent_snapshot_uuid] is immutable identity
+  + [agent_key] is one AgentKey
+  + [definition_digest] identifies one exact AgentDefinitionRevision
+  + [predecessor_snapshot_digest] is absent for the first snapshot or identifies the prior accepted snapshot
+  + [transition_sequence] is zero for the first snapshot and increases exactly by one
+  + [lifecycle] is active, suspended, retired, or faulted
+  + [semantic_state_cursor] is one immutable SemanticStateCursor
+  + [episode_cursor] is optional immutable EpisodeCursor
+  + [active_session_key] is absent or identifies one nonterminal SessionSnapshot lineage
+  + [snapshot_digest] binds the complete canonical snapshot content
+  = must: reject forks under one single-writer transition lineage unless a later branch policy is separately signed
+  = must: reject any snapshot whose definition, predecessor, sequence, cursor, or active session does not resolve coherently
+
+& [EnvironmentRevision] is immutable configured environment meaning
+  + [environment_revision_uuid] is immutable identity
+  + [environment_key] is one EnvironmentKey
+  + [predecessor_environment_digest] is absent or binds the prior revision
+  + [environment_profile] is one versioned provider-neutral contract
+  + [adapter_profile_digest] binds the adapter contract version
+  + [instance_descriptor_digest] binds the configured environment instance description
+  + [authority_domain_digest] binds the environment policy domain
+  + [environment_revision_digest] binds complete canonical content
+  = must: create a new revision after any adapter, instance, profile, or policy change
+
+& [EndpointRevision] is immutable configured endpoint meaning
+  + [endpoint_revision_uuid] is immutable identity
+  + [endpoint_key] is one EndpointKey
+  + [environment_revision_digest] identifies the exact containing environment revision
+  + [predecessor_endpoint_digest] is absent or binds the prior endpoint revision
+  + [endpoint_generation] is a positive adapter-declared generation coordinate
+  + [endpoint_kind] is a closed adapter-declared semantic kind
+  + [adapter_locator_digest] is an opaque adapter-resolved locator
+  + [sharing_policy] is exclusive, shared_read_only, or adapter_governed
+  + [endpoint_revision_digest] binds complete canonical content
+  = must: make reset or replacement a new endpoint revision even when EndpointKey remains stable
+  - never: use endpoint generation or revision as proof of current availability or physical control
+
+& [SessionSnapshot] is immutable accepted binding state for one SessionKey
+  + [session_snapshot_uuid] is immutable identity
+  + [session_key] is one SessionKey
+  + [agent_key] is one AgentKey
+  + [agent_definition_digest] binds one exact AgentDefinitionRevision
+  + [environment_revision_digest] binds one exact EnvironmentRevision
+  + [endpoint_revision_digest] binds one exact EndpointRevision
+  + [authority_projection_digest] is no broader than agent maximum authority and environment policy
+  + [purpose_projection_digest] is no broader than the agent purpose
+  + [predecessor_session_key] is absent for first binding or identifies the prior terminal or suspended session being resumed or replaced
+  + [predecessor_snapshot_digest] is absent for the first session snapshot or identifies the prior snapshot of this session
+  + [transition_sequence] is zero for proposed and increases exactly by one inside the session
+  + [lifecycle] is proposed, bound, suspended, released, expired, or faulted
+  + [snapshot_digest] binds the complete canonical snapshot content
+  = must: create a new SessionKey for every resume from another session
+  = must: reject changed agent, environment, endpoint, purpose, authority, or predecessor coordinates within one SessionKey
+  = must: reject lifecycle forks and every undeclared transition
+  - never: treat a SessionSnapshot as adapter availability, exclusive ownership, or physical binding proof
+
+& [ImmutableCursorCorrection] removes mutable disposition
+  + [SemanticStateCursor] is state_uuid, fabric_digest, projection_digest, and transition_position only
+  + [EpisodeCursor] is episode_uuid, last_committed_event_uuid, and episode_digest only
+  + whether a cursor is selected, replaced, invalidated, or closed is represented by an AgentRuntimeSnapshot transition or later episode authority
+  = must: keep cursor bytes immutable after construction
+  - never: update a disposition field on a cursor in place
+
+& [BindingClaimCorrection] references exact state rather than nesting it
+  + [claim_uuid] is immutable identity
+  + [agent_key] and [agent_snapshot_digest] identify the exact proposing agent state
+  + [environment_key] and [environment_revision_digest] identify the exact environment configuration
+  + [endpoint_key] and [endpoint_revision_digest] identify the exact endpoint configuration
+  + [proposed_session_key] and [proposed_session_snapshot_digest] identify the exact proposed binding state
+  + [requested_mode] is bind_new, resume_from_predecessor, suspend, release, or expire
+  + [proof_refs] remain caller-supplied evidence only
+  = must: reject stale or cross-lineage revision and snapshot references
+  - never: copy mutable embedded records into a claim and later interpret the copies as current
+
+& [TransitionRecord] makes lifecycle movement explicit
+  + [transition_uuid] is immutable identity
+  + [subject_key] is one AgentKey or SessionKey
+  + [from_snapshot_digest] is absent only for initial formation
+  + [to_snapshot_digest] is the exact new immutable snapshot
+  + [transition_kind] is one closed transition allowed by the base source
+  + [causation_ref] identifies the accepted request or prior event
+  + [authority_ref] identifies the authority used for admission
+  + [proof_refs] identify validation evidence without proving physical effect
+  = must: validate predecessor, exact sequence, subject continuity, transition kind, and authority containment atomically
+
+& [UnchangedBoundary] preserves the base intention
+  + candidate profile and CEA1-001 through CEA1-014 identifiers remain unchanged
+  + agent continuity remains independent of provider, process, host, model, and embodiment
+  + shared immutable Cantor generations and isolated per-agent and per-session state remain required
+  + ClaimOnly remains distinct from admission, physical binding, endpoint availability, exclusive ownership, and effect capability
+  + resume still creates a new predecessor-linked session
+  + all Minecraft-specific types, environment I/O, model calls, storage, clock, adapter, registry, episode, learning, population, and effect work remain excluded
+
+& [CorrectionGovernance] is fail closed
+  + the base source remains immutable and visible as historical input
+  + later derived artifacts must bind both source snapshots and the identity-state collision fault
+  + no explosion or satisfaction signature may treat the base source's combined identity records as canonical
+  + [SJS_status] is unprocessed_revision
+  + [implementation_authority] is absent
+  + [execution_authority] is absent
+  + [environment_effect_authority] is absent
+  - never: silently edit the base source
+
+& [Next] is exact revision manifest and corrected multi-authority SJS input audit

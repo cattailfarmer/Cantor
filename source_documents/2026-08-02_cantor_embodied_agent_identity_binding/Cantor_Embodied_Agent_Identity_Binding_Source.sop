@@ -1,0 +1,183 @@
+Subject: Cantor Embodied Agent Identity And Binding Source
+
+Description: Verbose source selected from the Minecraft embodied-agent architecture intake. It defines the smallest provider-neutral identity and lifecycle boundary needed for many logical Cantor agents to bind, release, suspend, and resume replaceable environment embodiments without yet observing or affecting a game.
+
+@ [origin_source] C:\Project\Cantor\source_documents\2026-08-01_cantor_minecraft_embodied_agents\Dictated_Cantor_Minecraft_Embodied_Agents_Source.sop
+@ [architecture_selection] C:\Project\Cantor\narrative\research\Cantor_Minecraft_Embodied_Agents_Architecture_Intake_2026-08-02.sop
+
+& [SourceIdentity] is exact
+  + [source_snapshot_uuid] is 179d6fef-3fe6-4abb-849f-f74ec71d6cf3
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-08-02T14:52:36.911-05:00
+  + [candidate_profile] is cantor-embodied-agent-identity-binding/0.1
+  + [source_kind] is architecture_selected_verbose_source
+  + [SJS_status] is unprocessed
+  + [implementation_authority] is absent
+  + [execution_authority] is absent
+  + [environment_effect_authority] is absent
+
+& [Purpose] is stable identity across replaceable reasoning and embodiment
+  + dozens or more logical game agents may use one resident Cantor service while preserving distinct identity, purpose, state, history, authority, and reentry
+  + one logical agent may replace its inference provider without becoming a different agent
+  + one logical agent may release, suspend, or resume an environment entity without confusing the entity, session, or agent identities
+  + later observation, action, episode, skill, and experiment contracts need exact identity and cursor references
+  = must: make every identity and transition inspectable, serializable, bounded, and provider neutral
+  - never: use model context, process ID, player name, entity handle, network connection, or current body as the sole durable agent identity
+
+& [EmbodiedAgentIdentity] is one stable logical Cantor agent
+  + [agent_uuid] is immutable nonzero durable identity
+  + [logical_name] is a bounded display and addressing label rather than authority
+  + [purpose_contract_digest] identifies the exact admitted purpose and completion boundary
+  + [program_set_digest] identifies the exact admitted Cantor program set
+  + [authority_projection_digest] identifies the maximum currently admitted semantic and future-effect scope
+  + [created_from] identifies the commissioning or registration lineage
+  + [lifecycle] is active, suspended, retired, or faulted
+  = must: remain stable when provider job, process, host, model, or embodiment changes
+  = must: reject unknown fields, empty names, zero identities, invalid digests, and unknown lifecycle values
+  - never: infer consciousness, personhood, ownership, or effect authority from agent identity
+
+& [EnvironmentIdentity] is one exact environment namespace
+  + [environment_uuid] is immutable nonzero durable identity
+  + [environment_profile] is a versioned provider-neutral contract identifier
+  + [adapter_profile_digest] identifies the adapter contract version without importing adapter implementation types
+  + [instance_descriptor_digest] binds the exact configured environment instance description
+  + [authority_domain] identifies the environment policy domain that will later govern embodiment and effects
+  = must: distinguish two server instances, worlds, simulations, fixtures, or resets even when their display names match
+  - never: treat a host address, port, directory, or game version alone as complete environment identity
+
+& [EmbodimentEndpointIdentity] is one addressable body or control endpoint
+  + [endpoint_uuid] is immutable identity inside one EnvironmentIdentity
+  + [endpoint_kind] is a closed adapter-declared semantic kind
+  + [adapter_locator_digest] is an opaque content digest resolved only by the environment adapter
+  + [sharing_policy] is exclusive, shared_read_only, or adapter_governed
+  + [endpoint_generation] distinguishes replacement or reset of an apparently similar body
+  = must: remain opaque to Cantor core beyond validated identity, policy, and generation
+  = must: reject an endpoint whose environment identity or generation does not match the proposed binding
+  - never: put Minecraft entity, block, item, dimension, tick, or NeoForge implementation fields into this core identity
+
+& [EmbodimentSessionIdentity] is one bounded relation between one agent and one endpoint
+  + [session_uuid] is immutable nonzero identity
+  + [agent_uuid] identifies exactly one EmbodiedAgentIdentity
+  + [environment_uuid] identifies exactly one EnvironmentIdentity
+  + [endpoint_uuid] identifies exactly one EmbodimentEndpointIdentity
+  + [endpoint_generation] is copied exactly from the endpoint at proposal time
+  + [purpose_contract_digest] is no broader than the agent purpose
+  + [authority_projection_digest] is no broader than the agent authority projection and environment policy
+  + [predecessor_session_uuid] is absent for first binding or identifies the exact prior session being resumed or replaced
+  + [lifecycle] is proposed, bound, suspended, released, expired, or faulted
+  = must: preserve the complete identity tuple through every transition
+  = must: make a resumed session a new session identity linked to its predecessor unless SJS proves a stronger continuation rule
+  - never: reuse a released, expired, or faulted session identity as a new live binding
+
+& [SemanticStateCursor] is an immutable reference to transportable semantic state
+  + [state_uuid] identifies one TransportableSemanticState
+  + [fabric_digest] identifies the admitted semantic fabric generation
+  + [projection_digest] identifies the exact compact state projection
+  + [transition_position] identifies the last committed semantic move
+  + [state_disposition] is current, suspended, superseded, or invalidated
+  = must: reject a cursor whose fabric, projection, or transition position cannot be resolved
+  - never: claim to preserve provider KV cache, hidden activations, private reasoning, or byte-identical context
+
+& [EpisodeCursor] is an optional immutable progress reference
+  + [episode_uuid] identifies the later episode ledger
+  + [last_committed_event_uuid] identifies the last accepted causal event
+  + [episode_digest] binds the accepted prefix
+  + [cursor_disposition] is current, closed, superseded, or invalidated
+  = must: remain optional until the episode-ledger feature is separately signed
+  - never: invent episode events under this source
+
+& [EmbodimentBindingClaim] is a caller proposal rather than proof of physical control
+  + [claim_uuid] is immutable identity
+  + [agent] is one complete EmbodiedAgentIdentity
+  + [environment] is one complete EnvironmentIdentity
+  + [endpoint] is one complete EmbodimentEndpointIdentity
+  + [session] is one proposed EmbodimentSessionIdentity
+  + [semantic_state_cursor] is the state to project if the binding is later admitted
+  + [episode_cursor] is optional reentry context
+  + [requested_mode] is bind_new, resume_from_predecessor, suspend, release, or expire
+  + [proof_refs] identify caller-supplied evidence without upgrading it to environment authority
+  = must: validate structural coherence, identity references, digests, predecessor relation, lifecycle, and requested transition
+  - never: treat a valid claim as proof that an endpoint exists, is available, or is controlled
+
+& [BindingAdmissionBoundary] reserves runtime authority
+  + [claim_validation] is pure structural and semantic validation permitted by this candidate profile
+  + [availability_proof] belongs to a later environment adapter and policy gate
+  + [exclusivity_proof] belongs to a later environment binding registry or adapter authority
+  + [binding_commit] belongs to a later separately commissioned runtime
+  + [effect_capability] belongs only to a later EffectBroker grant
+  = must: distinguish ClaimOnly, Admitted, and PhysicallyBound evidence grades if later features introduce them
+  - never: let a public constructor, decoded record, successful validation, or Cantor signature alone prove physical embodiment
+
+& [BindingLifecycle] is one-way within one session
+  + [proposed_to_bound] requires later adapter availability and admission proof
+  + [bound_to_suspended] preserves state and endpoint lineage while denying action
+  + [bound_to_released] permanently ends the session binding
+  + [bound_to_expired] permanently ends the session after later policy expiry
+  + [suspended_to_released] permanently ends the suspended session
+  + [suspended_to_expired] permanently ends the suspended session
+  + [any_live_to_faulted] preserves fault consequence and denies continuation
+  + [resume] creates a new proposed session linked to one suspended or released predecessor under later policy
+  = must: reject every undeclared transition
+  = must: preserve prior sessions and cursors as immutable lineage
+  - never: transition released, expired, or faulted back to bound
+
+& [InstanceMultiplexing] is logical isolation over shared immutable Cantor service generations
+  + [shared] is admitted signed packages, immutable PreparedRuntime generation, deterministic query semantics, and read-only program definitions
+  + [per_agent] is agent identity, purpose, authority projection, semantic cursor, episode cursor, active binding claim, lifecycle, and transcript lineage
+  + [per_session] is environment, endpoint generation, binding lifecycle, policy projection, and predecessor relation
+  + [provider_job] is disposable execution identity attributed to an agent and session but not used as either durable identity
+  = must: prevent one agent's cursor, authority, transcript, or binding from appearing in another agent's result
+  = must: permit many logical agents to use one resident generation without creating many duplicate semantic fabrics
+  - never: make shared service residency imply shared agent memory or shared environment authority
+
+& [FaultSet] is typed and non-authorizing
+  + [invalid_agent_identity] is malformed or unresolved durable agent identity
+  + [invalid_environment_identity] is malformed or mismatched environment identity
+  + [invalid_endpoint_identity] is malformed, wrong-environment, wrong-generation, or unsupported endpoint identity
+  + [invalid_session_identity] is malformed or internally incoherent session identity
+  + [invalid_cursor] is unresolved, stale, superseded, or mismatched semantic or episode cursor
+  + [invalid_predecessor] is missing, cyclic, unrelated, or lifecycle-ineligible predecessor lineage
+  + [invalid_transition] is any undeclared lifecycle movement
+  + [authority_expansion] is a session purpose or authority broader than the agent or environment policy
+  + [identity_collision] is one durable identity resolving to incompatible content
+  + [exclusivity_unproven] is an exclusive endpoint claim lacking later authoritative availability proof
+  + [physical_binding_unproven] is any attempt to upgrade a validated claim into physical embodiment
+  = must: preserve the first deterministic fault and reject partial transition
+
+& [RequirementSet] is candidate CEA1-001 through CEA1-014
+  + [CEA1-001] is stable logical agent identity independent of provider and embodiment
+  + [CEA1-002] is exact environment, endpoint, generation, session, and predecessor identity
+  + [CEA1-003] is strict versioned closed serializable forms and bounded fields
+  + [CEA1-004] is semantic and optional episode reentry cursors with exact digest lineage
+  + [CEA1-005] is structural EmbodimentBindingClaim validation without physical authority
+  + [CEA1-006] is one-way session lifecycle with immutable history and new identity on resume
+  + [CEA1-007] is purpose and authority containment across agent, environment, and session
+  + [CEA1-008] is exact separation of claim, admission, physical binding, and effect capability
+  + [CEA1-009] is shared immutable Cantor generation with isolated per-agent and per-session state
+  + [CEA1-010] is replaceable and disposable provider jobs with complete attribution
+  + [CEA1-011] is deterministic typed faults and atomic rejection
+  + [CEA1-012] is negative proof for stale, replayed, colliding, cross-agent, cross-environment, and invalid-transition inputs
+  + [CEA1-013] is no environment-specific core types and zero I/O, model, clock, persistence, adapter, or effect delta
+  + [CEA1-014] is complete source, requirement, implementation, test, proof, fault, rollback, and nonclaim traceability before readiness
+
+& [AcceptanceCriteria] is candidate proof shape
+  + [A1] two logical agents share one immutable Cantor generation while every mutable cursor and binding remains isolated
+  + [A2] one agent replaces a provider job without changing agent or session identity
+  + [A3] one agent suspends a session, preserves cursors, and creates a new predecessor-linked resume proposal without reusing the prior identity
+  + [A4] wrong agent, environment, endpoint generation, cursor, predecessor, lifecycle, and authority fail deterministically
+  + [A5] an exclusive endpoint claim remains ClaimOnly and cannot prove availability or physical control
+  + [A6] canonical serialization and repeated validation are deterministic
+  + [A7] all existing Cantor core, CLI, MCP, service, ecosystem, and M2B proofs remain unchanged
+
+& [NonGoals] are explicit
+  - no Minecraft, NeoForge, Mineflayer, game protocol, entity observation, movement, inventory, crafting, combat, building, chat, world editing, or server command
+  - no environment adapter implementation, endpoint discovery, availability registry, binding commit, episode ledger, skill learning, population experiment, model call, neural router, database, network, filesystem, process, clock, or exterior effect
+  - no implementation language, module, public API, storage backend, cryptographic scheme, or deployment topology is selected by this source
+
+& [AuthorityState] is preserved source only
+  + [canonical_specification] is absent
+  + [satisfaction_signature] is absent
+  + [implementation_authority] is absent
+  + [execution_authority] is absent
+  + [environment_effect_authority] is absent
+  + [next] exact source manifest followed by multi-authority SJS input audit
