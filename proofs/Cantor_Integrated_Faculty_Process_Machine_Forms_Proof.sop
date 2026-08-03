@@ -1,0 +1,47 @@
+Subject: Cantor Integrated Faculty Process Machine Forms Proof
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Integrated_Faculty_Process.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_core\src\faculty.rs
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\faculty_cycle.rs
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is b180b2cd-1dd7-4efc-a3e6-a54060abeff8
+  + [solution_uuid] is 372581b5-c7b6-4b2d-ae1a-29fc082250d1
+  + [authority_signature_uuid] is d647ab94-348c-4db0-95ad-470a38a7cd85
+  + [captured_at] is 2026-08-03T12:47:53.3804977-05:00
+
+& [ArtifactIdentity] is measured
+  + [faculty_module_sha256] is CF730B865BB2680D08F803BC016E9D7A921A8F1367ECD051845C1925D45062CD
+  + [faculty_module_bytes] is 20114
+  + [faculty_tests_sha256] is 841DD88027426C036E8D8224CFCBD8CC45BB71C1AB2DD3CEF0E0E05DC363B675
+  + [faculty_tests_bytes] is 13244
+  + [core_export_sha256] is D9CABEA7A620204754CC432914A4B248B7C96FE53B37DBE05F973A84C7A74EBD
+  + [core_export_bytes] is 953
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core
+  + [result] is 94 passed, 0 failed
+  + [faculty_test_count] is 9
+  + [faculty_proofs] are valid semantic and preservation cycles, complete faculty accounting, mandatory Planner and Weaver, no activation-omission collision, exact returns, stage order, guarded and cited boundaries, typed and cited projections, and strict unknown-field rejection
+
+& [QualityVerification] is passed
+  + [command] is cargo clippy --workspace --all-targets -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is cargo test --workspace --lib --bins
+  + [result] is passed
+  + [format] is cargo fmt --all applied and later check required before commit
+
+& [WorkspaceIntegrationVerification] is bounded by pre-existing stale evidence
+  + [command] is cargo test --workspace
+  + [current_slice_tests] all reached faculty tests pass
+  + [failure] is candidate and supervised evidence manifests assert stale metadata for feature_support/Cantor_Engine_Build_Slice_Index.sop
+  + [expected_bytes] is 26346
+  + [actual_bytes] is 27870
+  + [actual_sha256] is 4483F98CE47E32DE00C973787DEC0F858A76734E094353B46FD69A46881432BD
+  + [classification] is pre_existing_baseline_evidence_fault_not_faculty_implementation_failure
+  - never: report the full workspace integration suite as passed
+
+& [ProofDisposition] is first_slice_proven_with_external_baseline_fault
+  + [implemented_scope] is immutable machine forms and pure validation only
+  + [not_implemented] is SemanticTransition attachment, faculty provider execution, persistence, query, replay, CLI, prompt projection, and effects

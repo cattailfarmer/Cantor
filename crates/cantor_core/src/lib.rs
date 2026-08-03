@@ -6,6 +6,7 @@
 
 pub mod environment;
 pub mod evaluator;
+pub mod faculty;
 pub mod fixtures;
 pub mod machine;
 pub mod model;
@@ -18,6 +19,7 @@ pub mod trust;
 
 pub use environment::*;
 pub use evaluator::evaluate;
+pub use faculty::*;
 pub use fixtures::{FixtureId, FixtureReport, all_fixture_ids, run_fixture};
 pub use machine::{content_digest, from_machine_form, to_machine_form};
 pub use model::*;

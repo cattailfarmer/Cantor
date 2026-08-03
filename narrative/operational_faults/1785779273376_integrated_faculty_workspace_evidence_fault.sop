@@ -1,0 +1,35 @@
+Subject: Integrated Faculty Workspace Evidence Operational Fault
+
+& [FaultIdentity] is pre-existing stale evidence
+  + [fault_uuid] is 15868c84-1c3d-4716-a7d4-6f80d463637d
+  + [observed_at] is 2026-08-03T12:47:53.3804977-05:00
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [trigger] is cargo test --workspace after integrated faculty forms passed focused tests and workspace lint
+
+& [ObservedMismatch] is exact
+  + [artifact] is feature_support/Cantor_Engine_Build_Slice_Index.sop
+  + [manifest_expected_bytes] is 26346
+  + [manifest_expected_sha256] is 062988F9804D23573DAAB7B132DA077A561A1AAE12C7AAC343097FE4541FDA8C
+  + [current_bytes] is 27870
+  + [current_sha256] is 4483F98CE47E32DE00C973787DEC0F858A76734E094353B46FD69A46881432BD
+  + [observed_failing_tests] are candidate_workspace_admission_manifest_is_clone_portable_and_effect_free and supervised_mock_loop_evidence_manifest_hashes_clone_portable_artifacts
+
+& [LineageDiagnosis] is repository history
+  + [manifest_last_refresh_commit] is 3acb2d426e87147d9c77091fdbcad9a32e4f251c
+  + [artifact_later_change_commit] is a4009d015480fe47e1176877486b065ddbcae5f2
+  + [current_turn_artifact_change] is absent
+  + [faculty_implementation_failure] is absent
+  + [cause] is evidence manifests were not regenerated after the governed slice index changed before this turn
+
+& [Boundary] prevents unauthorized repair
+  + current work does not own the existing evidence manifests or governed slice index
+  + hand-editing expected hashes would violate the evidence-generation contract
+  + full workspace integration remains not passed until separately governed topological evidence regeneration occurs
+  + focused core tests, workspace lint, and workspace library and binary tests remain valid
+  - never: hide this mismatch or call the full workspace suite green
+
+& [RepairFrontier] is separate governed work
+  + preserve source and authority for evidence regeneration if selected
+  + identify every stale manifest transitively referencing the changed slice index
+  + regenerate through the existing builders without executing unauthorized physical probes
+  + rerun the entire workspace suite afterward
