@@ -2,6 +2,8 @@ Subject: Observer Honesty Security Startup Kernel Intake Review
 
 @ [source] C:\Project\Cantor\source_documents\2026-08-04_observer_honesty_security_startup_kernel\Dictated_Observer_Honesty_Security_Startup_Kernel_Source.sop
 @ [assessment] C:\Project\Cantor\narrative\research\Observer_Honesty_Security_Startup_Kernel_Assessment_2026-08-04.sop
+@ [trust_catalogue_source] C:\Project\Cantor\source_documents\2026-08-04_ohs_cross_attestation_trust_catalogue\Dictated_OHS_Cross_Attestation_Trust_Catalogue_Source.sop
+@ [trust_catalogue_assessment] C:\Project\Cantor\narrative\research\OHS_Cross_Attestation_Trust_Catalogue_Assessment_2026-08-04.sop
 @ [query_microkernel] C:\Project\Cantor\specifications\Cantor_SOP_Query_Microkernel.sop
 @ [prepared_runtime] C:\Project\Cantor\specifications\Cantor_Prepared_Runtime.sop
 @ [resident_service] C:\Project\Cantor\specifications\Cantor_Resident_Service.sop
@@ -35,3 +37,15 @@ Subject: Observer Honesty Security Startup Kernel Intake Review
   + [work_slice_transform] is inventory every pre-listen, pre-runtime, pre-query, trust-root, persistent-state, recovery, platform-measurement, and effect-activation surface
   - never: retrofit OHS confirmation into service startup before root identity and non-circular measurement are specified
   - never: call faculty consensus self-attestation
+
+& [CrossAttestationTrustCatalogueDelta] refines identity confirmation
+  + [revision_uuid] is 48dc4468-8633-423d-b770-ea2421f144c3
+  + [source_snapshot_uuid] is 1963cb5e-98bd-4a87-8c87-867b6ae022c7
+  + [faculty_relation] Honesty and Security cross-recognize exact counterpart identity but neither signs for, authorizes, or validates the other
+  + [attestation] each signs a domain-separated scoped judgment over one shared contract, measurement, catalogue root, and runtime generation
+  + [catalogue] is an immutable signed canonical SOP inventory with cryptographic file digests, package roots, scope, dependencies, validity, lifecycle, and revocation
+  + [CRC] is optional non-authoritative transport metadata and never trust evidence
+  + [current_reuse] existing authority and compiler signatures, package roots, TrustStore, dependency lock, revocation, and stale state are direct substrate
+  + [candidate_feature_set] adds OHTC-001 through OHTC-017 to OHSK-SJS-01
+  + [readiness] remains source_preserved_assessed_not_implementation_ready
+  - never: infer independent compromise resistance from two logical roles executing in one process

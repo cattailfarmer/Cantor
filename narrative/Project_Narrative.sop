@@ -1229,3 +1229,19 @@ Subject: Cantor Project Narrative
   + [implementation_result] is none
   + [schedule_effect] OHSK-SJS-01 becomes prerequisite to startup integration and CIFP-SLICE-02 remains blocked
   + [next] audit current startup and available root-of-trust profiles before selecting the smallest truthful kernel
+
+& [OHSCrossAttestationTrustCatalogueMilestone] defines scoped co-attestation over one SOP inventory root
+  @ [source] C:\Project\Cantor\source_documents\2026-08-04_ohs_cross_attestation_trust_catalogue\Dictated_OHS_Cross_Attestation_Trust_Catalogue_Source.sop
+  @ [assessment] C:\Project\Cantor\narrative\research\OHS_Cross_Attestation_Trust_Catalogue_Assessment_2026-08-04.sop
+  + [event_uuid] is 8f6dca0d-01d5-4920-a54b-323e80230478
+  + [source_snapshot_uuid] is 1963cb5e-98bd-4a87-8c87-867b6ae022c7
+  + [source_sha256] is 1C9E4226D89427477F6D0163951E0881B0CCECBD5D03977C14EA79C5B88E04D0
+  + [cross_recognition] Honesty and Security verify exact counterpart identity but do not authorize, countersign, or substitute for each other
+  + [co_attestation] both sign separate domain-scoped judgments bound to one startup contract, measurement, runtime generation, and catalogue root
+  + [trust_catalogue] canonical immutable SOP entries bind cryptographic digests, byte lengths, semantic and package roots, authority scope, dependencies, certificates, lifecycle, and revocation
+  + [CRC_boundary] CRC can detect accidental transport error but cannot establish adversarial identity, authenticity, or trust
+  + [root_shape] canonical signed manifest is the first candidate; Merkle indexing remains measured-growth only
+  + [existing_substrate] current authority and compiler dual signatures, recognition certificate, TrustStore, dependency lock, revocation, and stale state substantially fit
+  + [implementation_result] is none
+  + [schedule_effect] OHSK-SJS-01 now includes OHTC-001 through OHTC-017
+  + [next] audit signer roles, key custody, catalogue update, revocation, isolation, and compatibility before canonical schema or code

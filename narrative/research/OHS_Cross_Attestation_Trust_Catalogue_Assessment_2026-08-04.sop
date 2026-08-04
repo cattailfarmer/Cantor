@@ -1,0 +1,163 @@
+Subject: OHS Cross Attestation Trust Catalogue Assessment
+
+@ [source] C:\Project\Cantor\source_documents\2026-08-04_ohs_cross_attestation_trust_catalogue\Dictated_OHS_Cross_Attestation_Trust_Catalogue_Source.sop
+@ [startup_kernel] C:\Project\Cantor\narrative\research\Observer_Honesty_Security_Startup_Kernel_Assessment_2026-08-04.sop
+@ [engine_specification] C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+@ [self_hosting] C:\Project\Cantor\specifications\Cantor_Self_Hosting_Ingestion.sop
+@ [trust_types] C:\Project\Cantor\crates\cantor_core\src\trust\types.rs
+@ [trust_compiler] C:\Project\Cantor\crates\cantor_core\src\trust\compiler.rs
+
+& [AssessmentIdentity] is exact
+  + [assessment_uuid] is 3f4e837b-5847-410d-a1f3-86167ae7e983
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [baseline_commit] is 371f08a9b69a0135a5d31008418892115212a88b
+  + [status] is strong_trust_architecture_candidate_SJS_required
+
+& [CoreConclusion] is supported after replacing circular mutual signing with scoped cross-attestation
+  + Honesty and Security should independently recognize one another's exact faculty identity and bind their own judgments to the same startup evidence and trust-catalogue root
+  + neither faculty should sign on behalf of the other, mint the other's authority, share a signing identity, or make the other's result valid
+  + Observer closes startup only when both scoped attestations identify the expected counterpart and bind the same contract, measurement, runtime generation, and catalogue root
+  + the catalogue should use cryptographic digests and digital signatures rather than CRC as its trust mechanism
+  = concise: cross-recognize counterpart identity, independently sign separate claims, then let Observer seal their agreement over one evidence root
+
+& [CRCBoundary] distinguishes corruption checking from trust
+  + a cyclic redundancy check is efficient for detecting common accidental transmission or storage errors
+  + CRC is not collision resistant and an adversary who changes a file can compute a matching replacement CRC
+  + CRC therefore cannot establish SOP identity, authenticity, authority, provenance, or resistance to intentional substitution
+  + an optional CRC32C may accompany transport framing for early accidental-error detection only
+  + SHA-256 or a separately selected cryptographic digest binds file and manifest content under the current Cantor profile
+  + a digital signature binds the cryptographic root to an identified authorized signer and scope
+  - never: promote successful CRC comparison into a trust, authenticity, or admission result
+
+& [TrustAuthorityDelineation] preserves existing signer roles
+  + [authority_signer] signs the semantic authority, validity interval, scope, source root, semantic root, and package root
+  + [compiler_signer] independently signs compiler identity, version, dependency lock, package root, and proof identities
+  + [Honesty_attester] signs only a runtime correspondence judgment over measured faculty, catalogue, contract, and generation identity
+  + [Security_attester] signs only a runtime integrity and admissibility judgment over the same roots plus authority, isolation, lifecycle, and effect state
+  + [Observer_sealer] verifies all required signatures and emits final KernelIdentityAttestation or failure
+  - never: let a faculty runtime attestation authorize SOP source content or replace authority and compiler signatures
+  - never: let authority and compiler signing keys collapse into one identity
+
+& [FacultyIdentityRecord] makes counterpart recognition exact
+  + [faculty] is Honesty or Security
+  + [program_id] and [program_digest] bind exact compiled faculty behavior
+  + [interpreter_or_binary_digest] binds the execution substrate when material
+  + [profile_and_version] bind data and decision semantics
+  + [attestation_signer_id] and [verification_key_ref] bind the scoped runtime attestation identity
+  + [role_scope] limits the propositions this faculty may attest
+  + [authority_ceiling] forbids semantic or effect authority expansion
+  + [validity] and [revocation_ref] bound lifecycle
+  + [expected_counterpart_ref] identifies the exact counterpart record expected in this kernel generation
+  + [separation_profile] states same-process logical, separate-process software, separate-host, hardware-backed, or externally verified isolation
+
+& [SOPTrustCatalogue] is a signed canonical inventory rather than a flat path and CRC table
+  + [catalogue_id] and [catalogue_version] are immutable
+  + [canonical_encoding_profile] fixes ordering, normalization, field representation, and digest domains
+  + [entry_set] is sorted by stable file or package identity rather than operating-system enumeration order
+  + [catalogue_root_digest] commits the complete canonical catalogue
+  + [authority_signature_set] binds the root to authorized semantic and compilation identities
+  + [validity_interval], [revocation_root], [dependency_lock_root], and [policy_root] bind lifecycle and trust policy
+  + [allowed_startup_pattern_roots] identify the OHS kernel and every post-confirmation pattern package eligible to load
+  + [unavailable_or_excluded_set] prevents silent omission from looking like trusted absence
+  + [previous_catalogue_ref] creates append-only version and revocation lineage
+  - never: make human-readable file path the stable authority identity
+
+& [SOPTrustCatalogueEntry] binds one file or package member exactly
+  + [entry_id] is stable and content-addressed where appropriate
+  + [package_id], [file_id], and [semantic_role] bind containment and intended use
+  + [display_path] is inspection metadata rather than sole identity
+  + [byte_length] and [cryptographic_digest] bind exact file bytes
+  + [source_root], [semantic_root], and [package_root] connect the entry to compiled meaning and package authority
+  + [compiler_profile], [schema_profile], and [pattern_role] identify interpretation
+  + [authority_scope] and [allowed_use] prevent a trusted file from becoming universally authorized
+  + [dependency_refs] bind required catalogue or package entries
+  + [certificate_ref], [validity], [lifecycle], and [revocation_ref] bind admission state
+  + [optional_transport_crc] is explicitly non-authoritative when present
+
+& [CatalogueRootShape] may be canonical manifest or Merkle index
+  + a signed digest of one canonical ordered manifest is sufficient for the first bounded implementation
+  + a Merkle tree may later provide selective membership and non-membership proofs for large catalogues
+  + either shape requires domain-separated leaves, deterministic ordering, duplicate rejection, exact count, and root signature
+  + Merkle structure does not itself establish signer authority, content truth, lifecycle, or use scope
+  = candidate: start with the existing canonical package and source-root model before adding Merkle complexity from measured need
+
+& [CrossRecognitionRecord] proves counterpart identity without delegated trust
+  + [round_id] binds one startup confirmation round
+  + [observer_frame_ref] identifies the candidate self frame
+  + [catalogue_root_digest] and [runtime_generation_digest] must be identical in both faculty records
+  + [self_faculty_identity_ref] binds the attester
+  + [observed_counterpart_identity_ref] binds the exact counterpart measured
+  + [counterpart_match] is exact, mismatch, revoked, stale, unavailable, or unresolved
+  + [separation_evidence] states what independence was actually achieved
+  + [measurement_ref] prevents self-asserted counterpart identity
+  + [signature] authenticates only the attester's scoped observation and judgment
+  - never: interpret counterpart_match as adoption of the counterpart's conclusions
+
+& [HonestyAttestation] is a domain-separated correspondence claim
+  + binds startup contract, measurement, catalogue root, runtime generation, Honesty identity, Security observed identity, evidence, uncertainty, and result
+  + confirms that named package and faculty identities correspond to measured cryptographic and semantic roots
+  + identifies omissions, substitutions, mismatched roots, unsupported catalogue membership, and unavailable evidence
+  + cannot claim isolation, effect safety, or Security approval
+
+& [SecurityAttestation] is a domain-separated integrity and admissibility claim
+  + binds the same startup contract, measurement, catalogue root, and runtime generation
+  + binds Security identity, Honesty observed identity, trust policy, revocation state, authority ceiling, isolation profile, open channels, and effect boundary
+  + identifies shared-key collapse, signer-role collision, stale catalogue, unauthorized dependency, unmeasured input, and premature activation
+  + cannot claim semantic truth or Honesty approval
+
+& [ObserverJointClosure] is intersection rather than signature substitution
+  + require expected Honesty and Security signer identities under distinct signature domains
+  + require both attestations to bind byte-identical round, contract, measurement, catalogue root, and generation identities
+  + require each counterpart recognition to match the pinned FacultyIdentityRecord
+  + require both scoped results to satisfy the startup policy independently
+  + preserve disagreement and fail closed rather than asking one faculty to countersign the other
+  + seal the pair into KernelIdentityAttestation without expanding either scope
+
+& [IndependenceBoundary] makes strength claims truthful
+  + two keys inside one process provide domain and role separation but not strong compromise independence
+  + separate processes with distinct keys improve fault isolation while sharing a host threat boundary
+  + separate hosts improve software independence while introducing authenticated transport and synchronization requirements
+  + hardware-backed or externally verified keys may strengthen key possession and measurement claims under their exact platform guarantees
+  + the separation profile must accompany every attestation so Observer does not infer a stronger trust model than was used
+
+& [CatalogueLifecycle] is immutable and boot-bound
+  + catalogue update produces a new version, root digest, signatures, validity, and predecessor reference
+  + added, removed, changed, revoked, stale, and superseded entries remain explicitly accounted
+  + any active catalogue-root change invalidates the current KernelIdentityAttestation and requires a new OHS round
+  + no faculty may edit an admitted catalogue in place
+  + recovery catalogue roots remain distinct from normal runtime roots
+
+& [CurrentImplementationFit] is strong at package trust and absent at faculty cross-attestation
+  + current CantorRecognitionCertificate already contains package, semantic, and source root digests plus separate authority and compiler signatures
+  + current TrustStore already separates signer roles, compiler allowlists, dependency lock, revocation, and stale package state
+  + current compiler and admission logic already reject signer collapse, digest mismatch, lifecycle failure, and dependency drift
+  + current package inventory can seed a bounded SOPTrustCatalogue without CRC
+  + current faculties do not have attestation signer identities, cross-recognition records, or a joint startup closure
+  + current single-process faculty execution cannot claim independent compromise resistance
+
+& [CandidateRequirementSet] is OHTC-001 through OHTC-017
+  + [OHTC-001] define scoped cross-recognition without mutual authorization or signature substitution
+  + [OHTC-002] retain separate authority, compiler, Honesty, Security, and Observer signature domains and roles
+  + [OHTC-003] define FacultyIdentityRecord with exact program, substrate, version, key, role, lifecycle, counterpart, and separation profile
+  + [OHTC-004] define immutable signed canonical SOPTrustCatalogue and ordered catalogue entries
+  + [OHTC-005] bind each entry by cryptographic digest, byte length, package roots, semantics, scope, dependency, certificate, lifecycle, and revocation
+  + [OHTC-006] forbid CRC from serving as identity, authenticity, or trust evidence
+  + [OHTC-007] permit optional CRC only as explicitly non-authoritative transport-error metadata
+  + [OHTC-008] use the current canonical signed-manifest root first and add Merkle indexing only from measured selective-proof requirements
+  + [OHTC-009] define CrossRecognitionRecord bound to one round, measurement, catalogue root, generation, counterpart, and separation evidence
+  + [OHTC-010] define domain-separated HonestyAttestation and SecurityAttestation with non-overlapping claims
+  + [OHTC-011] require Observer closure to match all common roots byte-exactly and preserve disagreement
+  + [OHTC-012] prohibit shared signing identity, faculty key substitution, self-issued counterpart identity, and runtime attestation as package authority
+  + [OHTC-013] version catalogue updates immutably and invalidate boot attestation on any root change
+  + [OHTC-014] bind excluded, unavailable, revoked, stale, removed, and superseded entries explicitly
+  + [OHTC-015] carry separation-profile strength into every trust result and prohibit independence inflation
+  + [OHTC-016] test modified-file same-CRC substitution, cryptographic mismatch, split catalogue roots, signer collision, revoked counterpart, stale catalogue, omitted entry, dependency drift, key rotation, replay, and valid co-attestation
+  + [OHTC-017] prove compatibility or migration with current recognition certificates, TrustStore, package manifests, self-hosted corpus, and PreparedRuntime generation identity
+
+& [Decision] is add cross-attestation and trust-catalogue formation to OHSK preparation
+  + [canonical_authority] is absent
+  + [implementation_authority] is absent
+  + [key_authority] is absent
+  + [signed_catalogue] is absent
+  + [schedule_effect] OHSK-SJS-01 must process OHTC-001 through OHTC-017 before choosing keys, signatures, catalogue schema, or Merkle structure
+  + [next] audit current certificate statements, trust-store roots, manifest inventories, key custody, signature domains, revocation, update, and process-isolation profiles
