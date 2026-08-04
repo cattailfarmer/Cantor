@@ -1,0 +1,205 @@
+Subject: Weaver Planner Identity Operation Catalogues Assessment
+
+@ [source] C:\Project\Cantor\source_documents\2026-08-04_weaver_planner_identity_operation_catalogues\Dictated_Weaver_Planner_Identity_Operation_Catalogues_Source.sop
+@ [semantic_fabric] C:\Project\Cantor\specifications\SOP_Semantic_Fabric_Graph.sop
+@ [query_engine] C:\Project\Cantor\specifications\Cantor_Engine_Neural_Fabric_CLI_Build.sop
+@ [integrated_faculties] C:\Project\Cantor\specifications\Cantor_Integrated_Faculty_Process.sop
+@ [startup_trust] C:\Project\Cantor\narrative\research\OHS_Cross_Attestation_Trust_Catalogue_Assessment_2026-08-04.sop
+@ [current_model] C:\Project\Cantor\crates\cantor_core\src\model.rs
+
+& [AssessmentIdentity] is exact
+  + [assessment_uuid] is 2a40448a-f1bc-4c8b-ab7b-54f9bc286372
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [baseline_commit] is 6cf976f18b018eb800506c24709903d87bdeba01
+  + [status] is strong_faculty_behavior_and_data_candidate_SJS_required
+
+& [CoreConclusion] is strongly supported
+  + the proposal gives Weaver and Planner an implementable shared waist by separating an identity-oriented view from an operation-oriented view
+  + IdentityCatalogue answers what bounded subjects exist, what they mean, why they matter, how they relate, and where their authority is sourced
+  + OperationCatalogue answers what may be related, observed, inferred, transformed, controlled, or effected, with exact applicability and constraints
+  + Weaver instantiates candidate bindings between operation roles and identities
+  + Planner searches ordered transitions through those candidates toward an ObjectiveContract
+  = concise: identities provide state, operations provide possible transitions, Weaver forms the candidate transition graph, and Planner searches it
+
+& [AuthorityBoundary] keeps both catalogues derived
+  + authoritative meaning remains in signed admitted SOP files, semantic units, contracts, relations, and packages
+  + IdentityCatalogue and OperationCatalogue are compiled signed projections with exact source anchors and generation roots
+  + catalogue entries cannot add meaning, authority, applicability, constraints, or effects absent from governing SOP authority
+  + every source or package change requires catalogue regeneration and startup re-attestation before use
+  + human-readable table-of-contents and index files are inspectable views of the same compiled records
+  - never: let a stale catalogue become a second source of truth
+
+& [IdentityCatalogue] is the table-of-contents projection
+  + [catalogue_id], [profile], [version], and [generation_root] are immutable
+  + [identity_entries] are sorted by stable identity rather than display spelling
+  + [name_index] maps preferred names, proper nouns, aliases, abbreviations, and lexical forms to candidate stable identities
+  + [kind] distinguishes entity, concept, role, proposition, contract, file, program, faculty, resource, state, observation, result, and other admitted identity families
+  + [description] and [meaning] preserve human summary and exact semantic definition separately
+  + [purpose_set] and [use_case_set] state intended relevance without granting universal applicability
+  + [context_and_boundary_set] preserve domain, perspective, assumptions, inclusion, exclusion, uncertainty, and identity invariants
+  + [relation_refs] preserve typed graph relationships without merging endpoints
+  + [source_anchor_set] binds package, file, clause, byte span, digest, and display location
+  + [authority_and_lifecycle] preserve scope, signer, certificate, status, version, supersession, staleness, and revocation
+  - never: restrict identity to proper nouns because common concepts, roles, propositions, contracts, and states are also addressable subjects
+
+& [OperationCatalogue] is the semantic index projection
+  + [catalogue_id], [profile], [version], and [generation_root] are immutable
+  + [operation_entries] are sorted by stable operation identity rather than verb spelling
+  + [verb_index] maps verbs, aliases, inflections, phrases, and SAIL operation names to candidate operation identities
+  + [operation_class] distinguishes relation, observation, query, inference, transformation, validation, control, capability, and physical effect
+  + [meaning] defines the operation independently of any one invocation
+  + [role_signature] names required subject, object, context, instrument, authority, evidence, and output roles
+  + [input_type_constraints] and [output_type_constraints] bind admissible identity kinds and schemas
+  + [preconditions], [invariants], [postconditions], and [failure_conditions] define transition semantics
+  + [authority_requirements], [effect_class], [reversibility], [risk], [cost], [resource_budget], and [time_horizon] constrain use
+  + [non_transfer_set] prevents applicability from transferring identity, evidence, authority, or properties not licensed by the operation
+  + [source_anchor_set], [certificate], and [lifecycle] bind exact SOP authority
+  - never: make verb presence imply executable capability or effect authority
+
+& [OperationMeaningDelineation] prevents grammar from collapsing semantics
+  + [relation] describes a typed connection and may be symmetric, directional, static, or contextual without causing change
+  + [observation] produces evidence claims without changing the observed subject by semantic declaration alone
+  + [inference] derives a candidate proposition under an inference regime without asserting external effect
+  + [transformation] proposes a before-to-after semantic or state delta
+  + [control] changes attention, evaluation, or workflow disposition within declared authority
+  + [capability] identifies an available mechanism but does not authorize invocation
+  + [physical_effect] requires separate EffectBroker authorization and receipt
+  = must: preserve these classes even when natural language uses the same verb for several
+
+& [ApplicabilityBinding] is the typed seam between catalogues
+  + [binding_id] is immutable
+  + [operation_ref] identifies one OperationCatalogue entry
+  + [role_ref] identifies the exact operation role being filled
+  + [identity_ref_or_type] identifies an exact identity or admissible identity class
+  + [context], [purpose], [conditions], and [boundary_refs] state where the binding can hold
+  + [evidence_refs] state why applicability is declared or inferred
+  + [authority_ref] is required when applicability includes privileged access or effect
+  + [transfer_law] and [non_transfer_set] preserve property boundaries
+  + [status] is declared, derived, candidate, contradicted, blocked, stale, or unresolved
+  + [correlation_score] may rank candidate inspection but cannot change status or authorize traversal
+
+& [ObjectiveContract] makes planning target identity explicit
+  + [objective_id] is immutable
+  + [subject_refs] identify the starting identities
+  + [current_state_ref] identifies admitted entry state
+  + [desired_state_predicates] define the target without representing it as achieved
+  + [success_evidence] states how completion can be verified
+  + [purpose], [priority], [authority], [scope], [constraints], and [protected_identity_refs] govern relevance and admissibility
+  + [prohibited_outcomes] and [effect_boundary] limit optimization
+  + [resource_budget], [time_horizon], [stop_conditions], and [fallback] bound search
+  + [unknowns] preserve missing identity, operation, evidence, capability, or reachability
+
+& [ScannerDelineation] separates retrieval, weaving, and planning
+  + [identity_scan] resolves objective terms into bounded IdentityCatalogue candidates
+  + [operation_scan] retrieves operations whose declared role signatures and contexts can accept those identities
+  + [exact_join] applies stable identity, type, role, purpose, boundary, and condition constraints deterministically
+  + [relational_expansion] traverses allowed typed relations and dependency edges within budget
+  + [correlation_proposal] may rank additional identity-operation seams from lexical, graph, embedding, or learned evidence
+  + [scanner_output] is an inspectable candidate set with grounds, exclusions, contradictions, ambiguity, and omissions
+  + the scanner itself neither admits a binding nor selects a plan
+  - never: combine retrieval, correlation, Weaver judgment, Planner search, and Observer selection in one opaque score
+
+& [WeaverBehavior] instantiates the candidate transition graph
+  + consume bounded objective identities, applicable operation candidates, identity boundaries, relation evidence, and exclusions
+  + bind operation roles to distinct identities without erasing their identities or qualified contexts
+  + project possible relations, composites, decompositions, seams, input-output compatibility, and incompatibility
+  + emit CandidateOperationInstance records containing operation, role bindings, preconditions, constraints, projected outputs, identity deltas, grounds, and unresolved seams
+  + reject or qualify type mismatch, unsupported applicability, illegal transfer, contradictory identity, and missing role
+  + never select a candidate as true, authorized, temporally reachable, or executable
+
+& [CandidateOperationInstance] is Weaver's principal return form
+  + [instance_id] is immutable and content-addressed
+  + [operation_ref] binds one admitted operation definition
+  + [role_bindings] bind exact admitted or explicitly candidate identities
+  + [applicability_refs] preserve every seam used
+  + [precondition_state] is satisfied, unsatisfied, disputed, unavailable, or unresolved
+  + [constraint_refs] and [boundary_refs] bind all active limits
+  + [projected_output_refs] identify candidate results or after-state predicates
+  + [identity_delta] preserves material semantic and operational change
+  + [authority_and_effect_requirements] remain ungranted requirements
+  + [grounds], [counterevidence], [uncertainty], and [residuals] remain visible
+
+& [PlannerBehavior] searches ordered objective paths
+  + consume current state, ObjectiveContract, Weaver candidate instances, prerequisites, dependencies, verification operations, and stop conditions
+  + build candidate paths whose steps identify exact before predicates, operation instance, expected after predicates, checks, and failure branches
+  + accumulate authority, identity delta, constraints, risk, cost, resources, time, uncertainty, and effect exposure across the whole path
+  + distinguish reachable, conditionally reachable, unreachable, blocked, cycle, over-budget, and unresolved branches
+  + prefer the smallest checkable path only after preserving all material obligations and alternatives
+  + never represent a desired or projected state as achieved and never commit an effect
+
+& [CandidatePlan] is Planner's principal return form
+  + [plan_id] is immutable and objective-bound
+  + [entry_state_ref] and [objective_ref] preserve endpoints
+  + [ordered_step_set] references CandidateOperationInstance values and verification checks
+  + [dependency_and_branch_graph] preserves prerequisites, alternatives, failure, rollback, stop, and reroute
+  + [cumulative_identity_delta], [constraint_account], [authority_account], [risk_account], [effect_account], and [uncertainty_account] are explicit
+  + [completion_evidence_plan] states how success would be observed
+  + [status] is candidate, qualified, unreachable, blocked, over_budget, cyclic, or unresolved
+
+& [WeaverPlannerReciprocity] becomes a typed fixed-point search
+  + Weaver rejects a Planner path whose steps misuse identity bindings, relation transfer, or operation composition
+  + Planner rejects a Weaver composition that lacks reachable prerequisites, verification, ordering, or bounded consequences
+  + Weaver may decompose an impossible operation instance into smaller semantic seams
+  + Planner may request alternate bindings or operations when a branch is blocked
+  + iteration is bounded by graph, path, time, resource, novelty, and no-gain limits
+  + convergence means relational and temporal supportability, not truth, admission, or execution
+
+& [GuardAndDisposition] keeps candidate generation subordinate
+  + Honesty validates names, meanings, source bindings, applicability claims, assumption status, projected identity deltas, and success evidence
+  + Security validates authority, scope, constraints, protected identities, capability use, cumulative effects, containment, and reversibility
+  + Refiner selects or expresses the smallest supported candidate delta without removing qualifications
+  + Observer decides whether to admit, revise, reroute, decompose, block, or escalate the candidate semantic transition
+  + Scribe preserves objective, scans, joins, projections, plans, gates, disposition, and residuals
+  + EffectBroker remains the only later path to physical effect commitment
+
+& [ProcessingSequence] is objective-directed
+  * bind ObjectiveContract and current state
+  * resolve subject and purpose through IdentityCatalogue
+  * retrieve role-compatible OperationCatalogue entries
+  * exact-join declared ApplicabilityBinding records
+  * boundedly propose correlation candidates with explicit grounds
+  * Weaver emits CandidateOperationInstance graph
+  * Planner emits CandidatePlan paths and cumulative accounts
+  * Weaver and Planner cross-review until bounded convergence or no gain
+  * Honesty and Security independently gate the candidate
+  * Refiner forms the smallest supported next semantic delta
+  * Observer disposes and Scribe records
+  * any effect remains an uncommitted proposal pending EffectBroker
+
+& [CurrentImplementationFit] is partial and architecturally aligned
+  + current SemanticUnit already supports stable identity, kind including Operation, expression, aliases, meaning, context, sources, and status
+  + current SemanticRelation and SemanticFabric provide exact and typed graph substrate, but current RelationType is intentionally narrow
+  + current query engine already applies exact identity and contextual filtering before relation traversal and lexical retrieval
+  + current IdentityBoundary, CombinatoryProjection, Weaver and Planner stages, returns, and ledgers provide constitutional framing
+  + current model lacks first-class IdentityCatalogueEntry, OperationSignature, ApplicabilityBinding, ObjectiveContract, CandidateOperationInstance, CandidatePlan, and cumulative path accounts
+  + no current scanner performs the complete staged identity-operation-objective behavior described here
+
+& [CandidateRequirementSet] is WPIO-001 through WPIO-020
+  + [WPIO-001] define signed derived IdentityCatalogue and human table-of-contents projection
+  + [WPIO-002] define signed derived OperationCatalogue and human semantic-index projection
+  + [WPIO-003] preserve authoritative meaning in source-anchored admitted SOP rather than either catalogue
+  + [WPIO-004] represent preferred names, proper nouns, aliases, kinds, meanings, purposes, contexts, boundaries, relations, sources, authority, and lifecycle for identities
+  + [WPIO-005] represent verb aliases, operation classes, role signatures, types, preconditions, invariants, postconditions, failures, authority, effects, risk, reversibility, cost, resources, and source for operations
+  + [WPIO-006] distinguish relation, observation, inference, transformation, control, capability, and effect operations
+  + [WPIO-007] define ApplicabilityBinding with exact roles, contexts, purpose, evidence, boundaries, authority, transfer law, status, and optional candidate score
+  + [WPIO-008] define ObjectiveContract with current state, desired predicates, success evidence, constraints, protected identities, prohibited outcomes, budgets, horizon, stop, fallback, and unknowns
+  + [WPIO-009] stage identity scan, operation scan, exact join, relational expansion, and correlation proposal separately
+  + [WPIO-010] forbid correlation score from admission, property transfer, authority, or execution
+  + [WPIO-011] define Weaver CandidateOperationInstance and preserve role bindings, applicability, preconditions, constraints, outputs, deltas, requirements, evidence, and residuals
+  + [WPIO-012] define Planner CandidatePlan with ordered steps, branch graph, cumulative accounts, verification, and closed status
+  + [WPIO-013] require bounded Weaver-Planner cross-review and no-gain termination
+  + [WPIO-014] require independent Honesty and Security gates before Observer disposition
+  + [WPIO-015] preserve Refiner, Scribe, Observer, and EffectBroker delineation
+  + [WPIO-016] regenerate, sign, and re-attest catalogue projections on authoritative root change
+  + [WPIO-017] preserve exact source anchors and proof for every returned identity, operation, applicability edge, instance, and plan step
+  + [WPIO-018] explicitly return excluded, contradictory, stale, unauthorized, unreachable, blocked, clipped, and unresolved material
+  + [WPIO-019] test homonymous identity, overloaded verb, wrong role binding, unsupported correlation, authority laundering, constraint accumulation, planning cycle, unreachable objective, legitimate decomposition, and effect separation
+  + [WPIO-020] measure deterministic exact joins before adding embeddings or learned routing and preserve the deterministic fallback
+
+& [Decision] is admit the definition as the next Weaver-Planner SJS input
+  + [canonical_authority] is absent
+  + [implementation_authority] is absent
+  + [execution_authority] is absent
+  + [catalogue_artifact] is absent
+  + [schedule_effect] add WPIO-SJS-01 after OHSK trust-root formation and before implementing deterministic faculty programs or general retrieval-to-plan behavior
+  + [next] audit current semantic-unit, graph, query, trust-catalogue, objective, transition, faculty, authority, and effect specifications before data design
