@@ -4,10 +4,11 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     BarrierState, BoundedLagPolicy, CalendarItem, CalendarLifecycleState, CapsuleState,
-    ChangeCapsule, ContentDigest, ContentObject, DeclaredIntent, EventKind, LaneCursor,
-    LaneMessage, LaneState, MaterialEvent, MaterialityDecision, ObserverJoin, PlanRevision,
-    RecurrenceRule, ReflectionReturn, ReleaseBarrier, RepositoryGeneration, SemanticId,
-    SemanticSnapshot, TemporalFormSet, TimeExpression, WakeCondition, WorkPacket,
+    ChangeCapsule, CompilerGeneration, CompilerImpact, ContentDigest, ContentObject,
+    DeclaredIntent, DiffKind, DiffRecord, EventKind, LaneCursor, LaneMessage, LaneState,
+    MaterialEvent, MaterialityDecision, ObserverJoin, PlanRevision, RecurrenceRule,
+    ReflectionReturn, ReleaseBarrier, RepositoryGeneration, SemanticId, SemanticSnapshot,
+    TemporalFormSet, TimeExpression, WakeCondition, WorkPacket,
 };
 
 pub const CDRA_RUNTIME_PROFILE: &str = "cantor-cdra-runtime/0.1";
@@ -133,6 +134,92 @@ pub struct TandemRuntimeState {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
+pub enum CompilerFixtureStatus {
+    Registered,
+    ForwardPredicted,
+    RearCompared,
+    Checked,
+    Invalidated,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompilerFixtureManifest {
+    pub fixture_id: SemanticId,
+    pub before_generation_ref: SemanticId,
+    pub candidate_generation_ref: SemanticId,
+    pub source_object_refs: BTreeSet<SemanticId>,
+    pub semantic_ir_object_refs: BTreeSet<SemanticId>,
+    pub build_ir_object_refs: BTreeSet<SemanticId>,
+    pub target_metadata_object_refs: BTreeSet<SemanticId>,
+    pub correspondence_evidence_refs: BTreeSet<SemanticId>,
+    pub independent_correspondence_evidence_refs: BTreeSet<SemanticId>,
+    pub proof_record_refs: BTreeSet<SemanticId>,
+    pub required_diff_kinds: BTreeSet<DiffKind>,
+    pub declared_unrelated_refs: BTreeSet<SemanticId>,
+    pub observer_join_ref: SemanticId,
+    pub max_fixture_records: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompilerForwardPrediction {
+    pub prediction_id: SemanticId,
+    pub fixture_ref: SemanticId,
+    pub before_generation_ref: SemanticId,
+    pub candidate_generation_ref: SemanticId,
+    pub predicted_changed_source_refs: BTreeSet<SemanticId>,
+    pub predicted_changed_semantic_refs: BTreeSet<SemanticId>,
+    pub predicted_invalidated_refs: BTreeSet<SemanticId>,
+    pub predicted_dependency_refs: BTreeSet<SemanticId>,
+    pub predicted_target_artifact_refs: BTreeSet<SemanticId>,
+    pub predicted_diagnostics: BTreeSet<String>,
+    pub predicted_proof_requirement_refs: BTreeSet<SemanticId>,
+    pub explicit_unknowns: BTreeSet<String>,
+    pub prediction_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompilerRearCheck {
+    pub rear_check_id: SemanticId,
+    pub fixture_ref: SemanticId,
+    pub before_generation_ref: SemanticId,
+    pub candidate_generation_ref: SemanticId,
+    pub diff_refs: BTreeMap<DiffKind, SemanticId>,
+    pub observed_changed_source_refs: BTreeSet<SemanticId>,
+    pub observed_changed_semantic_refs: BTreeSet<SemanticId>,
+    pub observed_invalidated_refs: BTreeSet<SemanticId>,
+    pub independent_correspondence_evidence_refs: BTreeSet<SemanticId>,
+    pub preserved_unrelated_refs: BTreeSet<SemanticId>,
+    pub explicit_unknowns: BTreeSet<String>,
+    pub matched_forward_prediction: bool,
+    pub rear_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompilerFixtureRecord {
+    pub manifest: CompilerFixtureManifest,
+    pub status: CompilerFixtureStatus,
+    pub forward_prediction_ref: Option<SemanticId>,
+    pub rear_check_ref: Option<SemanticId>,
+    pub checked_observer_join_ref: Option<SemanticId>,
+    pub checked_generation_ref: Option<SemanticId>,
+    pub invalidated_refs: BTreeSet<SemanticId>,
+    pub preserved_unrelated_refs: BTreeSet<SemanticId>,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompilerFixtureRuntimeState {
+    pub fixtures: BTreeMap<SemanticId, CompilerFixtureRecord>,
+    pub forward_predictions: BTreeMap<SemanticId, CompilerForwardPrediction>,
+    pub rear_checks: BTreeMap<SemanticId, CompilerRearCheck>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum RuntimeOperationKind {
     AdvanceLogicalTime,
     CompareAndAppend,
@@ -150,6 +237,10 @@ pub enum RuntimeOperationKind {
     ReconcileObserver,
     EvaluateReleaseBarrier,
     ReenterLane,
+    RegisterCompilerFixture,
+    RunCompilerForward,
+    RunCompilerRear,
+    CheckCompilerFixture,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -174,6 +265,7 @@ pub struct DeterministicRuntimeRoot {
     pub calendar: FakeCalendarState,
     pub planner: DeterministicPlannerState,
     pub tandem: TandemRuntimeState,
+    pub compiler: CompilerFixtureRuntimeState,
     pub trace: Vec<RuntimeTraceEvent>,
 }
 
@@ -334,6 +426,30 @@ pub enum RuntimeOperation {
         predecessor_cursor_ref: SemanticId,
         successor_cursor: LaneCursor,
     },
+    RegisterCompilerFixture {
+        context: RuntimeOperationContext,
+        manifest: CompilerFixtureManifest,
+        before_generation: Box<CompilerGeneration>,
+        candidate_generation: Box<CompilerGeneration>,
+        impact: Box<CompilerImpact>,
+        content: Vec<ContentInput>,
+        diffs: Vec<DiffRecord>,
+    },
+    RunCompilerForward {
+        context: RuntimeOperationContext,
+        fixture_ref: SemanticId,
+        prediction_id: SemanticId,
+    },
+    RunCompilerRear {
+        context: RuntimeOperationContext,
+        fixture_ref: SemanticId,
+        rear_check_id: SemanticId,
+    },
+    CheckCompilerFixture {
+        context: RuntimeOperationContext,
+        fixture_ref: SemanticId,
+        checked_generation_id: SemanticId,
+    },
 }
 
 impl RuntimeOperation {
@@ -354,7 +470,11 @@ impl RuntimeOperation {
             | Self::AcknowledgeLaneMessage { context, .. }
             | Self::ReconcileObserver { context, .. }
             | Self::EvaluateReleaseBarrier { context, .. }
-            | Self::ReenterLane { context, .. } => context,
+            | Self::ReenterLane { context, .. }
+            | Self::RegisterCompilerFixture { context, .. }
+            | Self::RunCompilerForward { context, .. }
+            | Self::RunCompilerRear { context, .. }
+            | Self::CheckCompilerFixture { context, .. } => context,
         }
     }
 
@@ -376,6 +496,10 @@ impl RuntimeOperation {
             Self::ReconcileObserver { .. } => RuntimeOperationKind::ReconcileObserver,
             Self::EvaluateReleaseBarrier { .. } => RuntimeOperationKind::EvaluateReleaseBarrier,
             Self::ReenterLane { .. } => RuntimeOperationKind::ReenterLane,
+            Self::RegisterCompilerFixture { .. } => RuntimeOperationKind::RegisterCompilerFixture,
+            Self::RunCompilerForward { .. } => RuntimeOperationKind::RunCompilerForward,
+            Self::RunCompilerRear { .. } => RuntimeOperationKind::RunCompilerRear,
+            Self::CheckCompilerFixture { .. } => RuntimeOperationKind::CheckCompilerFixture,
         }
     }
 }
@@ -445,6 +569,22 @@ pub enum RuntimeOutput {
         predecessor_cursor_ref: SemanticId,
         successor_cursor_ref: SemanticId,
     },
+    CompilerFixtureRegistered {
+        fixture_ref: SemanticId,
+        candidate_generation_ref: SemanticId,
+    },
+    CompilerForwardPrediction {
+        prediction: CompilerForwardPrediction,
+    },
+    CompilerRearCheck {
+        rear_check: CompilerRearCheck,
+        invalidated_refs: BTreeSet<SemanticId>,
+    },
+    CompilerFixtureChecked {
+        fixture_ref: SemanticId,
+        compiler_generation_ref: SemanticId,
+        observer_join_ref: SemanticId,
+    },
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -483,6 +623,9 @@ pub enum RuntimeFaultKind {
     WakeMismatch,
     IllegalTransition,
     InvalidReentry,
+    WrongGeneration,
+    IncompleteDiff,
+    MissingCorrespondence,
     ForbiddenEffect,
     Nondeterminism,
     InternalInvariant,

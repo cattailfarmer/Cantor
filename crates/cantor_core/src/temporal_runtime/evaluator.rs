@@ -13,6 +13,10 @@ use crate::{
     RepositoryGeneration, SemanticId, SemanticSnapshot, TemporalFormSet, sha256_bytes,
 };
 
+use super::compiler::{
+    check_compiler_fixture, register_compiler_fixture, run_compiler_forward, run_compiler_rear,
+    validate_compiler_runtime,
+};
 use super::planner::{
     evaluate_calendar_state, evaluate_wake, expand_recurrence, propose_plan, revise_calendar,
 };
@@ -53,6 +57,7 @@ impl RuntimeSnapshot {
             calendar: FakeCalendarState::default(),
             planner: DeterministicPlannerState::default(),
             tandem: TandemRuntimeState::default(),
+            compiler: CompilerFixtureRuntimeState::default(),
             trace: Vec::new(),
         };
         Self::from_root(root)
@@ -495,6 +500,39 @@ fn apply_operation(
             predecessor_cursor_ref,
             successor_cursor,
         } => reenter_lane(root, context, predecessor_cursor_ref, successor_cursor),
+        RuntimeOperation::RegisterCompilerFixture {
+            context,
+            manifest,
+            before_generation,
+            candidate_generation,
+            impact,
+            content,
+            diffs,
+        } => register_compiler_fixture(
+            root,
+            context,
+            manifest,
+            before_generation,
+            candidate_generation,
+            impact,
+            content,
+            diffs,
+        ),
+        RuntimeOperation::RunCompilerForward {
+            context,
+            fixture_ref,
+            prediction_id,
+        } => run_compiler_forward(root, context, fixture_ref, prediction_id),
+        RuntimeOperation::RunCompilerRear {
+            context,
+            fixture_ref,
+            rear_check_id,
+        } => run_compiler_rear(root, context, fixture_ref, rear_check_id),
+        RuntimeOperation::CheckCompilerFixture {
+            context,
+            fixture_ref,
+            checked_generation_id,
+        } => check_compiler_fixture(root, context, fixture_ref, checked_generation_id),
     }
 }
 
@@ -992,6 +1030,7 @@ fn validate_root(root: &DeterministicRuntimeRoot) -> Result<(), EvaluationFault>
             }
         }
     }
+    validate_compiler_runtime(root)?;
     Ok(())
 }
 

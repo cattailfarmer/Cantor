@@ -1,0 +1,58 @@
+Subject: Cantor Deterministic Compiler Fixture Proof
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Deterministic_Runtime_Activation.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Deterministic_Compiler_Fixture_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\temporal_compiler_fixture.rs
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is bcb9ed93-ae7d-458d-9221-c68457119261
+  + [solution_uuid] is 633a03e3-d8f0-4b44-a5ef-fe60556b8bcf
+  + [authority_signature_uuid] is ad886f0f-4eb8-41d4-9e2f-69921d5cc197
+  + [captured_at] is 2026-08-05T11:43:02.0615301-05:00
+
+& [ArtifactIdentity] is measured before governance-only closure
+  + [mod_rs] is 541 bytes SHA256 A72422DC54DB5517F0B05A2D0428E39F111547CFB5CBD8808EC661C03B12C856
+  + [types_rs] is 22750 bytes SHA256 D705BB3480C52A93F108E5FEF3C09F6D44E324E9D27BFE0AF7FD1AE63B19F9BF
+  + [evaluator_rs] is 43085 bytes SHA256 3B598722301F7A540D2069D335AD31F50324D079B9CE571762DF22B020299031
+  + [compiler_rs] is 48813 bytes SHA256 9FFA8CCF06075C9A7F75728F3E38630BC660B8D35666DFFF0523F74B979A6884
+  + [compiler_fixture_tests] is 25269 bytes SHA256 A42EF4623358D3E0DE8CB7E7C8B37C7556A2574BEEA241268E91D589CE5AE3DE
+  + [runtime_document] is 6707 bytes SHA256 97CBDAF2CC4A2D390F00A6F26A02C2FF58A023925FA8ABB84FE53EADC99E21DA
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test temporal_compiler_fixture --locked
+  + [result] is 6 passed, 0 failed
+  + [proof_set] is exact dual-pass success with normalized replay, mismatch invalidation with unrelated preservation, incomplete-diff refusal, tampered-content refusal, incomplete Observer-subject refusal, bound refusal, wrong-generation refusal, forward-and-rear evidence-conflation refusal, and derived-record digest-tamper reconstruction refusal
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 130 passed, 0 failed
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all -- --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is git diff --check
+  + [result] is passed
+
+& [WorkspaceIntegrationVerification] preserves stale historical evidence
+  + [command] is cargo test --workspace --locked
+  + [new_compiler_fixture_tests] are 6 passed before the external failure
+  + [focused_core_tests] are 130 passed
+  + [failure] is candidate workspace evidence manifest asserts stale metadata for README.md from an earlier committed documentation change
+  + [expected_bytes] is 13838
+  + [actual_bytes] is 14529
+  + [classification] is inherited_evidence_manifest_fault_not_WS-CTPR-013_change
+  + [current_slice_README_delta] is none
+  - never: report the full workspace integration suite as passed
+
+& [AuthorityAndEffectAudit] is passed
+  + Cargo dependency graph is unchanged
+  + the operation vocabulary contains only pure root transformations over supplied bounded records and bytes
+  + source inspection exposes no filesystem, Git, network, database service, system clock, process, thread, provider, notification, model, unsafe, device, FPGA, or hardware operation
+  + the fixture neither parses SOP nor invokes a target; it compares exact caller-supplied compiler records
+  + all accepted writes exist only in returned immutable values
+
+& [ProofDisposition] is WS-CTPR-013_focused_proven_with_inherited_workspace_evidence_fault
+  + [CDRA-I05] is implemented and focused-proven
+  + [FR-CTPR-013] is verified after completed-work review
+  + [remaining_CDRA] is I06 integrated proof and I07 audit and handoff

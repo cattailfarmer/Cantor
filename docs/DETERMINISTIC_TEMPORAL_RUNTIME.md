@@ -8,7 +8,8 @@ The prior snapshot is never modified.
 
 The runtime profile is `cantor-cdra-runtime/0.1`. A root pins the exact CTPR
 form version, policies, explicit limits, caller-controlled logical clock,
-in-memory repository, Calendar, Planner, and Tandem projections, and a
+in-memory repository, Calendar, Planner, Tandem, and fixed compiler-fixture
+projections, and a
 deterministic trace. Compact JSON over ordered maps and sets is the canonical
 machine form;
 restoration rejects unknown fields, unsupported versions, invalid digests, and
@@ -56,6 +57,25 @@ valid but non-normalized JSON.
 - `reenter_lane` creates a new prepared cursor only from an exact terminal
   predecessor while preserving capsule, task, plan, repository, authority,
   message, and dependency evidence.
+- `register_compiler_fixture` admits only a fixed, bounded, content-digest
+  verified set of SOP source, SemanticIR, BuildIR, target metadata,
+  correspondence, independent correspondence, proof, impact, and all eight
+  diff classes. It does not parse or compile source.
+- `run_compiler_forward` deterministically projects changed identities,
+  invalidations, dependencies, targets, diagnostics, proof needs, and explicit
+  unknowns from the supplied candidate generation and `CompilerImpact`.
+- `run_compiler_rear` independently reconstructs observed source and semantic
+  changes, invalidations, unknowns, and preserved unrelated state from the
+  eight supplied `DiffRecord` classes. A mismatch preserves the rear evidence
+  and invalidates only the candidate, forward prediction, candidate targets,
+  and the union of explicitly predicted and independently observed affected
+  identities.
+- `check_compiler_fixture` reaches `proof_checked` only after exact forward/rear
+  agreement, disjoint independent correspondence evidence, complete diff
+  classes, and an admitting or qualifying Observer disposition over every
+  compiler proof subject. It emits a new immutable checked generation whose
+  sole predecessor is the compared candidate; it never rewrites the candidate
+  under its existing identity.
 
 Every operation carries a unique operation identity, caller, expected root
 digest, and narrower input/emission/graph limits. Refusal preserves the prior
@@ -81,13 +101,16 @@ occurrence keys under a declared zone, calendar, and horizon, and the runtime
 applies the signed recurrence policy deterministically. It does not classify
 truth or authority from time, commit schedules, run work, persist state, call a
 provider, issue notifications, perform Git operations, interpret process
-procedures, or execute FPGA logic. Compiler correspondence remains a separate
-dependency-ordered slice. Tandem execution observations are inert fixture data,
-not tool calls or evidence that an external effect occurred.
+procedures, or execute FPGA logic. The compiler surface is a fixed
+correspondence fixture, not a general parser, compiler, backend, native/WASM
+artifact producer, target executor, or self-certifier. Tandem execution
+observations are inert fixture data, not tool calls or evidence that an external
+effect occurred.
 
 Run the focused proof with:
 
 ```powershell
 cargo test -p cantor_core --test temporal_runtime --locked
 cargo test -p cantor_core --test temporal_tandem --locked
+cargo test -p cantor_core --test temporal_compiler_fixture --locked
 ```

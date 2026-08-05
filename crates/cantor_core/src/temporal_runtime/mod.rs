@@ -3,6 +3,7 @@
 //! The runtime owns immutable value transitions only. It performs no clock
 //! reads, persistence, filesystem access, provider calls, threads, or effects.
 
+mod compiler;
 mod evaluator;
 mod planner;
 mod repository;
