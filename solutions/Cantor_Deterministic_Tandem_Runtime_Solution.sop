@@ -1,0 +1,65 @@
+Subject: Cantor Deterministic Tandem Runtime Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Deterministic_Runtime_Activation.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Deterministic_Runtime_Activation_Phase_Lock.sop
+@ [support] C:\Project\Cantor\feature_support\cantor_temporal_planner_development\slice_03_runtime_implementation.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Deterministic_Tandem_Runtime_Proof.sop
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is 2f10c3a2-92a5-498f-b308-9df1eae26d13
+  + [implemented_at] is 2026-08-05T11:20:28.6543946-05:00
+  + [slice] is WS-CTPR-012 reconciled to CDRA-I04
+  + [requirement] is FR-CTPR-012
+  + [authority_signature_uuid] is ad886f0f-4eb8-41d4-9e2f-69921d5cc197
+  + [claim_uuid] is 66de28f4-2792-46c1-afc7-f99313188ee1
+  + [status] is implemented_focused_proven_and_review_ready
+
+& [ImplementationSurface] is bounded and effectless
+  + [tandem_runtime] is crates/cantor_core/src/temporal_runtime/tandem.rs
+  + [runtime_types] is crates/cantor_core/src/temporal_runtime/types.rs
+  + [dispatcher_and_root_validation] is crates/cantor_core/src/temporal_runtime/evaluator.rs
+  + [focused_tests] is crates/cantor_core/tests/temporal_tandem.rs
+  + [shared_test_support] is crates/cantor_core/tests/temporal_runtime_support/mod.rs
+  + [human_contract] is docs/DETERMINISTIC_TEMPORAL_RUNTIME.md
+  + [dependency_delta] is none
+  + [unsafe_delta] is none
+  + [external_effect_delta] is none
+
+& [TandemOpening] establishes exact identity and bounded progress
+  + a clean Opened capsule must name the supplied declared intent and current repository and plan revisions
+  + every opening contains unique prospective and retrospective cursors, exact work-packet coordinates, a closed barrier, and optional authority-bound execution cursor
+  + prospective work is mandatory and execution work is mandatory when an execution lane exists
+  + every runtime transition kind has caller-supplied count-bounded lag-policy coverage
+  + opening validates the complete candidate CTPR graph before returning a successor
+
+& [CapsuleAndLaneLifecycle] preserves evidence
+  + the canonical CTPR capsule and lane transition tables are the only accepted state edges
+  + task, plan, repository, capsule, intent, lane kind, authority, dependency, message, and prior evidence coordinates cannot be silently replaced or removed
+  + Prepared, ExecutionRequested, EffectObserved, ReflectionReturned, and reconciled states require their state-specific evidence
+  + prospective lanes return only the prepared candidate, execution lanes only the supplied simulated outcome, and retrospective lanes only their exact ReflectionReturn
+  + timeout names a logical timeout record and terminal crash reentry creates a new prepared cursor with its exact predecessor dependency
+
+& [MessagesObserverAndBarrier] derive completeness
+  + lane messages are immutable, same-capsule, named-sender and named-receiver records at the current logical tick
+  + every new message cites the sender's previous message and only already-present causal predecessors
+  + required acknowledgment is accepted only from the exact receiver and retained in the runtime root
+  + lane-to-return bindings are runtime state; Observer expected and received sets must equal the derived complete return set
+  + every lane must settle, abnormal terminal lanes require residual accounting, and every required message must be acknowledged
+  + Observer rechecks current repository, current plan, capsule, task, materiality policy, lag policy, authority, stale checks, reflection identity, and monotonic capsule evidence
+  + a release barrier opens only for its exact dependency and return sets under an Observer Admit or Qualify disposition that names the barrier
+
+& [DeterministicRootAndFaultBoundary] is reconstructable
+  + capsule and lane histories begin at their runtime opening or reentry state and every adjacent edge validates
+  + return bindings, acknowledgments, reentry predecessors, and per-capsule transition counts are root-digest-bound
+  + accepted operations produce immutable successors and receipts; every refusal preserves the prior snapshot
+  + transition, stale-predecessor, missing-reference, invalid-form, invalid-reentry, duplicate, and bound faults remain typed and inspectable
+
+& [DeliberateLimits] are binding
+  + execution outcomes are inert caller-supplied fixture references and no tool or effect is invoked
+  + logical timeout is a supplied transition and no timer, sleep, thread, or lease process exists
+  + residual text is explicit but this slice does not infer or repair a residual
+  + no persistence, filesystem, Git, network, database service, provider, model, process procedure, compiler fixture, FPGA, or hardware behavior is added
+
+& [SolutionDisposition] is accepted for WS-CTPR-012 after completed-work review
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Deterministic_Tandem_Runtime_Proof.sop
+  + [next] is separately claim WS-CTPR-013 after support readiness is recomputed

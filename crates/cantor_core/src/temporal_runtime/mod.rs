@@ -6,6 +6,7 @@
 mod evaluator;
 mod planner;
 mod repository;
+mod tandem;
 mod types;
 
 pub use evaluator::{

@@ -8,8 +8,9 @@ The prior snapshot is never modified.
 
 The runtime profile is `cantor-cdra-runtime/0.1`. A root pins the exact CTPR
 form version, policies, explicit limits, caller-controlled logical clock,
-in-memory repository, Calendar and Planner projections, and a deterministic
-trace. Compact JSON over ordered maps and sets is the canonical machine form;
+in-memory repository, Calendar, Planner, and Tandem projections, and a
+deterministic trace. Compact JSON over ordered maps and sets is the canonical
+machine form;
 restoration rejects unknown fields, unsupported versions, invalid digests, and
 valid but non-normalized JSON.
 
@@ -35,6 +36,26 @@ valid but non-normalized JSON.
   recognized resource identities, and objective dependency graph. It uses
   declared priority followed by stable semantic identity and returns a proposal,
   never a commitment or execution.
+- `open_tandem` binds a clean capsule to the current repository and plan, exact
+  prospective/optional execution/retrospective lanes, work packets, closed
+  barriers, and count-bounded lag policies.
+- `transition_capsule` and `transition_lane` enforce the closed CTPR lifecycle,
+  immutable coordinates, monotonic evidence, typed lane outputs, and explicit
+  timeout identities. Execution lanes can return only a caller-supplied
+  simulated outcome already named by the capsule; no effect is performed.
+- `append_lane_message` and `acknowledge_lane_message` preserve named sender and
+  receiver identity, same-capsule scope, logical time, causal predecessors, and
+  explicit required acknowledgment.
+- `reconcile_observer` derives the complete lane-return set from runtime state,
+  requires settled lanes and acknowledged messages, rechecks the current plan,
+  repository, materiality, lag, and authority subjects, and records the exact
+  Observer disposition.
+- `evaluate_release_barrier` opens only an exact dependency set cited by an
+  admitting or qualifying Observer join; blocking and unresolved dispositions
+  cannot release work.
+- `reenter_lane` creates a new prepared cursor only from an exact terminal
+  predecessor while preserving capsule, task, plan, repository, authority,
+  message, and dependency evidence.
 
 Every operation carries a unique operation identity, caller, expected root
 digest, and narrower input/emission/graph limits. Refusal preserves the prior
@@ -60,11 +81,13 @@ occurrence keys under a declared zone, calendar, and horizon, and the runtime
 applies the signed recurrence policy deterministically. It does not classify
 truth or authority from time, commit schedules, run work, persist state, call a
 provider, issue notifications, perform Git operations, interpret process
-procedures, or execute FPGA logic. Tandem lanes and compiler correspondence are
-separate dependency-ordered slices.
+procedures, or execute FPGA logic. Compiler correspondence remains a separate
+dependency-ordered slice. Tandem execution observations are inert fixture data,
+not tool calls or evidence that an external effect occurred.
 
 Run the focused proof with:
 
 ```powershell
 cargo test -p cantor_core --test temporal_runtime --locked
+cargo test -p cantor_core --test temporal_tandem --locked
 ```

@@ -4,7 +4,7 @@ Description: Requirement-to-source, refined meaning, data support, canonical cla
 
 @ [matrix_uuid] b3cf3b5e-5c5c-437e-a411-29be0f0fbf03
 @ [requirement_set] CDRA-001 through CDRA-040
-@ [matrix_state] specification_complete_runtime_supported_through_CDRA_I03
+@ [matrix_state] specification_complete_runtime_supported_through_CDRA_I04
 
 & [Coverage_001_010] is mapped
   + CDRA-001 -> pure forms proof; data IdentityPolicy; canonical RuntimeIdentityAndABI; future exact-form tests
@@ -37,16 +37,16 @@ Description: Requirement-to-source, refined meaning, data support, canonical cla
   + CDRA-024 -> refinement DeterministicPlanner; canonical DeterministicPlanner; future alternative uncertainty tests
   + CDRA-025 -> exploded Planner; canonical Materiality; future classification rule tests
   + CDRA-026 -> rejected schedule commitment conflation; canonical DeterministicPlanner; future proposal-only tests
-  + CDRA-027 -> pure form transitions; canonical TandemAndCapsules; future lifecycle transition table
-  + CDRA-028 -> data TandemRuntimeProjection; canonical TandemAndCapsules; future pinned-version tests
-  + CDRA-029 -> constraints C025; canonical AuthorityAndEffectBoundary; future simulated-observation tests
-  + CDRA-030 -> refinement TandemCoordination; canonical TandemAndCapsules; future retrospective completeness tests
+  + CDRA-027 -> pure form transitions; canonical TandemAndCapsules; implemented lifecycle transition and evidence gates
+  + CDRA-028 -> data TandemRuntimeProjection; canonical TandemAndCapsules; implemented current pinned-version opening and preservation tests
+  + CDRA-029 -> constraints C025; canonical AuthorityAndEffectBoundary; implemented simulated-observation-only execution test
+  + CDRA-030 -> refinement TandemCoordination; canonical TandemAndCapsules; implemented exact retrospective return and completeness tests
 
 & [Coverage_031_040] is mapped
-  + CDRA-031 -> data TandemRuntimeProjection; canonical TandemAndCapsules; future message causality tests
-  + CDRA-032 -> constraints C027; canonical TandemAndCapsules; future join refusal matrix
-  + CDRA-033 -> constraints C029; canonical TandemAndCapsules; future exact barrier set tests
-  + CDRA-034 -> constraints C028; canonical TandemAndCapsules; future timeout cancel reentry tests
+  + CDRA-031 -> data TandemRuntimeProjection; canonical TandemAndCapsules; implemented logical-time causality and acknowledgment tests
+  + CDRA-032 -> constraints C027; canonical TandemAndCapsules; implemented return, acknowledgment, subject, version, policy, and disposition refusal gates
+  + CDRA-033 -> constraints C029; canonical TandemAndCapsules; implemented exact barrier set and blocking-disposition tests
+  + CDRA-034 -> constraints C028; canonical TandemAndCapsules; implemented count lag, timeout, cancellation, residual, and reentry tests
   + CDRA-035 -> data CompilerFixtureProjection; canonical CompilerDiffFixture; future fixed fixture tests
   + CDRA-036 -> refinement CompilerDiffFixture; canonical CompilerDiffFixture; future forward prediction tests
   + CDRA-037 -> constraints C030; canonical CompilerDiffFixture; future independent rear checker tests
@@ -59,7 +59,7 @@ Description: Requirement-to-source, refined meaning, data support, canonical cla
   + [mapped_count] is 40
   + [unmapped_count] is 0
   + [specification_status] is satisfied_only_after_valid_CDRA_phase_lock
-  + [runtime_implementation_status] is CDRA-I01_through_CDRA-I03_focused_proven
+  + [runtime_implementation_status] is CDRA-I01_through_CDRA-I04_focused_proven
   + [live_effect_status] is not_authorized
 
 & [ProofRule] prevents laundering
@@ -74,5 +74,15 @@ Description: Requirement-to-source, refined meaning, data support, canonical cla
   + [implemented_slice_set] is CDRA-I01, CDRA-I02, and CDRA-I03 reconciled to WS-CTPR-011
   + [supported_requirement_set] is CDRA-001 through CDRA-026 at bounded effectless runtime grade
   + [generative_proof_residual] is broader branch, merge, compaction, alternatives, uncertainty, insertion-order, and adversarial transition generation remains assigned to CDRA-I06
-  + [unimplemented_requirement_set] is CDRA-027 through CDRA-040
+  + [unimplemented_requirement_set] is CDRA-035 through CDRA-040
   + [effect_status] is no_external_effect_surface_added
+
+& [TandemRuntimeImplementationDelta_2026_08_05] is bounded
+  @ [solution] C:\Project\Cantor\solutions\Cantor_Deterministic_Tandem_Runtime_Solution.sop
+  @ [proof] C:\Project\Cantor\proofs\Cantor_Deterministic_Tandem_Runtime_Proof.sop
+  @ [completion_review] C:\Project\Cantor\feature_support\reviews\CantorDeterministicTandemRuntimeCompletionReview.sop
+  + [implemented_slice_set] is CDRA-I04 reconciled to WS-CTPR-012
+  + [supported_requirement_set] is CDRA-027 through CDRA-034 at bounded effectless runtime grade
+  + [generative_proof_residual] is broader transition, ordering, and replay generation remains assigned to CDRA-I06
+  + [unimplemented_requirement_set] is CDRA-035 through CDRA-040
+  + [effect_status] is supplied_fixture_observations_only_and_no_external_effect_surface_added

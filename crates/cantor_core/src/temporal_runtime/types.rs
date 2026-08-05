@@ -3,9 +3,11 @@ use std::collections::{BTreeMap, BTreeSet};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    CalendarItem, CalendarLifecycleState, ContentDigest, ContentObject, EventKind, MaterialEvent,
-    MaterialityDecision, PlanRevision, RecurrenceRule, RepositoryGeneration, SemanticId,
-    SemanticSnapshot, TemporalFormSet, WakeCondition,
+    BarrierState, BoundedLagPolicy, CalendarItem, CalendarLifecycleState, CapsuleState,
+    ChangeCapsule, ContentDigest, ContentObject, DeclaredIntent, EventKind, LaneCursor,
+    LaneMessage, LaneState, MaterialEvent, MaterialityDecision, ObserverJoin, PlanRevision,
+    RecurrenceRule, ReflectionReturn, ReleaseBarrier, RepositoryGeneration, SemanticId,
+    SemanticSnapshot, TemporalFormSet, TimeExpression, WakeCondition, WorkPacket,
 };
 
 pub const CDRA_RUNTIME_PROFILE: &str = "cantor-cdra-runtime/0.1";
@@ -118,6 +120,17 @@ pub struct DeterministicPlannerState {
     pub last_objective_order: Vec<SemanticId>,
 }
 
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TandemRuntimeState {
+    pub capsule_state_history: BTreeMap<SemanticId, Vec<CapsuleState>>,
+    pub lane_state_history: BTreeMap<SemanticId, Vec<LaneState>>,
+    pub lane_return_refs: BTreeMap<SemanticId, SemanticId>,
+    pub acknowledged_message_refs: BTreeSet<SemanticId>,
+    pub reentry_predecessors: BTreeMap<SemanticId, SemanticId>,
+    pub transition_counts: BTreeMap<SemanticId, BTreeMap<String, u32>>,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum RuntimeOperationKind {
@@ -129,6 +142,14 @@ pub enum RuntimeOperationKind {
     ProposePlan,
     ClassifyMateriality,
     EvaluateCalendarState,
+    OpenTandem,
+    TransitionCapsule,
+    TransitionLane,
+    AppendLaneMessage,
+    AcknowledgeLaneMessage,
+    ReconcileObserver,
+    EvaluateReleaseBarrier,
+    ReenterLane,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -152,6 +173,7 @@ pub struct DeterministicRuntimeRoot {
     pub repository: FakeRepositoryState,
     pub calendar: FakeCalendarState,
     pub planner: DeterministicPlannerState,
+    pub tandem: TandemRuntimeState,
     pub trace: Vec<RuntimeTraceEvent>,
 }
 
@@ -266,6 +288,52 @@ pub enum RuntimeOperation {
         evaluation_kind: CalendarEvaluationKind,
         candidate_event_id: SemanticId,
     },
+    OpenTandem {
+        context: RuntimeOperationContext,
+        declared_intent: DeclaredIntent,
+        capsule: ChangeCapsule,
+        lane_cursors: Vec<LaneCursor>,
+        work_packets: Vec<WorkPacket>,
+        release_barriers: Vec<ReleaseBarrier>,
+        bounded_lag_policies: Vec<BoundedLagPolicy>,
+    },
+    TransitionCapsule {
+        context: RuntimeOperationContext,
+        expected_state: CapsuleState,
+        successor: ChangeCapsule,
+    },
+    TransitionLane {
+        context: RuntimeOperationContext,
+        expected_state: LaneState,
+        successor: LaneCursor,
+        return_ref: Option<SemanticId>,
+        reflection_return: Option<ReflectionReturn>,
+    },
+    AppendLaneMessage {
+        context: RuntimeOperationContext,
+        logical_time: TimeExpression,
+        message: LaneMessage,
+    },
+    AcknowledgeLaneMessage {
+        context: RuntimeOperationContext,
+        message_ref: SemanticId,
+        receiver_cursor_ref: SemanticId,
+    },
+    ReconcileObserver {
+        context: RuntimeOperationContext,
+        join: ObserverJoin,
+        successor_capsule: ChangeCapsule,
+    },
+    EvaluateReleaseBarrier {
+        context: RuntimeOperationContext,
+        expected_state: BarrierState,
+        successor: ReleaseBarrier,
+    },
+    ReenterLane {
+        context: RuntimeOperationContext,
+        predecessor_cursor_ref: SemanticId,
+        successor_cursor: LaneCursor,
+    },
 }
 
 impl RuntimeOperation {
@@ -278,7 +346,15 @@ impl RuntimeOperation {
             | Self::EvaluateWake { context, .. }
             | Self::ProposePlan { context, .. }
             | Self::ClassifyMateriality { context, .. }
-            | Self::EvaluateCalendarState { context, .. } => context,
+            | Self::EvaluateCalendarState { context, .. }
+            | Self::OpenTandem { context, .. }
+            | Self::TransitionCapsule { context, .. }
+            | Self::TransitionLane { context, .. }
+            | Self::AppendLaneMessage { context, .. }
+            | Self::AcknowledgeLaneMessage { context, .. }
+            | Self::ReconcileObserver { context, .. }
+            | Self::EvaluateReleaseBarrier { context, .. }
+            | Self::ReenterLane { context, .. } => context,
         }
     }
 
@@ -292,6 +368,14 @@ impl RuntimeOperation {
             Self::ProposePlan { .. } => RuntimeOperationKind::ProposePlan,
             Self::ClassifyMateriality { .. } => RuntimeOperationKind::ClassifyMateriality,
             Self::EvaluateCalendarState { .. } => RuntimeOperationKind::EvaluateCalendarState,
+            Self::OpenTandem { .. } => RuntimeOperationKind::OpenTandem,
+            Self::TransitionCapsule { .. } => RuntimeOperationKind::TransitionCapsule,
+            Self::TransitionLane { .. } => RuntimeOperationKind::TransitionLane,
+            Self::AppendLaneMessage { .. } => RuntimeOperationKind::AppendLaneMessage,
+            Self::AcknowledgeLaneMessage { .. } => RuntimeOperationKind::AcknowledgeLaneMessage,
+            Self::ReconcileObserver { .. } => RuntimeOperationKind::ReconcileObserver,
+            Self::EvaluateReleaseBarrier { .. } => RuntimeOperationKind::EvaluateReleaseBarrier,
+            Self::ReenterLane { .. } => RuntimeOperationKind::ReenterLane,
         }
     }
 }
@@ -327,6 +411,39 @@ pub enum RuntimeOutput {
     CalendarStateEvaluation {
         candidate: CalendarEventCandidate,
         successor_revision_ref: SemanticId,
+    },
+    TandemOpened {
+        capsule_generation_ref: SemanticId,
+        lane_cursor_refs: BTreeSet<SemanticId>,
+    },
+    CapsuleTransition {
+        capsule_generation_ref: SemanticId,
+        state: CapsuleState,
+    },
+    LaneTransition {
+        cursor_ref: SemanticId,
+        state: LaneState,
+        return_ref: Option<SemanticId>,
+    },
+    LaneMessageAppended {
+        message_ref: SemanticId,
+    },
+    LaneMessageAcknowledged {
+        message_ref: SemanticId,
+        receiver_cursor_ref: SemanticId,
+    },
+    ObserverReconciliation {
+        join_ref: SemanticId,
+        capsule_generation_ref: SemanticId,
+    },
+    ReleaseBarrierEvaluation {
+        barrier_ref: SemanticId,
+        state: BarrierState,
+        released_refs: BTreeSet<SemanticId>,
+    },
+    LaneReentry {
+        predecessor_cursor_ref: SemanticId,
+        successor_cursor_ref: SemanticId,
     },
 }
 
@@ -365,6 +482,7 @@ pub enum RuntimeFaultKind {
     RecurrenceHorizon,
     WakeMismatch,
     IllegalTransition,
+    InvalidReentry,
     ForbiddenEffect,
     Nondeterminism,
     InternalInvariant,

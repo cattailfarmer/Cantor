@@ -17,6 +17,10 @@ use super::planner::{
     evaluate_calendar_state, evaluate_wake, expand_recurrence, propose_plan, revise_calendar,
 };
 use super::repository::{classify_materiality, compare_and_append};
+use super::tandem::{
+    acknowledge_lane_message, append_lane_message, evaluate_release_barrier, open_tandem,
+    reconcile_observer, reenter_lane, transition_capsule, transition_lane,
+};
 use super::types::*;
 
 #[derive(Debug)]
@@ -48,6 +52,7 @@ impl RuntimeSnapshot {
             },
             calendar: FakeCalendarState::default(),
             planner: DeterministicPlannerState::default(),
+            tandem: TandemRuntimeState::default(),
             trace: Vec::new(),
         };
         Self::from_root(root)
@@ -428,6 +433,68 @@ fn apply_operation(
             *evaluation_kind,
             candidate_event_id,
         ),
+        RuntimeOperation::OpenTandem {
+            context,
+            declared_intent,
+            capsule,
+            lane_cursors,
+            work_packets,
+            release_barriers,
+            bounded_lag_policies,
+        } => open_tandem(
+            root,
+            context,
+            declared_intent,
+            capsule,
+            lane_cursors,
+            work_packets,
+            release_barriers,
+            bounded_lag_policies,
+        ),
+        RuntimeOperation::TransitionCapsule {
+            context,
+            expected_state,
+            successor,
+        } => transition_capsule(root, context, *expected_state, successor),
+        RuntimeOperation::TransitionLane {
+            context,
+            expected_state,
+            successor,
+            return_ref,
+            reflection_return,
+        } => transition_lane(
+            root,
+            context,
+            *expected_state,
+            successor,
+            return_ref,
+            reflection_return,
+        ),
+        RuntimeOperation::AppendLaneMessage {
+            context,
+            logical_time,
+            message,
+        } => append_lane_message(root, context, logical_time, message),
+        RuntimeOperation::AcknowledgeLaneMessage {
+            context,
+            message_ref,
+            receiver_cursor_ref,
+        } => acknowledge_lane_message(root, context, message_ref, receiver_cursor_ref),
+        RuntimeOperation::ReconcileObserver {
+            context,
+            join,
+            successor_capsule,
+        } => reconcile_observer(root, context, join, successor_capsule),
+        RuntimeOperation::EvaluateReleaseBarrier {
+            context,
+            expected_state,
+            successor,
+        } => evaluate_release_barrier(root, context, *expected_state, successor),
+        RuntimeOperation::ReenterLane {
+            context,
+            predecessor_cursor_ref,
+            successor_cursor,
+        } => reenter_lane(root, context, predecessor_cursor_ref, successor_cursor),
     }
 }
 
@@ -786,6 +853,144 @@ fn validate_root(root: &DeterministicRuntimeRoot) -> Result<(), EvaluationFault>
             FaultKind::ConstraintViolation,
             "planner objective order exists without a latest plan",
         ));
+    }
+    for (capsule_ref, history) in &root.tandem.capsule_state_history {
+        let capsule = root.forms.capsules.get(capsule_ref).ok_or_else(|| {
+            EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "tandem capsule history references an absent capsule",
+            )
+        })?;
+        if history.first() != Some(&crate::CapsuleState::Opened)
+            || history.last() != Some(&capsule.state)
+            || history
+                .windows(2)
+                .any(|pair| crate::validate_capsule_transition(pair[0], pair[1]).is_err())
+        {
+            return Err(EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "tandem capsule history is empty, discontinuous, or differs from current state",
+            ));
+        }
+    }
+    for (cursor_ref, history) in &root.tandem.lane_state_history {
+        let cursor = root.forms.lane_cursors.get(cursor_ref).ok_or_else(|| {
+            EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "tandem lane history references an absent cursor",
+            )
+        })?;
+        let ordinary_history = history.first() == Some(&crate::LaneState::Idle)
+            && history
+                .windows(2)
+                .all(|pair| crate::validate_lane_transition(pair[0], pair[1]).is_ok());
+        let reentry_history = history.first() == Some(&crate::LaneState::Prepared)
+            && root.tandem.reentry_predecessors.contains_key(cursor_ref)
+            && history
+                .windows(2)
+                .all(|pair| crate::validate_lane_transition(pair[0], pair[1]).is_ok());
+        if (!ordinary_history && !reentry_history) || history.last() != Some(&cursor.state) {
+            return Err(EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "tandem lane history is empty, discontinuous, or differs from current state",
+            ));
+        }
+    }
+    for (cursor_ref, return_ref) in &root.tandem.lane_return_refs {
+        let cursor = root.forms.lane_cursors.get(cursor_ref).ok_or_else(|| {
+            EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "lane return references an absent cursor",
+            )
+        })?;
+        if !matches!(
+            cursor.state,
+            crate::LaneState::Returned | crate::LaneState::Released
+        ) || !super::tandem::lane_output_exists(&root.forms, cursor, return_ref)
+        {
+            return Err(EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "lane return identity is absent or its cursor is not returned",
+            ));
+        }
+    }
+    for cursor in root.forms.lane_cursors.values().filter(|cursor| {
+        root.tandem
+            .lane_state_history
+            .contains_key(&cursor.cursor_id)
+    }) {
+        if matches!(
+            cursor.state,
+            crate::LaneState::Returned | crate::LaneState::Released
+        ) && !root.tandem.lane_return_refs.contains_key(&cursor.cursor_id)
+        {
+            return Err(EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "returned lane lacks a recorded return identity",
+            ));
+        }
+    }
+    for message_ref in &root.tandem.acknowledged_message_refs {
+        let message = root.forms.lane_messages.get(message_ref).ok_or_else(|| {
+            EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "acknowledgment references an absent lane message",
+            )
+        })?;
+        if !message.required_acknowledgment {
+            return Err(EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "acknowledgment exists for a message that did not require one",
+            ));
+        }
+    }
+    for (successor_ref, predecessor_ref) in &root.tandem.reentry_predecessors {
+        let successor = root.forms.lane_cursors.get(successor_ref).ok_or_else(|| {
+            EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "reentry successor is absent",
+            )
+        })?;
+        let predecessor = root
+            .forms
+            .lane_cursors
+            .get(predecessor_ref)
+            .ok_or_else(|| {
+                EvaluationFault::new(
+                    FaultKind::ConstraintViolation,
+                    "reentry predecessor is absent",
+                )
+            })?;
+        if !successor.dependency_refs.contains(predecessor_ref)
+            || successor.capsule_generation_ref != predecessor.capsule_generation_ref
+        {
+            return Err(EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "reentry successor does not preserve its predecessor dependency and capsule",
+            ));
+        }
+    }
+    for (capsule_ref, counts) in &root.tandem.transition_counts {
+        if !root.forms.capsules.contains_key(capsule_ref) {
+            return Err(EvaluationFault::new(
+                FaultKind::ConstraintViolation,
+                "tandem transition count references an absent capsule",
+            ));
+        }
+        for (transition_kind, count) in counts {
+            for policy in root.forms.bounded_lag_policies.values() {
+                if policy.eligible_transition_kinds.contains(transition_kind)
+                    && policy
+                        .maximum_transition_count
+                        .is_some_and(|maximum| *count > maximum)
+                {
+                    return Err(EvaluationFault::new(
+                        FaultKind::BudgetExhausted,
+                        "tandem transition count exceeds a declared bounded-lag policy",
+                    ));
+                }
+            }
+        }
     }
     Ok(())
 }

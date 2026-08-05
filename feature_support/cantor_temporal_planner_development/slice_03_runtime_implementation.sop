@@ -8,7 +8,7 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
 @ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.exploded.sop
 
 & [ClusterIdentity] is bounded deterministic runtime work
-  + [enqueue_readiness] is WS-CTPR-011_completed_WS-CTPR-012_and_013_ready_under_CDRA-SJS-01
+  + [enqueue_readiness] is WS-CTPR-011_and_012_completed_WS-CTPR-013_ready_under_CDRA-SJS-01
   + [reason_for_contiguity] is pure forms provide the common ABI consumed by repository, calendar, tandem, and compiler fixtures
   + [implementation_language] is Rust within the current safe workspace unless signed CTPR authority chooses otherwise
 
@@ -24,7 +24,7 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
     @ [authority] C:\Project\Cantor\specifications\Cantor_Deterministic_Runtime_Activation.sop
     @ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Deterministic_Runtime_Activation_Phase_Lock.sop
   + [feature_requirement] is FR-CTPR-012
-    @ [support_status] ready
+    @ [support_status] verified
     + [requirement_statement] is implement prospective, execution, retrospective, join, invalidation, timeout, residual, and stale-version behavior
   + [feature_requirement] is FR-CTPR-013
     @ [support_status] ready
@@ -55,11 +55,17 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
     @ [proof] C:\Project\Cantor\proofs\Cantor_Deterministic_Temporal_Runtime_Proof.sop
     @ [completion_review] C:\Project\Cantor\feature_support\reviews\CantorDeterministicTemporalRuntimeCompletionReview.sop
   + [work_slice_detail] is WS-CTPR-012
-    @ [slice_status] ready_unassigned
+    @ [slice_status] completed
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+    @ [claim_uuid] 66de28f4-2792-46c1-afc7-f99313188ee1
+    @ [claimed_at_time_ms] 1785945475470
     @ [model_routing] Spark-suitable after signed authority
     @ [depends_on] WS-CTPR-010 and WS-CTPR-011
     + [scope] is tandem lane state machine, compare-and-append join, invalidation, timeout, residual, and crash reentry
     + [proof_route] is stale generation, wrong reflection, timeout, cancellation, and no-deadlock tests
+    @ [solution] C:\Project\Cantor\solutions\Cantor_Deterministic_Tandem_Runtime_Solution.sop
+    @ [proof] C:\Project\Cantor\proofs\Cantor_Deterministic_Tandem_Runtime_Proof.sop
+    @ [completion_review] C:\Project\Cantor\feature_support\reviews\CantorDeterministicTandemRuntimeCompletionReview.sop
   + [work_slice_detail] is WS-CTPR-013
     @ [slice_status] ready_unassigned
     @ [model_routing] Spark-suitable after signed authority; escalate on target-ABI design fork
@@ -107,3 +113,13 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
   + [requirement_delta] is CDRA-I01 through CDRA-I03 implemented without effects
   + [readiness_delta] is WS-CTPR-012 and WS-CTPR-013 ready_unassigned
   + [preferred_next_assignment] is WS-CTPR-012 on the tandem critical path
+
+& [DeterministicTandemRuntimeCompletedWorkReview] releases the compiler fixture frontier
+  + [review_uuid] is c8c58d5f-ac12-4cfb-a9d0-194e32976ae8
+  + [completed_slice] is WS-CTPR-012
+  + [solution] is C:\Project\Cantor\solutions\Cantor_Deterministic_Tandem_Runtime_Solution.sop
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Deterministic_Tandem_Runtime_Proof.sop
+  + [support_delta] is FR-CTPR-012 verified
+  + [requirement_delta] is CDRA-I04 implemented without effects
+  + [readiness_delta] is WS-CTPR-013 remains ready_unassigned and WS-CTPR-014 remains blocked until it completes
+  + [preferred_next_assignment] is WS-CTPR-013

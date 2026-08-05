@@ -1,0 +1,59 @@
+Subject: Cantor Deterministic Tandem Runtime Proof
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Deterministic_Runtime_Activation.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Deterministic_Tandem_Runtime_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\temporal_tandem.rs
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is 0e525fb2-3dae-4365-b92a-9c9569e2e964
+  + [solution_uuid] is 2f10c3a2-92a5-498f-b308-9df1eae26d13
+  + [authority_signature_uuid] is ad886f0f-4eb8-41d4-9e2f-69921d5cc197
+  + [captured_at] is 2026-08-05T11:20:28.6543946-05:00
+
+& [ArtifactIdentity] is measured before governance-only closure
+  + [mod_rs] is 527 bytes SHA256 8245AE3578E5C93605414F2CC69DA70335FC2B0A2BD4399A56D28D8494A79AC1
+  + [types_rs] is 17159 bytes SHA256 C004EC44616751FE4298110CD48AE7CABD818A03F401FFAAAA1B0467C4597074
+  + [evaluator_rs] is 41767 bytes SHA256 DDF76B3EAA7601412814AD354A6D8A3F0B9089BFF52FE32FB108630AE7AFCEC8
+  + [tandem_rs] is 46461 bytes SHA256 910425D761026EAB6DF0384EF6E6659DE01D257870D2A394E754BEDD675A2A59
+  + [temporal_runtime_tests] is 20555 bytes SHA256 C3C3CA1EF987853C7587C311579EABCA49C5E9D4AA9CC273966679044CC97E94
+  + [runtime_test_support] is 14119 bytes SHA256 690571A3C32F2655557350A6B71B364D8289F45D94F6CD32132E6C19ED284F56
+  + [temporal_tandem_tests] is 35086 bytes SHA256 AC4EFCF5B8A3EE07A9E446179399369B398593A314F586750FAF587AAB9B4254
+  + [runtime_document] is 5215 bytes SHA256 1473EA4C74394DD299211F5865E5D0F16B106FF5EA0FDBC75ECD86983994DF31
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test temporal_tandem --locked
+  + [result] is 8 passed, 0 failed
+  + [proof_set] is full prospective and retrospective walk, causal message and acknowledgment, derived complete return set, exact Observer reconciliation, exact barrier release, lifecycle evidence refusal, wrong reflection refusal, stale plan refusal, missing acknowledgment refusal, blocking disposition refusal, simulated execution outcome, bounded-lag exhaustion, timeout, cancellation, valid crash reentry, and invalid reentry
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 124 passed, 0 failed
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all -- --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is git diff --check
+  + [result] is passed
+
+& [WorkspaceIntegrationVerification] preserves stale historical evidence
+  + [command] is cargo test --workspace --locked
+  + [new_tandem_tests] are 8 passed before the external failure
+  + [failure] is candidate workspace evidence manifest asserts stale metadata for README.md from an earlier committed documentation change
+  + [expected_bytes] is 13838
+  + [actual_bytes] is 14529
+  + [classification] is inherited_evidence_manifest_fault_not_WS-CTPR-012_change
+  + [current_slice_README_delta] is none
+  - never: report the full workspace integration suite as passed
+
+& [AuthorityAndEffectAudit] is passed
+  + Cargo dependency graph is unchanged
+  + the operation vocabulary contains only pure root transformations over existing CTPR forms and ordered collections
+  + source inspection exposes no filesystem, Git, network, database service, system clock, process, thread, provider, notification, model, unsafe, device, or hardware operation
+  + execution outcomes and timeouts are supplied records rather than performed effects or timers
+  + all accepted writes exist only in returned immutable values
+
+& [ProofDisposition] is WS-CTPR-012_focused_proven_with_inherited_workspace_evidence_fault
+  + [CDRA-I04] is implemented and focused-proven
+  + [FR-CTPR-012] is verified after completed-work review
+  + [remaining_CDRA] is I05 through I07
