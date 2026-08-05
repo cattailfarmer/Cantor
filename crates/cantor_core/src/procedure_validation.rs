@@ -15,8 +15,11 @@ use crate::{
     ProcedureSchema, ProcedureSchemaSet, ProcedureType, ProcedureValue, ProcessDefinition,
     ProcessInstruction, ProcessLifecycle, SchemaKind, SemanticId,
     compute_admission_disposition_digest, compute_anchor_set_digest,
-    compute_effect_declaration_digest, compute_procedure_bounds_digest,
+    compute_catalogue_receipt_digest, compute_effect_declaration_digest,
+    compute_procedure_bounds_digest, compute_procedure_catalogue_digest,
+    compute_revocation_record_digest, compute_semantic_trace_digest,
     compute_verification_receipt_digest, from_machine_form, sha256_bytes, to_machine_form,
+    validate_catalogue_state,
 };
 
 const MAX_FORM_RECORDS: usize = 16_384;
@@ -223,7 +226,11 @@ pub fn validate_procedure_forms(forms: &ProcedureFormSet) -> Result<(), Evaluati
                 &v.reason,
                 MAX_PROFILE_TEXT_BYTES as u64,
             )?;
-            validate_digest("revocation record digest", &v.record_digest)
+            validate_digest("revocation record digest", &v.record_digest)?;
+            if compute_revocation_record_digest(v)? != v.record_digest {
+                return Err(form_fault("revocation record digest mismatch"));
+            }
+            Ok(())
         },
     )?;
     validate_map(
@@ -240,6 +247,10 @@ pub fn validate_procedure_forms(forms: &ProcedureFormSet) -> Result<(), Evaluati
             )));
         }
         validate_digest("catalogue generation digest", &catalogue.generation_digest)?;
+        if compute_procedure_catalogue_digest(catalogue)? != catalogue.generation_digest {
+            return Err(form_fault("catalogue generation digest mismatch"));
+        }
+        validate_catalogue_state(catalogue)?;
         for (procedure_ref, entry) in &catalogue.entries {
             if procedure_ref != &entry.procedure_ref {
                 return Err(form_fault(
@@ -248,6 +259,10 @@ pub fn validate_procedure_forms(forms: &ProcedureFormSet) -> Result<(), Evaluati
             }
             validate_text("procedure version", &entry.procedure_version, 256)?;
             validate_digest("catalogue procedure digest", &entry.procedure_digest)?;
+            validate_digest(
+                "catalogue admission disposition digest",
+                &entry.admission_disposition_digest,
+            )?;
             if entry.status == CatalogueStatus::Active && entry.revocation_ref.is_some() {
                 return Err(form_fault("active catalogue entry cannot carry revocation"));
             }
@@ -280,6 +295,14 @@ pub fn validate_procedure_forms(forms: &ProcedureFormSet) -> Result<(), Evaluati
                 "catalogue generation digest",
                 &v.catalogue_generation_digest,
             )?;
+            validate_digest("invocation procedure digest", &v.procedure_digest)?;
+            validate_digest(
+                "invocation admission disposition digest",
+                &v.admission_disposition_digest,
+            )?;
+            validate_digest("invocation schema-set digest", &v.schema_set_digest)?;
+            validate_digest("invocation SOP anchor-set digest", &v.sop_anchor_set_digest)?;
+            validate_digest("invocation policy digest", &v.policy_digest)?;
             validate_value(&v.input, v.budgets.memory_unit_limit, MAX_VALUE_DEPTH)?;
             if v.budgets.step_limit == 0
                 || v.budgets.memory_unit_limit == 0
@@ -297,6 +320,9 @@ pub fn validate_procedure_forms(forms: &ProcedureFormSet) -> Result<(), Evaluati
         |v| &v.trace_id,
         |v| {
             validate_digest("trace digest", &v.trace_digest)?;
+            if compute_semantic_trace_digest(v)? != v.trace_digest {
+                return Err(form_fault("semantic trace digest mismatch"));
+            }
             let mut expected_index = 0_u64;
             let mut ids = BTreeSet::new();
             for event in &v.events {
@@ -307,6 +333,19 @@ pub fn validate_procedure_forms(forms: &ProcedureFormSet) -> Result<(), Evaluati
                     return Err(form_fault(
                         "semantic trace contains a duplicate event identity",
                     ));
+                }
+                if expected_index == 0 && !event.causal_predecessor_refs.is_empty() {
+                    return Err(form_fault(
+                        "first semantic trace event cannot have a predecessor",
+                    ));
+                }
+                if expected_index > 0 {
+                    let predecessor = &v.events[expected_index as usize - 1].event_id;
+                    if event.causal_predecessor_refs != BTreeSet::from([predecessor.clone()]) {
+                        return Err(form_fault(
+                            "semantic trace event does not bind its exact predecessor",
+                        ));
+                    }
                 }
                 validate_digest("trace payload digest", &event.normalized_payload_digest)?;
                 expected_index = expected_index.saturating_add(1);
@@ -338,6 +377,28 @@ pub fn validate_procedure_forms(forms: &ProcedureFormSet) -> Result<(), Evaluati
             }
             if let Some(output) = &v.output {
                 validate_value(output, u64::MAX, MAX_VALUE_DEPTH)?;
+            }
+            if compute_semantic_trace_digest(&v.semantic_trace)? != v.semantic_trace.trace_digest {
+                return Err(form_fault("invocation result trace digest mismatch"));
+            }
+            if v.consumed_budget.trace_events != v.semantic_trace.events.len() as u64 {
+                return Err(form_fault(
+                    "invocation result trace accounting differs from trace length",
+                ));
+            }
+            for (index, event) in v.semantic_trace.events.iter().enumerate() {
+                if event.logical_index != index as u64 || event.procedure_ref != v.procedure_ref {
+                    return Err(form_fault(
+                        "invocation result trace index or procedure binding mismatch",
+                    ));
+                }
+            }
+            for state in v.final_process_states.values() {
+                if state.invocation_ref != v.invocation_ref {
+                    return Err(form_fault(
+                        "invocation result contains a state from another invocation",
+                    ));
+                }
             }
             Ok(())
         },
@@ -1157,6 +1218,11 @@ fn validate_receipt_maps(forms: &ProcedureFormSet) -> Result<(), EvaluationFault
         |v| &v.receipt_id,
         |v| {
             validate_digest("catalogue before digest", &v.catalogue_generation_before)?;
+            validate_digest("catalogue procedure digest", &v.procedure_digest)?;
+            validate_digest(
+                "catalogue admission disposition digest",
+                &v.admission_disposition_digest,
+            )?;
             if let Some(after) = &v.catalogue_generation_after {
                 validate_digest("catalogue after digest", after)?;
             }
@@ -1165,7 +1231,11 @@ fn validate_receipt_maps(forms: &ProcedureFormSet) -> Result<(), EvaluationFault
                     "passed catalogue receipt needs an after generation",
                 ));
             }
-            validate_digest("catalogue receipt digest", &v.receipt_digest)
+            validate_digest("catalogue receipt digest", &v.receipt_digest)?;
+            if compute_catalogue_receipt_digest(v)? != v.receipt_digest {
+                return Err(form_fault("catalogue receipt digest mismatch"));
+            }
+            Ok(())
         },
     )
 }
@@ -1517,50 +1587,139 @@ fn validate_relations(forms: &ProcedureFormSet) -> Result<(), EvaluationFault> {
         }
     }
     for receipt in forms.catalogue_receipts.values() {
-        if !forms
-            .compiled_procedures
-            .contains_key(&receipt.procedure_ref)
-            || !forms
-                .admission_dispositions
-                .contains_key(&receipt.admission_disposition_ref)
-        {
+        let Some(procedure) = forms.compiled_procedures.get(&receipt.procedure_ref) else {
             return Err(form_fault(
                 "catalogue receipt lacks procedure or admission evidence",
             ));
+        };
+        let Some(admission) = forms
+            .admission_dispositions
+            .get(&receipt.admission_disposition_ref)
+        else {
+            return Err(form_fault(
+                "catalogue receipt lacks procedure or admission evidence",
+            ));
+        };
+        if procedure.procedure_digest != receipt.procedure_digest
+            || admission.procedure_ref != receipt.procedure_ref
+            || admission.procedure_digest != receipt.procedure_digest
+            || admission.disposition_digest != receipt.admission_disposition_digest
+        {
+            return Err(form_fault(
+                "catalogue receipt does not bind exact procedure and admission content",
+            ));
+        }
+        if let Some(after) = &receipt.catalogue_generation_after {
+            let key = digest_key(after);
+            if !forms
+                .catalogues_by_generation_digest
+                .get(&key)
+                .is_some_and(|catalogue| {
+                    catalogue
+                        .entries
+                        .get(&receipt.procedure_ref)
+                        .is_some_and(|entry| {
+                            entry.procedure_digest == receipt.procedure_digest
+                                && entry.admission_disposition_ref
+                                    == receipt.admission_disposition_ref
+                                && entry.admission_disposition_digest
+                                    == receipt.admission_disposition_digest
+                        })
+                })
+            {
+                return Err(form_fault(
+                    "passed catalogue receipt lacks exact after-state projection",
+                ));
+            }
         }
     }
     for catalogue in forms.catalogues_by_generation_digest.values() {
         for entry in catalogue.entries.values() {
-            if !forms.compiled_procedures.contains_key(&entry.procedure_ref)
-                || !forms
-                    .admission_dispositions
-                    .contains_key(&entry.admission_disposition_ref)
-            {
+            let Some(procedure) = forms.compiled_procedures.get(&entry.procedure_ref) else {
                 return Err(form_fault(
                     "catalogue entry lacks procedure or admission evidence",
+                ));
+            };
+            let Some(admission) = forms
+                .admission_dispositions
+                .get(&entry.admission_disposition_ref)
+            else {
+                return Err(form_fault(
+                    "catalogue entry lacks procedure or admission evidence",
+                ));
+            };
+            if procedure.procedure_digest != entry.procedure_digest
+                || admission.procedure_ref != entry.procedure_ref
+                || admission.procedure_digest != entry.procedure_digest
+                || admission.disposition_digest != entry.admission_disposition_digest
+            {
+                return Err(form_fault(
+                    "catalogue entry does not bind exact procedure and admission content",
                 ));
             }
         }
     }
     for request in forms.invocation_requests.values() {
-        if !forms
+        let Some(procedure) = forms
             .compiled_procedures
-            .contains_key(&request.admitted_procedure_ref)
-            || !forms
-                .admission_dispositions
-                .contains_key(&request.admission_disposition_ref)
-        {
+            .get(&request.admitted_procedure_ref)
+        else {
             return Err(form_fault(
                 "invocation request lacks compiled or admission identity",
+            ));
+        };
+        let Some(admission) = forms
+            .admission_dispositions
+            .get(&request.admission_disposition_ref)
+        else {
+            return Err(form_fault(
+                "invocation request lacks compiled or admission identity",
+            ));
+        };
+        if procedure.procedure_digest != request.procedure_digest
+            || procedure.schema_set_digest != request.schema_set_digest
+            || admission.procedure_ref != request.admitted_procedure_ref
+            || admission.procedure_digest != request.procedure_digest
+            || admission.disposition_digest != request.admission_disposition_digest
+            || admission.anchor_set_digest != request.sop_anchor_set_digest
+            || admission.policy_ref != request.policy_ref
+            || admission.policy_digest != request.policy_digest
+        {
+            return Err(form_fault(
+                "invocation request does not pin exact procedure, schema, anchors, admission, and policy content",
+            ));
+        }
+        let catalogue_key = digest_key(&request.catalogue_generation_digest);
+        if !forms
+            .catalogues_by_generation_digest
+            .get(&catalogue_key)
+            .and_then(|catalogue| catalogue.entries.get(&request.admitted_procedure_ref))
+            .is_some_and(|entry| {
+                entry.status == CatalogueStatus::Active
+                    && entry.procedure_digest == request.procedure_digest
+                    && entry.admission_disposition_ref == request.admission_disposition_ref
+                    && entry.admission_disposition_digest == request.admission_disposition_digest
+            })
+        {
+            return Err(form_fault(
+                "invocation request lacks an exact active catalogue generation",
             ));
         }
     }
     for result in forms.invocation_results.values() {
-        if !forms
-            .invocation_requests
-            .contains_key(&result.invocation_ref)
-        {
+        let Some(request) = forms.invocation_requests.get(&result.invocation_ref) else {
             return Err(form_fault("invocation result references missing request"));
+        };
+        if result.procedure_ref != request.admitted_procedure_ref
+            || result.semantic_trace.retention_policy_ref != request.retention_policy_ref
+            || result.consumed_budget.steps > request.budgets.step_limit
+            || result.consumed_budget.memory_units > request.budgets.memory_unit_limit
+            || result.consumed_budget.messages > request.budgets.message_limit
+            || result.consumed_budget.trace_events > request.budgets.trace_event_limit
+        {
+            return Err(form_fault(
+                "invocation result does not bind its request or exceeds request budgets",
+            ));
         }
     }
     Ok(())

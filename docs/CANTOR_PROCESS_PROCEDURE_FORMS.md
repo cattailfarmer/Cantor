@@ -83,6 +83,22 @@ contexts and revocation conditions; a stale receipt, changed policy, or other
 substitution returns refusal with no invocation context. This fake admission
 does not insert a catalogue entry and cannot invoke the procedure.
 
+CPPE-I05 adds an immutable in-memory catalogue and the
+`cantor-effectless-interpreter/0.1` local execution profile. Catalogue insert,
+lookup, alias projection, suspension, revocation, and supersession operate by
+returning a new digest-bound value; rejected insertions return an evidence-rich
+receipt and no successor. Catalogue entries and invocation requests pin exact
+procedure, admission, schema, SOP-anchor-set, and policy digests.
+
+The local interpreter validates the active catalogue generation and all pinned
+lineage before its first step. It executes bind, inspect, compare, branch,
+select, bounded identity-map, return, and fault operations one transition at a
+time under explicit logical-time, step, memory, message, and trace budgets.
+Every successful or faulted execution returns immutable process states, steps,
+a digest-bound causal trace, consumed budgets, residuals, and a typed result or
+fault. Emit, receive, yield, wait-logical, reactivate, join, and multi-process
+scheduling return a typed CPPE-I06 residual; they are not silently simulated.
+
 ## Verification
 
 ```text
@@ -90,6 +106,7 @@ cargo test -p cantor_core --test procedure_forms --locked
 cargo test -p cantor_core --test procedure_validation --locked
 cargo test -p cantor_core --test procedure_compiler --locked
 cargo test -p cantor_core --test procedure_verifier --locked
+cargo test -p cantor_core --test procedure_runtime --locked
 cargo test -p cantor_core --locked
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo fmt --all -- --check
