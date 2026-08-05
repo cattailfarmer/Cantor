@@ -1,0 +1,81 @@
+Subject: CPMS I03 Semantic Residual and Conformance Semantic Refinement
+
+@ [refinement_uuid] 564a9ade-c23a-4ac7-ac6e-878675630691
+
+& [SuppliedJsonBytes] means the exact bounded UTF-8 byte sequence presented to I03 before any parse normalization or duplicate collapse
+& [FaithfulJsonValue] means one immutable JSON value released only after complete parsing trailing-data refusal recursive duplicate-key refusal and structural accounting pass
+& [ByteIngress] means the gate from SuppliedJsonBytes to FaithfulJsonValue
+  + it establishes JSON lexical and structural well-formedness plus duplicate absence
+  + it establishes no schema semantic truth or authority
+
+& [SchemaConformance] means the independent Draft 2020-12 validator accepts FaithfulJsonValue against one exact checked-in canonical document
+  + it is parameterized by document digest root kind and validator profile
+  + it cannot observe facts erased before FaithfulJsonValue and cannot discharge residuals
+
+& [SerdeConformance] means the original SuppliedJsonBytes decode completely into the actual operation-specific Rust transport form with no trailing data
+  + it includes custom deserializers deny_unknown_fields tags requiredness types and representation limits
+  + it is independent of schema validation even when both use serde_json internally
+
+& [CommonSyntaxClaim] means one explicitly named rule expected to have equal schema and serde dispositions
+  + examples are required property unknown property enum tag type SemanticId lexical shape and represented numeric or collection bound
+  + duplicate absence is byte-ingress-only and is never mislabeled a common schema-serde rule
+
+& [Agreement] means schema and serde observations equal the declared expected outcome for every CommonSyntaxClaim exercised by a case
+  + both accept may pass
+  + both reject may pass
+  + a skipped not-applicable exhausted or internal-fault observation cannot masquerade as agreement
+
+& [ConformanceDisagreement] means two applicable readers return different acceptance dispositions or either differs from the signed case expectation
+  + diagnostics preserve both observations
+  + it is release blocking for the claimed rule and does not automatically prove which reader is wrong
+
+& [SemanticResidual] means a known acceptance condition relevant to one or more public roots that the canonical JSON Schema does not fully prove
+  + a residual may be enforced by existing Cantor code planned but unimplemented observational only or permanently outside syntax authority
+  + it has stable identity subject condition class stage function disposition severity roots and proof references
+
+& [ResidualClass] is closed
+  + serde_runtime_boundary covers parser behavior not represented by schema
+  + cross_field_relation covers equality membership cardinality or variant-dependent conditions across fields
+  + digest_correspondence covers hashes whose strings are structurally valid but whose preimages must be recomputed
+  + referential_integrity covers identities and references that must resolve in the supplied evidence graph
+  + causal_replay covers ordered transitions receipts transcript chains and deterministic reconstruction
+  + resource_semantics covers bounded recursive or aggregate use beyond static instance syntax
+  + authority_admission covers principal policy generation scope permission and effect admission
+  + declared_non_capability records facts such as no model provider network or external effect that syntax cannot establish
+
+& [ResidualEnforcementDisposition] is closed
+  + enforced names a present callable gate and proof
+  + partially_enforced names the exact proven and unresolved portions
+  + unimplemented names a required future gate and never passes semantic evaluation
+  + observational names a limitation or non-capability carried for honesty but not satisfiable by instance syntax
+
+& [SemanticEvaluation] means optional invocation of an existing pure safe enforcement path on a complete typed fixture
+  + not every syntax case has enough coherent evidence to call an operation safely
+  + absent semantic evaluation is not semantic acceptance
+
+& [AuthorityAdmission] means the existing Observer policy principal generation scope and effect decision after syntax and semantics
+  + I03 never performs or simulates authority admission merely because data are structurally conformant
+
+& [ConformanceCase] means an immutable root-specific byte fixture and its signed expected observations coverage and rationale
+& [ConformanceCorpus] means the lexically ordered unique set of ConformanceCase values plus coverage accounts and exact profile identity
+& [CoverageAccount] means finite witnessed obligations not exhaustive language equivalence
+  + rule coverage is positive negative and boundary evidence
+  + it is not production fitness probability or proof over all possible JSON values
+
+& [IndependentReaders] means independently invoked algorithms with separately recorded outcomes
+  + it does not mean independently authored crates or disjoint transitive code
+  + shared serde_json lexical machinery must be disclosed wherever used
+& [ValidatorProfile] means exact crate version feature set draft format policy external-resolution policy document admission policy diagnostic normalization and finite limits
+& [NoResolution] means HTTP HTTPS file environment registry and caller-defined external schema retrieval are absent and any nonlocal reference is refused before validator construction
+
+& [IdentityBoundary] is strict
+  + schema document identity is path id direction root digest and source lineage
+  + case identity is profile root rule family and stable case id
+  + residual identity is stable id plus exact condition class stage and enforcement binding
+  + content equality never merges different intended-use roots cases or residuals
+
+& [HonestyBoundary] is explicit
+  + schema valid is not serde decoded semantic valid admitted true safe effectless or production ready
+  + serde decoded is not schema valid semantically coherent admitted or trustworthy
+  + semantic passed is not authority admitted
+  + zero provider or effect counts in a fixture are claims verified only by the relevant replay path not by JSON shape

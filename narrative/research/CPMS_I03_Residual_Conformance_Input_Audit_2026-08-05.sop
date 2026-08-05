@@ -1,0 +1,81 @@
+Subject: CPMS I03 Semantic Residual and Conformance SJS Input Audit
+
+Description: Pre-processing audit of the preserved I03 source, completed I02 artifacts, actual serde forms, semantic enforcement paths, candidate independent validator, resource limits, and authority exclusions. It grants formation only and no dependency or implementation authority.
+
+@ [audit_uuid] 535ce2ee-2223-4f94-ab94-5d0fba43b991
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cpms_i03_residual_conformance\Source_Document_Manifest.sop
+@ [baseline_commit] 96113bf024b0dd9d50464cbdfb91db1a80aede59
+
+& [SourcePreservation] passes
+  + preserved source is 6606 bytes SHA256 5C97AC8D18DC053BEB868221B9FA8C47EDF7F35DF4EAA38C34AA57A073BC1577
+  + manifest is 813 bytes SHA256 52BE6819979B3D1B6A23EC3BC3185625924705AC5B375173A61AF3C41EC95EE3
+  + the source is manager-derived from the dependency DAG and does not overwrite user dictation or earlier canonical records
+
+& [PrerequisiteAudit] passes
+  + CPMS-I02 completion proof is 1983a6bf-544c-401d-ab20-0e77ecb9659b
+  + pushed baseline contains five exact standalone schemas and one exact bundle totaling 469414 bytes
+  + bundle is 247809 bytes SHA256 03616F46C4A3C4B7FA4B9D0A668E16FF4B47BA71CB70879B10F1D95157ADCB42
+  + bundle binds generation source aba99b1431727578679fa0b784ea8261cfd456fb while I03 baseline is the containing checkpoint-B commit
+  + five documents are prepare_input run_input verify_input base_response and preparation_response
+  + document definition counts are 28 71 79 83 and 83 respectively
+  + every document currently names RMS-R01 through RMS-R06
+
+& [SerdeAudit] is exact
+  + PrepareRequest PreparedRunRequest VerifyRequest ProcedureToolResponse and all reachable public structures use actual serde Deserialize or Serialize forms
+  + public object forms deny unknown fields unless the subject is an intentional map or set projection
+  + SemanticId uses a custom deserializer enforcing nonempty maximum-512-byte ASCII alphanumeric underscore hyphen period colon slash identity
+  + serde_json 1.0.151 is locked and retains its default recursive container limit
+  + decoding bytes directly to a typed form preserves type and custom-deserializer behavior but does not expose a general proof that duplicate map keys were absent
+  + decoding first to serde_json Value loses duplicate-key evidence and therefore cannot be the ingress authority
+
+& [SchemaAudit] is exact
+  + canonical dialect is https://json-schema.org/draft/2020-12/schema
+  + all references in the five documents are local fragments and every target exists in the same document
+  + objects are closed structurally except intended map projections
+  + SemanticId min max and pattern appear in schema and are eligible for schema-serde agreement proof
+  + root documents are syntax contracts only and contain no custom execution keywords
+  + canonical artifacts are already verified before I03 and must be consumed read-only by expected path length digest id and dialect
+
+& [SemanticEnforcementAudit] finds multiple non-syntactic families
+  + recursive type and value depth plus value resource accounting remain RMS-R01 through RMS-R05
+  + schema acceptance never grants authority under RMS-R06
+  + prepare_response rejects pass_index equal to u64 maximum before later-pass increment
+  + run_authorship_lane validates source digest provenance authority separation normalized forms receipts compilation verification fake admission catalogue coordination token passes stable session and replay
+  + validate_schema requires the exact reconstructed provider-neutral profile and digest
+  + validate_tool_call binds schema identity argument digest executable operation participant identity admitted invocation and lane evidence replay
+  + verify_fake_controller_outcome binds zero provider and effect counters transcript digest event order completed-versus-refused shape result digest explicit context and exact replay
+  + these are residual rules to catalogue rather than schema keywords to invent
+
+& [DuplicateKeyAudit] resolves a false equivalence assumption
+  + JSON Schema validates a parsed instance and cannot observe duplicate member spellings already collapsed by a generic object representation
+  + ordinary typed serde decoding is not selected as the proof of duplicate absence
+  + I03 requires an independent bounded recursive byte visitor that rejects duplicate keys before releasing a Value
+  + duplicate-key corpus cases are byte-ingress cases; schema validation is not applicable after ingress refusal and serde behavior is recorded without being treated as the governing outcome
+
+& [ValidatorCandidateAudit] is current as of 2026-08-05
+  + jsonschema 0.49.2 was published 2026-07-27 and declares Rust 1.85 while workspace policy is Rust 1.96
+  + official crate metadata exposes Draft 2020-12 APIs and meta-schema support
+  + default features enable resolve-http resolve-file and tls-aws-lc-rs
+  + default-features false disables built-in external resolution and is mandatory if selected
+  + the crate is not present in Cargo.lock and no jsonschema-0.49.2 source or crate archive is currently cached locally
+  + exact resolution transitive dependency lock offline retrieval audit and Windows Application Control execution are therefore activation blockers rather than formation blockers
+  + technical references are https://docs.rs/crate/jsonschema/0.49.2 and https://github.com/Stranger6667/jsonschema
+
+& [NumberBoundaryAudit] remains open for activation proof
+  + public forms include u64 values and I02 schemas carry exact integer ceilings where generated
+  + serde_json Value and validator numeric representations must be tested below at and above u64 maximum before agreement is claimed
+  + enabling an arbitrary-precision feature could unify serde_json features across the workspace and is not authorized by formation
+  + no numeric representation choice is silently inferred
+
+& [ResourceAudit] inherits finite ceilings
+  + maximum cases 4096 and aggregate corpus bytes 67108864
+  + maximum document bytes 4194304 bundle bytes 16777216 definitions 256 references 4096 schema depth 64 properties 4096 alternatives 2048 residuals 1024
+  + I03 must add per-input byte structural depth object-member array-item scalar diagnostic and finding ceilings before implementation
+  + every limit is checked before unbounded accumulation and exhaustion is a typed result
+
+& [AuthorityAudit] is closed
+  + formation may define byte parser validator registry corpus comparison and proof contracts only
+  + no dependency source or test mutation is authorized
+  + no filesystem or network schema retrieval provider model service persistence runtime effect compatibility production hardware or FPGA is inferred
+
+& [AuditDisposition] is SJS_formation_ready_activation_blocked_on_exact_dependency_and_resource_lock

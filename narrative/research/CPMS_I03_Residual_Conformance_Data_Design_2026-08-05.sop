@@ -1,0 +1,109 @@
+Subject: CPMS I03 Semantic Residual and Conformance Data Design
+
+@ [design_uuid] edf94044-4610-43b8-8f61-21a5b59f3c8f
+
+& [JsonIngressLimits] owns
+  + maximum_input_bytes maximum_depth maximum_object_members maximum_array_items maximum_scalars maximum_member_name_bytes
+
+& [JsonStructuralAccount] owns
+  + byte_length maximum_depth object_count object_member_count array_count array_item_count scalar_count maximum_observed_member_name_bytes
+
+& [FaithfulJsonInstance] owns
+  + root_kind input_digest exact_byte_length structural_account and parsed_value
+  + exact original bytes remain case-owned and parsed_value is released only after complete ingress
+
+& [ByteIngressFault] owns
+  + kind byte_offset JSON path optional member_name limit observed and bounded message
+  + kind is invalid_utf8 malformed_json trailing_data duplicate_key limit_exceeded or internal_fault
+
+& [ValidatorProfile] owns
+  + profile_id crate_name exact_version feature_set draft formats_policy resolution_policy diagnostic_profile and profile_digest
+  + selected features are empty under default-features false unless activation proves an additional required feature
+
+& [AdmittedSchemaDocument] owns
+  + root_kind direction artifact_path schema_id dialect expected_length expected_digest source_revision local_reference_count and parsed_schema
+  + construction replays CPMS-I02 integrity before validator build
+
+& [SchemaValidationObservation] owns
+  + disposition validator_profile_ref schema_digest instance_digest normalized_findings and resource_account
+  + disposition is accepted rejected exhausted internal_fault or not_applicable
+
+& [SerdeTypeBinding] owns
+  + root_kind direction Rust type name decode_or_encode operation and binding profile
+  + input roots decode PrepareRequest PreparedRunRequest and VerifyRequest
+  + output roots encode ProcedureToolResponse under base or preparation intended-use fixtures
+
+& [SerdeObservation] owns
+  + disposition root_kind instance_digest optional typed_round_trip_digest normalized_fault
+  + disposition is accepted rejected exhausted internal_fault or not_applicable
+
+& [ResidualClass] is the closed refinement enumeration
+& [ResidualEnforcementDisposition] is enforced partially_enforced unimplemented or observational
+
+& [SemanticResidualRecord] owns
+  + residual_id title subject_types covered_roots condition residual_class enforcement_disposition enforcement_stage crate_module enforcing_function severity proof_refs related_residuals and bounded rationale
+  + records are lexical by residual_id and reject duplicate or dangling identity
+
+& [SemanticResidualRegistry] owns
+  + profile bundle_digest records root_index type_index enforcement_index registry_digest and exact resource account
+  + root_index type_index and enforcement_index are derived and independently reconstructed
+
+& [InitialResidualFamilies] require records
+  + RMS-R01 through RMS-R06 retain their existing identities and refined definitions
+  + I03-R007 later-pass pass_index successor capacity
+  + I03-R008 authorship provenance and authority-principal separation
+  + I03-R009 candidate source digest and procedure-form validation
+  + I03-R010 validation compilation verification and admission receipt replay
+  + I03-R011 catalogue coordination token-ring stable-session and replay coherence
+  + I03-R012 exact provider-neutral schema reconstruction and digest
+  + I03-R013 tool-call schema reference and argument digest correspondence
+  + I03-R014 executable operation membership
+  + I03-R015 participant invocation session and admitted-lane lineage
+  + I03-R016 controller transcript envelope zero-call counters and event-chain order
+  + I03-R017 completed-versus-refused result shape and explicit later-pass context
+  + I03-R018 result transcript context and invocation digest correspondence
+  + I03-R019 exact fake-controller outcome replay
+  + I03-R020 no hidden-state provider model external effect production or authority inference
+  + formation sets minimum families; activation audit may split a family but may not silently omit it
+
+& [ExpectedDisposition] is accepted rejected exhausted internal_fault or not_applicable
+& [RuleApplicability] is common_schema_serde byte_ingress_only schema_only serde_only semantic_only or observational
+
+& [ConformanceCase] owns
+  + case_id root_kind direction family supplied_bytes_digest supplied_bytes expected_ingress expected_schema expected_serde expected_semantic rule_applicability rule_ids schema_paths residual_ids rationale and proof_fixture_ref
+  + semantic expectation may be not_applicable when the fixture is intentionally incomplete
+
+& [ConformanceObservation] owns
+  + case_id ingress schema serde semantic and agreement records
+  + original reader observations are preserved even when governing evaluation stops earlier
+
+& [ConformanceFinding] owns
+  + finding_id case_ref kind rule_ref expected_reader expected actual schema_path residual_refs severity and bounded diagnostic
+  + kind is expectation_mismatch reader_disagreement residual_gap coverage_gap exhaustion nondeterminism or internal_fault
+
+& [CoverageObligation] owns
+  + obligation_id root_kind rule_family polarity boundary_position applicability and rationale
+  + polarity is positive negative or boundary
+  + boundary_position is below at above or not_applicable
+
+& [CoverageAccount] owns
+  + obligations satisfied_obligations deferred_obligations uncovered_obligations per_root per_rule and exact counters
+
+& [ConformanceCorpus] owns
+  + profile bundle_digest registry_digest validator_profile_digest cases obligations aggregate_byte_length corpus_digest
+  + cases and obligations are lexical and content digested
+
+& [ConformanceReport] owns
+  + profile corpus_digest bundle_digest registry_digest validator_profile_digest observations findings coverage repeat_digest and disposition
+  + disposition is passed refused exhausted or internal_fault
+
+& [TransformationDAG] is strict
+  + verify I02 bundle -> admit documents -> build residual registry -> admit corpus
+  + case bytes -> byte ingress -> schema reader and independent serde reader -> optional semantic reader -> compare -> findings
+  + all observations -> coverage reconstruction -> deterministic report -> repeat comparison
+  + no later stage executes after a failed identity integrity or resource prerequisite except bounded fault projection
+
+& [StorageBoundary] is pure
+  + checked-in corpus fixtures may be compile-time bytes used by tests
+  + library transforms are immutable in-memory values
+  + no runtime file read write database cache service network provider model effect or hardware surface is designed
