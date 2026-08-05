@@ -1,0 +1,60 @@
+Subject: Cantor Deterministic Temporal Runtime Proof
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Deterministic_Runtime_Activation.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Deterministic_Temporal_Runtime_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\temporal_runtime.rs
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is 93e70d40-6cea-4a1d-b9a2-1a43ebc56d7d
+  + [solution_uuid] is 5ff5bb1d-7627-427f-8a66-c173bc441844
+  + [authority_signature_uuid] is ad886f0f-4eb8-41d4-9e2f-69921d5cc197
+  + [captured_at] is 2026-08-05T10:54:31.9490098-05:00
+
+& [ArtifactIdentity] is measured before governance-only closure
+  + [mod_rs] is 515 bytes SHA256 786B3D32BA09837932622FCEFA149D43A2CA100BCCC76E3147F250AB8E3A692D
+  + [types_rs] is 12772 bytes SHA256 4AD9C8EA495277B3942FC70A59A872A99D94D1FF216DD981901B7BCBB39C48F7
+  + [evaluator_rs] is 33713 bytes SHA256 7EA0171DED058F38013EEEFAAEF28B1A99C7242CD8826DD9C18480337243AE92
+  + [repository_rs] is 14172 bytes SHA256 93342D050EFB34984D516E4DBD19F75FE55112FD9EC8D51E85C96058E48CB0E7
+  + [planner_rs] is 27223 bytes SHA256 6B55F6BEA72E6A7335A935A7478C325C601E1B0EA51C7F1C6F3B4C4A64BD951C
+  + [temporal_runtime_tests] is 34229 bytes SHA256 B595453D563F49B024E77D2C80513506AB72ABC0F3C4B0954902CFF20928C8BF
+  + [runtime_document] is 3721 bytes SHA256 4D5AF3CE448B72CF1DF731620471819473723FBE02F1AD5C75C66D231C722B47
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test temporal_runtime --locked
+  + [result] is 12 passed, 0 failed
+  + [proof_set] is strict normalized round trip, unknown-field and noncanonical refusal, stale root, zero time, unsupported profile, duplicate operation, input bound, repository append and index, stale generation, record-digest tamper, capture/aggregate/omit materiality, Calendar lifecycle candidate and illegal-time/state refusal, recurrence exception and horizon, declared-priority DAG order, cycle witness, exact wake revalidation, and byte-stable replay
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 116 passed, 0 failed
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all -- --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is passed
+
+& [WorkspaceIntegrationVerification] preserves the inherited evidence fault
+  + [command] is cargo test --workspace --locked
+  + [new_runtime_tests] are 12 passed before the external failure
+  + [failure] is candidate workspace evidence manifest asserts stale metadata for unchanged feature_support/Cantor_Engine_Build_Slice_Index.sop
+  + [expected_bytes] is 26346
+  + [actual_bytes] is 27870
+  + [actual_sha256] is 4483F98CE47E32DE00C973787DEC0F858A76734E094353B46FD69A46881432BD
+  + [classification] is pre_existing_baseline_evidence_fault_not_WS-CTPR-011_failure
+  - never: report the full workspace integration suite as passed
+
+& [AuthorityAndEffectAudit] is passed
+  + Cargo dependency graph is unchanged
+  + runtime source imports ordered collections, serde, and existing pure Cantor forms and digest functions only
+  + source inspection and the closed operation vocabulary expose no I/O, filesystem, Git, network, database service, system clock, process, thread, provider, notification, model, unsafe, device, or hardware operation
+  + Calendar and wake results are candidates and Planner results are proposals
+  + all accepted writes exist only in returned immutable values
+
+& [ProofDisposition] is WS-CTPR-011_focused_proven_with_inherited_workspace_evidence_fault
+  + [CDRA-I01] is implemented and proven
+  + [CDRA-I02] is implemented and proven for the bounded in-memory repository projection
+  + [CDRA-I03] is implemented and proven for logical Calendar, materiality, Planner, wake, and recurrence
+  + [FR-CTPR-011] is verified after completed-work review
+  + [remaining_CDRA] is I04 through I07

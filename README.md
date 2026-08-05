@@ -24,6 +24,11 @@ baseline:
 
 - `cantor_core` defines versioned semantic machine forms and the original
   deterministic evaluator;
+- `cantor_core::temporal_runtime` now evaluates an immutable, content-bound
+  logical-time root through closed operations for compare-and-append repository
+  generations, materiality, Calendar revisions and recurrence, exact wake
+  revalidation, bounded Planner DAG proposals, typed faults, receipts, and
+  byte-stable replay without I/O or external effects;
 - the trusted-package compiler binds canonical package, semantic, source,
   dependency, proof, authority, compiler, validity, and exact-quote records
   with SHA-256 and distinct Ed25519 attestations;
@@ -101,6 +106,9 @@ The candidate-workspace request, twelve-command read-only observation plan,
 freshness rule, Windows canonical-path behavior, and explicit no-write boundary
 are documented in
 [`docs/CANDIDATE_WORKSPACE_ADMISSION.md`](docs/CANDIDATE_WORKSPACE_ADMISSION.md).
+The effectless CTPR runtime root, transition contract, determinism boundary,
+and deliberately deferred behaviors are documented in
+[`docs/DETERMINISTIC_TEMPORAL_RUNTIME.md`](docs/DETERMINISTIC_TEMPORAL_RUNTIME.md).
 
 Protocol digests prove binding and internal consistency, not authenticity
 against a hostile process that can replace both content and digest. The
@@ -202,6 +210,7 @@ Current executable proofs:
 - [`proofs/Cantor_Read_Only_Live_Codex_Adapter_Proof.sop`](proofs/Cantor_Read_Only_Live_Codex_Adapter_Proof.sop)
 - [`proofs/Cantor_Candidate_Workspace_Admission_Proof.sop`](proofs/Cantor_Candidate_Workspace_Admission_Proof.sop)
 - [`proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop`](proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop)
+- [`proofs/Cantor_Deterministic_Temporal_Runtime_Proof.sop`](proofs/Cantor_Deterministic_Temporal_Runtime_Proof.sop)
 - [`proofs/CEB_Deterministic_Baseline_Release_Audit.sop`](proofs/CEB_Deterministic_Baseline_Release_Audit.sop)
 
 1. [`SOP_CORE_MAP.sop`](SOP_CORE_MAP.sop) — authority and project map

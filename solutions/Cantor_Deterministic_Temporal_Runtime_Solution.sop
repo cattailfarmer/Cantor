@@ -1,0 +1,75 @@
+Subject: Cantor Deterministic Temporal Runtime Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Deterministic_Runtime_Activation.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Deterministic_Runtime_Activation_Phase_Lock.sop
+@ [support] C:\Project\Cantor\feature_support\cantor_temporal_planner_development\slice_03_runtime_implementation.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Deterministic_Temporal_Runtime_Proof.sop
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is 5ff5bb1d-7627-427f-8a66-c173bc441844
+  + [implemented_at] is 2026-08-05T10:54:31.9490098-05:00
+  + [slice] is WS-CTPR-011 reconciled to CDRA-I01 through CDRA-I03
+  + [requirement] is FR-CTPR-011
+  + [authority_signature_uuid] is ad886f0f-4eb8-41d4-9e2f-69921d5cc197
+  + [claim_uuid] is 82cac99c-9ca4-4fee-90c6-cf2b9b5933e2
+  + [status] is implemented_focused_proven_and_review_ready
+
+& [ImplementationSurface] is modular and effectless
+  + [module_root] is crates/cantor_core/src/temporal_runtime/mod.rs
+  + [machine_types] is crates/cantor_core/src/temporal_runtime/types.rs
+  + [dispatcher_and_replay] is crates/cantor_core/src/temporal_runtime/evaluator.rs
+  + [repository_and_materiality] is crates/cantor_core/src/temporal_runtime/repository.rs
+  + [calendar_and_planner] is crates/cantor_core/src/temporal_runtime/planner.rs
+  + [tests] is crates/cantor_core/tests/temporal_runtime.rs
+  + [human_contract] is docs/DETERMINISTIC_TEMPORAL_RUNTIME.md
+  + [dependency_delta] is none
+  + [unsafe_delta] is none
+  + [external_effect_delta] is none
+
+& [RuntimeRootAndTransitionContract] is implemented
+  + RuntimeSnapshot binds one immutable DeterministicRuntimeRoot to its canonical SHA-256 digest
+  + the root pins exact runtime and CTPR versions, policies, limits, logical clock, forms, repository, Calendar, Planner, and trace
+  + RuntimeOperation is a strict closed tagged union with unique operation identity, caller, expected root digest, and narrower declared limits
+  + evaluation returns either boxed successor plus RuntimeReceipt or RuntimeFault with no partial successor
+  + receipts bind before and after digest, operation, caller, kind, logical time, emitted identities, trace, limits, disposition, and typed output
+  + faults bind kind, operation, subjects, expected, observed, evidence, safe residual, and trace location
+
+& [FakeRepositoryAndMateriality] are deterministic projections
+  + compare-and-append validates exact branch head, predecessor set, repository identity, unique records, content bytes and digest, event input and digest, event frontier, optional snapshot, and normalized CTPR graph
+  + explicit branch creation and multi-predecessor merge use named branch heads and present predecessor generations
+  + accepted state retains content bytes, generations, events, snapshots, branch heads, and a deterministically rebuilt subject and content index
+  + root reconstruction revalidates content, event, snapshot, and generation digests and repository/snapshot frontier agreement
+  + classification applies one exact MaterialityPolicy revision to return capture, aggregate, or omit with the matched rule and evidence
+  + classification never edits prior history or admits its candidate as an event
+
+& [LogicalCalendarAndPlanner] preserve distinctions
+  + LogicalClock advances only through an accepted positive caller-supplied delta
+  + Calendar revision checks exact predecessor identity and ordinary revisions cannot smuggle a lifecycle transition
+  + lifecycle evaluation checks exact latest revision and supplied logical tick, applies a closed transition table, and emits a typed material-event candidate without admission or action
+  + recurrence retains immutable revision history and applies supplied candidate keys, inclusion, exception, rule limit, runtime limit, and operation limit deterministically
+  + wake emits only a candidate after exact task, plan, repository, capsule, policy, authority-evidence, lifecycle, and declared-requirement revalidation
+  + Planner validates exact predecessor plan, repository generation, Calendar view, proof gates, recognized resources, CTPR graph, and objective dependency DAG
+  + Planner selects ready objectives by declared numeric priority then stable SemanticId and returns a proposal only
+
+& [ReplayAndDeterminism] are explicit
+  + ordered maps and sets plus compact JSON produce one normalized snapshot form
+  + restoration rejects malformed, unknown-field, invalid-digest, unsupported-version, and non-normalized input
+  + replay applies a bounded sequence to the exact initial snapshot and returns the final snapshot plus every receipt
+  + repeated replay of identical roots and operations is byte-equivalent
+  + trace indexes are contiguous and operation identities cannot be admitted twice
+
+& [BoundSet] is enforced
+  + root bounds cover form records, payload bytes, operation bytes, emitted records, graph visits, recurrence occurrences, trace events, and replay operations
+  + operation limits must be positive and no greater than the root envelope
+  + graph, recurrence, input, emission, payload, record, trace, and replay exhaustion fail closed
+
+& [DeliberateLimits] are binding
+  + civil recurrence arithmetic is not implemented; supplied occurrence keys are evaluated under declared recurrence metadata
+  + Calendar outputs candidates and does not commit, notify, synchronize, or execute
+  + Planner recognizes resource identities but is not a capacity or optimization solver
+  + repository state is in-memory only and no filesystem, Git, database, provider, network, process, thread, model, or hardware API is reachable
+  + tandem lanes, Observer join, compiler correspondence, process procedures, live effects, and FPGA behavior remain separate slices
+
+& [SolutionDisposition] is accepted for WS-CTPR-011 after completed-work review
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Deterministic_Temporal_Runtime_Proof.sop
+  + [next] is separately claim WS-CTPR-012 or WS-CTPR-013 after support readiness is recomputed
