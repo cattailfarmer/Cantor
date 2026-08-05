@@ -30,6 +30,7 @@ use crate::{
 
 pub const CPPE_AUTHORSHIP_PARITY_ID: &str = "cantor-authorship-parity/0.1";
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum AuthorshipClass {
@@ -37,6 +38,7 @@ pub enum AuthorshipClass {
     ModelShaped,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AuthorshipLaneTemplate {
@@ -64,6 +66,7 @@ pub struct AuthorshipLaneTemplate {
     pub permitted_message_kinds: BTreeSet<ProcedureMessageKind>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AuthorshipLaneEvidence {

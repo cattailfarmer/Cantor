@@ -14,7 +14,8 @@ const MAX_FORM_RECORDS: usize = 16_384;
 const MAX_TEXT_BYTES: usize = 16_384;
 
 macro_rules! closed_enum {
-    ($name:ident { $($variant:ident),+ $(,)? }) => {
+    ($(#[$metadata:meta])* $name:ident { $($variant:ident),+ $(,)? }) => {
+        $(#[$metadata])*
         #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
         #[serde(rename_all = "snake_case")]
         pub enum $name {
@@ -23,16 +24,19 @@ macro_rules! closed_enum {
     };
 }
 
-closed_enum!(SensitivityClass {
-    Public,
-    ProjectInternal,
-    Personal,
-    Confidential,
-    Secret,
-    Credential,
-    Regulated,
-    UnknownSensitive,
-});
+closed_enum!(
+    #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
+    SensitivityClass {
+        Public,
+        ProjectInternal,
+        Personal,
+        Confidential,
+        Secret,
+        Credential,
+        Regulated,
+        UnknownSensitive,
+    }
+);
 
 closed_enum!(RepositoryStatus {
     Candidate,

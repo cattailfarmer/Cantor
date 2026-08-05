@@ -5,6 +5,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::IR_VERSION;
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
+#[cfg_attr(feature = "json-schema", schemars(extend("minLength" = 1, "maxLength" = 512, "pattern" = "^[A-Za-z0-9_.:/-]+$")))]
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct SemanticId(String);
 
@@ -56,6 +58,7 @@ impl<'de> Deserialize<'de> for SemanticId {
     }
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ContentDigest {

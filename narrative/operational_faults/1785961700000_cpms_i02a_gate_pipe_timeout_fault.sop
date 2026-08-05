@@ -1,0 +1,10 @@
+Subject: CPMS I02A Gate Pipe Timeout Fault
+
+& [Detection] a five-second chained command deadline left a transient Cargo build lock, then a sixty-second workspace-test deadline closed stdout while test enumeration was active
+& [ObservedFailure] Rust test harness workers reported BrokenPipe and SendError only after the controlling pipe was closed
+& [Classification] verification orchestration fault not product assertion failure
+& [Impact] the interrupted run cannot support a pass claim; no source, schema output, runtime authority, external effect, or test fixture was altered by the failure
+& [Repair] confirm no cargo rustc or target test process remains and rerun each gate in a long-lived yielded cell with a non-severing deadline
+& [Prevention] do not use a hard shell timeout shorter than the complete workspace suite; yield and wait on the live cell instead
+& [Resolution] complete uninterrupted debug and release workspace suites later passed
+& [Disposition] resolved_by_nonsevering_full_reruns

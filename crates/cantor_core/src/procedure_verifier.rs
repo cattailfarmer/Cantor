@@ -24,6 +24,7 @@ pub const CPPE_VERIFIER_ID: &str = "cantor-process-verifier/0.1";
 pub const CPPE_FAKE_OBSERVER_ID: &str = "cantor-fake-observer/0.1";
 pub const CPPE_ADMISSION_POLICY_VERSION: &str = "cantor-fake-admission-policy/0.1";
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct FakeObserverAdmissionPolicy {

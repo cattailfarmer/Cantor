@@ -15,6 +15,7 @@ pub const CPPE_IR_VERSION: &str = "cantor-process-ir/0.1";
 
 macro_rules! closed_enum {
     ($name:ident { $($variant:ident),+ $(,)? }) => {
+        #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
         #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
         #[serde(rename_all = "snake_case")]
         pub enum $name {
@@ -224,6 +225,7 @@ closed_enum!(ProcedureFaultCategory {
     InternalInvariant,
 });
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
 pub enum ProcedureType {
@@ -264,6 +266,7 @@ pub enum ProcedureType {
     },
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
 pub enum ProcedureValue {
@@ -304,6 +307,7 @@ pub enum ProcedureValue {
     },
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureBounds {
@@ -324,6 +328,7 @@ pub struct ProcedureBounds {
     pub maximum_memory_units: u64,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SopAnchorBinding {
@@ -336,6 +341,7 @@ pub struct SopAnchorBinding {
     pub sensitivity: SensitivityClass,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SchemaField {
@@ -345,6 +351,7 @@ pub struct SchemaField {
     pub sensitivity: SensitivityClass,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TaggedVariant {
@@ -352,6 +359,7 @@ pub struct TaggedVariant {
     pub value_type: ProcedureType,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureSchema {
@@ -363,6 +371,7 @@ pub struct ProcedureSchema {
     pub closed: bool,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureSchemaSet {
@@ -372,6 +381,7 @@ pub struct ProcedureSchemaSet {
     pub migration_ref: Option<SemanticId>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureEffectDeclaration {
@@ -381,6 +391,7 @@ pub struct ProcedureEffectDeclaration {
     pub prohibited_operations: BTreeSet<ProhibitedProcedureOperation>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct InstructionOperand {
@@ -388,6 +399,7 @@ pub struct InstructionOperand {
     pub value: ProcedureValue,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcessInstruction {
@@ -400,6 +412,7 @@ pub struct ProcessInstruction {
     pub source_span_ref: SemanticId,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ControlRegion {
@@ -408,6 +421,7 @@ pub struct ControlRegion {
     pub terminal: bool,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcessDefinition {
@@ -423,6 +437,7 @@ pub struct ProcessDefinition {
     pub resource_contribution_ref: SemanticId,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureCandidate {
@@ -446,6 +461,7 @@ pub struct ProcedureCandidate {
     pub lifecycle: ProcedureLifecycle,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CompiledProcedureIdentity {
@@ -464,6 +480,7 @@ pub struct CompiledProcedureIdentity {
     pub procedure_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SourceMapEntry {
@@ -472,6 +489,7 @@ pub struct SourceMapEntry {
     pub ir_subject_ref: SemanticId,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CantorProcessIr {
@@ -490,6 +508,7 @@ pub struct CantorProcessIr {
     pub source_map: BTreeMap<SemanticId, SourceMapEntry>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
 pub enum AwaitedCondition {
@@ -508,6 +527,7 @@ pub enum AwaitedCondition {
     },
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcessBudgetState {
@@ -517,6 +537,7 @@ pub struct ProcessBudgetState {
     pub trace_events_remaining: u64,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcessInstanceState {
@@ -536,6 +557,7 @@ pub struct ProcessInstanceState {
     pub remaining_budgets: ProcessBudgetState,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SerializedContinuation {
@@ -546,6 +568,7 @@ pub struct SerializedContinuation {
     pub continuation_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcessStep {
@@ -564,6 +587,7 @@ pub struct ProcessStep {
     pub consumed_budget: ConsumedBudget,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Participant {
@@ -572,6 +596,7 @@ pub struct Participant {
     pub permitted_message_kinds: BTreeSet<ProcedureMessageKind>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureMessage {
@@ -589,6 +614,7 @@ pub struct ProcedureMessage {
     pub expires_at_logical_time: u64,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct NegotiatedFrame {
@@ -603,6 +629,7 @@ pub struct NegotiatedFrame {
     pub policy_ref: SemanticId,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct NegotiationSession {
@@ -622,6 +649,7 @@ pub struct NegotiationSession {
     pub status: NegotiationStatus,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TokenRingPass {
@@ -636,6 +664,7 @@ pub struct TokenRingPass {
     pub logical_time: u64,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ReceiptEvidence {
@@ -644,6 +673,7 @@ pub struct ReceiptEvidence {
     pub diagnostics: BTreeSet<String>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ValidationReceipt {
@@ -657,6 +687,7 @@ pub struct ValidationReceipt {
     pub receipt_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CompilationReceipt {
@@ -673,6 +704,7 @@ pub struct CompilationReceipt {
     pub receipt_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct VerificationReceipt {
@@ -695,6 +727,7 @@ pub struct VerificationReceipt {
     pub receipt_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AdmissionDisposition {
@@ -723,6 +756,7 @@ pub struct AdmissionDisposition {
     pub disposition_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CatalogueReceipt {
@@ -739,6 +773,7 @@ pub struct CatalogueReceipt {
     pub receipt_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct RevocationRecord {
@@ -766,6 +801,7 @@ pub struct ProcedurePhaseReceiptSet {
     pub revocation_refs: BTreeSet<SemanticId>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureCatalogueEntry {
@@ -779,6 +815,7 @@ pub struct ProcedureCatalogueEntry {
     pub revocation_ref: Option<SemanticId>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureCatalogueState {
@@ -789,6 +826,7 @@ pub struct ProcedureCatalogueState {
     pub revocations: BTreeMap<SemanticId, RevocationRecord>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct InvocationBudget {
@@ -799,6 +837,7 @@ pub struct InvocationBudget {
     pub trace_event_limit: u64,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct InvocationRequest {
@@ -825,6 +864,7 @@ pub struct InvocationRequest {
     pub retention_policy_ref: SemanticId,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SemanticTraceEvent {
@@ -838,6 +878,7 @@ pub struct SemanticTraceEvent {
     pub causal_predecessor_refs: BTreeSet<SemanticId>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SemanticTrace {
@@ -848,6 +889,7 @@ pub struct SemanticTrace {
     pub retention_policy_ref: SemanticId,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ConsumedBudget {
@@ -858,6 +900,7 @@ pub struct ConsumedBudget {
     pub trace_events: u64,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureFault {
@@ -873,6 +916,7 @@ pub struct ProcedureFault {
     pub safe_residuals: BTreeSet<String>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct InvocationResult {

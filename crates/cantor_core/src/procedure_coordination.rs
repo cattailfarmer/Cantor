@@ -28,6 +28,7 @@ use crate::{
 pub const CPPE_COORDINATOR_ID: &str = "cantor-effectless-coordinator/0.1";
 pub const CPPE_TOKEN_RING_ID: &str = "cantor-token-ring/0.1";
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CoordinationOutcome {
@@ -56,6 +57,7 @@ pub struct FrameRevisionTransition {
     pub cleared_pass_refs: BTreeSet<SemanticId>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CoordinationReplayReceipt {

@@ -1,0 +1,43 @@
+Subject: CPMS I02A Optional Schema Capability Solution
+
+@ [solution_uuid] 3d2a2542-e091-41f2-85b5-18e76ebb9113
+@ [activation] C:\Project\Cantor\specifications\CPMS_I02A_Optional_Schema_Capability_Activation.sop
+
+& [DependencyTopology] is exact
+  + workspace pins schemars =1.2.2
+  + cantor_core/json-schema activates only its optional schemars dependency
+  + cantor_procedure_tool/json-schema activates its optional schemars dependency and cantor_core/json-schema
+  + default dependency tree contains no schemars and feature tree contains schemars 1.2.2
+
+& [Implementation] is conditional description only
+  + 80 core and 7 wrapper forms implement JsonSchema only under json-schema
+  + 17 procedure closed enums share one conditional macro marker while every other reachable form is explicitly marked
+  + temporal macro accepts forwarded metadata so only SensitivityClass is schema capable
+  + SemanticId schema is a string with minimum 1, maximum 512, and ASCII pattern ^[A-Za-z0-9_.:/-]+$
+  + no generator, validator, public schema function, retriever, provider, or runtime path was added
+
+& [FocusedProofSurface] is one test file
+  + explicitly names all 87 forms and asserts names and uniqueness
+  + generates three Deserialize roots and two Serialize roots in memory only
+  + proves PreparedRunRequest under both contracts
+  + proves ProcedureType and ProcedureValue recursive local references
+  + proves exact SemanticId constraints
+
+& [ExactArtifacts] are hash bound
+  + Cargo.toml 687 bytes SHA256 813A45298F3DA9D4179D2C11EB4BB7001CF5670B09F6C20C8978914BA3637522
+  + Cargo.lock 26655 bytes SHA256 15090F6C91B5F50784EA876BCBA3FBADB3C70EB14FCFDCB24F74279F7AD975D4
+  + core Cargo 362 bytes SHA256 F65D540B34FBD2A25A2A54FB347A231362AD54386A176610CE810FB7DBF850C9
+  + tool Cargo 388 bytes SHA256 CDBD53B04B101E9EA4E0417CC826D193A8ED8C231C8976E1250CF872AD328F30
+  + model.rs SHA256 C06B69DE0F8C1B9FC344B1E16E04C6D5E4BE18A81AF0F22387963FBE8F8755CA
+  + procedure.rs SHA256 82AE94F39835803D1BEA7EEF0972972898A51E07E13D616A082231B660EBBB16
+  + procedure_authorship.rs SHA256 410EAEA9ED3ECF370AB683EE8E11BA3D39584EF8A22ABDC45D065F4BA7BC2CBC
+  + procedure_coordination.rs SHA256 71CC9AB45D0D52355A6B2679E50C52AF668409ADCAA06E3DA169E2D7729163E1
+  + procedure_tool.rs SHA256 22A0DF1CCBE40004C66CE3161008CC07C2D1B12352A7391CF139C8901C89053A
+  + procedure_verifier.rs SHA256 2D4C44BDD42464DA28E9A9D506A0FC58227DB07996D1D705E3547C26ACEA2673
+  + temporal.rs SHA256 6D53E4D118A8EAA28E77FEDAD6529C014C6E9076FF0DF9F504AF43B76A2A3536
+  + tool lib.rs SHA256 4A964FD18014F9313FF959C15293BBE11B165D14AC6CAA572709E3001BDE2C4E
+  + focused test 10406 bytes SHA256 F7B5A62055E638BE5B601DC99E65BDEFAED15456848D2132599A741D56067C64
+
+& [Boundary] remains exact
+  - never: authoritative schema output, validation, external retrieval, tool projection, provider, model, service, persistence, network, semantic effect, production, or hardware
+

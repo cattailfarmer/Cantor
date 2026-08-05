@@ -20,6 +20,7 @@ pub const PREPARATION_PROFILE: &str = "cantor-procedure-tool-preparation/0.1";
 pub const RELEASE_GRADE: &str = "effectless_internal_experiment_only";
 pub const MAX_MESSAGE_CHARS: usize = 1024;
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ProcedureToolResponseStatus {
@@ -43,6 +44,7 @@ impl ProcedureToolResponseStatus {
     }
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureToolFault {
@@ -51,6 +53,7 @@ pub struct ProcedureToolFault {
     pub message: String,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureToolVerification {
@@ -61,6 +64,7 @@ pub struct ProcedureToolVerification {
     pub verified: bool,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcedureToolResponse {
@@ -116,6 +120,7 @@ impl ProcedureToolResponse {
     }
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct PrepareRequest {
@@ -127,6 +132,7 @@ pub struct PrepareRequest {
     pub pass_index: u64,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct PreparedRunRequest {
@@ -135,6 +141,7 @@ pub struct PreparedRunRequest {
     pub lane: AuthorshipLaneEvidence,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct VerifyRequest {

@@ -4,11 +4,15 @@ version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 
+[features]
+default = []
+json-schema = ["dep:schemars", "cantor_core/json-schema"]
+
 [dependencies]
 cantor_core = { path = "../cantor_core" }
+schemars = { workspace = true, optional = true }
 serde.workspace = true
 serde_json.workspace = true
 
 [lints]
 workspace = true
-

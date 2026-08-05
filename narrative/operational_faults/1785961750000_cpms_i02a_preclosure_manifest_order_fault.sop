@@ -1,0 +1,9 @@
+Subject: CPMS I02A Preclosure Manifest Order Fault
+
+& [Detection] uninterrupted default workspace suite reached the governed candidate-workspace manifest and found the newly changed Cargo.toml size before current manifests were rehashed
+& [Classification] expected evidence-freshness ordering fault not a product or schema-capability assertion fault
+& [Impact] the run cannot support a global pass claim; all preceding product tests passed and the manifest gate failed closed
+& [Repair] stabilize code, perform metadata-only dependency-order rehash, verify zero stale, then rerun the complete suites
+& [Prevention] run current-manifest rehash after every stable source batch and before global evidence integration tests
+& [Resolution] metadata-only dependency-order rehash reached 23 manifests, 1030 references, and zero stale records; complete debug and release suites then passed
+& [Disposition] resolved_by_rehash_and_full_reruns

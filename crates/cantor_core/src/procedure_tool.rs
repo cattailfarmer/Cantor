@@ -20,6 +20,7 @@ use crate::{
 pub const CANTOR_EXCHANGE_SCHEMA_VERSION: &str = "cantor.exchange/0.1";
 pub const CPPE_FAKE_TOOL_CONTROLLER_ID: &str = "cantor-fake-tool-controller/0.1";
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ExchangeOperation {
@@ -34,6 +35,7 @@ pub enum ExchangeOperation {
     Stop,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProviderNeutralToolSchema {
@@ -51,6 +53,7 @@ pub struct ProviderNeutralToolSchema {
     pub schema_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ToolCallProposal {
@@ -66,6 +69,7 @@ pub struct ToolCallProposal {
     pub argument_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ControllerEventKind {
@@ -81,6 +85,7 @@ pub enum ControllerEventKind {
     Completed,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ControllerTranscriptEvent {
@@ -94,6 +99,7 @@ pub struct ControllerTranscriptEvent {
     pub event_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ToolControllerFault {
@@ -104,6 +110,7 @@ pub struct ToolControllerFault {
     pub safe_residual: String,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ToolResultDisposition {
@@ -111,6 +118,7 @@ pub enum ToolResultDisposition {
     Refused,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct LaterPassContext {
@@ -122,6 +130,7 @@ pub struct LaterPassContext {
     pub sensitivity: SensitivityClass,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProviderNeutralToolResult {
@@ -137,6 +146,7 @@ pub struct ProviderNeutralToolResult {
     pub result_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct FakeControllerTranscript {
@@ -152,6 +162,7 @@ pub struct FakeControllerTranscript {
     pub transcript_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct FakeControllerOutcome {

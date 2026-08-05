@@ -1,0 +1,8 @@
+Subject: CPMS I02A Raw String Delimiter Fault
+
+& [Detection] focused feature test compilation rejected a one-hash raw string because the JSON Pointer contains the terminating sequence quote-hash
+& [Impact] test source did not compile; no library output, runtime behavior, schema document, or external state was produced
+& [Repair] use a two-hash raw string delimiter for the two exact local-reference assertions
+& [Prevention] select a raw-string delimiter not present in embedded JSON Pointer text before running the focused gate
+& [Disposition] repaired_before_first_test_execution
+
