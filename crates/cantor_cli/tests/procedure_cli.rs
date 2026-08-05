@@ -151,6 +151,7 @@ fn schema_matches_the_direct_core_and_declares_residuals() {
         provider_neutral_exchange_schema().expect("direct schema")
     );
     assert_eq!(value["residuals"].as_array().expect("residuals").len(), 3);
+    assert!(value.get("prepared_request").is_none());
 }
 
 #[test]
@@ -163,6 +164,7 @@ fn stdin_run_is_direct_core_equivalent_and_byte_deterministic() {
     assert_eq!(first.stdout, second.stdout);
     assert!(first.stderr.is_empty());
     let value = response(&first);
+    assert!(value.get("prepared_request").is_none());
     let outcome: FakeControllerOutcome =
         serde_json::from_value(value["outcome"].clone()).expect("outcome");
     assert_eq!(
@@ -171,6 +173,97 @@ fn stdin_run_is_direct_core_equivalent_and_byte_deterministic() {
     );
     verify_fake_controller_outcome(&schema, &proposal, &lane, &outcome)
         .expect("CLI outcome verifies");
+}
+
+#[test]
+fn prepare_is_direct_lane_equivalent_deterministic_and_run_compatible() {
+    let candidate = model_candidate();
+    let template = model_template();
+    let expected_lane =
+        run_authorship_lane(&candidate, &template, &BTreeMap::new()).expect("direct prepared lane");
+    let request = json!({
+        "candidate": candidate,
+        "template": template,
+        "recognized_anchors": {},
+        "call_id": "tool-call:prepared-cli-1",
+        "inference_job_ref": "inference-job:prepared-cli-1",
+        "pass_index": 7,
+    });
+    let bytes = serde_json::to_vec(&request).expect("prepare request");
+    let first = execute(&["prepare"], &bytes);
+    let second = execute(&["prepare"], &bytes);
+    assert_eq!(first.status.code(), Some(0));
+    assert_eq!(first.stdout, second.stdout);
+    assert!(first.stderr.is_empty());
+    let value = response(&first);
+    assert_eq!(value["profile"], "cantor-procedure-tool-preparation/0.1");
+    let prepared = value["prepared_request"].clone();
+    assert_eq!(
+        serde_json::from_value::<AuthorshipLaneEvidence>(prepared["lane"].clone())
+            .expect("prepared lane"),
+        expected_lane
+    );
+    let proposal: ToolCallProposal =
+        serde_json::from_value(prepared["proposal"].clone()).expect("prepared proposal");
+    assert_eq!(proposal.operation, ExchangeOperation::Reconcile);
+    assert_eq!(proposal.participant_ref, expected_lane.request.caller_ref);
+    assert_eq!(
+        compute_tool_call_argument_digest(&proposal).expect("argument digest"),
+        proposal.argument_digest
+    );
+
+    let run = execute(
+        &["run"],
+        &serde_json::to_vec(&prepared).expect("prepared run request"),
+    );
+    assert_eq!(run.status.code(), Some(0));
+    assert_eq!(response(&run)["status"], "success");
+}
+
+#[test]
+fn prepare_refuses_invalid_lane_and_invalid_envelope_without_partial_output() {
+    let candidate = model_candidate();
+    let mut invalid_template = model_template();
+    invalid_template
+        .authorship_evidence_refs
+        .insert(sid("evidence:absent"));
+    let request = json!({
+        "candidate": candidate,
+        "template": invalid_template,
+        "recognized_anchors": {},
+        "call_id": "tool-call:prepared-cli-invalid",
+        "inference_job_ref": "inference-job:prepared-cli-invalid",
+        "pass_index": 7,
+    });
+    let refused = execute(
+        &["prepare"],
+        &serde_json::to_vec(&request).expect("invalid lane request"),
+    );
+    assert_eq!(refused.status.code(), Some(3));
+    let value = response(&refused);
+    assert_eq!(value["faults"][0]["code"], "lane_preparation_refused");
+    assert!(value.get("prepared_request").is_none());
+
+    let mut unknown = request.clone();
+    unknown["ambient_authority"] = json!(true);
+    let invalid = execute(
+        &["prepare"],
+        &serde_json::to_vec(&unknown).expect("unknown-field request"),
+    );
+    assert_eq!(invalid.status.code(), Some(2));
+    assert!(response(&invalid).get("prepared_request").is_none());
+
+    let mut exhausted = request;
+    exhausted["candidate"] = serde_json::to_value(model_candidate()).expect("candidate");
+    exhausted["pass_index"] = json!(u64::MAX);
+    let invalid = execute(
+        &["prepare"],
+        &serde_json::to_vec(&exhausted).expect("exhausted request"),
+    );
+    assert_eq!(invalid.status.code(), Some(2));
+    let value = response(&invalid);
+    assert_eq!(value["faults"][0]["code"], "pass_index_exhausted");
+    assert!(value.get("prepared_request").is_none());
 }
 
 #[test]

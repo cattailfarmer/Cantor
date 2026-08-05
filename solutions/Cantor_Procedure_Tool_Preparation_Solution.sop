@@ -1,0 +1,35 @@
+Subject: Cantor Procedure Tool Preparation Solution
+
+@ [solution_uuid] ec388f82-e524-4ccb-8718-5b1e28349ebf
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_Preparation.sop
+@ [claim_uuid] ab32fc35-65f7-499c-97a3-e794cd2fb759
+
+& [Implementation] is one additive command
+  + PrepareRequest strictly accepts candidate, template, recognized_anchors, call_id, inference_job_ref, and pass_index
+  + run_authorship_lane constructs exact deterministic effectless evidence
+  + provider_neutral_exchange_schema supplies the exact schema
+  + one reconcile proposal binds caller-supplied correlation identity to the lane request and initial session
+  + compute_tool_call_argument_digest closes the proposal
+  + PreparedRunRequest serializes exact schema, proposal, and lane fields already accepted by run
+
+& [Compatibility] is preserved
+  + schema, run, and verify retain cantor-procedure-tool-cli/0.1
+  + prepared_request is omitted for all base operations
+  + pre-extension release and current debug schema response bytes compare equal
+  + prepare alone returns cantor-procedure-tool-preparation/0.1
+
+& [Refusal] is closed
+  + absent required provenance returns verified preparation refusal and exit 3
+  + unknown fields and u64 maximum pass index return invalid input and exit 2
+  + no failed preparation returns a partial prepared_request
+
+& [Artifacts] are content addressed
+  + [procedure_main_bytes] is 16065
+  + [procedure_main_sha256] is 987F7D69E63C3657D958D6C32EB53632BB57D03549442184BFE665F7B34796B2
+  + [procedure_tests_bytes] is 14612
+  + [procedure_tests_sha256] is D36F437C7024B0BF62D0C27D31B43FBCB240FAAC870DC55F17D2E783BF2F844B
+  + [README_bytes] is 15377
+  + [README_sha256] is 9B94588C3FCD26CD9CB6F6D59AAC43197068EE77CEEC6E681D82990459CD9754
+
+& [EffectBoundary] remains effectless_internal_experiment_only
+  - never: infer external authorship, live trust, model generation, provider execution, persistence, network, semantic external effect, hidden state, hardware, or production qualification

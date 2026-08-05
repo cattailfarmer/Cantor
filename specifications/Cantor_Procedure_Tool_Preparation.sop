@@ -1,0 +1,72 @@
+Subject: Cantor Procedure Tool Preparation
+
+Description: Additive SJS authority for one prepare command in cantor-procedure-experiment. It deterministically constructs the complete existing run request from caller-supplied candidate and lane parameters while preserving the base schema, run, and verify wire behavior.
+
+@ [specification_uuid] 67b26039-353d-45c1-9255-2346da74e6ac
+@ [profile] cantor-procedure-tool-preparation/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_procedure_tool_preparation\Source_Document_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_Procedure_Tool_Preparation_Input_Audit_2026-08-05.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Procedure_Tool_Preparation.exploded.sop
+@ [base_profile] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_CLI.sop
+
+& [Supersession] is narrow
+  + the base rule that no command beyond schema run and verify is valid is superseded only to admit prepare
+  + every base request, response, profile string, serialized byte, exit class, and residual remains unchanged
+  + prepare responses use cantor-procedure-tool-preparation/0.1
+
+& [PrepareRequest] is strict
+  + candidate is one ProcedureCandidate
+  + template is one AuthorshipLaneTemplate
+  + recognized_anchors is one ordered SemanticId to SopAnchorBinding map
+  + call_id is caller supplied
+  + inference_job_ref is caller supplied
+  + pass_index is caller supplied and must be less than u64 maximum
+  + unknown fields are invalid input
+
+& [PreparationSemantics] are deterministic
+  + call run_authorship_lane with exact candidate, template, and recognized anchors
+  + call provider_neutral_exchange_schema
+  + construct one reconcile ToolCallProposal from the resulting lane request and initial session
+  + participant_ref equals lane.request.caller_ref
+  + schema_ref and schema_digest equal the generated exact schema
+  + compute argument_digest through compute_tool_call_argument_digest
+  + return schema, proposal, and lane as one PreparedRunRequest
+  + do not run the fake controller in prepare
+
+& [OutputCompatibility] is executable
+  + prepared_request is serialized with property names schema, proposal, and lane
+  + the prepared_request JSON object can be passed unchanged as the run command input
+  + existing response fields remain present and prepared_request is omitted rather than null for non-prepare operations
+
+& [RefusalSemantics] fail closed
+  + run_authorship_lane failure becomes status refused and exit 3
+  + pass index exhaustion becomes invalid_input and exit 2
+  + schema or proposal digest construction failure becomes internal_fault and exit 5
+  + no partial lane or prepared request is returned on failure
+
+& [AuthorityBoundary] is explicit
+  + derived receipts and digests prove deterministic fixture-pipeline conformance only
+  + fake Observer and validator identities remain fixture principals
+  + preparation does not mint external identity, authorship, truth, consent, security, production admission, or effect authority
+  + no model, provider, network, service, database, persistence, notification, Git, hidden state, K/V cache, hardware, or FPGA operation
+
+& [Bounds] inherit and strengthen base transport
+  + input uses the base nonempty 16777216-byte bound and stdin or one read-only --input path
+  + messages remain bounded to 1024 Unicode scalar values
+  + all procedure and coordination budgets come from the strict supplied template and existing core validation
+
+& [ProofObligations] are exact
+  + prepare output decodes as the exact run request shape
+  + piping prepared_request into run produces a verified completed outcome
+  + repeated prepare output is byte identical
+  + direct run_authorship_lane evidence equals prepared lane
+  + schema run and verify outputs from base fixtures are byte unchanged from pushed commit be15cd46906f8e89838df5581c88f4cb6f7f20fb
+  + invalid candidate, unknown field, and exhausted pass index fail closed without prepared output
+  + full workspace and evidence gates pass
+
+& [Signature] is delta implementation authority
+  + [signature_uuid] is 9e040b6b-1287-4c1f-b38e-ed690c1d4b56
+  + [source_manifest_sha256] is AB3DF4DF8C5C5C3F455CC448B64C2152E77DD4FA0225C9E4E48696F0D1834F7F
+  + [base_profile_sha256] is 56F13D2C658683903F9199FAA9FB314D12CA2AB8325554B406BC46C8774001B7
+  + [authority_scope] is additive prepare command, response projection, focused tests, documentation, and required current-evidence metadata refresh only
+  + [invalidation] is base wire drift, inferred ambient authority, missing refusal, unbounded input, generated identity not rooted in supplied data, widened effects, or production claim

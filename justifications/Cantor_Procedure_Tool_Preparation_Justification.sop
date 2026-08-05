@@ -1,0 +1,18 @@
+Subject: Cantor Procedure Tool Preparation Justification
+
+@ [justification_uuid] 7f6c384c-ac19-4e43-8593-d70f4e4e733e
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_Preparation.sop
+
+& [Need] is interoperability without semantic duplication
+  + requiring external callers to reproduce internal lane receipts defeats the purpose of a callable coprocessor
+  + the core already has one deterministic construction function
+
+& [Choice] is one additive command
+  + reuse existing core semantics and expose the exact run request
+  + preserve existing base outputs by omitting the new field outside prepare
+  + reject invalid inputs before any prepared artifact is emitted
+
+& [Rejected] remains larger or less honest
+  + built-in hardcoded fixture would demonstrate syntax but not accept caller parameters
+  + external reimplementation would risk digest and authority drift
+  + provider integration would add unrelated live effects before local preparation is proven

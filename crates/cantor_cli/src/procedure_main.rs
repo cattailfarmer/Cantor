@@ -5,6 +5,7 @@
 //! external harness can inspect, run, and independently verify explicit
 //! checkpoint artifacts.
 
+use std::collections::BTreeMap;
 use std::env;
 use std::fs::File;
 use std::io::{self, Read, Write};
@@ -12,13 +13,16 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 
 use cantor_core::{
-    AuthorshipLaneEvidence, ContentDigest, FakeControllerOutcome, ProviderNeutralToolSchema,
-    SemanticId, ToolCallProposal, ToolResultDisposition, provider_neutral_exchange_schema,
-    run_fake_controller_exchange, verify_fake_controller_outcome,
+    AuthorshipLaneEvidence, AuthorshipLaneTemplate, ContentDigest, ExchangeOperation,
+    FakeControllerOutcome, ProcedureCandidate, ProviderNeutralToolSchema, SemanticId,
+    SopAnchorBinding, ToolCallProposal, ToolResultDisposition, compute_tool_call_argument_digest,
+    provider_neutral_exchange_schema, run_authorship_lane, run_fake_controller_exchange,
+    verify_fake_controller_outcome,
 };
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
 
 const RESPONSE_PROFILE: &str = "cantor-procedure-tool-cli/0.1";
+const PREPARATION_PROFILE: &str = "cantor-procedure-tool-preparation/0.1";
 const RELEASE_GRADE: &str = "effectless_internal_experiment_only";
 const MAX_INPUT_BYTES: u64 = 16 * 1024 * 1024;
 const MAX_MESSAGE_CHARS: usize = 1024;
@@ -73,6 +77,8 @@ struct CliResponse {
     schema: Option<ProviderNeutralToolSchema>,
     outcome: Option<FakeControllerOutcome>,
     verification: Option<VerificationRecord>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    prepared_request: Option<PreparedRunRequest>,
     faults: Vec<CliFault>,
     residuals: Vec<String>,
 }
@@ -87,6 +93,7 @@ impl CliResponse {
             schema: None,
             outcome: None,
             verification: None,
+            prepared_request: None,
             faults: Vec::new(),
             residuals: vec![
                 "no model or provider was called".to_owned(),
@@ -115,7 +122,18 @@ impl CliResponse {
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize)]
 #[serde(deny_unknown_fields)]
-struct RunRequest {
+struct PrepareRequest {
+    candidate: ProcedureCandidate,
+    template: AuthorshipLaneTemplate,
+    recognized_anchors: BTreeMap<SemanticId, SopAnchorBinding>,
+    call_id: SemanticId,
+    inference_job_ref: SemanticId,
+    pass_index: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct PreparedRunRequest {
     schema: ProviderNeutralToolSchema,
     proposal: ToolCallProposal,
     lane: AuthorshipLaneEvidence,
@@ -183,14 +201,98 @@ fn dispatch(arguments: Vec<String>) -> CliResponse {
                 ),
             }
         }
+        "prepare" => dispatch_prepare(&arguments[1..]),
         "run" => dispatch_run(&arguments[1..]),
         "verify" => dispatch_verify(&arguments[1..]),
         "help" | "--help" | "-h" => invalid_arguments(
             "unavailable",
-            "usage: cantor-procedure-experiment <schema|run|verify> [--input <path>]",
+            "usage: cantor-procedure-experiment <schema|prepare|run|verify> [--input <path>]",
         ),
         other => invalid_arguments(other, format!("unknown command {other:?}")),
     }
+}
+
+fn dispatch_prepare(arguments: &[String]) -> CliResponse {
+    let bytes = match read_command_input("prepare", arguments) {
+        Ok(bytes) => bytes,
+        Err(response) => return *response,
+    };
+    let request: PrepareRequest = match decode_request("prepare", &bytes) {
+        Ok(request) => request,
+        Err(response) => return *response,
+    };
+    if request.pass_index == u64::MAX {
+        return CliResponse::fault(
+            "prepare",
+            ResponseStatus::InvalidInput,
+            "pass_index_exhausted",
+            "preparation",
+            "pass_index must leave capacity for the later-pass successor",
+        );
+    }
+    let lane = match run_authorship_lane(
+        &request.candidate,
+        &request.template,
+        &request.recognized_anchors,
+    ) {
+        Ok(lane) => lane,
+        Err(fault) => {
+            return CliResponse::fault(
+                "prepare",
+                ResponseStatus::Refused,
+                "lane_preparation_refused",
+                "preparation",
+                fault.to_string(),
+            );
+        }
+    };
+    let schema = match provider_neutral_exchange_schema() {
+        Ok(schema) => schema,
+        Err(fault) => {
+            return CliResponse::fault(
+                "prepare",
+                ResponseStatus::InternalFault,
+                "schema_construction_failed",
+                "preparation",
+                fault.to_string(),
+            );
+        }
+    };
+    let mut proposal = ToolCallProposal {
+        schema_ref: schema.schema_id.clone(),
+        schema_digest: schema.schema_digest.clone(),
+        call_id: request.call_id,
+        inference_job_ref: request.inference_job_ref,
+        participant_ref: lane.request.caller_ref.clone(),
+        pass_index: request.pass_index,
+        operation: ExchangeOperation::Reconcile,
+        invocation: lane.request.clone(),
+        session: lane.initial_session.clone(),
+        argument_digest: ContentDigest {
+            algorithm: "sha256".to_owned(),
+            value: String::new(),
+        },
+    };
+    proposal.argument_digest = match compute_tool_call_argument_digest(&proposal) {
+        Ok(digest) => digest,
+        Err(fault) => {
+            return CliResponse::fault(
+                "prepare",
+                ResponseStatus::InternalFault,
+                "proposal_digest_failed",
+                "preparation",
+                fault.to_string(),
+            );
+        }
+    };
+    let mut response = CliResponse::empty("prepare", ResponseStatus::Success);
+    response.profile = PREPARATION_PROFILE.to_owned();
+    response.prepared_request = Some(PreparedRunRequest {
+        schema,
+        proposal,
+        lane,
+    });
+    response
 }
 
 fn dispatch_run(arguments: &[String]) -> CliResponse {
@@ -198,7 +300,7 @@ fn dispatch_run(arguments: &[String]) -> CliResponse {
         Ok(bytes) => bytes,
         Err(response) => return *response,
     };
-    let request: RunRequest = match decode_request("run", &bytes) {
+    let request: PreparedRunRequest = match decode_request("run", &bytes) {
         Ok(request) => request,
         Err(response) => return *response,
     };

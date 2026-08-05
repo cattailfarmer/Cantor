@@ -1,0 +1,12 @@
+Subject: Prepare Negative Fixture Assumption Fault
+
+& [OperationalFault] is closed
+  + [fault_uuid] is 12ff449d-8680-4b82-a73f-8140ad0b0b95
+  + [observed_at_time_ms] is 1785958870001
+  + [operation] is focused prepare refusal test
+  + [expected] is changing candidate purpose without recomputing source_digest causes lane refusal
+  + [observed] is the existing candidate source-digest definition does not bind that field and preparation correctly succeeded
+  + [effect] is one focused test failed; implementation behavior was not changed to satisfy the false assumption
+  + [resolution] is use the existing proven authorship boundary by claiming an absent provenance reference in the template
+  + [result] is preparation refuses before validation and returns no prepared request
+  + [prevention] is derive negative fixtures from canonical validator invariants rather than assumed digest coverage

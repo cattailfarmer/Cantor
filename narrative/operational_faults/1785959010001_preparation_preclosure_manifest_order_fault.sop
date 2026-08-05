@@ -1,0 +1,12 @@
+Subject: Preparation Preclosure Manifest Order Fault
+
+& [OperationalFault] is closed
+  + [fault_uuid] is 22473be5-0ad0-4e31-8681-c581a9fb9b4a
+  + [observed_at_time_ms] is 1785959010001
+  + [operation] is run the full CPTP workspace gate before current-evidence metadata refresh
+  + [expected] is refresh current manifests only after referenced implementation and README files stabilize, then run global tests
+  + [observed] is candidate workspace evidence stopped on README metadata expected 15152 bytes and observed 15377 bytes
+  + [effect] is the first global batch stopped after core and CLI suites passed; release and later commands in the batch did not run
+  + [root_cause] is orchestration order placed the global gate before the explicitly planned metadata maintenance step
+  + [resolution] is stabilize closure inputs, run the authorized dependency-first refresh, verify zero stale, then rerun every global gate
+  + [prevention] is treat current-manifest VerifyOnly zero as a prerequisite for global evidence tests after any referenced file change

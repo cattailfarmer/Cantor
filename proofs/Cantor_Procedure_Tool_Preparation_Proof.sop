@@ -1,0 +1,46 @@
+Subject: Cantor Procedure Tool Preparation Proof
+
+@ [proof_uuid] 54878f3d-f854-483a-835a-fb57927f51a8
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_Preparation.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Procedure_Tool_Preparation_Solution.sop
+
+& [FocusedProof] passed
+  + cargo test -p cantor_cli --test procedure_cli --locked returned 7 passed and 0 failed
+  + prepared lane equals direct run_authorship_lane evidence
+  + repeated prepare stdout is byte identical
+  + prepared proposal is reconcile, uses exact caller and session lineage, and recomputes its argument digest
+  + prepared_request is accepted unchanged by run and produces success
+  + absent provenance, unknown field, and exhausted pass index return no prepared request
+  + formatter and warnings-denied workspace lint passed
+
+& [BaseCompatibilityProof] passed
+  + pre-extension release binary at be15cd4 and current debug binary emitted byte-equal schema responses
+  + compared schema response SHA256 is 0473c5a045fde83924de12a3d4199dcf2d2ed89d34937155f1faeccc96df58ae
+  + focused tests prove prepared_request is absent from base schema and run responses
+
+& [PreclosureFault] is preserved
+  + first full workspace attempt stopped on intentionally stale README evidence metadata before the planned refresh
+  + no global-pass claim is made from that interrupted batch
+
+& [GlobalProof] passed after ordered refresh
+  + current-manifest VerifyOnly reported 23 manifests, 1030 references, and zero stale before the corrected batch
+  + cargo test --workspace --locked passed
+  + cargo test --workspace --release --locked passed with overflow checks enabled
+  + cargo build --workspace --release --locked passed
+  + cargo doc --workspace --no-deps --locked passed
+  + cargo test --workspace --locked --offline passed
+  + cargo audit --no-fetch --stale scanned 113 locked dependencies against 1177 locally cached advisories and passed
+  + cargo fmt --all -- --check passed
+  + cargo clippy --workspace --all-targets --locked -- -D warnings passed
+
+& [FinalEvidenceMetadataProof] passed
+  + final VerifyOnly reports 23 current manifests, 1030 artifact references, and zero stale records
+  + exactly 23 current manifests changed and only bytes, sha256, and existing generated_at_utc fields differ
+  + the sorted changed-manifest path byte-length and file-digest set has SHA256 a107ef4961853859d513819ccbeae2ca5368d72b3de15cbc35391d0a1478f9f3
+  + all three frozen manifest hashes remain exact
+  + no evidence builder, physical probe, benchmark, model, provider, service, or external semantic effect produced the refresh
+
+& [Residuals] are binding
+  + fixture principals and fake admission remain non-production
+  + caller supplies the candidate, template, anchors, and correlation identities
+  + no model, provider, network, service, persistence, semantic external effect, hidden state, K/V cache, hardware, or FPGA behavior exists
