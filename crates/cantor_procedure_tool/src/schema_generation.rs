@@ -28,7 +28,7 @@ pub enum SchemaContractDirection {
 }
 
 impl SchemaContractDirection {
-    fn token(self) -> &'static str {
+    pub(crate) fn token(self) -> &'static str {
         match self {
             Self::InputDeserialize => "input_deserialize",
             Self::OutputSerialize => "output_serialize",
@@ -47,7 +47,7 @@ pub enum MachineSchemaRootKind {
 }
 
 impl MachineSchemaRootKind {
-    fn token(self) -> &'static str {
+    pub(crate) fn token(self) -> &'static str {
         match self {
             Self::PrepareInput => "prepare_input",
             Self::RunInput => "run_input",
@@ -952,7 +952,7 @@ fn measure_value(
     Ok(())
 }
 
-fn canonical_json_bytes(value: &Value) -> Result<Vec<u8>, MachineSchemaGenerationFault> {
+pub(crate) fn canonical_json_bytes(value: &Value) -> Result<Vec<u8>, MachineSchemaGenerationFault> {
     let mut output = Vec::new();
     write_canonical_json(value, &mut output)?;
     Ok(output)

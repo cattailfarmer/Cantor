@@ -1,0 +1,26 @@
+Subject: CPMS I02C Checkpoint A Pure Document and Bundle Solution
+
+@ [solution_uuid] 949f5c15-d471-4c3d-ba85-d219deae6a6c
+@ [activation_signature_uuid] 74ca6243-e98f-44ba-a039-08fa3cbbfcce
+
+& [Implemented] is checkpoint A only
+  + three I02B helpers become crate-private without public API expansion
+  + strict document, direction-inventory, payload, bundle, exact-replay, and typed-fault forms
+  + atomic five-document materialization with exact dialect, stable id, same-direction transitive $defs, canonical bytes, accounts, digests, and fingerprints
+  + two inventories, payload-first bundle hashing, six fixed in-memory artifacts, and exact-replay-only verification
+  + independent verification reconstructs root sets, directions, ids, closure, document digests and fingerprints, inventory binding, payload digest, baseline, and byte ceilings
+  + four active structural/adversarial tests and two checkpoint-B-only ignored fixture tests
+
+& [SourceBytes] are exact
+  + lib.rs 11411 bytes SHA256 EAE94ECD9E742A2187490A0D03DD43EE8D41BC70F163E3DAF7F5A3D20AFC6DBF
+  + schema_generation.rs 38183 bytes SHA256 D43F5F3DF6317983084FAEF91E889925A0A148F0F0F4F262BDFF95635E5D01F0
+  + schema_documents.rs 34106 bytes SHA256 2D73CA2DBD49B81840AA8F268A6AFE942B957D714AB77C22F24569290A8D6FFA
+  + machine_schema_documents.rs 9060 bytes SHA256 FBF6BCA1C6C4E6D37DEA478FDCC9737CCB8C487A9235DA2AFFD3A8892D8372BB
+
+& [Deferred] is checkpoint B
+  + no golden file exists and both fixture tests remain ignored
+  + exact artifact lengths and digests become locked only after generation from this checkpoint commit
+  + final aggregate release execution remains required
+
+& [Boundary] is pure library plus ignored developer test harness
+  - never: normal-test write, runtime filesystem, parser, validator, conformance, compatibility classification, provider, model, service, persistence, network, semantic effect, production, or hardware
