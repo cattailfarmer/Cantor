@@ -1,0 +1,50 @@
+Subject: Cantor Process Procedure Verifier and Fake Admission Proof
+
+@ [solution] C:\Project\Cantor\solutions\Cantor_Process_Procedure_Verifier_Admission_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\procedure_verifier.rs
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is 33b6930f-cd32-40a6-80b5-9f664c504c9b
+  + [solution_uuid] is 249f9c12-9251-448b-8b81-e4b7b7ba8a11
+  + [authority_signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [captured_at] is 2026-08-05T12:57:56.8016496-05:00
+
+& [ArtifactIdentity] is measured before governance-only closure
+  + [procedure_forms] is 27329 bytes SHA256 A710B1B91B241C8C5AED1FBA5C0EDB378933174DFE458503CF26E2AE51317F1B
+  + [procedure_verifier] is 36995 bytes SHA256 DCD323600DB545E325551229D9E46449953187D94675E6BCEA333540015010E9
+  + [procedure_validation] is 63791 bytes SHA256 4F6CF6B55180D29555C3CBE4D323BE40E4D671D8D60E956EC225C2BD8E1006D4
+  + [procedure_verifier_tests] is 18897 bytes SHA256 5F80DB6AE54483854569059DE876F1F087DA970D735BDF284C34C8740C57EFAE
+  + [procedure_document] is 5026 bytes SHA256 3C7454D6BCDAFFAB7F76804F82A502F7FE7B05197E8EEDF8BD73B625B471F57E
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test procedure_verifier --locked
+  + [result] is 7 passed and 0 failed
+  + [positive_set] is deterministic content-bound verification, exact recognized anchors, exact fake Observer admission, aggregate form validation, and explicit policy refusal
+  + [negative_set] is schema-derived type-table substitution, unreachable process region, unrecognized anchor, forged verification receipt, and changed policy content
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 169 passed and 0 failed
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all -- --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is git diff --check
+  + [result] is passed
+  + [source_audit] is no effect-bearing API or prohibited runtime surface introduced
+  + [dependency_audit] is no Cargo manifest or lockfile delta
+
+& [SignedAuthorityIntegrity] is exact
+  + [requirement_matrix] is 4033 bytes SHA256 8623D4773251F6050F5E8A6A6266463BC8E65699C2B590310A2909C34C66DA14
+  + [result] is unchanged
+
+& [WorkspaceBoundary] is honest
+  + the inherited README candidate-evidence mismatch remains the known full-workspace gate
+  + the current slice changes neither README nor historical evidence manifests
+  - never: report the full workspace gate as green
+
+& [ProofDisposition] is CPPE-I04_focused_proven
+  + verified means declared static and replay obligations passed
+  + admitted means fake Observer authorized one exact bounded context
+  + catalogued, invoked, executed, effect-authorized, and production-qualified remain unproved

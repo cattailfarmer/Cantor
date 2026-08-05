@@ -22,10 +22,11 @@ phase, effect, and prohibited-operation vocabularies are closed enums.
 
 ## Authority boundary
 
-This slice supplies forms, not behavior. It does not semantically validate or
-normalize a candidate, calculate a digest, compile source, verify a procedure,
-admit or catalogue an identity, select a process, execute an instruction,
-stabilize a token ring, invoke a model, or perform an external effect.
+The `procedure` module supplies forms, not behavior. Separately authorized pure
+passes now validate, compile, statically verify, and issue a fake Observer
+admission disposition. They still do not catalogue an identity, select a
+process, execute an instruction, stabilize a token ring, invoke a model, or
+perform an external effect.
 
 The only first-profile effect class is `Effectless`. Its read and write classes
 are also closed: typed invocation input and pinned admitted in-memory artifacts
@@ -65,12 +66,30 @@ performed” and “Observer admission not performed” residuals. No live provi
 persistence, service, filesystem, network, process, clock, model execution,
 unsafe code, device, or FPGA behavior is part of this profile.
 
+CPPE-I04 adds `verify_compiled_procedure`, an independent
+`cantor-process-verifier/0.1` pass. It requires exact digest-valid validation
+and compilation evidence but does not treat compiler success as sufficient.
+It independently re-derives compiler identities and cost, then checks schema
+and type closure, complete source-map derivation, reachable terminating process
+graphs, finite bounds, the full effectless prohibition wall, exact recognized
+SOP anchors, lifecycle relations, and normalized IR replay. Its receipt binds
+the exact candidate source, compiler, IR, compiled procedure, anchor set,
+effect declaration, and bound set.
+
+`build_fake_observer_policy` creates a self-digesting policy for one exact
+candidate and `fake_observer_admit` consumes that policy plus all prior phase
+evidence. A successful `AdmissionDisposition` names permitted invocation
+contexts and revocation conditions; a stale receipt, changed policy, or other
+substitution returns refusal with no invocation context. This fake admission
+does not insert a catalogue entry and cannot invoke the procedure.
+
 ## Verification
 
 ```text
 cargo test -p cantor_core --test procedure_forms --locked
 cargo test -p cantor_core --test procedure_validation --locked
 cargo test -p cantor_core --test procedure_compiler --locked
+cargo test -p cantor_core --test procedure_verifier --locked
 cargo test -p cantor_core --locked
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo fmt --all -- --check

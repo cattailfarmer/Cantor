@@ -13,8 +13,10 @@ use crate::{
     ContentDigest, ControlRegion, EvaluationFault, FaultKind, PhaseDisposition, ProcedureBounds,
     ProcedureCandidate, ProcedureEffectClass, ProcedureFormSet, ProcedureLifecycle,
     ProcedureSchema, ProcedureSchemaSet, ProcedureType, ProcedureValue, ProcessDefinition,
-    ProcessInstruction, ProcessLifecycle, SchemaKind, SemanticId, from_machine_form, sha256_bytes,
-    to_machine_form,
+    ProcessInstruction, ProcessLifecycle, SchemaKind, SemanticId,
+    compute_admission_disposition_digest, compute_anchor_set_digest,
+    compute_effect_declaration_digest, compute_procedure_bounds_digest,
+    compute_verification_receipt_digest, from_machine_form, sha256_bytes, to_machine_form,
 };
 
 const MAX_FORM_RECORDS: usize = 16_384;
@@ -1086,8 +1088,23 @@ fn validate_receipt_maps(forms: &ProcedureFormSet) -> Result<(), EvaluationFault
         &forms.verification_receipts,
         |v| &v.receipt_id,
         |v| {
+            validate_digest(
+                "verification candidate source digest",
+                &v.candidate_source_digest,
+            )?;
             validate_digest("verified IR digest", &v.ir_digest)?;
-            validate_digest("verification receipt digest", &v.receipt_digest)
+            validate_digest("verified procedure digest", &v.compiled_procedure_digest)?;
+            validate_digest("verified anchor-set digest", &v.anchor_set_digest)?;
+            validate_digest(
+                "verified effect-declaration digest",
+                &v.effect_declaration_digest,
+            )?;
+            validate_digest("verified bounds digest", &v.bounds_digest)?;
+            validate_digest("verification receipt digest", &v.receipt_digest)?;
+            if compute_verification_receipt_digest(v)? != v.receipt_digest {
+                return Err(form_fault("verification receipt digest mismatch"));
+            }
+            Ok(())
         },
     )?;
     validate_map(
@@ -1095,13 +1112,43 @@ fn validate_receipt_maps(forms: &ProcedureFormSet) -> Result<(), EvaluationFault
         &forms.admission_dispositions,
         |v| &v.disposition_id,
         |v| {
+            validate_digest(
+                "admission candidate source digest",
+                &v.candidate_source_digest,
+            )?;
+            validate_digest("admission IR digest", &v.ir_digest)?;
+            validate_digest("admission procedure digest", &v.procedure_digest)?;
+            validate_digest("admission anchor-set digest", &v.anchor_set_digest)?;
+            validate_digest(
+                "admission effect-declaration digest",
+                &v.effect_declaration_digest,
+            )?;
+            validate_digest("admission bounds digest", &v.bounds_digest)?;
+            validate_digest("admission policy digest", &v.policy_digest)?;
             if v.decision != AdmissionDecision::Refuse && v.permitted_invocation_contexts.is_empty()
             {
                 return Err(form_fault(
                     "admitted or qualified procedure needs an invocation context",
                 ));
             }
-            validate_digest("admission disposition digest", &v.disposition_digest)
+            if v.decision != AdmissionDecision::Refuse && v.revocation_conditions.is_empty() {
+                return Err(form_fault(
+                    "admitted or qualified procedure needs a revocation condition",
+                ));
+            }
+            if v.decision == AdmissionDecision::Refuse
+                && (!v.permitted_invocation_contexts.is_empty()
+                    || !v.revocation_conditions.is_empty())
+            {
+                return Err(form_fault(
+                    "refused admission cannot publish invocation authority",
+                ));
+            }
+            validate_digest("admission disposition digest", &v.disposition_digest)?;
+            if compute_admission_disposition_digest(v)? != v.disposition_digest {
+                return Err(form_fault("admission disposition digest mismatch"));
+            }
+            Ok(())
         },
     )?;
     validate_map(
@@ -1311,27 +1358,129 @@ fn validate_relations(forms: &ProcedureFormSet) -> Result<(), EvaluationFault> {
         }
     }
     for receipt in forms.verification_receipts.values() {
-        if !forms.candidates.contains_key(&receipt.candidate_ref)
-            || !forms
-                .compilation_receipts
-                .contains_key(&receipt.compilation_receipt_ref)
-        {
+        let Some(candidate) = forms.candidates.get(&receipt.candidate_ref) else {
             return Err(form_fault(
                 "verification receipt has missing predecessor evidence",
+            ));
+        };
+        let Some(compilation) = forms
+            .compilation_receipts
+            .get(&receipt.compilation_receipt_ref)
+        else {
+            return Err(form_fault(
+                "verification receipt has missing predecessor evidence",
+            ));
+        };
+        let Some(ir) = forms.process_irs.get(&receipt.ir_ref) else {
+            return Err(form_fault(
+                "verification receipt references missing Process IR",
+            ));
+        };
+        let Some(procedure) = forms
+            .compiled_procedures
+            .get(&receipt.compiled_procedure_ref)
+        else {
+            return Err(form_fault(
+                "verification receipt references missing compiled procedure",
+            ));
+        };
+        if candidate.source_digest != receipt.candidate_source_digest
+            || compilation.candidate_ref != receipt.candidate_ref
+            || compilation.candidate_source_digest != receipt.candidate_source_digest
+            || compilation.compiler_ref != receipt.compiler_ref
+            || compilation.ir_ref.as_ref() != Some(&receipt.ir_ref)
+            || compilation.ir_digest.as_ref() != Some(&receipt.ir_digest)
+            || ir.ir_digest != receipt.ir_digest
+            || ir.compiler_ref != receipt.compiler_ref
+            || procedure.ir_ref != receipt.ir_ref
+            || procedure.ir_digest != receipt.ir_digest
+            || procedure.procedure_digest != receipt.compiled_procedure_digest
+            || procedure.bound_set_ref != receipt.bound_set_ref
+            || compute_anchor_set_digest(&ir.sop_anchors)? != receipt.anchor_set_digest
+            || compute_effect_declaration_digest(&ir.effects)? != receipt.effect_declaration_digest
+            || compute_procedure_bounds_digest(&ir.bounds)? != receipt.bounds_digest
+        {
+            return Err(form_fault(
+                "verification receipt does not bind exact candidate, compiler, IR, and procedure content",
+            ));
+        }
+        if receipt.disposition == PhaseDisposition::Passed
+            && compilation.disposition != PhaseDisposition::Passed
+        {
+            return Err(form_fault(
+                "passed verification cannot follow a refused or faulted compilation",
             ));
         }
     }
     for disposition in forms.admission_dispositions.values() {
-        if !forms.candidates.contains_key(&disposition.candidate_ref)
-            || !forms
-                .compilation_receipts
-                .contains_key(&disposition.compilation_receipt_ref)
-            || !forms
-                .verification_receipts
-                .contains_key(&disposition.verification_receipt_ref)
-        {
+        let Some(candidate) = forms.candidates.get(&disposition.candidate_ref) else {
             return Err(form_fault(
                 "admission disposition has missing predecessor evidence",
+            ));
+        };
+        let Some(validation) = forms
+            .validation_receipts
+            .get(&disposition.validation_receipt_ref)
+        else {
+            return Err(form_fault(
+                "admission disposition has missing validation evidence",
+            ));
+        };
+        let Some(compilation) = forms
+            .compilation_receipts
+            .get(&disposition.compilation_receipt_ref)
+        else {
+            return Err(form_fault(
+                "admission disposition has missing compilation evidence",
+            ));
+        };
+        let Some(verification) = forms
+            .verification_receipts
+            .get(&disposition.verification_receipt_ref)
+        else {
+            return Err(form_fault(
+                "admission disposition has missing verification evidence",
+            ));
+        };
+        let Some(ir) = forms.process_irs.get(&disposition.ir_ref) else {
+            return Err(form_fault(
+                "admission disposition references missing Process IR",
+            ));
+        };
+        let Some(procedure) = forms.compiled_procedures.get(&disposition.procedure_ref) else {
+            return Err(form_fault(
+                "admission disposition references missing compiled procedure",
+            ));
+        };
+        if candidate.source_digest != disposition.candidate_source_digest
+            || validation.candidate_ref != disposition.candidate_ref
+            || validation.candidate_source_digest != disposition.candidate_source_digest
+            || compilation.validation_receipt_ref != disposition.validation_receipt_ref
+            || verification.compilation_receipt_ref != disposition.compilation_receipt_ref
+            || verification.receipt_id != disposition.verification_receipt_ref
+            || verification.compiler_ref != disposition.compiler_ref
+            || verification.ir_ref != disposition.ir_ref
+            || verification.ir_digest != disposition.ir_digest
+            || verification.compiled_procedure_ref != disposition.procedure_ref
+            || verification.compiled_procedure_digest != disposition.procedure_digest
+            || verification.anchor_set_digest != disposition.anchor_set_digest
+            || verification.effect_declaration_digest != disposition.effect_declaration_digest
+            || verification.bound_set_ref != disposition.bound_set_ref
+            || verification.bounds_digest != disposition.bounds_digest
+            || ir.ir_digest != disposition.ir_digest
+            || procedure.procedure_digest != disposition.procedure_digest
+        {
+            return Err(form_fault(
+                "admission disposition does not bind exact source, compiler, IR, verification, anchor, effect, and bound content",
+            ));
+        }
+        if disposition.decision != AdmissionDecision::Refuse
+            && (validation.disposition != PhaseDisposition::Passed
+                || compilation.disposition != PhaseDisposition::Passed
+                || verification.disposition != PhaseDisposition::Passed)
+        {
+            return Err(form_fault(
+                "admission authority requires passed validation, compilation, and verification",
             ));
         }
     }

@@ -21,18 +21,18 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + CPPE-I01 machine forms has no implementation predecessor and is completed under reviewed proof 7380df71-fe62-45a8-88cf-0e3e6ad20fc3
   + CPPE-I02 validation normalization and canonical serialization depends_on CPPE-I01 and is completed under reviewed proof cebe3be3-b0dc-4399-ae00-9c19ab0c8a5b
   + CPPE-I03 deterministic compiler depends_on CPPE-I02 and is completed under reviewed proof 9a891369-5c30-48f9-a690-4bf43ec6c9af
-  + CPPE-I04 verifier effect checker bound checker and fake admission depends_on CPPE-I03 and is ready_unassigned
-  + CPPE-I05 in-memory catalogue and interpreter depends_on CPPE-I04
+  + CPPE-I04 verifier effect checker bound checker and fake admission depends_on CPPE-I03 and is completed under reviewed proof 33b6930f-cd32-40a6-80b5-9f664c504c9b
+  + CPPE-I05 in-memory catalogue and interpreter depends_on CPPE-I04 and is ready_unassigned
   + CPPE-I06 two-process token ring and replay depends_on CPPE-I05
   + CPPE-I07 authorship parity and negative cases depends_on CPPE-I06
   + CPPE-I08 provider-neutral tool schema and fake controller transcript depends_on CPPE-I07
   + CPPE-I09 release audit depends_on CPPE-I08
 
 & [ManagerState] is between milestones
-  + [completed_slice_count] is 3
+  + [completed_slice_count] is 4
   + [in_progress_slice_count] is 0
   + [ready_unassigned_count] is 1
-  + [blocked_slice_count] is 5
+  + [blocked_slice_count] is 4
   + [active_slice] is none
   + [completed_claim_uuid] is 3625ffd4-f056-4792-96b7-a9d729fa19f5
   + [completed_at_time_ms] is 1785950475108
@@ -49,9 +49,14 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Compiler_Solution.sop
   + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Compiler_Proof.sop
   + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureCompilerCompletionReview.sop
-  + [ready_slice] is CPPE-I04
-  + [ready_completion_criteria] is independent verifier, effect and bound checking, exact receipt lineage, and fake Observer admission without catalogue mutation or execution
-  + [ready_stop_conditions] are catalogue mutation, interpretation, scheduling, provider, persistence, live effect, textual parsing, model execution, or hardware pressure
+  + [completed_claim_uuid] is e6505240-187f-4466-803f-545424765112
+  + [completed_at_time_ms] is 1785952676804
+  + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Verifier_Admission_Solution.sop
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Verifier_Admission_Proof.sop
+  + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureVerifierAdmissionCompletionReview.sop
+  + [ready_slice] is CPPE-I05
+  + [ready_completion_criteria] is immutable in-memory catalogue insertion, lookup, revocation state, and deterministic effectless interpreter with typed result, fault, trace, and bounded replay
+  + [ready_stop_conditions] are provider, persistence, live effect, physical time, textual parsing, model execution, external process, or hardware pressure
 
 & [CompletedWorkReviewRule] is mandatory
   + inspect exact changed files, test results, form coverage, omitted behavior, support delta, requirement delta, and effect delta
@@ -74,4 +79,10 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [review_uuid] is db48f02e-3a40-4915-8efd-0e6497ba0b39
   + [support_delta] is CPPE-I03 completed and CPPE-I04 ready_unassigned
   + [requirement_delta] is deterministic normalized-candidate compilation only; verification, admission, catalogue, and execution remain unimplemented
+  + [effect_delta] is none
+
+& [CPPEI04CompletedWorkReview] releases one catalogue and interpreter frontier
+  + [review_uuid] is bf04a788-08a6-4a79-b84b-45471d7588ef
+  + [support_delta] is CPPE-I04 completed and CPPE-I05 ready_unassigned
+  + [requirement_delta] is independent static verification and fake Observer admission only; catalogue and execution remain unimplemented
   + [effect_delta] is none

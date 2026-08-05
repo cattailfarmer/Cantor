@@ -1,0 +1,45 @@
+Subject: Cantor Process Procedure Verifier and Fake Admission Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Process_Procedure_Experiment.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Process_Procedure_Experiment_Phase_Lock.sop
+@ [support] C:\Project\Cantor\feature_support\cantor_process_procedure_experiment\index.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Process_Procedure_Verifier_Admission_Proof.sop
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is 249f9c12-9251-448b-8b81-e4b7b7ba8a11
+  + [implemented_at] is 2026-08-05T12:57:56.8016496-05:00
+  + [slice] is CPPE-I04
+  + [authority_signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [claim_uuid] is e6505240-187f-4466-803f-545424765112
+  + [status] is implemented_focused_proven_and_review_ready
+
+& [VerifierContract] is independent static inspection
+  + [verifier_identity] is cantor-process-verifier/0.1
+  + exact digest-valid validation and compilation evidence is required but compiler success is not sufficient evidence
+  + compiler IR, procedure, source-map, and cost identities are independently re-derived
+  + Process IR must be the exact lowering of candidate schemas, anchors, processes, effects, and bounds
+  + schema and type closure, source-map coverage, graph reachability, terminal paths, effect wall, prohibited operations, recognized anchors, lifecycle, bounds, and normalized replay are checked
+  + VerificationReceipt binds exact candidate source, compiler, IR, procedure, anchor set, effect declaration, bound set, evidence, residuals, and receipt digest
+  + any failed obligation returns a refused verification receipt without later authority
+
+& [FakeObserverContract] is exact one-procedure admission
+  + [observer_identity] is cantor-fake-observer/0.1
+  + self-digesting policy binds exact candidate, source, compiler, verifier, IR, procedure, anchors, effects, bounds, invocation contexts, and revocation conditions
+  + admission consumes exact validation, compilation, verification, IR, procedure, and policy evidence
+  + stale, forged, changed, refused, blank, or over-bound inputs return refusal with no invocation context
+  + successful disposition applies to one exact bounded procedure only
+
+& [ReviewCorrections] are incorporated
+  + stable identities alone are insufficient and every verifier or admission transition binds exact content digests
+  + self-consistent but candidate-divergent IR is refused
+  + terminal regions end in return or fault without successor and every reachable region has a terminal path
+  + refused policy produces refusal diagnostics rather than admission language
+  + admitted or qualified disposition requires passed validation, compilation, and verification
+
+& [AuthoritySeparation] is explicit
+  + verification is not admission and admission is not catalogue insertion or invocation
+  + neither disposition proves truth, universal safety, fitness, consent, or external effect authority
+  + no textual parser, catalogue mutation, interpreter, scheduler, provider, persistence, service, model execution, external effect, WASM, native backend, FPGA, or device surface is present
+
+& [SolutionDisposition] is accepted for CPPE-I04 after completed-work review
+  + [next] separately claim CPPE-I05 after commit and push
