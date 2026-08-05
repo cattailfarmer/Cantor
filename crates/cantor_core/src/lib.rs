@@ -15,6 +15,7 @@ pub mod protocol;
 pub mod query;
 pub mod review;
 pub mod sop;
+pub mod temporal;
 pub mod trust;
 
 pub use environment::*;
@@ -28,6 +29,7 @@ pub use protocol::*;
 pub use query::*;
 pub use review::{build_capsule, review_capsule};
 pub use sop::*;
+pub use temporal::*;
 pub use trust::*;
 
 /// Version of the semantic intermediate representation implemented here.

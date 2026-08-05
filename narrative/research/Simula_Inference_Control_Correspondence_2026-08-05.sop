@@ -1,0 +1,118 @@
+Subject: Simula Inference Control Correspondence
+
+Description: Preliminary, non-authoritative assessment of Simula process and event semantics as a candidate foundation for governed inference procedures callable by language models.
+
+@ [analysis_uuid] e6849c2c-8e64-4287-8024-c3611d6c6f12
+@ [source_snapshot_uuid] 1f94f194-f560-489f-b68e-8dcd00c89cff
+@ [addendum_snapshot_uuid] 8d3a241a-1564-4999-8292-c036ed471b81
+@ [fpga_addendum_snapshot_uuid] 78736f1e-fb85-4817-b0bd-be77ab5c4478
+@ [fpga_language_question_snapshot_uuid] 2e4f08df-0356-4a5b-8b5e-041570c1146d
+@ [standard_simula] https://portablesimula.github.io/github.io/doc/SimulaStandard.pdf
+@ [common_base_language] https://www.softwarepreservation.org/projects/ALGOL/manual/NR_report_743_Dahl_Myhrhaug_Nygaard_Simula-67-Common-Base-Language.pdf
+@ [AMD_Vitis_HLS] https://docs.amd.com/r/en-US/ug1399-vitis-hls/Design-Principles
+@ [Altera_synthesis_support] https://www.intel.com/content/www/us/en/support/programmable/support-resources/design-guidance/quartus-support.html
+@ [CIRCT_handshake_dialect] https://circt.llvm.org/docs/Dialects/Handshake/
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_simula_inference_control_correspondence\Source_Document_Manifest.sop
+
+& [HistoricalFinding] is bounded
+  + early Simula work belongs to the early 1960s and the user's 1963 label is preserved as received
+  + Simula I became the simulation-oriented predecessor while Simula 67 generalized objects, classes, references, and quasi-parallel sequencing
+  + Standard Simula defines a quasi-parallel system with at most one operating component at a time and retains reactivation state for other components
+  + the Simulation system class provides discrete-event process concepts, ordering, passivation, and reactivation
+  + historical correspondence is conceptual evidence and not proof that vintage Simula is fit for Cantor production use
+
+& [HighValueCorrespondence] is strong
+  + Simula object or process identity maps to a durable Cantor procedure instance, lane cursor, or faculty-process identity
+  + process-local attributes map to versioned explicit procedure state
+  + event notice and simulation time map to logical TimeExpression, Calendar candidate, and LaneMessage records
+  + detach maps to YIELD with a serialized continuation contract
+  + resume or reactivate maps to exact wake and reentry against a pinned generation
+  + quasi-parallel sequencing maps to several retained process frames with one admitted operating transition at a time
+  + class or prefix specialization maps to reusable process contracts only when identity and inherited authority remain explicit
+
+& [StoredProcedureArchitectureCandidate] is realistic
+  + [ProcedureCandidate] contains source, author, purpose, input schema, output schema, declared state, event vocabulary, resource budget, effect class, and provenance
+  + [ProcedureIR] is deterministic, versioned, inspectable, and independent of one model provider
+  + [ValidationReceipt] records syntax, type, lifecycle, termination, resource, authority, disclosure, determinism, and prohibited-operation checks
+  + [CompiledProcedure] binds exact source digest, compiler identity, target profile, bytecode or WASM digest, validation receipt, and correspondence proof
+  + [ProcedureAdmission] is an Observer disposition distinct from generation or compilation
+  + [InvocationRequest] binds admitted procedure identity and version, typed input, caller, authority, logical-time budget, resource budget, and expected result schema
+  + [InvocationResult] returns typed output, trace summary, consumed budget, faults, residuals, and proof without claiming model truth
+  + a content-addressed signed procedure catalogue behaves like a semantic stored-procedure registry
+
+& [ModelToolLoop] requires multiple inference passes
+  + pass one may gather context and propose a procedure or invocation
+  + the controller pauses generation at the structured tool boundary
+  + Cantor validates, compiles or resolves, admits when separately authorized, and invokes inside a deterministic sandbox
+  + the controller returns a structured tool result as new model input
+  + a later inference pass interprets the result and continues
+  + ordinary external function calling is sufficient for the first experiment
+  + llama.cpp modification is unnecessary unless measured evidence shows the stop-tool-resume boundary is too coarse
+  - never: describe the tool result as direct mutation of K/V cache, hidden activation, weights, or one uninterrupted forward pass
+
+& [ModelAuthoredProcedureBoundary] is mandatory
+  + a model may author only a ProcedureCandidate by default
+  + validation, compilation, admission, storage, invocation, effect mediation, and revocation are separate authorities
+  + generated source cannot self-sign, self-admit, expand its input scope, grant capabilities, or invoke itself merely because it compiles
+  + new or changed procedures remain sandboxed and effectless until exact policy permits a later phase
+  + every invocation pins procedure version, input identity, caller, budget, and deterministic fallback
+
+& [AdoptedAndRejectedSemantics] keeps the useful core
+  + [adopt_candidate] process identity, logical event ordering, passivate, detach, resume, reactivate, retained continuation, bounded event queues, and readable model representation
+  + [adapt_candidate] class specialization becomes typed composition or explicit contract extension rather than ambient inherited authority
+  + [reject_candidate] shared mutable canonical objects, unrestricted inheritance, implicit global simulation state, unbounded event creation, direct I/O, hidden scheduling, and self-modifying admitted procedures
+  + [preserve] immutable messages, source lineage, typed effects, authority separation, Observer admission, deterministic replay, and explicit residual uncertainty
+
+& [PowerAssessment] is qualified_high
+  + strongest uses are counterfactual planning, temporal simulation, faculty-process coordination, protocol testing, task reentry, and deterministic inference subroutines
+  + expected benefit is moving repeated reasoning patterns from prose into inspectable executable contracts
+  + main risks are generated-code error, nontermination, resource exhaustion, covert data flow, confused authority, prompt-sourced injection, and procedure-catalogue drift
+  + power depends more on the type, effect, admission, and proof system than on Simula syntax itself
+
+& [CandidateLanguageIdentity] remains unresolved
+  + possible identities are SOP-S, Cantor Process Procedure, or Simula-inspired SOP process profile
+  + vintage Simula source compatibility is not currently a goal
+  + bytecode, WASM, Rust lowering, or interpreter target remains unselected
+  + a later SJS must decide whether this is a language profile, compiler target, tool protocol, procedure registry, or coordinated combination
+
+& [FirstExperimentCandidate] is deferred
+  + define one effectless two-process logical-time procedure with typed input and output
+  + demonstrate detach, event notice, reactivation, bounded termination, normalized trace, replay, stale-version refusal, and resource-budget refusal
+  + compare hand-authored and model-proposed ProcedureCandidate forms through the same validator
+  + permit no filesystem, network, clock, provider, database, Git, calendar synchronization, notification, model mutation, or external effect
+  + require separate source preservation and SJS before implementation
+
+& [FPGALanguageFinding] separates semantics from realization
+  + VHDL, Verilog, and SystemVerilog are conventional register-transfer-level hardware description languages
+  + C or C++ high-level synthesis can lower a bounded algorithm into RTL, but synthesizable code excludes ordinary operating-system behavior and dynamic allocation
+  + CIRCT Handshake is an especially relevant intermediate representation because it models independent dataflow processes communicating through FIFO channels
+  + these toolchain observations are implementation evidence rather than Cantor authority
+  + FPGA languages are better than Simula for expressing circuits, parallel datapaths, registers, memories, clocks, and handshakes
+  + FPGA languages are worse than a Simula-inspired SOP profile for expressing named faculty identity, semantic purpose, authority, negotiation, suspension, reentry, and proof obligations
+
+& [PortableLoweringCandidate] preserves one meaning across targets
+  + SOP declares semantic anchors, purposes, authority, and contracts
+  + a Simula-inspired Cantor Process Procedure surface declares typed processes, messages, logical events, passivation, reactivation, joins, and bounded procedures
+  + a canonical typed process IR removes source-language and model-provider ambiguity
+  + the software backend may interpret the IR or lower it to WASM or native code
+  + an FPGA backend may lower an eligible effectless bounded subset through dataflow IR, HLS, or generated SystemVerilog
+  + backend correspondence proof must show that software and hardware executions preserve the same normalized trace and result
+  - never: make vintage Simula syntax the FPGA instruction set or let one vendor's HDL define Cantor semantics
+
+& [FPGAEligibleKernelBoundary] is deliberately narrow
+  + strong candidates include digest and CRC pipelines, signed-catalogue lookup, relation filtering, bounded graph-frontier expansion, score accumulation, deterministic arbitration, FIFO messaging, barrier accounting, and trace emission
+  + the host controller retains model calls, text generation, file and network access, procedure admission, policy decisions, calendar integration, and human-facing explanations
+  + multi-model shared inference is coordinated as typed asynchronous tool turns around pinned SOP identities rather than as literal shared hidden state
+  + the FPGA may accelerate the common Cantor junction while every model remains an explicitly named participant with its own context and messages
+  + hardware compilation is justified only after profiling identifies a stable kernel whose latency, throughput, determinism, power, or isolation benefit exceeds software complexity
+
+& [Disposition] preserves momentum without scope leakage
+  + [conceptual_fit] is high
+  + [direct_vintage_language_fit] is low_to_medium
+  + [Simula_derived_SOP_profile_fit] is high
+  + [FPGA_as_process_language_fit] is low
+  + [FPGA_as_verified_backend_fit] is medium_to_high_after_profiling
+  + [realism] is feasible_with_existing_tool_calling_and_multiple_inference_passes
+  + [current_authority] is none
+  + [current_goal_effect] is no_change_to_WS-CTPR-010
+  + [next] is revisit after the pure CTPR form ABI and deterministic tool boundary are proved

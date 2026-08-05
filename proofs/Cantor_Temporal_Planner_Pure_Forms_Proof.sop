@@ -1,0 +1,57 @@
+Subject: Cantor Temporal Planner Pure Forms Proof
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_core\src\temporal.rs
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\temporal_forms.rs
+@ [solution] C:\Project\Cantor\solutions\Cantor_Temporal_Planner_Pure_Forms_Solution.sop
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is 8bae899e-17c3-46e9-b89f-ab5d1dea6862
+  + [solution_uuid] is 5926c463-9770-4dba-bd36-c07d8544a28b
+  + [authority_signature_uuid] is 4421228f-ecf2-450a-b704-189c4d83fd68
+  + [captured_at] is 2026-08-05T09:42:47.8678649-05:00
+
+& [ArtifactIdentity] is measured
+  + [temporal_module_sha256] is B4F5862DD2CB58D8B10B80A59C9F791A39AD7C807814E614CD14FE9B2EBE6A86
+  + [temporal_module_bytes] is 64480
+  + [temporal_tests_sha256] is B1FFAFD8FAAB7843194EA83BB888D02FBA90537C3403692D52C77EE7ADCDDD43
+  + [temporal_tests_bytes] is 19603
+  + [core_export_sha256] is 550013295D4978B99A4EFB4EB31442E48A9E0E4F7B4A3FBEA73C060AE9548E5F
+  + [core_export_bytes] is 992
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test temporal_forms --locked
+  + [result] is 10 passed, 0 failed
+  + [proof_set] is canonical round trip, insertion-order determinism, noncanonical JSON refusal, unknown-field refusal, invalid identity refusal, version refusal, time-domain checks, snapshot overclaim refusal, lifecycle transition checks, missing-reference refusal, complete admitted capsule accounting, exact retrospective identity, and independent compiler correspondence
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 104 passed, 0 failed
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is cargo test --workspace --lib --bins --locked
+  + [result] is passed
+
+& [WorkspaceIntegrationVerification] preserves the inherited evidence fault
+  + [command] is cargo test --workspace --locked
+  + [new_temporal_tests] are 10 passed before the external failure
+  + [failure] is candidate workspace evidence manifest asserts stale metadata for unchanged feature_support/Cantor_Engine_Build_Slice_Index.sop
+  + [expected_bytes] is 26346
+  + [actual_bytes] is 27870
+  + [actual_sha256] is 4483F98CE47E32DE00C973787DEC0F858A76734E094353B46FD69A46881432BD
+  + [classification] is pre_existing_baseline_evidence_fault_not_WS-CTPR-010_failure
+  - never: report the full workspace integration suite as passed
+
+& [AuthorityAndEffectAudit] is passed
+  + Cargo dependency graph is unchanged
+  + temporal module imports only ordered collections, serde, and existing Cantor pure identity, digest, and fault forms
+  + no clock, I/O, filesystem, Git, network, database, service, thread, provider, notification, model, ECS, tool, desktop, hardware, or effect API is imported or invoked
+  + [implemented_scope] is machine forms, normalization, pure validation, and negative tests only
+
+& [ProofDisposition] is WS-CTPR-010_proven_with_inherited_workspace_evidence_fault
+  + [FR-CTPR-010] is verified
+  + [runtime_authority] is absent
+  + [next_runtime_slices] are dependency_ready_but_authority_blocked
