@@ -1,0 +1,21 @@
+Subject: CPMS I02 Activation Input Audit
+
+@ [audit_uuid] 00df222d-f449-49c0-86f5-04ce2aa3056b
+
+& [Parents] are hash bound
+  + public machine schema is 005E60A176D02588161C3C1E33109099FD92F164301695D2751F89EA049E81EA
+  + recursive profile is B1D9A934CB20ADD315625314E487A85AFFE0B6864DEBE3ADB54727860DBD09DE
+  + direction profile is A0DBFA7F427E4B3BA66F2BA7ECBA18EBD29B6AEB8E3F882B24F95CB7AF7DC187
+
+& [InventoryAudit] passed
+  + lexical type-closure traversal found 87 serialized named forms after excluding EvaluationFault and FaultKind reached only through SemanticId constructor implementation rather than its wire shape
+  + distribution is 80 core and 7 procedure-tool wrapper forms across exactly 8 Rust source files
+  + all 87 names are unique in the reachable closure
+
+& [DependencyAudit] passed
+  + schemars 1.2.2 is already lock-pinned and locally cached
+  + no current direct Cargo dependency or feature activates it
+  + optional feature wiring can preserve every default build path
+
+& [Disposition] is exact_I02A_activation_candidate
+

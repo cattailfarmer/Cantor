@@ -1,0 +1,39 @@
+Subject: CPMS I02A Optional Schema Capability Activation Requirement Matrix
+
+@ [matrix_uuid] 073aa452-5607-4d35-9a8f-b2a5454d1f26
+
+& [I02A_001_008] cover dependency and scope
+  + I02A-001 exact schemars =1.2.2 direct pin
+  + I02A-002 core optional feature
+  + I02A-003 procedure-tool optional transitive feature
+  + I02A-004 empty defaults
+  + I02A-005 exact 80 core forms
+  + I02A-006 exact 7 wrapper forms
+  + I02A-007 exact source-touch boundary
+  + I02A-008 no unrelated derive
+
+& [I02A_009_016] cover behavior and precision
+  + I02A-009 SemanticId nonempty
+  + I02A-010 SemanticId maximum 512 ASCII bytes
+  + I02A-011 exact allowed character class
+  + I02A-012 three input roots compile Deserialize
+  + I02A-013 response root compiles Serialize
+  + I02A-014 crossing type compiles both
+  + I02A-015 recursive types terminate locally
+  + I02A-016 stable unique type names
+
+& [I02A_017_024] cover compatibility and boundary
+  + I02A-017 existing four stdout baselines exact
+  + I02A-018 public serde forms unchanged
+  + I02A-019 default debug and release green offline
+  + I02A-020 feature debug and release green offline
+  + I02A-021 lint build docs audit diff and freshness green
+  + I02A-022 no generator validator or document API
+  + I02A-023 no provider model service persistence network effect or hardware
+  + I02A-024 reviewed proof and pushed commit precede I02B
+
+& [Status] is activated_unimplemented
+  + [requirement_count] is 24
+  + [implemented_count] is 0
+  + [verified_count] is 0
+

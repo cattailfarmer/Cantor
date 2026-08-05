@@ -1,0 +1,20 @@
+Subject: CPMS I02 Activation Constraint Ledger
+
+@ [ledger_uuid] 42555c9a-7daf-4dd1-b6f2-b480ec501785
+
+& [Must] is narrow
+  + pin schemars exactly =1.2.2 as a direct optional capability
+  + keep default features empty in both crates
+  + touch only the 12 existing files and one new focused test declared by source
+  + derive exactly 87 forms and prove the five public root shapes compile under both direction contracts
+  + encode SemanticId nonempty 512-byte ASCII syntax
+  + preserve serde attributes as the schema source of truth
+  + prove default and json-schema feature builds independently
+
+& [MustNot] prevents semantic promotion
+  - never: add a validator, generator API, output document, retriever, provider projection, model call, service, persistence, network, effect, or hardware
+  - never: alter public serde bytes, runtime behavior, default features, or authority rules
+  - never: add a form outside the exact inventory without a revised review
+
+& [Stop] on inventory expansion, name collision, recursion failure, direction compile failure, default-byte drift, warning, offline failure, or stale evidence
+

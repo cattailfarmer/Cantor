@@ -1,0 +1,16 @@
+Subject: CPMS I02A Optional Schema Capability Activation Phase Lock
+
+@ [lock_uuid] a5ff4aba-9811-40fb-93ee-ca3b95fa58b8
+@ [satisfaction_signature_uuid] 77d4def4-0302-425a-a1ce-970cb6fa55c7
+@ [source_manifest_sha256] 5B5F7CABBD1AF6D5A1FB2B57B64D0B49F0BF9BB1B1415912AF5B4C8FC26B4D5C
+@ [canonical_bytes] 2823
+@ [canonical_sha256] 275A9F994EFC064671BCF0E6D04CDF671463ED9BF6576FC7E21802CA003EE545
+@ [exploded_sha256] 964007C06687D5A00BE1686B3DDF83415A0B4AA2F3810034BE2D35F4C1733410
+@ [requirements_bytes] 1499
+@ [requirements_sha256] E4209C756AC44D4593B8533D1D5F1227E571FA93D24ED891698A2D1B7D0E6D76
+
+& [PhaseLock] is active_for_exact_CPMS_I02A
+  + implementation may touch only the signed dependency, feature, 87-form, SemanticId, and focused-test boundary
+  + any inventory, source-touch, dependency, default-feature, runtime, or authority expansion invalidates this lock before mutation
+  - never: infer I02B, I02C, I03, I04, provider, model, service, effect, or hardware authority
+

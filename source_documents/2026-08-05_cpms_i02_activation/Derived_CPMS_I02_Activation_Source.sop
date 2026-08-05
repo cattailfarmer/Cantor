@@ -1,0 +1,46 @@
+Subject: Derived CPMS I02 Activation Source
+
+Description: Preserved manager-derived implementation boundary for optional public machine-schema capability. This is not verbatim user dictation and does not itself authorize code.
+
+@ [source_uuid] 12fdabbc-3101-4a8e-a2af-ae48688c94c7
+@ [source_kind] manager_derived_activation_candidate
+@ [baseline_commit] 026a192
+
+& [Dependency] is exact and dormant by default
+  + workspace direct dependency schemars is exactly =1.2.2
+  + cantor_core optional feature json-schema activates dep:schemars
+  + cantor_procedure_tool optional feature json-schema activates dep:schemars and cantor_core/json-schema
+  + default feature sets remain empty and all existing default builds remain schema-free
+
+& [ReachableInventory] is 87 named public forms in 8 Rust files
+  + model.rs 2: SemanticId, ContentDigest
+  + procedure.rs 60: AdmissionDecision, AdmissionDisposition, AwaitedCondition, CantorProcessIr, CatalogueReceipt, CatalogueStatus, CompilationReceipt, CompiledProcedureIdentity, ConsumedBudget, ControlRegion, InstructionOperand, InvocationBudget, InvocationDisposition, InvocationRequest, InvocationResult, NegotiatedFrame, NegotiationSession, NegotiationStatus, Participant, PhaseDisposition, ProcedureBounds, ProcedureCandidate, ProcedureCatalogueEntry, ProcedureCatalogueState, ProcedureEffectClass, ProcedureEffectDeclaration, ProcedureFault, ProcedureFaultCategory, ProcedureLifecycle, ProcedureMessage, ProcedureMessageKind, ProcedurePhase, ProcedureReadClass, ProcedureSchema, ProcedureSchemaSet, ProcedureType, ProcedureValue, ProcedureWriteClass, ProcessBudgetState, ProcessDefinition, ProcessInstanceState, ProcessInstruction, ProcessLifecycle, ProcessOperation, ProcessStep, ProhibitedProcedureOperation, ReceiptEvidence, RevocationRecord, SchemaField, SchemaKind, SemanticTrace, SemanticTraceEvent, SerializedContinuation, SopAnchorBinding, SourceMapEntry, TaggedVariant, TokenRingPass, TraceEventKind, ValidationReceipt, VerificationReceipt
+  + procedure_authorship.rs 3: AuthorshipClass, AuthorshipLaneEvidence, AuthorshipLaneTemplate
+  + procedure_coordination.rs 2: CoordinationOutcome, CoordinationReplayReceipt
+  + procedure_tool.rs 11: ControllerEventKind, ControllerTranscriptEvent, ExchangeOperation, FakeControllerOutcome, FakeControllerTranscript, LaterPassContext, ProviderNeutralToolResult, ProviderNeutralToolSchema, ToolCallProposal, ToolControllerFault, ToolResultDisposition
+  + procedure_verifier.rs 1: FakeObserverAdmissionPolicy
+  + temporal.rs 1: SensitivityClass
+  + cantor_procedure_tool lib.rs 7: PreparedRunRequest, PrepareRequest, ProcedureToolFault, ProcedureToolResponse, ProcedureToolResponseStatus, ProcedureToolVerification, VerifyRequest
+
+& [SemanticIdPrecision] is exact
+  + schema shape is string
+  + minimum length is 1 and maximum length is 512
+  + allowed ASCII characters are alphanumeric underscore hyphen period colon and slash
+  + pattern restriction makes JSON Schema code-point length equal byte length for admitted values
+
+& [SourceTouch] is closed for CPMS-I02A
+  + Cargo.toml, Cargo.lock, crates/cantor_core/Cargo.toml, crates/cantor_procedure_tool/Cargo.toml
+  + the exact 8 Rust files named by ReachableInventory
+  + one new focused schema-capability test file
+  - never: CLI, MCP, service, ecosystem, Windows, runtime, provider, persistence, network, effect, model, or hardware code
+
+& [Slices] are ordered
+  + CPMS-I02A optional derive capability, exact inventory, stable names, recursive compile proof, and unchanged default build
+  + CPMS-I02B direction-aware generator, isolated definition universes, normalization, accounts, limits, and fingerprints
+  + CPMS-I02C five root documents, recursive and crossing-type goldens, compatibility, and closure proof
+  + validator dependency and executable tool projection remain later CPMS-I03 and I04 authority
+
+& [ActivationQuestion] is bounded
+  + may CPMS-I02A mutate only the closed source-touch set under the three formed canonical profiles and exact gates
+  - never: treat this source as an active signature before SJS, review, exact hashes, phase lock, and proof
+

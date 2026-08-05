@@ -1,0 +1,46 @@
+Subject: CPMS I02A Optional Schema Capability Activation
+
+Description: Active signature authorizing only an exact optional JsonSchema derive capability for the 87 public forms required by procedure-tool machine schemas.
+
+@ [specification_uuid] 29a6215c-c25e-40ae-b28f-3cab8b0ac65f
+@ [profile] cantor-cpms-i02a-activation/0.1
+@ [satisfaction_signature_uuid] 77d4def4-0302-425a-a1ce-970cb6fa55c7
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cpms_i02_activation\Source_Document_Manifest.sop
+
+& [ParentAuthority] binds three exact canonical hashes
+  + CPMS base 005E60A176D02588161C3C1E33109099FD92F164301695D2751F89EA049E81EA
+  + recursive profile B1D9A934CB20ADD315625314E487A85AFFE0B6864DEBE3ADB54727860DBD09DE
+  + direction profile A0DBFA7F427E4B3BA66F2BA7ECBA18EBD29B6AEB8E3F882B24F95CB7AF7DC187
+
+& [DependencyAuthority] is exact
+  + add workspace schemars =1.2.2
+  + expose it only through optional json-schema features in cantor_core and cantor_procedure_tool
+  + default feature sets remain empty and no existing dependent enables the capability
+
+& [SourceAuthority] is closed
+  + Cargo.toml, Cargo.lock, two crate Cargo manifests, eight inventory Rust files, and one new focused test
+  + derive the exact 80 core and 7 wrapper forms preserved in source
+  + apply precise SemanticId string length and ASCII pattern metadata
+  + a required extra form or existing-file touch stops the slice for review
+
+& [BehaviorAuthority] is compile-time only
+  + conditional JsonSchema implementations may be compiled and inspected by focused tests
+  + input roots compile under Deserialize and response root under Serialize
+  + PreparedRunRequest compiles in both contracts
+  + ProcedureType and ProcedureValue recursion terminates through local definitions
+  - never: expose a generator API, emit an authoritative document, validate an instance, retrieve a reference, or modify runtime behavior
+
+& [Compatibility] is strict
+  + existing schema, missing-input, help, and join stdout byte baselines remain exact
+  + default offline workspace debug and release suites remain exact
+  + public serde forms, names, fields, tags, defaults, and denial of unknown fields remain unchanged
+
+& [RequiredGates] are complete
+  + focused feature tests in debug and release offline
+  + full default workspace tests in debug and release offline
+  + feature-enabled workspace check, formatting, warnings-denied lint, release build, docs, advisory scan, diff hygiene, prohibited-symbol scan, and evidence freshness
+  + completion solution, requirement update, review, proof, and pushed commit before I02B claim
+
+& [AuthorityLimit] is CPMS-I02A only
+  - never: I02B generator, I02C documents, I03 validator, I04 tool definitions, provider projection, model, service, persistence, network, semantic effect, production, or hardware
+

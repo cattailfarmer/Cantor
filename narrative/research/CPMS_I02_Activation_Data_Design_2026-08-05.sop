@@ -1,0 +1,24 @@
+Subject: CPMS I02 Activation Data Design
+
+@ [design_uuid] efa4b598-562e-4ed9-a519-a460188cee6c
+
+& [FeatureGraph] is two nodes
+  + cantor_core/json-schema activates only dep:schemars
+  + cantor_procedure_tool/json-schema activates dep:schemars and cantor_core/json-schema
+
+& [DeriveMarker] is conditional
+  + cfg_attr feature json-schema derive schemars JsonSchema
+  + procedure closed-enum macro carries one conditional derive expression for its 17 emitted types
+  + all other reachable forms carry their own conditional derive marker
+
+& [SemanticIdSchema] is string constrained
+  + minimum length 1
+  + maximum length 512
+  + pattern admits only ASCII alphanumeric underscore hyphen period colon and slash
+
+& [FocusedProof] compiles roots
+  + input Deserialize contract: PrepareRequest, PreparedRunRequest, VerifyRequest
+  + output Serialize contract: ProcedureToolResponse
+  + crossing PreparedRunRequest is compiled under both contracts
+  + recursive ProcedureType and ProcedureValue schemas terminate through local definitions
+

@@ -1,0 +1,20 @@
+Subject: CPMS I02 Activation Semantic Refinement
+
+@ [refinement_uuid] b18f1f5a-b0cb-4c03-a328-55b0c5c516c8
+
+& [Capability] means compile-time schema description only
+  + derive capability implements JsonSchema for the exact reachable transport closure
+  + it does not generate, publish, validate, retrieve, accept, admit, or execute a schema
+
+& [Optional] means default behavior is structurally unchanged
+  + default features are empty
+  + existing dependents do not enable json-schema
+  + only an explicit feature build compiles the dependency and derive implementations
+
+& [Inventory] means exact names and exact source ownership
+  + no private helper or unrelated public form enters by convenience
+  + failure to compile a root expands the reviewed inventory explicitly rather than silently
+
+& [Activation] means I02A only
+  + later generator and document slices remain inactive despite sharing the CPMS-I02 family name
+
