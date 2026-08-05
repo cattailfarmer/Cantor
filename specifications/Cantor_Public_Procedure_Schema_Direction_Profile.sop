@@ -1,0 +1,74 @@
+Subject: Cantor Public Procedure Schema Direction Profile
+
+Description: Canonical CPMS addendum separating input-deserialization schemas from output-serialization schemas without duplicating semantic type identity.
+
+@ [specification_uuid] e1c0232a-adc7-4968-aee6-cd3fbfbfd27d
+@ [profile] cantor-public-procedure-schema-direction/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_schema_direction_profile\Source_Document_Manifest.sop
+@ [parent] C:\Project\Cantor\specifications\Cantor_Public_Procedure_Machine_Schema.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Public_Procedure_Schema_Direction_Profile.exploded.sop
+
+& [Directions] are closed and explicit
+  + input_deserialize describes bytes accepted through strict decode
+  + output_serialize describes values emitted through strict encode
+  + every schema document, definition universe, definition account, fingerprint, residual, and compatibility result carries exactly one direction
+
+& [Identity] is two-level
+  + semantic type identity remains independent of transport direction
+  + contract definition identity is the pair direction and stable type name
+  + one semantic type may have identities in both directions
+  + PreparedRunRequest has an output_serialize identity when preparation emits it and an input_deserialize identity when run accepts it
+
+& [DefinitionUniverses] are isolated
+  + input_definitions is generated only under the schemars Deserialize contract
+  + output_definitions is generated only under the schemars Serialize contract
+  + each universe is a closed local-reference graph with its own deterministic lexical traversal and counters
+  + local references resolve only within the document and direction that emitted them
+  + no cache entry, definition, or reference crosses direction
+
+& [DocumentAssignments] are exact
+  + prepare_input, run_input, and verify_input use input_deserialize
+  + base_response and preparation_response use output_serialize
+  + every later root must declare its direction before generation
+  + a mixed or absent direction is a typed formation fault
+
+& [Fingerprints] preserve both structure and contract
+  + raw_content_digest is SHA-256 of normalized definition bytes and may demonstrate current structural equality
+  + contract_fingerprint is SHA-256 over profile id, zero separator, direction, zero separator, stable type name, zero separator, and normalized bytes
+  + equal bytes across directions do not produce equal contract fingerprints
+  + bundle and document fingerprints bind the direction-bearing ordered contents
+
+& [Compatibility] compares like with like
+  + input compatibility compares only input_deserialize baselines
+  + output compatibility compares only output_serialize baselines
+  + cross-direction raw equality is informational and grants no substitution authority
+  + a direction change is a contract identity change even when raw bytes are unchanged
+
+& [Conformance] binds behavior without replacing it
+  + input instances are checked against strict deserialization behavior and input schemas
+  + output fixtures are produced by actual serialization and checked against output schemas
+  + PreparedRunRequest receives independent fixtures and fingerprints in both directions
+  + strict serde, recursive closure, core semantic bounds, residuals, and authority admission remain independent gates
+
+& [Failures] are fail closed
+  + absent, unknown, or mixed direction
+  + opposite-contract cache reuse
+  + cross-universe local-reference resolution
+  + incomplete two-direction account for a crossing type
+  + fingerprint preimage ambiguity or normalization instability
+  + same-direction golden change without compatibility classification
+
+& [ImplementationSequence] is narrow
+  + CSD-I01 add optional exact schema capability and direction-aware derive inventory under a separately signed CPMS-I02 activation
+  + CSD-I02 generate two isolated definition universes, accounts, normalization, and domain-separated fingerprints
+  + CSD-I03 add directional root documents, crossing-type fixtures, goldens, and compatibility reports
+  + each step requires focused review before the next
+
+& [AuthorityBoundary] is formation only
+  + this specification resolves contract direction but does not activate implementation
+  - never: add a dependency, derive or generate a schema, alter public transport, register a provider, call a model, use a service, persist, network, effect, or implement hardware
+
+& [SignatureCandidate] is formed not activated
+  + [candidate_signature_uuid] is a96e0541-810c-4fc2-a64d-0abaf5d9bea1
+  + [activation_condition] is exact canonical hash, direct dependency pin, 87-type source-touch review, optional-feature design, and separate CPMS-I02 claim
+

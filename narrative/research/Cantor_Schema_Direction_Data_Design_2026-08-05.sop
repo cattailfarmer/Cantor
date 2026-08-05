@@ -1,0 +1,38 @@
+Subject: Cantor Schema Direction Data Design
+
+@ [design_uuid] 46a88126-ab19-42f9-8525-02222ca0f191
+
+& [SchemaContractDirection] is closed
+  + input_deserialize
+  + output_serialize
+
+& [ContractDefinitionAccount] is inspectable
+  + direction
+  + stable_type_name
+  + semantic_type_id
+  + local_definition_pointer
+  + direct_local_reference_targets
+  + raw_content_digest
+  + contract_fingerprint
+  + semantic_residual_ids
+
+& [Bundle] contains two isolated maps
+  + input_definitions keyed by stable type name and generated with Deserialize
+  + output_definitions keyed by stable type name and generated with Serialize
+  + document-local $defs and fragment references retain ordinary stable type names
+  + bundle lookup uses direction before type name, avoiding direction syntax inside JSON Pointer tokens
+
+& [FingerprintPreimage] is domain separated
+  + UTF-8 profile id cantor-schema-contract-definition/0.1
+  + zero byte separator
+  + canonical direction token
+  + zero byte separator
+  + stable type name
+  + zero byte separator
+  + normalized definition bytes
+
+& [RootAssignments] are exact
+  + prepare_input, run_input, and verify_input use input_deserialize
+  + base_response and preparation_response use output_serialize
+  + future roots must declare direction before generation
+

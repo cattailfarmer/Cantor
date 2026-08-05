@@ -1,0 +1,26 @@
+Subject: Cantor Schema Direction Constraint Ledger
+
+@ [ledger_uuid] cb9a915a-c60e-4fcb-9e8b-46519f93ec9a
+
+& [Must] is direction complete
+  + tag every root document, definition universe, account, fingerprint, residual, and compatibility result with one direction
+  + generate every definition in one universe using only its selected schemars contract
+  + preserve local references inside that universe and prohibit cross-universe references
+  + assign PreparedRunRequest an input identity and an output identity
+  + normalize before digesting and use domain-separated contract fingerprints
+  + compare compatibility only within equal directions
+  + report cross-direction byte equality separately and without authorization meaning
+
+& [MustNot] prevents conflation
+  - never: key a global definition solely by type name
+  - never: reuse a cached schema generated under the opposite contract
+  - never: let equal bytes erase direction from identity or fingerprints
+  - never: make bundle layout change local JSON Pointer meaning
+  - never: claim direction-qualified schema proves serde behavior, semantic bounds, or authority
+
+& [StopConditions] are exact
+  + stop implementation if any emitted document lacks direction
+  + stop if a local reference can resolve into the opposite universe
+  + stop if PreparedRunRequest has only one contract account
+  + stop if golden output changes without same-direction compatibility classification
+

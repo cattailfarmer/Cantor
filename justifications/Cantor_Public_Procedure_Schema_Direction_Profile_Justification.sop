@@ -1,0 +1,21 @@
+Subject: Cantor Public Procedure Schema Direction Profile Justification
+
+@ [justification_uuid] 9ff8c14e-7855-42a1-ac6c-052f0eb197ab
+
+& [Selected] is isolated direction-qualified definition universes
+  + follows the pinned library contract boundary
+  + preserves one semantic type identity while preventing unsafe transport substitution
+  + leaves ordinary local JSON Pointer names stable inside each document
+  + makes current cross-direction equality measurable without turning it into authority
+
+& [RejectedSingleMap] would conflate contracts
+  + stable type names are not sufficient cache keys when contract changes schema identity
+  + crossing types could inherit whichever direction happened to generate first
+
+& [RejectedDirectionInPointerKey] adds avoidable encoding risk
+  + distinct bundle maps already carry direction
+  + document-local references can retain stable type names and simple closure validation
+
+& [Safety] comes from explicit identity
+  + direction-first generation, isolated caches, domain-separated fingerprints, dual crossing-type proof, and same-direction compatibility
+

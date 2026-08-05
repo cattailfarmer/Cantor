@@ -1,0 +1,57 @@
+Subject: Cantor Public Procedure Machine Schema Derive Readiness
+
+Description: Read-only assessment of the exact schemars capability boundary, stable naming, reachable derive blast radius, and serialization-direction issue after recursive representation formation.
+
+@ [review_uuid] 2f357617-d83f-4bce-8438-33463bb193aa
+@ [baseline_commit] bc547321c50d9429839bd3f769f0805a35d60df6
+@ [schemars_version] 1.2.2
+@ [schemars_checksum] 687274d293b6cdc6e73e0fee520bf2049650090d7164f87672d212a3c530cf4a
+
+& [PinnedSourceFindings] are exact
+  + SchemaSettings.draft2020_12 selects $defs and Draft 2020-12 explicitly
+  + default contract is Deserialize and for_serialize selects Serialize
+  + SchemaUid includes both type identity and contract
+  + recursive insertion places a dummy definition before descending, preventing infinite derive expansion
+  + schema_name supplies definition keys and collisions receive numeric suffixes based on use order
+  + derive output shape is explicitly not semver stable and therefore requires canonical normalization and golden fixtures
+
+& [BlastRadius] is 87 named types in 8 source files
+  + 80 cantor_core types across model.rs 2, procedure.rs 60, procedure_authorship.rs 3, procedure_coordination.rs 2, procedure_tool.rs 11, procedure_verifier.rs 1, and temporal.rs 1
+  + 7 cantor_procedure_tool transport wrappers in lib.rs
+  + procedure.rs includes 17 closed enums emitted by one macro and 43 other reachable named definitions
+  + no unrelated model, query, trust, temporal-runtime, service, MCP, ecosystem, or Windows type needs schema capability
+
+& [CapabilityBoundary] should be optional and exact
+  + workspace pins schemars exactly at 1.2.2 when a later activation permits Cargo mutation
+  + cantor_core exposes an optional json-schema feature enabling the exact reachable types only
+  + cantor_procedure_tool exposes an optional json-schema feature depending on cantor_core/json-schema
+  + default builds do not compile or expose schema generation behavior
+  + a later schema module enables the feature and owns generation, normalization, bounds, documents, and bundles
+
+& [RemoteDerive] is rejected
+  + schemars remote derive requires a structural copy and per-field with annotations
+  + that duplicates 87 public contracts and creates a second review surface
+  + compile-time checking does not remove semantic drift in serde attributes, bounds, or direction
+
+& [StableNames] use verified unique Rust identifiers
+  + the 80 core and 7 wrapper names are unique in the current closure
+  + schema_name defaults to the declared Rust identifier and schema_id includes module path
+  + canonical definition names use the expected inventory name and reject every collision suffix
+  + an exact 87-name inventory test and golden definition-key set are mandatory
+  + canonical document ids remain Cantor-owned URNs rather than schemars schema_id strings
+
+& [ManualPrecision] is narrow
+  + SemanticId requires schema annotations or a manual schema function for nonempty maximum-512 ASCII identity syntax
+  + digest algorithm and value correspondence remains semantic because it is cross-field
+  + core collection and semantic depth bounds remain residual when they depend on sibling ProcedureBounds
+
+& [DirectionBlocker] prevents I02 activation
+  + request documents describe deserialization acceptance
+  + response documents describe serialization output
+  + PreparedRunRequest is both prepare output and run input and may have direction-dependent definitions
+  + one unqualified shared-definition map could silently reuse the wrong contract
+  + define direction-qualified definition universes and fingerprints before activating derives
+
+& [Disposition] is derive_boundary_selected_direction_profile_required
+  + no code or Cargo mutation is authorized by this review
+

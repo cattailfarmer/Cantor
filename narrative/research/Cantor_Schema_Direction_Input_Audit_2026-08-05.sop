@@ -1,0 +1,24 @@
+Subject: Cantor Schema Direction Input Audit
+
+@ [audit_uuid] a79bb5d5-f611-4e8f-b446-ab193d2f4002
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_schema_direction_profile\Source_Document_Manifest.sop
+
+& [ObservedLibrary] is exact schemars 1.2.2
+  + SchemaSettings defaults to the Deserialize contract
+  + for_serialize selects the Serialize contract
+  + SchemaUid includes contract as well as type identity
+  + recursive definition caching is therefore contract-sensitive
+
+& [ObservedTransport] is directional
+  + PrepareRequest, PreparedRunRequest as run input, and VerifyRequest are decoded from caller bytes
+  + ProcedureToolResponse and its base and preparation variants are encoded to response bytes
+  + PreparedRunRequest crosses the boundary because it is emitted inside preparation response data and later decoded as run input
+
+& [Conflict] is one unqualified shared-definition universe
+  + a stable type name alone cannot identify both direction-specific contracts
+  + byte equality across contracts is possible but cannot be assumed
+  + one reused local reference may describe emitted shape when accepted shape was required, or the reverse
+
+& [AuditDisposition] is separate_contract_universes_candidate
+  + candidate remains non-authorizing until canonical profile, requirements, review, and lock are formed
+

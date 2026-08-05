@@ -1,0 +1,26 @@
+Subject: Derived Cantor Schema Direction Profile Source
+
+Description: Preserved technical source for separating deserialization input schemas from serialization output schemas. This is manager-derived from pinned schemars behavior and CPMS public forms, not verbatim user dictation.
+
+@ [source_uuid] d6e69b2f-3fa9-422d-8146-3c627c214132
+@ [source_kind] manager_derived_technical_question
+@ [baseline_commit] bc547321c50d9429839bd3f769f0805a35d60df6
+
+& [PreservedQuestion] is exact
+  + schemars has distinct Deserialize and Serialize contracts and includes contract in its schema UID
+  + prepare, run, and verify requests are decoded and therefore require deserialization schemas
+  + base and preparation responses are emitted and therefore require serialization schemas
+  + PreparedRunRequest crosses the direction boundary as preparation output and run input
+  + decide how canonical documents, definition identities, fingerprints, residuals, and bundles preserve direction without duplicating semantic type identity
+
+& [RequiredOutcome] is bounded
+  + direction must be explicit in every schema document and definition fingerprint
+  + input and output definitions must never be silently interchanged
+  + equal normalized definitions across directions may be reported equal but not presumed equal
+  + compatibility must compare within the same direction and report cross-direction reuse separately
+  - never: generate schemas, add a dependency, alter public forms, or activate CPMS-I02 from source preservation alone
+
+& [AttributionLimit] is explicit
+  + user authorized continued SJS-governed Cantor work
+  + exact direction distinction was discovered by the manager from pinned library source
+

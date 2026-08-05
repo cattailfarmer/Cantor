@@ -1,0 +1,24 @@
+Subject: Cantor Schema Direction Semantic Refinement
+
+@ [refinement_uuid] 846cbd17-07dc-4e23-a27e-9c424f8ad5d5
+
+& [Terms] are disambiguated
+  + input_deserialize is the contract for bytes Cantor accepts and decodes
+  + output_serialize is the contract for values Cantor emits and encodes
+  + semantic_type_identity is the Cantor or Rust type independent of transport direction
+  + contract_definition_identity is the ordered pair of contract direction and stable type name
+  + definition_universe is one closed local-reference graph generated under exactly one direction
+  + raw_content_digest hashes normalized definition bytes without claiming contract identity
+  + contract_fingerprint domain-separates profile, direction, type name, and normalized definition bytes
+
+& [RefinedMeaning] keeps sameness inspectable
+  + one semantic type may have one or two contract-definition identities
+  + equal raw content digests may be reported as evidence of current structural equality
+  + distinct contract fingerprints remain distinct across directions even when bytes match
+  + compatibility and regression judgments compare like direction with like direction
+
+& [Honesty] rejects collapsed claims
+  + an output schema is not represented as an acceptance schema
+  + current cross-direction equality is not represented as a permanent guarantee
+  + schema direction does not replace strict serde, core semantic validation, or authority admission
+
