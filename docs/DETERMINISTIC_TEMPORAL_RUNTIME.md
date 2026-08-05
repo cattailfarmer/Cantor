@@ -20,7 +20,9 @@ valid but non-normalized JSON.
 - `advance_logical_time` advances only the supplied logical counter.
 - `compare_and_append` verifies the expected root and branch generation,
   content bytes, record digests, predecessor set, event frontier, and optional
-  snapshot before returning a new in-memory generation and rebuilt index.
+  snapshot before returning a new in-memory generation and rebuilt index. This
+  first profile accepts only `Candidate` generations without disposition claims;
+  it cannot be used to launder caller-declared admission or terminal status.
 - `classify_materiality` applies the pinned materiality-policy revision and
   returns capture, aggregate, or omit with its rule and evidence.
 - `revise_calendar` admits an immutable item/recurrence revision while ordinary
@@ -114,6 +116,24 @@ reproduces the identical normalized snapshot and receipts. Permuted operations,
 a stale initial digest, an omitted final proof check, and rewritten capsule
 history are separately verified not to become a successful final state.
 
+## Release status
+
+The `0.1` profile is qualified for internal, effectless, in-memory fixture use.
+The post-signature implementation ledger records 38 requirements verified and
+two partial:
+
+- `CDRA-013`: candidate branches and multi-predecessor merges preserve ancestry;
+  repository rejection, supersession, and compaction do not yet have dedicated
+  runtime transitions.
+- `CDRA-025`: materiality deterministically returns `Capture`, `Aggregate`, or
+  `Omit`; the signed form ABI does not distinguish transient from rejected.
+
+These residuals prevent a claim of complete CDRA requirement satisfaction and
+do not authorize an Operator Shell, persistence, a provider, general
+compilation, or live effects. The signed specification matrix remains immutable;
+later evidence belongs in
+`Cantor_Deterministic_Runtime_Implementation_Requirement_Matrix.sop`.
+
 ## Deliberate limits
 
 This slice does not calculate civil recurrence dates; callers supply candidate
@@ -134,4 +154,5 @@ cargo test -p cantor_core --test temporal_runtime --locked
 cargo test -p cantor_core --test temporal_tandem --locked
 cargo test -p cantor_core --test temporal_compiler_fixture --locked
 cargo test -p cantor_core --test temporal_integration --locked
+cargo test -p cantor_core --test temporal_release_audit --locked
 ```

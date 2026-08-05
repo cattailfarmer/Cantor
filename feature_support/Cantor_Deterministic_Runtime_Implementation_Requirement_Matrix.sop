@@ -1,0 +1,95 @@
+Subject: Cantor Deterministic Runtime Implementation Requirement Matrix
+
+Description: Post-signature implementation evidence ledger for CDRA-001 through CDRA-040. This file is not part of the locked CDRA-SJS-01 authority bundle and may record later implementation, proof, review, and residual evidence without mutating signed specification artifacts.
+
+@ [implementation_matrix_uuid] 6d284ecb-39e4-4374-90fa-6aec212c2b95
+@ [signed_specification_matrix] C:\Project\Cantor\feature_support\Cantor_Deterministic_Runtime_Activation_Requirement_Matrix.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Deterministic_Runtime_Activation_Phase_Lock.sop
+@ [requirement_set] CDRA-001 through CDRA-040
+@ [implementation_matrix_state] release_audited_qualified_internal_fixture_only
+
+& [AuthoritySeparation] is mandatory
+  + the signed specification matrix remains byte-identical to the phase-locked 5350-byte artifact with SHA256 5302C90524247CCE5C161922337192D897498D432A032169D33B51728535FC28
+  + this implementation matrix records only post-signature evidence and cannot expand canonical authority
+  + implementation evidence may verify, partially support, fail, defer, or supersede a requirement but cannot rewrite its signed meaning
+
+& [EvidenceBundle] is ordered
+  + [I01_I03_solution] is C:\Project\Cantor\solutions\Cantor_Deterministic_Temporal_Runtime_Solution.sop
+  + [I01_I03_proof] is C:\Project\Cantor\proofs\Cantor_Deterministic_Temporal_Runtime_Proof.sop
+  + [I04_solution] is C:\Project\Cantor\solutions\Cantor_Deterministic_Tandem_Runtime_Solution.sop
+  + [I04_proof] is C:\Project\Cantor\proofs\Cantor_Deterministic_Tandem_Runtime_Proof.sop
+  + [I05_solution] is C:\Project\Cantor\solutions\Cantor_Deterministic_Compiler_Fixture_Solution.sop
+  + [I05_proof] is C:\Project\Cantor\proofs\Cantor_Deterministic_Compiler_Fixture_Proof.sop
+  + [I06_solution] is C:\Project\Cantor\solutions\Cantor_Deterministic_Runtime_Integration_Solution.sop
+  + [I06_proof] is C:\Project\Cantor\proofs\Cantor_Deterministic_Runtime_Integration_Proof.sop
+  + [I07_tests] is C:\Project\Cantor\crates\cantor_core\tests\temporal_release_audit.rs
+  + [I07_audit] is C:\Project\Cantor\narrative\research\Cantor_Deterministic_Runtime_Release_Audit_2026-08-05.sop
+  + [I07_solution] is C:\Project\Cantor\solutions\Cantor_Deterministic_Runtime_Release_Audit_Solution.sop
+  + [I07_proof] is C:\Project\Cantor\proofs\Cantor_Deterministic_Runtime_Release_Audit_Proof.sop
+
+& [ImplementationCoverage_001_010] is audited
+  + CDRA-001 verified -> exact CTPR and runtime profiles, unsupported-version negatives, and normalized restoration
+  + CDRA-002 verified -> root and every candidate form validate before an accepted successor
+  + CDRA-003 verified -> ordered maps and sets, canonical JSON, priority tie-break, permutation refusal, and byte-stable replay
+  + CDRA-004 verified -> supplied immutable root, pure evaluator, no global state, and 55-operation replay
+  + CDRA-005 verified -> accepted successor plus receipt and refusal-without-successor tests preserve the prior value
+  + CDRA-006 verified -> unsupported profile, invalid form, stale, bound, duplicate, and other typed faults
+  + CDRA-007 verified -> in-memory generation, event, content, snapshot, byte, branch-head, and index state
+  + CDRA-008 verified -> exact branch head and predecessor checks, stale refusal, missing predecessor refusal, and frontier reconstruction
+  + CDRA-009 verified -> supplied logical counter and deterministic trace order only
+  + CDRA-010 verified -> supplied byte length and SHA256 verification with no filesystem read
+
+& [ImplementationCoverage_011_020] is audited
+  + CDRA-011 verified -> exact event frontier, snapshot digest, predecessor, and atomic-external-world-claim refusal
+  + CDRA-012 verified -> deterministic index rebuild with explicit source generation and root reconstruction checks
+  + CDRA-013 partial -> candidate branch and multi-predecessor merge preserve ancestry; rejection, supersession, and compaction are form states without dedicated runtime transitions
+  + CDRA-014 verified -> positive admitted logical advance, zero refusal, root-bound receipt, and replay
+  + CDRA-015 verified -> immutable item, wake, recurrence, lifecycle, authority, and local-only provider state
+  + CDRA-016 verified -> explicit UTC and Gregorian policy, inclusion, exception, occurrence, and runtime horizon bounds
+  + CDRA-017 verified -> Due, Missed, Cancelled, Completed, and Superseded each produce a legal supplied-time candidate transition and no admitted event
+  + CDRA-018 verified -> exact task, plan, repository, capsule, policy, authority, and requirement revalidation with mismatch refusal
+  + CDRA-019 verified -> schedule proposal, Calendar revision, event candidate, wake candidate, provider state, and execution observation remain distinct forms and outputs
+  + CDRA-020 verified -> no temporal input changes priority, truth, consent, authority, or effects; candidate-only outputs and source audit preserve the boundary
+
+& [ImplementationCoverage_021_030] is audited
+  + CDRA-021 verified -> exact DAG validation, stable cycle witness, unresolved-reference refusal, and unchanged prior root
+  + CDRA-022 verified -> declared numeric priority then stable identity; dependency order and normalized replay are deterministic
+  + CDRA-023 verified -> task identity, exact plan predecessor, current repository, Calendar view, proof gates, recognized resources, policy, and operation root are checked
+  + CDRA-024 verified_at_bounded_fixture_grade -> supplied alternatives, assumptions, uncertainty, review gates, task stop conditions, and proof routes remain unchanged in the admitted proposal record
+  + CDRA-025 partial -> Capture, Aggregate, and Omit are deterministic and evidenced; the signed form ABI does not distinguish transient from rejected disposition
+  + CDRA-026 verified -> propose_plan accepts only PlanState Proposed and emits no commitment, Calendar mutation, repository admission, or work execution
+  + CDRA-027 verified -> exhaustive 144-pair capsule lifecycle relation plus operation-level evidence and predecessor gates
+  + CDRA-028 verified -> opening pins exact task, plan, repository, capsule, intent targets, effects, proof, and unrelated exclusions
+  + CDRA-029 verified -> execution lane returns only the exact inert simulated outcome named by the capsule
+  + CDRA-030 verified -> exact retrospective cursor and capsule generation with evidence, objection, uncertainty, invalidation, residual, and disposition records
+
+& [ImplementationCoverage_031_040] is audited
+  + CDRA-031 verified -> immutable named messages, same-capsule scope, logical time, causal predecessor, required acknowledgment, and duplicate refusal
+  + CDRA-032 verified -> derived complete return set, settled lanes, acknowledgment, subject, repository, plan, policy, authority, and disposition gates
+  + CDRA-033 verified -> exact barrier return and dependency sets; Block cannot release and Qualify releases only the named set
+  + CDRA-034 verified -> exhaustive 144-pair lane lifecycle relation, count lag, logical timeout, cancellation, residual, and exact crash reentry
+  + CDRA-035 verified -> fixed bounded digest-verified SOP, SemanticIR, BuildIR, target, impact, correspondence, proof, and diff records
+  + CDRA-036 verified -> impact-derived forward identity, dependency, diagnostic, invalidation, target, proof, and unknown prediction
+  + CDRA-037 verified -> diff-derived rear comparison with role-disjoint independent correspondence evidence
+  + CDRA-038 verified -> complete eight-kind diff, explicit unknown, independent evidence, full Observer subject set, and Admit or Qualify gate
+  + CDRA-039 verified -> exact mismatch invalidation union, declared-unrelated preservation, and intersection refusal
+  + CDRA-040 verified -> fixed fixture only; no parser, general compiler, backend, executable target, WASM, model, FPGA, or self-certification surface
+
+& [AuditAccounting] is current
+  + [requirement_count] is 40
+  + [verified_count] is 38
+  + [partial_count] is 2
+  + [failed_count] is 0
+  + [deferred_count] is 0
+  + [superseded_count] is 0
+  + [partial_requirement_set] is CDRA-013 and CDRA-025
+  + [implementation_slice_state] is CDRA-I01_through_I07_complete_with_qualified_release
+  + [live_effect_status] is not_authorized_and_not_implemented
+
+& [ReleaseBoundary] is fail-closed
+  + the runtime may be evaluated only as an internal effectless in-memory fixture under exact profile and bounds
+  + partial requirements must remain visible and prevent any claim of complete CDRA requirement satisfaction
+  + no Operator Shell, provider, persistence, process, model, general compiler, FPGA, or live effect inherits authority
+  + [release_disposition] is qualified_internal_fixture_only
+  + [workspace_gate] is not_passed_due_to_inherited_README_evidence_metadata
+  + [next_CTPR_frontier] is none_ready; WS-CTPR-016 remains blocked by COS-SJS-01

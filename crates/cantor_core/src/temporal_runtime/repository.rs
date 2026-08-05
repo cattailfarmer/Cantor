@@ -5,7 +5,7 @@ use std::collections::BTreeSet;
 
 use crate::{
     EventKind, MaterialEvent, MaterialityDecision, MaterialityDisposition, RepositoryGeneration,
-    SemanticId, SemanticSnapshot, sha256_bytes,
+    RepositoryStatus, SemanticId, SemanticSnapshot, sha256_bytes,
 };
 
 use super::evaluator::{
@@ -117,6 +117,22 @@ pub(crate) fn compare_and_append(
             root.repository.repository_id.to_string(),
             generation.repository_id.to_string(),
             BTreeSet::new(),
+            trace_location,
+        ));
+    }
+    if generation.status != RepositoryStatus::Candidate
+        || generation.created_by_disposition_ref.is_some()
+    {
+        return Err(make_fault(
+            context,
+            RuntimeFaultKind::InvalidForm,
+            BTreeSet::from([generation.generation_id.clone()]),
+            "candidate repository generation without an admitted-disposition claim",
+            format!(
+                "status={:?}, disposition={:?}",
+                generation.status, generation.created_by_disposition_ref
+            ),
+            BTreeSet::from(["candidate-only compare-and-append boundary".to_owned()]),
             trace_location,
         ));
     }

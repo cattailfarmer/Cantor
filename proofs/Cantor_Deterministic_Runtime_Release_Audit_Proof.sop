@@ -1,0 +1,56 @@
+Subject: Cantor Deterministic Runtime Release Audit Proof
+
+@ [audit] C:\Project\Cantor\narrative\research\Cantor_Deterministic_Runtime_Release_Audit_2026-08-05.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Deterministic_Runtime_Release_Audit_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\temporal_release_audit.rs
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+@ [host_fault] C:\Project\Cantor\narrative\operational_faults\1785949647004_deterministic_runtime_release_audit_windows_application_control_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is a2cb07ac-56b7-470f-9993-48cdadb16ece
+  + [solution_uuid] is 04e940a8-6970-4105-8dbe-126fed1720e4
+  + [authority_signature_uuid] is ad886f0f-4eb8-41d4-9e2f-69921d5cc197
+  + [captured_at] is 2026-08-05T12:07:27.0017494-05:00
+
+& [ArtifactIdentity] is measured before governance-only closure
+  + [repository_rs] is 14846 bytes SHA256 2ADEAFCADBAA9DA21BBB332672F458BB830CB81BC8242C548A780A3B950E8FE7
+  + [temporal_release_audit_tests] is 6018 bytes SHA256 00C0F1F02186C3218C82244F4E8070B24A5BCED834A103A2FD5F2B5D3B00BA6D
+  + [runtime_document] is 9065 bytes SHA256 45CF8BB689984A9CDD8648E275DD7987361C9848D97C56A4943C8D2FC4FE772A
+  + [signed_requirement_matrix] is 5350 bytes SHA256 5302C90524247CCE5C161922337192D897498D432A032169D33B51728535FC28
+  + [implementation_matrix_preclosure] is 8401 bytes SHA256 530EE8552798A9E418414664EBDEC8967102071DEC1ECCE5785FDDFEBB1E37FA
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test temporal_release_audit --locked
+  + [result] is 3 passed and 0 failed
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 138 passed and 0 failed
+  + [negative_set] is repository status laundering, missing branch ancestry, missing merge ancestry, index drift, and absent Calendar evaluation transition coverage
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all -- --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is source-surface rg audit
+  + [result] is no prohibited temporal_runtime surface matches
+  + [command] is git diff over Cargo manifests and lockfile
+  + [result] is no dependency delta
+
+& [WorkspaceVerification] is not passed
+  + one attempt was denied by Windows Application Control at a newly linked cli_protocol executable with os error 4551
+  + cargo test -p cantor_cli --test cli_protocol --locked then passed 6 tests without source change
+  + a later workspace execution reached candidate_workspace_admission_evidence and failed at README.md expected 13838 bytes versus actual 14529 bytes
+  + [classification] is inherited_evidence_manifest_fault_after_transient_host_policy_event
+  - never: report cargo test --workspace --locked as passed
+
+& [AuthorityProof] is restored
+  + all phase-lock identities were compared to current bytes and digests
+  + the only drift found in the authority bundle was the implementation-evidence mutation of the signed requirement matrix
+  + restoration reestablished its exact signed identity
+  + post-signature implementation accounting now lives in a distinct non-authority ledger
+
+& [ProofDisposition] is WS-CTPR-015_qualified_internal_fixture_release
+  + [FR-CTPR-015] is verified after completed-work review
+  + [CDRA-I07] is complete as an audit and release-accounting slice
+  + [CDRA_requirement_satisfaction] is 38 verified and 2 partial
+  + [live_release] is not_authorized

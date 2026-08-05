@@ -1,0 +1,72 @@
+Subject: Cantor Deterministic Runtime Release Audit 2026-08-05
+
+@ [audit_uuid] 7ee881e8-d5ac-4dac-aa9d-f43d68a03bfc
+@ [audited_at] 2026-08-05T12:07:27.0017494-05:00
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [claim_uuid] 73b0ac0a-91e0-4112-a924-43045151b935
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Deterministic_Runtime_Activation_Phase_Lock.sop
+@ [signed_requirement_matrix] C:\Project\Cantor\feature_support\Cantor_Deterministic_Runtime_Activation_Requirement_Matrix.sop
+@ [implementation_matrix] C:\Project\Cantor\feature_support\Cantor_Deterministic_Runtime_Implementation_Requirement_Matrix.sop
+
+& [AuditScope] is bounded
+  + [slice] is WS-CTPR-015 reconciled to CDRA-I07
+  + [requirement] is FR-CTPR-015
+  + [subject] is the deterministic in-memory cantor-cdra-runtime/0.1 fixture only
+  + [accounting_set] is CDRA-001 through CDRA-040
+  + [release_question] is whether the implemented profile is fit for internal effectless fixture use under its exact signed bounds
+  - never: infer production, live provider, persistence, Operator Shell, general compiler, learned model, FPGA, or external-effect readiness
+
+& [AuthorityBundleAudit] is exact
+  + every artifact named by the CDRA phase lock was remeasured against its recorded byte length and SHA256
+  + the signed requirement matrix had been changed after signature by appending implementation evidence
+  + that drift tripped the phase lock's own invalidation condition and could not be accepted as implementation authority
+  + the signed matrix was restored byte-for-byte to 5350 bytes and SHA256 5302C90524247CCE5C161922337192D897498D432A032169D33B51728535FC28
+  + post-signature evidence was separated into the implementation matrix instead of rewriting signed meaning
+  + all other locked artifacts matched their phase-lock identities
+  + [authority_result] is restored_and_exact
+
+& [RequirementAccounting] is honest
+  + [requirement_count] is 40
+  + [verified_count] is 38
+  + [partial_count] is 2
+  + [failed_count] is 0
+  + [deferred_count] is 0
+  + [superseded_count] is 0
+  + [CDRA-013] is partial because candidate branch and multi-predecessor merge preserve exact ancestry while rejection, supersession, and compaction remain form states without dedicated runtime transitions
+  + [CDRA-025] is partial because Capture, Aggregate, and Omit are deterministic while the signed form ABI does not distinguish transient from rejected disposition
+  - never: report complete CDRA requirement satisfaction while either partial remains
+
+& [BoundaryAudit] is passed for the qualified profile
+  + compare_and_append now accepts only RepositoryStatus Candidate and refuses caller-declared Admitted or terminal repository generations
+  + this profile exposes no repository-admission operation that could justify laundering a candidate through a caller-supplied admitted state
+  + source inspection found no filesystem, network, process, ambient clock, thread, provider, notification, persistence, model, unsafe, or FPGA operation in temporal_runtime
+  + Cargo dependency graph is unchanged
+  + every accepted transition returns a new immutable value and exact root-bound receipt
+  + all Calendar time, execution observations, and compiler fixture values are supplied input
+
+& [ProofAudit] is measured
+  + [release_audit_command] is cargo test -p cantor_core --test temporal_release_audit --locked
+  + [release_audit_result] is 3 passed and 0 failed
+  + [core_command] is cargo test -p cantor_core --locked
+  + [core_result] is 138 passed and 0 failed
+  + [formatter_command] is cargo fmt --all -- --check
+  + [formatter_result] is passed
+  + [lint_command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [lint_result] is passed with zero warnings
+  + [source_audit_result] is no prohibited temporal_runtime surface matches
+  + [targeted_CLI_recovery] is 6 passed and 0 failed after one Windows Application Control denial
+
+& [WorkspaceResidual] remains visible
+  + the complete workspace proof is not green
+  + a first complete run was interrupted before assertions when Windows Application Control denied a newly linked cli_protocol executable with os error 4551
+  + the exact CLI target passed on immediate isolated rerun without source change
+  + a later workspace run reached the inherited candidate-workspace evidence check and failed because README.md records 13838 bytes while the current file has 14529 bytes
+  + the historical evidence manifest is outside this slice and was not rewritten by hand
+  - never: convert either host policy denial or stale evidence metadata into a passing workspace claim
+
+& [ReleaseDisposition] is qualified_internal_fixture_only
+  + the deterministic runtime is suitable for internal effectless in-memory fixtures under exact profile, bound, signature, and supplied-input conditions
+  + the two partial requirements remain explicit residuals
+  + the release is not a production release and does not authorize live or external behavior
+  + WS-CTPR-016 remains blocked by separate COS-SJS-01 even though CTPR release evidence now exists
+  + rollback is reverting the WS-CTPR-015 milestone commit; no runtime compensation is required because no live effect occurred

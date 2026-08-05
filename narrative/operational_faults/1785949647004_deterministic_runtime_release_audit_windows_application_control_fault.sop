@@ -1,0 +1,23 @@
+Subject: Deterministic Runtime Release Audit Windows Application Control Fault
+
+& [FaultIdentity] is exact
+  + [fault_uuid] is 918a1059-24b6-447d-a24d-7c8cc00cb0bb
+  + [observed_at] is 2026-08-05T12:07:27.0017494-05:00
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [class] is host_application_control_execution_denial
+  + [stage] is complete workspace test during WS-CTPR-015 release audit
+
+& [Observation] is preserved
+  + Windows denied execution of a newly linked cli_protocol test executable
+  + cargo reported os error 4551 before that harness could execute
+  + no CLI assertion failed and no partial semantic result is cited
+  + an exact isolated rerun passed all 6 cli_protocol tests without source change
+
+& [Classification] is transient_external_host_policy
+  + the event is not represented as a Cantor product pass or failure
+  + the later workspace run independently reached the inherited README evidence-manifest mismatch
+  + host security policy was not disabled, relaxed, or bypassed
+
+& [EffectBoundary] is preserved
+  + no live provider, persistence, network, process invocation by Cantor, notification, device, or FPGA behavior was authorized
+  + the test runner's ordinary process execution is not Cantor runtime authority
