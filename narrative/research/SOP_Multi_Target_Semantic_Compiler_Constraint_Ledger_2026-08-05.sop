@@ -1,0 +1,129 @@
+Subject: SOP Multi-Target Semantic Compiler Constraint Ledger
+
+Description: SJS constraint-check trace for the multi-target semantic compiler purpose, with provenance, collision analysis, disposition, and invalidation behavior.
+
+@ [constraint_ledger_uuid] 617601cc-4291-4d8d-bd32-68ed3014fa70
+@ [source_snapshot_uuid] a90af861-ccb4-433f-964d-eff53d7457ad
+@ [exploded_uuid] 5c06d284-2a67-4194-a839-ed7ac5bcd235
+
+& [ConstraintClassification] is explicit
+  + [hard] must hold for canonical purpose authority
+  + [profile] must be satisfied by each future language or target profile
+  + [implementation] must be proved by a separately authorized implementation
+  + [runtime] must be revalidated for every admitted run
+  + [experimental] may be investigated without being treated as established capability
+
+& [ConstraintSet] is checked
+  + [C01_source_preservation] hard: raw source digest and bytes remain exact
+    @ [provenance] source manifest
+    @ [status] satisfied
+  + [C02_role_separation] hard: non-program documents remain non-executable
+    @ [provenance] WS-CTPR-002
+    @ [status] satisfied_at_specification_grade
+  + [C03_explicit_program_admission] hard: only explicit program regions enter the ten-gate path
+    @ [provenance] SOP Core and WS-CTPR-002
+    @ [status] satisfied_at_specification_grade
+  + [C04_single_semantic_IR] hard: accepted surface forms and targets share one canonical meaning center
+    @ [provenance] SOP Semantic Programming Identity and WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C05_role_first_validation] hard: role and region closure precedes all other static semantics
+    @ [provenance] WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C06_explicit_profiles] profile: grammar, modules, targets, runtimes, and effects are version and digest bound
+    @ [provenance] WS-CTPR-003
+    @ [status] formed_not_implemented
+  + [C07_type_relation_integrity] hard: labels, proximity, or embeddings cannot imply identity, subtype, or truth
+    @ [provenance] semantic fabric and WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C08_contract_completeness] hard: program entry points bind full purpose and behavior contract
+    @ [provenance] SOP Core and WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C09_effect_separation] hard: propose, authorize, commit, and observe are distinct
+    @ [provenance] attention foundation, VM, and WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C10_authority_nontransitivity] hard: imports, retrieval, compilation, relevance, or signature metadata cannot widen authority
+    @ [provenance] trust profile and WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C11_neural_advisory_boundary] hard: learned output remains proposal unless a narrower property is separately proved
+    @ [provenance] neural compilation boundary
+    @ [status] satisfied_at_specification_grade
+  + [C12_exact_fallback] profile: learned targets cannot be required for behavior claimed as exact fallback
+    @ [provenance] source assessment
+    @ [status] formed_not_implemented
+  + [C13_declared_loss] hard: approximation, nondeterminism, provider dependence, and unsupported features remain visible
+    @ [provenance] WS-CTPR-003 TargetABI
+    @ [status] satisfied_at_specification_grade
+  + [C14_correspondence] hard: emitted target regions map through SemanticIR to source identities
+    @ [provenance] WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C15_optimizer_preservation] hard: rewrite cannot erase effects, authority, faults, provenance, or required meaning
+    @ [provenance] WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C16_module_closure] hard: imports are exact, cycles bounded, and initialization explicit
+    @ [provenance] WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C17_diagnostic_specificity] hard: unknown, ambiguous, conflicting, unauthorized, unsupported, lossy, and provider-dependent states remain distinct
+    @ [provenance] WS-CTPR-003
+    @ [status] satisfied_at_specification_grade
+  + [C18_independent_conformance] implementation: expected meaning cannot come solely from the compiler path under test
+    @ [provenance] source assessment and WS-CTPR-003
+    @ [status] formed_not_implemented
+  + [C19_bootstrap_root] hard: self-description retains independently trusted bootstrap
+    @ [provenance] source assessment
+    @ [status] satisfied_at_specification_grade
+  + [C20_migration_generation] hard: compatibility change creates a new generation with proof and rollback
+    @ [provenance] role proof and data design
+    @ [status] satisfied_at_specification_grade
+  + [C21_target_growth] hard: target addition requires signed requirement and measured benefit
+    @ [provenance] SMTC-029
+    @ [status] satisfied_at_specification_grade
+  + [C22_neural_generation_stages] experimental: blueprint, initial state, corpus, training, evaluation, admission, and packaging remain separate
+    @ [provenance] source assessment
+    @ [status] formed_not_proven
+  + [C23_hardware_boundary] experimental: interpreter and native FPGA paths require separate profiles and proof
+    @ [provenance] prior FPGA profile and SMTC-025
+    @ [status] formed_not_proven
+  + [C24_no_implementation_authority] hard: purpose signature changes no production code, runtime, provider, tool, or hardware state
+    @ [provenance] Specification Governance
+    @ [status] satisfied
+  + [C25_signature_role] hard: SJS satisfaction metadata and cryptographic package trust remain distinct
+    @ [provenance] Trusted Compilation Profile
+    @ [status] satisfied_at_specification_grade
+  + [C26_uncertainty_preservation] hard: unresolved and negative results cannot be normalized into success
+    @ [provenance] Semantic Refinement and Data Design
+    @ [status] satisfied_at_specification_grade
+  + [C27_faculty_accountability] profile: compiled faculty cycles retain explicit activation, return, boundary, projection, and disposition records
+    @ [provenance] Integrated Faculty Process
+    @ [status] inherited
+  + [C28_resource_budget] runtime: context, time, tokens, memory, retries, tools, and effects are bounded per run
+    @ [provenance] WS-CTPR-003
+    @ [status] formed_not_implemented
+  + [C29_replay_lineage] hard: source, compiler, IR, target, runtime, provider, effect, result, and residual lineage remain inspectable
+    @ [provenance] VM and source assessment
+    @ [status] satisfied_at_specification_grade
+  + [C30_bounded_signature] hard: canonical authority establishes purpose semantics only and stops before implementation
+    @ [provenance] user goal and governance
+    @ [status] satisfied_by_planned_signature_scope
+
+& [CollisionReview] finds no unresolved hard collision
+  + [collision_1] all_SOP_as_language versus not_all_SOP_as_program resolves through DocumentRole and RegionRole
+  + [collision_2] compiles_straight_to_AI versus exact_first resolves through multi-target projection and SOP-N advisory status
+  + [collision_3] executable_fabric versus no_implementation_authority resolves through formation now and separate implementation later
+  + [collision_4] neural_net_printer versus no_weight_correctness_claim resolves through staged blueprint and experimental target evidence
+  + [collision_5] self_hosting versus independent_trust resolves through explicit bootstrap root
+  + [collision_6] concise_contract versus complete_dependency_accounting resolves through minimal frame selected from a complete signed dependency graph
+  + [collision_7] cross_target_equivalence versus neural_nondeterminism resolves by limiting each proof to its declared observational guarantee
+
+& [ConstraintDisposition] is phase-lock eligible
+  + [hard_constraint_failure_count] is 0
+  + [profile_constraint_deferred_count] is 2
+  + [implementation_or_runtime_deferred_count] is 3
+  + [experimental_unproven_count] is 2
+  + [deferred_item_authority] is none
+  + [source_revision_required] is false
+  + [canonical_scope] is purpose semantics with explicit future obligations and no implementation release
+
+& [InvalidationRule] is fail-closed
+  + any hard constraint failure invalidates the purpose signature
+  + a deferred implementation or experiment cannot be cited as completed proof
+  + new target, effect, program-default, signature meaning, or bootstrap assumption requires fresh source and constraint reapplication

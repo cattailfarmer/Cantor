@@ -9,12 +9,14 @@ Description: Contiguous CTPR SJS cluster that turns the unsigned seven-fold temp
 @ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.exploded.sop
 
 & [ClusterIdentity] is CTPR canonical formation
-  + [enqueue_readiness] is blocked_by_SMTC-SJS-01
+  + [enqueue_readiness] is in_progress
   + [reason_for_contiguity] is semantic terms, data identities, external fidelity, justification, registry, and signature jointly determine one authority boundary
+  + [upstream_SMTC_signature_uuid] is 810f24e8-3d1c-4074-ae57-706f8f63e892
+  + [current_worker] is conversation cab190f5-eda0-44e0-81a5-51f9605e0baa on WS-CTPR-005
 
 & [FeatureRequirementSet] is atomic
   + [feature_requirement] is FR-CTPR-005
-    @ [support_status] blocked
+    @ [support_status] in_progress
     + [requirement_statement] is emit a semantic-refinement term map for Planner, Calendar, material event, ChangeCapsule, lane, join, diff, and compiler walk
   + [feature_requirement] is FR-CTPR-006
     @ [support_status] blocked
@@ -31,7 +33,9 @@ Description: Contiguous CTPR SJS cluster that turns the unsigned seven-fold temp
 
 & [WorkSliceTransform] is the worker queue
   + [work_slice_detail] is WS-CTPR-005
-    @ [slice_status] blocked
+    @ [slice_status] in_progress
+    @ [support_readiness] ready
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
     @ [model_routing] Requires premium model
     @ [depends_on] WS-CTPR-004
     + [scope] is semantic refinement and term-boundary contract
@@ -62,9 +66,16 @@ Description: Contiguous CTPR SJS cluster that turns the unsigned seven-fold temp
     + [completion_criteria] is valid signature evidence table and authority no broader than deterministic first proof
 
 & [SupportGapSet] is explicit
-  + [support_gap] is SG-CTPR-005
-    @ [blocks] WS-CTPR-005 through WS-CTPR-009
-    + [gap_statement] is upstream SMTC purpose and document-role authority is not canonical
+  + [resolved_support_gap] is SG-CTPR-005
+    @ [resolved_by] C:\Project\Cantor\narrative\registries\SOP_Multi_Target_Semantic_Compiler_Purpose_Phase_Lock.sop
+    + [resolution] is SMTC-SJS-01 is artifact-bound and valid at language-purpose grade; CTPR specification work may proceed without runtime authority
   + [support_gap] is SG-CTPR-006
     @ [blocks] WS-CTPR-009
     + [gap_statement] is CTPR refinement, data, fidelity, justification, and registry evidence do not yet exist
+
+& [UpstreamCompletedWorkReview] is applied
+  + [review_uuid] is 95319e3e-39a3-4c5a-901c-d83d7ab6df15
+  + [completed_slice_id] is WS-CTPR-004
+  + [support_delta] is the upstream language-purpose dependency is satisfied
+  + [authority_boundary] is specification consumption only; implementation and execution remain blocked
+  + [readiness_recompute] is WS-CTPR-005 ready and assigned while WS-CTPR-006 through WS-CTPR-009 retain their exact dependencies

@@ -1,0 +1,146 @@
+Subject: SOP Multi-Target Semantic Compiler Data Design
+
+Description: Conceptual and logical data model for the SOP multi-target semantic compiler purpose. It defines stable identities, relations, cardinalities, lifecycle, lineage, and quality rules while deferring physical schemas and storage choices.
+
+@ [data_design_uuid] 68bbe853-eb1b-43c1-910c-344bb23be0e4
+@ [source_snapshot_uuid] a90af861-ccb4-433f-964d-eff53d7457ad
+@ [exploded_uuid] 5c06d284-2a67-4194-a839-ed7ac5bcd235
+@ [refinement_uuid] 74be95ac-9139-45c1-9233-fc994549c57b
+
+& [ConceptualModel] has five planes
+  + [source_plane] preserves documents, generations, profiles, roles, regions, and provenance
+  + [semantic_plane] owns identities, bindings, types, relations, contracts, instructions, programs, state, effects, judgments, faults, and SemanticIR
+  + [projection_plane] owns target profiles, capabilities, artifacts, correspondence, loss, nondeterminism, and PackageFamily
+  + [proof_plane] owns obligations, fixtures, diagnostics, observations, evidence, conformance, and signatures
+  + [runtime_plane] owns admission requests, granted capabilities, transitions, effect states, traces, results, residuals, and reentry
+  = must: prevent a record from changing planes merely because a label or backend representation resembles another plane
+
+& [NaturalIdentitySet] is stable
+  + Document has document_uuid
+  + SourceGeneration has document_uuid plus content_digest
+  + Region has source_generation plus region_uuid and exact span
+  + SemanticIdentity has identity_uuid plus namespace and context
+  + LanguageProfile has profile_uuid plus immutable version and grammar_digest
+  + Module has module_uuid plus immutable version and content_digest
+  + SemanticIR has compilation_uuid plus semantic_root_digest
+  + TargetProfile has target_uuid plus ABI version and profile_digest
+  + TargetArtifact has target_profile plus artifact_digest
+  + PackageFamily has package_family_uuid plus semantic_root_digest
+  + ProofBundle has proof_uuid plus subject_digest
+  + RuntimeRun has run_uuid plus admitted_package_identity
+  = must: use generated database row IDs only as physical surrogates, never as semantic identity
+
+& [SourceEntitySet] is normalized
+  + Document owns one or more immutable SourceGeneration records
+  + SourceGeneration owns one DocumentRoleDeclaration and zero or more RegionDeclaration records
+  + mixed SourceGeneration requires explicit RegionDeclaration closure for every non-default region
+  + each role declaration binds one LanguageProfile, admission class, lowering disposition, execution disposition, effect disposition, and authority scope
+  + supersession relates generations without deleting the superseded generation
+
+& [SemanticEntitySet] is target-neutral
+  + CompilationUnit references exactly one primary SourceGeneration and zero or more exact dependency generations
+  + CompilationUnit selects one LanguageProfile and one or more TargetProfile records
+  + SyntaxTree belongs to one CompilationUnit and retains complete source spans
+  + ResolvedBinding joins one reference occurrence to one exact SemanticIdentity under one context and version
+  + SemanticType constrains zero or more identities, values, relations, operations, or results
+  + RelationSignature owns typed participant roles, direction, arity, cardinality, and inference regime
+  + SemanticContract governs one or more operations or entry points
+  + SemanticProgram contains an ordered or explicitly graphed set of SemanticInstruction records
+  + SemanticIR belongs to one successful semantic compilation and owns a target-neutral node and edge set
+
+& [EffectEntitySet] separates request and outcome
+  + EffectSignature declares allowed kind, operation, resource class, authority class, reversibility, compensation, and observation requirement
+  + EffectRequest belongs to one program operation and one runtime run
+  + AuthorityEvidence supports zero or more granted capabilities but does not itself prove successful commitment
+  + EffectTransition moves requested to authorized, denied, committed, failed, compensated, or observed under explicit legal transitions
+  + EffectObservation records what was observed after attempted commitment and may remain unknown or partial
+  + read and write capabilities are separate records
+
+& [ProjectionEntitySet] preserves correspondence
+  + one SemanticIR may produce zero or more TargetArtifact records per selected TargetProfile
+  + each TargetArtifact belongs to exactly one PackageFamily
+  + CorrespondenceManifest relates every emitted artifact region to one or more SemanticIR nodes and source identities
+  + LossRecord belongs to one target projection and one or more affected identities
+  + ProviderDependency records external model, version, configuration, tokenizer, seed when available, and residual nondeterminism
+  + TargetCapability records supported semantic feature and proof grade
+  + unsupported required capability prevents artifact release
+
+& [ProofEntitySet] makes claims inspectable
+  + Diagnostic belongs to a compilation or runtime stage and may cite multiple source locations and identities
+  + ProofObligation belongs to one claim and names method, required evidence, and discharge status
+  + ConformanceCase owns source variants, expected SemanticIR, expected diagnostics, target observations, and negative assertions
+  + ProofBundle aggregates obligations and observations without upgrading their strength
+  + SatisfactionSignature binds source, exploded, canonical, processed stages, phase lock, registry, scope, and invalidation
+  + cryptographic PackageSignature remains a separate trust-plane entity
+
+& [CardinalityRules] are explicit
+  + SourceGeneration exactly_one Document
+  + Document one_to_many SourceGeneration
+  + SourceGeneration exactly_one dominant DocumentRoleDeclaration
+  + SourceGeneration zero_to_many RegionDeclaration
+  + program RegionDeclaration exactly_one governing SemanticContract per entry point
+  + CompilationUnit exactly_one LanguageProfile
+  + CompilationUnit one_to_many selected TargetProfile when compilation proceeds
+  + CompilationUnit zero_or_one successful canonical SemanticIR
+  + SemanticIR zero_to_many TargetArtifact before target selection and one_to_many after successful requested lowering
+  + TargetArtifact exactly_one CorrespondenceManifest section set
+  + effectful operation one_to_many EffectSignature entries and zero_to_many runtime EffectRequest instances
+  + FacultyCycle exactly_seven accounted faculties by activation or eligible omission under its separate canonical contract
+
+& [RelationRules] prevent false inference
+  + describes does_not_imply executes
+  + parses_as does_not_imply validates_as
+  + compiles_to does_not_imply admitted_as
+  + proposes does_not_imply accepts
+  + accepts_judgment does_not_imply authorizes_effect
+  + imports does_not_imply inherits_authority
+  + similar_to does_not_imply same_as
+  + target_projection_of preserves source relation without reversing authority
+  + signed_by_SJS does_not_imply cryptographically_admitted
+  + observed_after does_not_imply caused_by without a causal proof edge
+
+& [LifecycleModel] is fail-closed
+  + source_preserved -> parsed_candidate -> role_closed -> resolved -> statically_valid -> SemanticIR_formed
+  + SemanticIR_formed -> target_checked -> target_lowered -> proof_pending -> packaged_candidate
+  + packaged_candidate -> trust_checked -> admitted or rejected
+  + admitted -> running -> returned, stopped, budget_exhausted, cancelled, blocked, or faulted
+  + EffectRequest -> requested -> authorized or denied
+  + authorized -> committed, failed, or cancelled
+  + committed -> observed, partially_observed, unobserved, or compensated
+  - never: skip role_closed, statically_valid, proof_pending, trust_checked, or effect authorization through status assignment
+
+& [VersionAndMigrationModel] preserves generations
+  + source, profile, module, compiler, SemanticIR schema, ABI, target, proof policy, and runtime profile versions are separately identified
+  + compatibility is evaluated between exact generations rather than assumed from names
+  + migration creates a new generation and records transform, correspondence, loss, new obligations, rollback, and supersession
+  + historic signatures and target artifacts remain queryable as historical evidence
+  + revocation changes admissibility without erasing prior existence
+
+& [QualityModel] is observable
+  + completeness measures required role, contract, type, effect, correspondence, and proof fields
+  + consistency measures identity, version, scope, and relation agreement
+  + validity measures schema and semantic constraints under named profiles
+  + provenance measures exact source and derivation coverage
+  + freshness measures dependency and authority currency at use time
+  + conformance measures expected observations within declared target guarantees
+  + uncertainty measures unresolved, ambiguous, approximate, provider-dependent, and unobserved states without coercion
+
+& [SensitivityAndRetention] is explicit
+  + source content, prompts, provider payloads, credentials, user data, traces, and external responses receive separate sensitivity labels
+  + digest and semantic locator do not automatically authorize source disclosure
+  + retention belongs to source, build, proof, runtime, and provider policies separately
+  + deletion or redaction must preserve required proof and provenance through an authorized tombstone or replacement record
+
+& [PhysicalDesignDeferral] is binding
+  + relational tables, graph database, vector index, object store, file layout, binary schema, cache, neural tensors, and FPGA memory are candidate physical projections
+  + no physical projection may replace conceptual identity, relation, lifecycle, or authority rules
+  + physical indexes optimize retrieval but cannot become semantic truth
+  + current purpose signature selects no database or implementation technology
+
+& [DataDesignQualityGate] passes at conceptual and logical grade
+  + identities are stable and namespace-bound
+  + cardinalities and ownership are explicit
+  + essential semantics are separated from accidental storage and control
+  + lifecycle transitions are legal and fail-closed
+  + lineage, version, quality, uncertainty, sensitivity, and retention are represented
+  + physical design is intentionally deferred

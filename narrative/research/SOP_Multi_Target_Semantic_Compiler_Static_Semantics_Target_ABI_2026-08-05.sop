@@ -1,0 +1,297 @@
+Subject: SOP Multi-Target Semantic Compiler Static Semantics and Target ABI
+
+Description: WS-CTPR-003 worker proof defining the grammar boundary, ordered static-semantic passes, type and effect disciplines, module contract, optimization laws, common target ABI, diagnostics, compatibility behavior, and conformance obligations needed by the SOP multi-target language-purpose SJS.
+
+@ [worker_proof_uuid] 819b5f3c-1c2b-4ac2-b9dd-0abc4eb6c25c
+@ [worker_slice] WS-CTPR-003
+@ [worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [baseline_commit] 24c61ca4a3df4a49ccdf9c120db1569d14cd02e8
+@ [source] C:\Project\Cantor\source_documents\2026-08-05_sop_multi_target_semantic_compiler_purpose\Dictated_SOP_Multi_Target_Semantic_Compiler_Purpose_Source.sop
+@ [assessment] C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Purpose_Assessment_2026-08-05.sop
+@ [role_contract] C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Document_Role_Compatibility_2026-08-05.sop
+@ [semantic_identity] C:\Project\Cantor\specifications\SOP_Semantic_Programming_Identity.sop
+@ [core] C:\Project\Cantor\specifications\SOP_Core.sop
+@ [attention_foundation] C:\Project\Cantor\specifications\SOP_Attention_First_Language_Foundation.sop
+@ [virtual_machine] C:\Project\Cantor\specifications\SOP_Reflective_Virtual_Machine.sop
+@ [neural_boundary] C:\Project\Cantor\specifications\SOP_Neural_Compilation_Boundary.sop
+@ [trust_profile] C:\Project\Cantor\specifications\Cantor_Trusted_Compilation_Profile.sop
+
+& [WorkerProofIdentity] is specification evidence rather than canonical or implementation authority
+  + [purpose] is close the language-design gaps that otherwise let syntax, labels, compiler targets, provider output, or graph proximity silently acquire meaning or authority
+  + [scope] is grammar profile, SemanticIR validation, types, effects, modules, transformations, targets, diagnostics, compatibility, and conformance
+  + [status] is ready_for_manager_review_and_SMTC_SJS_consumption
+  + [canonical_authority] is absent
+  + [implementation_authority] is absent
+  + [physical_storage_authority] is deferred
+
+& [CompilerPipelineIdentity] is one meaning with many checked projections
+  + [source_input] is exact SourceGeneration plus declared LanguageProfile and RoleDeclarationShape
+  + [front_end] is parse then role closure then semantic analysis
+  + [semantic_center] is one canonical SemanticIR whose identities and contracts retain source correspondence
+  + [back_end] is one or more TargetProfile lowerings through the common TargetABI
+  + [result] is a PackageFamily containing target artifacts, diagnostics, proofs, correspondence, and loss records
+  = must: distinguish accepted source, resolved meaning, optimized meaning, lowered artifact, admitted package, and executed effect
+  - never: use successful parsing, compilation, signature metadata, or target generation as evidence that an artifact may execute
+
+& [LanguageProfileContract] bounds syntax before meaning
+  + [profile_uuid] is stable identity
+  + [profile_version] is immutable semantic version
+  + [surface_family] is verbose_SOP, condensed_SOP, machine_SOP, or explicitly_registered_extension
+  + [grammar_digest] binds the exact grammar generation
+  + [lexical_rules] define tokens, whitespace, comments, escaping, quoting, identifiers, literals, and source locations
+  + [syntactic_rules] define declarations, clauses, relations, directives, expressions, blocks, contracts, modules, and program regions
+  + [desugaring_rules] map supported surface conveniences into explicit SemanticIR constructors
+  + [role_requirements] declare which DocumentRole and RegionRole forms the profile accepts
+  + [feature_set] lists required and optional semantic features
+  + [unsupported_form_policy] is preserve_with_diagnostic or reject_under_requested_compilation
+  + [compatibility_range] declares eligible source and dependency versions
+  = must: make profile selection explicit and digest-bound
+  = must: map verbose, condensed, and machine forms with equal meaning to the same canonical SemanticIR
+  - never: infer document role, effect authority, trust, or executable admission from grammatical shape
+
+& [ParsingBoundary] separates recognition from judgment
+  + [parser_input] is bytes, encoding, source identity, generation digest, and LanguageProfile
+  + [parser_output] is SyntaxTree, SourceMap, ParseDiagnosticSet, and unsupported extension records
+  + [parser_success] means only that the selected grammar recognized the requested region
+  + [recovery_node] preserves skipped or malformed source without inventing executable meaning
+  + [unknown_extension_node] preserves an unrecognized extension under exact span and namespace
+  = must: retain comments, quotations, delimiters, and raw spans when their loss could change meaning or provenance
+  - never: treat parser recovery, token resemblance, indentation, imperative mood, or keyword presence as semantic admission
+
+& [CanonicalSemanticDataSet] defines compiler identities
+  + [CompilationUnit] binds source generation, selected profile, role declarations, requested entries, dependencies, targets, and authority request
+  + [SourceGeneration] binds document UUID, immutable content digest, encoding, version, provenance, and supersession relation
+  + [DocumentRoleDeclaration] binds artifact role, admission class, lowering disposition, execution disposition, effect disposition, and authority scope
+  + [RegionDeclaration] binds stable region UUID, exact source span, region role, parent region, and referenced dependencies
+  + [SyntaxTree] is profile-specific recognized structure with complete source mapping
+  + [ResolvedBinding] binds one reference occurrence to exact semantic identity, version, namespace, context, and source declaration
+  + [SemanticType] declares kind, value domain, relation constraints, qualifiers, and allowed operations
+  + [RelationSignature] declares participant roles, direction, arity, cardinality, temporal scope, and inference regime
+  + [EffectSignature] declares effect kind, resource, authority, scope, reversibility, compensation, observation, and fault behavior
+  + [ModuleManifest] binds exports, imports, dependencies, roles, initialization, profiles, capabilities, and digests
+  + [TargetProfile] binds target identity, ABI version, supported feature set, required proofs, loss policy, and artifact schema
+  + [TargetCapability] is one explicitly versioned semantic feature or effect facility supported by a target
+  + [LossRecord] binds one source or IR identity to omitted, approximated, nondeterministic, provider-dependent, or unsupported target behavior
+  + [Diagnostic] binds code, stage, severity, source spans, semantic identities, expected state, actual state, repair options, and authority consequence
+  + [ConformanceCase] binds source forms, expected SemanticIR, target expectations, proofs, diagnostics, and negative assertions
+  + [CorrespondenceManifest] maps source identities through SemanticIR identities to every emitted target artifact region
+  + [PackageFamily] binds all projections of one SemanticIR root without asserting equivalence beyond supplied proofs
+
+& [StaticSemanticPassOrder] is deterministic and fail-closed
+  + [pass_01_role_and_region_closure] validates document role, region role, mixed-document boundaries, admission class, and requested entry extent
+  + [pass_02_source_and_dependency_integrity] validates source generation, digest, profile, dependency version, freshness, supersession, and provenance
+  + [pass_03_name_context_and_import_resolution] resolves namespaces, identities, aliases, context bindings, exports, imports, and ambiguity
+  + [pass_04_kind_type_and_relation_validation] validates semantic kinds, value domains, relation signatures, cardinalities, direction, and qualifiers
+  + [pass_05_contract_completeness] validates purpose, inputs, preconditions, assumptions, invariants, permissions, obligations, prohibitions, outputs, faults, and termination
+  + [pass_06_state_transition_and_control_validation] validates state ownership, legal transitions, branch closure, loops, yields, returns, stops, and unreachable obligations
+  + [pass_07_authority_capability_and_effect_validation] validates eligible authority, capability provenance, effect rows, resource scopes, consent, reversibility, and compensation
+  + [pass_08_target_capability_and_loss_validation] validates selected TargetProfiles, feature coverage, approximation policy, nondeterminism, provider dependence, and exact fallback
+  + [pass_09_termination_and_budget_validation] validates bounded iteration, recursion, context, time, tokens, memory, tools, retries, and external operations
+  + [pass_10_proof_obligation_formation] emits exact obligations for equivalence, compatibility, effect safety, target correspondence, and runtime admission
+  = must: execute passes in order because each later pass consumes identities and constraints established by earlier passes
+  = must: retain all non-cascading diagnostics while preventing later passes from treating invalid earlier results as resolved facts
+  - never: optimize, lower, package, sign, or execute a CompilationUnit with blocking diagnostics
+
+& [SemanticKindSystem] distinguishes language roles
+  + [TermKind] names or denotes a concept under explicit context
+  + [ValueKind] carries a typed literal or computed value
+  + [RelationKind] relates typed participants through a RelationSignature
+  + [DeclarationKind] introduces an identity, binding, rule, form, or environment member
+  + [JudgmentKind] records proposed, supported, accepted, rejected, or unresolved semantic determination
+  + [ContractKind] constrains eligibility, behavior, authority, evidence, effects, faults, and completion
+  + [OperationKind] is a typed semantic transform without automatic execution authority
+  + [ProgramKind] composes admitted operations under one complete SemanticContract
+  + [ResultKind] records value, state delta, proposal, proof, observation, or emitted artifact
+  + [FaultKind] records typed failure, rejected admission, or unresolved condition
+  = must: attach context, provenance, authority status, judgment status, purity, effect set, temporal scope, and provider dependence as explicit qualifiers
+  - never: infer subtype, equivalence, authority, or truth from label similarity, embedding distance, graph proximity, or shared target representation alone
+
+& [TypeCompatibility] preserves semantic identity
+  + [identity_rule] exact semantic identity is compatible with itself under allowed version and context scope
+  + [declared_subtype_rule] subtype use requires an explicit, non-contradictory relation within the selected inference regime
+  + [parameter_rule] generic parameters retain variance and constraints declared by their constructor
+  + [union_rule] selection from alternatives requires evidence for the chosen member
+  + [intersection_rule] use requires satisfaction of every member constraint
+  + [unknown_rule] unknown is preserved and cannot satisfy a required concrete type without an authorized narrowing judgment
+  + [conflict_rule] contradictory bindings produce a blocking diagnostic rather than arbitrary precedence
+  + [conversion_rule] every non-identity conversion is explicit, source-mapped, and classified as exact, lossy, or provider-dependent
+
+& [EffectSystem] makes action boundaries inspectable
+  + [PureEffect] reads only immutable admitted values and emits a value or judgment without state mutation
+  + [AttentionEffect] widens, narrows, holds, releases, admits, excludes, preserves, peeks, or returns model-visible attention under a declared frame
+  + [EpistemicEffect] proposes, supports, challenges, accepts, rejects, or defers a judgment without converting it into external fact
+  + [MemoryReadEffect] reads an authorized memory scope
+  + [MemoryWriteEffect] proposes or commits a bounded memory mutation according to separate authority
+  + [DatabaseReadEffect] queries a bounded database scope
+  + [DatabaseWriteEffect] proposes or commits a bounded database transaction
+  + [FileEffect] reads, creates, edits, moves, or removes exact filesystem resources under declared capability
+  + [GitEffect] observes or changes exact repository state through typed operations
+  + [ToolEffect] invokes one registered tool contract with typed request and response
+  + [ProviderEffect] invokes an external or neural provider and records model, configuration, nondeterminism, and evidence limits
+  + [UserAuthorizationEffect] requests or consumes explicit user authority without widening it
+  + [ExternalEffect] communicates with or changes an external system or person under explicit scope
+  + [effect_row] is the closed or explicitly extensible set of effects an operation may perform
+  + [effect_instance] binds kind, target resource, operation, eligible authority, granted scope, reversibility, compensation, observation, and budget
+  = must: distinguish propose, authorize, commit, and observe phases
+  = must: require read and write capabilities separately
+  = must: preserve denied, failed, partial, compensated, and unobserved outcomes as distinct states
+  - never: let compilation, inference, provider generation, or a read capability imply write or commit authority
+
+& [ModuleSystem] binds reusable meaning without authority leakage
+  + [module_identity] is UUID plus immutable version and content digest
+  + [namespace] is explicit and collision-checked
+  + [exports] list exact identities, roles, types, effects, contracts, and target features made available
+  + [imports] select exact module identity, compatible version set, symbols, aliases, and expected digests
+  + [dependency_graph] must resolve to one versioned graph with recorded conflicts
+  + [cycle_policy] permits only declared cycle-safe definition groups and rejects initialization or effect cycles
+  + [initialization] is absent by default and, when present, is an explicit admitted program entry with its own contract
+  + [target_declarations] state compatible targets without forcing every consumer to select them
+  + [authority_rule] imported definitions and contracts constrain the importer but imported authority does not transitively widen the importing program
+  + [private_identity_rule] non-exported identity remains unavailable even if discoverable in storage
+  + [supersession_rule] newer versions do not silently replace an exact imported generation
+
+& [StandardLibraryBoundary] keeps the core small and versionable
+  + [language_intrinsic] is limited to semantic identity, context, source mapping, contract structure, typed state, control, effect declaration, fault, and result constructors required to express the language
+  + [standard_module] is an ordinary exact versioned module distributed with the language profile and admitted through normal dependency checks
+  + [faculty_module] packages Observer, Honesty, Security, Scribe, Refiner, Weaver, Planner, or other faculty behavior as explicit definitions, contracts, and programs rather than hidden compiler behavior
+  + [target_library] provides one target-specific implementation behind the CommonTargetABI and cannot redefine canonical semantics
+  + [provider_adapter] provides typed neural or external-provider requests and responses without becoming a language intrinsic
+  + [platform_adapter] provides filesystem, git, database, calendar, process, network, UI, or hardware effects under explicit capability
+  + [bootstrap_minimum] is the smallest independently trusted intrinsic set needed to parse, validate, serialize, and compare the canonical fixture
+  = must: version, digest, test, and import standard, faculty, target, provider, and platform modules explicitly
+  - never: promote convenient host behavior into an implicit semantic or authority rule
+
+& [SemanticIRObligations] make the semantic center authoritative
+  + [canonical_identity] every IR node has stable semantic identity within the exact compilation
+  + [source_correspondence] every node maps to source spans or an explicit generated-node derivation
+  + [role_correspondence] every node retains source document and region roles
+  + [contract_correspondence] every operation, program, and entry point binds its governing contract
+  + [type_and_effect_correspondence] every executable node has resolved type and effect signatures
+  + [authority_correspondence] every effectful node binds requested authority without asserting runtime grant
+  + [target_neutrality] IR meaning does not depend on one backend's incidental representation
+  + [uncertainty_preservation] unresolved, ambiguous, contested, approximate, and provider-dependent states remain typed
+  + [deterministic_serialization] canonical serialization produces the same semantic root for equivalent accepted input under the same profile and compiler version
+
+& [OptimizationLawSet] forbids semantic laundering
+  + [eligibility] an optimization names the exact input IR, rewrite law, assumptions, affected effects, and target scope
+  + [equivalence] exact rewrites require a discharged semantic-equivalence proof obligation
+  + [approximation] non-equivalent rewrites are target approximations and require a LossRecord plus policy admission
+  + [effect_order] non-commutative effects retain program order
+  + [authority_preservation] rewrites cannot add, widen, merge, conceal, or erase authority requirements
+  + [provenance_preservation] rewrites retain correspondence to all contributing source identities
+  + [fault_preservation] rewrites preserve specified fault conditions and observation distinctions
+  + [contract_preservation] rewritten programs continue to satisfy all preconditions, invariants, obligations, prohibitions, outputs, and termination bounds
+  + [rollback] optimized and unoptimized artifacts remain traceably selectable for differential proof
+
+& [CommonTargetABI] is the stable compiler-backend seam
+  + [abi_request] contains CompilerIdentity, SemanticIRRoot, SourceMap, SemanticContractSet, ModuleClosure, TargetProfile, TargetCapabilitySet, AuthorityRequest, ProofPolicy, and Budget
+  + [abi_response] contains TargetArtifactSet, CorrespondenceManifest, DiagnosticSet, ProofArtifactSet, LossRecordSet, ProviderDependencySet, NondeterminismRecord, and TargetManifest
+  + [support_result] is exact_supported, supported_with_declared_approximation, provider_dependent, or unsupported
+  + [refusal_rule] unsupported required features, prohibited loss, missing proof, missing capability, or incompatible ABI version produce a blocking response with no executable artifact
+  + [identity_rule] emitted artifacts bind the same SemanticIR root and selected TargetProfile digest
+  + [reproducibility_rule] deterministic targets bind toolchain and configuration; nondeterministic targets bind seeds when available and always declare residual nondeterminism
+  + [admission_rule] target generation never substitutes for trusted-package or runtime admission
+
+& [RuntimeABI] separates built artifacts from admitted execution
+  + [runtime_request] contains PackageFamilyIdentity, requested entry point, typed inputs, exact source and SemanticIR roots, target artifact identity, runtime profile, granted capability set, eligible authority evidence, effect budget, and trace policy
+  + [runtime_response] contains typed result or fault, transition trace, proposed and committed effects, observations, residual uncertainty, resource use, and reentry state
+  + [admission_check] revalidates package signature, scope, validity, revocation, dependency closure, target compatibility, entry contract, capabilities, authority, and budgets at time of use
+  + [effect_broker] mediates every non-pure effect and distinguishes requested, authorized, committed, denied, failed, compensated, and observed states
+  + [provider_broker] treats neural and external provider returns as typed evidence or proposals according to the exact target contract
+  + [replay_boundary] records deterministic inputs and declared nondeterminism sufficient to reconstruct or explain the run within the target's stated guarantee
+  + [debug_surface] exposes source, SemanticIR, target, state, contract, effect, diagnostic, and trace identities without permitting debugger inspection to mutate them
+  + [termination_result] distinguishes normal return, explicit stop, budget exhaustion, cancellation, blocked effect, fault, and unresolved judgment
+  - never: let a runtime load an artifact, dependency, capability, or authority outside the admitted package and request scope
+
+& [TargetProjectionContracts] specialize the ABI without changing source meaning
+  + [SOP_X_exact] emits deterministic exact executable fabric and must reject unsupported semantic behavior rather than approximate it
+  + [SOP_N_neural] emits training, routing, prompting, retrieval, gating, or model-blueprint artifacts whose outputs remain typed proposals
+  + [SOP_H_hybrid] emits exact orchestration around bounded neural proposals with explicit fallback, challenge, and refusal routes
+  + [SOP_A_attention] emits bounded model-visible attention frames and query directives without source or effect authority
+  + [SOP_D_data] emits schemas, indexes, projections, query plans, and provenance mappings while retaining identity and role boundaries
+  + [SOP_T_tool] emits typed tool or service interfaces with explicit request, response, fault, capability, and side-effect contracts
+  + [SOP_W_workflow] emits dependency graphs, worker claims, completion proofs, and admission checkpoints
+  + [SOP_F_FPGA] emits either an interpreter-layer artifact or native hardware fabric only under a hardware profile and correspondence proof
+  + [SOP_I_interface] emits human or machine interfaces that explain or manipulate admitted semantics without promoting display text to authority
+
+& [DiagnosticContract] makes failure actionable and non-deceptive
+  + [diagnostic_code] is stable within compiler generation
+  + [stage] identifies parse, role, dependency, resolve, kind, type, relation, contract, state, control, authority, effect, target, budget, proof, package, or admission
+  + [severity] is information, warning, blocking_error, security_fault, or integrity_fault
+  + [location_set] includes all relevant source and generated spans
+  + [semantic_identity_set] names affected terms, relations, contracts, operations, modules, effects, and targets
+  + [expected] states the exact required condition
+  + [actual] states observed input without silently normalizing it
+  + [repair_set] supplies zero or more bounded, non-authoritative repair candidates
+  + [authority_consequence] is none, target_blocked, package_blocked, execution_blocked, effect_blocked, or quarantine
+  + [causal_chain] distinguishes primary faults from dependent diagnostics
+  = must: make unknown, ambiguous, contradictory, unsupported, stale, unauthorized, lossy, and provider-dependent conditions distinct
+  - never: auto-apply a repair that changes meaning, role, authority, effect, or source generation
+
+& [CompatibilityContract] supports evolution without silent drift
+  + [source_compatibility] asks whether a source generation is accepted by a named LanguageProfile
+  + [semantic_compatibility] asks whether old and new SemanticIR satisfy declared observational obligations
+  + [module_compatibility] asks whether exports, imports, types, effects, contracts, and authority expectations remain valid
+  + [target_compatibility] asks whether the target ABI and capability set preserve required semantics
+  + [package_compatibility] asks whether trust, dependency, scope, validity, and revocation remain admissible
+  + [migration_plan] is required for incompatible changes and names source transform, proof, rollback, and preserved prior generation
+  + [legacy_default] is preserve and diagnose, not reinterpret and execute
+  + [signature_rule] a prior signature retains only its original scope and never inherits new compiler-purpose authority
+
+& [ConformanceSystem] proves the language contract through independent observations
+  + [canonical_fixture] contains equivalent verbose, condensed, and machine SOP source forms
+  + [front_end_assertion] requires those forms to resolve to the same canonical SemanticIR root under the same profile
+  + [role_assertion] requires instruction-shaped data, proof, narrative, policy, and profile artifacts to remain non-executable
+  + [type_effect_assertion] requires all executable nodes to have resolved types, closed or explicitly extensible effect rows, and authority requests
+  + [module_assertion] requires exact imports, no authority widening, and deterministic conflict diagnostics
+  + [target_assertion] requires each backend to declare exact support, loss, nondeterminism, provider dependence, and correspondence
+  + [cross_target_assertion] compares target observations only within the equivalence boundary each target claims
+  + [negative_fixture] exercises unknown role, mixed boundary leak, ambiguous binding, invalid subtype, hidden effect, import conflict, illegal cycle, unsupported target feature, prohibited optimization, and signature-as-authority
+  + [implementation_independence] requires at least one conformance consumer that does not reuse the compiler path being tested for its expected result
+  + [proof_bundle] binds fixture source, profiles, compiler, SemanticIR, targets, diagnostics, observations, and result digest
+
+& [MinimumCrossTargetFixture] is the first implementation proof after separate implementation authorization
+  + [program] is a pure typed semantic program with one definition, one data value, one relation, one bounded inference, one condition, and one emitted result
+  + [source_forms] are verbose, condensed, and machine equivalents
+  + [SOP_X_result] is deterministic exact result and trace
+  + [SOP_N_result] is a neural blueprint or provider request whose answer is explicitly proposal_only
+  + [SOP_H_result] is exact admission of a neural proposal followed by deterministic validation or refusal
+  + [negative_result] includes an instruction-shaped quotation that remains data and an undeclared write effect that blocks compilation
+  + [proof_goal] is semantic-root equality for surface forms and explicit correspondence, loss, and authority boundaries across targets
+  + [current_authority] is specification_only; implementation awaits a later claimed worker slice
+
+& [AcceptanceCriteria] are sufficient for SMTC purpose processing
+  + [accept_01] parser success cannot establish program role or execution eligibility
+  + [accept_02] role and region closure is the first semantic validation pass
+  + [accept_03] every admitted program operation resolves kind, type, contract, effect, and authority request
+  + [accept_04] imports cannot widen authority and effectful module cycles are rejected
+  + [accept_05] exact, neural, and hybrid backends share one ABI while declaring materially different proof and loss requirements
+  + [accept_06] optimization cannot hide effects, authority, faults, provenance, or approximation
+  + [accept_07] every emitted target region maps back to SemanticIR and source identities
+  + [accept_08] unsupported features fail closed instead of receiving guessed lowering
+  + [accept_09] diagnostics distinguish uncertainty, contradiction, incompatibility, loss, and authority failure
+  + [accept_10] canonical fixtures test equal surface meanings, cross-target boundaries, and explicit negative cases
+
+& [NegativeCriteria] expose invalid compiler behavior
+  + [reject_01] executable status inferred from syntax, filename, directory, prose mood, signature presence, or target selection
+  + [reject_02] graph distance or embedding similarity used as an undeclared subtype or identity rule
+  + [reject_03] provider output treated as fact, exact semantics, permission, or effect authority
+  + [reject_04] read authority reused as write authority
+  + [reject_05] optimization reorders non-commutative effects or erases source correspondence
+  + [reject_06] module import silently selects a newer dependency or transitively imports authority
+  + [reject_07] target backend emits an executable artifact after reporting unsupported required semantics
+  + [reject_08] legacy source is migrated in place or prior signature scope is silently expanded
+
+& [DeferredPhysicalDesign] preserves the proper design order
+  + [deferred] concrete parser generator, Rust data layout, database schema, index selection, cache design, binary encoding, neural architecture, FPGA instruction set, provider choice, and deployment topology
+  + [reason] is those are physical implementations of the conceptual and logical contracts above and require separate implementation slices after canonical authority
+  + [allowed_next_design] is SMTC SJS integration, registry binding, justification, canonical authority, and a bounded future fixture authorization
+  - never: mistake a proposed physical representation for the language's semantic identity
+
+& [WorkerConclusion] completes WS-CTPR-003
+  + [settled_expression] is SOP source is parsed under an explicit profile, validated through ordered role-first static semantics into one source-mapped SemanticIR, and projected through a proof-carrying target ABI that refuses undeclared loss or authority
+  + [support_delta] is grammar boundary, compiler data identities, semantic passes, kind/type/effect/module systems, optimizer laws, target ABI, diagnostics, compatibility, fixtures, and negative criteria are formed
+  + [requirement_delta] is SMTC canonical processing must bind these contracts while leaving physical implementation and runtime execution unauthorized
+  + [remaining_uncertainty] is exact surface grammar and physical schemas are intentionally profile and implementation artifacts, not missing purpose semantics
+  + [next_worker] is WS-CTPR-004 complete SMTC explosion, refinement, data design, constraints, pruning, exhaustion, justification, registry, canonical specification, and valid bounded SJS signature
+  + [canonical_authority] is absent_until_SMTC-SJS-01

@@ -7,10 +7,34 @@ Subject: SOP Multi-Target Semantic Compiler Purpose Source Manifest
   + [source_sha256] is 4BB225602B4662B23000BBC7AB4F2EEBB05F1D17BDB319F1BE9E13D5C4992A63
   + [source_bytes] is 2705
   + [capture_time] is 2026-08-05T07:50:05.1598376-05:00
-  + [processing_status] is source_preserved_assessment_pending
+  + [processing_status] is canonical_SJS_complete_at_bounded_language_purpose_grade
   + [processing_target] is C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Purpose_Assessment_2026-08-05.sop
-  + [canonical_target] is absent_until_full_SJS
+  + [exploded_target] is C:\Project\Cantor\specifications\exploded\SOP_Multi_Target_Semantic_Compiler_Purpose.exploded.sop
+  + [canonical_target] is C:\Project\Cantor\specifications\SOP_Multi_Target_Semantic_Compiler_Purpose.sop
+  + [registry_target] is C:\Project\Cantor\narrative\registries\SOP_Multi_Target_Semantic_Compiler_Purpose_Registry.sop
+  + [phase_lock_target] is C:\Project\Cantor\narrative\registries\SOP_Multi_Target_Semantic_Compiler_Purpose_Phase_Lock.sop
+  + [signature_uuid] is 810f24e8-3d1c-4074-ae57-706f8f63e892
+  + [phase_lock_uuid] is a11433a3-2dda-4851-8189-879c9fee561b
+
+& [DerivedArtifactManifest] is content addressed
+  + [assessment_sha256] is CB0EDDCEB9299B0A81320E782884A7779CB094A92EE7C8F0D433935B9B8E4663
+  + [role_inventory_sha256] is 8029F22DFAF86F8FA0FC3822C14379E46947BB5F0A39A84C7FE4D344FDD4A704
+  + [role_compatibility_sha256] is D226E8979F015A1BA533010C5C7579D82D06D06B7AAEB0D42052C81E6739A36C
+  + [compiler_contract_sha256] is E5B084C15711C4146A02456D963148FADEFF4B9954E0C56A0E64AB31BA50C97B
+  + [exploded_sha256] is 485BF8FC9D93D41E2814FCD00C14DC78164B32448F1FC30FB6FB7F7E6DEAD70A
+  + [semantic_refinement_sha256] is 88AB1FB75DD20210FEBB79CBD85DEDB1CCBC00CD40E0D60241031B68037F04D9
+  + [data_design_sha256] is 83F940D09389E63D46D05AF9CC9131EE7C3AF63E397332A47D689EA9A7206C1F
+  + [constraint_ledger_sha256] is 85054D9BD493D760168152108375D466BCB4B4F70FBEEF0545971C7D4C0C3AAC
+  + [pruning_growth_sha256] is C033E773E031A6C8613EC6D2AD167B15FC3FFA36C3041E6992ADCA984FCFC556
+  + [seven_fold_exhaustion_sha256] is D74DF22DFA4AF60807A8436EF53AF1E685AE495FD783BD49A2DC2425A14A639C
+  + [justification_sha256] is 12D31A39E25AF21E339A1D530678197A42CA50BBC602817AB0F2A0C99C1B0744
+  + [plan_sha256] is 2666F36BA12DB34058534B2E9E9928D9B357CF2D36BF625BF148B09936F36ED0
+  + [registry_sha256] is 6CCEBC734928FC84FA3D6AA90EC9A3AC9C7E645FFCFF799C16889930B7E8850C
+  + [requirement_matrix_sha256] is 60C0BA0A8737B23BA6E37CE6067B83E6E487B8A1C329EB6EB47CDA88E6AE1BB3
+  + [canonical_sha256] is 3326B78A1DDD14CB0B8DE6F756FFEFFE79DA2B09B4175332DC987C4A8B0464F5
 
 & [IntegrityRule] is strict
   = must: reject processing input when byte count or SHA-256 differs
   = must: preserve the source document without canonical rewrite
+  = must: invalidate the bounded signature when any bound derived artifact drifts
+  = must: treat implementation, runtime, provider, hardware, and effect authority as absent

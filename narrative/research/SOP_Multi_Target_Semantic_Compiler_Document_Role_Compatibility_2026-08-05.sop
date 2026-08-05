@@ -1,0 +1,167 @@
+Subject: SOP Multi-Target Semantic Compiler Document Role Compatibility
+
+Description: WS-CTPR-002 semantic compatibility contract that keeps valid SOP data, definitions, policies, profiles, tests, proofs, and narratives from acquiring execution authority merely because SOP gains an explicit multi-target compiler purpose.
+
+@ [compatibility_uuid] 2f55592f-3fbd-4ee9-ae20-0c5e8cb4f37e
+@ [worker_slice] WS-CTPR-002
+@ [worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [baseline_commit] 24c61ca4a3df4a49ccdf9c120db1569d14cd02e8
+@ [source] C:\Project\Cantor\source_documents\2026-08-05_sop_multi_target_semantic_compiler_purpose\Dictated_SOP_Multi_Target_Semantic_Compiler_Purpose_Source.sop
+@ [role_inventory] C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Role_Target_Inventory_2026-08-05.sop
+@ [language_identity] C:\Project\Cantor\specifications\SOP_Semantic_Programming_Identity.sop
+@ [core] C:\Project\Cantor\specifications\SOP_Core.sop
+@ [virtual_machine] C:\Project\Cantor\specifications\SOP_Reflective_Virtual_Machine.sop
+@ [neural_boundary] C:\Project\Cantor\specifications\SOP_Neural_Compilation_Boundary.sop
+@ [trust] C:\Project\Cantor\specifications\Cantor_Trusted_Compilation_Profile.sop
+@ [fabric] C:\Project\Cantor\specifications\SOP_Semantic_Fabric_Graph.sop
+@ [query] C:\Project\Cantor\specifications\Cantor_Proof_Carrying_Semantic_Query_Engine.sop
+
+& [CompatibilityIdentity] is semantic refinement rather than purpose authority
+  + [subject] is document and region role classification before parsing, lowering, execution, effect, or migration
+  + [purpose] is let SOP be a multi-target semantic programming language without reinterpreting historical or non-program artifacts as executable programs
+  + [status] is worker_proof_ready_for_SMTC_SJS_consumption
+  + [canonical_authority] is absent
+  + [implementation_authority] is absent
+
+& [RefinedRoleTerms] are stable for the current purpose
+  + [DocumentRole] is the declared dominant semantic use of one SOP artifact
+  + [RegionRole] is the declared semantic use of a bounded region inside a mixed artifact
+  + [AdmissionClass] is preserve_only, inspectable_data, declarative_environment, validation_contract, executable_candidate, test_only, proof_only, narrative_only, package_metadata, or quarantined
+  + [LoweringDisposition] is no_lowering, data_lowering, definition_lowering, contract_lowering, program_lowering, profile_lowering, test_lowering, proof_indexing, narrative_indexing, or unsupported
+  + [ExecutionDisposition] is non_executable, executable_candidate, test_executable_only, compiler_metadata_only, or blocked
+  + [EffectDisposition] is no_effect, propose_only, test_fixture_only, capability_gated, or prohibited
+  + [CompatibilityStatus] is unchanged, explicitly_classified, requires_profile, requires_migration, unsupported_preserved, superseded, or quarantined
+  = must: bind every role decision to exact source generation, document identity, region identity, governing profile, and authority scope
+
+& [DocumentRoleSet] separates meaning uses
+  + [source_document] preserves verbatim dictated or imported material and has AdmissionClass preserve_only
+  + [definition] declares identities, meanings, relations, inference regimes, or libraries and has AdmissionClass declarative_environment
+  + [data] records facts, values, observations, quotations, evidence candidates, manifests, indexes, or state and has AdmissionClass inspectable_data
+  + [contract] declares preconditions, invariants, permissions, obligations, prohibitions, outputs, faults, effects, or termination and has AdmissionClass validation_contract
+  + [program] explicitly composes admitted SemanticInstruction instances under one SemanticContract and has AdmissionClass executable_candidate
+  + [policy] governs authority, trust, privacy, safety, lifecycle, validation, or admission and has AdmissionClass validation_contract
+  + [profile] narrows a language, compiler, runtime, provider, target, platform, or effect surface and has AdmissionClass compiler_metadata_only unless it contains explicit program regions
+  + [test_or_fixture] supplies controlled inputs, expected outputs, and failure cases and has AdmissionClass test_only
+  + [proof] records observed verification, evidence, limitations, and residuals and has AdmissionClass proof_only
+  + [narrative] preserves history, reasoning, attribution, reentry, frontier, or coordination and has AdmissionClass narrative_only
+  + [package_manifest] binds source, dependencies, compiler, IR, targets, proofs, signatures, and scope and has AdmissionClass package_metadata
+  + [mixed] requires explicit RegionRole boundaries and has no artifact-wide executable default
+
+& [RoleExecutionMatrix] is fail-closed
+  + source_document has no_lowering, non_executable, no_effect, and unchanged compatibility
+  + definition has definition_lowering, non_executable, no_effect, and explicit environment import requirements
+  + data has data_lowering, non_executable, no_effect, and schema-bound consumption only
+  + contract has contract_lowering, non_executable, no_effect, and activation only when an admitted program references it
+  + program has program_lowering, executable_candidate, effect disposition derived from its signed contract, and runtime admission requirements
+  + policy has contract_lowering, non_executable, no_effect, and enforcement only through an admitted compiler or runtime gate
+  + profile has profile_lowering, compiler_metadata_only, no_effect, and explicit selection requirements
+  + test_or_fixture has test_lowering, test_executable_only, test_fixture_only, and test-harness isolation requirements
+  + proof has proof_indexing, non_executable, no_effect, and evidence-query use only
+  + narrative has narrative_indexing, non_executable, no_effect, and retrieval or reentry use only
+  + package_manifest has profile_lowering, compiler_metadata_only, no_effect, and cryptographic admission use only
+  + mixed has per-region lowering, blocked artifact-wide execution, and requires explicit region closure
+
+& [ProgramAdmissionContract] is the only normal execution route
+  + [gate_1_role] document or region role is explicitly program
+  + [gate_2_source] exact source and dependencies are preserved and authorized
+  + [gate_3_parse] surface form is supported by the selected language profile
+  + [gate_4_resolve] identities, contexts, imports, types, relations, versions, and authorities resolve without silent substitution
+  + [gate_5_contract] purpose, inputs, preconditions, invariants, permissions, obligations, prohibitions, outputs, effects, faults, and termination are complete for the requested entry point
+  + [gate_6_static] instruction, state, control, effect, provider, and target rules validate
+  + [gate_7_lower] source maps and loss records bind every lowered executable instruction
+  + [gate_8_proof] required fixtures, conformance checks, and negative cases pass
+  + [gate_9_trust] package, source, semantic root, compiler, dependency, scope, signature, validity, and revocation checks pass
+  + [gate_10_runtime] requested entry point, inputs, authority, capability, budget, and effect scope match the admitted package
+  = must: fail closed when any gate is missing, unknown, stale, ambiguous, unsupported, or contradictory
+
+& [SemanticStageSeparation] prevents instruction-shaped text from becoming action
+  + [describe] articulates a possible term, operation, program, result, or effect without changing executable state
+  + [declare] changes a SemanticEnvironment only under admitted declaration semantics
+  + [compile] produces candidate IR and target artifacts without executing the program
+  + [propose] returns a candidate judgment, route, plan, or effect without admission
+  + [evaluate] applies pure or inference semantics under a named regime
+  + [validate] checks syntax, semantics, contract, authority, effect, target, or proof conditions
+  + [authorize] grants bounded permission from an eligible authority under exact scope
+  + [commit] performs an admitted state or external effect transition
+  + [observe] records resulting state without pretending the attempted effect succeeded
+  = must: represent each stage as a distinct typed transition and authority event
+
+& [MixedDocumentContract] prevents role leakage
+  + [document_default] is non_executable
+  + [region_identity] is stable and source-span-bound within one exact source generation
+  + [region_role] is explicit for every non-default region
+  + [boundary_rule] nested executable regions may reference definitions, data, contracts, and policies but do not make those referenced regions executable
+  + [closure_rule] program lowering ends at the declared region boundary plus explicitly resolved dependencies
+  + [conflict_rule] overlapping incompatible roles block compilation until split or clarified
+  + [migration_rule] changing a region role creates a new source generation and compatibility record
+  - never: infer executable extent from indentation, proximity, vocabulary, filename, directory, or signature presence alone
+
+& [HistoricalCompatibility] preserves the existing corpus
+  + [legacy_default] unclassified historical SOP is preserved and non-executable under the new multi-target purpose
+  + [existing_signed_scope] a currently valid scoped signature retains only its stated authority and does not inherit new program or target authority
+  + [superseded] remains historical evidence and cannot be selected as current authority
+  + [unsupported_surface] remains source data with diagnostic and loss records until an explicit lowering profile exists
+  + [role_upgrade] requires new source or an explicit role revision, compatibility analysis, SJS processing, package rebuild, proofs, signature, and rollback record
+  + [role_downgrade] preserves the prior generation and declares what execution or authority is removed
+  = must: make purpose revision additive in organization and fail-closed in execution
+
+& [TargetRoleCompatibility] keeps one meaning across projections
+  + SOP-X may execute only admitted program regions and may load definitions, data, contracts, policies, profiles, and manifests through typed non-executable interfaces
+  + SOP-N may consume projected definitions, data, contracts, reviewed examples, and program structure but returns proposals and never acquires source or effect authority from role proximity
+  + SOP-H combines SOP-X gates with typed SOP-N proposals and preserves exact fallback
+  + SOP-A projects bounded model-visible data and directives from admitted roles without changing their source authority
+  + SOP-D stores and queries every role while preserving role, source, scope, sensitivity, version, and execution disposition
+  + SOP-T exposes typed calls only for admitted program entry points and separately authorized tools or services
+  + SOP-W composes programs and faculty workflows without making role metadata itself executable
+  + SOP-F requires a hardware target profile whose executable regions and correspondence are exact and separately proved
+  + SOP-I may render or explain every role but cannot promote explanation into authority
+
+& [RoleDeclarationShape] is the minimum future compiler input
+  + [document_uuid] is stable semantic document identity
+  + [source_generation] is exact source digest and version
+  + [document_role] is one DocumentRole
+  + [region_set] is zero or more exact region identities and roles
+  + [governing_profile] is language and compatibility profile identity
+  + [admission_class] is one AdmissionClass
+  + [lowering_disposition] is one LoweringDisposition
+  + [execution_disposition] is one ExecutionDisposition
+  + [effect_disposition] is one EffectDisposition
+  + [authority_scope] is eligible declaration, import, compile, evaluate, execute, and effect scope
+  + [compatibility_status] is one CompatibilityStatus
+  + [source_map] is exact role declaration provenance
+  + [diagnostic_set] is missing, ambiguous, conflicting, unsupported, stale, or invalid role findings
+
+& [CompatibilityFaultSet] is mandatory
+  + valid_syntax_as_execution
+  + signature_as_program_role
+  + instruction_shaped_data_injection
+  + artifact_wide_mixed_role_leak
+  + narrative_or_proof_execution
+  + policy_self_activation
+  + profile_as_authority
+  + test_fixture_escape
+  + unsupported_legacy_reinterpretation
+  + role_change_without_new_generation
+  + target_specific_role_drift
+  + neural_role_or_authority_laundering
+  + hidden_effect_commitment
+  + source_map_or_region_boundary_loss
+
+& [CompatibilityAcceptance] is concrete
+  + [positive_1] explicit program region with complete contract lowers as executable candidate
+  + [positive_2] program reads typed data and definitions without executing their source regions
+  + [positive_3] test program runs only inside the declared test harness
+  + [positive_4] SOP-N proposal returns through SOP-H without effect authority
+  + [negative_1] instruction-shaped quotation remains data
+  + [negative_2] narrative containing imperative language remains non-executable
+  + [negative_3] signed definition or policy remains non-executable unless an admitted program invokes its semantics
+  + [negative_4] mixed document without region roles fails program lowering
+  + [negative_5] unsupported historic form is preserved with diagnostic rather than guessed lowering
+  + [negative_6] role revision without new source generation, proof, and package signature is rejected
+
+& [WorkerConclusion] completes WS-CTPR-002
+  + [settled_expression] is SOP artifacts carry explicit document and region roles; only admitted program regions execute, while all other roles remain typed inputs, environment, validation, evidence, metadata, or narrative
+  + [support_delta] is role vocabulary, execution matrix, ten admission gates, mixed-document rules, target compatibility, role data shape, and acceptance set are formed
+  + [requirement_delta] is static semantics must validate role and region closure before type, effect, module, target, or optimization checks
+  + [next_worker] is WS-CTPR-003 grammar, static semantics, modules, target ABI, diagnostics, compatibility, and conformance contracts
+  + [canonical_authority] is absent_until_SMTC-SJS-01

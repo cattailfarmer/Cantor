@@ -9,9 +9,9 @@ Description: Contiguous worker cluster that resolves the SOP multi-target langua
 @ [SMTC_assessment] C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Purpose_Assessment_2026-08-05.sop
 
 & [ClusterIdentity] is upstream language authority
-  + [enqueue_readiness] is in_progress
+  + [enqueue_readiness] is completed
   + [reason_for_contiguity] is source roles, compatibility, static semantics, target ABI, justification, and purpose signature jointly determine what CTPR may compile into
-  + [current_worker] is conversation cab190f5-eda0-44e0-81a5-51f9605e0baa on WS-CTPR-002
+  + [current_worker] is none; downstream worker is WS-CTPR-005
 
 & [FeatureRequirementSet] is atomic
   + [feature_requirement] is FR-CTPR-001
@@ -19,16 +19,16 @@ Description: Contiguous worker cluster that resolves the SOP multi-target langua
     @ [support_record] SR-CTPR-001
     + [requirement_statement] is inventory current SOP source-role families, target profiles, implementation evidence, and authority states without treating every SOP document as executable
   + [feature_requirement] is FR-CTPR-002
-    @ [support_status] partial
-    @ [support_gap] SG-CTPR-002
+    @ [support_status] verified
+    @ [support_record] SR-CTPR-002
     + [requirement_statement] is define document-role and compatibility rules for data, definition, contract, program, policy, profile, test, proof, narrative, and mixed SOP artifacts
   + [feature_requirement] is FR-CTPR-003
-    @ [support_status] partial
-    @ [support_gap] SG-CTPR-003
+    @ [support_status] verified
+    @ [support_record] SR-CTPR-003
     + [requirement_statement] is reconcile grammar, static semantics, types, effects, modules, target interfaces, diagnostics, compatibility, and conformance boundaries
   + [feature_requirement] is FR-CTPR-004
-    @ [support_status] blocked
-    @ [support_gap] SG-CTPR-004
+    @ [support_status] verified
+    @ [support_record] SR-CTPR-004
     + [requirement_statement] is complete SMTC SJS, registry binding, and satisfaction signature before CTPR treats the multi-target purpose as authority
 
 & [SupportRecordSet] is evidence
@@ -38,17 +38,37 @@ Description: Contiguous worker cluster that resolves the SOP multi-target langua
     @ [freshness_rule] stale when top-level Cantor specifications, workspace crates, target profiles, or SMTC source change
     + [covers] FR-CTPR-001
     + [support_limit] role-family inventory does not yet assign a canonical role to every file or revise language authority
+  + [support_record] is SR-CTPR-002
+    @ [status] verified
+    @ [proof_ref] C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Document_Role_Compatibility_2026-08-05.sop
+    @ [freshness_rule] stale when SMTC role semantics, SOP Core program admission, trust profile, or target-role boundaries change
+    + [covers] FR-CTPR-002
+    + [support_limit] worker proof awaits integration into the signed SMTC canonical specification
+  + [support_record] is SR-CTPR-003
+    @ [status] verified
+    @ [proof_ref] C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Static_Semantics_Target_ABI_2026-08-05.sop
+    @ [freshness_rule] stale when the SMTC language profile, SemanticIR, effect discipline, module contract, target ABI, runtime ABI, or conformance boundary changes
+    + [covers] FR-CTPR-003
+    + [support_limit] worker proof awaits integration into the signed SMTC canonical specification
+  + [support_record] is SR-CTPR-004
+    @ [status] verified
+    @ [proof_ref] C:\Project\Cantor\narrative\registries\SOP_Multi_Target_Semantic_Compiler_Purpose_Phase_Lock.sop
+    @ [canonical_ref] C:\Project\Cantor\specifications\SOP_Multi_Target_Semantic_Compiler_Purpose.sop
+    @ [signature_uuid] 810f24e8-3d1c-4074-ae57-706f8f63e892
+    @ [freshness_rule] stale on any phase-lock invalidation condition or bound artifact drift
+    + [covers] FR-CTPR-004
+    + [support_limit] authority is language purpose and future specification routing only; implementation and execution remain absent
 
 & [SupportGapSet] is explicit
-  + [support_gap] is SG-CTPR-002
-    @ [blocks] FR-CTPR-002 and WS-CTPR-003
-    + [gap_statement] is current files do not share one canonical document-role declaration and compatibility matrix
-  + [support_gap] is SG-CTPR-003
-    @ [blocks] FR-CTPR-003 and WS-CTPR-004
-    + [gap_statement] is general grammar, static semantics, type/effect/module, target ABI, diagnostic, and conformance contracts remain incomplete
-  + [support_gap] is SG-CTPR-004
-    @ [blocks] FR-CTPR-004 and every CTPR canonical worker
-    + [gap_statement] is SMTC purpose revision remains unsigned and non-authoritative
+  + [resolved_support_gap] is SG-CTPR-002
+    @ [resolved_by] SR-CTPR-002
+    + [resolution] is document and region roles, execution matrix, admission gates, mixed-document rules, and compatibility behavior are formed for SMTC consumption
+  + [resolved_support_gap] is SG-CTPR-003
+    @ [resolved_by] SR-CTPR-003
+    + [resolution] is grammar boundary, role-first static passes, kind/type/effect/module disciplines, standard-library boundary, target and runtime ABIs, diagnostics, compatibility, and conformance contracts are formed
+  + [resolved_support_gap] is SG-CTPR-004
+    @ [resolved_by] SR-CTPR-004
+    + [resolution] is artifact-bound SMTC-SJS-01 signature is valid at bounded language-purpose grade and releases CTPR specification processing only
 
 & [WorkSliceTransform] is the worker queue
   + [work_slice_detail] is WS-CTPR-001
@@ -60,8 +80,8 @@ Description: Contiguous worker cluster that resolves the SOP multi-target langua
     + [proof_route] is inspect preserved SMTC source, assessment, top-level specification set, signature declarations, workspace crates, and tests
     + [completion_criteria] is inventory distinguishes observed support from missing authority and identifies the next compatibility worker
   + [work_slice_detail] is WS-CTPR-002
-    @ [slice_status] in_progress
-    @ [support_readiness] ready
+    @ [slice_status] completed
+    @ [support_readiness] ready_and_completed
     @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
     @ [model_routing] Requires premium model
     @ [depends_on] WS-CTPR-001
@@ -69,15 +89,17 @@ Description: Contiguous worker cluster that resolves the SOP multi-target langua
     + [proof_route] is cross-check current signed SOP language, core, VM, neural, trust, narrative, and runtime profiles
     + [completion_criteria] is every role has execution status, lowering requirement, compatibility rule, and non-regression boundary
   + [work_slice_detail] is WS-CTPR-003
-    @ [slice_status] blocked
-    @ [support_readiness] blocked_by_WS-CTPR-002
+    @ [slice_status] completed
+    @ [support_readiness] ready_and_completed
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
     @ [model_routing] Requires premium model
     @ [depends_on] WS-CTPR-002
     + [scope] is reconcile grammar, static semantics, type/effect/module system, target ABI, diagnostics, compatibility, and conformance
     + [completion_criteria] is SMTC-018 through SMTC-020 have exact data and proof contracts
   + [work_slice_detail] is WS-CTPR-004
-    @ [slice_status] blocked
-    @ [support_readiness] blocked_by_WS-CTPR-003
+    @ [slice_status] completed
+    @ [support_readiness] ready_and_completed
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
     @ [model_routing] Requires premium model
     @ [depends_on] WS-CTPR-003
     + [scope] is complete SMTC explosion, refinement, justification, registry, canonical specification, and satisfaction signature
@@ -88,3 +110,30 @@ Description: Contiguous worker cluster that resolves the SOP multi-target langua
   + [support_delta] is current role families, target maturity, signature distribution, crate implementation, and language-completeness gaps are now inspectable
   + [requirement_delta] is document-role compatibility must precede general static-semantics and target-ABI reconciliation
   + [readiness_recompute] is WS-CTPR-002 became ready and was claimed; all later slices remain blocked
+
+& [CompletedWorkReview_WS_CTPR_002] is applied
+  + [review_uuid] is 2f2d05e9-6d1c-4502-a5e3-3f30c09b82b1
+  + [proof_ref] is C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Document_Role_Compatibility_2026-08-05.sop
+  + [support_delta] is FR-CTPR-002 verified through explicit role, admission, compatibility, fault, and acceptance contracts
+  + [requirement_delta] is role and region closure becomes the first static-semantics validation stage
+  + [readiness_recompute] is WS-CTPR-003 became ready and was claimed; WS-CTPR-004 through WS-CTPR-016 remain blocked
+
+& [CompletedWorkReview_WS_CTPR_003] is applied
+  + [review_uuid] is c2266932-84e8-41b8-bb9a-f4c23412fa47
+  + [proof_ref] is C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Static_Semantics_Target_ABI_2026-08-05.sop
+  + [proof_sha256] is E5B084C15711C4146A02456D963148FADEFF4B9954E0C56A0E64AB31BA50C97B
+  + [support_delta] is FR-CTPR-003 verified through an implementable role-first compiler contract with one target-neutral SemanticIR and fail-closed projection interfaces
+  + [requirement_delta] is physical grammar, storage, backend, and runtime implementations remain separate downstream work rather than hidden language-purpose assumptions
+  + [remaining_concern] is standard-library contents and exact surface productions remain profile artifacts to be specified by future bounded modules, not implicit core behavior
+  + [readiness_recompute] is WS-CTPR-004 became ready and was claimed; CTPR workers remain blocked until valid SMTC-SJS-01 authority
+
+& [CompletedWorkReview_WS_CTPR_004] is applied
+  + [review_uuid] is 95319e3e-39a3-4c5a-901c-d83d7ab6df15
+  + [canonical_ref] is C:\Project\Cantor\specifications\SOP_Multi_Target_Semantic_Compiler_Purpose.sop
+  + [canonical_sha256] is 3326B78A1DDD14CB0B8DE6F756FFEFFE79DA2B09B4175332DC987C4A8B0464F5
+  + [phase_lock_ref] is C:\Project\Cantor\narrative\registries\SOP_Multi_Target_Semantic_Compiler_Purpose_Phase_Lock.sop
+  + [phase_lock_sha256] is 640FA2D6CE9A97BC99487D952DD56AF7396B1C7AE49C32D4693B41F5084FD329
+  + [support_delta] is FR-CTPR-004 verified and SMTC-SJS-01 is valid for language-purpose dependency consumption
+  + [requirement_delta] is CTPR may use roles, one SemanticIR, target interfaces, and proof obligations but may not claim an implemented compiler or runtime
+  + [remaining_concern] is every physical SMTC profile and implementation remains separately sourced and gated
+  + [readiness_recompute] is WS-CTPR-005 became ready and was claimed
