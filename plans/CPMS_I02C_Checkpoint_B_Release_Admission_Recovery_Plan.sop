@@ -1,0 +1,23 @@
+Subject: CPMS I02C Checkpoint B Release Admission Recovery Plan
+
+@ [plan_uuid] d5940381-a4be-4e1e-a056-11e0c7c0cf4d
+
+& [PreserveFirst] retain the exact local candidate, six hashes, source revision, evidence freshness, and dirty-worktree inventory without claiming completion
+
+& [PreferredRecovery] is an already authorized execution environment
+  + run the same locked offline release unit-harness gate in an enterprise-approved developer or CI environment
+  + require source and fixture hashes equal the preserved candidate before execution
+  + import exact command, environment identity, exit status, and test output as external proof before commit
+
+& [AlternativeRecovery] is authorized enterprise signing
+  + use only the organization's recognized signing service and normal policy workflow
+  + record unsigned input hash, signed output hash, signer identity, timestamp, and successful test execution
+  + signing admission proves executable authorization only and does not replace source, golden, or semantic tests
+
+& [RejectedRecovery] is any local policy disablement, exclusion, privilege escalation, file masquerading, rename-based evasion, hash perturbation, copied executable, or false pass inference
+
+& [ResumeSequence] is strict
+  + verify candidate hashes and current evidence
+  + execute the blocked release unit harness and then the complete release workspace suite
+  + rerun final debug all-feature build lint docs audit diff and evidence gates
+  + form completion review, proof, solution, requirement closure, commit, and push only after every gate passes

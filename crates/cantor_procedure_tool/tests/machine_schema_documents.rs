@@ -13,6 +13,7 @@ use cantor_procedure_tool::{
 };
 
 const TEST_REVISION: &str = "0123456789abcdef0123456789abcdef01234567";
+const GOLDEN_SOURCE_REVISION: &str = "aba99b1431727578679fa0b784ea8261cfd456fb";
 const UPDATE_FLAG: &str = "CANTOR_UPDATE_MACHINE_SCHEMA_GOLDENS";
 const REVISION_FLAG: &str = "CANTOR_MACHINE_SCHEMA_SOURCE_REVISION";
 const DESTINATION_FLAG: &str = "CANTOR_MACHINE_SCHEMA_GOLDEN_DIR";
@@ -156,11 +157,9 @@ fn missing_tampered_and_exhausted_inputs_fail_without_artifacts() {
 }
 
 #[test]
-#[ignore = "checkpoint B adds the revision-bound checked-in golden files"]
 fn checked_in_goldens_equal_the_pure_artifact_projection() {
-    let revision = std::env::var(REVISION_FLAG).expect("checkpoint A revision is required");
     let bundle = generate_public_procedure_schema_bundle(&MachineSchemaGenerationContext {
-        supplied_source_revision: revision,
+        supplied_source_revision: GOLDEN_SOURCE_REVISION.to_owned(),
         limits: SchemaGenerationLimits::default(),
     })
     .expect("bundle");

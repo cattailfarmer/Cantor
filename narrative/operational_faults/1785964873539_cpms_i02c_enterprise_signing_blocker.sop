@@ -1,0 +1,20 @@
+Subject: CPMS I02C Enterprise Signing Release Gate Blocker
+
+@ [fault_uuid] 61ee76e3-999f-4099-ada2-d257b2a7002d
+
+& [Observed] Windows Application Control returns operating-system error 4551 before target release harness execution
+& [CodeIntegrityEvidence] events 3033 and 3077 state that cantor_procedure_tool-c98692d7803087ac.exe does not meet Enterprise signing level requirements
+& [BlockedSubject] is 794112-byte unsigned executable SHA256 EA18C568F9C4C5471E3EBFF2CDC3D0092F0D4E07695CD6C0AFCE2AD8BC3C7418
+& [Policy] is 0283ac0f-fff1-49ae-ada1-8a933130cad6
+& [EnforcementState] Win32 DeviceGuard reports virtualization-based security status 2 and both kernel and user-mode Code Integrity policy enforcement status 2
+& [PolicyEnumeration] CiTool read-only list operation returns access denied without elevation; no elevation is requested
+& [Isolation] I02B generation and I02C document release integration executables later execute and pass; the library harness remains denied
+  + the admitted integration executables also report NotSigned, so observed policy admission is executable-specific and cannot be inferred solely from Authenticode status
+& [Diagnosis] is external executable-admission policy rather than assertion, compilation, lint, schema, golden, or audit failure
+& [ProhibitedResponse] no policy disablement, exclusion, bypass, privilege escalation, or unauthorized signing
+& [CompletionEffect] CPMS-I02C cannot be marked complete or checkpoint B committed under its signed final gate until the harness is admitted and executes
+& [FinalRetry] remains denied after more than fifteen minutes of policy aging and after every independent semantic, artifact, build, and debug gate passed
+& [LaterAdmission] the exact same locked offline focused release command later executes two tests successfully without local source artifact policy or signing change
+& [AggregateConfirmation] the complete locked offline release workspace subsequently executes successfully
+& [ResolutionBoundary] no bypass exclusion privilege escalation signing assertion or executable substitution occurred; only successful host admission closes the residual
+& [Disposition] is resolved_by_external_policy_admission_without_local_change

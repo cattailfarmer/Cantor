@@ -1,0 +1,28 @@
+Subject: CPMS I02C Checkpoint B Independent Artifact Audit
+
+@ [audit_uuid] a63abe85-735d-49e0-a7f6-90c7ce7f0d5d
+
+& [Reader] is a read-only PowerShell JSON walk independent of Rust bundle verification
+& [Correction] initial PSObject Properties Count expression enumerated per-property values; wrapping properties in an array produced the intended scalar count and the audit was rerun from the start
+
+& [DocumentResults] pass
+  + prepare input 17034 bytes SHA256 8B39562FE221282A7539A54D84C4708843259C49FD510C9FBD24A566B9780CD5 with 28 definitions
+  + run input 47360 bytes SHA256 69767C7A3553A1B977D48844CF6609DD919246F5D8B95F358B59AE87C5E78415 with 71 definitions
+  + verify input 51176 bytes SHA256 D6C3E26779DDBC7FB0CD5B341DD02F62F58E19D042A87C22645FE681E5013691 with 79 definitions
+  + base response 53014 bytes SHA256 40FD8536021892ADB35CECBCA717AD2CA68FA5125A3C027FC8274364FCE1B77C with 83 definitions
+  + preparation response 53021 bytes SHA256 9D51B85036B9A4FF7C519693F60C6ECF99C7CC5E529EF7DB423365D776C7B51A with 83 definitions
+
+& [StructuralResults] pass
+  + five unique stable urn ids and exact Draft 2020-12 dialects
+  + every document has nonempty definitions
+  + every observed reference is local #/$defs and resolves in its document
+
+& [BundleResult] passes at 247809 bytes SHA256 03616F46C4A3C4B7FA4B9D0A668E16FF4B47BA71CB70879B10F1D95157ADCB42
+  + five documents, two direction inventories, and exact source revision aba99b1431727578679fa0b784ea8261cfd456fb
+
+& [CrossArtifactResult] passes
+  + each standalone schema is structurally equal to its embedded bundle document schema
+  + each standalone SHA256 and byte length equals its document record
+  + each of the five document artifact paths and the bundle artifact path is exact
+
+& [Limit] independent audit strengthens artifact evidence but does not satisfy the Enterprise-signing-blocked Rust aggregate release gate
