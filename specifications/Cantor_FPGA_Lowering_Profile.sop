@@ -1,0 +1,140 @@
+Subject: Cantor FPGA Lowering Profile
+
+Description: Canonical non-executable SJS contract for evaluating optional future FPGA realizations of eligible Cantor Process IR kernels. It defines stable eligibility, interface, evidence, admission-separation, and correspondence obligations but authorizes no hardware implementation or target activity.
+
+@ [FPGA_source_manifest] C:\Project\Cantor\source_documents\2026-08-05_simula_inference_control_correspondence\Source_Document_Manifest.sop
+@ [processing_input_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_deterministic_runtime_activation\SJS_Processing_Input_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_FPGA_Lowering_Profile.exploded.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_FPGA_Lowering_Profile_Registry.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_FPGA_Lowering_Profile_Phase_Lock.sop
+
+& [CanonicalIdentity] is exact
+  + [canonical_uuid] is 5f312b2e-8839-46f6-a09e-e9d6e67e55fa
+  + [profile] is cantor-fpga-lowering-profile/0.1
+  + [requirement_set] is CFLP-001 through CFLP-024
+  + [authority_grade] is non_executable_correspondence_contract
+  + [canonical_source_specification] is this file
+
+& [SemanticLayerBoundary] is permanent
+  + SOP declares meaning, purpose, identity, constraints, and proof
+  + Cantor Process Procedure declares model and human-facing process behavior
+  + canonical Cantor Process IR is the only eligible future semantic lowering input
+  + hardware descriptions and bitstreams are derived target artifacts
+  - never: allow VHDL, Verilog, SystemVerilog, HLS C or C++, CIRCT, netlist, or vendor IR to redefine canonical semantics
+
+& [DerivedTargetArtifactContract] preserves semantic precedence
+  + every future HDL, HLS, compiler IR, netlist, constraint, firmware, driver, and bitstream artefact cites its exact canonical Process IR input and transform identity
+  + target diagnostics, optimizations, physical layout, and tool metadata remain derived evidence
+  + no derived artefact may weaken source effects, bounds, ordering, identity, or proof obligations
+
+& [EligibleInputContract] is narrow
+  + finite fixed-width values, bounded collections, explicit immutable process states, bounded queues, declared maximum steps, deterministic scheduling, and effectless operations
+  + no recursion, dynamic allocation, OS call, arbitrary code loading, hidden storage, live provider, model call, or external effect
+  + procedure and IR must already be separately admitted for the intended software context
+
+& [KernelEligibility] is an explicit disposition
+  + eligibility checks finite types, static bounds, deterministic scheduling, effect class, queue capacity, termination, interface support, semantic-trace support, and software-reference availability
+  + eligible means suitable for profiling or target-specific consideration and never means synthesized, performant, correct, signed, or loadable
+  + any unsupported construct produces an ineligible result with evidence rather than partial lowering
+
+& [ProfilingGate] precedes target work
+  + candidate states invocation frequency, latency, throughput, power, area, determinism, or isolation objective
+  + measured software reference baseline and accelerator alternatives are required
+  + only a stable material bottleneck or isolation need may seed a target-specific addendum
+  + no present kernel is selected
+
+& [CandidateKernelSet] is illustrative only
+  + digest and CRC pipelines
+  + signed-catalogue lookup
+  + bounded relation filtering and score accumulation
+  + bounded graph-frontier expansion
+  + deterministic arbitration, FIFO messaging, barrier accounting, and trace emission
+  + inclusion here is not profiling evidence or implementation authority
+
+& [HostBoundary] retains semantic and effect responsibility
+  + model calls, semantic judgment, procedure admission, policy, explanation, filesystem, network, database, provider, Calendar, Git, credentials, and external effects remain host-side
+  + device consumes only exact typed bounded requests and admitted artefacts
+
+& [RealizationProfiles] are distinct
+  + FPGA interpreter is stable admitted circuitry executing signed bounded IR or bytecode as data
+  + native FPGA realization is dedicated circuitry derived from one stable admitted procedure or kernel
+  + interpreter evidence and admission cannot support native realization claims
+  + software or procedure admission cannot support hardware compilation or loading claims
+
+& [HostDeviceInterface] must be explicit in a future addendum
+  + typed versioned request, response, fault, control, and trace channels
+  + exact schema, width, endianness, framing, backpressure, fairness, deadlock, overflow, reset, and cancellation semantics
+  + bounded FIFO or equivalent handshake behavior
+  + no interface is presently selected
+
+& [SchedulerCorrespondence] is semantic rather than cycle identical
+  + logical event ordering and stable tie-break match the software reference
+  + normalized semantic result and trace correspond for identical inputs
+  + physical clocks, pipeline stages, stalls, and cycle counts may differ as telemetry
+
+& [HardwareFaultContract] is future mandatory evidence
+  + resource exhaustion, timeout, reset, partial response, transport fault, stale invocation, and correspondence failure are typed fail-closed outcomes
+  + no partial result can be represented as admitted completion
+
+& [CorrespondenceProof] is multi-level
+  + identical normalized inputs to software reference and hardware candidate
+  + identical typed semantic result and normalized semantic trace within declared physical telemetry exclusions
+  + IR validation, golden tests, RTL or HLS simulation, applicable properties, synthesis, timing, resources, and target integration evidence
+  + final output equality alone is insufficient
+
+& [ArtifactIdentityChain] is exact
+  + future compiler, IR, RTL, netlist, constraints, report, firmware, driver, and bitstream bind digest, toolchain, target, provenance, diagnostics, and status
+  + every transform records before, after, loss, correspondence, and invalidation
+
+& [AdmissionSeparation] prevents authority laundering
+  + source proposal, procedure admission, IR eligibility, hardware compilation, bitstream signing, device loading, and runtime invocation are distinct dispositions
+  + model-generated HDL, HLS, constraints, or procedure source may be candidate input only
+  + no candidate self-verifies, self-signs, self-loads, or grants device authority
+
+& [ModelAuthorshipBoundary] applies to every hardware candidate
+  + a model may propose IR transforms, HDL, HLS, constraints, tests, or documentation only as attributed candidate material
+  + model authorship grants no semantic correspondence, verification, synthesis, signing, credential, device, or loading authority
+  + generated artefacts follow the same target-specific evidence and admission path as human-authored candidates
+
+& [TargetSpecificAddendumGate] blocks execution
+  + future preserved source must name device, board, vendor, toolchain, versions, interface, memory, clocks, reset, constraints, side channels, isolation, secure boot, signing, keys, loading, rollback, and physical acceptance
+  + target addendum requires its own SJS signature and separate implementation claim
+  + absent addendum means no HDL, HLS, simulation, synthesis, bitstream, driver, purchase, loading, or device action
+
+& [NonClaimSet] is explicit
+  + no literal shared model hidden state
+  + no on-FPGA LLM inference
+  + no semantic accuracy improvement from speed
+  + no selected language, vendor, toolchain, board, device, frequency, performance, cost, or deployment
+  + no current executable FPGA frontier
+
+& [SJSProcessingTrace] is artifact bound
+  + [FPGA_source_manifest] SHA256 FE014B9B089982CF2C6041095DA8D959C58855B10ADCB8B03803F2F3586BE7DA and 2134 bytes
+  + [processing_input] SHA256 5CFB5977E6817C9EB10F52F6D05A73D43671743237908D741C08C0FEEAACB6FF and 4440 bytes
+  + [exploded] SHA256 B6051BF5F738DD598AFFBD757634F16643AF145D71FE4DBF805B0A43862D331C and 6170 bytes
+  + [process_exploded] SHA256 2AE84D9FA5F66128032FF65AF2AC6C45362C70A8F2FF57246E73C0595D0075C7 and 8955 bytes
+  + [refinement] SHA256 FDFB34EA424A19EF050054756E33ED462104FFDAAB8E69C651D5DD2B4832C0C6 and 11389 bytes
+  + [data_design] SHA256 19E7A722CA7CCCDABF8E9141141A8EAD10C43B7E6B9CA0D9B03C66FA3E9544D4 and 13351 bytes
+  + [constraints] SHA256 F879BDE955ABA34A7A0D0ADCF1D46546BB5824E26E5809882A5937EB84749A7F and 10053 bytes
+  + [pruning] SHA256 3C41CF5D0678AB6FE1943F6E9418321C300742597E730221560138B6220A2A7D and 5423 bytes
+  + [seven_fold] SHA256 13B98187187F79DE68E31665B4E6426CBA304F1DE2E53E46B6EDD047CE09FEAB and 4690 bytes
+  + [dual_hemisphere] SHA256 569C2E11F644B2DFDEC741675CB39CE6192BFC37B67C7AC231EE1D92EB8DB807 and 5126 bytes
+  + [justification] SHA256 8F65D879841D99F7A012D9AC01439F038986AE6B810CA09C66F19CEB4E06D4DC and 4383 bytes
+  + [plan] SHA256 48C03872F94D022EB21569FA222766559FC3619C85360A64E9D289C30D8C9D4E and 1302 bytes
+  + [matrix] SHA256 C7CFC05DBC4CCA89B4FDD20BBB1B53C5C3D7CD835DAD1C9A97196F5E696B3CA7 and 2670 bytes
+  + [registry] SHA256 3C72AE78E9FC685C808D9A03D52A901641C66E9AD479ADF8379FD6166B6E0483 and 2761 bytes
+
+& [RequirementSet] is canonical
+  + twenty-four requirements are individually mapped
+  + profiling, target selection, implementation, and device evidence remain not started
+
+& [SatisfactionSignature_CFLP_SJS_01] is non-executable
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is fefd68e3-0b15-4bb6-b0be-d79e41644a6e
+  + [signed_subject] is this canonical file
+  + [phase_lock_uuid] is dd28c323-7e6e-4b6f-b1d7-264dc537500f
+  + [processed_stage_set] is source_preserved, audited, delineated, exploded, semantically_refined, data_designed, constraint_checked, pruned, growth_seeded, seven_fold_phase_locked, dual_hemisphere_reviewed, justified, planned, requirements_mapped, registered, canonicalized, and signed
+  + [signature_status] is valid_after_exact_phase_lock_validation
+  + [authority_scope] is non_executable_future_FPGA_eligibility_interface_evidence_admission_and_correspondence_contract_only
+  + [hardware_implementation_authority] is absent
+  + [invalidation] is source or bound-artifact drift, Process IR semantic change, unbounded or effectful eligibility, missing profiling gate, backend authority conflation, output-only correspondence, target selection without addendum, or superseding source

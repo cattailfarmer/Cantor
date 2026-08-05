@@ -1,0 +1,168 @@
+Subject: Cantor Runtime, Process Procedure, and FPGA Semantic Refinement
+
+Description: Shared term-boundary trace for deterministic CTPR runtime activation, the effectless Cantor Process Procedure experiment, and the optional future FPGA lowering profile.
+
+@ [refinement_uuid] 54a762d7-e976-4c04-a5f0-e5adf78f051c
+@ [runtime_exploded] C:\Project\Cantor\specifications\exploded\Cantor_Deterministic_Runtime_Activation.exploded.sop
+@ [procedure_exploded] C:\Project\Cantor\specifications\exploded\Cantor_Process_Procedure_Experiment.exploded.sop
+@ [FPGA_exploded] C:\Project\Cantor\specifications\exploded\Cantor_FPGA_Lowering_Profile.exploded.sop
+
+& [DeterministicRuntime] is a total bounded state transition system
+  + it accepts explicit validated state and an explicit operation
+  + it returns new immutable state plus a typed receipt or typed fault
+  + it reads no ambient time, randomness, process state, traversal order, environment, or external service
+  + identical normalized state and operation under the same profile produce identical normalized result and trace
+  - never: use deterministic as a synonym for correct, truthful, safe, fast, or complete
+
+& [FakeRepository] is an in-memory semantic repository implementation
+  + fake describes its effect and persistence boundary rather than reduced semantic rigor
+  + it implements exact generations, events, content identities, snapshots, indexes, branches, and compare-and-append rules
+  + it is the reference fixture for replay and negative proofs
+  - never: call a loose mock with omitted invariants the FakeRepository
+
+& [LogicalClock] is caller-controlled ordering state
+  + it advances only through explicit admitted operations
+  + it establishes deterministic fixture order, not physical time or causality by itself
+  + civil-time fixtures may be interpreted only through declared timezone and calendar policy
+  - never: read a system or monotonic clock inside the first runtime
+
+& [FakeCalendar] is versioned temporal proposal and commitment state
+  + it stores CalendarItem revisions, recurrence, exceptions, wake conditions, commitments, misses, cancellation, completion, and provider-sync placeholders
+  + a due occurrence is a fact about simulated time and policy, not permission to act
+  + provider-sync state records none or simulated only in the first runtime
+
+& [DeterministicPlanner] is a proposal constructor
+  + it validates objective and dependency identity
+  + it uses declared stable ordering policy
+  + it returns alternatives, uncertainty, proof gates, stop conditions, and reroute conditions
+  + it cannot grant authority, commit a calendar item, perform work, or decide semantic truth
+
+& [TandemCoordination] is a versioned message-and-join protocol
+  + prospective, execution, and retrospective lanes retain separate cursors and responsibilities
+  + ObserverJoin is the sole successor disposition point inside the fixture
+  + release depends on exact receipts and versions rather than timing or shared memory
+  + timeout is a logical transition over supplied time, not a background timer
+
+& [CompilerDiffFixture] is a bounded correspondence example
+  + fixed source, semantic IR, build IR, impact, target metadata, correspondence, and proof records are supplied as data
+  + a forward pass predicts and a separately implemented rear pass checks
+  + checked means the declared fixture obligations passed, not that a general compiler exists
+
+& [CantorProcessProcedure] is a governed semantic process program
+  + it expresses named process roles, typed messages, explicit state, logical events, bounded transitions, SOP anchors, inputs, outputs, budgets, and faults
+  + it borrows Simula's durable process identity, event ordering, passivation, and reactivation shape without requiring vintage Simula syntax or runtime compatibility
+  + it is designed to be proposed or called by a model through structured tools while remaining executable without a model
+  = concise: a signed bounded semantic stored procedure whose process walk is inspectable and replayable
+
+& [ProcedureCandidate] is authored source without execution authority
+  + human, model, compiler migration, or import processes may produce it
+  + it becomes no stronger merely because it parses or compiles
+  + its purpose, scope, provenance, SOP anchors, types, effects, and bounds remain reviewable
+
+& [CantorProcessIR] is the canonical portable execution contract
+  + it contains typed values, process identities, explicit basic blocks or transition regions, immutable state replacement, message operations, logical scheduling, budgets, effect annotations, faults, and source mapping
+  + it is normalized independently of source formatting and backend layout
+  + software and future hardware correspondence is measured against its semantic trace
+  - never: let Rust, WASM, SystemVerilog, HLS C++, CIRCT, or vendor IR become the canonical semantic identity
+
+& [SerializedContinuation] is explicit resumable process state
+  + it records procedure, process, program location, local state, inbox frontier, logical time, generation, budgets, and awaited condition
+  + resume and reactivate validate the exact continuation version
+  + it is not a captured native stack, model hidden state, or opaque coroutine handle
+
+& [ProcessStep] is one admitted transition by one process instance
+  + one deterministic scheduler step selects at most one operating process transition
+  + emitted messages and state replacements become explicit output records
+  + quasi-parallel means multiple retained process states with explicit scheduled interleaving
+
+& [NegotiatedFrame] is a versioned shared proposition set
+  + it cites SOP identities, propositions, conditions, constraints, evidence, objections, participants, and policy
+  + each meaningful change creates a successor generation
+  + agreement is a protocol outcome and cannot by itself establish truth or authorization
+
+& [TokenRingPass] is a stability observation
+  + a participant passes only when it has no generation-changing proposal, objection, qualification, or withdrawal
+  + stability requires one complete cycle by the exact required participant set over the same frame generation
+  + any frame or participant change resets the pass set
+  - never: treat silence, timeout, missing participant, or stale pass as assent
+
+& [ProcedureAdmission] is Observer authorization of one exact compiled candidate
+  + it consumes validator, compiler, verifier, SOP-anchor, effect, and budget receipts
+  + it names permitted invocation context and revocation rules
+  + it remains distinct from authorship, compilation, catalogue insertion, invocation, and external effects
+
+& [ProcedureCatalogue] is a content-addressed registry projection
+  + it maps stable name and version queries to exact admitted identities and status
+  + its records are replaceable projections over preserved admission history
+  + the first experiment may use caller-supplied in-memory catalogue state only
+
+& [Invocation] is one bounded execution request
+  + it pins caller, purpose, procedure identity, schemas, input, SOP generation, policy, participants, and budgets
+  + it produces a typed result or fault, terminal states, normalized trace, consumed budget, and residuals
+  + it grants no undeclared information or capability to the procedure
+
+& [StructuredInferenceSeam] is stop, tool, result, and later inference
+  + the model emits a structured procedure proposal or invocation request
+  + an external controller validates and runs Cantor
+  + the result is appended as explicit new context for a subsequent model inference pass
+  - never: describe this as direct mutation of an active forward pass, K/V cache, hidden activation, or model weights
+
+& [Effectless] is an enforceable effect class
+  + allowed reads are exact typed input and pinned in-memory admitted artefacts supplied by the harness
+  + allowed writes are returned immutable values, trace, receipt, or fault
+  + clock, randomness, filesystem, network, database, process, provider, device, model, notification, Git, and hidden state are absent
+
+& [FPGALoweringProfile] is a target correspondence contract
+  + it states which bounded IR subsets might be realized and what must be proved
+  + it selects no device, board, vendor, language, toolchain, or deployment
+  + it may be signed at non-executable contract grade without granting synthesis or loading authority
+
+& [FPGAInterpreterRealization] is stable circuitry executing admitted bounded IR or bytecode
+  + procedure changes are data changes and do not require native circuit regeneration
+  + flexibility is higher and peak specialization lower
+
+& [FPGANativeRealization] is dedicated circuitry derived from one stable kernel
+  + each IR, compiler, RTL, synthesis, target, constraint, and bitstream identity is new evidence
+  + specialization may improve throughput or latency at the cost of compilation, verification, portability, and update time
+
+& [FacultyBoundary] keeps responsibility visible
+  + Observer admits or refuses successor state and exact procedure admission
+  + Honesty checks identity, attribution, evidence, uncertainty, and overclaim
+  + Security checks capability, disclosure, scope, effect, revocation, and boundary crossing
+  + Scribe preserves source, state, trace, and receipts
+  + Refiner normalizes terms, types, schemas, diagnostics, and candidate structure
+  + Weaver discovers compatible relations, participants, dependencies, and alternatives
+  + Planner orders bounded candidate transitions and stop or reroute conditions
+  - never: let one faculty's output silently inherit another faculty's authority
+
+& [RejectedConflations] protects the semantic landscape
+  + reject fake with semantically incomplete
+  + reject logical time with wall time or causality
+  + reject schedule with commitment or execution
+  + reject due with authorized
+  + reject deterministic with correct or truthful
+  + reject normalized with admitted
+  + reject proposal with instruction
+  + reject parse success with validation
+  + reject validation with compilation
+  + reject compilation with verification
+  + reject verification with admission
+  + reject admission with invocation
+  + reject invocation with effect authority
+  + reject model authorship with signing authority
+  + reject catalogue name with stable procedure identity
+  + reject serialized continuation with native stack or hidden model state
+  + reject quasi-parallel process scheduling with simultaneous shared mutable state
+  + reject negotiated agreement with truth
+  + reject pass with assent after silence or timeout
+  + reject tool-mediated multi-pass inference with one uninterrupted forward pass
+  + reject process language with hardware description language
+  + reject canonical IR with one backend's representation
+  + reject FPGA configuration with ordinary instruction execution unless a declared interpreter or soft processor exists
+  + reject hardware acceleration with semantic accuracy improvement
+  + reject software admission with bitstream admission
+
+& [RefinementDisposition] is stable_for_data_design
+  + executable runtime, executable procedure experiment, and non-executable FPGA profile remain distinct
+  + the shared seam is canonical typed state, message, trace, and correspondence identity
+  + unresolved syntax aesthetics, backend encoding, and hardware target remain outside the current canonical minimum

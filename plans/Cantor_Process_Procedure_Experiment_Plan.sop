@@ -1,0 +1,31 @@
+Subject: Cantor Process Procedure Experiment Plan
+
+@ [plan_uuid] 31ba7503-7d5a-42ec-b61b-c8a4dd1040f5
+@ [requirement_set] CPPE-001 through CPPE-040
+
+& [SpecificationPlan] is current
+  + process preserved sources through separate explosion, refinement, data, constraints, pruning, exhaustion, justification, matrix, registry, canonical, signature, and phase lock
+  + stop before parser, compiler, verifier, catalogue, interpreter, or tool implementation
+
+& [FutureExperimentPlan] is machine-form-first
+  + CPPE-I01 implement candidate, schema, process, IR, receipt, catalogue, invocation, result, trace, and fault forms
+  + CPPE-I02 implement strict validation, normalization, and canonical IR serialization without textual syntax
+  + CPPE-I03 implement deterministic compiler from normalized procedure forms to Cantor Process IR
+  + CPPE-I04 implement static verifier, effect checker, bound checker, and admission harness
+  + CPPE-I05 implement in-memory catalogue and deterministic interpreter
+  + CPPE-I06 implement two-process token-ring procedure and normalized replay
+  + CPPE-I07 run the same pipeline over hand-authored and model-shaped candidates with negative cases
+  + CPPE-I08 define a provider-neutral structured tool schema and fake model-controller transcript without live provider calls
+  + CPPE-I09 audit requirements, authority separation, sensitivity, retention, residuals, and release status
+
+& [DependencyAndStopRules] are strict
+  + forms and semantics precede textual syntax
+  + verifier and admission precede catalogue invocation
+  + interpreter precedes any alternative backend
+  + fake controller transcript precedes live model-provider integration
+  + stop on ambient I/O, hidden mutable state, unbounded construct, self-admission, direct model execution, or external effect pressure
+
+& [VerificationPlan] covers the threat surface
+  + deterministic source-form and IR normalization
+  + schema, type, lifecycle, bounds, effects, SOP-anchor, compiler, verifier, admission, catalogue, invocation, revocation, and replay tests
+  + malformed, unknown, stale, self-authorizing, unbounded, forbidden-effect, covert-input, ring-instability, timeout, and resource-exhaustion negatives

@@ -1,0 +1,51 @@
+Subject: Cantor Runtime, Process Procedure, and FPGA Specification Support Index
+
+Description: Dependency-aware support and work-slice ledger for the post-WS-CTPR-010 SJS campaign.
+
+@ [support_index_uuid] 541de280-bc6b-45ff-b436-f09d33b3ff3f
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [baseline_commit] 272dfe7fffad0b048187bb6d082cca25ef3b1496
+@ [support_state] specification_complete_three_phase_locks_valid
+
+& [FeatureRequirementSummary] is current
+  + [CDRA_requirement_count] is 40
+  + [CPPE_requirement_count] is 40
+  + [CFLP_requirement_count] is 24
+  + [total_requirement_count] is 104
+  + [mapped_count] is 104
+  + [unmapped_count] is 0
+  + [implementation_requirement_count] is 0_completed_for_new_profiles
+
+& [WorkSliceQueue] is dependency ordered
+  + WS-CRPF-001 preserve and audit source and authority inputs -> completed
+  + WS-CRPF-002 delineate and explode runtime, procedure, and FPGA surfaces -> completed after WS-CRPF-001
+  + WS-CRPF-003 refine semantics and design data, lifecycle, effects, and migration -> completed after WS-CRPF-002
+  + WS-CRPF-004 constrain, prune, seven-fold, and dual-hemisphere review -> completed after WS-CRPF-003
+  + WS-CRPF-005 justify, plan, and map requirements -> completed after WS-CRPF-004
+  + WS-CRPF-006 register, canonicalize, sign, phase-lock, validate, and publish -> completed after WS-CRPF-005
+  + WS-CDRA-IMPL-001 deterministic runtime root and dispatcher -> ready_unassigned_pending_separate_goal_and_claim
+  + WS-CPPE-IMPL-001 procedure machine forms and normalized IR -> ready_unassigned_pending_separate_goal_and_claim
+  + WS-CFLP-EVID-001 software profiling and accelerator-alternative evidence -> blocked_pending_software_reference_proof_and_separate_goal
+  + WS-CFLP-TARGET-001 target-specific hardware addendum -> blocked_pending_profile_evidence_and_new_preserved_source
+
+& [SupportRecords] are current
+  + SR-CRPF-001 input manifest and SJS audit verify source preservation, inherited authority, and missing authority
+  + SR-CRPF-002 three exploded specifications preserve distinct authority grades
+  + SR-CRPF-003 shared semantic refinement and data design define the portable seams without collapsing identities
+  + SR-CRPF-004 seventy-two constraints, twenty pruning decisions, seven folds, and dual-hemisphere review pass
+  + SR-CRPF-005 three justifications, three plans, and three complete requirement matrices support canonical authoring
+  + SR-CRPF-006 verifies three registries, three canonicals, three signatures, three phase locks, and exact artifact hashes
+
+& [AuthorityBoundary] is fail-closed
+  + all current derived artifacts before valid phase locks are specification evidence only
+  + CDRA may later authorize only an in-memory deterministic Rust fixture and tests
+  + CPPE may later authorize only an effectless software-first machine-form and interpreter experiment and fake tool transcript
+  + CFLP may authorize only future target evaluation rules and no hardware implementation
+  + no current worker claim includes Rust runtime, parser, compiler, interpreter, provider, HDL, HLS, synthesis, device, or external effect behavior
+
+& [ManagerState] is specification_complete
+  + [completed_slice_count] is 6
+  + [in_progress_slice_count] is 0
+  + [ready_future_slice_count] is 2
+  + [blocked_future_slice_count] is 2
+  + [next] stop this specification goal after validation, commit, push, and completed-work review; implementation requires a new goal

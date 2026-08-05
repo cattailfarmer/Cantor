@@ -1,0 +1,149 @@
+Subject: Cantor Deterministic Runtime Activation
+
+Description: Canonical SJS authority for a future separately claimed, effectless, in-memory deterministic CTPR runtime covering fake repository, logical Calendar and Planner, tandem coordination, replay, and bounded compiler-diff fixtures. It grants no live effect, provider, persistence, service, model, procedure-language, or hardware authority.
+
+@ [processing_input_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_deterministic_runtime_activation\SJS_Processing_Input_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Deterministic_Runtime_Activation.exploded.sop
+@ [semantic_refinement] C:\Project\Cantor\narrative\research\Cantor_Runtime_Procedure_FPGA_Semantic_Refinement_2026-08-05.sop
+@ [data_design] C:\Project\Cantor\narrative\research\Cantor_Runtime_Procedure_FPGA_Data_Design_2026-08-05.sop
+@ [constraint_ledger] C:\Project\Cantor\narrative\research\Cantor_Runtime_Procedure_FPGA_Constraint_Ledger_2026-08-05.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Deterministic_Runtime_Activation_Justification.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_Deterministic_Runtime_Activation_Plan.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_Deterministic_Runtime_Activation_Registry.sop
+@ [matrix] C:\Project\Cantor\feature_support\Cantor_Deterministic_Runtime_Activation_Requirement_Matrix.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Deterministic_Runtime_Activation_Phase_Lock.sop
+
+& [CanonicalIdentity] is exact
+  + [canonical_uuid] is 61e64418-a58f-422b-a2ca-9e76170f1396
+  + [profile] is cantor-deterministic-runtime-activation/0.1
+  + [requirement_set] is CDRA-001 through CDRA-040
+  + [upstream_CTPR_signature_uuid] is 4421228f-ecf2-450a-b704-189c4d83fd68
+  + [authority_grade] is separately_claimed_effectless_in_memory_runtime_fixture
+  + [canonical_source_specification] is this file
+
+& [RuntimeIdentityAndABI] binds the proved forms
+  + runtime consumes and emits the exact supported CTPR form and profile versions
+  + unsupported versions require an explicit migration result or typed refusal
+  + every input validates before transition evaluation
+  + DeterministicRuntimeRoot contains explicit profile, policies, LogicalClock, FakeRepository, optional Calendar and Planner projections, lane sessions, compiler fixtures, bounds, and trace frontier
+  + no ambient singleton, global canonical state, external handle, or hidden cache has authority
+
+& [TransitionContract] is functional
+  + RuntimeOperation is a closed tagged union with caller, expected root digest, exact inputs, policy, and bounds
+  + evaluation returns RuntimeReceipt or RuntimeFault and at most one immutable successor root
+  + accepted receipts bind operation, before and after digests, logical time, emitted identities, trace, bounds, and disposition
+  + refused and faulted operations do not partially admit successor state
+  + prior root values remain unchanged and replayable
+
+& [DeterminismAndBounds] are mandatory
+  + same normalized root, operation, exact profiles, and policy produce the same normalized result and semantic trace
+  + stable declared ordering applies to maps, sets, graphs, events, messages, traces, and serialization
+  + time, ordering, horizon, event, recurrence, graph, lane, trace, text, byte, and fixture bounds are explicit
+  + randomness, system clock, locale default, environment, thread schedule, hash iteration, filesystem order, network, and provider state are absent
+  + bound exhaustion is a typed fail-closed result
+  - never: infer truth, correctness, safety, priority, consent, or authority from determinism
+
+& [FakeRepository] is the append-only reference state
+  + stores RepositoryGenerations, MaterialEvents, ContentObjects, SemanticSnapshots, derived indexes, branch heads, and merge predecessors in memory
+  + compare-and-append requires exact expected predecessor and rejects stale, forked, missing, or inconsistent frontiers
+  + admitted logical ordering comes from explicit input and policy
+  + content digest is verified over supplied bytes or normalized value without filesystem access
+  + snapshot declares exact semantic event frontier and never claims simultaneous external-world capture
+  + derived indexes cite source generation, are deterministically rebuildable, and never replace semantic authority
+  + rejection, supersession, branch, merge, compaction, and preserved-unrelated evidence remain explicit
+
+& [LogicalTime] is supplied transition state
+  + LogicalClock is immutable caller-controlled counter or ordered token
+  + it advances only by an accepted operation
+  + fixture civil time requires declared timezone, calendar, precision, and interpretation policy
+  + physical and provider time are absent
+  + record order and timestamp alone cannot prove causality
+
+& [FakeCalendar] separates temporal identities
+  + stores immutable CalendarItem revisions, WakeConditions, recurrence policies, exceptions, occurrences, commitments, lifecycle, and simulated provider placeholders
+  + recurrence expansion is deterministic, exception-aware, and horizon-bounded
+  + due, missed, cancelled, completed, and superseded states evaluate against supplied time and emit material event candidates
+  + wake emits only a reentry candidate after exact task, plan, repository, capsule, policy, and authority revalidation
+  + schedule, commitment, provider synchronization, notification, and execution are distinct
+  - never: infer priority, truth, consent, permission, or action from a date or due state
+
+& [DeterministicPlanner] constructs bounded proposals
+  + validates TaskContract, exact predecessor PlanRevision, repository generation, Calendar view, policies, resources, and proof gates
+  + dependency DAG cycles or unresolved required identities return witnesses
+  + candidate selection follows declared priority policy then stable identity tie-break
+  + result preserves alternatives, assumptions, uncertainty, proofs, stop, and reroute conditions
+  + Schedule output remains a proposal until separate commitment authority
+  - never: admit successor repository state, grant authority, commit a calendar item, or execute work
+
+& [Materiality] classifies candidate events
+  + policy and version determine durable, aggregate, transient, or rejected disposition
+  + classification records the exact rule and cannot rewrite prior history
+  + aggregation states coverage, count, method, loss, and retained rehydration evidence
+
+& [TandemAndCapsules] implement the reflective walk
+  + ChangeCapsule lifecycle transitions require exact predecessor generation and canonical legal edge
+  + prospective preparation pins task, plan, repository, capsule, target, expected transform, effects, proof, and unrelated-state exclusion
+  + ExecutionLane accepts supplied simulated observation records only and performs no effect
+  + RetrospectiveLane returns evidence, objections, uncertainty, invalidation, residuals, and candidate disposition for the exact generation
+  + LaneMessages are immutable, named, versioned, causally referenced, logically ordered, and explicitly acknowledged
+  + ObserverJoin refuses missing, stale, wrong-subject, wrong-generation, incompatible-policy, unmet-proof, or unaccounted-diff inputs
+  + ReleaseBarrier opens only for the exact named dependency and receipt set
+  + timeout, cancellation, lag, crash reentry, and residual are logical state transitions without threads or timers
+
+& [CompilerDiffFixture] is bounded correspondence evidence
+  + fixed source, SemanticIR, BuildIR, target metadata, impact, diff, correspondence, diagnostic, and proof records are data
+  + forward fixture predicts identities, dependencies, diagnostics, invalidation, target metadata, and proof needs
+  + an independently implemented rear fixture compares exact before and candidate generations
+  + checked requires complete declared diff classes, explicit unknowns, independent correspondence, and Observer disposition
+  + mismatch invalidates exact affected results while preserving declared unrelated state
+  - never: claim a general parser, compiler, target backend, executable artifact, or target self-certification
+
+& [FaultAndVersionContract] fails closed
+  + faults include invalid form, unsupported version, stale predecessor, missing ref, duplicate identity, cycle, bound, recurrence horizon, wake mismatch, illegal transition, missing return, wrong generation, incomplete diff, missing correspondence, forbidden effect, nondeterminism, and internal invariant
+  + every fault binds operation, subject, expected, observed, evidence, safe residual, and trace location
+  + exact-version is the first-profile default; migration is a separate deterministic transform with loss and proof
+
+& [AuthorityAndEffectBoundary] is strict
+  + allowed reads are exact supplied in-memory values
+  + allowed writes are returned immutable values, receipts, traces, and faults
+  + no filesystem, network, database service, system clock, process, thread, provider, notification, Git, model, procedure interpreter, unsafe code, device, or external effect
+  + simulated observations and provider placeholders are data and confer no effect claim
+
+& [FirstImplementationFrontier] may be separately claimed after phase-lock validation
+  + CDRA-I01 through CDRA-I07 in the plan define bounded dependency-ordered Rust library and test slices
+  + WS-CTPR-011 through WS-CTPR-013 may be reconciled to those slices only within this exact authority
+  + implementation must begin with root, operation, receipt, fault, bounds, and transition dispatcher
+  + each slice requires a separate worker claim and completed-work review
+  + no live integration or effect frontier is released
+
+& [RequirementSet] is canonical
+  + forty requirements are individually mapped
+  + specification status is satisfied after exact phase-lock validation
+  + runtime implementation and test evidence remain not started
+
+& [SJSProcessingTrace] is artifact bound
+  + [processing_input] SHA256 5CFB5977E6817C9EB10F52F6D05A73D43671743237908D741C08C0FEEAACB6FF and 4440 bytes
+  + [audit] SHA256 9A1FF0E1CD0B762FF7AB95B95CDA172885CD7074A54607C8A29AC1D1D70C5F03 and 7137 bytes
+  + [exploded] SHA256 988639957ADFFC03328B330AC118837959517AF462F4871708D8F8CC68C9C700 and 8627 bytes
+  + [refinement] SHA256 FDFB34EA424A19EF050054756E33ED462104FFDAAB8E69C651D5DD2B4832C0C6 and 11389 bytes
+  + [data_design] SHA256 19E7A722CA7CCCDABF8E9141141A8EAD10C43B7E6B9CA0D9B03C66FA3E9544D4 and 13351 bytes
+  + [constraints] SHA256 F879BDE955ABA34A7A0D0ADCF1D46546BB5824E26E5809882A5937EB84749A7F and 10053 bytes
+  + [pruning] SHA256 3C41CF5D0678AB6FE1943F6E9418321C300742597E730221560138B6220A2A7D and 5423 bytes
+  + [seven_fold] SHA256 13B98187187F79DE68E31665B4E6426CBA304F1DE2E53E46B6EDD047CE09FEAB and 4690 bytes
+  + [dual_hemisphere] SHA256 569C2E11F644B2DFDEC741675CB39CE6192BFC37B67C7AC231EE1D92EB8DB807 and 5126 bytes
+  + [justification] SHA256 7B20DB14FEF0F52344F835F0D790F316DA646A7420A0AED0BF9B0395A849BF85 and 5081 bytes
+  + [plan] SHA256 975E82900DA6FF29163757C7F432F426F129AFE83CAFF77E9BDA98F87D7169ED and 1898 bytes
+  + [matrix] SHA256 5302C90524247CCE5C161922337192D897498D432A032169D33B51728535FC28 and 5350 bytes
+  + [registry] SHA256 D6E147BF77D11E9FEAA7A8EB72B6E17F2C10DBC51E95B935CEBAA7E45549CC14 and 3244 bytes
+  + [upstream_CTPR] SHA256 726F817726C27BCD2FA01D2D6A982717179C533843B2CCA237BD1507FFC2E495 and 24141 bytes
+  + [pure_forms_proof] SHA256 BC7ABEEF10F25492EEA6C65C2EC7A83BDDC5A4F79ABBCE22198AADD0EB18D2AF and 3450 bytes
+
+& [SatisfactionSignature_CDRA_SJS_01] is bounded
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is ad886f0f-4eb8-41d4-9e2f-69921d5cc197
+  + [signed_subject] is this canonical file
+  + [phase_lock_uuid] is f88221ae-054b-438e-be9e-e20df20b557e
+  + [processed_stage_set] is source_inputs_preserved, audited, delineated, exploded, semantically_refined, data_designed, constraint_checked, pruned, growth_seeded, seven_fold_phase_locked, dual_hemisphere_reviewed, justified, planned, requirements_mapped, registered, canonicalized, and signed
+  + [signature_status] is valid_after_exact_phase_lock_validation
+  + [authority_scope] is future_separately_claimed_effectless_in_memory_CDRA_runtime_and_tests_only
+  + [invalidation] is source or bound-artifact drift, CTPR or pure-form proof invalidation, nondeterminism, unbounded state, stale acceptance, time-domain collapse, provider or effect activation, shared mutation, compiler overclaim, or superseding source

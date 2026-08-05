@@ -1,0 +1,55 @@
+Subject: Cantor Runtime, Process Procedure, and FPGA Specification Proof
+
+Description: Evidence record for source preservation, requirement coverage, artifact binding, signature consistency, repository validation, and honest non-implementation status.
+
+@ [proof_uuid] 902f960b-aa56-4264-9e33-a61c818f48a2
+@ [baseline_commit] 272dfe7fffad0b048187bb6d082cca25ef3b1496
+@ [verified_at] 2026-08-05T10:15:57.9180337-05:00
+
+& [CanonicalAndPhaseLockEvidence] is exact
+  + CDRA canonical SHA256 532535F5247F9D5D51473F3E696FF5AE052A24A4D439567E1950D6B8B600395B and 12579 bytes
+  + CDRA phase lock SHA256 F19501666B4AA70110DA6A1865AFDE89E3D159D5DAC4B7269A861C8142897836 and 4794 bytes
+  + CPPE canonical SHA256 D880095CFD162EED0CE99905914EE96ABFF45B9DB83E7A1929BB2583D8642ADB and 15387 bytes
+  + CPPE phase lock SHA256 C143B09F9B1BAE0BD029D271204725ECD23414810A4D963BC26B17834F83CA02 and 4888 bytes
+  + CFLP canonical SHA256 DE85E83EBC366651A035A89CF160BED945C5DC1F998B0555C513DA0B898A46AD and 10514 bytes
+  + CFLP phase lock SHA256 EAA75C6082F2A37933FB7DF37B2523EB8A15CF473DA5EDA8659BED0B4AE7A565 and 3987 bytes
+
+& [SJSArtifactValidation] passes
+  + 27 source, exploded, refinement, data, constraint, pruning, exhaustion, critique, justification, plan, matrix, registry, and canonical hash locks match exact bytes
+  + all canonical, registry, and phase-lock local artifact paths exist
+  + signature UUID and canonical digest consistency passes for all three phase locks
+  + no placeholder token remains in canonical or phase-lock artifacts
+  + 72 unique CRPF constraints are present
+
+& [RequirementValidation] passes
+  + 40 unique CDRA requirements occur in explosion and matrix
+  + 40 unique CPPE requirements occur in explosion and matrix
+  + 24 unique CFLP requirements occur in explosion and matrix
+  + every canonical section named by the three matrices exists in its canonical specification
+  + [total_mapped] is 104
+  + [unmapped] is 0
+
+& [RepositoryValidation] passes within scope
+  + strict UTF-8 and no BOM passed for the 30 SOP files present before proof and narrative records were added
+  + git diff check passed
+  + cargo fmt --all --check passed
+  + cargo clippy --workspace --all-targets --locked -- -D warnings passed
+  + cargo test --workspace --lib --bins --locked passed, including 179 cantor_core library tests and 6 Windows runtime tests
+  + full cargo test --workspace --locked passed all reached suites including 10 temporal form tests, then encountered the known unrelated stale evidence manifest fault
+
+& [KnownInheritedWorkspaceFault] is unchanged and not hidden
+  + failing test is cantor_ecosystem candidate_workspace_admission_manifest_is_clone_portable_and_effect_free
+  + expected byte count for feature_support/Cantor_Engine_Build_Slice_Index.sop is 26346
+  + observed unchanged byte count is 27870
+  + the fault predates and is unrelated to this documentation-only specification campaign
+  + prior operational fault record remains C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [NonImplementationProof] is direct
+  + no Rust, Cargo, executable, test fixture, parser, compiler, interpreter, provider, HDL, HLS, script, or hardware file changed in this campaign
+  + no runtime or hardware command was executed beyond repository validation tests
+  + CDRA and CPPE implementation evidence remains not started
+  + CFLP profiling, target, simulation, synthesis, bitstream, and device evidence remains not started
+
+& [ProofDisposition] is specification_goal_satisfied_pending_commit_and_push
+  + three satisfaction signatures and phase locks are valid at their stated authority grades
+  + implementation remains a later separately claimed goal

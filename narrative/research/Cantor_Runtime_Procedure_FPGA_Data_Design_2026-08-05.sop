@@ -1,0 +1,163 @@
+Subject: Cantor Runtime, Process Procedure, and FPGA Data Design
+
+Description: Formal logical records, keys, relations, lifecycles, cardinalities, retention, sensitivity, migration, and requirement support for the deterministic runtime, process-procedure experiment, and FPGA lowering profile.
+
+@ [data_design_uuid] 6c2f0c0d-2651-4c8b-89dc-cc749ae4adf8
+@ [semantic_refinement] C:\Project\Cantor\narrative\research\Cantor_Runtime_Procedure_FPGA_Semantic_Refinement_2026-08-05.sop
+@ [runtime_exploded] C:\Project\Cantor\specifications\exploded\Cantor_Deterministic_Runtime_Activation.exploded.sop
+@ [procedure_exploded] C:\Project\Cantor\specifications\exploded\Cantor_Process_Procedure_Experiment.exploded.sop
+@ [FPGA_exploded] C:\Project\Cantor\specifications\exploded\Cantor_FPGA_Lowering_Profile.exploded.sop
+
+& [IdentityPolicy] is immutable and versioned
+  + UUID identifies semantic entity continuity
+  + digest identifies exact normalized content
+  + generation identifies ordered immutable state revision
+  + profile and schema version identify interpretation contract
+  + human name and alias are projections only
+  + every reference declares expected identity kind and exact or compatible-version policy
+
+& [DeterministicRuntimeRoot] is one supplied state value
+  + [key] runtime_state_digest
+  + [fields] profile_version, policy_set, logical_clock, repository, calendar, planner_state, lane_state, compiler_fixture_state, bounds, trace_frontier
+  + [cardinality] one root contains exactly one logical clock and repository, zero or one calendar and planner projection, zero or more lane sessions, and zero or more bounded compiler fixtures
+  + [ownership] caller or test harness owns the value; transition functions return successors
+  + [prohibited] ambient singleton, hidden cache authority, external handle, mutable global, system-clock token
+
+& [RuntimeOperation] is a closed tagged union
+  + [key] operation_uuid plus expected_runtime_state_digest
+  + [variants] append_repository, rebuild_index, advance_logical_time, revise_calendar, expand_recurrence, evaluate_wake, plan, transition_capsule, append_lane_message, join, evaluate_barrier, apply_logical_timeout, run_compiler_forward_fixture, run_compiler_rear_fixture, replay
+  + [fields] operation version, caller identity, exact inputs, declared bounds, expected predecessor identities
+  + [result] RuntimeReceipt or RuntimeFault and optional successor DeterministicRuntimeRoot
+
+& [RuntimeReceipt] proves one evaluated operation
+  + [key] receipt_uuid and normalized digest
+  + [fields] operation identity, before digest, after digest when accepted, logical time before and after, emitted identities, trace segment, consumed bounds, disposition
+  + [disposition] accepted, refused, faulted, or no_change
+  + accepted receipts cannot omit their successor digest
+
+& [RuntimeFault] is typed and non-panicking
+  + [categories] invalid_form, unsupported_version, stale_predecessor, missing_reference, duplicate_identity, cycle, bound_exceeded, recurrence_horizon, wake_mismatch, illegal_transition, missing_return, wrong_generation, incomplete_diff, correspondence_missing, forbidden_effect, nondeterminism, internal_invariant
+  + [fields] fault UUID, category, operation, subject identities, expected, observed, evidence, safe residual, trace location
+  + internal invariant faults preserve diagnostic evidence without claiming recovery
+
+& [RepositoryRuntimeProjection] implements existing pure forms
+  + [root] FakeRepositoryState
+  + [maps] generations by generation UUID, events by event UUID, content by digest, snapshots by snapshot UUID, indexes by index generation UUID, branch heads by stable branch identity
+  + [ordering] admitted event frontier and stable identity order
+  + [relation] each accepted RepositoryGeneration has zero or one predecessor within a branch and zero or more declared merge predecessors
+  + [rule] derived index entries refer only to identities in their declared source generation
+
+& [CalendarRuntimeProjection] separates temporal roles
+  + [root] FakeCalendarState
+  + [maps] CalendarItem revisions by stable item UUID and revision, WakeConditions by UUID, commitments by UUID, recurrence expansions by policy digest and horizon
+  + [relation] one item has one or more immutable revisions; one revision has zero or more occurrences; one wake cites exactly one version set
+  + [rule] provider state enum in the first profile is none or simulated and contains no provider token
+
+& [PlannerRuntimeProjection] is derived and replaceable
+  + [root] DeterministicPlannerState
+  + [fields] planner profile, selection policy, last admitted PlanRevision identities, optional diagnostic history
+  + [input] TaskContract, predecessor plan, repository generation, calendar view, policies, bounds
+  + [output] PlanCandidateSet with one or more alternatives or typed refusal
+  + [relation] every selected edge cites its dependency evidence and stable tie-break
+
+& [TandemRuntimeProjection] binds exact cursors
+  + [root] LaneSessionState keyed by session UUID and generation
+  + [children] participant set, LaneCursors, LaneMessages, ReflectionReturns, ObserverJoin candidates, ReleaseBarriers, logical timeout policies, residuals
+  + [relation] every message belongs to exactly one session generation and cites zero or more causal predecessors from the same or an explicitly bridged generation
+  + [rule] join and barrier receipts refer to the exact required identity set and cannot use counts alone
+
+& [CompilerFixtureProjection] is bounded data
+  + [root] CompilerFixtureState keyed by fixture UUID and generation
+  + [children] source objects, SemanticIR objects, BuildIR objects, target metadata, CompilerImpact, DiffRecords, correspondence evidence, proof expectations, diagnostics
+  + [relation] a checked rear result cites an independently generated correspondence evidence identity
+  + [rule] downstream invalidation contains exact affected nodes and preserved unrelated nodes
+
+& [ProcedureCandidateRecord] preserves authored intent
+  + [key] candidate_uuid and source_digest
+  + [fields] author, provenance, purpose, scope, language profile, source text or normalized source form, SOP anchor set, input and output schemas, process declarations, effects, bounds, created logical time
+  + [sensitivity] inherits the highest input source and declared anchor sensitivity
+  + [status] candidate only
+
+& [ProcedureSchemaSet] is closed and versioned
+  + [key] schema_set_digest
+  + [members] input, output, message, event, process-local state, procedure state, invocation result, fault
+  + [bounds] each collection and text-bearing field declares maximum size
+  + [compatibility] exact by default; explicit migration required for any non-exact invocation
+
+& [ProcessDefinition] is static compiled meaning
+  + [key] process_definition_uuid within procedure identity
+  + [fields] name, role identity, initial state, accepted message tags, emitted message tags, transition regions, terminal states, resource contribution
+  + [cardinality] one procedure has one or more process definitions in the experiment
+  + [rule] process names are unique within one canonical procedure
+
+& [CantorProcessIRRecord] is the portable waist
+  + [key] IR_digest
+  + [fields] IR version, source digest, type table, schema set, constant table, SOP anchor table, process definitions, control regions, effect table, bound table, source map, normalized encoding
+  + [rule] no backend-specific address, pointer, clock, register, ABI padding, instruction opcode, or vendor identity changes semantic digest
+
+& [ProcessInstanceState] is an immutable continuation
+  + [key] invocation_uuid plus process_instance_uuid plus generation
+  + [fields] definition ref, program region and point, local state, inbox frontier, outbox frontier, awaited condition, lifecycle, logical time, remaining budgets
+  + [lifecycle] ready, operating, yielded, waiting, passivated, terminal_return, terminal_fault, cancelled
+  + [transition] one ProcessStep consumes one exact generation and returns at most one successor generation
+
+& [NegotiationSession] models shared inference explicitly
+  + [key] session_uuid and frame_generation
+  + [fields] purpose, required participants, optional observers, pinned SOP anchor set, policy, NegotiatedFrame, token holder, pass set, message frontier, status
+  + [status] opened, deliberating, stable_candidate, admitted, refused, timed_out, cancelled, faulted
+  + [relation] each generation has exactly one frame and zero or more messages; stable_candidate requires pass set equality with required participants
+
+& [ProcedurePhaseReceipts] keep authority disjoint
+  + [records] ValidationReceipt, CompilationReceipt, VerificationReceipt, AdmissionDisposition, CatalogueReceipt, RevocationRecord
+  + [key] receipt UUID and subject exact identity
+  + [rule] each receipt states only its own phase and cannot imply a later phase
+  + [cardinality] one compiled procedure has exactly one source and compiler identity, one or more verification attempts, zero or one active admission, and zero or more revocation or supersession records
+
+& [ProcedureCatalogueState] is an in-memory projection in the first experiment
+  + [key] catalogue generation digest
+  + [maps] admitted procedure exact identity to status, alias and version to exact identities, revocation by procedure identity
+  + [rule] catalogue records cite AdmissionDisposition and never embed a capability not named by admission
+
+& [InvocationRequestAndResult] close the tool transaction
+  + [request_key] invocation_uuid
+  + [request_fields] caller, purpose, admitted procedure, schemas, input, SOP generation, policy, participants, logical time, step and memory budgets, expected result schema
+  + [result_fields] invocation UUID, procedure exact identity, disposition, typed output or fault, final process states, normalized semantic trace, consumed budgets, residuals, proof refs
+  + [cardinality] one accepted request yields exactly one terminal result in the deterministic harness
+
+& [SemanticTrace] is backend-independent evidence
+  + [key] trace_digest
+  + [events] invocation_started, process_selected, state_replaced, message_emitted, message_received, yielded, waiting, reactivated, joined, frame_revised, participant_passed, returned, faulted, budget_refused, invocation_completed
+  + [fields] logical index, process and procedure identity, subject generation, normalized payload digest, causal predecessors
+  + [exclusion] physical cycle count and transport timing belong to backend telemetry, not semantic trace
+
+& [FPGATargetProfileRecord] is non-executable now
+  + [key] profile UUID and version
+  + [fields] eligible IR subset, prohibited operations, bounds, interface schema, scheduling semantics, correspondence rules, evidence requirements, authority grade
+  + [absent] device, board, vendor, toolchain, clock, memory map, bitstream, driver, credential, loading authority
+
+& [FutureHardwareCandidateRecords] are schema guidance only
+  + [records] KernelProfileEvidence, TargetIdentity, ToolchainIdentity, InterfaceContract, SynthesisEvidence, TimingEvidence, ResourceEvidence, HardwareCorrespondenceReceipt, BitstreamIdentity, DeviceAdmissionDisposition
+  + [rule] their declaration in data design creates no present instance or implementation authority
+
+& [RetentionAndSensitivity] preserve audit without overcollection
+  + raw procedure source, SOP anchor refs, admissions, revocations, and proof-bearing traces retain according to declared policy
+  + invocation inputs and outputs inherit sensitivity and may be represented by digest plus authorized locator when raw retention is prohibited
+  + derived indexes and catalogues may be rebuilt and retired without deleting source admissions
+  + failed and superseded candidates retain minimal diagnostic lineage sufficient for audit and recurrence prevention
+  + secret material, provider credentials, hardware keys, and private chain-of-thought are prohibited data classes in the first profiles
+
+& [MigrationBoundary] is explicit
+  + profile, schema, IR, compiler, verifier, policy, SOP anchor, and backend revisions are independent version axes
+  + migration is a separately identified deterministic transform with before, after, diagnostics, loss, and proof
+  + no compatibility is inferred from matching names or similar structure
+  + first implementations may support exact version only and fail closed otherwise
+
+& [RequirementSupportSummary] is complete at data-design grade
+  + CDRA-001 through CDRA-040 map to runtime root, operation, receipt, fault, repository, calendar, planner, tandem, compiler, trace, bounds, and migration records
+  + CPPE-001 through CPPE-040 map to candidate, schemas, process definition, IR, instance, session, phase receipts, catalogue, invocation, trace, bounds, and effect rules
+  + CFLP-001 through CFLP-024 map to target profile, future candidate records, semantic trace, correspondence, and absent-authority fields
+  + physical persistence, service concurrency, model provider, syntax aesthetics, backend encoding, HDL, HLS, target, and device remain unselected
+
+& [DataDesignDisposition] is stable_for_constraints_and_justification
+  + identities, keys, relations, cardinalities, lifecycle, sensitivity, retention, effects, migration, and cross-profile seams are explicit
+  + implementation evidence remains none

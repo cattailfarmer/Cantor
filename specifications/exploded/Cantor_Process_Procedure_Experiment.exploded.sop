@@ -1,0 +1,81 @@
+Subject: Cantor Process Procedure Experiment Exploded Specification
+
+Description: Derived SJS expansion for an effectless Simula-inspired process-procedure language and model-callable stored-procedure experiment. It keeps proposal, validation, compilation, admission, catalogue storage, invocation, and revocation separate and targets a portable software-first canonical IR.
+
+@ [exploded_uuid] 3ce4dac0-96be-4ff1-8d34-8e6e428817e4
+@ [processing_input_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_deterministic_runtime_activation\SJS_Processing_Input_Manifest.sop
+@ [Simula_correspondence] C:\Project\Cantor\narrative\research\Simula_Inference_Control_Correspondence_2026-08-05.sop
+@ [upstream_language] C:\Project\Cantor\specifications\SOP_Multi_Target_Semantic_Compiler_Purpose.sop
+
+& [ExplodedIdentity] is a derived process profile rather than vintage compatibility
+  + [profile] is cantor-process-procedure-experiment/0.1
+  + [requirement_set] is CPPE-001 through CPPE-040
+  + [source_language_name] is Cantor Process Procedure
+  + [IR_name] is Cantor Process IR version 0.1
+  + [first_backend] is future deterministic Rust interpreter
+  + [effect_class] is effectless
+  + [authority_state] is unsigned_exploded_candidate
+
+& [ProcedureIdentityRequirements] make authorship and purpose inspectable
+  + CPPE-001 ProcedureCandidate binds stable candidate UUID, author identity, source provenance, purpose, scope, declared SOP anchors, language version, and source digest
+  + CPPE-002 procedure identity after compilation is content-addressed over canonical source, compiler identity, language profile, IR, schemas, effect declaration, and budgets
+  + CPPE-003 revisions are immutable and cannot inherit admission, signature, invocation, or capability merely from predecessor identity
+  + CPPE-004 aliases and human names resolve only through a versioned catalogue record and never replace stable identity
+  + CPPE-005 every referenced SOP anchor must bind a recognized signed artifact identity, version, digest, clause identity when available, and declared use
+
+& [TypeAndInterfaceRequirements] define a bounded portable surface
+  + CPPE-006 value types are null, boolean, bounded integer, bounded decimal, bounded text, bytes digest, identity reference, list, ordered map, record, tagged union, and typed fault
+  + CPPE-007 input, output, message, event, state, and result schemas are explicit, closed by default, versioned, and normalized
+  + CPPE-008 no pointer, ambient object reference, unrestricted dynamic dispatch, process-global variable, or implicit mutable shared state is permitted
+  + CPPE-009 collections, text, event queues, process instances, call depth, and trace length declare finite bounds
+  + CPPE-010 procedure state is an immutable versioned record replaced only by an admitted transition result
+
+& [ProcessSemanticRequirements] preserve Simula's useful shape safely
+  + CPPE-011 a procedure declares one or more named process roles with explicit local state, accepted message types, emitted message types, and terminal states
+  + CPPE-012 operations are limited to bind, inspect, compare, branch, select, map-bounded, emit, receive, yield, wait-logical, reactivate, join, return, and fault
+  + CPPE-013 detach, passivate, resume, and reactivate are represented as serialized continuation states rather than native stack capture
+  + CPPE-014 at most one process transition is operating within one deterministic scheduler step while other process states remain explicit
+  + CPPE-015 event ordering uses supplied logical time, causal predecessor set, declared priority, and stable identity tie-break
+  + CPPE-016 every loop or recurrence must have a statically or invocation-bounded termination measure
+  + CPPE-017 recursion, reflection over executable code, self-modification, dynamic code loading, and unbounded event creation are prohibited in the first profile
+
+& [SharedInferenceProtocolRequirements] coordinate perspectives through records
+  + CPPE-018 each model, faculty, controller, user, and procedure participant has a distinct named identity and declared role
+  + CPPE-019 messages carry sender, receiver, session, subject SOP identities, proposition or request kind, typed payload, evidence refs, logical time, causal predecessors, and expiry
+  + CPPE-020 negotiation kinds include propose, question, support, object, counter, qualify, withdraw, admit-candidate, refuse, yield, pass, and fault
+  + CPPE-021 the token-ring experiment terminates successfully only after every required participant passes one complete version-pinned cycle without changing the negotiated frame
+  + CPPE-022 any proposal, objection, participant-set, SOP-anchor, policy, or frame change increments generation and invalidates incomplete passes from earlier generations
+  + CPPE-023 Cantor validates and routes records but cannot convert agreement, majority, compilation, or low latency into truth or authority
+  + CPPE-024 shared inference is multiple explicit tool-mediated inference passes and never a claim of shared hidden activations, weights, K/V cache, or uninterrupted forward execution
+
+& [ProcedureLifecycleRequirements] separate every authority step
+  + CPPE-025 lifecycle is proposed, rejected-at-parse, validated, compiled, verification-failed, verification-passed, admission-refused, admitted, suspended, revoked, or superseded
+  + CPPE-026 syntax and type validation emit a receipt but confer no compilation or admission authority
+  + CPPE-027 compilation must be deterministic and emit canonical IR, compiler diagnostics, source map, cost estimate, and compiler identity
+  + CPPE-028 verification checks termination bounds, resource bounds, effects, schemas, SOP references, lifecycle, nondeterminism, prohibited operations, and normalized replay
+  + CPPE-029 Observer admission is a separate signed disposition over exact compiler and verification receipts
+  + CPPE-030 a model-authored candidate cannot self-sign, self-admit, persist itself, broaden its schemas, grant capabilities, or invoke itself by virtue of authorship or compilation
+  + CPPE-031 catalogue insertion accepts only admitted exact identities and catalogue lookup returns version, digest, status, and revocation state
+  + CPPE-032 revocation and supersession prevent new invocation without erasing prior source, receipts, traces, or results
+
+& [InvocationAndToolRequirements] define the inference seam
+  + CPPE-033 InvocationRequest binds exact admitted procedure, caller, purpose, typed input, SOP generation, policy version, logical-time budget, step budget, memory budget, and expected output schema
+  + CPPE-034 the controller stops model generation at a structured tool request, invokes Cantor outside the model, appends the structured result, and begins or resumes a later inference pass
+  + CPPE-035 InvocationResult contains typed output or fault, final procedure and process states, normalized trace digest, consumed budgets, residuals, and proof references
+  + CPPE-036 stale catalogue, procedure, schema, SOP, compiler, verifier, policy, participant, frame, or invocation generation fails closed
+  + CPPE-037 the first experiment is effectless and may read only the exact typed invocation input and pinned admitted in-memory artefacts supplied by the harness
+  + CPPE-038 no filesystem, network, database, system clock, subprocess, model provider, calendar provider, notification, Git, device, unsafe code, or external effect is permitted
+
+& [PortableIRAndProofRequirements] keep backends corresponding
+  + CPPE-039 Cantor Process IR is canonical, typed, control-flow explicit, process-state explicit, effect annotated, bounded, source-mapped, and independent of one model or hardware vendor
+  + CPPE-040 the first proof must run a hand-authored and model-shaped two-process candidate through the same validator, compiler, verifier, admission harness, interpreter, token-ring negotiation, replay, stale-version refusal, and budget refusal
+
+& [AcceptanceAndNonGoals] are explicit
+  + normalized source, IR, receipts, invocation, result, and trace must be byte-stable for the same inputs
+  + malformed syntax, unknown fields, type errors, unbounded constructs, forbidden effects, invalid SOP refs, self-admission, stale identity, resource exhaustion, and unstable ring termination must be rejected
+  + vintage Simula parser compatibility, arbitrary inheritance, garbage collection, native coroutine stacks, arbitrary model-generated execution, production catalogue persistence, and live tools are non-goals
+  + FPGA lowering is governed by a separate target contract and is not procedure-language implementation authority
+
+& [ExplosionDisposition] is ready_for_refinement
+  + all forty requirements require semantic, data, constraint, justification, matrix, registry, canonical, and phase-lock processing
+  + no parser, compiler, interpreter, tool, model call, catalogue, or runtime may be implemented from this exploded artifact

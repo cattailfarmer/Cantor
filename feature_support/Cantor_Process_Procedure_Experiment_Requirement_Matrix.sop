@@ -1,0 +1,68 @@
+Subject: Cantor Process Procedure Experiment Requirement Matrix
+
+Description: Requirement support ledger for CPPE-001 through CPPE-040.
+
+@ [matrix_uuid] dfcb244c-67ea-4e7f-8a73-102fb8fdec6e
+@ [requirement_set] CPPE-001 through CPPE-040
+@ [matrix_state] complete_at_pre_signature_specification_grade
+
+& [Coverage_001_010] is mapped
+  + CPPE-001 -> preserved Simula source; data ProcedureCandidateRecord; canonical ProcedureIdentity
+  + CPPE-002 -> data IdentityPolicy and IR; canonical ProcedureIdentity
+  + CPPE-003 -> constraints C043-C048; canonical ProcedureIdentity
+  + CPPE-004 -> data CatalogueState; canonical CatalogueAndRevocation
+  + CPPE-005 -> refinement ProcedureCandidate; data candidate anchors; canonical SOPAnchorContract
+  + CPPE-006 -> data ProcedureSchemaSet; canonical TypeAndBoundSystem
+  + CPPE-007 -> data ProcedureSchemaSet; canonical TypeAndBoundSystem
+  + CPPE-008 -> constraints C035; canonical StateAndEffectSystem
+  + CPPE-009 -> constraints C013 and C036; canonical TypeAndBoundSystem
+  + CPPE-010 -> data ProcessInstanceState; canonical StateAndEffectSystem
+
+& [Coverage_011_020] is mapped
+  + CPPE-011 -> data ProcessDefinition; canonical ProcessSemantics
+  + CPPE-012 -> refinement ProcessStep; canonical ProcessSemantics
+  + CPPE-013 -> refinement SerializedContinuation; data ProcessInstanceState; canonical ProcessSemantics
+  + CPPE-014 -> refinement ProcessStep; canonical SchedulerSemantics
+  + CPPE-015 -> constraints C009-C012; canonical SchedulerSemantics
+  + CPPE-016 -> constraints C013 and C036; canonical TypeAndBoundSystem
+  + CPPE-017 -> pruning PRUNE-016; canonical ProhibitedOperationSet
+  + CPPE-018 -> refinement FacultyBoundary; data NegotiationSession; canonical SharedInferenceProtocol
+  + CPPE-019 -> data NegotiationSession; canonical SharedInferenceProtocol
+  + CPPE-020 -> exploded message kinds; canonical SharedInferenceProtocol
+
+& [Coverage_021_030] is mapped
+  + CPPE-021 -> refinement TokenRingPass; canonical TokenRingStability
+  + CPPE-022 -> constraints C055; canonical TokenRingStability
+  + CPPE-023 -> constraints C056; canonical TruthAndAuthorityBoundary
+  + CPPE-024 -> refinement StructuredInferenceSeam; canonical ToolInferenceSeam
+  + CPPE-025 -> data ProcedurePhaseReceipts; canonical ProcedureLifecycle
+  + CPPE-026 -> constraints C042-C044; canonical ProcedureLifecycle
+  + CPPE-027 -> data CantorProcessIRRecord; canonical CompilerContract
+  + CPPE-028 -> data phase receipts; canonical VerifierContract
+  + CPPE-029 -> refinement ProcedureAdmission; canonical AdmissionContract
+  + CPPE-030 -> constraints C043; canonical ModelAuthorshipBoundary
+
+& [Coverage_031_040] is mapped
+  + CPPE-031 -> data ProcedureCatalogueState; canonical CatalogueAndRevocation
+  + CPPE-032 -> data phase receipts; canonical CatalogueAndRevocation
+  + CPPE-033 -> data InvocationRequestAndResult; canonical InvocationContract
+  + CPPE-034 -> refinement StructuredInferenceSeam; canonical ToolInferenceSeam
+  + CPPE-035 -> data InvocationRequestAndResult and SemanticTrace; canonical InvocationContract
+  + CPPE-036 -> constraints C046; canonical FaultAndVersionContract
+  + CPPE-037 -> refinement Effectless; canonical StateAndEffectSystem
+  + CPPE-038 -> constraints C041 and prohibited effects; canonical AuthorityAndEffectBoundary
+  + CPPE-039 -> data CantorProcessIRRecord; canonical PortableIR
+  + CPPE-040 -> plan I01-I08; canonical FirstExperimentAndProof
+
+& [StatusAccounting] is truthful
+  + [requirement_count] is 40
+  + [mapped_count] is 40
+  + [unmapped_count] is 0
+  + [specification_status] is satisfied_only_after_valid_CPPE_phase_lock
+  + [procedure_implementation_status] is not_started
+  + [model_provider_status] is not_authorized
+  + [effect_status] is effectless_only_in_future_separately_claimed_experiment
+
+& [ProofRule] prevents authority confusion
+  + candidate, compiler, verifier, admission, catalogue, invocation, and model transcript evidence must remain separate
+  + no planned experiment is complete until implementation and fresh proof exist

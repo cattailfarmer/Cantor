@@ -1,0 +1,88 @@
+Subject: Cantor Deterministic Runtime Activation Exploded Specification
+
+Description: Derived SJS expansion for an effectless, in-memory, logical-time first runtime over the already implemented CTPR machine forms. It covers the fake repository, Calendar and Planner, tandem lanes, replay, and bounded compiler-diff fixtures required by WS-CTPR-011 through WS-CTPR-013 without granting live effects.
+
+@ [exploded_uuid] d9fa1dd4-7fac-4bfa-8049-5c10f7588515
+@ [processing_input_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_deterministic_runtime_activation\SJS_Processing_Input_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_Deterministic_Runtime_Activation_SJS_Input_Audit_2026-08-05.sop
+@ [upstream_CTPR] C:\Project\Cantor\specifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.sop
+@ [pure_forms_proof] C:\Project\Cantor\proofs\Cantor_Temporal_Planner_Pure_Forms_Proof.sop
+
+& [ExplodedIdentity] is deterministic fixture runtime only
+  + [profile] is cantor-deterministic-runtime-activation/0.1
+  + [requirement_set] is CDRA-001 through CDRA-040
+  + [implementation_target] is a future separately claimed Rust in-memory library and tests
+  + [effect_class] is pure_and_in_memory
+  + [clock_domain] is caller-supplied logical time
+  + [authority_state] is unsigned_exploded_candidate
+
+& [FormAndIdentityRequirements] bind runtime behavior to the proved ABI
+  + CDRA-001 runtime inputs and outputs must use the exact versioned CTPR form identities or an explicit migration result
+  + CDRA-002 every accepted record must pass pure form validation before state-machine evaluation
+  + CDRA-003 all maps, sets, event orderings, traces, and serialized results must have canonical deterministic ordering
+  + CDRA-004 runtime state must be supplied, returned, and replayable without ambient singleton or process-global canonical state
+  + CDRA-005 every mutation-like operation must return a new state and receipt while preserving the prior state
+  + CDRA-006 unsupported form, schema, runtime, policy, or compiler versions must fail closed with a typed fault
+
+& [FakeRepositoryRequirements] define an append-only semantic fixture
+  + CDRA-007 FakeRepository must hold RepositoryGeneration, MaterialEvent, ContentObject, SemanticSnapshot, and derived index forms in memory only
+  + CDRA-008 compare-and-append must require the exact expected predecessor generation and reject stale, forked, missing, or inconsistent frontiers
+  + CDRA-009 accepted appends must assign deterministic logical sequence from supplied input rather than wall-clock, thread, or iteration accident
+  + CDRA-010 ContentObject accepts caller-supplied immutable bytes or normalized value and verifies its digest without filesystem access
+  + CDRA-011 SemanticSnapshot must declare its exact admitted event frontier and cannot claim an atomic external-world snapshot
+  + CDRA-012 derived indexes are rebuildable projections whose digest and source generation are explicit and which never become semantic authority
+  + CDRA-013 branch, merge, rejection, supersession, and compaction fixtures must preserve predecessor and disposition evidence
+
+& [LogicalTimeCalendarRequirements] make time fully simulated
+  + CDRA-014 LogicalClock is an explicit immutable counter or ordered token advanced only by an admitted input operation
+  + CDRA-015 FakeCalendar stores versioned CalendarItems, WakeConditions, recurrence policies, exceptions, commitments, and provider-sync state without contacting a provider
+  + CDRA-016 recurrence expansion must be horizon-bounded, timezone-policy explicit, exception-aware, and deterministic for the same input
+  + CDRA-017 due, missed, cancelled, completed, and superseded states are evaluated against supplied logical or fixture civil time and recorded as events
+  + CDRA-018 WakeCondition may emit a reentry candidate only after exact task, plan, repository, capsule, and authority versions are revalidated
+  + CDRA-019 schedule, commitment, provider synchronization, notification, and execution remain separate identities and transitions
+  + CDRA-020 no deadline, proximity, invitation, or recurrence occurrence may imply priority, truth, consent, authority, or external action
+
+& [PlannerRequirements] produce bounded proposals
+  + CDRA-021 DeterministicPlanner validates the objective and dependency DAG, rejecting cycles or unresolved required identities with a witness
+  + CDRA-022 candidate order uses declared priority policy followed by stable identity ordering, never hash-map or traversal accident
+  + CDRA-023 planning consumes an exact TaskContract, PlanRevision predecessor, RepositoryGeneration, Calendar view, resource budget, and policy version
+  + CDRA-024 planning returns a new PlanRevision with alternatives, assumptions, uncertainty, proof gates, stop conditions, and reroute conditions
+  + CDRA-025 MaterialityPolicy deterministically classifies candidate events as durable, aggregate, transient, or rejected and records the applicable rule
+  + CDRA-026 Schedule results are proposals until a separate fixture commitment transition validates authority
+
+& [ChangeCapsuleAndTandemRequirements] realize the forward and rear walk
+  + CDRA-027 ChangeCapsule transition functions enforce the canonical lifecycle and exact predecessor generation
+  + CDRA-028 prospective preparation pins task, plan, repository, capsule generation, target set, expected transform, effects, proof gate, and unrelated-state exclusion
+  + CDRA-029 ExecutionLane in this runtime may accept only simulated effect observations supplied as fixture data and may perform no effect
+  + CDRA-030 RetrospectiveLane must review the exact capsule generation and return evidence, objections, uncertainty, invalidation, residuals, and proposed disposition
+  + CDRA-031 LaneMessage append is immutable, causally referenced, logically ordered, addressed to named participants, and acknowledged explicitly
+  + CDRA-032 ObserverJoin must refuse missing returns, wrong subject, stale generation, incompatible policy, unmet proof, or unaccounted diff
+  + CDRA-033 ReleaseBarrier opens only for an exact named dependency set whose required receipts and versions are satisfied
+  + CDRA-034 logical timeout, cancellation, crash reentry, lag, and residual are explicit state transitions rather than threads, sleeps, leases, or timers
+
+& [BoundedCompilerDiffRequirements] provide an honest fixture
+  + CDRA-035 CompilerDiffFixture contains fixed bounded SOP source, semantic IR, build IR, target artifact metadata, impact, correspondence, and proof records
+  + CDRA-036 a forward pass predicts identities, dependencies, diagnostics, invalidation, target output, and proof requirements without claiming actual compilation beyond the fixture
+  + CDRA-037 an independent rear pass compares exact before and candidate generations and cannot reuse the forward pass as its only evidence
+  + CDRA-038 checked status requires complete diff categories, explicit unknowns, independent correspondence evidence, and ObserverJoin disposition
+  + CDRA-039 fixture mismatch must invalidate the exact affected generation and downstream derived results without broad unrelated invalidation
+  + CDRA-040 the fixture grants no general parser, compiler, target backend, native code, WASM, model, FPGA, or self-certification claim
+
+& [RuntimeAcceptance] is proof-oriented
+  + byte-identical normalized replay from the same initial state and operation sequence
+  + property or table tests for every legal transition and every prohibited transition
+  + negative fixtures for stale versions, cycles, horizon overflow, wake mismatch, missing returns, wrong generations, incomplete diffs, false checked state, and forbidden effects
+  + bounded resource limits for event count, recurrence expansion, graph nodes and edges, lane messages, trace length, and fixture size
+  + no filesystem, network, database service, system clock, process, thread, provider, notification, Git mutation, model call, hardware, or unsafe execution
+
+& [NonGoals] prevent authority bleed
+  + live calendar or provider integration
+  + background journaling or monitoring
+  + production persistence or concurrent service behavior
+  + real Git or compiler invocation
+  + model inference, procedure execution, training, hidden-state access, or shared K/V cache
+  + FPGA, HDL, HLS, bitstream, board, or device behavior
+
+& [ExplosionDisposition] is ready_for_refinement
+  + all forty requirements require semantic, data, constraint, justification, matrix, registry, canonical, and phase-lock processing
+  + no implementation may begin from this exploded artifact

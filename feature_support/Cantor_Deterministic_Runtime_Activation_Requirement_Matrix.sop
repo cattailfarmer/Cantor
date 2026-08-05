@@ -1,0 +1,68 @@
+Subject: Cantor Deterministic Runtime Activation Requirement Matrix
+
+Description: Requirement-to-source, refined meaning, data support, canonical clause, acceptance, and future implementation proof ledger for CDRA-001 through CDRA-040.
+
+@ [matrix_uuid] b3cf3b5e-5c5c-437e-a411-29be0f0fbf03
+@ [requirement_set] CDRA-001 through CDRA-040
+@ [matrix_state] complete_at_pre_signature_specification_grade
+
+& [Coverage_001_010] is mapped
+  + CDRA-001 -> pure forms proof; data IdentityPolicy; canonical RuntimeIdentityAndABI; future exact-form tests
+  + CDRA-002 -> exploded FormAndIdentity; data RuntimeOperation; canonical RuntimeIdentityAndABI; future pre-transition validation tests
+  + CDRA-003 -> constraints C010-C011; data SemanticTrace; canonical DeterminismAndBounds; future order permutation tests
+  + CDRA-004 -> data DeterministicRuntimeRoot; canonical RuntimeIdentityAndABI; future no-global-state inspection and replay
+  + CDRA-005 -> data RuntimeReceipt; canonical TransitionContract; future predecessor immutability tests
+  + CDRA-006 -> data RuntimeFault; canonical FaultAndVersionContract; future unsupported-version negatives
+  + CDRA-007 -> data RepositoryRuntimeProjection; canonical FakeRepository; future in-memory repository tests
+  + CDRA-008 -> constraints C018; canonical FakeRepository; future stale and fork negatives
+  + CDRA-009 -> data LogicalClock and receipt; canonical LogicalTime; future deterministic order tests
+  + CDRA-010 -> data repository content map; canonical FakeRepository; future digest mismatch and no-filesystem tests
+
+& [Coverage_011_020] is mapped
+  + CDRA-011 -> refinement FakeRepository; canonical FakeRepository; future snapshot frontier negatives
+  + CDRA-012 -> data RepositoryRuntimeProjection; canonical FakeRepository; future rebuild equivalence tests
+  + CDRA-013 -> exploded repository requirements; canonical FakeRepository; future branch merge compaction fixtures
+  + CDRA-014 -> refinement LogicalClock; data RuntimeRoot; canonical LogicalTime; future explicit advance tests
+  + CDRA-015 -> data CalendarRuntimeProjection; canonical FakeCalendar; future item and wake lifecycle tests
+  + CDRA-016 -> constraints C013; canonical FakeCalendar; future horizon timezone exception tests
+  + CDRA-017 -> data RuntimeOperation; canonical FakeCalendar; future due miss cancel complete tests
+  + CDRA-018 -> refinement FakeCalendar; canonical FakeCalendar; future wake mismatch tests
+  + CDRA-019 -> semantic rejected conflations; canonical FakeCalendar; future transition separation tests
+  + CDRA-020 -> constraints C021-C023; canonical AuthorityAndEffectBoundary; future no-derived-authority tests
+
+& [Coverage_021_030] is mapped
+  + CDRA-021 -> data PlannerRuntimeProjection; canonical DeterministicPlanner; future cycle witness tests
+  + CDRA-022 -> constraints C010; canonical DeterministicPlanner; future insertion-order independence
+  + CDRA-023 -> data Planner input relation; canonical DeterministicPlanner; future exact-input tests
+  + CDRA-024 -> refinement DeterministicPlanner; canonical DeterministicPlanner; future alternative uncertainty tests
+  + CDRA-025 -> exploded Planner; canonical Materiality; future classification rule tests
+  + CDRA-026 -> rejected schedule commitment conflation; canonical DeterministicPlanner; future proposal-only tests
+  + CDRA-027 -> pure form transitions; canonical TandemAndCapsules; future lifecycle transition table
+  + CDRA-028 -> data TandemRuntimeProjection; canonical TandemAndCapsules; future pinned-version tests
+  + CDRA-029 -> constraints C025; canonical AuthorityAndEffectBoundary; future simulated-observation tests
+  + CDRA-030 -> refinement TandemCoordination; canonical TandemAndCapsules; future retrospective completeness tests
+
+& [Coverage_031_040] is mapped
+  + CDRA-031 -> data TandemRuntimeProjection; canonical TandemAndCapsules; future message causality tests
+  + CDRA-032 -> constraints C027; canonical TandemAndCapsules; future join refusal matrix
+  + CDRA-033 -> constraints C029; canonical TandemAndCapsules; future exact barrier set tests
+  + CDRA-034 -> constraints C028; canonical TandemAndCapsules; future timeout cancel reentry tests
+  + CDRA-035 -> data CompilerFixtureProjection; canonical CompilerDiffFixture; future fixed fixture tests
+  + CDRA-036 -> refinement CompilerDiffFixture; canonical CompilerDiffFixture; future forward prediction tests
+  + CDRA-037 -> constraints C030; canonical CompilerDiffFixture; future independent rear checker tests
+  + CDRA-038 -> constraints C031; canonical CompilerDiffFixture; future incomplete and unknown negatives
+  + CDRA-039 -> data CompilerFixtureProjection; canonical CompilerDiffFixture; future exact invalidation tests
+  + CDRA-040 -> constraints C032; canonical AuthorityAndEffectBoundary; future no-general-compiler audit
+
+& [StatusAccounting] is truthful
+  + [requirement_count] is 40
+  + [mapped_count] is 40
+  + [unmapped_count] is 0
+  + [specification_status] is satisfied_only_after_valid_CDRA_phase_lock
+  + [runtime_implementation_status] is not_started
+  + [live_effect_status] is not_authorized
+
+& [ProofRule] prevents laundering
+  + source, canonical, and phase-lock evidence may satisfy specification semantics only
+  + planned tests remain future until code and fresh output exist
+  + pure form proof supports ABI availability but not runtime behavior

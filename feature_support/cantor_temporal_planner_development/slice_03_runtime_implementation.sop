@@ -8,7 +8,7 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
 @ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.exploded.sop
 
 & [ClusterIdentity] is bounded deterministic runtime work
-  + [enqueue_readiness] is WS-CTPR-010_complete_later_runtime_slices_authority_blocked
+  + [enqueue_readiness] is WS-CTPR-011_ready_under_CDRA-SJS-01_later_slices_dependency_blocked
   + [reason_for_contiguity] is pure forms provide the common ABI consumed by repository, calendar, tandem, and compiler fixtures
   + [implementation_language] is Rust within the current safe workspace unless signed CTPR authority chooses otherwise
 
@@ -19,13 +19,15 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
     @ [authority] C:\Project\Cantor\specifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.sop
     @ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Phase_Lock.sop
   + [feature_requirement] is FR-CTPR-011
-    @ [support_status] blocked
+    @ [support_status] ready
     + [requirement_statement] is implement deterministic fake repository, Calendar, and Planner behavior with logical time and replay
+    @ [authority] C:\Project\Cantor\specifications\Cantor_Deterministic_Runtime_Activation.sop
+    @ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Deterministic_Runtime_Activation_Phase_Lock.sop
   + [feature_requirement] is FR-CTPR-012
-    @ [support_status] blocked
+    @ [support_status] blocked_by_runtime_root_dependency
     + [requirement_statement] is implement prospective, execution, retrospective, join, invalidation, timeout, residual, and stale-version behavior
   + [feature_requirement] is FR-CTPR-013
-    @ [support_status] blocked
+    @ [support_status] blocked_by_runtime_root_dependency
     + [requirement_statement] is implement bounded source, semantic, build, impact, correspondence, and proof diff fixtures over admitted compiler forms
 
 & [WorkSliceTransform] is the implementation queue
@@ -41,7 +43,7 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
     @ [proof] C:\Project\Cantor\proofs\Cantor_Temporal_Planner_Pure_Forms_Proof.sop
     @ [completion_review] C:\Project\Cantor\feature_support\reviews\CantorTemporalPlannerPureFormsCompletionReview.sop
   + [work_slice_detail] is WS-CTPR-011
-    @ [slice_status] blocked
+    @ [slice_status] ready_unassigned
     @ [model_routing] Spark-suitable after signed authority
     @ [depends_on] WS-CTPR-010
     + [scope] is fake logical-time repository, Calendar, Planner, material event, and replay implementation
@@ -49,13 +51,13 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
   + [work_slice_detail] is WS-CTPR-012
     @ [slice_status] blocked
     @ [model_routing] Spark-suitable after signed authority
-    @ [depends_on] WS-CTPR-010
+    @ [depends_on] WS-CTPR-010 and WS-CTPR-011
     + [scope] is tandem lane state machine, compare-and-append join, invalidation, timeout, residual, and crash reentry
     + [proof_route] is stale generation, wrong reflection, timeout, cancellation, and no-deadlock tests
   + [work_slice_detail] is WS-CTPR-013
     @ [slice_status] blocked
     @ [model_routing] Spark-suitable after signed authority; escalate on target-ABI design fork
-    @ [depends_on] WS-CTPR-010 and WS-CTPR-004
+    @ [depends_on] WS-CTPR-010, WS-CTPR-011, and WS-CTPR-004
     + [scope] is bounded dual-pass SOP compiler diff and transitive invalidation fixture
     + [proof_route] is distinct textual, semantic, build, impact, correspondence, and proof results
 
@@ -66,9 +68,10 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
     + [historical_gap_statement] is no valid CTPR canonical signature authorized implementation before WS-CTPR-009
     + [resolution] is canonical signature 4421228f-ecf2-450a-b704-189c4d83fd68 authorizes only WS-CTPR-010 immutable pure forms, normalization, validation, and negative tests
   + [support_gap] is SG-CTPR-011
-    @ [gap_status] open
-    @ [blocks] WS-CTPR-011 through WS-CTPR-013
-    + [gap_statement] is pure-form dependencies now pass but CTPR signature 4421228f-ecf2-450a-b704-189c4d83fd68 grants no repository, Calendar, lane runtime, compiler fixture, or other runtime authority
+    @ [gap_status] resolved
+    @ [blocks] none_by_authority
+    + [historical_gap_statement] is pure-form dependencies passed while CTPR signature 4421228f-ecf2-450a-b704-189c4d83fd68 granted no repository, Calendar, lane runtime, or compiler fixture authority
+    + [resolution] is CDRA-SJS-01 signature ad886f0f-4eb8-41d4-9e2f-69921d5cc197 and phase lock f88221ae-054b-438e-be9e-e20df20b557e authorize a future separately claimed effectless in-memory runtime
 
 & [CompletedWorkReview] releases no unauthorized runtime work
   + [review_uuid] is 0bf04c02-5080-421e-844f-fbd0593d776e
@@ -78,3 +81,13 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
   + [requirement_delta] is the signed pure-form frontier implemented without runtime or effect expansion
   + [readiness_delta] is WS-CTPR-011 through WS-CTPR-013 have their form dependency but remain blocked by SG-CTPR-011 authority
   + [next_assignment] is none
+
+& [RuntimeAuthorityCompletedWorkReview] releases one ordered frontier
+  + [review_uuid] is 9ebe6f34-1627-43f2-b771-e67b91526fbf
+  + [completed_specification_slice] is WS-CRPF-006
+  + [canonical] is C:\Project\Cantor\specifications\Cantor_Deterministic_Runtime_Activation.sop
+  + [phase_lock] is C:\Project\Cantor\narrative\registries\Cantor_Deterministic_Runtime_Activation_Phase_Lock.sop
+  + [support_delta] is FR-CTPR-011 receives exact bounded runtime authority and SG-CTPR-011 is resolved
+  + [requirement_delta] is runtime root and dispatcher must precede tandem and compiler fixture work
+  + [readiness_delta] is WS-CTPR-011 ready_unassigned while WS-CTPR-012 and WS-CTPR-013 remain dependency-blocked
+  + [next_assignment] is WS-CTPR-011 only after a separate implementation goal and claim

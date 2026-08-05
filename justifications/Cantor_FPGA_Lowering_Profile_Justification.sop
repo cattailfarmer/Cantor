@@ -1,0 +1,59 @@
+Subject: Cantor FPGA Lowering Profile Justification
+
+Description: Justification for signing only a non-executable eligibility and correspondence contract now while deferring all target-specific hardware work.
+
+@ [justification_uuid] ecd8ea3d-603b-4951-875f-10f855ac6bfa
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_FPGA_Lowering_Profile.exploded.sop
+@ [dual_hemisphere] C:\Project\Cantor\narrative\research\Cantor_Runtime_Procedure_FPGA_Dual_Hemisphere_Review_2026-08-05.sop
+
+& [Claim_CFLP_01] FPGA is a backend rather than the semantic language
+  + [support] hardware descriptions define circuits, timing, storage, and interfaces while SOP and process procedures define meaning and authority
+  + [counterargument] a hardware-oriented language might yield more direct execution
+  + [answer] directness would couple Cantor semantics to physical details and weaken software portability
+  + [confidence] is high
+  + [invalidation] the canonical IR cannot express an essential target behavior without adopting hardware semantics
+
+& [Claim_CFLP_02] a signed non-executable profile is useful before target selection
+  + [support] it prevents future hardware work from silently changing eligibility, interface, correspondence, or authority rules
+  + [counterargument] it is premature documentation for speculative work
+  + [answer] only stable cross-target constraints are retained; vendor and device details remain absent
+  + [confidence] is medium_high
+  + [invalidation] profiling shows no plausible FPGA-eligible workload or a different accelerator class is clearly superior
+
+& [Claim_CFLP_03] interpreter and native realizations must remain separate
+  + [support] interpreting signed IR and synthesizing dedicated circuitry have different update, performance, verification, and admission properties
+  + [counterargument] one FPGA backend label is simpler
+  + [answer] one label would permit evidence and authority from one realization to launder claims about the other
+  + [confidence] is high
+  + [invalidation] a selected architecture proves the distinction meaningless at every authority and artifact boundary
+
+& [Claim_CFLP_04] software reference semantics must precede hardware
+  + [support] hardware correspondence requires a trusted normalized result and semantic trace independent of physical cycles
+  + [counterargument] software semantics may bias hardware architecture
+  + [answer] backend-independent IR semantics constrain meaning while still permitting distinct microarchitectures
+  + [confidence] is high
+  + [invalidation] representative hardware behavior cannot correspond without changing the source semantics
+
+& [Claim_CFLP_05] profiling must precede native lowering
+  + [support] FPGA compilation and verification cost are justified only for a stable bottleneck or isolation requirement
+  + [counterargument] early hardware experiments can inform IR design
+  + [answer] simulation or paper design may inform candidates, but executable authorization still requires measured need
+  + [confidence] is high
+  + [invalidation] a low-cost board experiment materially reduces uncertainty before software profiling exists
+
+& [Claim_CFLP_06] semantic traces must correspond, not only final output
+  + [support] matching outputs can conceal different ordering, dropped messages, incorrect bounds, or authority transitions
+  + [counterargument] trace equivalence may be expensive and overconstrain parallel hardware
+  + [answer] semantic events are normalized independently of physical cycle scheduling; telemetry may differ
+  + [confidence] is medium_high
+  + [invalidation] a lawful optimization cannot be represented by an equivalent normalized trace
+
+& [Claim_CFLP_07] bitstream and device authority require a future target addendum
+  + [support] actual risks depend on toolchain, board, secure boot, interfaces, keys, partial failure, rollback, and physical environment
+  + [counterargument] generic admission rules could suffice
+  + [answer] generic rules survive here, but target-specific evidence is necessary before synthesis or loading claims
+  + [confidence] is high
+  + [invalidation] a formally verified portable deployment mechanism proves target identity irrelevant
+
+& [JustificationDisposition] is accepted_for_non_executable_canonical_authoring
+  + present signing may govern future consideration but cannot authorize hardware implementation

@@ -1,0 +1,48 @@
+Subject: Cantor FPGA Lowering Profile Requirement Matrix
+
+Description: Requirement support ledger for the non-executable CFLP-001 through CFLP-024 target contract.
+
+@ [matrix_uuid] c23af4e7-44f9-4ce3-92ea-ad4c07c606f9
+@ [requirement_set] CFLP-001 through CFLP-024
+@ [matrix_state] complete_at_pre_signature_contract_grade
+
+& [Coverage_001_012] is mapped
+  + CFLP-001 -> semantic refinement SOP boundary; canonical SemanticLayerBoundary
+  + CFLP-002 -> refinement CantorProcessProcedure; canonical SemanticLayerBoundary
+  + CFLP-003 -> data CantorProcessIRRecord; canonical EligibleInputContract
+  + CFLP-004 -> constraints C059; canonical DerivedTargetArtifactContract
+  + CFLP-005 -> pruning PRUNE-006 and PRUNE-018; canonical NonClaimSet
+  + CFLP-006 -> data target profile; canonical KernelEligibility
+  + CFLP-007 -> constraints C060; canonical KernelEligibility
+  + CFLP-008 -> justification profiling; canonical ProfilingGate
+  + CFLP-009 -> plan E01-E02; canonical ProfilingGate
+  + CFLP-010 -> exploded candidate families; canonical CandidateKernelSet
+  + CFLP-011 -> constraints C059-C067; canonical HostBoundary
+  + CFLP-012 -> refinement FPGAInterpreterRealization; canonical RealizationProfiles
+
+& [Coverage_013_024] is mapped
+  + CFLP-013 -> refinement FPGANativeRealization; canonical RealizationProfiles
+  + CFLP-014 -> constraints C062 and C065; canonical AdmissionSeparation
+  + CFLP-015 -> data future target records; canonical TargetSpecificAddendumGate
+  + CFLP-016 -> data InterfaceContract candidate; canonical HostDeviceInterface
+  + CFLP-017 -> exploded interface requirements; canonical HostDeviceInterface
+  + CFLP-018 -> constraints C063; canonical SchedulerCorrespondence
+  + CFLP-019 -> data future fault records; canonical HardwareFaultContract
+  + CFLP-020 -> data SemanticTrace; canonical CorrespondenceProof
+  + CFLP-021 -> justification software reference; canonical CorrespondenceProof
+  + CFLP-022 -> data future candidate records; canonical ArtifactIdentityChain
+  + CFLP-023 -> constraints C064-C065; canonical TargetSpecificAddendumGate
+  + CFLP-024 -> constraints C066; canonical ModelAuthorshipBoundary
+
+& [StatusAccounting] is truthful
+  + [requirement_count] is 24
+  + [mapped_count] is 24
+  + [unmapped_count] is 0
+  + [contract_status] is satisfied_only_after_valid_CFLP_phase_lock
+  + [profiling_status] is not_started
+  + [target_status] is unselected
+  + [hardware_implementation_status] is not_authorized
+
+& [ProofRule] is non-executable
+  + a valid profile phase lock may govern future evaluation only
+  + no HDL, HLS, simulation, synthesis, timing, bitstream, device, performance, or deployment outcome may be inferred

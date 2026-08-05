@@ -1,0 +1,183 @@
+Subject: Cantor Process Procedure Experiment
+
+Description: Canonical SJS authority for a future separately claimed effectless Simula-inspired semantic stored-procedure experiment with explicit process state, multi-pass shared-inference messages, a portable canonical IR, separated lifecycle receipts, and deterministic software interpretation. It grants no live provider, persistent service, external effect, or hardware authority.
+
+@ [Simula_source_manifest] C:\Project\Cantor\source_documents\2026-08-05_simula_inference_control_correspondence\Source_Document_Manifest.sop
+@ [processing_input_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_deterministic_runtime_activation\SJS_Processing_Input_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Process_Procedure_Experiment.exploded.sop
+@ [semantic_refinement] C:\Project\Cantor\narrative\research\Cantor_Runtime_Procedure_FPGA_Semantic_Refinement_2026-08-05.sop
+@ [data_design] C:\Project\Cantor\narrative\research\Cantor_Runtime_Procedure_FPGA_Data_Design_2026-08-05.sop
+@ [registry] C:\Project\Cantor\narrative\registries\Cantor_Process_Procedure_Experiment_Registry.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Process_Procedure_Experiment_Phase_Lock.sop
+
+& [CanonicalIdentity] is exact
+  + [canonical_uuid] is d29478fa-1935-466c-ab78-4965864f8756
+  + [profile] is cantor-process-procedure-experiment/0.1
+  + [requirement_set] is CPPE-001 through CPPE-040
+  + [upstream_SMTC_signature_uuid] is 810f24e8-3d1c-4074-ae57-706f8f63e892
+  + [authority_grade] is future_separately_claimed_effectless_software_experiment
+  + [canonical_source_specification] is this file
+
+& [ProcedureIdentity] is content and purpose bound
+  + ProcedureCandidate binds author, provenance, purpose, scope, language profile, source, digest, SOP anchors, schemas, process declarations, effects, bounds, and logical creation time
+  + compiled identity binds normalized source, compiler, profile, IR, schemas, effect declaration, and bounds
+  + revisions are immutable and inherit no admission, signature, catalogue, invocation, or capability
+  + human names and aliases are versioned catalogue projections only
+
+& [SOPAnchorContract] is exact
+  + every anchor binds recognized signed artifact identity, version, digest, optional clause identity, intended use, and sensitivity
+  + an invocation supplies only the pinned anchor set admitted for that procedure
+  + stale, missing, invalidated, substituted, or scope-incompatible anchors fail closed
+  - never: permit ambient search of the entire SOP fabric as implicit procedure input
+
+& [TypeAndBoundSystem] is closed
+  + values are null, boolean, bounded integer, bounded decimal, bounded text, bytes digest, identity reference, list, ordered map, record, tagged union, or typed fault
+  + input, output, message, event, state, result, and fault schemas are explicit, versioned, normalized, and closed by default
+  + collections, text, bytes, events, processes, messages, queues, maps, call depth, transitions, and traces have finite bounds
+  + exact schema version is default and migration is separate
+
+& [StateAndEffectSystem] is immutable and effectless
+  + procedure and process state are versioned values replaced only by accepted transitions
+  + allowed reads are typed invocation input and pinned admitted in-memory artefacts
+  + allowed writes are returned values, messages, state successors, traces, receipts, and faults
+  + no pointer, ambient object, global variable, hidden cache authority, or shared mutable state
+  + no filesystem, network, database, system clock, randomness, process, provider, notification, Git, model call, unsafe code, or device effect
+
+& [ProcessSemantics] are Simula-inspired and Cantor-native
+  + one procedure declares one or more named process roles with local state, accepted and emitted messages, transitions, and terminal states
+  + operations are bind, inspect, compare, branch, select, bounded map, emit, receive, yield, wait-logical, reactivate, join, return, and fault
+  + detach, passivate, resume, and reactivate lower to explicit SerializedContinuation state
+  + continuation binds procedure, process, program point, local state, inbox frontier, logical time, generation, budgets, and awaited condition
+  + recursion, self-modification, runtime code loading, native stack capture, unrestricted inheritance, reflection, and unbounded event creation are prohibited
+
+& [ProhibitedOperationSet] is closed for the first profile
+  + recursion, unbounded iteration, unrestricted inheritance, dynamic allocation, pointer access, native stack capture, self-modification, runtime code loading, executable reflection, process creation beyond declared bounds, and undeclared storage are prohibited
+  + system clock, randomness, environment, filesystem, network, database, subprocess, provider, notification, Git, model, unsafe code, device, and external-effect operations are prohibited
+  + unknown or future operations are prohibited until a superseding processed profile admits them explicitly
+
+& [SchedulerSemantics] are deterministic
+  + at most one process transition operates in one scheduler step
+  + other process states remain explicit and immutable
+  + selection uses readiness, supplied logical time, causal predecessors, declared priority, and stable identity tie-break
+  + every wait, loop, recurrence, and process walk has a static or invocation-bound termination measure
+  + resource exhaustion returns a typed result without partial admission
+
+& [PortableIR] is the semantic execution waist
+  + Cantor Process IR version 0.1 contains types, schemas, constants, anchors, process definitions, control regions, state replacements, messages, logical scheduling, effects, bounds, faults, and source maps
+  + normalization is independent of source formatting, model provider, host language, pointer layout, physical clock, register layout, and hardware vendor
+  + all backends must preserve typed result and normalized semantic trace
+
+& [SharedInferenceProtocol] is message based
+  + every model, faculty, controller, user, and procedure participant is named with declared role
+  + message binds session, sender, receiver, frame generation, SOP anchors, proposition kind, typed payload, evidence, logical time, causal predecessors, and expiry
+  + kinds include propose, question, support, object, counter, qualify, withdraw, admit-candidate, refuse, yield, pass, and fault
+  + NegotiatedFrame contains versioned propositions, conditions, constraints, evidence, objections, participants, and policy
+  + Cantor validates and routes records but cannot promote agreement, majority, compilation, or speed to truth or authority
+
+& [TokenRingStability] is one bounded negotiation experiment
+  + one required participant holds the logical turn token at a time
+  + pass means no generation-changing proposal, objection, qualification, or withdrawal
+  + stable candidate requires every exact required participant to pass one complete cycle over the same frame and policy generation
+  + any frame, participant, anchor, policy, proposal, objection, or qualification change resets incomplete pass state
+  + silence, absence, timeout, tool failure, and stale pass are not assent
+  + stable candidate remains subject to Observer admission
+
+& [ProcedureLifecycle] separates authorities
+  + lifecycle is proposed, parse-rejected, validated, compiled, verification-failed, verification-passed, admission-refused, admitted, suspended, revoked, or superseded
+  + validation, compilation, verification, admission, catalogue insertion, invocation, and revocation each emit a distinct receipt from a named principal
+  + no earlier phase implies a later phase
+
+& [CompilerContract] is deterministic
+  + canonical procedure forms lower to canonical Process IR with compiler identity, diagnostics, source map, effect table, bounds, and cost estimate
+  + unknown construct, ambiguous type, prohibited operation, invalid anchor, or unsupported version fails closed
+  + compilation neither verifies nor admits
+
+& [VerifierContract] is independent from compilation disposition
+  + checks type and schema closure, termination measure, resource bounds, effects, anchors, lifecycle, nondeterminism, prohibited operations, and normalized replay
+  + verification receipt states evidence, residuals, and exact compiler and IR identity
+  + compiler success cannot be its only verification evidence
+
+& [AdmissionContract] is Observer owned
+  + admission consumes exact source, compiler, IR, validation, verification, anchor, effect, bound, and policy identities
+  + disposition names permitted invocation context and revocation conditions
+  + admission applies to one exact compiled candidate only
+
+& [ModelAuthorshipBoundary] is fail-closed
+  + a model may emit a ProcedureCandidate through the same schema as a human or importer
+  + it cannot self-sign, self-verify, self-admit, persist, broaden schema, grant capability, invoke itself, or access undeclared input
+  + rejection may be returned for a later separately authored repair turn
+
+& [CatalogueAndRevocation] preserve exact status
+  + first catalogue is supplied immutable in-memory state
+  + insertion requires exact active AdmissionDisposition
+  + lookup returns exact identity, version, digest, admission, and revocation state
+  + revocation and supersession prevent future invocation without deleting source, receipts, traces, or results
+
+& [InvocationContract] closes one bounded execution
+  + request pins caller, purpose, admitted procedure, schemas, input, anchors, policy, participants, logical time, steps, memory, and expected output
+  + result contains typed output or fault, final procedure and process states, normalized trace, consumed budgets, residuals, and proof refs
+  + stale procedure, schema, anchor, compiler, verifier, policy, catalogue, participant, frame, or invocation fails closed
+
+& [FaultAndVersionContract] preserves safe refusal
+  + faults name phase, category, subject identities, expected and observed versions, evidence, consumed budget, trace location, and safe residual
+  + unsupported or stale source, schema, IR, compiler, verifier, policy, SOP anchor, catalogue, participant, frame, procedure, or invocation version fails before execution or successor admission
+  + first-profile compatibility is exact and any migration is a separately identified deterministic transform with diagnostics, loss, and proof
+  + faults never grant fallback capability or erase the rejected candidate and receipt lineage
+
+& [ToolInferenceSeam] is explicit multi-pass coordination
+  + model emits structured proposal or invocation request
+  + controller stops generation at the tool boundary
+  + Cantor runs externally and returns a structured result
+  + result becomes explicit context for a later inference pass
+  - never: claim direct hidden activation, K/V cache, weight, or uninterrupted-forward-pass sharing
+
+& [TruthAndAuthorityBoundary] is permanent
+  + deterministic means repeatable under exact inputs
+  + stable means the required pass cycle completed
+  + compiled means a canonical lowering exists
+  + verified means declared static and replay obligations passed
+  + admitted means Observer authorized the exact bounded procedure context
+  + none alone proves truth, safety, fitness, consent, or external effect authority
+
+& [AuthorityAndEffectBoundary] is the enforceable outer wall
+  + ProcedureCandidate authorship, successful compilation, verification, admission, and invocation remain different authorities
+  + first-profile procedures may produce only immutable in-memory state, messages, traces, receipts, typed output, or faults
+  + live provider, clock, randomness, filesystem, network, database, process, notification, Git, unsafe code, device, and external effects are absent
+  + any requirement for a prohibited effect invalidates this profile rather than silently widening it
+
+& [FirstExperimentAndProof] may be separately claimed after phase-lock validation
+  + CPPE-I01 through CPPE-I09 define machine-form-first future slices
+  + hand-authored and model-shaped two-process candidates use the same pipeline
+  + proof includes validation, deterministic compile, verification, fake admission, in-memory catalogue, interpreter, token-ring stability, replay, stale refusal, resource refusal, and fake controller transcript
+  + no live model provider, textual syntax requirement, persistence, alternative backend, or external effect is released
+
+& [SJSProcessingTrace] is artifact bound
+  + [Simula_source_manifest] SHA256 FE014B9B089982CF2C6041095DA8D959C58855B10ADCB8B03803F2F3586BE7DA and 2134 bytes
+  + [processing_input] SHA256 5CFB5977E6817C9EB10F52F6D05A73D43671743237908D741C08C0FEEAACB6FF and 4440 bytes
+  + [audit] SHA256 9A1FF0E1CD0B762FF7AB95B95CDA172885CD7074A54607C8A29AC1D1D70C5F03 and 7137 bytes
+  + [exploded] SHA256 2AE84D9FA5F66128032FF65AF2AC6C45362C70A8F2FF57246E73C0595D0075C7 and 8955 bytes
+  + [refinement] SHA256 FDFB34EA424A19EF050054756E33ED462104FFDAAB8E69C651D5DD2B4832C0C6 and 11389 bytes
+  + [data_design] SHA256 19E7A722CA7CCCDABF8E9141141A8EAD10C43B7E6B9CA0D9B03C66FA3E9544D4 and 13351 bytes
+  + [constraints] SHA256 F879BDE955ABA34A7A0D0ADCF1D46546BB5824E26E5809882A5937EB84749A7F and 10053 bytes
+  + [pruning] SHA256 3C41CF5D0678AB6FE1943F6E9418321C300742597E730221560138B6220A2A7D and 5423 bytes
+  + [seven_fold] SHA256 13B98187187F79DE68E31665B4E6426CBA304F1DE2E53E46B6EDD047CE09FEAB and 4690 bytes
+  + [dual_hemisphere] SHA256 569C2E11F644B2DFDEC741675CB39CE6192BFC37B67C7AC231EE1D92EB8DB807 and 5126 bytes
+  + [justification] SHA256 A437C2EE96C17E9E2A94C61CA4EE4FE616ECAF6E9D6DFCEC9AEE0F197A892CEE and 6376 bytes
+  + [plan] SHA256 67D1A2868FD8F8766A28CE9C3472C7B0A8D3D14C68A815D87F37B12B688E5B5F and 2203 bytes
+  + [matrix] SHA256 8623D4773251F6050F5E8A6A6266463BC8E65699C2B590310A2909C34C66DA14 and 4033 bytes
+  + [registry] SHA256 6BF908871DECA288E25B7A321DC558B288CDDC705980A50B94BB32CBEB9C3E90 and 3173 bytes
+  + [upstream_SMTC] SHA256 3326B78A1DDD14CB0B8DE6F756FFEFFE79DA2B09B4175332DC987C4A8B0464F5 and 20002 bytes
+
+& [RequirementSet] is canonical
+  + forty requirements are individually mapped
+  + implementation and experiment evidence remain not started
+
+& [SatisfactionSignature_CPPE_SJS_01] is bounded
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [signed_subject] is this canonical file
+  + [phase_lock_uuid] is 8abe1560-e423-46d4-9157-159b4acb03ee
+  + [processed_stage_set] is source_preserved, audited, delineated, exploded, semantically_refined, data_designed, constraint_checked, pruned, growth_seeded, seven_fold_phase_locked, dual_hemisphere_reviewed, justified, planned, requirements_mapped, registered, canonicalized, and signed
+  + [signature_status] is valid_after_exact_phase_lock_validation
+  + [authority_scope] is future_separately_claimed_effectless_machine_form_compiler_verifier_in_memory_catalogue_interpreter_token_ring_and_fake_tool_transcript_experiment_only
+  + [invalidation] is source or bound-artifact drift, upstream language invalidation, unbounded construct, nondeterminism, hidden mutable state, phase collapse, invalid anchor, model self-authority, shared-hidden-state claim, live provider or effect activation, backend semantic drift, or superseding source
