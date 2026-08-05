@@ -1,0 +1,118 @@
+Subject: Cantor Temporal Planner and Bidirectional Change Reflection Justification
+
+Description: Claim-support, counterargument, alternative, confidence, and invalidation record justifying CTPR's stable architecture and bounded authority.
+
+@ [justification_uuid] 1005ebf5-335a-4f3c-8390-838261819c9c
+@ [source_snapshot_uuid] a0b27483-1bde-43c6-abd9-23dddc31c51d
+@ [constraint_ledger_uuid] 9e79bcff-b231-4e7f-85d7-fc773375c68b
+@ [state] justified_unsigned
+
+& [Claim_1_ChangeCapsuleWaist] is supported
+  + [claim] ChangeCapsule should be the stable waist joining planning, execution, history, review, admission, and compiler impact
+  + [support] it binds the exact before generation, preserved intent, candidate, observed result, distinct diffs, review, invalidation, disposition, and after generation without forcing all subsystems into one representation
+  + [confidence] high_at_conceptual_and_logical_grade
+  + [counterargument] a large capsule risks becoming a monolithic record
+  + [answer] the capsule owns stable references to separate event, content, diff, proof, calendar, and compiler records rather than embedding every payload
+  + [invalidation] implementation shows unavoidable cyclic ownership, inability to stream or compact, or a smaller waist preserves all required relations more cleanly
+
+& [Claim_2_PlannerCalendarSeparation] is supported
+  + [claim] Planner should own candidate paths and Calendar should own versioned temporal projection and commitment state
+  + [support] planning must reason over alternatives and uncertainty, while calendar history must preserve proposals, commitments, triggers, misses, and provider divergence
+  + [confidence] high
+  + [counterargument] one scheduler could simplify the runtime
+  + [answer] one implementation may host both services behind separate records and contracts; semantic separation prevents candidate-as-commitment faults
+  + [invalidation] a formal model proves the states equivalent without authority or history loss
+
+& [Claim_3_MaterialEventRepository] is supported
+  + [claim] an append-only material-event repository plus immutable content and snapshot DAG should preserve the path walked
+  + [support] event sourcing retains forecast, action, observation, review, and correction order while content addressing and snapshots support replay and efficient reentry
+  + [confidence] high_for_logical_model_medium_for_physical_performance
+  + [counterargument] comprehensive journaling can create noise, cost, surveillance risk, and privacy harm
+  + [answer] materiality, aggregation, retention, field sensitivity, redaction, and deletion authority are first-class rather than afterthoughts
+  + [invalidation] measured fixture shows the model cannot bound volume, preserve privacy, or replay after authorized compaction
+
+& [Claim_4_GitAsProjection] is supported
+  + [claim] Git should remain a human-facing milestone projection rather than the sole semantic event authority
+  + [support] Git represents file trees and commits well but does not natively carry every task, time, authority, effect, observation, review, privacy, or partial-failure state
+  + [confidence] high
+  + [counterargument] adding another repository duplicates data and complexity
+  + [answer] canonical content objects may be shared and Git projection occurs at meaningful milestones; the runtime journal records relations Git cannot express
+  + [invalidation] a constrained Git-backed representation proves complete semantics, deterministic replay, privacy, and event cadence without hidden conventions
+
+& [Claim_5_VersionedTandemLanes] is supported
+  + [claim] forward and rear work should coordinate through immutable messages, exact versions, a release barrier, and Observer join
+  + [support] this permits prepared-ahead work while preventing shared-state races, stale release, and hidden-state dependency
+  + [confidence] high_at_protocol_grade
+  + [counterargument] sequential execution is simpler and may be sufficient
+  + [answer] the same protocol can run sequentially; concurrency is an implementation option, not a semantic requirement
+  + [invalidation] the deterministic fixture cannot avoid deadlock or excessive blocking, or version checks fail to preserve required causality
+
+& [Claim_6_RearRefusalAndNoHindsight] is supported
+  + [claim] rear review must compare preserved intent with actual evidence and retain authority to refuse completion without rewriting history
+  + [support] this exposes overreach, underreach, missing proof, new requirements, and unrelated changes while preserving honest forecast error
+  + [confidence] very_high
+  + [counterargument] reviewers may create false positives and unnecessary churn
+  + [answer] dispositions include no change, qualification, unresolved, and false-positive measurement; Observer reconciles rather than blindly obeying the reviewer
+  + [invalidation] review provides no measured benefit or systematically degrades outcomes under controlled fixtures
+
+& [Claim_7_BidirectionalCompiler] is supported
+  + [claim] compiler construction should be followed by distinct rear source, semantic, impact, correspondence, and proof reviews
+  + [support] the signed SMTC contract already separates source, SemanticIR, targets, loss, diagnostics, proof, package, and admission; CTPR provides a temporal review walk over those generations
+  + [confidence] high_at_architecture_grade
+  + [counterargument] compiler passes and tests already perform validation
+  + [answer] ordinary validation remains; rear review specifically compares declared change intent and actual transitive effects across generations
+  + [invalidation] implementation shows the rear pass duplicates existing proofs without improving defect detection or traceability
+
+& [Claim_8_WalkingAttentionBehavior] is supported with qualification
+  + [claim] Walking Attention forward, rear, tandem, and reentry behavior is a useful source pattern for CTPR
+  + [support] four tracked clean files at the recorded commit define visible frames, intent-versus-diff review, send-receive-return-release order, timeout faults, and no-hidden-state boundaries
+  + [confidence] high_for_observed_behavior_low_for_external_signature_authority
+  + [counterargument] the external controller file is explicitly unsigned and the worktree contains extensive unrelated dirty state
+  + [answer] CTPR locks only selected clean file bytes, excludes 584 unrelated entries, declares deviations, and derives its own behavior under CTPR SJS without claiming inherited authority
+  + [invalidation] selected files or HEAD drift, external status changes, or mapping ceases to preserve behavior
+
+& [Claim_9_ECSProjection] is promising but not selected
+  + [claim] ECS may be a useful runtime projection for CTPR identities, typed facets, system scheduling, and buffered transitions
+  + [support] identity-data-behavior separation, component queries, declared system access, command buffers, and data-oriented iteration correspond well to CTPR
+  + [confidence] medium_as_future_experiment
+  + [counterargument] ECS may flatten contextual graph relations and make component presence appear authoritative
+  + [answer] canonical semantic graph and event records remain authoritative; ECS requires exact correspondence, immutable generations, explicit relation records, and graph fallback
+  + [invalidation] projection needs hidden conventions, loses provenance or n-ary context, cannot replay, or provides no measured benefit
+
+& [Claim_10_BoundedFirstProof] is supported
+  + [claim] the first implementation should be one deterministic logical-time fake calendar, repository, tandem, and compiler-diff fixture
+  + [support] it exercises the architecture's critical joins without live provider, concurrency, filesystem, Git mutation, notification, model, or hardware effects
+  + [confidence] very_high
+  + [counterargument] a fake fixture may hide operational complexity
+  + [answer] it is a necessary proof of logical coherence, not sufficient production evidence; each operational adapter remains separately sourced
+  + [invalidation] the fixture cannot express a required semantic behavior or depends on undeclared live state
+
+& [AlternativeComparison] selects the current shape
+  + [calendar_provider_first] rejected because it couples semantics to one API and prematurely grants privacy-sensitive effects
+  + [Git_only_repository] rejected because task, temporal, authority, effect, review, and partial-failure semantics become conventions
+  + [snapshot_every_tick] rejected because volume and false atomicity overwhelm material meaning
+  + [single_forward_agent] retained as deterministic fallback but insufficient to exercise explicit rear refusal and invalidation
+  + [shared_hidden_inference] rejected because it is not portable, inspectable, or reliably versioned
+  + [fully_sequential_protocol] remains a valid implementation of the lane contract, though not the only one
+  + [compiler_self_check] rejected because correspondence evidence becomes circular
+  + [automatic_learning] rejected because hindsight, privacy, and error propagation become invisible
+  + [ECS_only_world] rejected as canonical semantics but retained as experimental projection
+
+& [BenefitCostRisk] is proportionate
+  + [benefit] plans, time, actual work, review, learning, compilation, and reentry share one inspectable transition lineage
+  + [cost] forms, event storage, diff analysis, review latency, version checks, proof, retention, and future adapter work
+  + [risk] architecture breadth
+  + [mitigation] stable ChangeCapsule waist and deterministic first fixture
+  + [risk] journal surveillance or privacy leak
+  + [mitigation] field sensitivity, purpose limitation, retention, redaction, and effect separation
+  + [risk] forward slowdown or review deadlock
+  + [mitigation] prepared-ahead work, bounded lag, timeout, residual, and measured review value
+  + [risk] false confidence from external or generated artifacts
+  + [mitigation] exact hashes, unsigned-status disclosure, independent proof, and Observer admission
+
+& [Decision] is justified
+  + adopt the Planner-forward, Calendar-bound, repository-preserved, rear-reviewed, Observer-admitted ChangeCapsule architecture
+  + adopt distinct time and diff domains, immutable versions, versioned messages, invalidation, privacy, retention, deterministic fallback, and independent compiler proof
+  + cite Walking Attention behavior without inherited signature authority
+  + retain ECS as a future measured runtime projection
+  + authorize no implementation or live effect in the current specification slice

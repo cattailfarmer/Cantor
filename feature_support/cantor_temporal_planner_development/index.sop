@@ -12,15 +12,15 @@ Description: Manager-readable dependency index from the SOP multi-target languag
 
 & [SupportSliceIndex] is the project-manager traversal surface
   + [project_subject] is Cantor temporal planner and bidirectional reflection development campaign
-  + [index_status] is active
+  + [index_status] is specification_complete_waiting_for_separate_implementation_claim
   + [slice_file_count] is 4
   + [work_slice_count] is 16
-  + [completed_work_slice_count] is 4
-  + [in_progress_work_slice_count] is 1
-  + [open_dependency_ready_count] is 0
-  + [blocked_work_slice_count] is 11
+  + [completed_work_slice_count] is 9
+  + [in_progress_work_slice_count] is 0
+  + [open_dependency_ready_count] is 1
+  + [blocked_work_slice_count] is 6
   + [fully_sliced_specification] is true_for_current_SMTC_to_CTPR_to_COS_handoff_boundary
-  + [manager_mode] is completed_work_review_applied_and_worker_WS-CTPR-005_in_progress
+  + [manager_mode] is specification_goal_complete_and_WS-CTPR-010_ready_unassigned
   + [critical_path] is WS-CTPR-001 -> 002 -> 003 -> 004 -> 005 -> 006 -> 008 -> 009 -> 010 -> 011 -> 014 -> 015 -> 016
   + [parallel_branch_a] is WS-CTPR-007 may run beside WS-CTPR-006 after WS-CTPR-005
   + [parallel_branch_b] is WS-CTPR-011, WS-CTPR-012, and WS-CTPR-013 may run after WS-CTPR-010 subject to their exact dependencies
@@ -33,17 +33,17 @@ Description: Manager-readable dependency index from the SOP multi-target languag
     @ [slice_file_path] C:\Project\Cantor\feature_support\cantor_temporal_planner_development\slice_01_upstream_language_authority.sop
     @ [requirement_set] FR-CTPR-001 through FR-CTPR-004
     @ [work_slice_transform] WS-CTPR-001 through WS-CTPR-004
-    @ [enqueue_readiness] in_progress
+    @ [enqueue_readiness] completed
   + [feature_support_slice_file] is FSS-CTPR-002_canonical_temporal_formation
     @ [slice_file_path] C:\Project\Cantor\feature_support\cantor_temporal_planner_development\slice_02_canonical_temporal_formation.sop
     @ [requirement_set] FR-CTPR-005 through FR-CTPR-009
     @ [work_slice_transform] WS-CTPR-005 through WS-CTPR-009
-    @ [enqueue_readiness] blocked_by_SMTC-SJS-01
+    @ [enqueue_readiness] completed
   + [feature_support_slice_file] is FSS-CTPR-003_runtime_implementation
     @ [slice_file_path] C:\Project\Cantor\feature_support\cantor_temporal_planner_development\slice_03_runtime_implementation.sop
     @ [requirement_set] FR-CTPR-010 through FR-CTPR-013
     @ [work_slice_transform] WS-CTPR-010 through WS-CTPR-013
-    @ [enqueue_readiness] blocked_by_CTPR_signature
+    @ [enqueue_readiness] WS-CTPR-010_ready_unassigned_after_valid_CTPR_signature
   + [feature_support_slice_file] is FSS-CTPR-004_proof_and_downstream_handoff
     @ [slice_file_path] C:\Project\Cantor\feature_support\cantor_temporal_planner_development\slice_04_proof_and_downstream_handoff.sop
     @ [requirement_set] FR-CTPR-014 through FR-CTPR-016
@@ -62,9 +62,14 @@ Description: Manager-readable dependency index from the SOP multi-target languag
   + [completed_work_slice] is WS-CTPR-002 with proof C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Document_Role_Compatibility_2026-08-05.sop
   + [completed_work_slice] is WS-CTPR-003 with proof C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Static_Semantics_Target_ABI_2026-08-05.sop
   + [completed_work_slice] is WS-CTPR-004 with proof C:\Project\Cantor\narrative\registries\SOP_Multi_Target_Semantic_Compiler_Purpose_Phase_Lock.sop
-  + [in_progress_work_slice] is WS-CTPR-005 assigned to conversation cab190f5-eda0-44e0-81a5-51f9605e0baa
-  + [next_after_completion_review] is WS-CTPR-006 and WS-CTPR-007 after WS-CTPR-005 proof is reviewed
-  + [blocked_parallel_frontier] is WS-CTPR-006 and WS-CTPR-007 after WS-CTPR-005
+  + [completed_work_slice] is WS-CTPR-005 with proof C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Semantic_Refinement_2026-08-05.sop
+  + [completed_work_slice] is WS-CTPR-006 with proof C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Data_Design_2026-08-05.sop
+  + [completed_work_slice] is WS-CTPR-007 with proof C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Walking_Attention_Fidelity_2026-08-05.sop
+  + [completed_work_slice] is WS-CTPR-008 with proof C:\Project\Cantor\justifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Justification.sop
+  + [completed_work_slice] is WS-CTPR-009 with proof C:\Project\Cantor\narrative\registries\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Phase_Lock.sop
+  + [dependency_ready_work_slice] is WS-CTPR-010 ready_unassigned
+  + [next_after_completion_review] is a separate later implementation goal beginning with pure forms only
+  + [completed_parallel_frontier] is WS-CTPR-006 and WS-CTPR-007 after WS-CTPR-005
   + [blocked_implementation_frontier] is WS-CTPR-011, WS-CTPR-012, and WS-CTPR-013 after signed forms and their exact dependencies
 
 & [CompletedWorkReviewRule] is mandatory

@@ -1,0 +1,328 @@
+Subject: Cantor Temporal Planner and Bidirectional Change Reflection Data Design
+
+Description: WS-CTPR-006 conceptual and logical model for Planner, Calendar, the semantic repository, ChangeCapsules, tandem lanes, compiler walks, lessons, privacy, retention, versioning, and deterministic replay. Physical storage and concurrency mechanisms remain deferred.
+
+@ [data_design_uuid] 0a76cbd9-c32f-4659-887f-df6e0c5b9331
+@ [worker_slice] WS-CTPR-006
+@ [worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [source_snapshot_uuid] a0b27483-1bde-43c6-abd9-23dddc31c51d
+@ [refinement_uuid] 8242144d-1912-4be0-ac55-b98f2ce82574
+@ [SMTC_signature_uuid] 810f24e8-3d1c-4074-ae57-706f8f63e892
+@ [ECS_correspondence] C:\Project\Cantor\narrative\research\ECS_Semantic_Fabric_Correspondence_2026-08-05.sop
+
+& [ConceptualPlanes] keep semantic roles distinct
+  + [governance_plane] owns TaskContract, principal, authority, policy, faculty cycle, Observer disposition, and signature references
+  + [planning_plane] owns objectives, dependencies, alternatives, estimates, PlanRevision, schedule candidates, review gates, and residuals
+  + [temporal_plane] owns TimeExpression, CalendarItem, recurrence, availability, commitment, wake, miss, cancellation, and completion revisions
+  + [repository_plane] owns MaterialEvent, ContentObject, SemanticSnapshot, RepositoryGeneration, attribution, retention, and index projections
+  + [transition_plane] owns ChangeCapsule, declared intent, diff surfaces, execution outcome, ReflectionReturn, invalidation, and after state
+  + [lane_plane] owns prospective, execution, retrospective, join, lease, timeout, message, acknowledgment, release, and fault state
+  + [compiler_plane] owns source and dependency generations, SemanticIR, target artifacts, correspondence, loss, proof, and invalidation
+  + [learning_plane] owns forecast error, plan deviation, semantic surprise, LessonCandidate, review, and optional training-example candidate
+  = must: connect planes through explicit identities and relations rather than field reuse or temporal proximity
+
+& [IdentityRules] are stable and generation-aware
+  + every durable subject has a UUID independent of filename, line, list position, timestamp, digest, or model narration
+  + immutable generations additionally bind parent identity, predecessor identity set, semantic version where applicable, and content digest
+  + revisions share a stable subject identity while each revision has its own revision UUID and predecessor revision
+  + digests prove content equality only and do not replace identity, provenance, attribution, authority, or temporal occurrence
+  + physical database keys or ECS handles are surrogates and cannot become canonical identity
+
+& [RepositoryGeneration] is one admitted semantic frontier
+  + [repository_uuid] is stable repository identity
+  + [generation_uuid] is immutable generation identity
+  + [predecessor_generation_set] is zero or more exact admitted predecessors
+  + [repository_policy_ref] binds materiality, attribution, retention, sensitivity, compaction, and projection policies
+  + [event_frontier] is the closed ordered set of admitted MaterialEvent identities
+  + [snapshot_root_ref] binds the canonical SemanticSnapshot when materialized
+  + [reference_index_generation] identifies replaceable derived indexes
+  + [created_by_disposition] binds ObserverJoin admission evidence
+  + [root_digest] commits canonical normalized generation content
+  + [status] is candidate, admitted, superseded, revoked, quarantined, or archived
+
+& [TaskContract] governs one work lineage
+  + [task_uuid] is stable
+  + [purpose] is explicit and source-linked
+  + [principal_set] names eligible decision and effect principals
+  + [input_and_target_refs] bind exact source, identity, file, artifact, or external-resource scopes
+  + [preconditions] and [assumptions] are separately represented
+  + [invariants] apply across every task transition
+  + [authority_and_capability_request] is not a grant
+  + [effect_boundary] declares possible effects and required brokers
+  + [completion_contract] declares evidence, review, residual, and stop conditions
+  + [privacy_and_retention_profile] binds task-specific information handling
+  + [current_plan_revision_ref] selects one admitted plan without erasing prior plans
+
+& [ObjectiveAndDependencyModel] supports Planner
+  + [ObjectiveNode] has objective UUID, task UUID, statement, desired-state criteria, priority source, uncertainty, status, and proof route
+  + [DependencyEdge] has edge UUID, predecessor objective or artifact, successor objective, dependency kind, condition, strength, source, and invalidation rule
+  + [ConstraintNode] has constraint UUID, kind, scope, expression, source, severity, and disposition behavior
+  + [AlternativePath] has alternative UUID, ordered or graph path, prerequisites, estimate range, effects, risks, review gates, fallback, and stop
+  + [PlanRevision] has plan UUID, revision UUID, predecessor revision, task UUID, objective graph root, dependency graph root, temporal graph root, effect graph root, review graph root, selected alternative, assumptions, uncertainty, and state
+  + one TaskContract has zero or more PlanRevision records and at most one current admitted revision
+  + one PlanRevision owns one or more objectives and may own zero or more alternatives
+  + cycles require an explicit iteration contract, termination condition, and budget
+
+& [TimeExpression] preserves domains and uncertainty
+  + [time_expression_uuid] is stable
+  + [domain] is civil, instant, monotonic, logical, valid, transaction, or uncertain
+  + [value] is point, interval, duration, set, partial date, or symbolic condition
+  + [source_ref] is mandatory for asserted time
+  + [zone] and [calendar_system] apply to civil time
+  + [precision] and [uncertainty_interval] are explicit
+  + [interpretation_policy_ref] governs ambiguous or nonexistent civil times
+  + [conversion_evidence] binds conversion to another domain
+  + [valid_from_and_to] describe subject applicability
+  + [recorded_at] is transaction time and cannot substitute for valid time
+
+& [CalendarItem] is stable across immutable revisions
+  + [calendar_item_uuid] is stable subject identity
+  + [revision_uuid] and [predecessor_revision_ref] form revision history
+  + [kind] is task, block, appointment, deadline, reminder, wake, recurrence, or review
+  + [task_contract_ref] is required for Cantor work items
+  + [purpose] and [source_ref] are explicit
+  + [owner_and_participant_refs] bind principals without implying their consent
+  + [time_expression_refs] bind start, end, duration, deadline, or window as applicable
+  + [recurrence_rule_ref] is optional, bounded, timezone-aware, and exception-capable
+  + [dependency_and_review_refs] bind prerequisite and ChangeCapsule expectations
+  + [authority_state] is proposed, eligible, granted, denied, revoked, or expired
+  + [lifecycle_state] is proposed, tentative, accepted, declined, committed, triggered, active, completed, missed, cancelled, or superseded
+  + [provider_sync_state] is local_only, pending, synchronized, divergent, failed, or revoked and remains separate from lifecycle
+  + [sensitivity_and_disclosure] bind field-level privacy projection
+
+& [RecurrenceRule] is finite under evaluation
+  + [recurrence_uuid] is stable
+  + [frequency_and_interval] are explicit
+  + [zone_and_calendar] are explicit
+  + [start_boundary] is required
+  + [end_boundary_or_occurrence_limit] is required for bounded expansion windows
+  + [inclusion_and_exception_sets] preserve overrides, skips, and moved occurrences
+  + [materialization_horizon] prevents unbounded event generation
+  + each occurrence has stable derived identity tied to rule revision and occurrence key
+  + rule revision never rewrites already committed or observed occurrence history
+
+& [MaterialEvent] is append-only and materially scoped
+  + [event_uuid] is stable occurrence identity
+  + [repository_generation_input] is exact predecessor generation
+  + [task_contract_ref] and [attribution_ref] are mandatory when work-attributed
+  + [event_kind] is observation, decision, semantic_transition, tool_request, tool_result, effect_request, effect_result, review, calendar, fault, admission, reentry, or compaction
+  + [subject_ref_set] identifies affected semantic subjects
+  + [content_object_ref_set] binds immutable payloads without requiring all sensitive content in the event row
+  + [valid_time_ref] and [transaction_time_ref] remain separate
+  + [materiality_decision] records rule, evidence, and disposition
+  + [authority_and_effect_refs] bind claims without implying successful effect
+  + [predecessor_event_set] forms causal or ordering edges where proved
+  + [retention_class] and [sensitivity_class] are explicit
+  + [event_digest] commits normalized event content
+
+& [MaterialityPolicy] controls capture cadence
+  + durable events include task opening, admitted plan, semantic transition, tool boundary, effect boundary, review barrier, calendar commitment or trigger, yield, fault, reentry, completion, and selected milestone
+  + micro-events require declared liveness, diagnosis, audit, or measurement need
+  + aggregation records the covered event class, interval, count, source, summary method, loss, and rehydration status
+  + expiration records policy, authority, tombstone, and proof impact
+  + materiality revisions apply prospectively and do not retroactively make omitted events observed
+  + ordinary sequential capture never claims atomic external-world state
+
+& [ContentObjectAndSnapshot] preserve immutable payload and state
+  + ContentObject has object UUID, digest algorithm, digest, byte length, media type, encoding, provenance, sensitivity, retention, and storage locator set
+  + locator changes do not change ContentObject identity when bytes and provenance remain exact
+  + SemanticSnapshot has snapshot UUID, repository UUID, predecessor snapshot set, event frontier, canonical state root, projection manifest, content refs, and digest
+  + snapshot branches are explicit and merges name all parents plus reconciliation evidence
+  + compaction creates a new derived ContentObject or Snapshot with correspondence and loss records
+  + deletion or redaction uses authorized tombstone and proof-impact records rather than history rewrite
+
+& [ChangeCapsule] is the transition waist
+  + [change_uuid] is stable across the transition attempt
+  + [candidate_generation_uuid] distinguishes revisions or retries of one attempt
+  + [task_contract_ref] and [plan_revision_ref] bind governing intent
+  + [repository_generation_ref] and [before_snapshot_ref] pin admitted input
+  + [declared_intent_ref] binds target set, expected transformations, allowed effects, completion proof, and unrelated-state exclusions
+  + [prepared_candidate_ref] is optional before execution
+  + [execution_request_and_outcome_refs] are distinct
+  + [candidate_snapshot_ref] exists before admission and is not the after state
+  + [physical_diff_ref], [source_diff_ref], [semantic_diff_ref], [build_diff_ref], [behavioral_diff_ref], [effect_diff_ref], [proof_diff_ref], and [calendar_diff_ref] remain separate
+  + [justification_delta], [support_delta], [requirement_delta], and [compiler_impact_ref] are explicit
+  + [reflection_return_ref] is required unless a signed omission or bounded-lag rule applies
+  + [observer_join_ref] records reconciliation
+  + [after_snapshot_ref] exists only after admission
+  + [capsule_state] follows the legal lifecycle
+
+& [DiffRecord] is evidence-bearing
+  + [diff_uuid] is stable
+  + [diff_kind] is physical, source, semantic, build, behavioral, effect, proof, or calendar
+  + [before_subject_ref] and [candidate_subject_ref] are exact
+  + [added], [changed], [removed], [preserved], and [unrelated] sets are separately identified
+  + [derivation_method] and [independent_evidence_ref] declare how the diff was formed and checked
+  + [confidence_or_completeness] remains explicit
+  + [invalidation_output_set] lists dependent identities and reasons
+  + [loss_and_unknown_set] cannot be coerced to no_change
+
+& [LaneAndMessageModel] prevents shared-state races
+  + [LaneCursor] has cursor UUID, lane kind, task UUID, input repository generation, plan revision, capsule generation, dependency set, authority request, state, lease, timeout, and last message
+  + [LaneKind] is prospective, execution, retrospective, or observer_join
+  + [LaneMessage] has message UUID, sender cursor, receiver cursor or join, subject version, payload refs, required acknowledgment, causal predecessors, created logical time, and expiry condition
+  + [WorkPacket] is a bounded prospective or execution request with exact input generation and permitted outputs
+  + [ReflectionReturn] has return UUID, retrospective cursor, exact capsule generation, disposition, evidence, objections, uncertainty, invalidation mask, residual, and signature or provider qualification
+  + [ObserverJoin] has join UUID, expected lane returns, exact versions, received returns, stale checks, reconciliation record, disposition, successor proposal, and release set
+  + lanes exchange immutable messages and never share mutable canonical state
+  + one ObserverJoin admits at most one successor RepositoryGeneration for one capsule candidate
+
+& [LaneLifecycle] is explicit
+  + idle -> prepared -> running -> returned -> released
+  + prepared may become blocked_on_authority, blocked_on_reflection, stale, invalidated, timed_out, cancelled, or failed
+  + execution cannot run without separate authority and pinned predecessor
+  + retrospective return cannot review a different capsule generation
+  + join refuses stale or missing returns and records residual rather than deadlocking indefinitely
+  + bounded lag records eligible transition class, maximum count or duration, consequence bound, rollback capacity, overdue behavior, and authority
+
+& [CompilerWalkModel] binds SMTC generations
+  + CompilerGeneration has compiler-generation UUID, source generation set, dependency lock, LanguageProfile, compiler identity, SemanticIR root, TargetProfile set, target artifact set, correspondence, loss, diagnostics, proof bundle, and state
+  + forward stages are source_pinned, parsed, resolved, lowered, and projected
+  + rear stages are source_diffed, semantic_diffed, impact_analyzed, correspondence_checked, and proof_checked
+  + reconciled generation may become admitted, rejected, or invalidated
+  + CompilerImpact records changed source or semantic identities and invalidated IR nodes, indexes, packages, schedules, workflows, model artifacts, tool schemas, and hardware artifacts
+  + target generator output cannot be its only correspondence evidence
+  + prior failed or superseded generations remain immutable
+
+& [LearningModel] preserves review and provenance
+  + ForecastError binds one preserved forecast, actual observations, comparison method, uncertainty, and affected future planning fields
+  + PlanDeviation binds plan revision, actual sequence, deviation classes, reasons, effects, and review
+  + SemanticSurprise binds newly exposed identity, meaning, dependency, or boundary with source and contradiction checks
+  + LessonCandidate binds contributing capsules, proposal, eligible scope, counterexamples, confidence, review state, invalidation, and rollback
+  + TrainingExampleCandidate binds lesson candidate, exact redacted source projection, consent and sensitivity policy, label provenance, evaluation split, and admission state
+  + adoption creates a new separately reviewed SOP, policy, estimate profile, or corpus generation and never rewrites the old plan
+
+& [OwnershipAndAuthority] are explicit
+  + source authors own preserved source attribution but cannot self-sign derived authority
+  + task principal owns commitment choices within eligible scope
+  + Planner owns candidate projection, not truth or commitment
+  + Calendar owns local versioned temporal representation, not provider synchronization authority
+  + Scribe owns recording discipline, not truth
+  + execution broker owns bounded effect mediation, not purpose revision
+  + retrospective reviewer owns a qualified return, not final admission
+  + Observer owns reconciliation disposition within signed policy, not external effect authority
+  + retention or deletion authority is separately declared per content and jurisdiction profile
+
+& [SensitivityModel] is field and relation aware
+  + classes are public, project_internal, personal, confidential, secret, credential, regulated, and unknown_sensitive
+  + calendar title, participant, location, routine, availability, and free-form notes may have different classes
+  + source, diff, prompt, provider payload, tool result, trace, proof, and training example are classified independently
+  + indexes and embeddings inherit or strengthen access restrictions because they may disclose source relationships
+  + query relevance does not authorize disclosure
+  + export projections state omitted or redacted fields and proof consequences
+
+& [RetentionAndCompaction] are policy controlled
+  + each event, content, snapshot, diff, trace, and lesson has retention class, minimum proof retention, maximum operational retention, archive rule, and deletion authority
+  + transient micro-events may expire after aggregate proof when permitted
+  + durable source, authority, effect, review, fault, admission, and signature evidence retain immutable lineage
+  + compaction must be replay-equivalent within a declared observation boundary and preserve loss records
+  + redaction creates explicit replacement or tombstone lineage
+  + Git retention and semantic-repository retention are separate
+
+& [VersionAndInvalidation] propagate exact change
+  + source, contract, plan, calendar, repository policy, materiality policy, retention policy, profile, compiler, SemanticIR, target, provider, proof, and runtime versions are independent
+  + invalidation is an edge with cause, source generation, affected subject, required rebuild or review, severity, and resolution
+  + stale prepared work is rejected at CompareAndAppend
+  + calendar wake revalidates assumptions, dependencies, authority, target identity, relevance, privacy, and effect scope
+  + model or provider staleness cannot invalidate exact fallback
+
+& [ECSProjectionAlternative] is considered but not selected
+  + semantic subjects may project to runtime entity handles
+  + typed immutable facets may project to components
+  + compiler passes, faculties, planners, validators, rear reviewers, and effect gates may project to systems
+  + system schedules may derive from Planner dependency and access graphs
+  + command buffers may carry proposed changes until Observer or EffectBroker admission
+  + every handle, component, query, system, and command maps back to canonical identities and versions
+  + contextual n-ary relations remain explicit graph records when component attachment would lose meaning
+  + component presence never proves truth, authority, admissibility, or execution role
+  + selection requires measured semantic correspondence, replay, performance, and proof overhead against a graph-only fallback
+
+& [PhysicalDesignDeferral] is binding
+  + file repository, relational database, graph database, event store, object store, vector index, ECS, in-memory DAG, or hybrid layout remain candidates
+  + sequential, actor, thread, process, service, multi-machine, or model-mediated lanes remain candidates
+  + Rust types, SQL schema, ECS framework, serialization format, clock library, solver, provider, Git adapter, and calendar adapter remain unselected
+  + physical indexes and caches cannot become semantic truth
+
+& [RequirementDataCoverage_001_010] is complete
+  + CTPR-001 through CTPR-003 map to TaskContract, Objective, Dependency, PlanRevision, Schedule, Commitment, effect, and review data
+  + CTPR-004 maps to CalendarItem kinds and stable revisions
+  + CTPR-005 and CTPR-006 map to TimeExpression domains, source, zone, precision, interpretation, and uncertainty
+  + CTPR-007 maps to FacultyIntegration ownership and event references
+  + CTPR-008 maps to immutable PlanRevision and CalendarItem lifecycles
+  + CTPR-009 maps to MaterialEvent, ContentObject, Snapshot, and RepositoryGeneration
+  + CTPR-010 maps to GitProjection as derived presentation
+
+& [RequirementDataCoverage_011_020] is complete
+  + CTPR-011 and CTPR-012 map to MaterialityPolicy, aggregation, expiry, and retention
+  + CTPR-013 maps to ChangeCapsule and separate diff records
+  + CTPR-014 maps to DiffRecord unrelated set and attribution
+  + CTPR-015 and CTPR-016 map to lane and message forms pending external fidelity evidence
+  + CTPR-017 through CTPR-021 map to LaneCursor, messages, immutable versions, prepared-ahead state, ReflectionReturn, invalidation, bounded lag, timeout, and CompareAndAppend
+
+& [RequirementDataCoverage_021_030] is complete
+  + CTPR-022 through CTPR-026 map to CompilerGeneration forward and rear states, DiffRecord kinds, CompilerImpact, correspondence, proof, and ObserverJoin
+  + CTPR-027 and CTPR-028 map to ForecastError, PlanDeviation, SemanticSurprise, LessonCandidate, preserved source plans, and review
+  + CTPR-029 maps CalendarItem to TaskContract, PlanRevision, RepositoryGeneration, and expected ChangeCapsule refs
+  + CTPR-030 maps wake to current-state revalidation fields
+
+& [RequirementDataCoverage_031_038] is complete
+  + CTPR-031 maps provider sync and every external operation to separate effect references
+  + CTPR-032 maps sensitivity, disclosure, retention, compaction, redaction, deletion, and training-example policy
+  + CTPR-033 through CTPR-035 map deterministic logical TimeExpression, fixture records, replay roots, and negative lifecycle states
+  + CTPR-036 maps proof and quality observations to planning, reflection, diff, join, calendar, history, work, and user-attention dimensions
+  + CTPR-037 maps provider and model dependencies separately from exact plan, repository, and replay records
+  + CTPR-038 maps authority request, grant, provider sync, runtime, and effect states without activation
+
+& [RequirementFieldMap] is individually traceable
+  + CTPR-001 -> TaskContract, ObjectiveNode, DependencyEdge, PlanRevision
+  + CTPR-002 -> CalendarItem, TimeExpression, WakeCondition, provider_sync_state
+  + CTPR-003 -> objective, dependency, temporal, effect, review, schedule, commitment records
+  + CTPR-004 -> CalendarItem kind and stable revision identity
+  + CTPR-005 -> TimeExpression.domain
+  + CTPR-006 -> TimeExpression source, zone, precision, interpretation, uncertainty
+  + CTPR-007 -> faculty ownership, FacultyCycle and event references
+  + CTPR-008 -> PlanRevision and CalendarItem immutable lifecycles
+  + CTPR-009 -> MaterialEvent, ContentObject, SemanticSnapshot, RepositoryGeneration
+  + CTPR-010 -> GitProjection
+  + CTPR-011 -> MaterialityPolicy durable event classes
+  + CTPR-012 -> MicroEvent aggregation, expiry, loss and retention
+  + CTPR-013 -> ChangeCapsule complete field set
+  + CTPR-014 -> DiffRecord.unrelated and attribution_ref
+  + CTPR-015 -> LaneCursor, LaneMessage, WorkPacket, ReflectionReturn and reentry refs
+  + CTPR-016 -> external source refs, fidelity proof refs and excluded behavior set
+  + CTPR-017 -> exact input generation on every LaneCursor
+  + CTPR-018 -> PreparedAhead and ReleaseBarrier states
+  + CTPR-019 -> ReflectionReturn.invalidation_mask and invalidation edges
+  + CTPR-020 -> bounded lag, lease, timeout, residual and terminal lane states
+  + CTPR-021 -> ObserverJoin expected versions and CompareAndAppend
+  + CTPR-022 -> CompilerGeneration forward stage states
+  + CTPR-023 -> CompilerGeneration rear stage states
+  + CTPR-024 -> eight disjoint DiffRecord kinds
+  + CTPR-025 -> CompilerImpact affected-subject and rebuild edges
+  + CTPR-026 -> ObserverJoin and package admission disposition
+  + CTPR-027 -> ForecastError, PlanDeviation, SemanticSurprise, LessonCandidate
+  + CTPR-028 -> immutable prior PlanRevision and declared intent refs
+  + CTPR-029 -> CalendarItem task, plan, repository and expected capsule refs
+  + CTPR-030 -> wake revalidation fields and results
+  + CTPR-031 -> effect request and provider_sync_state separation
+  + CTPR-032 -> SensitivityModel, RetentionAndCompaction and TrainingExampleCandidate
+  + CTPR-033 -> logical-time fixture repository and replay entities
+  + CTPR-034 -> CompilerGeneration and independent diff/proof entities
+  + CTPR-035 -> stale, unsourced, unrelated, missing-review, false-snapshot and rewrite faults
+  + CTPR-036 -> quality observation entities by evaluation dimension
+  + CTPR-037 -> provider dependency separated from exact records and fallback
+  + CTPR-038 -> all current authority states absent or proposal-only
+
+& [DataQualityGate] completes WS-CTPR-006 at conceptual and logical grade
+  + [stable_identity] passes
+  + [keys_and_namespaces] pass
+  + [ownership_and_cardinality] pass
+  + [relation_direction_and_nonimplication] pass
+  + [state_and_transition_legality] pass
+  + [bitemporal_and_uncertainty] pass
+  + [provenance_and_version] pass
+  + [sensitivity_retention_and_redaction] pass
+  + [requirement_coverage_count] is 38
+  + [unmapped_requirement] is none
+  + [physical_model] is deliberately deferred
+  + [canonical_authority] is absent_until_CTPR-SJS-01

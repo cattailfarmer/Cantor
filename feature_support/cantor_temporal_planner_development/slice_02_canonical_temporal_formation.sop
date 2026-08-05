@@ -9,57 +9,70 @@ Description: Contiguous CTPR SJS cluster that turns the unsigned seven-fold temp
 @ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.exploded.sop
 
 & [ClusterIdentity] is CTPR canonical formation
-  + [enqueue_readiness] is in_progress
+  + [enqueue_readiness] is completed
   + [reason_for_contiguity] is semantic terms, data identities, external fidelity, justification, registry, and signature jointly determine one authority boundary
   + [upstream_SMTC_signature_uuid] is 810f24e8-3d1c-4074-ae57-706f8f63e892
-  + [current_worker] is conversation cab190f5-eda0-44e0-81a5-51f9605e0baa on WS-CTPR-005
+  + [current_worker] is none; WS-CTPR-010 is ready_unassigned outside the completed specification goal
 
 & [FeatureRequirementSet] is atomic
   + [feature_requirement] is FR-CTPR-005
-    @ [support_status] in_progress
+    @ [support_status] verified
+    @ [support_record] SR-CTPR-005
     + [requirement_statement] is emit a semantic-refinement term map for Planner, Calendar, material event, ChangeCapsule, lane, join, diff, and compiler walk
   + [feature_requirement] is FR-CTPR-006
-    @ [support_status] blocked
+    @ [support_status] verified
+    @ [support_record] SR-CTPR-006
     + [requirement_statement] is emit formal data identities, keys, cardinalities, ownership, lifecycle, retention, sensitivity, and version relations
   + [feature_requirement] is FR-CTPR-007
-    @ [support_status] blocked
+    @ [support_status] verified
+    @ [support_record] SR-CTPR-007
     + [requirement_statement] is verify and preserve a digest-bound Walking Attention behavior import and explicit non-import boundary
   + [feature_requirement] is FR-CTPR-008
-    @ [support_status] blocked
+    @ [support_status] verified
+    @ [support_record] SR-CTPR-008
     + [requirement_statement] is justify repository, cadence, scheduling, tandem, invalidation, learning, and compiler choices against alternatives and failure modes
   + [feature_requirement] is FR-CTPR-009
-    @ [support_status] blocked
+    @ [support_status] verified
+    @ [support_record] SR-CTPR-009
     + [requirement_statement] is bind source, exploded, refinement, data, constraints, pruning, justification, registry, canonical artifact, and signature without widening effect authority
 
 & [WorkSliceTransform] is the worker queue
   + [work_slice_detail] is WS-CTPR-005
-    @ [slice_status] in_progress
-    @ [support_readiness] ready
+    @ [slice_status] completed
+    @ [support_readiness] ready_and_completed
     @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
     @ [model_routing] Requires premium model
     @ [depends_on] WS-CTPR-004
     + [scope] is semantic refinement and term-boundary contract
     + [completion_criteria] is stable terms and rejected conflations are separately traceable
   + [work_slice_detail] is WS-CTPR-006
-    @ [slice_status] blocked
+    @ [slice_status] completed
+    @ [support_readiness] ready_and_completed
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
     @ [model_routing] Requires premium model
     @ [depends_on] WS-CTPR-005
     + [scope] is CTPR formal data design
     + [completion_criteria] is records, keys, relations, cardinalities, states, retention, and migration boundary support every CTPR requirement
   + [work_slice_detail] is WS-CTPR-007
-    @ [slice_status] blocked
+    @ [slice_status] completed
+    @ [support_readiness] ready_and_completed
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
     @ [model_routing] Requires premium model
     @ [depends_on] WS-CTPR-005
     + [scope] is read-only Walking Attention fidelity revalidation and import mapping
     + [completion_criteria] is commit, branch, status, bytes, digests, mappings, deviations, and exclusions are exact
   + [work_slice_detail] is WS-CTPR-008
-    @ [slice_status] blocked
+    @ [slice_status] completed
+    @ [support_readiness] ready_and_completed
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
     @ [model_routing] Requires premium model
     @ [depends_on] WS-CTPR-006 and WS-CTPR-007
     + [scope] is constraint, pruning, alternatives, counterarguments, invalidation conditions, and architecture justification
     + [completion_criteria] is every durable choice has support and a reroute condition
   + [work_slice_detail] is WS-CTPR-009
-    @ [slice_status] blocked
+    @ [slice_status] completed
+    @ [support_readiness] ready_and_completed
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
     @ [model_routing] Requires premium model
     @ [depends_on] WS-CTPR-008
     + [scope] is registry, canonical artifact, satisfaction signature, and bounded implementation authority
@@ -69,9 +82,53 @@ Description: Contiguous CTPR SJS cluster that turns the unsigned seven-fold temp
   + [resolved_support_gap] is SG-CTPR-005
     @ [resolved_by] C:\Project\Cantor\narrative\registries\SOP_Multi_Target_Semantic_Compiler_Purpose_Phase_Lock.sop
     + [resolution] is SMTC-SJS-01 is artifact-bound and valid at language-purpose grade; CTPR specification work may proceed without runtime authority
-  + [support_gap] is SG-CTPR-006
-    @ [blocks] WS-CTPR-009
-    + [gap_statement] is CTPR refinement, data, fidelity, justification, and registry evidence do not yet exist
+  + [resolved_support_gap] is SG-CTPR-006
+    @ [resolved_by] SR-CTPR-009
+    + [resolution] is CTPR registry, matrix, canonical specification, source manifest, phase lock, and bounded signature are artifact-bound and valid
+
+& [SupportRecordSet] is evidence
+  + [support_record] is SR-CTPR-005
+    @ [status] verified
+    @ [proof_ref] C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Semantic_Refinement_2026-08-05.sop
+    @ [proof_sha256] 80AF21E6D89C2263EBA4F7B39C9B206F276B234E723DC3D7C935EEC7AC421BF2
+    @ [freshness_rule] stale when CTPR source, SMTC authority, faculty responsibilities, Calendar, ChangeCapsule, lane, join, diff, or compiler-walk semantics change
+    + [covers] FR-CTPR-005
+    + [support_limit] semantic refinement is worker evidence until CTPR-SJS-01 binds it
+  + [support_record] is SR-CTPR-006
+    @ [status] verified
+    @ [proof_ref] C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Data_Design_2026-08-05.sop
+    @ [proof_sha256] B061E2538276276D620B10B91EE2D98D24B8020F81ABE93960561D1280ED9F1A
+    @ [freshness_rule] stale when CTPR identities, relations, time domains, lifecycles, authority, sensitivity, retention, invalidation, or requirement set changes
+    + [covers] FR-CTPR-006
+    + [support_limit] conceptual and logical model only; physical storage, ECS, concurrency, providers, and runtime remain unselected
+  + [support_record] is SR-CTPR-007
+    @ [status] verified
+    @ [proof_ref] C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Walking_Attention_Fidelity_2026-08-05.sop
+    @ [proof_sha256] 79A774269A43020EA3DE06A0CDC6B839DBAB51BA3E9186893A4D7A1CB71B2254
+    @ [freshness_rule] stale on external HEAD drift, selected file drift, selected-file dirty state, authority-status change, or CTPR mapping change
+    + [covers] FR-CTPR-007
+    + [support_limit] digest-bound behavioral-source fidelity only; reviewed external controller remains an unsigned SJS candidate and grants no inherited authority
+  + [support_record] is SR-CTPR-008
+    @ [status] verified
+    @ [constraint_ref] C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Constraint_Ledger_2026-08-05.sop
+    @ [constraint_sha256] E002A5F5B5D9BB8D70017F0C1B9B6CA4E3FFCFED7A1C31FC68E31F3DF9084098
+    @ [pruning_ref] C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Pruning_Growth_2026-08-05.sop
+    @ [pruning_sha256] 2BCD33560045FCEC36D2B231E30F1D790E9B5E620D2F19239C804A959664FF26
+    @ [justification_ref] C:\Project\Cantor\justifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Justification.sop
+    @ [justification_sha256] B51221BE2FF0A8F602D73714134CDA0E8D01ED95F8595541E69133BC287DCB67
+    @ [freshness_rule] stale when any durable architecture choice, constraint, alternative, external-fidelity status, or authority boundary changes
+    + [covers] FR-CTPR-008
+    + [support_limit] canonical registry and signature remain absent
+  + [support_record] is SR-CTPR-009
+    @ [status] verified
+    @ [canonical_ref] C:\Project\Cantor\specifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.sop
+    @ [canonical_sha256] 726F817726C27BCD2FA01D2D6A982717179C533843B2CCA237BD1507FFC2E495
+    @ [phase_lock_ref] C:\Project\Cantor\narrative\registries\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Phase_Lock.sop
+    @ [phase_lock_sha256] 94D3EAFB4269CD4600B899A09CD3AC6278E14FC3CD48C0F861B73ABE98070EF8
+    @ [signature_uuid] 4421228f-ecf2-450a-b704-189c4d83fd68
+    @ [freshness_rule] stale on any phase-lock invalidation condition or bound artifact drift
+    + [covers] FR-CTPR-009
+    + [support_limit] only WS-CTPR-010 pure forms may be separately claimed; runtime and live effect authority remain absent
 
 & [UpstreamCompletedWorkReview] is applied
   + [review_uuid] is 95319e3e-39a3-4c5a-901c-d83d7ab6df15
@@ -79,3 +136,42 @@ Description: Contiguous CTPR SJS cluster that turns the unsigned seven-fold temp
   + [support_delta] is the upstream language-purpose dependency is satisfied
   + [authority_boundary] is specification consumption only; implementation and execution remain blocked
   + [readiness_recompute] is WS-CTPR-005 ready and assigned while WS-CTPR-006 through WS-CTPR-009 retain their exact dependencies
+
+& [CompletedWorkReview_WS_CTPR_005] is applied
+  + [review_uuid] is 4d8771aa-6043-4224-b4e5-e148efa7de03
+  + [proof_ref] is C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Semantic_Refinement_2026-08-05.sop
+  + [support_delta] is FR-CTPR-005 verified through stable term maps, faculty and SMTC integration, 24 rejected conflations, and explicit uncertainties
+  + [requirement_delta] is data design must preserve immutable versions, distinct time and diff domains, proposed-versus-committed states, and Observer-only admission
+  + [readiness_recompute] is WS-CTPR-006 and WS-CTPR-007 ready; WS-CTPR-006 claimed and WS-CTPR-007 remains ready_unassigned
+
+& [CompletedWorkReview_WS_CTPR_006] is applied
+  + [review_uuid] is b8d77020-e756-44bb-b37b-5d95c4048a80
+  + [proof_ref] is C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Data_Design_2026-08-05.sop
+  + [support_delta] is FR-CTPR-006 verified through stable keys, cardinalities, bitemporal fields, legal states, provenance, sensitivity, retention, invalidation, and individual CTPR-001 through CTPR-038 field mappings
+  + [requirement_delta] is ECS remains a measured runtime projection candidate while canonical data identity stays contextual, relational, source-bound, and authority-aware
+  + [readiness_recompute] is WS-CTPR-007 claimed; WS-CTPR-008 remains blocked until external fidelity proof completes
+
+& [CompletedWorkReview_WS_CTPR_007] is applied
+  + [review_uuid] is 2ccb3183-bc1c-4080-a3f7-af77734f7439
+  + [proof_ref] is C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Walking_Attention_Fidelity_2026-08-05.sop
+  + [support_delta] is FR-CTPR-007 verified through exact repository state, selected-file locks, forward, rear, tandem, and reentry mappings, deviations, exclusions, and freshness rules
+  + [requirement_delta] is CTPR may derive its own signed behavior from cited sources but cannot claim inherited Walking Attention signature authority
+  + [readiness_recompute] is WS-CTPR-008 ready and claimed because WS-CTPR-006 and WS-CTPR-007 are both complete
+
+& [CompletedWorkReview_WS_CTPR_008] is applied
+  + [review_uuid] is c41866b1-c5fc-4144-8f52-28665c04a429
+  + [constraint_ref] is C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Constraint_Ledger_2026-08-05.sop
+  + [pruning_ref] is C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Pruning_Growth_2026-08-05.sop
+  + [justification_ref] is C:\Project\Cantor\justifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Justification.sop
+  + [support_delta] is FR-CTPR-008 verified through 42 constraints, 15 pruning decisions, 11 bounded growth seeds, 10 justified claims, alternatives, risks, and invalidation conditions
+  + [requirement_delta] is canonical authority must disclose unsigned external status, keep ECS experimental, and stop before deterministic fixture implementation
+  + [readiness_recompute] is WS-CTPR-009 ready and claimed
+
+& [CompletedWorkReview_WS_CTPR_009] is applied
+  + [review_uuid] is 3adce6a9-e86a-466b-9ded-274494df20c3
+  + [canonical_ref] is C:\Project\Cantor\specifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.sop
+  + [phase_lock_ref] is C:\Project\Cantor\narrative\registries\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Phase_Lock.sop
+  + [support_delta] is FR-CTPR-009 verified and CTPR-SJS-01 is valid at semantic, logical, protocol, and pure-form-frontier grade
+  + [requirement_delta] is WS-CTPR-010 becomes ready_unassigned while all runtime, provider, background, concurrent, ECS-selection, Operator Shell, hardware, and effect work remains gated
+  + [remaining_concern] is implementation evidence is intentionally absent and must not be inferred from specification completeness
+  + [readiness_recompute] is current specification goal complete; WS-CTPR-010 is ready for a separate later claim

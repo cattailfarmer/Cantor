@@ -1,0 +1,70 @@
+Subject: Cantor Temporal Planner and Bidirectional Change Reflection Requirement Matrix
+
+Description: Requirement-to-source, semantic, data, canonical, and future proof ledger for CTPR-001 through CTPR-038.
+
+@ [matrix_uuid] 521e7cf9-d20b-438e-b737-68e15e234c92
+@ [source_snapshot_uuid] a0b27483-1bde-43c6-abd9-23dddc31c51d
+@ [matrix_state] complete_at_specification_grade
+
+& [Coverage_001_010] is complete
+  + CTPR-001 -> source Calendar and Planner central; refinement Planner; data ObjectiveAndDependencyModel; canonical PlannerAndCalendar
+  + CTPR-002 -> refinement Calendar; data CalendarItem; canonical PlannerAndCalendar
+  + CTPR-003 -> data TaskContract, PlanRevision, schedule and commitment; canonical PlannerAndCalendar
+  + CTPR-004 -> data CalendarItem kinds and revisions; canonical TemporalData
+  + CTPR-005 -> refinement and data TimeExpression domains; canonical TemporalData
+  + CTPR-006 -> data TimeExpression evidence fields; canonical TemporalData
+  + CTPR-007 -> refinement FacultyIntegration; canonical FacultyCycle
+  + CTPR-008 -> data immutable plan and calendar lifecycles; canonical PlannerAndCalendar
+  + CTPR-009 -> data RepositoryGeneration, MaterialEvent, ContentObject and Snapshot; canonical SemanticRepository
+  + CTPR-010 -> data GitProjection; canonical SemanticRepository
+
+& [Coverage_011_020] is complete
+  + CTPR-011 -> data MaterialityPolicy durable classes; canonical CaptureCadence
+  + CTPR-012 -> data MicroEvent aggregation and retention; canonical CaptureCadence
+  + CTPR-013 -> data ChangeCapsule full shape; canonical ChangeCapsule
+  + CTPR-014 -> data DiffRecord unrelated set and attribution; canonical ChangeCapsule
+  + CTPR-015 -> fidelity forward, rear, tandem and reentry mappings; canonical WalkingAttentionFidelity
+  + CTPR-016 -> fidelity authority finding and NonImportSet; canonical WalkingAttentionFidelity
+  + CTPR-017 -> data LaneCursor exact versions; canonical BidirectionalLanes
+  + CTPR-018 -> data PreparedAhead and ReleaseBarrier; canonical BidirectionalLanes
+  + CTPR-019 -> data ReflectionReturn invalidation; canonical BidirectionalLanes
+  + CTPR-020 -> data bounded lag and LaneLifecycle; canonical BidirectionalLanes
+
+& [Coverage_021_030] is complete
+  + CTPR-021 -> data ObserverJoin and CompareAndAppend; canonical BidirectionalLanes
+  + CTPR-022 -> data CompilerGeneration forward states; canonical CompilerWalk
+  + CTPR-023 -> data CompilerGeneration rear states; canonical CompilerWalk
+  + CTPR-024 -> data eight DiffRecord kinds; canonical DiffTaxonomy
+  + CTPR-025 -> data CompilerImpact; canonical CompilerWalk
+  + CTPR-026 -> data ObserverJoin; canonical CompilerWalk
+  + CTPR-027 -> data LearningModel; canonical BackwardLearning
+  + CTPR-028 -> refinement rejected hindsight conflation; canonical BackwardLearning
+  + CTPR-029 -> data CalendarItem task, plan, repository and capsule refs; canonical PlannerAndCalendar
+  + CTPR-030 -> data wake revalidation; canonical PlannerAndCalendar
+
+& [Coverage_031_038] is complete
+  + CTPR-031 -> data provider sync and effect separation; canonical EffectBoundary
+  + CTPR-032 -> data SensitivityModel and RetentionAndCompaction; canonical PrivacyAndRetention
+  + CTPR-033 -> plan integrated first proof; canonical FirstImplementationFrontier
+  + CTPR-034 -> plan compiler fixture; canonical FirstImplementationFrontier
+  + CTPR-035 -> exploded FaultSet and plan negatives; canonical FaultAndProofSet
+  + CTPR-036 -> assessment EvaluationSet; canonical EvaluationSet
+  + CTPR-037 -> constraints deterministic fallback; canonical DeterministicFallback
+  + CTPR-038 -> constraints no live authority; canonical AuthorityBoundary
+
+& [StatusAccounting] is truthful
+  + [requirement_count] is 38
+  + [mapped_count] is 38
+  + [unmapped_count] is 0
+  + [specification_status] is satisfied_after_valid_phase_lock
+  + [pure_forms_status] is not_started
+  + [runtime_fixture_status] is not_started
+  + [live_provider_status] is not_authorized
+  + [external_Walking_Attention_signature_status] is unsigned_candidate_not_inherited
+  + [ECS_status] is experimental_projection_not_selected
+
+& [ProofRule] prevents completion laundering
+  + canonical clauses satisfy semantic and logical specification only
+  + deterministic fixture requirements remain future acceptance criteria
+  + external source fidelity is not an external signature
+  + no planned code, test, provider, effect, concurrency, persistence, or hardware outcome is marked complete

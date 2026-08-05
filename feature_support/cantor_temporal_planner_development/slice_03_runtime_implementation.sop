@@ -8,14 +8,16 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
 @ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.exploded.sop
 
 & [ClusterIdentity] is bounded deterministic runtime work
-  + [enqueue_readiness] is blocked_by_CTPR_signature
+  + [enqueue_readiness] is WS-CTPR-010_ready_unassigned_after_valid_CTPR_signature
   + [reason_for_contiguity] is pure forms provide the common ABI consumed by repository, calendar, tandem, and compiler fixtures
   + [implementation_language] is Rust within the current safe workspace unless signed CTPR authority chooses otherwise
 
 & [FeatureRequirementSet] is atomic
   + [feature_requirement] is FR-CTPR-010
-    @ [support_status] blocked
+    @ [support_status] ready
     + [requirement_statement] is implement pure validated time, plan, calendar, event, snapshot, capsule, lane, reflection, and compiler-generation forms
+    @ [authority] C:\Project\Cantor\specifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.sop
+    @ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Phase_Lock.sop
   + [feature_requirement] is FR-CTPR-011
     @ [support_status] blocked
     + [requirement_statement] is implement deterministic fake repository, Calendar, and Planner behavior with logical time and replay
@@ -28,7 +30,7 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
 
 & [WorkSliceTransform] is the implementation queue
   + [work_slice_detail] is WS-CTPR-010
-    @ [slice_status] blocked
+    @ [slice_status] ready_unassigned
     @ [model_routing] Spark-suitable after signed authority
     @ [depends_on] WS-CTPR-009
     + [scope] is pure machine forms, validators, normalized serialization, and unit tests
@@ -54,5 +56,7 @@ Description: Bounded implementation cluster activated only by a valid CTPR signa
 
 & [SupportGapSet] is explicit
   + [support_gap] is SG-CTPR-010
-    @ [blocks] WS-CTPR-010 through WS-CTPR-013
-    + [gap_statement] is no valid CTPR canonical signature authorizes implementation
+    @ [gap_status] resolved_for_WS-CTPR-010_only
+    @ [blocks] WS-CTPR-011 through WS-CTPR-013 until WS-CTPR-010 proof satisfies their dependencies
+    + [historical_gap_statement] is no valid CTPR canonical signature authorized implementation before WS-CTPR-009
+    + [resolution] is canonical signature 4421228f-ecf2-450a-b704-189c4d83fd68 authorizes only WS-CTPR-010 immutable pure forms, normalization, validation, and negative tests

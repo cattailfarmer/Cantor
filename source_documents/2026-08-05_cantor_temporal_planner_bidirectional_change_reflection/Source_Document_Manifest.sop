@@ -7,12 +7,37 @@ Subject: Cantor Temporal Planner and Bidirectional Change Reflection Source Mani
   + [source_sha256] is C69387B5B2D5A1CDBB297EC20EA998376710356776E1128B220E927C8A0C92FC
   + [source_bytes] is 3291
   + [capture_time] is 2026-08-05T08:14:04.2031243-05:00
-  + [processing_status] is source_preserved_assessed_and_seven_fold_exploded_unsigned
+  + [processing_status] is canonical_SJS_complete_at_bounded_CTPR_grade
   + [assessment_target] is C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Assessment_2026-08-05.sop
   + [exploded_target] is C:\Project\Cantor\specifications\exploded\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.exploded.sop
   + [exhaustion_target] is C:\Project\Cantor\narrative\research\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Seven_Fold_Exhaustion_2026-08-05.sop
-  + [canonical_target] is absent_until_full_SJS
+  + [canonical_target] is C:\Project\Cantor\specifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.sop
+  + [registry_target] is C:\Project\Cantor\narrative\registries\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Registry.sop
+  + [phase_lock_target] is C:\Project\Cantor\narrative\registries\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Phase_Lock.sop
+  + [signature_uuid] is 4421228f-ecf2-450a-b704-189c4d83fd68
+  + [phase_lock_uuid] is 640938af-28db-4048-b691-8f3d82177996
+
+& [DerivedArtifactManifest] is content addressed
+  + [assessment_sha256] is 0CE544E0159CBA6ADCE6D39EFAAFA906E261D6CF354F74C091B3E1AAFB7170F9
+  + [exploded_sha256] is 9F34527A70658E0CC4F1D2BF6047C6350ADFC68CE12E01E8DB1FED2B0BCB9420
+  + [semantic_refinement_sha256] is 80AF21E6D89C2263EBA4F7B39C9B206F276B234E723DC3D7C935EEC7AC421BF2
+  + [data_design_sha256] is B061E2538276276D620B10B91EE2D98D24B8020F81ABE93960561D1280ED9F1A
+  + [walking_attention_fidelity_sha256] is 79A774269A43020EA3DE06A0CDC6B839DBAB51BA3E9186893A4D7A1CB71B2254
+  + [constraint_ledger_sha256] is E002A5F5B5D9BB8D70017F0C1B9B6CA4E3FFCFED7A1C31FC68E31F3DF9084098
+  + [pruning_growth_sha256] is 2BCD33560045FCEC36D2B231E30F1D790E9B5E620D2F19239C804A959664FF26
+  + [seven_fold_exhaustion_sha256] is 99B81E6119CE7F4EEC297F63B5065346032AE3A7A346A05C8ACE5F1E2071E4AC
+  + [justification_sha256] is B51221BE2FF0A8F602D73714134CDA0E8D01ED95F8595541E69133BC287DCB67
+  + [plan_sha256] is 8C668B16B27DC548705EA5B818FFF0ECB365CAEFE5FBE225504ACE5CCE94DC44
+  + [registry_sha256] is 1B68159D54A45E6372026C506321CFE72EA819C5F2278379DA675025E77CBE6D
+  + [requirement_matrix_sha256] is C657EBC2856A8257E3DA373358BF6F132D8C5C84A60E58A4586985DCA3930BD1
+  + [canonical_sha256] is 726F817726C27BCD2FA01D2D6A982717179C533843B2CCA237BD1507FFC2E495
+  + [upstream_SMTC_canonical_sha256] is 3326B78A1DDD14CB0B8DE6F756FFEFFE79DA2B09B4175332DC987C4A8B0464F5
+  + [upstream_SMTC_phase_lock_sha256] is 640FA2D6CE9A97BC99487D952DD56AF7396B1C7AE49C32D4693B41F5084FD329
+  + [ECS_correspondence_sha256] is FC81116C6E2DE701ACF730E2B00717D35205EF79734DA17F964E8F2697E4F0A3
 
 & [IntegrityRule] is strict
   = must: reject processing input when byte count or SHA-256 differs
   = must: preserve the source document without canonical rewrite
+  = must: invalidate the bounded signature when any bound artifact or selected external-fidelity input drifts
+  = must: limit implementation release to separately claimed pure machine forms and validation
+  = must: treat runtime and live external effect authority as absent

@@ -1,0 +1,138 @@
+Subject: Cantor Temporal Planner Walking Attention Fidelity Review
+
+Description: WS-CTPR-007 read-only external evidence review mapping selected WalkingAttention forward, rear, tandem, and reentry behaviors into CTPR while preserving exact repository state, authority limits, deviations, and non-imports.
+
+@ [fidelity_uuid] 743d2f02-fa65-4884-957e-c2e460dcc402
+@ [worker_slice] WS-CTPR-007
+@ [worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [reviewed_at] 2026-08-05T09:08:57.9194460-05:00
+@ [external_repository] C:\Project\WalkingAttention
+@ [external_branch] codex/walking-attention-pulse
+@ [external_head] 35d24b9245dbf1625dd20e29860e943981f65300
+@ [external_head_commit_time] 2026-07-06T09:43:23-05:00
+@ [external_head_subject] Record Walking Attention hive repo topology
+@ [external_dirty_entry_count] 584
+
+& [ObservationBoundary] is read-only and exact
+  + four selected files are tracked and byte-clean against external HEAD
+  + unrelated external dirty worktree entries are observed only as a count and are excluded from CTPR evidence
+  + no external file, index, branch, commit, or worktree state was modified
+  + repository HEAD identifies the selected file generation but does not make all dirty working-tree content authoritative
+  + [freshness] is valid only while external HEAD, selected file bytes, and selected-file clean status remain unchanged
+
+& [SelectedArtifactLock] is exact
+  + [WA_forward_path] is C:\Project\WalkingAttention\runtime\Attention_Continuity_Frame.sop
+  + [WA_forward_bytes] is 8239
+  + [WA_forward_sha256] is 102EDA9E8080AD0B9983118FC7089EF2675589275EDBDE34C5019B21F5280497
+  + [WA_rear_path] is C:\Project\WalkingAttention\runtime\Rear_Reflection_Frame.sop
+  + [WA_rear_bytes] is 8171
+  + [WA_rear_sha256] is 5E3746DDDB5D008E9EE8009D50671607982D5D1EF55CCEC96BB0FE29EDC4CE4D
+  + [WA_tandem_path] is C:\Project\WalkingAttention\runtime\Walking_Attention_Tandem_Exchange.sop
+  + [WA_tandem_bytes] is 25691
+  + [WA_tandem_sha256] is 5E34D5E0FD2EA979077109BE47F25CA4C1816EB8EC3F45B112C9144007FBB267
+  + [WA_controller_path] is C:\Project\WalkingAttention\specifications\Walking_Attention_Tandem_Exchange_Controller_SJS_001.sop
+  + [WA_controller_bytes] is 4216
+  + [WA_controller_sha256] is 898ADDB7F4E43969A4331C54453D77DACE327AA549C675A718B9E45C76E26B40
+
+& [ExternalAuthorityFinding] is narrower than the filename suggests
+  + Attention Continuity Frame declares forward_attention_continuity_runtime_specification
+  + Rear Reflection Frame declares rear_reflection_diff_review_runtime_specification
+  + Tandem Exchange Runtime declares read_only_exchange_ledger_runtime
+  + Tandem Exchange Controller SJS 001 explicitly declares unsigned_sjs_candidate_supporting_exchange_ledger_checker
+  + the controller provides a specified read-only ledger and checker and explicitly does not send messages or mutate the runner
+  + [external_signed_import_authority] is not_established_by_the_selected_controller_file
+  + [CTPR_use] is cited behavioral source and fidelity evidence, not inherited external signature authority
+  - never: call the selected controller a valid signed SJS merely because its filename contains SJS_001
+
+& [ForwardBehaviorMap] is faithful
+  + ConsumeInput maps to ProspectiveLane intake of raw impulse as a candidate rather than admitted fact
+  + current_focus, current_waist, open_interfaces, admission_records, boundary_constraints, source_refs, and prior artifact ref map to WorkPacket and LaneCursor inputs
+  + OpenInterface maps to one named next route with reason, source, exit, and unresolved condition
+  + AttachFrame maps to version-bound prepared candidate and source lineage
+  + InputDiff maps to requirement, support, meaning, scope, boundary, fault, or neutral MaterialEvent and DiffRecord
+  + MeaningDelta maps to semantic change with adopted, candidate, deferred, refused, outside, neutral, or fault status
+  + ForwardFrameRecord maps to prospective packet fields and ChangeCapsule declared intent
+  + NextSeedEmission maps to bounded reentry state and next work packet
+  + NeutralTick maps to optional non-material MicroEvent retained only for liveness or audit need
+  + FaultRouting maps to typed lane fault before expansion
+
+& [RearBehaviorMap] is faithful
+  + RearReviewInputs map to prior reentry, pulse, commit, declared intent, actual diff, worktree status, source refs, and manager state
+  + DeclaredIntent maps to immutable ChangeCapsule intent before inspecting actual results
+  + ActualDiff maps to created, updated, deleted, untouched expected, extra-owned, missing, unrelated, neutral, and fault classifications
+  + DiffReview maps to backtracking from actual change to prior intent before forming the next seed
+  + JustificationDelta maps to supported, overreach, underreach, reordered, blocked, redirected, or no change
+  + MeaningDelta, SupportDelta, RequirementDelta, and FaultDelta remain separately represented
+  + CompletionClaimGate maps to accept, qualify, repair, block, or unresolved rear disposition input
+  + rear review retains power to reject or block a completion claim
+  + private chain-of-thought is explicitly excluded as evidence
+
+& [TandemBehaviorMap] is faithful
+  + right_commit_created maps to one observed forward result or committed transition boundary
+  + forward_packet_emitted maps to durable LaneMessage send record
+  + left_packet_received maps to explicit receipt or acknowledgment
+  + reflection_packet_returned maps to version-bound ReflectionReturn
+  + next_forward_released maps to ObserverJoin release of only the named dependent slice
+  + fault_timeout_or_missing_ack maps to typed timeout, missing receipt, missing return, and residual state
+  + required order maps to causal predecessor and state-transition constraints
+  + checker refusal maps to release barrier failure
+  + optional timer maps only to bounded handshake timeout, not work pacing
+  + message sending and runner mutation remain absent in the reviewed controller
+
+& [ReentryBehaviorMap] is faithful
+  + frame identity maps to lane, capsule, plan, and repository generation identities
+  + current focus and attention keys map to bounded subject and query criteria
+  + functional description maps to TaskContract purpose and WorkPacket scope
+  + source refs map to content-bound provenance
+  + backward reflection ref maps to exact ReflectionReturn and reviewed capsule generation
+  + resistance and interference notes map to objections, uncertainty, residual, and faults
+  + next attention seed maps to next WorkPacket only after applicable Observer release
+  - never: use reentry as a second hidden memory store
+
+& [DeclaredDeviations] preserve CTPR's different scope
+  + CTPR replaces project-specific frame IDs and thread IDs with stable general task, lane, capsule, and generation UUIDs
+  + CTPR separates prospective preparation from physical execution, while the Walking Attention right-foot metaphor sometimes associates forward work with a commit boundary
+  + CTPR makes Observer the general admission join rather than treating the reflection packet alone as release authority
+  + CTPR generalizes target files and Git diffs into physical, source, semantic, build, behavioral, effect, proof, and calendar diff surfaces
+  + CTPR permits only explicitly profiled bounded lag; the reviewed core exchange requires reflection before named next release
+  + CTPR defines future message transport abstractly; the selected external controller explicitly implements no sending
+  + CTPR derives no live calendar, provider, compiler, background, or effect capability from Walking Attention
+  + CTPR does not import the external repository's 584 unrelated dirty entries
+
+& [NonImportSet] is mandatory
+  + hidden model attention
+  + private chain-of-thought
+  + K/V cache or activation access
+  + raw attention heatmaps
+  + consciousness or persistent subjective state
+  + one-minute or fixed pulse work pacing
+  + shared mutable attention across models
+  + unrestricted executor or runner mutation authority
+  + automatic message sending
+  + automatic Git commit or workspace mutation
+  + prompt-strengthening artifacts as release authority
+  + external dirty worktree content outside the selected clean files
+
+& [FidelityAcceptance] passes at behavioral-source grade
+  + source repository, branch, HEAD, commit time, dirty count, bytes, hashes, and selected-file clean state are recorded
+  + forward input, diff, meaning, fault, frame, and reentry behavior have explicit CTPR destinations
+  + rear intent, actual diff, delta, fault, completion, and refusal behavior have explicit CTPR destinations
+  + tandem send, receive, return, release, timeout, and no-hidden-state behavior have explicit CTPR destinations
+  + deviations and non-imports are explicit
+  + external signature status is reported accurately as unsigned candidate
+  + CTPR may canonically articulate its own derived behavior after SJS but does not claim to inherit an external valid signature
+
+& [InvalidationAndRecheck] is fail-closed
+  + external HEAD change
+  + selected file byte or hash change
+  + selected file becomes dirty, removed, untracked, or superseded
+  + external controller signature status or source lineage changes
+  + CTPR changes any mapped forward, rear, tandem, reentry, admission, or non-import behavior
+
+& [WorkerConclusion] completes WS-CTPR-007
+  + [support_delta] is FR-CTPR-007 ready_for_verification
+  + [import_grade] is digest_bound_behavioral_source_fidelity
+  + [external_authority_grade] is unsigned_candidate_not_inherited
+  + [canonical_authority] is absent_until_CTPR-SJS-01
+  + [implementation_authority] is absent
+  + [next_worker] is WS-CTPR-008 constraints, pruning, alternatives, counterarguments, invalidation, and architecture justification

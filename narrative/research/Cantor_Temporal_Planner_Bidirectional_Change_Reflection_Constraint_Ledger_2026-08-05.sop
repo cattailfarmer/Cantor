@@ -1,0 +1,143 @@
+Subject: Cantor Temporal Planner and Bidirectional Change Reflection Constraint Ledger
+
+Description: WS-CTPR-008 SJS constraint trace applying source, semantic, data, external-fidelity, authority, privacy, concurrency, compiler, and proof boundaries before canonical formation.
+
+@ [constraint_ledger_uuid] 9e79bcff-b231-4e7f-85d7-fc773375c68b
+@ [source_snapshot_uuid] a0b27483-1bde-43c6-abd9-23dddc31c51d
+@ [refinement_uuid] 8242144d-1912-4be0-ac55-b98f2ce82574
+@ [data_design_uuid] 0a76cbd9-c32f-4659-887f-df6e0c5b9331
+@ [fidelity_uuid] 743d2f02-fa65-4884-957e-c2e460dcc402
+
+& [ConstraintClassification] is explicit
+  + [hard] must hold for CTPR canonical authority
+  + [profile] must hold when a temporal, repository, lane, compiler, or provider profile selects behavior
+  + [implementation] requires later code and deterministic proof
+  + [runtime] is revalidated for every live use
+  + [experimental] is a candidate whose benefit and semantic correspondence remain unproved
+
+& [ConstraintSet_IdentityAndAuthority] is checked
+  + [C01_source_preservation] hard: raw CTPR source remains immutable and content-bound
+    @ [status] satisfied
+  + [C02_SMTC_dependency] hard: CTPR compiler semantics consume valid bounded SMTC-SJS-01 without inheriting implementation authority
+    @ [status] satisfied
+  + [C03_Planner_proposal] hard: Planner projects candidate paths and cannot make facts, commitments, or effect grants
+    @ [status] satisfied_at_specification_grade
+  + [C04_Calendar_projection] hard: Calendar records local temporal proposals and commitments separately from provider synchronization
+    @ [status] satisfied_at_specification_grade
+  + [C05_Observer_admission] hard: only an eligible ObserverJoin admits a successor repository generation
+    @ [status] satisfied_at_specification_grade
+  + [C06_effect_separation] hard: calendar sync, notification, Git write, file write, provider call, background work, and external mutation require separate authority
+    @ [status] satisfied_at_specification_grade
+  + [C07_signature_noninheritance] hard: external Walking Attention behavior does not transfer external signature authority
+    @ [status] satisfied
+
+& [ConstraintSet_TimeAndCalendar] is checked
+  + [C08_time_domains] hard: civil, instant, monotonic, logical, valid, transaction, and uncertain time remain distinct
+    @ [status] satisfied_at_specification_grade
+  + [C09_time_evidence] hard: asserted time binds source, zone where applicable, precision, interpretation, and uncertainty
+    @ [status] satisfied_at_specification_grade
+  + [C10_no_timestamp_causality] hard: timestamps, record position, operand order, or digest do not prove causal order alone
+    @ [status] satisfied_at_specification_grade
+  + [C11_schedule_commitment] hard: schedule candidate, accepted commitment, provider synchronization, trigger, and completion are separate states
+    @ [status] satisfied_at_specification_grade
+  + [C12_wake_revalidation] runtime: wake checks current assumptions, dependencies, authority, targets, relevance, privacy, and effect scope before work
+    @ [status] formed_not_implemented
+  + [C13_recurrence_bounds] profile: expansion has zone policy, exceptions, finite horizon, and occurrence identity
+    @ [status] formed_not_implemented
+
+& [ConstraintSet_RepositoryAndHistory] is checked
+  + [C14_material_capture] hard: every materially observable transition is recorded; insignificant events are not required by default
+    @ [status] satisfied_at_specification_grade
+  + [C15_no_moment_flood] hard: every moment is interpreted through explicit materiality and retention policy
+    @ [status] satisfied_at_specification_grade
+  + [C16_append_only_history] hard: prior source, plan, intent, event, diff, review, and disposition remain immutable
+    @ [status] satisfied_at_specification_grade
+  + [C17_no_atomic_overclaim] hard: sequential observations and semantic snapshots do not claim atomic external-world state
+    @ [status] satisfied_at_specification_grade
+  + [C18_Git_projection] hard: Git is a human-facing milestone projection, not the sole semantic repository
+    @ [status] satisfied_at_specification_grade
+  + [C19_unrelated_attribution] hard: unrelated dirty or external state is preserved separately from claimed work
+    @ [status] satisfied_at_specification_grade
+  + [C20_compaction_equivalence] implementation: aggregation, compaction, redaction, or deletion declares loss, proof impact, and replay boundary
+    @ [status] formed_not_implemented
+
+& [ConstraintSet_ChangeAndReflection] is checked
+  + [C21_ChangeCapsule_waist] hard: declared intent, before state, candidate, observed result, diffs, review, disposition, and after state remain joined by one stable capsule identity
+    @ [status] satisfied_at_specification_grade
+  + [C22_distinct_diff_surfaces] hard: physical, source, semantic, build, behavioral, effect, proof, and calendar changes are not collapsed
+    @ [status] satisfied_at_specification_grade
+  + [C23_rear_refusal] hard: rear review may report no change, mismatch, repair, blockage, or unresolved state and can refuse completion
+    @ [status] satisfied_at_specification_grade
+  + [C24_no_hindsight_rewrite] hard: review-derived requirements and lessons do not alter prior declared intent or forecast
+    @ [status] satisfied_at_specification_grade
+  + [C25_evidence_backed_review] hard: files, commits, source, events, tests, and proof artifacts support review; private reasoning does not
+    @ [status] satisfied_at_specification_grade
+
+& [ConstraintSet_LanesAndConcurrency] is checked
+  + [C26_immutable_lane_inputs] hard: every lane reads exact immutable versions
+    @ [status] satisfied_at_specification_grade
+  + [C27_no_shared_mutable_attention] hard: lanes exchange versioned messages and do not mutate one live semantic or hidden attention state
+    @ [status] satisfied_at_specification_grade
+  + [C28_prepared_not_admitted] hard: prepared-ahead work cannot commit dependent effects or successor state
+    @ [status] satisfied_at_specification_grade
+  + [C29_compare_and_append] implementation: joins reject stale predecessors, generations, dependencies, and authorities
+    @ [status] formed_not_implemented
+  + [C30_bounded_lag] profile: any reflection lag names eligibility, count or duration, consequence, rollback, overdue behavior, and authority
+    @ [status] formed_not_implemented
+  + [C31_no_deadlock] implementation: timeout, cancellation, residual, crash reentry, and terminal disposition prevent indefinite review blocking
+    @ [status] formed_not_implemented
+
+& [ConstraintSet_CompilerLearningAndProjection] is checked
+  + [C32_bidirectional_compiler] hard: forward parse, resolve, lower, and project remain distinct from rear source, semantic, impact, correspondence, and proof review
+    @ [status] satisfied_at_specification_grade
+  + [C33_independent_correspondence] hard: generated target output cannot be its only correctness evidence
+    @ [status] satisfied_at_specification_grade
+  + [C34_invalidation_graph] implementation: semantic changes propagate to affected IR, indexes, packages, schedules, workflows, models, tools, and hardware projections
+    @ [status] formed_not_implemented
+  + [C35_lesson_candidate] hard: forecast error, deviation, and surprise remain reviewed candidates before SOP, policy, or corpus adoption
+    @ [status] satisfied_at_specification_grade
+  + [C36_deterministic_fallback] hard: exact local planning, repository, replay, and refusal remain valid without model or provider
+    @ [status] satisfied_at_specification_grade
+  + [C37_ECS_projection_only] experimental: ECS may optimize runtime shape but cannot replace semantic identity, contextual graph relations, provenance, truth status, authority, or proof
+    @ [status] considered_not_selected
+  + [C38_first_fixture_only] hard: the next possible implementation scope is one deterministic fake calendar, repository, tandem, and compiler-diff fixture
+    @ [status] satisfied_at_specification_grade
+
+& [ConstraintSet_PrivacyRetentionAndScope] is checked
+  + [C39_field_sensitivity] hard: calendar, source, diff, prompt, provider, tool, trace, proof, and lesson fields have independent sensitivity and disclosure
+    @ [status] satisfied_at_specification_grade
+  + [C40_retention_rights] profile: transient, durable, archived, compacted, redacted, and deleted states bind policy and proof impact
+    @ [status] formed_not_implemented
+  + [C41_index_nonleakage] hard: index or embedding access cannot disclose protected source or relations beyond query authority
+    @ [status] satisfied_at_specification_grade
+  + [C42_no_live_authority] hard: current signature grants no live clock, provider, calendar, notification, background journal, Git mutation, concurrent agent, model training, FPGA, desktop, or external effect
+    @ [status] satisfied_by_planned_scope
+
+& [CollisionReview] resolves candidate tensions
+  + [collision_1] Planner_central versus Planner_not_authority resolves through candidate projection and Observer selection
+  + [collision_2] Calendar_central versus no_provider_access resolves through local temporal representation before optional effect adapters
+  + [collision_3] every_moment versus finite_storage resolves through materiality, aggregation, retention, and explicit loss
+  + [collision_4] snapshot_repository versus no_atomic_world_claim resolves through semantic frontier snapshots of sequential admitted observations
+  + [collision_5] simultaneous_attention versus no_shared_state resolves through prepared-ahead versioned lanes and message joins
+  + [collision_6] rear_reflection_changes_work versus history_immutability resolves through invalidation and new plan generations
+  + [collision_7] compiler_self_review versus independent_proof resolves through distinct rear analyzers and independent evidence
+  + [collision_8] learned_lessons versus no_hindsight resolves through preserved source plus separately reviewed LessonCandidate
+  + [collision_9] Walking_Attention_import versus unsigned_controller resolves through cited behavior and CTPR-owned derived semantics without signature inheritance
+  + [collision_10] ECS_efficiency versus semantic_graph_richness resolves through optional projection and graph-preserving correspondence
+
+& [ConstraintDisposition] is phase-lock eligible
+  + [constraint_count] is 42
+  + [hard_failure_count] is 0
+  + [profile_deferred_count] is 4
+  + [implementation_or_runtime_deferred_count] is 7
+  + [experimental_candidate_count] is 1
+  + [deferred_authority] is none
+  + [source_revision_required] is false
+  + [canonical_scope] is CTPR semantic and logical authority with deterministic-fixture-only future frontier and no current implementation
+
+& [Invalidation] is fail-closed
+  + any hard constraint failure
+  + source or upstream SMTC drift
+  + external selected Walking Attention evidence drift without recheck
+  + hidden-state, shared-mutation, history-rewrite, false-atomicity, provider, effect, privacy, compiler-self-proof, or signature-inheritance expansion
+  + treating deferred implementation or experimental ECS as completed proof
