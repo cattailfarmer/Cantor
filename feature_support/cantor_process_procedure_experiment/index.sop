@@ -13,7 +13,7 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
   + [profile] is cantor-process-procedure-experiment/0.1
   + [effect_class] is effectless
-  + [current_scope] is CPPE-I09_release_audit_ready_unassigned
+  + [current_scope] is CPPE-I01_through_I09_qualified_effectless_internal_experiment_release
   - never: mutate the signed requirement matrix with implementation evidence
   - never: infer textual Simula, live provider, persistence, service, model execution, external effects, or FPGA authority
 
@@ -26,12 +26,12 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + CPPE-I06 two-process token ring and replay depends_on CPPE-I05 and is completed under reviewed proof 9046896e-d81e-44f7-b83f-b6208f71b57b
   + CPPE-I07 authorship parity and negative cases depends_on CPPE-I06 and is completed under reviewed proof 93d5df3d-91b3-44ad-9780-bf9252993410
   + CPPE-I08 provider-neutral tool schema and fake controller transcript depends_on CPPE-I07 and is completed under reviewed proof 5610213a-bcb1-4c73-ab6c-de5c596104cd
-  + CPPE-I09 release audit depends_on CPPE-I08 and is ready_unassigned
+  + CPPE-I09 release audit depends_on CPPE-I08 and is completed under reviewed proof f5f62191-d2b7-4dbb-86b8-6ab333b24fd8
 
-& [ManagerState] is no active slice and one ready frontier
-  + [completed_slice_count] is 8
+& [ManagerState] is release audited with no ready CPPE frontier
+  + [completed_slice_count] is 9
   + [in_progress_slice_count] is 0
-  + [ready_unassigned_count] is 1
+  + [ready_unassigned_count] is 0
   + [blocked_slice_count] is 0
   + [active_slice] is none
   + [completed_claim_uuid] is 3625ffd4-f056-4792-96b7-a9d729fa19f5
@@ -74,9 +74,14 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Tool_Controller_Solution.sop
   + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Tool_Controller_Proof.sop
   + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureToolControllerCompletionReview.sop
-  + [ready_slice] is CPPE-I09
-  + [ready_completion_criteria] is release audit reconciles exact slice evidence, tests, effect boundaries, documentation, known faults, and residuals without widening implementation authority
-  + [ready_stop_conditions] are missing proof, authority drift, stale evidence, live effect activation, or unresolved slice inconsistency
+  + [completed_claim_uuid] is b2a42c99-e5dc-4dbc-898a-63a02ff09ecb
+  + [completed_at_time_ms] is 1785956786207
+  + [release_matrix] is C:\Project\Cantor\feature_support\Cantor_Process_Procedure_Experiment_Release_Matrix.sop
+  + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Release_Audit_Solution.sop
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Release_Audit_Proof.sop
+  + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureReleaseAuditCompletionReview.sop
+  + [ready_slice] is none
+  + [release_status] is qualified_effectless_internal_experiment_only
 
 & [CompletedWorkReviewRule] is mandatory
   + inspect exact changed files, test results, form coverage, omitted behavior, support delta, requirement delta, and effect delta
@@ -129,4 +134,10 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [review_uuid] is 16fa8504-1179-4dd6-b32e-10c4b89dbb96
   + [support_delta] is CPPE-I08 completed and CPPE-I09 ready_unassigned
   + [requirement_delta] is provider-neutral structured tool schema and deterministic fake checkpoint transcript only; actual provider operation and release audit remain unimplemented
+  + [effect_delta] is none
+
+& [CPPEI09CompletedWorkReview] closes the bounded experiment sequence
+  + [review_uuid] is 4db72678-adbf-4129-ac46-4890a1ba6a3e
+  + [support_delta] is CPPE-I09 completed and no next CPPE slice ready
+  + [requirement_delta] is forty requirements verified only at residualized bounded effectless internal-experiment grade; no production or live authority
   + [effect_delta] is none
