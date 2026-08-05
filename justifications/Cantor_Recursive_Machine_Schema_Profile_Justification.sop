@@ -1,0 +1,24 @@
+Subject: Cantor Recursive Machine Schema Profile Justification
+
+@ [justification_uuid] 0665acdb-a49c-4e71-acb1-a45810b87bd6
+
+& [Selected] is local recursive reference graph
+  + preserves exact public serde forms
+  + produces finite canonical bytes and stable content digests
+  + matches Draft 2020-12 recursive reference semantics
+  + lets existing semantic depth and value bounds remain authoritative
+
+& [RejectedFiniteUnrolling] would duplicate semantics
+  + fixes an arbitrary depth in schema shape
+  + expands document size and generator work
+  + risks disagreeing with caller-supplied maximum_call_depth
+
+& [RejectedTransportProjection] would create drift
+  + adds translation forms and compatibility obligations
+  + changes the public contract merely to accommodate one schema technique
+  + still requires bounded conversion into recursive core values
+
+& [Safety] comes from layered gates
+  + local-only closure, cycle-safe traversal, global counters, parser recursion limit, core depth validation, and value bounds
+  + no single layer is represented as sufficient alone
+

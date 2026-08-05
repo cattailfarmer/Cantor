@@ -1,0 +1,37 @@
+Subject: Cantor Recursive Machine Schema Data Design
+
+@ [design_uuid] 45f8bc8f-0c81-4884-9a50-996139dd81e1
+
+& [RecursiveDefinitionAccount] is inspectable
+  + type_name
+  + document_id
+  + local_definition_pointer
+  + direct_local_reference_targets
+  + self_recursive boolean
+  + strongly_connected_component members
+  + schema_fingerprint
+  + semantic_residual_ids
+
+& [TraversalState] is finite
+  + pending definition identities in deterministic lexical order
+  + visited definition identities
+  + active path identities for cycle classification
+  + counters for definitions, references, properties, alternatives, depth, and bytes
+  + typed fault with limit, observed count, active path, and safe residual on failure
+
+& [Residuals] bind layers
+  + RMS-R01 serde JSON container recursion limit remains active
+  + RMS-R02 ProcedureBounds.maximum_call_depth is positive and no greater than 64
+  + RMS-R03 ProcedureType recursion is validated with decrementing depth
+  + RMS-R04 ProcedureValue recursion is validated with decrementing depth
+  + RMS-R05 value bytes, text, collection items, and map entries remain core-enforced
+  + RMS-R06 schema validation never substitutes for authority admission
+
+& [ConformanceCorpus] is boundary directed
+  + shallow scalar and one-level recursive values
+  + nested list, map, record, tagged union, and recursive type cases
+  + semantic depth 63, 64, and 65 after constructing complete safe fixtures
+  + JSON container depths immediately below and above the active serde boundary
+  + unresolved local reference and every forbidden external-reference shape
+  + self-cycle traversal repeats and counter-exhaustion cases
+

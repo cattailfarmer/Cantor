@@ -1,0 +1,25 @@
+Subject: Cantor Recursive Machine Schema Semantic Refinement
+
+@ [refinement_uuid] f63b8c56-2337-4688-a72c-55f4b1b6ee05
+
+& [Terms] are disambiguated
+  + schema_document_depth is maximum nesting of the JSON Schema document itself
+  + definition_graph_depth is longest acyclic path after treating revisited definitions as terminal references
+  + instance_container_depth is nested JSON object and array depth before typed decode
+  + semantic_value_depth is recursive ProcedureType or ProcedureValue depth checked by Cantor
+  + local_recursive_reference is a fragment-only reference into the same canonical document or bundle
+  + cycle_guard is visited identity plus active traversal stack preventing recursive generator expansion
+  + recursive_residual is a non-schema rule that remains enforced by parser or Cantor validation
+
+& [RefinedMeaning] is finite graph not finite unrolling
+  + canonical bytes contain each named definition once
+  + recursion is represented by stable local references
+  + graph traversal counts each definition once and detects self or mutual cycles without following them indefinitely
+  + instance depth is bounded independently before or during decode and again by Cantor semantic validation
+
+& [Honesty] rejects false equivalence
+  + JSON Schema recursive acceptance does not prove maximum_call_depth
+  + serde depth rejection may be stricter than semantic depth because enclosing transport objects also consume container depth
+  + conformance agreement is claimed only for syntax rules expressible and enabled in both readers
+  + depth behavior is tested and residualized rather than hidden
+

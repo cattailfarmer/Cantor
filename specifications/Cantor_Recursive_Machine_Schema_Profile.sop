@@ -1,0 +1,66 @@
+Subject: Cantor Recursive Machine Schema Profile
+
+Description: Canonical CPMS addendum representing recursive ProcedureType and ProcedureValue with finite cycle-safe local schema references while preserving independent parser and semantic depth gates.
+
+@ [specification_uuid] 991bd37c-d37e-4aee-8e9b-b0dcd4fdef87
+@ [profile] cantor-recursive-machine-schema/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_recursive_machine_schema\Source_Document_Manifest.sop
+@ [parent] C:\Project\Cantor\specifications\Cantor_Public_Procedure_Machine_Schema.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Recursive_Machine_Schema_Profile.exploded.sop
+
+& [Representation] is finite local reference graph
+  + ProcedureType and ProcedureValue each have one stable named definition
+  + recursive members reference their named definition through fragment-local Draft 2020-12 references
+  + canonical documents contain no external, file, relative-document, network, or dynamically retrieved reference
+  + recursive references are not dereferenced during normalization or digesting
+
+& [GraphClosure] is deterministic
+  + every local reference target exists in the same canonical document or declared in-memory bundle
+  + definition identities and traversal order use stable lexical type names
+  + visited identities prevent repeated expansion
+  + active-path identities classify direct and mutual cycles
+  + unexpected mutual cycles are refused in profile 0.1 unless explicitly listed by a later revision
+  + known direct self cycles are ProcedureType and ProcedureValue only
+
+& [ResourceAccounting] includes cycles
+  + each named definition counts once
+  + each reference occurrence counts once even when its target is already visited
+  + document depth counts schema syntax without following references
+  + definition graph depth ends a path at a visited target
+  + all CPMS profile 0.1 byte, definition, reference, property, alternative, residual, and corpus ceilings remain active
+
+& [InstanceDepth] is layered
+  + JSON parsing retains the active serde_json container recursion limit and never disables it
+  + schema validation uses only an in-memory registry and a separately bounded instance traversal
+  + Cantor validates ProcedureBounds.maximum_call_depth as positive and no greater than 64
+  + Cantor recursively validates ProcedureType and ProcedureValue by decrementing maximum_call_depth
+  + value byte, text, collection, and map bounds remain semantic residuals
+  + enclosing transport objects may cause serde to reject before the semantic depth ceiling and that distinction is explicit
+
+& [Conformance] is boundary aware
+  + schema meta-validation must accept the canonical recursive documents
+  + schema validation and strict serde must agree on every claimed expressible syntax rule
+  + depth limits not expressible in Draft 2020-12 remain named residuals
+  + safe complete fixtures exercise shallow recursion, every recursive variant, semantic boundary values, parser-depth boundary values, unresolved targets, external references, and cycle counter exhaustion
+  + no disagreement, panic, stack overflow, network attempt, or partial schema escapes as success
+
+& [Compatibility] preserves public forms
+  + no finite unrolling
+  + no alternate transport projection
+  + no change to ProcedureType, ProcedureValue, prepare, run, verify, response, or CLI bytes
+  + recursive schema support is additive to the canonical derivation layer only
+
+& [ImplementationSequence] is narrow
+  + RMS-I01 add exact recursive JsonSchema derivation and stable local names under the separately authorized CPMS-I02 slice
+  + RMS-I02 implement cycle-safe closure validation, normalization, counters, and typed faults
+  + RMS-I03 add recursive boundary conformance cases and residual registry bindings
+  + each step requires focused review before the next
+
+& [AuthorityBoundary] is formation only
+  + this specification resolves the representation decision but does not activate implementation
+  - never: add a dependency, generate a schema, alter public transport, disable parser limits, retrieve a reference, register a provider tool, call a model, use a service, persist, network, effect, or hardware
+
+& [SignatureCandidate] is formed not activated
+  + [candidate_signature_uuid] is cdf5a4fe-6f57-4b06-b304-7c8657a9528f
+  + [activation_condition] is exact canonical hash, schema-library pin, source-type derive blast-radius review, and CPMS-I02 claim
+

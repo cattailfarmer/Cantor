@@ -1,0 +1,27 @@
+Subject: Cantor Recursive Machine Schema Constraint Ledger
+
+@ [ledger_uuid] 158651e8-d1de-4816-9986-e8bd7e173b6e
+
+& [Must] is fail closed
+  + emit ProcedureType and ProcedureValue exactly once in shared definitions
+  + use only fragment-local references beginning with #/
+  + reject any scheme, authority, absolute path, relative file, or network reference
+  + canonicalize and digest the finite document without dereferencing cycles
+  + traverse definitions with visited and active sets and finite global counters
+  + retain serde decode and Cantor maximum_call_depth as separate residual enforcement
+  + test direct self cycles, unexpected mutual cycles, unresolved local targets, forbidden external references, and boundary-depth instances
+
+& [MustNot] preserves compatibility
+  - never: unroll recursion to a fixed schema depth
+  - never: introduce a replacement ProcedureValue wire form
+  - never: disable serde_json recursion limits
+  - never: claim JSON Schema enforces semantic maximum_call_depth
+  - never: fetch or resolve a reference outside the in-memory canonical bundle
+  - never: let cycle traversal evade definition, reference, property, byte, or work counters
+
+& [StopConditions] are exact
+  + stop I02 if schemars output cannot preserve stable local type names
+  + stop I02 if generated recursion disagrees with actual serde tags or closed-object behavior
+  + stop I02 if validator configuration can retrieve external resources
+  + stop I02 if an adversarial cycle can cause unbounded traversal or allocation
+

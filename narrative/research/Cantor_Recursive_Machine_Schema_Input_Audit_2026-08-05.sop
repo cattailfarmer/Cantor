@@ -1,0 +1,29 @@
+Subject: Cantor Recursive Machine Schema Input Audit
+
+@ [audit_uuid] 5cb0b61b-87c0-4a64-9273-e46f11c8da7d
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_recursive_machine_schema\Source_Document_Manifest.sop
+
+& [ObservedCode] is exact at baseline 3f51e9dc3b2118d7478524928d75a710a982d18d
+  + ProcedureType has direct self edges through List.member and OrderedMap.value
+  + ProcedureValue has direct self edges through List.members, OrderedMap.entries, Record.fields, and TaggedUnion.value
+  + procedure_validation MAX_VALUE_DEPTH is 64
+  + validate_bounds rejects maximum_call_depth above 64 or equal to zero
+  + validate_type and validate_value decrement depth and reject exhaustion
+  + validate_value_with_bounds adds whole-value byte, text, collection, and map ceilings
+  + current serde_json 1.0.151 decoder starts with remaining_depth 128 and current CLI never disables it
+
+& [Conflict] is representational not semantic absence
+  + a finite JSON Schema document may describe an infinite recursively shaped instance language using a local reference cycle
+  + finite document bytes do not make every instance finite-resource safe
+  + finite unrolling would change accepted public shape or create an arbitrary duplicate depth ceiling
+  + separate transport projection would introduce translation and drift without removing the semantic recursion already present
+
+& [Delineation] is three boundaries
+  + schema graph finiteness governs generator termination and canonical bytes
+  + JSON container depth governs parser and validator resource safety
+  + ProcedureType and ProcedureValue depth governs Cantor semantic validity
+  - never: represent one boundary as proof of another
+
+& [AuditDisposition] is local_recursive_reference_candidate
+  + candidate remains non-authorizing until canonical profile, requirements, review, and lock are formed
+

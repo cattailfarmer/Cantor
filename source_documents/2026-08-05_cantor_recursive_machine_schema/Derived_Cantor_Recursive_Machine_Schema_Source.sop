@@ -1,0 +1,36 @@
+Subject: Derived Cantor Recursive Machine Schema Source
+
+Description: Preserved technical source for resolving the CPMS-I02 recursive-type blocker. This is derived from the formed canonical and observed code, not represented as verbatim user dictation.
+
+@ [source_uuid] 7519e5dd-c97f-4cce-96ad-ee071037c8bc
+@ [source_kind] manager_derived_technical_question
+@ [derived_from] C:\Project\Cantor\specifications\Cantor_Public_Procedure_Machine_Schema.sop
+@ [observed_baseline] 3f51e9dc3b2118d7478524928d75a710a982d18d
+
+& [PreservedQuestion] is exact
+  + ProcedureType recursively contains ProcedureType through list and ordered-map member forms
+  + ProcedureValue recursively contains ProcedureValue through list, ordered-map, record, and tagged-union forms
+  + these types are reachable from public prepare, run, verify, and response contracts
+  + the formed machine-schema profile rejects recursive definitions unless a finite resolved representation is separately proven
+  + decide whether to use local recursive JSON Schema references, finite unrolling, or a separate finite transport projection
+
+& [ObservedControls] are source facts to verify
+  + cantor_core procedure validation caps maximum_call_depth at 64
+  + type and value traversal decrement the supplied depth and fail at zero
+  + bounded procedure values also enforce byte, collection-item, and map-entry ceilings
+  + serde_json 1.0.151 uses a default JSON container recursion limit of 128 unless explicitly disabled
+  + current public CLI decode does not disable that serde recursion limit
+
+& [RequiredOutcome] is narrow
+  + choose one deterministic recursive representation compatible with exact public serde forms
+  + keep the schema document finite and content addressable
+  + prevent network reference resolution and cycle-amplified generator traversal
+  + separate JSON Schema acceptance, serde decode, and Cantor semantic depth enforcement
+  + define conformance cases at, below, and beyond each applicable depth boundary
+  - never: implement a schema generator, add a dependency, change a public form, weaken existing bounds, or activate CPMS-I02 from this source alone
+
+& [AttributionLimit] is explicit
+  + the user authorized continued Cantor specification work and required SJS before implementation
+  + the exact recursive representation question was discovered by the manager during the CPMS readiness audit
+  + this file preserves that derived input without laundering it into user-authored language
+
