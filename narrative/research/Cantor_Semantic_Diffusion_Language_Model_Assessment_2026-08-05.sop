@@ -2,6 +2,7 @@ Subject: Cantor Semantic Diffusion Language Model Assessment
 
 @ [source] C:\Project\Cantor\source_documents\2026-08-05_cantor_semantic_diffusion_language_model\Dictated_Cantor_Semantic_Diffusion_Language_Model_Source.sop
 @ [order_addendum] C:\Project\Cantor\source_documents\2026-08-05_cantor_semantic_diffusion_language_model\Dictated_Cantor_Semantic_Diffusion_Language_Model_Order_Addendum_Source.sop
+@ [pos_order_addendum] C:\Project\Cantor\source_documents\2026-08-05_cantor_semantic_diffusion_language_model\Dictated_Cantor_Semantic_Diffusion_POS_Order_Addendum_Source.sop
 @ [manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_semantic_diffusion_language_model\Source_Document_Manifest.sop
 @ [neural_boundary] C:\Project\Cantor\specifications\SOP_Neural_Compilation_Boundary.sop
 @ [neural_fabric] C:\Project\Cantor\specifications\Cantor_Neural_Routed_Gated_Semantic_Fabric.sop
@@ -20,6 +21,43 @@ Subject: Cantor Semantic Diffusion Language Model Assessment
   + [source_sha256] is BD7DED55620656AEB61CBA33D7664E4AFBAA912EC0477FF5E3B1255F13339193
   + [clarification] is operation or verb final commitment is second-to-last and identity or noun final commitment is last
   + [preserved_boundary] is hypotheses for both remain active throughout earlier constraint propagation
+
+& [POSOrderObservationRevision] is exact
+  + [revision_uuid] is 657cf5db-7f22-49ad-88b5-8cfbf1faed6b
+  + [source_snapshot_uuid] is b9e98eb9-94cb-41be-a5d2-07e215340975
+  + [source_sha256] is 49A80AB253034AD59BD99B571AF6C1B169358E22E999F56101121E3CD5794286
+  + [status] is user_observed_policy_admitted_for_benchmark_not_yet_selected_as_universal_schedule
+  + [refinement] is articles or determiners and readily recognized proper nouns form early anchors while modifiers, operations, and residual identities close later
+
+& [ObservedPOSResolutionPolicy] separates recognition from final semantic commitment
+  + [wave_0_pins] exact input, objective, active fabric, trust state, authority, and effect boundary
+  + [wave_1_reference_operators] articles, determiners, quantifiers, and eligible deictic forms establish definiteness, quantity, scope, and reference posture
+  + [wave_2_named_anchors] proper nouns, explicit identifiers, citations, and literals attempt early exact identity anchoring
+  + [wave_3_structure] clause boundaries, auxiliaries, modality, negation, conjunctions, prepositions, particles, and dependency roles constrain the candidate graph
+  + [wave_4_modifiers] adjective hypotheses constrain identity properties and adverb hypotheses constrain operation manner, degree, time, frequency, or certainty
+  + [wave_5_relationships] typed semantic, applicability, causal, authority, and plan relationships propagate remaining constraints
+  + [wave_6_operation_commitment] verbs resolve second-to-last to exact operation classes, signatures, guards, and candidate addresses
+  + [wave_7_residual_identity_commitment] unresolved common nouns and other identity-bearing heads resolve last against the closed operation and relationship roles
+  + [wave_8_validation] exact lookup, boundary gates, proof, abstention, and articulation occur after semantic commitment
+  = must: retain candidates from every later wave during every earlier wave so order governs commitment rather than information blindness
+
+& [ProperNounEarlyAnchorGate] distinguishes easy recognition from safe identity commitment
+  + [lexical_detection] capitalization, named-entity recognition, alias match, or surface form may propose a proper-noun candidate
+  + [exact_address] an admitted SemanticAddress and current content digest must be available
+  + [uniqueness] exactly one materially compatible identity remains under active context, purpose, version, and reference scope
+  + [boundary_fit] kind, context, source, authority, lifecycle, and identity invariants must pass deterministic checks
+  + [collision] names such as Jordan, Apple, May, Washington, Mercury, or Java retain a candidate set when several identities remain viable
+  + [unknown_name] an unregistered proper noun remains an explicit unresolved external identity rather than being invented
+  + [early_commitment] is allowed only after exact address, uniqueness, and boundary fit; otherwise the name remains an early candidate anchor
+  = conclusion: proper nouns are often high-information anchors but are not intrinsically unambiguous
+
+& [ModifierPlacement] makes adjectives and adverbs constraint carriers
+  + [adjective_hypothesis] narrows kind, property, state, comparison, quantity, or relational identity candidates
+  + [adverb_hypothesis] narrows operation manner, degree, time, frequency, modality, evidence posture, or certainty
+  + [default_commitment] modifiers commit before the head class they constrain when their meaning is independently supportable
+  + [joint_dependency] ambiguous modifiers and heads remain jointly provisional until either direction closes the candidate set
+  + [remask] later head resolution may revise a modifier sense without rewriting prior evidence
+  - never: treat the same surface modifier as one universal semantic property across every identity or operation class
 
 & [CoreConclusion] is qualified support
   + a diffusion-style model is unusually compatible with Cantor because noun identity, verb operation, relationship, boundary, purpose, and provenance can remain unresolved together and be refined bidirectionally
@@ -102,6 +140,8 @@ Subject: Cantor Semantic Diffusion Language Model Assessment
   + [penultimate_operation_reason] is the selected operation closes its role signature, input-output types, preconditions, and admissible transitions before exact identities fill the final roles
   + [final_identity_reason] is exact identity selection becomes the final lexical-semantic commitment after operation, relationship, scope, and boundary constraints have narrowed the candidate basin
   + [hypothesis_rule] is operation and identity hypotheses remain active from the first pass even though their final commitments occur at the penultimate and final stages
+  + [proper_noun_anchor_variant] adds exact guarded proper-noun commitments immediately after reference operators while leaving ambiguous names provisional
+  + [modifier_before_head_variant] places adjective and adverb commitment before the operation and residual identity heads they constrain
   + [determiner_probe_then_adaptive] probes determiners first but lets measured information gain choose later slots
   + [confidence_first] selects the highest calibrated candidate commitment
   + [dependency_frontier] selects slots that unlock the greatest number of constrained neighbors
@@ -134,7 +174,7 @@ Subject: Cantor Semantic Diffusion Language Model Assessment
   + [fabric] is one immutable signed fixture containing polysemous identities, overloaded operations, typed relations, and explicit constraints
   + [task] is recover the exact semantic graph from a masked or ambiguous expression
   + [baseline] is deterministic catalogue join plus bounded constraint propagation and search
-  + [policy_set] is left-to-right, confidence-first, dictated determiner-first operation-penultimate identity-final, determiner-probe-then-adaptive, and learned adaptive order
+  + [policy_set] is left-to-right, confidence-first, refined observed determiner-and-proper-noun-anchor operation-penultimate identity-final, determiner-probe-then-adaptive, and learned adaptive order
   + [output] is ResolutionLattice trace, proposed SemanticAddress set, operation bindings, relationships, residual ambiguity, and proof
   + [shadow_mode] is mandatory
   + [effects] are absent
@@ -169,7 +209,7 @@ Subject: Cantor Semantic Diffusion Language Model Assessment
   + it does not satisfy the missing deterministic baseline, reviewed corpus, metrics, or failure-policy adoption gates
   + it does not authorize model training, dependencies, checkpoints, serving, or production inference
 
-& [CandidateRequirementSet] is CSDL-001 through CSDL-025
+& [CandidateRequirementSet] is CSDL-001 through CSDL-028
   + [CSDL-001] preserve deterministic SOP semantics, exact resolution, proof, authority, and fallback independently of the learned model
   + [CSDL-002] define surface, semantic, and hybrid language-model identities separately
   + [CSDL-003] select structured semantic denoising as the first candidate model task
@@ -195,6 +235,9 @@ Subject: Cantor Semantic Diffusion Language Model Assessment
   + [CSDL-023] require full SJS and satisfaction signature before model schema, training, or implementation authority
   + [CSDL-024] require measured advantage before advancing from slot-order policy to semantic or hybrid model training
   + [CSDL-025] test the exact determiner-first, operation-penultimate, identity-final commitment schedule while keeping operation and identity hypotheses active throughout resolution
+  + [CSDL-026] preserve the user's observed POS policy as an exact benchmark candidate without requiring external publication as its source of legitimacy
+  + [CSDL-027] provide proper nouns an early exact-address lane only under uniqueness, context, identity, lifecycle, and boundary gates while preserving collisions and unknown names
+  + [CSDL-028] treat adjective and adverb senses as revocable constraints on identity and operation candidates and measure modifier-before-head against adaptive placement
 
 & [Decision] is admit the idea as an extension candidate for the neural-routing program
   + [canonical_authority] is absent
