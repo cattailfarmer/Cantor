@@ -1,0 +1,11 @@
+Subject: CPMS I02C Canonical Document and Golden Bundle Activation Plan
+
+@ [plan_uuid] 1098a095-0e9d-42e8-b9a2-8a45ab05b3a3
+
+& [CheckpointA1] expose exactly three crate-private reuse helpers and add the feature-gated document module
+& [CheckpointA2] implement strict forms, document materialization, payload and baseline digests, artifact map, replay verification, closed faults, and structural tests
+& [CheckpointA3] add an ignored opt-in fixture writer, run focused and full gates, review the capability, then commit and push checkpoint A
+& [CheckpointB1] externally verify clean checkpoint A and invoke the writer using its full lowercase revision
+& [CheckpointB2] add exactly six generated canonical JSON files and enable normal byte-equality, drift, and one-below-bound tests
+& [CheckpointB3] run complete gates, rehash evidence, review, prove, commit, and push completion
+& [Stop] on source-touch expansion, golden overwrite mismatch, partial artifact set, unclassified drift, or any parser validator provider model runtime effect or hardware expansion

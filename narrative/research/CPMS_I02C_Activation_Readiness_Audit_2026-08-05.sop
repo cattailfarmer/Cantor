@@ -1,0 +1,29 @@
+Subject: CPMS I02C Activation Readiness Audit
+
+@ [audit_uuid] 6d3eefee-4991-4acc-9502-f2d6986989fd
+@ [baseline_commit] d8b2681
+
+& [Prerequisites] pass
+  + CPMS-I02B code and proof are pushed at d79fc67
+  + I02C canonical formation and review are pushed at d8b2681
+  + complete default tests and current-evidence freshness passed after formation
+
+& [ReuseAudit] is exact
+  + direction token at schema_generation.rs line 31 is private
+  + root-kind token at line 50 is private
+  + canonical_json_bytes at line 955 is private
+  + these three helpers need crate-private visibility; materialize_root, counters, and fault constructors need no visibility expansion
+  + lib.rs is 11296 bytes SHA256 238FA47A50068C4D4EEFA3786FF6CB7A3AE02D17FB16C74B01671D605081F517
+  + schema_generation.rs is 38150 bytes SHA256 E571481935A3DF779536B74876E1E2059B59DF9D416A20209C781B9C559A7383
+
+& [ArtifactProcedure] is bounded
+  + library generation is pure and returns bytes only
+  + ignored integration-test fixture generation may write only after an external manager preflight proves clean checkpoint A and supplies its full revision
+  + the ignored test checks opt-in environment, supplied revision, exact destination suffix, exact six-path set, and no preexisting unequal file before writing
+  + normal verification reads only checked-in fixtures after checkpoint B
+
+& [TwoCheckpointNecessity] is proven
+  + checkpoint A must exist before its commit revision can become generation input
+  + checkpoint B may then contain artifacts generated from A without a self-referential commit identity
+
+& [ReadinessDisposition] is exact_two_checkpoint_candidate

@@ -1,0 +1,23 @@
+Subject: CPMS I02C Canonical Document and Golden Bundle Activation Phase Lock
+
+@ [lock_uuid] f40d8215-ea80-4f7a-b1da-c009700cc82a
+@ [satisfaction_signature_uuid] 74ca6243-e98f-44ba-a039-08fa3cbbfcce
+@ [source_manifest_sha256] 40D1F79C67A5458E7F5B30548F86BD5D84CC51F4A2693C24B9F1A146A2563555
+@ [canonical_bytes] 4213
+@ [canonical_sha256] E31C87EB1C7AF0EAE7AE0BDF5318DD257906A626F20EC34EA791A13F9D82E791
+@ [exploded_sha256] 388278BAB399F8F3B938C6575FF7466437A971DB2786F7BA6758CC3B5F52564A
+@ [requirements_bytes] 1929
+@ [requirements_sha256] 81B0562B404C79DC9AB80947580E70EBE969201E054811EFA787B538789BC075
+@ [baseline_lib_sha256] 238FA47A50068C4D4EEFA3786FF6CB7A3AE02D17FB16C74B01671D605081F517
+@ [baseline_schema_generation_sha256] E571481935A3DF779536B74876E1E2059B59DF9D416A20209C781B9C559A7383
+
+& [CheckpointALock] is active
+  + modify lib.rs and schema_generation.rs and add schema_documents.rs and machine_schema_documents.rs only
+  + no golden is generated before a passing reviewed checkpoint A commit exists
+
+& [CheckpointBLock] is conditional
+  + modify machine_schema_documents.rs and add exactly six fixed golden JSON files
+  + generation source revision must equal the full lowercase pushed checkpoint A commit
+  + normal read-only golden verification replaces ignored comparison state before completion
+
+& [Invalidation] occurs on dependency, extra source, root, path, runtime write, parser, validator, conformance, compatibility classification, provider, model, service, persistence, network, semantic effect, production, or hardware expansion

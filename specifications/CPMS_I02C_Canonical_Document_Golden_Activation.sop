@@ -1,0 +1,54 @@
+Subject: CPMS I02C Canonical Document and Golden Bundle Activation
+
+Description: Active-signature candidate for the pure two-checkpoint implementation of the reviewed I02C profile. It grants no authority until its exact hash lock is formed.
+
+@ [specification_uuid] f348683b-3544-470b-9bf9-342616d08f1a
+@ [profile] cantor-cpms-i02c-activation/0.1
+@ [satisfaction_signature_uuid] 74ca6243-e98f-44ba-a039-08fa3cbbfcce
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cpms_i02c_activation\Source_Document_Manifest.sop
+@ [canonical_profile] C:\Project\Cantor\specifications\CPMS_I02C_Canonical_Document_Golden_Profile.sop
+@ [requirements] C:\Project\Cantor\feature_support\CPMS_I02C_Canonical_Document_Golden_Requirement_Matrix.sop
+@ [prerequisite_commit] d8b2681
+@ [exploded] C:\Project\Cantor\specifications\exploded\CPMS_I02C_Canonical_Document_Golden_Activation.exploded.sop
+
+& [CanonicalAuthority] activates exactly requirements I02C-001 through I02C-024 under canonical SHA256 E3B87260B96B5021EE18FF9E0CADAB54C08FABFFE3B17755804728C37467DD3A
+
+& [ReuseAuthority] is three crate-private changes only
+  + SchemaContractDirection token, MachineSchemaRootKind token, and canonical_json_bytes become pub(crate)
+  + no other I02B visibility, algorithm, public form, fingerprint, fault, or behavior changes
+
+& [CheckpointA] forms committed pure capability
+  + modify tool lib.rs and schema_generation.rs
+  + add schema_documents.rs and machine_schema_documents.rs
+  + implement strict records, five-document atomic materialization, local closure rescan, document and payload digests, baseline fingerprint, six-entry artifact map, exact replay, bounds, and closed faults
+  + add structural and adversarial tests plus one ignored opt-in developer fixture writer
+  + pass focused and complete gates, review, commit, and push before artifact generation
+
+& [CheckpointB] binds goldens to checkpoint A
+  + supply checkpoint A's full lowercase Git revision as generation context only after external clean-worktree verification
+  + ignored writer requires CANTOR_UPDATE_MACHINE_SCHEMA_GOLDENS=1 and the exact repository-local test golden directory
+  + refuse unexpected paths and refuse overwriting an unequal existing fixture
+  + add exactly the five canonical schema documents and one canonical bundle envelope at the fixed paths
+  + remove only the golden-comparison ignore state, then prove normal tests are read-only and byte exact
+
+& [ArtifactPaths] are exact
+  + tests/goldens/machine_schema/input_deserialize.prepare_input.schema.json
+  + tests/goldens/machine_schema/input_deserialize.run_input.schema.json
+  + tests/goldens/machine_schema/input_deserialize.verify_input.schema.json
+  + tests/goldens/machine_schema/output_serialize.base_response.schema.json
+  + tests/goldens/machine_schema/output_serialize.preparation_response.schema.json
+  + tests/goldens/machine_schema/public_procedure_machine_schema.bundle.json
+
+& [SourceTouch] is closed across both checkpoints
+  + existing implementation files are lib.rs, schema_generation.rs, and machine_schema_documents.rs after its creation
+  + new implementation and fixture files are schema_documents.rs plus the six fixed goldens
+  + governance and metadata-only current-evidence rehash are allowed
+  + any Cargo, core, CLI, MCP, service, ecosystem, Windows, runtime, provider, model, network, effect, production, or hardware source invalidates activation before mutation
+
+& [Gates] are fail fast
+  + checkpoint A focused structural debug and release plus default and all-feature workspace gates before commit
+  + checkpoint B exact golden bytes, regenerated artifact equality, digest reconstruction, drift, direction, closure, reserved-key, root-set, source-lineage, and one-below-bound tests
+  + final default debug and release, all-feature check lint release build docs, audit, diff, source-boundary, and evidence-freshness gates
+
+& [AuthorityLimit] is I02C only
+  - never: untrusted-byte parser, duplicate-key claim, instance validator, serde conformance corpus, residual execution, changed-schema compatibility classification, provider tool definition, model, service, runtime persistence, network, semantic effect, production, hardware, or FPGA
