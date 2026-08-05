@@ -1,0 +1,24 @@
+Subject: Current Evidence Manifest Rehash Repair Resolution
+
+@ [resolution_uuid] 9dfc331f-56ac-43d6-81b1-3cc9fff1ce6e
+@ [resolved_fault_uuid] 15868c84-1c3d-4716-a7d4-6f80d463637d
+@ [resolved_at] 2026-08-05T14:13:27.4700114-05:00
+
+& [OriginalFault] remains historical and unchanged
+  + [path] is C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+  + [symptom] is stale transitive current evidence metadata after governed shared artifacts changed
+
+& [Resolution] is exact
+  + initial VerifyOnly is 58 stale records across 23 manifests and 1030 references
+  + metadata-only dependency-first refresh changes all 23 current manifests
+  + final VerifyOnly is zero stale records across the same 23 manifests and 1030 references
+  + structural diff confirms allowed metadata fields only
+  + three frozen predecessor manifests remain byte exact
+  + direct affected evidence tests and the complete workspace test suite pass
+
+& [AuthorityBoundary] remains narrow
+  + no historical verification command, probe, benchmark, or effect was rerun
+  + manifest proof grades and authority claims remain unchanged
+  + resolution means current artifact references are internally consistent, not that historical evidence was freshly reproduced
+
+& [Disposition] is resolved_by_governed_metadata_only_topological_rehash

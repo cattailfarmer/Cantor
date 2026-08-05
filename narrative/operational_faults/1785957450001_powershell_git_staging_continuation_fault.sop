@@ -1,0 +1,13 @@
+Subject: PowerShell Git Staging Continuation Fault
+
+& [OperationalFault] is closed
+  + [fault_uuid] is 10dd08a7-b607-493c-bdfd-574fab8fd6d0
+  + [observed_at_time_ms] is 1785957450001
+  + [operation] is stage the reviewed EMRR-I01 closure set
+  + [expected] is exact reviewed paths staged before commit
+  + [observed] is Git rejected a literal backslash path because Unix line continuation syntax was supplied to PowerShell
+  + [effect] is no paths staged and no repository content changed
+  + [containment] is inspect status, confirm zero staged changes, and retry with a PowerShell path array
+  + [root_cause] is shell syntax mismatch in the orchestration command
+  + [prevention] is use PowerShell arrays or backtick continuation for multi-path Git commands on Windows
+  + [resolution] is retry the identical reviewed path set through one PowerShell array

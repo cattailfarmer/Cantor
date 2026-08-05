@@ -1,0 +1,23 @@
+Subject: Current Evidence Rehash Preclosure Iteration Fault
+
+@ [fault_uuid] 13f3d292-6e5e-493a-b1a9-6441e10572db
+@ [observed_at] 2026-08-05T14:13:27.4700114-05:00
+@ [repair_claim_uuid] b46bf281-8681-46c5-a65a-9fcf5f231b34
+
+& [Observation] is exact
+  + the first metadata refresh reached zero stale records and the full workspace suite passed
+  + the required Project Narrative completion entry was then added before repair closure
+  + Project Narrative is an artifact in multiple current manifests
+  + a new VerifyOnly correctly reported 20 stale records across the unchanged 23-manifest and 1030-reference graph
+
+& [Cause] is closure ordering
+  + one manifest-referenced governance file was intentionally finalized after the first refresh
+  + no builder, physical probe, production code, frozen manifest, artifact membership, or proof grade changed
+  + no final zero-stale claim had been committed or pushed
+
+& [Correction] is bounded
+  + stabilize all manifest-referenced governance content before the closure refresh
+  + rerun the same pinned metadata-only dependency-first rehasher
+  + repeat VerifyOnly, allowed-field diff inspection, frozen hashes, affected tests, and full workspace tests
+
+& [Prevention] is final_rehash_after_manifest_referenced_narrative_stabilizes

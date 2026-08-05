@@ -1,0 +1,78 @@
+Subject: Cantor Current Evidence Manifest Rehash Repair
+
+Description: Canonical SJS authority for one dependency-first metadata-only refresh of stale artifact byte and SHA-256 records in current evidence manifests, with no evidence-producing probe and no proof-grade expansion.
+
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_current_evidence_manifest_rehash_repair\Source_Document_Manifest.sop
+@ [operational_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+@ [rehasher] C:\Project\Cantor\scripts\rehash_current_evidence_manifests.ps1
+@ [requirement_matrix] C:\Project\Cantor\feature_support\CurrentEvidenceManifestRehashRepair_Requirement_Matrix.sop
+@ [plan] C:\Project\Cantor\plans\Cantor_Current_Evidence_Manifest_Rehash_Repair_Plan.sop
+
+& [CanonicalIdentity] is exact
+  + [canonical_uuid] is 14c7356e-a37e-44e0-ba98-dfdcd9d6971b
+  + [profile] is cantor-current-evidence-manifest-rehash-repair/0.1
+  + [requirement_set] is EMRR-001 through EMRR-012
+  + [authority_grade] is one_current_manifest_metadata_repair
+
+& [SubjectBoundary] is current evidence metadata only
+  + current manifests are JSON files under crates or experiments whose names match evidence_manifest and which contain an artifacts array
+  + frozen predecessor manifests named by the rehasher remain byte exact
+  + artifact files are read only for byte length and SHA-256 measurement
+  + changed manifest fields are limited to artifacts[].bytes, artifacts[].sha256, and an already-present generated_at_utc
+  - never: change schema, UUID, authority, scope, verification result, probe result, claim, test count, proof grade, or artifact membership
+
+& [DependencyContract] is graph ordered
+  + manifest-to-manifest artifact references form directed dependency edges
+  + referenced current manifests refresh before their dependents
+  + a cycle, missing artifact, nonportable absolute path, or parent traversal fails before a successful repair claim
+  + the exact existing rehasher identity is pinned by the source manifest
+
+& [ExecutionBoundary] forbids evidence recreation
+  + initial execution is VerifyOnly and records stale reference, manifest, and total-reference counts
+  + mutation execution is the pinned rehasher without VerifyOnly
+  + final execution is VerifyOnly and must report zero stale records
+  - never: invoke any build_*_evidence_manifest script, candidate workspace probe, Git probe, topology probe, benchmark, live provider, model, network, service, or external effect
+  - never: treat metadata rehash as fresh execution of the verification commands described inside a manifest
+
+& [DiffAndProofContract] is fail closed
+  + pre-repair Git status is captured
+  + post-repair changed repository files must be only current non-frozen evidence manifests plus separately governed repair records
+  + every frozen manifest hash is measured before and after and must match
+  + the complete recursive manifest verifier and affected evidence integration tests run after refresh
+  + full workspace tests run and any remaining failure is recorded rather than hidden
+  + no proof grade changes solely because current artifact metadata is refreshed
+
+& [OperationalFaultDisposition] is conditional
+  + the README and transitive manifest staleness fault resolves only if final VerifyOnly is zero and the former evidence tests pass
+  + unrelated or newly exposed failures remain separate faults
+  + historical fault records are never deleted or rewritten
+
+& [SJSProcessingTrace] is complete
+  + [source_preservation] preserves the exact user directive separately from selected repair detail
+  + [delineation] separates metadata measurement from physical evidence generation and proof authority
+  + [data_driven_design] uses manifest path, dependency edge, artifact path, bytes, digest, frozen status, and before-after state
+  + [dual_hemisphere_review] pairs the useful global-gate repair with the constraint that rehash proves current bytes only
+  + [fault_review] covers cycle, path escape, missing artifact, frozen drift, overbroad diff, stale remainder, and false verification inference
+  + [solution_shape] is verify, refresh dependency-first, inspect diff, verify zero, run tests, prove, review, commit, and push
+
+& [RequirementSet] is canonical
+  + [EMRR-001] preserve the user directive and selected fault source separately
+  + [EMRR-002] pin the exact existing rehasher and current-manifest discovery boundary
+  + [EMRR-003] measure stale state with VerifyOnly before mutation
+  + [EMRR-004] refresh dependencies before dependent manifests and reject cycles
+  + [EMRR-005] limit mutation to artifact bytes, SHA-256, and existing generated time
+  + [EMRR-006] forbid physical probes, builders, benchmarks, providers, and external effects
+  + [EMRR-007] preserve every frozen manifest byte exact
+  + [EMRR-008] reject any unexpected repository diff surface
+  + [EMRR-009] require final VerifyOnly zero stale records
+  + [EMRR-010] rerun affected evidence integration and full workspace tests
+  + [EMRR-011] preserve proof grades and distinguish metadata freshness from verification rerun
+  + [EMRR-012] record solution, proof, completed-work review, residuals, commit, and push
+
+& [SatisfactionSignature_EMRR_01] is bounded
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 429807ab-5b83-4805-9499-ce852adeba23
+  + [source_snapshot_uuid] is 73b64427-b6b5-40fc-b7ed-b4b8da517ba0
+  + [processed_stage_set] is source_preserved, fault_bound, delineated, data_designed, dual_reviewed, constrained, planned, requirements_mapped, and phase_locked
+  + [signature_status] is valid_for_one_metadata_only_current_manifest_rehash_repair
+  + [invalidation] is rehasher drift, discovery expansion, frozen-file mutation, builder or probe invocation, unexpected diff, proof-grade mutation, final stale record, or superseding source

@@ -1,0 +1,61 @@
+Subject: Cantor Current Evidence Manifest Rehash Repair Proof
+
+@ [solution] C:\Project\Cantor\solutions\Cantor_Current_Evidence_Manifest_Rehash_Repair_Solution.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Current_Evidence_Manifest_Rehash_Repair.sop
+@ [resolution] C:\Project\Cantor\narrative\operational_faults\1785957207471_current_evidence_manifest_rehash_repair_resolution.sop
+@ [preclosure_fault] C:\Project\Cantor\narrative\operational_faults\1785957207472_current_evidence_rehash_preclosure_iteration_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is 0a3a5bdb-f1b9-4049-9d3b-7e80362892a0
+  + [solution_uuid] is fda30524-bbe2-4e92-9946-02d35a63544a
+  + [authority_signature_uuid] is 429807ab-5b83-4805-9499-ce852adeba23
+  + [captured_at] is 2026-08-05T14:15:29.7440758-05:00
+
+& [ArtifactIdentity] is measured
+  + [preserved_source] is 1518 bytes SHA256 253C17287D3D6B64FA45FB4AD2E87B590E782EBFEF1D2C6965498D4D03FEE98F
+  + [source_manifest] is 1181 bytes SHA256 DCD91D2E839080D05AEB95EAC19DB046B1CC6F86F68BFDADBA22706C3E18C86C
+  + [canonical_specification] is 5922 bytes SHA256 7DA2249A94600F966D0CEDD7489CD138E10FE4257A8FD9E899EFCB1CF5F8BA70
+  + [pinned_rehasher] is 3282 bytes SHA256 E9D7C077DA83F2ECBEE93FABD78457DF81463D8E3E299703B9896016BCFB8F28
+  + [final_project_narrative] is 168311 bytes SHA256 2B3429E5F85A8714ABE180EF9186A38C4BBD18D6F94FB49B259872F6956E27B4
+  + [current_manifest_count] is 23
+  + [current_manifest_set_digest] is SHA256 1BE93612522EDE69D616DBEEEBECE8737626516CF2B3B8F9D737AE06E2A0BC1A
+
+& [InitialAndFinalVerification] is exact
+  + [initial_command] is powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\rehash_current_evidence_manifests.ps1 -VerifyOnly
+  + [initial_result] is 58 stale records across 23 manifests and 1030 references
+  + [preclosure_result] is 20 stale records after the manifest-referenced Project Narrative was finalized
+  + [final_command] is the same pinned VerifyOnly command after closure refresh
+  + [final_result] is current_manifests=23 artifact_references=1030 stale=0
+
+& [DiffVerification] is passed
+  + [changed_current_manifests] is 23
+  + [manifest_diff] is 174 additions and 174 deletions
+  + [structural_comparator] resets generated_at_utc and every artifact bytes and sha256 field to the predecessor value before whole-document comparison
+  + [result] is allowed_field_diff_only true for all 23 manifests
+  + [unexpected_tracked_path_count] is 0
+  + [production_code_delta] is none
+  + [dependency_delta] is none
+
+& [FrozenVerification] is exact before and after
+  + phase3_topology_forms_evidence_manifest_0_1.json is 12391 bytes SHA256 B53BC3DB1233D1EAD90D1B692264585CBDD54B0E8EAA87B20785683FB59A1287
+  + windows_platform_preflight_forms_evidence_manifest_0_1.json is 13149 bytes SHA256 0D0AFF247A7D0F616432BFBDDC5FF283C33193B7B3F02A3B79832356FE008351
+  + windows_platform_preflight_forms_evidence_manifest_0_2.json is 18833 bytes SHA256 2479FF9D83EE8E8AE2E737786C5625B8E35C56082C004A2B29514AD6E1FCCC95
+
+& [TestVerification] is passed
+  + cargo test -p cantor_ecosystem --test candidate_workspace_admission_evidence --locked passes 1 test
+  + cargo test -p cantor_ecosystem --test evidence --locked passes 1 supervised mock loop evidence test
+  + cargo test -p cantor_ecosystem --test phase3_machine_forms_evidence --locked passes 1 test
+  + cargo test --workspace --locked passes all executed tests with one governed exact-root Windows physical fixture ignored
+  + cargo fmt --all -- --check passes
+  + cargo clippy --workspace --all-targets --locked -- -D warnings passes with zero warnings
+  + git diff --check passes
+
+& [NonExecutionProof] is explicit
+  + no build evidence script was invoked
+  + no physical or Git admission probe was invoked
+  + no provider, model, benchmark, network, service, or external-effect operation was invoked
+  + historical manifest verification statements were preserved rather than regenerated
+
+& [ProofDisposition] is EMRR_I01_complete_metadata_freshness_only
+  + the full workspace gate is green
+  + historical evidence grades are unchanged

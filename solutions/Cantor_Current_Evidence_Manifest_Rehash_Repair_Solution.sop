@@ -1,0 +1,43 @@
+Subject: Cantor Current Evidence Manifest Rehash Repair Solution
+
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Current_Evidence_Manifest_Rehash_Repair.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_current_evidence_manifest_rehash_repair\Source_Document_Manifest.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Current_Evidence_Manifest_Rehash_Repair_Proof.sop
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is fda30524-bbe2-4e92-9946-02d35a63544a
+  + [implemented_at] is 2026-08-05T14:15:29.7440758-05:00
+  + [slice] is EMRR-I01
+  + [claim_uuid] is b46bf281-8681-46c5-a65a-9fcf5f231b34
+  + [authority_signature_uuid] is 429807ab-5b83-4805-9499-ce852adeba23
+  + [status] is repaired_and_globally_verified
+
+& [RepairExecution] is dependency first and metadata only
+  + initial VerifyOnly measured 58 stale records across 23 current manifests and 1030 artifact references
+  + the pinned reusable rehasher refreshed referenced current manifests before dependent current manifests
+  + one preclosure Project Narrative update produced 20 newly stale references and was visibly recorded before finalization
+  + final closure rehash occurred after all manifest-referenced governance content stabilized
+  + final VerifyOnly reports zero stale records across the same 23 manifests and 1030 references
+
+& [MutationProof] is exact
+  + exactly 23 current evidence manifests changed
+  + the aggregate current-manifest set digest is SHA256 1BE93612522EDE69D616DBEEEBECE8737626516CF2B3B8F9D737AE06E2A0BC1A over sorted path, byte length, and file SHA-256 records
+  + Git records 174 added and 174 removed JSON lines across the 23 manifests
+  + structural before-after normalization proves only artifacts[].bytes, artifacts[].sha256, and existing generated_at_utc fields differ
+  + artifact ordering, membership, schema, UUID, authority, scope, verification, probe, test, and proof-grade fields are unchanged
+
+& [FrozenAndEffectBoundary] is preserved
+  + all three excluded historical manifests retain their exact pre-repair byte lengths and SHA-256 identities
+  + no evidence builder, candidate admission probe, topology probe, benchmark, provider, model, service, network, or external effect was invoked
+  + no production code, Cargo manifest, lockfile, dependency, or historical fault record changed
+  + metadata freshness is not fresh reproduction of historical evidence
+
+& [Verification] is green
+  + direct candidate admission, supervised mock loop, and Phase3 machine-form evidence tests pass
+  + final recursive VerifyOnly passes with zero stale records
+  + cargo test --workspace --locked passes with one already-governed exact Windows physical fixture ignored
+  + formatting, warnings-denied workspace lint, and diff checks pass
+
+& [SolutionDisposition] is accepted after completed-work review
+  + the inherited recursive evidence metadata fault is resolved
+  + proof grades remain unchanged

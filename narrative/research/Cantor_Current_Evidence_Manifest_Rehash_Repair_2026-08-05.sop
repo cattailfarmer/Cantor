@@ -1,0 +1,30 @@
+Subject: Cantor Current Evidence Manifest Rehash Repair Assessment
+
+@ [assessment_uuid] a31d31b9-c821-4304-8b9a-6f14547b7e71
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Current_Evidence_Manifest_Rehash_Repair.sop
+
+& [InitialObservation] is exact
+  + direct workspace execution failed at README.md metadata expected 13838 bytes and observed 14529 bytes
+  + pinned VerifyOnly found 58 stale records across 23 current manifests and 1030 artifact references
+  + the stale set was transitive and therefore unsuitable for one-record hand repair
+
+& [MechanismAssessment] distinguishes rehash from evidence generation
+  + the reusable rehasher discovers current manifests with artifact arrays under crates and experiments
+  + it excludes three named frozen predecessors
+  + it visits manifest dependencies first and rejects cycles, absolute paths, parent traversal, or missing artifacts
+  + it updates current byte length, SHA-256, and existing generated time only
+  + it does not execute any verification command recorded inside a manifest
+
+& [ObservedMutation] is bounded
+  + exactly 23 current manifests changed
+  + structural before-after comparison confirms only artifact bytes, artifact SHA-256, and existing generated_at_utc differ
+  + frozen hashes before and after are B53BC3DB1233D1EAD90D1B692264585CBDD54B0E8EAA87B20785683FB59A1287, 0D0AFF247A7D0F616432BFBDDC5FF283C33193B7B3F02A3B79832356FE008351, and 2479FF9D83EE8E8AE2E737786C5625B8E35C56082C004A2B29514AD6E1FCCC95
+  + no builder or physical probe was invoked
+
+& [Verification] is layered
+  + final VerifyOnly reports zero stale records
+  + candidate admission, supervised mock loop, and Phase3 machine-form evidence tests pass directly
+  + cargo test --workspace --locked passes with one governed physical Windows fixture ignored
+
+& [Conclusion] is metadata consistency restored without fresh historical proof
+  - never: infer that rehash reran the commands or probes described by historical manifests
