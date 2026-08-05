@@ -13,14 +13,14 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
   + [profile] is cantor-process-procedure-experiment/0.1
   + [effect_class] is effectless
-  + [current_scope] is no active slice after reviewed CPPE-I01
+  + [current_scope] is no active slice after reviewed CPPE-I02
   - never: mutate the signed requirement matrix with implementation evidence
   - never: infer textual Simula, live provider, persistence, service, model execution, external effects, or FPGA authority
 
 & [SliceGraph] is a directed acyclic chain
   + CPPE-I01 machine forms has no implementation predecessor and is completed under reviewed proof 7380df71-fe62-45a8-88cf-0e3e6ad20fc3
-  + CPPE-I02 validation normalization and canonical serialization depends_on CPPE-I01 and is ready_unassigned
-  + CPPE-I03 deterministic compiler depends_on CPPE-I02
+  + CPPE-I02 validation normalization and canonical serialization depends_on CPPE-I01 and is completed under reviewed proof cebe3be3-b0dc-4399-ae00-9c19ab0c8a5b
+  + CPPE-I03 deterministic compiler depends_on CPPE-I02 and is ready_unassigned
   + CPPE-I04 verifier effect checker bound checker and fake admission depends_on CPPE-I03
   + CPPE-I05 in-memory catalogue and interpreter depends_on CPPE-I04
   + CPPE-I06 two-process token ring and replay depends_on CPPE-I05
@@ -29,18 +29,23 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + CPPE-I09 release audit depends_on CPPE-I08
 
 & [ManagerState] is between milestones
-  + [completed_slice_count] is 1
+  + [completed_slice_count] is 2
   + [in_progress_slice_count] is 0
   + [ready_unassigned_count] is 1
-  + [blocked_slice_count] is 7
+  + [blocked_slice_count] is 6
   + [active_slice] is none
   + [completed_claim_uuid] is 3625ffd4-f056-4792-96b7-a9d729fa19f5
   + [completed_at_time_ms] is 1785950475108
   + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Machine_Forms_Solution.sop
   + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Machine_Forms_Proof.sop
   + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureMachineFormsCompletionReview.sop
-  + [next_ready_slice] is CPPE-I02
-  + [next_completion_criteria] is exact form version, semantic and referential validation, finite bound enforcement, normalized restoration, and canonical IR serialization without compiling or executing
+  + [completed_claim_uuid] is b180dff6-88b8-4ac5-8d61-85a6b8574c16
+  + [completed_at_time_ms] is 1785951307507
+  + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Validation_Solution.sop
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Validation_Proof.sop
+  + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureValidationCompletionReview.sop
+  + [next_ready_slice] is CPPE-I03
+  + [next_completion_criteria] is deterministic candidate-to-IR lowering, source map, diagnostics, cost estimate, compiled identity, and CompilationReceipt without verification or admission
 
 & [CompletedWorkReviewRule] is mandatory
   + inspect exact changed files, test results, form coverage, omitted behavior, support delta, requirement delta, and effect delta
@@ -51,4 +56,10 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [review_uuid] is d54386e4-09a5-4cbb-b28d-32e4d61c77af
   + [support_delta] is CPPE-I01 completed and CPPE-I02 ready_unassigned
   + [requirement_delta] is structural form support only; no CPPE behavioral requirement is represented as complete
+  + [effect_delta] is none
+
+& [CPPEI02CompletedWorkReview] releases one compiler frontier
+  + [review_uuid] is ddaac0f4-929b-4aee-a912-65bf7e9da18e
+  + [support_delta] is CPPE-I02 completed and CPPE-I03 ready_unassigned
+  + [requirement_delta] is deterministic validation and normalization only; compiler and later dispositions remain unimplemented
   + [effect_delta] is none

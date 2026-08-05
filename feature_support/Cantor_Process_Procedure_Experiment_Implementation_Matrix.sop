@@ -6,7 +6,7 @@ Description: Post-signature implementation evidence ledger for CPPE-I01 through 
 @ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Process_Procedure_Experiment_Phase_Lock.sop
 @ [signed_requirement_matrix] C:\Project\Cantor\feature_support\Cantor_Process_Procedure_Experiment_Requirement_Matrix.sop
 @ [support_index] C:\Project\Cantor\feature_support\cantor_process_procedure_experiment\index.sop
-@ [matrix_state] CPPE-I01_focused_proven_CPPE-I02_ready
+@ [matrix_state] CPPE-I01_and_I02_focused_proven_CPPE-I03_ready
 
 & [AuthoritySeparation] is mandatory
   + the signed requirement matrix remains a pre-implementation specification artifact
@@ -15,8 +15,8 @@ Description: Post-signature implementation evidence ledger for CPPE-I01 through 
 
 & [SliceAccounting] is current
   + CPPE-I01 completed -> machine forms, closed vocabularies, aggregate record set, and structural proof only
-  + CPPE-I02 ready_unassigned -> validation, normalization, canonical Process IR serialization
-  + CPPE-I03 blocked -> deterministic compiler
+  + CPPE-I02 completed -> validation, normalization, canonical Process IR serialization
+  + CPPE-I03 ready_unassigned -> deterministic compiler
   + CPPE-I04 blocked -> verifier, effect checker, bound checker, and fake Observer admission
   + CPPE-I05 blocked -> in-memory catalogue and deterministic interpreter
   + CPPE-I06 blocked -> two-process token ring and replay
@@ -34,3 +34,11 @@ Description: Post-signature implementation evidence ledger for CPPE-I01 through 
   + [focused_result] is 5 procedure-form tests and 143 cantor_core tests passed
 
 & [EffectStatus] is none_authorized_and_none_implemented
+
+& [I02Boundary] is validation_not_compilation
+  + [claim_uuid] is b180dff6-88b8-4ac5-8d61-85a6b8574c16
+  + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Validation_Solution.sop
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Validation_Proof.sop
+  + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureValidationCompletionReview.sop
+  + [focused_result] is 13 validation tests and 156 cantor_core tests passed
+  + [deferred] is compiler lowering, verification, admission, catalogue transitions, interpretation, negotiation execution, tool calling, and live effects

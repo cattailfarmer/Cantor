@@ -520,6 +520,7 @@ pub struct ProcessBudgetState {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProcessInstanceState {
+    pub state_id: SemanticId,
     pub invocation_ref: SemanticId,
     pub process_instance_id: SemanticId,
     pub generation: u64,
@@ -605,6 +606,7 @@ pub struct NegotiatedFrame {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct NegotiationSession {
+    pub session_generation_id: SemanticId,
     pub session_id: SemanticId,
     pub frame_generation: u64,
     pub purpose: String,

@@ -1,0 +1,45 @@
+Subject: Cantor Process Procedure Validation and Normalization Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Process_Procedure_Experiment.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Process_Procedure_Experiment_Phase_Lock.sop
+@ [support] C:\Project\Cantor\feature_support\cantor_process_procedure_experiment\index.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Process_Procedure_Validation_Proof.sop
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is 11a36786-ae66-498d-80b8-372a6f42fd53
+  + [implemented_at] is 2026-08-05T12:35:07.5053154-05:00
+  + [slice] is CPPE-I02
+  + [authority_signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [claim_uuid] is b180dff6-88b8-4ac5-8d61-85a6b8574c16
+  + [status] is implemented_focused_proven_and_review_ready
+
+& [ValidationSurface] is deterministic inspection only
+  + exact CPPE form and Process IR versions are required
+  + map keys, record identities, aggregate projections, and supplied cross-record references are checked
+  + candidate purpose, scope, source representation, source digest, lifecycle, anchors, schemas, processes, bounds, effects, and retention are checked
+  + every first-profile schema kind is required and all schemas remain closed
+  + nested type and value depth, byte, collection, map, process, transition, message, event, queue, trace, and memory bounds are finite
+  + process entry, terminal, successor, bound, operand, state, and continuation identities are checked
+  + participant, frame, session, sender, receiver, message-kind, frame-generation, and token-pass relations are checked
+  + validation, compilation, verification, admission, catalogue, revocation, invocation, result, trace, and fault record structure remains phase-distinct
+
+& [CanonicalIdentity] is self-verifying
+  + candidate source digest covers the exact selected source representation
+  + schema-set digest covers the exact schema-set record with an empty self-digest placeholder
+  + Process IR digest covers the complete IR record with an empty SHA-256 self-digest placeholder
+  + compiled procedure digest covers its complete identity record with an empty SHA-256 self-digest placeholder
+  + normalized aggregate and Process IR restoration rejects alternate whitespace, field order, unknown fields, stale versions, and content substitution
+
+& [Corrections] preserve semantic meaning
+  + ProcessInstanceState gains state_id because invocation plus process plus generation is a revision identity, not merely one process UUID
+  + NegotiationSession gains session_generation_id so multiple immutable frame generations do not collide in the aggregate map
+  + zero remaining budget is legal for a terminal or exhausted state while declared maximum bounds remain strictly positive
+  + decimal bounds use canonical lexical form, declared scale, and signed magnitude ordering
+
+& [DeliberateDeferral] is binding
+  + CPPE-I03 owns source-form to IR lowering, source maps, diagnostics, cost estimates, and CompilationReceipt construction
+  + I02 does not assert compiler success, verification, admission, catalogue mutation, execution, token-ring convergence, or external effects
+  + no textual Simula parser, live provider, persistence, service, WASM, native backend, FPGA, or device behavior is implemented
+
+& [SolutionDisposition] is accepted for CPPE-I02 after completed-work review
+  + [next] is separately claim CPPE-I03 after commit and push

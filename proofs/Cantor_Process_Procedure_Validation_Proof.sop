@@ -1,0 +1,45 @@
+Subject: Cantor Process Procedure Validation and Normalization Proof
+
+@ [solution] C:\Project\Cantor\solutions\Cantor_Process_Procedure_Validation_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\procedure_validation.rs
+@ [host_fault] C:\Project\Cantor\narrative\operational_faults\1785951307507_process_procedure_validation_windows_application_control_fault.sop
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is cebe3be3-b0dc-4399-ae00-9c19ab0c8a5b
+  + [solution_uuid] is 11a36786-ae66-498d-80b8-372a6f42fd53
+  + [authority_signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [captured_at] is 2026-08-05T12:35:07.5053154-05:00
+
+& [ArtifactIdentity] is measured before governance-only closure
+  + [procedure_forms] is 26355 bytes SHA256 AA3FC58B9F44F5822885705085A0F10221D9515DA18AFF06513105A672436F66
+  + [procedure_validation] is 54925 bytes SHA256 A7E3202C3E7A67FF5AE2CF8AC939AC97C4FFF6303650450E999F7F4E98A47A9E
+  + [procedure_validation_tests] is 21260 bytes SHA256 548E1225A1FE0A81D0340303E8CED6693150F2CBEED10194C312DF63D7FE6DC7
+  + [procedure_document] is 3171 bytes SHA256 BAB260F0FBEB154F3A1AB4C230A3A9DBC02D1E88A777604618B2844DAA9A8AF9
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test procedure_validation --locked
+  + [result] is 13 passed and 0 failed
+  + [positive_set] is normalized form and IR restoration, exact compiled binding, exact negotiation projections, and terminal zero-remaining-budget state
+  + [negative_set] is noncanonical JSON, map-key substitution, source and schema and IR digest tampering, unsupported version, dual or missing source, admitted candidate laundering, incomplete effect wall, zero declared bound, missing region, wrong instruction bound, oversized nested collection, missing schema kind, invalid decimal order or scale, mismatched projection, stale message generation, and unauthorized sender message kind
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 156 passed and 0 failed
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all -- --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is git diff --check
+  + [result] is passed
+  + [source_audit] is no prohibited implementation surface matches
+  + [dependency_audit] is no Cargo manifest or lockfile delta
+
+& [HostAndWorkspaceBoundary] is honest
+  + one newly linked focused test executable was denied by Windows Application Control with os error 4551 before assertions
+  + the exact targeted suite passed on immediate rerun after the dead-code and lint corrections without semantic workaround
+  + the inherited README candidate-evidence mismatch remains the known full-workspace gate and is not represented as green
+
+& [ProofDisposition] is CPPE-I02_focused_proven
+  + normalized and valid are established only for the bounded machine forms
+  + compiled, verified, admitted, invoked, and effect-authorized remain unproved

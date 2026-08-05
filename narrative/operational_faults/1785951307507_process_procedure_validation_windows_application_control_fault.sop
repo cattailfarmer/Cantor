@@ -1,0 +1,21 @@
+Subject: Process Procedure Validation Windows Application Control Fault
+
+& [FaultIdentity] is exact
+  + [fault_uuid] is 19345f29-3a4c-4967-8520-705dc08d46ef
+  + [observed_at] is 2026-08-05T12:35:07.5053154-05:00
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [class] is host_application_control_execution_denial
+  + [stage] is CPPE-I02 focused test after validation corrections
+
+& [Observation] is preserved
+  + Windows denied one newly linked procedure_validation test executable with os error 4551 before assertions ran
+  + the same command also exposed ordinary dead-code and redundant-closure lint findings that were corrected in source
+  + the exact focused test suite then passed without changing host security policy
+
+& [Classification] is transient_host_policy_plus_resolved_source_lint
+  + the host denial is not a product test failure or pass
+  + the lint findings were product-source issues and are resolved before proof
+  + no security control was disabled, relaxed, or bypassed
+
+& [EffectBoundary] is preserved
+  + no live procedure, provider, process, network, persistence, model execution, device, or FPGA behavior occurred
