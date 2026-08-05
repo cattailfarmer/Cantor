@@ -1,0 +1,30 @@
+Subject: Cantor Public Procedure Machine Schema Input Audit
+
+@ [audit_uuid] 03974f25-3416-4a71-93db-848f278db25b
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_public_procedure_machine_schema\Source_Document_Manifest.sop
+
+& [InputIntegrity] is verified
+  + [manifest_bytes] is 1320
+  + [manifest_sha256] is 432CD51970012336C9AD8BE7907E757C15BD2992141176579BA5F1CEC5AFAC8E
+  + [raw_source_bytes] is 1685
+  + [raw_source_sha256] is 40E4B84AAF5B7ED999D0BE377D831E2777918D8892A1D047BC7C2C915EC6EBA8
+
+& [CurrentShape] is inspected
+  + public core procedure forms use strict serde and closed enum names
+  + CLI request and response wrappers are private to one binary
+  + query_sop MCP owns a separate manually assembled JSON Schema for ProtocolRequest
+  + ProviderNeutralToolSchema lists semantic fields but is not a JSON Schema document
+  + no shared schema crate, canonical normalization profile, schema digest, or conformance corpus exists for procedure tooling
+
+& [Delineation] separates three gates
+  + syntactic conformance asks whether a JSON value has the allowed structural form
+  + semantic conformance asks whether identities, hashes, references, bounds, policies, and causal relationships are valid
+  + authority admission asks whether a recognized principal permits the operation in the current generation
+  + passing an earlier gate never implies a later gate
+
+& [ArchitectureFinding] selects a reusable waist
+  + private CLI forms must become transport-neutral public forms before schema or MCP projection
+  + CLI, future MCP, provider tool definition, and conformance tests must import the same forms
+  + canonical schema is provider-neutral Draft 2020-12; provider subsets are later projections
+
+& [Disposition] is proceed_to_full_SJS_formation_only

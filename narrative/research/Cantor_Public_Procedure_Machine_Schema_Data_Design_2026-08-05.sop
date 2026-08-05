@@ -1,0 +1,37 @@
+Subject: Cantor Public Procedure Machine Schema Data Design
+
+@ [design_uuid] 6549da33-4fa7-43e4-9872-cfdb033b5eaf
+
+& [ProcedureToolPrepareRequest] owns
+  + candidate, template, recognized_anchors, call_id, inference_job_ref, and pass_index
+
+& [ProcedureToolRunRequest] owns
+  + schema, proposal, and lane
+
+& [ProcedureToolVerifyRequest] owns
+  + schema, proposal, lane, and outcome
+
+& [ProcedureToolResponse] owns
+  + profile, grade, operation, status, optional semantic schema, optional outcome, optional verification, optional prepared request, faults, and residuals
+
+& [MachineSchemaDocument] owns
+  + schema_id, type_id, dialect, profile, canonical_document, document_digest, source_type_fingerprint, and residual_refs
+
+& [MachineSchemaBundle] owns
+  + bundle_id, bundle_profile, generator_id, source_revision, operation_documents, shared_definitions, type_fingerprints, residuals, compatibility_baseline, and bundle_digest
+
+& [SemanticResidualRecord] owns
+  + residual_id, subject_type, condition, enforcement_stage, enforcing_function, severity, and proof_ref
+
+& [ProviderToolDefinition] owns
+  + definition_id, canonical_bundle_ref, tool_name, description, input_schema_ref, output_schema_ref, annotations, projection_profile, projection_losses, and definition_digest
+
+& [SchemaConformanceCase] owns
+  + case_id, schema_ref, direction, JSON value, expected schema disposition, expected serde disposition, expected semantic disposition when evaluated, and rationale
+
+& [CompatibilityReport] owns
+  + old and new bundle digests, per-operation input and output classifications, changed paths, residual changes, proof cases, and overall disposition
+
+& [DependencyGraph] is strict
+  + shared transport forms -> canonical schema documents -> deterministic bundle -> conformance corpus -> provider-neutral definitions -> provider projections
+  + semantic validators and admission remain parallel mandatory gates after syntax

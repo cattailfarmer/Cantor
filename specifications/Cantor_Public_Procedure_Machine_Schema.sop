@@ -1,0 +1,128 @@
+Subject: Cantor Public Procedure Machine Schema
+
+Description: Canonical formation for a deterministic provider-neutral machine-schema layer over Cantor's public procedure-tool forms. It separates JSON syntax, Cantor semantics, and authority admission; no implementation or provider behavior is activated by formation alone.
+
+@ [specification_uuid] 65c4d32e-b938-4bc9-a1db-02c77c7c5b00
+@ [profile] cantor-public-procedure-machine-schema/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_public_procedure_machine_schema\Source_Document_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_Public_Procedure_Machine_Schema_Input_Audit_2026-08-05.sop
+@ [semantic_refinement] C:\Project\Cantor\narrative\research\Cantor_Public_Procedure_Machine_Schema_Semantic_Refinement_2026-08-05.sop
+@ [constraints] C:\Project\Cantor\narrative\research\Cantor_Public_Procedure_Machine_Schema_Constraint_Ledger_2026-08-05.sop
+@ [data_design] C:\Project\Cantor\narrative\research\Cantor_Public_Procedure_Machine_Schema_Data_Design_2026-08-05.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Public_Procedure_Machine_Schema.exploded.sop
+
+& [Purpose] is reliable tool-contract transport
+  + publish exact machine-readable syntax for prepare, run, verify, and their responses
+  + let CLI, future MCP, and provider-tool projections share one form and one canonical schema source
+  + make schema drift, projection loss, and semantic residuals inspectable
+
+& [ThreeGateModel] is constitutional
+  + gate_1 syntactic conformance is JSON Schema plus strict serde agreement
+  + gate_2 semantic conformance is existing Cantor validation, digest recomputation, referential integrity, bounds, causal replay, and policy checking
+  + gate_3 authority admission is recognized principal, generation, scope, and effect authorization
+  + passing gate_1 does not imply gate_2 or gate_3
+  + passing gate_2 does not imply gate_3
+
+& [SharedTransportForms] remove private duplication
+  + move prepare, run, verify, response, fault, verification, status, profile, and exit projections into one transport-neutral library surface
+  + the library performs no filesystem, stdin, stdout, provider, service, or network operation
+  + existing CLI imports the shared forms and pure dispatch semantics
+  + extraction must preserve all pushed schema, prepare, run, verify, fault, JSON, and exit behavior exactly
+
+& [CanonicalDialect] is provider neutral
+  + JSON Schema dialect is https://json-schema.org/draft/2020-12/schema
+  + canonical schema uses no provider-private extension
+  + every object is closed with additionalProperties false unless its type is an explicit map
+  + property requirement, omission, and nullability match actual serde behavior
+  + enum representation, tags, and values match actual serde behavior
+  + numeric and collection bounds are represented when structurally knowable
+
+& [Canonicalization] is deterministic
+  + recursively sort object keys by Unicode scalar value sequence
+  + retain array order because it is semantic
+  + encode compact UTF-8 JSON without insignificant whitespace
+  + reject duplicate JSON object keys before normalization
+  + compute SHA-256 over exact canonical bytes
+  + equal shared forms, generator version, options, and source revision produce byte-identical schemas and bundle
+
+& [SchemaDocuments] are content bound
+  + stable schema id uses urn:cantor:schema:<profile>:<type-name>
+  + each document identifies type, dialect, profile, generator, source revision, canonical byte length, and SHA-256
+  + shared definitions use stable type names rather than compiler path spelling
+  + recursive and mutually referenced definitions are rejected in profile 0.1 unless a finite resolved representation is separately proven
+
+& [Bundle] is one compatibility unit
+  + contains prepare input, run input, verify input, base response, preparation response, and shared definitions
+  + contains per-type fingerprints and exact semantic residual references
+  + contains generator identity and source commit
+  + contains compatibility baseline and bundle digest
+  + unknown or missing required member invalidates the bundle
+
+& [SemanticResidualRegistry] is mandatory
+  + identify cross-field and graph rules not proven by syntax
+  + name the exact core enforcement stage and function when implemented
+  + distinguish invalid syntax, semantically invalid value, refused authority, and unimplemented enforcement
+  + a provider projection repeats all residuals or explicitly declares that the controller must retain them
+
+& [Conformance] uses two independent readers
+  + validate each case through the canonical JSON Schema engine
+  + decode the same case through the actual strict serde form
+  + require agreement for every syntax rule claimed expressible
+  + separately run semantic validation where a complete safe fixture exists
+  + positive, minimum, maximum, missing, null, unknown, duplicate-key, wrong-type, wrong-tag, wrong-enum, and excessive-cardinality cases are required
+  + disagreement is a release-blocking typed fault, not an undocumented exception
+
+& [Compatibility] is explicit
+  + compare canonical schema paths and accepted-value implications between exact old and new bundle digests
+  + classify each operation input and output as identical, proven compatible in the declared direction, or breaking
+  + residual additions, removals, or enforcement-stage changes are reported separately
+  + unknown compatibility is breaking for activation purposes
+
+& [ProviderNeutralToolDefinitions] are structural only
+  + define distinct names for prepare, run, and verify
+  + each definition references exact canonical input and output schema digests
+  + annotations declare read-only host behavior, deterministic replay, experiment grade, and no open-world effect
+  + descriptions preserve stop-call-result-later-pass semantics and residuals
+  + tool definitions do not execute a model, open MCP, or contact a provider
+
+& [ProviderProjection] is later and lossy-aware
+  + each provider profile declares supported dialect subset, rewrites, omitted constraints, external validators, size limits, and exact canonical source digest
+  + projection cannot weaken core semantic or authority gates
+  + provider acceptance is not canonical acceptance until the returned arguments pass strict serde and Cantor validation
+
+& [Bounds] are finite
+  + schema bundle byte size, definition count, reference count, nesting depth, property count, enum count, residual count, and conformance corpus size have explicit limits before implementation
+  + generator fails closed on limit exhaustion
+  + no network reference resolution is allowed
+
+& [ImplementationSequence] is dependency ordered
+  + CPMS-I01 public transport-neutral forms and exact CLI byte equivalence
+  + CPMS-I02 canonical Draft 2020-12 generation, normalization, digest, and limits
+  + CPMS-I03 semantic residual registry and schema-serde conformance corpus
+  + CPMS-I04 provider-neutral prepare run verify tool-definition bundle with no provider
+  + CPMS-I05 compatibility and release audit
+  + no later slice is ready before the preceding reviewed proof closes
+
+& [Proof] is multi-layered
+  + compile-time shared type use prevents CLI and schema wrappers from diverging silently
+  + golden canonical schemas are content addressed
+  + independent parser rejects duplicate keys and validates canonical documents
+  + conformance corpus demonstrates schema-serde agreement within claimed coverage
+  + source scan and runtime counters prove zero provider, model, network, persistence, service, effect, and hardware behavior
+  + full workspace debug, overflow-checked release, offline, lint, documentation, and advisory gates pass
+
+& [HonestyLimits] are explicit
+  + exhaustive schema-serde equivalence over infinite values is not claimed
+  + JSON Schema does not prove digest correspondence, reference existence, causal integrity, truth, safety, permission, or production fitness
+  + derive-macro output is evidence only after canonicalization and conformance tests
+  + tool descriptions are guidance and not authority
+
+& [FormationBoundary] is no implementation authority
+  + this canonical is formed for review and future slice signatures
+  + implementation requires exact canonical hash binding and a separately claimed CPMS slice
+  - never: infer live MCP, provider registration, model execution, llama.cpp modification, hidden-state sharing, service, persistence, network, external semantic effect, hardware, FPGA, or production release
+
+& [SignatureCandidate] is formed not activated
+  + [candidate_signature_uuid] is 110d5c11-9d6d-453b-8fea-31c4d2de24d5
+  + [source_manifest_sha256] is 432CD51970012336C9AD8BE7907E757C15BD2992141176579BA5F1CEC5AFAC8E
+  + [activation_condition] is exact phase-lock review accepting limits, schema-generation strategy, and shared-form extraction boundary

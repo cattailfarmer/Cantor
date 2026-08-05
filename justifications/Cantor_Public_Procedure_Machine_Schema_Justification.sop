@@ -1,0 +1,24 @@
+Subject: Cantor Public Procedure Machine Schema Justification
+
+@ [justification_uuid] db0bb9b2-7d24-4489-9f19-c9663976dfb8
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Public_Procedure_Machine_Schema.sop
+
+& [Need] is proven by current integration surface
+  + the procedure CLI is executable but its nested wire grammar is known only to Rust types and tests
+  + provider tool registration requires machine schemas, not a semantic list of field names
+  + future MCP must not copy private CLI forms or invent a second protocol
+
+& [ChosenArchitecture] is shared forms then derived schema
+  + one transport-neutral library surface prevents CLI, schema, and future adapters from drifting independently
+  + provider-neutral Draft 2020-12 remains stable while provider subsets are explicit projections
+  + semantic residual registry prevents syntax validation from masquerading as Cantor reasoning or authority
+
+& [RejectedAlternatives] are unsafe or incomplete
+  + handwritten deep provider schema duplicates Rust meaning and can silently drift
+  + schema generated directly from private CLI types cannot be reused by MCP cleanly
+  + provider-first schema lets one vendor's subset redefine canonical meaning
+  + untyped JSON Value removes compile-time and strict decode protection
+
+& [Cost] is justified
+  + public form extraction and conformance corpus are nontrivial but occur once at the correct architectural waist
+  + later CLI MCP and provider integrations become projections rather than parallel semantic implementations

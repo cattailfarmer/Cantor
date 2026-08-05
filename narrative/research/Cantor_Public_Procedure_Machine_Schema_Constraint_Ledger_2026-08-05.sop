@@ -1,0 +1,37 @@
+Subject: Cantor Public Procedure Machine Schema Constraint Ledger
+
+@ [ledger_uuid] c17e3a13-6b05-408e-a2db-a95015eb6258
+
+& [HardConstraints] are closed
+  + C01 one transport-neutral public form definition per wire subject
+  + C02 strict serde and schema derive from or are mechanically checked against the same form
+  + C03 canonical dialect is JSON Schema Draft 2020-12
+  + C04 every object is closed unless an explicit ordered map is intended
+  + C05 required, optional, nullable, and omitted properties match actual serialization
+  + C06 enum spellings and tagging match actual serialization
+  + C07 integers preserve signedness and exact representable bounds
+  + C08 schema object keys and definition order normalize deterministically before digest
+  + C09 equal source forms and generator identity produce byte-identical bundles
+  + C10 every exported schema has stable id, title, profile, and content digest
+  + C11 semantic residuals are explicit and never represented as already proven
+  + C12 CLI consumes the shared forms without byte or exit drift
+  + C13 provider tool definitions derive from canonical schemas and declare projection loss
+  + C14 malformed, unknown, missing, mistagged, out-of-bound, and additional-property fixtures fail schema and serde consistently where expressible
+  + C15 schema acceptance never bypasses core semantic validation or admission
+  + C16 no network, provider, model, service, persistence, effect, or hardware behavior
+
+& [RiskConstraints] prevent false confidence
+  + regex for SemanticId may improve syntax but cannot authenticate identity
+  + hex length for digest may improve syntax but cannot establish content correspondence
+  + JSON Schema cannot express all cross-field or graph invariants
+  + generated schema correctness is tested, not assumed from derive macros
+  + provider subset acceptance is not canonical acceptance
+  + schema evolution needs explicit compatibility analysis rather than version-string optimism
+
+& [ForbiddenShortcuts] are explicit
+  + handwritten deep duplicate schema without drift proof
+  + using serde_json Value as an untyped public seam
+  + marking additionalProperties true for convenience
+  + provider-specific keywords in canonical schema
+  + treating tool-call validation as authority admission
+  + changing existing base response bytes during form extraction

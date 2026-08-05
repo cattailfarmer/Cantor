@@ -1,0 +1,30 @@
+Subject: Cantor Public Procedure Machine Schema Semantic Refinement
+
+@ [refinement_uuid] 1430eadc-5e07-4a03-8f66-7d9c6dff7e8e
+
+& [MachineSchema] means syntax contract
+  + a closed deterministic description of JSON names, types, required properties, nullability, enum values, array and map shape, numeric bounds, and definitions
+  - never: truth, trust, signature, semantic validity, authority, consent, safety, or fitness
+
+& [TypeFingerprint] means implementation binding
+  + stable identity and content digest over one exported transport form's canonical schema
+  + detects schema drift but does not prove compiler or executable integrity
+
+& [SchemaBundle] means one compatible family
+  + exact dialect, profile, operation schemas, response schemas, shared definitions, type fingerprints, generator identity, source revision, residual registry, and bundle digest
+
+& [SemanticResidual] means post-schema obligation
+  + condition intentionally not represented as sufficient JSON syntax
+  + examples are digest recomputation, referential integrity, source binding, policy subset, causal order, replay equality, authorship evidence, and admission
+
+& [ProviderProjection] means lossy or exact mapping
+  + derives one provider's supported tool schema from the canonical bundle
+  + declares every weakened, omitted, rewritten, or externally enforced constraint
+  + cannot amend canonical meaning
+
+& [Compatibility] has explicit kinds
+  + identical means canonical schema bytes equal
+  + backward_input_compatible means every old valid syntax remains valid under the new input schema
+  + forward_output_compatible means old consumers can accept every new output shape
+  + breaking means neither claim is proven
+  + semantic compatibility is separately evaluated by Cantor validators
