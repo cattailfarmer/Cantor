@@ -1,0 +1,25 @@
+Subject: Cantor Procedure Tool CLI Justification
+
+@ [justification_uuid] 242353de-dded-4146-93bd-94c3777cf7dd
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_CLI.sop
+
+& [Need] is demonstrated
+  + the semantic query CLI and MCP already work but do not serialize the process-procedure fake controller
+  + CPPE-I08 is callable only as a Rust library or test, limiting controller interoperability experiments
+  + a stable subprocess boundary is the smallest realistic demonstration that no llama.cpp modification is required
+
+& [ChosenSolution] is minimal
+  + add one binary to the existing cantor_cli package
+  + reuse public cantor_core types and functions without duplicating semantic logic
+  + expose schema, run, and verify so generation and independent checking remain separable
+
+& [Alternatives] were rejected
+  + adding cantor.exchange to the signed SOP MCP server would conflate two authorities and require a different runtime dependency
+  + modifying llama.cpp before proving the ordinary tool boundary would add provider-specific risk without evidence
+  + a resident service would add persistence and lifecycle complexity not required for the experiment
+  + placing transport code in cantor_core would mix process I/O with the effectless semantic core
+
+& [Value] is concrete
+  + any local controller capable of JSON subprocess calls can inspect the schema, run the fake checkpoint, and verify an outcome
+  + exact response and exit behavior becomes testable across language and provider boundaries
+  + later work gains evidence about the external seam while every neural and provider claim remains residualized

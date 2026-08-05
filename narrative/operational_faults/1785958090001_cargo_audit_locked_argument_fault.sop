@@ -1,0 +1,12 @@
+Subject: Cargo Audit Locked Argument Fault
+
+& [OperationalFault] is closed
+  + [fault_uuid] is 7eb6c53f-7489-46a3-9dc0-8d043f1aad6a
+  + [observed_at_time_ms] is 1785958090001
+  + [operation] is local dependency advisory audit
+  + [expected] is use the repository lockfile without updating external state
+  + [observed] is installed cargo-audit rejected the unsupported --locked argument after build, documentation, and offline tests had passed
+  + [effect] is advisory audit did not run in the first batch; no repository content changed
+  + [resolution] is inspect tool-local help and run cargo audit --no-fetch --stale
+  + [result] is 113 Cargo.lock dependencies scanned against 1177 locally cached advisories with success
+  + [prevention] is do not assume top-level Cargo flags are accepted by Cargo subcommands

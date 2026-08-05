@@ -1,0 +1,39 @@
+Subject: Cantor Procedure Tool CLI Solution
+
+@ [solution_uuid] d531e89c-57b8-49b7-811c-28d3e08eca79
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_CLI.sop
+@ [signature_uuid] f2afc6fa-802f-450f-b0d7-9c1bd2188319
+@ [claim_uuid] 61433a4c-ef53-49e5-b023-e14436487cf6
+
+& [Implementation] is one thin executable adapter
+  + crates/cantor_cli/Cargo.toml declares cantor-procedure-experiment
+  + procedure_main.rs owns only transport forms, command dispatch, response and exit projection, and bounded I/O
+  + schema delegates to provider_neutral_exchange_schema
+  + run delegates to run_fake_controller_exchange and then requires verify_fake_controller_outcome before returning
+  + verify delegates independently to verify_fake_controller_outcome and returns four exact bindings
+  + no cantor_core semantic implementation changed
+
+& [MachineBoundary] is stable
+  + schema, run, and verify are the only commands
+  + run and verify consume strict JSON through stdin or one --input path
+  + ingress is empty-refusing and limited to 16777216 bytes
+  + stdout is one newline-terminated JSON response
+  + statuses map to exit codes success 0, invalid_input 2, refused 3, verification_failure 4, and internal_fault 5
+  + adapter messages are limited to 1024 Unicode scalar values
+
+& [Safety] is retained
+  + all identities, hashes, procedures, lanes, policies, and outcomes are supplied explicitly
+  + the adapter repairs or mints none of them
+  + verified refusal remains a first-class outcome with exit 3
+  + every response states zero model or provider calls, zero external semantic effects, and no production qualification
+
+& [ImplementationArtifacts] are content addressed
+  + [Cargo_toml_bytes] is 550
+  + [Cargo_toml_sha256] is 5BA90AE59FA7644C2A4FE5D1551886F5FAA75B1227DCEC0C82E1095A48A6DF0E
+  + [procedure_main_bytes] is 12531
+  + [procedure_main_sha256] is 11588BAEEC8E20787EDC7C5D1DBF2B9D6D8EBDAFC9324435766B0E3F99B87701
+  + [procedure_tests_bytes] is 10982
+  + [procedure_tests_sha256] is 79C6B90A6403FC0332E508F7D44FC29DFB2DEEDABC18B3AC3E3A30A2D98C4E5F
+
+& [ReleaseGrade] is effectless_internal_experiment_only
+  - never: infer a live provider, active inference junction, uninterrupted forward pass, production trust, service, persistence, network, model execution, or external semantic effect

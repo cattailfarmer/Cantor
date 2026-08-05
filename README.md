@@ -158,6 +158,20 @@ cargo run -p cantor_cli --example generate_demo -- .local\cantor-demo
 .\target\release\cantor-mcp.exe --environment .local\cantor-demo\environment.json
 ```
 
+Inspect the provider-neutral procedure-tool experiment boundary:
+
+```powershell
+.\target\release\cantor-procedure-experiment.exe schema
+.\target\release\cantor-procedure-experiment.exe run --input .\path\to\run-request.json
+.\target\release\cantor-procedure-experiment.exe verify --input .\path\to\verify-request.json
+```
+
+`run` and `verify` accept the strict machine forms defined by
+[`Cantor_Procedure_Tool_CLI.sop`](specifications/Cantor_Procedure_Tool_CLI.sop).
+This binary is an effectless internal experiment: it calls no model or
+provider, performs no semantic external effect, and is not production
+qualification.
+
 Compile the reviewed self-hosted corpus with operator-supplied distinct keys:
 
 ```powershell

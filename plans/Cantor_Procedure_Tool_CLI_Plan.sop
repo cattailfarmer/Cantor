@@ -1,0 +1,38 @@
+Subject: Cantor Procedure Tool CLI Plan
+
+@ [plan_uuid] 834951bf-e8f6-4898-a0a8-6870343fd9cb
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_CLI.sop
+
+& [DependencyChain] is strict
+  + CPTC-I01 forms and transport before command dispatch
+  + command dispatch before subprocess acceptance tests
+  + focused tests before global gates
+  + proof and completion review before commit and push
+
+& [CPTCI01] is one bounded implementation slice
+  + add cantor-procedure-experiment binary stanza
+  + implement strict request and response forms locally in the adapter
+  + implement schema, run, and verify dispatch with 16 MiB ingress bound
+  + map outcomes to stable exit classes and one JSON stdout record
+  + add real subprocess tests covering success, refusal, tamper, malformed input, unknown fields, and deterministic replay
+  + do not change cantor_core procedure semantics
+
+& [Verification] is proportional
+  + cargo fmt --all -- --check
+  + cargo clippy --workspace --all-targets --locked -- -D warnings
+  + focused cantor_cli procedure-tool tests
+  + cargo test --workspace --locked
+  + cargo test --workspace --release --locked
+  + cargo build --workspace --release --locked
+  + cargo doc --workspace --no-deps --locked
+  + git diff --check
+  + after every referenced source and narrative file stabilizes, run the existing dependency-first current-evidence manifest rehasher and require VerifyOnly zero
+
+& [Rollback] is exact
+  + remove the binary stanza, adapter source, focused test, and this separately governed artifact set
+  + retain all CPPE core code, query CLI, MCP, service, and evidence unchanged
+
+& [EvidenceMetadataMaintenance] is mechanical only
+  + refresh only existing artifact byte lengths, SHA-256 values, and existing generated timestamps in current manifests
+  + preserve artifact membership, evidence claims, proof grades, results, authorities, and frozen manifests
+  - never: run an evidence builder, probe, benchmark, model, provider, service, or physical fixture to manufacture stronger evidence

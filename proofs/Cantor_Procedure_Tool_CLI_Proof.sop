@@ -1,0 +1,53 @@
+Subject: Cantor Procedure Tool CLI Proof
+
+@ [proof_uuid] f72377ed-4397-4da9-b244-2275849f323a
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_CLI.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Procedure_Tool_CLI_Solution.sop
+@ [requirements] C:\Project\Cantor\feature_support\Cantor_Procedure_Tool_CLI_Requirement_Matrix.sop
+
+& [FocusedSubprocessProof] passed
+  + [command] cargo test -p cantor_cli --test procedure_cli --locked
+  + [result] 5 passed, 0 failed
+  + exact schema equals direct core schema
+  + stdin run equals direct core outcome and repeated stdout bytes are equal
+  + file-input refusal is retained, exits 3, and independently verifies
+  + exact supplied outcome verifies with schema, call, result, and transcript bindings
+  + tampered outcome exits 4 without returning an outcome
+  + malformed JSON, unknown field, empty input, unknown command, duplicate input flag, and 16777217-byte input exit 2 with one machine response
+
+& [GlobalProof] passed
+  + cargo fmt --all -- --check passed
+  + cargo clippy --workspace --all-targets --locked -- -D warnings passed
+  + cargo test --workspace --locked passed with one separately governed exact-root physical test ignored
+  + cargo test --workspace --release --locked passed with overflow checks enabled
+  + cargo build --workspace --release --locked passed
+  + cargo doc --workspace --no-deps --locked passed
+  + cargo test --workspace --locked --offline passed
+  + cargo audit --no-fetch --stale scanned 113 locked dependencies against 1177 locally cached advisories and passed
+  + git diff --check passed before closure
+
+& [CurrentEvidenceMetadataProof] passed
+  + the dependency-first rehasher repaired 28 stale metadata references caused by this slice
+  + VerifyOnly reports 23 current manifests, 1030 artifact references, and zero stale records
+  + the manifest diff changes only existing bytes, sha256, and generated_at_utc fields
+  + the sorted 23-manifest path byte-length and file-digest set has SHA256 8ca4d090bf6b6baf6d90c1b8a5af88e1b0e4975e75e9b14098f5b2489d609538
+  + all three frozen manifests retain their exact governed SHA-256 values
+  + no evidence builder, probe, benchmark, provider, model, service, or physical fixture ran to produce the refresh
+
+& [EquivalenceProof] is semantic not aspirational
+  + subprocess schema decodes to exact ProviderNeutralToolSchema
+  + subprocess run decodes to exact FakeControllerOutcome returned by direct core
+  + subprocess output passes the same independent core verifier
+  + no provider-specific field, continuation implementation, or hidden state enters the request or response
+
+& [RequirementAccounting] is complete
+  + CPTC-001 through CPTC-018 are implemented and verified
+  + internal-fault exit 5 is structurally present but was not induced through undefined host failure
+  + production verified count is zero
+  + live provider verified count is zero
+  + external semantic effect count is zero
+
+& [Residuals] are binding
+  + this proof demonstrates a callable local JSON seam, not a provider integration
+  + inputs are complete already-formed machine evidence; textual procedure authoring remains absent
+  + no service, persistence, notification, model execution, shared K/V cache, hardware, or FPGA behavior was tested or released

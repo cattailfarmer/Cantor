@@ -1,0 +1,12 @@
+Subject: PowerShell SHA256 HashData Compatibility Fault
+
+& [OperationalFault] is closed
+  + [fault_uuid] is 56f69a07-b5ad-4c3b-aa3a-2e39e793012e
+  + [observed_at_time_ms] is 1785958240001
+  + [operation] is compute an in-memory aggregate digest over the changed current-manifest set
+  + [expected] is one lowercase SHA-256 digest without a temporary file
+  + [observed] is the host .NET runtime did not expose the static SHA256.HashData API
+  + [effect] is the first aggregate digest field was empty; prior frozen-hash and allowed-key checks had already passed and no repository content changed
+  + [resolution] is use SHA256.Create().ComputeHash over the same in-memory UTF-8 payload
+  + [result] is aggregate SHA256 8ca4d090bf6b6baf6d90c1b8a5af88e1b0e4975e75e9b14098f5b2489d609538
+  + [prevention] is prefer the compatible instance ComputeHash API in Windows PowerShell 5.1 orchestration

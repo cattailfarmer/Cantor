@@ -1,0 +1,61 @@
+Subject: Exploded Cantor Procedure Tool CLI Specification
+
+@ [explosion_uuid] 706c0fce-fd7e-4b0f-bf82-2afcbd4dad80
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_procedure_tool_cli\Source_Document_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_Procedure_Tool_CLI_Input_Audit_2026-08-05.sop
+
+& [Fold_1_Identity] makes the boundary unmistakable
+  + binary name is cantor-procedure-experiment
+  + response profile is cantor-procedure-tool-cli/0.1
+  + this is an adapter over CPPE-I08, not a new semantic engine
+  + existing cantor and cantor-mcp meanings remain unchanged
+
+& [Fold_2_Inputs] closes ingress
+  + schema takes no input payload
+  + run accepts one strict RunRequest containing exact ProviderNeutralToolSchema, ToolCallProposal, and AuthorshipLaneEvidence
+  + verify accepts one strict VerifyRequest containing the run inputs plus FakeControllerOutcome
+  + run and verify read from one optional --input path or otherwise stdin
+  + input is nonempty and bounded to 16 MiB
+  + unknown commands, flags, fields, duplicate flags, missing paths, malformed JSON, and excess bytes are typed invalid input
+
+& [Fold_3_Processing] preserves deterministic semantics
+  + schema calls provider_neutral_exchange_schema
+  + run calls run_fake_controller_exchange then verify_fake_controller_outcome on the returned value
+  + verify calls verify_fake_controller_outcome without producing a replacement outcome
+  + no fallback, coercion, digest repair, identity minting, or inferred authority occurs
+
+& [Fold_4_Outputs] supports tool controllers
+  + stdout contains exactly one newline-terminated JSON response
+  + stderr contains diagnostics only
+  + success schema returns the exact closed schema
+  + success run returns the exact independently verified outcome
+  + success verify returns a positive verification record bound to schema, call, result, and transcript digests
+  + faults contain bounded code, stage, and message
+  + all responses repeat experiment grade and zero-provider zero-external-effect residuals
+
+& [Fold_5_ExitSemantics] are stable
+  + 0 means schema produced, completed run verified, or supplied outcome verified
+  + 2 means invalid command, arguments, input transport, or JSON
+  + 3 means the controller produced a valid refused outcome
+  + 4 means generated or supplied outcome verification failed
+  + 5 means internal construction or serialization failed
+
+& [Fold_6_TrustAndSecurity] refuses semantic promotion
+  + strict serde denies unknown fields
+  + caller supplies every identity and digest
+  + existing core replay is authority for validation
+  + file input is read-only and never interpreted as trusted merely because it was readable
+  + no secrets, signatures, keys, environment variables, network addresses, or ambient authority are accepted
+  + refusal is preserved as refusal and never rewritten as success
+
+& [Fold_7_ProofAndLifecycle] keeps the adapter honest
+  + real subprocess tests cover schema, stdin run, file run, refusal, verify, tamper, malformed JSON, unknown fields, size limit, and deterministic replay
+  + direct core outcome equals decoded CLI outcome
+  + formatting, lint, workspace tests, and release overflow tests remain required
+  + completion review records that live provider count, production count, and external-effect count remain zero
+  + rollback removes one binary source, one Cargo binary stanza, tests, and governance without changing core semantics
+
+& [PrunedGrowth] keeps future work separate
+  + future provider controllers may consume this wire profile only after separate SJS
+  + future MCP projection may reuse the same request and response meanings only after separate SJS
+  + future textual source, service, persistence, multi-participant junction, model execution, and FPGA paths are not latent permissions

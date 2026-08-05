@@ -1,0 +1,43 @@
+Subject: Cantor Procedure Tool CLI Requirement Matrix
+
+@ [matrix_uuid] 616be25d-b8c2-4229-a38d-57f68f6f06a5
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_CLI.sop
+
+& [CPTC_001_006] map identity and ingress
+  + CPTC-001 binary identity and experiment grade -> binary metadata and response tests
+  + CPTC-002 closed schema run verify command grammar -> argument tests
+  + CPTC-003 strict RunRequest -> serde negative tests
+  + CPTC-004 strict VerifyRequest -> serde negative tests
+  + CPTC-005 stdin or one read-only input path -> subprocess tests
+  + CPTC-006 nonempty 16 MiB ingress bound -> boundary tests
+
+& [CPTC_007_012] map semantics and outputs
+  + CPTC-007 schema equals direct core schema -> equivalence test
+  + CPTC-008 run invokes core then independent verification -> success and tamper-sensitive tests
+  + CPTC-009 refused outcomes remain verified and visible -> refusal test
+  + CPTC-010 verify binds exact four digests or identities -> verification-record test
+  + CPTC-011 one JSON stdout object and diagnostic-only stderr -> subprocess tests
+  + CPTC-012 stable exit classes 0 2 3 4 5 -> exit tests
+
+& [CPTC_013_018] map safety and release
+  + CPTC-013 deterministic equal-input output bytes -> replay test
+  + CPTC-014 no identity digest signature or authority minting -> source review and equivalence proof
+  + CPTC-015 no provider model network persistence or semantic effect -> source audit and counters
+  + CPTC-016 bounded messages and closed fault forms -> unit tests
+  + CPTC-017 existing Cantor binaries and core semantics unchanged -> workspace regression
+  + CPTC-018 experimental release residuals explicit -> completion review and proof
+
+& [ImplementationEvidence] is exact
+  + [binary] is C:\Project\Cantor\crates\cantor_cli\src\procedure_main.rs
+  + [focused_tests] is C:\Project\Cantor\crates\cantor_cli\tests\procedure_cli.rs
+  + [CPTC-001_through_CPTC-006] are verified by strict binary metadata, command parsing, serde requests, stdin and file subprocesses, empty input, duplicate arguments, and 16 MiB overflow refusal
+  + [CPTC-007_through_CPTC-012] are verified by direct schema and outcome equality, generated-outcome verification, refused-outcome preservation, digest-bound verification record, one-line JSON output, and exit classes 0 2 3 and 4; exit 5 is structurally mapped for internal construction and serialization failure
+  + [CPTC-013_through_CPTC-018] are verified by repeated byte equality, source review, zero provider and effect counters, bounded adapter messages, full workspace regression, and explicit experiment residuals
+
+& [Status] is completed_reviewed
+  + [requirement_count] is 18
+  + [implemented_count] is 18
+  + [verified_count] is 18
+  + [effect_count] is 0
+  + [production_verified_count] is 0
+  + [live_provider_verified_count] is 0

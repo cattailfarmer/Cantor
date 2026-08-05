@@ -1,0 +1,130 @@
+Subject: Cantor Procedure Tool CLI
+
+Description: Canonical authority for one effectless executable JSON adapter over the already released CPPE-I08 fake provider-neutral tool controller. It makes the experiment callable without authorizing a provider, model, live inference junction, persistence, network, hidden-state access, or production operation.
+
+@ [specification_uuid] 1e691e9f-19e2-435e-9d79-348c5893e946
+@ [profile] cantor-procedure-tool-cli/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cantor_procedure_tool_cli\Source_Document_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\Cantor_Procedure_Tool_CLI_Input_Audit_2026-08-05.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Procedure_Tool_CLI.exploded.sop
+@ [CPPE_authority] C:\Project\Cantor\specifications\Cantor_Process_Procedure_Experiment.sop
+@ [CPPE_release] C:\Project\Cantor\feature_support\Cantor_Process_Procedure_Experiment_Release_Matrix.sop
+
+& [Purpose] is callable experiment transport
+  + expose the existing provider-neutral schema, fake controller run, and independent verifier through deterministic machine JSON
+  + enable Codex, llama.cpp controller experiments, and ordinary subprocess harnesses to test explicit stop-call-result-later-pass artifacts
+  + preserve the core as the sole procedure semantic authority
+
+& [BinaryIdentity] is explicit
+  + [binary] is cantor-procedure-experiment
+  + [response_profile] is cantor-procedure-tool-cli/0.1
+  + every response declares effectless_internal_experiment_only
+  + no existing cantor, cantor-corpus, cantor-mcp, cantord, or cantorctl behavior changes
+
+& [CommandGrammar] is closed
+  + schema accepts no flags or payload and returns the exact ProviderNeutralToolSchema
+  + run accepts optional --input PATH exactly once and otherwise reads stdin
+  + verify accepts optional --input PATH exactly once and otherwise reads stdin
+  + no other command or flag is valid
+  + help is diagnostic behavior, not a semantic operation
+
+& [RunRequest] is strict
+  + [schema] is one complete ProviderNeutralToolSchema
+  + [proposal] is one complete ToolCallProposal
+  + [lane] is one complete AuthorshipLaneEvidence
+  + unknown fields are rejected
+
+& [VerifyRequest] is strict
+  + [schema] is one complete ProviderNeutralToolSchema
+  + [proposal] is one complete ToolCallProposal
+  + [lane] is one complete AuthorshipLaneEvidence
+  + [outcome] is one complete FakeControllerOutcome
+  + unknown fields are rejected
+
+& [TransportBounds] are exact
+  + run and verify accept at most 16777216 input bytes
+  + empty input is invalid
+  + input path is read only
+  + stdout is exactly one JSON object followed by one newline
+  + stderr is diagnostic only
+  + response messages are bounded to 1024 Unicode scalar values
+
+& [RunSemantics] are two-gated
+  + invoke run_fake_controller_exchange using exact supplied values
+  + immediately invoke verify_fake_controller_outcome against the returned outcome
+  + emit completed success only when disposition is Completed and verification passes
+  + emit refused with exit 3 when disposition is Refused and verification passes
+  + emit verification failure when authoritative verification fails
+  + do not repair or replace supplied identities, digests, sessions, lanes, or policies
+
+& [VerifySemantics] are independent
+  + invoke verify_fake_controller_outcome on the supplied outcome
+  + return a VerificationRecord only on acceptance
+  + bind the record to schema_digest, call_ref, result_digest, and transcript_digest
+  + verification never runs a model or continues an inference pass
+
+& [ResponseEnvelope] is stable
+  + [profile] identifies cantor-procedure-tool-cli/0.1
+  + [grade] is effectless_internal_experiment_only
+  + [operation] is schema, run, verify, or unavailable
+  + [status] is success, refused, invalid_input, verification_failure, or internal_fault
+  + [schema] is present only for successful schema
+  + [outcome] is present only for verified run success or refusal
+  + [verification] is present only for successful verify
+  + [faults] is empty on success and nonempty otherwise
+  + [residuals] always state no provider call, no external effect, and no production qualification
+
+& [ExitClasses] are stable
+  + success is 0
+  + invalid_input is 2
+  + refused is 3
+  + verification_failure is 4
+  + internal_fault is 5
+
+& [Determinism] is required
+  + equal request bytes decoded to equal values produce byte-identical stdout and equal exit code
+  + no wall clock, randomness, environment, current directory, host identity, or mutable global state influences semantic output
+  + diagnostic path text may describe input transport faults but never enters a successful semantic response
+
+& [TrustBoundary] preserves authorship and authority
+  + readable data is not trusted data
+  + the adapter mints no semantic identity, digest, signature, admission, or participant authority
+  + core validation, replay, and verification decide acceptance
+  + refused outcomes remain inspectable and machine-verifiable
+  + unknown operations and stale or changed hashes fail closed
+
+& [EffectBoundary] is closed
+  + allowed adapter effects are bounded input read and stdout or stderr write for the invoked local process
+  + semantic procedure effects remain zero
+  + provider_call_count and external_effect_count remain zero
+  - never: network, model call, provider call, service connection, persistence, database, notification, Git operation, workspace mutation, key access, hidden state, K/V cache, native plugin, unsafe code, hardware, or FPGA operation
+
+& [ProofObligations] are exact
+  + exact schema subprocess output equals direct core construction
+  + stdin and file run outputs equal direct core outcome
+  + repeated run output bytes are identical
+  + refused outcome is verified, retained, and exits 3
+  + supplied valid outcome verifies and binds exact digests
+  + tampered outcome fails verification
+  + malformed, unknown-field, oversized, empty, unknown-command, and duplicate-input cases fail closed
+  + stdout remains one machine JSON object for all handled outcomes
+  + full workspace quality and regression gates pass
+
+& [ReleaseBoundary] is experimental
+  + this profile releases a local executable adapter only
+  + CPPE remains qualified_effectless_internal_experiment_only
+  + live-provider, production, external-effect, persistence, service, and hardware verified counts remain zero
+  + a future controller or MCP exposure requires separate source preservation and SJS
+
+& [SourceAndAuthorityBinding] is exact
+  + [source_manifest_sha256] is 64D916FA254E0B6450E805772884FFF890FE260D0EAA84C72FA75CED42074D1B
+  + [CPPE_sha256] is D880095CFD162EED0CE99905914EE96ABFF45B9DB83E7A1929BB2583D8642ADB
+  + [CPPE_release_sha256] is 8FD785B8653DE51FF430B2A3D5AA4CBD0FFBB80F696FD377F6949CA1E6E1186C
+  + [existing_CLI_sha256] is AE4516EFC56232DD15CE4AB00DA569715FDF7EE99075611E98B0327F3484D645
+  + [existing_MCP_sha256] is 67C4F750040EC361F283667C1F200E39C584F6A2C134DBA36D627C73A162218B
+
+& [CanonicalSignature] is implementation authority
+  + [signature_uuid] is f2afc6fa-802f-450f-b0d7-9c1bd2188319
+  + [signed_subject] is this canonical file
+  + [authority_scope] is one effectless local cantor-procedure-experiment JSON adapter and tests only
+  + [invalidation] is source drift, inherited authority drift, widened effects, changed command grammar, bypassed independent verification, unbounded input, or production claim
