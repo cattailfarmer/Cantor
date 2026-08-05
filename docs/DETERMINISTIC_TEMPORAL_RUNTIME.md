@@ -94,6 +94,26 @@ Root and operation limits bound form records, payload bytes, operation bytes,
 emitted identities, graph visits, recurrence occurrences, trace length, and
 replay length. Limit exhaustion is a typed refusal, not a partial successor.
 
+## Integrated first proof
+
+`temporal_integration` runs one logical-time lineage through all four runtime
+projections. It initializes the fake repository, records a three-step objective,
+installs a local-only Calendar revision, and proposes `a -> b -> c`. A supplied
+simulated outcome then deliberately deviates: the retrospective lane blocks,
+Observer records the refusal, the original `b` release is denied, and its
+barrier becomes invalidated. The deviation is appended as a material event, a
+new repository generation and snapshot preserve it, and Planner produces the
+remaining `repair -> b -> c` path. A second tandem admits the repair and releases
+exactly `b`.
+
+The same root then opens a compiler-review tandem whose Observer subject set is
+the exact future proof contract. A fixed SOP/IR/target fixture runs forward and
+rear passes, compares all eight diff classes, and emits a separate checked
+generation. Replaying the complete accepted operation log from the initial root
+reproduces the identical normalized snapshot and receipts. Permuted operations,
+a stale initial digest, an omitted final proof check, and rewritten capsule
+history are separately verified not to become a successful final state.
+
 ## Deliberate limits
 
 This slice does not calculate civil recurrence dates; callers supply candidate
@@ -113,4 +133,5 @@ Run the focused proof with:
 cargo test -p cantor_core --test temporal_runtime --locked
 cargo test -p cantor_core --test temporal_tandem --locked
 cargo test -p cantor_core --test temporal_compiler_fixture --locked
+cargo test -p cantor_core --test temporal_integration --locked
 ```

@@ -497,6 +497,17 @@ pub(crate) fn propose_plan(
     available_resource_refs: &BTreeSet<SemanticId>,
 ) -> Result<TransitionResult, RuntimeFault> {
     let trace_location = root.trace.len() as u64;
+    if plan.state != crate::PlanState::Proposed {
+        return Err(make_fault(
+            context,
+            RuntimeFaultKind::InvalidForm,
+            BTreeSet::from([plan.revision_id.clone()]),
+            "plan state Proposed",
+            format!("plan state {:?}", plan.state),
+            BTreeSet::from(["Planner proposal-only boundary".to_owned()]),
+            trace_location,
+        ));
+    }
     if root.forms.plan_revisions.contains_key(&plan.revision_id) {
         return Err(duplicate_fault(context, &plan.revision_id, trace_location));
     }

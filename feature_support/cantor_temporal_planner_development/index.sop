@@ -12,15 +12,15 @@ Description: Manager-readable dependency index from the SOP multi-target languag
 
 & [SupportSliceIndex] is the project-manager traversal surface
   + [project_subject] is Cantor temporal planner and bidirectional reflection development campaign
-  + [index_status] is integrated_proof_WS_CTPR_014_ready_unassigned
+  + [index_status] is release_audit_WS_CTPR_015_ready_unassigned
   + [slice_file_count] is 4
   + [work_slice_count] is 16
-  + [completed_work_slice_count] is 13
+  + [completed_work_slice_count] is 14
   + [in_progress_work_slice_count] is 0
   + [open_dependency_ready_count] is 1
-  + [blocked_work_slice_count] is 2
+  + [blocked_work_slice_count] is 1
   + [fully_sliced_specification] is true_for_current_SMTC_to_CTPR_to_COS_handoff_boundary
-  + [manager_mode] is WS-CTPR-014_ready_after_WS-CTPR-013_review
+  + [manager_mode] is WS-CTPR-015_ready_after_WS-CTPR-014_review
   + [critical_path] is WS-CTPR-001 -> 002 -> 003 -> 004 -> 005 -> 006 -> 008 -> 009 -> 010 -> 011 -> 014 -> 015 -> 016
   + [parallel_branch_a] is WS-CTPR-007 may run beside WS-CTPR-006 after WS-CTPR-005
   + [parallel_branch_b] is WS-CTPR-011, WS-CTPR-012, and WS-CTPR-013 may run after WS-CTPR-010 subject to their exact dependencies
@@ -48,7 +48,7 @@ Description: Manager-readable dependency index from the SOP multi-target languag
     @ [slice_file_path] C:\Project\Cantor\feature_support\cantor_temporal_planner_development\slice_04_proof_and_downstream_handoff.sop
     @ [requirement_set] FR-CTPR-014 through FR-CTPR-016
     @ [work_slice_transform] WS-CTPR-014 through WS-CTPR-016
-    @ [enqueue_readiness] WS-CTPR-014_ready_WS-CTPR-015_and_016_blocked
+    @ [enqueue_readiness] WS-CTPR-014_completed_WS-CTPR-015_ready_WS-CTPR-016_blocked
 
 & [CrossSliceDependencySet] is a directed acyclic graph
   + FSS-CTPR-002_canonical_temporal_formation depends_on FSS-CTPR-001_upstream_language_authority
@@ -68,12 +68,13 @@ Description: Manager-readable dependency index from the SOP multi-target languag
   + [completed_work_slice] is WS-CTPR-008 with proof C:\Project\Cantor\justifications\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Justification.sop
   + [completed_work_slice] is WS-CTPR-009 with proof C:\Project\Cantor\narrative\registries\Cantor_Temporal_Planner_Bidirectional_Change_Reflection_Phase_Lock.sop
   + [completed_work_slice] is WS-CTPR-010 with proof C:\Project\Cantor\proofs\Cantor_Temporal_Planner_Pure_Forms_Proof.sop
-  + [next_after_completion_review] is separately claim WS-CTPR-012 or WS-CTPR-013 under CDRA-SJS-01
+  + [next_after_completion_review] is separately claim WS-CTPR-015 under CDRA-SJS-01
   + [completed_parallel_frontier] is WS-CTPR-006 and WS-CTPR-007 after WS-CTPR-005
   + [completed_implementation_frontier] is WS-CTPR-011 under reviewed proof 93e70d40-6cea-4a1d-b9a2-1a43ebc56d7d
   + [completed_implementation_frontier] is WS-CTPR-012 under reviewed proof 0e525fb2-3dae-4365-b92a-9c9569e2e964
   + [completed_implementation_frontier] is WS-CTPR-013 under reviewed proof bcb9ed93-ae7d-458d-9221-c68457119261
-  + [ready_integration_frontier] is WS-CTPR-014 ready_unassigned
+  + [completed_integration_frontier] is WS-CTPR-014 under reviewed proof d135a98b-36a4-4b16-a586-747fff47bdad
+  + [ready_audit_frontier] is WS-CTPR-015 ready_unassigned
 
 & [CompletedWorkReviewRule] is mandatory
   = must: inspect proof, result, changed files, remaining concerns, support delta, and requirement delta
@@ -88,3 +89,12 @@ Description: Manager-readable dependency index from the SOP multi-target languag
   + [requirement_delta] is CDRA-I05 and CDRA-035 through CDRA-040 focused-proven at bounded fixture grade
   + [readiness_delta] is WS-CTPR-014 ready_unassigned; WS-CTPR-015 and WS-CTPR-016 remain blocked
   + [preferred_next_assignment] is WS-CTPR-014 under a separate claim
+
+& [DeterministicRuntimeIntegrationCompletedWorkReview] releases one release-audit frontier
+  + [review_uuid] is 8a59148e-af30-4d06-894e-745ed69fa330
+  + [completed_slice] is WS-CTPR-014
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Deterministic_Runtime_Integration_Proof.sop
+  + [support_delta] is FR-CTPR-014 verified
+  + [requirement_delta] is CDRA-I06 and the integrated bounded runtime focused-proven
+  + [readiness_delta] is WS-CTPR-015 ready_unassigned; WS-CTPR-016 remains blocked by WS-CTPR-015 and COS-SJS-01
+  + [preferred_next_assignment] is WS-CTPR-015 under a separate claim

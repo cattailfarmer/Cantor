@@ -1,0 +1,58 @@
+Subject: Cantor Deterministic Runtime Integration Proof
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Deterministic_Runtime_Activation.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Deterministic_Runtime_Integration_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\temporal_integration.rs
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is d135a98b-36a4-4b16-a586-747fff47bdad
+  + [solution_uuid] is 68ce0cb1-1c0d-4f67-9b9f-80b0a6c8c3ba
+  + [authority_signature_uuid] is ad886f0f-4eb8-41d4-9e2f-69921d5cc197
+  + [captured_at] is 2026-08-05T11:56:39.0435491-05:00
+
+& [ArtifactIdentity] is measured before governance-only closure
+  + [planner_rs] is 27632 bytes SHA256 BE59D8D9ACE314CDB7FBA2592416611F583344345E345919805B4BAC797311E1
+  + [temporal_integration_tests] is 59817 bytes SHA256 4BDC9FE6B566A5EB4A09CD6D8BB8C6C1BF3519326BE0F8E7B0D1BC4A64A37837
+  + [runtime_document] is 7982 bytes SHA256 7CDD0962B78AAF2C6F4DC148F527832088B372F5EC9D97D253C0F5EB383E161D
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test temporal_integration --locked
+  + [result] is 5 passed, 0 failed
+  + [accepted_operation_count] is 55 in the integrated replay log
+  + [generated_transition_assertions] are 144 ordered capsule pairs and 144 ordered lane pairs
+  + [proof_set] is three-step plan, supplied deviation, blocking rear review, denied release, invalidated barrier, preserved material event, immutable snapshot successor, repair-first replan, exact dependent release, compiler-review Tandem, dual-pass compiler agreement, distinct checked generation, byte-stable replay, permutation refusal, stale-root refusal, missing-proof incompleteness, history-rewrite refusal, false-plan-commitment refusal, atomic-world-claim refusal, and mixed-unrelated-diff refusal
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 135 passed, 0 failed
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all -- --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is git diff --check
+  + [result] is passed
+
+& [WorkspaceIntegrationVerification] preserves stale historical evidence
+  + [command] is cargo test --workspace --locked
+  + [new_integration_tests] are 5 passed before the external failure
+  + [cantor_core_tests] are 135 passed
+  + [cantor_ecosystem_library_tests] are 179 passed before the external failure
+  + [failure] is candidate workspace evidence manifest asserts stale metadata for README.md from an earlier committed documentation change
+  + [expected_bytes] is 13838
+  + [actual_bytes] is 14529
+  + [classification] is inherited_evidence_manifest_fault_not_WS-CTPR-014_change
+  + [current_slice_README_delta] is none
+  - never: report the full workspace integration suite as passed
+
+& [AuthorityAndEffectAudit] is passed
+  + Cargo dependency graph is unchanged
+  + every integration step is a supplied RuntimeOperation over one immutable root and every replay check uses exact predecessor digests
+  + source inspection exposes no filesystem, Git, network, database service, system clock, process, thread, provider, notification, model, unsafe, device, FPGA, or hardware operation
+  + all Calendar, execution, repository, and compiler observations are caller-supplied fixture values
+  + all accepted writes exist only in returned immutable values
+
+& [ProofDisposition] is WS-CTPR-014_focused_proven_with_inherited_workspace_evidence_fault
+  + [CDRA-I06] is implemented and focused-proven
+  + [FR-CTPR-014] is verified after completed-work review
+  + [remaining_CDRA] is I07 release audit and bounded downstream handoff accounting
