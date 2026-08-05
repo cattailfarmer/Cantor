@@ -15,6 +15,11 @@ use cantor_core::{
 };
 use serde::{Deserialize, Serialize};
 
+#[cfg(feature = "json-schema")]
+mod schema_generation;
+#[cfg(feature = "json-schema")]
+pub use schema_generation::*;
+
 pub const RESPONSE_PROFILE: &str = "cantor-procedure-tool-cli/0.1";
 pub const PREPARATION_PROFILE: &str = "cantor-procedure-tool-preparation/0.1";
 pub const RELEASE_GRADE: &str = "effectless_internal_experiment_only";

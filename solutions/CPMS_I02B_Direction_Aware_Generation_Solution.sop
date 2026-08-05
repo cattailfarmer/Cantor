@@ -1,0 +1,33 @@
+Subject: CPMS I02B Direction-Aware Generation Solution
+
+@ [solution_uuid] b01a3993-3bde-4cac-899d-d54e82683f5e
+@ [activation] C:\Project\Cantor\specifications\CPMS_I02B_Direction_Aware_Generation_Activation.sop
+
+& [Implementation] is one feature-gated pure module
+  + closed direction, root, limit, resource, recursion, definition, root-draft, universe, context, and typed-fault forms
+  + fresh schemars generator per root and contract
+  + same-direction definition merge only after canonical-byte equality
+  + generated-Value compact canonical writer with sorted object keys and retained array order
+  + local-reference extraction, target validation, lexical closure, visited-active cycle classification, and two authorized direct self cycles
+  + domain-separated definition root and universe SHA-256 fingerprints using existing cantor_core sha256_bytes
+  + atomic two-universe generation with no new dependency or external capability
+
+& [MeasuredFootprint] is exact under schemars 1.2.2
+  + input universe 53936 bytes, 80 definitions, 406 references, depth 8, 571 properties, 250 alternatives, 6 residuals
+  + output universe 53846 bytes, 83 definitions, 398 references, depth 8, 567 properties, 271 alternatives, 6 residuals
+  + prepare root 16955 bytes, run root 47285, verify root 51098, base response 52936, and preparation response 52936
+  + pinned footprint preflight rejects insufficient lowered limits before schema generation; post-generation accounting detects any future upward drift
+
+& [Identity] preserves intended use
+  + base and preparation roots currently have equal raw schema digests
+  + distinct root kinds schema ids and domain fingerprints prevent semantic collapse
+  + input and output universes always have distinct contract fingerprints
+  + supplied source revision is validated as lowercase 40-or-64 hexadecimal text and never represented as an observed Git fact
+
+& [ExactArtifacts] are hash bound
+  + lib.rs 11296 bytes SHA256 238FA47A50068C4D4EEFA3786FF6CB7A3AE02D17FB16C74B01671D605081F517
+  + schema_generation.rs 38150 bytes SHA256 E571481935A3DF779536B74876E1E2059B59DF9D416A20209C781B9C559A7383
+  + machine_schema_generation.rs 7705 bytes SHA256 6AB9C1966F04FA69FF6E97BC4F5D97A712BFFEEA3DAD3225C0D07EAA8CF978C1
+
+& [Boundary] remains root drafts and universes only
+  - never: published document, golden bundle, validator, untrusted-byte parser, reference retrieval, provider definition, model, service, persistence, network, semantic effect, production, or hardware
