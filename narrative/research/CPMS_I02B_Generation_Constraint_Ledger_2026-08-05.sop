@@ -1,0 +1,22 @@
+Subject: CPMS I02B Direction-Aware Generation Constraint Ledger
+
+@ [ledger_uuid] e7ad1f58-a994-43ee-b7ee-62f24c4865e5
+
+& [Must] is deterministic and bounded
+  + fresh generator per root with explicit contract
+  + split and normalize root and definitions
+  + merge same-direction names only on byte equality
+  + lexical maps, sets, traversal, and canonical object keys
+  + local-only reference closure with visited and active sets
+  + direct self cycles only for ProcedureType and ProcedureValue
+  + check every profile 0.1 counter and canonical byte ceiling
+  + domain-separate definition root and universe fingerprints
+  + fail without partial universe
+
+& [MustNot] preserves stage boundaries
+  - never: publish self-contained canonical document or golden bundle in I02B
+  - never: parse untrusted JSON bytes, validate instances, retrieve references, or cross direction
+  - never: read Git, filesystem, clock, environment, process, service, network, provider, model, persistence, effect, or hardware
+
+& [Stop] on extra dependency, source-touch expansion, unstable name, collision, unresolved reference, external reference, unexpected mutual cycle, counter exhaustion, fingerprint ambiguity, default drift, or failed gate
+

@@ -1,0 +1,39 @@
+Subject: CPMS I02B Direction-Aware Generation Data Design
+
+@ [design_uuid] c89a9bd2-87aa-4470-9f7e-e5e4d6075012
+
+& [PublicForms] are feature gated
+  + SchemaContractDirection
+  + MachineSchemaRootKind
+  + SchemaGenerationLimits
+  + SchemaResourceAccount
+  + DefinitionRecursionClass
+  + ContractDefinitionAccount
+  + MachineSchemaRootDraft
+  + ContractDefinitionUniverse
+  + MachineSchemaGenerationContext
+  + MachineSchemaGenerationFaultKind and MachineSchemaGenerationFault
+
+& [PureFunctions] are two
+  + generate_contract_definition_universe(direction, context)
+  + generate_public_procedure_schema_universes(context) returning both direction keys only after both succeed
+
+& [RootAssignments] are closed
+  + input prepare input run input verify
+  + output base response preparation response
+
+& [CanonicalScalarWriting] delegates scalar spelling and escaping to serde_json
+  + object recursion supplies keys in sorted Unicode scalar order
+  + arrays retain encounter order
+  + compact bytes feed sha256_bytes
+
+& [FingerprintBinding] is complete
+  + definition binds profile direction type and normalized bytes
+  + root binds profile direction root kind type normalized root and ordered closure
+  + universe binds profile direction schemars identity supplied revision exact limits ordered definition fingerprints ordered root fingerprints and aggregate account
+
+& [SourceTouch] is three implementation files
+  + crates/cantor_procedure_tool/src/lib.rs
+  + new crates/cantor_procedure_tool/src/schema_generation.rs
+  + new crates/cantor_procedure_tool/tests/machine_schema_generation.rs
+

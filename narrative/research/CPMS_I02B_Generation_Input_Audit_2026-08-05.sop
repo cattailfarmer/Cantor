@@ -1,0 +1,23 @@
+Subject: CPMS I02B Direction-Aware Generation Input Audit
+
+@ [audit_uuid] 45d97a1b-5a03-45c7-8d5d-7f9e3331f994
+@ [baseline_commit] f946396
+
+& [Capability] is proven
+  + 87 exact forms compile under schemars 1.2.2 only with json-schema
+  + default graph excludes schemars
+  + focused tests prove input, output, crossing, recursion, and SemanticId precision
+
+& [LocalPrimitives] are sufficient
+  + serde_json Value represents generated schema values
+  + cantor_core sha256_bytes supplies pure lowercase SHA-256 ContentDigest
+  + BTreeMap and BTreeSet supply deterministic ordered maps and sets
+  + no new dependency is necessary
+
+& [GeneratorBehavior] is understood
+  + root_schema_for clones all definitions accumulated in one generator
+  + fresh per-root generators avoid unrelated cumulative definitions
+  + same-direction normalized definitions must be merged explicitly and equality checked
+
+& [AuditDisposition] is exact_pure_I02B_candidate
+

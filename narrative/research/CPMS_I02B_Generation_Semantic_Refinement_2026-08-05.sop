@@ -1,0 +1,26 @@
+Subject: CPMS I02B Direction-Aware Generation Semantic Refinement
+
+@ [refinement_uuid] ee042293-3afe-438c-a594-09c36e5b67a4
+
+& [RootDraft] is not a published schema document
+  + it holds normalized generated root structure without $defs plus its exact same-direction closure
+  + I02C later materializes self-contained documents and goldens
+
+& [Universe] is a contract-scoped merge
+  + one stable name has one normalized definition per direction
+  + equal name and unequal bytes is a collision fault
+  + opposite directions never share a cache or reference
+
+& [SourceRevision] is supplied metadata
+  + accept only lowercase 40-character or 64-character hexadecimal text
+  + never claim the library observed Git or a repository
+  + universe fingerprint binds source revision, generator identity, limits, ordered definitions, and ordered roots
+
+& [Normalization] is generated-value only
+  + Value cannot retain duplicate object keys, so I02B makes no duplicate-key parser claim
+  + untrusted byte parsing and duplicate rejection remain I03 work
+
+& [BaseAndPreparation] are two semantic root identities
+  + both currently derive ProcedureToolResponse and may have equal raw schema bytes
+  + distinct root-kind domain separation preserves intended-use identity
+

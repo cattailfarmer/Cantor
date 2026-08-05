@@ -1,0 +1,14 @@
+Subject: CPMS I02B Direction-Aware Generation Activation Justification
+
+@ [justification_uuid] f8edb99c-b9f8-45cb-83f3-c5f6df0bd05b
+
+& [Selected] is fresh-root generation plus explicit same-direction merge
+  + avoids cumulative unrelated definitions
+  + detects name collisions rather than accepting order suffixes
+  + preserves root-specific closure and later self-contained materialization
+
+& [RejectedOneGenerator] makes later roots depend on prior accumulation order
+& [RejectedCrossDirectionMerge] confuses Deserialize and Serialize identities
+& [RejectedDocumentsNow] combines primitive correctness with release artifacts and goldens
+& [RejectedNewHashDependency] duplicates the existing pure core primitive
+

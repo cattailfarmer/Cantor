@@ -1,0 +1,78 @@
+Subject: Derived CPMS I02B Direction-Aware Generation Source
+
+Description: Manager-derived technical source for a pure bounded schema-generation layer after CPMS-I02A completion. This is not verbatim user dictation and grants no code authority by itself.
+
+@ [source_uuid] e915c1da-bb74-4eea-9179-0a249f13a5af
+@ [source_kind] manager_derived_technical_question
+@ [baseline_commit] f946396
+
+& [InputCapability] is exact
+  + CPMS-I02A exposes JsonSchema for 87 reachable forms only under json-schema
+  + schemars 1.2.2 yields Draft 2020-12 Schema values under distinct Deserialize and Serialize contracts
+  + cantor_core already exports pure sha256_bytes, so generation needs no new hashing dependency
+
+& [GenerationShape] is two isolated universes
+  + input_deserialize roots are PrepareRequest, PreparedRunRequest, and VerifyRequest
+  + output_serialize roots are ProcedureToolResponse base and preparation views, with PreparedRunRequest reachable as emitted preparation data
+  + generate each root with a fresh contract-specific generator
+  + split root schema from its $defs, merge definitions into the same-direction universe only when equal names have byte-equal normalized definitions
+  + retain each root's transitive definition closure for later self-contained document materialization
+  + never resolve or reference the opposite universe
+
+& [PurePublicForms] should include
+  + SchemaContractDirection with input_deserialize and output_serialize
+  + MachineSchemaRootKind with prepare_input, run_input, verify_input, base_response, and preparation_response
+  + SchemaGenerationLimits with canonical document, bundle, definitions, references, depth, properties, alternatives, residuals, corpus cases, and corpus bytes ceilings
+  + SchemaResourceAccount with measured bytes, definitions, reference occurrences, document depth, object properties, and alternatives
+  + ContractDefinitionAccount with direction, stable type name, local pointer, direct targets, recursion classification, raw digest, contract fingerprint, and residual ids
+  + MachineSchemaRootDraft with direction, root kind, type name, normalized root without $defs, closure names, digest, account, and residual ids
+  + ContractDefinitionUniverse with direction, normalized definitions, definition accounts, root drafts, aggregate account, and fingerprint
+  + MachineSchemaGenerationFault with closed kind, path, limit, observed, and safe message
+
+& [Normalization] is exact generated-value canonical JSON
+  + accept only internally generated schemars Schema or serde_json Value, never untrusted JSON bytes
+  + emit null, booleans, numbers, and JSON-escaped strings with serde-compatible scalar spelling
+  + recursively sort object keys by Unicode scalar value sequence
+  + preserve array order
+  + emit compact UTF-8 without insignificant whitespace
+  + duplicate-key rejection belongs to the later untrusted-byte parser because a generated Value cannot contain duplicate object keys
+
+& [Fingerprints] are domain separated
+  + raw content digest is SHA-256 of normalized definition or root bytes
+  + definition preimage is cantor-schema-contract-definition/0.1 zero direction zero type name zero normalized bytes
+  + root preimage is cantor-schema-root-draft/0.1 zero direction zero root kind zero type name zero normalized root bytes zero ordered closure names
+  + universe preimage is cantor-schema-definition-universe/0.1 zero direction zero ordered definition fingerprints zero ordered root fingerprints
+  + equal cross-direction raw bytes remain distinct contract fingerprints
+
+& [Limits] inherit profile 0.1
+  + maximum canonical document bytes 4194304
+  + maximum canonical bundle bytes 16777216
+  + maximum definitions 256
+  + maximum reference occurrences 4096
+  + maximum schema document depth 64 where root is depth zero and each object or array child increments one
+  + maximum aggregate object properties 4096, counted as entries below schema keyword properties
+  + maximum aggregate alternatives 2048, counted across enum, oneOf, anyOf, and allOf arrays
+  + maximum semantic residuals 1024
+  + maximum conformance cases 4096 and corpus bytes 67108864 remain carried but unused in I02B
+
+& [ReferenceClosure] is local and cycle safe
+  + every $ref value must begin #/$defs/ and name an existing same-universe definition
+  + count every occurrence once
+  + traverse definitions in lexical order with visited and active sets
+  + permit direct self cycles for ProcedureType and ProcedureValue only
+  + reject unresolved, external, relative-document, cross-direction, and unexpected mutual cycles
+
+& [BaseResponseView] requires an exact policy
+  + ProcedureToolResponse has one Rust type but preparation response conditionally emits prepared_request
+  + base_response and preparation_response may share output schema bytes under current serde because the field is optional and skip_serializing_if affects serialization requiredness
+  + retain two root identities and independently generated root fingerprints even if their raw content digests are equal
+
+& [SuppliedContext] is honest
+  + source_revision is caller-supplied lowercase Git object text and is metadata, not an observed repository fact
+  + generator identity is exact schemars/1.2.2 plus cantor generation profile
+  + generation result proves deterministic structure only, not semantic validity, truth, authority, compatibility, or production fitness
+
+& [SliceQuestion] is bounded
+  + form SJS authority for pure in-memory normalization, counters, isolated universes, accounts, and fingerprints
+  - never: public canonical documents or bundle goldens, validator, untrusted-byte parser, provider tool definition, runtime registration, model, service, persistence, network, semantic effect, production, or hardware
+
