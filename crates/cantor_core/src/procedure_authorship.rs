@@ -617,7 +617,7 @@ fn exact_schema_ref(
     Ok(matches[0].clone())
 }
 
-fn validate_lane_evidence(lane: &AuthorshipLaneEvidence) -> Result<(), EvaluationFault> {
+pub(crate) fn validate_lane_evidence(lane: &AuthorshipLaneEvidence) -> Result<(), EvaluationFault> {
     if lane.authorship_evidence_refs.is_empty()
         || !lane
             .authorship_evidence_refs

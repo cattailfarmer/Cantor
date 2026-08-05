@@ -1,0 +1,52 @@
+Subject: Cantor Process Procedure Tool Controller Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Process_Procedure_Experiment.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Process_Procedure_Experiment_Phase_Lock.sop
+@ [support] C:\Project\Cantor\feature_support\cantor_process_procedure_experiment\index.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Process_Procedure_Tool_Controller_Proof.sop
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is 520d17b8-9800-45f8-aa8b-d5c2a7f2a0b5
+  + [implemented_at] is 2026-08-05T13:57:34.3699473-05:00
+  + [slice] is CPPE-I08
+  + [authority_signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [claim_uuid] is 5aaa0e44-5c2c-4ab7-8439-49ede4a3c948
+  + [status] is implemented_focused_proven_and_review_ready
+
+& [ProviderNeutralSchema] is closed
+  + [tool_name] is cantor.exchange
+  + [schema_version] is cantor.exchange/0.1
+  + [protocol_operations] are propose, challenge, qualify, cite, reconcile, poll, acknowledge, yield, and stop
+  + [first_executable_operation] is reconcile only
+  + named but unimplemented operations fail with operation_not_executable rather than inheriting behavior
+  + exact required input and output field names, closed inputs, closed outputs, effect class, checkpoint contract, identity, and digest are machine visible
+  + the schema contains no provider-specific request, response, token, hidden-state, or transport form
+
+& [CheckpointController] is deterministic and effectless
+  + one supplied structured proposal pins schema, call, inference job, participant, pass, invocation, session, and argument digest
+  + the controller records generation_opened, tool_call_proposed, and generation_stopped before validation or Cantor invocation
+  + accepted calls record tool_call_validated, Cantor_invoked, tool_result_returned, context_bound, later_pass_resumed, and completed in that exact order
+  + refused calls record call_refused and completed without Cantor invocation evidence, explicit context, or later-pass resume
+  + logical time is derived from the invocation input and event index rather than a physical clock
+  + every transcript event binds its predecessor, payload digest, logical time, call, index, identity, and event digest
+
+& [EvidenceAndContextBoundary] is exact
+  + supplied authorship lane evidence is independently replayed before the call can cross the boundary
+  + exact admitted invocation and negotiation session lineage are required
+  + the accepted call reruns the catalogue coordination rather than trusting a supplied outcome
+  + the structured result binds invocation-result digest, explicit output projection, admission, replay, and semantic-trace proof references
+  + LaterPassContext names the next pass and contains only an inspectable value plus result digest and sensitivity
+  + context is input to a later inference pass and never represented as mutation of an uninterrupted decode pass
+
+& [VerificationBoundary] is independent
+  + transcript verification checks schema identity, zero provider and external effects, result binding, causal event chain, exact accepted or refused stage sequence, outcome shape, context pass progression, and content digests
+  + changed arguments, unsupported operations, substituted evidence, reordered events, changed results, unknown fields, and unknown operations fail visibly
+  + deterministic replay produces byte-equivalent schema, result, coordination, and transcript values
+
+& [EffectBoundary] is unchanged
+  + provider_call_count is zero
+  + external_effect_count is zero
+  + no model, llama.cpp server, provider API, tokenizer, hidden activation, K/V cache, persistence, filesystem runtime, network, system clock, process, thread, notification, Git operation, unsafe code, hardware, or FPGA path is invoked by the implementation
+
+& [SolutionDisposition] is accepted for CPPE-I08 after completed-work review
+  + [next] separately claim CPPE-I09 release audit after commit and push
