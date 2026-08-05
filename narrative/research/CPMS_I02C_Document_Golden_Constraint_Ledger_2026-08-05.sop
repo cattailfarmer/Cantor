@@ -1,0 +1,36 @@
+Subject: CPMS I02C Canonical Document and Golden Bundle Constraint Ledger
+
+@ [ledger_uuid] 6a0e31ab-9da5-426b-ba4b-6e6e872db874
+
+& [Required] is closed
+  + exactly five root kinds with their I02B directions and no extras
+  + root schema is an object
+  + absent $id and $defs in the root draft before materialization
+  + $schema is absent or exactly https://json-schema.org/draft/2020-12/schema
+  + insert exact stable $id and exact transitive same-direction $defs closure
+  + every local reference resolves within the materialized document
+  + reuse the I02B canonical Value writer; do not fork normalization
+  + enforce maximum document bytes for each document and maximum bundle bytes for the unsigned payload and final envelope
+  + compute all digests from exact canonical bytes with explicit domain separation where a fingerprint is claimed
+  + form all five documents and bundle atomically or release none
+
+& [GoldenPaths] are fixed
+  + input_deserialize.prepare_input.schema.json
+  + input_deserialize.run_input.schema.json
+  + input_deserialize.verify_input.schema.json
+  + output_serialize.base_response.schema.json
+  + output_serialize.preparation_response.schema.json
+  + public_procedure_machine_schema.bundle.json
+
+& [ProofRequirements] are adversarial
+  + deterministic repeated generation and exact golden byte equality
+  + schema id and direction uniqueness, exact closure, local reference resolution, and no unused closure member
+  + base and preparation raw-root equality but canonical-document inequality
+  + missing extra mixed conflicting tampered stale and one-byte-drift cases fail visibly
+  + every active byte ceiling fails at one below observed
+  + full default and all-feature workspace gates preserve existing behavior
+
+& [Forbidden] is explicit
+  - untrusted-byte parsing or duplicate-key claims
+  - instance validation, serde conformance proof, semantic rule execution, or changed-schema compatibility classification
+  - provider projection, model execution, service, runtime persistence, network, semantic effect, production, hardware, or FPGA

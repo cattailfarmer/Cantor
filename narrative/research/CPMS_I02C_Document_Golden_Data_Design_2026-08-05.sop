@@ -1,0 +1,34 @@
+Subject: CPMS I02C Canonical Document and Golden Bundle Data Design
+
+@ [design_uuid] 3d1cda99-3cb7-4233-befd-f99d63afd12f
+
+& [ProposedForms] are feature gated and strict
+  + CanonicalMachineSchemaDocument carries direction, root kind, type name, schema id, schema Value, root and universe fingerprints, resource account, residual ids, canonical byte length, and document digest
+  + MachineSchemaBundlePayload carries profile, dialect, generator, supplied source revision, exact limits, two direction-qualified universe inventory fingerprints and accounts, and five documents keyed by root kind
+  + MachineSchemaGoldenBundle carries payload, payload digest, exact-baseline fingerprint, and fixed artifact projection table
+  + SchemaDocumentFormationFault reuses or extends the closed machine-schema fault vocabulary with exact path, limit, observed, and bounded message
+
+& [PureFunctions] are bounded
+  + materialize_canonical_schema_document(universe, root_kind)
+  + materialize_public_procedure_schema_bundle(universes)
+  + canonical_machine_schema_artifacts(bundle) returns a sorted in-memory path-to-byte map without filesystem access
+  + verify_exact_schema_bundle_replay(expected_baseline, candidate) returns identical or typed mismatch, never compatible
+
+& [DocumentAlgorithm] is ordered
+  + select one root and verify its declared direction and stable schema id
+  + copy normalized root object and reject preexisting $id or $defs
+  + require absent or exact $schema, then set exact dialect and $id
+  + select every and only named closure definition from the same universe and insert as $defs
+  + normalize once, measure, enforce, digest, and independently rescan local reference closure
+
+& [DigestProfiles] avoid self-reference
+  + document digest is SHA-256 of exact canonical schema bytes
+  + document fingerprint profile binds direction, root kind, type, schema id, root fingerprint, universe fingerprint, and document digest
+  + bundle payload digest profile binds exact canonical payload bytes before digest fields exist
+  + exact-baseline profile binds payload digest and ordered document fingerprints and digests
+
+& [ImplementationSurfaceCandidate] remains unactivated
+  + modify schema_generation.rs visibility only where canonical writer and measurement reuse requires it
+  + modify lib.rs and add schema_documents.rs plus machine_schema_documents.rs tests
+  + add six checked-in golden JSON artifacts generated from the signed prerequisite source revision
+  + no Cargo, core, CLI, MCP, service, ecosystem, Windows, runtime, provider, or hardware source change

@@ -1,0 +1,110 @@
+Subject: CPMS I02C Canonical Document and Golden Bundle Profile
+
+Description: Canonical formation for materializing the five CPMS-I02B root drafts as self-contained Draft 2020-12 documents and one deterministic golden bundle. Formation is not activation.
+
+@ [specification_uuid] 07e89cc2-f6ae-48c2-b65e-1d05f581c49f
+@ [profile] cantor-cpms-i02c-document-golden/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cpms_i02c_documents\Source_Document_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\CPMS_I02C_Document_Golden_Input_Audit_2026-08-05.sop
+@ [semantic_refinement] C:\Project\Cantor\narrative\research\CPMS_I02C_Document_Golden_Semantic_Refinement_2026-08-05.sop
+@ [constraints] C:\Project\Cantor\narrative\research\CPMS_I02C_Document_Golden_Constraint_Ledger_2026-08-05.sop
+@ [data_design] C:\Project\Cantor\narrative\research\CPMS_I02C_Document_Golden_Data_Design_2026-08-05.sop
+@ [parent] C:\Project\Cantor\specifications\Cantor_Public_Procedure_Machine_Schema.sop
+@ [direction_profile] C:\Project\Cantor\specifications\Cantor_Public_Procedure_Schema_Direction_Profile.sop
+@ [prerequisite_proof] C:\Project\Cantor\proofs\CPMS_I02B_Direction_Aware_Generation_Completion_Proof.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\CPMS_I02C_Canonical_Document_Golden_Profile.exploded.sop
+
+& [Purpose] is inspectable deterministic release material
+  + convert each proven root draft into one locally closed schema document
+  + make exact generated structure reviewable as five goldens and one bundle envelope
+  + supply content identity for later conformance and compatibility work without asserting either
+
+& [Prerequisite] is exact
+  + consume an atomic pair of CPMS-I02B input_deserialize and output_serialize universes
+  + require equal profile, generator id, supplied source revision, and limits across both universes
+  + require the exact closed assignment prepare, run, verify, base response, and preparation response with no missing or extra root
+
+& [DocumentIdentity] is direction qualified
+  + one document identity is direction plus root kind plus semantic type name plus stable schema id
+  + prepare_input, run_input, and verify_input are input_deserialize
+  + base_response and preparation_response are output_serialize
+  + every identity is unique even when pre-materialization root bytes are equal
+
+& [Materialization] is self contained
+  + root draft must be an object without $id or $defs
+  + $schema must be absent or exactly https://json-schema.org/draft/2020-12/schema
+  + set the exact dialect and root draft schema_id
+  + insert one $defs object containing every and only definition in the root's transitive closure from its same-direction universe
+  + independently rescan the result and require every local reference resolves and the closure is exact
+  + no external, relative-document, opposite-direction, unused, or unresolved definition is admitted
+
+& [CanonicalBytes] reuse one algorithm
+  + call the I02B generated-Value canonical writer
+  + sort object keys by Unicode scalar sequence, preserve arrays, retain scalar spelling, and emit compact UTF-8
+  + do not parse untrusted bytes and make no duplicate-key rejection claim
+  + document digest is SHA-256 of exact canonical schema bytes after dialect, id, and definitions are present
+
+& [DocumentRecord] is strict metadata outside the schema value
+  + carry direction, root kind, semantic type, schema id, schema value, root fingerprint, universe fingerprint, resources, residual ids, canonical byte length, document digest, and document fingerprint
+  + document fingerprint domain binds all identity and lineage fields plus document digest
+  + no Cantor-private or provider-private schema keyword is inserted
+
+& [BundlePayload] is complete before hashing
+  + carry profile, dialect, generator, supplied source revision, exact limits, two direction-qualified universe fingerprints and resource accounts, and all five document records
+  + document map order is the lexical serialized root-kind token order
+  + direction inventories preserve definition names, contract fingerprints, and aggregate accounts without becoming a sixth schema root
+  + unknown, duplicate, missing, extra, mixed, or inconsistent members fault atomically
+
+& [BundleDigest] avoids self-reference
+  + canonicalize the payload before any digest field exists
+  + enforce the maximum canonical bundle bytes on payload and final envelope
+  + compute a domain-separated payload digest from exact canonical payload bytes
+  + exact-baseline fingerprint binds payload digest plus ordered document identities, fingerprints, and digests
+
+& [GoldenProjection] is pure and fixed
+  + return a BTreeMap-equivalent in-memory path-to-bytes projection with exactly six entries
+  + five document paths are direction.root-kind.schema.json and contain exact canonical schema bytes
+  + public_procedure_machine_schema.bundle.json contains the canonical final bundle envelope
+  + projection performs no filesystem access; checked-in files are byte-equality fixtures, never independently edited authority
+
+& [ExactReplay] is the only I02C compatibility result
+  + equal baseline fingerprint and independently recomputed payload and document digests yields identical
+  + any mismatch yields a typed exact-replay fault with path and expected and observed digest where safe
+  + changed documents are unclassified and release-blocking until later same-direction compatibility analysis
+  + no compatible or breaking semantic classification is inferred in I02C
+
+& [Bounds] retain profile 0.1
+  + each canonical document is at most 4194304 bytes
+  + canonical payload and final bundle envelope are each at most 16777216 bytes
+  + definition, reference, depth, property, alternative, and residual ceilings remain enforced after materialization
+  + exact document, payload, and envelope footprints become golden test facts only after implementation
+
+& [Faults] are closed and nonpartial
+  + invalid universe pair, root set, direction, root object, dialect, schema id, reserved-key collision, closure, local reference, digest, baseline, artifact table, golden bytes, or limit
+  + safe path, optional expected and observed values, and bounded message identify the failure
+  + failure returns no partially authoritative document, bundle, baseline, or artifact set
+
+& [PublicSurfaceCandidate] is feature gated and pure
+  + CanonicalMachineSchemaDocument, MachineSchemaBundlePayload, MachineSchemaGoldenBundle, exact replay result, and closed fault forms
+  + materialize one document, materialize atomic bundle, project in-memory artifacts, and verify exact replay
+  + no default-feature dependency or behavior change
+
+& [SourceTouchCandidate] is narrow
+  + tool lib.rs, schema_generation.rs reuse visibility, new schema_documents.rs, and new machine_schema_documents.rs test
+  + six new golden JSON fixtures under the procedure-tool test tree
+  + governance and metadata-only evidence records may accompany a separately signed completion
+  + no Cargo, core, CLI, MCP, service, ecosystem, Windows, runtime, provider, model, network, effect, or hardware source
+
+& [Proof] is layered
+  + deterministic repeated generation, canonical rescan, exact local closure, unique ids, and exact golden bytes
+  + base and preparation raw-root equality plus canonical-document inequality
+  + missing extra mixed conflicting tampered stale one-byte drift and one-below-bound refusals
+  + complete default debug and release suites plus all-feature format, check, lint, build, docs, audit, diff, source-boundary, and evidence-freshness gates
+
+& [AuthorityBoundary] is formation only
+  + implementation requires exact hashes, completed-work review, a separately signed activation, and a phase lock
+  - never: I03 byte parser, duplicate-key claim, instance validator, serde conformance corpus, residual execution, changed-schema compatibility classification, I04 tool definition, provider, model, service, runtime persistence, network, effect, production, hardware, or FPGA
+
+& [SignatureCandidate] is formed not activated
+  + [candidate_signature_uuid] is 5f6850d2-fe62-4851-af54-a1a410830cd4
+  + [activation_condition] is exact canonical hash, source-touch hash, measured prerequisite replay, golden-generation procedure, adversarial review, and separate CPMS-I02C claim

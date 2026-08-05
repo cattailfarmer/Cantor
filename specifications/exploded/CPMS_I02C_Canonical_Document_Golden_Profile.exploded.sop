@@ -1,0 +1,40 @@
+Subject: Exploded CPMS I02C Canonical Document and Golden Bundle Profile
+
+@ [explosion_uuid] d6c8df63-d570-4192-bdf8-9dfe453e3542
+@ [parent_specification_uuid] 07e89cc2-f6ae-48c2-b65e-1d05f581c49f
+
+& [Fold1Identity] separates root draft, canonical document, bundle payload, final bundle, golden projection, and exact baseline
+  + intended-use identity includes direction and root kind
+  + content equality before stable id insertion never erases intended-use identity
+
+& [Fold2Relations] keeps graphs local
+  + document points to one root fingerprint and one universe fingerprint
+  + every $ref points to one member of the same document $defs
+  + bundle relates five documents and two direction inventories without cross-direction definition sharing
+
+& [Fold3Transformation] is deterministic
+  + validate prerequisite pair, materialize closure, insert dialect and id, canonicalize, account, digest, package, fingerprint, and project
+  + each transform is pure and the atomic public result appears only after all transforms pass
+
+& [Fold4Boundaries] fail closed
+  + reserved-key collision, wrong direction, incomplete closure, nonlocal reference, stale lineage, drift, and exhaustion are typed faults
+  + no partial artifact is authorized and no runtime filesystem is touched
+
+& [Fold5Perspectives] coordinates faculties
+  + Observer accounts every root, definition, reference, byte, and artifact
+  + Honesty distinguishes content identity from compatibility and signature from signer attestation
+  + Security guards direction, reserved keys, closure, source lineage, and finite bounds
+  + Scribe preserves canonical bytes and metadata without private schema claims
+  + Refiner removes duplicated normalization and ambiguous shared-definition identity
+  + Weaver joins five documents and two inventories into one bundle
+  + Planner orders prerequisite validation before materialization and proof before activation
+
+& [Fold6Proof] triangulates independent evidence
+  + regeneration equals goldens byte for byte
+  + rescan reconstructs closure and digests from released values
+  + adversarial mutations refuse and complete workspace regressions remain green
+
+& [Fold7Growth] permits later consumers without granting them
+  + I03 may consume documents for byte parsing, duplicate rejection, validation, residuals, and conformance
+  + I05 may consume exact baselines for direction-aware compatibility classification
+  + no later authority is inferred from this formation or a future I02C implementation

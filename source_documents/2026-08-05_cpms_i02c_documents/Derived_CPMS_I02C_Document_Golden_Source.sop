@@ -1,0 +1,36 @@
+Subject: Derived CPMS I02C Canonical Document and Golden Bundle Source
+
+Description: Manager-derived technical source following proven CPMS-I02B universes. It preserves the document-materialization question before SJS refinement and grants no implementation authority by itself.
+
+@ [source_uuid] 3439de51-f9a3-4aac-9d1a-12d5d9555a85
+@ [source_kind] manager_derived_technical_question
+@ [baseline_commit] d79fc67767d5be1ba10b63635f0b72f009e5d47e
+
+& [KnownInput] is the CPMS-I02B result
+  + two direction-isolated universes contain five root drafts, closed local definition graphs, exact accounts, fingerprints, profile limits, generator identity, and caller-supplied source revision
+  + root resource measurement already constructs an internal root plus transitive closure, but no canonical document or artifact is released
+  + base_response and preparation_response have equal raw root bytes today while retaining different root kinds, schema ids, and root fingerprints
+
+& [DocumentQuestion] is how to publish one exact self-contained document per root
+  + each document should use Draft 2020-12, its existing stable schema id, the root structure, and exactly its transitive same-direction $defs closure
+  + every local reference must resolve within that document
+  + document canonical bytes and digest must include $schema, $id, and $defs
+  + document metadata must bind direction, root kind, semantic type name, generator, supplied source revision, root fingerprint, universe fingerprint, byte length, and digest without adding provider-private schema keywords
+
+& [BundleQuestion] is how to make the five documents one deterministic compatibility baseline
+  + the bundle should carry exact documents and accounts in lexical root-kind order
+  + one bundle digest must avoid self-reference by hashing a canonical unsigned payload under a domain-separated profile
+  + checked-in golden files should be byte-equal projections of the bundle documents and manifest, not independent authorities
+  + source revision identifies the code input used to generate artifacts and need not equal the later commit that contains the generated artifacts
+
+& [CompatibilityQuestion] is bounded
+  + I02C may emit an exact baseline signature and detect byte-identical replay
+  + any changed same-direction document remains unclassified and release-blocking until a later compatibility algorithm proves direction-appropriate implications
+  + a baseline signature is content identity, not a cryptographic signer attestation and not semantic compatibility authority
+
+& [FailureQuestion] is fail closed
+  + reject missing or extra roots, direction mismatch, schema-id mismatch, non-object roots, conflicting $schema or preexisting $id or $defs, absent closure members, cross-direction references, resource exhaustion, digest mismatch, golden drift, or partial bundle formation
+
+& [SliceQuestion] is separately signable
+  + form exact data, materialization, canonicalization reuse, artifact, baseline, bounds, and proof contracts for CPMS-I02C
+  - never: parse untrusted JSON, reject duplicate keys from bytes, validate instances, prove serde equivalence, classify changed schemas as compatible, define provider tools, call a model, persist at runtime, network, effect, production, or hardware

@@ -1,0 +1,11 @@
+Subject: CPMS I02C Canonical Document and Golden Bundle Formation Justification
+
+@ [justification_uuid] 78a8db04-a464-46fd-bccc-13c1da5e3e72
+
+& [SelectedSelfContainedDocuments] make every local reference inspectable without external resolution
+& [RejectedSharedCrossDirectionDocument] would erase Deserialize versus Serialize identity
+& [SelectedManifestMetadata] avoids nonstandard keywords inside canonical JSON Schema
+& [SelectedUnsignedPayloadDigest] avoids a self-referential bundle hash
+& [SelectedPureArtifactMap] permits golden proof without runtime filesystem authority
+& [SelectedExactBaselineOnly] gives later compatibility work a stable input without pretending changed schemas are already proven compatible
+& [RejectedImplementationNow] would bypass source preservation, SJS review, canonical hash, and a separate activation lock
