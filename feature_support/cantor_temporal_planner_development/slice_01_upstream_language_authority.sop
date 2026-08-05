@@ -1,0 +1,90 @@
+Subject: Cantor Temporal Planner Support Slice 01 Upstream Language Authority
+
+Description: Contiguous worker cluster that resolves the SOP multi-target language-purpose prerequisite before CTPR canonical processing.
+
+@ [slice_file_id] FSS-CTPR-001_upstream_language_authority
+@ [slice_file_uuid] 09344e77-0112-43ce-90e0-cf6e4b234fcd
+@ [support_slice_index] C:\Project\Cantor\feature_support\cantor_temporal_planner_development\index.sop
+@ [SMTC_source] C:\Project\Cantor\source_documents\2026-08-05_sop_multi_target_semantic_compiler_purpose\Dictated_SOP_Multi_Target_Semantic_Compiler_Purpose_Source.sop
+@ [SMTC_assessment] C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Purpose_Assessment_2026-08-05.sop
+
+& [ClusterIdentity] is upstream language authority
+  + [enqueue_readiness] is in_progress
+  + [reason_for_contiguity] is source roles, compatibility, static semantics, target ABI, justification, and purpose signature jointly determine what CTPR may compile into
+  + [current_worker] is conversation cab190f5-eda0-44e0-81a5-51f9605e0baa on WS-CTPR-002
+
+& [FeatureRequirementSet] is atomic
+  + [feature_requirement] is FR-CTPR-001
+    @ [support_status] verified
+    @ [support_record] SR-CTPR-001
+    + [requirement_statement] is inventory current SOP source-role families, target profiles, implementation evidence, and authority states without treating every SOP document as executable
+  + [feature_requirement] is FR-CTPR-002
+    @ [support_status] partial
+    @ [support_gap] SG-CTPR-002
+    + [requirement_statement] is define document-role and compatibility rules for data, definition, contract, program, policy, profile, test, proof, narrative, and mixed SOP artifacts
+  + [feature_requirement] is FR-CTPR-003
+    @ [support_status] partial
+    @ [support_gap] SG-CTPR-003
+    + [requirement_statement] is reconcile grammar, static semantics, types, effects, modules, target interfaces, diagnostics, compatibility, and conformance boundaries
+  + [feature_requirement] is FR-CTPR-004
+    @ [support_status] blocked
+    @ [support_gap] SG-CTPR-004
+    + [requirement_statement] is complete SMTC SJS, registry binding, and satisfaction signature before CTPR treats the multi-target purpose as authority
+
+& [SupportRecordSet] is evidence
+  + [support_record] is SR-CTPR-001
+    @ [status] verified
+    @ [proof_ref] C:\Project\Cantor\narrative\research\SOP_Multi_Target_Semantic_Compiler_Role_Target_Inventory_2026-08-05.sop
+    @ [freshness_rule] stale when top-level Cantor specifications, workspace crates, target profiles, or SMTC source change
+    + [covers] FR-CTPR-001
+    + [support_limit] role-family inventory does not yet assign a canonical role to every file or revise language authority
+
+& [SupportGapSet] is explicit
+  + [support_gap] is SG-CTPR-002
+    @ [blocks] FR-CTPR-002 and WS-CTPR-003
+    + [gap_statement] is current files do not share one canonical document-role declaration and compatibility matrix
+  + [support_gap] is SG-CTPR-003
+    @ [blocks] FR-CTPR-003 and WS-CTPR-004
+    + [gap_statement] is general grammar, static semantics, type/effect/module, target ABI, diagnostic, and conformance contracts remain incomplete
+  + [support_gap] is SG-CTPR-004
+    @ [blocks] FR-CTPR-004 and every CTPR canonical worker
+    + [gap_statement] is SMTC purpose revision remains unsigned and non-authoritative
+
+& [WorkSliceTransform] is the worker queue
+  + [work_slice_detail] is WS-CTPR-001
+    @ [slice_status] completed
+    @ [support_readiness] ready_and_completed
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+    @ [model_routing] Requires premium model
+    + [scope] is produce current role-family, target-profile, implementation, signature-state, and gap inventory
+    + [proof_route] is inspect preserved SMTC source, assessment, top-level specification set, signature declarations, workspace crates, and tests
+    + [completion_criteria] is inventory distinguishes observed support from missing authority and identifies the next compatibility worker
+  + [work_slice_detail] is WS-CTPR-002
+    @ [slice_status] in_progress
+    @ [support_readiness] ready
+    @ [assigned_worker_conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+    @ [model_routing] Requires premium model
+    @ [depends_on] WS-CTPR-001
+    + [scope] is form the document-role compatibility contract and classify execution admission boundaries
+    + [proof_route] is cross-check current signed SOP language, core, VM, neural, trust, narrative, and runtime profiles
+    + [completion_criteria] is every role has execution status, lowering requirement, compatibility rule, and non-regression boundary
+  + [work_slice_detail] is WS-CTPR-003
+    @ [slice_status] blocked
+    @ [support_readiness] blocked_by_WS-CTPR-002
+    @ [model_routing] Requires premium model
+    @ [depends_on] WS-CTPR-002
+    + [scope] is reconcile grammar, static semantics, type/effect/module system, target ABI, diagnostics, compatibility, and conformance
+    + [completion_criteria] is SMTC-018 through SMTC-020 have exact data and proof contracts
+  + [work_slice_detail] is WS-CTPR-004
+    @ [slice_status] blocked
+    @ [support_readiness] blocked_by_WS-CTPR-003
+    @ [model_routing] Requires premium model
+    @ [depends_on] WS-CTPR-003
+    + [scope] is complete SMTC explosion, refinement, justification, registry, canonical specification, and satisfaction signature
+    + [completion_criteria] is valid bounded purpose-revision authority or explicit blocked result with remaining uncertainty
+
+& [CompletedWorkReview] is applied for WS-CTPR-001
+  + [review_uuid] is 3320739e-f438-439a-981e-05132d898025
+  + [support_delta] is current role families, target maturity, signature distribution, crate implementation, and language-completeness gaps are now inspectable
+  + [requirement_delta] is document-role compatibility must precede general static-semantics and target-ABI reconciliation
+  + [readiness_recompute] is WS-CTPR-002 became ready and was claimed; all later slices remain blocked

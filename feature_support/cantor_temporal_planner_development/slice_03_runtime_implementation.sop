@@ -1,0 +1,58 @@
+Subject: Cantor Temporal Planner Support Slice 03 Runtime Implementation
+
+Description: Bounded implementation cluster activated only by a valid CTPR signature whose authority includes the deterministic first proof.
+
+@ [slice_file_id] FSS-CTPR-003_runtime_implementation
+@ [slice_file_uuid] 7ac547dd-9650-4543-b702-d445465555ec
+@ [support_slice_index] C:\Project\Cantor\feature_support\cantor_temporal_planner_development\index.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Temporal_Planner_Bidirectional_Change_Reflection.exploded.sop
+
+& [ClusterIdentity] is bounded deterministic runtime work
+  + [enqueue_readiness] is blocked_by_CTPR_signature
+  + [reason_for_contiguity] is pure forms provide the common ABI consumed by repository, calendar, tandem, and compiler fixtures
+  + [implementation_language] is Rust within the current safe workspace unless signed CTPR authority chooses otherwise
+
+& [FeatureRequirementSet] is atomic
+  + [feature_requirement] is FR-CTPR-010
+    @ [support_status] blocked
+    + [requirement_statement] is implement pure validated time, plan, calendar, event, snapshot, capsule, lane, reflection, and compiler-generation forms
+  + [feature_requirement] is FR-CTPR-011
+    @ [support_status] blocked
+    + [requirement_statement] is implement deterministic fake repository, Calendar, and Planner behavior with logical time and replay
+  + [feature_requirement] is FR-CTPR-012
+    @ [support_status] blocked
+    + [requirement_statement] is implement prospective, execution, retrospective, join, invalidation, timeout, residual, and stale-version behavior
+  + [feature_requirement] is FR-CTPR-013
+    @ [support_status] blocked
+    + [requirement_statement] is implement bounded source, semantic, build, impact, correspondence, and proof diff fixtures over admitted compiler forms
+
+& [WorkSliceTransform] is the implementation queue
+  + [work_slice_detail] is WS-CTPR-010
+    @ [slice_status] blocked
+    @ [model_routing] Spark-suitable after signed authority
+    @ [depends_on] WS-CTPR-009
+    + [scope] is pure machine forms, validators, normalized serialization, and unit tests
+    + [proof_route] is cargo fmt, clippy, targeted unit tests, and malformed-form negatives
+  + [work_slice_detail] is WS-CTPR-011
+    @ [slice_status] blocked
+    @ [model_routing] Spark-suitable after signed authority
+    @ [depends_on] WS-CTPR-010
+    + [scope] is fake logical-time repository, Calendar, Planner, material event, and replay implementation
+    + [proof_route] is deterministic normalized replay and calendar edge fixtures
+  + [work_slice_detail] is WS-CTPR-012
+    @ [slice_status] blocked
+    @ [model_routing] Spark-suitable after signed authority
+    @ [depends_on] WS-CTPR-010
+    + [scope] is tandem lane state machine, compare-and-append join, invalidation, timeout, residual, and crash reentry
+    + [proof_route] is stale generation, wrong reflection, timeout, cancellation, and no-deadlock tests
+  + [work_slice_detail] is WS-CTPR-013
+    @ [slice_status] blocked
+    @ [model_routing] Spark-suitable after signed authority; escalate on target-ABI design fork
+    @ [depends_on] WS-CTPR-010 and WS-CTPR-004
+    + [scope] is bounded dual-pass SOP compiler diff and transitive invalidation fixture
+    + [proof_route] is distinct textual, semantic, build, impact, correspondence, and proof results
+
+& [SupportGapSet] is explicit
+  + [support_gap] is SG-CTPR-010
+    @ [blocks] WS-CTPR-010 through WS-CTPR-013
+    + [gap_statement] is no valid CTPR canonical signature authorizes implementation
