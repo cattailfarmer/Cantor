@@ -1,0 +1,47 @@
+Subject: Cantor Process Procedure Machine Forms Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Process_Procedure_Experiment.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Process_Procedure_Experiment_Phase_Lock.sop
+@ [support] C:\Project\Cantor\feature_support\cantor_process_procedure_experiment\index.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Process_Procedure_Machine_Forms_Proof.sop
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is 9d7d27d3-6ccf-4aa4-8d48-e2a3fbfd97a0
+  + [implemented_at] is 2026-08-05T12:21:15.1068158-05:00
+  + [slice] is CPPE-I01
+  + [authority_signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [claim_uuid] is 3625ffd4-f056-4792-96b7-a9d729fa19f5
+  + [status] is implemented_focused_proven_and_review_ready
+
+& [MachineFormSurface] is complete for the signed I01 boundary
+  + [module] is crates/cantor_core/src/procedure.rs
+  + [aggregate] is ProcedureFormSet at cantor-process-procedure-experiment/0.1
+  + [portable_IR_form] is CantorProcessIr at cantor-process-ir/0.1
+  + [record_struct_count] is 42
+  + [closed_enum_count] is 17
+  + [tagged_value_or_type_enum_count] is 3
+  + [collection_order] is BTreeMap and BTreeSet
+  + [unknown_field_policy] is deny
+
+& [SemanticSeparation] is structural
+  + authored ProcedureCandidate is distinct from CompiledProcedureIdentity and CantorProcessIr
+  + process definition, live instance state, serialized continuation, and one ProcessStep are distinct
+  + participant, message, frame, session, and TokenRingPass are distinct
+  + validation, compilation, verification, admission, catalogue, and revocation each have distinct records
+  + invocation request, result, semantic trace, consumed budget, and typed fault are distinct
+  + aliases remain catalogue projections and do not replace exact identity
+
+& [EffectBoundary] is closed in the ABI
+  + Effectless is the only effect class
+  + read and write classes are closed enums
+  + prohibited operations are a closed enum spanning unbounded language behavior, ambient state, live services, model execution, unsafe code, devices, and external effects
+  + machine forms contain no handles, pointers, provider clients, threads, filesystem paths, network endpoints, or callable effect surface
+
+& [DeliberateDeferral] preserves the slice graph
+  + CPPE-I02 owns semantic validation, cross-record checking, normalization, and canonical IR serialization
+  + CPPE-I03 owns deterministic compilation
+  + later slices own verification, admission, catalogue transitions, interpretation, scheduling, token-ring execution, replay, and fake controller transcripts
+  + no textual Simula parser, live provider, persistence, service, native backend, WASM, FPGA, or external effect is implemented
+
+& [SolutionDisposition] is accepted for CPPE-I01 after completed-work review
+  + [next] is separately claim CPPE-I02 only after this milestone is committed and pushed
