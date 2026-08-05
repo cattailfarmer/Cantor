@@ -121,7 +121,31 @@ forged set digests, stale generations, and out-of-turn passes fail closed.
 returns a self-digesting receipt only for byte-equivalent outcomes. The I06
 runtime creates no thread, socket, clock read, filesystem access, provider or
 model call, persistence write, notification, external process, or hardware
-action. Model-shaped versus hand-authored candidate parity remains CPPE-I07.
+action.
+
+CPPE-I07 adds `cantor-authorship-parity/0.1`. A hand-authored candidate and a
+model-shaped candidate carry distinct author and provenance identities while
+retaining one equal normalized semantic source. `run_authorship_lane` sends
+each through the same machine validation, deterministic compiler, independent
+verifier, fake Observer policy and admission, immutable catalogue, two-process
+coordinator, token pass cycle, and replay receipt. The comparison gate
+independently reruns every stage before it accepts either lane as evidence.
+
+Parity compares a normalized behavioral projection that removes lane-specific
+candidate, procedure, session, message, continuation, and pass identities but
+retains semantic source, schemas, effects, bounds, pipeline principals, phase
+dispositions, invocation contexts, budgets, instruction walk, trace payloads,
+message direction and causal shape, continuation states, token participant
+order, stable status, and replay result. Equal behavior yields a passed parity
+report. Valid semantic or pipeline differences yield a refused report.
+Substituted evidence is invalid and receives no comparison report.
+
+“Model-shaped” is declared supplied provenance, not proof that a live model
+generated the record. The fixture performs no model call and the model-shaped
+author cannot impersonate its validator, compiler, verifier, Observer, or
+coordinator. Text output still meets the no-parser compiler refusal, and parity
+does not imply truth, quality, safety, admission beyond the exact fake policy,
+or external-effect authority.
 
 ## Verification
 
@@ -132,6 +156,7 @@ cargo test -p cantor_core --test procedure_compiler --locked
 cargo test -p cantor_core --test procedure_verifier --locked
 cargo test -p cantor_core --test procedure_runtime --locked
 cargo test -p cantor_core --test procedure_coordination --locked
+cargo test -p cantor_core --test procedure_authorship --locked
 cargo test -p cantor_core --locked
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo fmt --all -- --check
