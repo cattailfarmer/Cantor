@@ -23,16 +23,16 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + CPPE-I03 deterministic compiler depends_on CPPE-I02 and is completed under reviewed proof 9a891369-5c30-48f9-a690-4bf43ec6c9af
   + CPPE-I04 verifier effect checker bound checker and fake admission depends_on CPPE-I03 and is completed under reviewed proof 33b6930f-cd32-40a6-80b5-9f664c504c9b
   + CPPE-I05 in-memory catalogue and interpreter depends_on CPPE-I04 and is completed under reviewed proof 671c9925-1043-4af1-b3ec-c8e0fb05e6f8
-  + CPPE-I06 two-process token ring and replay depends_on CPPE-I05 and is ready_unassigned
-  + CPPE-I07 authorship parity and negative cases depends_on CPPE-I06
+  + CPPE-I06 two-process token ring and replay depends_on CPPE-I05 and is completed under reviewed proof 9046896e-d81e-44f7-b83f-b6208f71b57b
+  + CPPE-I07 authorship parity and negative cases depends_on CPPE-I06 and is ready_unassigned
   + CPPE-I08 provider-neutral tool schema and fake controller transcript depends_on CPPE-I07
   + CPPE-I09 release audit depends_on CPPE-I08
 
 & [ManagerState] is between milestones
-  + [completed_slice_count] is 5
+  + [completed_slice_count] is 6
   + [in_progress_slice_count] is 0
   + [ready_unassigned_count] is 1
-  + [blocked_slice_count] is 3
+  + [blocked_slice_count] is 2
   + [active_slice] is none
   + [completed_claim_uuid] is 3625ffd4-f056-4792-96b7-a9d729fa19f5
   + [completed_at_time_ms] is 1785950475108
@@ -59,9 +59,14 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Catalogue_Interpreter_Solution.sop
   + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Catalogue_Interpreter_Proof.sop
   + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureCatalogueInterpreterCompletionReview.sop
-  + [ready_unassigned_slice] is CPPE-I06
-  + [ready_completion_criteria] is two-process messages, yield and continuation, logical wait and reactivation, join, token-ring stability, and normalized replay
-  + [ready_stop_conditions] are provider, persistence, live effect, physical time, textual parsing, model execution, external process, or hardware pressure
+  + [completed_claim_uuid] is dcad7b41-d16d-4a89-a17d-aba51d0a4b8a
+  + [completed_at_time_ms] is 1785954891510
+  + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Coordination_Replay_Solution.sop
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Coordination_Replay_Proof.sop
+  + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureCoordinationReplayCompletionReview.sop
+  + [ready_unassigned_slice] is CPPE-I07
+  + [ready_completion_criteria] is hand-authored and model-shaped candidate parity through the same pipeline plus required negative cases
+  + [ready_stop_conditions] are provider, persistence, live effect, physical time, textual parsing, model execution, external process, thread, or hardware pressure
 
 & [CompletedWorkReviewRule] is mandatory
   + inspect exact changed files, test results, form coverage, omitted behavior, support delta, requirement delta, and effect delta
@@ -96,4 +101,10 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [review_uuid] is 35525073-9fca-40be-af5e-b39cb8e28f3b
   + [support_delta] is CPPE-I05 completed and CPPE-I06 ready_unassigned
   + [requirement_delta] is immutable in-memory catalogue and deterministic one-process local interpretation only; messages, continuations, token ring, and multi-process replay remain unimplemented
+  + [effect_delta] is none
+
+& [CPPEI06CompletedWorkReview] releases one authorship parity frontier
+  + [review_uuid] is b6ea0713-93d5-4c18-a349-96a9186189c7
+  + [support_delta] is CPPE-I06 completed and CPPE-I07 ready_unassigned
+  + [requirement_delta] is deterministic two-process messages, continuations, scheduling, token stability, frame reset, and replay only; authorship parity and tool transcript remain unimplemented
   + [effect_delta] is none

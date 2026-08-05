@@ -23,10 +23,10 @@ phase, effect, and prohibited-operation vocabularies are closed enums.
 ## Authority boundary
 
 The `procedure` module supplies forms, not behavior. Separately authorized pure
-passes now validate, compile, statically verify, and issue a fake Observer
-admission disposition. They still do not catalogue an identity, select a
-process, execute an instruction, stabilize a token ring, invoke a model, or
-perform an external effect.
+passes now validate, compile, statically verify, issue a fake Observer admission
+disposition, maintain an immutable in-memory catalogue, interpret one local
+process, and coordinate one exact two-process experiment. These passes do not
+invoke a model or perform an external effect.
 
 The only first-profile effect class is `Effectless`. Its read and write classes
 are also closed: typed invocation input and pinned admitted in-memory artifacts
@@ -99,6 +99,30 @@ a digest-bound causal trace, consumed budgets, residuals, and a typed result or
 fault. Emit, receive, yield, wait-logical, reactivate, join, and multi-process
 scheduling return a typed CPPE-I06 residual; they are not silently simulated.
 
+CPPE-I06 adds `cantor-effectless-coordinator/0.1`, a deterministic scheduler
+for exactly two admitted process definitions. It executes one process state per
+scheduler step and represents all cross-process influence as immutable
+`ProcedureMessage`, `SerializedContinuation`, `ProcessStep`, session-successor,
+and trace records. Emit and receive use declared tags and participant message
+kinds. Yield creates a passivated continuation; reactivate submits an explicit
+wake request; logical waits use supplied integer time; join resumes only after
+the exact process-instance set is terminal. Resumed continuations remain in the
+historical archive while a separate active-continuation map becomes empty.
+
+`cantor-token-ring/0.1` records a pass only from the exact current required
+token holder. Passes bind the immutable frame generation, complete participant
+set, SOP-anchor set, policy, predecessor pass, and monotonic logical time. One
+complete pass cycle over the same generation yields `StableCandidate`; it does
+not yield truth or Observer admission. A real frame-content change advances the
+generation and clears the active pass set. Silence, missing participants,
+forged set digests, stale generations, and out-of-turn passes fail closed.
+
+`verify_coordination_replay` runs the same supplied immutable inputs twice and
+returns a self-digesting receipt only for byte-equivalent outcomes. The I06
+runtime creates no thread, socket, clock read, filesystem access, provider or
+model call, persistence write, notification, external process, or hardware
+action. Model-shaped versus hand-authored candidate parity remains CPPE-I07.
+
 ## Verification
 
 ```text
@@ -107,6 +131,7 @@ cargo test -p cantor_core --test procedure_validation --locked
 cargo test -p cantor_core --test procedure_compiler --locked
 cargo test -p cantor_core --test procedure_verifier --locked
 cargo test -p cantor_core --test procedure_runtime --locked
+cargo test -p cantor_core --test procedure_coordination --locked
 cargo test -p cantor_core --locked
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo fmt --all -- --check

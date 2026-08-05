@@ -13,7 +13,7 @@ use crate::{
     ContentDigest, ControlRegion, EvaluationFault, FaultKind, PhaseDisposition, ProcedureBounds,
     ProcedureCandidate, ProcedureEffectClass, ProcedureFormSet, ProcedureLifecycle,
     ProcedureSchema, ProcedureSchemaSet, ProcedureType, ProcedureValue, ProcessDefinition,
-    ProcessInstruction, ProcessLifecycle, SchemaKind, SemanticId,
+    ProcessInstruction, ProcessLifecycle, SchemaKind, SemanticId, SerializedContinuation,
     compute_admission_disposition_digest, compute_anchor_set_digest,
     compute_catalogue_receipt_digest, compute_effect_declaration_digest,
     compute_procedure_bounds_digest, compute_procedure_catalogue_digest,
@@ -92,6 +92,9 @@ pub fn validate_procedure_forms(forms: &ProcedureFormSet) -> Result<(), Evaluati
         |v| &v.continuation_id,
         |v| {
             validate_digest("continuation digest", &v.continuation_digest)?;
+            if compute_continuation_digest(v)? != v.continuation_digest {
+                return Err(form_fault("serialized continuation digest mismatch"));
+            }
             if v.process_state.lifecycle == ProcessLifecycle::Operating {
                 return Err(form_fault(
                     "serialized continuation cannot contain an operating process",
@@ -431,6 +434,22 @@ pub fn compute_process_ir_digest(ir: &CantorProcessIr) -> Result<ContentDigest, 
     };
     let bytes = serde_json::to_vec(&digest_body)
         .map_err(|error| form_fault(format!("Process IR digest serialization failed: {error}")))?;
+    Ok(sha256_bytes(&bytes))
+}
+
+pub fn compute_continuation_digest(
+    continuation: &SerializedContinuation,
+) -> Result<ContentDigest, EvaluationFault> {
+    let mut body = continuation.clone();
+    body.continuation_digest = ContentDigest {
+        algorithm: "sha256".to_owned(),
+        value: String::new(),
+    };
+    let bytes = serde_json::to_vec(&body).map_err(|error| {
+        form_fault(format!(
+            "serialized continuation digest serialization failed: {error}"
+        ))
+    })?;
     Ok(sha256_bytes(&bytes))
 }
 

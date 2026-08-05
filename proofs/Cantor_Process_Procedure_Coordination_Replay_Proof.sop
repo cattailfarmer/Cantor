@@ -1,0 +1,51 @@
+Subject: Cantor Process Procedure Coordination and Replay Proof
+
+@ [solution] C:\Project\Cantor\solutions\Cantor_Process_Procedure_Coordination_Replay_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\procedure_coordination.rs
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is 9046896e-d81e-44f7-b83f-b6208f71b57b
+  + [solution_uuid] is e14dca8a-5045-4eac-b914-d6dbf2557efc
+  + [authority_signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [captured_at] is 2026-08-05T13:34:51.5102127-05:00
+
+& [ArtifactIdentity] is measured before governance-only closure
+  + [procedure_coordination] is 64336 bytes SHA256 E7F571405AA427DDEBF58AFB4C52691D7534BD8AF7FBC04EE6F416CB06C9F430
+  + [procedure_runtime] is 50322 bytes SHA256 02180A9D4DB557D9E548C45A90523C919E84DD63658861705FFE06FAAFBB8F2F
+  + [procedure_validation] is 72618 bytes SHA256 683FB47C45200A512421FC338F007A184494DECBA2E21622FEF5BBE146267E8B
+  + [coordination_tests] is 32848 bytes SHA256 0DFCF917968C295BA9CE8690C207991A9560B68C7EFC06ABB9095091C880FC5C
+  + [procedure_document] is 7872 bytes SHA256 DE2610E1AC76BD95196B2EDFEC890EDEF02AA7BE98BD33778155F210F18AC29A
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test procedure_coordination --locked
+  + [result] is 8 passed and 0 failed
+  + [positive_set] is deterministic fifteen-step two-process coordination, bidirectional typed messages, passivation, explicit reactivation, logical wake, join, equal return, immutable continuation archive, aggregate validation, exact token pass cycle, frame reset, and byte-equivalent replay receipt
+  + [negative_set] is stale session before execution, finite step refusal, forged pass set digest, no-op frame revision, stale and out-of-turn pass, and tampered continuation digest
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 185 passed and 0 failed
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all -- --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is git diff --check
+  + [result] is passed
+  + [source_audit] is no effect-bearing API, thread, physical clock, transport, or prohibited runtime surface introduced
+  + [dependency_audit] is no Cargo manifest or lockfile delta
+
+& [SignedAuthorityIntegrity] is exact
+  + [requirement_matrix] is 4033 bytes SHA256 8623D4773251F6050F5E8A6A6266463BC8E65699C2B590310A2909C34C66DA14
+  + [result] is unchanged
+
+& [WorkspaceBoundary] is honest
+  + the inherited README candidate-evidence mismatch remains the known full-workspace gate
+  + the current slice changes neither README nor historical evidence manifests
+  - never: report the full workspace gate as green
+
+& [ProofDisposition] is CPPE-I06_focused_proven
+  + coordinated means two immutable in-memory process perspectives exchanged explicit records under one deterministic scheduler
+  + stable means one exact unchanged-frame required-participant pass cycle completed
+  + replayed means the full structured outcomes and digests matched
+  + model authorship parity, provider tool transcript, live transport, external effects, and production qualification remain unproved

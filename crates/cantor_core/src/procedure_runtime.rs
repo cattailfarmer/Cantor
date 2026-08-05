@@ -457,7 +457,7 @@ fn refused_catalogue_transition(
     })
 }
 
-fn validate_invocation_inputs(
+pub(crate) fn validate_invocation_inputs(
     catalogue: &ProcedureCatalogueState,
     procedure: &CompiledProcedureIdentity,
     ir: &CantorProcessIr,
@@ -1021,7 +1021,7 @@ fn invocation_fault_outcome(
     })
 }
 
-fn resolve_value(
+pub(crate) fn resolve_value(
     value: &ProcedureValue,
     input: &ProcedureValue,
     local: &ProcedureValue,
@@ -1051,7 +1051,7 @@ fn record_field(value: &ProcedureValue, field: &str) -> Result<ProcedureValue, E
         .ok_or_else(|| machine_fault(format!("binding field {field:?} is missing")))
 }
 
-fn set_binding(
+pub(crate) fn set_binding(
     local: &mut ProcedureValue,
     binding: &str,
     value: ProcedureValue,
@@ -1066,7 +1066,7 @@ fn set_binding(
     Ok(())
 }
 
-fn value_matches_schema(
+pub(crate) fn value_matches_schema(
     value: &ProcedureValue,
     schema: &ProcedureSchema,
     schemas: &BTreeMap<SemanticId, ProcedureSchema>,
@@ -1184,7 +1184,7 @@ fn value_matches_type(
     })
 }
 
-fn push_trace(
+pub(crate) fn push_trace(
     events: &mut Vec<SemanticTraceEvent>,
     request: &InvocationRequest,
     procedure: &CompiledProcedureIdentity,
@@ -1215,7 +1215,7 @@ fn push_trace(
     Ok(())
 }
 
-fn build_trace(
+pub(crate) fn build_trace(
     request: &InvocationRequest,
     procedure: &CompiledProcedureIdentity,
     events: Vec<SemanticTraceEvent>,
@@ -1245,7 +1245,7 @@ fn consumed_from(events: &[SemanticTraceEvent], memory_units: u64, steps: u64) -
     }
 }
 
-fn state_identity(
+pub(crate) fn state_identity(
     invocation_ref: &SemanticId,
     process_instance_ref: &SemanticId,
     generation: u64,
@@ -1263,7 +1263,7 @@ fn state_identity(
     derived_id("cppe:process-state", &digest)
 }
 
-fn digest_serialized<T: Serialize>(
+pub(crate) fn digest_serialized<T: Serialize>(
     value: &T,
     label: &str,
 ) -> Result<ContentDigest, EvaluationFault> {
@@ -1272,17 +1272,20 @@ fn digest_serialized<T: Serialize>(
     Ok(sha256_bytes(&bytes))
 }
 
-fn derived_id(prefix: &str, digest: &ContentDigest) -> Result<SemanticId, EvaluationFault> {
+pub(crate) fn derived_id(
+    prefix: &str,
+    digest: &ContentDigest,
+) -> Result<SemanticId, EvaluationFault> {
     SemanticId::new(format!("{prefix}:{}:{}", digest.algorithm, digest.value))
 }
 
-fn empty_sha256() -> ContentDigest {
+pub(crate) fn empty_sha256() -> ContentDigest {
     ContentDigest {
         algorithm: "sha256".to_owned(),
         value: String::new(),
     }
 }
 
-fn machine_fault(error: impl ToString) -> EvaluationFault {
+pub(crate) fn machine_fault(error: impl ToString) -> EvaluationFault {
     EvaluationFault::new(crate::FaultKind::MachineForm, error.to_string())
 }
