@@ -1,0 +1,41 @@
+Subject: Cantor Process Procedure Compiler Solution
+
+@ [specification] C:\Project\Cantor\specifications\Cantor_Process_Procedure_Experiment.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Process_Procedure_Experiment_Phase_Lock.sop
+@ [support] C:\Project\Cantor\feature_support\cantor_process_procedure_experiment\index.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Process_Procedure_Compiler_Proof.sop
+
+& [SolutionIdentity] is exact
+  + [solution_uuid] is 53b12e68-ca00-431a-8aef-5215e0a3bd66
+  + [implemented_at] is 2026-08-05T12:43:35.6832389-05:00
+  + [slice] is CPPE-I03
+  + [authority_signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [claim_uuid] is 4d629cd3-84ac-45cc-94a3-60f610719a8a
+  + [status] is implemented_focused_proven_and_review_ready
+
+& [CompilerContract] is deterministic assembly
+  + [compiler_identity] is cantor-process-compiler/0.1
+  + input is one exact proposed normalized ProcedureCandidate and one passed digest-valid ValidationReceipt
+  + validation receipt binds both stable candidate identity and exact candidate source digest
+  + compiler independently revalidates the candidate instead of treating the receipt as its only evidence
+  + type table is derived from closed schema fields and variants in stable order
+  + source map is derived from exact process, region, instruction, and source-span identities
+  + cost estimate counts anchors, instructions, processes, regions, schemas, source-map entries, and types
+  + Process IR and CompiledProcedureIdentity receive self-verifying SHA-256 content identities
+  + CompilationReceipt binds exact candidate source digest, IR identity, and IR digest
+
+& [RefusalContract] is no_partial_successor
+  + invalid, stale, forged, refused, wrong-profile, or content-substituted validation evidence produces a refused CompilationReceipt
+  + invalid candidate structure produces a refused CompilationReceipt
+  + textual source produces a refused CompilationReceipt because no parser is authorized
+  + refused compilation returns no Process IR and no compiled procedure identity
+  + receipt residuals preserve the source candidate and state that verification and admission were not entered
+
+& [AuthoritySeparation] is explicit
+  + compilation success is not verification, Observer admission, catalogue insertion, invocation, truth, safety, consent, or effect authority
+  + successful receipts state verification not performed and Observer admission not performed
+  + CPPE-I04 remains responsible for independent verification and fake Observer admission
+  + no parser, live provider, persistence, service, scheduler, interpreter, external effect, WASM, native backend, FPGA, or device surface is present
+
+& [SolutionDisposition] is accepted for CPPE-I03 after completed-work review
+  + [next] is separately claim CPPE-I04 after commit and push

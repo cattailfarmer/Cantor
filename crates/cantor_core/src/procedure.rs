@@ -649,6 +649,7 @@ pub struct ReceiptEvidence {
 pub struct ValidationReceipt {
     pub receipt_id: SemanticId,
     pub candidate_ref: SemanticId,
+    pub candidate_source_digest: ContentDigest,
     pub validator_ref: SemanticId,
     pub profile: String,
     pub disposition: PhaseDisposition,
@@ -661,9 +662,11 @@ pub struct ValidationReceipt {
 pub struct CompilationReceipt {
     pub receipt_id: SemanticId,
     pub candidate_ref: SemanticId,
+    pub candidate_source_digest: ContentDigest,
     pub validation_receipt_ref: SemanticId,
     pub compiler_ref: SemanticId,
     pub ir_ref: Option<SemanticId>,
+    pub ir_digest: Option<ContentDigest>,
     pub disposition: PhaseDisposition,
     pub cost_estimate: BTreeMap<String, u64>,
     pub evidence: ReceiptEvidence,

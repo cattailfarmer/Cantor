@@ -1,0 +1,45 @@
+Subject: Cantor Process Procedure Compiler Proof
+
+@ [solution] C:\Project\Cantor\solutions\Cantor_Process_Procedure_Compiler_Solution.sop
+@ [tests] C:\Project\Cantor\crates\cantor_core\tests\procedure_compiler.rs
+@ [workspace_fault] C:\Project\Cantor\narrative\operational_faults\1785779273376_integrated_faculty_workspace_evidence_fault.sop
+
+& [ProofIdentity] is exact
+  + [proof_uuid] is 9a891369-5c30-48f9-a690-4bf43ec6c9af
+  + [solution_uuid] is 53b12e68-ca00-431a-8aef-5215e0a3bd66
+  + [authority_signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
+  + [captured_at] is 2026-08-05T12:43:35.6832389-05:00
+
+& [ArtifactIdentity] is measured before governance-only closure
+  + [procedure_forms] is 26493 bytes SHA256 67F8A7057550F900CDC88E6F6B0AD06975BFAD7E9423401AC88399FCAADF449B
+  + [procedure_compiler] is 13087 bytes SHA256 E19E794F60B6C287C5D127E20DC256AA26F600245DF98046AE72BB6CE1CDFF1A
+  + [procedure_validation] is 56323 bytes SHA256 4E07B5B55275AE105B5DBB2026C39426466479A274A33741F10695B90235015B
+  + [procedure_compiler_tests] is 14450 bytes SHA256 51E036BFD3EF8826EF5FBE1C17C9BB8350A8A513DA1AF16C448E7DA70B489512
+  + [procedure_document] is 3851 bytes SHA256 68FB31439B068F4F6DD8F1F0EBA1F4AC00D55A6CAFB6D407EC2844213CB6919D
+
+& [FocusedVerification] is passed
+  + [command] is cargo test -p cantor_core --test procedure_compiler --locked
+  + [result] is 6 passed and 0 failed
+  + [positive_set] is byte-identical repeated compilation, insertion-order independence, complete source map and type table, exact cost estimate, self-verifying compilation receipt, and validator-accepted candidate-to-IR lineage
+  + [negative_set] is textual source, forged receipt digest, wrong candidate identity, refused validation, same-name candidate content substitution, and invalid effect wall
+  + [command] is cargo test -p cantor_core --locked
+  + [result] is 162 passed and 0 failed
+
+& [QualityVerification] is passed
+  + [command] is cargo fmt --all -- --check
+  + [result] is passed
+  + [command] is cargo clippy --workspace --all-targets --locked -- -D warnings
+  + [result] is passed with zero warnings
+  + [command] is git diff --check
+  + [result] is passed
+  + [source_audit] is no prohibited compiler implementation surface matches
+  + [dependency_audit] is no Cargo manifest or lockfile delta
+
+& [WorkspaceBoundary] is honest
+  + the inherited README candidate-evidence mismatch remains the known full-workspace gate
+  + the current slice changes neither README nor historical evidence manifests
+  - never: report the full workspace gate as green
+
+& [ProofDisposition] is CPPE-I03_focused_proven
+  + compiled is proved only as deterministic canonical lowering from normalized forms
+  + verified, admitted, catalogued, invoked, and effect-authorized remain unproved

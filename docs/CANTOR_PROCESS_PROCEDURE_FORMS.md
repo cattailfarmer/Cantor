@@ -51,16 +51,26 @@ replaced by an empty SHA-256 placeholder. Candidate source, schema set, compiled
 procedure, and IR substitution therefore fail closed under their respective
 identity checks.
 
-This is still not a compiler: CPPE-I03 owns source-to-IR lowering and compiler
-diagnostics. No live provider, persistence, service, filesystem, network,
-process, clock, model execution, unsafe code, device, or FPGA behavior is part
-of this profile.
+CPPE-I03 adds `compile_procedure_candidate`, the deterministic
+`cantor-process-compiler/0.1` assembly pass. It accepts only a passed,
+digest-valid validation receipt bound to the exact candidate source digest and
+only the normalized machine-form source lane. It derives the type table, source
+map, cost estimate, canonical Process IR, compiled procedure identity, and a
+content-bound `CompilationReceipt`. A refused compilation returns a receipt and
+no partial IR or procedure identity.
+
+The compiler does not parse text; a text-source candidate receives a typed
+compilation refusal. Successful compilation retains explicit “verification not
+performed” and “Observer admission not performed” residuals. No live provider,
+persistence, service, filesystem, network, process, clock, model execution,
+unsafe code, device, or FPGA behavior is part of this profile.
 
 ## Verification
 
 ```text
 cargo test -p cantor_core --test procedure_forms --locked
 cargo test -p cantor_core --test procedure_validation --locked
+cargo test -p cantor_core --test procedure_compiler --locked
 cargo test -p cantor_core --locked
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo fmt --all -- --check

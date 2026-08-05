@@ -6,7 +6,7 @@ Description: Post-signature implementation evidence ledger for CPPE-I01 through 
 @ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Process_Procedure_Experiment_Phase_Lock.sop
 @ [signed_requirement_matrix] C:\Project\Cantor\feature_support\Cantor_Process_Procedure_Experiment_Requirement_Matrix.sop
 @ [support_index] C:\Project\Cantor\feature_support\cantor_process_procedure_experiment\index.sop
-@ [matrix_state] CPPE-I01_and_I02_focused_proven_CPPE-I03_ready
+@ [matrix_state] CPPE-I01_through_I03_focused_proven_CPPE-I04_ready
 
 & [AuthoritySeparation] is mandatory
   + the signed requirement matrix remains a pre-implementation specification artifact
@@ -16,8 +16,8 @@ Description: Post-signature implementation evidence ledger for CPPE-I01 through 
 & [SliceAccounting] is current
   + CPPE-I01 completed -> machine forms, closed vocabularies, aggregate record set, and structural proof only
   + CPPE-I02 completed -> validation, normalization, canonical Process IR serialization
-  + CPPE-I03 ready_unassigned -> deterministic compiler
-  + CPPE-I04 blocked -> verifier, effect checker, bound checker, and fake Observer admission
+  + CPPE-I03 completed -> deterministic compiler, source map, cost estimate, exact identities, and content-bound compilation receipt
+  + CPPE-I04 ready_unassigned -> verifier, effect checker, bound checker, and fake Observer admission
   + CPPE-I05 blocked -> in-memory catalogue and deterministic interpreter
   + CPPE-I06 blocked -> two-process token ring and replay
   + CPPE-I07 blocked -> hand-authored and model-shaped candidate parity and negatives
@@ -42,3 +42,12 @@ Description: Post-signature implementation evidence ledger for CPPE-I01 through 
   + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureValidationCompletionReview.sop
   + [focused_result] is 13 validation tests and 156 cantor_core tests passed
   + [deferred] is compiler lowering, verification, admission, catalogue transitions, interpretation, negotiation execution, tool calling, and live effects
+
+& [I03Boundary] is compilation_not_verification_or_admission
+  + [claim_uuid] is 4d629cd3-84ac-45cc-94a3-60f610719a8a
+  + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Compiler_Solution.sop
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Compiler_Proof.sop
+  + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureCompilerCompletionReview.sop
+  + [focused_result] is 6 compiler tests and 162 cantor_core tests passed
+  + [implemented] is deterministic normalized-candidate lowering, source map, schema-derived type table, structural cost estimate, exact compiled identity, and candidate-plus-IR-content-bound CompilationReceipt
+  + [deferred] is textual parsing, verification, effect proof, bound proof, Observer admission, catalogue transitions, interpretation, negotiation execution, tool calling, and live effects

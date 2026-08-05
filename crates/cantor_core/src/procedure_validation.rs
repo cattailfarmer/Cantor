@@ -1043,20 +1043,40 @@ fn validate_receipt_maps(forms: &ProcedureFormSet) -> Result<(), EvaluationFault
         "validation receipt",
         &forms.validation_receipts,
         |v| &v.receipt_id,
-        |v| validate_digest("validation receipt digest", &v.receipt_digest),
+        |v| {
+            validate_digest(
+                "validation candidate source digest",
+                &v.candidate_source_digest,
+            )?;
+            validate_digest("validation receipt digest", &v.receipt_digest)
+        },
     )?;
     validate_map(
         "compilation receipt",
         &forms.compilation_receipts,
         |v| &v.receipt_id,
         |v| {
+            validate_digest(
+                "compilation candidate source digest",
+                &v.candidate_source_digest,
+            )?;
             if v.disposition == PhaseDisposition::Passed && v.ir_ref.is_none() {
                 return Err(form_fault("passed compilation receipt must name its IR"));
             }
-            if v.disposition != PhaseDisposition::Passed && v.ir_ref.is_some() {
+            if v.disposition == PhaseDisposition::Passed && v.ir_digest.is_none() {
+                return Err(form_fault(
+                    "passed compilation receipt must bind its IR digest",
+                ));
+            }
+            if v.disposition != PhaseDisposition::Passed
+                && (v.ir_ref.is_some() || v.ir_digest.is_some())
+            {
                 return Err(form_fault(
                     "refused compilation cannot publish an IR reference",
                 ));
+            }
+            if let Some(ir_digest) = &v.ir_digest {
+                validate_digest("compilation IR digest", ir_digest)?;
             }
             validate_digest("compilation receipt digest", &v.receipt_digest)
         },
@@ -1248,9 +1268,13 @@ fn validate_relations(forms: &ProcedureFormSet) -> Result<(), EvaluationFault> {
         }
     }
     for receipt in forms.validation_receipts.values() {
-        if !forms.candidates.contains_key(&receipt.candidate_ref) {
+        if !forms
+            .candidates
+            .get(&receipt.candidate_ref)
+            .is_some_and(|candidate| candidate.source_digest == receipt.candidate_source_digest)
+        {
             return Err(form_fault(
-                "validation receipt references missing candidate",
+                "validation receipt references missing or substituted candidate content",
             ));
         }
     }
@@ -1264,11 +1288,25 @@ fn validate_relations(forms: &ProcedureFormSet) -> Result<(), EvaluationFault> {
                 "compilation receipt has missing predecessor evidence",
             ));
         }
-        if let Some(ir_ref) = &receipt.ir_ref
-            && !forms.process_irs.contains_key(ir_ref)
+        if !forms
+            .candidates
+            .get(&receipt.candidate_ref)
+            .is_some_and(|candidate| candidate.source_digest == receipt.candidate_source_digest)
         {
             return Err(form_fault(
-                "compilation receipt references missing Process IR",
+                "compilation receipt does not bind exact candidate content",
+            ));
+        }
+        if let Some(ir_ref) = &receipt.ir_ref
+            && !forms.process_irs.get(ir_ref).is_some_and(|ir| {
+                receipt
+                    .ir_digest
+                    .as_ref()
+                    .is_some_and(|digest| digest == &ir.ir_digest)
+            })
+        {
+            return Err(form_fault(
+                "compilation receipt references missing or substituted Process IR",
             ));
         }
     }

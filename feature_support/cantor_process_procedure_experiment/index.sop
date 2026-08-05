@@ -13,15 +13,15 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [signature_uuid] is ad844233-4221-4967-b4bd-125a509181bc
   + [profile] is cantor-process-procedure-experiment/0.1
   + [effect_class] is effectless
-  + [current_scope] is no active slice after reviewed CPPE-I02
+  + [current_scope] is none_between_milestones
   - never: mutate the signed requirement matrix with implementation evidence
   - never: infer textual Simula, live provider, persistence, service, model execution, external effects, or FPGA authority
 
 & [SliceGraph] is a directed acyclic chain
   + CPPE-I01 machine forms has no implementation predecessor and is completed under reviewed proof 7380df71-fe62-45a8-88cf-0e3e6ad20fc3
   + CPPE-I02 validation normalization and canonical serialization depends_on CPPE-I01 and is completed under reviewed proof cebe3be3-b0dc-4399-ae00-9c19ab0c8a5b
-  + CPPE-I03 deterministic compiler depends_on CPPE-I02 and is ready_unassigned
-  + CPPE-I04 verifier effect checker bound checker and fake admission depends_on CPPE-I03
+  + CPPE-I03 deterministic compiler depends_on CPPE-I02 and is completed under reviewed proof 9a891369-5c30-48f9-a690-4bf43ec6c9af
+  + CPPE-I04 verifier effect checker bound checker and fake admission depends_on CPPE-I03 and is ready_unassigned
   + CPPE-I05 in-memory catalogue and interpreter depends_on CPPE-I04
   + CPPE-I06 two-process token ring and replay depends_on CPPE-I05
   + CPPE-I07 authorship parity and negative cases depends_on CPPE-I06
@@ -29,10 +29,10 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + CPPE-I09 release audit depends_on CPPE-I08
 
 & [ManagerState] is between milestones
-  + [completed_slice_count] is 2
+  + [completed_slice_count] is 3
   + [in_progress_slice_count] is 0
   + [ready_unassigned_count] is 1
-  + [blocked_slice_count] is 6
+  + [blocked_slice_count] is 5
   + [active_slice] is none
   + [completed_claim_uuid] is 3625ffd4-f056-4792-96b7-a9d729fa19f5
   + [completed_at_time_ms] is 1785950475108
@@ -44,8 +44,14 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Validation_Solution.sop
   + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Validation_Proof.sop
   + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureValidationCompletionReview.sop
-  + [next_ready_slice] is CPPE-I03
-  + [next_completion_criteria] is deterministic candidate-to-IR lowering, source map, diagnostics, cost estimate, compiled identity, and CompilationReceipt without verification or admission
+  + [completed_claim_uuid] is 4d629cd3-84ac-45cc-94a3-60f610719a8a
+  + [completed_at_time_ms] is 1785951815686
+  + [solution] is C:\Project\Cantor\solutions\Cantor_Process_Procedure_Compiler_Solution.sop
+  + [proof] is C:\Project\Cantor\proofs\Cantor_Process_Procedure_Compiler_Proof.sop
+  + [completion_review] is C:\Project\Cantor\feature_support\reviews\CantorProcessProcedureCompilerCompletionReview.sop
+  + [ready_slice] is CPPE-I04
+  + [ready_completion_criteria] is independent verifier, effect and bound checking, exact receipt lineage, and fake Observer admission without catalogue mutation or execution
+  + [ready_stop_conditions] are catalogue mutation, interpretation, scheduling, provider, persistence, live effect, textual parsing, model execution, or hardware pressure
 
 & [CompletedWorkReviewRule] is mandatory
   + inspect exact changed files, test results, form coverage, omitted behavior, support delta, requirement delta, and effect delta
@@ -62,4 +68,10 @@ Description: Manager-readable dependency index for the effectless CPPE implement
   + [review_uuid] is ddaac0f4-929b-4aee-a912-65bf7e9da18e
   + [support_delta] is CPPE-I02 completed and CPPE-I03 ready_unassigned
   + [requirement_delta] is deterministic validation and normalization only; compiler and later dispositions remain unimplemented
+  + [effect_delta] is none
+
+& [CPPEI03CompletedWorkReview] releases one verifier frontier
+  + [review_uuid] is db48f02e-3a40-4915-8efd-0e6497ba0b39
+  + [support_delta] is CPPE-I03 completed and CPPE-I04 ready_unassigned
+  + [requirement_delta] is deterministic normalized-candidate compilation only; verification, admission, catalogue, and execution remain unimplemented
   + [effect_delta] is none
