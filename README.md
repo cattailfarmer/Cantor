@@ -173,7 +173,10 @@ the strict machine forms defined by
 [`Cantor_Procedure_Tool_CLI.sop`](specifications/Cantor_Procedure_Tool_CLI.sop).
 This binary is an effectless internal experiment: it calls no model or
 provider, performs no semantic external effect, and is not production
-qualification.
+qualification. See
+[`docs/PROCEDURE_TOOL_PROTOCOL.md`](docs/PROCEDURE_TOOL_PROTOCOL.md) for the
+four-stage controller flow, strict envelopes, exit classes, and current
+machine-schema and MCP gaps.
 
 Compile the reviewed self-hosted corpus with operator-supplied distinct keys:
 

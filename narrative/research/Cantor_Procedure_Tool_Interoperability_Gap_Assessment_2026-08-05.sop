@@ -1,0 +1,45 @@
+Subject: Cantor Procedure Tool Interoperability Gap Assessment
+
+@ [assessment_uuid] cd206c14-752c-40e3-bdd4-bd06784b5529
+@ [base_CLI] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_CLI.sop
+@ [preparation] C:\Project\Cantor\specifications\Cantor_Procedure_Tool_Preparation.sop
+@ [query_MCP] C:\Project\Cantor\specifications\Cantor_Read_Only_MCP_Adapter_Profile.sop
+
+& [CurrentCapability] is executable and bounded
+  + schema exposes the closed cantor.exchange operation vocabulary and semantic field contract
+  + prepare constructs an exact run request from explicit candidate and lane parameters
+  + run executes and independently verifies one fake effectless checkpoint outcome
+  + verify independently checks a supplied outcome and returns exact digest bindings
+  + all operations use bounded local JSON process I/O
+
+& [DiscoverabilityGap] is concrete
+  + no dedicated operator protocol document previously described the four operations together
+  + prepare input contains nested public core forms whose complete field grammar is not shown by the semantic schema command
+  + the Rust subprocess tests are executable truth but are not a convenient integration guide
+
+& [MachineSchemaGap] is unresolved
+  + ProviderNeutralToolSchema is Cantor semantic metadata and is not JSON Schema
+  + procedure CLI request and response wrappers do not publish a provider-ready nested JSON Schema
+  + core procedure forms do not currently derive a shared machine-schema representation
+  + manually maintaining a second deep schema would risk drift from strict serde forms
+
+& [MCPGap] is unresolved
+  + current cantor-mcp exposes query_sop only
+  + it is bound to a signed SOP runtime environment or resident service, not an authorship lane
+  + adding cantor.exchange there would combine distinct startup, trust, size, and error contracts
+  + no procedure MCP tool, resource, prompt, service backend, or provider controller is implemented
+
+& [RecommendedDependencyOrder] is explicit
+  + first specify a canonical schema derivation and compatibility contract for public procedure machine forms
+  + then project prepare, run, and verify through a provider-neutral tool-definition record
+  + then prove a fake MCP or function-tool controller against exact subprocess equivalence
+  + only then select one real provider replay under separate live authority
+
+& [RejectedShortcut] remains absent
+  + do not label the semantic schema as JSON Schema
+  + do not paste an unverified handwritten deep schema into provider configuration
+  + do not add procedure operations to query_sop
+  + do not modify llama.cpp before an ordinary external controller demonstrates a measured interface shortfall
+
+& [Disposition] is current_protocol_documented_next_schema_frontier_unassigned
+  + no behavior or implementation authority is granted by this assessment
