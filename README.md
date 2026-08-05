@@ -169,7 +169,9 @@ Inspect the provider-neutral procedure-tool experiment boundary:
 
 `prepare` deterministically constructs the complete object accepted by `run`
 from caller-supplied candidate and lane parameters. `run` and `verify` accept
-the strict machine forms defined by
+the public transport-neutral forms and pure dispatch exported by the
+`cantor_procedure_tool` crate. The CLI owns only argument and bounded process
+I/O projection. The strict machine forms are defined by
 [`Cantor_Procedure_Tool_CLI.sop`](specifications/Cantor_Procedure_Tool_CLI.sop).
 This binary is an effectless internal experiment: it calls no model or
 provider, performs no semantic external effect, and is not production

@@ -1,0 +1,40 @@
+Subject: Cantor Public Procedure Machine Schema I01 Solution
+
+@ [solution_uuid] 6a71d129-c7bc-47bb-b6b4-34210f5ec2fd
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Public_Procedure_Machine_Schema.sop
+@ [claim_uuid] a9402320-3127-489c-8393-583f8b2542c3
+
+& [SharedCrate] is pure and transport neutral
+  + cantor_procedure_tool owns public PrepareRequest, PreparedRunRequest, VerifyRequest, ProcedureToolResponse, ProcedureToolFault, ProcedureToolVerification, and ProcedureToolResponseStatus
+  + public forms serialize and deserialize through the existing strict serde representations
+  + schema_response, prepare_response, run_response, and verify_response perform the formerly CLI-private pure dispatch
+  + pure-crate source scan finds zero filesystem, standard-stream, environment, process, path, tokio, rmcp, socket, request-client, command, or file symbols
+
+& [ProcessAdapter] is narrow
+  + cantor_cli imports the public forms and pure dispatch
+  + CLI retains command selection, bounded stdin or file reading, strict decode, stdout, stderr, and stable exits
+  + no core procedure construction, execution, or verification function remains in procedure_main.rs
+
+& [Compatibility] is executable
+  + schema stdout remains 1218 bytes SHA256 e2955b0dbc2ea904fd5b777bfa272dd4155dc0f622a53cbf5a341949383d17af and exit 0
+  + missing command stdout remains 416 bytes SHA256 6f4175a8215eaa87baae541df122b5f6dbdf1615488507685f6a91b854ec6d18 and exit 2
+  + help stdout remains 480 bytes SHA256 cc54e92b48bc87b992efe5696658c2ddb084450a4591c2e5a4cbf4624fc23484 and exit 2
+  + unknown join stdout remains 418 bytes SHA256 1e3070e035d8d3dcee06773dbaf954739121c391bf36fd4d8f913c135f34e56e and exit 2
+  + seven subprocess tests exercise public forms, deterministic prepare and run, verify, refusal, unknown fields, malformed input, file input, and oversized input
+
+& [Artifacts] are content addressed
+  + [shared_manifest_bytes] is 257
+  + [shared_manifest_sha256] is 2BFE5BBC279C16AA53AA30C1BA13EB91E565FBF416C3ECCD7A90F51441261A6A
+  + [shared_library_bytes] is 10709
+  + [shared_library_sha256] is 916AC667EA871A09F4DEDB5EE0599C8B68762C8FAA3DA0B86F648968E43AF884
+  + [CLI_adapter_bytes] is 6936
+  + [CLI_adapter_sha256] is 4258B6388CA339334925119FBA552F237F4058D84BF5334569D462535F4E1E9D
+  + [subprocess_tests_bytes] is 16088
+  + [subprocess_tests_sha256] is 917C14EFA3C637FE495A9F325E78D7B87A3E8734C8053784F17B371B54D2D938
+
+& [Boundary] retains later work
+  + no canonical JSON Schema is generated
+  + no direct schemars or jsonschema dependency is added
+  + recursive ProcedureValue policy remains an I02 gate
+  - never: infer provider, MCP procedure tool, model, service, persistence, network, external effect, hardware, FPGA, or production behavior
+

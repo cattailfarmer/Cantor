@@ -5,6 +5,13 @@ effectless process-procedure experiment. It is useful for controller and tool
 loop experiments, but it is not a model, provider integration, resident
 service, external-effect broker, or production trust authority.
 
+The transport contract is implemented in two layers. The pure
+`cantor_procedure_tool` library owns the public prepare, run, verify, response,
+fault, verification, status, and pure-dispatch forms. The
+`cantor-procedure-experiment` binary owns only argument parsing, bounded stdin
+or file ingress, JSON decoding, stdout/stderr, and exit projection. Future
+adapters can call the pure library without reproducing the CLI's private forms.
+
 ## Operations
 
 ```text

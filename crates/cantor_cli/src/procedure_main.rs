@@ -1,152 +1,18 @@
 //! Bounded process adapter for the effectless Cantor procedure experiment.
-//!
-//! This binary is intentionally not a model or provider controller. It
-//! serializes the existing `cantor.exchange/0.1` fake-controller seam so an
-//! external harness can inspect, run, and independently verify explicit
-//! checkpoint artifacts.
 
-use std::collections::BTreeMap;
 use std::env;
 use std::fs::File;
 use std::io::{self, Read, Write};
 use std::path::PathBuf;
 use std::process::ExitCode;
 
-use cantor_core::{
-    AuthorshipLaneEvidence, AuthorshipLaneTemplate, ContentDigest, ExchangeOperation,
-    FakeControllerOutcome, ProcedureCandidate, ProviderNeutralToolSchema, SemanticId,
-    SopAnchorBinding, ToolCallProposal, ToolResultDisposition, compute_tool_call_argument_digest,
-    provider_neutral_exchange_schema, run_authorship_lane, run_fake_controller_exchange,
-    verify_fake_controller_outcome,
+use cantor_procedure_tool::{
+    PrepareRequest, PreparedRunRequest, ProcedureToolResponse, ProcedureToolResponseStatus,
+    VerifyRequest, prepare_response, run_response, schema_response, verify_response,
 };
-use serde::{Deserialize, Serialize, de::DeserializeOwned};
+use serde::de::DeserializeOwned;
 
-const RESPONSE_PROFILE: &str = "cantor-procedure-tool-cli/0.1";
-const PREPARATION_PROFILE: &str = "cantor-procedure-tool-preparation/0.1";
-const RELEASE_GRADE: &str = "effectless_internal_experiment_only";
 const MAX_INPUT_BYTES: u64 = 16 * 1024 * 1024;
-const MAX_MESSAGE_CHARS: usize = 1024;
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "snake_case")]
-enum ResponseStatus {
-    Success,
-    Refused,
-    InvalidInput,
-    VerificationFailure,
-    InternalFault,
-}
-
-impl ResponseStatus {
-    const fn exit_code(self) -> u8 {
-        match self {
-            Self::Success => 0,
-            Self::InvalidInput => 2,
-            Self::Refused => 3,
-            Self::VerificationFailure => 4,
-            Self::InternalFault => 5,
-        }
-    }
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
-#[serde(deny_unknown_fields)]
-struct CliFault {
-    code: String,
-    stage: String,
-    message: String,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
-#[serde(deny_unknown_fields)]
-struct VerificationRecord {
-    schema_digest: ContentDigest,
-    call_ref: SemanticId,
-    result_digest: ContentDigest,
-    transcript_digest: ContentDigest,
-    verified: bool,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
-#[serde(deny_unknown_fields)]
-struct CliResponse {
-    profile: String,
-    grade: String,
-    operation: String,
-    status: ResponseStatus,
-    schema: Option<ProviderNeutralToolSchema>,
-    outcome: Option<FakeControllerOutcome>,
-    verification: Option<VerificationRecord>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    prepared_request: Option<PreparedRunRequest>,
-    faults: Vec<CliFault>,
-    residuals: Vec<String>,
-}
-
-impl CliResponse {
-    fn empty(operation: impl Into<String>, status: ResponseStatus) -> Self {
-        Self {
-            profile: RESPONSE_PROFILE.to_owned(),
-            grade: RELEASE_GRADE.to_owned(),
-            operation: operation.into(),
-            status,
-            schema: None,
-            outcome: None,
-            verification: None,
-            prepared_request: None,
-            faults: Vec::new(),
-            residuals: vec![
-                "no model or provider was called".to_owned(),
-                "no external semantic effect was performed".to_owned(),
-                "this result is not production qualification".to_owned(),
-            ],
-        }
-    }
-
-    fn fault(
-        operation: impl Into<String>,
-        status: ResponseStatus,
-        code: impl Into<String>,
-        stage: impl Into<String>,
-        message: impl AsRef<str>,
-    ) -> Self {
-        let mut response = Self::empty(operation, status);
-        response.faults.push(CliFault {
-            code: code.into(),
-            stage: stage.into(),
-            message: bounded(message.as_ref()),
-        });
-        response
-    }
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct PrepareRequest {
-    candidate: ProcedureCandidate,
-    template: AuthorshipLaneTemplate,
-    recognized_anchors: BTreeMap<SemanticId, SopAnchorBinding>,
-    call_id: SemanticId,
-    inference_job_ref: SemanticId,
-    pass_index: u64,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct PreparedRunRequest {
-    schema: ProviderNeutralToolSchema,
-    proposal: ToolCallProposal,
-    lane: AuthorshipLaneEvidence,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct VerifyRequest {
-    schema: ProviderNeutralToolSchema,
-    proposal: ToolCallProposal,
-    lane: AuthorshipLaneEvidence,
-    outcome: FakeControllerOutcome,
-}
 
 fn main() -> ExitCode {
     let response = dispatch(env::args().skip(1).collect());
@@ -172,12 +38,12 @@ fn main() -> ExitCode {
             "\"this result is not production qualification\"]}\n"
         );
         let _ = output.write_all(fallback.as_bytes());
-        return ExitCode::from(ResponseStatus::InternalFault.exit_code());
+        return ExitCode::from(ProcedureToolResponseStatus::InternalFault.exit_code());
     }
     ExitCode::from(exit_code)
 }
 
-fn dispatch(arguments: Vec<String>) -> CliResponse {
+fn dispatch(arguments: Vec<String>) -> ProcedureToolResponse {
     let Some(command) = arguments.first().map(String::as_str) else {
         return invalid_arguments("unavailable", "missing command");
     };
@@ -186,20 +52,7 @@ fn dispatch(arguments: Vec<String>) -> CliResponse {
             if arguments.len() != 1 {
                 return invalid_arguments("schema", "schema accepts no arguments");
             }
-            match provider_neutral_exchange_schema() {
-                Ok(schema) => {
-                    let mut response = CliResponse::empty("schema", ResponseStatus::Success);
-                    response.schema = Some(schema);
-                    response
-                }
-                Err(fault) => CliResponse::fault(
-                    "schema",
-                    ResponseStatus::InternalFault,
-                    "schema_construction_failed",
-                    "schema",
-                    fault.to_string(),
-                ),
-            }
+            schema_response()
         }
         "prepare" => dispatch_prepare(&arguments[1..]),
         "run" => dispatch_run(&arguments[1..]),
@@ -212,186 +65,51 @@ fn dispatch(arguments: Vec<String>) -> CliResponse {
     }
 }
 
-fn dispatch_prepare(arguments: &[String]) -> CliResponse {
+fn dispatch_prepare(arguments: &[String]) -> ProcedureToolResponse {
     let bytes = match read_command_input("prepare", arguments) {
         Ok(bytes) => bytes,
         Err(response) => return *response,
     };
-    let request: PrepareRequest = match decode_request("prepare", &bytes) {
-        Ok(request) => request,
-        Err(response) => return *response,
-    };
-    if request.pass_index == u64::MAX {
-        return CliResponse::fault(
-            "prepare",
-            ResponseStatus::InvalidInput,
-            "pass_index_exhausted",
-            "preparation",
-            "pass_index must leave capacity for the later-pass successor",
-        );
+    match decode_request::<PrepareRequest>("prepare", &bytes) {
+        Ok(request) => prepare_response(request),
+        Err(response) => *response,
     }
-    let lane = match run_authorship_lane(
-        &request.candidate,
-        &request.template,
-        &request.recognized_anchors,
-    ) {
-        Ok(lane) => lane,
-        Err(fault) => {
-            return CliResponse::fault(
-                "prepare",
-                ResponseStatus::Refused,
-                "lane_preparation_refused",
-                "preparation",
-                fault.to_string(),
-            );
-        }
-    };
-    let schema = match provider_neutral_exchange_schema() {
-        Ok(schema) => schema,
-        Err(fault) => {
-            return CliResponse::fault(
-                "prepare",
-                ResponseStatus::InternalFault,
-                "schema_construction_failed",
-                "preparation",
-                fault.to_string(),
-            );
-        }
-    };
-    let mut proposal = ToolCallProposal {
-        schema_ref: schema.schema_id.clone(),
-        schema_digest: schema.schema_digest.clone(),
-        call_id: request.call_id,
-        inference_job_ref: request.inference_job_ref,
-        participant_ref: lane.request.caller_ref.clone(),
-        pass_index: request.pass_index,
-        operation: ExchangeOperation::Reconcile,
-        invocation: lane.request.clone(),
-        session: lane.initial_session.clone(),
-        argument_digest: ContentDigest {
-            algorithm: "sha256".to_owned(),
-            value: String::new(),
-        },
-    };
-    proposal.argument_digest = match compute_tool_call_argument_digest(&proposal) {
-        Ok(digest) => digest,
-        Err(fault) => {
-            return CliResponse::fault(
-                "prepare",
-                ResponseStatus::InternalFault,
-                "proposal_digest_failed",
-                "preparation",
-                fault.to_string(),
-            );
-        }
-    };
-    let mut response = CliResponse::empty("prepare", ResponseStatus::Success);
-    response.profile = PREPARATION_PROFILE.to_owned();
-    response.prepared_request = Some(PreparedRunRequest {
-        schema,
-        proposal,
-        lane,
-    });
-    response
 }
 
-fn dispatch_run(arguments: &[String]) -> CliResponse {
+fn dispatch_run(arguments: &[String]) -> ProcedureToolResponse {
     let bytes = match read_command_input("run", arguments) {
         Ok(bytes) => bytes,
         Err(response) => return *response,
     };
-    let request: PreparedRunRequest = match decode_request("run", &bytes) {
-        Ok(request) => request,
-        Err(response) => return *response,
-    };
-    let outcome =
-        match run_fake_controller_exchange(&request.schema, &request.proposal, &request.lane) {
-            Ok(outcome) => outcome,
-            Err(fault) => {
-                return CliResponse::fault(
-                    "run",
-                    ResponseStatus::InternalFault,
-                    "controller_execution_failed",
-                    "controller",
-                    fault.to_string(),
-                );
-            }
-        };
-    if let Err(fault) =
-        verify_fake_controller_outcome(&request.schema, &request.proposal, &request.lane, &outcome)
-    {
-        return CliResponse::fault(
-            "run",
-            ResponseStatus::VerificationFailure,
-            "generated_outcome_verification_failed",
-            "verification",
-            fault.to_string(),
-        );
+    match decode_request::<PreparedRunRequest>("run", &bytes) {
+        Ok(request) => run_response(request),
+        Err(response) => *response,
     }
-    let status = match outcome.result.disposition {
-        ToolResultDisposition::Completed => ResponseStatus::Success,
-        ToolResultDisposition::Refused => ResponseStatus::Refused,
-    };
-    let mut response = CliResponse::empty("run", status);
-    if status == ResponseStatus::Refused {
-        response.faults = outcome
-            .result
-            .faults
-            .iter()
-            .map(|fault| CliFault {
-                code: fault.code.clone(),
-                stage: fault.stage.clone(),
-                message: bounded(&fault.message),
-            })
-            .collect();
-    }
-    response.outcome = Some(outcome);
-    response
 }
 
-fn dispatch_verify(arguments: &[String]) -> CliResponse {
+fn dispatch_verify(arguments: &[String]) -> ProcedureToolResponse {
     let bytes = match read_command_input("verify", arguments) {
         Ok(bytes) => bytes,
         Err(response) => return *response,
     };
-    let request: VerifyRequest = match decode_request("verify", &bytes) {
-        Ok(request) => request,
-        Err(response) => return *response,
-    };
-    if let Err(fault) = verify_fake_controller_outcome(
-        &request.schema,
-        &request.proposal,
-        &request.lane,
-        &request.outcome,
-    ) {
-        return CliResponse::fault(
-            "verify",
-            ResponseStatus::VerificationFailure,
-            "outcome_verification_failed",
-            "verification",
-            fault.to_string(),
-        );
+    match decode_request::<VerifyRequest>("verify", &bytes) {
+        Ok(request) => verify_response(request),
+        Err(response) => *response,
     }
-    let mut response = CliResponse::empty("verify", ResponseStatus::Success);
-    response.verification = Some(VerificationRecord {
-        schema_digest: request.schema.schema_digest,
-        call_ref: request.proposal.call_id,
-        result_digest: request.outcome.result.result_digest,
-        transcript_digest: request.outcome.transcript.transcript_digest,
-        verified: true,
-    });
-    response
 }
 
-fn read_command_input(operation: &str, arguments: &[String]) -> Result<Vec<u8>, Box<CliResponse>> {
+fn read_command_input(
+    operation: &str,
+    arguments: &[String],
+) -> Result<Vec<u8>, Box<ProcedureToolResponse>> {
     let input = parse_input_path(operation, arguments)?;
     let reader: Box<dyn Read> = match input.as_deref() {
         Some(path) => match File::open(path) {
             Ok(file) => Box::new(file),
             Err(error) => {
-                return Err(Box::new(CliResponse::fault(
+                return Err(Box::new(ProcedureToolResponse::fault(
                     operation,
-                    ResponseStatus::InvalidInput,
+                    ProcedureToolResponseStatus::InvalidInput,
                     "input_read_failed",
                     "transport",
                     format!("cannot open input file {}: {error}", path.display()),
@@ -406,7 +124,7 @@ fn read_command_input(operation: &str, arguments: &[String]) -> Result<Vec<u8>, 
 fn parse_input_path(
     operation: &str,
     arguments: &[String],
-) -> Result<Option<PathBuf>, Box<CliResponse>> {
+) -> Result<Option<PathBuf>, Box<ProcedureToolResponse>> {
     match arguments {
         [] => Ok(None),
         [flag, value] if flag == "--input" && !value.is_empty() => Ok(Some(PathBuf::from(value))),
@@ -421,30 +139,30 @@ fn parse_input_path(
     }
 }
 
-fn read_bounded(operation: &str, reader: impl Read) -> Result<Vec<u8>, Box<CliResponse>> {
+fn read_bounded(operation: &str, reader: impl Read) -> Result<Vec<u8>, Box<ProcedureToolResponse>> {
     let mut bytes = Vec::new();
     if let Err(error) = reader.take(MAX_INPUT_BYTES + 1).read_to_end(&mut bytes) {
-        return Err(Box::new(CliResponse::fault(
+        return Err(Box::new(ProcedureToolResponse::fault(
             operation,
-            ResponseStatus::InvalidInput,
+            ProcedureToolResponseStatus::InvalidInput,
             "input_read_failed",
             "transport",
             error.to_string(),
         )));
     }
     if bytes.is_empty() {
-        return Err(Box::new(CliResponse::fault(
+        return Err(Box::new(ProcedureToolResponse::fault(
             operation,
-            ResponseStatus::InvalidInput,
+            ProcedureToolResponseStatus::InvalidInput,
             "empty_input",
             "transport",
             "input is empty",
         )));
     }
     if bytes.len() as u64 > MAX_INPUT_BYTES {
-        return Err(Box::new(CliResponse::fault(
+        return Err(Box::new(ProcedureToolResponse::fault(
             operation,
-            ResponseStatus::InvalidInput,
+            ProcedureToolResponseStatus::InvalidInput,
             "input_limit_exceeded",
             "transport",
             format!("input exceeds the {MAX_INPUT_BYTES}-byte local limit"),
@@ -456,11 +174,11 @@ fn read_bounded(operation: &str, reader: impl Read) -> Result<Vec<u8>, Box<CliRe
 fn decode_request<T: DeserializeOwned>(
     operation: &str,
     bytes: &[u8],
-) -> Result<T, Box<CliResponse>> {
+) -> Result<T, Box<ProcedureToolResponse>> {
     serde_json::from_slice(bytes).map_err(|error| {
-        Box::new(CliResponse::fault(
+        Box::new(ProcedureToolResponse::fault(
             operation,
-            ResponseStatus::InvalidInput,
+            ProcedureToolResponseStatus::InvalidInput,
             "invalid_request_json",
             "decode",
             error.to_string(),
@@ -468,16 +186,15 @@ fn decode_request<T: DeserializeOwned>(
     })
 }
 
-fn invalid_arguments(operation: impl Into<String>, message: impl AsRef<str>) -> CliResponse {
-    CliResponse::fault(
+fn invalid_arguments(
+    operation: impl Into<String>,
+    message: impl AsRef<str>,
+) -> ProcedureToolResponse {
+    ProcedureToolResponse::fault(
         operation,
-        ResponseStatus::InvalidInput,
+        ProcedureToolResponseStatus::InvalidInput,
         "invalid_arguments",
         "arguments",
         message,
     )
-}
-
-fn bounded(message: &str) -> String {
-    message.chars().take(MAX_MESSAGE_CHARS).collect()
 }

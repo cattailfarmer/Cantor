@@ -1,0 +1,23 @@
+Subject: CPMS I01 Application Control Launch Fault
+
+@ [fault_uuid] 3500465e-f740-4257-8f8a-090e27feb638
+@ [observed_at] 2026-08-05T15:01:20.5819421-05:00
+@ [slice] CPMS-I01
+
+& [Fault] is host execution policy interruption
+  + cargo test --workspace --locked compiled the workspace successfully
+  + launch of target\debug\deps\cantor_corpus-e1d552fbcf1f3875.exe was blocked before execution
+  + operating-system error was 4551 with message An Application Control policy has blocked this file
+  + no Cantor test assertion failed
+
+& [Response] is fail closed and retry exact gate
+  + do not count the interrupted workspace run as passing
+  + preserve the focused seven-test procedure-tool pass as separate evidence
+  + retry the exact locked workspace test before release closure
+  - never: weaken Application Control, request policy changes, bypass the executable, or infer a product defect without execution evidence
+
+& [Resolution] is delayed policy admission after ordinary scoped rebuild
+  + focused procedure execution passed again without a bypass
+  + exact cargo test --workspace --locked --offline later passed end to end
+  + exact cargo test --workspace --release --locked --offline later passed end to end
+  + [disposition] is resolved_transient_host_policy_interruption

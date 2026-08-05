@@ -4,6 +4,9 @@ use std::process::{Command, Output, Stdio};
 use std::sync::atomic::{AtomicU64, Ordering};
 
 use cantor_core::*;
+use cantor_procedure_tool::{
+    PrepareRequest, PreparedRunRequest, ProcedureToolResponse, VerifyRequest,
+};
 use serde_json::{Value, json};
 
 static FILE_SEQUENCE: AtomicU64 = AtomicU64::new(0);
@@ -104,12 +107,17 @@ fn run_request() -> (
     let schema = provider_neutral_exchange_schema().expect("schema");
     let lane = lane();
     let proposal = proposal(&schema, &lane);
-    let request = json!({
-        "schema": schema,
-        "proposal": proposal,
-        "lane": lane,
-    });
-    (schema, proposal, lane, request)
+    let request = PreparedRunRequest {
+        schema: schema.clone(),
+        proposal: proposal.clone(),
+        lane: lane.clone(),
+    };
+    (
+        schema,
+        proposal,
+        lane,
+        serde_json::to_value(request).expect("public run request"),
+    )
 }
 
 fn execute(arguments: &[&str], input: &[u8]) -> Output {
@@ -137,6 +145,15 @@ fn response(output: &Output) -> Value {
     serde_json::from_slice(&output.stdout).expect("stdout must be one JSON response")
 }
 
+fn typed_response(output: &Output) -> ProcedureToolResponse {
+    serde_json::from_slice(&output.stdout).expect("stdout must match the public response form")
+}
+
+fn assert_stdout_baseline(output: &Output, bytes: usize, sha256: &str) {
+    assert_eq!(output.stdout.len(), bytes);
+    assert_eq!(sha256_bytes(&output.stdout).value, sha256);
+}
+
 #[test]
 fn schema_matches_the_direct_core_and_declares_residuals() {
     let output = execute(&["schema"], b"");
@@ -145,6 +162,12 @@ fn schema_matches_the_direct_core_and_declares_residuals() {
     let value = response(&output);
     assert_eq!(value["status"], "success");
     assert_eq!(value["grade"], "effectless_internal_experiment_only");
+    assert_eq!(typed_response(&output).operation, "schema");
+    assert_stdout_baseline(
+        &output,
+        1218,
+        "e2955b0dbc2ea904fd5b777bfa272dd4155dc0f622a53cbf5a341949383d17af",
+    );
     assert_eq!(
         serde_json::from_value::<ProviderNeutralToolSchema>(value["schema"].clone())
             .expect("schema response"),
@@ -181,14 +204,14 @@ fn prepare_is_direct_lane_equivalent_deterministic_and_run_compatible() {
     let template = model_template();
     let expected_lane =
         run_authorship_lane(&candidate, &template, &BTreeMap::new()).expect("direct prepared lane");
-    let request = json!({
-        "candidate": candidate,
-        "template": template,
-        "recognized_anchors": {},
-        "call_id": "tool-call:prepared-cli-1",
-        "inference_job_ref": "inference-job:prepared-cli-1",
-        "pass_index": 7,
-    });
+    let request = PrepareRequest {
+        candidate,
+        template,
+        recognized_anchors: BTreeMap::new(),
+        call_id: sid("tool-call:prepared-cli-1"),
+        inference_job_ref: sid("inference-job:prepared-cli-1"),
+        pass_index: 7,
+    };
     let bytes = serde_json::to_vec(&request).expect("prepare request");
     let first = execute(&["prepare"], &bytes);
     let second = execute(&["prepare"], &bytes);
@@ -227,14 +250,15 @@ fn prepare_refuses_invalid_lane_and_invalid_envelope_without_partial_output() {
     invalid_template
         .authorship_evidence_refs
         .insert(sid("evidence:absent"));
-    let request = json!({
-        "candidate": candidate,
-        "template": invalid_template,
-        "recognized_anchors": {},
-        "call_id": "tool-call:prepared-cli-invalid",
-        "inference_job_ref": "inference-job:prepared-cli-invalid",
-        "pass_index": 7,
-    });
+    let request = serde_json::to_value(PrepareRequest {
+        candidate,
+        template: invalid_template,
+        recognized_anchors: BTreeMap::new(),
+        call_id: sid("tool-call:prepared-cli-invalid"),
+        inference_job_ref: sid("inference-job:prepared-cli-invalid"),
+        pass_index: 7,
+    })
+    .expect("invalid public prepare request");
     let refused = execute(
         &["prepare"],
         &serde_json::to_vec(&request).expect("invalid lane request"),
@@ -305,12 +329,13 @@ fn file_input_and_verified_refusal_remain_machine_visible() {
 fn verify_accepts_exact_outcome_and_rejects_tampering() {
     let (schema, proposal, lane, _) = run_request();
     let outcome = run_fake_controller_exchange(&schema, &proposal, &lane).expect("outcome");
-    let valid = json!({
-        "schema": schema,
-        "proposal": proposal,
-        "lane": lane,
-        "outcome": outcome,
-    });
+    let valid = serde_json::to_value(VerifyRequest {
+        schema,
+        proposal,
+        lane,
+        outcome,
+    })
+    .expect("public verify request");
     let output = execute(
         &["verify"],
         &serde_json::to_vec(&valid).expect("verify JSON"),
@@ -338,6 +363,22 @@ fn verify_accepts_exact_outcome_and_rejects_tampering() {
 
 #[test]
 fn invalid_ingress_fails_closed_with_one_machine_response() {
+    let missing = execute(&[], b"");
+    assert_eq!(missing.status.code(), Some(2));
+    assert_stdout_baseline(
+        &missing,
+        416,
+        "6f4175a8215eaa87baae541df122b5f6dbdf1615488507685f6a91b854ec6d18",
+    );
+
+    let help = execute(&["help"], b"");
+    assert_eq!(help.status.code(), Some(2));
+    assert_stdout_baseline(
+        &help,
+        480,
+        "cc54e92b48bc87b992efe5696658c2ddb084450a4591c2e5a4cbf4624fc23484",
+    );
+
     let malformed = execute(&["run"], b"{not-json");
     assert_eq!(malformed.status.code(), Some(2));
     assert_eq!(
@@ -361,6 +402,11 @@ fn invalid_ingress_fails_closed_with_one_machine_response() {
     let unknown_command = execute(&["join"], b"");
     assert_eq!(unknown_command.status.code(), Some(2));
     assert_eq!(response(&unknown_command)["operation"], "join");
+    assert_stdout_baseline(
+        &unknown_command,
+        418,
+        "1e3070e035d8d3dcee06773dbaf954739121c391bf36fd4d8f913c135f34e56e",
+    );
 
     let duplicate = execute(&["run", "--input", "a", "--input", "b"], b"");
     assert_eq!(duplicate.status.code(), Some(2));

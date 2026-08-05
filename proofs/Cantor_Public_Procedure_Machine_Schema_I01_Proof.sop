@@ -1,0 +1,42 @@
+Subject: Cantor Public Procedure Machine Schema I01 Proof
+
+@ [proof_uuid] f29422c2-97b7-41a2-9706-e21ffac9831c
+@ [solution] C:\Project\Cantor\solutions\Cantor_Public_Procedure_Machine_Schema_I01_Solution.sop
+
+& [FocusedProof] passed before host policy recurrence
+  + seven real subprocess tests passed after public-form extraction
+  + public PrepareRequest, PreparedRunRequest, VerifyRequest, and ProcedureToolResponse are compiled and exercised by the subprocess suite
+  + prepare remains direct-lane equal and accepted unchanged by run
+  + run remains direct-core equal and byte deterministic
+  + verify accepts exact output and rejects tampering
+  + four fixed stdout byte lengths, SHA-256 digests, LF counts, and exits match the pre-extraction baseline
+
+& [StaticAndCompileProof] passed
+  + cargo fmt --all -- --check passed
+  + cargo test --workspace --no-run --locked --offline passed for every workspace test target
+  + cargo clippy --workspace --all-targets --locked --offline -- -D warnings passed
+  + cargo build --workspace --release --locked --offline passed
+  + RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked --offline passed
+  + git diff --check passed
+  + pure-crate prohibited-symbol scan returned zero hits
+
+& [ApplicationControlFault] is resolved and preserved
+  + the exact full cargo test --workspace --locked run was attempted repeatedly
+  + tests executed successfully until Windows Application Control blocked newly generated test executables before execution with operating-system error 4551
+  + a scoped rebuild allowed the previously blocked procedure_release_audit target to pass all five tests, while the monolithic rebuild regenerated a separately hashed executable that policy blocked
+  + later per-package execution was also blocked before a core_acceptance assertion could run
+  + no failed assertion was observed and no policy bypass was attempted
+  + after ordinary scoped rebuild and policy-admission delay, exact cargo test --workspace --locked --offline passed end to end
+  + after the debug pass, exact cargo test --workspace --release --locked --offline passed end to end
+  + [fault_record] is C:\Project\Cantor\narrative\operational_faults\1785960080544_CPMS_I01_application_control_launch_fault.sop
+
+& [BoundaryProof] passed
+  + new crate dependency direction is cantor_core to cantor_procedure_tool to cantor_cli with no cycle
+  + shared crate has no process I/O or open-world dependency
+  + no direct schema dependency, schema generation, provider, model, MCP procedure tool, service, persistence, network, effect, or hardware behavior was added
+
+& [Disposition] is CPMS_I01_complete_and_globally_verified
+  + CPMS-001 through CPMS-010 have direct implementation and focused evidence
+  + debug, overflow-checked release, offline, lint, build, docs, diff, source-scan, and evidence freshness gates pass
+  + commit and push are permitted
+  + CPMS-I02 remains blocked on recursive-schema policy and separate authority

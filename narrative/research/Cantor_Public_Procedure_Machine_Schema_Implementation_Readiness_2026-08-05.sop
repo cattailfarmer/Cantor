@@ -1,0 +1,61 @@
+Subject: Cantor Public Procedure Machine Schema Implementation Readiness
+
+Description: Post-formation decision record closing the four prerequisites for CPMS-I01 while retaining exact later-slice blockers.
+
+@ [review_uuid] 53303164-af1e-4928-9887-afce7f11d62c
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Public_Procedure_Machine_Schema.sop
+@ [canonical_sha256] 005E60A176D02588161C3C1E33109099FD92F164301695D2751F89EA049E81EA
+@ [inventory] C:\Project\Cantor\narrative\research\Cantor_Public_Procedure_Machine_Schema_Transitive_Type_Inventory_2026-08-05.sop
+
+& [Decision1SharedBoundary] selects a new pure crate
+  + crate name is cantor_procedure_tool
+  + cantor_procedure_tool depends on cantor_core, serde, and serde_json only
+  + cantor_cli depends on cantor_procedure_tool and owns argument, stdin, file, stdout, stderr, and exit projection only
+  + cantor_core remains the semantic procedure kernel and does not acquire process-adapter response types
+  + future schema and provider-neutral projection modules may depend on cantor_procedure_tool without making cantor_core depend on them
+  + dependency direction is cantor_core <- cantor_procedure_tool <- cantor_cli and future projections
+  - never: introduce a dependency cycle or move provider, process I/O, service, network, persistence, model, or effect behavior into the pure crate
+
+& [Decision2SchemaDependency] is assessed and slice separated
+  + schemars 1.2.2 is already exact in Cargo.lock with checksum 687274d293b6cdc6e73e0fee520bf2049650090d7164f87672d212a3c530cf4a
+  + schemars 1.2.2 is cached offline, requires Rust 1.74, exposes explicit Draft 2020-12 settings, and documents serde-attribute adaptation
+  + schemars remains transitive through rmcp during I01 and is not promoted to a direct dependency by extraction
+  + CPMS-I02 may add exact schemars 1.2.2 as a direct dependency only under its own claimed lock and conformance proof
+  + jsonschema 0.49.2 is the preferred independent I03 validator candidate because it supports Draft 2020-12 and meta-schema validation and requires Rust 1.85, within the workspace Rust 1.96 profile
+  + jsonschema must use default-features false because its defaults permit HTTP and file resolution; no direct dependency is authorized until exact offline resolution and dependency audit pass
+  + [schemars_primary] is https://docs.rs/crate/schemars/1.2.2
+  + [jsonschema_primary] is https://docs.rs/crate/jsonschema/0.49.2
+
+& [Decision3ResourceLimits] sets profile 0.1 ceilings
+  + maximum canonical document bytes is 4194304
+  + maximum canonical bundle bytes is 16777216
+  + maximum named definitions is 256, giving 2.94 times the measured 87-type starting closure
+  + maximum resolved references is 4096
+  + maximum schema-document nesting depth is 64
+  + maximum aggregate object properties is 4096
+  + maximum aggregate enum alternatives is 2048
+  + maximum semantic residuals is 1024
+  + maximum conformance cases is 4096 and maximum aggregate corpus bytes is 67108864
+  + every counter is checked during traversal and fails closed before allocation growth beyond its ceiling
+  + data-instance recursive depth is not authorized by these schema-document limits
+
+& [Decision4InventoryAndGolden] is captured
+  + exact named transport closure is 80 core types plus 7 shared-wrapper candidates
+  + schema command stdout is 1218 bytes, one LF, exit 0, SHA256 e2955b0dbc2ea904fd5b777bfa272dd4155dc0f622a53cbf5a341949383d17af
+  + missing command stdout is 416 bytes, one LF, exit 2, SHA256 6f4175a8215eaa87baae541df122b5f6dbdf1615488507685f6a91b854ec6d18
+  + help command stdout is 480 bytes, one LF, exit 2, SHA256 cc54e92b48bc87b992efe5696658c2ddb084450a4591c2e5a4cbf4624fc23484
+  + unknown join command stdout is 418 bytes, one LF, exit 2, SHA256 1e3070e035d8d3dcee06773dbaf954739121c391bf36fd4d8f913c135f34e56e
+  + existing subprocess fixtures remain the oracle for parameterized prepare, run, verify, refusal, malformed, unknown-field, and oversized cases
+
+& [RecursiveSchemaFinding] blocks CPMS-I02 activation
+  + ProcedureValue is recursive through array, map, and record values and is reachable from every substantive operation family
+  + formation profile 0.1 rejects recursive definitions unless a finite resolved representation is separately proven
+  + I02 must choose and prove either bounded recursive references with local-only resolution and an explicit data-depth guard or a finite transport projection
+  + I01 extraction does not generate, validate, or claim a canonical JSON Schema and is therefore not blocked by this later decision
+
+& [ReadinessDisposition] is split
+  + CPMS-I01 is ready for one exact extraction signature
+  + CPMS-I02 remains blocked on recursive-schema policy and a separately claimed dependency change
+  + CPMS-I03 remains blocked on I02 proof, exact offline validator resolution, and no-resolution configuration
+  + CPMS-I04 and CPMS-I05 retain their canonical dependency order
+

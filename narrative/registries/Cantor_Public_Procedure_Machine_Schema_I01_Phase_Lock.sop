@@ -1,0 +1,24 @@
+Subject: Cantor Public Procedure Machine Schema I01 Phase Lock
+
+@ [phase_lock_uuid] 8df22a14-cfa2-49db-9703-dd5f6aeb7d00
+@ [signature_uuid] 2bbf1757-aef9-48b4-ae6e-dd6777a6b0c0
+@ [candidate_signature_uuid] 110d5c11-9d6d-453b-8fea-31c4d2de24d5
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Public_Procedure_Machine_Schema.sop
+@ [canonical_sha256] 005E60A176D02588161C3C1E33109099FD92F164301695D2751F89EA049E81EA
+@ [readiness_review] C:\Project\Cantor\narrative\research\Cantor_Public_Procedure_Machine_Schema_Implementation_Readiness_2026-08-05.sop
+
+& [Readiness] closes the four formation decisions for I01
+  + shared boundary is new pure cantor_procedure_tool crate
+  + schema candidates are assessed and later dependency changes remain separately gated
+  + profile resource ceilings are explicit
+  + 87 named reachable types and four base output digests are captured
+
+& [Authority] is active for CPMS-I01 only
+  + add one pure cantor_procedure_tool workspace crate
+  + move the seven transport wrappers and pure prepare run verify schema dispatch semantics from the CLI binary into that crate
+  + keep argument and bounded process I/O in cantor_cli
+  + preserve exact base and parameterized stdout bytes, stderr shape, and exit codes
+  + add focused compile-time, unit, and subprocess compatibility proof
+  + update documentation, solution, proof, review, narrative, and current evidence metadata
+  - never: add schemars or jsonschema directly, generate a canonical JSON Schema, activate I02, add a provider or MCP tool, call a model, use network, persistence, service, external effect, hardware, FPGA, or claim production qualification
+

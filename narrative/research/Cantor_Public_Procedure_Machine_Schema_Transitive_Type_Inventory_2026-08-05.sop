@@ -1,0 +1,58 @@
+Subject: Cantor Public Procedure Machine Schema Transitive Type Inventory
+
+Description: Reproducible inventory of every named Cantor type reachable from the prepare, run, verify, and response transport roots before shared-form extraction.
+
+@ [inventory_uuid] 74d6d4f0-585a-4faa-8c99-5d599ab739db
+@ [baseline_commit] 104281548a948325b124acad2522e08a63cbb8c2
+@ [rustdoc_command] RUSTC_BOOTSTRAP=1 cargo rustdoc -p cantor_core --locked --offline -- -Z unstable-options --output-format json
+
+& [RootSet] is exact
+  + CLI wrappers are ResponseStatus, CliFault, VerificationRecord, CliResponse, PrepareRequest, PreparedRunRequest, and VerifyRequest
+  + core roots are SemanticId, ContentDigest, ProcedureCandidate, AuthorshipLaneTemplate, SopAnchorBinding, ProviderNeutralToolSchema, ToolCallProposal, AuthorshipLaneEvidence, and FakeControllerOutcome
+
+& [ReachabilityMethod] is structural
+  + start with each named root
+  + follow every local resolved-path type through struct fields, enum variants, generic arguments, maps, sets, vectors, and options
+  + include only named types owned by cantor_core plus the seven CLI-owned wrappers
+  + exclude primitive, standard-library, serde, implementation, function, and trait nodes
+
+& [ModelTypes] are 2
+  + SemanticId
+  + ContentDigest
+
+& [ProcedureEnums] are 20
+  + ProcedureEffectClass, ProcedureReadClass, ProcedureWriteClass, ProhibitedProcedureOperation, SchemaKind
+  + ProcessOperation, ProcessLifecycle, ProcedureLifecycle, PhaseDisposition, ProcedurePhase
+  + AdmissionDecision, CatalogueStatus, InvocationDisposition, ProcedureMessageKind, NegotiationStatus
+  + TraceEventKind, ProcedureFaultCategory, ProcedureType, ProcedureValue, AwaitedCondition
+
+& [ProcedureStructs] are 40
+  + ProcedureBounds, SopAnchorBinding, SchemaField, TaggedVariant, ProcedureSchema, ProcedureSchemaSet
+  + ProcedureEffectDeclaration, InstructionOperand, ProcessInstruction, ControlRegion, ProcessDefinition, ProcedureCandidate
+  + CompiledProcedureIdentity, SourceMapEntry, CantorProcessIr, ProcessBudgetState, ProcessInstanceState
+  + SerializedContinuation, ProcessStep, Participant, ProcedureMessage, NegotiatedFrame, NegotiationSession, TokenRingPass
+  + ReceiptEvidence, ValidationReceipt, CompilationReceipt, VerificationReceipt, AdmissionDisposition, CatalogueReceipt
+  + RevocationRecord, ProcedureCatalogueEntry, ProcedureCatalogueState, InvocationBudget, InvocationRequest
+  + SemanticTraceEvent, SemanticTrace, ConsumedBudget, ProcedureFault, InvocationResult
+
+& [AuthorshipAndCoordinationTypes] are 6
+  + AuthorshipClass, AuthorshipLaneTemplate, AuthorshipLaneEvidence
+  + CoordinationOutcome, CoordinationReplayReceipt, FakeObserverAdmissionPolicy
+
+& [ToolTypes] are 11
+  + ExchangeOperation, ProviderNeutralToolSchema, ToolCallProposal, ControllerEventKind, ControllerTranscriptEvent
+  + ToolControllerFault, ToolResultDisposition, LaterPassContext, ProviderNeutralToolResult
+  + FakeControllerTranscript, FakeControllerOutcome
+
+& [TemporalTypes] are 1
+  + SensitivityClass
+
+& [UniqueCount] is exact
+  + [core_named_type_count] is 80
+  + [CLI_wrapper_type_count] is 7
+  + [total_named_type_count] is 87
+  + [recursive_member] is ProcedureValue through its collection and record variants
+
+& [HonestyLimit] is explicit
+  + this is a named Rust type-closure inventory, not a generated JSON Schema and not a proof that all serde behavior is expressible by JSON Schema
+  + the rustdoc bootstrap flag was used only to emit read-only compiler metadata and does not become a build or release dependency
