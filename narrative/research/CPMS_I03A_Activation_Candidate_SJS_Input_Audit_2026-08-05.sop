@@ -1,0 +1,63 @@
+Subject: CPMS I03A Activation Candidate SJS Input Audit
+
+@ [audit_uuid] bceefc2a-3f1a-4870-ab94-ded32778c3b6
+@ [source] C:\Project\Cantor\source_documents\2026-08-05_cpms_i03a_validator_dependency_activation_candidate\Derived_CPMS_I03A_Validator_Dependency_Activation_Candidate_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-08-05_cpms_i03a_validator_dependency_activation_candidate\Source_Document_Manifest.sop
+
+& [SourceIntegrity] passed at 8311 bytes SHA256 05CF0E370390F6AACF71443D751FBF942E12080CC2C0D3DCED7C7A760C316BEF
+& [Baseline] is pushed commit fc02ea4651e5b78a2847a1ed449ab6bed1f2ac20
+  + CPMS-I02C is complete and pushed
+  + CPMS-I03 is formed with zero implemented and zero verified requirements
+  + CPMS-I03 readiness accepts the documentation package while refusing activation
+
+& [AuthorityInput] is sufficient for candidate formation only
+  + parent profile defines exact validator and no-resolution prerequisites
+  + readiness assessment provisionally selects jsonschema 0.49.2 default-features false
+  + dependency ledger preserves one local resolution observation
+  + application-control fault proves release admission is currently absent
+  - never: reinterpret readiness acceptance as dependency activation
+
+& [Correction1] replaces an unsupported runtime-version assertion
+  + source asks the focused test to assert the library version through supported API
+  + jsonschema need not expose a stable runtime version API
+  + canonical candidate instead proves version through exact Cargo manifest requirement Cargo.lock name-version-source-checksum metadata and compiled dependency graph
+
+& [Correction2] locates sibling patch pins in the lock rather than unused direct dependencies
+  + jsonschema-regex jsonschema-value and referencing may resolve through compatible transitive requirements
+  + canonical candidate requires all three at 0.49.2 in the admitted Cargo.lock
+  + do not add unused direct workspace dependencies merely to force resolution
+  + every later cargo update must re-prove the locked family and feature graph
+
+& [Correction3] makes host observation supplemental
+  + portable source and feature proofs establish the no-resolution capability boundary
+  + OS process telemetry can strengthen the proof but is not uniformly available and cannot be the only gate
+  + test success in offline mode is also supplemental because a dormant retrieval capability could remain compiled
+
+& [Correction4] distinguishes trusted dependency probes from production validation
+  + I03A may compile exact admitted I02 schemas and bounded in-test local instances only
+  + no generic supplied bytes public validator constructor corpus reader CLI or service seam is introduced
+  + any production reader or report type belongs to I03B through I03E
+
+& [Correction5] narrows exact artifact integrity
+  + focused test uses include_bytes rather than assuming UTF-8 at compilation
+  + it checks byte length and SHA256 before explicit UTF-8 conversion
+  + it reconstructs or verifies I02 document identity through existing pure helpers where available
+  + no test reads the filesystem at runtime
+
+& [Correction6] closes feature identity
+  + existing json-schema means optional schemars description generation
+  + new schema-conformance means json-schema plus optional jsonschema validator dependency
+  + neither feature is default and no existing dependent enables schema-conformance
+  + a name collision or implicit enablement blocks the candidate
+
+& [Correction7] prevents broad gate ambiguity
+  + focused commands are separately named for dependency tree test debug and release
+  + complete workspace gates remain required after focused gates but cannot replace them
+  + a failed subcommand cannot be hidden by a later successful command in the same shell invocation
+
+& [OpenBlocker1] exact final workspace lock and checksums do not exist
+& [OpenBlocker2] 74 added packages and eight custom-build packages lack signed acceptance
+& [OpenBlocker3] exact release build helper execution is denied by Windows Enterprise signing policy
+& [OpenBlocker4] production source remains intentionally untouched and no activation signature exists
+
+& [AuditDisposition] is source_valid_after_refinement_candidate_formation_allowed_activation_forbidden

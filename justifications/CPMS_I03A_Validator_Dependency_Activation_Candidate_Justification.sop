@@ -1,0 +1,23 @@
+Subject: CPMS I03A Validator Dependency Activation Candidate Justification
+
+@ [justification_uuid] 00a3b87f-7844-4213-bb7f-2cbc403bbed6
+
+& [Need] CPMS-I03 requires one independent Draft 2020-12 observation that neither schemars generation nor typed serde can provide
+& [SelectedCandidate] exact jsonschema 0.49.2 default-features false
+  + exposes explicit Draft 2020-12 and embedded meta-schema behavior
+  + removes HTTP file and TLS resolver capability at Cargo feature resolution
+  + passed the bounded isolated debug probe over all five exact I02 documents
+& [RejectedCandidate] Boon 0.6.1 for this slice
+  + smaller graph is favorable
+  + compiled default file-loader capability lacks feature-level removal
+  + first debug build was denied before execution and no behavioral probe exists
+& [OptionalFeature] protects default behavior and keeps validation absent unless explicitly selected
+& [TestOnlyCheckpoint] proves dependency capability and host admission before production parser or validator architecture can depend on it
+& [FourSurfaceLock] is the minimum sufficient change
+  + workspace manifest owns exact common dependency policy
+  + lock owns resolved checksums and transitive patches
+  + tool manifest owns optional feature reachability
+  + focused integration test owns all behavior proof without exporting API
+& [RefusalReason] release host admission and dependency acceptance are incomplete
+  + a documentation package can be complete while activation remains correctly refused
+& [Decision] form an exact unsigned activation candidate and stop before dependency mutation
