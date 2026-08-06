@@ -1,0 +1,94 @@
+Subject: CPMS I03 Conformance Corpus Coverage Design
+
+@ [design_uuid] 00be2d31-067e-4eb9-a050-5363571aca70
+@ [profile] C:\Project\Cantor\specifications\CPMS_I03_Residual_Conformance_Profile.sop
+
+& [CorpusUnit] is one immutable root-qualified case
+  + identity is domain-separated digest of profile root direction case family exact bytes expectation and fixture lineage
+  + one case names ingress schema serde optional semantic and residual expectations separately
+  + mutation creates a successor case identity and never rewrites admitted expectation history
+
+& [RootMatrix] has five independent columns
+  + prepare_input maps exact bytes to PrepareRequest deserialization
+  + run_input maps exact bytes to PreparedRunRequest deserialization
+  + verify_input maps exact bytes to VerifyRequest deserialization
+  + base_response begins from a ProcedureToolResponse value valid for the base response intended use and serializes it
+  + preparation_response begins from a ProcedureToolResponse value valid for the preparation response intended use and serializes it
+  + shared Rust type does not merge the two response contracts because intended use and canonical root differ
+
+& [ReaderStates] are closed
+  + not_applicable accepted rejected exhausted internal_fault skipped_dependency
+  + only accepted or rejected can contribute to an agreement claim
+  + skipped_dependency blocks the containing proof rather than behaving like not_applicable
+
+& [FamilyC00] canonical positives
+  + minimum structurally valid document for each root where semantic completeness permits
+  + representative complete I02 golden-derived fixture for each root
+  + actual typed output serialization for both response roots
+
+& [FamilyC01] faithful byte ingress
+  + empty whitespace only malformed literals unterminated string invalid escape invalid UTF-8 and trailing value
+  + duplicate root member duplicate nested member and duplicate after escaped-name equivalence
+  + maximum bytes depth object members array items scalar count and member-name bytes below at and above
+  + reader applicability is byte_ingress_only and no schema or serde reader runs after refusal
+
+& [FamilyC02] object contract
+  + each required member missing one at a time
+  + each optional member omitted and explicit null where meaningful
+  + one unknown member at every closed object shape
+  + wrong primitive array and object type for each property class
+  + wrong enum and tagged-union discriminator values
+
+& [FamilyC03] numeric fidelity
+  + i64 and u64 boundaries below at above zero negative exponent fraction and excessive token work
+  + schema bounds and destination type are named independently
+  + every case preserves the exact numeric token and destination Rust type
+
+& [FamilyC04] collection and recursion
+  + empty one below at above maximum list and map cases
+  + procedure type and value recursion below at above semantic depth
+  + JSON container recursion below at above deserializer and ingress depth
+  + recursive local schema reference acceptance plus missing and escaping reference refusal
+
+& [FamilyC05] identity digest and lineage
+  + malformed empty overlong and non-ASCII SemanticId values where applicable
+  + correct altered stale and mismatched digests for candidate schema argument result transcript context bundle and receipt forms
+  + author validator compiler verifier Observer coordinator participant invocation and session boundary substitutions
+
+& [FamilyC06] state transition and replay
+  + generation zero stale successor same-state reversal and overflow cases
+  + token holder duplicate pass nonmonotonic logical time incomplete participant set frame revision and stable-candidate conditions
+  + first and replay equality plus one-field transcript result context and receipt mutations
+
+& [FamilyC07] no-capability and refusal
+  + non-executable operation provider counter external-effect counter and explicit-context-on-refusal cases
+  + external reference schemes and absent retriever construction
+  + completed response cannot carry refusal shape; refused response cannot carry coordination or context
+
+& [GenerationPolicy] is deterministic and reviewable
+  + hand-authored seeds establish meaning and expected disposition
+  + bounded mechanical mutation may generate one-field variants only from an admitted seed and declared mutation operator
+  + generator identity version input case mutation operation and output digest are retained
+  + no random fuzz result enters the canonical corpus without reduction stable identity and human-reviewed expectation
+
+& [CoverageLedger] is obligation based
+  + each canonical schema rule each serde binding each residual each finite limit and each root-direction pair resolves to one or more case ids or a signed not-applicable reason
+  + below-at-above obligations are counted independently
+  + a case can cover several obligations but every relationship is explicit
+  + coverage percentage is advisory; zero dangling mandatory obligations is authoritative
+
+& [ExecutionOrder] is fixed
+  * verify bundle and document integrity
+  * run faithful byte ingress
+  * run schema and serde independently where applicable
+  * run explicitly named safe semantic function only on complete fixtures
+  * normalize observations and compare to expectation
+  * resolve coverage and residual indexes
+  * repeat the entire pure evaluation and compare exact normalized report bytes
+
+& [InitialSizeBudget] is bounded
+  + no more than 4096 cases or 67108864 aggregate source bytes
+  + each family begins with the smallest complete witness set and expands only from uncovered obligations
+  + exhaustion yields no partial pass and preserves exact unexecuted case identities
+
+& [ReadinessStatus] is design_complete_case_inventory_unformed

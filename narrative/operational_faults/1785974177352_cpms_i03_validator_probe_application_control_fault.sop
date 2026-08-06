@@ -1,0 +1,26 @@
+Subject: CPMS I03 Validator Readiness Probe Application Control Fault
+
+@ [fault_uuid] 3545fb5f-f967-4e8c-953c-b285ebcdd9a3
+
+& [Observed] Windows Smart App Control and Code Integrity denied build-script helper execution during isolated validator dependency probes
+& [JsonschemaBlockedSubject] is C:\Project\Cantor\.local\cpms_i03_dependency_probe\target\release\build\icu_normalizer_data-e0e61e6bbcbd3e60\build-script-build.exe
+  + [CodeIntegrityEvidence] events 3033 and 3077 at 2026-08-05T18:53:37-05:00 identify cargo.exe as the initiating process and reject the helper at Enterprise signing level
+  + [Policy] is 0283ac0f-fff1-49ae-ada1-8a933130cad6
+  + [ExecutionBoundary] the rejected helper did not execute
+& [BoonBlockedSubject] is an isolated debug build helper under C:\Project\Cantor\.local\cpms_i03_boon_probe\target\debug\build\icu_properties_data-*\build-script-build.exe
+  + [ObservedDisposition] build stopped before the helper executed
+  + [EvidenceLimit] the retained event query proves the jsonschema path exactly; the earlier UI and command observation proves the Boon denial but the present record does not assign an unobserved event identifier
+& [AdjacentEvents] recent Code Integrity 3033 records also name Chrome vulkan-1.dll and vk_swiftshader.dll
+  + [AttributionBoundary] not every one of the user's three visible notifications can be assigned to Cantor with confidence
+  + [CantorAttribution] at least one recent notification and the earlier Boon probe denial were caused by this readiness work
+& [ProbeIsolation] both candidates live beneath ignored .local directories and no probe artifact entered the tracked repository
+& [NoBypass] no policy disablement exclusion privilege elevation signing substitution or retry storm was attempted
+& [UserImpact] the operating system displayed unexpected approval or block notifications and unattended work was disrupted
+& [CommandAggregationFault] the jsonschema release build was followed in one PowerShell invocation by read-only metadata queries
+  + the later successful query could make the aggregate shell invocation return exit code zero even though the build subcommand failed
+  + no release pass is claimed; the build remains blocked and incomplete
+& [ValidObservations] jsonschema debug locked offline build and runtime probe completed before this fault; its release build did not
+& [InvalidObservations] no Boon compile or runtime behavior and no jsonschema release execution can be inferred
+& [ImmediateContainment] stop all new dependency compilation for the remainder of the shift and continue only static specification and repository work
+& [ActivationEffect] CPMS-I03 dependency activation remains blocked pending a separately authorized host-admission or build-path proof and complete release execution
+& [Disposition] is contained_open_activation_blocker

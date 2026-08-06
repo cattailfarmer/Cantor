@@ -1,0 +1,13 @@
+Subject: CPMS I03 Evidence Verifier Script Policy Fault
+
+@ [fault_uuid] a83e65ec-6f38-4834-ae42-25f2d2ec65be
+
+& [Command] is & .\scripts\rehash_current_evidence_manifests.ps1 -VerifyOnly
+& [Observed] PowerShell refused to load the repository script because running scripts is disabled on this system
+& [ExecutionBoundary] the script body did not execute and no evidence file changed
+& [Classification] is host PowerShell script-execution policy rather than evidence staleness or verifier assertion failure
+& [NoBypass] no ExecutionPolicy change Bypass flag privilege elevation copied script or Invoke-Expression substitution occurred
+& [PermittedFallback] perform the same read-only manifest artifact length and SHA256 comparisons as explicit shell operations and label the result as an independent equivalent check rather than canonical script execution
+& [ProofEffect] canonical script invocation remains unexecuted; an equivalent passing comparison may establish freshness but not script launch admission
+& [EquivalentResult] 23 current manifests and 1030 artifact references pass with zero stale cycles or nonportable paths after dependency-ordered apply_patch repair
+& [Disposition] is freshness_resolved_script_launch_still_unproved

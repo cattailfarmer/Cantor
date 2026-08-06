@@ -1,0 +1,57 @@
+Subject: CPMS I03 Numeric Fidelity Assessment
+
+@ [assessment_uuid] e37cb320-af7b-4bca-a30d-eaf87202e782
+@ [profile] C:\Project\Cantor\specifications\CPMS_I03_Residual_Conformance_Profile.sop
+
+& [Question] is whether exact supplied JSON numeric tokens can be compared faithfully across byte ingress schema validation and typed serde without silently changing Cantor meaning
+
+& [CurrentRepresentations] are heterogeneous by design
+  + many counters limits generations indexes and logical times are u64
+  + bounded integer procedure values are i64
+  + bounded decimal values preserve canonical decimal text plus declared scale
+  + digests and identities are strings with separate semantic validation
+  + generic serde_json Value is an observation carrier and not the authority for every numeric domain
+
+& [ProbeEvidence] is narrow
+  + jsonschema 0.49.2 default-features false accepted exact integer token 18446744073709551615 under the exercised maximum
+  + it rejected exact token 18446744073709551616 under that maximum
+  + no global arbitrary_precision feature was enabled
+  + this demonstrates one boundary path only; it does not prove all exponents fractions coercions or typed destinations
+
+& [FailureModes] are explicit
+  + integer-to-floating conversion can lose equality or boundary precision
+  + exponent notation can be mathematically integral while not fitting the destination integer
+  + negative zero can compare numerically equal while preserving a distinct supplied token
+  + very large coefficient or exponent tokens can exhaust parsing or diagnostic work
+  + schema multipleOf fraction comparison can be implementation sensitive
+  + serde destination refusal can legitimately differ from mathematical schema acceptance
+  + output serialization can choose a canonical token different from an accepted input spelling
+
+& [IngressRequirement] preserves the original byte span for every number
+  + record sign integer digits fraction digits exponent sign exponent digits byte offset and byte length under finite limits
+  + reject malformed non-JSON NaN Infinity leading-plus and leading-zero forms before any reader comparison
+  + use checked digit and exponent accounting and refuse before allocating an unbounded coefficient
+  + do not convert the authoritative token to f64
+
+& [ComparisonPolicy] is applicability aware
+  + schema observes the exact parsed JSON mathematical value supported by its implementation
+  + serde observes the actual destination Rust type and complete-input rule
+  + equality between readers is expected only when the case declares a shared representable domain
+  + a schema acceptance plus serde overflow is a conformance finding or declared representation residual, never an automatic validator error
+  + a typed output case begins with a Rust value and compares its exact serialized bytes against output schema and canonicalization expectations
+
+& [BoundaryCorpus] must include
+  * i64 minimum minus one at and plus one; i64 maximum minus one at and plus one
+  * u64 zero one maximum minus one at and plus one
+  * negative values for unsigned destinations
+  * 0 -0 0.0 1e0 1E+0 fractional and exponent forms
+  * maximum permitted digit and exponent lengths plus one
+  * bounded-decimal minimum maximum scale and noncanonical-string cases
+  * schema minimum maximum exclusive bounds multipleOf and integer type cases
+  * nested numeric values at structural and collection boundaries
+
+& [ExactnessRule] a test must retain input token reader-specific observation destination type and expected semantic relation
+  - never: report agreement by comparing only serde_json Value instances
+  - never: enable arbitrary precision globally without a separate dependency performance and canonical-output decision
+
+& [Decision] retain the current no-arbitrary-precision candidate and require token-preserving ingress plus the complete boundary corpus before activation

@@ -1,0 +1,162 @@
+Subject: CPMS I03 Semantic Residual Registry Baseline
+
+@ [registry_baseline_uuid] 8408a93c-574a-44c7-8c47-a6fd22e899c7
+@ [profile] C:\Project\Cantor\specifications\CPMS_I03_Residual_Conformance_Profile.sop
+
+& [RegistryRule] every residual keeps stable identity and names class roots types stage module functions disposition severity proof and rationale
+  + this document locates the baseline; later implementation must encode exact records without silently weakening or merging them
+  + source locations are human navigation only; function identity and content digest become compiled authority
+
+& [RMS_R01] is recursive deserializer capacity
+  + [roots] all five public roots
+  + [class] representation
+  + [stage] serde
+  + [module] serde_json deserializer
+  + [function] remaining_depth container recursion enforcement
+  + [disposition] enforced_external
+  + [severity] release_blocking_if_unobserved
+  + [rationale] successful schema recursion does not prove the actual typed reader can descend to the same depth
+
+& [RMS_R02] is semantic call-depth bound
+  + [roots] all roots carrying ProcedureBounds directly or transitively
+  + [types] ProcedureBounds CantorProcessIr ProcedureCandidate ProcedureFormSet
+  + [stage] semantic
+  + [module] cantor_core::procedure_validation
+  + [function] validate_procedure_forms and bound validation helpers
+  + [condition] maximum_call_depth is positive and no greater than 64
+  + [disposition] enforced
+  + [severity] release_blocking
+
+& [RMS_R03] is procedure type recursion and local schema identity
+  + [roots] all roots carrying ProcedureType or ProcedureSchemaSet
+  + [types] ProcedureType ProcedureSchema ProcedureSchemaSet
+  + [stage] semantic
+  + [module] cantor_core::procedure_validation
+  + [function] validate_schema_set validate_schema validate_type
+  + [disposition] enforced
+  + [severity] release_blocking
+
+& [RMS_R04] is procedure value recursion shape and scalar fidelity
+  + [roots] all roots carrying ProcedureValue
+  + [types] ProcedureValue and containing forms
+  + [stage] semantic
+  + [module] cantor_core::procedure_validation
+  + [function] validate_value
+  + [condition] depth text collection map record union and scalar rules remain distinct from schema shape
+  + [disposition] enforced
+  + [severity] release_blocking
+
+& [RMS_R05] is aggregate value resource accounting
+  + [roots] all roots carrying ProcedureValue
+  + [stage] semantic
+  + [module] cantor_core::procedure_validation
+  + [function] validate_value plus containing bound checks
+  + [condition] maximum_value_bytes maximum_text_bytes maximum_collection_items and maximum_map_entries constrain the admitted operation context
+  + [disposition] partially_enforced_pending_I03_explicit_account
+  + [severity] release_blocking
+
+& [RMS_R06] is authority admission after syntactic validity
+  + [roots] run_input verify_input and response roots containing admission results
+  + [stage] authority
+  + [module] cantor_core Observer admission path
+  + [function] fake_observer_admit and admission verification
+  + [disposition] observational_outside_I03
+  + [severity] authority_blocking
+  + [rationale] schema serde and semantic success never grants Observer admission
+
+& [I03_R007] is preparation successor capacity
+  + [roots] prepare_input preparation_response
+  + [stage] semantic
+  + [module] cantor_procedure_tool
+  + [function] prepare_response
+  + [condition] preparation may form only a bounded valid next-pass request and honest residuals
+  + [disposition] enforced
+
+& [I03_R008] is authorship identity boundary
+  + [roots] run_input verify_input base_response preparation_response
+  + [stage] semantic_and_authority
+  + [module] cantor_core::procedure_authorship
+  + [functions] validate_authorship_boundary validate_lane_evidence
+  + [condition] explicit provenance exists and author cannot occupy validator compiler verifier Observer or coordinator authority
+  + [disposition] enforced
+
+& [I03_R009] is candidate digest and provenance integrity
+  + [roots] run_input verify_input
+  + [module] cantor_core::procedure_validation
+  + [functions] validate_procedure_forms compute_candidate_source_digest
+  + [disposition] enforced
+
+& [I03_R010] is authorship receipt replay
+  + [roots] run_input verify_input base_response
+  + [module] cantor_core::procedure_authorship
+  + [functions] run_authorship_lane validate_lane_evidence
+  + [disposition] enforced
+
+& [I03_R011] is catalogue coordination token and stable-session lineage
+  + [roots] run_input verify_input base_response
+  + [modules] cantor_core::procedure_authorship cantor_core::procedure_coordination
+  + [functions] validate_lane_evidence verify_coordination_replay record_token_ring_pass
+  + [disposition] enforced
+
+& [I03_R012] is exact provider-neutral schema identity
+  + [roots] run_input verify_input base_response
+  + [module] cantor_core::procedure_tool
+  + [functions] validate_schema compute_provider_neutral_tool_schema_digest
+  + [disposition] enforced
+
+& [I03_R013] is tool argument integrity
+  + [roots] run_input verify_input base_response
+  + [module] cantor_core::procedure_tool
+  + [functions] validate_tool_call compute_tool_call_argument_digest
+  + [disposition] enforced
+
+& [I03_R014] is executable operation membership
+  + [roots] run_input base_response
+  + [module] cantor_core::procedure_tool
+  + [function] validate_tool_call
+  + [condition] operation is both named and executable in the exact bounded profile
+  + [disposition] enforced
+
+& [I03_R015] is participant invocation and session lineage
+  + [roots] run_input verify_input base_response
+  + [modules] cantor_core::procedure_tool cantor_core::procedure_authorship
+  + [functions] validate_tool_call validate_lane_evidence
+  + [disposition] enforced
+
+& [I03_R016] is controller transcript order and counters
+  + [roots] verify_input base_response
+  + [module] cantor_core::procedure_tool
+  + [functions] verify_fake_controller_outcome verify_event_chain
+  + [condition] indexes predecessor refs logical times digests and zero forbidden counters agree
+  + [disposition] enforced
+
+& [I03_R017] is completed and refused result shape
+  + [roots] verify_input base_response
+  + [module] cantor_core::procedure_tool
+  + [function] verify_fake_controller_outcome
+  + [disposition] enforced
+
+& [I03_R018] is result transcript and explicit-context digest correspondence
+  + [roots] verify_input base_response
+  + [module] cantor_core::procedure_tool
+  + [function] verify_fake_controller_outcome and digest computation functions
+  + [disposition] enforced
+
+& [I03_R019] is exact authoritative replay
+  + [roots] verify_input base_response
+  + [module] cantor_core::procedure_tool
+  + [functions] verify_fake_controller_outcome run_fake_controller_exchange
+  + [disposition] enforced
+
+& [I03_R020] is provider and external-effect non-capability
+  + [roots] run_input verify_input base_response preparation_response
+  + [module] cantor_core::procedure_tool
+  + [functions] run_fake_controller_exchange verify_fake_controller_outcome finish_outcome
+  + [condition] provider_call_count and external_effect_count remain zero and no provider model network or effect facility exists in the bounded path
+  + [disposition] enforced_plus_architectural_observation
+  + [severity] authority_blocking
+
+& [CoverageStatus] is baseline_located_not_compiled
+  + residual_count is 20
+  + exact code digests source spans tests and root/type reverse indexes remain I03 implementation work
+  + activation may split a family but may not omit rename merge or reduce its governing condition

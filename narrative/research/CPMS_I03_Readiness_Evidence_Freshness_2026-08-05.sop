@@ -1,0 +1,16 @@
+Subject: CPMS I03 Readiness Evidence Freshness Record
+
+@ [record_uuid] 88db467d-62b8-4820-9c1a-59aa933780fc
+@ [script_policy_fault] C:\Project\Cantor\narrative\operational_faults\1785974537010_cpms_i03_evidence_verifier_script_policy_fault.sop
+
+& [CanonicalScriptInvocation] was refused by PowerShell script-execution policy before execution
+& [IndependentEquivalent] reproduced the script's read-only current-manifest selection dependency recursion portable-path length and SHA256 comparisons as explicit shell operations
+& [InitialObservation] found 20 direct stale references to narrative/Project_Narrative.sop after its intentional readiness append
+& [RepairMethod] used apply_patch only to replace exact artifact byte and SHA256 fields
+  + updated the 20 direct narrative references
+  + propagated changed manifest bytes and hashes through the complete manifest dependency DAG in leaf-to-root order
+  + left the three script-declared frozen historical manifests untouched
+  + changed no evidence artifact content outside manifest metadata and the intentional Project Narrative append
+& [FinalObservation] current_manifests 23 artifact_references 1030 stale 0 cycles 0 nonportable 0
+& [Delineation] this proves current artifact-reference freshness through an independent equivalent comparison and does not prove that the blocked script file itself can launch
+& [Disposition] is evidence_fresh_script_launch_unproved

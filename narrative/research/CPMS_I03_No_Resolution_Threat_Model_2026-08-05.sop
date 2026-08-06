@@ -1,0 +1,68 @@
+Subject: CPMS I03 No-Resolution Validator Threat Model
+
+@ [threat_model_uuid] 705910e7-5e3a-435b-b9ac-b905fb54f38d
+@ [profile] C:\Project\Cantor\specifications\CPMS_I03_Residual_Conformance_Profile.sop
+
+& [ProtectedAssets] are local integrity availability confidentiality and deterministic replay
+  + exact signed canonical schema bytes and their I02 bundle identity
+  + supplied instance bytes and bounded normalized observations
+  + local files credentials environment registry services network and process state
+  + finite CPU memory diagnostic and reference budgets
+
+& [AdversaryInput] includes every untrusted schema instance and diagnostic string at the I03 boundary
+  + a canonical schema is trusted only after exact path byte length digest root identity dialect direction and bundle reconstruction pass
+  + an instance never becomes trusted merely by parsing schema acceptance serde decoding or semantic evaluation
+
+& [ThreatClasses] are explicit
+  + remote reference retrieval can produce SSRF credential disclosure nondeterministic content and unbounded latency
+  + file reference retrieval can disclose local data and convert filesystem state into hidden schema authority
+  + registry environment and caller-supplied loaders can reintroduce ambient authority despite disabled default network features
+  + recursive or adversarial references can exhaust compilation or validation resources
+  + unbounded diagnostic rendering can amplify hostile strings or disclose internal paths
+  + cached remote content can create replay disagreement even when a later run is offline
+
+& [CompileTimeAbsence] is a necessary gate
+  + Cargo uses exact jsonschema 0.49.2 with default-features false
+  + the resolved feature graph contains none of resolve-http resolve-file tls-aws-lc-rs or any feature that installs an external retriever
+  + the lock and cargo metadata prove zero HTTP TLS async transport packages within the added graph
+  + source review names every custom-build crate and rejects unexpected native links code generation downloads or environment-derived behavior
+  + absence is re-proved after every dependency update; semver compatibility is not sufficient
+
+& [RuntimeAbsence] is independently necessary
+  + Cantor constructs only an explicit Draft 2020-12 validator from admitted in-memory canonical bytes
+  + Cantor installs no retriever registry resource cache callback or caller-provided resolver
+  + a preflight graph walk rejects every reference that is not an internal fragment resolving within the same admitted document
+  + schema compilation occurs only after the complete reference walk succeeds atomically
+  + network file environment registry subprocess provider and persistence counters remain structurally absent from the I03 report type
+
+& [ReferencePreflight] is syntax preserving
+  + recursively visit object and array positions capable of containing schema resources
+  + classify every $ref $dynamicRef $schema and identifier-bearing keyword according to Draft 2020-12 semantics rather than string search
+  + permit the exact Draft 2020-12 dialect URI only in the root $schema field
+  + permit fragment-only references whose JSON Pointer or anchor target resolves inside the same document
+  + reject absolute relative file HTTP HTTPS opaque empty-base dynamic external or unresolved targets before validator construction
+  + cap visited nodes references pointer segments decoded bytes and cycle work with checked arithmetic
+  + preserve location keyword raw target and refusal class in a bounded observation
+
+& [MetaSchemaDelineation] avoids hidden retrieval
+  + use the validator library's embedded selected-draft meta-schema facility
+  + do not interpret a document's own $schema value as permission to retrieve a dialect
+  + meta-schema validation compile success and instance validation are three separate observations
+
+& [DenialTests] are required
+  * HTTP HTTPS file relative path UNC drive-letter data and unknown-scheme references
+  * internal missing pointer invalid escaping excessive pointer depth and reference cycles
+  * dynamic-reference forms that could escape the local resource
+  * caller attempt to install a retriever or resource registry
+  * environment proxy cache and current-directory variation producing identical refusal
+  * report inspection proving zero external request file-open provider subprocess and persistence events
+
+& [ResidualRisk] remains
+  + third-party parser and validator defects can still consume resources or misclassify Draft semantics
+  + compiled dependency build scripts execute at build time even when runtime resolution is absent
+  + Windows Application Control currently blocks one required build helper and therefore prevents release proof
+  + process sandboxing may add defense in depth later but is not a substitute for capability absence
+
+& [AcceptanceRule] no-resolution passes only when compile graph source construction preflight denial corpus counters and exact replay all agree
+  - never: infer no-resolution from offline mode alone
+  - never: infer safety from absence of an observed request in one happy-path test
