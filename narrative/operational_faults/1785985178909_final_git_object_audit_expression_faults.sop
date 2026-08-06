@@ -1,0 +1,29 @@
+Subject: Final Git Object Audit Expression Faults
+
+@ [fault_uuid] bd9ca342-88fe-4ea0-93b2-703d884685de
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [baseline_commit] f0b3a9d
+
+& [FirstFault] a PowerShell Where-Object expression attempted to combine a Git command and exit-code test inside one parenthesized boolean expression
+  + parsing failed before Git object results were produced
+
+& [SecondFault] missing-object detection used wildcard pattern question-mark-star
+  + PowerShell interpreted question mark as any single character
+  + all 8643 nonempty object-list lines were falsely counted as missing
+
+& [ThirdFault] the first correction attempted a semicolon-separated command inside a hashtable value expression
+  + parsing failed before a summary object was produced
+
+& [Impact] is diagnostic_only
+  + no repository file object reference remote branch or worktree state changed
+  + none of the invalid counters entered project evidence
+
+& [Correction] uses explicit loops StartsWith predicates and separately captured exit codes
+  + Git object lines are 8643
+  + missing objects are zero and promisor-missing objects are zero
+  + git fsck full no-dangling exit is zero
+  + garbage lines and worktree status lines are zero
+  + local upstream and remote branch identities remain exact
+
+& [Prevention] command exit capture and literal-prefix classification remain separate statements
+& [Disposition] is contained_corrected_no_project_fault
