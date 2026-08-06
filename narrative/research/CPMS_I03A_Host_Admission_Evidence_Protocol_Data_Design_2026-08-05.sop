@@ -1,0 +1,45 @@
+Subject: CPMS I03A Host Admission Evidence Protocol Data Design
+
+@ [design_uuid] 06e0a064-fdf2-4d3f-92a7-a6057f021638
+@ [source_uuid] 8bbe3fc5-13a4-43d3-8e9e-50aa486b67fa
+
+& [ChannelSnapshot] fields
+  + log_name provider enabled mode maximum_size record_count oldest_record_id newest_record_id oldest_time newest_time configuration_digest accessibility
+
+& [CommandEnvelope] fields
+  + executable_path executable_bytes executable_sha256 arguments working_directory source_commit cargo_lock_sha256 toolchain target profile feature_set offline environment_projection timeout expected_stage
+
+& [EnvironmentProjection] fields
+  + variable_name disposition value_or_digest rationale
+  + disposition included excluded_secret excluded_unneeded presence_only or unavailable
+
+& [ProcessResult] fields
+  + started terminal_state native_exit_code started_at ended_at stdout_bytes stdout_sha256 stderr_bytes stderr_sha256 wrapper_fault
+
+& [ArtifactObservation] fields
+  + path role state bytes sha256 pe_machine signature_status signer_chain_digest generated_stage launch_evidence
+
+& [PolicyEvent] fields
+  + channel_generation record_id event_id time_created provider process_path target_path policy_id policy_level raw_xml_bytes raw_xml_sha256 normalized_projection_digest attribution
+
+& [HostAdmissionAttemptCore] fields
+  + profile attempt_id predecessor input_bindings pre_channel command result post_channel continuity artifacts events accounts limits disposition faults
+
+& [ReviewEnvelope] fields
+  + attempt_core_digest scribe_refiner_weaver_planner_honesty_security_observer_receipts combined_disposition reviewer_independence authority_limit predecessor_review digest
+
+& [SignatureAttachment] fields
+  + envelope_digest algorithm key_id trust_catalogue_digest signature_bytes verification_disposition
+
+& [ClosedTerminalState] is exit_success exit_failure launch_blocked launch_fault timed_out cancelled or wrapper_fault
+& [ClosedArtifactState] is absent not_generated generated_not_launched launched_pass launched_fail or launch_blocked
+& [ClosedAttemptDisposition] is admitted_pass behavioral_fail launch_blocked build_incomplete launch_fault timed_out cancelled evidence_incomplete or wrapper_fault
+
+& [FiniteLimits] are at most 64 attempts 4096 events 4096 artifacts 1024 arguments 67108864 stdout bytes 67108864 stderr bytes 16777216 XML bytes per event and 1073741824 total bytes per attempt
+  + path maximum is 32768 UTF-16 code units
+  + checked arithmetic governs all totals ranges and allocations
+
+& [CanonicalEncoding] uses fixed field order sorted records normalized times with offset exact bytes domain-separated SHA256 and no localized text as sole identity
+& [SecretBoundary] no complete environment credential token private key certificate private material browser state or command history enters normative evidence
+& [DataBoundary] formation creates record forms only and zero attempts exports artifacts signatures or executions
+& [DesignDisposition] is complete_for_protocol_formation

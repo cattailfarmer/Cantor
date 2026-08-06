@@ -1,0 +1,46 @@
+Subject: CPMS I03A Host Admission Evidence Protocol Semantic Refinement
+
+@ [refinement_uuid] a5d7d480-0160-49ce-9446-fdcc13fcac43
+@ [source_uuid] 8bbe3fc5-13a4-43d3-8e9e-50aa486b67fa
+
+& [HostAdmissionAttempt] is one immutable command invocation with exact inputs pre-watermark native result post-watermark artifacts events and disposition
+
+& [ChannelGeneration] is the continuous identity of one event-log channel between pre and post snapshots
+  + log name provider configuration mode maximum size oldest newest record ids and continuity tests
+  + clear reset replacement inaccessible or rollover ambiguity makes the affected range incomplete
+
+& [CommandEnvelope] binds executable digest argument vector working directory allowlisted environment toolchain lock target directory timeout and expected stage
+  + exactly one child process invocation defines the primary result
+  + metadata queries are separate observations and cannot replace native exit code
+
+& [TerminalState] is exit_success exit_failure launch_blocked launch_fault timed_out cancelled or wrapper_fault
+  + native exit code exists only for a started process that returned it
+  + host policy classification remains a separate field
+
+& [ArtifactState] is absent not_generated generated_not_launched launched_pass launched_fail or launch_blocked
+  + each observation binds path role bytes digest machine and optional signature observation
+
+& [PolicyEvent] binds channel generation EventRecordID event id time provider structured event data raw XML digest normalized projection and attempt attribution
+  + localized message text is retained as evidence but not the sole semantic key
+
+& [AttemptDisposition] is admitted_pass behavioral_fail launch_blocked build_incomplete launch_fault timed_out cancelled evidence_incomplete or wrapper_fault
+  + admitted_pass requires command success fresh required artifact and test success intact capture and no applicable denial
+  + every other value grants no host-admission satisfaction
+
+& [FreshTarget] is unique empty pre-state plus post-attempt inventory
+  + source cache lock and checksum identities are separate allowed inputs
+  + persistence until review prevents evidence destruction
+
+& [EnvironmentProjection] is a closed allowlist
+  + Cargo Rust target profile feature offline locale architecture and policy-relevant identities only
+  + secret values complete environment and command history excluded
+
+& [AttemptCore] contains canonical facts and excludes its own digest reviewer commentary and later envelope
+& [ReviewEnvelope] binds AttemptCore digest faculty receipts disposition predecessor and authority scope
+& [SignatureAttachment] optionally binds ReviewEnvelope digest under future trusted algorithm key policy without recursion
+
+& [Successor] any retry repair environment policy command source or target change creates a new attempt referencing predecessor
+& [Completeness] reconstructs one command one native result full bounded relevant channel delta required artifact states stream custody and review
+& [AuthorityBoundary] protocol defines capture and judgment forms but cannot launch build sign change policy activate dependencies or close I03A
+
+& [RefinementDisposition] is semantically_closed_for_protocol_formation
