@@ -1,0 +1,12 @@
+Subject: I03E2 Source Identity Check Invocation Fault
+
+@ [fault_uuid] d2d40589-f5c1-4314-ad19-f68cdec862a4
+@ [observed_at_unix_ms] 1785980376040
+
+& [Operation] was read-only source bytes and SHA256 verification
+& [Fault] missing whitespace joined the file argument and Algorithm parameter causing PowerShell parameter binding failure
+& [FalseSignalRisk] the continued expression could display source_identity_match true using an unset hash and prefix-only string containment
+& [Containment] the result was rejected immediately and no file mutation depended on it
+& [Correction] reran Get-FileHash with LiteralPath and Algorithm named parameters and required both exact bytes and full hash strings
+& [CorrectedResult] source_identity_match is true
+& [Impact] none beyond one invalid diagnostic observation

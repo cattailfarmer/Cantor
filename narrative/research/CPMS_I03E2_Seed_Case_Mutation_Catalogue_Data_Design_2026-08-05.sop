@@ -1,0 +1,29 @@
+Subject: CPMS I03E2 Seed Case and Mutation Operator Catalogue Data Design
+
+@ [design_uuid] b1cb5760-9ea9-46b0-b611-a7276242fb12
+
+& [SeedArchetype] owns archetype_id root_kind direction family intended_use completeness construction_recipe_digest prerequisite_obligation_refs and source_ref
+& [ConcreteSeedProposal] owns seed_id archetype_ref carrier payload_digest typed_fixture_digest construction_proof_ref proposed_expectations provenance and resource_account
+
+& [MutationOperator] owns operator_id version carrier coherence_modes preconditions parameter_schema primary_dimension declared_change_schema applicability_projection resource_formula and source_ref
+& [MutationApplication] owns application_id seed_or_predecessor_ref operator_ref coherence_mode canonical_parameters target_locator changed_ranges changed_fields recomputed_dependents output_digest and proof
+
+& [ProposedCase] owns case_id root_kind direction family seed_ref predecessor_case_ref mutation_application_ref exact_bytes_digest typed_fixture_digest proposed_stage_expectations proposed_claim_refs proposed_obligation_edges rationale_digest and provenance
+& [ExpectationReview] owns review_id case_ref exact_payload_digest disposition accepted_claims accepted_obligation_edges corrections reviewer_source and review_digest
+& [InheritedProfileProbe] owns probe_ref owner_slice schema_digest mutation_class observation_digest and satisfied_profile_obligation_refs
+  + it never becomes a public-root ProposedCase
+
+& [CandidateScore] owns mandatory_new total_new mutation_edges fixture_bytes construction_cost and candidate_id
+  + comparison order is mandatory_new descending total_new descending mutation_edges ascending fixture_bytes ascending construction_cost ascending candidate_id lexical
+
+& [SelectionStep] owns step_index uncovered_before candidate_scores selected_case_ref newly_covered rejected_case_refs uncovered_after and step_digest
+& [SelectionTrace] owns obligation_catalogue_digest candidate_catalogue_digest steps remaining_gaps and trace_digest
+
+& [ProposalCatalogue] owns profile obligation_catalogue_digest archetypes operators seeds proposed_cases proposed_reviews selection_trace accounts gaps and catalogue_digest
+  + reviews are absent during pure generation and may be joined only by exact case identity in a successor catalogue
+
+& [DigestDomains] are cantor:i03e2:archetype:v1 cantor:i03e2:seed:v1 cantor:i03e2:operator:v1 cantor:i03e2:application:v1 cantor:i03e2:case:v1 cantor:i03e2:review:v1 cantor:i03e2:selection:v1 and cantor:i03e2:catalogue:v1
+
+& [TransformationDAG] is obligations plus archetypes plus operators -> deterministic seed proposals -> mutation proposals -> proposed applicability and mappings -> advisory selection -> review successor -> later admission
+& [OutputBoundary] is unsigned_case_proposals_only
+& [DesignDisposition] is complete_formation_data_no_generator_runtime
