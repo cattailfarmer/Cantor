@@ -1,0 +1,40 @@
+Subject: CPMS I03A Activation Candidate Revision 1 SJS Input Audit
+
+@ [audit_uuid] cb537dc7-2d11-4374-ae6d-4e360413d980
+@ [source_uuid] 538c8bd3-9931-4f93-b08b-5b608e4aafa8
+@ [source_sha256] 6C0074A87C1D8DF4BE0E80CCD4E8B5712D606BD11C5E4F7E2A432C21A91250F0
+
+& [AuthorityInput] is sufficient for correction-candidate formation only
+  + source identity is measured before SJS
+  + I03D formation supplies the later library-source observation that requires correction
+  + the original I03A package remains historical and inactive
+
+& [Finding1] corrects interface absence
+  + jsonschema 0.49.2 ValidationOptions owns a retriever even when default features are disabled
+  + no-resolution must mean zero admitted retrieval capability and deterministic refusal rather than erased interface
+
+& [Finding2] separates primary and sentinel controls
+  + structural fragment-only preflight decides admissibility before library construction
+  + a test-local zero-capability ProbeDenyRetriever guards the unavoidable library seam
+  + retriever invocation is an internal fault rather than an ordinary rejection path
+
+& [Finding3] keeps production ownership outside I03A
+  + ProbeDenyRetriever exists only in the proposed focused integration test
+  + production CantorDenyRetriever remains an I03D source obligation
+  + I03A source-touch remains exactly the two Cargo manifests lock and one test
+
+& [Finding4] makes construction semantics reproducible
+  + Draft 2020-12 validate-formats false ignore-unknown-formats true zero custom formats and deny retriever are explicit
+  + implicit library defaults are not authority
+
+& [Finding5] corrects meta independence
+  + meta result and instance result remain separate report identities
+  + the supported public builder repeats schema validation
+  + crate-private without_schema_validation cannot be part of the candidate
+
+& [Finding6] preserves activation refusal
+  + current Cargo.lock contains no jsonschema
+  + no dependency source checksum feature build or host gate has been accepted
+  + no satisfaction signature exists
+
+& [AuditDisposition] is source_valid_after_refinement_revision_candidate_formation_allowed_activation_forbidden

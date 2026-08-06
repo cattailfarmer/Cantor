@@ -1,0 +1,38 @@
+Subject: CPMS I03A Activation Candidate Revision 1 Data Design
+
+@ [design_uuid] f3649f0d-f712-48b1-b46c-2edc6fe2f6a7
+
+& [ValidatorConfigurationRecord] has exact fields
+  + engine jsonschema
+  + version 0.49.2
+  + draft draft_2020_12
+  + validate_formats false
+  + ignore_unknown_formats true
+  + custom_format_count 0
+  + retriever probe_deny_retriever
+
+& [ReferencePreflightObservation] has case_id keyword_location raw_target_digest target_class resolved_location disposition rule_id
+  + dispositions are admitted_local_fragment refused internal_fault exhausted
+  + ordering is lexical by case_id then keyword location then raw target digest
+
+& [RetrieverObservation] has invocation_count first_target_digest denial_class and effect_count
+  + successful focused proof requires invocation_count 0
+  + any positive invocation_count produces internal_fault and fails the proof
+  + effect_count is always 0 or the candidate is invalid
+
+& [MetaConstructionPair] has meta_disposition construction_disposition repeated_internal_schema_check_disclosed and stable_rule_ids
+  + repeated_internal_schema_check_disclosed is true
+  + the pair never claims operational independence
+
+& [SourceOwnership] maps schema_validator_dependency.rs to I03A ProbeDenyRetriever
+  + reader_observation.rs and CantorDenyRetriever map to future I03D only
+
+& [ReferenceCaseFamilies] are local_pointer local_anchor HTTP HTTPS file relative UNC drive_letter unknown_scheme empty malformed missing escaping and dynamic
+  + only locally resolvable pointer or anchor may be admitted
+  + root dialect identity is recorded outside retrieval cases
+
+& [DeterminismProjection] includes stable disposition rule identity counts and digests
+  + engine display messages are excluded
+  + error source strings are diagnostic only
+
+& [DesignDisposition] is exact_test_only_revision_data_no_production_form

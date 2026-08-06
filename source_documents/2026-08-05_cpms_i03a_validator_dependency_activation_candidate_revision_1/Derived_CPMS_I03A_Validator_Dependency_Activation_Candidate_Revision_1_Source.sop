@@ -1,0 +1,71 @@
+Subject: CPMS I03A Validator Dependency Activation Candidate Revision 1 Source
+Description: Manager-derived correction source preserving the I03D library-source audit of jsonschema 0.49.2. It revises the inactive I03A dependency-admission proposal without granting Cargo, Rust, dependency, test, execution, production, or activation authority.
+
+@ [source_uuid] 538c8bd3-9931-4f93-b08b-5b608e4aafa8
+@ [recorded_at_utc] 2026-08-05
+@ [superseded_candidate_uuid] a49beba9-7c25-4077-accd-949447001008
+@ [audit_basis] C:\Project\Cantor\specifications\CPMS_I03D_Dual_Reader_Observation_Formation.sop
+
+& [PreservedObservation] jsonschema 0.49.2 ValidationOptions always owns a retriever interface
+  + default-features false disables the default HTTP and file resolution capabilities
+  + disabling those features does not erase the Retrieve interface or the DefaultRetriever value
+  + therefore an absence-of-interface claim is false and cannot govern I03A
+
+& [CorrectedNoResolutionBoundary] has four non-substitutable layers
+  + feature graph excludes resolve-http resolve-file TLS transport and equivalent external resolution capability
+  + a structural preflight accepts only local fragment references that remain inside the single admitted in-memory document
+  + a zero-capability deny retriever is installed explicitly as defense in depth
+  + any invocation of the deny retriever is an internal-fault observation because preflight should have refused the reference first
+
+& [ProbeDenyRetriever] is test-local dependency-admission evidence
+  + the focused I03A integration test defines a zero-sized ProbeDenyRetriever implementing jsonschema referencing Retrieve
+  + every retrieval request returns one deterministic denial class
+  + it performs zero filesystem network registry environment provider model subprocess persistence notification or device interaction
+  + it has zero cache registry fallback mutable state and caller-supplied callback
+  + it proves the public construction path can replace DefaultRetriever without adding production code
+
+& [ProductionOwnership] remains outside I03A
+  + I03D owns a later production CantorDenyRetriever in the reader-observation implementation slice
+  + I03A does not add reader_observation.rs or any public validator behavior
+  + similarity of the two deny behaviors does not transfer implementation authority between slices
+
+& [ReferencePreflight] examines every resolved reference-bearing keyword before validator construction
+  + the root dialect URI is configuration identity and not a retrievable schema reference
+  + an admitted resolved reference begins with number-sign and resolves only within the same parsed document
+  + empty fragments invalid JSON Pointer syntax escaping dynamic targets relative identifiers drive-letter UNC file HTTP HTTPS and unknown schemes refuse deterministically
+  + preflight is primary policy; the deny retriever is defense in depth rather than policy discovery
+
+& [ConstructionConfiguration] is explicit
+  + select Draft 2020-12
+  + call should_validate_formats false
+  + call should_ignore_unknown_formats true
+  + register zero custom formats
+  + install ProbeDenyRetriever
+  + construct only after byte identity UTF-8 JSON shape and reference preflight observations pass
+
+& [MetaSchemaObservation] remains logically distinct from instance validation
+  + the report records schema well-formedness or compilation disposition separately from bounded instance disposition
+  + jsonschema public builder construction may repeat schema validation internally
+  + without_schema_validation is crate-private and cannot be used to manufacture operational independence
+  + no requirement may claim two disjoint engine passes when the supported public API does not provide them
+
+& [FeatureAndLockBoundary] remains exact
+  + workspace jsonschema requirement is exactly 0.49.2 with default-features false
+  + final lock must prove exact admitted family identities sources checksums and selected features
+  + current Cargo.lock contains no jsonschema package and grants no activation
+  + a future dependency or feature drift requires renewed review
+
+& [SourceTouchBoundary] remains dependency-probe only
+  + root Cargo.toml
+  + Cargo.lock
+  + crates/cantor_procedure_tool/Cargo.toml
+  + crates/cantor_procedure_tool/tests/schema_validator_dependency.rs
+  + the test-local ProbeDenyRetriever resides only in that focused integration test
+  - never: production reader module library API CLI MCP service persistence provider model network effect hardware or FPGA source
+
+& [RevisionEffect] supersedes the semantic claims of the inactive original candidate where they conflict
+  + the original source package and candidate remain immutable historical evidence
+  + Revision 1 remains inactive and unsigned
+  + no dependency resolution compilation executable launch or test is authorized by preservation
+
+& [RequestedDisposition] is preserve_then_sjs_then_form_inactive_revision_candidate

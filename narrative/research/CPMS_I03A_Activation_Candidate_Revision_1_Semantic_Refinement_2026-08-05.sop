@@ -1,0 +1,31 @@
+Subject: CPMS I03A Activation Candidate Revision 1 Semantic Refinement
+
+@ [refinement_uuid] c56d03a5-cf75-4b71-bae0-d3613d8bd7d6
+@ [input_audit] C:\Project\Cantor\narrative\research\CPMS_I03A_Activation_Candidate_Revision_1_SJS_Input_Audit_2026-08-05.sop
+
+& [ResolutionInterface] is a library construction seam capable of receiving a retrieval request
+& [ResolutionCapability] is an admitted implementation that can obtain material beyond the current in-memory document
+  + interface presence does not prove capability presence
+  + feature absence does not prove interface absence
+
+& [ReferencePolicy] is Cantor's structural decision over one reference target before library construction
+& [DenyRetriever] is a zero-capability sentinel installed at the unavoidable library seam
+& [RetrieverInvocationFault] means preflight and construction assumptions disagreed
+  + it is internal fault evidence and never accepted resolution
+
+& [ProbeDenyRetriever] is private test-local evidence for dependency admission
+& [CantorDenyRetriever] is later production behavior owned by I03D
+  + they share a contract shape but never authority lineage
+
+& [MetaSchemaObservation] is a stable report about schema acceptability
+& [ValidatorConstructionObservation] is a stable report about public builder construction
+  + the identities are separate
+  + their engine work is not asserted to be disjoint because public construction repeats validation
+
+& [FormatAnnotationMode] means format keywords are not assertion failures
+  + validate formats is false
+  + unknown formats are ignored
+  + no custom format registry exists
+
+& [RevisedNoResolution] is feature exclusion plus structural preflight plus explicit denial sentinel plus invocation-fault accounting
+& [RefinedDisposition] is exact_inactive_dependency_probe_revision_candidate

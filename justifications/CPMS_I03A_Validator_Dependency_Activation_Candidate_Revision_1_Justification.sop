@@ -1,0 +1,15 @@
+Subject: CPMS I03A Validator Dependency Activation Candidate Revision 1 Justification
+
+@ [justification_uuid] 6e4f28fc-43b4-41dc-938d-0e122283f830
+@ [canonical_candidate_uuid] 77af0572-938f-4389-9aef-265445a14d56
+
+& [Problem] the original candidate conflated disabled default resolution features with absence of a retriever seam
+& [Rejected1] retain the original wording because the cached 0.49.2 source directly disproves it
+& [Rejected2] rely on offline execution because dormant or custom resolution capability can still exist offline
+& [Rejected3] install only a deny retriever because policy should refuse inadmissible references before library invocation
+& [Rejected4] use crate-private without_schema_validation because unsupported internals are not a stable public contract
+& [Rejected5] place production CantorDenyRetriever in I03A because dependency admission does not own reader implementation
+& [Selected] fragment-only preflight plus a test-local explicit deny sentinel plus feature exclusion and invocation-fault accounting
+& [Reason] this gives honest defense in depth through public API while retaining exact source ownership
+& [ActivationReason] revision formation repairs the specification but cannot substitute for dependency host execution review and signature evidence
+& [Disposition] is correction_justified_activation_not_justified
