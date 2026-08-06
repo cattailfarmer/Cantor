@@ -1,0 +1,107 @@
+Subject: CPMS I03C Semantic Residual Registry Data Design
+
+@ [design_uuid] efabd12a-7798-43ab-a320-edec7c32e0c3
+
+& [ResidualRegistry] contains
+  + profile String fixed cantor-semantic-residual-registry/0.1
+  + parent_specification_uuid String
+  + i02_bundle_bytes u64 fixed 247809
+  + i02_bundle_artifact_digest ContentDigest fixed SHA256 03616F46C4A3C4B7FA4B9D0A668E16FF4B47BA71CB70879B10F1D95157ADCB42
+  + i02_payload_digest ContentDigest fixed SHA256 34f580f21825860ec03ed0bd089ab2b34ae8c08dd1d8cb66f22a629750314167
+  + i02_exact_baseline_fingerprint ContentDigest fixed SHA256 77668e20c701723929cb9b12343ed33b21ee1f59da5ea121db3d0e0be94ba6d7
+  + source_snapshots Vec CodeSnapshot sorted by repository_path
+  + records Vec SemanticResidualRecord in exact baseline order
+  + indexes ResidualRegistryIndexes
+  + registry_digest ContentDigest
+
+& [SemanticResidualRecord] contains
+  + id ResidualId
+  + title String
+  + class ResidualClass
+  + covered_roots Vec MachineSchemaRootKind sorted by enum order
+  + subject_types Vec String sorted bytewise
+  + applicability ResidualPredicate
+  + stages Vec ResidualStage sorted by enum order
+  + code_bindings Vec CodeBinding sorted by crate module function identity
+  + enforcement EnforcementDisposition
+  + evaluation_policy I03EvaluationPolicy
+  + severity ResidualSeverity
+  + proof_references Vec String sorted bytewise
+  + related Vec ResidualRelation sorted by kind then target id
+  + rationale String
+
+& [ResidualId] is exact validated ASCII text matching RMS-R0[1-6] or I03-R0(0[7-9]|1[0-9]|20)
+& [ResidualClass] is capacity semantic_structure integrity lineage authority replay result_shape or non_capability
+& [ResidualStage] is byte_ingress deserialize semantic_validation preparation authorship authorship_replay coordination_replay tool_schema tool_call controller_verification controller_replay admission or bounded_execution
+& [EnforcementDisposition] is enforced partially_enforced unimplemented observational or outside_i03
+& [I03EvaluationPolicy] is safe_pure observational_only or prohibited_authority
+& [ResidualSeverity] is informational release_blocking or authority_blocking
+& [ResidualRelationKind] is depends_on overlaps supersedes split_from or guarded_by
+
+& [ResidualPredicate] is a closed declarative expression
+  + always
+  + reaches_admission
+  + pass_index_has_successor_capacity
+  + proposal_evaluated_for_execution
+  + result_or_transcript_is_verified
+  + no predicate executes code or accepts arbitrary expression text
+
+& [CodeSnapshot] contains repository_path String bytes u64 sha256 ContentDigest and baseline_commit String
+& [InternalCodeBinding] contains crate_name module_path function_names Vec String and snapshot_index u64
+& [ExternalCodeBinding] contains package_name locked_version feature_set Vec String observed_concept String and stability external_observation
+& [CodeBinding] is internal or external
+
+& [ResidualRelation] contains kind ResidualRelationKind and target ResidualId
+& [ResidualRegistryIndexes] contains deterministic maps
+  + by_root MachineSchemaRootKind to Vec ResidualId
+  + by_subject_type String to Vec ResidualId
+  + by_disposition EnforcementDisposition to Vec ResidualId
+  + by_stage ResidualStage to Vec ResidualId
+  + by_module_function String to Vec ResidualId where key is crate double-colon module double-colon function
+  + by_proof_reference String to Vec ResidualId
+
+& [SourceSnapshot0] crates/cantor_core/src/procedure_validation.rs 72618 bytes SHA256 683FB47C45200A512421FC338F007A184494DECBA2E21622FEF5BBE146267E8B
+& [SourceSnapshot1] crates/cantor_core/src/procedure_authorship.rs 36909 bytes SHA256 410EAEA9ED3ECF370AB683EE8E11BA3D39584EF8A22ABDC45D065F4BA7BC2CBC
+& [SourceSnapshot2] crates/cantor_core/src/procedure_coordination.rs 64470 bytes SHA256 71CC9AB45D0D52355A6B2679E50C52AF668409ADCAA06E3DA169E2D7729163E1
+& [SourceSnapshot3] crates/cantor_core/src/procedure_tool.rs 28114 bytes SHA256 22A0DF1CCBE40004C66CE3161008CC07C2D1B12352A7391CF139C8901C89053A
+& [SourceSnapshot4] crates/cantor_core/src/procedure_verifier.rs 37062 bytes SHA256 2D4C44BDD42464DA28E9A9D506A0FC58227DB07996D1D705E3547C26ACEA2673
+& [SourceSnapshot5] crates/cantor_procedure_tool/src/lib.rs 11411 bytes SHA256 EAE94ECD9E742A2187490A0D03DD43EE8D41BC70F163E3DAF7F5A3D20AFC6DBF
+& [SourceSnapshot6] crates/cantor_procedure_tool/src/schema_generation.rs 38183 bytes SHA256 D43F5F3DF6317983084FAEF91E889925A0A148F0F0F4F262BDFF95635E5D01F0
+& [SourceSnapshot7] crates/cantor_procedure_tool/src/schema_documents.rs 34106 bytes SHA256 2D73CA2DBD49B81840AA8F268A6AFE942B957D714AB77C22F24569290A8D6FFA
+
+& [BaselineRecordAssignments] are exact
+  + RMS-R01 roots all stages deserialize disposition partially_enforced policy observational_only proof future_i03_typed_reader_capacity
+  + RMS-R02 roots all stages semantic_validation disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_validation.rs
+  + RMS-R03 roots all stages semantic_validation disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_validation.rs
+  + RMS-R04 roots all stages semantic_validation disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_validation.rs
+  + RMS-R05 roots all stages semantic_validation disposition partially_enforced policy safe_pure proof crates/cantor_core/tests/procedure_validation.rs and future_i03_cross_reader_account_correspondence
+  + RMS-R06 roots all stages admission disposition outside_i03 policy prohibited_authority proof crates/cantor_core/tests/procedure_verifier.rs
+  + I03-R007 roots prepare_input preparation_response stages preparation disposition enforced policy safe_pure proof future_i03c_residual_registry_tests
+  + I03-R008 roots all stages authorship disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_authorship.rs
+  + I03-R009 roots all stages semantic_validation authorship disposition enforced policy safe_pure proof procedure_validation and procedure_authorship tests
+  + I03-R010 roots run_input verify_input base_response preparation_response stages authorship_replay disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_authorship.rs
+  + I03-R011 roots run_input verify_input base_response preparation_response stages authorship coordination_replay disposition enforced policy safe_pure proof procedure_authorship and procedure_coordination tests
+  + I03-R012 roots run_input verify_input base_response preparation_response stages tool_schema disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_tool.rs
+  + I03-R013 roots run_input verify_input base_response preparation_response stages tool_call disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_tool.rs
+  + I03-R014 roots run_input verify_input base_response preparation_response stages tool_call disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_tool.rs
+  + I03-R015 roots run_input verify_input base_response preparation_response stages authorship tool_call disposition enforced policy safe_pure proof procedure_authorship and procedure_tool tests
+  + I03-R016 roots verify_input base_response preparation_response stages controller_verification disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_tool.rs
+  + I03-R017 roots verify_input base_response preparation_response stages controller_verification disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_tool.rs
+  + I03-R018 roots verify_input base_response preparation_response stages controller_verification disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_tool.rs
+  + I03-R019 roots verify_input base_response stages controller_replay disposition enforced policy safe_pure proof crates/cantor_core/tests/procedure_tool.rs
+  + I03-R020 roots all stages bounded_execution controller_verification disposition enforced policy observational_only proof crates/cantor_core/tests/procedure_tool.rs and future_i03c_source_surface_non_capability
+
+& [DigestPreimage] is UTF-8 canonical length-prefixed fields
+  * ASCII domain cantor-semantic-residual-registry/0.1
+  * parent specification UUID
+  * I02 bundle byte length artifact digest embedded payload digest and embedded exact-baseline fingerprint
+  * source snapshots in path order
+  * records in registry order
+  * indexes in field then key order
+  + every scalar and collection has an explicit tag and u64 length
+  + SHA256 over preimage yields registry_digest
+
+& [QueryResult] contains profile query digest matched residual ids and exact cloned records
+  + no function pointer callback admission token or mutable registry reference
+
+& [DesignDisposition] is exact_candidate_forms_not_implemented

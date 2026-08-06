@@ -1,0 +1,196 @@
+Subject: CPMS I03C Semantic Residual Registry
+
+Description: Canonical formation for the pure inspectable registry that resolves every public procedure semantic residual to stable identity, covered roots, subject types, exact current code bindings, enforcement state, evaluation policy, and proof obligations. Formation grants no implementation or reader authority.
+
+@ [specification_uuid] ff148874-fb03-4e40-aa82-1e345c1f72a0
+@ [profile] cantor-semantic-residual-registry/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cpms_i03c_semantic_residual_registry\Source_Document_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\CPMS_I03C_Semantic_Residual_Registry_SJS_Input_Audit_2026-08-05.sop
+@ [semantic_refinement] C:\Project\Cantor\narrative\research\CPMS_I03C_Semantic_Residual_Registry_Semantic_Refinement_2026-08-05.sop
+@ [constraints] C:\Project\Cantor\narrative\research\CPMS_I03C_Semantic_Residual_Registry_Constraint_Ledger_2026-08-05.sop
+@ [data_design] C:\Project\Cantor\narrative\research\CPMS_I03C_Semantic_Residual_Registry_Data_Design_2026-08-05.sop
+@ [parent] C:\Project\Cantor\specifications\CPMS_I03_Residual_Conformance_Profile.sop
+@ [i02_bundle] C:\Project\Cantor\crates\cantor_procedure_tool\tests\goldens\machine_schema\public_procedure_machine_schema.bundle.json
+
+& [Purpose] is exact residual resolution without authority execution
+  + replace free residual strings with one stable catalogue
+  + show where each condition is enforced observed incomplete or outside I03
+  + bind every claim to source snapshots and proof obligations
+  + permit deterministic pure lookup for later conformance reporting
+
+& [ResidualPrinciple] is strict
+  + JSON Schema proves only the constraints encoded by the schema document
+  + each residual names a condition the schema cannot discharge
+  + registry resolution does not satisfy the residual
+  + satisfaction requires applicable bound enforcement and proof
+
+& [Identity] is stable
+  + baseline contains exactly RMS-R01 through RMS-R06 and I03-R007 through I03-R020
+  + order is numeric by those two established families
+  + identifiers cannot be renamed recycled or silently merged
+  + split supersession and overlap are explicit typed relations
+
+& [Record] contains id title class covered roots subject types applicability stages code bindings enforcement disposition evaluation policy severity proof references related residuals and rationale
+  + every field is present
+  + collections are sorted unique under their declared orders
+  + free prose cannot replace a closed enum or binding
+
+& [Roots] are prepare_input run_input verify_input base_response and preparation_response
+  + root coverage states reachability of a subject or condition
+  + applicability separately states when the condition governs
+  + coverage cannot invoke an enforcement stage
+
+& [Classes] are capacity semantic_structure integrity lineage authority replay result_shape and non_capability
+& [Stages] are byte_ingress deserialize semantic_validation preparation authorship authorship_replay coordination_replay tool_schema tool_call controller_verification controller_replay admission and bounded_execution
+& [Dispositions] are enforced partially_enforced unimplemented observational and outside_i03
+& [Policies] are safe_pure observational_only and prohibited_authority
+& [Severities] are informational release_blocking and authority_blocking
+
+& [CodeSnapshot] binds repository-relative path baseline commit exact byte length and SHA256
+& [InternalCodeBinding] binds crate module ordered function set and one CodeSnapshot
+& [ExternalCodeBinding] binds locked package identity observed concept and external-observation status
+  + source digest and symbol identity are authority
+  + path and current line are advisory locators
+  + changed source bytes invalidate dependent bindings until registry recompilation
+
+& [RMS_R01] typed serde recursive capacity
+  + roots all; subjects recursive public roots and serde_json Deserializer; stage deserialize
+  + external binding serde_json locked dependency remaining-depth behavior
+  + partially_enforced observational_only release_blocking
+  + open proof is exact bounded byte-to-typed-reader capacity under the selected dependency
+
+& [RMS_R02] semantic call-depth and bound-set validity
+  + roots all; subjects ProcedureBounds ProcedureType ProcedureValue CantorProcessIr; stage semantic_validation
+  + procedure_validation validate_bounds validate_type_with_bounds validate_value_with_bounds
+  + enforced safe_pure release_blocking; maximum_call_depth is no greater than 64 and every bound is positive
+
+& [RMS_R03] procedure type recursion and schema-reference validity
+  + roots all; subjects ProcedureType ProcedureSchema ProcedureSchemaSet; stage semantic_validation
+  + procedure_validation validate_schema_set validate_schema validate_type validate_type_with_bounds
+  + enforced safe_pure release_blocking
+
+& [RMS_R04] procedure value structural validity
+  + roots all; subjects ProcedureValue and containing forms; stage semantic_validation
+  + procedure_validation validate_value validate_value_with_bounds
+  + enforced safe_pure release_blocking
+
+& [RMS_R05] aggregate value resource accounting
+  + roots all; subjects ProcedureValue ProcedureBounds and containing forms; stage semantic_validation
+  + procedure_validation validate_value_with_bounds validate_value_collection_bounds
+  + partially_enforced safe_pure release_blocking because cross-reader byte-to-value correspondence remains open
+
+& [RMS_R06] Observer authority admission
+  + roots all because each I02 document cites the universe family; applicability reaches_admission; stage admission
+  + procedure_verifier fake_observer_admit and verification helpers
+  + outside_i03 prohibited_authority authority_blocking
+
+& [I03_R007] preparation successor capacity
+  + roots prepare_input preparation_response; subjects PrepareRequest ProcedureToolResponse PreparedRunRequest; stage preparation
+  + cantor_procedure_tool prepare_response; applicability pass_index_has_successor_capacity
+  + enforced safe_pure release_blocking
+
+& [I03_R008] authorship identity and reserved-authority boundary
+  + roots all; subjects ProcedureCandidate AuthorshipLaneTemplate AuthorshipLaneEvidence; stage authorship
+  + procedure_authorship validate_authorship_boundary validate_lane_evidence
+  + enforced safe_pure authority_blocking
+
+& [I03_R009] candidate source digest and provenance integrity
+  + roots all; subjects ProcedureCandidate AuthorshipLaneEvidence ValidationReceipt; stages semantic_validation authorship
+  + procedure_validation validate_procedure_forms compute_candidate_source_digest and procedure_authorship validate_lane_evidence
+  + enforced safe_pure release_blocking
+
+& [I03_R010] authorship receipt exact replay
+  + roots run_input verify_input base_response preparation_response; subjects lane evidence receipts and candidate artifacts; stage authorship_replay
+  + procedure_authorship run_authorship_lane validate_lane_evidence
+  + enforced safe_pure release_blocking
+
+& [I03_R011] catalogue coordination token and stable-session lineage
+  + roots run_input verify_input base_response preparation_response; subjects ProcedureCatalogueState NegotiationSession TokenRingPass CoordinationReplayReceipt
+  + stages authorship coordination_replay; bindings procedure_authorship validate_lane_evidence and procedure_coordination record_token_ring_pass verify_coordination_replay
+  + enforced safe_pure release_blocking
+
+& [I03_R012] exact provider-neutral tool schema
+  + roots run_input verify_input base_response preparation_response; subject ProviderNeutralToolSchema; stage tool_schema
+  + procedure_tool validate_schema compute_provider_neutral_tool_schema_digest
+  + enforced safe_pure release_blocking
+
+& [I03_R013] tool argument digest integrity
+  + roots run_input verify_input base_response preparation_response; subject ToolCallProposal; stage tool_call
+  + procedure_tool validate_tool_call compute_tool_call_argument_digest
+  + enforced safe_pure release_blocking
+
+& [I03_R014] executable operation membership
+  + roots run_input verify_input base_response preparation_response; subjects ProviderNeutralToolSchema ToolCallProposal ExchangeOperation; stage tool_call
+  + procedure_tool validate_tool_call; applicability proposal_evaluated_for_execution
+  + enforced safe_pure authority_blocking
+
+& [I03_R015] participant invocation and session lineage
+  + roots run_input verify_input base_response preparation_response; subjects ToolCallProposal AuthorshipLaneEvidence InvocationRequest NegotiationSession
+  + stages authorship tool_call; bindings procedure_tool validate_tool_call and procedure_authorship validate_lane_evidence
+  + enforced safe_pure authority_blocking
+
+& [I03_R016] controller transcript order and forbidden counters
+  + roots verify_input base_response preparation_response; subjects FakeControllerOutcome FakeControllerTranscript ControllerTranscriptEvent; stage controller_verification
+  + procedure_tool verify_fake_controller_outcome verify_event_chain
+  + enforced safe_pure release_blocking
+
+& [I03_R017] completed and refused result shape
+  + roots verify_input base_response preparation_response; subjects ProviderNeutralToolResult ToolResultDisposition FakeControllerOutcome; stage controller_verification
+  + procedure_tool verify_fake_controller_outcome
+  + enforced safe_pure release_blocking
+
+& [I03_R018] result transcript and explicit-context digest correspondence
+  + roots verify_input base_response preparation_response; subjects ProviderNeutralToolResult FakeControllerTranscript LaterPassContext; stage controller_verification
+  + procedure_tool verify_fake_controller_outcome and result transcript context digest functions
+  + enforced safe_pure release_blocking
+
+& [I03_R019] exact authoritative controller replay
+  + roots verify_input base_response; subjects FakeControllerOutcome ProviderNeutralToolResult; stage controller_replay
+  + procedure_tool verify_fake_controller_outcome run_fake_controller_exchange
+  + enforced safe_pure release_blocking
+
+& [I03_R020] provider and external-effect non-capability
+  + roots all; subjects FakeControllerOutcome FakeControllerTranscript ProcedureToolResponse; stages bounded_execution controller_verification
+  + procedure_tool run_fake_controller_exchange verify_fake_controller_outcome finish_outcome and tool response construction
+  + provider_call_count and external_effect_count are zero and no bounded path exposes provider or effect facilities
+  + enforced observational_only authority_blocking with conjunctive source-surface and zero-counter proof
+
+& [SchemaReferenceClosure] scans each residual_ids set in the five CanonicalMachineSchemaDocument records inside the exact I02 bundle payload documents map
+  + standalone schema JSON payloads intentionally omit this metadata and are not residual-reference sources
+  + every encountered id resolves to exactly one record
+  + current references are RMS-R01 through RMS-R06
+  + registry-only successor records remain valid but are not misrepresented as document citations
+
+& [Indexes] are derived by root subject type disposition stage module function and proof reference
+  + every value is a sorted unique residual-id vector
+  + rebuild from records must exactly equal stored indexes
+  + records remain authoritative when an index is absent corrupt or stale
+
+& [RegistryDigest] uses versioned length-prefixed canonical encoding and SHA256
+  + binds domain profile parent I03 UUID I02 bundle byte length file digest embedded payload digest embedded exact-baseline fingerprint ordered snapshots records and indexes
+  + file digest payload digest and baseline fingerprint are integrity identities and are not misrepresented as digital signatures
+  + excludes timestamps human line locators and display formatting
+
+& [Query] is deterministic pure exact and non-executing
+  + returns query digest matched ids and exact records
+  + never returns a function pointer callback mutable authority token or inferred satisfaction
+
+& [FutureSourceTouch] is unsigned and exact
+  + modify crates/cantor_procedure_tool/src/lib.rs only after feature-policy activation
+  + add crates/cantor_procedure_tool/src/residual_registry.rs
+  + add crates/cantor_procedure_tool/tests/residual_registry.rs
+  - never: current enforcement schema golden Cargo dependency core CLI MCP service ecosystem preflight provider model effect or hardware file
+
+& [Proof] after future activation covers exact 20-record order field closure id grammar source digest staleness schema-reference closure every index reconstruction query determinism record snapshots dispositions policies and mutation refusal
+  + exact source-snapshot recomputation
+  + exact bundle identity 247809 bytes SHA256 03616F46C4A3C4B7FA4B9D0A668E16FF4B47BA71CB70879B10F1D95157ADCB42 and six residual ids in each of five document records
+  + missing duplicate unknown reordered and stale record cases
+  + positive and empty query intersections
+  + proof that queries never invoke bound functions
+  + complete locked offline debug release formatting lint docs audit evidence and diff gates
+
+& [FormationBoundary] is strict
+  + current slice adds source SJS canonical exploded requirements justification plan review inactive lock proof narrative and evidence metadata only
+  - never: Rust registry parser validator serde invocation semantic admission compatibility provider model service persistence network effect production hardware or FPGA
+
+& [PresentDisposition] is formed_not_activated
