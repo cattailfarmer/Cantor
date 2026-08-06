@@ -1,0 +1,11 @@
+Subject: Project Narrative Hash Parameter Join Recurrence
+
+@ [fault_uuid] 4c2fff16-5a93-4c08-9342-007e8bdda440
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+
+& [Observed] a read-only measurement command omitted whitespace between LiteralPath and its variable for Get-Item and Get-FileHash
+& [Result] PowerShell rejected both parameter names and the displayed zero-byte empty-hash interpolation was invalid diagnostic output
+& [Impact] no file read result was accepted and no file was written deleted compiled or executed
+& [Correction] rerun both commands with complete named parameter separation and receive Project Narrative 213566 bytes SHA256 B362667DACEFCD566A8C9B7BD648435F3F82F4C1EC54E5E21B4D43966AAAE6E2
+& [Prevention] preserve spaces around every named-parameter argument and reject any measurement command that emits a parameter-binding error even if later interpolation prints values
+& [Disposition] is closed_invalid_read_only_diagnostic

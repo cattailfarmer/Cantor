@@ -1,0 +1,41 @@
+Subject: CPMS I03 Phase Lock Identity Audit
+
+@ [audit_uuid] 4a90fa1c-d440-4bb5-b894-0fe1d2e021fc
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [baseline_commit] 719cec0
+
+& [Purpose] verify that every I03 inactive lock candidate still names the exact formation artifacts present on disk
+
+& [LockPopulation] is eleven
+  + original I03A historical candidate
+  + I03A Revision 1
+  + I03B I03C I03D I03E I03E1 I03E2 I03E3 I03E4 and I03A host evidence protocol
+  + base I03 residual profile has a formation matrix but no implementation lock candidate and is outside this population
+
+& [CheckedSurfaces] are five per lock
+  + canonical specification byte count and SHA256 where byte count is declared
+  + exploded specification SHA256
+  + requirement matrix byte count and SHA256
+  + source manifest SHA256
+  + preserved source SHA256 and source byte count where declared
+
+& [ManifestCompatibility] recognizes all source-preservation generations
+  + direct source_file source_bytes source_sha256 fields
+  + named SourcePath Bytes SHA256 fields
+  + PreservedSource path byte_length sha256 block
+  + unknown manifest grammar is a hard audit fault
+
+& [CanonicalCompatibility] recognizes canonical and canonical_candidate field prefixes without treating them as different integrity strength
+
+& [Result] passes
+  + lock candidates 11
+  + checked artifact surfaces 55
+  + mismatched surfaces 0
+  + missing surfaces 0
+  + unknown manifest profiles 0
+
+& [AuthorityDelineation] exact inactive lock identity proves formation-package integrity only
+  + it does not make a candidate signed active implemented verified executable or complete
+  + every lock remains inactive_unsigned
+
+& [AuditDisposition] is all_inactive_lock_bindings_exact_activation_unchanged
