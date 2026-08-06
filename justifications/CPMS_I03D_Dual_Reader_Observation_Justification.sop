@@ -1,0 +1,16 @@
+Subject: CPMS I03D Independent Schema and Typed Reader Observation Justification
+
+@ [justification_uuid] a334fecd-ce3c-4883-9d4c-85448de0aa75
+
+& [Need] the generated schemas and actual Rust types overlap but do not express identical constraints representations or intended uses
+& [Selected] two independent bounded readers joined only by exact root subject document dependency and registry identities
+  + schema branch exposes stable Draft rule findings over a declared Value projection
+  + typed branch exposes actual Rust binding or serialization under exact serde versions
+  + neither branch can erase the other and no agreement claim exists at this slice
+& [Rejected] deserialize once then validate the resulting Value because a shared transformation would hide independent parser and representation differences
+& [Rejected] schema acceptance as typed acceptance because annotation formats and Rust integer bounds intentionally differ
+& [Rejected] library display messages as proof identity because wording and nesting can change without semantic rule change
+& [Rejected] absence of resolver features as the sole no-resolution proof because the library still owns a retriever interface
+& [SelectedDefense] structural fragment-only preflight plus explicit zero-capability deny retriever plus compile-feature absence
+& [HonestyCorrection] explicit meta validation is reported separately while public validator construction's repeated schema gate is acknowledged
+& [Decision] form exact reader and observation contracts now and require all prerequisite activation and completion proofs before implementation

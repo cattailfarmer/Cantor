@@ -1,0 +1,86 @@
+Subject: CPMS I03D Independent Schema and Typed Reader Observation SJS Input Audit
+
+@ [audit_uuid] 8254eb6b-5a38-40a0-a1c1-9ee6134d8f27
+@ [source] C:\Project\Cantor\source_documents\2026-08-05_cpms_i03d_dual_reader_observation\Derived_CPMS_I03D_Dual_Reader_Observation_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-08-05_cpms_i03d_dual_reader_observation\Source_Document_Manifest.sop
+
+& [SourceIntegrity] passed at 12065 bytes SHA256 4D873CFAB7146193E015183C92095FE14BC86011797968CD4DD3AEFF582FE958
+& [Baseline] is pushed commit 1c841bf0972057a115e54feed26f34925f92da57
+& [FormationAuthority] exists because reader binding observation and normalization semantics are documentary
+& [ImplementationAuthority] is absent because I03A I03B and I03C are inactive and jsonschema is absent from the workspace lock
+
+& [Correction1] qualifies schema acceptance
+  + an observation is acceptance by exact jsonschema version feature draft format and numeric representation profile
+  + it is not proof of universal mathematical Draft 2020-12 interpretation
+  + source bytes and I03B number tokens remain evidence whenever Value projection changes spelling or precision class
+
+& [Correction2] closes numeric projection classes
+  + integer token exactly representable as i64 is exact_i64
+  + nonnegative integer outside i64 but within u64 is exact_u64
+  + finite fraction or exponent accepted by serde_json is finite_f64 and explicitly approximate as a mathematical decimal representation
+  + integer outside u64 or any nonfinite or parser-unrepresentable token is representation_exhausted
+  + representation_exhausted never becomes schema rejection or agreement
+
+& [Correction3] makes format behavior explicit
+  + call should_validate_formats false and should_ignore_unknown_formats true
+  + register no custom formats
+  + int64 uint32 and uint64 remain annotations and typed deserialization supplies representation enforcement
+  + reliance on version-dependent default format behavior is forbidden
+
+& [Correction4] corrects no-retriever wording
+  + jsonschema ValidationOptions always owns a retriever interface and defaults to DefaultRetriever
+  + under default-features false its HTTP and file branches fail closed but the interface still exists
+  + future I03A activation must supply an owned zero-sized CantorDenyRetriever whose every retrieve call returns a deterministic denial without I/O
+  + fragment-only reference preflight remains primary and any deny-retriever invocation becomes internal_fault
+  + no caller-provided registry retriever or resource callback is accepted
+
+& [Correction5] corrects meta-schema independence
+  + draft202012 meta validation is recorded before validator construction
+  + jsonschema 0.49.2 public ValidationOptions build also performs schema validation and does not expose without_schema_validation
+  + construction therefore repeats an internal schema gate and may not be called operationally independent from meta validation
+  + separate observations mean separately reported outcomes rather than disjoint library execution
+
+& [Correction6] binds current serde dependencies without freezing future activation prematurely
+  + current lock contains serde 1.0.229 checksum 4148590afebada386688f18773da617792bf2ef03ffc1e4cbd2b1d45b023e0ba
+  + current lock contains serde_json 1.0.151 checksum c841b55ecdae098c80dcae9cf767f6f8a0c2cdb3416bbef72181df4d0fe73f14
+  + jsonschema is absent
+  + I03D activation must bind the exact post-I03A lock because dependency resolution may change serde-family versions
+
+& [Correction7] closes the response-root relation
+  + base response schema is 53014 bytes SHA256 40FD8536021892ADB35CECBCA717AD2CA68FA5125A3C027FC8274364FCE1B77C
+  + preparation response schema is 53021 bytes SHA256 9D51B85036B9A4FF7C519693F60C6ECF99C7CC5E529EF7DB423365D776C7B51A
+  + their schema values are exactly equal after removal of root dollar id
+  + root identity intended use document digest and fixture policy remain distinct and cannot be merged by equal validation behavior
+
+& [Correction8] separates reader refusal phases
+  + schema rejected requires completed validator iteration with one or more normalized rule findings
+  + schema Value parse failure or numeric representation exhaustion occurs before validation and cannot count as rejected
+  + typed data error is typed rejection while typed syntax or EOF after faithful ingress is internal parser disagreement
+
+& [Correction9] closes finding overflow atomicity
+  + collect at most 256 normalized findings plus one checked overflow observation
+  + encountering a 257th produces exhausted stage normalization with observed minimum 257
+  + bounded prefix may be retained only as non-authoritative diagnostic evidence and cannot accompany accepted or rejected disposition
+
+& [Correction10] closes stable schema rule scope from exact artifact audit
+  + current instance finding families are additional_properties any_of constant enum maximum minimum maximum_length minimum_length one_of pattern required type and unique_items
+  + dollar ref failures belong to preflight or internal fault
+  + format is annotation only
+  + unseen error kinds cause profile_drift rather than dynamically expanding the stable enum
+
+& [Correction11] closes serde locator meaning
+  + category line and column under the exact activated serde_json version are identity-bearing reader evidence
+  + they are not JSON Pointer paths or source-byte offsets
+  + no inferred field path is claimed without a separately activated path-aware dependency or owned mechanism
+
+& [Correction12] closes output intended-use responsibility
+  + typed serialization proves only that ProcedureToolResponse serialized
+  + root-specific intended use is an admitted fixture assertion and later corpus obligation
+  + I03D preserves that assertion but does not semantically validate it
+
+& [Correction13] closes future source touch
+  + lib.rs reader_observation.rs and one reader_observation integration test are the I03D candidate
+  + explicit deny retriever lives in reader_observation.rs and adds no dependency
+  + any Cargo or lock change belongs to separately revised I03A authority
+
+& [AuditDisposition] is source_valid_after_corrections_formation_allowed_implementation_forbidden

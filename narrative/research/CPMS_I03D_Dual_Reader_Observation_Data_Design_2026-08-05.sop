@@ -1,0 +1,130 @@
+Subject: CPMS I03D Independent Schema and Typed Reader Observation Data Design
+
+@ [design_uuid] f197429a-7867-4172-88f4-72493a2b2353
+
+& [ReaderLimits] contains
+  + maximum_projection_bytes u64 16777216
+  + maximum_findings u64 256
+  + maximum_diagnostic_characters u64 1024
+  + maximum_path_segments u64 128
+  + maximum_path_characters u64 4096
+  + maximum_local_references u64 4096
+  + maximum_reference_target_bytes u64 4096
+  + maximum_reference_pointer_segments u64 128
+
+& [ReaderDependencyProfile] contains
+  + profile String fixed cantor-dual-reader-dependencies/0.1
+  + jsonschema_version checksum features and source_digest
+  + serde_version checksum
+  + serde_json_version checksum
+  + cargo_lock_digest
+  + draft fixed draft_2020_12
+  + validate_formats false ignore_unknown_formats true
+  + retriever fixed cantor_deny_retriever
+  + dependency_profile_digest
+  + current formation values for serde and serde_json are observations only and activation rebinds all fields
+
+& [RootReaderBinding] contains
+  + root MachineSchemaRootKind
+  + direction input_deserialize or output_serialize
+  + type_name PrepareRequest PreparedRunRequest VerifyRequest or ProcedureToolResponse
+  + operation deserialize or serialize
+  + intended_use prepare_input run_input verify_input base_response or preparation_response
+  + schema_id document_digest document_fingerprint
+  + dependency_profile_digest residual_registry_digest
+  + binding_digest
+
+& [ExactRootBindings] are
+  + prepare_input PrepareRequest document 17034 bytes digest 8b39562fe221282a7539a54d84c4708843259c49fd510c9fbd24a566b9780cd5 fingerprint 3a9dd9e5bcc35067db915c457417c3119e10e0ff7e6e7259daf44b0f7fe47637 references 82
+  + run_input PreparedRunRequest document 47360 bytes digest 69767c7a3553a1b977d48844cf6609dd919246f5d8b95f358b59ae87c5e78415 fingerprint 493c97f2b937f042e265033db75a4b8802f931753dfa1f980fb5fff74596ce6d references 350
+  + verify_input VerifyRequest document 51176 bytes digest d6c3e26779ddbc7fb0cd5b341dd02f62f58e19d042a87c22645fe681e5013691 fingerprint cd57fb6c167e0866536885f7f7cf73d80fd8090280e89bb3913522a8a072f187 references 383
+  + base_response ProcedureToolResponse document 53014 bytes digest 40fd8536021892adb35cecbca717ad2ca68fa5125a3c027fc8274364fce1b77c fingerprint a507e9eb06379f3b997e6086796d83e246305ad554454d0b5675d685caa354da references 392
+  + preparation_response ProcedureToolResponse document 53021 bytes digest 9d51b85036b9a4ff7c519693f60c6ecf99c7cc5e529ef7db423365d776c7b51a fingerprint 1a342f03f8991361778afb96bc7143a1fbbabc74a5c9912ec097eec0301be1e7 references 392
+
+& [ReferenceDisposition] is local_resolved external_refused unresolved_refused malformed_refused exhausted or internal_fault
+& [ReferenceObservation] contains keyword_location raw_target target_digest pointer_segments resolved_location and disposition
+& [ReferencePreflight] contains root document_digest observations counts and preflight_digest
+  + raw targets and paths are bounded before allocation
+  + dialect URI and root schema id are classified separately from references
+
+& [MetaSchemaDisposition] is accepted rejected exhausted or internal_fault
+& [MetaSchemaObservation] contains draft document_digest disposition normalized findings and digest
+& [ConstructionDisposition] is constructed refused exhausted or internal_fault
+& [ValidatorAdmissionReceipt] contains binding_digest preflight_digest meta_observation_digest construction_disposition and receipt_digest
+  + construction contains its acknowledged repeated schema-validation gate
+  + no durable Validator object is serialized
+
+& [NumericProjectionClass] is exact_i64 exact_u64 finite_f64 or representation_exhausted
+& [NumericProjectionObservation] contains source span token_digest class and optional projected_number_digest
+  + source token bytes resolve through the faithful instance and are not copied to diagnostic prose
+
+& [SchemaRuleClass] is additional_properties any_of constant enum maximum minimum maximum_length minimum_length one_of pattern required type or unique_items
+& [SchemaRuleContext] is closed
+  + unexpected_properties with sorted unique names and digest
+  + branch_failure with branch count nested-context digest and one_of_multiple_valid bool
+  + expected_value with canonical value digest
+  + enum_options with canonical options digest
+  + numeric_limit with canonical limit digest
+  + length_limit with u64 limit
+  + pattern_contract with pattern digest
+  + required_property with property digest
+  + expected_type with sorted type tokens
+  + no_context
+
+& [SchemaFinding] contains
+  + finding_id SemanticId derived from finding digest
+  + root binding_digest document_digest source_digest value_projection_digest
+  + rule SchemaRuleClass
+  + instance_path schema_path evaluation_path structured and rendered
+  + absolute_keyword_location optional bounded String
+  + context SchemaRuleContext context_digest
+  + advisory String bounded and excluded from identity
+  + finding_digest
+
+& [SchemaObservation] contains
+  + profile root binding_digest validator_receipt_digest source_digest value_projection_digest
+  + numeric_projections Vec ordered by source span
+  + disposition ReaderDisposition stage ObservationStage
+  + findings Vec SchemaFinding in canonical order
+  + attempted_finding_count u64 resource_account diagnostic and observation_digest
+  + accepted requires findings empty
+  + rejected requires findings length one through 256 and attempted count equal length
+  + exhausted from finding overflow retains no authoritative findings and attempted count at least 257
+
+& [SerdeErrorCategory] is io syntax data or eof
+& [SerdeFault] contains category line u64 column u64 advisory bounded String and fault_digest
+  + line and column are one-based library locators under the bound serde_json version
+& [TypedProjection] contains type_name projection_digest projection_bytes and no durable typed value
+
+& [SerdeObservation] contains
+  + profile root binding_digest source_or_fixture_digest serialized_source_digest optional
+  + disposition ReaderDisposition stage ObservationStage
+  + typed_projection optional TypedProjection
+  + fault optional SerdeFault
+  + repeat_serialization_digest optional
+  + resource_account diagnostic and observation_digest
+
+& [OutputFixtureEnvelope] contains
+  + fixture_id root intended_use fixture_source_ref fixture_digest
+  + value ProcedureToolResponse ephemeral at execution boundary
+  + intended_use_assertion String and assertion_proof_ref String
+  + envelope_digest excludes ephemeral memory identity and binds normalized typed projection
+
+& [ReaderPair] contains
+  + profile root binding_digest subject_digest document_digest registry_digest
+  + applicable_residual_ids Vec sorted unique
+  + schema SchemaObservation serde SerdeObservation
+  + pair_digest
+  - never: agreement pass compatibility semantic authority or admission field
+
+& [PairConstructionFaultCode] is stale_binding stale_document stale_registry subject_mismatch wrong_direction wrong_type wrong_intended_use prerequisite_inactive limit_exceeded or internal_fault
+& [PairConstructionFault] contains code stage root related_digests limit observed bounded diagnostic and fault_digest
+& [Result] is Result ReaderPair PairConstructionFault with no partial pair on fault
+
+& [DigestDomains] are versioned and length prefixed
+  + reader dependency binding reference preflight meta observation validator admission numeric projection schema context schema finding schema observation serde fault typed projection serde observation fixture envelope pair and pair fault each use a distinct ASCII domain
+  + every collection has explicit count and canonical item order
+
+& [ArchitectureBoundary] is pure immutable in-memory observation
+  + no corpus expectation comparator semantic evaluator admission provider model service persistence file read network effect production or hardware surface
+& [DesignDisposition] is exact_candidate_forms_not_implemented

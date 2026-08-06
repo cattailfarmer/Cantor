@@ -1,0 +1,175 @@
+Subject: Derived CPMS I03D Independent Schema and Typed Reader Observation Source
+
+Description: Manager-derived source preserving the exact two-reader observation contract that follows faithful byte ingress and residual registry formation. It defines independent Draft 2020-12 schema and actual Rust serde observations without collapsing syntax, representation, semantics, or authority. Formation grants no validator, parser, reader, corpus, or runtime implementation authority.
+
+@ [derived_source_uuid] e91aa089-4f81-41b0-8348-87c444b6d0df
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [parent] C:\Project\Cantor\specifications\CPMS_I03_Residual_Conformance_Profile.sop
+@ [slicing_plan] C:\Project\Cantor\plans\CPMS_I03_Implementation_Slicing_Plan.sop
+@ [residual_registry] C:\Project\Cantor\specifications\CPMS_I03C_Semantic_Residual_Registry.sop
+
+& [Purpose] produce two inspectable observations over one root-qualified subject
+  + schema reader asks whether a JSON value satisfies the exact I02 Draft 2020-12 document
+  + typed reader asks whether the actual Rust root can deserialize or serialize the subject
+  + neither observation implies semantic validity authority admission compatibility or effect permission
+  + disagreement is preserved as evidence rather than reconciled by preference
+
+& [Prerequisites] are exact and non-substitutive
+  + I03A exact validator dependency activation is required before validator implementation
+  + I03B faithful byte ingress pass is required before either input reader runs
+  + I03C residual registry identity is required before observation results may carry residual references
+  + formation may define this contract while every prerequisite implementation remains inactive
+
+& [RootBindings] are exact
+  + prepare_input input_deserialize PrepareRequest
+  + run_input input_deserialize PreparedRunRequest
+  + verify_input input_deserialize VerifyRequest
+  + base_response output_serialize ProcedureToolResponse under base-response intended use
+  + preparation_response output_serialize ProcedureToolResponse under preparation-response intended use
+  + the response roots remain distinct even though they share a Rust type and materially similar schema payloads
+
+& [ReaderIndependence] is structural
+  + both branches bind the same root document digest and subject digest
+  + schema reader materializes its own serde_json Value only after I03B acceptance
+  + typed input reader deserializes the actual Rust type from the original retained bytes rather than from schema reader Value
+  + output typed reader serializes an admitted typed fixture before the resulting bytes pass I03B and schema observation
+  + no branch consumes transforms filters or repairs the other branch result
+
+& [InputFlow] is fixed
+  * bind root exact document faithful instance and registry
+  * independently parse exact retained bytes to schema-reader Value
+  * independently deserialize exact retained bytes to the actual root type and require deserializer end
+  * validate schema-reader Value against the bound validator
+  * normalize both observations without comparing them
+
+& [OutputFlow] is fixed
+  * bind root intended-use fixture exact document and registry
+  * serialize actual ProcedureToolResponse to exact bytes
+  * require repeat serialization byte equality
+  * run faithful byte ingress over produced bytes
+  * materialize schema-reader Value and validate the bound document
+  * emit typed serialization and schema observations without claiming intended-use semantics
+
+& [ReaderDisposition] is accepted rejected exhausted internal_fault not_applicable or skipped_dependency
+  + accepted or rejected means the applicable reader completed its own declared operation
+  + exhausted means a finite finding representation numeric or recursion capacity prevented completion
+  + not_applicable means an earlier applicability rule intentionally excludes the reader
+  + skipped_dependency means a required inactive or absent prerequisite and blocks proof
+  + internal_fault means an invariant or unexpected reader failure and blocks proof
+
+& [ObservationStage] is binding representation validation deserialization serialization completion or normalization
+  + disposition and stage are both required
+  + schema representation refusal is not schema rejection
+  + typed deserialization refusal is not semantic refusal
+
+& [ValidatorProfile] is exact candidate jsonschema 0.49.2 with default features false
+  + Draft 2020-12 is explicit
+  + document dialect id digest closure and local reference preflight precede construction
+  + no HTTP HTTPS file environment registry caller resolver async or external resource retriever
+  + every reference must be an in-document fragment whose target exists
+  + meta-schema observation construction and instance validation remain distinct results
+
+& [FormatPolicy] is Draft 2020-12 annotation only
+  + no custom format assertion is registered
+  + exact I02 format values are int64 uint32 and uint64
+  + typed Rust decoding rather than schema format annotation enforces destination integer representation
+  + schema acceptance plus typed rejection on an out-of-range integer is a legitimate reader disagreement
+
+& [SchemaRepresentation] is bounded serde_json Value
+  + source digest remains the I03B exact-byte digest
+  + value projection digest uses canonical sorted-object JSON bytes and is separate from source digest
+  + I03B numeric token spans remain attached to observation evidence
+  + value parse syntax or EOF failure after I03B acceptance is internal_fault
+  + a valid number outside the selected Value representation is exhausted at representation stage and never schema_rejected
+
+& [ExactI02KeywordInventory] is closed at the I02 bundle baseline
+  + structural and annotation keys are dollar defs dollar id dollar ref dollar schema items patternProperties properties required title and format
+  + instance-rejection rule classes are additional_properties any_of constant enum maximum minimum maximum_length minimum_length one_of pattern required type and unique_items
+  + reference failure after preflight is internal_fault
+  + pattern backtrack limit is exhausted and regex engine failure is internal_fault
+  + format never emits a finding under annotation-only policy
+  + any previously unseen validator error kind is profile_drift internal_fault rather than an invented stable class
+
+& [SchemaFinding] carries stable owned evidence only
+  + finding id root document digest instance digest rule class instance path schema path evaluation path optional absolute keyword location and rule context digest
+  + rule context owns exact bounded fields such as unexpected properties required property type set enum digest constant digest numeric or length limit and one-of branch status
+  + engine Display Debug allocation addresses iterator order and prose are not identity
+  + findings sort by instance path schema path evaluation path rule class context digest and finding id
+  + maximum findings is 256 per observation
+  + attempting finding 257 yields atomic exhausted observation and no accepted or rejected disposition
+
+& [TypedInputReader] is exact
+  + create serde_json Deserializer from original retained bytes
+  + deserialize PrepareRequest PreparedRunRequest or VerifyRequest selected only by root binding
+  + call end after typed value construction even though I03B already proved one complete JSON value
+  + on success serialize the typed value to a normalized projection and retain projection digest and bytes account
+  + normalized projection is not represented as the original spelling or a byte round trip
+
+& [TypedOutputReader] is exact
+  + input is an immutable OutputFixtureEnvelope carrying root fixture id fixture digest intended-use assertion and actual ProcedureToolResponse
+  + base and preparation fixtures are never interchangeable by Rust type equality alone
+  + serialize with serde_json to exact bytes and repeat once
+  + byte mismatch is nondeterministic internal_fault
+  + serializer failure is internal_fault unless an explicit finite byte bound is exhausted
+  + intended-use assertion remains fixture evidence and is not proved by serialization
+
+& [SerdeFaultNormalization] is stable and bounded
+  + category is io syntax data or eof from serde_json Error classification
+  + line and column are retained as exact reader locators under the locked serde_json version
+  + bounded advisory message is not identity
+  + input syntax or eof after I03B pass is cross_reader_internal_fault
+  + input data is typed rejection
+  + io is impossible for slice input and becomes internal_fault
+  + no dependency is added for inferred typed paths in this profile
+
+& [TypedProjection] carries root type name source digest projection digest projection byte length and no typed value in the durable observation
+  + typed value remains an ephemeral local product
+  + sensitive field content is not copied into diagnostics
+
+& [SchemaObservation] carries profile root document digest source digest value projection digest disposition stage findings numeric token references accounts and observation digest
+& [SerdeObservation] carries profile root type name source or fixture digest typed projection digest disposition stage normalized fault accounts and observation digest
+
+& [ReaderPair] carries binding digest schema observation serde observation and pair digest
+  + no agreement accepted refused pass compatible or authoritative field exists in I03D
+  + I03E alone compares observations to case expectations and constructs findings
+
+& [ResidualCarry] is referential
+  + pair carries applicable residual ids resolved through I03C without changing their disposition
+  + schema acceptance never removes typed semantic or authority residuals
+  + reader rejection cannot create a new residual id from prose
+
+& [Resources] are finite
+  + input bytes and structural limits are inherited exactly from I03B
+  + one schema Value projection maximum 16777216 bytes
+  + one typed projection maximum 16777216 bytes
+  + maximum findings 256 and maximum diagnostic characters 1024
+  + maximum normalized path segments 128 and path characters 4096
+  + every count and byte accumulation uses checked arithmetic
+
+& [Atomicity] is strict
+  + prerequisite identity failure emits one pair-construction fault and no ReaderPair
+  + each reader observation is internally atomic
+  + a completed reader observation remains preserved if its independent peer rejects or exhausts
+  + pair cannot be emitted if root source document registry or binding identities disagree
+
+& [FutureSourceTouch] is unsigned
+  + modify crates/cantor_procedure_tool/src/lib.rs under future schema-conformance feature
+  + add crates/cantor_procedure_tool/src/reader_observation.rs
+  + add crates/cantor_procedure_tool/tests/reader_observation.rs
+  + no Cargo change belongs to I03D because I03A owns dependency activation
+  + no existing enforcement schema golden CLI MCP service ecosystem preflight provider model or effect file touch
+
+& [ProofFamilies] are exact
+  + five root bindings and both response intended uses
+  + accepted and rejected schema and typed observations independently
+  + missing unknown wrong type enum tag integer spelling and out-of-range numeric disagreement witnesses
+  + exact paths rule classes context digests serde categories line columns projections and repeat equality
+  + local reference success plus external missing and escaping reference preflight refusal
+  + finding 255 256 and 257 boundaries projection byte boundaries and recursive representation exhaustion
+  + mutation of root document source registry binding and observation digests
+  + proof that no reader invokes semantic admission provider model service persistence network effect or hardware
+
+& [Delineation] is exact
+  - never: compare to corpus expectation claim agreement classify compatibility execute semantic enforcement admit authority invoke provider or model persist serve notify network effect produce release or target hardware FPGA
+
+& [PresentDisposition] is source_preserved_formation_only_no_reader_authority

@@ -1,0 +1,43 @@
+Subject: CPMS I03D Independent Schema and Typed Reader Observation Semantic Refinement
+
+@ [refinement_uuid] 2d39794e-106e-4331-8e11-5d6b83dd9928
+
+& [ReaderBinding] is the exact relation among root direction document identity Rust type intended use operation and activated dependency profile
+& [ObservationSubject] is exact input bytes for an input root or one immutable typed fixture for an output root
+& [SourceIdentity] is the original I03B byte digest for inputs and the admitted fixture digest plus serialized byte digest for outputs
+
+& [SchemaReader] is the selected validator operating on one bounded Value projection under explicit Draft format and no-resolution policy
+  + it is an independent observation mechanism
+  + it is not a universal JSON Schema oracle
+
+& [TypedReader] is serde deserialization into the exact input Rust type or serialization from the exact response Rust type
+  + it observes representability and structural binding
+  + it does not execute business semantic or authority rules
+
+& [ValueProjection] is the schema reader's serde_json Value plus canonical projection digest
+  + exact source spelling ordering escapes and numeric token evidence remain separate
+& [TypedProjection] is deterministic serialization of a successfully bound typed value
+  + it is normalized evidence rather than a byte round trip claim
+
+& [ReaderDisposition] is accepted rejected exhausted internal_fault not_applicable or skipped_dependency
+& [ObservationStage] is binding representation validation deserialization serialization completion or normalization
+  + disposition states outcome
+  + stage states where it arose
+
+& [SchemaRejection] requires at least one stable normalized rule finding from a completed applicable validator
+& [TypedRejection] requires a serde data-category error during actual type binding
+& [RepresentationExhaustion] means the selected reader representation could not faithfully carry the subject to its declared operation
+
+& [ReaderPair] is co-present independent observations under one binding and subject identity
+  + it has no agreement compatibility pass or authority field
+  + disagreement becomes meaningful only when I03E applies an explicit CommonSyntaxClaim and expectation
+
+& [DenyRetriever] is a zero-capability sentinel required by construction
+  + every call deterministically refuses
+  + a call is an invariant failure because reference preflight should have closed the graph
+
+& [ResidualCarry] is a set of I03C identifiers applicable to the bound root and subject
+  + carry is referential
+  + neither reader changes registry disposition
+
+& [RefinedDisposition] is two_independent_bounded_observations_without_reconciliation
