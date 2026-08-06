@@ -1,0 +1,117 @@
+Subject: CPMS I03E1 Coverage Obligation Compiler Source
+Description: Manager-derived source for compiling exact schema rule sites, typed binding sites, ingress limits, semantic residuals, and root direction into a non-executing coverage-obligation graph. It corrects naive JSON-key counting and prepares I03E corpus inventory authority without adding cases, fixtures, Rust, or execution.
+
+@ [source_uuid] bd2235ee-9e4f-40b1-b5d1-6723f7d9536c
+@ [recorded_at_utc] 2026-08-05
+@ [baseline_commit] 6c29b9bb6d5d2148f8853104fe04426fa40e4e11
+@ [parent_i03e_uuid] b13ea7b3-0ff6-4fcc-aed3-3eaec4a786c5
+
+& [Problem] a raw recursive JSON-key scan crosses identity boundaries
+  + domain properties named required minimum or maximum can be mistaken for JSON Schema keywords
+  + dollar-def names and property names are data inside their containing keyword rather than keywords themselves
+  + obligation extraction must traverse the Draft 2020-12 schema grammar by keyword role
+
+& [TrustedInputs] are exact
+  + five canonical I02 document bytes and digests already bound by I03D
+  + bundle 247809 bytes SHA256 03616F46C4A3C4B7FA4B9D0A668E16FF4B47BA71CB70879B10F1D95157ADCB42
+  + procedure tool lib.rs 11411 bytes SHA256 EAE94ECD9E742A2187490A0D03DD43EE8D41BC70F163E3DAF7F5A3D20AFC6DBF
+  + core procedure_tool.rs 28114 bytes SHA256 22A0DF1CCBE40004C66CE3161008CC07C2D1B12352A7391CF139C8901C89053A
+  + core procedure.rs 30687 bytes SHA256 82AE94F39835803D1BEA7EEF0972972898A51E07E13D616A082231B660EBBB16
+  + core procedure_authorship.rs 36909 bytes SHA256 410EAEA9ED3ECF370AB683EE8E11BA3D39584EF8A22ABDC45D065F4BA7BC2CBC
+  + core model.rs 19905 bytes SHA256 C06B69DE0F8C1B9FC344B1E16E04C6D5E4BE18A81AF0F22387963FBE8F8755CA
+
+& [GrammarAwareTraversal] classifies each direct member of a schema node by Draft 2020-12 role
+  + dollar defs properties and patternProperties contain named child schema maps
+  + oneOf anyOf allOf and prefixItems contain child schema arrays
+  + items contains and propertyNames contain child schemas
+  + additionalProperties unevaluatedProperties and unevaluatedItems are boolean or child schemas
+  + dollar ref creates a reference edge whose local target is resolved separately
+  + domain field names beneath properties never enter keyword counts
+
+& [ObservedRuleSites] are root-qualified physical counts before deduplication
+  + prepare_input defs 28 properties 167 pattern properties 5 required members 162 enum values 88
+  + run_input defs 71 properties 497 pattern properties 18 required members 479 enum values 171
+  + verify_input defs 79 properties 540 pattern properties 18 required members 518 enum values 183
+  + base_response defs 83 properties 557 pattern properties 18 required members 556 enum values 188
+  + preparation_response defs 83 properties 557 pattern properties 18 required members 556 enum values 188
+  + totals are defs 344 property members 2318 pattern-property members 77 required members 2271 and enum values 818
+
+& [ObservedKeywordSites] are grammar-aware totals across five root documents
+  + type 1667 sites with 1681 type alternatives
+  + const 140
+  + minimum 265 and every observed minimum operand is zero
+  + maximum exclusiveMaximum exclusiveMinimum multipleOf minItems maxItems minProperties maxProperties contains not if then else are absent
+  + minLength 5 maxLength 5 pattern 5 from root-qualified SemanticId definitions
+  + uniqueItems true 231
+  + required 372 sites
+  + additionalProperties 493 sites consisting of 449 false and 44 schema-valued
+  + items 269
+  + oneOf 14 sites and 140 branches
+  + anyOf 83 sites and 166 branches
+  + dollar ref 1599 local reference edges
+  + format 280 annotations comprising int64 15 uint32 5 and uint64 260
+
+& [KeywordCorrection] is material
+  + grammar-aware maximum keyword count is zero
+  + the apparent maximum values in a raw scan are ProcedureType domain properties inside a properties map
+  + a coverage compiler that failed this distinction would invent nonexistent numeric assertions
+
+& [RuleIdentity] has two layers
+  + SchemaRuleSite is root document digest JSON Pointer keyword normalized operand digest and rule class
+  + CanonicalRuleDefinition is a content identity permitting shared test-template reuse across equivalent sites
+  + RootRuleObligation remains root-qualified even when its definition is shared
+  + no deduplication may merge base_response and preparation_response authority or intended use
+
+& [ReferenceIdentity] is an edge rather than copied target rules
+  + every dollar ref site owns a ReferenceClosureObligation
+  + the target owns its own rule sites once in that root document
+  + a case may cover a reference edge and target rule through separate explicit coverage edges
+  + reference expansion never multiplies rule identity silently
+
+& [KeywordProjection] distinguishes roles
+  + assertion keywords can produce positive negative or boundary obligations
+  + applicators produce branch-selection and exclusivity obligations
+  + annotations produce observation obligations and never assertion pass by themselves
+  + format is annotation-only under I03D validate-formats false
+  + title dollar id and dollar schema bind identity and configuration rather than instance acceptance
+
+& [TypedBindingProjection] is direction-aware
+  + input roots observe actual exact-byte deserialization
+  + response roots observe actual typed-value serialization and cannot fabricate impossible output bytes as typed evidence
+  + required nullable optional and skipped-on-none fields produce distinct presence obligations
+  + a schema-only negative response case is not made common merely because a typed response struct exists
+
+& [KnownDivergenceCandidates] require proof rather than assumption
+  + BTreeSet serialization is unique while BTreeSet deserialization may collapse duplicate array members and therefore uniqueItems can disagree by direction
+  + ignored int64 uint32 and uint64 formats do not impose schema range assertions while Rust destinations retain representation bounds
+  + Option field presence and nullability can differ between schema serialization profile and serde input acceptance
+  + these become candidate divergence obligations until actual I03D observations verify them
+
+& [IngressProjection] adds obligations not visible in a parsed schema
+  + UTF-8 one complete value trailing data duplicate decoded member identity token and structural resource limits
+  + ingress refusal blocks later readers and cannot become a CommonSyntaxClaim
+
+& [ResidualProjection] adds all twenty I03C records
+  + safe_pure observational_only and prohibited_authority policies remain explicit
+  + syntax rule coverage never changes residual enforcement disposition
+  + semantic obligations name complete-fixture requirements or non-execution evidence
+
+& [ObligationKinds] are schema_assertion schema_branch schema_reference schema_annotation typed_presence typed_representation typed_serialization ingress_guard semantic_safe_pure semantic_observational authority_prohibition and resource_boundary
+  + polarity is positive negative or boundary
+  + boundary position is below at above or not_applicable
+
+& [CompilerOutput] is deterministic non-executing data
+  + exact input ledger rule sites canonical definitions typed sites residual sites obligations and relation edges
+  + every record has stable domain-separated identity source pointer and rationale
+  + sort by root direction obligation kind source location keyword typed destination residual and id
+  + output contains no case expectation fixture reader result agreement finding or pass field
+
+& [FutureUse] is I03E corpus planning only
+  + a later case catalogue must map every mandatory obligation to reviewed cases or a visible gap
+  + templates may be reused but executions and coverage edges remain root-qualified
+  + obligation counts are formed only after the compiler profile and complete source audit are signed
+
+& [AuthorityExclusion] is absolute
+  - never: Rust compiler implementation case fixture parser validator reader semantic invocation compatibility admission provider model service persistence network effect production hardware FPGA or shared inference
+
+& [RequestedDisposition] is preserve_then_sjs_then_form_inactive_obligation_compiler

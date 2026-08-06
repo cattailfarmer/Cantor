@@ -1,0 +1,34 @@
+Subject: CPMS I03E1 Coverage Obligation Compiler Data Design
+
+@ [design_uuid] 78441b0d-4838-4f41-a00a-5d9f6868c6e9
+
+& [CompilerInputLedger] owns profile bundle documents source_artifacts reader_profile ingress_profile residual_registry and compiler_profile digests
+
+& [SchemaRuleSite] owns site_id root_kind document_digest json_pointer keyword role normalized_operand_digest local_reference_target and canonical_rule_ref
+  + role is assertion applicator annotation identity container or reference
+
+& [CanonicalRuleDefinition] owns rule_id keyword role normalized_operand_digest child_shape_digest and template_class
+& [ReferenceClosureEdge] owns edge_id root_kind source_site_ref raw_target_digest target_pointer target_site_refs and disposition
+
+& [TypedBindingSite] owns site_id root_kind direction rust_type source_artifact_digest source_locator binding_operation field_path presence_mode representation_class serde_attributes intended_use and candidate_status
+  + presence_mode is required_nonnull required_nullable optional_nonnull optional_nullable skipped_when_none or not_applicable
+  + binding_operation is deserialize_exact_bytes or serialize_actual_value
+
+& [ResidualObligationSite] owns residual_id root_kind subject_type enforcement_disposition evaluation_policy source_binding and applicability
+& [IngressObligationSite] owns guard_id class limit_name limit_value polarity boundary_position and source_profile_ref
+
+& [RootRuleObligation] owns obligation_id root_kind direction kind source_ref canonical_rule_ref polarity boundary_position applicability mandatory severity rationale_digest and template_ref
+& [ObligationRelation] owns relation_id source_obligation_ref target_obligation_ref relation_kind and rationale_digest
+  + relation_kind is prerequisite ref_target branch_member typed_peer residual_peer or shared_template
+
+& [CompilerOutput] owns input_ledger schema_sites canonical_rules reference_edges typed_sites ingress_sites residual_sites obligations relations accounts and output_digest
+& [CompilerAccounts] owns per_root per_kind per_keyword per_role per_direction per_residual mandatory advisory divergence_candidate and checked_total counts
+
+& [DigestDomains] are cantor:i03e1:schema-site:v1 cantor:i03e1:canonical-rule:v1 cantor:i03e1:reference-edge:v1 cantor:i03e1:typed-site:v1 cantor:i03e1:obligation:v1 cantor:i03e1:relation:v1 and cantor:i03e1:output:v1
+
+& [NormativeOrder] is schema sites by root pointer keyword id canonical rules by keyword operand id references by root pointer target typed sites by root direction type field id obligations by root direction kind source polarity boundary id and relations by source target kind id
+
+& [TransformationDAG] is input identity -> grammar-aware schema sites and reference graph plus source-bound typed sites plus ingress and residual sites -> canonical definitions -> root obligations -> relations -> accounts -> digest
+
+& [OutputBoundary] is nonexecuting_coverage_targets_only
+& [DesignDisposition] is complete_formation_data_no_compiler_runtime
