@@ -1,0 +1,21 @@
+Subject: Handoff Sequence Reserved Host Variable Fault
+
+@ [fault_uuid] a8361ae4-135c-4e65-8f4e-d27186a13de7
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [baseline_commit] 5b4604a
+
+& [Fault] a read-only PowerShell audit assigned a document path to the reserved automatic variable Host
+  + the assignment was refused with VariableNotWritable
+  + the subsequent lookup received the host object rather than a path and produced null sequence positions
+
+& [Impact] is diagnostic_only
+  + no file process dependency policy evidence authority or repository state changed
+  + the false null sequence result was not accepted as project evidence
+
+& [Correction] used the task-specific variable hostSpecPath and the exact canonical sequence wording
+  + nine of nine sequence markers resolve on consecutive lines 134 through 142
+  + order is source revalidation authority diff dependency audit fresh target debug release aggregate independent review
+  + the sequence is strictly increasing and remains stop-gated
+
+& [Prevention] task-specific path variables must not reuse PowerShell automatic or common system variable names
+& [Disposition] is contained_corrected_no_project_fault
