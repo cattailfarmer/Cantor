@@ -1,0 +1,19 @@
+Subject: CPMS I03 Source Manifest Profile Assumption Fault
+
+@ [fault_uuid] 369f077d-cd5f-45bb-ac89-7b5d06e606d8
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+
+& [Observed] first integrated source audit assumed every manifest used direct source_file source_bytes and source_sha256 fields
+  + five older manifests were falsely reported as mismatches
+  + second attempt recognized one older PreservedSource block but incorrectly treated four SourcePath Bytes SHA256 manifests as the same profile
+  + empty-path parameter errors followed because profile detection was incomplete and strict error handling was absent
+& [Impact] read-only checks produced false diagnostics but wrote deleted compiled or executed nothing
+  + no false mismatch enters completion proof
+& [Correction] verifier recognizes three explicit profiles
+  + direct_fields uses source_file source_bytes source_sha256
+  + named_fields uses SourcePath Bytes SHA256
+  + preserved_source_block uses path byte_length sha256
+  + unknown profile is a hard fault under strict error handling
+& [CorrectedResult] 12 source packages exact 12 mismatched 0 with profile counts 7 4 and 1
+& [Prevention] manifest grammar version is data and cannot be inferred from directory chronology
+& [Disposition] is closed_false_diagnostic_no_state_change

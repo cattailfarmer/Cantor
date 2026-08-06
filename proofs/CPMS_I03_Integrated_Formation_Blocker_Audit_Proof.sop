@@ -1,0 +1,29 @@
+Subject: CPMS I03 Integrated Formation and Blocker Audit Proof
+
+@ [proof_uuid] 45f6f25d-fb8d-4b8b-a787-02a9e945e7a3
+@ [audit_uuid] ba5f5268-0834-4c94-9670-9e6dd1acc5a5
+@ [baseline_commit] 5852219cb0ab97aeaf53a369302043640a568f01
+
+& [RepositoryProof] passes at audit baseline
+  + head equals upstream ahead 0 behind 0 status count 0
+  + fourteen campaign commits are ordered and pushed
+& [SourceProof] passes
+  + 12 of 12 source packages match manifest bytes and SHA256
+  + three manifest profiles are handled explicitly
+& [CanonicalProof] passes
+  + 11 current governed specifications total 132830 measured bytes with exact digests in audit
+& [RequirementProof] passes
+  + core 328 plus supporting 72 equals current governed 400
+  + implemented and verified totals are both zero
+  + historical original I03A 24 is excluded without deletion
+& [AuthorityProof] passes
+  + 11 lock records inactive unsigned and zero active
+  + Cargo lock contains no jsonschema and 0 of 7 planned modules exist
+& [EvidenceProof] passes
+  + 23 current manifests 1030 references zero stale cycles or nonportable paths
+& [BlockerProof] passes
+  + I03A host and authority gate is first
+  + every downstream unit has an exact causal predecessor
+& [CompletionProof] does not pass and is not claimed
+  + no I03 runtime conformance implementation exists
+& [Disposition] is integrated_formation_proven_activation_refused
