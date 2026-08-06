@@ -1,0 +1,66 @@
+Subject: CPMS I03E4 Activation Source Topology Data Design
+
+@ [design_uuid] 747ccdcb-b2ba-4b54-a9b7-6863c527c284
+@ [source_uuid] bcd3f900-8f3a-4be1-bea5-b4e84d553ee8
+
+& [CanonicalInputBinding] fields
+  + slice_id path bytes sha256 specification_uuid authority_state requirement_count implemented_count verified_count lock_identity
+
+& [AuthoritySnapshot] fields
+  + baseline_commit completed_predecessors inactive_candidates missing_signatures host_blocks coordination_blocks trust_blocks fixture_blocks
+
+& [SourceSurface] fields
+  + path surface_class baseline_bytes baseline_sha256 exists owner shared mutation_policy forbidden_content
+  + surface_class workspace_manifest workspace_lock crate_manifest crate_ledger conformance_ledger exclusive_module focused_test or fixture
+
+& [ModuleOwnership] fields
+  + module_class unit_id semantic_owner source_path test_path feature_gate imports exports forbidden_dependencies
+
+& [ActivationUnit] fields
+  + unit_id specification_binding authority_state hard_predecessors governance_predecessors integration_predecessors exclusive_surfaces shared_deltas requirements gates forbidden_scope disposition
+
+& [DependencyEdge] fields
+  + predecessor_unit successor_unit kind consumed_identity rationale disposition
+  + kind hard_prerequisite governance_order integration_order or evidence_dependency
+
+& [TouchLeaseCandidate] fields
+  + lease_id unit_id active_lock predecessor_path predecessor_bytes predecessor_sha256 allowed_anchors max_added_lines max_removed_lines semantic_owner steward status successor_digest
+  + status proposed issued consumed refused stale or superseded
+
+& [InterfaceReceipt] fields
+  + unit_id module_path module_sha256 feature_gate exported_symbols imported_symbols fault_vocabulary resource_profile forbidden_dependencies test_inventory review_identity disposition
+
+& [FixtureRecord] fields
+  + fixture_id path role bytes sha256 generator_id generator_input_digest predecessor_digest owner_unit expectation_receipt review_identity
+  + role source_seed mutation_proposal reviewed_expectation observation or comparison_golden
+
+& [GateObservation] fields
+  + unit_id gate_id stage command_digest environment_digest artifact_digest policy_identity disposition evidence_ref predecessor_observation
+  + disposition observed_pass observed_fail observed_blocked not_run stale or not_applicable
+
+& [UnitCompletionEnvelope] fields
+  + unit_id specification_digest source_inventory_digest requirement_status_digest review_digest satisfaction_digest active_lock_digest evidence_closure_digest disposition
+
+& [TopologyEnvelope] fields
+  + profile source_digest baseline_commit input_bindings authority_snapshot surfaces owners units edges lease_candidates fixture_root limits blockers disposition digest
+
+& [FiniteLimits] before future activation
+  + at most 16 canonical inputs
+  + exactly 8 unit identities
+  + at most 64 dependency edges
+  + at most 64 source surfaces
+  + at most 16 shared ledgers
+  + at most 128 lease records including successors
+  + at most 256 imports and 256 exports per unit
+  + at most 65536 fixture records
+  + at most 4096 gate observations
+  + paths at most 1024 UTF-8 bytes and rationale at most 4096 UTF-8 bytes
+  + checked arithmetic governs every count byte total and allocation
+
+& [Indexes] are deterministic
+  + by_unit by_path by_owner by_dependency_successor by_dependency_predecessor by_lease_status by_fixture_role by_gate_disposition
+  + every index reconstructs from primary records and grants no separate authority
+
+& [CanonicalEncoding] is UTF-8 fixed field order lexical record order normalized slash-separated repository-relative paths and domain-separated SHA256
+& [DataBoundary] formation defines record shapes and limits but creates zero runtime records leases fixtures executions signatures or implementation artifacts
+& [DesignDisposition] is complete_for_canonical_formation

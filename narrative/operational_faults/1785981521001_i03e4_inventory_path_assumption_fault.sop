@@ -1,0 +1,13 @@
+Subject: I03E4 Inventory Path Assumption Fault
+
+@ [fault_uuid] d472e252-77fa-48ae-9804-f3dd14059aef
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+
+& [Observed] initial read-only inventory commands passed Windows wildcard paths directly to ripgrep and assumed a nonexistent tools/cantor-cli path
+  + ripgrep rejected wildcard path syntax
+  + Get-ChildItem reported the assumed path absent
+  + one later constraint-ledger filename assumption was also absent
+& [Impact] no file was written deleted compiled or executed and no evidence claim uses failed output
+& [Correction] enumerate literal specification and crate paths first then pass verified paths or repository glob filters
+& [Prevention] future topology discovery begins with literal Get-ChildItem or rg --files output and treats absent paths as observations only after explicit Test-Path
+& [Disposition] is closed_read_only_discovery_fault
