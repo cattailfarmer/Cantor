@@ -1,0 +1,28 @@
+Subject: CPMS I03A Revision 1 Stale Audit Basis Reference
+
+@ [fault_uuid] 823f81e7-b004-480b-990b-0862df420192
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [baseline_commit] 9b10ce74abec04e4aa8226c0b60610fcc8a2584d
+
+& [Fault] preserved Revision 1 source names a nonexistent audit-basis file
+  + recorded path is C:\Project\Cantor\specifications\CPMS_I03D_Dual_Reader_Observation_Formation.sop
+  + tracked occurrence count is one
+  + filesystem existence is false
+
+& [IntendedBasis] is unambiguous but not substituted silently
+  + C:\Project\Cantor\specifications\CPMS_I03D_Dual_Reader_Observation.sop exists
+  + it is 13580 bytes SHA256 6C57BAFF0A93E7C3C6CEF19EEACC137DE79401ACF5ECDA0482E6908479B6ED58
+  + it was introduced at 64c06a2714aa3da31159828249726dd1eee17f38 before Revision 1 at 5d7cec2a55cf4da680174b11508651e8d7ffda05
+  + source description and body both identify I03D dual-reader work as the semantic audit basis
+
+& [Containment] preserves source identity
+  + the 4952-byte source remains SHA256 6C0074A87C1D8DF4BE0E80CCD4E8B5712D606BD11C5E4F7E2A432C21A91250F0
+  + its manifest and inactive lock continue to bind that exact source
+  + no source canonical lock or historical record is edited in place
+
+& [AuthorityImpact] Revision 1 cannot pass exact source revalidation while this reference remains unresolved
+  + existing inactive_unsigned status is retained
+  + host attempt compilation dependency mutation and activation remain unauthorized
+  + a future source-preserved SJS erratum or successor must explicitly bind the actual I03D path before implementation authority review
+
+& [Disposition] is preserved_new_internal_formation_blocker
