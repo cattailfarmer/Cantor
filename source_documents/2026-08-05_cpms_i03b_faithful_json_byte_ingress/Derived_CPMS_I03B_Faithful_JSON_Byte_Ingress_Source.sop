@@ -1,0 +1,126 @@
+Subject: Derived CPMS I03B Faithful JSON Byte Ingress Source
+
+Description: Manager-derived source preserving the faithful input boundary required before schema or serde observation. It defines exact JSON byte identity, duplicate-name refusal, token fidelity, finite resource accounting, and atomic faults as an implementation-independent contract. Formation grants no parser implementation authority.
+
+@ [derived_source_uuid] b75c7cfa-a96d-4721-ada8-91a75b64a328
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [parent] C:\Project\Cantor\specifications\CPMS_I03_Residual_Conformance_Profile.sop
+@ [slicing_plan] C:\Project\Cantor\plans\CPMS_I03_Implementation_Slicing_Plan.sop
+@ [i03a_candidate] C:\Project\Cantor\specifications\CPMS_I03A_Validator_Dependency_Activation_Candidate.sop
+
+& [SourceNature] is manager-derived from the formed I03 contract and current implementation audit
+  + this is not new verbatim user dictation
+  + it preserves the next independent design question while I03A activation remains blocked
+
+& [Purpose] release one faithful bounded JSON instance or one atomic ingress fault before any schema serde or semantic reader runs
+  + exact source bytes remain the shared reader authority
+  + a generic JSON Value is never the first authoritative representation because it can erase duplicate-name evidence and numeric token spelling
+
+& [Input] is one supplied immutable byte sequence plus exact ingress limits
+  + maximum input bytes is 16777216
+  + empty input whitespace-only input UTF-8 BOM invalid UTF-8 and non-JSON bytes are refused
+  + JSON whitespace is only space horizontal tab line feed and carriage return
+  + exactly one complete JSON value followed only by JSON whitespace is required
+
+& [UTF8] is strict and observable
+  + reject overlong encodings invalid continuation bytes truncated sequences UTF-8 encoded surrogates and code points above U+10FFFF
+  + report zero-based byte offset of the first known invalid byte
+  + do not normalize Unicode scalar sequences
+
+& [StringToken] retains raw byte span and decoded scalar identity
+  + reject unescaped control characters and invalid escapes
+  + decode quotation reverse-solidus solidus backspace form-feed line-feed carriage-return tab and four-hex-digit Unicode escapes exactly
+  + combine only a valid high-surrogate and immediately following low-surrogate escape into one scalar
+  + reject lone high lone low reversed or interrupted surrogate escapes
+  + object member names compare by exact decoded Unicode scalar sequence
+  + raw "a" and escaped "\u0061" are the same member identity and therefore duplicate in one object
+  + precomposed and decomposed Unicode remain different unless their scalar sequences are exactly equal
+
+& [NumberToken] is grammar-first and conversion-free
+  + grammar is optional minus then zero or nonzero digit plus digits then optional fraction then optional exponent
+  + reject leading plus leading zero missing fraction digit missing exponent digit NaN Infinity hexadecimal and locale forms
+  + retain zero-based span sign integer fraction exponent markers signs digits and exact raw bytes
+  + do not convert to f64 or use a floating representation as the ingress oracle
+  + maximum numeric token bytes is 4096 and limit refusal occurs before unbounded accumulation
+
+& [LiteralToken] accepts only exact lowercase true false and null
+
+& [ContainerDepth] is exact
+  + root scalar depth is 0
+  + entering a root array or object establishes container depth 1
+  + every nested array or object increments by one
+  + maximum container depth is 128 inclusive and an attempted depth 129 is refused before descending
+
+& [ObjectIdentity] is local to each object
+  + maintain a bounded deterministic set of decoded member names per open object
+  + duplicate comparison occurs before the second member value is parsed or released
+  + duplicate fault retains the enclosing path decoded member name first key offset and second key offset
+  + member ordering is preserved by the original bytes but never changes duplicate identity
+
+& [Path] is a bounded logical location
+  + member segments contain decoded exact names and array segments contain zero-based indexes
+  + maximum path segments equals maximum container depth
+  + path rendering uses RFC 6901 escaping for human and machine comparison but the structured segment list is authoritative
+  + malformed structure reports the deepest fully known path and exact byte offset without inventing a missing segment
+
+& [ResourceAccounting] is checked and aggregate over the complete value
+  + input bytes maximum 16777216
+  + container depth maximum 128
+  + aggregate object members maximum 65536
+  + aggregate array items maximum 65536
+  + aggregate scalar values maximum 131072
+  + each decoded member name maximum 4096 UTF-8 bytes
+  + numeric token maximum 4096 source bytes
+  + path segments maximum 128
+  + every increment uses checked arithmetic and attempted overflow is an internal fault
+
+& [AcceptedInstance] retains
+  + profile and limits identity
+  + exact original byte sequence without rewriting
+  + SHA256 digest of those bytes
+  + root lexical kind
+  + byte length maximum depth object member array item scalar and token accounts
+  + ordered number token observations with exact spans
+  + proof that UTF-8 grammar single-value duplicate and every resource gate passed
+  + no serde_json Value validator object typed Rust form or semantic disposition
+
+& [Fault] is atomic stable and bounded
+  + invalid_utf8 forbidden_bom empty_input malformed_json trailing_data duplicate_key limit_exceeded and internal_fault are distinct codes
+  + every fault carries stage code byte offset known path and bounded explanation
+  + duplicate_key carries decoded name and first and second offsets
+  + limit_exceeded carries limit kind maximum and attempted observed value
+  + malformed_json carries stable grammar class rather than parser display text
+  + diagnostics are limited to 1024 characters
+  + no partial instance token list object value or pass is returned with a fault
+
+& [ImplementationCandidate] is one deterministic nonrecursive byte scanner with an explicit bounded frame stack
+  + object frame states distinguish key colon value comma and end
+  + array frame states distinguish value comma and end
+  + scanner indexes original bytes and copies only bounded decoded member names paths and numeric metadata
+  + BTreeSet or BTreeMap semantics provide deterministic member-name identity without randomized iteration evidence
+  + sha256_bytes from cantor_core computes exact input digest
+
+& [SourceTouchCandidate] is future and unsigned
+  + add crates/cantor_procedure_tool/src/json_ingress.rs
+  + expose only closed ingress forms and scan_faithful_json from crates/cantor_procedure_tool/src/lib.rs
+  + add crates/cantor_procedure_tool/tests/json_ingress.rs
+  + no Cargo dependency lock schema document CLI MCP service ecosystem provider model or effect file touch
+
+& [ProofFamilies] include
+  + every JSON root scalar array and object positive
+  + all whitespace positions and trailing whitespace
+  + malformed literals strings escapes surrogates numbers separators and endings
+  + raw escaped and nested duplicate member names
+  + below at and above every finite limit
+  + exact path offset account digest token and deterministic repeat
+  + full default debug release quality audit evidence and diff gates after future activation
+
+& [Dependency] is strict
+  + formation may proceed while I03A is blocked because this contract is validator independent
+  + implementation requires a separately reviewed I03B activation and the dependency chain defined by the I03 implementation plan
+  + no later validator or serde reader may weaken ingress refusal
+
+& [Delineation] is exact
+  - never: schema validation typed serde semantic evaluation authority admission compatibility classification provider model service persistence network external effect production hardware FPGA or general-purpose JSON transformation
+
+& [PresentDisposition] is source_preserved_formation_only_no_parser_authority

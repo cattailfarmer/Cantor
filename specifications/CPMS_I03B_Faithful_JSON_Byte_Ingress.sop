@@ -1,0 +1,150 @@
+Subject: CPMS I03B Faithful JSON Byte Ingress
+
+Description: Canonical formation for the bounded byte-level gate that preserves exact JSON identity and refuses duplicate names, malformed text, trailing data, and exhausted resources before schema, serde, semantic, or authority observation. Formation grants no implementation authority.
+
+@ [specification_uuid] 28968b41-8f8e-4781-a9c7-269f237f616f
+@ [profile] cantor-faithful-json-ingress/0.1
+@ [fault_profile] cantor-faithful-json-ingress-fault/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-05_cpms_i03b_faithful_json_byte_ingress\Source_Document_Manifest.sop
+@ [input_audit] C:\Project\Cantor\narrative\research\CPMS_I03B_Faithful_JSON_Byte_Ingress_SJS_Input_Audit_2026-08-05.sop
+@ [semantic_refinement] C:\Project\Cantor\narrative\research\CPMS_I03B_Faithful_JSON_Byte_Ingress_Semantic_Refinement_2026-08-05.sop
+@ [constraints] C:\Project\Cantor\narrative\research\CPMS_I03B_Faithful_JSON_Byte_Ingress_Constraint_Ledger_2026-08-05.sop
+@ [data_design] C:\Project\Cantor\narrative\research\CPMS_I03B_Faithful_JSON_Byte_Ingress_Data_Design_2026-08-05.sop
+@ [parent] C:\Project\Cantor\specifications\CPMS_I03_Residual_Conformance_Profile.sop
+
+& [Purpose] is identity-preserving admission to later pure readers
+  + observe supplied bytes once without rewriting
+  + release an immutable faithful instance only after every ingress gate closes
+  + make duplicate identity numeric token structure resource work and faults inspectable
+
+& [AuthorityStack] remains ordered
+  + I03B byte ingress precedes I03D schema and serde observation
+  + faithful ingress pass means only that byte text grammar duplicate and resource conditions passed
+  + no later reader may reinterpret an I03B fault as acceptance
+  + no I03B pass implies schema serde semantic authority or compatibility acceptance
+
+& [GateOrder] is deterministic
+  * refuse input longer than 16777216 bytes without scanning beyond the bound
+  * refuse exact leading UTF-8 BOM EF BB BF
+  * validate the complete byte sequence as strict UTF-8
+  * skip only JSON whitespace and refuse empty or whitespace-only input
+  * scan one JSON value with lexical structural duplicate and resource checks in source order
+  * skip trailing JSON whitespace and refuse any remaining byte as trailing_data
+  * finalize digest accounts and accepted instance atomically
+
+& [UTF8Profile] is strict
+  + reject overlong invalid continuation truncated surrogate-encoded and above-U+10FFFF sequences
+  + report the first known invalid zero-based byte offset
+  + perform no Unicode normalization
+
+& [Whitespace] is exactly U+0020 U+0009 U+000A or U+000D represented by one ASCII byte
+
+& [StringProfile] is scalar faithful
+  + reject unescaped U+0000 through U+001F
+  + accept only JSON-defined simple escapes and exact four-hex-digit Unicode escapes
+  + combine a high-surrogate escape only with its immediately following low-surrogate escape
+  + reject every unpaired reversed or interrupted surrogate escape
+  + retain raw half-open token span and decode member names to exact scalar sequences
+
+& [MemberIdentity] is object local
+  + exact decoded scalar sequence is the key
+  + escape spelling differences that decode equally are duplicates
+  + Unicode normalization case folding locale mapping and confusable mapping are forbidden
+  + each open object uses a deterministic BTreeMap from decoded name to first opening-quote offset
+  + second occurrence faults before its colon value or descendants can acquire observation authority
+
+& [NumberProfile] is grammar and span only
+  + optional minus
+  + integer is zero or nonzero digit followed by digits
+  + optional fraction requires decimal point and one or more digits
+  + optional exponent requires e or E optional sign and one or more digits
+  + retain sign integer fraction exponent component spans and exact raw source span
+  + reject leading plus leading zero missing digits nonfinite hexadecimal and locale forms
+  + never convert to f64 as an ingress decision
+
+& [LiteralProfile] accepts only exact lowercase true false and null
+& [RootKinds] are null boolean number string array and object
+
+& [Depth] counts open containers
+  + scalar root depth 0
+  + root array or object depth 1
+  + maximum 128 is inclusive
+  + attempt to enter depth 129 faults before frame creation
+
+& [Counts] are aggregate document accounts
+  + object members maximum 65536
+  + array items maximum 65536
+  + scalar values maximum 131072 and member names do not count as scalar values
+  + each decoded member name maximum 4096 UTF-8 bytes
+  + each number token maximum 4096 source bytes
+  + maximum path segments 128
+  + every count offset index and span operation uses checked arithmetic
+
+& [Path] is structured
+  + member segments carry exact decoded String
+  + index segments carry zero-based u64
+  + authoritative value is the segment vector
+  + derived JSON Pointer renders tilde as ~0 and solidus as ~1
+  + malformed input uses the deepest fully known path and invents no segment
+
+& [Offsets] are exact
+  + zero is the first supplied byte
+  + spans are start inclusive end exclusive
+  + EOF fault offset equals input byte length
+  + duplicate offsets point to each member-name opening quote
+
+& [LimitsForm] contains exact nine maxima
+  + input_bytes 16777216 container_depth 128 object_members 65536 array_items 65536 scalar_values 131072
+  + member_name_bytes 4096 number_token_bytes 4096 path_segments 128 diagnostic_characters 1024
+
+& [AcceptedInstance] is closed
+  + fixed profile
+  + exact limits
+  + owned original Vec u8
+  + SHA256 ContentDigest over those bytes
+  + JsonRootKind
+  + accounts for bytes maximum depth members items scalars number tokens decoded-name bytes and maximum name bytes
+  + ordered JsonNumberToken spans and components
+  - never: generic Value schema object typed form semantic result or authority disposition
+
+& [FaultCodes] are closed
+  + invalid_utf8 forbidden_bom empty_input malformed_json trailing_data duplicate_key limit_exceeded internal_fault
+& [GrammarClasses] are closed
+  + expected_value expected_key expected_colon expected_comma_or_end invalid_literal invalid_number invalid_string invalid_escape invalid_unicode_escape unpaired_surrogate unexpected_closer unexpected_eof
+& [FaultEvidence] contains code stage optional grammar class offset path and bounded advisory message
+  + duplicate fault additionally contains decoded name first offset and second offset
+  + limit fault additionally contains limit kind maximum and attempted observed value
+  + engine debug and display strings are never stable identity
+
+& [Atomicity] is strict
+  + internal frames member maps token observations and accounts are provisional
+  + any fault destroys provisional state and returns exactly one fault
+  + no warning partial instance partial Value or pass accompanies a fault
+
+& [ScannerArchitecture] is iterative and deterministic
+  + explicit object and array frames encode expected grammar state
+  + stack length equals open container depth
+  + object frames own BTreeMap decoded name to first offset
+  + scanner indexes exact source bytes and copies only accepted source bounded names paths and token metadata
+  + closed object maps are dropped
+  + sha256_bytes from cantor_core supplies the digest
+
+& [FutureSourceTouch] is unsigned and exact
+  + modify crates/cantor_procedure_tool/src/lib.rs
+  + add crates/cantor_procedure_tool/src/json_ingress.rs
+  + add crates/cantor_procedure_tool/tests/json_ingress.rs
+  - never: Cargo lock dependency core CLI MCP service ecosystem preflight schema golden or runtime effect file
+
+& [Proof] after future activation is adversarial and complete
+  + six root kinds exact whitespace and positive nested documents
+  + every malformed lexical structural string escape surrogate number separator closer and EOF family
+  + raw escaped nested and scope-separated duplicate names
+  + below at and above every finite maximum
+  + exact paths offsets spans accounts digests fault fields and repeat equality
+  + complete locked offline debug release formatting lint docs audit evidence and diff gates
+
+& [FormationBoundary] is strict
+  + current slice adds source SJS canonical exploded requirements justification plan review inactive lock proof narrative and evidence metadata only
+  - never: Rust parser Cargo schema serde semantic authority compatibility provider model service persistence network effect production hardware or FPGA
+
+& [PresentDisposition] is formed_not_activated

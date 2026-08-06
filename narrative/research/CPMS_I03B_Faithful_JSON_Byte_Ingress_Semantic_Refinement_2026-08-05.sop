@@ -1,0 +1,56 @@
+Subject: CPMS I03B Faithful JSON Byte Ingress Semantic Refinement
+
+@ [refinement_uuid] 3a243923-784b-4286-aa7b-f54c41c32864
+
+& [SuppliedBytes] is the exact caller-provided byte sequence before text or JSON interpretation
+& [Utf8Text] is supplied bytes after complete strict UTF-8 validation without normalization
+& [JsonGrammarAcceptance] is proof of one complete value under Cantor's selected strict JSON identity profile
+& [FaithfulJsonInstance] is accepted immutable bytes plus digest root kind accounts and numeric token observations
+  + it is not a generic object tree semantic form or schema-valid instance
+
+& [DecodedMemberIdentity] is the exact Unicode scalar sequence formed by JSON string decoding
+  + raw spelling is provenance
+  + decoded scalar sequence is duplicate identity within one object
+  + schema property identity is a later reader concern
+
+& [NumericTokenIdentity] is exact source grammar and span
+  + mathematical interpretation belongs to the applicable schema or serde reader
+  + ingress proves valid finite token work but does not claim representability
+
+& [ContainerDepth] counts open array and object containers only
+  + scalar root is zero
+  + root container is one
+& [PathDepth] counts logical member and array index segments to the subject
+  + it cannot exceed container depth for a value under inspection
+
+& [AggregateObjectMembers] counts every member across every object
+& [AggregateArrayItems] counts every item across every array
+& [AggregateScalarValues] counts string number true false and null values but not object member names
+& [RootKind] is null boolean number string array or object
+
+& [AtomicFault] is the only result when a gate fails
+  + invalid_utf8 concerns byte-to-text identity
+  + forbidden_bom concerns profile framing
+  + empty_input concerns absence of a value
+  + malformed_json concerns lexical or structural grammar
+  + trailing_data concerns a second or non-whitespace suffix after one value
+  + duplicate_key concerns object-local decoded identity collision
+  + limit_exceeded concerns a named finite contract maximum
+  + internal_fault concerns checked arithmetic or impossible scanner state
+
+& [FaultPath] is structured segments plus derived RFC 6901 rendering
+  + structured segments are authoritative
+  + rendering escapes tilde as ~0 and solidus as ~1
+  + no Unicode normalization or display abbreviation changes segment identity
+
+& [Scanner] is an iterative deterministic recognizer
+  + it is not a general JSON transformation library
+  + it uses explicit frames rather than native recursion
+  + it never executes schema serde semantic authority provider or effect behavior
+
+& [GateAuthority] is ordered
+  + passing UTF-8 does not imply JSON
+  + passing JSON does not imply unique members until duplicate checks close
+  + faithful ingress does not imply schema serde semantic or authority acceptance
+
+& [RefinedDisposition] is exact_byte_identity_and_atomic_gate_contract

@@ -1,0 +1,36 @@
+Subject: CPMS I03B Faithful JSON Byte Ingress Constraint Ledger
+
+@ [ledger_uuid] fcbf709a-9983-4d99-95d5-fe555aa6a3a0
+
+& [B01] input is owned exact bytes and maximum length is 16777216
+& [B02] UTF-8 BOM is refused and not silently skipped
+& [B03] complete strict UTF-8 validation precedes JSON parsing
+& [B04] JSON whitespace is exactly byte 0x20 0x09 0x0A or 0x0D
+& [B05] exactly one complete value plus trailing JSON whitespace is accepted
+& [B06] unescaped controls invalid escapes and unpaired surrogate escapes are refused
+& [B07] strings are not Unicode normalized case folded locale mapped or confusable folded
+& [B08] member equality uses exact decoded scalar sequence within one object
+& [B09] each object BTreeMap retains decoded name and first opening-quote offset
+& [B10] duplicate refusal occurs before the second member value is scanned
+& [B11] numeric grammar is exact JSON and no f64 conversion decides ingress
+& [B12] numeric token span and component metadata remain ordered by source offset
+& [B13] root scalar depth 0 root container depth 1 and maximum container depth 128 inclusive
+& [B14] aggregate object members maximum 65536
+& [B15] aggregate array items maximum 65536
+& [B16] aggregate scalar values maximum 131072 excluding member names
+& [B17] each decoded member name maximum 4096 UTF-8 bytes
+& [B18] each numeric source token maximum 4096 bytes
+& [B19] path segments maximum 128 and diagnostic characters maximum 1024
+& [B20] offsets are zero-based and spans half-open; EOF offset equals input length
+& [B21] every counter and offset addition uses checked arithmetic
+& [B22] first fault under fixed gate and source order is the sole returned result
+& [B23] no partial accepted instance survives any fault
+& [B24] accepted instance retains original bytes digest root kind accounts and number tokens only
+& [B25] no serde_json Value schema validator typed form semantic or authority disposition is produced
+& [B26] future source touch is tool lib.rs new json_ingress.rs and new json_ingress integration test only
+& [B27] formation changes SOP and evidence metadata only
+& [B28] implementation requires separate source-preserved activation signature and active lock
+& [B29] no Cargo dependency CLI MCP service provider model persistence network effect production hardware or FPGA authority
+
+& [ConflictRule] any requirement violating B01 through B29 returns to SJS before activation
+& [LedgerDisposition] is closed_for_formation

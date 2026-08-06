@@ -1,0 +1,15 @@
+Subject: CPMS I03B Faithful JSON Byte Ingress Justification
+
+@ [justification_uuid] 0e46c0a3-7c9a-4b29-ab87-f4dc0b748c55
+
+& [Need] ordinary object parsing can collapse duplicate keys and numeric spelling before independent readers observe the supplied instance
+& [Selected] one bounded iterative byte scanner before serde and schema validation
+  + preserves exact bytes and number spans
+  + proves strict UTF-8 one value duplicate absence and finite work
+  + returns one accepted instance or one atomic stable fault
+& [Rejected] serde_json Value as first authority because map construction loses duplicate occurrence evidence
+& [Rejected] native recursive descent because the profile requires explicit depth and stack accounting independent of native stack behavior
+& [Rejected] Unicode normalization because it would rewrite member identity beyond JSON decoding
+& [StricterProfile] unpaired surrogate escapes and BOM are refused deliberately to create portable scalar and framing identity
+& [DependencyIndependence] standard library plus existing cantor_core digest support is sufficient; I03A validator activation is not needed for formation
+& [Decision] form the scanner contract now and require separate activation before Rust implementation

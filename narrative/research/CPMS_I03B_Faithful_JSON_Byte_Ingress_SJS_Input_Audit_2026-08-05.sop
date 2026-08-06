@@ -1,0 +1,64 @@
+Subject: CPMS I03B Faithful JSON Byte Ingress SJS Input Audit
+
+@ [audit_uuid] 6c6804f7-11a0-4df3-8c4c-96a49f9d3735
+@ [source] C:\Project\Cantor\source_documents\2026-08-05_cpms_i03b_faithful_json_byte_ingress\Derived_CPMS_I03B_Faithful_JSON_Byte_Ingress_Source.sop
+@ [manifest] C:\Project\Cantor\source_documents\2026-08-05_cpms_i03b_faithful_json_byte_ingress\Source_Document_Manifest.sop
+
+& [SourceIntegrity] passed at 8061 bytes SHA256 8CD89C290173FFFFF227FF0B3F14D5AE14694527636F38D73214ED7B2C247629
+& [Baseline] is pushed commit 2b8af816cc6cac11673e9b8f16dc4cbc8aa22bd6
+& [FormationAuthority] exists because byte-ingress semantics are validator independent
+& [ImplementationAuthority] is absent because I03B has no activation source signature or phase lock
+
+& [Correction1] chooses BTreeMap rather than an unresolved set-or-map alternative
+  + duplicate detection must retain the first key offset
+  + each open object therefore owns BTreeMap decoded_name to first_key_offset
+  + insertion order is not inferred from map order; original bytes remain ordering authority
+
+& [Correction2] defines deterministic fault precedence
+  * input byte bound
+  * forbidden BOM
+  * complete UTF-8 validation
+  * empty or whitespace-only input
+  * JSON lexical structural duplicate and resource scan
+  * trailing non-whitespace data
+  + first fault in this gate order is authoritative and later gates do not run
+
+& [Correction3] identifies the selected Unicode profile
+  + RFC 8259 grammar permits escape sequences that can encode unpaired surrogates in observed deployments
+  + Cantor's faithful identity profile rejects unpaired surrogate escapes to guarantee decoded Unicode scalar identity
+  + this is a deliberate stricter profile and must not be represented as universal parser behavior
+
+& [Correction4] closes name equality
+  + equality is exact decoded Unicode scalar sequence
+  + escape spelling differences collapse when they decode to the same sequence
+  + Unicode normalization case folding locale and confusable mapping do not occur
+  + this prevents silent identity rewriting while still detecting syntactically escaped duplicates
+
+& [Correction5] separates limit scopes
+  + object members array items and scalar values are aggregate document counts
+  + member-name maximum is per decoded name in UTF-8 bytes
+  + numeric-token maximum is per source token in bytes
+  + input bytes and path depth provide aggregate upper bounds on retained names and fault paths
+
+& [Correction6] closes offset and EOF meaning
+  + every offset is zero-based from the first supplied byte
+  + token spans are half-open start inclusive end exclusive
+  + an EOF grammar fault uses offset equal to input byte length
+  + a duplicate key offset names the opening quote of each member-name token
+
+& [Correction7] prevents partial authority
+  + scanner internal frames names tokens and accounts are provisional until the complete trailing-data gate passes
+  + any fault drops all provisional state and returns only one closed fault
+  + accepted instance owns an exact byte copy so later readers share stable immutable content
+
+& [Correction8] limits stable diagnostics
+  + stable code grammar_class path offset limit and observed fields carry identity
+  + human explanation is bounded advisory text
+  + implementation-specific debug or parser display messages never enter proof comparison
+
+& [Correction9] closes source touch at formation level
+  + proposed future implementation touches tool lib.rs one new json_ingress.rs and one new integration test
+  + no Cargo change is needed because cantor_core already exports sha256_bytes and the standard library supplies the scanner structures
+  + exact line and module collision audit remains an activation prerequisite
+
+& [AuditDisposition] is source_valid_after_corrections_formation_allowed_implementation_forbidden

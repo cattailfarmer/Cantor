@@ -1,0 +1,72 @@
+Subject: CPMS I03B Faithful JSON Byte Ingress Data Design
+
+@ [design_uuid] 56332420-a1d9-4506-b003-94e65a810850
+
+& [IngressLimits] is a closed immutable form
+  + maximum_input_bytes u64 16777216
+  + maximum_container_depth u64 128
+  + maximum_object_members u64 65536
+  + maximum_array_items u64 65536
+  + maximum_scalar_values u64 131072
+  + maximum_member_name_bytes u64 4096
+  + maximum_number_token_bytes u64 4096
+  + maximum_path_segments u64 128
+  + maximum_diagnostic_characters u64 1024
+
+& [JsonRootKind] is null boolean number string array or object
+& [JsonPathSegment] is member with decoded String or index with u64
+& [JsonIngressPath] is ordered Vec JsonPathSegment plus derived JSON Pointer rendering
+
+& [JsonNumberToken] is ordered source metadata
+  + start u64 end_exclusive u64
+  + negative bool
+  + integer_start integer_end_exclusive
+  + fraction_start optional fraction_end_exclusive optional
+  + exponent_marker optional exponent_negative optional exponent_start optional exponent_end_exclusive optional
+  + raw bytes are resolved from the retained source span rather than copied
+
+& [JsonIngressAccounts] contains
+  + input_bytes maximum_depth object_members array_items scalar_values number_tokens
+  + decoded_member_name_bytes_total and maximum_decoded_member_name_bytes
+  + every value is u64 and formed through checked increments
+
+& [FaithfulJsonInstance] contains
+  + profile String fixed cantor-faithful-json-ingress/0.1
+  + limits IngressLimits
+  + source_bytes Vec u8
+  + source_digest ContentDigest
+  + root_kind JsonRootKind
+  + accounts JsonIngressAccounts
+  + number_tokens Vec JsonNumberToken ordered by start
+  + no generic Value or reader result field
+
+& [JsonIngressFaultCode] is invalid_utf8 forbidden_bom empty_input malformed_json trailing_data duplicate_key limit_exceeded or internal_fault
+& [JsonGrammarClass] is closed and includes expected_value expected_key expected_colon expected_comma_or_end invalid_literal invalid_number invalid_string invalid_escape invalid_unicode_escape unpaired_surrogate unexpected_closer and unexpected_eof
+& [JsonIngressLimitKind] names each IngressLimits field except diagnostic characters plus checked_arithmetic
+
+& [JsonIngressFault] contains
+  + profile String fixed cantor-faithful-json-ingress-fault/0.1
+  + code JsonIngressFaultCode
+  + stage byte utf8 lexical structural duplicate resource or internal
+  + grammar_class optional JsonGrammarClass
+  + offset u64
+  + path JsonIngressPath
+  + duplicate_name optional String
+  + first_offset optional u64 second_offset optional u64
+  + limit_kind optional JsonIngressLimitKind maximum optional u64 observed optional u64
+  + message String bounded advisory
+
+& [Result] is Result FaithfulJsonInstance JsonIngressFault
+  + no separate partial or warning channel exists
+
+& [ObjectFrame] contains path state member_names BTreeMap String to u64 and pending_member optional String
+& [ArrayFrame] contains path state and next_index u64
+& [Frame] is object or array and stack length equals current container depth
+
+& [MemoryBound] follows input bytes aggregate names scalar count number-token count and path depth
+  + accepted source bytes are copied once
+  + number tokens reference spans
+  + member maps are dropped as objects close
+  + no input-derived allocation occurs before its governing byte or count limit check
+
+& [DesignDisposition] is exact_candidate_forms_not_implemented
