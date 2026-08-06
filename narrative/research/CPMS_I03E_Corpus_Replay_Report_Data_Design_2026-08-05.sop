@@ -1,0 +1,49 @@
+Subject: CPMS I03E Corpus Replay Report Data Design
+
+@ [design_uuid] dbfd2d1e-3c20-4741-a450-4f5e39c29d41
+
+& [CorpusIdentity] owns profile_id bundle_digest registry_digest validator_profile_digest reader_profile_digest code_snapshot lock_digest case_count obligation_count aggregate_fixture_bytes and corpus_digest
+
+& [ConformanceCase] owns case_id predecessor_case_id root_kind direction family fixture_ref fixture_digest expected_ingress expected_schema expected_typed expected_semantic applicability claim_ids rule_ids residual_ids obligation_ids rationale_digest provenance_ref
+  + fixture_ref is exact input bytes for three input roots or typed-fixture identity plus emitted-byte expectation for two response roots
+
+& [CommonSyntaxClaim] owns claim_id root_kind subject proposition_class expected_disposition schema_witness typed_witness applicability rationale_digest source_ref
+& [SchemaWitness] owns rule_classes normalized_schema_locations finding_projection
+& [TypedWitness] owns rust_type intended_use binding_operation destination_path error_projection
+  + binding_operation is deserialize_exact_bytes or serialize_actual_value
+
+& [StageDisposition] is not_applicable accepted rejected exhausted internal_fault or skipped_dependency
+& [ComparisonDisposition] is accepted_agreement rejected_agreement reader_disagreement reason_mismatch expectation_mismatch not_comparable or blocked
+& [SemanticDisposition] is not_applicable accepted refused unimplemented exhausted or internal_fault
+
+& [CaseEvaluation] owns case_ref ingress_observation reader_pair_ref semantic_observation comparison_records finding_refs resource_account and evaluation_digest
+  + the ReaderPair is included by stable identity and its original observations remain unchanged
+
+& [CoverageObligation] owns obligation_id root_kind rule_family polarity boundary_position applicability mandatory source_ref and rationale_digest
+& [CoverageEdge] owns obligation_ref case_ref claim_ref disposition and proof_ref
+& [CoverageAccount] owns total mandatory satisfied deferred uncovered per_root per_family per_rule and account_digest
+
+& [ResidualCoverageEdge] owns residual_ref root_kind case_ref semantic_policy disposition and proof_ref
+& [ResidualAccount] owns registry_count applicable covered deferred dangling per_root and account_digest
+
+& [ConformanceFinding] owns finding_id case_ref kind reader claim_ref rule_ref schema_path residual_refs expected actual severity diagnostic
+  + diagnostic maximum is 1024 characters and engine-derived text is excluded from finding identity
+
+& [ResourceAccount] owns cases fixture_bytes ingress_bytes schema_steps reference_steps typed_steps semantic_steps findings diagnostic_characters report_bytes and checked_disposition
+
+& [ReportCore] owns schema profile corpus bundle registry validator reader code lock case_evaluations findings coverage residuals resources and disposition
+  + normative arrays have complete lexical sort keys
+  + no floating field exists
+
+& [ReplayEnvelopePayload] owns schema bound_identity first_core_digest second_core_digest exact_byte_equal and disposition
+& [ReplayEnvelope] owns payload and envelope_digest
+  + envelope_digest is domain-separated SHA256 over canonical payload bytes
+
+& [DigestDomains] are cantor:i03e:case:v1 cantor:i03e:claim:v1 cantor:i03e:obligation:v1 cantor:i03e:finding:v1 cantor:i03e:core:v1 and cantor:i03e:envelope:v1
+
+& [CanonicalOrder] is cases by case_id comparisons by claim_id findings by case_id kind reader claim rule schema_path residual_ids finding_id obligations by obligation_id coverage edges by obligation case claim and residual edges by residual root case
+
+& [TransformationDAG] is identities -> catalogue admission -> ordered case evaluation -> claim comparison -> independent coverage reconstruction -> core A and core B -> byte comparison -> replay envelope
+
+& [StorageBoundary] is compile_time_fixture_bytes_and_pure_in_memory_values_only
+& [DesignDisposition] is complete_formation_data_no_runtime_form

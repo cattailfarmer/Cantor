@@ -1,0 +1,51 @@
+Subject: CPMS I03E Corpus Replay Report SJS Input Audit
+
+@ [audit_uuid] f515aec2-31a3-4267-883c-bd2205b3247c
+@ [source_uuid] 9dea429a-add4-44c4-ada9-321226a5bcb9
+@ [source_sha256] 2B4126D7259AC38DBBA93EF4128744C572FDA1BC4B2F02D8F04481773105C643
+
+& [AuthorityInput] is sufficient for formation only
+  + parent I03 profile defines the corpus and report purpose
+  + I03D defines complete ReaderPair observations without comparison fields
+  + current source defines the later comparison license and replay envelope
+  + I03A through I03D are not active implementation prerequisites
+
+& [Correction1] refines same-rule wording
+  + schema and typed readers expose different rule vocabularies
+  + one CommonSyntaxClaim therefore owns explicit schema_witness and typed_witness mappings
+  + rejected plus rejected can agree when both mapped witnesses establish the same claim, not when raw rule ids happen to be textually equal
+
+& [Correction2] distinguishes input and output typed observations
+  + three input roots compare schema validation with deserialization from exact retained bytes
+  + two response roots compare schema validation of emitted bytes with actual typed serialization under distinct intended-use fixtures
+  + shared ProcedureToolResponse type cannot merge base_response and preparation_response claims
+
+& [Correction3] limits a passing claim
+  + pass means every admitted finite obligation has exact expected observations zero findings and exact replay
+  + it does not prove exhaustive schema-language equivalence semantic validity compatibility production readiness or authority admission
+
+& [Correction4] makes expectation authority explicit
+  + a generator or LLM may propose cases and mappings
+  + canonical expectation requires reviewed source identity and later activation signature
+  + generated output digest alone cannot authorize its expected result
+
+& [Correction5] prevents report digest recursion
+  + each pure run emits a self-digest-free ReportCore
+  + the ReplayEnvelope binds two core digests equality and disposition
+  + envelope digest is calculated over an envelope payload excluding only its own digest
+
+& [Correction6] closes semantic evaluation
+  + only I03C safe_pure bindings with exact module function code snapshot input type and proof identity may execute
+  + every input fixture must already be complete and admitted
+  + observational_only and prohibited_authority remain non-executing report facts
+
+& [Correction7] closes storage behavior
+  + future test fixtures are compile-time included from a signed content-addressed inventory
+  + library and test execution perform no runtime file read or write
+  + final core and envelope bytes remain in-memory test observations
+
+& [Correction8] preserves implementation refusal
+  + I03E formation defines no cases fixtures Rust comparator generator report or test
+  + dependency and upstream activation blockers remain open
+
+& [AuditDisposition] is source_valid_after_refinement_formation_allowed_implementation_forbidden

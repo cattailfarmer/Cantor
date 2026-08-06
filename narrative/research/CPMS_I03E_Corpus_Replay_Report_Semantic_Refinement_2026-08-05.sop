@@ -1,0 +1,35 @@
+Subject: CPMS I03E Corpus Replay Report Semantic Refinement
+
+@ [refinement_uuid] 50e491a7-52cb-43f1-962f-5e230bba5d23
+@ [input_audit] C:\Project\Cantor\narrative\research\CPMS_I03E_Corpus_Replay_Report_SJS_Input_Audit_2026-08-05.sop
+
+& [Expectation] is a reviewed predicted disposition for one named stage and case
+& [Observation] is the immutable result emitted by an actual admitted stage
+& [Agreement] is a comparison conclusion licensed by one CommonSyntaxClaim after both observations match their expectations
+  + observation equality alone is insufficient
+
+& [CommonSyntaxClaim] is a proposition both selected readers are designed to observe
+& [SchemaWitness] maps the claim to schema rule classes and normalized schema locations
+& [TypedWitness] maps the claim to actual serde binding behavior and typed destinations
+  + witness mappings may use different rule vocabularies
+
+& [AcceptedAgreement] means both applicable readers ran accepted and were expected to accept the same claim
+& [RejectedAgreement] means both applicable readers ran rejected as expected and each rejection maps to the same claim
+& [ReaderDisagreement] means applicable readers have opposite accepted or rejected dispositions
+& [ReasonMismatch] means both rejected but their mapped rejection claims differ or are unproven
+& [ExpectationMismatch] means any observation differs from its own reviewed expectation
+& [NotComparable] means no common claim licenses comparison
+& [BlockedComparison] means ingress prerequisite dependency exhaustion or internal fault prevents a comparison conclusion
+
+& [SemanticExpectation] is never part of syntax agreement
+  + safe pure semantic execution has its own expected and actual dispositions
+  + semantic agreement with expectation does not authorize use
+
+& [CoverageClosure] means every mandatory obligation has at least one explicit satisfied edge and no contradictory edge
+& [ResidualClosure] means every applicable residual has cases or an explicit non-passing deferred record
+& [FinitePass] means zero findings both closures exact resource accounts and byte-identical replay for the admitted finite corpus
+  + finite pass is not exhaustive equivalence
+
+& [ReportCore] is the canonical deterministic projection of one complete pure evaluation
+& [ReplayEnvelope] is the canonical comparison record for two independently recomputed cores
+& [RefinedDisposition] is exact_inactive_i03e_formation
