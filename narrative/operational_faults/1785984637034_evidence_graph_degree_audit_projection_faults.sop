@@ -1,0 +1,25 @@
+Subject: Evidence Graph Degree Audit Projection Faults
+
+@ [fault_uuid] c9e4d5bf-fef8-4d74-b7b8-37c7eb998a42
+@ [conversation_uuid] cab190f5-eda0-44e0-81a5-51f9605e0baa
+@ [baseline_commit] 14e346d
+
+& [FirstFault] nested PowerShell pipeline use shadowed the candidate-node variable while deriving leaf manifests
+  + it falsely classified all 23 current manifests as leaves
+  + node edge cycle portability duplicate and missing-artifact results were computed independently and remained valid
+
+& [SecondFault] the first correction used an invalid multi-key Sort-Object parameter expression
+  + parsing stopped before any derived graph result
+
+& [Impact] is diagnostic_only
+  + no repository file evidence manifest artifact process or authority state changed
+  + neither invalid degree result was accepted into project evidence
+
+& [Correction] explicit inbound and outbound degree maps remove nested pipeline ambiguity
+  + current graph has 23 nodes and 26 manifest-to-manifest edges
+  + inbound and outbound degree sums both equal 26
+  + root count is 9 and leaf count is 10
+  + cycles nonportable paths duplicate artifact paths and missing artifacts remain zero
+
+& [Prevention] graph audits use named node variables and explicit degree maps before optional ordering
+& [Disposition] is contained_corrected_no_project_fault
