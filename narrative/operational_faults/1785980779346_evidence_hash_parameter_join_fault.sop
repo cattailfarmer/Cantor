@@ -1,0 +1,12 @@
+Subject: Evidence Hash Parameter Join Invocation Fault
+
+@ [fault_uuid] 2256e60e-b0f9-4e59-b56e-c3af799dcd39
+@ [observed_at_unix_ms] 1785980779346
+
+& [Operation] was read-only hashing of two evidence manifests during dependency-DAG refresh
+& [Fault] omitted whitespace joined a path variable and Algorithm parameter and produced two PowerShell binding errors
+& [Pattern] repeats the earlier I03E2 source-check invocation fault and therefore requires an explicit local mitigation
+& [Containment] empty hash outputs were rejected and no manifest edit used them
+& [Correction] reran both hashes with LiteralPath and Algorithm as separate named parameters
+& [Mitigation] all remaining Get-FileHash calls in this turn use the full named-parameter form
+& [Impact] none beyond invalid diagnostic output and lost time

@@ -1,0 +1,33 @@
+Subject: CPMS I03E3 Proof Oracle and Review Protocol Data Design
+
+@ [design_uuid] fa6b66e0-2690-43a4-a690-0fcff2e47c0e
+
+& [ReviewerPrincipal] owns principal_id kind trust_policy_ref faculty_profile_ref engine_identity key_id and provenance_digest
+  + kind is person or faculty_process
+  + key_id is optional and never inferred from principal id
+
+& [ReviewRun] owns run_id principal_ref faculty_role faculty_profile_digest exact_input_digest engine_job_ref output_digest independence_group and resource_account
+
+& [CaseExpectationReceipt] owns receipt_id case_ref payload_digest stage_expectations oracle_classes rationale_refs arithmetic_or_construction_proofs disposition reviewer_run_ref predecessor_receipt_ref and receipt_digest
+& [ClaimWitnessReceipt] owns receipt_id case_ref claim_ref schema_witness_disposition typed_witness_disposition common_proposition_disposition rationale_refs reviewer_run_ref predecessor_receipt_ref and receipt_digest
+& [CoverageMappingReceipt] owns receipt_id case_ref obligation_edge_ref evidence_proposition disposition rationale_refs reviewer_run_ref predecessor_receipt_ref and receipt_digest
+
+& [FacultyPrimaryPayload] owns case_or_batch_ref faculty_role reviewer_run_ref reviewed_receipt_refs claims challenges scope_disposition and payload_digest
+& [FacultyCrossAck] owns ack_id faculty_role reviewer_run_ref honesty_primary_digest security_primary_digest peer_review_disposition challenges and ack_digest
+& [CrossConfirmationEnvelopePayload] owns subject_ref honesty_primary_digest security_primary_digest honesty_ack_digest security_ack_digest independence_class trust_policy_ref and combined_disposition
+& [CrossConfirmationEnvelope] owns payload and envelope_digest optional_signature_records
+
+& [SignatureRecord] owns signature_id algorithm key_id trusted_key_catalogue_digest signed_payload_digest signature_bytes_digest verification_disposition and verifier_ref
+  + absence is explicit and content digests remain sufficient only for integrity identity
+
+& [DissentRecord] owns dissent_id subject_ref reviewer_run_ref disposition challenged_clause evidence_refs rationale severity proposed_resolution predecessor_dissent_ref resolution_ref and dissent_digest
+& [ReviewBatch] owns batch_id exact_case_refs shared_operator_ref shared_mapping_class shared_source_basis shared_rationale_digest exception_case_refs and batch_digest
+
+& [ObserverReviewAccount] owns cases expected_receipts claim_receipts coverage_receipts primaries acknowledgments envelopes open_challenges abstentions insufficient unreviewed successors signatures and checked_disposition
+& [ReviewedCorpusCandidate] owns profile proposal_catalogue_digest review_catalogue_digest cases receipts envelopes dissent_ledger accounts Observer_disposition and candidate_digest
+
+& [DigestDomains] are cantor:i03e3:expectation:v1 cantor:i03e3:claim-review:v1 cantor:i03e3:coverage-review:v1 cantor:i03e3:primary:v1 cantor:i03e3:ack:v1 cantor:i03e3:envelope:v1 cantor:i03e3:dissent:v1 and cantor:i03e3:candidate:v1
+
+& [TransformationDAG] is exact proposal -> independent oracle receipts -> Scribe Refiner Weaver Planner evidence -> HonestyPrimary plus SecurityPrimary -> two cross acknowledgments -> envelope -> dissent closure -> Observer candidate review
+& [OutputBoundary] is reviewed_documentary_candidate_without_execution
+& [DesignDisposition] is complete_formation_data_no_review_issuance

@@ -1,0 +1,50 @@
+Subject: CPMS I03E3 Proof Oracle and Review Protocol SJS Input Audit
+
+@ [audit_uuid] c8d3242b-6cf7-4401-901f-609a873d62c8
+@ [source_uuid] cac5fb29-0dc6-40ae-b17b-ce3cf91d600a
+@ [source_sha256] 0A17B9C3A1B2C269AAD1A25F0B1F63FB18841D42C7372193F3EFC292E9CD6B5E
+
+& [AuthorityInput] is sufficient for formation only and the exact source digest is bound
+
+& [Correction1] replaces ambiguous mutual signing with two-phase cross acknowledgment
+  + HonestyPrimary and SecurityPrimary contain independent conclusions and no peer digest
+  + HonestyCrossAck and SecurityCrossAck each bind both primary digests
+  + CrossConfirmationEnvelope binds both primaries both acknowledgments and dispositions
+  + no record contains its own digest or requires a mutually recursive digest
+
+& [Correction2] separates attestation integrity and cryptographic signature
+  + receipt digest proves content identity only
+  + attestation binds reviewer principal faculty profile and disposition under the project protocol
+  + digital signature exists only with declared algorithm key id trusted key catalogue and verified signature bytes
+  + CRC checksum and hash are never called signatures
+
+& [Correction3] defines reviewer principals broadly but honestly
+  + principal may be a person or separately authorized faculty process
+  + a faculty process binds exact SOP profile model or engine job input output and execution identities
+  + raw model prose without authorization and provenance cannot issue review authority
+
+& [Correction4] records independence strength
+  + procedural_only uses distinct faculty rules
+  + separate_invocations uses distinct execution runs and immutable inputs
+  + separate_principals uses independently authorized principals
+  + later activation selects the minimum acceptable class rather than formation pretending one
+
+& [Correction5] prevents oracle laundering
+  + executing the implementation and copying its result is not an independent expectation source
+  + semantic vectors require independent construction derivation or proof identity
+  + source interpretation uncertainty becomes dissent or insufficient evidence
+
+& [Correction6] keeps review complete rather than sampled
+  + batch rationale may reduce duplication
+  + every exact case claim and edge remains enumerated and dispositioned
+  + sampling can audit reviewer quality but cannot admit omitted cases
+
+& [Correction7] separates review candidate from execution authority
+  + corpus_candidate_formed means review completeness only
+  + a separate satisfaction signature and active phase lock are still required before any reader run
+
+& [Correction8] removes hidden reasoning authority
+  + normative receipts contain claims evidence references bounded rationale challenges and dispositions
+  + private chain-of-thought is neither required nor accepted as proof
+
+& [AuditDisposition] is source_valid_after_digest_binding_and_refinement_formation_allowed_receipt_issuance_forbidden
