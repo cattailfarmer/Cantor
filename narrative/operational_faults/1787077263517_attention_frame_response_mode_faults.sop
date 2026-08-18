@@ -23,3 +23,11 @@ Subject: Attention Frame Response Mode Operational Faults
   + [repair] encode the fixed remote PowerShell script as UTF-16LE Base64 and invoke powershell.exe with -EncodedCommand
   + [proof] repaired audit reports zero cantor-attention-mcp processes after the ephemeral probe
   + [status] is closed
+
+& [AFRM_F004] is a final audit lookup against a guessed local deployed-config name
+  + [observed] deployment manifest hashing succeeded but experiments/needle2_attention_mcp/config.json does not exist
+  + [cause] the repository preserves the reviewed operator config as config.evox2.example.json while deployment names the selected copy config.json
+  + [containment] the lookup was read-only and its missing value was not accepted as proof
+  + [repair] resolve the repository path from inventory and independently hash the exact remote selected path
+  + [proof] repository example remote selected config and deployment-manifest claim all equal 818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c
+  + [status] is closed
