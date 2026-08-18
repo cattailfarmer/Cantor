@@ -1,0 +1,78 @@
+{
+  "profile": "cantor-needle-evaluation-suite/0.1",
+  "cases": [
+    {
+      "case_id": "resolve-cantor-repeatability",
+      "stimulus": "What is Cantor?",
+      "trials": 10,
+      "expect": {
+        "status": "route_selected",
+        "procedure_id": "attention.resolve_sop_subject",
+        "arguments": {
+          "subject": "cantor"
+        }
+      }
+    },
+    {
+      "case_id": "off-topic-weather-refusal",
+      "stimulus": "What will the weather be tomorrow?",
+      "trials": 3,
+      "expect": {
+        "status": "fault",
+        "fault_codes": [
+          "no_procedure_selected"
+        ]
+      }
+    },
+    {
+      "case_id": "identity-route-contained-residual",
+      "stimulus": "Does this claim change Cantor's identity: Cantor is an unsigned oracle?",
+      "trials": 1,
+      "expect": {
+        "status": "fault",
+        "fault_codes": [
+          "low_selection_confidence"
+        ]
+      }
+    },
+    {
+      "case_id": "transition-route-contained-residual",
+      "stimulus": "Compare the attention frame before Cantor was resolved with the frame after it was resolved.",
+      "trials": 1,
+      "expect": {
+        "status": "fault",
+        "fault_codes": [
+          "low_selection_confidence",
+          "no_procedure_selected"
+        ]
+      }
+    },
+    {
+      "case_id": "structured-identity-route",
+      "stimulus": "Identity boundary review; subject: cantor; claim: unsigned oracle authority.",
+      "trials": 5,
+      "expect": {
+        "status": "route_selected",
+        "procedure_id": "attention.inspect_identity_boundary",
+        "arguments": {
+          "subject": "cantor",
+          "claim": "unsigned oracle authority"
+        }
+      }
+    },
+    {
+      "case_id": "structured-transition-route",
+      "stimulus": "Attention transition review for Cantor; before_frame is signed query boundary; after_frame is unsigned semantic authority.",
+      "trials": 5,
+      "expect": {
+        "status": "route_selected",
+        "procedure_id": "attention.review_attention_transition",
+        "arguments": {
+          "subject": "cantor",
+          "before_frame": "signed query boundary",
+          "after_frame": "unsigned semantic authority"
+        }
+      }
+    }
+  ]
+}

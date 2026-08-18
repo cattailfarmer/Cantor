@@ -1,0 +1,95 @@
+{
+  "profile": "cantor-attention-procedure-catalogue/0.1",
+  "procedures": [
+    {
+      "procedure_id": "attention.resolve_sop_subject",
+      "version": "0.1.1",
+      "tool_name": "resolve_sop_subject",
+      "description": "Use when the user asks what Cantor means, is, represents, or governs. Retrieve its signed SOP definition before answering. Do not use for a supplied identity-conflict claim or a before/after transition.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject": {
+            "type": "string",
+            "enum": ["cantor"],
+            "description": "The SOP subject explicitly named by the user."
+          }
+        },
+        "required": ["subject"]
+      },
+      "attention_template": "Explain the resolved subject using only the verified Cantor result. Preserve fixture limitations, source attribution, uncertainty, and explicit faults.",
+      "cantor_query_template": "query.json",
+      "allowed_effects": [],
+      "source_ref": "contracts/resolve_sop_subject.sop",
+      "source_sha256": "5eca914f60a74490957b7d3f1e2954b98543953689e313ac94152f83ea93e90f",
+      "procedure_digest": "97187667dc894885ab4d9eb713438af7852c26688e545977968b79e2c4a59945"
+    },
+    {
+      "procedure_id": "attention.inspect_identity_boundary",
+      "version": "0.1.1",
+      "tool_name": "inspect_identity_boundary",
+      "description": "Use only when the user supplies a claim and asks whether it changes, crosses, weakens, or contradicts Cantor's identity. Compare representation boundaries; do not claim external truth.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject": {
+            "type": "string",
+            "enum": ["cantor"],
+            "description": "The admitted SOP subject whose identity is being inspected."
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "The caller-attributed claim to compare without silently rewriting it."
+          }
+        },
+        "required": ["subject", "claim"]
+      },
+      "attention_template": "Compare the caller-attributed claim with the verified Cantor identity. Report preserved, conflicting, unsupported, and unresolved elements. Judge representation consistency, not external truth.",
+      "cantor_query_template": "query.json",
+      "allowed_effects": [],
+      "source_ref": "contracts/inspect_identity_boundary.sop",
+      "source_sha256": "963032c7291e75ef57e3026933fb4444bb0ce866678d4e49254eed506c1b455b",
+      "procedure_digest": "c2bd16662783d3c2947252656723ae7860275d2a3141217bfe187407769a38a3"
+    },
+    {
+      "procedure_id": "attention.review_attention_transition",
+      "version": "0.1.1",
+      "tool_name": "review_attention_transition",
+      "description": "Use only when the user supplies both an earlier attention frame and a proposed later frame. Review what the transition preserves, adds, removes, conflicts with, or leaves unresolved.",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject": {
+            "type": "string",
+            "enum": ["cantor"],
+            "description": "The admitted SOP subject anchoring the transition."
+          },
+          "before_frame": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "The caller-supplied earlier attention frame."
+          },
+          "after_frame": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "The caller-supplied proposed later attention frame."
+          }
+        },
+        "required": ["subject", "before_frame", "after_frame"]
+      },
+      "attention_template": "Review the before and after frames against the verified Cantor identity. Enumerate preserved, added, removed, conflicting, and unresolved elements without admitting the proposed transition.",
+      "cantor_query_template": "query.json",
+      "allowed_effects": [],
+      "source_ref": "contracts/review_attention_transition.sop",
+      "source_sha256": "8b7cfbbf87e68a6bcc50c3ef6c98a154735e435afba781a51d5a75f4c1d7d26b",
+      "procedure_digest": "d6ded607e5c8c2f1783f0d5663760b581ea87830b414e79aeae1d848a3e4dba1"
+    }
+  ]
+}

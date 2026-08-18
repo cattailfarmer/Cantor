@@ -1,0 +1,232 @@
+{
+  "profile": "cantor-needle-evox2-acceptance/0.1",
+  "captured_at": "2026-08-18",
+  "host": "EVO-X2",
+  "remote_root": "C:\\AI\\services\\cantor-needle-runtime",
+  "deployment": {
+    "resident_process_created": false,
+    "existing_sop_agent_modified": false,
+    "existing_llama_server_modified": false,
+    "needle_selection_timeout_seconds": 30
+  },
+  "dependencies": {
+    "cactus_needle_version": "2.0.6",
+    "needle_engine_bytes": 14301696,
+    "needle_engine_sha256": "ec6f681d86e7a31ee81d02930b8bc5abf7b1a8da25b6c24dd3188fd62e950f13",
+    "cantor_executable_sha256": "82b8ded751f085c0e575708add8f711b5bfbdded36dbbb1337e4d0902f413a71",
+    "cantor_environment_sha256": "baabb6b8dc5327897ad8546656a4deb5450bc22566865e24e0e1660e1421c5e4",
+    "cantor_query_sha256": "ab6a91ce461dc9db7bbba3c79d1cd554e556ae97f06d47a0f71c93cc0bf602e3",
+    "deployment_manifest_sha256": "2af5e6363837f1820508f2f2d9340fa80064a3d9b04eb035bcffaf57828a02b4",
+    "deployment_manifest_file_count": 10,
+    "llama_health": "ok",
+    "llama_endpoint": "http://127.0.0.1:8081",
+    "llama_process_id": 12780,
+    "llama_command": [
+      "C:\\AI\\builds\\llama.cpp-vulkan\\bin\\llama-server.exe",
+      "--model",
+      "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "8081",
+      "--ctx-size",
+      "8192",
+      "--parallel",
+      "1",
+      "--n-gpu-layers",
+      "999"
+    ]
+  },
+  "catalogue": {
+    "profile": "cantor-attention-procedure-catalogue/0.1",
+    "digest": "057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466",
+    "procedures": [
+      {
+        "procedure_id": "attention.resolve_sop_subject",
+        "version": "0.1.1",
+        "procedure_digest": "97187667dc894885ab4d9eb713438af7852c26688e545977968b79e2c4a59945"
+      },
+      {
+        "procedure_id": "attention.inspect_identity_boundary",
+        "version": "0.1.1",
+        "procedure_digest": "c2bd16662783d3c2947252656723ae7860275d2a3141217bfe187407769a38a3"
+      },
+      {
+        "procedure_id": "attention.review_attention_transition",
+        "version": "0.1.1",
+        "procedure_digest": "d6ded607e5c8c2f1783f0d5663760b581ea87830b414e79aeae1d848a3e4dba1"
+      }
+    ]
+  },
+  "verification": {
+    "local_focused_tests": 28,
+    "local_focused_failures": 0,
+    "evox2_focused_tests": 28,
+    "evox2_focused_failures": 0,
+    "operator_wrapper_full_run": "passed",
+    "selection_repeatability_trials": 10,
+    "selection_repeatability_successes": 10,
+    "selection_repeatability_confidence": 0.8154,
+    "private_reasoning_keys_in_archived_evidence": 0
+  },
+  "evidence_reverification": {
+    "full_run_id": "b7c0cd64-dbea-49dd-9150-6639f3ce9f0b",
+    "full_run_status": "verified",
+    "full_run_manifest_sha256": "a360bf7fde65189ea59a0d9b4751f56730499d85926e96edd3f4c735bb26a4aa",
+    "evaluation_id": "785a888b-dd22-4de1-a95d-e580c6bca7ae",
+    "evaluation_status": "verified",
+    "evaluation_manifest_sha256": "218f6285ae2181312d019945feef079b2ee1f4a9b20641fc293f5f74a5e4b8c8"
+  },
+  "runs": [
+    {
+      "run_id": "b7c0cd64-dbea-49dd-9150-6639f3ce9f0b",
+      "disposition": "success",
+      "procedure_id": "attention.resolve_sop_subject",
+      "needle_confidence": 0.8154,
+      "cantor_result_digest": "8ef9c312312e7531038c38f263fd6c3304fcc147702187ca575e47afc1a6b659",
+      "files": {
+        "00_input.json": "9d91de0ca407d6ca79b886b23d83b597905b1ed299f67db7f2547bd42ff644f1",
+        "01_selection.json": "e095428ffc85b42b06db7fe94585b98bcb1360853a98e47ea7c2c6e5619af8fd",
+        "02_cantor_response.json": "f2b98fda8f885e3dbd1e618cde013f663fb537d234d89613340d3b6926845733",
+        "03_attention_frame.json": "0b1a7c638d9929ce5636666ac563dc23afdc1c36c31f59c391788b8a681d166d",
+        "04_llama_response.json": "6288ac7b3f81df34bec1b82fb9d017647bf980dccf9821a7dec075799ec6fe00",
+        "result.json": "abff1ea8d7f0173b62e1167ce57eb0e797751fe5241b2b373843a2f65400f0c1",
+        "manifest.json": "a360bf7fde65189ea59a0d9b4751f56730499d85926e96edd3f4c735bb26a4aa"
+      }
+    },
+    {
+      "run_id": "9373c007-84bd-47b6-8f8e-f0ad653a78be",
+      "disposition": "success",
+      "procedure_id": "attention.inspect_identity_boundary",
+      "needle_confidence": 0.8407,
+      "articulation_conclusion": "unresolved",
+      "manifest_sha256": "59d91f2bc7ba044d0e7bf2718ef952e3bd9e5c444ab183e91001062ba0bbe8ac"
+    },
+    {
+      "run_id": "b327f874-a246-44ff-9646-0e00d2d5d3ac",
+      "disposition": "success",
+      "procedure_id": "attention.review_attention_transition",
+      "needle_confidence": 0.7201,
+      "articulation_conclusion": "unresolved",
+      "manifest_sha256": "ae977e813bf356746e32ea18eea82615513361d51804f2296f663be9a75919cd"
+    },
+    {
+      "run_id": "0b6b5dfb-bad6-4c73-90c7-d945c6a0ebf3",
+      "disposition": "no_procedure_selected",
+      "manifest_sha256": "93cebd4fa62fbb58849c2cd30a8b8c4360b74f4e80377a5b186fcc300fa08e27",
+      "cantor_executed": false,
+      "llama_executed": false
+    },
+    {
+      "run_id": "b434701a-b41d-4ff8-908b-29114756bd2d",
+      "disposition": "low_selection_confidence",
+      "confidence": 0.0152,
+      "minimum_confidence": 0.65,
+      "manifest_sha256": "26932f1fdd04a78f1bdb68c7b60584b648b81649374d35158cbc81864fb2dc0c",
+      "cantor_executed": false,
+      "llama_executed": false
+    }
+  ],
+  "selection_repeatability": {
+    "stimulus": "What is Cantor?",
+    "trials": 10,
+    "successful_selections": 10,
+    "procedure_id": "attention.resolve_sop_subject",
+    "confidence_each_trial": 0.8154,
+    "first_run_id": "789a694f-bbbf-429d-acf7-ffe671174f88",
+    "first_manifest_sha256": "4e4825c5ece36b4bc8d33e7a9570810a30ba3e5d34173237d411069c85a2cef8",
+    "last_run_id": "1b285e1f-19cd-43d2-9503-cec401a937ff",
+    "last_manifest_sha256": "c080d8b72a1c74d60607de985efdaff559e8a32342776fce57a1093f6327dba2"
+  },
+  "evaluation": {
+    "evaluation_id": "785a888b-dd22-4de1-a95d-e580c6bca7ae",
+    "status": "passed",
+    "suite_sha256": "a8a9bd9623e732ed323b85e31c62b4cdb4e44b41a3decd64ff442777ede1ea3c",
+    "suite_file_sha256": "a8389d38ad50a687ab38ff0ec09eff4e459704729fe63ea1f67ec7ae73fd9377",
+    "catalogue_digest": "057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466",
+    "passed_trials": 25,
+    "total_trials": 25,
+    "suite_record_sha256": "250b93a788d0ee55f99d5c4e726f7c83046e45e05d5d4b6f156168cfea76a2a7",
+    "result_sha256": "3aaa3e8af5cc8bdd5e2ea480b876e2623e5602c51aac8b6506dca3c2fc5235b0",
+    "manifest_sha256": "218f6285ae2181312d019945feef079b2ee1f4a9b20641fc293f5f74a5e4b8c8",
+    "observed_routing": {
+      "resolve_cantor": {
+        "outcome": "route:attention.resolve_sop_subject",
+        "trials": 10,
+        "needle_confidence": 0.8154
+      },
+      "off_topic_weather": {
+        "outcome": "fault:no_procedure_selected",
+        "trials": 3,
+        "needle_confidence": 0.9856
+      },
+      "identity_residual": {
+        "outcome": "fault:low_selection_confidence",
+        "trials": 1,
+        "needle_confidence": 0.0152
+      },
+      "transition_residual": {
+        "outcome": "fault:no_procedure_selected",
+        "trials": 1,
+        "needle_confidence": 0.9095
+      },
+      "structured_identity": {
+        "outcome": "route:attention.inspect_identity_boundary",
+        "trials": 5,
+        "needle_confidence": 0.8407
+      },
+      "structured_transition": {
+        "outcome": "route:attention.review_attention_transition",
+        "trials": 5,
+        "needle_confidence": 0.7201
+      }
+    }
+  },
+  "resolved_faults": [
+    {
+      "run_id": "0830222a-a49b-4a29-a4fb-e5d1161aca43",
+      "fault": "model-generated purpose and non-factual system turn reduced confidence to 0.0039",
+      "repair": "procedure version 0.1.1 binds purpose to the exact host-preserved stimulus"
+    },
+    {
+      "run_id": "0cab646d-755d-472a-bb9e-77ac31bcdb5a",
+      "fault": "ignored generic thinking flag exhausted 1024 tokens with no content",
+      "repair": "llama.cpp template enable_thinking false plus reasoning_effort none"
+    },
+    {
+      "run_id": "1723c752-bfb7-4859-8564-12d1a5848784",
+      "fault": "canonical key sorting was reused for Needle model transport and reduced the correct selection confidence to 0.4665",
+      "repair": "canonical sorted JSON remains the hash encoding while Needle receives compact order-preserving JSON in declared schema order"
+    },
+    {
+      "evaluation_id": "36114409-7644-45ea-bfb8-266d4f150747",
+      "fault": "one transition rejection was overspecified as low_selection_confidence but safely appeared as no_procedure_selected",
+      "repair": "negative fixtures now admit an explicit closed set of policy-equivalent non-execution fault codes"
+    },
+    {
+      "run_ids": [
+        "bf635949-f481-42e1-b369-cb2c5049a171",
+        "9fb688e0-3816-4aaa-918a-4e99ed5d3f67",
+        "67f83796-f01e-4c00-b862-4ad80c7a89ce"
+      ],
+      "fault": "the first structured articulation schema allowed an unconstrained summary to absorb findings, repeat, or truncate while dimension arrays remained empty",
+      "repair": "the provider receives a compact semantic projection and must return one conclusion enum plus one to six bounded dimension-tagged findings"
+    }
+  ],
+  "active_residuals": [
+    "natural-language identity and transition routing is not broadly calibrated; explicit attention-procedure fields are currently required for reliable activation",
+    "Qwen3.5-0.8B satisfies the structured articulation shell but classified all three final examples as unresolved, so semantic judgment quality remains experimental",
+    "current Cantor semantic authority is a generated fixture",
+    "the deployment manifest detects partial drift but still requires an exterior signed, Git-reviewed, or supervisor-pinned root for hostile joint replacement resistance"
+  ],
+  "shared_service_sha256_before_and_after": {
+    "README.md": "53bab84432f21ebcce979aeb747e7596799bcf2575aad19102a6c51a72d619b5",
+    "config.json": "6352907820ae131891e4a7b4915dacadcdcc95cdc6902ff282aee17a3d9ae7ac",
+    "llama-server.pid": "1310e3f2a0f7846cd495b64bb37ae7e6b8be8abf52d3ebbfde4afa4c8b4055da",
+    "reflect.ps1": "efd442e5c8190fa48842feb4e670a6a97dff555ff4e3a05f1443280c026c9204",
+    "run-llama-server.ps1": "2776d63fd862a01da045d7bb449581f64dd4f9fcfa40be448c9590eed31f88dd",
+    "sop_agent.py": "18ddea8f40cb3c4a75bb879379ea57ec85a60f6dd76fa75af9ca048117db4df8",
+    "start-llama-server.ps1": "94287edea90144d6da54accb6d901cd34e4ffd9399b02c9020b5a67d173d83e6",
+    "stop-llama-server.ps1": "4df2bfd2dc6cb9455aba01ab84880a576bbf82f1a483121d765d6570e0d4c1fd"
+  }
+}

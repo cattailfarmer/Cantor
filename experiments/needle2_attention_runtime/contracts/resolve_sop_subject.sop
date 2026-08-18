@@ -1,0 +1,20 @@
+Subject: Resolve SOP Subject Attention Procedure
+
+& [ProcedureIdentity] is effectless
+  + [procedure_id] is attention.resolve_sop_subject
+  + [version] is 0.1.1
+  + [purpose] is retrieve a proof-carrying Cantor definition before provider articulation
+  + [authority] is experimental_fixture_only
+
+& [ActivationPattern] is contextual
+  + activate when the stimulus asks what Cantor means, is, represents, or governs
+  + extract only the named subject; bind purpose to the preserved caller stimulus in the host
+  + leave unrelated stimuli uncalled
+
+& [Transform] is bounded
+  * require subject cantor in profile 0.1
+  * invoke the pinned read-only Cantor query fixture
+  * preserve verified quotes, proof, faults, omissions, and result digest
+  * project the verified result as an AttentionFrame to llama.cpp
+  - never: perform an external semantic effect
+  - never: promote fixture authority to production authority

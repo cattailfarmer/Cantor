@@ -1,0 +1,33 @@
+{
+  "profile": "cantor-needle-runtime-config/0.1",
+  "catalogue": "contracts/procedure_catalogue.json",
+  "cantor_executable": "runtime/cantor.exe",
+  "cantor_environment": "runtime/environment.json",
+  "query_templates": {
+    "query.json": "runtime/query.json"
+  },
+  "artifact_sha256": {
+    "cantor_executable": "82b8ded751f085c0e575708add8f711b5bfbdded36dbbb1337e4d0902f413a71",
+    "cantor_environment": "baabb6b8dc5327897ad8546656a4deb5450bc22566865e24e0e1660e1421c5e4",
+    "query.json": "ab6a91ce461dc9db7bbba3c79d1cd554e556ae97f06d47a0f71c93cc0bf602e3"
+  },
+  "deployment_manifest": "deployment_manifest.json",
+  "deployment_manifest_sha256": "2af5e6363837f1820508f2f2d9340fa80064a3d9b04eb035bcffaf57828a02b4",
+  "evaluation_suite": "evaluation_cases.json",
+  "evaluation_suite_sha256": "a8389d38ad50a687ab38ff0ec09eff4e459704729fe63ea1f67ec7ae73fd9377",
+  "evidence_directory": "runs",
+  "needle": {
+    "package_version": "2.0.6",
+    "engine": "runtime/libneedle.dll",
+    "engine_sha256": "ec6f681d86e7a31ee81d02930b8bc5abf7b1a8da25b6c24dd3188fd62e950f13",
+    "minimum_confidence": 0.65,
+    "timeout_seconds": 30,
+    "max_new_tokens": 256
+  },
+  "llama": {
+    "endpoint": "http://127.0.0.1:8081/v1/chat/completions",
+    "model": "local-reflection",
+    "timeout_seconds": 120,
+    "max_tokens": 768
+  }
+}

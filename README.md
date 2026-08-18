@@ -76,6 +76,13 @@ baseline:
   binds the verified response and exact final-message bytes to evidence, and
   passes the same seven-message Observer review without effects or automatic
   retry; and
+- the EVO-X2 Needle 2 experiment now verifies a content-addressed three-contract
+  attention catalogue, activates definition, identity-boundary, and
+  attention-transition procedures through pinned structured ingress, obtains a
+  proof-carrying Cantor fixture result, and gives an unmodified loopback
+  llama.cpp server a compact tool-free AttentionFrame with schema-constrained
+  findings while refusing off-topic, ungrounded, changed, and below-threshold
+  proposals; and
 - the Phase3A candidate-workspace gate now proves one operator-prepared,
   disposable linked Git worktree by exact executable, repository, branch,
   base, clean state, path policy, resource account, and deterministic receipt
@@ -109,6 +116,10 @@ are documented in
 The effectless CTPR runtime root, transition contract, determinism boundary,
 and deliberately deferred behaviors are documented in
 [`docs/DETERMINISTIC_TEMPORAL_RUNTIME.md`](docs/DETERMINISTIC_TEMPORAL_RUNTIME.md).
+The isolated Needle selector, pinned dependency boundary, procedure catalogue,
+EVO-X2 operator commands, evidence layout, and calibration residuals are
+documented in
+[`experiments/needle2_attention_runtime/README.md`](experiments/needle2_attention_runtime/README.md).
 
 Protocol digests prove binding and internal consistency, not authenticity
 against a hostile process that can replace both content and digest. The

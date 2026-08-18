@@ -1,0 +1,30 @@
+Subject: Cantor EVO-X2 Needle 2 SOP Attention Runtime Justification
+
+@ [justification_uuid] 60f16470-fdba-4feb-b4ca-236f81c40578
+@ [canonical] C:\Project\Cantor\specifications\Cantor_EVO_X2_Needle2_SOP_Attention_Runtime.sop
+
+& [Need] is a live learned procedure-selection seam
+  + Cantor already proves deterministic trust, query, procedure, and checkpoint mechanics but does not have a resident learned selector
+  + the existing llama.cpp probe proves tool emission and later-pass import but its tool result is a hard-coded fixture
+  + Needle 2 is purpose-built for constrained calls and can remain small enough to stay resident beside a larger provider
+
+& [Choice] is a separated sidecar
+  + retain Cantor Rust as the authoritative verifier and executor
+  + let Needle 2 propose one schema-constrained operation with advisory confidence
+  + let unmodified llama.cpp articulate only after the verified AttentionFrame exists
+  + use content addressing for exact procedure identity while keeping signatures and authorization distinct
+
+& [Rejected] avoids premature collapse
+  + loading all SOP into Needle exceeds its bounded context and confuses retrieval with authority
+  + treating model weights or embeddings as the contract makes procedures uninspectable and unauditable
+  + modifying llama.cpp is unnecessary because the external checkpoint seam already works
+  + merging the Narrative personality into this runtime would mix user adaptation with trust-kernel behavior
+
+& [ImplementationLanguage] follows dependency shape
+  + Python is selected for the experimental controller because the official Needle 2 package exposes its supported engine and the existing EVO-X2 Python 3.12 toolchain is installed
+  + Cantor remains Rust and is invoked through its existing strict process protocol
+  + a Rust or embedded C adapter is deferred until the protocol and workload are proven
+
+& [ReasoningDepth] requires current deep integration judgment
+  + boundary formation and live dependency reconciliation require deeper reasoning
+  + after exact fixtures and contracts exist, additional test cases and documentation become Spark-suitable bounded work

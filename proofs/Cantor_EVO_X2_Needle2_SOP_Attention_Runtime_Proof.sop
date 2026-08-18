@@ -1,0 +1,118 @@
+Subject: Cantor EVO-X2 Needle 2 SOP Attention Runtime Proof
+
+@ [authority] C:\Project\Cantor\specifications\Cantor_EVO_X2_Needle2_SOP_Attention_Runtime.sop
+@ [slice] C:\Project\Cantor\feature_support\slices\EVOX2Needle2SOPAttentionRuntime.sop
+@ [matrix] C:\Project\Cantor\feature_support\EVOX2Needle2SOPAttentionRuntime_Requirement_Matrix.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_EVO_X2_Needle2_SOP_Attention_Runtime_Solution.sop
+@ [evidence_summary] C:\Project\Cantor\experiments\needle2_attention_runtime\evidence\evox2_acceptance_2026-08-18.json
+
+& [ProofIdentity] is the bounded EVO-X2 completion record
+  + [proof_uuid] is 21ae9f9d-bf87-4f98-93d6-bc8527bd936d
+  + [captured_at] is 2026-08-18
+  + [result] is passed_with_calibrated_routing_residual
+  + [remote_root] is C:\AI\services\cantor-needle-runtime
+  + [evidence_summary_sha256] is E90131D59150BBCDF1844A6D444534FBD10BEC1B4A5225B6885F90908CCB5EAA
+  + [evidence_summary_bytes] is 10617
+
+& [AuthorityProof] is ENAR-001
+  + [source_uuid] is 3448cc21-e8ad-4c3b-a003-dcf75c759d6d
+  + [source_sha256] is 6AB92A037E17FBCEC1CC2775AE1EC0EF7C1CC990588D8A159A635C70187458ED
+  + [source_bytes] is 2340
+  + [canonical_uuid] is a0641b62-f964-46b8-ad29-6a79d557ecff
+  + [satisfaction_signature_uuid] is 093a27d0-2053-4397-b8b9-11c9a6d4733f
+  + [status] is passed
+
+& [DependencyProof] is ENAR-002 and ENAR-010
+  + [needle_package] is cactus-needle 2.0.6
+  + [needle_engine_bytes] is 14301696
+  + [needle_engine_sha256] is ec6f681d86e7a31ee81d02930b8bc5abf7b1a8da25b6c24dd3188fd62e950f13
+  + [cantor_executable_sha256] is 82b8ded751f085c0e575708add8f711b5bfbdded36dbbb1337e4d0902f413a71
+  + [cantor_environment_sha256] is baabb6b8dc5327897ad8546656a4deb5450bc22566865e24e0e1660e1421c5e4
+  + [cantor_query_sha256] is ab6a91ce461dc9db7bbba3c79d1cd554e556ae97f06d47a0f71c93cc0bf602e3
+  + [deployment_manifest_sha256] is 2af5e6363837f1820508f2f2d9340fa80064a3d9b04eb035bcffaf57828a02b4 over ten deployed files
+  + [shared_service] eight prior sop-agent hashes and llama-server PID 12780 command line remained unchanged
+  + [provider] is healthy only at http://127.0.0.1:8081
+  + [status] is passed
+
+& [RegistryProof] is ENAR-003 and ENAR-004
+  + [procedure_versions] are three at 0.1.1
+  + [procedure_digests] are 97187667dc894885ab4d9eb713438af7852c26688e545977968b79e2c4a59945, c2bd16662783d3c2947252656723ae7860275d2a3141217bfe187407769a38a3, and d6ded607e5c8c2f1783f0d5663760b581ea87830b414e79aeae1d848a3e4dba1
+  + [catalogue_digest] is 057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466
+  + [negative_proof] is source, procedure, schema, argument, duplicate, artifact, and Cantor proof binding rejection
+  + [status] is passed
+
+& [PositiveRunProof] is ENAR-005 ENAR-007 ENAR-008 and ENAR-009
+  + [run_id] is b7c0cd64-dbea-49dd-9150-6639f3ce9f0b
+  + [selection] is attention.resolve_sop_subject with exact subject cantor
+  + [needle_confidence] is 0.8154 above the 0.65 gate
+  + [cantor_result_digest] is 8ef9c312312e7531038c38f263fd6c3304fcc147702187ca575e47afc1a6b659
+  + [input_sha256] is 9d91de0ca407d6ca79b886b23d83b597905b1ed299f67db7f2547bd42ff644f1
+  + [selection_sha256] is e095428ffc85b42b06db7fe94585b98bcb1360853a98e47ea7c2c6e5619af8fd
+  + [cantor_response_sha256] is f2b98fda8f885e3dbd1e618cde013f663fb537d234d89613340d3b6926845733
+  + [attention_frame_sha256] is 0b1a7c638d9929ce5636666ac563dc23afdc1c36c31f59c391788b8a681d166d
+  + [provider_response_sha256] is 6288ac7b3f81df34bec1b82fb9d017647bf980dccf9821a7dec075799ec6fe00
+  + [result_sha256] is abff1ea8d7f0173b62e1167ce57eb0e797751fe5241b2b373843a2f65400f0c1
+  + [manifest_sha256] is a360bf7fde65189ea59a0d9b4751f56730499d85926e96edd3f4c735bb26a4aa
+  + [private_reasoning_keys] is zero across archived evidence
+  + [operator_surface] run.ps1 completed the same full route successfully
+  + [status] is passed
+
+& [StructuredFacultyRunProof] is ENAR-005 ENAR-007 ENAR-008 and ENAR-009
+  + [identity_run] is 9373c007-84bd-47b6-8f8e-f0ad653a78be selecting attention.inspect_identity_boundary at Needle confidence 0.8407 with manifest 59d91f2bc7ba044d0e7bf2718ef952e3bd9e5c444ab183e91001062ba0bbe8ac
+  + [transition_run] is b327f874-a246-44ff-9646-0e00d2d5d3ac selecting attention.review_attention_transition at Needle confidence 0.7201 with manifest ae977e813bf356746e32ea18eea82615513361d51804f2296f663be9a75919cd
+  + [structured_ingress] exact named fields permit deterministic typed extraction without lowering the 0.65 gate
+  + [articulation_shape] both return one constrained conclusion enum and at least one dimension-tagged finding
+  + [quality_boundary] both final conclusions were unresolved; schema compliance is proved but expert semantic classification is not
+  + [status] is passed_with_semantic_quality_residual
+
+& [RefusalProof] is ENAR-006
+  + [off_topic_run] is 0b6b5dfb-bad6-4c73-90c7-d945c6a0ebf3 with no_procedure_selected and no Cantor or provider stage
+  + [off_topic_manifest_sha256] is 93cebd4fa62fbb58849c2cd30a8b8c4360b74f4e80377a5b186fcc300fa08e27
+  + [low_confidence_run] is b434701a-b41d-4ff8-908b-29114756bd2d with confidence 0.0152 below 0.65 and no Cantor or provider stage
+  + [low_confidence_manifest_sha256] is 26932f1fdd04a78f1bdb68c7b60584b648b81649374d35158cbc81864fb2dc0c
+  + [status] is passed
+
+& [SelectionRepeatabilityProof] is one bounded positive fixture
+  + [trials] are ten fresh worker processes
+  + [result] is ten attention.resolve_sop_subject selections at confidence 0.8154
+  + [first_run] is 789a694f-bbbf-429d-acf7-ffe671174f88 with manifest 4e4825c5ece36b4bc8d33e7a9570810a30ba3e5d34173237d411069c85a2cef8
+  + [last_run] is 1b285e1f-19cd-43d2-9503-cec401a937ff with manifest c080d8b72a1c74d60607de985efdaff559e8a32342776fce57a1093f6327dba2
+  + [scope] is repeatability of one exact fixture and not general route accuracy
+
+& [VerificationProof] is focused
+  + [local_tests] is twenty-eight passed
+  + [EVO_X2_tests] is twenty-eight passed
+  + [health] is ten-file deployment manifest, catalogue, runtime artifacts, evaluation suite, Needle dependency, and llama.cpp endpoint healthy
+  + [timeout] is parent-enforced at thirty seconds around a disposable Needle worker
+  + [transport_order] is independently tested to preserve the contract-declared schema sequence
+  + [diff_check] is passed
+  + [workspace_cargo] is not rerun because Windows Application Control previously denied one generated test executable after all preceding assertions passed
+  + [status] is passed_for_experimental_slice
+
+& [EvaluationProof] is ENAR-012
+  + [evaluation_id] is 785a888b-dd22-4de1-a95d-e580c6bca7ae
+  + [suite_sha256] is a8a9bd9623e732ed323b85e31c62b4cdb4e44b41a3decd64ff442777ede1ea3c
+  + [suite_file_sha256] is a8389d38ad50a687ab38ff0ec09eff4e459704729fe63ea1f67ec7ae73fd9377 and is pinned in runtime configuration and health
+  + [result] is twenty-five of twenty-five route-only trials passed across resolve repeatability, off-topic refusal, natural-language residual containment, structured identity activation, and structured transition activation
+  + [suite_record_sha256] is 250b93a788d0ee55f99d5c4e726f7c83046e45e05d5d4b6f156168cfea76a2a7
+  + [result_sha256] is 3aaa3e8af5cc8bdd5e2ea480b876e2623e5602c51aac8b6506dca3c2fc5235b0
+  + [manifest_sha256] is 218f6285ae2181312d019945feef079b2ee1f4a9b20641fc293f5f74a5e4b8c8
+  + [confidence_semantics] records needle_confidence for both calls and no-calls; structured identity was 0.8407 and structured transition was 0.7201 in five of five fresh processes each
+  + [negative_boundary] is a closed expected fault-code set and never an acceptance of execution
+  + [status] is passed
+
+& [EvidenceReverificationProof] is ENAR-009
+  + [full_runs] resolve b7c0cd64-dbea-49dd-9150-6639f3ce9f0b, identity 9373c007-84bd-47b6-8f8e-f0ad653a78be, and transition b327f874-a246-44ff-9646-0e00d2d5d3ac independently reverified under deployment-manifest gate
+  + [evaluation] 785a888b-dd22-4de1-a95d-e580c6bca7ae independently reverified manifest 218f6285ae2181312d019945feef079b2ee1f4a9b20641fc293f5f74a5e4b8c8 under deployment-manifest gate
+  + [negative_tests] reject noncanonical UUIDs, extra files, changed bytes, missing files, and result-to-manifest identity or status mismatch
+  + [status] is passed
+
+& [ResidualProof] is honest
+  + [natural_language] identity and transition routes remain sensitive to phrasing and are contained on no-call or below-threshold outcomes
+  + [structured_language] exact procedure-like field names activated identity and transition five of five times with exact argument extraction
+  + [articulator] Qwen3.5-0.8B complies with the bounded output grammar but all final examples were classified unresolved
+  + [next] compare larger or tuned articulators and expand held-out phrasing fixtures without reducing the trust threshold
+
+& [AcceptanceProof] is ENAR-001 through ENAR-012
+  + [result] is twelve passed
+  = conclusion: EVO-X2 now runs all three content-pinned effectless Needle-to-Cantor-to-llama.cpp SOP attention procedures through explicit structured ingress while refusing unsupported, changed, off-topic, ungrounded, and below-threshold requests; natural-language routing and semantic articulation quality remain experimental
