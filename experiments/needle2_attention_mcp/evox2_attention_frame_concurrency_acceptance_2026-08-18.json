@@ -1,0 +1,29 @@
+{
+  "profile": "cantor-attention-frame-concurrency-evidence/0.1",
+  "evidence_uuid": "3e3514cc-46f1-49c3-97d1-a2852ccda18d",
+  "captured_at": "2026-08-18T13:43:19.3773422-05:00",
+  "status": "passed",
+  "deployment_binary_sha256": "37860b031a97b58de08cb669cf6b09b3bbac3db12c3fba3f198674231255deef",
+  "probe": {
+    "implementation": "crates/cantor_attention_mcp/examples/live_concurrency_probe.rs",
+    "transport": "stdio over ssh -T",
+    "response_mode": "frame",
+    "stimuli": ["What is Cantor?", "What is Cantor?"]
+  },
+  "selected": {
+    "profile": "cantor-route-attention-mcp-frame-result/0.1",
+    "status": "route_selected",
+    "evidence_id": "b546a092-1396-4c65-8b33-b8f8a40c77c2",
+    "manifest_sha256": "b1297baf82ba67cf6d65794626b69ac63c78dddda3b3944594423c1b9bb4c322",
+    "has_attention_frame": true,
+    "has_runtime_record": false,
+    "has_verification_record": false
+  },
+  "overlap": {
+    "profile": "cantor-route-attention-mcp-result/0.2",
+    "status": "fault",
+    "fault_code": "runtime_busy",
+    "has_attention_frame": false
+  },
+  "assertion": "compact projection neither bypasses process-local single-flight nor leaks positive authority into the rejected overlap"
+}
