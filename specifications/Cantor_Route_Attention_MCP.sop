@@ -1,0 +1,55 @@
+Subject: Cantor Route Attention MCP
+
+@ [specification_uuid] 442c4ca0-59f4-4d54-9453-7e3cf0d1e10f
+@ [profile] cantor-route-attention-mcp/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_route_attention_mcp\Source_Document_Manifest.sop
+@ [separate_predecessor] C:\Project\Cantor\docs\MCP_PROTOCOL.md
+@ [runtime_predecessor] C:\Project\Cantor\specifications\Cantor_Admission_Account_Evidence_Verification.sop
+
+& [IdentityBoundary] is one separate experimental STDIO server
+  + server name is cantor-attention and tool name is route_attention
+  + query_sop server code protocol and authority remain unchanged
+  + tool output is learned routing evidence and never a signed SOP answer
+
+& [Configuration] is closed and startup-pinned
+  + profile controller Python runtime config expected controller digest expected runtime-config digest expected deployment-manifest digest timeout input limit and output limit are mandatory
+  + all paths are absolute regular files and controller runtime config plus deployment identity are verified before serving
+  + startup health must report the expected result catalogue and deployment identities
+  + configuration is loaded once and later file edits cannot retarget the active process
+
+& [Input] is exactly one stimulus string
+  + JSON schema denies unknown fields and enforces one through 65536 UTF-8 bytes
+  + adapter passes arguments directly to the Python executable without a shell
+
+& [Execution] is route-only and bounded
+  + invoke controller with pinned config run stimulus and route-only arguments
+  + enforce process timeout bounded stdout and bounded stderr
+  + reject non-JSON multiple-line malformed unknown-profile and oversized output
+  + selected result must use current result profile status route_selected and include canonical run procedure catalogue account and digest identities
+  + after selection invoke the runtime verifier for the exact run ID
+  + success requires verified run route_selected and admission_account verified
+  + nonselection and infrastructure faults remain structured tool errors
+
+& [Output] is evidence-backed proposal
+  + structured output contains adapter profile status runtime result and verification result
+  + textual content is only a bounded summary
+  + selected success is not authorization truth signed meaning or permission to call query_sop
+
+& [MCPAnnotations] are read_only true destructive false idempotent false and open_world false
+
+& [Acceptance] is measurable
+  + [RAMCP-001] source and manifest verify
+  + [RAMCP-002] server publishes exactly route_attention and not query_sop
+  + [RAMCP-003] closed bounded input rejects malformed and oversized calls
+  + [RAMCP-004] startup rejects path digest deployment and health identity drift
+  + [RAMCP-005] command construction is direct route-only and shell-free
+  + [RAMCP-006] selected output is returned only after independent evidence-account verification
+  + [RAMCP-007] runtime refusal timeout malformed output and failed verification remain typed tool errors
+  + [RAMCP-008] official MCP client initializes lists and calls a fake subprocess fixture without framing contamination
+  + [RAMCP-009] EVO-X2 route success and safe refusal pass without changing query_sop shared SOP-agent or llama-server
+
+& [Signature] is bounded implementation authority
+  + [signature_uuid] is 8cc604ad-f613-41cb-a25d-7f7bc979dfac
+  + [source_manifest_sha256] is AE393EB109AD364A3C460F8C1EEA88707EFAB6E7959452E132A9F3D735510DDD
+  + [authority_scope] is separate crate closed config route-only subprocess verifier handoff unit integration deployment acceptance and closure
+  + [invalidation] is query_sop modification full inference implicit registration shell invocation authority minting unverified success or effect expansion
