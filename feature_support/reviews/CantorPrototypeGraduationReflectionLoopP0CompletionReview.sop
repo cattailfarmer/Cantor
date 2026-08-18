@@ -43,5 +43,10 @@ Subject: Cantor Prototype Graduation and Reflection Loop P0 Completion Review
   + two disposable clean-target probes with fixed SOURCE_DATE_EPOCH and MSVC /Brepro both produced SHA-256 421c2dc193ae4c986f82a91127595898cbb8ea42bf92186e283a63a22173c32b with identical PE and PDB identity
   + the deterministic-link observation is a P1 candidate only and is not the deployed v15 build profile
 
+& [DeploymentAclResidual] is hash_gated_but_not_OS_immutable
+  + EVO-X2 service files inherit Authenticated Users Modify while Administrators and SYSTEM retain FullControl
+  + the reviewed reproduction path checks exact runner adapter and configuration SHA-256 before execution and fails closed on drift
+  + direct invocation is not a trusted path and P1 must govern ACL hardening or signed packaging before any production-authority claim
+
 & [Disposition] is completed_experimental_P0_not_promoted
   + [next] is one separately governed P1 for caller-supplied effectless requests over a closed fixture set

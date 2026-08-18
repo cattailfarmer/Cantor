@@ -66,3 +66,10 @@ Subject: Cantor Reflection Loop P0 Operational Faults
   + [repair] describe SHA-256 as deployed content identity only and require a separately governed reproducible-build profile before making stronger claims
   + [followup_observation] two clean-target builds with fixed SOURCE_DATE_EPOCH and MSVC /Brepro match at 421c2dc193ae4c986f82a91127595898cbb8ea42bf92186e283a63a22173c32b but remain outside the deployed P0 profile
   + [status] is closed_as_claim_correction
+
+& [CRLP_R001] is inherited modifiable deployment ACL
+  + [observed] EVO-X2 runner adapter and configuration inherit Authenticated Users Modify
+  + [containment] the governed reproduction script verifies all three expected hashes before execution and repeats identity checks after the run
+  + [boundary] direct execution is not admitted as a trusted or production path
+  + [reentry] separately govern least-privilege ACLs or signed packaging before authority promotion
+  + [status] is open_nonblocking_P0_residual
