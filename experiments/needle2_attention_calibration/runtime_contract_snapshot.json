@@ -1,0 +1,70 @@
+{
+  "profile": "cantor-attention-calibration-contract-snapshot/0.1",
+  "catalogue_digest": "057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466",
+  "catalogue_file_sha256": "f174da0f1be63e1e9da40a552abeca9d2278b6c486fd199bdb6405341530e12d",
+  "procedures": [
+    {
+      "procedure_id": "attention.resolve_sop_subject",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject": {
+            "type": "string",
+            "enum": ["cantor"],
+            "description": "The SOP subject explicitly named by the user."
+          }
+        },
+        "required": ["subject"]
+      }
+    },
+    {
+      "procedure_id": "attention.inspect_identity_boundary",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject": {
+            "type": "string",
+            "enum": ["cantor"],
+            "description": "The admitted SOP subject whose identity is being inspected."
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "The caller-attributed claim to compare without silently rewriting it."
+          }
+        },
+        "required": ["subject", "claim"]
+      }
+    },
+    {
+      "procedure_id": "attention.review_attention_transition",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject": {
+            "type": "string",
+            "enum": ["cantor"],
+            "description": "The admitted SOP subject anchoring the transition."
+          },
+          "before_frame": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "The caller-supplied earlier attention frame."
+          },
+          "after_frame": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "The caller-supplied proposed later attention frame."
+          }
+        },
+        "required": ["subject", "before_frame", "after_frame"]
+      }
+    }
+  ]
+}

@@ -1,16 +1,28 @@
 # Needle 2 attention-language calibration
 
-This directory measures the frozen EVO-X2 attention runtime at commit
-`b0e27bbff1874e8637cbec619f79e360dac38f14`. It is an observation harness,
-not a training loop, trusted procedure catalogue, or production benchmark.
+This directory measures frozen EVO-X2 attention-runtime checkpoints. It is an
+observation harness, not a training loop, trusted procedure catalogue, or
+production benchmark.
 
-The 36-case corpus was created after the runtime checkpoint and is raw-byte
-hashed before its first execution. It covers subject resolution, identity
+The active profile is an explicitly adaptive follow-up against grounded runtime
+commit `e3d1182a31dc2f9b83f0a1ed957f0c34bb8024fa`. Its
+`runtime_contract_snapshot.json` is deployment-pinned and binds the exact
+catalogue digest and closed input schemas. The harness compiles every positive
+expected argument object through those schemas before sending any prompt. The
+active `in_domain_cases.json` contains only the admitted subject `cantor` for
+positive cases and treats other-faculty requests as negative boundary controls.
+
+The historical `held_out_cases.json` was created after the first runtime
+checkpoint and raw-byte hashed before execution. It covers subject resolution, identity
 boundary inspection, attention transition review, and negative controls across
 natural, imperative, explicit-label, key-value, line-field, JSON-like, terse,
 and context-wrapped forms. Because the same project agent designed it after
 reading the procedures, `held-out` means unseen by the frozen checkpoint—not
-independently authored. After the first run it is calibration history.
+independently authored. After the first run it became calibration history. That
+first corpus also contained unsupported positive subject expectations; its raw
+results remain preserved under calibration
+`1abe028b-ae9c-4446-8bd9-5b6712981f27` and are not rewritten or presented as
+general positive accuracy.
 
 ## Boundary
 
@@ -33,7 +45,7 @@ external Git checkpoint remains the review anchor against joint replacement.
 .\run.ps1 verify <calibration-uuid>
 ```
 
-`run` is intended to be executed once for the preserved corpus. It publishes:
+`run` is intended to be executed once for the active raw-byte-locked corpus. It publishes:
 
 - `00_corpus.json`: parsed corpus, raw digest, checkpoint, and runtime identity;
 - `01_observations.json`: ordered selections/refusals and referenced run IDs;
@@ -53,6 +65,9 @@ The closed dispositions are:
 Low accuracy does not make a structurally valid calibration run fail. A run is
 `incomplete` only when infrastructure prevents the remaining observations.
 Results do not authorize lowering the `0.65` gate or editing the frozen runtime.
+`needle_argument_ungrounded` is a safe refusal in the grounded runtime; timeout,
+dependency, deployment, and malformed protocol faults remain infrastructure
+failures.
 
 ## Local verification
 

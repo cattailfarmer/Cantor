@@ -21,6 +21,9 @@ from typing import Any, Callable, Mapping, Sequence
 
 CONFIG_PROFILE = "cantor-attention-calibration-config/0.1"
 CORPUS_PROFILE = "cantor-attention-language-corpus/0.1"
+CORPUS_PROFILE_V2 = "cantor-attention-language-corpus/0.2"
+SUPPORTED_CORPUS_PROFILES = {CORPUS_PROFILE, CORPUS_PROFILE_V2}
+CONTRACT_SNAPSHOT_PROFILE = "cantor-attention-calibration-contract-snapshot/0.1"
 DEPLOYMENT_PROFILE = "cantor-attention-calibration-deployment/0.1"
 RESULT_PROFILE = "cantor-attention-calibration-result/0.1"
 EVIDENCE_PROFILE = "cantor-attention-calibration-evidence/0.1"
@@ -68,6 +71,7 @@ SELECTION_REFUSAL_CODES = {
     "needle_grounding_rejected",
     "needle_invalid_call",
     "needle_invalid_envelope",
+    "needle_argument_ungrounded",
     "no_procedure_selected",
     "uncalibrated_selection",
     "unknown_procedure",
@@ -191,7 +195,34 @@ def validate_arguments(procedure_id: str, value: Any, code: str) -> dict[str, st
     return normalized
 
 
-def validate_corpus(path: Path) -> tuple[dict[str, Any], str, bytes]:
+def validate_expected_against_schema(
+    procedure_id: str, arguments: Mapping[str, str], schemas: Mapping[str, Mapping[str, Any]]
+) -> None:
+    schema = schemas.get(procedure_id)
+    if schema is None:
+        raise CalibrationFault("corpus_schema_mismatch", "expected procedure has no pinned schema")
+    properties = schema["properties"]
+    if set(arguments) != set(schema["required"]):
+        raise CalibrationFault("corpus_schema_mismatch", "expected argument fields violate schema")
+    for name, value in arguments.items():
+        definition = properties[name]
+        if "enum" in definition and value not in definition["enum"]:
+            raise CalibrationFault(
+                "corpus_schema_mismatch", f"expected argument {name} violates enum"
+            )
+        if len(value) < definition.get("minLength", 0) or len(value) > definition.get(
+            "maxLength", MAX_STIMULUS_BYTES
+        ):
+            raise CalibrationFault(
+                "corpus_schema_mismatch", f"expected argument {name} violates length"
+            )
+
+
+def validate_corpus(
+    path: Path,
+    expected_checkpoint: str = CHECKPOINT_COMMIT,
+    contract_schemas: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[dict[str, Any], str, bytes]:
     raw = read_bounded(path, MAX_CORPUS_BYTES, "corpus_missing_or_large")
     value = parse_json_bytes(raw, "corpus_invalid_json")
     if not isinstance(value, dict):
@@ -202,10 +233,10 @@ def validate_corpus(path: Path) -> tuple[dict[str, Any], str, bytes]:
         "corpus_invalid",
         "corpus",
     )
-    if value["profile"] != CORPUS_PROFILE:
+    if value["profile"] not in SUPPORTED_CORPUS_PROFILES:
         raise CalibrationFault("corpus_profile_mismatch", "corpus profile is unsupported")
     canonical_uuid(value["corpus_id"], "corpus_identity_invalid")
-    if value["designed_against_commit"] != CHECKPOINT_COMMIT:
+    if value["designed_against_commit"] != expected_checkpoint:
         raise CalibrationFault(
             "corpus_checkpoint_mismatch", "corpus was not designed against the frozen checkpoint"
         )
@@ -260,6 +291,8 @@ def validate_corpus(path: Path) -> tuple[dict[str, Any], str, bytes]:
             arguments = validate_arguments(
                 expected_procedure, case["expected_arguments"], "corpus_case_invalid"
             )
+            if contract_schemas is not None:
+                validate_expected_against_schema(expected_procedure, arguments, contract_schemas)
         families[family] += 1
         forms.add(form)
         normalized_cases.append(
@@ -277,9 +310,9 @@ def validate_corpus(path: Path) -> tuple[dict[str, Any], str, bytes]:
     if len(forms) < 3:
         raise CalibrationFault("corpus_coverage_missing", "at least three ingress forms are required")
     normalized = {
-        "profile": CORPUS_PROFILE,
+        "profile": value["profile"],
         "corpus_id": value["corpus_id"],
-        "designed_against_commit": CHECKPOINT_COMMIT,
+        "designed_against_commit": expected_checkpoint,
         "cases": normalized_cases,
     }
     return normalized, sha256_bytes(raw), raw
@@ -296,7 +329,9 @@ def load_config(path: Path) -> tuple[Path, dict[str, Any]]:
         value,
         {
             "profile",
+            "checkpoint_commit",
             "corpus",
+            "contract_snapshot",
             "deployment_manifest",
             "deployment_manifest_sha256",
             "evidence_directory",
@@ -307,7 +342,10 @@ def load_config(path: Path) -> tuple[Path, dict[str, Any]]:
     )
     if value["profile"] != CONFIG_PROFILE:
         raise CalibrationFault("config_invalid", "configuration profile is unsupported")
-    for field in ("corpus", "deployment_manifest", "evidence_directory"):
+    checkpoint_commit = value["checkpoint_commit"]
+    if not isinstance(checkpoint_commit, str) or not re.fullmatch(r"[0-9a-f]{40}", checkpoint_commit):
+        raise CalibrationFault("config_invalid", "checkpoint commit is invalid")
+    for field in ("corpus", "contract_snapshot", "deployment_manifest", "evidence_directory"):
         resolve_contained(root, value[field], "config_invalid_path")
     digest = value["deployment_manifest_sha256"]
     if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
@@ -349,6 +387,103 @@ def load_config(path: Path) -> tuple[Path, dict[str, Any]]:
     if procedures != list(PROCEDURE_ARGUMENTS):
         raise CalibrationFault("config_invalid", "expected procedure order or identity differs")
     return root, value
+
+
+def validate_contract_schema(procedure_id: str, schema: Any) -> dict[str, Any]:
+    if not isinstance(schema, dict):
+        raise CalibrationFault("contract_snapshot_invalid", "input schema must be an object")
+    require_exact_fields(
+        schema,
+        {"type", "additionalProperties", "properties", "required"},
+        "contract_snapshot_invalid",
+        "input schema",
+    )
+    if schema["type"] != "object" or schema["additionalProperties"] is not False:
+        raise CalibrationFault("contract_snapshot_invalid", "input schema must be closed")
+    properties = schema["properties"]
+    required = schema["required"]
+    if not isinstance(properties, dict) or not isinstance(required, list):
+        raise CalibrationFault("contract_snapshot_invalid", "schema properties or required invalid")
+    if tuple(required) != PROCEDURE_ARGUMENTS[procedure_id] or set(properties) != set(required):
+        raise CalibrationFault("contract_snapshot_invalid", "schema fields differ from procedure")
+    clean_properties: dict[str, Any] = {}
+    for name in required:
+        definition = properties[name]
+        if not isinstance(definition, dict) or definition.get("type") != "string":
+            raise CalibrationFault("contract_snapshot_invalid", "only string fields are supported")
+        allowed = {"type", "enum", "minLength", "maxLength", "description"}
+        if set(definition) - allowed:
+            raise CalibrationFault("contract_snapshot_invalid", "unsupported schema keyword")
+        if "enum" in definition and (
+            not isinstance(definition["enum"], list)
+            or not definition["enum"]
+            or any(not isinstance(item, str) for item in definition["enum"])
+        ):
+            raise CalibrationFault("contract_snapshot_invalid", "schema enum is invalid")
+        for boundary in ("minLength", "maxLength"):
+            if boundary in definition and (
+                isinstance(definition[boundary], bool)
+                or not isinstance(definition[boundary], int)
+                or definition[boundary] < 0
+            ):
+                raise CalibrationFault("contract_snapshot_invalid", "schema length is invalid")
+        clean_properties[name] = dict(definition)
+    return {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": clean_properties,
+        "required": list(required),
+    }
+
+
+def load_contract_snapshot(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
+    path = resolve_contained(root, config["contract_snapshot"], "config_invalid_path")
+    raw = read_bounded(path, 262_144, "contract_snapshot_missing")
+    value = parse_json_bytes(raw, "contract_snapshot_invalid_json")
+    if not isinstance(value, dict):
+        raise CalibrationFault("contract_snapshot_invalid", "snapshot root must be an object")
+    require_exact_fields(
+        value,
+        {"profile", "catalogue_digest", "catalogue_file_sha256", "procedures"},
+        "contract_snapshot_invalid",
+        "contract snapshot",
+    )
+    if value["profile"] != CONTRACT_SNAPSHOT_PROFILE:
+        raise CalibrationFault("contract_snapshot_invalid", "snapshot profile is unsupported")
+    if value["catalogue_digest"] != config["runtime"]["expected_catalogue_digest"]:
+        raise CalibrationFault("contract_snapshot_mismatch", "snapshot catalogue digest differs")
+    if not isinstance(value["catalogue_file_sha256"], str) or not re.fullmatch(
+        r"[0-9a-f]{64}", value["catalogue_file_sha256"]
+    ):
+        raise CalibrationFault("contract_snapshot_invalid", "catalogue file digest is invalid")
+    procedures = value["procedures"]
+    if not isinstance(procedures, list) or len(procedures) != len(PROCEDURE_ARGUMENTS):
+        raise CalibrationFault("contract_snapshot_invalid", "procedure set is incomplete")
+    schemas: dict[str, Any] = {}
+    observed_order: list[str] = []
+    for item in procedures:
+        if not isinstance(item, dict):
+            raise CalibrationFault("contract_snapshot_invalid", "procedure entry must be object")
+        require_exact_fields(
+            item,
+            {"procedure_id", "input_schema"},
+            "contract_snapshot_invalid",
+            "procedure entry",
+        )
+        procedure_id = item["procedure_id"]
+        if procedure_id not in PROCEDURE_ARGUMENTS or procedure_id in schemas:
+            raise CalibrationFault("contract_snapshot_invalid", "procedure identity is invalid")
+        observed_order.append(procedure_id)
+        schemas[procedure_id] = validate_contract_schema(procedure_id, item["input_schema"])
+    if observed_order != list(PROCEDURE_ARGUMENTS):
+        raise CalibrationFault("contract_snapshot_invalid", "procedure order differs")
+    return {
+        "profile": CONTRACT_SNAPSHOT_PROFILE,
+        "catalogue_digest": value["catalogue_digest"],
+        "catalogue_file_sha256": value["catalogue_file_sha256"],
+        "file_sha256": sha256_bytes(raw),
+        "schemas": schemas,
+    }
 
 
 def verify_deployment(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
@@ -785,17 +920,21 @@ def calibration_health(
 ) -> dict[str, Any]:
     root, config = load_config(config_path)
     deployment = verify_deployment(root, config)
+    snapshot = load_contract_snapshot(root, config)
     corpus_path = resolve_contained(root, config["corpus"], "config_invalid_path")
-    corpus, corpus_sha256, _ = validate_corpus(corpus_path)
+    corpus, corpus_sha256, _ = validate_corpus(
+        corpus_path, config["checkpoint_commit"], snapshot["schemas"]
+    )
     runtime = verify_runtime_health(config, runner)
     return {
         "profile": RESULT_PROFILE,
         "status": "healthy",
-        "checkpoint_commit": CHECKPOINT_COMMIT,
+        "checkpoint_commit": config["checkpoint_commit"],
         "deployment": deployment,
         "corpus_id": corpus["corpus_id"],
         "corpus_sha256": corpus_sha256,
         "case_count": len(corpus["cases"]),
+        "contract_snapshot_sha256": snapshot["file_sha256"],
         "runtime": runtime,
     }
 
@@ -806,8 +945,11 @@ def execute_calibration(
     started = time.time()
     root, config = load_config(config_path)
     deployment = verify_deployment(root, config)
+    snapshot = load_contract_snapshot(root, config)
     corpus_path = resolve_contained(root, config["corpus"], "config_invalid_path")
-    corpus, corpus_sha256, raw_corpus = validate_corpus(corpus_path)
+    corpus, corpus_sha256, raw_corpus = validate_corpus(
+        corpus_path, config["checkpoint_commit"], snapshot["schemas"]
+    )
     runtime_health = verify_runtime_health(config, runner)
     calibration_id = str(uuid.uuid4())
     evidence_root = resolve_contained(root, config["evidence_directory"], "config_invalid_path")
@@ -861,12 +1003,13 @@ def execute_calibration(
         output_root / "00_corpus.json",
         {
             **common,
-            "checkpoint_commit": CHECKPOINT_COMMIT,
+            "checkpoint_commit": config["checkpoint_commit"],
             "corpus_id": corpus["corpus_id"],
             "corpus_raw_sha256": corpus_sha256,
             "corpus_raw_bytes": len(raw_corpus),
             "corpus": corpus,
             "deployment_manifest_sha256": deployment["manifest_sha256"],
+            "contract_snapshot_sha256": snapshot["file_sha256"],
             "runtime_identity": runtime_health,
         },
     )

@@ -21,26 +21,26 @@ class CalibrationTests(unittest.TestCase):
                 "case_id": "resolve-one",
                 "family": "resolve_subject",
                 "form": "natural_question",
-                "stimulus": "Resolve Alpha.",
+                "stimulus": "Resolve Cantor.",
                 "expected_procedure_id": "attention.resolve_sop_subject",
-                "expected_arguments": {"subject": "alpha"},
+                "expected_arguments": {"subject": "cantor"},
             },
             {
                 "case_id": "identity-one",
                 "family": "inspect_identity",
                 "form": "key_value",
-                "stimulus": "subject=alpha; claim=changed",
+                "stimulus": "subject=cantor; claim=changed",
                 "expected_procedure_id": "attention.inspect_identity_boundary",
-                "expected_arguments": {"subject": "alpha", "claim": "changed"},
+                "expected_arguments": {"subject": "cantor", "claim": "changed"},
             },
             {
                 "case_id": "transition-one",
                 "family": "review_transition",
                 "form": "json_like",
-                "stimulus": "transition alpha from before to after",
+                "stimulus": "transition cantor from before to after",
                 "expected_procedure_id": "attention.review_attention_transition",
                 "expected_arguments": {
-                    "subject": "alpha",
+                    "subject": "cantor",
                     "before_frame": "before",
                     "after_frame": "after",
                 },
@@ -67,13 +67,23 @@ class CalibrationTests(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
 
+    def contract_snapshot(self):
+        snapshot = json.loads(
+            (MODULE_PATH.parent / "runtime_contract_snapshot.json").read_text(encoding="utf-8")
+        )
+        snapshot["catalogue_digest"] = "0" * 64
+        snapshot["catalogue_file_sha256"] = "2" * 64
+        return snapshot
+
     def make_environment(self, root: Path):
+        root.mkdir(parents=True, exist_ok=True)
         runtime = root / "runtime"
         runtime.mkdir()
         for relative in ("python.exe", "controller.py", "config.json"):
             (runtime / relative).write_text("fixture", encoding="utf-8")
         corpus_path = root / "held_out_cases.json"
         self.write_json(corpus_path, self.corpus())
+        self.write_json(root / "runtime_contract_snapshot.json", self.contract_snapshot())
         marker = root / "marker.txt"
         marker.write_text("deployment", encoding="utf-8")
         deployment = {
@@ -90,7 +100,9 @@ class CalibrationTests(unittest.TestCase):
         deployment_path.write_bytes(cal.canonical_json(deployment) + b"\n")
         config = {
             "profile": cal.CONFIG_PROFILE,
+            "checkpoint_commit": cal.CHECKPOINT_COMMIT,
             "corpus": "held_out_cases.json",
+            "contract_snapshot": "runtime_contract_snapshot.json",
             "deployment_manifest": "deployment_manifest.json",
             "deployment_manifest_sha256": cal.sha256_file(deployment_path),
             "evidence_directory": "evidence",
@@ -125,6 +137,53 @@ class CalibrationTests(unittest.TestCase):
         self.assertEqual(digest, cal.sha256_bytes(raw))
         self.assertEqual({case["family"] for case in corpus["cases"]}, set(cal.FAMILY_PROCEDURE))
         self.assertGreaterEqual(len({case["form"] for case in corpus["cases"]}), 3)
+
+    def test_active_corpus_compiles_against_pinned_snapshot(self):
+        root = MODULE_PATH.parent
+        config = json.loads((root / "config.json").read_text(encoding="utf-8"))
+        snapshot = cal.load_contract_snapshot(root, config)
+        corpus, _digest, _raw = cal.validate_corpus(
+            root / "in_domain_cases.json", config["checkpoint_commit"], snapshot["schemas"]
+        )
+        self.assertEqual(corpus["profile"], cal.CORPUS_PROFILE_V2)
+        self.assertEqual(len(corpus["cases"]), 36)
+        self.assertEqual(
+            {case["expected_arguments"]["subject"] for case in corpus["cases"] if case["expected_arguments"]},
+            {"cantor"},
+        )
+
+    def test_schema_compiler_rejects_unsupported_expected_subject(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            path = root / "corpus.json"
+            value = self.corpus()
+            value["cases"][0]["expected_arguments"]["subject"] = "weaver"
+            self.write_json(path, value)
+            config_path, config = self.make_environment(root / "environment")
+            snapshot = cal.load_contract_snapshot(config_path.parent, config)
+            with self.assertRaises(cal.CalibrationFault) as caught:
+                cal.validate_corpus(path, cal.CHECKPOINT_COMMIT, snapshot["schemas"])
+            self.assertEqual(caught.exception.code, "corpus_schema_mismatch")
+
+    def test_contract_snapshot_rejects_catalogue_and_schema_drift(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            config_path, config = self.make_environment(root)
+            snapshot_path = root / "runtime_contract_snapshot.json"
+            value = self.contract_snapshot()
+            value["catalogue_digest"] = "f" * 64
+            self.write_json(snapshot_path, value)
+            with self.assertRaises(cal.CalibrationFault) as caught:
+                cal.load_contract_snapshot(root, config)
+            self.assertEqual(caught.exception.code, "contract_snapshot_mismatch")
+            value["catalogue_digest"] = "0" * 64
+            value["procedures"][0]["input_schema"]["properties"]["subject"]["enum"] = ["weaver"]
+            self.write_json(snapshot_path, value)
+            snapshot = cal.load_contract_snapshot(root, config)
+            with self.assertRaises(cal.CalibrationFault) as caught:
+                cal.validate_corpus(root / "held_out_cases.json", cal.CHECKPOINT_COMMIT, snapshot["schemas"])
+            self.assertEqual(caught.exception.code, "corpus_schema_mismatch")
+            self.assertTrue(config_path.is_file())
 
     def test_corpus_rejects_duplicate_case_identity(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -179,11 +238,11 @@ class CalibrationTests(unittest.TestCase):
             "status": "route_selected",
             "run_id": "b7c0cd64-dbea-49dd-9150-6639f3ce9f0b",
             "procedure_id": "attention.resolve_sop_subject",
-            "arguments": {"subject": "alpha"},
+            "arguments": {"subject": "cantor"},
             "needle_confidence": 0.8,
         }
         self.assertEqual(cal.normalize_route_observation(case, 0, base)["disposition"], "exact_match")
-        mismatch = {**base, "arguments": {"subject": "alpha subject"}}
+        mismatch = {**base, "arguments": {"subject": "cantor subject"}}
         self.assertEqual(
             cal.normalize_route_observation(case, 0, mismatch)["disposition"],
             "procedure_match_argument_mismatch",
@@ -191,7 +250,7 @@ class CalibrationTests(unittest.TestCase):
         wrong = {
             **base,
             "procedure_id": "attention.inspect_identity_boundary",
-            "arguments": {"subject": "alpha", "claim": "changed"},
+            "arguments": {"subject": "cantor", "claim": "changed"},
         }
         self.assertEqual(cal.normalize_route_observation(case, 0, wrong)["disposition"], "wrong_procedure")
 
@@ -205,6 +264,14 @@ class CalibrationTests(unittest.TestCase):
         self.assertEqual(positive["disposition"], "positive_refusal")
         self.assertEqual(negative["disposition"], "correct_negative_refusal")
         self.assertEqual(negative["needle_confidence"], 0.98)
+        grounded_fault = {
+            "status": "fault",
+            "fault": {"code": "needle_argument_ungrounded", "detail": {"needle_confidence": 0.9}},
+        }
+        grounded_negative = cal.normalize_route_observation(
+            self.minimal_cases()[-1], 2, grounded_fault
+        )
+        self.assertEqual(grounded_negative["disposition"], "correct_negative_refusal")
 
     def test_negative_call_and_nonselection_fault_are_not_refusals(self):
         selected = {

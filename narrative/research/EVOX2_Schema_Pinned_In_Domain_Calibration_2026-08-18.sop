@@ -1,0 +1,59 @@
+Subject: EVO-X2 Schema-Pinned In-Domain Calibration Analysis 2026-08-18
+
+@ [analysis_uuid] c003a653-6dee-498b-8f28-3f75609e59fa
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Schema_Pinned_In_Domain_Calibration.sop
+@ [evidence] C:\Project\Cantor\experiments\needle2_attention_calibration\evidence\e84ecd86-9b80-40c1-bbc6-2a46ab2d35ed
+
+& [Identity] is one adaptive in-domain observation
+  + [calibration_id] is e84ecd86-9b80-40c1-bbc6-2a46ab2d35ed
+  + [corpus_id] is 453a9db2-d053-402e-addc-c1af7b79599b
+  + [corpus_sha256] is 05f1c0e0a3e9d9171265d61b436c7e4f5b49bf412f08d88233673c6628d429a4
+  + [runtime_commit] is e3d1182a31dc2f9b83f0a1ed957f0c34bb8024fa
+  + [contract_snapshot_sha256] is 67321d254daf10142a80b57476a0834116dd8d73440bf132ad7d444b9f567ef1
+  + [adaptive_edits_after_lock] are zero
+
+& [Result] is thirty-six completed without infrastructure fault
+  + [positive] is thirty cases
+  + [negative] is six cases
+  + [exact_match] is thirteen
+  + [procedure_match_argument_mismatch] is one
+  + [positive_refusal] is sixteen
+  + [correct_negative_refusal] is six
+  + [wrong_procedure] is zero
+  + [unexpected_negative_call] is zero
+  + [exact_accuracy] is 13 of 30 or 0.433333
+  + [procedure_accuracy] is 14 of 30 or 0.466667
+  + [negative_specificity] is 6 of 6 or 1.0
+
+& [FamilyResult] is differentiated
+  + [resolve] is six exact and four refusals
+  + [identity] is three exact and seven refusals
+  + [transition] is four exact one argument mismatch and five refusals
+  + [negative] is six refusals including three other-faculty boundaries
+
+& [FormResult] identifies current attention-language strengths
+  + JSON-like and key-value forms are six exact of six
+  + line-field forms are two exact and one refusal
+  + natural imperative forms are two exact and two refusals
+  + context-wrapped forms are one exact and two refusals
+  + natural questions quoted claims terse directives arrow notation and contract style remain unreliable in this one pass
+  + learned-selection confidence for exact matches ranges 0.7059 through 0.9425 with mean 0.873962
+
+& [GroundingResult] is effective for subject identity
+  + Weaver and Honesty requests selected calls but were rejected as needle_argument_ungrounded
+  + Planner transition remained below threshold
+  + all three count as correct negative refusals under the actual single-subject domain
+
+& [ExtractionResidual] is one selected transition
+  + [case] is transition-cantor-explicit-citation
+  + [expected] before_frame unsupported claim and after_frame cited claim
+  + [observed] before_frame unsupported and after_frame cited
+  + [confidence] is 0.7989
+  + [reason] literal grounding admits a shorter complete phrase contained in the caller field
+  + [next_candidate] is declared-field exact binding for structured attention language under a separate source-preserved slice
+
+& [InterpretationBoundary] remains strict
+  + this adaptive same-project corpus measures the grounded in-domain checkpoint only
+  + one observation per prompt is not a variance estimate
+  + route selection and extraction do not establish semantic truth or final articulation quality
+  + the result supports structured attention-language design but not production promotion
