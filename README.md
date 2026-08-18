@@ -130,6 +130,9 @@ are documented in
 The exact operator-owned Codex registration, restart, verification, failure,
 and removal sequence is documented in
 [`docs/CODEX_ROUTE_ATTENTION_REGISTRATION.md`](docs/CODEX_ROUTE_ATTENTION_REGISTRATION.md).
+The consolidated EVO-X2 attention-runtime implementation, deployment,
+measurement, verification, boundary, and reentry status is documented in
+[`docs/EVOX2_ATTENTION_RUNTIME_STATUS_2026-08-18.md`](docs/EVOX2_ATTENTION_RUNTIME_STATUS_2026-08-18.md).
 The separate post-checkpoint routing harness, immutable first-run evidence, and
 the discovered caller-subject grounding fault are documented in
 [`experiments/needle2_attention_calibration/README.md`](experiments/needle2_attention_calibration/README.md)
