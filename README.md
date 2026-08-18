@@ -83,6 +83,10 @@ baseline:
   llama.cpp server a compact tool-free AttentionFrame with schema-constrained
   findings while refusing off-topic, ungrounded, changed, and below-threshold
   proposals; and
+- the separate experimental `cantor-attention-mcp` executable exposes exactly
+  one `route_attention` tool, returns a learned route only after independent
+  evidence-account verification, and leaves signed `query_sop` authority and
+  llama.cpp unchanged; and
 - the Phase3A candidate-workspace gate now proves one operator-prepared,
   disposable linked Git worktree by exact executable, repository, branch,
   base, clean state, path policy, resource account, and deterministic receipt
@@ -120,6 +124,9 @@ The isolated Needle selector, pinned dependency boundary, procedure catalogue,
 EVO-X2 operator commands, evidence layout, and calibration residuals are
 documented in
 [`experiments/needle2_attention_runtime/README.md`](experiments/needle2_attention_runtime/README.md).
+The separately bounded Codex-callable route projection and EVO-X2 acceptance
+are documented in
+[`experiments/needle2_attention_mcp/README.md`](experiments/needle2_attention_mcp/README.md).
 The separate post-checkpoint routing harness, immutable first-run evidence, and
 the discovered caller-subject grounding fault are documented in
 [`experiments/needle2_attention_calibration/README.md`](experiments/needle2_attention_calibration/README.md)

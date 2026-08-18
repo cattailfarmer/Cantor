@@ -1,0 +1,23 @@
+[package]
+name = "cantor_attention_mcp"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "cantor-attention-mcp"
+path = "src/main.rs"
+
+[dependencies]
+rmcp = { workspace = true, features = ["server", "transport-io"] }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+tokio = { workspace = true, features = ["io-std", "macros", "process", "rt", "time"] }
+
+[dev-dependencies]
+rmcp = { workspace = true, features = ["client", "server", "transport-child-process", "transport-io"] }
+tokio = { workspace = true, features = ["io-std", "macros", "process", "rt", "time"] }
+
+[lints]
+workspace = true

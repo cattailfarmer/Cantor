@@ -1,0 +1,67 @@
+{
+  "profile": "cantor-route-attention-mcp-acceptance/0.1",
+  "captured_at": "2026-08-18T12:37:34.9471322-05:00",
+  "source_manifest_sha256": "ae393eb109ad364a3c460f8c1eea88707efab6e7959452e132a9f3d735510ddd",
+  "specification_sha256": "d6a9ec46a37b3f0fe64be995a715fcc1db93ac07e475677b2325ea95e99494d8",
+  "implementation": {
+    "crate": "cantor_attention_mcp",
+    "tool": "route_attention",
+    "local_tests": 4,
+    "official_mcp_client": "passed",
+    "clippy_all_targets_deny_warnings": "passed",
+    "release_build": "passed",
+    "binary_bytes": 2946048,
+    "binary_sha256": "f621af012afbd0717ea2611e98ea954570ddde1d6d433680e9be1f0c48f7aa75"
+  },
+  "deployment": {
+    "host": "EVO-X2",
+    "root": "C:/AI/services/cantor-attention-mcp",
+    "manifest_sha256": "57d8bebe59e24d8462c8a215892be939fe14393e852ce1cba3030afaec805cd6",
+    "config_sha256": "818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c",
+    "runtime_deployment_manifest_sha256": "fc58a6bdc9a3625c34168e56415aec5ee0b44686ff9e425e9aced0b2e67ead34"
+  },
+  "positive": {
+    "transport": "official_rmcp_client_over_ssh_stdio",
+    "stimulus": "What is Cantor?",
+    "status": "route_selected",
+    "run_id": "504ced35-a447-4965-b624-061344bb3daa",
+    "procedure_id": "attention.resolve_sop_subject",
+    "procedure_digest": "97187667dc894885ab4d9eb713438af7852c26688e545977968b79e2c4a59945",
+    "needle_confidence": 0.8154,
+    "admission_account_digest": "9fc03fb1fef9fa630aad446f3e735b318dff9d49d8337a2de4d1f803d6e7fb56",
+    "evidence_manifest_sha256": "55ffa118539d72b59cfff29834d7523895e74cc5ebfd13fd232198d3c0381c14",
+    "evidence_verification": "verified",
+    "authority": "learned_evidence_backed_proposal"
+  },
+  "negative": [
+    {
+      "stimulus": "Please identify the SOP subject named Weaver.",
+      "status": "fault",
+      "fault_code": "runtime_refused",
+      "runtime_reason": "needle_argument_ungrounded",
+      "probe_exit": 4
+    },
+    {
+      "stimulus": "Explain the SOP subject cantor and its intended purpose.",
+      "status": "fault",
+      "fault_code": "runtime_refused",
+      "runtime_reason": "ambiguous_procedure_selection"
+    }
+  ],
+  "noninterference": {
+    "query_sop_source_changed": false,
+    "shared_sop_agent_sha256": "18ddea8f40cb3c4a75bb879379ea57ec85a60f6dd76fa75af9ca048117db4df8",
+    "llama_pid": 12780,
+    "llama_executable": "C:\\AI\\builds\\llama.cpp-vulkan\\bin\\llama-server.exe",
+    "llama_invoked_by_adapter": false
+  },
+  "global_verification": {
+    "cargo_test_workspace": "passed_with_one_governed_ignored_physical_fixture",
+    "cargo_clippy_workspace_all_targets_all_features_deny_warnings": "passed",
+    "current_evidence_manifests": 23,
+    "current_evidence_artifact_references": 1030,
+    "current_evidence_stale_after_rehash": 0,
+    "rehash_kind": "metadata_only_no_historical_probe_rerun"
+  },
+  "acceptance": "passed"
+}

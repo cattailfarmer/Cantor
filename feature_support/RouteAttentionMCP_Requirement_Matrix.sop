@@ -1,0 +1,23 @@
+Subject: Route Attention MCP Requirement Matrix
+
+@ [matrix_uuid] fcb88f20-cdbb-4894-aed4-85ea2ec882d8
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Route_Attention_MCP.sop
+
+& [RAMCP-001] source lock
+  + [proof] source manifest digest AE393EB109AD364A3C460F8C1EEA88707EFAB6E7959452E132A9F3D735510DDD is exact
+& [RAMCP-002] separate one-tool server
+  + [proof] official client lists exactly route_attention; query_sop crate is unchanged
+& [RAMCP-003] closed bounded input
+  + [proof] deny-unknown-fields parser and byte checks reject extra empty and oversized input
+& [RAMCP-004] startup and continuing identity pins
+  + [proof] closed config health preflight plus controller and runtime-config rehash before every child invocation
+& [RAMCP-005] direct route-only execution
+  + [proof] implementation constructs an argument vector with run --text and --route-only and uses no shell
+& [RAMCP-006] independent evidence verification
+  + [proof] selected run 504ced35-a447-4965-b624-061344bb3daa is returned only after exact verify response with admission verified
+& [RAMCP-007] typed failure
+  + [proof] tests cover refusal malformed output failed evidence post-start drift and killed timeout; EVO-X2 covers two safe refusals
+& [RAMCP-008] protocol integration
+  + [proof] official rmcp client initializes lists calls receives caller fault recovers and calls again without framing contamination
+& [RAMCP-009] live noninterference
+  + [proof] isolated EVO-X2 binary and config produce one verified route while query_sop shared SOP-agent and llama PID remain unchanged

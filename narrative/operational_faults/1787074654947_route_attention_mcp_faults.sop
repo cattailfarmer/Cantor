@@ -1,0 +1,25 @@
+Subject: Route Attention MCP Operational Faults
+
+@ [fault_ledger_uuid] f4e2722a-31ab-43f4-a7f8-209f063fd5eb
+
+& [RAMCP_F001] is Windows nested-child pipe capture hang
+  + [observed] the direct adapter test passed but a Python route child launched inside the real STDIO MCP subprocess remained live until timeout after writing its result
+  + [containment] the ten and thirty second test timeouts killed the child and returned typed runtime_timeout; no production service was changed
+  + [cause_boundary] inherited STDIO and pipe behavior in the nested Windows process topology made pipe capture unsuitable for the MCP execution seam
+  + [repair] child stdin is null and stdout plus stderr use exclusive bounded temporary files polled for timeout size and exit then removed
+  + [proof] official client test now initializes calls faults recovers and calls again in about one second
+  + [status] is closed
+
+& [RAMCP_F002] is limited natural-language route coverage
+  + [observed] Explain the SOP subject cantor and its intended purpose refused as ambiguous while What is Cantor selected at 0.8154
+  + [containment] both outcomes were honest route-only results and no semantic query or llama call occurred
+  + [disposition] preserve as calibration evidence; do not loosen the 0.65 gate or adapter verifier
+  + [status] is open_residual_nonblocking
+
+& [RAMCP_F003] is current evidence metadata drift at global gate
+  + [observed] workspace tests rejected the candidate-workspace manifest at README metadata and the governed verifier counted eighty-four stale references across twenty-three current manifests
+  + [cause] the four-hour campaign and earlier post-rehash work changed shared README Cargo lock workspace and Project Narrative artifacts while frozen historical evidence remained intentionally unchanged
+  + [containment] the failing test made no mutation and no historical physical probe was represented as rerun
+  + [repair] run the governed dependency-first metadata-only current-manifest rehasher after closure artifacts stabilize then verify zero stale and rerun the workspace suite
+  + [proof] dependency-first rehash and independent VerifyOnly each report twenty-three manifests one thousand thirty references and zero stale
+  + [status] is closed
