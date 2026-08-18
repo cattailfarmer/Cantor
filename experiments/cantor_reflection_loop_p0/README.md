@@ -38,3 +38,10 @@ identity, and negative parameter boundary without contacting EVO-X2.
 `report_corpus_replay_v14.json` applies the strongest current verifier to every
 preserved profile-0.2 script report: all six recorded passes remain verified,
 while the failed v8 predecessor remains rejected.
+
+`governance_reference_audit_v14.json` confirms that all twenty-six absolute
+Cantor-local references across the nine P0 governance documents resolve.
+
+`dependency_metadata_audit_v14.json` records the resolved Cargo closure review:
+all third-party packages declare license metadata, while the two workspace-local
+crates retain an explicit owner decision about the project license.
