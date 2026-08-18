@@ -1,0 +1,57 @@
+{
+  "profile": "cantor-reflection-loop-repeatability/0.2",
+  "status": "passed",
+  "campaign": "closed_summary_exact_replay",
+  "run_count": 4,
+  "passed_count": 4,
+  "failed_count": 0,
+  "independently_verified_count": 4,
+  "dependency_identity_stable_count": 4,
+  "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+  "reflection_loop_sha256": "8b559dcd2ad71c93e44d5bc00dd60e973436a960820c2e3c62ddc510291abf94",
+  "runs": [
+    {
+      "name": "v9_repeat_01.json",
+      "sha256": "743e14afccde7b1119f800bcdc299b8e78997f34dc0efcc9481709e053d59804",
+      "bytes": 32689,
+      "elapsed_ms": 18296,
+      "positive_ms": 7684,
+      "refusal_ms": 7672,
+      "control_ms": 2940
+    },
+    {
+      "name": "v9_repeat_02.json",
+      "sha256": "d1b2ec07c2977690587ea099f10a6417c3ff778a334638ed11f8a5d594883ec1",
+      "bytes": 32683,
+      "elapsed_ms": 17895,
+      "positive_ms": 7261,
+      "refusal_ms": 7415,
+      "control_ms": 3219
+    },
+    {
+      "name": "v9_repeat_03.json",
+      "sha256": "077a9e8d38a00670dd8ee48db601907f404ab73070111440d9cfdd3c87cb0fef",
+      "bytes": 32686,
+      "elapsed_ms": 17492,
+      "positive_ms": 7341,
+      "refusal_ms": 7220,
+      "control_ms": 2931
+    },
+    {
+      "name": "v9_repeat_04.json",
+      "sha256": "8dcfb5bfb3759383c94f1fc830d90e75a24fa9aafd79a192262205d1b1f53035",
+      "bytes": 32690,
+      "elapsed_ms": 18394,
+      "positive_ms": 7362,
+      "refusal_ms": 8048,
+      "control_ms": 2984
+    }
+  ],
+  "post_campaign_process_audit": {
+    "llama_pid": 12780,
+    "llama_start": "2026-08-15T15:51:49.8374239-05:00",
+    "cantor_attention_mcp_processes": 0,
+    "cantor_reflection_loop_v9_processes": 0
+  },
+  "conclusion": "Four consecutive profile-0.2 positive-refusal-control loops passed after closing the summary field, with exact replay and stable dependency identities. This is bounded repeatability evidence, not production reliability or trusted semantic authority."
+}

@@ -1,0 +1,97 @@
+Subject: Cantor Prototype Graduation and Reflection Loop P0
+
+@ [specification_uuid] e9f0b942-30cf-423e-90dc-7e79e449bae1
+@ [profile] cantor-prototype-graduation-reflection-loop/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_prototype_graduation_reflection_loop\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Prototype_Graduation_And_Reflection_Loop_P0.exploded.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Llama_CPP_Tool_Reflection_Probe.sop
+@ [protocol] C:\Project\Cantor\specifications\Cantor_Codex_Reflection_Protocol.sop
+@ [tool_surface] C:\Project\Cantor\specifications\Cantor_Attention_Frame_Response_Mode.sop
+
+& [PrototypeDevelopmentPolicy] governs reversible exploratory development
+  + [PDP-001] preserve raw specification source before synthesis
+  + [PDP-002] select the smallest high-leverage identity or novel seam that can falsify the architecture
+  + [PDP-003] draw a basic feature flowchart and describe every node before defining execution
+  + [PDP-004] graduate each flowchart node into typed inputs outputs transforms gates states faults and trace
+  + [PDP-005] implement only the smallest end-to-end executable slice
+  + [PDP-006] run positive negative and control cases and preserve inspectable evidence
+  + [PDP-007] iterate abandon or promote only from observed evidence
+  = must: use the lowest sufficient governance ramp while preserving source lineage boundary integrity and falsifiability
+  = must: keep experimental outputs distinct from trusted authority
+  = should: prefer one vertical workflow over many disconnected components
+  - never: require near-release completeness before a reversible proof of concept can run
+  - never: promote a passing prototype beyond the authority explicitly signed here
+
+& [FeatureFlowchart] is the basic flow with node descriptions
+  + [F0 PreservedSource] captures intent and constraints without reinterpretation
+  + [F1 StimulusIntake] accepts one bounded user command and assigns a trace identity
+  + [F2 FirstInference] asks llama.cpp to choose exactly one route_attention call for routed cases
+  + [F3 CallValidation] rejects any wrong missing extra or malformed call before tool execution
+  + [F4 CantorSubroutine] invokes the pinned read-only MCP adapter with response_mode frame
+  + [F5 ResultAdmission] admits a typed positive frame or typed refusal as evidence not authority
+  + [F6 ReflectionInference] supplies the exact result to a separate second llama.cpp request
+  + [F7 FinalValidation] requires structured output that acknowledges tool status and evidence identity or fault
+  + [F8 TraceAndDecision] preserves a replayable trace and yields pass fail or control
+  + [flow] is F0 -> F1 -> F2 -> F3 -> F4 -> F5 -> F6 -> F7 -> F8
+  + [control_flow] is F0 -> F1 -> F2_control -> F7_control -> F8
+
+& [ProgramExecutionFlow] is the graduated executable state machine
+  + [state_set] is created first_inference_requested tool_call_received tool_call_validated tool_result_received reflection_requested final_received completed failed or control_completed
+  + [routed_transition_1] is created plus Stimulus to first_inference_requested
+  + [routed_transition_2] is one exact model tool call to tool_call_received
+  + [routed_transition_3] is host schema validation to tool_call_validated
+  + [routed_transition_4] is MCP response to tool_result_received
+  + [routed_transition_5] is exact tool evidence projection to reflection_requested
+  + [routed_transition_6] is schema-valid model response to final_received then completed
+  + [failure_transition] is any rejected precondition to failed with a typed fault and no invented successor state
+  + [control_transition] is created to one no-tools provider request to final validation then control_completed
+
+& [DataContract] is the executable externalized frame
+  + [Stimulus] has trace_id case_id text and expected_case_kind
+  + [SubroutineCall] has call_id name and closed arguments stimulus plus response_mode
+  + [SubroutineResult] has structured_content is_error and observed_status
+  + [FinalOutput] has case_id observed_tool_status applied_attention summary and evidence_reference
+  + [ExecutionTrace] has profile trace_id case_id expected_case_kind final_state ordered_events sanitized requests sanitized responses tool_call tool_result final_output and fault
+  = must: reject unknown contract fields where the host owns the schema
+  = must: sanitize provider-private reasoning fields recursively before persistence
+
+& [ImplementationSliceP0] is the isolated Rust proof
+  + [provider] is the already-running unmodified EVO-X2 llama.cpp server on loopback
+  + [model] is the model advertised by GET /v1/models at run time
+  + [tool] is the already-deployed cantor-attention-mcp executable over STDIO MCP
+  + [case_positive] asks about Cantor and requires route_selected plus a reflected procedure identifier
+  + [case_refusal] asks for an unsupported Weaver route and requires runtime_refused to remain explicit
+  + [case_control] asks for a direct bounded response with no tool offered and records control_completed
+  + [call_bound] is one tool call maximum
+  + [pass_bound] is two llama.cpp requests for routed cases and one for control
+  + [effect_boundary] is read-only semantic routing and evidence writing only
+  = must: run without modifying or restarting llama.cpp
+  = must: spawn the MCP adapter ephemerally and leave no persistent adapter process
+  = must: preserve the deployed adapter and runtime hashes in evidence
+
+& [Acceptance] is measurable
+  + [CRLP-001] preserved source manifest and this SJS signature verify
+  + [CRLP-002] feature descriptions map one-to-one into execution states or deliberate non-runtime policy nodes
+  + [CRLP-003] deterministic tests cover exact call malformed call multiple call positive result refusal result final schema and private-field sanitization
+  + [CRLP-004] positive live run emits one valid call invokes real route_attention imports its verified frame into pass two and cites its evidence reference
+  + [CRLP-005] refusal live run imports and states the real refusal without a positive frame or fabricated route
+  + [CRLP-006] control live run invokes no Cantor tool and is distinguishable from routed success
+  + [CRLP-007] every case yields an ordered replayable sanitized trace
+  + [CRLP-008] llama.cpp remains the same process and the adapter remains ephemeral
+
+& [AuthorityBoundary] is experimental implementation authority
+  + permits one isolated P0 implementation tests deployment copy live execution evidence and defect repair
+  + excludes trusted catalogue mutation autonomous effects Codex registration provider restart nested procedures and general production claims
+  + learned routing results remain evidence-backed proposals
+
+& [SatisfactionSignature] is valid bounded SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 316bce22-3794-4924-b8ca-427ee0e00ec9
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Prototype_Graduation_And_Reflection_Loop_P0.sop
+  + [source_snapshot_uuid] is 90d045f9-abc8-4caa-acd4-db3caab11130
+  + [source_document] is C:\Project\Cantor\source_documents\2026-08-18_prototype_graduation_reflection_loop\Dictated_Prototype_Graduation_Reflection_Loop_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-08-18_prototype_graduation_reflection_loop\Source_Document_Manifest.sop
+  + [processed_stage_set] is source_preserved delineated exploded semantically_refined flowcharted execution_formed data_designed boundary_checked acceptance_formed justified phase_locked and signed
+  + [exhaustion_state] is seven_fold_phase_locked_for_reversible_prototype
+  + [signature_status] is valid_for_P0_implementation_only
+  + [invalidation] is source_change boundary_expansion missing_trace unreported_refusal authority_promotion provider_restart or contradictory_live_evidence

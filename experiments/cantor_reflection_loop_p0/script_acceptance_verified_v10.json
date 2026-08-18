@@ -1,0 +1,861 @@
+{
+  "profile": "cantor-reflection-loop-report/0.2",
+  "contract": "Cantor_Prototype_Graduation_And_Reflection_Loop_P0.sop",
+  "status": "passed",
+  "started_unix_ms": 1787085590915,
+  "finished_unix_ms": 1787085609150,
+  "base_url": "http://127.0.0.1:8081/v1",
+  "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+  "mcp_program": "\\\\?\\C:\\AI\\services\\cantor-attention-mcp\\cantor-attention-mcp.exe",
+  "mcp_program_sha256": "37860b031a97b58de08cb669cf6b09b3bbac3db12c3fba3f198674231255deef",
+  "mcp_program_sha256_after": "37860b031a97b58de08cb669cf6b09b3bbac3db12c3fba3f198674231255deef",
+  "mcp_config": "\\\\?\\C:\\AI\\services\\cantor-attention-mcp\\config.json",
+  "mcp_config_sha256": "818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c",
+  "mcp_config_sha256_after": "818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c",
+  "dependency_identity_stable": true,
+  "runner": "\\\\?\\C:\\AI\\services\\cantor-reflection-loop\\cantor-reflection-loop-v10.exe",
+  "runner_sha256": "51e247478cb1f80b574ce1a19ed6e1eed93b217af23bf8a2451349dfed7a076e",
+  "private_reasoning_recorded": false,
+  "cases": [
+    {
+      "profile": "cantor-reflection-loop-trace/0.1",
+      "trace_id": "trace-1787085590924",
+      "case_id": "positive_cantor_route",
+      "expected_case_kind": "positive",
+      "final_state": "completed",
+      "status": "passed",
+      "events": [
+        {
+          "sequence": 0,
+          "state": "created",
+          "detail": "case trace created"
+        },
+        {
+          "sequence": 1,
+          "state": "first_inference_requested",
+          "detail": "submitted one required-tool provider request"
+        },
+        {
+          "sequence": 2,
+          "state": "tool_call_received",
+          "detail": "provider returned first-pass message"
+        },
+        {
+          "sequence": 3,
+          "state": "tool_call_validated",
+          "detail": "exact name count and closed arguments admitted"
+        },
+        {
+          "sequence": 4,
+          "state": "tool_result_received",
+          "detail": "structured MCP result received and server process closed"
+        },
+        {
+          "sequence": 5,
+          "state": "reflection_requested",
+          "detail": "submitted separate provider request with exact admitted tool result"
+        },
+        {
+          "sequence": 6,
+          "state": "final_received",
+          "detail": "provider returned second-pass message"
+        },
+        {
+          "sequence": 7,
+          "state": "completed",
+          "detail": "case acceptance contract satisfied"
+        }
+      ],
+      "first_request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 384,
+        "messages": [
+          {
+            "content": "This is a controlled externalized attention checkpoint. Call route_attention exactly once with the exact arguments constrained by its schema. Do not answer the subject directly. The host will validate the call, execute Cantor, and return evidence for a separate reflection pass.",
+            "role": "system"
+          },
+          {
+            "content": "Call route_attention for the exact stimulus \"What is Cantor?\" using response_mode \"frame\".",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "parallel_tool_calls": false,
+        "temperature": 0,
+        "tool_choice": "required",
+        "tools": [
+          {
+            "function": {
+              "description": "Propose one evidence-verified hardened attention route. The result is a learned proposal, not signed SOP authority.",
+              "name": "route_attention",
+              "parameters": {
+                "additionalProperties": false,
+                "properties": {
+                  "response_mode": {
+                    "const": "frame",
+                    "type": "string"
+                  },
+                  "stimulus": {
+                    "const": "What is Cantor?",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "stimulus",
+                  "response_mode"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "function"
+          }
+        ]
+      },
+      "first_response": {
+        "choices": [
+          {
+            "finish_reason": "tool_calls",
+            "index": 0,
+            "message": {
+              "content": "",
+              "role": "assistant",
+              "tool_calls": [
+                {
+                  "function": {
+                    "arguments": "{\"response_mode\":\"frame\",\"stimulus\":\"What is Cantor?\"}",
+                    "name": "route_attention"
+                  },
+                  "id": "nLNZ8Ropnr9vO2cPMOdMGBkdI9irqiVg",
+                  "type": "function"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1787085592,
+        "id": "chatcmpl-xPiIT1FC7iYQW3DkBtWQ6eATy7m6azT3",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 0,
+          "predicted_ms": 189.921,
+          "predicted_n": 44,
+          "predicted_per_second": 231.6752755092907,
+          "predicted_per_token_ms": 4.316386363636363,
+          "prompt_ms": 803.895,
+          "prompt_n": 392,
+          "prompt_per_second": 487.6258715379496,
+          "prompt_per_token_ms": 2.050752551020408
+        },
+        "usage": {
+          "completion_tokens": 44,
+          "prompt_tokens": 392,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 436
+        }
+      },
+      "tool_call": {
+        "function": {
+          "arguments": "{\"response_mode\":\"frame\",\"stimulus\":\"What is Cantor?\"}",
+          "name": "route_attention"
+        },
+        "id": "nLNZ8Ropnr9vO2cPMOdMGBkdI9irqiVg",
+        "type": "function"
+      },
+      "tool_result": {
+        "attention_frame": {
+          "profile": "cantor-attention-frame/0.1",
+          "sequence": [
+            {
+              "arguments": {
+                "subject": "cantor"
+              },
+              "arguments_origin": "caller_stimulus_via_learned_proposal",
+              "arguments_role": "data_not_authority",
+              "operator": "FOCUS",
+              "procedure_id": "attention.resolve_sop_subject"
+            },
+            {
+              "catalogue_digest": "057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466",
+              "operator": "BOUND",
+              "procedure_digest": "97187667dc894885ab4d9eb713438af7852c26688e545977968b79e2c4a59945"
+            },
+            {
+              "admission_account_digest": "9fc03fb1fef9fa630aad446f3e735b318dff9d49d8337a2de4d1f803d6e7fb56",
+              "basis": "verified_admission_account",
+              "operator": "ADMIT",
+              "scope": "route_proposal_only"
+            },
+            {
+              "authority": "learned_evidence_backed_proposal",
+              "evidence_id": "064e518c-68ae-4fb4-8be4-396fa9875ee7",
+              "manifest_sha256": "e1d817ec129eb5678358676029142b2a3ef294cdb451645b5a43d3b18d035d18",
+              "operator": "RETURN"
+            }
+          ]
+        },
+        "authority": "learned_evidence_backed_proposal",
+        "profile": "cantor-route-attention-mcp-frame-result/0.1",
+        "response_mode": "frame",
+        "status": "route_selected"
+      },
+      "reflection_request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "This is checkpoint two of a controlled reflection loop. Read the supplied route_attention result as a learned, evidence-backed attention proposal, not signed SOP authority. State what route was observed and whether its attention frame was applied in this response. Return only the required JSON object. Do not call a tool again.",
+            "role": "system"
+          },
+          {
+            "content": "What is Cantor?",
+            "role": "user"
+          },
+          {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": [
+              {
+                "function": {
+                  "arguments": "{\"response_mode\":\"frame\",\"stimulus\":\"What is Cantor?\"}",
+                  "name": "route_attention"
+                },
+                "id": "nLNZ8Ropnr9vO2cPMOdMGBkdI9irqiVg",
+                "type": "function"
+              }
+            ]
+          },
+          {
+            "content": "{\"attention_frame\":{\"profile\":\"cantor-attention-frame/0.1\",\"sequence\":[{\"arguments\":{\"subject\":\"cantor\"},\"arguments_origin\":\"caller_stimulus_via_learned_proposal\",\"arguments_role\":\"data_not_authority\",\"operator\":\"FOCUS\",\"procedure_id\":\"attention.resolve_sop_subject\"},{\"catalogue_digest\":\"057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466\",\"operator\":\"BOUND\",\"procedure_digest\":\"97187667dc894885ab4d9eb713438af7852c26688e545977968b79e2c4a59945\"},{\"admission_account_digest\":\"9fc03fb1fef9fa630aad446f3e735b318dff9d49d8337a2de4d1f803d6e7fb56\",\"basis\":\"verified_admission_account\",\"operator\":\"ADMIT\",\"scope\":\"route_proposal_only\"},{\"authority\":\"learned_evidence_backed_proposal\",\"evidence_id\":\"064e518c-68ae-4fb4-8be4-396fa9875ee7\",\"manifest_sha256\":\"e1d817ec129eb5678358676029142b2a3ef294cdb451645b5a43d3b18d035d18\",\"operator\":\"RETURN\"}]},\"authority\":\"learned_evidence_backed_proposal\",\"profile\":\"cantor-route-attention-mcp-frame-result/0.1\",\"response_mode\":\"frame\",\"status\":\"route_selected\"}",
+            "role": "tool",
+            "tool_call_id": "nLNZ8Ropnr9vO2cPMOdMGBkdI9irqiVg"
+          },
+          {
+            "content": "Reflection checkpoint: import the preceding structured Cantor result now. Keep its authority boundary and fault status exact.",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "parallel_tool_calls": false,
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "applied_attention": {
+                "const": true,
+                "type": "boolean"
+              },
+              "case_id": {
+                "const": "positive_cantor_route",
+                "type": "string"
+              },
+              "evidence_reference": {
+                "const": "064e518c-68ae-4fb4-8be4-396fa9875ee7",
+                "type": "string"
+              },
+              "observed_tool_status": {
+                "const": "route_selected",
+                "type": "string"
+              },
+              "procedure_id": {
+                "const": "attention.resolve_sop_subject",
+                "type": "string"
+              },
+              "summary": {
+                "const": "Cantor returned an evidence-backed learned route, and its attention frame was applied.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "case_id",
+              "observed_tool_status",
+              "applied_attention",
+              "summary",
+              "evidence_reference",
+              "procedure_id"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "temperature": 0,
+        "tool_choice": "none",
+        "tools": [
+          {
+            "function": {
+              "description": "Propose one evidence-verified hardened attention route. The result is a learned proposal, not signed SOP authority.",
+              "name": "route_attention",
+              "parameters": {
+                "additionalProperties": false,
+                "properties": {
+                  "response_mode": {
+                    "const": "frame",
+                    "type": "string"
+                  },
+                  "stimulus": {
+                    "const": "What is Cantor?",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "stimulus",
+                  "response_mode"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "function"
+          }
+        ]
+      },
+      "reflection_response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\n  \"applied_attention\": true,\n  \"case_id\": \"positive_cantor_route\",\n  \"evidence_reference\": \"064e518c-68ae-4fb4-8be4-396fa9875ee7\",\n  \"observed_tool_status\": \"route_selected\",\n  \"procedure_id\": \"attention.resolve_sop_subject\",\n  \"summary\": \"Cantor returned an evidence-backed learned route, and its attention frame was applied.\"}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787085598,
+        "id": "chatcmpl-E3EVXbVdiR9FqEk8Kh1AcPsEq3fDBQ1E",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 0,
+          "predicted_ms": 2856.899,
+          "predicted_n": 151,
+          "predicted_per_second": 52.85451113252516,
+          "predicted_per_token_ms": 18.919860927152317,
+          "prompt_ms": 1704.915,
+          "prompt_n": 896,
+          "prompt_per_second": 525.5393963921955,
+          "prompt_per_token_ms": 1.9028069196428572
+        },
+        "usage": {
+          "completion_tokens": 151,
+          "prompt_tokens": 896,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 1047
+        }
+      },
+      "final_output": {
+        "case_id": "positive_cantor_route",
+        "observed_tool_status": "route_selected",
+        "applied_attention": true,
+        "summary": "Cantor returned an evidence-backed learned route, and its attention frame was applied.",
+        "evidence_reference": "064e518c-68ae-4fb4-8be4-396fa9875ee7",
+        "procedure_id": "attention.resolve_sop_subject"
+      },
+      "fault": null,
+      "elapsed_ms": 7449
+    },
+    {
+      "profile": "cantor-reflection-loop-trace/0.1",
+      "trace_id": "trace-1787085598374",
+      "case_id": "refusal_unsupported_weaver_route",
+      "expected_case_kind": "refusal",
+      "final_state": "completed",
+      "status": "passed",
+      "events": [
+        {
+          "sequence": 0,
+          "state": "created",
+          "detail": "case trace created"
+        },
+        {
+          "sequence": 1,
+          "state": "first_inference_requested",
+          "detail": "submitted one required-tool provider request"
+        },
+        {
+          "sequence": 2,
+          "state": "tool_call_received",
+          "detail": "provider returned first-pass message"
+        },
+        {
+          "sequence": 3,
+          "state": "tool_call_validated",
+          "detail": "exact name count and closed arguments admitted"
+        },
+        {
+          "sequence": 4,
+          "state": "tool_result_received",
+          "detail": "structured MCP result received and server process closed"
+        },
+        {
+          "sequence": 5,
+          "state": "reflection_requested",
+          "detail": "submitted separate provider request with exact admitted tool result"
+        },
+        {
+          "sequence": 6,
+          "state": "final_received",
+          "detail": "provider returned second-pass message"
+        },
+        {
+          "sequence": 7,
+          "state": "completed",
+          "detail": "case acceptance contract satisfied"
+        }
+      ],
+      "first_request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 384,
+        "messages": [
+          {
+            "content": "This is a controlled externalized attention checkpoint. Call route_attention exactly once with the exact arguments constrained by its schema. Do not answer the subject directly. The host will validate the call, execute Cantor, and return evidence for a separate reflection pass.",
+            "role": "system"
+          },
+          {
+            "content": "Call route_attention for the exact stimulus \"Weaver\" using response_mode \"frame\".",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "parallel_tool_calls": false,
+        "temperature": 0,
+        "tool_choice": "required",
+        "tools": [
+          {
+            "function": {
+              "description": "Propose one evidence-verified hardened attention route. The result is a learned proposal, not signed SOP authority.",
+              "name": "route_attention",
+              "parameters": {
+                "additionalProperties": false,
+                "properties": {
+                  "response_mode": {
+                    "const": "frame",
+                    "type": "string"
+                  },
+                  "stimulus": {
+                    "const": "Weaver",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "stimulus",
+                  "response_mode"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "function"
+          }
+        ]
+      },
+      "first_response": {
+        "choices": [
+          {
+            "finish_reason": "tool_calls",
+            "index": 0,
+            "message": {
+              "content": "",
+              "role": "assistant",
+              "tool_calls": [
+                {
+                  "function": {
+                    "arguments": "{\"response_mode\":\"frame\",\"stimulus\":\"Weaver\"}",
+                    "name": "route_attention"
+                  },
+                  "id": "crjrmfNHuuwxzYRC5VQd1KuovHa2mXWh",
+                  "type": "function"
+                }
+              ]
+            }
+          }
+        ],
+        "created": 1787085599,
+        "id": "chatcmpl-jUFiUVdJejhwO96U9R8C0yNReDfVhKS6",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 0,
+          "predicted_ms": 175.147,
+          "predicted_n": 41,
+          "predicted_per_second": 234.08907945896877,
+          "predicted_per_token_ms": 4.271878048780487,
+          "prompt_ms": 784.327,
+          "prompt_n": 388,
+          "prompt_per_second": 494.6916273442072,
+          "prompt_per_token_ms": 2.0214613402061854
+        },
+        "usage": {
+          "completion_tokens": 41,
+          "prompt_tokens": 388,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 429
+        }
+      },
+      "tool_call": {
+        "function": {
+          "arguments": "{\"response_mode\":\"frame\",\"stimulus\":\"Weaver\"}",
+          "name": "route_attention"
+        },
+        "id": "crjrmfNHuuwxzYRC5VQd1KuovHa2mXWh",
+        "type": "function"
+      },
+      "tool_result": {
+        "fault": {
+          "code": "runtime_refused",
+          "message": "low_selection_confidence"
+        },
+        "profile": "cantor-route-attention-mcp-result/0.2",
+        "runtime": {
+          "fault": {
+            "code": "low_selection_confidence",
+            "detail": {
+              "cause": {
+                "confidence": 0.0001,
+                "minimum": 0.65
+              },
+              "needle_confidence": 0.0001,
+              "run_id": "058ce4f2-1820-4d13-9f36-ef62d65899c0"
+            },
+            "message": "Needle selection confidence is below the admitted threshold"
+          },
+          "profile": "cantor-needle-runtime-result/0.2",
+          "status": "fault"
+        },
+        "status": "fault",
+        "verification": {
+          "admission_account": "not_applicable",
+          "evidence_id": "058ce4f2-1820-4d13-9f36-ef62d65899c0",
+          "evidence_kind": "run",
+          "files": [
+            {
+              "bytes": 280,
+              "name": "00_input.json",
+              "sha256": "33e5e3ac1e3cbdadc470e62aca910a5d3d1f356fb7749992f946ec4c9b8e5385"
+            },
+            {
+              "bytes": 469,
+              "name": "01_selection.json",
+              "sha256": "025364e1255d814fde229bb1338f59b2f19a3c8072d6b3b5e7e7dbf2cf665ae1"
+            },
+            {
+              "bytes": 484,
+              "name": "result.json",
+              "sha256": "2956290043762a1ddbe6866d52e77ee74d6fb84ac89ae43bfd5cf770039838fe"
+            }
+          ],
+          "manifest_sha256": "702b828abf5733d6273b0f3926965839c1379f506897fbba40ab24194d34b616",
+          "profile": "cantor-needle-runtime-result/0.2",
+          "recorded_status": "fault",
+          "status": "verified"
+        }
+      },
+      "reflection_request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "This is checkpoint two of a controlled reflection loop. Read the supplied route_attention refusal. Preserve the refusal explicitly, do not invent a route, and state that no attention frame was applied. Return only the required JSON object. Do not call a tool again.",
+            "role": "system"
+          },
+          {
+            "content": "Weaver",
+            "role": "user"
+          },
+          {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": [
+              {
+                "function": {
+                  "arguments": "{\"response_mode\":\"frame\",\"stimulus\":\"Weaver\"}",
+                  "name": "route_attention"
+                },
+                "id": "crjrmfNHuuwxzYRC5VQd1KuovHa2mXWh",
+                "type": "function"
+              }
+            ]
+          },
+          {
+            "content": "{\"fault\":{\"code\":\"runtime_refused\",\"message\":\"low_selection_confidence\"},\"profile\":\"cantor-route-attention-mcp-result/0.2\",\"runtime\":{\"fault\":{\"code\":\"low_selection_confidence\",\"detail\":{\"cause\":{\"confidence\":0.0001,\"minimum\":0.65},\"needle_confidence\":0.0001,\"run_id\":\"058ce4f2-1820-4d13-9f36-ef62d65899c0\"},\"message\":\"Needle selection confidence is below the admitted threshold\"},\"profile\":\"cantor-needle-runtime-result/0.2\",\"status\":\"fault\"},\"status\":\"fault\",\"verification\":{\"admission_account\":\"not_applicable\",\"evidence_id\":\"058ce4f2-1820-4d13-9f36-ef62d65899c0\",\"evidence_kind\":\"run\",\"files\":[{\"bytes\":280,\"name\":\"00_input.json\",\"sha256\":\"33e5e3ac1e3cbdadc470e62aca910a5d3d1f356fb7749992f946ec4c9b8e5385\"},{\"bytes\":469,\"name\":\"01_selection.json\",\"sha256\":\"025364e1255d814fde229bb1338f59b2f19a3c8072d6b3b5e7e7dbf2cf665ae1\"},{\"bytes\":484,\"name\":\"result.json\",\"sha256\":\"2956290043762a1ddbe6866d52e77ee74d6fb84ac89ae43bfd5cf770039838fe\"}],\"manifest_sha256\":\"702b828abf5733d6273b0f3926965839c1379f506897fbba40ab24194d34b616\",\"profile\":\"cantor-needle-runtime-result/0.2\",\"recorded_status\":\"fault\",\"status\":\"verified\"}}",
+            "role": "tool",
+            "tool_call_id": "crjrmfNHuuwxzYRC5VQd1KuovHa2mXWh"
+          },
+          {
+            "content": "Reflection checkpoint: import the preceding structured Cantor result now. Keep its authority boundary and fault status exact.",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "parallel_tool_calls": false,
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "applied_attention": {
+                "const": false,
+                "type": "boolean"
+              },
+              "case_id": {
+                "const": "refusal_unsupported_weaver_route",
+                "type": "string"
+              },
+              "evidence_reference": {
+                "const": "058ce4f2-1820-4d13-9f36-ef62d65899c0",
+                "type": "string"
+              },
+              "observed_tool_status": {
+                "const": "runtime_refused",
+                "type": "string"
+              },
+              "procedure_id": {
+                "type": "null"
+              },
+              "summary": {
+                "const": "Cantor returned a verified refusal, and no attention frame was applied.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "case_id",
+              "observed_tool_status",
+              "applied_attention",
+              "summary",
+              "evidence_reference",
+              "procedure_id"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "temperature": 0,
+        "tool_choice": "none",
+        "tools": [
+          {
+            "function": {
+              "description": "Propose one evidence-verified hardened attention route. The result is a learned proposal, not signed SOP authority.",
+              "name": "route_attention",
+              "parameters": {
+                "additionalProperties": false,
+                "properties": {
+                  "response_mode": {
+                    "const": "frame",
+                    "type": "string"
+                  },
+                  "stimulus": {
+                    "const": "Weaver",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "stimulus",
+                  "response_mode"
+                ],
+                "type": "object"
+              }
+            },
+            "type": "function"
+          }
+        ]
+      },
+      "reflection_response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\n  \"applied_attention\": false,\n  \"case_id\": \"refusal_unsupported_weaver_route\",\n  \"evidence_reference\": \"058ce4f2-1820-4d13-9f36-ef62d65899c0\",\n  \"observed_tool_status\": \"runtime_refused\",\n  \"procedure_id\": null,\n  \"summary\": \"Cantor returned a verified refusal, and no attention frame was applied.\"\n}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787085605,
+        "id": "chatcmpl-MgnQ7Bj0eX8PtEYLXUG8Wav5JAmtg9hA",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 0,
+          "predicted_ms": 2677.423,
+          "predicted_n": 146,
+          "predicted_per_second": 54.530046242226206,
+          "predicted_per_token_ms": 18.338513698630138,
+          "prompt_ms": 1717.036,
+          "prompt_n": 969,
+          "prompt_per_second": 564.3446031416929,
+          "prompt_per_token_ms": 1.77196697626419
+        },
+        "usage": {
+          "completion_tokens": 146,
+          "prompt_tokens": 969,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 1115
+        }
+      },
+      "final_output": {
+        "case_id": "refusal_unsupported_weaver_route",
+        "observed_tool_status": "runtime_refused",
+        "applied_attention": false,
+        "summary": "Cantor returned a verified refusal, and no attention frame was applied.",
+        "evidence_reference": "058ce4f2-1820-4d13-9f36-ef62d65899c0",
+        "procedure_id": null
+      },
+      "fault": null,
+      "elapsed_ms": 7558
+    },
+    {
+      "profile": "cantor-reflection-loop-trace/0.1",
+      "trace_id": "trace-1787085605933",
+      "case_id": "control_without_cantor",
+      "expected_case_kind": "control",
+      "final_state": "control_completed",
+      "status": "passed",
+      "events": [
+        {
+          "sequence": 0,
+          "state": "created",
+          "detail": "case trace created"
+        },
+        {
+          "sequence": 1,
+          "state": "first_inference_requested",
+          "detail": "submitted one provider request without a tools field"
+        },
+        {
+          "sequence": 2,
+          "state": "final_received",
+          "detail": "provider returned no-tool baseline message"
+        },
+        {
+          "sequence": 3,
+          "state": "control_completed",
+          "detail": "case acceptance contract satisfied"
+        }
+      ],
+      "first_request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 384,
+        "messages": [
+          {
+            "content": "This is a controlled no-tool baseline. No Cantor tool is available. Return only the required JSON object and do not imply that attention routing occurred.",
+            "role": "system"
+          },
+          {
+            "content": "Return a short statement that this is the no-tool control case.",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "applied_attention": {
+                "const": false,
+                "type": "boolean"
+              },
+              "case_id": {
+                "const": "control_without_cantor",
+                "type": "string"
+              },
+              "evidence_reference": {
+                "const": "none",
+                "type": "string"
+              },
+              "observed_tool_status": {
+                "const": "no_tool_control",
+                "type": "string"
+              },
+              "procedure_id": {
+                "type": "null"
+              },
+              "summary": {
+                "const": "No Cantor tool was available or applied in this control.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "case_id",
+              "observed_tool_status",
+              "applied_attention",
+              "summary",
+              "evidence_reference",
+              "procedure_id"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "temperature": 0
+      },
+      "first_response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"applied_attention\": false, \"case_id\": \"control_without_cantor\", \"evidence_reference\": \"none\", \"observed_tool_status\": \"no_tool_control\", \"procedure_id\": null, \"summary\": \"No Cantor tool was available or applied in this control.\"}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787085609,
+        "id": "chatcmpl-L0UYnRLkN6KOycLs1lduGowMkRDbVGKJ",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 56,
+          "predicted_ms": 2062.341,
+          "predicted_n": 71,
+          "predicted_per_second": 34.42689642498501,
+          "predicted_per_token_ms": 29.047056338028167,
+          "prompt_ms": 490.124,
+          "prompt_n": 4,
+          "prompt_per_second": 8.161200022851359,
+          "prompt_per_token_ms": 122.531
+        },
+        "usage": {
+          "completion_tokens": 71,
+          "prompt_tokens": 60,
+          "prompt_tokens_details": {
+            "cached_tokens": 56
+          },
+          "total_tokens": 131
+        }
+      },
+      "tool_call": null,
+      "tool_result": null,
+      "reflection_request": null,
+      "reflection_response": null,
+      "final_output": {
+        "case_id": "control_without_cantor",
+        "observed_tool_status": "no_tool_control",
+        "applied_attention": false,
+        "summary": "No Cantor tool was available or applied in this control.",
+        "evidence_reference": "none",
+        "procedure_id": null
+      },
+      "fault": null,
+      "elapsed_ms": 3214
+    }
+  ]
+}

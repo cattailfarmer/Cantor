@@ -1,0 +1,42 @@
+{
+  "profile": "cantor-reflection-loop-reproduction-script-acceptance/0.1",
+  "status": "passed",
+  "positive": {
+    "report": "script_acceptance_verified_v10.json",
+    "report_sha256": "e621bb697e618cd06503f21097bb5fe5a475554ab3cc021c3792cd7332fa3b0f",
+    "runner_sha256": "51e247478cb1f80b574ce1a19ed6e1eed93b217af23bf8a2451349dfed7a076e",
+    "verification_status": "verified",
+    "before_after_llama_pid": 12780,
+    "before_after_llama_start": "2026-08-15T15:51:49.8374239-05:00",
+    "before_after_adapter_processes": 0,
+    "before_after_loop_processes": 0,
+    "configuration_changed": false
+  },
+  "negative_parameters": [
+    {
+      "parameter": "SshHost",
+      "candidate": "bad;host",
+      "exit": 1,
+      "result": "closed host alias rejection"
+    },
+    {
+      "parameter": "RemoteRoot",
+      "candidate": "C:\\AI\\services\\cantor reflection",
+      "exit": 1,
+      "result": "closed absolute path rejection"
+    },
+    {
+      "parameter": "RemoteBinaryName",
+      "candidate": "..\\escape.exe",
+      "exit": 1,
+      "result": "closed executable leaf rejection"
+    },
+    {
+      "parameter": "LocalOutput",
+      "candidate": "..\\escape.json",
+      "exit": 1,
+      "result": "workspace containment rejection"
+    }
+  ],
+  "conclusion": "The reproducibility script admits the reviewed deployment and rejects four parameter-boundary violations before remote execution."
+}

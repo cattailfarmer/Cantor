@@ -1,0 +1,52 @@
+{
+  "profile": "cantor-reflection-loop-repeatability/0.1",
+  "status": "passed",
+  "campaign": "thinking_disabled_externalized_reflection",
+  "run_count": 4,
+  "passed_count": 4,
+  "failed_count": 0,
+  "independently_verified_count": 4,
+  "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+  "reflection_loop_sha256": "95c7a27c9ae448981ba1650693f4fda26a4d2ce548fee6057baabf1f992468fd",
+  "runs": [
+    {
+      "name": "thinking_disabled_run_01.json",
+      "sha256": "3cac06286cb48f338ad5cb5fad14e2e36558743685c7027e148f10246f6c57ac",
+      "elapsed_ms": 16788,
+      "positive_ms": 6642,
+      "refusal_ms": 7053,
+      "control_ms": 3089
+    },
+    {
+      "name": "thinking_disabled_run_02.json",
+      "sha256": "c6434876e8154329e9aa7167250a2e0ad6b20a1cc2cf12c4f84b79a304d0d0df",
+      "elapsed_ms": 16436,
+      "positive_ms": 6722,
+      "refusal_ms": 7016,
+      "control_ms": 2694
+    },
+    {
+      "name": "thinking_disabled_run_03.json",
+      "sha256": "a9c39894379e8256c4aa7e83988a90b9360363ce0e3e7dbce7daa95d3819b652",
+      "elapsed_ms": 16723,
+      "positive_ms": 6972,
+      "refusal_ms": 7044,
+      "control_ms": 2703
+    },
+    {
+      "name": "thinking_disabled_run_04.json",
+      "sha256": "1fd6cbce1b147dfff1290e159c80bdb9ca36d250c33b46454e91aed571d598c0",
+      "elapsed_ms": 16922,
+      "positive_ms": 7184,
+      "refusal_ms": 7018,
+      "control_ms": 2715
+    }
+  ],
+  "post_campaign_process_audit": {
+    "llama_pid": 12780,
+    "llama_start": "2026-08-15T15:51:49.8374239-05:00",
+    "cantor_attention_mcp_processes": 0,
+    "cantor_reflection_loop_processes": 0
+  },
+  "conclusion": "Four consecutive full positive-refusal-control loops passed after disabling model-template thinking for the closed structured-output task. This is bounded repeatability evidence, not production reliability or trusted semantic authority."
+}

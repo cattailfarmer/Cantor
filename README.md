@@ -90,6 +90,12 @@ baseline:
   reduction across the current three procedures, preserves single-flight and
   refusal boundaries in compact mode, and leaves signed `query_sop` authority
   and llama.cpp unchanged; and
+- the experimental `cantor-reflection-loop` host now drives an unmodified
+  llama.cpp model through one exact `route_attention` call, imports either a
+  verified frame or verified refusal into a separate reflection pass, compares
+  it with a no-tool control, and emits a sanitized trace whose requests, call,
+  result, output, state order, and dependency identities can be replayed by an
+  independent verifier; and
 - the Phase3A candidate-workspace gate now proves one operator-prepared,
   disposable linked Git worktree by exact executable, repository, branch,
   base, clean state, path policy, resource account, and deterministic receipt
@@ -136,6 +142,10 @@ and removal sequence is documented in
 The consolidated EVO-X2 attention-runtime implementation, deployment,
 measurement, verification, boundary, and reentry status is documented in
 [`docs/EVOX2_ATTENTION_RUNTIME_STATUS_2026-08-18.md`](docs/EVOX2_ATTENTION_RUNTIME_STATUS_2026-08-18.md).
+The specification-first graduation policy, executable two-pass flow, live
+EVO-X2 result, reproduction commands, and preserved boundaries for the first
+Cantor reflection loop are documented in
+[`docs/CANTOR_REFLECTION_LOOP_P0.md`](docs/CANTOR_REFLECTION_LOOP_P0.md).
 The separate post-checkpoint routing harness, immutable first-run evidence, and
 the discovered caller-subject grounding fault are documented in
 [`experiments/needle2_attention_calibration/README.md`](experiments/needle2_attention_calibration/README.md)
