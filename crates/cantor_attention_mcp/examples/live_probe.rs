@@ -1,6 +1,8 @@
 use std::env;
 
-use cantor_attention_mcp::{ATTENTION_FRAME_PROFILE, SERVER_INSTRUCTIONS, TOOL_NAME};
+use cantor_attention_mcp::{
+    ATTENTION_FRAME_PROFILE, FRAME_RESULT_PROFILE, SERVER_INSTRUCTIONS, TOOL_NAME,
+};
 use rmcp::{
     ServiceExt,
     model::CallToolRequestParams,
@@ -21,13 +23,18 @@ async fn run() -> Result<(), Box<dyn std::error::Error>> {
     let separator = arguments
         .iter()
         .position(|value| value == "--stimulus")
-        .ok_or("usage: live_probe <server-program> [server-args...] --stimulus <text>")?;
-    if separator == 0 || separator + 2 != arguments.len() {
-        return Err("usage: live_probe <server-program> [server-args...] --stimulus <text>".into());
+        .ok_or("usage: live_probe <server-program> [server-args...] --stimulus <text> [--response-mode full|frame]")?;
+    if separator == 0 || separator + 2 > arguments.len() {
+        return Err("usage: live_probe <server-program> [server-args...] --stimulus <text> [--response-mode full|frame]".into());
     }
     let program = &arguments[0];
     let server_arguments = &arguments[1..separator];
     let stimulus = &arguments[separator + 1];
+    let response_mode = match &arguments[separator + 2..] {
+        [] => None,
+        [flag, mode] if flag == "--response-mode" => Some(mode.as_str()),
+        _ => return Err("invalid live_probe response mode arguments".into()),
+    };
     let transport =
         TokioChildProcess::new(tokio::process::Command::new(program).configure(|command| {
             command.args(server_arguments);
@@ -43,15 +50,15 @@ async fn run() -> Result<(), Box<dyn std::error::Error>> {
     if tools.len() != 1 || tools[0].name != TOOL_NAME {
         return Err("server did not publish the exact route_attention surface".into());
     }
+    let mut tool_arguments = json!({ "stimulus": stimulus })
+        .as_object()
+        .ok_or("tool arguments must be an object")?
+        .clone();
+    if let Some(response_mode) = response_mode {
+        tool_arguments.insert("response_mode".to_owned(), json!(response_mode));
+    }
     let result = client
-        .call_tool(
-            CallToolRequestParams::new(TOOL_NAME).with_arguments(
-                json!({ "stimulus": stimulus })
-                    .as_object()
-                    .ok_or("tool arguments must be an object")?
-                    .clone(),
-            ),
-        )
+        .call_tool(CallToolRequestParams::new(TOOL_NAME).with_arguments(tool_arguments))
         .await?;
     let structured = result
         .structured_content
@@ -66,7 +73,26 @@ async fn run() -> Result<(), Box<dyn std::error::Error>> {
         {
             return Err("selected attention_frame profile differs".into());
         }
-        if frame.pointer("/sequence/0/procedure_id") != structured.pointer("/runtime/procedure_id")
+        if structured
+            .get("profile")
+            .and_then(serde_json::Value::as_str)
+            == Some(FRAME_RESULT_PROFILE)
+        {
+            if frame
+                .pointer("/sequence/2/basis")
+                .and_then(serde_json::Value::as_str)
+                != Some("verified_admission_account")
+                || !frame
+                    .pointer("/sequence/3/evidence_id")
+                    .is_some_and(serde_json::Value::is_string)
+                || !frame
+                    .pointer("/sequence/3/manifest_sha256")
+                    .is_some_and(serde_json::Value::is_string)
+            {
+                return Err("compact attention_frame omits its verified evidence reference".into());
+            }
+        } else if frame.pointer("/sequence/0/procedure_id")
+            != structured.pointer("/runtime/procedure_id")
             || frame.pointer("/sequence/3/evidence_id") != structured.pointer("/runtime/run_id")
             || frame.pointer("/sequence/3/manifest_sha256")
                 != structured.pointer("/verification/manifest_sha256")

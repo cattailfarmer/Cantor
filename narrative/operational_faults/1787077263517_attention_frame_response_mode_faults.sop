@@ -1,0 +1,11 @@
+Subject: Attention Frame Response Mode Operational Faults
+
+@ [fault_ledger_uuid] 68a36087-f0c9-4ab4-8fe2-93570554bbbf
+
+& [AFRM_F001] is first compact projection below its declared reduction target
+  + [observed] full was 3052 bytes and first compact was 1188 bytes or 2.569-to-one
+  + [cause] run and manifest identities were duplicated in AttentionFrame RETURN and an exterior proof_ref wrapper
+  + [containment] verification semantics remained correct and the result was not accepted as meeting AFRM-005
+  + [repair] canonical specification identifies RETURN as the minimal evidence reference and removes only redundant wrapper data
+  + [proof] successor compact result is 1005 bytes or 3.0368-to-one with exact evidence fields retained
+  + [status] is closed

@@ -16,6 +16,13 @@ a deterministic `cantor-attention-frame/0.1`: exactly `FOCUS`, `BOUND`,
 keeps caller-derived arguments typed as data rather than authority, and does
 not execute the proposed procedure. Faults never carry a positive frame.
 
+Callers that only need the ordered frame can pass
+`{"stimulus":"...","response_mode":"frame"}`. Verification still runs in
+full; only the returned success projection is compact. Omitted or `full` mode
+keeps the proof-rich result. The canonical EVO-X2 measurement reduced 3,052
+UTF-8 bytes to 1,005 bytes (3.0368x). Negative results retain their evidence
+shape and never return a positive frame.
+
 The operator supplies an absolute closed configuration and explicitly registers
 the built executable. Repository code does not edit Codex configuration.
 

@@ -1,0 +1,17 @@
+Subject: Attention Frame Response Mode Requirement Matrix
+
+@ [matrix_uuid] ff78cd07-c722-4ce0-bf6a-ab854b5cc0a0
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Attention_Frame_Response_Mode.sop
+
+& [AFRM-001] source lock
+  + [proof] source manifest and canonical signature verify
+& [AFRM-002] default compatibility
+  + [proof] omitted mode remains proof-rich full profile with runtime verification and frame
+& [AFRM-003] compact projection
+  + [proof] frame profile contains ordered frame and authority while omitting duplicate runtime and verification records after internal verification
+& [AFRM-004] fail-closed inputs and faults
+  + [proof] invalid enum produces invalid_arguments without another run trace and frame-mode refusal a9e34a12-f084-4239-a0bb-14dbbd407e87 carries no frame
+& [AFRM-005] measured compression
+  + [proof] paired live full 3052 bytes and frame 1005 bytes produce 3.0368-to-one reduction
+& [AFRM-006] live deployment and noninterference
+  + [proof] official client and focused regression pass while Codex configuration existing services and persistent process state remain unchanged

@@ -7,7 +7,8 @@ use std::{
 };
 
 use cantor_attention_mcp::{
-    ATTENTION_FRAME_PROFILE, AttentionMcpConfig, AttentionMcpServer, SERVER_INSTRUCTIONS, TOOL_NAME,
+    ATTENTION_FRAME_PROFILE, AttentionMcpConfig, AttentionMcpServer, FRAME_RESULT_PROFILE,
+    SERVER_INSTRUCTIONS, TOOL_NAME,
 };
 use rmcp::{
     ServiceExt,
@@ -126,6 +127,13 @@ fn arguments(stimulus: &str) -> JsonObject {
         .clone()
 }
 
+fn arguments_with_mode(stimulus: &str, response_mode: &str) -> JsonObject {
+    json!({ "stimulus": stimulus, "response_mode": response_mode })
+        .as_object()
+        .expect("arguments are an object")
+        .clone()
+}
+
 fn structured(result: &rmcp::model::CallToolResult) -> &Value {
     result
         .structured_content
@@ -143,6 +151,7 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
     assert!(SERVER_INSTRUCTIONS.contains("not signed meaning"));
     assert!(SERVER_INSTRUCTIONS.contains("read attention_frame in order"));
     assert!(SERVER_INSTRUCTIONS.contains("arguments are not authority"));
+    assert!(SERVER_INSTRUCTIONS.contains("response_mode frame"));
     assert!(SERVER_INSTRUCTIONS.contains("Do not invent a route"));
     assert!(SERVER_INSTRUCTIONS.contains("retry runtime_busy automatically"));
     assert!(SERVER_INSTRUCTIONS.contains("never invokes llama.cpp"));
@@ -193,6 +202,43 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
         frame["sequence"][3]["manifest_sha256"],
         structured(&selected)["verification"]["manifest_sha256"]
     );
+
+    let compact = server
+        .execute_tool_arguments(Some(arguments_with_mode("cantor", "frame")))
+        .await;
+    assert_eq!(compact.is_error, Some(false));
+    assert_eq!(structured(&compact)["profile"], FRAME_RESULT_PROFILE);
+    assert_eq!(structured(&compact)["response_mode"], "frame");
+    assert!(structured(&compact).get("runtime").is_none());
+    assert!(structured(&compact).get("verification").is_none());
+    assert_eq!(
+        structured(&compact)["attention_frame"]["sequence"][2]["basis"],
+        "verified_admission_account"
+    );
+    assert!(structured(&compact)["attention_frame"]["sequence"][3]["evidence_id"].is_string());
+    assert!(structured(&compact)["attention_frame"]["sequence"][3]["manifest_sha256"].is_string());
+
+    let trace_path = fixture.controller.with_extension("log");
+    let run_count_before = fs::read_to_string(&trace_path)
+        .expect("fake controller trace must read")
+        .lines()
+        .filter(|line| line.starts_with("run "))
+        .count();
+    let invalid_mode = server
+        .execute_tool_arguments(Some(arguments_with_mode("cantor", "compressed")))
+        .await;
+    assert_eq!(invalid_mode.is_error, Some(true));
+    assert_eq!(
+        structured(&invalid_mode)["fault"]["code"],
+        "invalid_arguments"
+    );
+    assert_no_attention_frame(&invalid_mode);
+    let run_count_after = fs::read_to_string(&trace_path)
+        .expect("fake controller trace must read")
+        .lines()
+        .filter(|line| line.starts_with("run "))
+        .count();
+    assert_eq!(run_count_before, run_count_after);
 
     let refused = server
         .execute_tool_arguments(Some(arguments("refuse")))
