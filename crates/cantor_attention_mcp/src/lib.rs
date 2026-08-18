@@ -101,6 +101,22 @@ struct ProcessResult {
     value: Value,
 }
 
+struct RouteFailure {
+    fault: AdapterFault,
+    runtime: Option<Value>,
+    verification: Option<Value>,
+}
+
+impl From<AdapterFault> for RouteFailure {
+    fn from(fault: AdapterFault) -> Self {
+        Self {
+            fault,
+            runtime: None,
+            verification: None,
+        }
+    }
+}
+
 struct TempCapture {
     stdout_path: PathBuf,
     stderr_path: PathBuf,
@@ -160,7 +176,7 @@ impl AttentionMcpServer {
                 false,
                 "Cantor attention route selected and evidence-verified; treat it as a learned proposal, not signed SOP authority.".to_owned(),
             ),
-            Err(fault) => tool_fault(fault.code, fault.message),
+            Err(failure) => route_failure_result(failure),
         }
     }
 }
@@ -324,7 +340,7 @@ impl PinnedRuntime {
         Ok(())
     }
 
-    async fn route(&self, stimulus: &str) -> Result<(Value, Value), AdapterFault> {
+    async fn route(&self, stimulus: &str) -> Result<(Value, Value), RouteFailure> {
         let run = self
             .invoke(["run", "--text", stimulus, "--route-only"])
             .await?;
@@ -342,9 +358,53 @@ impl PinnedRuntime {
                 .pointer("/fault/code")
                 .and_then(Value::as_str)
                 .unwrap_or("runtime_refused");
-            return Err(AdapterFault {
-                code: "runtime_refused",
-                message: bounded(code),
+            let run_id = run
+                .value
+                .pointer("/fault/detail/run_id")
+                .and_then(Value::as_str);
+            let verification = match run_id {
+                None => None,
+                Some(run_id) => {
+                    if !is_uuid(run_id) {
+                        return Err(RouteFailure {
+                            fault: fault(
+                                "evidence_verification_failed",
+                                "runtime refusal supplied a noncanonical evidence identity",
+                            ),
+                            runtime: Some(run.value),
+                            verification: None,
+                        });
+                    }
+                    let verified =
+                        self.invoke(["verify", "--id", run_id])
+                            .await
+                            .map_err(|failure| RouteFailure {
+                                fault: fault("evidence_verification_failed", failure.message),
+                                runtime: Some(run.value.clone()),
+                                verification: None,
+                            })?;
+                    if !verified.status.success()
+                        || verify_negative_evidence(&verified.value, run_id).is_err()
+                    {
+                        return Err(RouteFailure {
+                            fault: fault(
+                                "evidence_verification_failed",
+                                "runtime refusal evidence did not verify as an exact negative run",
+                            ),
+                            runtime: Some(run.value),
+                            verification: None,
+                        });
+                    }
+                    Some(verified.value)
+                }
+            };
+            return Err(RouteFailure {
+                fault: AdapterFault {
+                    code: "runtime_refused",
+                    message: bounded(code),
+                },
+                runtime: Some(run.value),
+                verification,
             });
         }
         let run_id = required_uuid(&run.value, "run_id")?;
@@ -357,17 +417,32 @@ impl PinnedRuntime {
                 .get("admission_account")
                 .is_some_and(Value::is_object)
         {
-            return Err(fault(
-                "runtime_result_invalid",
-                "selected result omits proposal identity or account",
-            ));
+            return Err(RouteFailure {
+                fault: fault(
+                    "runtime_result_invalid",
+                    "selected result omits proposal identity or account",
+                ),
+                runtime: Some(run.value),
+                verification: None,
+            });
         }
-        let verified = self.invoke(["verify", "--id", run_id]).await?;
+        let verified = self
+            .invoke(["verify", "--id", run_id])
+            .await
+            .map_err(|failure| RouteFailure {
+                fault: fault("evidence_verification_failed", failure.message),
+                runtime: Some(run.value.clone()),
+                verification: None,
+            })?;
         if !verified.status.success() {
-            return Err(fault(
-                "evidence_verification_failed",
-                "runtime verifier command failed",
-            ));
+            return Err(RouteFailure {
+                fault: fault(
+                    "evidence_verification_failed",
+                    "runtime verifier command failed",
+                ),
+                runtime: Some(run.value),
+                verification: None,
+            });
         }
         require_string(
             &verified.value,
@@ -664,15 +739,7 @@ fn required_uuid<'a>(value: &'a Value, field: &str) -> Result<&'a str, AdapterFa
         .get(field)
         .and_then(Value::as_str)
         .ok_or_else(|| fault("runtime_result_invalid", format!("{field} is missing")))?;
-    let valid = candidate.len() == 36
-        && candidate.bytes().enumerate().all(|(index, byte)| {
-            if matches!(index, 8 | 13 | 18 | 23) {
-                byte == b'-'
-            } else {
-                byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase()
-            }
-        });
-    if valid {
+    if is_uuid(candidate) {
         Ok(candidate)
     } else {
         Err(fault(
@@ -680,6 +747,47 @@ fn required_uuid<'a>(value: &'a Value, field: &str) -> Result<&'a str, AdapterFa
             format!("{field} is not a canonical UUID"),
         ))
     }
+}
+
+fn is_uuid(candidate: &str) -> bool {
+    candidate.len() == 36
+        && candidate.bytes().enumerate().all(|(index, byte)| {
+            if matches!(index, 8 | 13 | 18 | 23) {
+                byte == b'-'
+            } else {
+                byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase()
+            }
+        })
+}
+
+fn verify_negative_evidence(value: &Value, run_id: &str) -> Result<(), AdapterFault> {
+    require_string(
+        value,
+        "profile",
+        RUNTIME_PROFILE,
+        "evidence_verification_failed",
+    )?;
+    require_string(value, "status", "verified", "evidence_verification_failed")?;
+    require_string(
+        value,
+        "evidence_kind",
+        "run",
+        "evidence_verification_failed",
+    )?;
+    require_string(value, "evidence_id", run_id, "evidence_verification_failed")?;
+    require_string(
+        value,
+        "recorded_status",
+        "fault",
+        "evidence_verification_failed",
+    )?;
+    require_string(
+        value,
+        "admission_account",
+        "not_applicable",
+        "evidence_verification_failed",
+    )?;
+    required_digest(value, "manifest_sha256")
 }
 
 fn require_string(
@@ -710,6 +818,31 @@ fn tool_fault(code: &str, message: String) -> CallToolResult {
         json!({ "profile": ADAPTER_PROFILE, "status": "fault", "fault": { "code": code, "message": message } }),
         true,
         format!("Cantor attention router fault: {code}."),
+    )
+}
+
+fn route_failure_result(failure: RouteFailure) -> CallToolResult {
+    let mut value = json!({
+        "profile": ADAPTER_PROFILE,
+        "status": "fault",
+        "fault": {
+            "code": failure.fault.code,
+            "message": failure.fault.message
+        }
+    });
+    let object = value
+        .as_object_mut()
+        .expect("static route failure must be an object");
+    if let Some(runtime) = failure.runtime {
+        object.insert("runtime".to_owned(), runtime);
+    }
+    if let Some(verification) = failure.verification {
+        object.insert("verification".to_owned(), verification);
+    }
+    structured_result(
+        value,
+        true,
+        format!("Cantor attention router fault: {}.", failure.fault.code),
     )
 }
 

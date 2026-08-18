@@ -14,3 +14,9 @@ checks its own deployment manifest on every operation.
 The repository does not automatically add the server to Codex. Registration is
 an explicit operator action after reviewing the binary, config, and tool
 instructions.
+
+Selected routes and archived refusals are symmetric evidence surfaces. A
+selected route requires verified admission; an archived refusal requires the
+same run identity to verify with recorded status `fault` and admission
+`not_applicable`. Infrastructure faults without a run identity remain visibly
+unverified. Every refusal remains an MCP tool error.

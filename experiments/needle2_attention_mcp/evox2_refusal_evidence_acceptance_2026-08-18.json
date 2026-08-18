@@ -1,0 +1,46 @@
+{
+  "profile": "cantor-route-refusal-evidence-acceptance/0.1",
+  "captured_at": "2026-08-18T12:47:40.1476841-05:00",
+  "source_manifest_sha256": "f534c83f207688953e8df7ef009ed660d91e450e6d6c2aa5ce997cc2d53df361",
+  "specification_sha256": "1ba752a9ccb274840b0cdd8f561fa3c1f4832a65bcdb95aa535a4e0f5ab788e3",
+  "deployment": {
+    "binary_bytes": 2949120,
+    "binary_sha256": "0597d6258a70d70050576a0fad43661cfea302c1a80f3b0cc2fb455423db8d4f",
+    "manifest_sha256": "6f20808637856e3bc13e015cd5c663d21925108c8f29c919debd34a70db3a5de",
+    "root": "C:/AI/services/cantor-attention-mcp"
+  },
+  "negative": {
+    "stimulus": "Please identify the SOP subject named Weaver.",
+    "mcp_is_error": true,
+    "adapter_fault": "runtime_refused",
+    "runtime_fault": "needle_argument_ungrounded",
+    "needle_confidence": 0.8833,
+    "run_id": "5020794d-9968-4328-a459-09814795473e",
+    "recorded_status": "fault",
+    "admission_account": "not_applicable",
+    "evidence_manifest_sha256": "39304c63b57bc4252179c19d966757128787cdb22924e34dc44955f6454f41d5",
+    "verification": "verified"
+  },
+  "positive_regression": {
+    "stimulus": "What is Cantor?",
+    "mcp_is_error": false,
+    "status": "route_selected",
+    "run_id": "fc16af83-0dec-45c3-b101-8e01d0279bfe",
+    "procedure_id": "attention.resolve_sop_subject",
+    "needle_confidence": 0.8154,
+    "admission_account": "verified",
+    "evidence_manifest_sha256": "a9a9498f6fa8142f0984be779cf3a6fd350e7eaacfce3c80ba8d6509c12c39f9"
+  },
+  "verification": {
+    "focused_tests": 4,
+    "clippy_all_targets_deny_warnings": "passed",
+    "release_build": "passed",
+    "negative_fixture_branches": [
+      "verified_archived_refusal",
+      "unarchived_infrastructure_fault",
+      "wrong_negative_admission_status",
+      "selected_verifier_failure"
+    ]
+  },
+  "acceptance": "passed"
+}

@@ -163,6 +163,33 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
         .await;
     assert_eq!(refused.is_error, Some(true));
     assert_eq!(structured(&refused)["fault"]["code"], "runtime_refused");
+    assert_eq!(
+        structured(&refused)["runtime"]["fault"]["code"],
+        "needle_no_tool_call"
+    );
+    assert_eq!(
+        structured(&refused)["verification"]["recorded_status"],
+        "fault"
+    );
+    assert_eq!(
+        structured(&refused)["verification"]["admission_account"],
+        "not_applicable"
+    );
+
+    let no_evidence = server
+        .execute_tool_arguments(Some(arguments("noevidence")))
+        .await;
+    assert_eq!(no_evidence.is_error, Some(true));
+    assert!(structured(&no_evidence).get("verification").is_none());
+
+    let bad_negative = server
+        .execute_tool_arguments(Some(arguments("badnegative")))
+        .await;
+    assert_eq!(bad_negative.is_error, Some(true));
+    assert_eq!(
+        structured(&bad_negative)["fault"]["code"],
+        "evidence_verification_failed"
+    );
 
     let unverifiable = server
         .execute_tool_arguments(Some(arguments("badverify")))
@@ -273,6 +300,8 @@ CATALOGUE = "2222222222222222222222222222222222222222222222222222222222222222"
 DIGEST = "3333333333333333333333333333333333333333333333333333333333333333"
 RUN_ID = "12345678-1234-1234-1234-123456789abc"
 BAD_RUN_ID = "12345678-1234-1234-1234-123456789def"
+REFUSAL_RUN_ID = "12345678-1234-1234-1234-123456789fed"
+BAD_NEGATIVE_RUN_ID = "12345678-1234-1234-1234-123456789f00"
 
 args = sys.argv[1:]
 command = next(value for value in args if value in ("health", "run", "verify"))
@@ -292,11 +321,20 @@ elif command == "run":
     if stimulus == "malformed":
         print("not-json")
         raise SystemExit(0)
-    if stimulus == "refuse":
+    if stimulus in ("refuse", "noevidence", "badnegative"):
+        detail = {}
+        if stimulus == "refuse":
+            detail["run_id"] = REFUSAL_RUN_ID
+        elif stimulus == "badnegative":
+            detail["run_id"] = BAD_NEGATIVE_RUN_ID
         value = {
             "profile": PROFILE,
             "status": "fault",
-            "fault": {"code": "needle_no_tool_call", "message": "no route"},
+            "fault": {
+                "code": "needle_no_tool_call",
+                "message": "no route",
+                "detail": detail,
+            },
         }
         print(json.dumps(value, separators=(",", ":")))
         raise SystemExit(2)
@@ -312,13 +350,19 @@ elif command == "run":
     }
 else:
     requested_id = args[args.index("--id") + 1]
+    negative = requested_id in (REFUSAL_RUN_ID, BAD_NEGATIVE_RUN_ID)
     value = {
         "profile": PROFILE,
         "status": "verified",
         "evidence_kind": "run",
         "evidence_id": requested_id,
-        "recorded_status": "route_selected",
-        "admission_account": "legacy_absent" if requested_id == BAD_RUN_ID else "verified",
+        "recorded_status": "fault" if negative else "route_selected",
+        "admission_account": (
+            "not_applicable" if requested_id == REFUSAL_RUN_ID
+            else "verified" if requested_id == BAD_NEGATIVE_RUN_ID
+            else "legacy_absent" if requested_id == BAD_RUN_ID
+            else "verified"
+        ),
         "manifest_sha256": DIGEST,
     }
 print(json.dumps(value, separators=(",", ":")))

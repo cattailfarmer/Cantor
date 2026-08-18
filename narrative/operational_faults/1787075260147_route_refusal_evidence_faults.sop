@@ -1,0 +1,10 @@
+Subject: Route Refusal Evidence Operational Faults
+
+@ [fault_ledger_uuid] 7712bfae-87c5-4864-afc5-8d62ff1ffac5
+
+& [RRE_F001] is route result error-type migration mismatch
+  + [observed] first compile after introducing RouteFailure found two explicit selected-branch Err constructors still returned AdapterFault
+  + [impact] compile stopped before tests build or deployment
+  + [repair] preserve selected runtime context in explicit RouteFailure records and use From conversion for propagation-only faults
+  + [proof] tests clippy and release build pass
+  + [status] is closed

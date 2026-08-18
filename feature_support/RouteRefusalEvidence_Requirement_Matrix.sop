@@ -1,0 +1,17 @@
+Subject: Route Refusal Evidence Requirement Matrix
+
+@ [matrix_uuid] 58360f10-bd9e-4721-b2de-8f1d7797596c
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Route_Refusal_Evidence.sop
+
+& [RRE-001] source lock
+  + [proof] source manifest F534C83F207688953E8DF7EF009ED660D91E450E6D6C2AA5CE997CC2D53DF361 verifies
+& [RRE-002] bounded refusal projection
+  + [proof] fake and live runtime fault objects remain structured while existing runtime sanitization and output limits stay active
+& [RRE-003] verified archived refusal
+  + [proof] EVO-X2 run 5020794d-9968-4328-a459-09814795473e returns fault not_applicable and matching manifest with MCP isError true
+& [RRE-004] negative verification failure
+  + [proof] fake wrong admission status and selected-verifier mismatch both return evidence_verification_failed
+& [RRE-005] unarchived fault distinction
+  + [proof] fake refusal without run identity retains runtime fault and omits verification
+& [RRE-006] regression
+  + [proof] four tests clippy release build official MCP and live selected route fc16af83-0dec-45c3-b101-8e01d0279bfe pass
