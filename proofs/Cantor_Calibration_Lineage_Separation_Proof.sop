@@ -1,0 +1,26 @@
+Subject: Cantor Calibration Lineage Separation Proof
+
+@ [proof_uuid] 5162e344-eb19-443e-9d76-e050957656ad
+@ [solution] C:\Project\Cantor\solutions\Cantor_Calibration_Lineage_Separation_Solution.sop
+@ [evidence] C:\Project\Cantor\experiments\needle2_attention_calibration\evidence\b664a4d9-544d-48de-814a-00389fbad967
+
+& [IdentityProof] is CLS-001 through CLS-005
+  + source manifest is D5D06B1821756FA8939619CFDCA968D6F92D0971A4A8AD7669430277F882C403
+  + focused test admits distinct valid commits and retains exact corpus design identity
+  + malformed and corpus-mismatched identities remain fail closed
+  + EVO-X2 health exposes runtime and corpus identities separately
+
+& [EvidenceProof] is CLS-006
+  + new calibration b664a4d9-544d-48de-814a-00389fbad967 manifest is 3726f2d258ffd95e737353247f3d65b2d63b883f149f7359ba5e8347d864d074
+  + 00_corpus contains both exact commits and unchanged corpus digest
+  + predecessor 36d4aadf-6972-4d9f-8fae-14839d1e48d5 still verifies without migration
+
+& [RegressionProof] is CLS-007 through CLS-010
+  + twenty calibration and forty-three runtime tests pass locally and remotely
+  + calibration deployment e44a1c6cd26cd6afa4054afe0a398021822bc48a2f0f028be6daeb706d02bce9 is healthy
+  + corpus digest fc7fd4fac7a155898e023512be7d213b4316a2bc26709099e3d9e3254cefb3b4 and all dispositions remain exact
+  + shared services catalogue threshold model and effects remain unchanged
+
+& [AcceptanceProof] is CLS-001 through CLS-010
+  + [result] is ten passed
+  = conclusion: stable regression tests can now measure a newer Cantor runtime without falsely claiming they were authored against it

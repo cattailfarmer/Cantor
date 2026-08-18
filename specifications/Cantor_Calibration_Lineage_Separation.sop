@@ -1,0 +1,48 @@
+Subject: Cantor Calibration Lineage Separation
+
+Description: Exact independent lineage for the runtime checkpoint under measurement and the original design checkpoint of a reusable regression corpus.
+
+@ [specification_uuid] 882ddeb9-90f3-438d-863a-d7e5916bc922
+@ [profile] cantor-calibration-lineage/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_calibration_lineage_separation\Source_Document_Manifest.sop
+
+& [RuntimeCheckpoint] is checkpoint_commit
+  + exactly forty lowercase hexadecimal characters
+  + identifies reviewed runtime implementation under current measurement
+  + binds current expected runtime deployment manifest
+
+& [CorpusDesignCheckpoint] is corpus_design_commit
+  + exactly forty lowercase hexadecimal characters
+  + must equal corpus designed_against_commit
+  + identifies authorship context rather than runtime execution identity
+  + may differ from checkpoint_commit for honest regression reuse
+
+& [Evidence] records both identities
+  + health reports checkpoint_commit and corpus_design_commit
+  + new 00_corpus evidence reports checkpoint_commit and corpus_design_commit
+  + normalized embedded corpus retains its own designed_against_commit
+  + old evidence verification remains structural and byte-based without requiring the new field
+
+& [Configuration] remains closed
+  + corpus_design_commit is mandatory in config and example
+  + unknown fields remain invalid
+  + historic corpora are never rewritten to satisfy a new runtime checkpoint
+
+& [Acceptance] is measurable
+  + [CLS-001] source bytes and manifest verify
+  + [CLS-002] config accepts distinct valid runtime and corpus commits
+  + [CLS-003] corpus validation uses only corpus_design_commit
+  + [CLS-004] malformed or mismatched design identity fails closed
+  + [CLS-005] health exposes both identities and current runtime manifest
+  + [CLS-006] new evidence exposes both identities while old evidence still verifies
+  + [CLS-007] local and EVO-X2 calibration and runtime tests pass
+  + [CLS-008] calibration health passes with reused corpus and new runtime checkpoint
+  + [CLS-009] corpus bytes ID schemas expectations and prior evidence remain unchanged
+  + [CLS-010] catalogue threshold models effects and shared services remain unchanged
+
+& [Signature] is bounded implementation authority
+  + [satisfaction_protocol_uuid] is bc9994fe-3247-405b-8712-b54dc90e97a3
+  + [signature_uuid] is 44482dd1-4204-4e20-a3fc-d8f75602a719
+  + [source_manifest_sha256] is D5D06B1821756FA8939619CFDCA968D6F92D0971A4A8AD7669430277F882C403
+  + [authority_scope] is config schema validation evidence fields tests manifest refresh isolated calibration deployment health proof and closure
+  + [invalidation] is corpus relabel runtime identity ambiguity evidence rewrite threshold change or semantic execution

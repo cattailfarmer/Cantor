@@ -332,6 +332,7 @@ def load_config(path: Path) -> tuple[Path, dict[str, Any]]:
         {
             "profile",
             "checkpoint_commit",
+            "corpus_design_commit",
             "corpus",
             "contract_snapshot",
             "deployment_manifest",
@@ -347,6 +348,11 @@ def load_config(path: Path) -> tuple[Path, dict[str, Any]]:
     checkpoint_commit = value["checkpoint_commit"]
     if not isinstance(checkpoint_commit, str) or not re.fullmatch(r"[0-9a-f]{40}", checkpoint_commit):
         raise CalibrationFault("config_invalid", "checkpoint commit is invalid")
+    corpus_design_commit = value["corpus_design_commit"]
+    if not isinstance(corpus_design_commit, str) or not re.fullmatch(
+        r"[0-9a-f]{40}", corpus_design_commit
+    ):
+        raise CalibrationFault("config_invalid", "corpus design commit is invalid")
     for field in ("corpus", "contract_snapshot", "deployment_manifest", "evidence_directory"):
         resolve_contained(root, value[field], "config_invalid_path")
     digest = value["deployment_manifest_sha256"]
@@ -925,13 +931,14 @@ def calibration_health(
     snapshot = load_contract_snapshot(root, config)
     corpus_path = resolve_contained(root, config["corpus"], "config_invalid_path")
     corpus, corpus_sha256, _ = validate_corpus(
-        corpus_path, config["checkpoint_commit"], snapshot["schemas"]
+        corpus_path, config["corpus_design_commit"], snapshot["schemas"]
     )
     runtime = verify_runtime_health(config, runner)
     return {
         "profile": RESULT_PROFILE,
         "status": "healthy",
         "checkpoint_commit": config["checkpoint_commit"],
+        "corpus_design_commit": config["corpus_design_commit"],
         "deployment": deployment,
         "corpus_id": corpus["corpus_id"],
         "corpus_sha256": corpus_sha256,
@@ -950,7 +957,7 @@ def execute_calibration(
     snapshot = load_contract_snapshot(root, config)
     corpus_path = resolve_contained(root, config["corpus"], "config_invalid_path")
     corpus, corpus_sha256, raw_corpus = validate_corpus(
-        corpus_path, config["checkpoint_commit"], snapshot["schemas"]
+        corpus_path, config["corpus_design_commit"], snapshot["schemas"]
     )
     runtime_health = verify_runtime_health(config, runner)
     calibration_id = str(uuid.uuid4())
@@ -1006,6 +1013,7 @@ def execute_calibration(
         {
             **common,
             "checkpoint_commit": config["checkpoint_commit"],
+            "corpus_design_commit": config["corpus_design_commit"],
             "corpus_id": corpus["corpus_id"],
             "corpus_raw_sha256": corpus_sha256,
             "corpus_raw_bytes": len(raw_corpus),

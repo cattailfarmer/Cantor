@@ -1,0 +1,35 @@
+Subject: Calibration Lineage Separation Source
+
+Description: Preservation of an operational provenance gap exposed when an unchanged regression corpus must measure a new additive runtime checkpoint.
+
+& [SourceSnapshot] is immutable
+  + [source_snapshot_uuid] is d1fbca98-eef7-4884-97f2-b23ac5026ad7
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-08-18T12:02:10.5724507-05:00
+  + [baseline_commit] is 9980ff353c3792ff9de2bb0471155bab297c31e4
+  + [source_status] is preserved_observed_unprocessed
+
+& [ObservedGap] has two legitimate commit identities
+  + runtime checkpoint identifies the executable implementation being measured
+  + corpus design checkpoint identifies what implementation context informed test authorship
+  + current calibration configuration has only checkpoint_commit and requires corpus designed_against_commit to equal it
+  + additive runtime changes therefore force either a false corpus relabel or a duplicate corpus with unchanged test payloads
+
+& [CandidateCorrection] is non-authoritative until SJS
+  + add corpus_design_commit as an exact configuration identity
+  + retain checkpoint_commit for the runtime under test
+  + validate corpus designed_against_commit against corpus_design_commit rather than runtime checkpoint
+  + emit both identities in health and new evidence
+  + preserve verification compatibility for already archived evidence
+
+& [HonestyBoundary] distinguishes reuse from authorship
+  + a reused regression corpus remains authored against its original design checkpoint
+  + a runtime result never implies the corpus was newly authored for that runtime
+  + corpus raw bytes ID and digest remain unchanged
+  + this change does not make same-project evidence independent or held out
+
+& [CompatibilityIntent] is narrow
+  + active corpus procedures schemas and expected arguments remain unchanged
+  + runtime deployment identity updates independently
+  + old evidence remains byte-verifiable without migration
+  + no inference threshold catalogue model or effect changes

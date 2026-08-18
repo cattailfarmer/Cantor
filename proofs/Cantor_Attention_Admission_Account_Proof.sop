@@ -1,0 +1,37 @@
+Subject: Cantor Attention Admission Account Proof
+
+@ [proof_uuid] 037190d9-9c70-4dd6-914b-876a676f091d
+@ [solution] C:\Project\Cantor\solutions\Cantor_Attention_Admission_Account_Solution.sop
+@ [evidence] C:\Project\Cantor\experiments\needle2_attention_runtime\evidence\evox2_admission_account_acceptance_2026-08-18.json
+
+& [EvidenceIdentity] is D0BB4C6928AE00614EB6D6325FDF7659F8145B46275FBD472917ADE408759E17 over 4850 bytes
+
+& [SurfaceProof] is AAA-002 through AAA-004
+  + literal run 96446ceb-5304-47cf-8e91-7581787f01a9 has zero declared and subject undeclared
+  + delimited run 1dbc575b-3913-42b0-8e36-18b5b2c28b8c has subject and claim declared
+  + JSON run e000dd12-905e-4054-8e5d-95fef911ce78 has all three fields declared and zero undeclared
+  + all manifests and account files independently verify
+
+& [PrivacyDeterminismProof] is AAA-005 and AAA-006
+  + focused tests exclude a sentinel value and its per-value hash
+  + account contains only whole-stimulus digest identities field names gate states and empty effects
+  + repeated canonical facts return byte-identical account and digest
+  + route-only and full literal digest are exact
+
+& [EmissionProof] is AAA-007 and AAA-008
+  + three successful route manifests and full manifest contain 01_admission.json
+  + rejected run a3db1781-9904-4110-8c8d-3bb4217119e1 contains input selection result manifest and no admission file
+
+& [RegressionProof] is AAA-009
+  + forty-three runtime and twenty calibration tests pass locally and on EVO-X2
+  + evaluator b7bf9e53-5b2c-431f-9077-d013bfdb0034 passes twenty-five of twenty-five
+  + calibration b664a4d9-544d-48de-814a-00389fbad967 preserves thirteen exact seventeen positive refusals and six correct negatives
+  + full run 1ed011a4-1730-47a9-a60e-9030b1f2d767 verifies through Needle Cantor and llama.cpp
+
+& [NoninterferenceProof] is AAA-010
+  + runtime deployment is 1460ee7e3ed7d6b73652fc2e38501c297ba43f937bdc21b64379acac64ba9355
+  + catalogue contracts threshold effects eight SOP-agent hashes and llama PID 12780 command remain exact
+
+& [AcceptanceProof] is AAA-001 through AAA-010
+  + [result] is ten passed
+  = conclusion: a successful Cantor route now exports a deterministic value-private account of hardened attention admission without confusing that account with semantic authority

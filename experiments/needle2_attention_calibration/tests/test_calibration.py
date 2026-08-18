@@ -101,6 +101,7 @@ class CalibrationTests(unittest.TestCase):
         config = {
             "profile": cal.CONFIG_PROFILE,
             "checkpoint_commit": cal.CHECKPOINT_COMMIT,
+            "corpus_design_commit": cal.CHECKPOINT_COMMIT,
             "corpus": "held_out_cases.json",
             "contract_snapshot": "runtime_contract_snapshot.json",
             "deployment_manifest": "deployment_manifest.json",
@@ -143,7 +144,7 @@ class CalibrationTests(unittest.TestCase):
         config = json.loads((root / "config.json").read_text(encoding="utf-8"))
         snapshot = cal.load_contract_snapshot(root, config)
         corpus, _digest, _raw = cal.validate_corpus(
-            root / config["corpus"], config["checkpoint_commit"], snapshot["schemas"]
+            root / config["corpus"], config["corpus_design_commit"], snapshot["schemas"]
         )
         self.assertEqual(corpus["profile"], cal.CORPUS_PROFILE_V2)
         self.assertEqual(len(corpus["cases"]), 36)
@@ -151,6 +152,22 @@ class CalibrationTests(unittest.TestCase):
             {case["expected_arguments"]["subject"] for case in corpus["cases"] if case["expected_arguments"]},
             {"cantor"},
         )
+
+    def test_runtime_and_corpus_design_checkpoints_are_independent(self):
+        with tempfile.TemporaryDirectory() as folder:
+            config_path, config = self.make_environment(Path(folder))
+            config["checkpoint_commit"] = "a" * 40
+            config["corpus_design_commit"] = cal.CHECKPOINT_COMMIT
+            self.write_json(config_path, config)
+            _root, loaded = cal.load_config(config_path)
+            snapshot = cal.load_contract_snapshot(config_path.parent, loaded)
+            corpus, _digest, _raw = cal.validate_corpus(
+                config_path.parent / loaded["corpus"],
+                loaded["corpus_design_commit"],
+                snapshot["schemas"],
+            )
+            self.assertEqual("a" * 40, loaded["checkpoint_commit"])
+            self.assertEqual(cal.CHECKPOINT_COMMIT, corpus["designed_against_commit"])
 
     def test_schema_compiler_rejects_unsupported_expected_subject(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -410,6 +427,13 @@ class CalibrationTests(unittest.TestCase):
             verified = cal.verify_evidence(config_path, result["calibration_id"])
             self.assertEqual(verified["status"], "verified")
             evidence = root / "evidence" / result["calibration_id"]
+            corpus_record = json.loads(
+                (evidence / "00_corpus.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(cal.CHECKPOINT_COMMIT, corpus_record["checkpoint_commit"])
+            self.assertEqual(
+                cal.CHECKPOINT_COMMIT, corpus_record["corpus_design_commit"]
+            )
             (evidence / "extra.json").write_text("{}", encoding="utf-8")
             with self.assertRaises(cal.CalibrationFault) as caught:
                 cal.verify_evidence(config_path, result["calibration_id"])

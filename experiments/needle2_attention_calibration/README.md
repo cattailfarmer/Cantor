@@ -4,8 +4,8 @@ This directory measures frozen EVO-X2 attention-runtime checkpoints. It is an
 observation harness, not a training loop, trusted procedure catalogue, or
 production benchmark.
 
-The active profile is an explicitly adaptive regression against declared-field
-runtime commit `de4ffd1cef6e019ee7c9db28d78f93228d9c9bd2`. Its
+The active profile is an explicitly adaptive regression against admission-account
+runtime commit `9980ff353c3792ff9de2bb0471155bab297c31e4`. Its
 `runtime_contract_snapshot.json` is deployment-pinned and binds the exact
 catalogue digest and closed input schemas. The harness compiles every positive
 expected argument object through those schemas before sending any prompt. The
@@ -14,6 +14,13 @@ the same cases as `in_domain_cases.json`, but with its own identity and exact ne
 checkpoint lineage. It contains only the admitted subject `cantor` for positive
 cases and treats other-faculty requests as negative boundary controls. The prior
 corpus remains unchanged as calibration history.
+
+Configuration separates `checkpoint_commit`, the runtime currently under test,
+from `corpus_design_commit`, the implementation context in which the corpus was
+authored. The active corpus retains design commit
+`de4ffd1cef6e019ee7c9db28d78f93228d9c9bd2` while it is reused unchanged against
+the newer runtime. Health and new evidence report both identities; archived
+evidence remains byte-verifiable without migration.
 
 The completed successor run `36d4aadf-6972-4d9f-8fae-14839d1e48d5` records
 thirteen exact positive routes, seventeen safe positive refusals, and six of six
