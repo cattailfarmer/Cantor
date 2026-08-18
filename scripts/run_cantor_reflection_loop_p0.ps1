@@ -2,11 +2,11 @@
 param(
     [string]$SshHost = "evo-x2",
     [string]$RemoteRoot = "C:\AI\services\cantor-reflection-loop",
-    [string]$RemoteBinaryName = "cantor-reflection-loop-v10.exe",
-    [string]$ExpectedLoopSha256 = "51e247478cb1f80b574ce1a19ed6e1eed93b217af23bf8a2451349dfed7a076e",
+    [string]$RemoteBinaryName = "cantor-reflection-loop-v14.exe",
+    [string]$ExpectedLoopSha256 = "cbd31364c8308a13483969491101bc500d01f85db3d3e2addf2258f9ceb9c6ec",
     [string]$ExpectedMcpSha256 = "37860b031a97b58de08cb669cf6b09b3bbac3db12c3fba3f198674231255deef",
     [string]$ExpectedMcpConfigSha256 = "818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c",
-    [string]$LocalOutput = "experiments\cantor_reflection_loop_p0\script_acceptance_verified_v10.json"
+    [string]$LocalOutput = ""
 )
 
 Set-StrictMode -Version Latest
@@ -28,20 +28,30 @@ foreach ($digest in @($ExpectedLoopSha256, $ExpectedMcpSha256, $ExpectedMcpConfi
 }
 
 $workspaceRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
+$runIdentity = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+$defaultOutput = [string]::IsNullOrWhiteSpace($LocalOutput)
+if ($defaultOutput) {
+    $LocalOutput = ".local\cantor-reflection-loop\script_run_$runIdentity.json"
+}
 $outputPath = [IO.Path]::GetFullPath((Join-Path $workspaceRoot $LocalOutput))
 if (-not $outputPath.StartsWith($workspaceRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
     throw "LocalOutput must resolve beneath the Cantor workspace"
 }
 $outputParent = Split-Path -Parent $outputPath
 if (-not (Test-Path -LiteralPath $outputParent -PathType Container)) {
-    throw "LocalOutput parent does not exist"
+    if (-not $defaultOutput) {
+        throw "LocalOutput parent does not exist"
+    }
+    $null = New-Item -ItemType Directory -Path $outputParent -Force
+}
+if (Test-Path -LiteralPath $outputPath) {
+    throw "LocalOutput already exists; choose a new evidence path"
 }
 
 $remoteBinary = "$RemoteRoot\$RemoteBinaryName"
 $remoteProcessName = [IO.Path]::GetFileNameWithoutExtension($RemoteBinaryName)
 $remoteMcp = "C:\AI\services\cantor-attention-mcp\cantor-attention-mcp.exe"
 $remoteMcpConfig = "C:\AI\services\cantor-attention-mcp\config.json"
-$runIdentity = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
 $remoteOutput = "$RemoteRoot\script_run_$runIdentity.json"
 
 function Get-RemoteAudit {

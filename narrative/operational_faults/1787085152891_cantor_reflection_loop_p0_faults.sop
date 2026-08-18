@@ -42,3 +42,10 @@ Subject: Cantor Reflection Loop P0 Operational Faults
   + [repair] run the existing dependency-first metadata-only rehasher and verify all twenty-three current manifests
   + [proof] one thousand thirty references report zero stale and the full successor test run passes
   + [status] is closed
+
+& [CRLP_F007] is Windows PowerShell native stderr promotion in offline acceptance
+  + [observed] successful Cargo progress written to stderr became a terminating NativeCommandError under stop-on-error mode
+  + [containment] the first offline acceptance stopped before making a false pass claim and had no external effect
+  + [repair] locally relax stream promotion around each native child while retaining its captured exit code as authority then restore strict mode immediately
+  + [proof] successor offline acceptance completes all checks and emits passed JSON
+  + [status] is closed

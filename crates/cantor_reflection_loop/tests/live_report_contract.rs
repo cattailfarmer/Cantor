@@ -3,7 +3,7 @@ use serde_json::{Value, json};
 
 fn accepted_report() -> Value {
     serde_json::from_str(include_str!(
-        "../../../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v10.json"
+        "../../../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v14.json"
     ))
     .expect("preserved live report must be JSON")
 }
@@ -44,6 +44,40 @@ fn changed_intermediate_state_is_rejected() {
     let mut report = accepted_report();
     report["cases"][0]["events"][3]["state"] = json!("final_received");
     assert!(verify_report(&report).is_err());
+}
+
+#[test]
+fn changed_contract_or_non_loopback_provider_is_rejected() {
+    let mut contract = accepted_report();
+    contract["contract"] = json!("other.sop");
+    assert!(verify_report(&contract).is_err());
+
+    let mut provider = accepted_report();
+    provider["base_url"] = json!("https://example.com/v1");
+    assert!(verify_report(&provider).is_err());
+}
+
+#[test]
+fn reversed_time_or_case_reordering_is_rejected() {
+    let mut time = accepted_report();
+    time["finished_unix_ms"] = time["started_unix_ms"].clone();
+    time["started_unix_ms"] = json!(time["started_unix_ms"].as_u64().unwrap() + 1);
+    assert!(verify_report(&time).is_err());
+
+    let mut order = accepted_report();
+    order["cases"].as_array_mut().unwrap().swap(0, 1);
+    assert!(verify_report(&order).is_err());
+}
+
+#[test]
+fn duplicate_trace_identity_or_passed_fault_is_rejected() {
+    let mut duplicate = accepted_report();
+    duplicate["cases"][1]["trace_id"] = duplicate["cases"][0]["trace_id"].clone();
+    assert!(verify_report(&duplicate).is_err());
+
+    let mut fault = accepted_report();
+    fault["cases"][0]["fault"] = json!({"code": "invented"});
+    assert!(verify_report(&fault).is_err());
 }
 
 #[test]

@@ -18,3 +18,11 @@ Use `verify --report <path>` to replay deterministic acceptance over a preserved
 full report. Use `inspect --report <path>` to emit a compact, verified projection
 of the walked states, tool status, procedure, evidence reference, timing, and
 token counts. Neither command reruns model inference or upgrades authority.
+
+Use `contract` to print the machine-readable report and trace profiles, exact
+case set, pass and call limits, state paths, authority boundary, and excluded
+private fields without contacting llama.cpp or launching the MCP adapter.
+
+From the repository root,
+`scripts/test_cantor_reflection_loop_p0.ps1` runs the complete effect-free
+offline acceptance surface against the pinned current evidence.

@@ -4,7 +4,7 @@ use serde_json::{Value, json};
 
 const ACCEPTED_REPORT: &str = concat!(
     env!("CARGO_MANIFEST_DIR"),
-    "/../../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v10.json"
+    "/../../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v14.json"
 );
 
 fn binary() -> &'static str {
@@ -58,6 +58,27 @@ fn malformed_cli_is_configuration_exit_two() {
     assert_eq!(output.status.code(), Some(2));
     assert!(output.stdout.is_empty());
     assert!(String::from_utf8_lossy(&output.stderr).contains("configuration_fault"));
+}
+
+#[test]
+fn contract_is_machine_clean_and_effect_free() {
+    let output = Command::new(binary())
+        .arg("contract")
+        .output()
+        .expect("contract process");
+    assert!(output.status.success());
+    assert!(output.stderr.is_empty());
+    let contract: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(contract["profile"], "cantor-reflection-loop-contract/0.1");
+    assert_eq!(
+        contract["report_profile"],
+        "cantor-reflection-loop-report/0.2"
+    );
+    assert_eq!(contract["tool_name"], "route_attention");
+    assert_eq!(contract["model_selection"], "sole_advertised_model");
+    assert_eq!(contract["campaign"], "mandatory_positive_refusal_control");
+    assert_eq!(contract["cases"].as_array().unwrap().len(), 3);
+    assert_eq!(contract["max_tool_calls_per_routed_case"], 1);
 }
 
 fn temporary_path(label: &str) -> PathBuf {

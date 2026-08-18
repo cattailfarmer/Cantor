@@ -4,7 +4,8 @@ use std::{
     env,
     error::Error,
     fmt::{self, Display},
-    fs,
+    fs::{self, OpenOptions},
+    io::Write,
     path::{Path, PathBuf},
     process::ExitCode,
     time::{Duration, Instant, SystemTime, UNIX_EPOCH},
@@ -13,11 +14,11 @@ use std::{
 use cantor_attention_mcp::{SERVER_INSTRUCTIONS, TOOL_NAME};
 use cantor_reflection_loop::{
     CONTROL_CASE, CaseDefinition, CaseKind, FinalOutput, FlowEvent, FlowState, REPORT_PROFILE,
-    TRACE_PROFILE, admit_tool_result, control_request, extract_control_output,
+    TRACE_PROFILE, admit_tool_result, contract, control_request, extract_control_output,
     extract_final_output, extract_tool_call, first_request, inspect_report, reflection_request,
     routed_cases, sanitize, verify_report,
 };
-use reqwest::Client;
+use reqwest::{Client, Url};
 use rmcp::{
     ServiceExt,
     model::{CallToolRequestParams, JsonObject},
@@ -32,36 +33,23 @@ type AnyError = Box<dyn Error + Send + Sync>;
 #[derive(Debug)]
 struct Config {
     base_url: String,
-    model: Option<String>,
     mcp_program: PathBuf,
     mcp_config: PathBuf,
     output: PathBuf,
     timeout: Duration,
-    selection: CaseSelection,
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-enum CaseSelection {
-    All,
-    Positive,
-    Refusal,
-    Control,
 }
 
 impl Config {
     fn parse(raw_arguments: Vec<String>) -> Result<Self, AnyError> {
         let mut base_url = "http://127.0.0.1:8081/v1".to_owned();
-        let mut model = None;
         let mut mcp_program = None;
         let mut mcp_config = None;
         let mut output = PathBuf::from("cantor_reflection_loop_report.json");
         let mut timeout = Duration::from_secs(180);
-        let mut selection = CaseSelection::All;
         let mut arguments = raw_arguments.into_iter();
         while let Some(argument) = arguments.next() {
             match argument.as_str() {
                 "--base-url" => base_url = required(&mut arguments, "--base-url")?,
-                "--model" => model = Some(required(&mut arguments, "--model")?),
                 "--mcp-program" => {
                     mcp_program = Some(PathBuf::from(required(&mut arguments, "--mcp-program")?))
                 }
@@ -74,12 +62,11 @@ impl Config {
                     timeout = Duration::from_secs(value.parse()?);
                 }
                 "--case" => {
-                    selection = match required(&mut arguments, "--case")?.as_str() {
-                        "all" => CaseSelection::All,
-                        "positive" => CaseSelection::Positive,
-                        "refusal" => CaseSelection::Refusal,
-                        "control" => CaseSelection::Control,
-                        value => return Err(format!("unknown case selection: {value}").into()),
+                    let value = required(&mut arguments, "--case")?;
+                    if value != "all" {
+                        return Err(
+                            "P0 only permits the complete positive-refusal-control campaign".into(),
+                        );
                     }
                 }
                 "--help" | "-h" => {
@@ -94,16 +81,33 @@ impl Config {
         if timeout.is_zero() || timeout > Duration::from_secs(600) {
             return Err("timeout must be within 1..=600 seconds".into());
         }
+        if output.exists() {
+            return Err(format!("output already exists: {}", output.display()).into());
+        }
         Ok(Self {
-            base_url: base_url.trim_end_matches('/').to_owned(),
-            model,
+            base_url: validate_base_url(&base_url)?,
             mcp_program,
             mcp_config,
             output,
             timeout,
-            selection,
         })
     }
+}
+
+fn validate_base_url(candidate: &str) -> Result<String, AnyError> {
+    let parsed = Url::parse(candidate)?;
+    let loopback = matches!(parsed.host_str(), Some("127.0.0.1" | "localhost" | "::1"));
+    if parsed.scheme() != "http"
+        || !loopback
+        || !parsed.username().is_empty()
+        || parsed.password().is_some()
+        || parsed.query().is_some()
+        || parsed.fragment().is_some()
+        || parsed.path().trim_end_matches('/') != "/v1"
+    {
+        return Err("base URL must be an unauthenticated loopback HTTP /v1 root".into());
+    }
+    Ok(candidate.trim_end_matches('/').to_owned())
 }
 
 fn required(arguments: &mut impl Iterator<Item = String>, name: &str) -> Result<String, AnyError> {
@@ -122,14 +126,15 @@ fn print_help() {
            cantor-reflection-loop verify --report PATH\n\
          Compact inspection:\n\
            cantor-reflection-loop inspect --report PATH\n\
+         Machine-readable contract:\n\
+           cantor-reflection-loop contract\n\
          \n\
          Required:\n\
            --mcp-program PATH     cantor-attention-mcp executable\n\
            --mcp-config PATH      pinned adapter configuration\n\
          Options:\n\
            --base-url URL         llama.cpp OpenAI API root (default: http://127.0.0.1:8081/v1)\n\
-           --model ID             model id; omitted discovers the sole /models entry\n\
-           --case CASE            all|positive|refusal|control (default: all)\n\
+           --case all             accepted compatibility spelling; the complete campaign is mandatory\n\
            --output PATH          report JSON path\n\
            --timeout-seconds N    provider timeout within 1..=600 (default: 180)"
     );
@@ -268,6 +273,18 @@ async fn main() -> ExitCode {
     if arguments.first().map(String::as_str) == Some("inspect") {
         return inspect_command(&arguments[1..]);
     }
+    if arguments.first().map(String::as_str) == Some("contract") {
+        if arguments.len() != 1 {
+            eprintln!("configuration_fault: usage: cantor-reflection-loop contract");
+            return ExitCode::from(2);
+        }
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&contract())
+                .expect("ReflectionLoopContract always serializes")
+        );
+        return ExitCode::SUCCESS;
+    }
     let config = match Config::parse(arguments) {
         Ok(config) => config,
         Err(error) => {
@@ -364,49 +381,31 @@ async fn run(config: Config) -> Result<bool, AnyError> {
     let runner_sha256 = sha256_file(&runner)?;
     let client = Client::builder().timeout(config.timeout).build()?;
     health_check(&client, &config.base_url).await?;
-    let model = match config.model {
-        Some(model) => model,
-        None => discover_model(&client, &config.base_url).await?,
-    };
+    let model = discover_model(&client, &config.base_url).await?;
     let mut cases = Vec::new();
-    if matches!(
-        config.selection,
-        CaseSelection::All | CaseSelection::Positive
-    ) {
-        cases.push(
-            run_routed_case(
-                &client,
-                &config.base_url,
-                &model,
-                &mcp_program,
-                &mcp_config,
-                &routed_cases()[0],
-            )
-            .await,
-        );
-    }
-    if matches!(
-        config.selection,
-        CaseSelection::All | CaseSelection::Refusal
-    ) {
-        cases.push(
-            run_routed_case(
-                &client,
-                &config.base_url,
-                &model,
-                &mcp_program,
-                &mcp_config,
-                &routed_cases()[1],
-            )
-            .await,
-        );
-    }
-    if matches!(
-        config.selection,
-        CaseSelection::All | CaseSelection::Control
-    ) {
-        cases.push(run_control_case(&client, &config.base_url, &model).await);
-    }
+    cases.push(
+        run_routed_case(
+            &client,
+            &config.base_url,
+            &model,
+            &mcp_program,
+            &mcp_config,
+            &routed_cases()[0],
+        )
+        .await,
+    );
+    cases.push(
+        run_routed_case(
+            &client,
+            &config.base_url,
+            &model,
+            &mcp_program,
+            &mcp_config,
+            &routed_cases()[1],
+        )
+        .await,
+    );
+    cases.push(run_control_case(&client, &config.base_url, &model).await);
     let mcp_program_sha256_after = sha256_file(&mcp_program)?;
     let mcp_config_sha256_after = sha256_file(&mcp_config)?;
     let dependency_identity_stable = mcp_program_sha256 == mcp_program_sha256_after
@@ -437,13 +436,21 @@ async fn run(config: Config) -> Result<bool, AnyError> {
     {
         fs::create_dir_all(parent)?;
     }
-    fs::write(&config.output, serde_json::to_vec_pretty(&report)?)?;
+    write_json_new(&config.output, &report)?;
     println!(
         "{}: sanitized report written to {}",
         if passed { "PASS" } else { "FAIL" },
         config.output.display()
     );
     Ok(passed)
+}
+
+fn write_json_new(path: &Path, value: &impl Serialize) -> Result<(), AnyError> {
+    let mut file = OpenOptions::new().write(true).create_new(true).open(path)?;
+    serde_json::to_writer_pretty(&mut file, value)?;
+    file.write_all(b"\n")?;
+    file.sync_all()?;
+    Ok(())
 }
 
 async fn run_routed_case(
@@ -715,4 +722,69 @@ fn unix_time_ms() -> u128 {
 
 fn bounded(value: &str, maximum: usize) -> String {
     value.chars().take(maximum).collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    fn base_arguments(output: &Path) -> Vec<String> {
+        vec![
+            "--mcp-program".to_owned(),
+            "adapter.exe".to_owned(),
+            "--mcp-config".to_owned(),
+            "config.json".to_owned(),
+            "--output".to_owned(),
+            output.display().to_string(),
+        ]
+    }
+
+    fn unique_test_path(label: &str) -> PathBuf {
+        env::temp_dir().join(format!(
+            "cantor-reflection-loop-{label}-{}-{}",
+            std::process::id(),
+            unix_time_ms()
+        ))
+    }
+
+    #[test]
+    fn live_provider_is_restricted_to_loopback_http_v1() {
+        let output = unique_test_path("loopback-report.json");
+        let valid = Config::parse(base_arguments(&output)).unwrap();
+        assert_eq!(valid.base_url, "http://127.0.0.1:8081/v1");
+
+        let mut remote = base_arguments(&output);
+        remote.extend(["--base-url".to_owned(), "https://example.com/v1".to_owned()]);
+        assert!(Config::parse(remote).is_err());
+
+        let mut wrong_path = base_arguments(&output);
+        wrong_path.extend([
+            "--base-url".to_owned(),
+            "http://localhost:8081/api".to_owned(),
+        ]);
+        assert!(Config::parse(wrong_path).is_err());
+
+        let mut partial = base_arguments(&output);
+        partial.extend(["--case".to_owned(), "positive".to_owned()]);
+        assert!(Config::parse(partial).is_err());
+
+        let mut explicit_model = base_arguments(&output);
+        explicit_model.extend(["--model".to_owned(), "substitute".to_owned()]);
+        assert!(Config::parse(explicit_model).is_err());
+    }
+
+    #[test]
+    fn report_publication_is_create_new() {
+        let root = unique_test_path("create-new");
+        fs::create_dir(&root).unwrap();
+        let report = root.join("report.json");
+        write_json_new(&report, &json!({"status": "first"})).unwrap();
+        let first = fs::read(&report).unwrap();
+        assert!(write_json_new(&report, &json!({"status": "second"})).is_err());
+        assert_eq!(fs::read(&report).unwrap(), first);
+        assert!(Config::parse(base_arguments(&report)).is_err());
+        fs::remove_file(report).unwrap();
+        fs::remove_dir(root).unwrap();
+    }
 }

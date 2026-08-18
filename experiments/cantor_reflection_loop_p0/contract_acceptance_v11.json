@@ -1,0 +1,67 @@
+{
+  "profile": "cantor-reflection-loop-contract-acceptance/0.1",
+  "status": "passed",
+  "host": "EVO-X2",
+  "command": "C:\\AI\\services\\cantor-reflection-loop\\cantor-reflection-loop-v11.exe contract",
+  "exit_code": 0,
+  "runner_sha256": "d3b3c5543a9c74655f7aa1bfe4b3b28ef9e4faa9ca67a3d9a8bcce3baf4e15b1",
+  "contract": {
+    "profile": "cantor-reflection-loop-contract/0.1",
+    "report_profile": "cantor-reflection-loop-report/0.2",
+    "trace_profile": "cantor-reflection-loop-trace/0.1",
+    "authority": "experimental_evidence_not_signed_SOP_authority",
+    "tool_name": "route_attention",
+    "max_tool_calls_per_routed_case": 1,
+    "provider_passes_per_routed_case": 2,
+    "provider_passes_per_control_case": 1,
+    "cases": [
+      {
+        "case_id": "positive_cantor_route",
+        "kind": "positive",
+        "stimulus": "What is Cantor?",
+        "final_summary": "Cantor returned an evidence-backed learned route, and its attention frame was applied."
+      },
+      {
+        "case_id": "refusal_unsupported_weaver_route",
+        "kind": "refusal",
+        "stimulus": "Weaver",
+        "final_summary": "Cantor returned a verified refusal, and no attention frame was applied."
+      },
+      {
+        "case_id": "control_without_cantor",
+        "kind": "control",
+        "stimulus": "Return a short statement that this is the no-tool control case.",
+        "final_summary": "No Cantor tool was available or applied in this control."
+      }
+    ],
+    "routed_state_path": [
+      "created",
+      "first_inference_requested",
+      "tool_call_received",
+      "tool_call_validated",
+      "tool_result_received",
+      "reflection_requested",
+      "final_received",
+      "completed"
+    ],
+    "control_state_path": [
+      "created",
+      "first_inference_requested",
+      "final_received",
+      "control_completed"
+    ],
+    "excluded_private_fields": [
+      "reasoning",
+      "reasoning_content",
+      "thinking",
+      "thinking_content"
+    ]
+  },
+  "post_command_process_audit": {
+    "llama_pid": 12780,
+    "llama_start": "2026-08-15T15:51:49.8374239-05:00",
+    "cantor_attention_mcp_processes": 0,
+    "cantor_reflection_loop_v11_processes": 0
+  },
+  "conclusion": "The deployed binary exposes the exact bounded contract without a provider request, MCP launch, persistent process, or authority promotion."
+}

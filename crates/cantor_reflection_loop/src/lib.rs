@@ -2,6 +2,9 @@
 
 #![forbid(unsafe_code)]
 
+use std::collections::HashSet;
+
+use reqwest::Url;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value, json};
 
@@ -136,6 +139,83 @@ pub struct CaseInspection {
     pub elapsed_ms: u64,
     pub first_completion_tokens: Option<u64>,
     pub reflection_completion_tokens: Option<u64>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct ReflectionLoopContract {
+    pub profile: &'static str,
+    pub report_profile: &'static str,
+    pub trace_profile: &'static str,
+    pub authority: &'static str,
+    pub tool_name: &'static str,
+    pub model_selection: &'static str,
+    pub campaign: &'static str,
+    pub max_tool_calls_per_routed_case: usize,
+    pub provider_passes_per_routed_case: usize,
+    pub provider_passes_per_control_case: usize,
+    pub cases: Vec<ContractCase>,
+    pub routed_state_path: Vec<FlowState>,
+    pub control_state_path: Vec<FlowState>,
+    pub excluded_private_fields: Vec<&'static str>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct ContractCase {
+    pub case_id: &'static str,
+    pub kind: CaseKind,
+    pub stimulus: &'static str,
+    pub final_summary: &'static str,
+}
+
+pub fn contract() -> ReflectionLoopContract {
+    ReflectionLoopContract {
+        profile: "cantor-reflection-loop-contract/0.1",
+        report_profile: REPORT_PROFILE,
+        trace_profile: TRACE_PROFILE,
+        authority: "experimental_evidence_not_signed_SOP_authority",
+        tool_name: cantor_attention_mcp::TOOL_NAME,
+        model_selection: "sole_advertised_model",
+        campaign: "mandatory_positive_refusal_control",
+        max_tool_calls_per_routed_case: 1,
+        provider_passes_per_routed_case: 2,
+        provider_passes_per_control_case: 1,
+        cases: vec![
+            contract_case(&POSITIVE_CASE),
+            contract_case(&REFUSAL_CASE),
+            contract_case(&CONTROL_CASE),
+        ],
+        routed_state_path: vec![
+            FlowState::Created,
+            FlowState::FirstInferenceRequested,
+            FlowState::ToolCallReceived,
+            FlowState::ToolCallValidated,
+            FlowState::ToolResultReceived,
+            FlowState::ReflectionRequested,
+            FlowState::FinalReceived,
+            FlowState::Completed,
+        ],
+        control_state_path: vec![
+            FlowState::Created,
+            FlowState::FirstInferenceRequested,
+            FlowState::FinalReceived,
+            FlowState::ControlCompleted,
+        ],
+        excluded_private_fields: vec![
+            "reasoning",
+            "reasoning_content",
+            "thinking",
+            "thinking_content",
+        ],
+    }
+}
+
+fn contract_case(case: &CaseDefinition) -> ContractCase {
+    ContractCase {
+        case_id: case.case_id,
+        kind: case.kind,
+        stimulus: case.stimulus,
+        final_summary: expected_summary(case),
+    }
 }
 
 pub fn routed_cases() -> [CaseDefinition; 2] {
@@ -414,7 +494,24 @@ pub fn sanitize(value: &Value) -> Value {
 
 pub fn verify_report(report: &Value) -> Result<ReportVerification, String> {
     require_string(report, "/profile", REPORT_PROFILE)?;
+    require_string(
+        report,
+        "/contract",
+        "Cantor_Prototype_Graduation_And_Reflection_Loop_P0.sop",
+    )?;
     require_string(report, "/status", "passed")?;
+    verify_loopback_url(report)?;
+    let started = report
+        .get("started_unix_ms")
+        .and_then(Value::as_u64)
+        .ok_or("report omitted integer started_unix_ms")?;
+    let finished = report
+        .get("finished_unix_ms")
+        .and_then(Value::as_u64)
+        .ok_or("report omitted integer finished_unix_ms")?;
+    if finished < started || finished - started > 600_000 {
+        return Err("report timestamps are reversed or outside the P0 time bound".to_owned());
+    }
     if report
         .get("private_reasoning_recorded")
         .and_then(Value::as_bool)
@@ -479,9 +576,37 @@ pub fn verify_report(report: &Value) -> Result<ReportVerification, String> {
             cases.len()
         ));
     }
+    let observed_order = cases
+        .iter()
+        .filter_map(|case| case.get("case_id").and_then(Value::as_str))
+        .collect::<Vec<_>>();
+    if observed_order
+        != [
+            POSITIVE_CASE.case_id,
+            REFUSAL_CASE.case_id,
+            CONTROL_CASE.case_id,
+        ]
+    {
+        return Err("case order or identity changed".to_owned());
+    }
     let positive = unique_case(cases, POSITIVE_CASE.case_id)?;
     let refusal = unique_case(cases, REFUSAL_CASE.case_id)?;
     let control = unique_case(cases, CONTROL_CASE.case_id)?;
+    let mut trace_ids = HashSet::new();
+    for (case, definition) in [
+        (positive, &POSITIVE_CASE),
+        (refusal, &REFUSAL_CASE),
+        (control, &CONTROL_CASE),
+    ] {
+        verify_case_envelope(case, definition, finished - started)?;
+        let trace_id = case
+            .get("trace_id")
+            .and_then(Value::as_str)
+            .ok_or("case omitted trace_id")?;
+        if !trace_ids.insert(trace_id) {
+            return Err("case trace identities are not unique".to_owned());
+        }
+    }
     verify_event_order(
         positive,
         &[
@@ -535,6 +660,64 @@ pub fn verify_report(report: &Value) -> Result<ReportVerification, String> {
         private_reasoning_absent: true,
         evidence_links_verified: 2,
     })
+}
+
+fn verify_loopback_url(report: &Value) -> Result<(), String> {
+    let candidate = report
+        .get("base_url")
+        .and_then(Value::as_str)
+        .ok_or("report omitted base_url")?;
+    let parsed = Url::parse(candidate).map_err(|error| format!("invalid base_url: {error}"))?;
+    let loopback = matches!(parsed.host_str(), Some("127.0.0.1" | "localhost" | "::1"));
+    if parsed.scheme() != "http"
+        || !loopback
+        || !parsed.username().is_empty()
+        || parsed.password().is_some()
+        || parsed.query().is_some()
+        || parsed.fragment().is_some()
+        || parsed.path().trim_end_matches('/') != "/v1"
+    {
+        return Err("report base_url is outside the loopback HTTP /v1 boundary".to_owned());
+    }
+    Ok(())
+}
+
+fn verify_case_envelope(
+    case: &Value,
+    definition: &CaseDefinition,
+    report_elapsed_ms: u64,
+) -> Result<(), String> {
+    require_string(case, "/profile", TRACE_PROFILE)?;
+    require_string(case, "/case_id", definition.case_id)?;
+    if case.get("fault").is_none_or(|fault| !fault.is_null()) {
+        return Err(format!(
+            "passed case {} contains a fault",
+            definition.case_id
+        ));
+    }
+    let elapsed = case
+        .get("elapsed_ms")
+        .and_then(Value::as_u64)
+        .ok_or_else(|| format!("case {} omitted elapsed_ms", definition.case_id))?;
+    if elapsed == 0 || elapsed > report_elapsed_ms.saturating_add(1_000) {
+        return Err(format!(
+            "case {} elapsed time is outside the report envelope",
+            definition.case_id
+        ));
+    }
+    let trace_id = case
+        .get("trace_id")
+        .and_then(Value::as_str)
+        .ok_or_else(|| format!("case {} omitted trace_id", definition.case_id))?;
+    if !trace_id.strip_prefix("trace-").is_some_and(|suffix| {
+        !suffix.is_empty() && suffix.bytes().all(|byte| byte.is_ascii_digit())
+    }) {
+        return Err(format!(
+            "case {} has malformed trace_id",
+            definition.case_id
+        ));
+    }
+    Ok(())
 }
 
 pub fn inspect_report(report: &Value) -> Result<ReportInspection, String> {
@@ -1228,5 +1411,29 @@ mod tests {
             sanitize(&value),
             json!({"choices": [{"message": {"content": "kept"}}], "ordinary": {"kept": 1}})
         );
+    }
+
+    #[test]
+    fn contract_exposes_the_closed_p0_surface() {
+        let contract = contract();
+        assert_eq!(contract.report_profile, REPORT_PROFILE);
+        assert_eq!(contract.cases.len(), 3);
+        assert_eq!(contract.tool_name, cantor_attention_mcp::TOOL_NAME);
+        assert_eq!(contract.max_tool_calls_per_routed_case, 1);
+        assert_eq!(contract.provider_passes_per_routed_case, 2);
+        assert_eq!(
+            contract.routed_state_path,
+            [
+                FlowState::Created,
+                FlowState::FirstInferenceRequested,
+                FlowState::ToolCallReceived,
+                FlowState::ToolCallValidated,
+                FlowState::ToolResultReceived,
+                FlowState::ReflectionRequested,
+                FlowState::FinalReceived,
+                FlowState::Completed,
+            ]
+        );
+        assert_eq!(contract.cases[1].final_summary, REFUSAL_SUMMARY);
     }
 }
