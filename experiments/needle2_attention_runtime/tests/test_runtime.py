@@ -199,6 +199,163 @@ class RuntimeTests(unittest.TestCase):
         )
         self.assertEqual({"subject": "cantor", "claim": "Signed  Query"}, arguments)
 
+    def test_delimited_declarations_accept_bounded_separator_and_value_forms(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        identity = catalogue.by_tool_name["inspect_identity_boundary"]
+        parsed = runtime.parse_declared_arguments(
+            'Context only; SUBJECT = "Cantor"; claim: Signed query.', identity
+        )
+        self.assertEqual({"subject": "Cantor", "claim": "Signed query"}, parsed)
+        transition = catalogue.by_tool_name["review_attention_transition"]
+        parsed = runtime.parse_declared_arguments(
+            "subject: cantor\nbefore_frame='unsupported claim.'\nafter_frame: cited claim.",
+            transition,
+        )
+        self.assertEqual(
+            {
+                "subject": "cantor",
+                "before_frame": "unsupported claim.",
+                "after_frame": "cited claim",
+            },
+            parsed,
+        )
+
+    def test_unlabeled_text_retains_fallback_and_partial_declaration_binds_locally(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        identity = catalogue.by_tool_name["inspect_identity_boundary"]
+        self.assertIsNone(
+            runtime.parse_declared_arguments("Inspect subject: cantor", identity)
+        )
+        self.assertEqual(
+            {"subject": "cantor"},
+            runtime.parse_declared_arguments("subject: cantor; inspect signed query", identity),
+        )
+        response = {
+            "type": "call",
+            "success": True,
+            "error": None,
+            "confidence": 0.9,
+            "function_calls": [
+                {
+                    "name": "inspect_identity_boundary",
+                    "arguments": {"subject": "cantor", "claim": "signed query"},
+                }
+            ],
+        }
+        procedure, arguments, _ = runtime.select_procedure(
+            catalogue, response, 0.65, "Inspect subject: cantor for a signed query."
+        )
+        self.assertEqual("attention.inspect_identity_boundary", procedure["procedure_id"])
+        self.assertEqual("signed query", arguments["claim"])
+
+        mismatched = copy.deepcopy(response)
+        mismatched["function_calls"][0]["arguments"]["claim"] = "signed"
+        with self.assertRaises(runtime.RuntimeFault) as caught:
+            runtime.select_procedure(
+                catalogue,
+                mismatched,
+                0.65,
+                "Inspect cantor; claim: signed query; the word signed is present.",
+            )
+        self.assertEqual("needle_argument_binding_mismatch", caught.exception.code)
+        self.assertEqual(["claim"], caught.exception.detail)
+
+    def test_complete_declarations_require_all_field_equality_and_hide_values(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        response = {
+            "type": "call",
+            "success": True,
+            "error": None,
+            "confidence": 0.81,
+            "function_calls": [
+                {
+                    "name": "review_attention_transition",
+                    "arguments": {
+                        "subject": "cantor",
+                        "before_frame": "unsupported",
+                        "after_frame": "cited",
+                    },
+                }
+            ],
+        }
+        stimulus = (
+            "Attention transition review for cantor; before_frame: unsupported claim; "
+            "after_frame: cited claim."
+        )
+        with self.assertRaises(runtime.RuntimeFault) as caught:
+            runtime.select_procedure(catalogue, response, 0.65, stimulus)
+        self.assertEqual("needle_argument_binding_mismatch", caught.exception.code)
+        self.assertEqual(["after_frame", "before_frame"], caught.exception.detail)
+        serialized = str(caught.exception.as_dict())
+        self.assertNotIn("unsupported claim", serialized)
+        self.assertNotIn("cited claim", serialized)
+
+    def test_successful_exact_binding_preserves_selected_argument_bytes(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        response = {
+            "type": "call",
+            "success": True,
+            "error": None,
+            "confidence": 0.91,
+            "function_calls": [
+                {
+                    "name": "inspect_identity_boundary",
+                    "arguments": {"subject": "cantor", "claim": "Signed  Query"},
+                }
+            ],
+        }
+        _procedure, arguments, _ = runtime.select_procedure(
+            catalogue,
+            response,
+            0.65,
+            "subject: CANTOR; claim: Signed   Query.",
+        )
+        self.assertEqual({"subject": "cantor", "claim": "Signed  Query"}, arguments)
+
+    def test_duplicate_selected_declaration_fails_even_when_set_is_incomplete(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        identity = catalogue.by_tool_name["inspect_identity_boundary"]
+        with self.assertRaises(runtime.RuntimeFault) as caught:
+            runtime.parse_declared_arguments(
+                "subject: cantor; subject=weaver; no claim here", identity
+            )
+        self.assertEqual("needle_declaration_invalid", caught.exception.code)
+        self.assertEqual(["subject"], caught.exception.detail)
+
+    def test_json_declarations_accept_closed_exact_object_and_procedure_name(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        identity = catalogue.by_tool_name["inspect_identity_boundary"]
+        stimulus = json.dumps(
+            {
+                "procedure": "inspect_identity_boundary",
+                "subject": "cantor",
+                "claim": "signed query",
+            }
+        )
+        self.assertEqual(
+            {"subject": "cantor", "claim": "signed query"},
+            runtime.parse_declared_arguments(stimulus, identity),
+        )
+
+    def test_json_declarations_fail_closed_on_invalid_shapes(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        identity = catalogue.by_tool_name["inspect_identity_boundary"]
+        invalid = {
+            "duplicate": '{"subject":"cantor","subject":"weaver","claim":"x"}',
+            "unknown": '{"subject":"cantor","claim":"x","effect":"yes"}',
+            "incomplete": '{"subject":"cantor"}',
+            "non_string": '{"subject":"cantor","claim":7}',
+            "conflict": (
+                '{"procedure":"resolve_sop_subject","subject":"cantor","claim":"x"}'
+            ),
+            "malformed": '{"subject":"cantor","claim":"x"',
+        }
+        for label, stimulus in invalid.items():
+            with self.subTest(label=label):
+                with self.assertRaises(runtime.RuntimeFault) as caught:
+                    runtime.parse_declared_arguments(stimulus, identity)
+                self.assertEqual("needle_declaration_invalid", caught.exception.code)
+
     def test_argument_schema_is_closed(self):
         catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
         schema = catalogue.by_tool_name["resolve_sop_subject"]["input_schema"]

@@ -1,0 +1,43 @@
+Subject: Declared Field Exact Binding Source
+
+Description: Preservation of the adaptive calibration observation that literal caller grounding can admit a shortened phrase even when a structured attention-language field declared a longer exact value.
+
+& [SourceSnapshot] is immutable
+  + [source_snapshot_uuid] is 3ccef8b1-ac66-46e5-9f82-d0c856a50cb4
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-08-18T11:33:52.5040864-05:00
+  + [baseline_commit] is 84f043fb0bd3e62b1badbc1e7f1cdb5461c083a2
+  + [source_status] is preserved_observed_unprocessed
+
+& [ObservedCase] is byte-identified
+  @ [observations] C:\Project\Cantor\experiments\needle2_attention_calibration\evidence\e84ecd86-9b80-40c1-bbc6-2a46ab2d35ed\01_observations.json
+  + [observations_sha256] is c121ac025d61fa0cc6ec0b1323b7d935bb45f562f91adc7e53e1ea9a2d8a5ff4
+  + [case_id] is transition-cantor-explicit-citation
+  + [stimulus] is "Attention transition review for cantor; before_frame: unsupported claim; after_frame: cited claim."
+  + [expected_before_frame] is unsupported claim
+  + [observed_before_frame] is unsupported
+  + [expected_after_frame] is cited claim
+  + [observed_after_frame] is cited
+  + [procedure] is attention.review_attention_transition
+  + [needle_confidence] is 0.7989
+
+& [ExistingGateResult] is necessary but insufficient here
+  + unsupported and cited each occur as complete literal phrases inside the caller's longer declared values
+  + caller-stimulus grounding therefore proves provenance but not exact structured-field identity
+  + the calibration harness correctly records procedure_match_argument_mismatch rather than exact success
+
+& [CandidateCorrection] is non-authoritative until SJS
+  + recognize a deliberately narrow structured attention-language surface with required fields declared by colon equals or whole-document JSON
+  + activate exact binding only when all arguments required by the selected procedure are explicitly and unambiguously declared
+  + compare normalized declared values with normalized selected arguments without rewriting admitted bytes
+  + reject shortened changed duplicated empty or conflicting declarations before semantic execution
+  + retain literal grounding fallback when the complete required declaration set is absent
+
+& [Boundary] remains narrow
+  + declaration parsing is not general natural-language understanding
+  + a semicolon newline or JSON member provides structural separation
+  + unquoted terminal sentence punctuation is syntax and not value data in profile 0.1
+  + quoted or JSON values preserve internal punctuation
+  - never: infer missing declared fields
+  - never: accept duplicate required declarations
+  - never: lower confidence or bypass literal grounding

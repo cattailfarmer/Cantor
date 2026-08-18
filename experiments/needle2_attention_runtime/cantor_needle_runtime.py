@@ -298,6 +298,166 @@ def enforce_argument_grounding(stimulus: str, arguments: Mapping[str, str]) -> N
         )
 
 
+DECLARATION_FIELDS = frozenset({"subject", "claim", "before_frame", "after_frame"})
+DECLARATION_RECORD = re.compile(
+    r"^(subject|claim|before_frame|after_frame)\s*[:=]\s*(.*)$",
+    flags=re.IGNORECASE,
+)
+
+
+def _unique_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Build a JSON object while refusing duplicate member names."""
+    result: dict[str, Any] = {}
+    for name, value in pairs:
+        if name in result:
+            raise RuntimeFault(
+                "needle_declaration_invalid",
+                "structured caller declarations are invalid",
+                detail=["duplicate_key"],
+            )
+        result[name] = value
+    return result
+
+
+def _parse_declared_value(raw_value: str) -> str:
+    """Parse the bounded delimited value syntax without rewriting its content."""
+    value = raw_value.strip()
+    if not value:
+        raise RuntimeFault(
+            "needle_declaration_invalid",
+            "structured caller declarations are invalid",
+            detail=["empty_value"],
+        )
+    if value[0] in {"'", '"'} or value[-1] in {"'", '"'}:
+        if len(value) < 2 or value[0] != value[-1] or value[0] not in {"'", '"'}:
+            raise RuntimeFault(
+                "needle_declaration_invalid",
+                "structured caller declarations are invalid",
+                detail=["unmatched_quote"],
+            )
+        value = value[1:-1]
+    elif value.endswith("."):
+        value = value[:-1].rstrip()
+    if not value:
+        raise RuntimeFault(
+            "needle_declaration_invalid",
+            "structured caller declarations are invalid",
+            detail=["empty_value"],
+        )
+    return value
+
+
+def parse_declared_arguments(
+    stimulus: str,
+    procedure: Mapping[str, Any],
+) -> dict[str, str] | None:
+    """Return explicit declarations, or None for natural fallback.
+
+    JSON-looking input is an explicit closed structure and therefore fails closed
+    when malformed. Each delimited field activates exact binding independently;
+    arguments without a declaration remain governed by literal grounding.
+    """
+    required = tuple(procedure["input_schema"]["required"])
+    required_set = set(required)
+    if not required_set.issubset(DECLARATION_FIELDS):
+        raise RuntimeFault(
+            "needle_declaration_invalid",
+            "selected procedure uses unsupported declaration fields",
+            detail=["unsupported_schema"],
+        )
+
+    stripped = stimulus.strip()
+    if stripped.startswith("{"):
+        try:
+            parsed = json.loads(stripped, object_pairs_hook=_unique_json_object)
+        except RuntimeFault:
+            raise
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+            raise RuntimeFault(
+                "needle_declaration_invalid",
+                "structured caller declarations are invalid",
+                detail=["malformed_json"],
+            ) from exc
+        if not isinstance(parsed, dict):
+            raise RuntimeFault(
+                "needle_declaration_invalid",
+                "structured caller declarations are invalid",
+                detail=["non_object_json"],
+            )
+        allowed = required_set | {"procedure"}
+        if set(parsed) - allowed:
+            raise RuntimeFault(
+                "needle_declaration_invalid",
+                "structured caller declarations are invalid",
+                detail=["unknown_key"],
+            )
+        if set(parsed) - {"procedure"} != required_set:
+            raise RuntimeFault(
+                "needle_declaration_invalid",
+                "structured caller declarations are invalid",
+                detail=["incomplete_json"],
+            )
+        for name, value in parsed.items():
+            if not isinstance(value, str) or not value:
+                raise RuntimeFault(
+                    "needle_declaration_invalid",
+                    "structured caller declarations are invalid",
+                    detail=["non_string_or_empty_value"],
+                )
+        if "procedure" in parsed and parsed["procedure"] not in {
+            procedure["procedure_id"],
+            procedure["tool_name"],
+        }:
+            raise RuntimeFault(
+                "needle_declaration_invalid",
+                "structured caller declarations are invalid",
+                detail=["procedure_conflict"],
+            )
+        return {name: parsed[name] for name in required}
+
+    declarations: dict[str, str] = {}
+    for segment in re.split(r"[;\n]", stimulus):
+        match = DECLARATION_RECORD.match(segment.strip())
+        if match is None:
+            continue
+        name = match.group(1).casefold()
+        value = _parse_declared_value(match.group(2))
+        if name not in required_set:
+            continue
+        if name in declarations:
+            raise RuntimeFault(
+                "needle_declaration_invalid",
+                "structured caller declarations are invalid",
+                detail=[name],
+            )
+        declarations[name] = value
+    if not declarations:
+        return None
+    return {name: declarations[name] for name in required if name in declarations}
+
+
+def enforce_declared_argument_binding(
+    stimulus: str,
+    procedure: Mapping[str, Any],
+    arguments: Mapping[str, str],
+) -> None:
+    """Require learned values to equal every explicitly declared field."""
+    declared = parse_declared_arguments(stimulus, procedure)
+    if declared is None:
+        return
+    mismatched = sorted(
+        name
+        for name, value in declared.items()
+        if normalize_grounding_text(value) != normalize_grounding_text(arguments[name])
+    )
+    if mismatched:
+        raise RuntimeFault(
+            "needle_argument_binding_mismatch",
+            "selected procedure arguments differ from caller declarations",
+            detail=mismatched,
+        )
+
+
 @dataclass(frozen=True)
 class VerifiedCatalogue:
     procedures: tuple[dict[str, Any], ...]
@@ -677,6 +837,7 @@ def select_procedure(
         raise RuntimeFault("unknown_procedure", "Needle selected an unregistered procedure")
     arguments = validate_arguments(procedure["input_schema"], call.get("arguments"))
     enforce_argument_grounding(stimulus, arguments)
+    enforce_declared_argument_binding(stimulus, procedure, arguments)
     return procedure, arguments, sanitized
 
 

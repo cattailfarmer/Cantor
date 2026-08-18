@@ -1,0 +1,95 @@
+Subject: Cantor Declared Field Exact Binding
+
+Description: Bounded correction authority for an explicit attention-language parser that requires exact normalized equality for each unambiguous caller-declared field while preserving literal grounding for undeclared fields and ordinary language.
+
+@ [specification_uuid] fad93ccd-729e-452c-9fe2-18aa63c8f9d2
+@ [profile] cantor-declared-field-binding/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_declared_field_exact_binding\Source_Document_Manifest.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Caller_Stimulus_Argument_Grounding.sop
+
+& [BindingIdentity] distinguishes presence from declared identity
+  + literal grounding proves that a selected phrase occurs in caller text
+  + exact declared binding proves that a selected value equals one unambiguous structured field supplied by the caller
+  + exact binding activates independently for each unambiguous delimited field declared for the selected procedure
+  + undeclared arguments retain literal grounding without inferred declarations
+  - never: treat either check as truth authorization or external-effect permission
+
+& [DelimitedGrammar] is deliberately small
+  + records are separated by semicolon or newline
+  + a declaration record begins after whitespace with subject claim before_frame or after_frame
+  + the field name is followed by colon or equals and then one nonempty value
+  + an unquoted value loses surrounding whitespace and one terminal sentence period
+  + a value enclosed by matching single or double quotes loses only those outer quotes
+  + internal punctuation and whitespace remain value content before normalization
+  + non-declaration records may precede or follow declarations
+
+& [JSONGrammar] is whole-document and closed
+  + when trimmed stimulus begins with left brace and ends with right brace it must be unique-key UTF-8 JSON object
+  + admitted keys are the selected procedure's required argument names plus optional procedure
+  + every required field must be a nonempty string
+  + procedure when present must equal selected procedure ID or selected tool name
+  + malformed duplicate unknown conflicting or non-string JSON fails closed
+
+& [Activation] is deterministic
+  + collect declarations only for the selected procedure's required fields
+  + any duplicate selected field fails closed even when the set is incomplete
+  + zero declarations returns no exact-binding account and retains literal grounding
+  + every unique delimited declaration activates exact binding for that field whether or not other fields are declared
+  + whole-document JSON remains closed and requires the complete required field set
+  + no field may borrow another field's value
+
+& [Comparison] preserves selected bytes
+  + normalize declared and selected values with the existing NFKC casefold whitespace-collapse function
+  + require equality for every explicitly declared field
+  + mismatch rejects the selected call
+  + admitted arguments retain their original schema-valid bytes
+  + literal caller-stimulus grounding remains mandatory before exact declared binding
+
+& [Faults] are private and typed
+  + needle_declaration_invalid reports malformed ambiguous duplicate unknown or conflicting structured declarations
+  + needle_argument_binding_mismatch reports selected values that differ from explicit declarations
+  + inner cause contains sorted field names or one bounded structural label and no caller values
+  + public wrapping may add existing run identity and Needle confidence
+  + all faults occur before Cantor and llama.cpp
+
+& [Compatibility] is measured
+  + pinned structured identity and transition fixtures remain exact selections
+  + JSON-like key-value line-field and explicit-label corpus cases bind exactly when complete
+  + natural questions and incomplete declaration sets retain current literal behavior
+  + catalogue procedure hashes threshold and provider behavior remain unchanged
+
+& [Acceptance] is measurable
+  + [DFB-001] source and manifest bytes remain exact before implementation
+  + [DFB-002] delimited parser accepts colon equals semicolon newline quote and terminal-period forms
+  + [DFB-003] JSON parser accepts exact closed objects and optional matching procedure identity
+  + [DFB-004] duplicates unknown JSON keys malformed JSON empty values and conflicting procedure identities reject
+  + [DFB-005] incomplete delimited declarations bind only present fields and never invent missing fields
+  + [DFB-006] every declared field requires normalized equality with its selected argument
+  + [DFB-007] mismatch fault discloses field names only and occurs before semantic stages
+  + [DFB-008] original argument bytes remain unchanged after successful binding
+  + [DFB-009] all local and EVO-X2 runtime tests plus pinned evaluator pass
+  + [DFB-010] the observed citation contraction now rejects as needle_argument_binding_mismatch
+  + [DFB-011] canonical resolve identity transition and one full route remain successful
+  + [DFB-012] refreshed deployment and shared noninterference proof pass
+
+& [SJSProcessingTrace] records seven-fold convergence
+  + [fold_1_identity] separates phrase presence from exact declared-field identity
+  + [fold_2_language] defines two minimal machine-readable surface grammars
+  + [fold_3_honesty] prevents learned contraction from being attributed as the caller's full declaration
+  + [fold_4_security] fails closed on complete-set mismatch ambiguity and malformed structured JSON
+  + [fold_5_compatibility] preserves literal checks for undeclared fields selected bytes catalogue and threshold
+  + [fold_6_data] records declaration activation fields mismatch fault and immutable evidence
+  + [fold_7_phase_lock] excludes general parsing synonyms inference effects and schema expansion
+
+& [SJSContradictionResolution] corrects the non-authoritative candidate without rewriting source
+  + the preserved observed case declares before_frame and after_frame but does not declare subject with a field label
+  + complete-set-only activation would therefore leave the motivating contraction undetected
+  + per-declared-field equality is the smallest rule that satisfies the observed case and never infers a missing field
+  + complete-set closure remains mandatory for whole-document JSON because JSON presents itself as the entire structured request
+
+& [Signature] is bounded implementation authority
+  + [satisfaction_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 7cbe1f96-5462-4624-b5a3-13700768c03c
+  + [source_manifest_sha256] is B4EA1F9402C3755B0419847A2AFC9F99DE0B762EF97BE994832A39913A31635D
+  + [authority_scope] is minimal declared-field parsing exact binding focused tests manifest refresh isolated deployment targeted probes evidence and governed closure
+  + [invalidation] is natural-language inference as declaration schema expansion value disclosure post-semantic rejection threshold change or shared-service mutation

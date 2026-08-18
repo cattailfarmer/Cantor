@@ -34,6 +34,16 @@ argument must occur as a complete literal phrase with Unicode word boundaries.
 This check is independent of Needle confidence and Needle's self-reported
 grounding account. It establishes caller-text provenance, not truth or intent.
 
+When a semicolon/newline-delimited record explicitly starts with `subject:`,
+`claim:`, `before_frame:`, or `after_frame:`, the controller additionally binds
+that field by normalized equality. A learned shortening may be literally present
+yet still fails as `needle_argument_binding_mismatch` when it differs from the
+declared field. Undeclared fields remain under literal grounding; their roles are
+not inferred. A whole-document JSON request is stricter: it must be a closed,
+unique-key object containing every required string field and, optionally, a
+matching procedure ID or tool name. Declaration faults occur before Cantor and
+llama.cpp and disclose field names or bounded structural labels, not values.
+
 ## EVO-X2 layout
 
 The isolated deployment root is `C:\AI\services\cantor-needle-runtime`. It does
