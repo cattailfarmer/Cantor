@@ -5,7 +5,7 @@ observation harness, not a training loop, trusted procedure catalogue, or
 production benchmark.
 
 The active profile is an explicitly adaptive regression against admission-account
-runtime commit `9980ff353c3792ff9de2bb0471155bab297c31e4`. Its
+runtime commit `6bf0974a0a1530c452f1919f904e48e202fa7f74`. Its
 `runtime_contract_snapshot.json` is deployment-pinned and binds the exact
 catalogue digest and closed input schemas. The harness compiles every positive
 expected argument object through those schemas before sending any prompt. The

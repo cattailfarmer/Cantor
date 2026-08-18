@@ -1,0 +1,21 @@
+Subject: Admission Account Evidence Verification Requirement Matrix
+
+@ [matrix_uuid] 99f1d563-13ef-4d8e-a353-704c994b1c41
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Admission_Account_Evidence_Verification.sop
+
+& [AAEV-001] source and manifest verification
+  + [proof] source digest 0AA471DEDDDE480077F166A9719C5630860CE4F0D3B103521E814375A645F715 and manifest digest 6471B69A4678F6635D965C847F04739A27372DE764D81D45BD7CF2E7C2FEC84B are exact
+& [AAEV-002] current route and full account verification
+  + [proof] current route faf263d0-2267-4a65-8c09-58e02eae59f2 plus full run 1ed011a4-1730-47a9-a60e-9030b1f2d767 verify semantically
+& [AAEV-003] historic compatibility
+  + [proof] b4c8c019-d696-48ad-857f-201f94198668 verifies as legacy_absent while account-bearing profile 0.1 records receive complete verification
+& [AAEV-004] altered account rejection
+  + [proof] focused remanifested fixtures reject file result and digest mutations
+& [AAEV-005] relational inconsistency rejection
+  + [proof] focused tests reject input procedure catalogue field partition surface and gate inconsistencies
+& [AAEV-006] partial presence rejection
+  + [proof] current success without account and every partial account combination fail closed
+& [AAEV-007] negative compatibility
+  + [proof] a3db1781-9904-4110-8c8d-3bb4217119e1 verifies with admission not_applicable
+& [AAEV-008] regression and deployment
+  + [proof] forty-six runtime and twenty calibration tests pass locally and on EVO-X2; evaluator evidence remains valid

@@ -1,0 +1,31 @@
+Subject: Admission Account Evidence Verification Operational Faults
+
+@ [fault_ledger_uuid] 62fff719-db5e-42f7-8d26-888d328e7759
+
+& [AAEV_F001] is legacy current downgrade ambiguity
+  + [observed] admission accounts were added before result evidence carried a version discriminator
+  + [containment] no archived result or manifest was rewritten
+  + [repair] profile 0.2 requires complete accounts while profile 0.1 absence is explicitly legacy_absent and profile 0.1 presence receives full validation
+  + [proof] focused tests and four evidence generations verify each compatibility branch
+  + [status] is closed
+
+& [AAEV_F002] is calibration verification interpreter path mismatch
+  + [observed] first remote test command assumed a calibration-local virtual environment that does not exist
+  + [impact] command stopped before testing and changed no state beyond already completed governed file copy
+  + [repair] invoked the documented runtime-pinned Python path used by run.ps1
+  + [proof] remote health and all twenty calibration tests then passed
+  + [status] is closed
+
+& [AAEV_F003] is legacy evidence identity transcription error
+  + [observed] one manual verifier call used b4c8cbe2 instead of the real b4c8c019 prefix
+  + [containment] verifier returned typed evidence_missing and made no changes
+  + [repair] enumerated the governed evidence directory then verified exact identity b4c8c019-d696-48ad-857f-201f94198668
+  + [proof] exact record returns verified with admission_account legacy_absent
+  + [status] is closed
+
+& [AAEV_F004] is local virtual-environment assumption
+  + [observed] first local regression command assumed an experiment-local virtual environment absent from the repository
+  + [impact] PowerShell reported the missing executable and ran no tests
+  + [repair] invoked the available Python 3.12.10 interpreter directly as used by the repository test suite
+  + [proof] all forty-six runtime and twenty calibration tests passed locally
+  + [status] is closed

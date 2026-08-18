@@ -1,0 +1,94 @@
+{
+  "profile": "cantor-admission-evidence-verification-acceptance/0.1",
+  "captured_at": "2026-08-18T12:19:33.2723077-05:00",
+  "source": {
+    "source_sha256": "0aa471deddde480077f166a9719c5630860ce4f0d3b103521e814375a645f715",
+    "source_manifest_sha256": "6471b69a4678f6635d965c847f04739a27372de764d81d45bd7cf2e7c2fec84b",
+    "specification_sha256": "06237ed4e71eea5afdc26c37436969664ce79c4c0a438fa9aa272397156c399c"
+  },
+  "runtime": {
+    "checkpoint_commit": "6bf0974a0a1530c452f1919f904e48e202fa7f74",
+    "deployment_manifest_sha256": "fc58a6bdc9a3625c34168e56415aec5ee0b44686ff9e425e9aced0b2e67ead34",
+    "result_profile": "cantor-needle-runtime-result/0.2",
+    "catalogue_digest": "057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466",
+    "test_count_local": 46,
+    "test_count_evox2": 46,
+    "health": "passed"
+  },
+  "calibration": {
+    "runtime_checkpoint_commit": "6bf0974a0a1530c452f1919f904e48e202fa7f74",
+    "corpus_design_commit": "de4ffd1cef6e019ee7c9db28d78f93228d9c9bd2",
+    "deployment_manifest_sha256": "06be19c1b5ed0860ce34c407eef5a4030d78986ef17072d06e12a64f950815bd",
+    "corpus_id": "ef34fd48-e23f-4531-b7a8-a721cecd1038",
+    "corpus_sha256": "fc7fd4fac7a155898e023512be7d213b4316a2bc26709099e3d9e3254cefb3b4",
+    "test_count_local": 20,
+    "test_count_evox2": 20,
+    "health": "passed"
+  },
+  "verification_cases": [
+    {
+      "evidence_id": "faf263d0-2267-4a65-8c09-58e02eae59f2",
+      "kind": "current_route",
+      "recorded_status": "route_selected",
+      "admission_account": "verified",
+      "manifest_sha256": "5420f5c2af89ef8b10f6a00b805ec55aeb5637b6bcabc170df4788321e35305c"
+    },
+    {
+      "evidence_id": "96446ceb-5304-47cf-8e91-7581787f01a9",
+      "kind": "transitional_route_with_account",
+      "recorded_status": "route_selected",
+      "admission_account": "verified",
+      "manifest_sha256": "594a86969d0014356d9cf3c574c952c639a2958544b19cf6961e2c5bc95f5399"
+    },
+    {
+      "evidence_id": "1ed011a4-1730-47a9-a60e-9030b1f2d767",
+      "kind": "transitional_full_with_account",
+      "recorded_status": "success",
+      "admission_account": "verified",
+      "manifest_sha256": "73202f30d564e392679f10a17d1c5faf042c682b341311cbdf556b22d29740dc"
+    },
+    {
+      "evidence_id": "b4c8c019-d696-48ad-857f-201f94198668",
+      "kind": "legacy_success_without_account",
+      "recorded_status": "route_selected",
+      "admission_account": "legacy_absent",
+      "manifest_sha256": "6ee047bb00a155dc891b866e0cc8fcb66751b550eba37aacddf94bf4181287b0"
+    },
+    {
+      "evidence_id": "a3db1781-9904-4110-8c8d-3bb4217119e1",
+      "kind": "negative_fault",
+      "recorded_status": "fault",
+      "admission_account": "not_applicable",
+      "manifest_sha256": "af26c9105f839f8847a648c83e5fd7ac1e919f5ceeca469bf29f5484ab6f8443"
+    },
+    {
+      "evidence_id": "b7bf9e53-5b2c-431f-9077-d013bfdb0034",
+      "kind": "evaluation",
+      "recorded_status": "passed",
+      "admission_account": "not_applicable",
+      "manifest_sha256": "91056943010b0c83b8018519f84170a916dbab91d23908fc2ba73ad5a6572904"
+    }
+  ],
+  "adversarial_tests": {
+    "mutations": [
+      "account_file",
+      "result_account",
+      "result_digest",
+      "stimulus_digest",
+      "procedure_identity",
+      "catalogue_identity",
+      "field_partition",
+      "surface",
+      "gate_status",
+      "partial_presence"
+    ],
+    "result": "all_rejected"
+  },
+  "noninterference": {
+    "shared_sop_agent_sha256": "18ddea8f40cb3c4a75bb879379ea57ec85a60f6dd76fa75af9ca048117db4df8",
+    "llama_pid": 12780,
+    "llama_executable": "C:\\AI\\builds\\llama.cpp-vulkan\\bin\\llama-server.exe",
+    "result": "unchanged"
+  },
+  "acceptance": "passed"
+}
