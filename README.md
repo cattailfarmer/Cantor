@@ -85,8 +85,11 @@ baseline:
   proposals; and
 - the separate experimental `cantor-attention-mcp` executable exposes exactly
   one `route_attention` tool, returns a learned route only after independent
-  evidence-account verification, and leaves signed `query_sop` authority and
-  llama.cpp unchanged; and
+  evidence-account verification, can project verified routes as ordered
+  `FOCUS → BOUND → ADMIT → RETURN` frames at a measured 3.0368×–3.1770×
+  reduction across the current three procedures, preserves single-flight and
+  refusal boundaries in compact mode, and leaves signed `query_sop` authority
+  and llama.cpp unchanged; and
 - the Phase3A candidate-workspace gate now proves one operator-prepared,
   disposable linked Git worktree by exact executable, repository, branch,
   base, clean state, path policy, resource account, and deterministic receipt
