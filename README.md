@@ -120,6 +120,13 @@ The isolated Needle selector, pinned dependency boundary, procedure catalogue,
 EVO-X2 operator commands, evidence layout, and calibration residuals are
 documented in
 [`experiments/needle2_attention_runtime/README.md`](experiments/needle2_attention_runtime/README.md).
+The separate post-checkpoint routing harness, immutable first-run evidence, and
+the discovered caller-subject grounding fault are documented in
+[`experiments/needle2_attention_calibration/README.md`](experiments/needle2_attention_calibration/README.md)
+and
+[`narrative/research/EVOX2_Attention_Language_Calibration_2026-08-18.sop`](narrative/research/EVOX2_Attention_Language_Calibration_2026-08-18.sop).
+Its raw positive ratios are not a general accuracy claim because twenty-five
+expected subjects exceeded the frozen single-subject contract.
 
 Protocol digests prove binding and internal consistency, not authenticity
 against a hostile process that can replace both content and digest. The

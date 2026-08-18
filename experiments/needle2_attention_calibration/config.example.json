@@ -1,0 +1,21 @@
+{
+  "profile": "cantor-attention-calibration-config/0.1",
+  "corpus": "held_out_cases.json",
+  "deployment_manifest": "deployment_manifest.json",
+  "deployment_manifest_sha256": "replace-with-calibration-deployment-manifest-sha256",
+  "evidence_directory": "evidence",
+  "runtime": {
+    "root": "C:/AI/services/cantor-needle-runtime",
+    "python": ".venv/Scripts/python.exe",
+    "controller": "cantor_needle_runtime.py",
+    "config": "config.json",
+    "timeout_seconds": 45,
+    "expected_catalogue_digest": "replace-with-frozen-catalogue-sha256",
+    "expected_deployment_manifest_sha256": "replace-with-frozen-runtime-deployment-manifest-sha256",
+    "expected_procedures": [
+      "attention.resolve_sop_subject",
+      "attention.inspect_identity_boundary",
+      "attention.review_attention_transition"
+    ]
+  }
+}

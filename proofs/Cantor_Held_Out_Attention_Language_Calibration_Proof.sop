@@ -1,0 +1,70 @@
+Subject: Cantor Held-Out Attention Language Calibration Proof
+
+@ [proof_uuid] c9e61031-af8c-417e-8872-8c3ea9458d85
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Held_Out_Attention_Language_Calibration.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Held_Out_Attention_Language_Calibration_Solution.sop
+@ [evidence] C:\Project\Cantor\experiments\needle2_attention_calibration\evidence\1abe028b-ae9c-4446-8bd9-5b6712981f27
+
+& [SourceProof] is HACL-001
+  + [source_uuid] is ee4770a6-b7b1-4e73-8d7a-658cf9197ce4
+  + [source_sha256] is 4C50F6533A0187B7F8B283D5A93D0263A27AEA85A8F4A6865DEA50C6D026007B
+  + [source_bytes] is 2479
+  + [manifest_sha256] is C272BA8176F09D12E2A93C837DD2B89496A50ECA1D8FD534F4D11621FE2F4113
+  + [status] is passed
+
+& [DeploymentProof] is HACL-004 HACL-010 and HACL-011
+  + [calibration_manifest_sha256] is eb3960c2323ae5f32cf7a31de9bd5cd89daaa283d184284f6a155528f7090507 over six files
+  + [runtime_manifest_sha256] is 2af5e6363837f1820508f2f2d9340fa80064a3d9b04eb035bcffaf57828a02b4 over ten files before and after
+  + [catalogue_digest] is 057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466
+  + [focused_tests] are sixteen local and sixteen EVO-X2 passed
+  + [sop_agent] all eight previously recorded hashes remained exact after calibration
+  + [llama_server] PID 12780 and its loopback Qwen3.5-0.8B command remained exact
+  + [status] is passed
+
+& [CorpusProof] is HACL-002 and HACL-003 with a material review fault
+  + [corpus_id] is 38ad871d-6378-44f8-bbc2-37cb6cda8b7d
+  + [corpus_sha256] is 29fa4424779b883b91bb29276275e23fe4fc6c659d060f16cb84fd858356267c
+  + [cases] are thirty-six across four families and eighteen form labels
+  + [pre_execution_lock] passed before first stimulus
+  + [methodological_fault] twenty-five positive expected subjects violate the frozen input-schema enum cantor
+  + [status] is partial_and_not_valid_for_general_positive_accuracy
+
+& [ExecutionProof] is HACL-005 HACL-006 and HACL-007
+  + [calibration_id] is 1abe028b-ae9c-4446-8bd9-5b6712981f27
+  + [observations] are thirty-six of thirty-six in declared order with no infrastructure fault
+  + [selected_example] db672071-3e51-4957-8228-f547de4022de independently verifies with only input selection result and manifest files
+  + [refusal_example] 5cbf7060-7063-476a-93e4-41481cfbe114 independently verifies with only input selection result and manifest files
+  + [cantor_queries] are zero
+  + [llama_articulations] are zero
+  + [taxonomy] assigned exactly one closed disposition to every observation
+  + [status] is passed
+
+& [MetricProof] is HACL-008 with bounded interpretation
+  + [raw_exact] is 1 of 30 or 0.033333
+  + [raw_procedure] is 14 of 30 or 0.466667
+  + [negative_specificity] is 6 of 6 or 1.0
+  + [wrong_procedure] is zero
+  + [in_domain_positive] is one exact and four refusals among five subject-cantor cases
+  + [interpretation] raw positive ratios are archived classifier output but not a valid contract-domain accuracy estimate
+  + [status] is passed_as_descriptive_output_with_methodological_limit
+
+& [EvidenceProof] is HACL-009
+  + [manifest_sha256] is 01d28338b7affaba4bbee0f86ab8b429023a9a12c1f43f1cd12fbe4c6b389b7d
+  + [00_corpus_sha256] is bafdd81151cda45ab6a5f0c5db661b0997eda69db847778edd7807d4654d4e04
+  + [01_observations_sha256] is 6e3a78ba301de62ac00821e299a242863b3cd6e54719a5c7b28aaf3874c90e7f
+  + [02_report_sha256] is 3a3dda9581c0fd03f0a9c21a4bc346dc6ce69fd3b62a9e1eca5b164284c73095
+  + [remote_verification] is passed
+  + [local_verification_after_copy] is passed
+  + [status] is passed
+
+& [HonestClosureProof] is HACL-012
+  + [faults] unsupported corpus domains and deterministic caller-stimulus grounding gap are preserved separately
+  + [threshold] remains 0.65
+  + [evidence] remains unchanged rather than relabeled as a corrected benchmark
+  + [next] is a source-preserved host argument-grounding correction followed by a separately identified in-domain corpus
+  + [status] is passed
+
+& [AcceptanceProof] is bounded
+  + [passed] are HACL-001 and HACL-004 through HACL-012
+  + [partial] are HACL-002 and HACL-003
+  = conclusion: the measurement machinery and isolated run completed and proved a real safety-relevant grounding fault, but the first corpus cannot support a general positive-accuracy claim and requires a corrected successor

@@ -1,0 +1,56 @@
+Subject: EVO-X2 Attention Language Calibration Analysis 2026-08-18
+
+@ [analysis_uuid] 9b8a9588-432f-4b35-8b5d-c64b51f56b7f
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Held_Out_Attention_Language_Calibration.sop
+@ [evidence] C:\Project\Cantor\experiments\needle2_attention_calibration\evidence\1abe028b-ae9c-4446-8bd9-5b6712981f27
+
+& [FrozenObservation] is one non-adaptive route-only run
+  + [calibration_id] is 1abe028b-ae9c-4446-8bd9-5b6712981f27
+  + [corpus_id] is 38ad871d-6378-44f8-bbc2-37cb6cda8b7d
+  + [corpus_sha256] is 29fa4424779b883b91bb29276275e23fe4fc6c659d060f16cb84fd858356267c
+  + [checkpoint] is b0e27bbff1874e8637cbec619f79e360dac38f14
+  + [cases] are thirty-six observed of thirty-six planned
+  + [adaptive_edits] are zero between corpus lock and completion
+
+& [RawClassifierResult] preserves what the harness computed
+  + [positive_cases] are thirty
+  + [negative_cases] are six
+  + [exact_match] is one
+  + [procedure_match_argument_mismatch] is thirteen
+  + [positive_refusal] is sixteen
+  + [correct_negative_refusal] is six
+  + [wrong_procedure] is zero
+  + [unexpected_negative_call] is zero
+  + [infrastructure_fault] is zero
+  + [raw_exact_accuracy] is 1 of 30 or 0.033333
+  + [raw_procedure_accuracy] is 14 of 30 or 0.466667
+  + [negative_specificity] is 6 of 6 or 1.0
+
+& [MethodologicalFault] limits those aggregate positive metrics
+  + [frozen_schema] permits subject enum cantor for all three procedures
+  + [corpus_fault] twenty-five positive cases expected Weaver, Honesty, Security, Observer, Planner, Scribe, or Refiner even though profile 0.1 does not admit those subjects
+  + [supported_positive_cases] are only five cases whose expected subject is cantor
+  + [supported_positive_result] is one exact resolution and four fail-closed refusals
+  + [conclusion] the raw 1 of 30 exact score and 14 of 30 procedure score are archived measurements but are not valid general positive-accuracy estimates for the frozen contract domain
+
+& [RuntimeGroundingFault] is independently material
+  + [out_of_domain_admissions] thirteen of the twenty-five unsupported-subject cases selected the expected procedure above threshold
+  + [forced_argument] every admitted case carried subject cantor because the registered schema enum allowed only cantor
+  + [stimulus_conflict] those thirteen stimuli named another faculty and did not name Cantor as their requested subject
+  + [host_gap] select_procedure validates the schema and trusts Needle's optional grounding account but does not deterministically require extracted identity-bearing strings to occur in the caller stimulus
+  + [containment] route-only mode stopped before Cantor query and llama.cpp articulation, so no wrong-subject semantic answer was produced in this calibration
+  + [risk] the same selection in a full run could resolve Cantor while the caller requested a different subject
+
+& [ReliableFindings] survive the methodology fault
+  + all six negative controls refused without an admitted procedure
+  + no prompt selected a different procedure than the intended positive family
+  + explicit, key-value, JSON-like, and line-field forms commonly selected identity and transition procedures above the 0.65 gate
+  + selected argument confidence was high while subject identity was wrong, proving confidence cannot substitute for deterministic grounding
+  + all thirty-six route records were published and the aggregate evidence independently reverified
+
+& [RequiredCorrection] is source-first
+  + add a host-side caller-stimulus grounding predicate after typed schema validation and before procedure admission
+  + reject any identity-bearing or caller-attributed string argument absent from normalized caller stimulus
+  + bind future calibration expectations to the frozen procedure input schemas before first execution
+  + use only subject cantor in a corrected profile 0.1 in-domain corpus
+  + preserve this corpus and evidence unchanged as evaluation history

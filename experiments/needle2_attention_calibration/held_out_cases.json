@@ -1,0 +1,295 @@
+{
+  "profile": "cantor-attention-language-corpus/0.1",
+  "corpus_id": "38ad871d-6378-44f8-bbc2-37cb6cda8b7d",
+  "designed_against_commit": "b0e27bbff1874e8637cbec619f79e360dac38f14",
+  "cases": [
+    {
+      "case_id": "resolve-natural-identify-weaver",
+      "family": "resolve_subject",
+      "form": "natural_imperative",
+      "stimulus": "Please identify the SOP subject named Weaver.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "weaver"}
+    },
+    {
+      "case_id": "resolve-source-question-honesty",
+      "family": "resolve_subject",
+      "form": "source_question",
+      "stimulus": "Where is the governed definition for Honesty?",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "honesty"}
+    },
+    {
+      "case_id": "resolve-natural-planner",
+      "family": "resolve_subject",
+      "form": "natural_imperative",
+      "stimulus": "Resolve Planner as an SOP subject and return its applicable descriptions.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "planner"}
+    },
+    {
+      "case_id": "resolve-explicit-observer",
+      "family": "resolve_subject",
+      "form": "explicit_label",
+      "stimulus": "SOP subject lookup; subject: Observer.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "observer"}
+    },
+    {
+      "case_id": "resolve-key-value-scribe",
+      "family": "resolve_subject",
+      "form": "key_value",
+      "stimulus": "resolve_sop_subject: subject=scribe",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "scribe"}
+    },
+    {
+      "case_id": "resolve-json-security",
+      "family": "resolve_subject",
+      "form": "json_like",
+      "stimulus": "{\"procedure\":\"attention.resolve_sop_subject\",\"subject\":\"security\"}",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "security"}
+    },
+    {
+      "case_id": "resolve-line-fields-refiner",
+      "family": "resolve_subject",
+      "form": "line_fields",
+      "stimulus": "Attention procedure: resolve SOP subject\nsubject: refiner",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "refiner"}
+    },
+    {
+      "case_id": "resolve-noisy-cantor",
+      "family": "resolve_subject",
+      "form": "context_wrapped",
+      "stimulus": "Before forming an answer, locate the exact descriptions and constraints governing the SOP subject Cantor.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-quoted-honesty",
+      "family": "resolve_subject",
+      "form": "quoted_subject",
+      "stimulus": "Look up the semantic anchor for the subject \"Honesty\" in the SOP record.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "honesty"}
+    },
+    {
+      "case_id": "resolve-constraints-security",
+      "family": "resolve_subject",
+      "form": "constraint_question",
+      "stimulus": "Which source support and constraints govern Security?",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "security"}
+    },
+    {
+      "case_id": "identity-natural-cantor",
+      "family": "inspect_identity",
+      "form": "natural_question",
+      "stimulus": "For Cantor, inspect whether the claim \"unsigned oracle\" changes its identity boundary.",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "unsigned oracle"}
+    },
+    {
+      "case_id": "identity-imperative-security",
+      "family": "inspect_identity",
+      "form": "natural_imperative",
+      "stimulus": "Inspect the identity boundary of Security against the claim \"permission is optional\".",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "security", "claim": "permission is optional"}
+    },
+    {
+      "case_id": "identity-explicit-honesty",
+      "family": "inspect_identity",
+      "form": "explicit_label",
+      "stimulus": "Identity boundary review; subject: honesty; claim: convenient fabrication.",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "honesty", "claim": "convenient fabrication"}
+    },
+    {
+      "case_id": "identity-key-value-observer",
+      "family": "inspect_identity",
+      "form": "key_value",
+      "stimulus": "inspect_identity_boundary: subject=observer; claim=unverified coordinator",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "observer", "claim": "unverified coordinator"}
+    },
+    {
+      "case_id": "identity-json-planner",
+      "family": "inspect_identity",
+      "form": "json_like",
+      "stimulus": "{\"procedure\":\"attention.inspect_identity_boundary\",\"subject\":\"planner\",\"claim\":\"may skip dependencies\"}",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "planner", "claim": "may skip dependencies"}
+    },
+    {
+      "case_id": "identity-line-fields-scribe",
+      "family": "inspect_identity",
+      "form": "line_fields",
+      "stimulus": "procedure: inspect identity boundary\nsubject: scribe\nclaim: attribution may be discarded",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "scribe", "claim": "attribution may be discarded"}
+    },
+    {
+      "case_id": "identity-context-refiner",
+      "family": "inspect_identity",
+      "form": "context_wrapped",
+      "stimulus": "While reviewing a proposed change, test Refiner's boundary using this claim: rough output is final output.",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "refiner", "claim": "rough output is final output"}
+    },
+    {
+      "case_id": "identity-quoted-weaver",
+      "family": "inspect_identity",
+      "form": "quoted_claim",
+      "stimulus": "Does \"combine unrelated purposes without a contract\" violate the identity boundary of Weaver?",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "weaver", "claim": "combine unrelated purposes without a contract"}
+    },
+    {
+      "case_id": "identity-terse-cantor",
+      "family": "inspect_identity",
+      "form": "terse_directive",
+      "stimulus": "Boundary check Cantor: learned confidence is authorization.",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "learned confidence is authorization"}
+    },
+    {
+      "case_id": "identity-contract-security",
+      "family": "inspect_identity",
+      "form": "contract_style",
+      "stimulus": "INSPECT subject security AGAINST claim unchecked input is trusted",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "security", "claim": "unchecked input is trusted"}
+    },
+    {
+      "case_id": "transition-natural-cantor",
+      "family": "review_transition",
+      "form": "natural_question",
+      "stimulus": "For Cantor, compare the attention state before \"hash verified\" with the state after \"learned output trusted\".",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "hash verified", "after_frame": "learned output trusted"}
+    },
+    {
+      "case_id": "transition-imperative-observer",
+      "family": "review_transition",
+      "form": "natural_imperative",
+      "stimulus": "Review Observer's attention transition from \"faculties unloaded\" to \"faculties coordinated\".",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "observer", "before_frame": "faculties unloaded", "after_frame": "faculties coordinated"}
+    },
+    {
+      "case_id": "transition-explicit-honesty",
+      "family": "review_transition",
+      "form": "explicit_label",
+      "stimulus": "Attention transition review for honesty; before_frame: unsupported claim; after_frame: cited claim.",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "honesty", "before_frame": "unsupported claim", "after_frame": "cited claim"}
+    },
+    {
+      "case_id": "transition-key-value-security",
+      "family": "review_transition",
+      "form": "key_value",
+      "stimulus": "review_attention_transition: subject=security; before_frame=untrusted input; after_frame=validated input",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "security", "before_frame": "untrusted input", "after_frame": "validated input"}
+    },
+    {
+      "case_id": "transition-json-planner",
+      "family": "review_transition",
+      "form": "json_like",
+      "stimulus": "{\"procedure\":\"attention.review_attention_transition\",\"subject\":\"planner\",\"before_frame\":\"unordered tasks\",\"after_frame\":\"dependency order\"}",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "planner", "before_frame": "unordered tasks", "after_frame": "dependency order"}
+    },
+    {
+      "case_id": "transition-line-fields-scribe",
+      "family": "review_transition",
+      "form": "line_fields",
+      "stimulus": "procedure: review attention transition\nsubject: scribe\nbefore_frame: unattributed note\nafter_frame: attributed record",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "scribe", "before_frame": "unattributed note", "after_frame": "attributed record"}
+    },
+    {
+      "case_id": "transition-context-refiner",
+      "family": "review_transition",
+      "form": "context_wrapped",
+      "stimulus": "In the current revision, show what changes for Refiner when the frame moves from \"draft ambiguity\" to \"bounded language\".",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "refiner", "before_frame": "draft ambiguity", "after_frame": "bounded language"}
+    },
+    {
+      "case_id": "transition-arrow-weaver",
+      "family": "review_transition",
+      "form": "arrow_notation",
+      "stimulus": "Weaver attention transition: isolated clauses -> reconciled contract.",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "weaver", "before_frame": "isolated clauses", "after_frame": "reconciled contract"}
+    },
+    {
+      "case_id": "transition-terse-cantor",
+      "family": "review_transition",
+      "form": "terse_directive",
+      "stimulus": "Cantor frame delta; before unsigned source; after signed source.",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "unsigned source", "after_frame": "signed source"}
+    },
+    {
+      "case_id": "transition-contract-observer",
+      "family": "review_transition",
+      "form": "contract_style",
+      "stimulus": "REVIEW subject observer FROM unconfirmed identity TO honesty security confirmed",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "observer", "before_frame": "unconfirmed identity", "after_frame": "honesty security confirmed"}
+    },
+    {
+      "case_id": "negative-weather",
+      "family": "negative",
+      "form": "unrelated_question",
+      "stimulus": "Will it rain in Chicago on Friday?",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-arithmetic",
+      "family": "negative",
+      "form": "unrelated_question",
+      "stimulus": "What is 47 multiplied by 19?",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-effectful-delete",
+      "family": "negative",
+      "form": "effect_request",
+      "stimulus": "Delete every temporary file on this computer.",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-incomplete-identity",
+      "family": "negative",
+      "form": "incomplete_procedure",
+      "stimulus": "Inspect the identity boundary.",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-incomplete-transition",
+      "family": "negative",
+      "form": "incomplete_procedure",
+      "stimulus": "Compare the before frame with the after frame.",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-generic-truth",
+      "family": "negative",
+      "form": "underspecified_question",
+      "stimulus": "Is this statement true?",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    }
+  ]
+}

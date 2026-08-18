@@ -1,0 +1,123 @@
+Subject: Cantor Held-Out Attention Language Calibration
+
+Description: Bounded implementation authority for a non-adaptive, observation-only harness that measures how the frozen EVO-X2 Needle 2 checkpoint routes previously unseen attention-language forms without changing its catalogue, threshold, dependencies, or semantic authority.
+
+@ [specification_uuid] ec6447b0-9e29-4c98-b805-a78ff22d7eb7
+@ [profile] cantor-held-out-attention-language-calibration/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_held_out_attention_language_calibration\Source_Document_Manifest.sop
+@ [frozen_runtime] C:\Project\Cantor\proofs\Cantor_EVO_X2_Needle2_SOP_Attention_Runtime_Git_Anchor.sop
+
+& [CalibrationIdentity] is measurement rather than training or authorization
+  + [subject] is learned selection and typed extraction across attention-language ingress forms
+  + [frozen_checkpoint] is commit b0e27bbff1874e8637cbec619f79e360dac38f14
+  + [runtime_root] is C:\AI\services\cantor-needle-runtime on EVO-X2
+  + [calibration_root] is C:\AI\services\cantor-needle-calibration on EVO-X2
+  + [gate] remains Needle confidence 0.65
+  + [execution] uses only the frozen runtime public route-only command
+  - never: call the corpus an independently authored benchmark
+  - never: call observed accuracy production quality or semantic truth
+
+& [CorpusContract] is closed and raw-byte pinned before first execution
+  + profile is exactly cantor-attention-language-corpus/0.1
+  + corpus_id is one canonical UUID
+  + designed_against_commit is the frozen checkpoint identity
+  + cases is an ordered array of one through 128 unique records
+  + each case has only case_id, family, form, stimulus, expected_procedure_id, and expected_arguments
+  + family is resolve_subject, inspect_identity, review_transition, or negative
+  + form names the surface grammar class without changing expected semantics
+  + stimulus is nonempty UTF-8 at most 16384 bytes
+  + expected_procedure_id is one registered procedure identifier or null
+  + expected_arguments is one exact object for a positive case and null for a negative case
+  = must: reject unknown fields, duplicate case IDs, invalid UUID, invalid type, unknown procedure, bound overflow, or checkpoint mismatch before executing any case
+
+& [HeldOutMeaning] is explicit
+  + [unseen_at_checkpoint] means the corpus file and its exact prompts did not exist in the frozen checkpoint
+  + [first_run_lock] hashes the raw corpus bytes before any prompt is sent to Needle
+  + [author_relation] records that the same project agent designed the corpus after inspecting the procedures
+  + [future_status] becomes evaluation_history after first execution and must not be reused as unobserved evidence
+  - never: tune prompts, descriptions, order, threshold, or expected outcomes during the run
+
+& [ObservationTaxonomy] separates route choice from extraction fidelity
+  + exact_match is expected procedure and exact expected arguments
+  + procedure_match_argument_mismatch is expected procedure with different arguments
+  + wrong_procedure is a selected procedure different from the positive target
+  + positive_refusal is no call, below threshold, malformed output, or another selection fault for a positive case
+  + correct_negative_refusal is no procedure execution for a negative case
+  + unexpected_negative_call is any admitted procedure for a negative case
+  + infrastructure_fault is a dependency, registry, evidence, timeout, or subprocess fault that prevents route observation
+  = must: retain Needle confidence for calls and refusals whenever the frozen runtime supplies it
+
+& [ExecutionProtocol] is non-adaptive and bounded
+  * verify the calibration script and corpus are inside the dedicated calibration root
+  * verify the frozen runtime deployment manifest through its public health command
+  * pin the raw corpus SHA-256 and record runtime commit, catalogue digest, threshold, and controller manifest digest
+  * execute cases once in declared order through one route-only subprocess per case
+  * parse exactly one JSON result from each subprocess without interpreting diagnostic text as success
+  * classify each observation through the closed taxonomy
+  * publish the immutable corpus copy, per-case observations, aggregate report, and content manifest
+  * terminate without changing the frozen runtime or rerunning altered cases under the same calibration identity
+
+& [Metrics] are descriptive
+  + exact_accuracy is exact positive matches divided by positive cases
+  + procedure_accuracy is positive observations selecting the expected procedure divided by positive cases
+  + negative_specificity is correct negative refusals divided by negative cases
+  + macro_family_exact is the unweighted mean of exact-match rates for the three positive families
+  + form_breakdown reports counts and outcomes for every ingress form
+  + confusion records expected versus observed procedure or refusal
+  + confidence_distribution reports finite minimum, maximum, median, and mean by outcome when available
+  = must: expose integer numerators and denominators beside every ratio
+  - never: infer causal optimality from this one corpus
+
+& [EvidenceBoundary] is self-verifying but not self-authorizing
+  + [directory] is one canonical calibration UUID beneath the dedicated evidence root
+  + [00_corpus] preserves exact parsed corpus plus raw-file digest
+  + [01_observations] preserves ordered case results and referenced runtime run IDs
+  + [02_report] preserves taxonomy counts and metrics
+  + [manifest] binds the other evidence files by relative path, bytes, and SHA-256
+  + [verification] rejects missing, extra, changed, noncanonical, or identity-inconsistent evidence
+  - never: copy private chain-of-thought or treat the evidence manifest as an exterior signature
+
+& [IsolationBoundary] preserves the working runtime
+  + calibration code, corpus, and aggregate evidence remain outside the frozen runtime root
+  + route-only runtime calls may add ordinary immutable run evidence under the runtime's existing runs directory
+  + no llama.cpp articulation or Cantor query occurs in route-only mode
+  + no existing sop-agent, llama-server, runtime contract, configuration, or manifest byte changes
+  + no resident process and no network listener
+
+& [Faults] are typed
+  + corpus_fault is invalid, changed, unbounded, duplicated, unknown, or checkpoint-mismatched input
+  + runtime_fault is failed health, changed deployment identity, or unusable public controller
+  + observation_fault is malformed or ambiguous subprocess output
+  + infrastructure_fault is timeout, launch failure, dependency failure, or inaccessible evidence path
+  + evidence_fault is partial, changed, extra, noncanonical, or identity-inconsistent output
+  = must: a fault stops publication as completed calibration while preserving already observed facts as incomplete evidence
+
+& [Acceptance] is measurable
+  + [HACL-001] source bytes and manifest remain exact before implementation
+  + [HACL-002] the corpus validates completely and is hashed before first execution
+  + [HACL-003] the corpus contains all three positive families, negative controls, and multiple ingress forms
+  + [HACL-004] the harness verifies frozen runtime health and exact checkpoint identities before routing
+  + [HACL-005] each case invokes exactly one route-only public runtime process
+  + [HACL-006] no calibration case reaches Cantor query or llama.cpp articulation
+  + [HACL-007] every observation receives exactly one closed taxonomy disposition
+  + [HACL-008] metrics expose numerator, denominator, ratio, confusion, forms, and confidence summaries
+  + [HACL-009] calibration evidence has an independently executable strict verifier
+  + [HACL-010] local harness tests cover corpus drift, taxonomy, metrics, timeout, malformed output, and evidence tamper
+  + [HACL-011] frozen runtime files and the pre-existing shared services remain unchanged
+  + [HACL-012] results are recorded as calibration history with residuals and no threshold reduction
+
+& [SJSProcessingTrace] records seven-fold convergence
+  + [fold_1_source] separates preserved user intent from the inferred measurement step
+  + [fold_2_identity] distinguishes language form, procedure identity, argument identity, and semantic authority
+  + [fold_3_data] is pinned corpus, observation taxonomy, exact counts, ratios, confidence, and evidence hashes
+  + [fold_4_interface] is a separate CLI over the frozen runtime's public route-only boundary
+  + [fold_5_security] is closed schema, raw-byte pin, bounds, no adaptive changes, no effects, and fail-closed parsing
+  + [fold_6_dual_review] balances learned routing exploration with deterministic evidence and authority constraints
+  + [fold_7_phase_lock] excludes training, catalogue edits, threshold edits, provider articulation, effects, and production claims
+
+& [Signature] is bounded implementation authority
+  + [satisfaction_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 95ebe542-f1bc-407a-8624-dad063e5efda
+  + [source_manifest_sha256] is C272BA8176F09D12E2A93C837DD2B89496A50ECA1D8FD534F4D11621FE2F4113
+  + [authority_scope] is one isolated calibration harness, post-checkpoint corpus, route-only execution, tests, evidence, report, and governed records
+  + [invalidation] is source drift, runtime mutation, catalogue change, threshold change, adaptive prompt revision, effects, provider articulation, missing evidence, or benchmark overclaim
