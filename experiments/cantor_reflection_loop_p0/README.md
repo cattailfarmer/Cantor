@@ -34,3 +34,7 @@ profile-0.2 report.
 `scripts/test_cantor_reflection_loop_p0.ps1`, which checks the current source,
 evidence, contract, replay, inspection, tests, lint, manifests, deployment
 identity, and negative parameter boundary without contacting EVO-X2.
+
+`report_corpus_replay_v14.json` applies the strongest current verifier to every
+preserved profile-0.2 script report: all six recorded passes remain verified,
+while the failed v8 predecessor remains rejected.
