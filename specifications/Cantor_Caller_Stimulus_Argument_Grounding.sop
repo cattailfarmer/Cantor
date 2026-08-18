@@ -1,0 +1,103 @@
+Subject: Cantor Caller Stimulus Argument Grounding
+
+Description: Bounded correction authority for a deterministic host gate that prevents a learned selector from binding identity-bearing or caller-attributed procedure arguments to text absent from the preserved caller stimulus.
+
+@ [specification_uuid] 8cd088ec-7260-4b19-81c0-89ec8e9ca75a
+@ [profile] cantor-caller-stimulus-grounding/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_caller_stimulus_argument_grounding\Source_Document_Manifest.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_EVO_X2_Needle2_SOP_Attention_Runtime.sop
+@ [fault_evidence] C:\Project\Cantor\narrative\research\EVOX2_Attention_Language_Calibration_2026-08-18.sop
+
+& [GroundingIdentity] is representation provenance rather than truth
+  + [caller_stimulus] is the exact bounded UTF-8 text archived before Needle selection
+  + [candidate_arguments] are schema-valid string values proposed by Needle
+  + [grounded] means the normalized argument occurs as a complete literal phrase in normalized caller stimulus
+  + [authority] remains ordinary host verification before procedure admission
+  - never: represent literal grounding as truth, authorization, intent, or semantic sufficiency
+  - never: search the tool description, procedure source, model prompt, Cantor result, or prior context as caller grounding
+
+& [Normalization] is deterministic and shared
+  * require both stimulus and argument to be nonempty strings already within their existing bounds
+  * normalize each value with Unicode NFKC
+  * apply Unicode case folding
+  * replace every run of Unicode whitespace with one ASCII space
+  * preserve all non-whitespace punctuation and symbols
+  = must: use the same function for the argument and caller stimulus
+  = must: produce no locale-dependent result
+
+& [PhraseBoundary] rejects accidental substrings
+  + the normalized argument phrase must occur in normalized caller stimulus
+  + the code point immediately before a match, when present, must not be a Unicode word character
+  + the code point immediately after a match, when present, must not be a Unicode word character
+  + quotation marks, colons, equals signs, semicolons, commas, periods, parentheses, and line boundaries may delimit a phrase
+  = must: cantor matches Cantor and quoted cantor
+  = must: cantor does not match cantorian or recantorized
+
+& [ArgumentCoverage] is complete for profile 0.1
+  + every string-valued selected argument is independently checked
+  + subject must be grounded even when its schema has a single enum value
+  + claim must be grounded for inspect_identity_boundary
+  + before_frame and after_frame must each be grounded for review_attention_transition
+  + a field cannot borrow another field's grounding account
+  = must: return the original schema-validated argument bytes and never replace them with normalized text
+
+& [AdmissionOrder] is fail-closed
+  * validate Needle envelope, call count, confidence, and self-reported validation as before
+  * resolve the registered procedure and validate the closed argument schema as before
+  * apply deterministic caller-stimulus grounding to all validated string arguments
+  * reject the complete selection when any field is ungrounded
+  * only then return an admitted procedure to Cantor or provider stages
+  = must: Needle self-reported grounding cannot waive deterministic host grounding
+  = must: confidence cannot waive deterministic host grounding
+
+& [FaultContract] is typed and bounded
+  + [code] is needle_argument_ungrounded
+  + [message] states that selected arguments are absent from the caller stimulus
+  + [cause] contains only a sorted unique list of ungrounded field names
+  + [public_detail] may additionally carry the existing run identity and Needle confidence metadata around that cause
+  + [privacy] excludes argument values and does not duplicate caller text
+  + [stage] is selection before any Cantor query or llama.cpp articulation
+  = must: evidence records the fault through the existing immutable run ledger
+
+& [Compatibility] preserves working behavior
+  + exact lowercase, case variant, quoted, key-value, JSON-like, and line-field literal values remain admissible
+  + whitespace runs may differ between extracted value and stimulus
+  + punctuation cannot be silently deleted from within a proposed phrase unless the shorter exact phrase is independently present
+  + existing catalogue digests and procedure source digests remain unchanged
+  + the minimum confidence remains 0.65
+
+& [DeploymentBoundary] is the existing isolated experimental runtime only
+  + update controller, tests, runtime README, deployment manifest, and configuration manifest pin
+  + do not edit procedure catalogue, procedure SOP sources, evaluation cases, Cantor fixture artifacts, Needle engine, existing SOP-agent, or llama.cpp service
+  + deploy only after local tests and exact manifest generation
+  + preserve the prior b0e27bb checkpoint and first calibration evidence as history
+
+& [Acceptance] is measurable
+  + [CSAG-001] source and manifest bytes are exact before implementation
+  + [CSAG-002] normalization is NFKC casefold whitespace-collapse and deterministic
+  + [CSAG-003] phrase boundary accepts case punctuation quotes and whitespace variants
+  + [CSAG-004] phrase boundary rejects absence and larger-word substrings
+  + [CSAG-005] every selected string argument is checked and original values are preserved
+  + [CSAG-006] any ungrounded field yields needle_argument_ungrounded with only sorted field names
+  + [CSAG-007] rejection occurs before Cantor and llama.cpp stages and archives verifiable evidence
+  + [CSAG-008] existing twenty-eight tests plus new focused grounding tests pass locally and on EVO-X2
+  + [CSAG-009] the pinned twenty-five-trial evaluator still passes without lowering threshold
+  + [CSAG-010] a former cross-subject case now refuses while all three canonical structured positives still route
+  + [CSAG-011] new deployment manifest verifies and shared service identities remain unchanged
+  + [CSAG-012] correction proof preserves the calibration methodology fault separately from runtime grounding closure
+
+& [SJSProcessingTrace] records seven-fold convergence
+  + [fold_1_identity] distinguishes caller representation, model proposal, schema validity, and semantic authority
+  + [fold_2_honesty] prevents an absent subject from being attributed to the caller
+  + [fold_3_security] adds a non-learned gate independent of confidence and model self-report
+  + [fold_4_data] is exact stimulus, validated arguments, normalized comparison, field-name fault, and evidence hash
+  + [fold_5_compatibility] preserves original argument bytes, procedure hashes, threshold, and working ingress forms
+  + [fold_6_fault_review] considers Unicode, punctuation, whitespace, substring, privacy, cross-field, and stage-bypass failures
+  + [fold_7_phase_lock] excludes semantic parsing, synonym inference, truth checking, catalogue expansion, and effects
+
+& [Signature] is bounded implementation authority
+  + [satisfaction_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is bf5eda64-6795-45d1-9d34-bb10d7293887
+  + [source_manifest_sha256] is F9C2213304AAA78FBD9E1783151295E57848A1D7993B6BFDC6369AD2536D8CA2
+  + [authority_scope] is deterministic caller-stimulus grounding in the isolated EVO-X2 experimental controller, focused tests, deployment manifest refresh, bounded probes, evidence, and governed closure records
+  + [invalidation] is catalogue expansion, threshold change, semantic synonym acceptance, external context grounding, value disclosure in faults, post-selection rejection, effects, or shared-service mutation

@@ -16,10 +16,12 @@ import importlib.metadata
 import json
 import math
 import os
+import re
 import subprocess
 import sys
 import tempfile
 import time
+import unicodedata
 import urllib.error
 import urllib.request
 import uuid
@@ -266,6 +268,34 @@ def validate_arguments(schema: dict[str, Any], arguments: Any) -> dict[str, str]
             raise RuntimeFault("invalid_arguments", f"{name} is outside its admitted enum")
         clean[name] = value
     return clean
+
+
+def normalize_grounding_text(value: str) -> str:
+    """Normalize only what the caller-stimulus grounding contract permits."""
+    return " ".join(unicodedata.normalize("NFKC", value).casefold().split())
+
+
+def grounded_literal_phrase(stimulus: str, argument: str) -> bool:
+    """Return whether an argument occurs as a complete phrase in caller text."""
+    normalized_stimulus = normalize_grounding_text(stimulus)
+    normalized_argument = normalize_grounding_text(argument)
+    if not normalized_stimulus or not normalized_argument:
+        return False
+    pattern = rf"(?<!\w){re.escape(normalized_argument)}(?!\w)"
+    return re.search(pattern, normalized_stimulus, flags=re.UNICODE) is not None
+
+
+def enforce_argument_grounding(stimulus: str, arguments: Mapping[str, str]) -> None:
+    """Reject a complete learned call when any string argument lacks provenance."""
+    ungrounded = sorted(
+        {name for name, value in arguments.items() if not grounded_literal_phrase(stimulus, value)}
+    )
+    if ungrounded:
+        raise RuntimeFault(
+            "needle_argument_ungrounded",
+            "selected procedure arguments are absent from the caller stimulus",
+            detail=ungrounded,
+        )
 
 
 @dataclass(frozen=True)
@@ -596,7 +626,10 @@ def verify_needle_dependency(root: Path, needle_config: dict[str, Any]) -> dict[
 
 
 def select_procedure(
-    catalogue: VerifiedCatalogue, response: Any, minimum_confidence: float
+    catalogue: VerifiedCatalogue,
+    response: Any,
+    minimum_confidence: float,
+    stimulus: str,
 ) -> tuple[dict[str, Any], dict[str, str], dict[str, Any]]:
     response = require_mapping(response, "needle_invalid_envelope", "Needle response")
     sanitized = sanitize(response)
@@ -643,6 +676,7 @@ def select_procedure(
     if procedure is None:
         raise RuntimeFault("unknown_procedure", "Needle selected an unregistered procedure")
     arguments = validate_arguments(procedure["input_schema"], call.get("arguments"))
+    enforce_argument_grounding(stimulus, arguments)
     return procedure, arguments, sanitized
 
 
@@ -1047,7 +1081,10 @@ def execute_run(config_path: Path, stimulus: str, *, route_only: bool = False) -
         sanitized_selection = sanitize(needle_response)
         atomic_write_json(run_root / "01_selection.json", sanitized_selection)
         procedure, arguments, _ = select_procedure(
-            catalogue, needle_response, config["needle"]["minimum_confidence"]
+            catalogue,
+            needle_response,
+            config["needle"]["minimum_confidence"],
+            stimulus,
         )
         # Re-load the catalogue after learned selection, closing the check/use interval.
         refreshed = load_verified_catalogue(root, catalogue_path)

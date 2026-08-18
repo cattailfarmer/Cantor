@@ -1,0 +1,96 @@
+{
+  "profile": "cantor-caller-stimulus-grounding-acceptance/0.1",
+  "captured_at": "2026-08-18T11:18:30.6823915-05:00",
+  "host": "EVO-X2",
+  "source": {
+    "source_snapshot_uuid": "02b5b59b-fe5a-42da-99cd-72dd58b386a2",
+    "source_sha256": "05D8478CAA4468A3EE9C714955D6ABE58BF07D45900EFD810688A55752500C8F",
+    "source_bytes": 2832,
+    "source_manifest_sha256": "F9C2213304AAA78FBD9E1783151295E57848A1D7993B6BFDC6369AD2536D8CA2"
+  },
+  "deployment": {
+    "remote_root": "C:\\AI\\services\\cantor-needle-runtime",
+    "deployment_manifest_sha256": "637f053066ce61149ef749e26a5393c8bd15f55527022ed82497555e3d40f561",
+    "deployment_file_count": 10,
+    "controller_sha256": "d28b5aa648d911e065cba97773a2956cb0cbe1ea7b3d150e06fc03c0bb4d5dc7",
+    "tests_sha256": "707508fa10ed714320a27676b0a44f8b5eddba24fc737bd089b86f1308ec45c0",
+    "catalogue_digest": "057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466",
+    "minimum_confidence": 0.65
+  },
+  "verification": {
+    "local_runtime_tests": 33,
+    "local_runtime_failures": 0,
+    "evox2_runtime_tests": 33,
+    "evox2_runtime_failures": 0,
+    "local_calibration_tests": 16,
+    "local_calibration_failures": 0,
+    "health": "passed"
+  },
+  "pinned_evaluation": {
+    "evaluation_id": "3526154e-0a66-4947-8745-fa0af57f4147",
+    "passed_trials": 25,
+    "total_trials": 25,
+    "suite_sha256": "a8a9bd9623e732ed323b85e31c62b4cdb4e44b41a3decd64ff442777ede1ea3c",
+    "suite_file_sha256": "a8389d38ad50a687ab38ff0ec09eff4e459704729fe63ea1f67ec7ae73fd9377",
+    "manifest_sha256": "344cf0673da78334695c798f08b17b5f8ed011eb76bb21de6b2791d2b1c88bbc"
+  },
+  "grounding_probes": [
+    {
+      "case": "former cross-subject Weaver request",
+      "run_id": "43289f08-ea16-4a4b-af91-9e576d18c418",
+      "status": "fault",
+      "fault_code": "needle_argument_ungrounded",
+      "fault_cause": ["subject"],
+      "needle_confidence": 0.8567,
+      "cantor_executed": false,
+      "llama_executed": false,
+      "manifest_sha256": "450d14891b058fd3fc55d9754c3ae3176ef9a002cc3b2cdb6ff78019089b2dc7"
+    },
+    {
+      "case": "resolve Cantor",
+      "run_id": "afeb94bc-4737-4028-b6bb-2dbfefddd867",
+      "status": "route_selected",
+      "procedure_id": "attention.resolve_sop_subject",
+      "needle_confidence": 0.8511,
+      "manifest_sha256": "feb34b42c494afd01961a4e3bdfa9797934a23e336ee03f8a7be092e0b88d08b"
+    },
+    {
+      "case": "inspect Cantor identity",
+      "run_id": "2ef550e5-5f41-48c7-b3e0-5c48f25840c8",
+      "status": "route_selected",
+      "procedure_id": "attention.inspect_identity_boundary",
+      "needle_confidence": 0.7876,
+      "manifest_sha256": "b6101d84c98c79b74ceadbb12dad7665d3948aeb1ccaa9277606e90275f8bdb0"
+    },
+    {
+      "case": "review Cantor transition",
+      "run_id": "0f3ae6c1-81ed-4fac-9304-20ccdd2a3ff9",
+      "status": "route_selected",
+      "procedure_id": "attention.review_attention_transition",
+      "needle_confidence": 0.6995,
+      "manifest_sha256": "a490d98464ba07d7ed6cadadfde90bf16805f2cebaa79ce11b00a8095c2ec458"
+    }
+  ],
+  "full_run": {
+    "run_id": "ab621096-dbc0-4dcb-a398-7a5ea80d5830",
+    "status": "success",
+    "procedure_id": "attention.resolve_sop_subject",
+    "needle_confidence": 0.8511,
+    "cantor_result_digest": "8ef9c312312e7531038c38f263fd6c3304fcc147702187ca575e47afc1a6b659",
+    "articulation_conclusion": "unresolved",
+    "manifest_sha256": "951fc5a07a7bd05834566911485bea57d3f57a1c6b49d4a60e7f64f98fad70f6"
+  },
+  "noninterference": {
+    "sop_agent_hashes_unchanged": true,
+    "llama_server_pid": 12780,
+    "llama_server_command_unchanged": true,
+    "catalogue_changed": false,
+    "procedure_sources_changed": false,
+    "threshold_changed": false
+  },
+  "residuals": [
+    "literal grounding establishes caller-text provenance but not truth or semantic sufficiency",
+    "the first calibration corpus omitted frozen-schema compatibility and remains invalid for broad positive accuracy",
+    "a corrected in-domain corpus requires a separately identified adaptive successor run"
+  ]
+}

@@ -3,8 +3,9 @@
 This is a bounded EVO-X2 experiment that connects three distinct roles:
 
 1. Needle 2 proposes one registered attention procedure.
-2. The controller verifies the procedure and arguments, then asks Cantor for a
-   signed, source-bearing SOP projection.
+2. The controller verifies the procedure and arguments, requires every selected
+   string argument to be literally grounded in the preserved caller stimulus,
+   then asks Cantor for a signed, source-bearing SOP projection.
 3. The existing loopback llama.cpp server articulates an answer from the compact
    `AttentionFrame` without receiving a tool catalogue on that second pass. Its
    response is constrained to a closed JSON account with one conclusion enum and
@@ -26,6 +27,12 @@ Canonical sorted JSON is used for hashes; the learned selector receives a distin
 compact transport encoding that preserves declared schema order. Reusing sorted
 canonical JSON for model input lowered the measured positive confidence from
 `0.8154` to `0.4665`, even though its logical JSON value was unchanged.
+
+After schema validation, the host independently normalizes caller stimulus and
+arguments with Unicode NFKC, case folding, and whitespace collapse. Every
+argument must occur as a complete literal phrase with Unicode word boundaries.
+This check is independent of Needle confidence and Needle's self-reported
+grounding account. It establishes caller-text provenance, not truth or intent.
 
 ## EVO-X2 layout
 
@@ -57,6 +64,13 @@ natural-language paraphrases remain sensitive and fail shut below the `0.65`
 gate or as no-call. Improving those routes requires corpus-driven calibration,
 not a weaker trust threshold.
 
+The first post-checkpoint corpus also exposed a host-side fault: prompts naming
+another faculty could select a schema-valid call whose single-subject enum forced
+`subject: cantor`. Route-only containment prevented semantic execution. The
+deterministic caller-stimulus grounding gate now rejects that substitution as
+`needle_argument_ungrounded`. The original corpus and results remain immutable
+history; they are not retroactively scored as if this gate had existed.
+
 The pinned suite contains twenty-five trials: ten definition, five structured
 identity, five structured transition, three off-topic, and two contained
 residual cases. This establishes repeatability for those exact fixtures—not
@@ -86,8 +100,11 @@ identity and status agree with the manifest. It does not rerun inference.
   they do not stop a hostile process from replacing both config and content.
   Production admission still needs a supervisor-pinned or signed catalogue root.
 - Unknown, altered, ambiguous, low-confidence, or malformed selections fail shut.
+- Schema-valid string arguments absent from the caller stimulus fail shut before
+  Cantor or llama.cpp; the fault exposes field names but not argument values.
 - Every procedure declares an empty effect set.
 - Cantor proof bindings and verified quotes are checked before articulation.
-- Needle reports with failed generation, ungrounded fields, or negation are rejected.
+- Needle reports with failed generation, ungrounded fields, or negation are rejected,
+  and model self-report cannot waive deterministic host grounding.
 - The llama.cpp articulation is not promoted into the signed SOP corpus.
 - This experiment does not authorize arbitrary procedures or production SOP data.

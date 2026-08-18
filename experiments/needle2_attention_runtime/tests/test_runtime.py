@@ -77,7 +77,9 @@ class RuntimeTests(unittest.TestCase):
                 }
             ],
         }
-        procedure, arguments, _ = runtime.select_procedure(catalogue, response, 0.65)
+        procedure, arguments, _ = runtime.select_procedure(
+            catalogue, response, 0.65, "What is Cantor?"
+        )
         self.assertEqual("attention.resolve_sop_subject", procedure["procedure_id"])
         self.assertEqual("cantor", arguments["subject"])
 
@@ -96,17 +98,17 @@ class RuntimeTests(unittest.TestCase):
             ],
         }
         with self.assertRaisesRegex(runtime.RuntimeFault, "below"):
-            runtime.select_procedure(catalogue, base, 0.65)
+            runtime.select_procedure(catalogue, base, 0.65, "What is Cantor?")
         unknown = copy.deepcopy(base)
         unknown["confidence"] = 0.9
         unknown["function_calls"][0]["name"] = "unregistered"
         with self.assertRaisesRegex(runtime.RuntimeFault, "unregistered"):
-            runtime.select_procedure(catalogue, unknown, 0.65)
+            runtime.select_procedure(catalogue, unknown, 0.65, "What is Cantor?")
         multiple = copy.deepcopy(base)
         multiple["confidence"] = 0.9
         multiple["function_calls"].append(copy.deepcopy(multiple["function_calls"][0]))
         with self.assertRaisesRegex(runtime.RuntimeFault, "exactly one"):
-            runtime.select_procedure(catalogue, multiple, 0.65)
+            runtime.select_procedure(catalogue, multiple, 0.65, "What is Cantor?")
 
     def test_selection_rejects_failed_or_ungrounded_generation(self):
         catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
@@ -119,7 +121,7 @@ class RuntimeTests(unittest.TestCase):
             "confidence": 0.0,
         }
         with self.assertRaisesRegex(runtime.RuntimeFault, "successful selection"):
-            runtime.select_procedure(catalogue, failed, 0.65)
+            runtime.select_procedure(catalogue, failed, 0.65, "What is Cantor?")
         ungrounded = {
             "type": "call",
             "success": True,
@@ -134,7 +136,68 @@ class RuntimeTests(unittest.TestCase):
             ],
         }
         with self.assertRaisesRegex(runtime.RuntimeFault, "ungrounded"):
-            runtime.select_procedure(catalogue, ungrounded, 0.65)
+            runtime.select_procedure(catalogue, ungrounded, 0.65, "What is Cantor?")
+
+    def test_grounding_normalization_accepts_case_unicode_whitespace_and_delimiters(self):
+        self.assertTrue(runtime.grounded_literal_phrase('subject: "CANTOR".', "cantor"))
+        self.assertTrue(runtime.grounded_literal_phrase("before_frame: signed\tquery", "signed query"))
+        self.assertTrue(runtime.grounded_literal_phrase("Ｃａｎｔｏｒ boundary", "cantor"))
+        self.assertTrue(runtime.grounded_literal_phrase("claim=unsigned oracle;", "unsigned oracle"))
+
+    def test_grounding_rejects_absence_and_larger_word_substrings(self):
+        self.assertFalse(runtime.grounded_literal_phrase("subject: weaver", "cantor"))
+        self.assertFalse(runtime.grounded_literal_phrase("cantorian mapping", "cantor"))
+        self.assertFalse(runtime.grounded_literal_phrase("recantorized mapping", "cantor"))
+        self.assertFalse(runtime.grounded_literal_phrase("only whitespace", " \t "))
+
+    def test_grounding_checks_every_field_and_discloses_names_only(self):
+        arguments = {
+            "subject": "cantor",
+            "before_frame": "signed query",
+            "after_frame": "unsigned authority",
+        }
+        with self.assertRaises(runtime.RuntimeFault) as caught:
+            runtime.enforce_argument_grounding(
+                "Cantor moved from something else to unsigned authority", arguments
+            )
+        self.assertEqual("needle_argument_ungrounded", caught.exception.code)
+        self.assertEqual(["before_frame"], caught.exception.detail)
+        self.assertNotIn("signed query", str(caught.exception.as_dict()))
+
+    def test_selection_rejects_schema_valid_subject_absent_from_caller(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        response = {
+            "type": "call",
+            "success": True,
+            "error": None,
+            "confidence": 0.96,
+            "function_calls": [
+                {"name": "resolve_sop_subject", "arguments": {"subject": "cantor"}}
+            ],
+        }
+        with self.assertRaises(runtime.RuntimeFault) as caught:
+            runtime.select_procedure(catalogue, response, 0.65, "Resolve the SOP subject Weaver.")
+        self.assertEqual("needle_argument_ungrounded", caught.exception.code)
+        self.assertEqual(["subject"], caught.exception.detail)
+
+    def test_grounding_preserves_original_schema_valid_argument_values(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        response = {
+            "type": "call",
+            "success": True,
+            "error": None,
+            "confidence": 0.91,
+            "function_calls": [
+                {
+                    "name": "inspect_identity_boundary",
+                    "arguments": {"subject": "cantor", "claim": "Signed  Query"},
+                }
+            ],
+        }
+        _procedure, arguments, _sanitized = runtime.select_procedure(
+            catalogue, response, 0.65, "For CANTOR, inspect claim: Signed   Query."
+        )
+        self.assertEqual({"subject": "cantor", "claim": "Signed  Query"}, arguments)
 
     def test_argument_schema_is_closed(self):
         catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)

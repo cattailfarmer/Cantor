@@ -1,0 +1,62 @@
+Subject: Cantor Caller Stimulus Argument Grounding Proof
+
+@ [proof_uuid] a946a785-baea-4e15-bd69-665dd4c475bd
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Caller_Stimulus_Argument_Grounding.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Caller_Stimulus_Argument_Grounding_Solution.sop
+@ [evidence] C:\Project\Cantor\experiments\needle2_attention_runtime\evidence\evox2_grounding_acceptance_2026-08-18.json
+
+& [EvidenceSummaryIdentity] is exact
+  + [sha256] is 05947CE16D5CE48D021B61054571D71BACDF06D91E91DF3BC033281D321A7A34
+  + [bytes] is 4050
+
+& [SourceProof] is CSAG-001
+  + [source_uuid] is 02b5b59b-fe5a-42da-99cd-72dd58b386a2
+  + [source_sha256] is 05D8478CAA4468A3EE9C714955D6ABE58BF07D45900EFD810688A55752500C8F
+  + [source_bytes] is 2832
+  + [source_manifest_sha256] is F9C2213304AAA78FBD9E1783151295E57848A1D7993B6BFDC6369AD2536D8CA2
+  + [status] is passed
+
+& [PrimitiveProof] is CSAG-002 through CSAG-006
+  + NFKC casefold whitespace collapse accepts case full-width Unicode whitespace quote colon equals and semicolon variants
+  + Unicode word boundaries reject cantor inside cantorian and recantorized
+  + absent and normalized-empty values reject
+  + every selected string field is checked independently
+  + admitted values retain their original case and whitespace bytes
+  + fault cause contains only sorted field names and excludes values
+  + [status] is passed
+
+& [RegressionProof] is CSAG-008 and CSAG-009
+  + [local_runtime_tests] are thirty-three passed
+  + [EVO_X2_runtime_tests] are thirty-three passed
+  + [local_calibration_tests] are sixteen passed
+  + [evaluation_id] is 3526154e-0a66-4947-8745-fa0af57f4147
+  + [evaluation_result] is twenty-five of twenty-five passed under unchanged suite and threshold
+  + [evaluation_manifest] is 344cf0673da78334695c798f08b17b5f8ed011eb76bb21de6b2791d2b1c88bbc
+  + [status] is passed
+
+& [LiveGroundingProof] is CSAG-007 and CSAG-010
+  + [fault_run] is 43289f08-ea16-4a4b-af91-9e576d18c418 at confidence 0.8567 with needle_argument_ungrounded cause subject
+  + [fault_manifest] is 450d14891b058fd3fc55d9754c3ae3176ef9a002cc3b2cdb6ff78019089b2dc7
+  + [fault_stages] are input selection result and manifest only with zero Cantor and zero llama files
+  + [resolve_run] is afeb94bc-4737-4028-b6bb-2dbfefddd867 at 0.8511 with manifest feb34b42c494afd01961a4e3bdfa9797934a23e336ee03f8a7be092e0b88d08b
+  + [identity_run] is 2ef550e5-5f41-48c7-b3e0-5c48f25840c8 at 0.7876 with manifest b6101d84c98c79b74ceadbb12dad7665d3948aeb1ccaa9277606e90275f8bdb0
+  + [transition_run] is 0f3ae6c1-81ed-4fac-9304-20ccdd2a3ff9 at 0.6995 with manifest a490d98464ba07d7ed6cadadfde90bf16805f2cebaa79ce11b00a8095c2ec458
+  + [full_run] is ab621096-dbc0-4dcb-a398-7a5ea80d5830 through Needle Cantor and llama.cpp with manifest 951fc5a07a7bd05834566911485bea57d3f57a1c6b49d4a60e7f64f98fad70f6
+  + [status] is passed
+
+& [DeploymentProof] is CSAG-011
+  + [deployment_manifest] is 637f053066ce61149ef749e26a5393c8bd15f55527022ed82497555e3d40f561 over ten files
+  + [controller_sha256] is d28b5aa648d911e065cba97773a2956cb0cbe1ea7b3d150e06fc03c0bb4d5dc7
+  + [catalogue_digest] remains 057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466
+  + [shared_services] SOP-agent hashes and llama PID command remain unchanged
+  + [status] is passed
+
+& [ClosureProof] is CSAG-012
+  + HACL_F002 is closed for literal caller-stimulus grounding
+  + HACL_F001 remains open for schema-compatible corpus validation
+  + prior runtime commit and first calibration evidence remain unchanged in Git history
+  + [status] is passed
+
+& [AcceptanceProof] is CSAG-001 through CSAG-012
+  + [result] is twelve passed
+  = conclusion: a learned schema-valid call can no longer substitute caller-absent identity-bearing text and advance into Cantor or llama.cpp in the bounded profile
