@@ -1,0 +1,74 @@
+Subject: Cantor Attention Admission Account
+
+Description: Additive deterministic value-private account of the host gates completed by one successfully admitted attention procedure.
+
+@ [specification_uuid] f8632b62-c3cd-4810-b481-518fe9bca6f7
+@ [profile] cantor-attention-admission-account/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_attention_admission_account\Source_Document_Manifest.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Declared_Field_Exact_Binding.sop
+
+& [AccountIdentity] is deterministic observation rather than authorization
+  + profile is cantor-attention-admission-account/0.1
+  + status is admitted
+  + account is formed only after schema literal grounding declared binding and catalogue recheck pass
+  + account formation has no effects and calls no model or semantic authority
+  - never: represent learned confidence or the account itself as authorization
+
+& [IdentityBindings] are exact
+  + procedure_id procedure_digest and catalogue_digest identify admitted contract bytes
+  + stimulus_sha256 binds the exact caller UTF-8 bytes without echoing content
+  + account_digest is the SHA-256 of canonical account JSON and remains outside the account to avoid recursion
+  + no time run identity or process identity enters deterministic account bytes
+
+& [FieldAccount] is value-private
+  + argument_fields follows selected procedure required-field order
+  + every field record contains name schema passed literal_grounding passed and declared_binding passed or not_declared
+  + no selected or declared value and no per-value digest appears
+  + declared_fields and undeclared_fields are disjoint ordered projections of required fields
+
+& [DeclarationSurface] is closed
+  + literal_only means no selected required field had an explicit declaration
+  + delimited means at least one selected required field used the bounded colon-or-equals grammar
+  + json means the whole stimulus used the closed complete JSON grammar
+  + json has zero undeclared fields
+
+& [GateAccount] is concise
+  + gates contains schema literal_grounding declared_binding catalogue_recheck and effects
+  + schema literal_grounding and catalogue_recheck are passed
+  + declared_binding is passed when declarations exist and not_applicable for literal_only
+  + effects is passed only with the exact procedure allowed_effects array which remains empty in this catalogue
+
+& [Emission] is additive and pre-semantic
+  + write account to immutable run evidence as 01_admission.json
+  + route-only and full successful result include admission_account and admission_account_digest
+  + existing fields and evaluator interpretation remain valid
+  + a selection rejection emits its existing typed fault and no admission account
+  + a later Cantor or llama fault may retain the already completed admission account in evidence
+
+& [Acceptance] is measurable
+  + [AAA-001] source and source manifest bytes verify
+  + [AAA-002] literal-only account identifies every required field as not_declared
+  + [AAA-003] partial delimited account separates declared and undeclared fields
+  + [AAA-004] closed JSON account marks every required field declared
+  + [AAA-005] no stimulus content argument value or value digest occurs in account
+  + [AAA-006] same identities and gate facts produce byte-identical canonical account and digest
+  + [AAA-007] route-only and full success write and return the account before semantic output
+  + [AAA-008] rejected selection writes no admission file
+  + [AAA-009] local and EVO-X2 runtime calibration and pinned evaluation regressions pass
+  + [AAA-010] catalogue threshold procedure sources shared services and effect boundary remain unchanged
+
+& [SJSProcessingTrace] records seven-fold convergence
+  + [fold_1_identity] binds caller contract catalogue and procedure without values
+  + [fold_2_honesty] distinguishes learned proposal host admission and semantic authority
+  + [fold_3_security] exposes completed gates without widening effects or revealing input content
+  + [fold_4_language] freezes three declaration surfaces and one compact account schema
+  + [fold_5_compatibility] adds result fields and one evidence file without changing existing meaning
+  + [fold_6_data] makes account JSON canonical hashable and reproducible
+  + [fold_7_phase_lock] excludes rejected-call traces private reasoning timing and general distributed negotiation
+
+& [Signature] is bounded implementation authority
+  + [satisfaction_protocol_uuid] is 0d57dc77-d00c-4f06-94df-a91771a790b4
+  + [signature_uuid] is fc5b225a-a05c-4e91-8f17-34dffe3f9b68
+  + [source_manifest_sha256] is 3E481947977C88DFA55A2641EC95BABC8CB8D787F2CBF77CD48100B0A71AB9EC
+  + [authority_scope] is account constructor additive result and evidence emission focused tests manifest refresh isolated deployment probes proof and closure
+  + [invalidation] is value disclosure per-value hashing effect expansion rejected-call admission account semantic call inside construction or replacement of existing result meanings

@@ -35,6 +35,7 @@ CONFIG_PROFILE = "cantor-needle-runtime-config/0.1"
 RESULT_PROFILE = "cantor-needle-runtime-result/0.1"
 FRAME_PROFILE = "cantor-attention-frame/0.1"
 EVIDENCE_PROFILE = "cantor-needle-run-evidence/0.1"
+ADMISSION_ACCOUNT_PROFILE = "cantor-attention-admission-account/0.1"
 MAX_INPUT_BYTES = 16_384
 MAX_RESULT_BYTES = 262_144
 MAX_PROCEDURES = 32
@@ -456,6 +457,66 @@ def enforce_declared_argument_binding(
             "selected procedure arguments differ from caller declarations",
             detail=mismatched,
         )
+
+
+def build_admission_account(
+    stimulus: str,
+    catalogue_digest: str,
+    procedure: Mapping[str, Any],
+    arguments: Mapping[str, str],
+) -> dict[str, Any]:
+    """Describe completed deterministic admission gates without argument values."""
+    required = tuple(procedure["input_schema"]["required"])
+    if set(arguments) != set(required):
+        raise RuntimeFault(
+            "admission_account_invalid",
+            "admitted arguments differ from the required field set",
+            detail=sorted(set(arguments).symmetric_difference(required)),
+        )
+    declarations = parse_declared_arguments(stimulus, procedure)
+    declared = set(declarations or {})
+    if stimulus.strip().startswith("{"):
+        declaration_surface = "json"
+    elif declared:
+        declaration_surface = "delimited"
+    else:
+        declaration_surface = "literal_only"
+    declared_fields = [name for name in required if name in declared]
+    undeclared_fields = [name for name in required if name not in declared]
+    if declaration_surface == "json" and undeclared_fields:
+        raise RuntimeFault(
+            "admission_account_invalid",
+            "closed JSON admission account has undeclared fields",
+            detail=undeclared_fields,
+        )
+    return {
+        "profile": ADMISSION_ACCOUNT_PROFILE,
+        "status": "admitted",
+        "procedure_id": procedure["procedure_id"],
+        "procedure_digest": procedure["procedure_digest"],
+        "catalogue_digest": catalogue_digest,
+        "stimulus_sha256": sha256_bytes(stimulus.encode("utf-8")),
+        "declaration_surface": declaration_surface,
+        "declared_fields": declared_fields,
+        "undeclared_fields": undeclared_fields,
+        "argument_fields": [
+            {
+                "name": name,
+                "schema": "passed",
+                "literal_grounding": "passed",
+                "declared_binding": "passed" if name in declared else "not_declared",
+            }
+            for name in required
+        ],
+        "gates": {
+            "schema": "passed",
+            "literal_grounding": "passed",
+            "declared_binding": "passed" if declared else "not_applicable",
+            "catalogue_recheck": "passed",
+            "effects": "passed",
+        },
+        "allowed_effects": list(procedure["allowed_effects"]),
+    }
 
 
 @dataclass(frozen=True)
@@ -1252,6 +1313,11 @@ def execute_run(config_path: Path, stimulus: str, *, route_only: bool = False) -
         if refreshed.digest != catalogue.digest:
             raise RuntimeFault("catalogue_changed", "procedure catalogue changed during selection")
         procedure = refreshed.by_tool_name[procedure["tool_name"]]
+        admission_account = build_admission_account(
+            stimulus, refreshed.digest, procedure, arguments
+        )
+        admission_account_digest = sha256_bytes(canonical_json(admission_account))
+        atomic_write_json(run_root / "01_admission.json", admission_account)
 
         if route_only:
             result = {
@@ -1263,6 +1329,8 @@ def execute_run(config_path: Path, stimulus: str, *, route_only: bool = False) -
                 "catalogue_digest": refreshed.digest,
                 "arguments": arguments,
                 "needle_confidence": needle_confidence,
+                "admission_account": admission_account,
+                "admission_account_digest": admission_account_digest,
                 "elapsed_milliseconds": int((time.time() - started) * 1000),
             }
             atomic_write_json(run_root / "result.json", result)
@@ -1290,6 +1358,8 @@ def execute_run(config_path: Path, stimulus: str, *, route_only: bool = False) -
             "catalogue_digest": refreshed.digest,
             "arguments": arguments,
             "needle_confidence": needle_confidence,
+            "admission_account": admission_account,
+            "admission_account_digest": admission_account_digest,
             "cantor_result_digest": cantor_response["proof"]["core_result_digest"],
             "articulation": articulation,
             "limitations": frame["limitations"],

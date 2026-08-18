@@ -44,6 +44,15 @@ unique-key object containing every required string field and, optionally, a
 matching procedure ID or tool name. Declaration faults occur before Cantor and
 llama.cpp and disclose field names or bounded structural labels, not values.
 
+After all selection gates and the catalogue recheck pass, the controller emits a
+`cantor-attention-admission-account/0.1`. The account identifies the procedure,
+catalogue, exact stimulus digest, declaration surface, declared and undeclared
+field names, and passed schema/grounding/binding/effect gates. It never contains
+argument values or per-value hashes. Its canonical SHA-256 appears beside the
+account in route-only and full success results, and the same account is archived
+as `01_admission.json`. A rejected selection has no admission account; its typed
+fault remains the authoritative negative disposition.
+
 ## EVO-X2 layout
 
 The isolated deployment root is `C:\AI\services\cantor-needle-runtime`. It does

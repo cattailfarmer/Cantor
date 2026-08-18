@@ -356,6 +356,132 @@ class RuntimeTests(unittest.TestCase):
                     runtime.parse_declared_arguments(stimulus, identity)
                 self.assertEqual("needle_declaration_invalid", caught.exception.code)
 
+    def test_admission_account_distinguishes_literal_partial_and_json_surfaces(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        resolve = catalogue.by_tool_name["resolve_sop_subject"]
+        literal = runtime.build_admission_account(
+            "What is Cantor?", catalogue.digest, resolve, {"subject": "cantor"}
+        )
+        self.assertEqual(runtime.ADMISSION_ACCOUNT_PROFILE, literal["profile"])
+        self.assertEqual("literal_only", literal["declaration_surface"])
+        self.assertEqual([], literal["declared_fields"])
+        self.assertEqual(["subject"], literal["undeclared_fields"])
+        self.assertEqual("not_applicable", literal["gates"]["declared_binding"])
+
+        identity = catalogue.by_tool_name["inspect_identity_boundary"]
+        partial = runtime.build_admission_account(
+            "Inspect cantor; claim: Highly Secret Value 8241.",
+            catalogue.digest,
+            identity,
+            {"subject": "cantor", "claim": "Highly Secret Value 8241"},
+        )
+        self.assertEqual("delimited", partial["declaration_surface"])
+        self.assertEqual(["claim"], partial["declared_fields"])
+        self.assertEqual(["subject"], partial["undeclared_fields"])
+        self.assertEqual("passed", partial["gates"]["declared_binding"])
+        self.assertNotIn("Highly Secret Value 8241", json.dumps(partial))
+
+        stimulus = json.dumps(
+            {
+                "procedure": "inspect_identity_boundary",
+                "subject": "cantor",
+                "claim": "closed claim",
+            }
+        )
+        closed = runtime.build_admission_account(
+            stimulus,
+            catalogue.digest,
+            identity,
+            {"subject": "cantor", "claim": "closed claim"},
+        )
+        self.assertEqual("json", closed["declaration_surface"])
+        self.assertEqual(["subject", "claim"], closed["declared_fields"])
+        self.assertEqual([], closed["undeclared_fields"])
+
+    def test_admission_account_is_deterministic_value_private_and_field_exact(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        identity = catalogue.by_tool_name["inspect_identity_boundary"]
+        stimulus = "subject: cantor; claim: Private phrase 73919."
+        arguments = {"subject": "cantor", "claim": "Private phrase 73919"}
+        first = runtime.build_admission_account(
+            stimulus, catalogue.digest, identity, arguments
+        )
+        second = runtime.build_admission_account(
+            stimulus, catalogue.digest, identity, arguments
+        )
+        self.assertEqual(runtime.canonical_json(first), runtime.canonical_json(second))
+        self.assertEqual(
+            runtime.sha256_bytes(runtime.canonical_json(first)),
+            runtime.sha256_bytes(runtime.canonical_json(second)),
+        )
+        serialized = json.dumps(first)
+        self.assertNotIn("Private phrase 73919", serialized)
+        self.assertNotIn(runtime.sha256_bytes(b"Private phrase 73919"), serialized)
+        with self.assertRaises(runtime.RuntimeFault) as caught:
+            runtime.build_admission_account(
+                stimulus, catalogue.digest, identity, {"subject": "cantor"}
+            )
+        self.assertEqual("admission_account_invalid", caught.exception.code)
+
+    def test_route_success_emits_account_and_rejection_does_not(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        admitted = {
+            "type": "call",
+            "success": True,
+            "error": None,
+            "confidence": 0.9,
+            "function_calls": [
+                {"name": "resolve_sop_subject", "arguments": {"subject": "cantor"}}
+            ],
+        }
+        rejected = copy.deepcopy(admitted)
+        rejected["function_calls"][0]["arguments"]["subject"] = "cantor"
+        config = {
+            "catalogue": "contracts/procedure_catalogue.json",
+            "evidence_directory": "runs",
+            "needle": {"minimum_confidence": 0.65},
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with mock.patch.object(runtime, "load_config", return_value=(root, config)), mock.patch.object(
+                runtime, "verify_deployment_manifest", return_value={}
+            ), mock.patch.object(
+                runtime, "load_verified_catalogue", return_value=catalogue
+            ), mock.patch.object(
+                runtime, "verify_runtime_artifacts", return_value={}
+            ), mock.patch.object(
+                runtime, "invoke_needle", return_value=admitted
+            ):
+                result = runtime.execute_run(
+                    Path("unused.json"), "What is Cantor?", route_only=True
+                )
+            run_root = root / "runs" / result["run_id"]
+            account = json.loads((run_root / "01_admission.json").read_text(encoding="utf-8"))
+            self.assertEqual(account, result["admission_account"])
+            self.assertEqual(
+                runtime.sha256_bytes(runtime.canonical_json(account)),
+                result["admission_account_digest"],
+            )
+
+            with mock.patch.object(runtime, "load_config", return_value=(root, config)), mock.patch.object(
+                runtime, "verify_deployment_manifest", return_value={}
+            ), mock.patch.object(
+                runtime, "load_verified_catalogue", return_value=catalogue
+            ), mock.patch.object(
+                runtime, "verify_runtime_artifacts", return_value={}
+            ), mock.patch.object(
+                runtime, "invoke_needle", return_value=rejected
+            ):
+                with self.assertRaises(runtime.RuntimeFault):
+                    runtime.execute_run(
+                        Path("unused.json"), "Resolve the SOP subject Weaver.", route_only=True
+                    )
+            rejected_roots = [
+                item for item in (root / "runs").iterdir() if item.name != result["run_id"]
+            ]
+            self.assertEqual(1, len(rejected_roots))
+            self.assertFalse((rejected_roots[0] / "01_admission.json").exists())
+
     def test_argument_schema_is_closed(self):
         catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
         schema = catalogue.by_tool_name["resolve_sop_subject"]["input_schema"]
