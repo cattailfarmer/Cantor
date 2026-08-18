@@ -79,6 +79,18 @@ The campaign spans 28 published commits and, relative to `b0e27bb`, 262 changed
 paths. Git `HEAD` and `origin/codex/self-hosted-corpus` both resolve to
 `d9bd690f1b8bce558f148b8fd67e4e5d28fb187a` at this anchor.
 
+### Post-anchor verification closure
+
+The immutable campaign anchor above remains the historical consolidation point.
+Subsequent reproducibility work culminates in boundary-proof checkpoint
+`071cc9ef3c4ce975afe72df2631bb0f6db748b7d` without changing the deployed
+binary. A live `response_mode: "frame"` concurrency probe over SSH STDIO
+returned exactly one verified compact frame (run
+`b546a092-1396-4c65-8b33-b8f8a40c77c2`) and one immediate `runtime_busy`
+fault without a frame. Full workspace tests and all-target/all-feature Clippy
+were rerun at this head; the current evidence set remains 23 manifests and
+1,030 references with zero stale entries.
+
 ## Preserved boundaries
 
 - learned routing is not signed SOP meaning, truth, authorization, or safety;
