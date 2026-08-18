@@ -1,0 +1,23 @@
+Subject: Route Refusal Evidence Source
+
+@ [source_snapshot_uuid] ef3f346e-89f1-444f-aeb8-154ee9873191
+@ [captured_at] 2026-08-18T12:43:57.3295787-05:00
+@ [status] preserved_observed
+
+& [Observation] is asymmetric MCP evidence projection
+  + selected route_attention output preserves the runtime result and independently verified admission evidence
+  + runtime refusals currently collapse to adapter fault code runtime_refused and a short underlying reason
+  + the verified Needle runtime commonly archives a negative run with run_id status fault and admission not_applicable
+
+& [Intent] is equal inspectability for yes and no
+  + preserve the bounded sanitized runtime fault object in structured MCP output
+  + when a runtime refusal supplies a canonical run identity invoke the independent verifier before returning
+  + require verified evidence kind run exact evidence identity recorded status fault and admission not_applicable
+  + expose the verification next to the runtime refusal while retaining MCP isError true
+  + never turn verified refusal into selection authorization or truth
+
+& [FailureBoundary] remains fail closed
+  + refusal evidence with malformed identity failed verification wrong status or admitted account returns evidence_verification_failed
+  + infrastructure faults without a run identity remain adapter faults and make no fabricated evidence claim
+
+& [Deferred] is replay of learned inference calibration changes and automatic retry
