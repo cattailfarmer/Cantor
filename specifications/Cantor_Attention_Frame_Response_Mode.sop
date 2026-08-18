@@ -1,0 +1,33 @@
+Subject: Cantor Attention Frame Response Mode
+
+@ [specification_uuid] 6811822c-ec7c-4939-bb7b-dc573d2f2cd5
+@ [profile] cantor-attention-frame-response-mode/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_attention_frame_response_mode\Source_Document_Manifest.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Verified_Attention_Frame_Projection.sop
+
+& [Input] adds optional response_mode enum full or frame
+  + omitted mode is full
+  + unknown fields and invalid values fail before permit acquisition or child launch
+
+& [Full] preserves cantor-route-attention-mcp-result/0.2 exactly
+
+& [Frame] uses cantor-route-attention-mcp-frame-result/0.1
+  + required fields are profile status response_mode attention_frame proof_ref and authority
+  + proof_ref contains evidence_id manifest_sha256 and admission_account verified
+  + full runtime and verification objects are omitted from the returned projection only after internal verification completes
+
+& [Fault] preserves the proof-rich 0.2 refusal or typed adapter fault and contains no attention_frame
+
+& [Acceptance] is measurable
+  + [AFRM-001] source authority verifies
+  + [AFRM-002] omitted and explicit full outputs are identical in typed shape
+  + [AFRM-003] frame output relationally binds frame and proof_ref and omits full records
+  + [AFRM-004] invalid mode launches no runtime and every negative lacks a frame
+  + [AFRM-005] live frame mode is at least three times smaller than full mode
+  + [AFRM-006] deployment workspace regression and noninterference pass
+
+& [Signature] is bounded implementation authority
+  + [signature_uuid] is d56a836e-cf21-4289-a6ee-e48ff84a5e69
+  + [source_manifest_sha256] is 2CDBBD14D5994A6226934A3122B4745B786C5F7FB87DD8356D109E4D4AF24DAB
+  + [authority_scope] is optional mode compact projection tests deployment measurement and closure
+  + [invalidation] is default change skipped verification compact fault or execution claim
