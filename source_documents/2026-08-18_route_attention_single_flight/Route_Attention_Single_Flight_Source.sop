@@ -1,0 +1,23 @@
+Subject: Route Attention Single Flight Source
+
+@ [source_snapshot_uuid] 72129758-09aa-4ae5-b2da-e879df188078
+@ [captured_at] 2026-08-18T12:49:48.4163281-05:00
+@ [status] preserved_observed
+
+& [Observation] is unconstrained adapter concurrency
+  + MCP server handlers may overlap and the server is cloneable
+  + each accepted route_attention call launches a separate Needle controller process
+  + simultaneous jobs can compete for accelerator memory CPU evidence paths and latency budget even though each individual child is bounded
+
+& [Intent] is one explicit process-local execution token
+  + exactly one route call may own the token at a time
+  + a competing call fails immediately with typed runtime_busy and launches no child
+  + no hidden queue order retry priority or fairness claim is introduced
+  + permit release is automatic on success refusal verification failure timeout cancellation or panic unwinding
+  + startup health occurs before the server opens and does not require the runtime token
+
+& [Boundary] is process-local resource admission
+  + it is not shared inference negotiation distributed locking or semantic authority
+  + multiple independently launched adapter processes still require an operator-level singleton or exterior scheduler
+
+& [Deferred] includes bounded queues priorities distributed leases token rings and multi-host arbitration

@@ -1,0 +1,33 @@
+Subject: Cantor Route Attention Single Flight
+
+@ [specification_uuid] f7840258-94ee-40fc-b54a-947d50c1d552
+@ [profile] cantor-route-attention-single-flight/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_route_attention_single_flight\Source_Document_Manifest.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Route_Attention_MCP.sop
+
+& [Admission] is one nonblocking process-local permit
+  + permit is shared by every clone of one server instance
+  + acquisition occurs after closed input validation and before any dependency rehash or child launch
+  + failed acquisition returns runtime_busy as MCP isError true
+  + runtime_busy contains no runtime or verification claim because no job starts
+
+& [Lifetime] is complete tool execution
+  + permit spans route child and any selected or negative evidence verification child
+  + lexical RAII release covers every return path cancellation and unwinding
+
+& [Nonclaims] are explicit
+  + no queue fairness waiting retry priority distributed singleton or token-ring protocol
+  + independently launched server processes do not share this permit
+
+& [Acceptance] is measurable
+  + [RASF-001] source and manifest verify
+  + [RASF-002] two overlapping direct calls yield exactly one execution and one runtime_busy without a second child
+  + [RASF-003] permit releases after success refusal timeout and verification failure
+  + [RASF-004] official MCP sequential selected fault and recovery behavior remains exact
+  + [RASF-005] EVO-X2 selected and refused routes plus noninterference pass after deployment
+
+& [Signature] is bounded implementation authority
+  + [signature_uuid] is bd5b3141-30ea-4b70-98f9-321db2511040
+  + [source_manifest_sha256] is 0BA3F3D0AF761F9E93FC8684D99088EE35AD228654208694BCA46E9DE5FD3FF9
+  + [authority_scope] is one shared permit typed busy result concurrency tests deployment proof and closure
+  + [invalidation] is queueing retry distributed claim multiple permits or altered query_sop authority
