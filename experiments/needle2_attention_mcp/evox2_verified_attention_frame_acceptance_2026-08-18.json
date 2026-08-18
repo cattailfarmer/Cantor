@@ -1,0 +1,54 @@
+{
+  "profile": "cantor-verified-attention-frame-evidence/0.1",
+  "evidence_uuid": "8d631c1c-00e6-46cd-9e02-5edce0426a39",
+  "captured_at": "2026-08-18T13:11:40.7135598-05:00",
+  "status": "passed",
+  "deployment": {
+    "binary_bytes": 2927104,
+    "binary_sha256": "997b11ff404b721e470335aa0f4b10ce731f0ea37d0e07819a28ce68d2ecb752",
+    "deployment_manifest_sha256": "f9d95ee27c91d152df9a5c97bb0658a4ce2646234fa287505131bdd17396edb4",
+    "config_sha256": "818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c"
+  },
+  "positive": {
+    "run_id": "319755e4-21d6-4fa1-b7cc-73609eb7d767",
+    "result_profile": "cantor-route-attention-mcp-result/0.2",
+    "frame_profile": "cantor-attention-frame/0.1",
+    "procedure_id": "attention.resolve_sop_subject",
+    "operators": ["FOCUS", "BOUND", "ADMIT", "RETURN"],
+    "manifest_sha256": "bfaa2144de92756ba6a3c0318988873aa717ac3b2c8760b924b224f59435f7c2",
+    "full_utf8_bytes": 3052,
+    "frame_utf8_bytes": 832,
+    "frame_fraction": 0.272608,
+    "procedure_relation": "exact",
+    "run_relation": "exact",
+    "manifest_relation": "exact"
+  },
+  "negative": {
+    "run_id": "eb77599c-dc0c-419d-b431-f4cd04fb3468",
+    "result_profile": "cantor-route-attention-mcp-result/0.2",
+    "fault": "runtime_refused",
+    "runtime_fault": "no_procedure_selected",
+    "manifest_sha256": "a51acd099f93bdc13caae21f5e36547f84c93c44684c72563604a24b2bebf1e8",
+    "admission_account": "not_applicable",
+    "attention_frame_present": false
+  },
+  "local": {
+    "focused_tests_passed": 5,
+    "clippy_all_targets_all_features": "passed",
+    "fixture_gap_detected_and_repaired": true
+  },
+  "noninterference": {
+    "codex_configuration_changed": false,
+    "codex_inventory_sha256": "3ea3a39bd65867b69ce06af4f79e99a7c06c9bd2e478b446f52a96b05581ec9e",
+    "attention_process_count_after": 0,
+    "llama_pid_after": 12780,
+    "shared_sop_agent_sha256": "18ddea8f40cb3c4a75bb879379ea57ec85a60f6dd76fa75af9ca048117db4df8"
+  },
+  "acceptance": {
+    "VAFP-001": "passed",
+    "VAFP-002": "passed",
+    "VAFP-003": "passed",
+    "VAFP-004": "passed",
+    "VAFP-005": "passed"
+  }
+}

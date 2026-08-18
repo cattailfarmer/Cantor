@@ -1,6 +1,6 @@
 use std::env;
 
-use cantor_attention_mcp::{SERVER_INSTRUCTIONS, TOOL_NAME};
+use cantor_attention_mcp::{ATTENTION_FRAME_PROFILE, SERVER_INSTRUCTIONS, TOOL_NAME};
 use rmcp::{
     ServiceExt,
     model::CallToolRequestParams,
@@ -53,16 +53,30 @@ async fn run() -> Result<(), Box<dyn std::error::Error>> {
             ),
         )
         .await?;
-    println!(
-        "{}",
-        serde_json::to_string(
-            result
-                .structured_content
-                .as_ref()
-                .ok_or("tool result omitted structuredContent")?
-        )?
-    );
+    let structured = result
+        .structured_content
+        .as_ref()
+        .ok_or("tool result omitted structuredContent")?;
     let is_error = result.is_error == Some(true);
+    if !is_error {
+        let frame = structured
+            .get("attention_frame")
+            .ok_or("selected result omitted attention_frame")?;
+        if frame.get("profile").and_then(serde_json::Value::as_str) != Some(ATTENTION_FRAME_PROFILE)
+        {
+            return Err("selected attention_frame profile differs".into());
+        }
+        if frame.pointer("/sequence/0/procedure_id") != structured.pointer("/runtime/procedure_id")
+            || frame.pointer("/sequence/3/evidence_id") != structured.pointer("/runtime/run_id")
+            || frame.pointer("/sequence/3/manifest_sha256")
+                != structured.pointer("/verification/manifest_sha256")
+        {
+            return Err("selected attention_frame is not relationally bound".into());
+        }
+    } else if structured.get("attention_frame").is_some() {
+        return Err("fault result carried a positive attention_frame".into());
+    }
+    println!("{}", serde_json::to_string(structured)?);
     client.cancel().await?;
     if is_error {
         std::process::exit(4);

@@ -10,6 +10,12 @@ independent evidence verifier confirms the run and its admission account.
 Learned selection remains a proposal; it is not signed meaning, truth,
 authorization, or permission to call another tool.
 
+Successful profile `cantor-route-attention-mcp-result/0.2` responses also carry
+a deterministic `cantor-attention-frame/0.1`: exactly `FOCUS`, `BOUND`,
+`ADMIT`, then `RETURN`. The frame is projected only after evidence verifies,
+keeps caller-derived arguments typed as data rather than authority, and does
+not execute the proposed procedure. Faults never carry a positive frame.
+
 The operator supplies an absolute closed configuration and explicitly registers
 the built executable. Repository code does not edit Codex configuration.
 

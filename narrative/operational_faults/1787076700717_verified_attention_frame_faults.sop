@@ -1,0 +1,10 @@
+Subject: Verified Attention Frame Projection Operational Faults
+
+@ [fault_ledger_uuid] f23a238f-4898-418e-b980-2c771d86ef7b
+
+& [VAFP_F001] is an incomplete positive fake-runtime fixture
+  + [observed] the first focused run rejected selected test output because it omitted the arguments object required by the live runtime contract
+  + [containment] implementation failed closed as runtime_result_invalid and no frame was produced
+  + [repair] fixture now supplies exact subject arguments while the stricter production validation remains
+  + [proof] five focused tests and live positive-negative probes pass
+  + [status] is closed

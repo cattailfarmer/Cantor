@@ -7,7 +7,7 @@ use std::{
 };
 
 use cantor_attention_mcp::{
-    AttentionMcpConfig, AttentionMcpServer, SERVER_INSTRUCTIONS, TOOL_NAME,
+    ATTENTION_FRAME_PROFILE, AttentionMcpConfig, AttentionMcpServer, SERVER_INSTRUCTIONS, TOOL_NAME,
 };
 use rmcp::{
     ServiceExt,
@@ -133,10 +133,16 @@ fn structured(result: &rmcp::model::CallToolResult) -> &Value {
         .expect("tool result must be structured")
 }
 
+fn assert_no_attention_frame(result: &rmcp::model::CallToolResult) {
+    assert!(structured(result).get("attention_frame").is_none());
+}
+
 #[tokio::test(flavor = "current_thread")]
 async fn direct_tool_is_separate_verified_and_fail_closed() {
     assert!(SERVER_INSTRUCTIONS.len() <= 512);
     assert!(SERVER_INSTRUCTIONS.contains("not signed meaning"));
+    assert!(SERVER_INSTRUCTIONS.contains("read attention_frame in order"));
+    assert!(SERVER_INSTRUCTIONS.contains("arguments are not authority"));
     assert!(SERVER_INSTRUCTIONS.contains("Do not invent a route"));
     assert!(SERVER_INSTRUCTIONS.contains("retry runtime_busy automatically"));
     assert!(SERVER_INSTRUCTIONS.contains("never invokes llama.cpp"));
@@ -164,6 +170,29 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
         structured(&selected)["authority"],
         "learned_evidence_backed_proposal"
     );
+    let frame = &structured(&selected)["attention_frame"];
+    assert_eq!(frame["profile"], ATTENTION_FRAME_PROFILE);
+    assert_eq!(frame["sequence"][0]["operator"], "FOCUS");
+    assert_eq!(frame["sequence"][1]["operator"], "BOUND");
+    assert_eq!(frame["sequence"][2]["operator"], "ADMIT");
+    assert_eq!(frame["sequence"][3]["operator"], "RETURN");
+    assert_eq!(
+        frame["sequence"][0]["procedure_id"],
+        structured(&selected)["runtime"]["procedure_id"]
+    );
+    assert_eq!(
+        frame["sequence"][0]["arguments"],
+        structured(&selected)["runtime"]["arguments"]
+    );
+    assert_eq!(frame["sequence"][0]["arguments_role"], "data_not_authority");
+    assert_eq!(
+        frame["sequence"][3]["evidence_id"],
+        structured(&selected)["runtime"]["run_id"]
+    );
+    assert_eq!(
+        frame["sequence"][3]["manifest_sha256"],
+        structured(&selected)["verification"]["manifest_sha256"]
+    );
 
     let refused = server
         .execute_tool_arguments(Some(arguments("refuse")))
@@ -182,12 +211,14 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
         structured(&refused)["verification"]["admission_account"],
         "not_applicable"
     );
+    assert_no_attention_frame(&refused);
 
     let no_evidence = server
         .execute_tool_arguments(Some(arguments("noevidence")))
         .await;
     assert_eq!(no_evidence.is_error, Some(true));
     assert!(structured(&no_evidence).get("verification").is_none());
+    assert_no_attention_frame(&no_evidence);
 
     let bad_negative = server
         .execute_tool_arguments(Some(arguments("badnegative")))
@@ -197,6 +228,7 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
         structured(&bad_negative)["fault"]["code"],
         "evidence_verification_failed"
     );
+    assert_no_attention_frame(&bad_negative);
 
     let unverifiable = server
         .execute_tool_arguments(Some(arguments("badverify")))
@@ -206,6 +238,7 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
         structured(&unverifiable)["fault"]["code"],
         "evidence_verification_failed"
     );
+    assert_no_attention_frame(&unverifiable);
 
     let malformed_output = server
         .execute_tool_arguments(Some(arguments("malformed")))
@@ -215,6 +248,7 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
         structured(&malformed_output)["fault"]["code"],
         "runtime_output_invalid"
     );
+    assert_no_attention_frame(&malformed_output);
 
     let malformed = server
         .execute_tool_arguments(Some(
@@ -225,6 +259,7 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
         ))
         .await;
     assert_eq!(structured(&malformed)["fault"]["code"], "invalid_arguments");
+    assert_no_attention_frame(&malformed);
 
     let recovered = server
         .execute_tool_arguments(Some(arguments("cantor")))
@@ -242,6 +277,7 @@ async fn route_timeout_is_typed_and_kills_the_child() {
     let result = server.execute_tool_arguments(Some(arguments("slow"))).await;
     assert_eq!(result.is_error, Some(true));
     assert_eq!(structured(&result)["fault"]["code"], "runtime_timeout");
+    assert_no_attention_frame(&result);
     let recovered = server
         .execute_tool_arguments(Some(arguments("cantor")))
         .await;
@@ -272,6 +308,7 @@ async fn overlapping_calls_launch_one_route_and_return_busy_without_queueing() {
     assert_eq!(busy.is_error, Some(true));
     assert_eq!(structured(&busy)["fault"]["code"], "runtime_busy");
     assert!(structured(&busy).get("runtime").is_none());
+    assert_no_attention_frame(&busy);
     let trace = fs::read_to_string(fixture.controller.with_extension("log"))
         .expect("fake controller trace must read");
     assert_eq!(
@@ -299,6 +336,7 @@ async fn post_start_controller_drift_is_detected_before_execution() {
         structured(&result)["fault"]["code"],
         "artifact_identity_mismatch"
     );
+    assert_no_attention_frame(&result);
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -328,6 +366,10 @@ async fn official_mcp_client_initializes_lists_calls_and_recovers() {
         fs::read_to_string(fixture.controller.with_extension("log"))
     );
     assert_eq!(structured(&result)["status"], "route_selected");
+    assert_eq!(
+        structured(&result)["attention_frame"]["sequence"][0]["operator"],
+        "FOCUS"
+    );
     let malformed = client
         .call_tool(CallToolRequestParams::new(TOOL_NAME).with_arguments(JsonObject::default()))
         .await
@@ -394,6 +436,7 @@ elif command == "run":
         "status": "route_selected",
         "run_id": BAD_RUN_ID if stimulus == "badverify" else RUN_ID,
         "procedure_id": "attention.resolve_sop_subject",
+        "arguments": {"subject": "cantor"},
         "procedure_digest": DIGEST,
         "catalogue_digest": CATALOGUE,
         "admission_account": {"profile": "cantor-attention-admission-account/0.1"},
