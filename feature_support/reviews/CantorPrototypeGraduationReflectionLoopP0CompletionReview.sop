@@ -40,6 +40,8 @@ Subject: Cantor Prototype Graduation and Reflection Loop P0 Completion Review
   + an isolated clean-target rebuild has the same byte length but a different SHA because PE debug timestamps and PDB identity differ
   + the repository has no rust-toolchain pin and the binary is not a byte-reproducible or cross-environment reproducible build
   + the executable has Authenticode status NotSigned so its SHA-256 is evidence identity rather than Windows publisher trust
+  + two disposable clean-target probes with fixed SOURCE_DATE_EPOCH and MSVC /Brepro both produced SHA-256 421c2dc193ae4c986f82a91127595898cbb8ea42bf92186e283a63a22173c32b with identical PE and PDB identity
+  + the deterministic-link observation is a P1 candidate only and is not the deployed v15 build profile
 
 & [Disposition] is completed_experimental_P0_not_promoted
   + [next] is one separately governed P1 for caller-supplied effectless requests over a closed fixture set
