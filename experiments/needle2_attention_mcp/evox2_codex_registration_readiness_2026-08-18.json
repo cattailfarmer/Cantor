@@ -1,0 +1,91 @@
+{
+  "profile": "cantor-codex-attention-mcp-registration-evidence/0.1",
+  "evidence_uuid": "f412abf8-fba8-4a80-86b3-3825562cb9b4",
+  "captured_at": "2026-08-18T13:02:59.9924655-05:00",
+  "status": "passed_without_registration",
+  "official_documentation": {
+    "url": "https://developers.openai.com/codex/mcp/",
+    "observed": [
+      "Codex supports local STDIO MCP servers",
+      "Codex consumes initialization instructions",
+      "CLI registration uses codex mcp add <server-name> -- <stdio command>",
+      "codex mcp list enumerates configured servers",
+      "Codex clients on one host share MCP configuration"
+    ]
+  },
+  "local_cli": {
+    "path": "C:/Users/enjer/AppData/Roaming/npm/codex.cmd",
+    "version": "codex-cli 0.135.0",
+    "add_syntax": "codex mcp add [OPTIONS] <NAME> (--url <URL> | -- <COMMAND>...)",
+    "remove_syntax": "codex mcp remove [OPTIONS] <NAME>",
+    "proposed_name": "cantor-attention",
+    "name_collision_before": false,
+    "name_collision_after": false,
+    "inventory_sha256_before": "3ea3a39bd65867b69ce06af4f79e99a7c06c9bd2e478b446f52a96b05581ec9e",
+    "inventory_sha256_after": "3ea3a39bd65867b69ce06af4f79e99a7c06c9bd2e478b446f52a96b05581ec9e",
+    "configuration_changed": false
+  },
+  "launch": {
+    "program": "ssh.exe",
+    "arguments": [
+      "-T",
+      "evo-x2",
+      "C:\\AI\\services\\cantor-attention-mcp\\cantor-attention-mcp.exe",
+      "--config",
+      "C:\\AI\\services\\cantor-attention-mcp\\config.json"
+    ],
+    "transport": "stdio",
+    "official_rmcp_client": true,
+    "published_tools": ["route_attention"],
+    "instructions_utf8_bytes": 336,
+    "instructions_exact": true
+  },
+  "deployment": {
+    "host": "EVO-X2",
+    "binary_bytes": 2904064,
+    "binary_sha256": "78adbba923f873bdd1672b028e89cd9c19e0dc50a554ae9c7032fab3bf149f83",
+    "config_sha256": "818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c",
+    "rollback_binary_sha256": "a63b4f0ed43b7f52ae7320de1f5a2f5cf6b08346e311d9be42383baec25c37ca"
+  },
+  "positive": {
+    "stimulus": "What is Cantor?",
+    "run_id": "3ea95ad1-0926-4443-a31d-c5a594360c99",
+    "status": "route_selected",
+    "procedure_id": "attention.resolve_sop_subject",
+    "authority": "learned_evidence_backed_proposal",
+    "admission_account": "verified",
+    "manifest_sha256": "ed85a23d60ae53fb65dd353155a19731713470f0c69119b4d6947593b6990d27"
+  },
+  "negative": {
+    "stimulus": "What will the weather be tomorrow?",
+    "run_id": "4a4ca275-fc04-4ff2-98ee-d76f56b37601",
+    "status": "fault",
+    "fault_code": "runtime_refused",
+    "runtime_fault_code": "no_procedure_selected",
+    "recorded_status": "fault",
+    "admission_account": "not_applicable",
+    "manifest_sha256": "29af57dabae3033f2cde46607514eddde5613e4583dd89b5e38c76443191a6a9"
+  },
+  "observed_residual": {
+    "stimulus": "Inspect the identity boundary of Cantor and preserve its intended purpose.",
+    "run_id": "f999b7b2-ed0c-409b-b64b-a94aa6159798",
+    "status": "safe_refusal",
+    "fault_code": "no_procedure_selected",
+    "disposition": "learned paraphrase coverage remains unresolved; no gate was weakened"
+  },
+  "noninterference": {
+    "attention_process_count_after": 0,
+    "llama_pid_before": 12780,
+    "llama_pid_after": 12780,
+    "shared_sop_agent_sha256_before": "18ddea8f40cb3c4a75bb879379ea57ec85a60f6dd76fa75af9ca048117db4df8",
+    "shared_sop_agent_sha256_after": "18ddea8f40cb3c4a75bb879379ea57ec85a60f6dd76fa75af9ca048117db4df8"
+  },
+  "acceptance": {
+    "CAMR-001": "passed",
+    "CAMR-002": "passed",
+    "CAMR-003": "passed",
+    "CAMR-004": "passed",
+    "CAMR-005": "passed",
+    "CAMR-006": "passed"
+  }
+}

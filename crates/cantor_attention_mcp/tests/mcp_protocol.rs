@@ -6,7 +6,9 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-use cantor_attention_mcp::{AttentionMcpConfig, AttentionMcpServer, TOOL_NAME};
+use cantor_attention_mcp::{
+    AttentionMcpConfig, AttentionMcpServer, SERVER_INSTRUCTIONS, TOOL_NAME,
+};
 use rmcp::{
     ServiceExt,
     model::{CallToolRequestParams, JsonObject},
@@ -133,6 +135,11 @@ fn structured(result: &rmcp::model::CallToolResult) -> &Value {
 
 #[tokio::test(flavor = "current_thread")]
 async fn direct_tool_is_separate_verified_and_fail_closed() {
+    assert!(SERVER_INSTRUCTIONS.len() <= 512);
+    assert!(SERVER_INSTRUCTIONS.contains("not signed meaning"));
+    assert!(SERVER_INSTRUCTIONS.contains("Do not invent a route"));
+    assert!(SERVER_INSTRUCTIONS.contains("retry runtime_busy automatically"));
+    assert!(SERVER_INSTRUCTIONS.contains("never invokes llama.cpp"));
     let fixture = Fixture::new();
     let server = AttentionMcpServer::new(fixture.config.clone())
         .await

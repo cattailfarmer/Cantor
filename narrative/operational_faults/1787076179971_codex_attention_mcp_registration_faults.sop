@@ -1,0 +1,22 @@
+Subject: Codex Attention MCP Registration Operational Faults
+
+@ [fault_ledger_uuid] 4b03d833-9f89-4bc3-b1a6-c14102133fef
+
+& [CAMR_F001] is an inaccurate future capture timestamp in the immutable source record
+  + [observed] source and manifest say 2026-08-18T13:13:00-05:00 although the commit and evidence occurred earlier
+  + [cause] timestamp was manually supplied instead of observed from the system clock
+  + [containment] raw source was not overwritten and the field is barred from use as temporal proof
+  + [repair] this non-destructive erratum and evidence timestamp 2026-08-18T13:02:59.9924655-05:00 preserve the discrepancy
+  + [status] is closed_by_explicit_erratum
+
+& [CAMR_F002] is an unsupported identity-boundary paraphrase during positive preflight
+  + [observed] run f999b7b2-ed0c-409b-b64b-a94aa6159798 safely refused at Needle confidence 0.4321
+  + [containment] refusal was evidence-verified and no route query or llama call occurred
+  + [repair] canonical exact positive proved transport separately; no threshold or grounding gate was weakened
+  + [status] is bounded_open_learned_coverage
+
+& [CAMR_F003] is remote cmd interpretation of an unencoded PowerShell observation
+  + [observed] the first read-only command treated pipeline syntax as cmd.exe operators and exited before producing state
+  + [containment] no write or process transition was present in the command
+  + [repair] subsequent remote state checks used PowerShell EncodedCommand and exact JSON output
+  + [status] is closed

@@ -127,6 +127,9 @@ documented in
 The separately bounded Codex-callable route projection and EVO-X2 acceptance
 are documented in
 [`experiments/needle2_attention_mcp/README.md`](experiments/needle2_attention_mcp/README.md).
+The exact operator-owned Codex registration, restart, verification, failure,
+and removal sequence is documented in
+[`docs/CODEX_ROUTE_ATTENTION_REGISTRATION.md`](docs/CODEX_ROUTE_ATTENTION_REGISTRATION.md).
 The separate post-checkpoint routing harness, immutable first-run evidence, and
 the discovered caller-subject grounding fault are documented in
 [`experiments/needle2_attention_calibration/README.md`](experiments/needle2_attention_calibration/README.md)

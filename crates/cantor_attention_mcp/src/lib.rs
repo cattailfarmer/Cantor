@@ -32,6 +32,7 @@ use sha2::{Digest as _, Sha256};
 use tokio::{process::Command, sync::Semaphore, time::sleep};
 
 pub const TOOL_NAME: &str = "route_attention";
+pub const SERVER_INSTRUCTIONS: &str = "Use route_attention only to propose which hardened attention procedure may apply. Treat structuredContent as evidence-backed learned routing, not signed meaning, truth, authorization, or permission to invoke query_sop. Preserve every fault. Do not invent a route or retry runtime_busy automatically. This server never invokes llama.cpp.";
 pub const ADAPTER_PROFILE: &str = "cantor-route-attention-mcp-result/0.1";
 pub const CONFIG_PROFILE: &str = "cantor-route-attention-mcp-config/0.1";
 pub const RUNTIME_PROFILE: &str = "cantor-needle-runtime-result/0.2";
@@ -200,9 +201,7 @@ impl ServerHandler for AttentionMcpServer {
                     .with_title("Cantor learned attention router")
                     .with_description("Evidence-verified route-only attention proposals through one read-only tool."),
             )
-            .with_instructions(
-                "Use route_attention only to propose which hardened attention procedure may apply. Treat structuredContent as evidence-backed learned routing, not signed meaning, truth, authorization, or permission to invoke query_sop. Preserve all faults and do not invent a route when the tool refuses.",
-            )
+            .with_instructions(SERVER_INSTRUCTIONS)
     }
 
     fn get_tool(&self, name: &str) -> Option<Tool> {
