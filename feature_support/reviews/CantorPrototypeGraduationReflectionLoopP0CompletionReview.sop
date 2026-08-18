@@ -35,9 +35,10 @@ Subject: Cantor Prototype Graduation and Reflection Loop P0 Completion Review
   + third-party dependency license metadata is complete under the resolved closure
   + two workspace-local crates have no Cargo license declaration and the prototype does not invent one
 
-& [ReproducibilityBoundary] is same_environment_content_identity_only
-  + a clean locked release rebuild under rustc 1.96.0 x86_64-pc-windows-msvc reproduces the deployed v15 SHA-256 exactly
-  + the repository has no rust-toolchain pin so this is not a cross-environment reproducible-build claim
+& [ReproducibilityBoundary] is deployment_content_identity_only
+  + a same-target locked rebuild under rustc 1.96.0 x86_64-pc-windows-msvc reproduces the deployed v15 SHA-256
+  + an isolated clean-target rebuild has the same byte length but a different SHA because PE debug timestamps and PDB identity differ
+  + the repository has no rust-toolchain pin and the binary is not a byte-reproducible or cross-environment reproducible build
   + the executable has Authenticode status NotSigned so its SHA-256 is evidence identity rather than Windows publisher trust
 
 & [Disposition] is completed_experimental_P0_not_promoted

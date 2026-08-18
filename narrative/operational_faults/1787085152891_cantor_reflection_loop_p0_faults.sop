@@ -57,3 +57,11 @@ Subject: Cantor Reflection Loop P0 Operational Faults
   + [repair] require dependency_identity_stable true plus runner and all before-after digests unconditionally
   + [proof] the omission regression test rejects the reduced report and the isolated v15 binary passes a new complete live campaign
   + [status] is closed
+
+& [CRLP_F009] is same-target rebuild mistaken for clean reproducibility
+  + [observed] a second build in the existing target reproduced v15 while an isolated clean target produced a different digest at the same byte length
+  + [cause] the first check reused linker artifacts and did not test clean-target PE metadata reproducibility
+  + [evidence] llvm-readobj shows different PE timestamps and PDB GUIDs in the clean-target binary
+  + [containment] the stronger claim was corrected before final handoff and the temporary 401.7 MiB target was removed with scoped cargo clean
+  + [repair] describe SHA-256 as deployed content identity only and require a separately governed reproducible-build profile before making stronger claims
+  + [status] is closed_as_claim_correction
