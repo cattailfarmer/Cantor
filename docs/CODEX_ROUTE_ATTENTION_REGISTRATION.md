@@ -21,7 +21,7 @@ Official reference:
 - remote host alias: `evo-x2`
 - remote executable: `C:\AI\services\cantor-attention-mcp\cantor-attention-mcp.exe`
 - remote config: `C:\AI\services\cantor-attention-mcp\config.json`
-- reviewed executable SHA-256: `7d6bee8bbc0ac433012225f3921ca1979165582b75b6e63498411bd97f9a5a31`
+- reviewed executable SHA-256: `37860b031a97b58de08cb669cf6b09b3bbac3db12c3fba3f198674231255deef`
 - reviewed config SHA-256: `818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c`
 - sole tool: `route_attention`
 
@@ -109,9 +109,9 @@ codex.cmd mcp list
 ```
 
 The immediate prior EVO-X2 executable is retained at
-`C:\AI\services\cantor-attention-mcp\cantor-attention-mcp.previous-b4da7f2e.exe`
+`C:\AI\services\cantor-attention-mcp\cantor-attention-mcp.previous-7d6bee8b.exe`
 with SHA-256
-`b4da7f2e5b25fee559df48e3cfc0c904c298104c278cac0a849d2b984d1e99be`.
+`7d6bee8bbc0ac433012225f3921ca1979165582b75b6e63498411bd97f9a5a31`.
 Restoring that binary is a separate deployment decision and requires restoring
 matching evidence and registration-readiness records; it is not implied by
 removing the Codex entry.

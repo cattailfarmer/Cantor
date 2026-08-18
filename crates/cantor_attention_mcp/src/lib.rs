@@ -996,18 +996,44 @@ fn input_schema() -> JsonObject {
 fn output_schema() -> JsonObject {
     object(json!({
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["profile", "status"],
-        "properties": {
-            "profile": { "type": "string", "enum": [ADAPTER_PROFILE, FRAME_RESULT_PROFILE] },
-            "status": { "type": "string", "enum": ["route_selected", "fault"] },
-            "runtime": { "type": "object" },
-            "verification": { "type": "object" },
-            "attention_frame": { "type": "object" },
-            "response_mode": { "type": "string", "const": "frame" },
-            "authority": { "type": "string", "const": "learned_evidence_backed_proposal" },
-            "fault": { "type": "object" }
-        }
+        "oneOf": [
+            {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["profile", "status", "runtime", "verification", "attention_frame", "authority"],
+                "properties": {
+                    "profile": { "type": "string", "const": ADAPTER_PROFILE },
+                    "status": { "type": "string", "const": "route_selected" },
+                    "runtime": { "type": "object" },
+                    "verification": { "type": "object" },
+                    "attention_frame": { "type": "object" },
+                    "authority": { "type": "string", "const": "learned_evidence_backed_proposal" }
+                }
+            },
+            {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["profile", "status", "response_mode", "attention_frame", "authority"],
+                "properties": {
+                    "profile": { "type": "string", "const": FRAME_RESULT_PROFILE },
+                    "status": { "type": "string", "const": "route_selected" },
+                    "response_mode": { "type": "string", "const": "frame" },
+                    "attention_frame": { "type": "object" },
+                    "authority": { "type": "string", "const": "learned_evidence_backed_proposal" }
+                }
+            },
+            {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["profile", "status", "fault"],
+                "properties": {
+                    "profile": { "type": "string", "const": ADAPTER_PROFILE },
+                    "status": { "type": "string", "const": "fault" },
+                    "runtime": { "type": "object" },
+                    "verification": { "type": "object" },
+                    "fault": { "type": "object" }
+                }
+            }
+        ]
     }))
 }

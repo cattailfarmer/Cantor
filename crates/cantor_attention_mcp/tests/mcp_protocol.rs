@@ -7,8 +7,8 @@ use std::{
 };
 
 use cantor_attention_mcp::{
-    ATTENTION_FRAME_PROFILE, AttentionMcpConfig, AttentionMcpServer, FRAME_RESULT_PROFILE,
-    SERVER_INSTRUCTIONS, TOOL_NAME,
+    ADAPTER_PROFILE, ATTENTION_FRAME_PROFILE, AttentionMcpConfig, AttentionMcpServer,
+    FRAME_RESULT_PROFILE, SERVER_INSTRUCTIONS, TOOL_NAME,
 };
 use rmcp::{
     ServiceExt,
@@ -165,6 +165,26 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
     assert_eq!(tool["annotations"]["readOnlyHint"], true);
     assert_eq!(tool["annotations"]["destructiveHint"], false);
     assert_eq!(tool["annotations"]["idempotentHint"], false);
+    let output_variants = tool["outputSchema"]["oneOf"]
+        .as_array()
+        .expect("output schema must expose a closed result union");
+    assert_eq!(output_variants.len(), 3);
+    let full_schema = &output_variants[0];
+    let frame_schema = &output_variants[1];
+    let fault_schema = &output_variants[2];
+    assert_eq!(
+        full_schema["properties"]["profile"]["const"],
+        ADAPTER_PROFILE
+    );
+    assert_eq!(
+        frame_schema["properties"]["profile"]["const"],
+        FRAME_RESULT_PROFILE
+    );
+    assert_eq!(fault_schema["properties"]["status"]["const"], "fault");
+    assert!(
+        frame_schema["properties"].get("runtime").is_none()
+            && frame_schema["properties"].get("verification").is_none()
+    );
 
     let selected = server
         .execute_tool_arguments(Some(arguments("cantor")))

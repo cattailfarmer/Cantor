@@ -3,7 +3,7 @@ param(
     [string]$ServerName = "cantor-attention",
     [string]$SshHost = "evo-x2",
     [string]$RemoteRoot = "C:\AI\services\cantor-attention-mcp",
-    [string]$ExpectedBinarySha256 = "7d6bee8bbc0ac433012225f3921ca1979165582b75b6e63498411bd97f9a5a31",
+    [string]$ExpectedBinarySha256 = "37860b031a97b58de08cb669cf6b09b3bbac3db12c3fba3f198674231255deef",
     [string]$ExpectedConfigSha256 = "818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c",
     [string]$ExpectedSharedSopAgentSha256 = "18ddea8f40cb3c4a75bb879379ea57ec85a60f6dd76fa75af9ca048117db4df8"
 )
