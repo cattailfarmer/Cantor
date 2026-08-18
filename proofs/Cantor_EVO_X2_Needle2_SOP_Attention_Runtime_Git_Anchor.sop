@@ -1,0 +1,27 @@
+Subject: Cantor EVO-X2 Needle 2 SOP Attention Runtime Git Anchor
+
+@ [runtime_proof] C:\Project\Cantor\proofs\Cantor_EVO_X2_Needle2_SOP_Attention_Runtime_Proof.sop
+@ [deployment_manifest] C:\Project\Cantor\experiments\needle2_attention_runtime\deployment_manifest.json
+@ [evidence_summary] C:\Project\Cantor\experiments\needle2_attention_runtime\evidence\evox2_acceptance_2026-08-18.json
+
+& [AnchorIdentity] is the external review locator for the bounded runtime checkpoint
+  + [anchor_uuid] is b7ca349c-0fa5-4f7a-b431-68bba47ba54e
+  + [captured_at] is 2026-08-18T10:52:36.7817990-05:00
+  + [repository] is cattailfarmer/Cantor
+  + [branch] is codex/self-hosted-corpus
+  + [commit] is b0e27bbff1874e8637cbec619f79e360dac38f14
+  + [tree] is a48884963f3a37f5c96aff1e869764c7825c7713
+  + [upstream_observed] is origin/codex/self-hosted-corpus at b0e27bbff1874e8637cbec619f79e360dac38f14
+
+& [ContentBinding] identifies the release evidence carried by the anchored commit
+  + [deployment_manifest_sha256] is 2af5e6363837f1820508f2f2d9340fa80064a3d9b04eb035bcffaf57828a02b4
+  + [deployment_file_count] is ten
+  + [evidence_summary_sha256] is E90131D59150BBCDF1844A6D444534FBD10BEC1B4A5225B6885F90908CCB5EAA
+  + [runtime_proof_uuid] is 21ae9f9d-bf87-4f98-93d6-bc8527bd936d
+
+& [TrustBoundary] preserves the distinction between location integrity and authorization
+  + [ordinary_commit] provides a stable content-addressed review and recovery locator
+  + [ordinary_commit] is not represented as a signed Git commit or an authorization signature
+  + [upstream_observation] proves only that the named remote-tracking branch resolved to the commit after push
+  + [hostile_joint_replacement] still requires an independently held signature or supervisor pin
+  = conclusion: the exact bounded runtime checkpoint is reviewable and recoverable by Git identity without overstating that identity as authorization
