@@ -1,0 +1,15 @@
+Subject: Route Attention Single Flight Requirement Matrix
+
+@ [matrix_uuid] be7b1a03-267f-4bda-ae29-ce235dac0b0b
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Route_Attention_Single_Flight.sop
+
+& [RASF-001] source lock
+  + [proof] source manifest 0BA3F3D0AF761F9E93FC8684D99088EE35AD228654208694BCA46E9DE5FD3FF9 verifies
+& [RASF-002] one execution under overlap
+  + [proof] focused trace and EVO-X2 official-client overlap each yield one route execution one runtime_busy and no runtime claim on busy
+& [RASF-003] complete permit release
+  + [proof] sequential tests pass after success refusal timeout and verification failure
+& [RASF-004] MCP regression
+  + [proof] official client selected caller fault recovery and negative evidence remain exact
+& [RASF-005] live and noninterference
+  + [proof] selected run 4fa93efe-bd00-4b39-917b-6c56ffa5a709 and later refused run 15ce6b53-65bd-4ac9-bfa0-ebf535126b72 verify while llama PID remains unchanged

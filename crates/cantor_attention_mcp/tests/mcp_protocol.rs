@@ -218,6 +218,11 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
         ))
         .await;
     assert_eq!(structured(&malformed)["fault"]["code"], "invalid_arguments");
+
+    let recovered = server
+        .execute_tool_arguments(Some(arguments("cantor")))
+        .await;
+    assert_eq!(recovered.is_error, Some(false));
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -230,6 +235,45 @@ async fn route_timeout_is_typed_and_kills_the_child() {
     let result = server.execute_tool_arguments(Some(arguments("slow"))).await;
     assert_eq!(result.is_error, Some(true));
     assert_eq!(structured(&result)["fault"]["code"], "runtime_timeout");
+    let recovered = server
+        .execute_tool_arguments(Some(arguments("cantor")))
+        .await;
+    assert_eq!(recovered.is_error, Some(false));
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn overlapping_calls_launch_one_route_and_return_busy_without_queueing() {
+    let fixture = Fixture::new();
+    let server = AttentionMcpServer::new(fixture.config.clone())
+        .await
+        .expect("pinned fake runtime must pass health");
+    let first_server = server.clone();
+    let second_server = server.clone();
+    let first = async move {
+        first_server
+            .execute_tool_arguments(Some(arguments("slow")))
+            .await
+    };
+    let second = async move {
+        tokio::time::sleep(std::time::Duration::from_millis(50)).await;
+        second_server
+            .execute_tool_arguments(Some(arguments("cantor")))
+            .await
+    };
+    let (completed, busy) = tokio::join!(first, second);
+    assert_eq!(completed.is_error, Some(false));
+    assert_eq!(busy.is_error, Some(true));
+    assert_eq!(structured(&busy)["fault"]["code"], "runtime_busy");
+    assert!(structured(&busy).get("runtime").is_none());
+    let trace = fs::read_to_string(fixture.controller.with_extension("log"))
+        .expect("fake controller trace must read");
+    assert_eq!(
+        trace
+            .lines()
+            .filter(|line| line.starts_with("run "))
+            .count(),
+        1
+    );
 }
 
 #[tokio::test(flavor = "current_thread")]

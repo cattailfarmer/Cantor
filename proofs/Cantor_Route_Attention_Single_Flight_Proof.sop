@@ -1,0 +1,20 @@
+Subject: Cantor Route Attention Single Flight Proof
+
+@ [proof_uuid] b0a17780-ff3c-4287-994c-181adf249a24
+@ [solution] C:\Project\Cantor\solutions\Cantor_Route_Attention_Single_Flight_Solution.sop
+@ [evidence] C:\Project\Cantor\experiments\needle2_attention_mcp\evox2_single_flight_acceptance_2026-08-18.json
+
+& [EvidenceIdentity] is 1DD83E66C9B2320EC59E1323FE0F05FEEBA6407D1C398441EC18982B87E05DA6 over 1849 bytes
+
+& [OverlapProof] is RASF-002
+  + fake runtime trace counts one run process while the competitor receives runtime_busy
+  + live official MCP overlap returns one selected run 4fa93efe-bd00-4b39-917b-6c56ffa5a709 and one busy error
+  + busy result contains neither runtime nor verification
+
+& [ReleaseProof] is RASF-003 and RASF-004
+  + focused branches recover after success refusal timeout and failed verification
+  + live subsequent refusal 15ce6b53-65bd-4ac9-bfa0-ebf535126b72 executes and verifies
+
+& [AcceptanceProof] is RASF-001 through RASF-005
+  + [result] is five passed
+  = conclusion: one Cantor attention MCP process now admits exactly one complete Needle route job at a time and refuses overlap without inventing a distributed protocol

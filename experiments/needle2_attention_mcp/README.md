@@ -20,3 +20,8 @@ selected route requires verified admission; an archived refusal requires the
 same run identity to verify with recorded status `fault` and admission
 `not_applicable`. Infrastructure faults without a run identity remain visibly
 unverified. Every refusal remains an MCP tool error.
+
+One server process admits one route job at a time. Overlap receives immediate
+`runtime_busy`; the adapter creates no hidden queue or retry. This is a
+process-local resource permit, not a distributed singleton, fair scheduler, or
+token-ring negotiation protocol.

@@ -29,7 +29,7 @@ use rmcp::{
 use serde::Deserialize;
 use serde_json::{Value, json};
 use sha2::{Digest as _, Sha256};
-use tokio::{process::Command, time::sleep};
+use tokio::{process::Command, sync::Semaphore, time::sleep};
 
 pub const TOOL_NAME: &str = "route_attention";
 pub const ADAPTER_PROFILE: &str = "cantor-route-attention-mcp-result/0.1";
@@ -60,6 +60,7 @@ pub struct AttentionMcpConfig {
 #[derive(Clone, Debug)]
 pub struct AttentionMcpServer {
     runtime: Arc<PinnedRuntime>,
+    execution_permit: Arc<Semaphore>,
 }
 
 #[derive(Clone, Debug)]
@@ -128,6 +129,7 @@ impl AttentionMcpServer {
         runtime.preflight().await?;
         Ok(Self {
             runtime: Arc::new(runtime),
+            execution_permit: Arc::new(Semaphore::new(1)),
         })
     }
 
@@ -164,6 +166,15 @@ impl AttentionMcpServer {
                 ),
             );
         }
+        let _permit = match self.execution_permit.clone().try_acquire_owned() {
+            Ok(permit) => permit,
+            Err(_) => {
+                return tool_fault(
+                    "runtime_busy",
+                    "another route_attention call owns this server's execution permit".to_owned(),
+                );
+            }
+        };
         match self.runtime.route(&parsed.stimulus).await {
             Ok((runtime, verification)) => structured_result(
                 json!({

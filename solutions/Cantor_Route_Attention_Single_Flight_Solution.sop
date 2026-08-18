@@ -1,0 +1,21 @@
+Subject: Cantor Route Attention Single Flight Solution
+
+@ [solution_uuid] 37570494-7f89-421c-9b1f-3dcb9ee2c777
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Route_Attention_Single_Flight.sop
+@ [evidence] C:\Project\Cantor\experiments\needle2_attention_mcp\evox2_single_flight_acceptance_2026-08-18.json
+
+& [Implementation] is one shared asynchronous semaphore permit per server instance
+  + closed input validation precedes nonblocking acquisition
+  + permit spans route and positive or negative evidence verification
+  + lexical ownership releases on every terminal path
+
+& [BusyResult] is immediate typed MCP error
+  + code is runtime_busy
+  + no child queue runtime object evidence identity retry or priority is claimed
+
+& [MeasuredResult] is passed
+  + local trace observes exactly one run child under overlap
+  + EVO-X2 official client observes exactly one selected account-verified result and one runtime_busy
+  + a subsequent negative route verifies proving release
+
+& [Boundary] is process-local only; operator singleton or distributed arbitration remains external
