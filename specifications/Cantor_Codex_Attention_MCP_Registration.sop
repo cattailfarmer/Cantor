@@ -1,0 +1,42 @@
+Subject: Cantor Codex Attention MCP Registration
+
+@ [specification_uuid] 50872672-03de-49d0-af2d-a43c73ad5fa0
+@ [profile] cantor-codex-attention-mcp-registration/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_codex_attention_mcp_registration\Source_Document_Manifest.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Route_Attention_Single_Flight.sop
+
+& [Registration] is an explicit operator-owned configuration transition
+  + readiness artifacts may describe and test the launch command but shall not perform registration
+  + the server name is cantor-attention and shall be collision-free before registration
+  + the command is a noninteractive SSH STDIO launch of the pinned EVO-X2 executable and config
+  + registration and removal commands shall match both installed CLI help and official OpenAI documentation
+
+& [InstructionSurface] is compact and self-contained
+  + server initialization instructions state proposal-only authority, evidence verification, no automatic retry, and no llama invocation
+  + the most important guidance fits within the first 512 characters
+  + the sole exposed tool remains route_attention
+
+& [TransportAcceptance] is the future Codex launch path
+  + official RMCP client launches the server through ssh -T with the exact remote command and arguments
+  + a positive call returns one independently verified selected route
+  + a negative call returns one independently verified structured refusal
+  + client closure leaves no persistent cantor-attention-mcp process
+
+& [ConfigurationNoninterference] is observable
+  + Codex MCP inventory before and after readiness proof is identical
+  + no existing MCP entry is changed and no cantor-attention entry is created
+  + existing llama.cpp PID and shared sop-agent hash remain unchanged
+
+& [Acceptance] is measurable
+  + [CAMR-001] source manifest and specification authority verify
+  + [CAMR-002] official docs and installed CLI agree on add list and remove syntax
+  + [CAMR-003] proposed name has no collision before or after proof
+  + [CAMR-004] exact ssh -T transport passes selected and refused official-client probes
+  + [CAMR-005] runbook records preflight registration restart verification removal and failure policy
+  + [CAMR-006] configuration remote-process llama.cpp and shared-service noninterference pass
+
+& [Signature] is bounded implementation authority
+  + [signature_uuid] is 720cfd6b-b94a-4f95-a3dc-4a9f42639f1c
+  + [source_manifest_sha256] is 7A81F6766D87661C2CEC5814288B6A23AC22CB3FAC941382038B1EE65AF039FB
+  + [authority_scope] is readiness audit transport proof runbook evidence and closure without registration
+  + [invalidation] is configuration mutation hidden retry persistent remote process or altered semantic authority
