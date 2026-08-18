@@ -1,0 +1,43 @@
+{
+  "profile": "cantor-codex-attention-mcp-readiness-checker-evidence/0.1",
+  "evidence_uuid": "aae1a28d-6a76-477b-91c2-9cfd4ae4d517",
+  "captured_at": "2026-08-18T13:09:49.8663093-05:00",
+  "status": "passed",
+  "script": {
+    "path": "C:/Project/Cantor/scripts/test_codex_attention_mcp_registration_readiness.ps1",
+    "bytes": 5797,
+    "sha256": "23c68d1eba5bc5bd35f26239a95a24b3a870a36db3e10200c436d01697f821d5"
+  },
+  "positive": {
+    "status": "ready_without_registration",
+    "configuration_changed": false,
+    "name_collision": false,
+    "inventory_sha256": "3ea3a39bd65867b69ce06af4f79e99a7c06c9bd2e478b446f52a96b05581ec9e",
+    "remote_deployment_manifest_sha256": "4909214a4945afc1089eacf0d5b9e80151ab59a622486dc7f461295bd867fe5b"
+  },
+  "negative_cases": [
+    {
+      "case": "wrong_binary_hash",
+      "expected": "remote adapter binary differs from the reviewed identity",
+      "result": "passed"
+    },
+    {
+      "case": "configured_name_collision",
+      "input_name": "github",
+      "expected": "readiness cannot imply replacement",
+      "result": "passed"
+    },
+    {
+      "case": "remote_root_command_injection_shape",
+      "expected": "RemoteRoot is outside the closed absolute Windows-path grammar",
+      "result": "passed_before_ssh"
+    }
+  ],
+  "claims": {
+    "writes_codex_configuration": false,
+    "starts_persistent_remote_service": false,
+    "executes_registration_command": false,
+    "executes_removal_command": false,
+    "emits_operator_commands": true
+  }
+}

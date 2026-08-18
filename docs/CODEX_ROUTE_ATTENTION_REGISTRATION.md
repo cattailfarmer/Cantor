@@ -32,7 +32,18 @@ complete authority and fault boundary inside the first 512 characters:
 
 ## Preflight
 
-Run these without changing configuration:
+The repository includes a read-only checker that validates the collision,
+remote hashes, process boundary, llama.cpp presence, and shared SOP-agent hash,
+then emits the reviewed registration and removal commands:
+
+```powershell
+.\scripts\test_codex_attention_mcp_registration_readiness.ps1
+```
+
+It performs no Codex configuration mutation. Its JSON result must say
+`ready_without_registration` and `configuration_changed: false`.
+
+The equivalent individual observations are:
 
 ```powershell
 codex.cmd --version
