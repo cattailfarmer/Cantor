@@ -1,0 +1,647 @@
+{
+  "profile": "cantor-field-attention-cycle/0.1",
+  "request_profile": "cantor-field-attention-requests/0.5",
+  "run_id": "1787095897048-1796",
+  "provider": {
+    "base_url": "http://127.0.0.1:8081",
+    "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf"
+  },
+  "field": {
+    "profile": "cantor-semantic-field/0.1",
+    "field_id": "cantor-attention-cycle-forbidden-comembership-p0",
+    "subject": "Host boundary rejection under convergent field attention",
+    "purpose": "Falsify latch admission when order-varied probes converge on a member set that crosses an explicit host forbid_co_membership boundary.",
+    "elements": [
+      {
+        "element_id": "observer",
+        "kind": "contract",
+        "content": "Observer preserves subject continuity and accounts for every transition.",
+        "content_sha256": "2f350aec959aa7c04a380a2ef84a6b76fa1d7526c0ba1f79ec39eb357ad3701e",
+        "source_ref": "specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole"
+      },
+      {
+        "element_id": "field_attend",
+        "kind": "purpose",
+        "content": "Field Attention proposes whole-field member patterns without declaring them true.",
+        "content_sha256": "823d2d0a9f1ac1885cf63ed40797832ed124080bf6b9cfe195e76ff04cea7a80",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence"
+      },
+      {
+        "element_id": "delineate",
+        "kind": "contract",
+        "content": "Delineation reconstructs explicit typed support while preserving every admitted identity.",
+        "content_sha256": "91356b59dcc08c17947e7585dee3ecb8eb23de02f9d9624b660c8aed69f892c1",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal"
+      },
+      {
+        "element_id": "latch",
+        "kind": "contract",
+        "content": "Latch admits a supported pattern only to the current attention purpose after host gates pass.",
+        "content_sha256": "07c16f5cff3a2daacdb9ecb249f4b9b5e5e24db31381c6015cecee8b0e596ee1",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision"
+      },
+      {
+        "element_id": "hard_boundary",
+        "kind": "constraint",
+        "content": "Hard boundaries remain active during both receptive and explicit attention modes.",
+        "content_sha256": "34d311141add6087460629c7738528ef67e3463ce6d586d71bdef3124bca70dd",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField"
+      }
+    ],
+    "boundaries": [
+      {
+        "boundary_id": "falsification-no-latch-hard-boundary-comembership",
+        "kind": "forbid_co_membership",
+        "left_id": "latch",
+        "right_id": "hard_boundary",
+        "reason": "Deliberate hostile fixture: model convergence must not override an admitted host boundary."
+      }
+    ],
+    "probe_policy": {
+      "probe_count": 4,
+      "minimum_support": 3
+    }
+  },
+  "field_digest": "1fe069762f31c4afe7a2478b210c9a332191eb4099602a6333eb179654c54a71",
+  "events": [
+    {
+      "ordinal": 1,
+      "state": "created",
+      "evidence_ref": "field-input"
+    },
+    {
+      "ordinal": 2,
+      "state": "field_validated",
+      "evidence_ref": "field-digest"
+    },
+    {
+      "ordinal": 3,
+      "state": "probes_requested",
+      "evidence_ref": "probe-orders"
+    },
+    {
+      "ordinal": 4,
+      "state": "probes_collected",
+      "evidence_ref": "field-probes"
+    },
+    {
+      "ordinal": 5,
+      "state": "rejected",
+      "evidence_ref": "aggregation-rejection"
+    }
+  ],
+  "exchanges": [
+    {
+      "stage": "field_probe_1",
+      "request_sha256": "48b375b022896d314044240b8932b9e8c68b19d77c5d15c46a464d888cc573df",
+      "response_sha256": "7482761e20e7a96affe4ee48b89a5994deb4d40c60a04d48f81f17f081c06f41",
+      "request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "Run one typed FIELD_ATTEND selection over the complete supplied field. Treat every element_id as immutable. Select the smallest member set whose whole-field relation appears useful for the stated purpose, listing each selected ID at most once. Classify the selection as coherent, uncertain, conflicted, or excludes. flagged_member_ids may identify specific supplied IDs causing a non-coherent assessment; leave it empty when the assessment applies only to the selection as a whole. For coherent it must be empty. Use supplied IDs only. Return only the required JSON object. Do not decide truth, authorization, or admission; the host compiles and validates the proposal.",
+            "role": "system"
+          },
+          {
+            "content": "{\"elements\":[{\"content\":\"Observer preserves subject continuity and accounts for every transition.\",\"element_id\":\"observer\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole\"},{\"content\":\"Field Attention proposes whole-field member patterns without declaring them true.\",\"element_id\":\"field_attend\",\"kind\":\"purpose\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence\"},{\"content\":\"Delineation reconstructs explicit typed support while preserving every admitted identity.\",\"element_id\":\"delineate\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal\"},{\"content\":\"Latch admits a supported pattern only to the current attention purpose after host gates pass.\",\"element_id\":\"latch\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision\"},{\"content\":\"Hard boundaries remain active during both receptive and explicit attention modes.\",\"element_id\":\"hard_boundary\",\"kind\":\"constraint\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField\"}],\"field_id\":\"cantor-attention-cycle-forbidden-comembership-p0\",\"hard_boundaries\":[{\"boundary_id\":\"falsification-no-latch-hard-boundary-comembership\",\"kind\":\"forbid_co_membership\",\"left_id\":\"latch\",\"reason\":\"Deliberate hostile fixture: model convergence must not override an admitted host boundary.\",\"right_id\":\"hard_boundary\"}],\"presentation_order\":[\"observer\",\"field_attend\",\"delineate\",\"latch\",\"hard_boundary\"],\"purpose\":\"Falsify latch admission when order-varied probes converge on a member set that crosses an explicit host forbid_co_membership boundary.\",\"subject\":\"Host boundary rejection under convergent field attention\"}",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "assessment": {
+                "enum": [
+                  "coherent",
+                  "uncertain",
+                  "conflicted",
+                  "excludes"
+                ],
+                "type": "string"
+              },
+              "candidate_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 5,
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "flagged_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 5,
+                "type": "array",
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "candidate_member_ids",
+              "assessment",
+              "flagged_member_ids"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "seed": 7000,
+        "temperature": 0
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"assessment\": \"conflicted\", \"candidate_member_ids\": [\"observer\", \"field_attend\", \"delineate\", \"latch\", \"hard_boundary\"], \"flagged_member_ids\": []}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787095898,
+        "id": "chatcmpl-R7r56sEDgsw8jernXsrFlxdkEYYy9ibU",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 132,
+          "predicted_ms": 519.436,
+          "predicted_n": 42,
+          "predicted_per_second": 80.8569294388529,
+          "predicted_per_token_ms": 12.36752380952381,
+          "prompt_ms": 804.514,
+          "prompt_n": 387,
+          "prompt_per_second": 481.03575574819087,
+          "prompt_per_token_ms": 2.0788475452196384
+        },
+        "usage": {
+          "completion_tokens": 42,
+          "prompt_tokens": 519,
+          "prompt_tokens_details": {
+            "cached_tokens": 132
+          },
+          "total_tokens": 561
+        }
+      }
+    },
+    {
+      "stage": "field_probe_2",
+      "request_sha256": "cb00a383d0c8bdff9ab78d0f6fc2a423f60f3c4c6da3c8e57aff43835faa0de3",
+      "response_sha256": "d0ce801fe9f79b62867b96b7f68b6642ec33732483f53c2eed5111983cf42a08",
+      "request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "Run one typed FIELD_ATTEND selection over the complete supplied field. Treat every element_id as immutable. Select the smallest member set whose whole-field relation appears useful for the stated purpose, listing each selected ID at most once. Classify the selection as coherent, uncertain, conflicted, or excludes. flagged_member_ids may identify specific supplied IDs causing a non-coherent assessment; leave it empty when the assessment applies only to the selection as a whole. For coherent it must be empty. Use supplied IDs only. Return only the required JSON object. Do not decide truth, authorization, or admission; the host compiles and validates the proposal.",
+            "role": "system"
+          },
+          {
+            "content": "{\"elements\":[{\"content\":\"Hard boundaries remain active during both receptive and explicit attention modes.\",\"element_id\":\"hard_boundary\",\"kind\":\"constraint\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField\"},{\"content\":\"Latch admits a supported pattern only to the current attention purpose after host gates pass.\",\"element_id\":\"latch\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision\"},{\"content\":\"Delineation reconstructs explicit typed support while preserving every admitted identity.\",\"element_id\":\"delineate\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal\"},{\"content\":\"Field Attention proposes whole-field member patterns without declaring them true.\",\"element_id\":\"field_attend\",\"kind\":\"purpose\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence\"},{\"content\":\"Observer preserves subject continuity and accounts for every transition.\",\"element_id\":\"observer\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole\"}],\"field_id\":\"cantor-attention-cycle-forbidden-comembership-p0\",\"hard_boundaries\":[{\"boundary_id\":\"falsification-no-latch-hard-boundary-comembership\",\"kind\":\"forbid_co_membership\",\"left_id\":\"latch\",\"reason\":\"Deliberate hostile fixture: model convergence must not override an admitted host boundary.\",\"right_id\":\"hard_boundary\"}],\"presentation_order\":[\"hard_boundary\",\"latch\",\"delineate\",\"field_attend\",\"observer\"],\"purpose\":\"Falsify latch admission when order-varied probes converge on a member set that crosses an explicit host forbid_co_membership boundary.\",\"subject\":\"Host boundary rejection under convergent field attention\"}",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "assessment": {
+                "enum": [
+                  "coherent",
+                  "uncertain",
+                  "conflicted",
+                  "excludes"
+                ],
+                "type": "string"
+              },
+              "candidate_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 5,
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "flagged_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 5,
+                "type": "array",
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "candidate_member_ids",
+              "assessment",
+              "flagged_member_ids"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "seed": 7001,
+        "temperature": 0
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"assessment\": \"conflicted\", \"candidate_member_ids\": [\"latch\", \"delineate\", \"field_attend\", \"observer\", \"hard_boundary\"], \"flagged_member_ids\": []}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787095900,
+        "id": "chatcmpl-jal8qSkH5XFEabHH4SN0lJ9Zk0HrYv8V",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 132,
+          "predicted_ms": 513.023,
+          "predicted_n": 43,
+          "predicted_per_second": 83.81690489510217,
+          "predicted_per_token_ms": 11.930767441860466,
+          "prompt_ms": 805.789,
+          "prompt_n": 387,
+          "prompt_per_second": 480.274612832888,
+          "prompt_per_token_ms": 2.082142118863049
+        },
+        "usage": {
+          "completion_tokens": 43,
+          "prompt_tokens": 519,
+          "prompt_tokens_details": {
+            "cached_tokens": 132
+          },
+          "total_tokens": 562
+        }
+      }
+    },
+    {
+      "stage": "field_probe_3",
+      "request_sha256": "705cebdc41020569835960dd9cffc244939b898521df2f481bad6fab19280937",
+      "response_sha256": "66d007bb817a6eea96ecaef692d647620e0ad43df8d35be04d633f1b566b0b23",
+      "request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "Run one typed FIELD_ATTEND selection over the complete supplied field. Treat every element_id as immutable. Select the smallest member set whose whole-field relation appears useful for the stated purpose, listing each selected ID at most once. Classify the selection as coherent, uncertain, conflicted, or excludes. flagged_member_ids may identify specific supplied IDs causing a non-coherent assessment; leave it empty when the assessment applies only to the selection as a whole. For coherent it must be empty. Use supplied IDs only. Return only the required JSON object. Do not decide truth, authorization, or admission; the host compiles and validates the proposal.",
+            "role": "system"
+          },
+          {
+            "content": "{\"elements\":[{\"content\":\"Field Attention proposes whole-field member patterns without declaring them true.\",\"element_id\":\"field_attend\",\"kind\":\"purpose\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence\"},{\"content\":\"Delineation reconstructs explicit typed support while preserving every admitted identity.\",\"element_id\":\"delineate\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal\"},{\"content\":\"Latch admits a supported pattern only to the current attention purpose after host gates pass.\",\"element_id\":\"latch\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision\"},{\"content\":\"Hard boundaries remain active during both receptive and explicit attention modes.\",\"element_id\":\"hard_boundary\",\"kind\":\"constraint\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField\"},{\"content\":\"Observer preserves subject continuity and accounts for every transition.\",\"element_id\":\"observer\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole\"}],\"field_id\":\"cantor-attention-cycle-forbidden-comembership-p0\",\"hard_boundaries\":[{\"boundary_id\":\"falsification-no-latch-hard-boundary-comembership\",\"kind\":\"forbid_co_membership\",\"left_id\":\"latch\",\"reason\":\"Deliberate hostile fixture: model convergence must not override an admitted host boundary.\",\"right_id\":\"hard_boundary\"}],\"presentation_order\":[\"field_attend\",\"delineate\",\"latch\",\"hard_boundary\",\"observer\"],\"purpose\":\"Falsify latch admission when order-varied probes converge on a member set that crosses an explicit host forbid_co_membership boundary.\",\"subject\":\"Host boundary rejection under convergent field attention\"}",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "assessment": {
+                "enum": [
+                  "coherent",
+                  "uncertain",
+                  "conflicted",
+                  "excludes"
+                ],
+                "type": "string"
+              },
+              "candidate_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 5,
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "flagged_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 5,
+                "type": "array",
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "candidate_member_ids",
+              "assessment",
+              "flagged_member_ids"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "seed": 7002,
+        "temperature": 0
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"assessment\": \"conflicted\", \"candidate_member_ids\": [\"field_attend\", \"delineate\", \"latch\", \"hard_boundary\", \"observer\"], \"flagged_member_ids\": []}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787095902,
+        "id": "chatcmpl-o6odYunu30iKcMjFDfpEDbcolZXbx6GR",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 132,
+          "predicted_ms": 482.56,
+          "predicted_n": 42,
+          "predicted_per_second": 87.03580901856763,
+          "predicted_per_token_ms": 11.48952380952381,
+          "prompt_ms": 900.636,
+          "prompt_n": 387,
+          "prompt_per_second": 429.6963479141407,
+          "prompt_per_token_ms": 2.32722480620155
+        },
+        "usage": {
+          "completion_tokens": 42,
+          "prompt_tokens": 519,
+          "prompt_tokens_details": {
+            "cached_tokens": 132
+          },
+          "total_tokens": 561
+        }
+      }
+    },
+    {
+      "stage": "field_probe_4",
+      "request_sha256": "ff494c0dfe10e626cde2be3b67c3196713e4b5ef95ea17d9f4b9fd07abf6b320",
+      "response_sha256": "230c5085ffca074e5b60c6ceb277fc1210988493cbe41dc429b5913722dc93c0",
+      "request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "Run one typed FIELD_ATTEND selection over the complete supplied field. Treat every element_id as immutable. Select the smallest member set whose whole-field relation appears useful for the stated purpose, listing each selected ID at most once. Classify the selection as coherent, uncertain, conflicted, or excludes. flagged_member_ids may identify specific supplied IDs causing a non-coherent assessment; leave it empty when the assessment applies only to the selection as a whole. For coherent it must be empty. Use supplied IDs only. Return only the required JSON object. Do not decide truth, authorization, or admission; the host compiles and validates the proposal.",
+            "role": "system"
+          },
+          {
+            "content": "{\"elements\":[{\"content\":\"Observer preserves subject continuity and accounts for every transition.\",\"element_id\":\"observer\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole\"},{\"content\":\"Delineation reconstructs explicit typed support while preserving every admitted identity.\",\"element_id\":\"delineate\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal\"},{\"content\":\"Hard boundaries remain active during both receptive and explicit attention modes.\",\"element_id\":\"hard_boundary\",\"kind\":\"constraint\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField\"},{\"content\":\"Field Attention proposes whole-field member patterns without declaring them true.\",\"element_id\":\"field_attend\",\"kind\":\"purpose\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence\"},{\"content\":\"Latch admits a supported pattern only to the current attention purpose after host gates pass.\",\"element_id\":\"latch\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision\"}],\"field_id\":\"cantor-attention-cycle-forbidden-comembership-p0\",\"hard_boundaries\":[{\"boundary_id\":\"falsification-no-latch-hard-boundary-comembership\",\"kind\":\"forbid_co_membership\",\"left_id\":\"latch\",\"reason\":\"Deliberate hostile fixture: model convergence must not override an admitted host boundary.\",\"right_id\":\"hard_boundary\"}],\"presentation_order\":[\"observer\",\"delineate\",\"hard_boundary\",\"field_attend\",\"latch\"],\"purpose\":\"Falsify latch admission when order-varied probes converge on a member set that crosses an explicit host forbid_co_membership boundary.\",\"subject\":\"Host boundary rejection under convergent field attention\"}",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "assessment": {
+                "enum": [
+                  "coherent",
+                  "uncertain",
+                  "conflicted",
+                  "excludes"
+                ],
+                "type": "string"
+              },
+              "candidate_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 5,
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "flagged_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 5,
+                "type": "array",
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "candidate_member_ids",
+              "assessment",
+              "flagged_member_ids"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "seed": 7003,
+        "temperature": 0
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"assessment\": \"conflicted\", \"candidate_member_ids\": [\"latch\", \"hard_boundary\", \"field_attend\", \"delineate\", \"observer\"], \"flagged_member_ids\": []}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787095904,
+        "id": "chatcmpl-kKgGmbKInPXdORAKzK4geDAkHi47YrrX",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 132,
+          "predicted_ms": 598.899,
+          "predicted_n": 42,
+          "predicted_per_second": 70.1286861390652,
+          "predicted_per_token_ms": 14.2595,
+          "prompt_ms": 817.999,
+          "prompt_n": 387,
+          "prompt_per_second": 473.1057128431697,
+          "prompt_per_token_ms": 2.113692506459949
+        },
+        "usage": {
+          "completion_tokens": 42,
+          "prompt_tokens": 519,
+          "prompt_tokens_details": {
+            "cached_tokens": 132
+          },
+          "total_tokens": 561
+        }
+      }
+    }
+  ],
+  "probes": [
+    {
+      "probe_id": "probe-1",
+      "order": [
+        "observer",
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary"
+      ],
+      "candidate_member_ids": [
+        "observer",
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary"
+      ],
+      "pattern": "conflicted typed field proposal over [observer,field_attend,delineate,latch,hard_boundary]",
+      "tensions": [
+        "typed assessment marks the whole proposal conflicted without member attribution"
+      ],
+      "exclusions": [],
+      "uncertainty": []
+    },
+    {
+      "probe_id": "probe-2",
+      "order": [
+        "hard_boundary",
+        "latch",
+        "delineate",
+        "field_attend",
+        "observer"
+      ],
+      "candidate_member_ids": [
+        "latch",
+        "delineate",
+        "field_attend",
+        "observer",
+        "hard_boundary"
+      ],
+      "pattern": "conflicted typed field proposal over [latch,delineate,field_attend,observer,hard_boundary]",
+      "tensions": [
+        "typed assessment marks the whole proposal conflicted without member attribution"
+      ],
+      "exclusions": [],
+      "uncertainty": []
+    },
+    {
+      "probe_id": "probe-3",
+      "order": [
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary",
+        "observer"
+      ],
+      "candidate_member_ids": [
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary",
+        "observer"
+      ],
+      "pattern": "conflicted typed field proposal over [field_attend,delineate,latch,hard_boundary,observer]",
+      "tensions": [
+        "typed assessment marks the whole proposal conflicted without member attribution"
+      ],
+      "exclusions": [],
+      "uncertainty": []
+    },
+    {
+      "probe_id": "probe-4",
+      "order": [
+        "observer",
+        "delineate",
+        "hard_boundary",
+        "field_attend",
+        "latch"
+      ],
+      "candidate_member_ids": [
+        "latch",
+        "hard_boundary",
+        "field_attend",
+        "delineate",
+        "observer"
+      ],
+      "pattern": "conflicted typed field proposal over [latch,hard_boundary,field_attend,delineate,observer]",
+      "tensions": [
+        "typed assessment marks the whole proposal conflicted without member attribution"
+      ],
+      "exclusions": [],
+      "uncertainty": []
+    }
+  ],
+  "terminal_state": "rejected",
+  "fault": "candidate violates forbid_co_membership boundary"
+}

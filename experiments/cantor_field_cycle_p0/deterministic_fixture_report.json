@@ -1,0 +1,301 @@
+{
+  "profile": "cantor-field-attention-cycle/0.1",
+  "run_id": "fixture-136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0",
+  "provider": {
+    "base_url": "fixture://local",
+    "model": "deterministic-contract-fixture"
+  },
+  "field": {
+    "profile": "cantor-semantic-field/0.1",
+    "field_id": "cantor-attention-cycle-p0",
+    "subject": "Identity-preserving field attention",
+    "purpose": "Discover whether FIELD_ATTEND, DELINEATE, and LATCH form a coherent attention-local execution seam.",
+    "elements": [
+      {
+        "element_id": "observer",
+        "kind": "contract",
+        "content": "Observer preserves subject continuity and accounts for every transition.",
+        "content_sha256": "2f350aec959aa7c04a380a2ef84a6b76fa1d7526c0ba1f79ec39eb357ad3701e",
+        "source_ref": "specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole"
+      },
+      {
+        "element_id": "field_attend",
+        "kind": "purpose",
+        "content": "Field Attention proposes whole-field member patterns without declaring them true.",
+        "content_sha256": "823d2d0a9f1ac1885cf63ed40797832ed124080bf6b9cfe195e76ff04cea7a80",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence"
+      },
+      {
+        "element_id": "delineate",
+        "kind": "contract",
+        "content": "Delineation reconstructs explicit typed support while preserving every admitted identity.",
+        "content_sha256": "91356b59dcc08c17947e7585dee3ecb8eb23de02f9d9624b660c8aed69f892c1",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal"
+      },
+      {
+        "element_id": "latch",
+        "kind": "contract",
+        "content": "Latch admits a supported pattern only to the current attention purpose after host gates pass.",
+        "content_sha256": "07c16f5cff3a2daacdb9ecb249f4b9b5e5e24db31381c6015cecee8b0e596ee1",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision"
+      },
+      {
+        "element_id": "hard_boundary",
+        "kind": "constraint",
+        "content": "Hard boundaries remain active during both receptive and explicit attention modes.",
+        "content_sha256": "34d311141add6087460629c7738528ef67e3463ce6d586d71bdef3124bca70dd",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField"
+      }
+    ],
+    "boundaries": [],
+    "probe_policy": {
+      "probe_count": 4,
+      "minimum_support": 3
+    }
+  },
+  "field_digest": "136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0",
+  "events": [
+    {
+      "ordinal": 1,
+      "state": "created",
+      "evidence_ref": "fixture-event-1"
+    },
+    {
+      "ordinal": 2,
+      "state": "field_validated",
+      "evidence_ref": "fixture-event-2"
+    },
+    {
+      "ordinal": 3,
+      "state": "probes_requested",
+      "evidence_ref": "fixture-event-3"
+    },
+    {
+      "ordinal": 4,
+      "state": "probes_collected",
+      "evidence_ref": "fixture-event-4"
+    },
+    {
+      "ordinal": 5,
+      "state": "candidate_aggregated",
+      "evidence_ref": "fixture-event-5"
+    },
+    {
+      "ordinal": 6,
+      "state": "delineation_requested",
+      "evidence_ref": "fixture-event-6"
+    },
+    {
+      "ordinal": 7,
+      "state": "delineation_collected",
+      "evidence_ref": "fixture-event-7"
+    },
+    {
+      "ordinal": 8,
+      "state": "latch_evaluated",
+      "evidence_ref": "fixture-event-8"
+    },
+    {
+      "ordinal": 9,
+      "state": "completed",
+      "evidence_ref": "fixture-event-9"
+    }
+  ],
+  "exchanges": [],
+  "probes": [
+    {
+      "probe_id": "probe-1",
+      "order": [
+        "observer",
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary"
+      ],
+      "candidate_member_ids": [
+        "observer",
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary"
+      ],
+      "pattern": "Field proposal, explicit delineation, and host latch form one attention-local cycle.",
+      "tensions": [
+        "Model agreement remains correlated evidence rather than truth."
+      ],
+      "exclusions": [],
+      "uncertainty": []
+    },
+    {
+      "probe_id": "probe-2",
+      "order": [
+        "hard_boundary",
+        "latch",
+        "delineate",
+        "field_attend",
+        "observer"
+      ],
+      "candidate_member_ids": [
+        "observer",
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary"
+      ],
+      "pattern": "Field proposal, explicit delineation, and host latch form one attention-local cycle.",
+      "tensions": [
+        "Model agreement remains correlated evidence rather than truth."
+      ],
+      "exclusions": [],
+      "uncertainty": []
+    },
+    {
+      "probe_id": "probe-3",
+      "order": [
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary",
+        "observer"
+      ],
+      "candidate_member_ids": [
+        "observer",
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary"
+      ],
+      "pattern": "Field proposal, explicit delineation, and host latch form one attention-local cycle.",
+      "tensions": [
+        "Model agreement remains correlated evidence rather than truth."
+      ],
+      "exclusions": [],
+      "uncertainty": []
+    },
+    {
+      "probe_id": "probe-4",
+      "order": [
+        "observer",
+        "delineate",
+        "hard_boundary",
+        "field_attend",
+        "latch"
+      ],
+      "candidate_member_ids": [
+        "observer",
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary"
+      ],
+      "pattern": "Field proposal, explicit delineation, and host latch form one attention-local cycle.",
+      "tensions": [
+        "Model agreement remains correlated evidence rather than truth."
+      ],
+      "exclusions": [],
+      "uncertainty": []
+    }
+  ],
+  "candidate": {
+    "candidate_id": "683031089a19e019b2b7a30fc09e2b69e3c1df518d6cdf5eb4bd29420571bcac",
+    "field_digest": "136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0",
+    "member_ids": [
+      "delineate",
+      "field_attend",
+      "hard_boundary",
+      "latch",
+      "observer"
+    ],
+    "supporting_probe_ids": [
+      "probe-1",
+      "probe-2",
+      "probe-3",
+      "probe-4"
+    ],
+    "support_count": 4,
+    "probe_count": 4,
+    "status": "provisional",
+    "representative_pattern": "Field proposal, explicit delineation, and host latch form one attention-local cycle."
+  },
+  "delineation_proposal": {
+    "candidate_id": "683031089a19e019b2b7a30fc09e2b69e3c1df518d6cdf5eb4bd29420571bcac",
+    "status": "supported",
+    "identity_bindings": [
+      {
+        "input_id": "delineate",
+        "output_id": "delineate"
+      },
+      {
+        "input_id": "field_attend",
+        "output_id": "field_attend"
+      },
+      {
+        "input_id": "hard_boundary",
+        "output_id": "hard_boundary"
+      },
+      {
+        "input_id": "latch",
+        "output_id": "latch"
+      },
+      {
+        "input_id": "observer",
+        "output_id": "observer"
+      }
+    ],
+    "relations": [
+      {
+        "source_id": "delineate",
+        "kind": "supports",
+        "target_id": "field_attend",
+        "account": "Deterministic fixture edge preserves identity and connected coverage."
+      },
+      {
+        "source_id": "field_attend",
+        "kind": "supports",
+        "target_id": "hard_boundary",
+        "account": "Deterministic fixture edge preserves identity and connected coverage."
+      },
+      {
+        "source_id": "hard_boundary",
+        "kind": "supports",
+        "target_id": "latch",
+        "account": "Deterministic fixture edge preserves identity and connected coverage."
+      },
+      {
+        "source_id": "latch",
+        "kind": "supports",
+        "target_id": "observer",
+        "account": "Deterministic fixture edge preserves identity and connected coverage."
+      }
+    ],
+    "contradictions": [],
+    "excluded_member_ids": [],
+    "uncertainty": [],
+    "account": "Every candidate identity is preserved and the explicit support projection is connected."
+  },
+  "delineation_result": {
+    "status": "supported",
+    "identity_preserved": true,
+    "boundary_preserved": true,
+    "support_connected": true,
+    "contradiction_free": true,
+    "uncertainty_free": true,
+    "failed_gates": []
+  },
+  "latch_decision": {
+    "profile": "cantor-field-attention-cycle/0.1",
+    "field_id": "cantor-attention-cycle-p0",
+    "field_digest": "136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0",
+    "candidate_id": "683031089a19e019b2b7a30fc09e2b69e3c1df518d6cdf5eb4bd29420571bcac",
+    "status": "admitted_for_attention",
+    "failed_gates": [],
+    "proof_refs": [
+      "probe-1",
+      "probe-2",
+      "probe-3",
+      "probe-4"
+    ],
+    "semantic_scope": "Discover whether FIELD_ATTEND, DELINEATE, and LATCH form a coherent attention-local execution seam."
+  },
+  "terminal_state": "completed"
+}

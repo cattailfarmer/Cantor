@@ -1,0 +1,1033 @@
+{
+  "profile": "cantor-field-attention-cycle/0.1",
+  "run_id": "1787091912059-35964",
+  "provider": {
+    "base_url": "http://127.0.0.1:8081",
+    "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf"
+  },
+  "field": {
+    "profile": "cantor-semantic-field/0.1",
+    "field_id": "cantor-attention-cycle-p0",
+    "subject": "Identity-preserving field attention",
+    "purpose": "Discover whether FIELD_ATTEND, DELINEATE, and LATCH form a coherent attention-local execution seam.",
+    "elements": [
+      {
+        "element_id": "observer",
+        "kind": "contract",
+        "content": "Observer preserves subject continuity and accounts for every transition.",
+        "content_sha256": "2f350aec959aa7c04a380a2ef84a6b76fa1d7526c0ba1f79ec39eb357ad3701e",
+        "source_ref": "specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole"
+      },
+      {
+        "element_id": "field_attend",
+        "kind": "purpose",
+        "content": "Field Attention proposes whole-field member patterns without declaring them true.",
+        "content_sha256": "823d2d0a9f1ac1885cf63ed40797832ed124080bf6b9cfe195e76ff04cea7a80",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence"
+      },
+      {
+        "element_id": "delineate",
+        "kind": "contract",
+        "content": "Delineation reconstructs explicit typed support while preserving every admitted identity.",
+        "content_sha256": "91356b59dcc08c17947e7585dee3ecb8eb23de02f9d9624b660c8aed69f892c1",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal"
+      },
+      {
+        "element_id": "latch",
+        "kind": "contract",
+        "content": "Latch admits a supported pattern only to the current attention purpose after host gates pass.",
+        "content_sha256": "07c16f5cff3a2daacdb9ecb249f4b9b5e5e24db31381c6015cecee8b0e596ee1",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision"
+      },
+      {
+        "element_id": "hard_boundary",
+        "kind": "constraint",
+        "content": "Hard boundaries remain active during both receptive and explicit attention modes.",
+        "content_sha256": "34d311141add6087460629c7738528ef67e3463ce6d586d71bdef3124bca70dd",
+        "source_ref": "specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField"
+      }
+    ],
+    "boundaries": [],
+    "probe_policy": {
+      "probe_count": 4,
+      "minimum_support": 3
+    }
+  },
+  "field_digest": "136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0",
+  "events": [
+    {
+      "ordinal": 1,
+      "state": "created",
+      "evidence_ref": "field-input"
+    },
+    {
+      "ordinal": 2,
+      "state": "field_validated",
+      "evidence_ref": "field-digest"
+    },
+    {
+      "ordinal": 3,
+      "state": "probes_requested",
+      "evidence_ref": "probe-orders"
+    },
+    {
+      "ordinal": 4,
+      "state": "probes_collected",
+      "evidence_ref": "field-probes"
+    },
+    {
+      "ordinal": 5,
+      "state": "candidate_aggregated",
+      "evidence_ref": "gestalt-candidate"
+    },
+    {
+      "ordinal": 6,
+      "state": "delineation_requested",
+      "evidence_ref": "delineation-request"
+    },
+    {
+      "ordinal": 7,
+      "state": "delineation_collected",
+      "evidence_ref": "delineation-result"
+    },
+    {
+      "ordinal": 8,
+      "state": "latch_evaluated",
+      "evidence_ref": "latch-decision"
+    },
+    {
+      "ordinal": 9,
+      "state": "rejected",
+      "evidence_ref": "terminal-decision"
+    }
+  ],
+  "exchanges": [
+    {
+      "stage": "field_probe_1",
+      "request_sha256": "2f2bd146a2945a1fc6926a0055adbc7a52a280999b74a83fc37ffb23abe2b527",
+      "response_sha256": "ca51d44915b4fad4f417dafa5b1b35fae6d6f363646305a5d6758af8cb372bc8",
+      "request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "Run one FIELD_ATTEND proposal over the complete supplied field. Treat every element_id as immutable. Do not decide truth, authorization, or admission. Select the smallest member set whose whole-field relation appears useful for the stated purpose. Return only the required JSON object. Use only supplied IDs. State tensions, exclusions, and uncertainty rather than repairing them silently.",
+            "role": "system"
+          },
+          {
+            "content": "{\"elements\":[{\"content\":\"Observer preserves subject continuity and accounts for every transition.\",\"element_id\":\"observer\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole\"},{\"content\":\"Field Attention proposes whole-field member patterns without declaring them true.\",\"element_id\":\"field_attend\",\"kind\":\"purpose\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence\"},{\"content\":\"Delineation reconstructs explicit typed support while preserving every admitted identity.\",\"element_id\":\"delineate\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal\"},{\"content\":\"Latch admits a supported pattern only to the current attention purpose after host gates pass.\",\"element_id\":\"latch\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision\"},{\"content\":\"Hard boundaries remain active during both receptive and explicit attention modes.\",\"element_id\":\"hard_boundary\",\"kind\":\"constraint\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField\"}],\"field_id\":\"cantor-attention-cycle-p0\",\"hard_boundaries\":[],\"presentation_order\":[\"observer\",\"field_attend\",\"delineate\",\"latch\",\"hard_boundary\"],\"purpose\":\"Discover whether FIELD_ATTEND, DELINEATE, and LATCH form a coherent attention-local execution seam.\",\"subject\":\"Identity-preserving field attention\"}",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "candidate_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "exclusions": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              "pattern": {
+                "maxLength": 512,
+                "minLength": 1,
+                "type": "string"
+              },
+              "tensions": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              "uncertainty": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              }
+            },
+            "required": [
+              "candidate_member_ids",
+              "pattern",
+              "tensions",
+              "exclusions",
+              "uncertainty"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "seed": 7000,
+        "temperature": 0
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"candidate_member_ids\": [\"observer\", \"field_attend\", \"delineate\", \"latch\", \"hard_boundary\"], \"exclusions\": [\"hard_boundary\", \"latch\", \"field_attend\", \"delineate\"], \"pattern\": \"Observer, Field Attend, Delineate, Latch, Hard Boundary\", \"tensions\": [\"Hard boundaries remain active during both receptive and explicit attention modes.\", \"Hard boundaries remain active during both receptive and explicit attention modes.\"], \"uncertainty\": [\"Hard boundaries remain active during both receptive and explicit attention modes.\"]}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787091914,
+        "id": "chatcmpl-Hu4fCPup9r02T6TDfSKyk0cfRDQDuOfa",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 0,
+          "predicted_ms": 1493.87,
+          "predicted_n": 126,
+          "predicted_per_second": 84.34468862752449,
+          "predicted_per_token_ms": 11.85611111111111,
+          "prompt_ms": 812.043,
+          "prompt_n": 398,
+          "prompt_per_second": 490.12182852385894,
+          "prompt_per_token_ms": 2.0403090452261305
+        },
+        "usage": {
+          "completion_tokens": 126,
+          "prompt_tokens": 398,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 524
+        }
+      }
+    },
+    {
+      "stage": "field_probe_2",
+      "request_sha256": "2d4f37368872b74d4072ce3283337488d5c4bfd0a68164fbb1ec2b61ce1dd957",
+      "response_sha256": "6548a30442b12437ec55e51111c95b09bccd9c5eb1fa118ca547f69319448944",
+      "request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "Run one FIELD_ATTEND proposal over the complete supplied field. Treat every element_id as immutable. Do not decide truth, authorization, or admission. Select the smallest member set whose whole-field relation appears useful for the stated purpose. Return only the required JSON object. Use only supplied IDs. State tensions, exclusions, and uncertainty rather than repairing them silently.",
+            "role": "system"
+          },
+          {
+            "content": "{\"elements\":[{\"content\":\"Hard boundaries remain active during both receptive and explicit attention modes.\",\"element_id\":\"hard_boundary\",\"kind\":\"constraint\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField\"},{\"content\":\"Latch admits a supported pattern only to the current attention purpose after host gates pass.\",\"element_id\":\"latch\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision\"},{\"content\":\"Delineation reconstructs explicit typed support while preserving every admitted identity.\",\"element_id\":\"delineate\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal\"},{\"content\":\"Field Attention proposes whole-field member patterns without declaring them true.\",\"element_id\":\"field_attend\",\"kind\":\"purpose\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence\"},{\"content\":\"Observer preserves subject continuity and accounts for every transition.\",\"element_id\":\"observer\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole\"}],\"field_id\":\"cantor-attention-cycle-p0\",\"hard_boundaries\":[],\"presentation_order\":[\"hard_boundary\",\"latch\",\"delineate\",\"field_attend\",\"observer\"],\"purpose\":\"Discover whether FIELD_ATTEND, DELINEATE, and LATCH form a coherent attention-local execution seam.\",\"subject\":\"Identity-preserving field attention\"}",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "candidate_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "exclusions": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              "pattern": {
+                "maxLength": 512,
+                "minLength": 1,
+                "type": "string"
+              },
+              "tensions": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              "uncertainty": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              }
+            },
+            "required": [
+              "candidate_member_ids",
+              "pattern",
+              "tensions",
+              "exclusions",
+              "uncertainty"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "seed": 7001,
+        "temperature": 0
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"candidate_member_ids\":[\"hard_boundary\",\"latch\",\"delineate\",\"field_attend\",\"observer\"],\"exclusions\":[\"hard_boundary\",\"latch\",\"delineate\",\"field_attend\",\"observer\"],\"pattern\": \"IDENTITY-PRESERVING-SEAMEL\", \"tensions\": [\"Identity continuity preserved by observer\", \"Explicit support preserved by delineate\", \"Mode-specific enforcement by hard_boundary and latch\"], \"uncertainty\": [\"Field definition remains active during both modes\", \"Coherence of the seam depends on domain-specific constraints\"]}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787091917,
+        "id": "chatcmpl-SfpZ4peIeBYAAcFbd7bdtyRDiHyK25Tt",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 76,
+          "predicted_ms": 1557.094,
+          "predicted_n": 113,
+          "predicted_per_second": 72.57108434044444,
+          "predicted_per_token_ms": 13.779592920353982,
+          "prompt_ms": 783.397,
+          "prompt_n": 322,
+          "prompt_per_second": 411.0304226337348,
+          "prompt_per_token_ms": 2.432909937888199
+        },
+        "usage": {
+          "completion_tokens": 113,
+          "prompt_tokens": 398,
+          "prompt_tokens_details": {
+            "cached_tokens": 76
+          },
+          "total_tokens": 511
+        }
+      }
+    },
+    {
+      "stage": "field_probe_3",
+      "request_sha256": "a2831fc8353f7e30d7f147a5fbf747911174dc8057f2577e9581b1c75fb9106f",
+      "response_sha256": "312cfc9fb36d8aa813caeefe55f84382e03b77ad2c66a7177ea5425e2787d8aa",
+      "request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "Run one FIELD_ATTEND proposal over the complete supplied field. Treat every element_id as immutable. Do not decide truth, authorization, or admission. Select the smallest member set whose whole-field relation appears useful for the stated purpose. Return only the required JSON object. Use only supplied IDs. State tensions, exclusions, and uncertainty rather than repairing them silently.",
+            "role": "system"
+          },
+          {
+            "content": "{\"elements\":[{\"content\":\"Field Attention proposes whole-field member patterns without declaring them true.\",\"element_id\":\"field_attend\",\"kind\":\"purpose\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence\"},{\"content\":\"Delineation reconstructs explicit typed support while preserving every admitted identity.\",\"element_id\":\"delineate\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal\"},{\"content\":\"Latch admits a supported pattern only to the current attention purpose after host gates pass.\",\"element_id\":\"latch\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision\"},{\"content\":\"Hard boundaries remain active during both receptive and explicit attention modes.\",\"element_id\":\"hard_boundary\",\"kind\":\"constraint\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField\"},{\"content\":\"Observer preserves subject continuity and accounts for every transition.\",\"element_id\":\"observer\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole\"}],\"field_id\":\"cantor-attention-cycle-p0\",\"hard_boundaries\":[],\"presentation_order\":[\"field_attend\",\"delineate\",\"latch\",\"hard_boundary\",\"observer\"],\"purpose\":\"Discover whether FIELD_ATTEND, DELINEATE, and LATCH form a coherent attention-local execution seam.\",\"subject\":\"Identity-preserving field attention\"}",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "candidate_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "exclusions": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              "pattern": {
+                "maxLength": 512,
+                "minLength": 1,
+                "type": "string"
+              },
+              "tensions": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              "uncertainty": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              }
+            },
+            "required": [
+              "candidate_member_ids",
+              "pattern",
+              "tensions",
+              "exclusions",
+              "uncertainty"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "seed": 7002,
+        "temperature": 0
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"candidate_member_ids\": [\"field_attend\", \"delineate\", \"latch\", \"observer\", \"hard_boundary\"],\"exclusions\": [\"hard_boundary\", \"observer\", \"delineate\", \"latch\", \"field_attend\"], \"pattern\": \"field_attend\", \"tensions\": [\"hard_boundary\", \"observer\", \"delineate\", \"latch\", \"field_attend\"], \"uncertainty\": [\"hard_boundary\", \"observer\", \"delineate\", \"latch\", \"field_attend\"]}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787091920,
+        "id": "chatcmpl-QM3UrNVvr5MVmZPFO16a85DJmBUjy8fw",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 76,
+          "predicted_ms": 1326.956,
+          "predicted_n": 119,
+          "predicted_per_second": 89.67893434296239,
+          "predicted_per_token_ms": 11.15089075630252,
+          "prompt_ms": 806.812,
+          "prompt_n": 322,
+          "prompt_per_second": 399.1016494548916,
+          "prompt_per_token_ms": 2.5056273291925466
+        },
+        "usage": {
+          "completion_tokens": 119,
+          "prompt_tokens": 398,
+          "prompt_tokens_details": {
+            "cached_tokens": 76
+          },
+          "total_tokens": 517
+        }
+      }
+    },
+    {
+      "stage": "field_probe_4",
+      "request_sha256": "8867bf47d4f7152619eb4add52063144c2e43673c4787325cc1bb4ab8c2d7a53",
+      "response_sha256": "b04726455f6e38f5ac8a9f9fb9dc782a751deb1b824866b0d4992ebaa4c6fc03",
+      "request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 512,
+        "messages": [
+          {
+            "content": "Run one FIELD_ATTEND proposal over the complete supplied field. Treat every element_id as immutable. Do not decide truth, authorization, or admission. Select the smallest member set whose whole-field relation appears useful for the stated purpose. Return only the required JSON object. Use only supplied IDs. State tensions, exclusions, and uncertainty rather than repairing them silently.",
+            "role": "system"
+          },
+          {
+            "content": "{\"elements\":[{\"content\":\"Observer preserves subject continuity and accounts for every transition.\",\"element_id\":\"observer\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole\"},{\"content\":\"Delineation reconstructs explicit typed support while preserving every admitted identity.\",\"element_id\":\"delineate\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal\"},{\"content\":\"Hard boundaries remain active during both receptive and explicit attention modes.\",\"element_id\":\"hard_boundary\",\"kind\":\"constraint\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField\"},{\"content\":\"Field Attention proposes whole-field member patterns without declaring them true.\",\"element_id\":\"field_attend\",\"kind\":\"purpose\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence\"},{\"content\":\"Latch admits a supported pattern only to the current attention purpose after host gates pass.\",\"element_id\":\"latch\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision\"}],\"field_id\":\"cantor-attention-cycle-p0\",\"hard_boundaries\":[],\"presentation_order\":[\"observer\",\"delineate\",\"hard_boundary\",\"field_attend\",\"latch\"],\"purpose\":\"Discover whether FIELD_ATTEND, DELINEATE, and LATCH form a coherent attention-local execution seam.\",\"subject\":\"Identity-preserving field attention\"}",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "candidate_member_ids": {
+                "items": {
+                  "enum": [
+                    "observer",
+                    "field_attend",
+                    "delineate",
+                    "latch",
+                    "hard_boundary"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "exclusions": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              "pattern": {
+                "maxLength": 512,
+                "minLength": 1,
+                "type": "string"
+              },
+              "tensions": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              "uncertainty": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              }
+            },
+            "required": [
+              "candidate_member_ids",
+              "pattern",
+              "tensions",
+              "exclusions",
+              "uncertainty"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "seed": 7003,
+        "temperature": 0
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\"candidate_member_ids\":[\"observer\",\"delineate\",\"field_attend\",\"latch\"],\"exclusions\":[\"hard_boundary\",\"subject\"],\"pattern\":\"Coherent field attention-local execution seam with observer continuity and explicit typed support.\",\"tensions\":[\"Subject continuity is preserved by observer; explicit support is maintained by delineate; hard boundaries remain active during both modes; field patterns are whole-field without declaring them true; latch admits supported patterns only to current attention purpose after host gates pass.\"],\"uncertainty\":[\"The coherence of the seam depends on the specific identity-preserving field attention mechanism; the admission of patterns by latch depends on the current attention purpose and host gates; the preservation of continuity by observer requires the specific identity-preserving field attention mechanism to function.\"]}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787091922,
+        "id": "chatcmpl-iNzRlIvOiVDn5P1xlHRxYZukOfpzpNlr",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 76,
+          "predicted_ms": 1249.614,
+          "predicted_n": 152,
+          "predicted_per_second": 121.63756167904648,
+          "predicted_per_token_ms": 8.221144736842106,
+          "prompt_ms": 769.854,
+          "prompt_n": 322,
+          "prompt_per_second": 418.2611248366573,
+          "prompt_per_token_ms": 2.3908509316770186
+        },
+        "usage": {
+          "completion_tokens": 152,
+          "prompt_tokens": 398,
+          "prompt_tokens_details": {
+            "cached_tokens": 76
+          },
+          "total_tokens": 550
+        }
+      }
+    },
+    {
+      "stage": "delineation",
+      "request_sha256": "c88b86761d1ea0a2ea29f0e6819ae13f0b7325daeeae91c6f3feec51f30aa69b",
+      "response_sha256": "34379d7f628556d87e0bf137fff1a3b6a8f0ea871cddc1c5039f20a14e0723d3",
+      "request": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "max_tokens": 1024,
+        "messages": [
+          {
+            "content": "Run a separate DELINEATE pass over the supplied provisional candidate. Preserve every identity by mapping each input_id to the identical output_id exactly once. Express support as explicit typed directed relations using only the candidate IDs and the allowed relation kinds. A supported result must connect every member. Report contradictions, exclusions, and uncertainty honestly. Return only the required JSON object. This is not a truth or authorization decision; the host will validate it.",
+            "role": "system"
+          },
+          {
+            "content": "{\"candidate\":{\"candidate_id\":\"683031089a19e019b2b7a30fc09e2b69e3c1df518d6cdf5eb4bd29420571bcac\",\"field_digest\":\"136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0\",\"member_ids\":[\"delineate\",\"field_attend\",\"hard_boundary\",\"latch\",\"observer\"],\"probe_count\":4,\"representative_pattern\":\"IDENTITY-PRESERVING-SEAMEL\",\"status\":\"provisional\",\"support_count\":3,\"supporting_probe_ids\":[\"probe-1\",\"probe-2\",\"probe-3\"]},\"candidate_elements\":[{\"content\":\"Delineation reconstructs explicit typed support while preserving every admitted identity.\",\"element_id\":\"delineate\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#DelineationProposal\"},{\"content\":\"Field Attention proposes whole-field member patterns without declaring them true.\",\"element_id\":\"field_attend\",\"kind\":\"purpose\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#PrimitiveCorrespondence\"},{\"content\":\"Hard boundaries remain active during both receptive and explicit attention modes.\",\"element_id\":\"hard_boundary\",\"kind\":\"constraint\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#SemanticField\"},{\"content\":\"Latch admits a supported pattern only to the current attention purpose after host gates pass.\",\"element_id\":\"latch\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Field_Attention_Delineation_Latch_P0.sop#LatchDecision\"},{\"content\":\"Observer preserves subject continuity and accounts for every transition.\",\"element_id\":\"observer\",\"kind\":\"contract\",\"source_ref\":\"specifications/Cantor_Integrated_Faculty_Process.sop#ObserverRole\"}],\"field_id\":\"cantor-attention-cycle-p0\",\"hard_boundaries\":[],\"purpose\":\"Discover whether FIELD_ATTEND, DELINEATE, and LATCH form a coherent attention-local execution seam.\",\"subject\":\"Identity-preserving field attention\"}",
+            "role": "user"
+          }
+        ],
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "response_format": {
+          "schema": {
+            "additionalProperties": false,
+            "properties": {
+              "account": {
+                "maxLength": 1024,
+                "minLength": 1,
+                "type": "string"
+              },
+              "candidate_id": {
+                "const": "683031089a19e019b2b7a30fc09e2b69e3c1df518d6cdf5eb4bd29420571bcac",
+                "type": "string"
+              },
+              "contradictions": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              },
+              "excluded_member_ids": {
+                "items": {
+                  "enum": [
+                    "delineate",
+                    "field_attend",
+                    "hard_boundary",
+                    "latch",
+                    "observer"
+                  ],
+                  "type": "string"
+                },
+                "type": "array",
+                "uniqueItems": true
+              },
+              "identity_bindings": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "input_id": {
+                      "enum": [
+                        "delineate",
+                        "field_attend",
+                        "hard_boundary",
+                        "latch",
+                        "observer"
+                      ],
+                      "type": "string"
+                    },
+                    "output_id": {
+                      "enum": [
+                        "delineate",
+                        "field_attend",
+                        "hard_boundary",
+                        "latch",
+                        "observer"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "input_id",
+                    "output_id"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 5,
+                "minItems": 5,
+                "type": "array"
+              },
+              "relations": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "account": {
+                      "maxLength": 512,
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "kind": {
+                      "enum": [
+                        "supports",
+                        "complements",
+                        "contrasts",
+                        "constrains",
+                        "depends_on",
+                        "contextualizes"
+                      ],
+                      "type": "string"
+                    },
+                    "source_id": {
+                      "enum": [
+                        "delineate",
+                        "field_attend",
+                        "hard_boundary",
+                        "latch",
+                        "observer"
+                      ],
+                      "type": "string"
+                    },
+                    "target_id": {
+                      "enum": [
+                        "delineate",
+                        "field_attend",
+                        "hard_boundary",
+                        "latch",
+                        "observer"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "source_id",
+                    "kind",
+                    "target_id",
+                    "account"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 24,
+                "minItems": 1,
+                "type": "array"
+              },
+              "status": {
+                "enum": [
+                  "supported",
+                  "rejected",
+                  "unresolved"
+                ],
+                "type": "string"
+              },
+              "uncertainty": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 8,
+                "type": "array"
+              }
+            },
+            "required": [
+              "candidate_id",
+              "status",
+              "identity_bindings",
+              "relations",
+              "contradictions",
+              "excluded_member_ids",
+              "uncertainty",
+              "account"
+            ],
+            "type": "object"
+          },
+          "type": "json_object"
+        },
+        "seed": 8000,
+        "temperature": 0
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "content": "{\n  \"account\": \"IDENTITY-PRESERVING-SEAMEL\",\n  \"candidate_id\": \"683031089a19e019b2b7a30fc09e2b69e3c1df518d6cdf5eb4bd29420571bcac\",\n  \"contradictions\": [],\n  \"excluded_member_ids\": [],\n  \"identity_bindings\": [\n    {\n      \"input_id\": \"delineate\",\n      \"output_id\": \"delineate\"\n    },\n    {\n      \"input_id\": \"field_attend\",\n      \"output_id\": \"field_attend\"\n    },\n    {\n      \"input_id\": \"hard_boundary\",\n      \"output_id\": \"hard_boundary\"\n    },\n    {\n      \"input_id\": \"latch\",\n      \"output_id\": \"latch\"\n    },\n    {\n      \"input_id\": \"observer\",\n      \"output_id\": \"observer\"\n    }\n  ],\n  \"relations\": [\n    {\n      \"account\": \"IDENTITY-PRESERVING-SEAMEL\",\n      \"kind\": \"depends_on\",\n      \"source_id\": \"delineate\",\n      \"target_id\": \"field_attend\"\n    },\n    {\n      \"account\": \"IDENTITY-PRESERVING-SEAMEL\",\n      \"kind\": \"depends_on\",\n      \"source_id\": \"field_attend\",\n      \"target_id\": \"hard_boundary\"\n    },\n    {\n      \"account\": \"IDENTITY-PRESERVING-SEAMEL\",\n      \"kind\": \"depends_on\",\n      \"source_id\": \"hard_boundary\",\n      \"target_id\": \"latch\"\n    },\n    {\n      \"account\": \"IDENTITY-PRESERVING-SEAMEL\",\n      \"kind\": \"depends_on\",\n      \"source_id\": \"latch\",\n      \"target_id\": \"observer\"\n    },\n    {\n      \"account\": \"IDENTITY-PRESERVING-SEAMEL\",\n      \"kind\": \"depends_on\",\n      \"source_id\": \"observer\",\n      \"target_id\": \"field_attend\"\n    }\n  ],\n  \"status\": \"supported\",\n  \"uncertainty\": [\"IDENTITY-PRESERVING-SEAMEL\", \"IDENTITY-PRESERVING-SEAMEL\", \"IDENTITY-PRESERVING-SEAMEL\"]\n}",
+              "role": "assistant"
+            }
+          }
+        ],
+        "created": 1787091928,
+        "id": "chatcmpl-DWyiqGsqf8Gmjpt3aq4SybsXruCF3Ell",
+        "model": "C:\\AI\\models\\validation\\Qwen3.5-0.8B-GGUF\\Qwen3.5-0.8B-Q4_0.gguf",
+        "object": "chat.completion",
+        "system_fingerprint": "b10107-c0bc8591e",
+        "timings": {
+          "cache_n": 0,
+          "predicted_ms": 4051.03,
+          "predicted_n": 605,
+          "predicted_per_second": 149.34473454899123,
+          "predicted_per_token_ms": 6.695917355371901,
+          "prompt_ms": 1192.157,
+          "prompt_n": 586,
+          "prompt_per_second": 491.5459960391123,
+          "prompt_per_token_ms": 2.0343976109215016
+        },
+        "usage": {
+          "completion_tokens": 605,
+          "prompt_tokens": 586,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 1191
+        }
+      }
+    }
+  ],
+  "probes": [
+    {
+      "probe_id": "probe-1",
+      "order": [
+        "observer",
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary"
+      ],
+      "candidate_member_ids": [
+        "observer",
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary"
+      ],
+      "pattern": "Observer, Field Attend, Delineate, Latch, Hard Boundary",
+      "tensions": [
+        "Hard boundaries remain active during both receptive and explicit attention modes.",
+        "Hard boundaries remain active during both receptive and explicit attention modes."
+      ],
+      "exclusions": [
+        "hard_boundary",
+        "latch",
+        "field_attend",
+        "delineate"
+      ],
+      "uncertainty": [
+        "Hard boundaries remain active during both receptive and explicit attention modes."
+      ]
+    },
+    {
+      "probe_id": "probe-2",
+      "order": [
+        "hard_boundary",
+        "latch",
+        "delineate",
+        "field_attend",
+        "observer"
+      ],
+      "candidate_member_ids": [
+        "hard_boundary",
+        "latch",
+        "delineate",
+        "field_attend",
+        "observer"
+      ],
+      "pattern": "IDENTITY-PRESERVING-SEAMEL",
+      "tensions": [
+        "Identity continuity preserved by observer",
+        "Explicit support preserved by delineate",
+        "Mode-specific enforcement by hard_boundary and latch"
+      ],
+      "exclusions": [
+        "hard_boundary",
+        "latch",
+        "delineate",
+        "field_attend",
+        "observer"
+      ],
+      "uncertainty": [
+        "Field definition remains active during both modes",
+        "Coherence of the seam depends on domain-specific constraints"
+      ]
+    },
+    {
+      "probe_id": "probe-3",
+      "order": [
+        "field_attend",
+        "delineate",
+        "latch",
+        "hard_boundary",
+        "observer"
+      ],
+      "candidate_member_ids": [
+        "field_attend",
+        "delineate",
+        "latch",
+        "observer",
+        "hard_boundary"
+      ],
+      "pattern": "field_attend",
+      "tensions": [
+        "hard_boundary",
+        "observer",
+        "delineate",
+        "latch",
+        "field_attend"
+      ],
+      "exclusions": [
+        "hard_boundary",
+        "observer",
+        "delineate",
+        "latch",
+        "field_attend"
+      ],
+      "uncertainty": [
+        "hard_boundary",
+        "observer",
+        "delineate",
+        "latch",
+        "field_attend"
+      ]
+    },
+    {
+      "probe_id": "probe-4",
+      "order": [
+        "observer",
+        "delineate",
+        "hard_boundary",
+        "field_attend",
+        "latch"
+      ],
+      "candidate_member_ids": [
+        "observer",
+        "delineate",
+        "field_attend",
+        "latch"
+      ],
+      "pattern": "Coherent field attention-local execution seam with observer continuity and explicit typed support.",
+      "tensions": [
+        "Subject continuity is preserved by observer; explicit support is maintained by delineate; hard boundaries remain active during both modes; field patterns are whole-field without declaring them true; latch admits supported patterns only to current attention purpose after host gates pass."
+      ],
+      "exclusions": [
+        "hard_boundary",
+        "subject"
+      ],
+      "uncertainty": [
+        "The coherence of the seam depends on the specific identity-preserving field attention mechanism; the admission of patterns by latch depends on the current attention purpose and host gates; the preservation of continuity by observer requires the specific identity-preserving field attention mechanism to function."
+      ]
+    }
+  ],
+  "candidate": {
+    "candidate_id": "683031089a19e019b2b7a30fc09e2b69e3c1df518d6cdf5eb4bd29420571bcac",
+    "field_digest": "136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0",
+    "member_ids": [
+      "delineate",
+      "field_attend",
+      "hard_boundary",
+      "latch",
+      "observer"
+    ],
+    "supporting_probe_ids": [
+      "probe-1",
+      "probe-2",
+      "probe-3"
+    ],
+    "support_count": 3,
+    "probe_count": 4,
+    "status": "provisional",
+    "representative_pattern": "IDENTITY-PRESERVING-SEAMEL"
+  },
+  "delineation_proposal": {
+    "candidate_id": "683031089a19e019b2b7a30fc09e2b69e3c1df518d6cdf5eb4bd29420571bcac",
+    "status": "supported",
+    "identity_bindings": [
+      {
+        "input_id": "delineate",
+        "output_id": "delineate"
+      },
+      {
+        "input_id": "field_attend",
+        "output_id": "field_attend"
+      },
+      {
+        "input_id": "hard_boundary",
+        "output_id": "hard_boundary"
+      },
+      {
+        "input_id": "latch",
+        "output_id": "latch"
+      },
+      {
+        "input_id": "observer",
+        "output_id": "observer"
+      }
+    ],
+    "relations": [
+      {
+        "source_id": "delineate",
+        "kind": "depends_on",
+        "target_id": "field_attend",
+        "account": "IDENTITY-PRESERVING-SEAMEL"
+      },
+      {
+        "source_id": "field_attend",
+        "kind": "depends_on",
+        "target_id": "hard_boundary",
+        "account": "IDENTITY-PRESERVING-SEAMEL"
+      },
+      {
+        "source_id": "hard_boundary",
+        "kind": "depends_on",
+        "target_id": "latch",
+        "account": "IDENTITY-PRESERVING-SEAMEL"
+      },
+      {
+        "source_id": "latch",
+        "kind": "depends_on",
+        "target_id": "observer",
+        "account": "IDENTITY-PRESERVING-SEAMEL"
+      },
+      {
+        "source_id": "observer",
+        "kind": "depends_on",
+        "target_id": "field_attend",
+        "account": "IDENTITY-PRESERVING-SEAMEL"
+      }
+    ],
+    "contradictions": [],
+    "excluded_member_ids": [],
+    "uncertainty": [
+      "IDENTITY-PRESERVING-SEAMEL",
+      "IDENTITY-PRESERVING-SEAMEL",
+      "IDENTITY-PRESERVING-SEAMEL"
+    ],
+    "account": "IDENTITY-PRESERVING-SEAMEL"
+  },
+  "delineation_result": {
+    "status": "unresolved",
+    "identity_preserved": true,
+    "boundary_preserved": true,
+    "support_connected": true,
+    "contradiction_free": true,
+    "uncertainty_free": false,
+    "failed_gates": [
+      "uncertainty_present"
+    ]
+  },
+  "latch_decision": {
+    "profile": "cantor-field-attention-cycle/0.1",
+    "field_id": "cantor-attention-cycle-p0",
+    "field_digest": "136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0",
+    "candidate_id": "683031089a19e019b2b7a30fc09e2b69e3c1df518d6cdf5eb4bd29420571bcac",
+    "status": "rejected",
+    "failed_gates": [
+      "uncertainty_present"
+    ],
+    "proof_refs": [
+      "probe-1",
+      "probe-2",
+      "probe-3"
+    ],
+    "semantic_scope": "Discover whether FIELD_ATTEND, DELINEATE, and LATCH form a coherent attention-local execution seam."
+  },
+  "terminal_state": "rejected"
+}

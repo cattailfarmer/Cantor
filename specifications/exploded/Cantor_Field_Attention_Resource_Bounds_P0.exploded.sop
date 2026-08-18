@@ -1,0 +1,32 @@
+Subject: Cantor Field Attention Resource Bounds P0 Exploded Specification
+
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_field_attention_resource_bounds\Source_Document_Manifest.sop
+@ [base] C:\Project\Cantor\specifications\Cantor_Field_Attention_Delineation_Latch_P0.sop
+
+& [Delineation] separates semantic identity from resource identity
+  + semantic limits bound how many identities participate and what authority their results carry
+  + resource limits bound UTF-8 bytes file bytes response bytes and elapsed provider time
+  + neither form of limit establishes truth or safety
+
+& [SevenFoldExplosion] closes the operational surface
+  + [identity] bounded IDs preserve exact text rather than truncating it
+  + [relationship] per-value limits compose under one field-file ceiling
+  + [condition] over-budget input faults before inference and over-budget response faults before parsing
+  + [transformation] accepted bytes remain unchanged and rejected bytes are never silently shortened
+  + [process] validate then request once then read within deadline and byte ceiling then replay
+  + [evidence] failure body becomes status byte count and SHA-256 rather than copied content
+  + [boundary] all limits are P0 operational constants and not production guarantees
+
+& [DualHemisphereReview] preserves both useful range and exact control
+  + receptive field content receives a sixteen-KiB per-element allowance and sixteen elements
+  + the complete field file receives a five-hundred-twelve-KiB ceiling
+  + replay evidence receives a sixteen-MiB ceiling for five bounded provider envelopes plus host records
+  + exact deterministic checks reject instead of summarize or truncate
+
+& [Falsification] is concrete
+  + one byte above each host text or file ceiling rejects
+  + a zero invalid or remote provider endpoint rejects
+  + a response larger than one MiB rejects
+  + a request exceeding ninety seconds or connection exceeding five seconds faults without retry
+  + proxy routing and every redirect are disabled
+  + a non-success response body does not appear in the retained fault text

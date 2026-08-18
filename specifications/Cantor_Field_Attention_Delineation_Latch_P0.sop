@@ -1,0 +1,171 @@
+Subject: Cantor Field Attention Delineation Latch P0
+
+Description: Signed reversible prototype for discovering provisional whole-field patterns across order-varied llama.cpp passes and admitting them into attention only after deterministic identity boundary and explicit-relation validation.
+
+@ [specification_uuid] 6dfccb9c-6f13-44db-9e90-fed786f3ea2e
+@ [profile] cantor-field-attention-cycle/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_field_attention_delineation_latch\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Field_Attention_Delineation_Latch_P0.exploded.sop
+@ [attention_foundation] C:\Project\Cantor\specifications\SOP_Attention_First_Language_Foundation.sop
+@ [faculty_process] C:\Project\Cantor\specifications\Cantor_Integrated_Faculty_Process.sop
+@ [semantic_fabric] C:\Project\Cantor\specifications\SOP_Semantic_Fabric_Graph.sop
+@ [prototype_policy] C:\Project\Cantor\specifications\Cantor_Prototype_Graduation_And_Reflection_Loop_P0.sop
+
+& [PrimitiveCorrespondence] keeps the new behavior compiled from SAIL
+  + [FIELD_ATTEND] is OBSERVE WIDEN PEEK ASSOCIATE TRIANGULATE PRESERVE and EMIT under a relaxed relation-priority policy
+  + [DELINEATE] is BOUND DISTINGUISH COMPARE CONTRAST and VALIDATE over one GestaltCandidate
+  + [LATCH] is GATE ADMIT and HOLD for one attention-local result
+  + [RELAX] is a policy modifier that removes prescribed relation order while retaining identity provenance and hard boundaries
+  = must: treat FIELD_ATTEND DELINEATE and LATCH as compiled AttentionFunctions
+  - never: add faculty names or these functions as base-language primitives in P0
+
+& [SemanticField] is the complete admitted input field
+  + [profile] is cantor-semantic-field/0.1
+  + [field_id] is caller supplied stable identity
+  + [subject] is the bounded topic under inspection
+  + [purpose] is the intended use of pattern discovery
+  + [elements] contains four through sixteen unique FieldElement records
+  + [boundaries] contains zero or more HardBoundary records over admitted IDs
+  + [probe_policy] is exactly four unique deterministic orders with minimum support three
+  = must: reject duplicate element IDs duplicate order vectors missing members extra members invalid boundary endpoints and content-digest mismatch
+
+& [FieldElement] is one immutable participant
+  + [element_id] is a caller-stable nonempty identifier
+  + [kind] is term clause contract observation purpose constraint or artifact
+  + [content] is the bounded visible semantic payload
+  + [content_sha256] binds the exact UTF-8 content
+  + [source_ref] preserves provenance
+  = must: preserve element_id kind content digest and source_ref through every pass
+
+| [BoundaryKind] is (forbid_co_membership | forbid_relation)
+
+& [HardBoundary] is a host-enforced prohibition
+  + [boundary_id] is unique
+  + [kind] is BoundaryKind
+  + [left_id] and [right_id] are distinct admitted element IDs
+  + [relation_kind] is required only for forbid_relation
+  + [reason] is inspectable
+  = must: reject a candidate containing both endpoints of forbid_co_membership
+  = must: reject a delineated edge matching forbid_relation in either direction
+
+& [FeatureFlowchart] describes the vertical prototype
+  + [F0 ValidateField] verifies profiles identities digests membership boundaries and probe policy
+  + [F1 OrderField] creates four unique orders without changing membership or content
+  + [F2 FieldProbe] asks the same unmodified llama.cpp model for one provisional pattern per order
+  + [F3 Aggregate] groups valid probes by exact sorted candidate member set and selects a deterministic winner
+  + [F4 Delineate] asks a separate pass to express typed support relations identity preservation contradictions and uncertainty
+  + [F5 Latch] applies pure host gates and emits admitted_for_attention or rejected
+  + [F6 Trace] writes source prompts responses records gates faults and terminal decision
+  + [flow] is F0 -> F1 -> F2 -> F3 -> F4 -> F5 -> F6
+  + [control] is F0 -> one ordinary ordered FieldProbe -> F6 with status control_only and no latch eligibility
+
+| [CycleState] is (created | field_validated | probes_requested | probes_collected | candidate_aggregated | delineation_requested | delineation_collected | latch_evaluated | completed | rejected | faulted | control_completed)
+| [CandidateStatus] is (provisional | insufficient_support)
+| [DelineationStatus] is (supported | rejected | unresolved)
+| [LatchStatus] is (admitted_for_attention | rejected)
+| [RelationKind] is (supports | complements | contrasts | constrains | depends_on | contextualizes)
+
+& [FieldProbe] is one value-private model proposal
+  + [probe_id] identifies one declared order
+  + [order] lists every admitted element ID exactly once
+  + [candidate_member_ids] contains two or more admitted IDs
+  + [pattern] is a concise provisional expression
+  + [tensions] [exclusions] and [uncertainty] remain explicit
+  = must: reject unknown IDs duplicate IDs too-small sets and undeclared output fields
+  - never: carry accepted validated or truth status
+
+& [GestaltCandidate] is deterministic cross-order aggregation
+  + [candidate_id] is SHA-256 over profile field digest purpose digest and sorted member IDs
+  + [member_ids] is the exact sorted candidate identity set
+  + [supporting_probe_ids] is sorted unique evidence
+  + [support_count] is supporting probe cardinality
+  + [probe_count] is four
+  + [status] is provisional only when support_count is at least three
+  + [representative_pattern] is selected deterministically from supporting proposals and remains non-authoritative
+  = must: select highest support count then lexicographically smallest member-set key
+  = must: reject boundary-crossing candidates before delineation
+  - never: merge near-match member sets by embedding or prose similarity in P0
+
+& [DelineationProposal] is one separate model response
+  + [candidate_id] binds the exact GestaltCandidate
+  + [status] is DelineationStatus
+  + [identity_bindings] maps every candidate input ID to exactly the same output ID
+  + [relations] contains typed directed edges over admitted candidate IDs
+  + [contradictions] [excluded_member_ids] and [uncertainty] are explicit
+  + [account] explains how the relations support or fail to support the proposed pattern
+  = must: reject identity remapping unknown endpoints self-edges duplicate edges omitted candidate identities and unknown fields
+
+& [DelineationResult] is host validation of the proposal
+  + [identity_preserved] is true only for complete exact self-binding
+  + [boundary_preserved] is true only when all hard boundaries pass
+  + [support_connected] is true only when the undirected projection of typed relations covers and connects all candidate members
+  + [contradiction_free] is true only when contradictions is empty
+  + [uncertainty_free] is true only when uncertainty is empty
+  + [status] is supported only when every predicate passes and proposal status is supported
+
+& [LatchDecision] is the pure terminal gate
+  + [field_id] [candidate_id] [field_digest] and [source_refs] bind authority
+  + [status] is admitted_for_attention only when candidate support is at least three of four and DelineationResult is supported
+  + [failed_gates] lists every failed predicate without repair
+  + [proof_refs] identifies supporting probes delineation and trace
+  + [semantic_scope] is current field purpose and no wider
+  = must: treat admitted_for_attention as a runtime attention state rather than factual truth durable ontology or effect authority
+  = must: emit rejected when any gate fails
+
+& [ProgramExecutionFlow] is closed and replayable
+  + [transition_1] is created to field_validated after F0
+  + [transition_2] is field_validated to probes_requested to probes_collected after exactly four successful probe records
+  + [transition_3] is probes_collected to candidate_aggregated only for one deterministic provisional candidate
+  + [transition_4] is candidate_aggregated to delineation_requested to delineation_collected
+  + [transition_5] is delineation_collected to latch_evaluated to completed or rejected
+  + [failure] is any malformed provider output transport fault or invalid field to faulted with no inferred successor
+  + [insufficient] is no three-of-four candidate to rejected without a delineation request
+  + [control_transition] is created to field_validated to one probe to control_completed
+  = must: preserve every transition as an ordered event
+  - never: retry or silently repair provider output in P0
+
+& [ProviderBoundary] uses unmodified llama.cpp
+  + [transport] is OpenAI-compatible chat completions over caller-supplied loopback base URL
+  + [field_request_count] is four
+  + [delineation_request_count] is at most one
+  + [control_request_count] is one in a separate control run
+  + [schema] is closed JSON schema when supported and closed JSON parsing at the host in all cases
+  + [temperature] is zero
+  + [effect_boundary] is inference call and evidence file write only
+  = must: record model identity endpoint process evidence when available request digest response digest and sanitized payloads
+  = must: leave llama.cpp process model and configuration unchanged
+
+& [AcceptanceCriteria] is measurable
+  + [FADL-001] source bytes digest manifest exploded specification and satisfaction signature verify
+  + [FADL-002] deterministic contract and JSON schema reject unknown fields duplicate identities content digest faults invalid orders and invalid boundary endpoints
+  + [FADL-003] four probe permutations preserve exact field membership and contain four unique orders
+  + [FADL-004] exact member-set aggregation requires at least three of four probes and has deterministic tie breaking
+  + [FADL-005] FieldProbe and GestaltCandidate cannot express admitted validated or truth authority
+  + [FADL-006] delineation rejects unknown IDs identity remapping incomplete bindings disconnected support boundary conflict contradiction and unresolved output
+  + [FADL-007] misleading boundary-crossing agreement cannot latch
+  + [FADL-008] unrelated or order-unstable probes cannot latch
+  + [FADL-009] one valid stable field can produce admitted_for_attention only after explicit connected relation support
+  + [FADL-010] control output is distinguishable and never latch-eligible
+  + [FADL-011] every run yields ordered replayable sanitized evidence and typed faults
+  + [FADL-012] one live EVO-X2 run uses unmodified llama.cpp or records a truthful transport or schema failure without fabricating success
+  + [FADL-013] existing workspace tests and clippy remain green
+
+& [AuthorityBoundary] is reversible experimental implementation authority
+  + [permits] is one isolated Rust crate pure validators deterministic fixtures CLI live runner evidence documentation and defect repair
+  + [permits] is copying a release binary and fixture to EVO-X2 for loopback inference without replacing deployed Cantor services
+  + [excludes] is hidden-state access llama.cpp modification model training database writes catalogue mutation faculty-runtime activation effects and production claims
+  + [nonclaim] is stable model agreement does not prove truth independence novelty or general holistic cognition
+
+& [SatisfactionSignature] is valid bounded SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 92f0b2ac-2960-4f6e-9cdf-c6ec821b806c
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Field_Attention_Delineation_Latch_P0.sop
+  + [source_snapshot_uuid] is 589ba42f-4ebb-4732-94af-2ff5263081dd
+  + [source_document] is C:\Project\Cantor\source_documents\2026-08-18_field_attention_delineation_latch\Dictated_Field_Attention_Delineation_Latch_Source.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-08-18_field_attention_delineation_latch\Source_Document_Manifest.sop
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Field_Attention_Delineation_Latch_P0.exploded.sop
+  + [processed_stage_set] is source_preserved delineated exploded semantically_refined primitive_mapped flowcharted execution_formed data_designed dual_reviewed constraint_checked pruned falsification_formed feature_supported justified seven_fold_phase_locked and signed
+  + [exhaustion_state] is phase_locked_for_reversible_P0
+  + [signature_status] is valid_for_isolated_P0_implementation_only
+  + [invalidation_condition] is source_change identity_relaxation hidden_state_claim semantic_authority_promotion effect_expansion missing_trace model_retry silent_output_repair or contradictory_implementation_evidence
+

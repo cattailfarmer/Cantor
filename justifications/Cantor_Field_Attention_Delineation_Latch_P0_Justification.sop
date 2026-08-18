@@ -1,0 +1,23 @@
+Subject: Cantor Field Attention Delineation Latch P0 Justification
+
+& [Justification] binds the selected implementation slice
+  + [justification_uuid] is b8928417-aeb9-4104-aaf9-1da343bd2834
+  + [conversation_uuid] is 019f94c8-da23-7131-aef2-6ac02612d155
+  + [specification_ref] is C:\Project\Cantor\specifications\Cantor_Field_Attention_Delineation_Latch_P0.sop
+  + [source_ref] is C:\Project\Cantor\source_documents\2026-08-18_field_attention_delineation_latch\Dictated_Field_Attention_Delineation_Latch_Source.sop
+  + [decision] is implement a separate pure-first Rust crate with optional llama.cpp transport
+  + [reason] is this keeps the conceptual experiment reversible prevents provider behavior from becoming host authority and gives every acceptance gate a cheap deterministic oracle
+  + [alternative] is extend cantor_reflection_loop directly
+  + [rejection_reason] is that crate proves a different route-attention reflection contract and mixing both experiments would weaken responsibility locality
+  + [alternative] is modify llama.cpp or hidden attention state
+  + [rejection_reason] is unnecessary for observable order-varied prompt projection and excluded by the source boundary
+  + [counterargument] is four prompts from one model are correlated rather than independent observations
+  + [answer] is the prototype claims order-stability only and requires explicit delineation while preserving the correlated-probe limitation
+  + [confidence] is high for deterministic host contracts and moderate for useful small-model live behavior
+  + [invalidation_condition] is the pure host cannot distinguish invalid identity or boundary behavior or the provider cannot produce inspectable closed output
+
+& [FileChangeIntent] predeclares the solution surface
+  + [solution_uuid] is 81052644-8bd9-4cd5-9aec-21bbd903c756
+  + [planned_roles] is source specification justification plan feature_support implementation tests fixtures proof documentation narrative and manifest
+  = must: update the solution record with actual paths and proof after implementation
+

@@ -1,0 +1,22 @@
+Subject: Cantor Field Attention Resource Bounds P0 Justification
+
+@ [justification_uuid] 43912daf-b18a-43d1-b14f-4a04329d175a
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_field_attention_resource_bounds\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Field_Attention_Resource_Bounds_P0.exploded.sop
+
+& [Problem] is that bounded semantic cardinality does not bound memory context transport duration or evidence volume
+
+& [Decision] is explicit byte and time ceilings with fail-closed exact preservation
+  + byte counts use UTF-8 so cross-platform behavior is deterministic
+  + no accepted input is truncated normalized summarized retried or repaired
+  + generous P0 ceilings cover the current five-element corpus while remaining finite
+  + response body digests retain failure identity without persisting arbitrary text
+  + disabled proxies and redirects preserve the admitted loopback endpoint after URL validation
+
+& [Alternatives] are rejected
+  - character counts are rejected because encoded memory and transport costs vary
+  - token counts alone are rejected because parsing and evidence allocation happen outside tokenization
+  - implicit library defaults are rejected because they are not inspectable contracts
+  - unlimited local-loopback trust is rejected because local software can still malfunction
+
+& [Nonclaim] is that these budgets do not establish adversarial production hardening or semantic quality

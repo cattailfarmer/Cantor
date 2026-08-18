@@ -1,0 +1,51 @@
+Subject: Cantor Field Attention Resource Bounds P0 Amendment
+
+Description: Numeric operational interpretation of the base P0 requirement that provider and semantic payloads remain bounded.
+
+@ [specification_uuid] b68fa4c0-580d-43b5-b4c2-08e5caa4ad13
+@ [base_specification] C:\Project\Cantor\specifications\Cantor_Field_Attention_Delineation_Latch_P0.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_field_attention_resource_bounds\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Field_Attention_Resource_Bounds_P0.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Field_Attention_Resource_Bounds_P0_Justification.sop
+
+& [TextBudgets] count exact UTF-8 bytes
+  + [identifier_bytes] is 256 for field element boundary and run identities
+  + [subject_bytes] is 4096
+  + [purpose_bytes] is 4096
+  + [element_content_bytes] is 16384 per element
+  + [source_ref_bytes] is 2048
+  + [boundary_reason_bytes] is 4096
+  + [provider_model_bytes] is 4096
+  + [provider_base_url_bytes] is 2048
+  = must: reject over-budget values without truncation normalization or inference
+
+& [FileBudgets] constrain local allocation before deserialization
+  + [semantic_field_file_bytes] is 524288
+  + [cycle_report_file_bytes] is 16777216
+  = must: inspect metadata and reject an oversized file before reading its body
+
+& [ProviderBudgets] constrain each ordinary loopback call
+  + [connect_timeout_seconds] is 5
+  + [request_timeout_seconds] is 90
+  + [response_bytes] is 1048576
+  + [retry_count] is 0
+  + [redirect_limit] is 0
+  + [proxy_policy] is disabled
+  = must: enforce the byte ceiling for declared and chunked response lengths
+  = must: retain non-success HTTP status response byte count and response body SHA-256 without body content
+  = must: refuse proxy routing and redirect following so validated loopback identity cannot escape after admission
+
+& [ReplayBoundary] preserves history
+  + historical request profiles 0.1 through 0.5 retain exact prompts schemas and compiler meanings
+  + historical reports inside the new file and identity ceilings remain replayable
+  + all budgets are exposed through contract output and verified by boundary tests
+
+& [AuthorityBoundary] remains experimental P0
+  - never: treat resource acceptance as semantic truth authorization production safety or remote-network permission
+
+& [SatisfactionSignature] binds the bounded amendment
+  @ [signature_uuid] c5e3762e-1c26-4c07-a9fb-68cfe78786c3
+  @ [protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [satisfied_scope] is numeric host text file provider time response and failure-body evidence budgets
+  + [excluded_scope] is production hardening quotas concurrency remote networking effects training and semantic quality
+  = satisfaction: source-preserved justified falsifiable reversible and bounded for P0

@@ -1,0 +1,27 @@
+# Field Attention Cycle P0 Evidence
+
+This directory preserves the complete bounded corpus for the `FIELD_ATTEND → DELINEATE → LATCH` experiment. Reports contain sanitized exact requests/responses and can be replayed with `cantor-field-cycle verify`.
+
+Accepted fixtures:
+
+- `attention_cycle_field.json`: ordinary five-identity field; canonical field digest `136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0`.
+- `attention_cycle_forbidden_comembership_field.json`: hostile co-membership boundary field; canonical field digest `1fe069762f31c4afe7a2478b210c9a332191eb4099602a6333eb179654c54a71`.
+
+Preserved reports:
+
+- `deterministic_fixture_report.json`: model-free positive construction.
+- `evox2_live_v1.json`: replay-valid rejected free-text profile.
+- `evox2_live_v2.json`: replay-valid rejected prompt-hardened free-text profile.
+- `evox2_live_v3_fault.json`: replay-valid repeated-array/token-limit fault.
+- `evox2_live_v4_fault.json`: replay-valid strict-attribution compiler fault.
+- `evox2_live_v5.json`: replay-valid completed typed profile.
+- `evox2_control_v5.json`: replay-valid one-pass control with no latch eligibility.
+- `evox2_hostile_boundary_v5.json`: replay-valid 4-of-4 convergence rejected before candidate promotion by the host boundary.
+- `campaign-field-attend-h1/`: thirteen replay-valid reports from five positive, five control, and three hostile repetitions under the identity-hardened verifier.
+- `smoke-field-attend-h2/`: final resource-bounded verifier smoke with one positive, one control, and one hostile report.
+- `smoke-field-attend-h3/`: final network-closed verifier smoke after disabling proxies and redirects.
+- `smoke-field-attend-h4/`: final current-thread-runtime smoke with the same three structural outcomes.
+
+The repeatability campaign holds the positive candidate and relation sequence constant, keeps every control latch-ineligible, and rejects every hostile field. It also preserves the warning that all twenty positive probes assess the whole proposal as `conflicted` before the separate delineation pass says `supported`.
+
+These records establish mechanism behavior for one Qwen3.5-0.8B Q4_0 llama.cpp endpoint. They do not establish semantic correctness, truth, production trust, or general model reliability.
