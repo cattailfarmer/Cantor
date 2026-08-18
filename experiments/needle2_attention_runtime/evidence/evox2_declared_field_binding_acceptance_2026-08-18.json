@@ -1,0 +1,117 @@
+{
+  "profile": "cantor-declared-field-binding-acceptance/0.1",
+  "captured_at": "2026-08-18T11:49:36.4534707-05:00",
+  "host": "EVO-X2",
+  "checkpoint_commit": "de4ffd1cef6e019ee7c9db28d78f93228d9c9bd2",
+  "source": {
+    "source_snapshot_uuid": "3ccef8b1-ac66-46e5-9f82-d0c856a50cb4",
+    "source_sha256": "5cf002db55a201a3ef79d41ee63ad87aa3e959e997a96c7253edab46a411c717",
+    "source_bytes": 2754,
+    "source_manifest_sha256": "b4ea1f9402c3755b0419847a2afc9f99de0b762ef97be994832a39913a31635d"
+  },
+  "canonical": {
+    "path": "specifications/Cantor_Declared_Field_Exact_Binding.sop",
+    "sha256": "8c14a14cdc6f26d0c34c69fcaf981799b0499b3e61c0a9b5d1643d46329e0935",
+    "bytes": 6968
+  },
+  "runtime_deployment": {
+    "remote_root": "C:\\AI\\services\\cantor-needle-runtime",
+    "deployment_manifest_sha256": "a437937a9cda0c005055cc2f1a7797810a53b4398d5787a25cad59a9b1566df3",
+    "deployment_file_count": 10,
+    "controller_sha256": "393a7cf824dc101c7967bb1f23d06e54852d7d3f3d06946137c6765018fa2353",
+    "tests_sha256": "c0299e2c93e3c2f5af7461dd80c16c9897dadec135268716cc5ce3aed1ac3d1a",
+    "catalogue_digest": "057bb872686a2d6497670d255d4ae323844eeada4fdd5e620e5767f70850a466",
+    "minimum_confidence": 0.65
+  },
+  "verification": {
+    "local_runtime_tests": 40,
+    "local_runtime_failures": 0,
+    "evox2_runtime_tests": 40,
+    "evox2_runtime_failures": 0,
+    "local_calibration_tests": 19,
+    "local_calibration_failures": 0,
+    "evox2_calibration_tests": 19,
+    "evox2_calibration_failures": 0,
+    "runtime_health": "passed",
+    "calibration_health": "passed"
+  },
+  "targeted_refusal": {
+    "case": "transition-cantor-explicit-citation",
+    "run_id": "b4612db8-7f23-4d56-90c4-bb3f064683fc",
+    "status": "fault",
+    "fault_code": "needle_argument_binding_mismatch",
+    "fault_cause": ["after_frame", "before_frame"],
+    "needle_confidence": 0.7989,
+    "cantor_executed": false,
+    "llama_executed": false,
+    "manifest_sha256": "1626caddbbbd87bb22dd490795ecbb41d40f50be293cd113c181d849f12ed7c8"
+  },
+  "positive_routes": [
+    {
+      "procedure_id": "attention.resolve_sop_subject",
+      "run_id": "b4c8c019-d696-48ad-857f-201f94198668",
+      "needle_confidence": 0.8154,
+      "manifest_sha256": "6ee047bb00a155dc891b866e0cc8fcb66751b550eba37aacddf94bf4181287b0"
+    },
+    {
+      "procedure_id": "attention.inspect_identity_boundary",
+      "run_id": "2350a3df-6918-4579-88e7-b412419b6f24",
+      "needle_confidence": 0.8407,
+      "manifest_sha256": "795ebccd645ba2b0e9c60caf5f65f0c289537d0a1afcb89025f49f8e30dc2f80"
+    },
+    {
+      "procedure_id": "attention.review_attention_transition",
+      "run_id": "16817e45-01de-4e38-b2ee-6acc73bdf361",
+      "needle_confidence": 0.7201,
+      "manifest_sha256": "d1c1cdad3ee906de8d27d96d58599a75dc2b6851c086bfe35aba0383de6b9260"
+    }
+  ],
+  "pinned_evaluation": {
+    "evaluation_id": "0afc09e5-0d60-4bba-8be5-ef52679fb741",
+    "passed_trials": 25,
+    "total_trials": 25,
+    "suite_sha256": "a8a9bd9623e732ed323b85e31c62b4cdb4e44b41a3decd64ff442777ede1ea3c",
+    "manifest_sha256": "ab20b394360403e1c2ae8d0ba009a947539d5470d4d89dc893baf3d716f7bd63"
+  },
+  "successor_calibration": {
+    "corpus_id": "ef34fd48-e23f-4531-b7a8-a721cecd1038",
+    "corpus_sha256": "fc7fd4fac7a155898e023512be7d213b4316a2bc26709099e3d9e3254cefb3b4",
+    "calibration_deployment_manifest_sha256": "e21a1b094f74d7853730ab236187a0d8253046856f044942645fdb3b134e2d4b",
+    "incomplete_calibration_id": "97be464a-13e3-4ae1-ba8f-1e2d5f77e294",
+    "incomplete_manifest_sha256": "1d9d68ff53472dea4bb9c4708d7f4d8dab897e6211a368aad2a82312c7da0194",
+    "completed_calibration_id": "36d4aadf-6972-4d9f-8fae-14839d1e48d5",
+    "completed_manifest_sha256": "dd6c2e4540afb5d72465b695847707968341ec9cd92d311551c93fb922f1b19f",
+    "positive_exact": {"numerator": 13, "denominator": 30, "ratio": 0.433333},
+    "positive_procedure_admission": {"numerator": 13, "denominator": 30, "ratio": 0.433333},
+    "negative_specificity": {"numerator": 6, "denominator": 6, "ratio": 1.0},
+    "former_mismatch": {
+      "run_id": "32a2fc69-2ca8-4c10-b308-cc1b1db1dc81",
+      "disposition": "positive_refusal",
+      "fault_code": "needle_argument_binding_mismatch",
+      "needle_confidence": 0.7989
+    }
+  },
+  "full_run": {
+    "run_id": "75c2a65d-6e71-4e2e-b7ee-6df5ca6ba6c3",
+    "status": "success",
+    "procedure_id": "attention.resolve_sop_subject",
+    "needle_confidence": 0.8154,
+    "cantor_result_digest": "8ef9c312312e7531038c38f263fd6c3304fcc147702187ca575e47afc1a6b659",
+    "articulation_conclusion": "unresolved",
+    "manifest_sha256": "66a609101bf2f3656e8ce582704e4deaffc3e3e1da1c6f393aea245a4463b2e2"
+  },
+  "noninterference": {
+    "sop_agent_eight_hashes_unchanged": true,
+    "llama_server_pid": 12780,
+    "llama_server_command_unchanged": true,
+    "catalogue_changed": false,
+    "procedure_sources_changed": false,
+    "threshold_changed": false
+  },
+  "limits": [
+    "declared-field equality checks representation consistency, not external truth",
+    "delimited grammar does not infer roles for unlabeled natural language",
+    "exact accuracy did not improve; one unsafe admitted mismatch became a safe refusal",
+    "the learned 0.8B selector and generated Cantor fixture remain experimental"
+  ]
+}

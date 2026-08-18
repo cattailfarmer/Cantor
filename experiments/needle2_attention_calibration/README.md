@@ -4,13 +4,23 @@ This directory measures frozen EVO-X2 attention-runtime checkpoints. It is an
 observation harness, not a training loop, trusted procedure catalogue, or
 production benchmark.
 
-The active profile is an explicitly adaptive follow-up against grounded runtime
-commit `e3d1182a31dc2f9b83f0a1ed957f0c34bb8024fa`. Its
+The active profile is an explicitly adaptive regression against declared-field
+runtime commit `de4ffd1cef6e019ee7c9db28d78f93228d9c9bd2`. Its
 `runtime_contract_snapshot.json` is deployment-pinned and binds the exact
 catalogue digest and closed input schemas. The harness compiles every positive
 expected argument object through those schemas before sending any prompt. The
-active `in_domain_cases.json` contains only the admitted subject `cantor` for
-positive cases and treats other-faculty requests as negative boundary controls.
+active `declared_binding_cases.json` is a byte-distinct successor corpus containing
+the same cases as `in_domain_cases.json`, but with its own identity and exact new
+checkpoint lineage. It contains only the admitted subject `cantor` for positive
+cases and treats other-faculty requests as negative boundary controls. The prior
+corpus remains unchanged as calibration history.
+
+The completed successor run `36d4aadf-6972-4d9f-8fae-14839d1e48d5` records
+thirteen exact positive routes, seventeen safe positive refusals, and six of six
+correct negative refusals. The prior frame contraction is now a
+`needle_argument_binding_mismatch`, so it no longer counts as an admitted
+procedure with mismatched arguments. This is a stricter boundary, not an accuracy
+improvement.
 
 The historical `held_out_cases.json` was created after the first runtime
 checkpoint and raw-byte hashed before execution. It covers subject resolution, identity
@@ -65,9 +75,10 @@ The closed dispositions are:
 Low accuracy does not make a structurally valid calibration run fail. A run is
 `incomplete` only when infrastructure prevents the remaining observations.
 Results do not authorize lowering the `0.65` gate or editing the frozen runtime.
-`needle_argument_ungrounded` is a safe refusal in the grounded runtime; timeout,
-dependency, deployment, and malformed protocol faults remain infrastructure
-failures.
+`needle_argument_ungrounded`, `needle_argument_binding_mismatch`, and
+`needle_declaration_invalid` are safe pre-semantic refusals in the grounded
+runtime; timeout, dependency, deployment, and malformed protocol faults remain
+infrastructure failures.
 
 ## Local verification
 

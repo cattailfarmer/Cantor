@@ -1,0 +1,296 @@
+{
+  "profile": "cantor-attention-language-corpus/0.2",
+  "corpus_id": "ef34fd48-e23f-4531-b7a8-a721cecd1038",
+  "designed_against_commit": "de4ffd1cef6e019ee7c9db28d78f93228d9c9bd2",
+  "cases": [
+    {
+      "case_id": "resolve-cantor-natural-identify",
+      "family": "resolve_subject",
+      "form": "natural_imperative",
+      "stimulus": "Please identify the SOP subject named Cantor.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-cantor-source-question",
+      "family": "resolve_subject",
+      "form": "source_question",
+      "stimulus": "Where is the governed definition for Cantor?",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-cantor-natural-descriptions",
+      "family": "resolve_subject",
+      "form": "natural_imperative",
+      "stimulus": "Resolve Cantor as an SOP subject and return its applicable descriptions.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-cantor-explicit",
+      "family": "resolve_subject",
+      "form": "explicit_label",
+      "stimulus": "SOP subject lookup; subject: Cantor.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-cantor-key-value",
+      "family": "resolve_subject",
+      "form": "key_value",
+      "stimulus": "resolve_sop_subject: subject=cantor",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-cantor-json",
+      "family": "resolve_subject",
+      "form": "json_like",
+      "stimulus": "{\"procedure\":\"attention.resolve_sop_subject\",\"subject\":\"cantor\"}",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-cantor-line-fields",
+      "family": "resolve_subject",
+      "form": "line_fields",
+      "stimulus": "Attention procedure: resolve SOP subject\nsubject: cantor",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-cantor-context",
+      "family": "resolve_subject",
+      "form": "context_wrapped",
+      "stimulus": "Before forming an answer, locate the exact descriptions and constraints governing the SOP subject Cantor.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-cantor-quoted",
+      "family": "resolve_subject",
+      "form": "quoted_subject",
+      "stimulus": "Look up the semantic anchor for the subject \"Cantor\" in the SOP record.",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "resolve-cantor-constraints",
+      "family": "resolve_subject",
+      "form": "constraint_question",
+      "stimulus": "Which source support and constraints govern Cantor?",
+      "expected_procedure_id": "attention.resolve_sop_subject",
+      "expected_arguments": {"subject": "cantor"}
+    },
+    {
+      "case_id": "identity-cantor-natural-oracle",
+      "family": "inspect_identity",
+      "form": "natural_question",
+      "stimulus": "For Cantor, inspect whether the claim \"unsigned oracle\" changes its identity boundary.",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "unsigned oracle"}
+    },
+    {
+      "case_id": "identity-cantor-imperative-permission",
+      "family": "inspect_identity",
+      "form": "natural_imperative",
+      "stimulus": "Inspect the identity boundary of Cantor against the claim \"permission is optional\".",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "permission is optional"}
+    },
+    {
+      "case_id": "identity-cantor-explicit-fabrication",
+      "family": "inspect_identity",
+      "form": "explicit_label",
+      "stimulus": "Identity boundary review; subject: cantor; claim: convenient fabrication.",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "convenient fabrication"}
+    },
+    {
+      "case_id": "identity-cantor-key-value-coordinator",
+      "family": "inspect_identity",
+      "form": "key_value",
+      "stimulus": "inspect_identity_boundary: subject=cantor; claim=unverified coordinator",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "unverified coordinator"}
+    },
+    {
+      "case_id": "identity-cantor-json-dependencies",
+      "family": "inspect_identity",
+      "form": "json_like",
+      "stimulus": "{\"procedure\":\"attention.inspect_identity_boundary\",\"subject\":\"cantor\",\"claim\":\"may skip dependencies\"}",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "may skip dependencies"}
+    },
+    {
+      "case_id": "identity-cantor-line-fields-attribution",
+      "family": "inspect_identity",
+      "form": "line_fields",
+      "stimulus": "procedure: inspect identity boundary\nsubject: cantor\nclaim: attribution may be discarded",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "attribution may be discarded"}
+    },
+    {
+      "case_id": "identity-cantor-context-output",
+      "family": "inspect_identity",
+      "form": "context_wrapped",
+      "stimulus": "While reviewing a proposed change, test Cantor's boundary using this claim: rough output is final output.",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "rough output is final output"}
+    },
+    {
+      "case_id": "identity-cantor-quoted-contract",
+      "family": "inspect_identity",
+      "form": "quoted_claim",
+      "stimulus": "Does \"combine unrelated purposes without a contract\" violate the identity boundary of Cantor?",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "combine unrelated purposes without a contract"}
+    },
+    {
+      "case_id": "identity-cantor-terse-confidence",
+      "family": "inspect_identity",
+      "form": "terse_directive",
+      "stimulus": "Boundary check Cantor: learned confidence is authorization.",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "learned confidence is authorization"}
+    },
+    {
+      "case_id": "identity-cantor-contract-trust",
+      "family": "inspect_identity",
+      "form": "contract_style",
+      "stimulus": "INSPECT subject cantor AGAINST claim unchecked input is trusted",
+      "expected_procedure_id": "attention.inspect_identity_boundary",
+      "expected_arguments": {"subject": "cantor", "claim": "unchecked input is trusted"}
+    },
+    {
+      "case_id": "transition-cantor-natural-trust",
+      "family": "review_transition",
+      "form": "natural_question",
+      "stimulus": "For Cantor, compare the attention state before \"hash verified\" with the state after \"learned output trusted\".",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "hash verified", "after_frame": "learned output trusted"}
+    },
+    {
+      "case_id": "transition-cantor-imperative-faculties",
+      "family": "review_transition",
+      "form": "natural_imperative",
+      "stimulus": "Review Cantor's attention transition from \"faculties unloaded\" to \"faculties coordinated\".",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "faculties unloaded", "after_frame": "faculties coordinated"}
+    },
+    {
+      "case_id": "transition-cantor-explicit-citation",
+      "family": "review_transition",
+      "form": "explicit_label",
+      "stimulus": "Attention transition review for cantor; before_frame: unsupported claim; after_frame: cited claim.",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "unsupported claim", "after_frame": "cited claim"}
+    },
+    {
+      "case_id": "transition-cantor-key-value-input",
+      "family": "review_transition",
+      "form": "key_value",
+      "stimulus": "review_attention_transition: subject=cantor; before_frame=untrusted input; after_frame=validated input",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "untrusted input", "after_frame": "validated input"}
+    },
+    {
+      "case_id": "transition-cantor-json-order",
+      "family": "review_transition",
+      "form": "json_like",
+      "stimulus": "{\"procedure\":\"attention.review_attention_transition\",\"subject\":\"cantor\",\"before_frame\":\"unordered tasks\",\"after_frame\":\"dependency order\"}",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "unordered tasks", "after_frame": "dependency order"}
+    },
+    {
+      "case_id": "transition-cantor-line-fields-attribution",
+      "family": "review_transition",
+      "form": "line_fields",
+      "stimulus": "procedure: review attention transition\nsubject: cantor\nbefore_frame: unattributed note\nafter_frame: attributed record",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "unattributed note", "after_frame": "attributed record"}
+    },
+    {
+      "case_id": "transition-cantor-context-language",
+      "family": "review_transition",
+      "form": "context_wrapped",
+      "stimulus": "In the current revision, show what changes for Cantor when the frame moves from \"draft ambiguity\" to \"bounded language\".",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "draft ambiguity", "after_frame": "bounded language"}
+    },
+    {
+      "case_id": "transition-cantor-arrow-contract",
+      "family": "review_transition",
+      "form": "arrow_notation",
+      "stimulus": "Cantor attention transition: isolated clauses -> reconciled contract.",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "isolated clauses", "after_frame": "reconciled contract"}
+    },
+    {
+      "case_id": "transition-cantor-terse-source",
+      "family": "review_transition",
+      "form": "terse_directive",
+      "stimulus": "Cantor frame delta; before unsigned source; after signed source.",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "unsigned source", "after_frame": "signed source"}
+    },
+    {
+      "case_id": "transition-cantor-contract-confirmation",
+      "family": "review_transition",
+      "form": "contract_style",
+      "stimulus": "REVIEW subject cantor FROM unconfirmed identity TO honesty security confirmed",
+      "expected_procedure_id": "attention.review_attention_transition",
+      "expected_arguments": {"subject": "cantor", "before_frame": "unconfirmed identity", "after_frame": "honesty security confirmed"}
+    },
+    {
+      "case_id": "negative-weather",
+      "family": "negative",
+      "form": "unrelated_question",
+      "stimulus": "Will it rain in Chicago on Friday?",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-arithmetic",
+      "family": "negative",
+      "form": "unrelated_question",
+      "stimulus": "What is 47 multiplied by 19?",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-other-subject-weaver",
+      "family": "negative",
+      "form": "unsupported_subject",
+      "stimulus": "Please identify the SOP subject named Weaver.",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-other-subject-honesty",
+      "family": "negative",
+      "form": "unsupported_subject",
+      "stimulus": "Identity boundary review; subject: honesty; claim: convenient fabrication.",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-other-subject-planner",
+      "family": "negative",
+      "form": "unsupported_subject",
+      "stimulus": "Attention transition review for planner; before_frame: unordered tasks; after_frame: dependency order.",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    },
+    {
+      "case_id": "negative-incomplete-transition",
+      "family": "negative",
+      "form": "incomplete_procedure",
+      "stimulus": "Compare the before frame with the after frame.",
+      "expected_procedure_id": null,
+      "expected_arguments": null
+    }
+  ]
+}
+

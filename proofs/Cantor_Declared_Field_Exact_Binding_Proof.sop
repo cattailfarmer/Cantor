@@ -1,0 +1,70 @@
+Subject: Cantor Declared Field Exact Binding Proof
+
+@ [proof_uuid] dc931111-e1dd-4620-a006-6071b3ed98d4
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Declared_Field_Exact_Binding.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Declared_Field_Exact_Binding_Solution.sop
+@ [evidence] C:\Project\Cantor\experiments\needle2_attention_runtime\evidence\evox2_declared_field_binding_acceptance_2026-08-18.json
+
+& [EvidenceSummaryIdentity] is exact
+  + [sha256] is EE56E4F3699C958F548D8FEAD835CD9BF73EA00A8A85F252B2840B48EB83E9C0
+  + [bytes] is 5280
+
+& [SourceAndAuthorityProof] is DFB-001
+  + [source_uuid] is 3ccef8b1-ac66-46e5-9f82-d0c856a50cb4
+  + [source_sha256] is 5CF002DB55A201A3EF79D41EE63AD87AA3E959E997A96C7253EDAB46A411C717
+  + [manifest_sha256] is B4EA1F9402C3755B0419847A2AFC9F99DE0B762EF97BE994832A39913A31635D
+  + [canonical_sha256] is 8C14A14CDC6F26D0C34C69FCAF981799B0499B3E61C0A9B5D1643D46329E0935
+  + [status] is passed
+
+& [ParserProof] is DFB-002 through DFB-008
+  + bounded delimited grammar covers colon equals semicolon newline quotes and terminal punctuation
+  + closed JSON covers exact optional-procedure and malformed duplicate unknown incomplete non-string and conflict cases
+  + explicit partial fields bind independently while unlabeled fields remain literal-grounded
+  + normalized comparisons preserve original admitted bytes
+  + mismatch and invalid faults expose no caller values
+  + [focused_tests] are forty passed
+  + [status] is passed
+
+& [RegressionProof] is DFB-009
+  + [local_runtime_tests] are forty passed
+  + [EVO_X2_runtime_tests] are forty passed
+  + [local_calibration_tests] are nineteen passed
+  + [EVO_X2_calibration_tests] are nineteen passed
+  + [evaluation_id] is 0afc09e5-0d60-4bba-8be5-ef52679fb741
+  + [evaluation_result] is twenty-five of twenty-five passed
+  + [evaluation_manifest] is ab20b394360403e1c2ae8d0ba009a947539d5470d4d89dc893baf3d716f7bd63
+  + [status] is passed
+
+& [LiveRefusalProof] is DFB-010
+  + [run_id] is b4612db8-7f23-4d56-90c4-bb3f064683fc
+  + [needle_confidence] is 0.7989
+  + [fault] is needle_argument_binding_mismatch over after_frame and before_frame
+  + [manifest] is 1626caddbbbd87bb22dd490795ecbb41d40f50be293cd113c181d849f12ed7c8
+  + [semantic_stages] are zero Cantor and zero llama files
+  + [status] is passed
+
+& [CompatibilityProof] is DFB-011
+  + [resolve_run] is b4c8c019-d696-48ad-857f-201f94198668 with manifest 6ee047bb00a155dc891b866e0cc8fcb66751b550eba37aacddf94bf4181287b0
+  + [identity_run] is 2350a3df-6918-4579-88e7-b412419b6f24 with manifest 795ebccd645ba2b0e9c60caf5f65f0c289537d0a1afcb89025f49f8e30dc2f80
+  + [transition_run] is 16817e45-01de-4e38-b2ee-6acc73bdf361 with manifest d1c1cdad3ee906de8d27d96d58599a75dc2b6851c086bfe35aba0383de6b9260
+  + [full_run] is 75c2a65d-6e71-4e2e-b7ee-6df5ca6ba6c3 with manifest 66a609101bf2f3656e8ce582704e4deaffc3e3e1da1c6f393aea245a4463b2e2
+  + [status] is passed
+
+& [CalibrationProof] measures the correction
+  + [corpus] is ef34fd48-e23f-4531-b7a8-a721cecd1038 digest fc7fd4fac7a155898e023512be7d213b4316a2bc26709099e3d9e3254cefb3b4
+  + [completed_calibration] is 36d4aadf-6972-4d9f-8fae-14839d1e48d5
+  + [manifest] is dd6c2e4540afb5d72465b695847707968341ec9cd92d311551c93fb922f1b19f
+  + [result] is thirteen exact seventeen safe positive refusals and six correct negative refusals
+  + [former_mismatch] is now needle_argument_binding_mismatch at confidence 0.7989
+  + [status] is passed
+
+& [NoninterferenceProof] is DFB-012
+  + [runtime_deployment] is a437937a9cda0c005055cc2f1a7797810a53b4398d5787a25cad59a9b1566df3 over ten files
+  + [calibration_deployment] is e21a1b094f74d7853730ab236187a0d8253046856f044942645fdb3b134e2d4b over nine files
+  + [shared_services] all eight SOP-agent hashes and llama PID 12780 command remain exact
+  + [catalogue_threshold_sources] are unchanged
+  + [status] is passed
+
+& [AcceptanceProof] is DFB-001 through DFB-012
+  + [result] is twelve passed
+  = conclusion: an explicitly declared attention field can no longer be shortened while borrowing literal presence from its own longer value and then advance into semantic execution

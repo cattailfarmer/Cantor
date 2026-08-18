@@ -143,7 +143,7 @@ class CalibrationTests(unittest.TestCase):
         config = json.loads((root / "config.json").read_text(encoding="utf-8"))
         snapshot = cal.load_contract_snapshot(root, config)
         corpus, _digest, _raw = cal.validate_corpus(
-            root / "in_domain_cases.json", config["checkpoint_commit"], snapshot["schemas"]
+            root / config["corpus"], config["checkpoint_commit"], snapshot["schemas"]
         )
         self.assertEqual(corpus["profile"], cal.CORPUS_PROFILE_V2)
         self.assertEqual(len(corpus["cases"]), 36)
@@ -272,6 +272,18 @@ class CalibrationTests(unittest.TestCase):
             self.minimal_cases()[-1], 2, grounded_fault
         )
         self.assertEqual(grounded_negative["disposition"], "correct_negative_refusal")
+        binding_fault = {
+            "status": "fault",
+            "fault": {
+                "code": "needle_argument_binding_mismatch",
+                "detail": {"needle_confidence": 0.8},
+            },
+        }
+        binding_positive = cal.normalize_route_observation(
+            self.minimal_cases()[0], 2, binding_fault
+        )
+        self.assertEqual(binding_positive["disposition"], "positive_refusal")
+        self.assertEqual(binding_positive["needle_confidence"], 0.8)
 
     def test_negative_call_and_nonselection_fault_are_not_refusals(self):
         selected = {
