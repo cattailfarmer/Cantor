@@ -635,12 +635,97 @@ class RuntimeTests(unittest.TestCase):
             run_root = root / run_id
             runtime.atomic_write_json(run_root / "00_input.json", {"stimulus": "test"})
             runtime.atomic_write_json(
-                run_root / "result.json", {"run_id": run_id, "status": "route_selected"}
+                run_root / "result.json",
+                {
+                    "profile": runtime.LEGACY_RESULT_PROFILE,
+                    "run_id": run_id,
+                    "status": "route_selected",
+                },
             )
             runtime.write_evidence_manifest(run_root, run_id, "route_selected")
             result = runtime.verify_evidence_directory(root, run_id, "run")
             self.assertEqual("verified", result["status"])
             self.assertEqual("route_selected", result["recorded_status"])
+            self.assertEqual("legacy_absent", result["admission_account"])
+
+    def test_admission_evidence_validator_binds_account_result_and_input(self):
+        catalogue = runtime.load_verified_catalogue(self.fixture_root, self.catalogue_path)
+        procedure = catalogue.by_tool_name["inspect_identity_boundary"]
+        stimulus = "subject: cantor; claim: signed query."
+        arguments = {"subject": "cantor", "claim": "signed query"}
+        account = runtime.build_admission_account(
+            stimulus, catalogue.digest, procedure, arguments
+        )
+        result = {
+            "profile": runtime.RESULT_PROFILE,
+            "procedure_id": procedure["procedure_id"],
+            "procedure_digest": procedure["procedure_digest"],
+            "catalogue_digest": catalogue.digest,
+            "arguments": arguments,
+            "admission_account": account,
+            "admission_account_digest": runtime.sha256_bytes(runtime.canonical_json(account)),
+        }
+        input_record = {"stimulus_sha256": runtime.sha256_bytes(stimulus.encode("utf-8"))}
+        runtime.validate_admission_evidence(account, result, input_record)
+
+        mutations = []
+        changed_surface = copy.deepcopy(account)
+        changed_surface["declaration_surface"] = "literal_only"
+        mutations.append(changed_surface)
+        changed_partition = copy.deepcopy(account)
+        changed_partition["undeclared_fields"] = ["claim"]
+        mutations.append(changed_partition)
+        changed_gate = copy.deepcopy(account)
+        changed_gate["gates"]["effects"] = "not_checked"
+        mutations.append(changed_gate)
+        changed_field = copy.deepcopy(account)
+        changed_field["argument_fields"][0]["literal_grounding"] = "unknown"
+        mutations.append(changed_field)
+        for changed in mutations:
+            with self.subTest(changed=changed):
+                changed_result = copy.deepcopy(result)
+                changed_result["admission_account"] = changed
+                changed_result["admission_account_digest"] = runtime.sha256_bytes(
+                    runtime.canonical_json(changed)
+                )
+                with self.assertRaises(runtime.RuntimeFault) as caught:
+                    runtime.validate_admission_evidence(changed, changed_result, input_record)
+                self.assertEqual("admission_evidence_invalid", caught.exception.code)
+
+    def test_current_success_requires_complete_admission_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            run_id = "33333333-3333-4333-8333-333333333333"
+            run_root = root / run_id
+            runtime.atomic_write_json(
+                run_root / "00_input.json", {"stimulus_sha256": "0" * 64}
+            )
+            runtime.atomic_write_json(
+                run_root / "result.json",
+                {
+                    "profile": runtime.RESULT_PROFILE,
+                    "run_id": run_id,
+                    "status": "route_selected",
+                },
+            )
+            runtime.write_evidence_manifest(run_root, run_id, "route_selected")
+            with self.assertRaises(runtime.RuntimeFault) as caught:
+                runtime.verify_evidence_directory(root, run_id, "run")
+            self.assertEqual("admission_evidence_invalid", caught.exception.code)
+
+    def test_current_negative_evidence_needs_no_admission_account(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            run_id = "44444444-4444-4444-8444-444444444444"
+            run_root = root / run_id
+            runtime.atomic_write_json(
+                run_root / "result.json",
+                {"profile": runtime.RESULT_PROFILE, "run_id": run_id, "status": "fault"},
+            )
+            runtime.write_evidence_manifest(run_root, run_id, "fault")
+            verified = runtime.verify_evidence_directory(root, run_id, "run")
+            self.assertEqual("verified", verified["status"])
+            self.assertEqual("not_applicable", verified["admission_account"])
 
     def test_evidence_verifier_rejects_tamper_and_extra_file(self):
         with tempfile.TemporaryDirectory() as directory:

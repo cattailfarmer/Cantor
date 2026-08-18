@@ -32,7 +32,8 @@ from typing import Any, Mapping, Sequence
 
 CATALOGUE_PROFILE = "cantor-attention-procedure-catalogue/0.1"
 CONFIG_PROFILE = "cantor-needle-runtime-config/0.1"
-RESULT_PROFILE = "cantor-needle-runtime-result/0.1"
+LEGACY_RESULT_PROFILE = "cantor-needle-runtime-result/0.1"
+RESULT_PROFILE = "cantor-needle-runtime-result/0.2"
 FRAME_PROFILE = "cantor-attention-frame/0.1"
 EVIDENCE_PROFILE = "cantor-needle-run-evidence/0.1"
 ADMISSION_ACCOUNT_PROFILE = "cantor-attention-admission-account/0.1"
@@ -1588,6 +1589,146 @@ def canonical_evidence_id(evidence_id: str) -> str:
     return normalized_id
 
 
+def _require_sha256(value: Any, label: str) -> str:
+    if (
+        not isinstance(value, str)
+        or not re.fullmatch(r"[0-9a-f]{64}", value)
+    ):
+        raise RuntimeFault(
+            "admission_evidence_invalid", f"{label} must be one lowercase SHA-256"
+        )
+    return value
+
+
+def validate_admission_evidence(
+    account: Any,
+    result: Mapping[str, Any],
+    input_record: Mapping[str, Any],
+) -> None:
+    """Verify a value-private admission account and all public cross-file bindings."""
+    account = require_mapping(account, "admission_evidence_invalid", "admission account")
+    expected_account_fields = {
+        "profile",
+        "status",
+        "procedure_id",
+        "procedure_digest",
+        "catalogue_digest",
+        "stimulus_sha256",
+        "declaration_surface",
+        "declared_fields",
+        "undeclared_fields",
+        "argument_fields",
+        "gates",
+        "allowed_effects",
+    }
+    if set(account) != expected_account_fields:
+        raise RuntimeFault(
+            "admission_evidence_invalid", "admission account fields are not canonical"
+        )
+    if account.get("profile") != ADMISSION_ACCOUNT_PROFILE or account.get("status") != "admitted":
+        raise RuntimeFault(
+            "admission_evidence_invalid", "admission account profile or status is invalid"
+        )
+    surface = account.get("declaration_surface")
+    if surface not in {"literal_only", "delimited", "json"}:
+        raise RuntimeFault(
+            "admission_evidence_invalid", "admission declaration surface is invalid"
+        )
+    for field in ("procedure_digest", "catalogue_digest", "stimulus_sha256"):
+        _require_sha256(account.get(field), f"account {field}")
+    if (
+        not isinstance(account.get("procedure_id"), str)
+        or not account["procedure_id"]
+        or account["procedure_id"] != result.get("procedure_id")
+        or account["procedure_digest"] != result.get("procedure_digest")
+        or account["catalogue_digest"] != result.get("catalogue_digest")
+        or account["stimulus_sha256"] != input_record.get("stimulus_sha256")
+    ):
+        raise RuntimeFault(
+            "admission_evidence_invalid", "admission identity bindings differ"
+        )
+
+    arguments = require_mapping(
+        result.get("arguments"), "admission_evidence_invalid", "result arguments"
+    )
+    expected_names = list(arguments)
+    if any(not isinstance(name, str) or not name for name in expected_names):
+        raise RuntimeFault("admission_evidence_invalid", "argument field identity is invalid")
+
+    declared = account.get("declared_fields")
+    undeclared = account.get("undeclared_fields")
+    if (
+        not isinstance(declared, list)
+        or not isinstance(undeclared, list)
+        or any(not isinstance(name, str) for name in declared + undeclared)
+        or len(set(declared)) != len(declared)
+        or len(set(undeclared)) != len(undeclared)
+        or set(declared).intersection(undeclared)
+        or set(declared).union(undeclared) != set(expected_names)
+        or declared != [name for name in expected_names if name in set(declared)]
+        or undeclared != [name for name in expected_names if name in set(undeclared)]
+    ):
+        raise RuntimeFault(
+            "admission_evidence_invalid", "admission field partition is invalid"
+        )
+    if (
+        (surface == "literal_only" and declared)
+        or (surface == "delimited" and not declared)
+        or (surface == "json" and (not declared or undeclared))
+    ):
+        raise RuntimeFault(
+            "admission_evidence_invalid", "admission surface conflicts with field partition"
+        )
+
+    argument_fields = account.get("argument_fields")
+    if not isinstance(argument_fields, list) or len(argument_fields) != len(expected_names):
+        raise RuntimeFault(
+            "admission_evidence_invalid", "admission argument field account is invalid"
+        )
+    for name, field_account in zip(expected_names, argument_fields, strict=True):
+        field_account = require_mapping(
+            field_account, "admission_evidence_invalid", "argument field account"
+        )
+        if set(field_account) != {"name", "schema", "literal_grounding", "declared_binding"}:
+            raise RuntimeFault(
+                "admission_evidence_invalid", "argument field account is not canonical"
+            )
+        expected_binding = "passed" if name in declared else "not_declared"
+        if field_account != {
+            "name": name,
+            "schema": "passed",
+            "literal_grounding": "passed",
+            "declared_binding": expected_binding,
+        }:
+            raise RuntimeFault(
+                "admission_evidence_invalid", "argument field gate account differs"
+            )
+
+    gates = require_mapping(account.get("gates"), "admission_evidence_invalid", "gate account")
+    expected_gates = {
+        "schema": "passed",
+        "literal_grounding": "passed",
+        "declared_binding": "passed" if declared else "not_applicable",
+        "catalogue_recheck": "passed",
+        "effects": "passed",
+    }
+    if gates != expected_gates or account.get("allowed_effects") != []:
+        raise RuntimeFault("admission_evidence_invalid", "admission gate account differs")
+
+    result_account = result.get("admission_account")
+    if result_account != account:
+        raise RuntimeFault(
+            "admission_evidence_invalid", "result and evidence admission accounts differ"
+        )
+    observed_digest = _require_sha256(
+        result.get("admission_account_digest"), "result admission_account_digest"
+    )
+    if observed_digest != sha256_bytes(canonical_json(account)):
+        raise RuntimeFault(
+            "admission_evidence_invalid", "canonical admission account digest differs"
+        )
+
+
 def verify_evidence_directory(
     evidence_root: Path, evidence_id: str, evidence_kind: str
 ) -> dict[str, Any]:
@@ -1663,12 +1804,50 @@ def verify_evidence_directory(
     identity_field = "run_id" if evidence_kind == "run" else "evaluation_id"
     if result_value.get(identity_field) != normalized_id or result_value.get("status") != manifest["status"]:
         raise RuntimeFault("evidence_result_invalid", "evidence result is not bound to its manifest")
+    admission_disposition = "not_applicable"
+    if evidence_kind == "run":
+        result_profile = result_value.get("profile")
+        if result_profile not in {LEGACY_RESULT_PROFILE, RESULT_PROFILE}:
+            raise RuntimeFault("evidence_result_invalid", "run result profile is unsupported")
+        status = result_value.get("status")
+        successful = status in {"route_selected", "success"}
+        has_file = "01_admission.json" in admitted_names
+        has_account = "admission_account" in result_value
+        has_digest = "admission_account_digest" in result_value
+        if successful and result_profile == RESULT_PROFILE and not (
+            has_file and has_account and has_digest
+        ):
+            raise RuntimeFault(
+                "admission_evidence_invalid", "current successful run lacks admission evidence"
+            )
+        if successful and any((has_file, has_account, has_digest)) and not all(
+            (has_file, has_account, has_digest)
+        ):
+            raise RuntimeFault(
+                "admission_evidence_invalid", "run has partial admission evidence"
+            )
+        if successful and has_file:
+            if "00_input.json" not in admitted_names:
+                raise RuntimeFault(
+                    "admission_evidence_invalid", "admission evidence lacks caller input"
+                )
+            account = load_json(directory / "01_admission.json", "admission_evidence_invalid")
+            input_record = require_mapping(
+                load_json(directory / "00_input.json", "admission_evidence_invalid"),
+                "admission_evidence_invalid",
+                "run input",
+            )
+            validate_admission_evidence(account, result_value, input_record)
+            admission_disposition = "verified"
+        elif successful:
+            admission_disposition = "legacy_absent"
     return {
         "profile": RESULT_PROFILE,
         "status": "verified",
         "evidence_kind": evidence_kind,
         "evidence_id": normalized_id,
         "recorded_status": manifest["status"],
+        "admission_account": admission_disposition,
         "manifest_sha256": sha256_file(manifest_path),
         "files": verified_files,
     }

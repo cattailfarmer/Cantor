@@ -1,0 +1,47 @@
+Subject: Cantor Admission Account Evidence Verification
+
+@ [specification_uuid] 98734de3-0333-416a-b26a-af42a4a5255b
+@ [profile] cantor-admission-account-verifier/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_admission_account_evidence_verification\Source_Document_Manifest.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Attention_Admission_Account.sop
+
+& [CurrentAccountValidation] is closed and relational
+  + account has only the canonical profile status identity surface field gate and allowed-effect members
+  + profile status declaration surface hexadecimal digests and gate enums are exact
+  + argument_fields exactly follows result argument key order with unique field names
+  + declared_fields and undeclared_fields are unique disjoint ordered projections whose union equals argument fields
+  + each field binding status agrees with membership in declared_fields
+  + JSON has no undeclared fields and literal_only has no declared fields
+  + gate declared_binding agrees with surface and allowed_effects is empty
+
+& [CrossFileBinding] is mandatory for current accounts
+  + 01_admission JSON equals result admission_account
+  + canonical account SHA-256 equals result admission_account_digest
+  + procedure ID digest and catalogue digest equal result fields
+  + stimulus digest equals 00_input stimulus_sha256
+  + account result input and manifest files are all present and byte-verified first
+
+& [Compatibility] is explicit
+  + cantor-needle-runtime-result/0.2 marks current evidence and requires admission on route_selected or success
+  + legacy cantor-needle-runtime-result/0.1 success with neither admission result fields nor admission file remains verifiable
+  + profile 0.1 evidence that does contain an account receives the same complete validation
+  + any partial account presence faults
+  + current success account inconsistency faults
+  + fault evidence may omit admission account
+  + evaluation evidence remains unchanged
+
+& [Acceptance] is measurable
+  + [AAEV-001] source and manifest verify
+  + [AAEV-002] valid current route and full evidence verify
+  + [AAEV-003] valid historic success evidence still verifies
+  + [AAEV-004] altered account file result account or digest rejects after exact re-manifest fixture construction
+  + [AAEV-005] input procedure catalogue field partition surface and gate inconsistencies reject
+  + [AAEV-006] partial account presence rejects
+  + [AAEV-007] negative evidence without account verifies
+  + [AAEV-008] runtime evaluator and calibration regressions pass locally and on EVO-X2
+
+& [Signature] is bounded implementation authority
+  + [signature_uuid] is 9922f5e4-00a9-4a37-b5d4-8057b6030c9e
+  + [source_manifest_sha256] is 6471B69A4678F6635D965C847F04739A27372DE764D81D45BD7CF2E7C2FEC84B
+  + [authority_scope] is pure validator run evidence integration focused adversarial tests manifest refresh isolated deployment proof and closure
+  + [invalidation] is evidence rewrite inference rerun value disclosure effect expansion legacy rejection or evaluation schema change

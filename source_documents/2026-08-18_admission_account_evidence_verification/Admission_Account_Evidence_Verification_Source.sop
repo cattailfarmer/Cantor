@@ -1,0 +1,28 @@
+Subject: Admission Account Evidence Verification Source
+
+& [SourceSnapshot] is immutable
+  + [source_snapshot_uuid] is 7d7d68a0-3ead-4a43-9890-56a740a37606
+  + [conversation_uuid] is cab190f5-eda0-44e0-81a5-51f9605e0baa
+  + [captured_at] is 2026-08-18T12:10:47.8290390-05:00
+  + [baseline_commit] is fd889c6e2c668787190b0be30a1872a8b6eacd2b
+  + [source_status] is preserved_observed_unprocessed
+
+& [ObservedGap] is semantic evidence binding
+  + run manifest verifies bytes and file set
+  + result and manifest identities and status are checked
+  + new 01_admission account is not independently checked against input result procedure arguments gate shape or canonical account digest
+  + a malformed but re-manifested evidence set could therefore pass byte verification while its account relationships conflict
+
+& [CandidateCorrection] is non-authoritative until SJS
+  + strictly validate account closed shape enums hexadecimal identities field partition and gate coherence
+  + require account file result account and canonical digest to agree
+  + require account stimulus digest procedure digest catalogue digest and field set to agree with input and result
+  + preserve legacy successful evidence without accounts as explicit legacy profile
+  + require current account-bearing success evidence to contain the complete binding
+  + allow typed fault evidence without admission account
+
+& [Boundary] remains verification only
+  + verifier does not rerun inference or trust an account as authorization
+  + account values remain absent
+  + historic evidence bytes remain unchanged
+  + evaluator evidence remains outside run-account validation

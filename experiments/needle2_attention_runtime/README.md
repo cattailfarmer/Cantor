@@ -111,6 +111,12 @@ not only confidence in a selected procedure.
 `verify <UUID>` independently reloads one run or evaluation manifest, rehashes
 every admitted file, rejects missing or extra files, and checks that the result
 identity and status agree with the manifest. It does not rerun inference.
+For `cantor-needle-runtime-result/0.2` success records it also requires
+`01_admission.json`, validates its closed field/gate structure, binds it to the
+input stimulus digest and result procedure/catalogue identities, requires exact
+equality with the result account, and recomputes the canonical account digest.
+Legacy `0.1` success evidence remains verifiable; when it contains an admission
+account, the same full validation applies.
 
 ## Security boundary
 
