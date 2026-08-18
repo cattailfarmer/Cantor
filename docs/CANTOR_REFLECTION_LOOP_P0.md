@@ -76,14 +76,14 @@ then emits a compact human-facing projection.
 The current reviewed experimental binary is:
 
 - EVO-X2 path:
-  `C:\AI\services\cantor-reflection-loop\cantor-reflection-loop-v14.exe`
+  `C:\AI\services\cantor-reflection-loop\cantor-reflection-loop-v15.exe`
 - SHA-256:
-  `cbd31364c8308a13483969491101bc500d01f85db3d3e2addf2258f9ceb9c6ec`
+  `b1ba0fd7b9700b79ea40eb08de6e77e31207fb860dbeb01d00287c393e6741c3`
 - report contract: `cantor-reflection-loop-report/0.2`
 - accepted report:
-  [`script_acceptance_verified_v14.json`](../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v14.json)
+  [`script_acceptance_verified_v15.json`](../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v15.json)
 - report SHA-256:
-  `aa3ee4595d3c3691cee9bc940f96ffc2805e9bcda7c0cca91c7135a7f009a105`
+  `c5f1450933ab02eecd42eb4e2a8a9211d53e3b27fbee350fe53c400587d4a015`
 
 The accepted run proves these bounded observations:
 
@@ -110,12 +110,12 @@ From the repository root:
 .\scripts\test_cantor_reflection_loop_p0.ps1
 .\scripts\run_cantor_reflection_loop_p0.ps1
 cargo run -q -p cantor_reflection_loop -- contract
-cargo run -q -p cantor_reflection_loop -- verify --report .\experiments\cantor_reflection_loop_p0\script_acceptance_verified_v14.json
-cargo run -q -p cantor_reflection_loop -- inspect --report .\experiments\cantor_reflection_loop_p0\script_acceptance_verified_v14.json
+cargo run -q -p cantor_reflection_loop -- verify --report .\experiments\cantor_reflection_loop_p0\script_acceptance_verified_v15.json
+cargo run -q -p cantor_reflection_loop -- inspect --report .\experiments\cantor_reflection_loop_p0\script_acceptance_verified_v15.json
 ```
 
 The first command is offline and effect-free. It checks source and evidence
-digests, the bounded signature marker, twenty-seven focused tests, deny-warning
+digests, the bounded signature marker, twenty-eight focused tests, deny-warning
 Clippy, contract/report compatibility, verification, inspection, current
 manifest freshness, deployment identity, four malformed or escaping parameters,
 and refusal to overwrite an existing evidence path.
@@ -129,7 +129,7 @@ change Codex configuration, or create a resident service.
 profiles, state paths, call/pass limits, authority boundary, and excluded
 private fields for programmatic discovery.
 The deployed command and post-command process audit are preserved in
-[`contract_acceptance_v14.json`](../experiments/cantor_reflection_loop_p0/contract_acceptance_v14.json).
+[`contract_acceptance_v15.json`](../experiments/cantor_reflection_loop_p0/contract_acceptance_v15.json).
 
 ## What the prototype taught us
 

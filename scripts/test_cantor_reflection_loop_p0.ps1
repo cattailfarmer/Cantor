@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
-    [string]$EvidencePath = "experiments\cantor_reflection_loop_p0\script_acceptance_verified_v14.json",
-    [string]$ExpectedEvidenceSha256 = "aa3ee4595d3c3691cee9bc940f96ffc2805e9bcda7c0cca91c7135a7f009a105",
+    [string]$EvidencePath = "experiments\cantor_reflection_loop_p0\script_acceptance_verified_v15.json",
+    [string]$ExpectedEvidenceSha256 = "c5f1450933ab02eecd42eb4e2a8a9211d53e3b27fbee350fe53c400587d4a015",
     [string]$ExpectedSourceSha256 = "3baeeaa8188d48b46f9df9481d29eb92a5207dbbd7a8c95b0b568b2b98276ddd"
 )
 
@@ -147,7 +147,7 @@ foreach ($case in $negativeCases) {
     verification_profile = $verification.profile
     inspection_profile = $inspection.profile
     case_count = @($inspection.cases).Count
-    focused_test_count = 27
+    focused_test_count = 28
     current_manifest_count = 23
     current_manifest_reference_count = 1030
     current_manifest_stale_count = 0

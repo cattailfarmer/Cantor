@@ -2,8 +2,8 @@
 param(
     [string]$SshHost = "evo-x2",
     [string]$RemoteRoot = "C:\AI\services\cantor-reflection-loop",
-    [string]$RemoteBinaryName = "cantor-reflection-loop-v14.exe",
-    [string]$ExpectedLoopSha256 = "cbd31364c8308a13483969491101bc500d01f85db3d3e2addf2258f9ceb9c6ec",
+    [string]$RemoteBinaryName = "cantor-reflection-loop-v15.exe",
+    [string]$ExpectedLoopSha256 = "b1ba0fd7b9700b79ea40eb08de6e77e31207fb860dbeb01d00287c393e6741c3",
     [string]$ExpectedMcpSha256 = "37860b031a97b58de08cb669cf6b09b3bbac3db12c3fba3f198674231255deef",
     [string]$ExpectedMcpConfigSha256 = "818a43df51b8bbfe4a7d8abe38458efbe4ad9c946dc0504d78f28e09f9ebf45c",
     [string]$LocalOutput = ""

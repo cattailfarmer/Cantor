@@ -49,3 +49,11 @@ Subject: Cantor Reflection Loop P0 Operational Faults
   + [repair] locally relax stream promotion around each native child while retaining its captured exit code as authority then restore strict mode immediately
   + [proof] successor offline acceptance completes all checks and emits passed JSON
   + [status] is closed
+
+& [CRLP_F008] is optional dependency identity in verifier profile 0.2
+  + [observed] adversarial review showed that deleting dependency_identity_stable and its companion runner and after-digest fields bypassed the identity comparison
+  + [cause] the verifier treated the hardened block as optional even though every compatible profile-0.2 report already records it
+  + [containment] no accepted live artifact omitted the block and the defect affected verifier strictness rather than execution
+  + [repair] require dependency_identity_stable true plus runner and all before-after digests unconditionally
+  + [proof] the omission regression test rejects the reduced report and the isolated v15 binary passes a new complete live campaign
+  + [status] is closed

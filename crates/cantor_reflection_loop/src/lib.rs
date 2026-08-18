@@ -538,32 +538,33 @@ pub fn verify_report(report: &Value) -> Result<ReportVerification, String> {
             return Err(format!("report field {pointer} is not SHA-256"));
         }
     }
-    if let Some(stable) = report.get("dependency_identity_stable") {
-        if stable.as_bool() != Some(true)
-            || report.get("mcp_program_sha256") != report.get("mcp_program_sha256_after")
-            || report.get("mcp_config_sha256") != report.get("mcp_config_sha256_after")
-        {
-            return Err("dependency identity changed during the run".to_owned());
-        }
-        let runner = report
-            .pointer("/runner")
+    if report
+        .get("dependency_identity_stable")
+        .and_then(Value::as_bool)
+        != Some(true)
+        || report.get("mcp_program_sha256") != report.get("mcp_program_sha256_after")
+        || report.get("mcp_config_sha256") != report.get("mcp_config_sha256_after")
+    {
+        return Err("dependency identity is absent or changed during the run".to_owned());
+    }
+    let runner = report
+        .pointer("/runner")
+        .and_then(Value::as_str)
+        .ok_or("hardened report omitted /runner")?;
+    if runner.trim().is_empty() {
+        return Err("hardened report field /runner is empty".to_owned());
+    }
+    for pointer in [
+        "/mcp_program_sha256_after",
+        "/mcp_config_sha256_after",
+        "/runner_sha256",
+    ] {
+        let value = report
+            .pointer(pointer)
             .and_then(Value::as_str)
-            .ok_or("hardened report omitted /runner")?;
-        if runner.trim().is_empty() {
-            return Err("hardened report field /runner is empty".to_owned());
-        }
-        for pointer in [
-            "/mcp_program_sha256_after",
-            "/mcp_config_sha256_after",
-            "/runner_sha256",
-        ] {
-            let value = report
-                .pointer(pointer)
-                .and_then(Value::as_str)
-                .ok_or_else(|| format!("hardened report omitted digest {pointer}"))?;
-            if value.len() != 64 || !value.bytes().all(|byte| byte.is_ascii_hexdigit()) {
-                return Err(format!("hardened report field {pointer} is not SHA-256"));
-            }
+            .ok_or_else(|| format!("hardened report omitted digest {pointer}"))?;
+        if value.len() != 64 || !value.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+            return Err(format!("hardened report field {pointer} is not SHA-256"));
         }
     }
     let cases = report

@@ -3,7 +3,7 @@ use serde_json::{Value, json};
 
 fn accepted_report() -> Value {
     serde_json::from_str(include_str!(
-        "../../../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v14.json"
+        "../../../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v15.json"
     ))
     .expect("preserved live report must be JSON")
 }
@@ -112,6 +112,21 @@ fn hardened_dependency_drift_is_rejected() {
     report["mcp_config_sha256_after"] = report["mcp_config_sha256"].clone();
     report["runner"] = json!("C:\\fixture\\cantor-reflection-loop.exe");
     report["runner_sha256"] = json!("0".repeat(64));
+    assert!(verify_report(&report).is_err());
+}
+
+#[test]
+fn omitted_dependency_identity_is_rejected() {
+    let mut report = accepted_report();
+    for field in [
+        "dependency_identity_stable",
+        "mcp_program_sha256_after",
+        "mcp_config_sha256_after",
+        "runner",
+        "runner_sha256",
+    ] {
+        report.as_object_mut().unwrap().remove(field);
+    }
     assert!(verify_report(&report).is_err());
 }
 

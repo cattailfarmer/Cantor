@@ -9,7 +9,7 @@ is written. The reports contain model requests and public responses, exact MCP
 structured results, ordered externalized states, typed faults, and deployment
 hashes. They do not authorize the learned routes or any external effect.
 
-The current accepted report is `script_acceptance_verified_v14.json` under
+The current accepted report is `script_acceptance_verified_v15.json` under
 report profile 0.2. Its verifier reconstructs the complete request/import/output
 path rather than trusting recorded headline fields. `script_acceptance_verified_v8.json`
 is the preserved predecessor in which the tiny model repeated refusal prose
@@ -24,23 +24,24 @@ accepted evidence. The v13 successor binds outer report metadata including
 contract identity, case order, timestamps, trace profiles, unique trace IDs,
 fault absence, and loopback URL into independent replay. The v14 successor
 makes the full three-case campaign and sole advertised model mandatory so all
-successful live reports have the verifier's exact shape.
+successful live reports have the verifier's exact shape. The v15 successor
+also fails closed when the dependency-identity block is omitted.
 
 Earlier profile-0.1 reports remain historical observations tied to their
-recorded runner binaries. The current crate integration fixture is the v14
+recorded runner binaries. The current crate integration fixture is the v15
 profile-0.2 report.
 
-`offline_acceptance_v14.json` preserves the current successful output of
+`offline_acceptance_v15.json` preserves the current successful output of
 `scripts/test_cantor_reflection_loop_p0.ps1`, which checks the current source,
 evidence, contract, replay, inspection, tests, lint, manifests, deployment
 identity, and negative parameter boundary without contacting EVO-X2.
 
-`report_corpus_replay_v14.json` applies the strongest current verifier to every
-preserved profile-0.2 script report: all six recorded passes remain verified,
+`report_corpus_replay_v15.json` applies the strongest current verifier to every
+preserved profile-0.2 script report: all seven recorded passes remain verified,
 while the failed v8 predecessor remains rejected.
 
-`governance_reference_audit_v14.json` confirms that all twenty-six absolute
-Cantor-local references across the nine P0 governance documents resolve.
+`governance_reference_audit_v15.json` confirms that all twenty-nine absolute
+Cantor-local directive references across the nine P0 governance documents resolve.
 
 `dependency_metadata_audit_v14.json` records the resolved Cargo closure review:
 all third-party packages declare license metadata, while the two workspace-local

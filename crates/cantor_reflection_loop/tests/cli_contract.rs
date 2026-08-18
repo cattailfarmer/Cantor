@@ -4,7 +4,7 @@ use serde_json::{Value, json};
 
 const ACCEPTED_REPORT: &str = concat!(
     env!("CARGO_MANIFEST_DIR"),
-    "/../../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v14.json"
+    "/../../experiments/cantor_reflection_loop_p0/script_acceptance_verified_v15.json"
 );
 
 fn binary() -> &'static str {
