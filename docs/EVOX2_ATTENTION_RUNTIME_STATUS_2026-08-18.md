@@ -38,6 +38,17 @@ All three current procedure families passed paired full/frame calls on EVO-X2:
 This is a bounded result for the present catalogue and argument sizes, not a
 universal guarantee for future procedures.
 
+Reproduce the paired measurement against the reviewed deployment with:
+
+```powershell
+.\scripts\measure_attention_frame_response_modes.ps1
+```
+
+The script first runs the fail-closed deployment/readiness check, then requires
+every current procedure family to meet the configured ratio. It launches
+ephemeral MCP jobs and therefore creates normal remote run evidence, but it
+does not change Codex configuration or start a persistent service.
+
 ## Current deployed identity
 
 - host: `EVO-X2`

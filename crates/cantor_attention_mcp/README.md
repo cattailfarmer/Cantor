@@ -23,6 +23,9 @@ keeps the proof-rich result. The canonical EVO-X2 measurement reduced 3,052
 UTF-8 bytes to 1,005 bytes (3.0368x). Negative results retain their evidence
 shape and never return a positive frame.
 
+Reproduce all three current full/frame pairs with
+`scripts/measure_attention_frame_response_modes.ps1` from the repository root.
+
 The operator supplies an absolute closed configuration and explicitly registers
 the built executable. Repository code does not edit Codex configuration.
 
