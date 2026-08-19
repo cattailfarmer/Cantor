@@ -38,3 +38,23 @@ Subject: Cantor Field Attention Reproducible Windows Build Operational Faults
   + [repair] require the exact contract-output SHA-256 and exact verifier output property set before reading typed fields
   + [proof] rerun refuses the historical commit with exact diagnostic Behavior gate failed contract output bytes differ from the governed P0 reference and leaves campaign-root count unchanged
   + [status] is closed
+
+& [FARW_F006] is caller-checkout toolchain attribution
+  + [observed] the proof tool originally measured rustc and Cargo from the caller checkout rather than from each archived source root
+  + [risk] a selected revision with its own toolchain override could build under an identity different from the one reported in the receipt
+  + [repair] query rustc verbose and Cargo version independently from both extracted roots require byte-exact agreement and record that selected identity
+  + [proof] two consecutive campaigns against commit 43b2f51642087e14247fa535d7201123deaee597 select the same identities and emit the same receipt
+  + [status] is closed
+
+& [FARW_F007] is incomplete verifier-result binding
+  + [observed] the behavior gate required exact verifier properties terminal latch and assurance but did not compare exchange_count or verifier-computed report_sha256
+  + [risk] an identically wrong pair could preserve high-level disposition while misreporting event cardinality or the report identity it verified
+  + [repair] require exact exchange counts and verifier-computed report identities for all three governed reports and expose both values in the receipt
+  + [proof] six invocations across two executables return the exact three expected count and digest pairs in two consecutive campaigns
+  + [status] is closed
+
+& [FARW_F008] is unquoted PowerShell Git peel syntax in one diagnostic command
+  + [observed] one post-commit observation passed HEAD^{tree} unquoted and PowerShell reinterpreted the braces before Git could resolve the tree
+  + [containment] the diagnostic failed after the commit and changed no repository or proof state
+  + [repair] repeat the read-only query with the revision expression single-quoted
+  + [status] is closed

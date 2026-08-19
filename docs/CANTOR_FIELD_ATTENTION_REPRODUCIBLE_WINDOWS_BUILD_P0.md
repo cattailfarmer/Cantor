@@ -20,7 +20,7 @@ Run the fast repository-and-receipt audit without rebuilding:
 
 The audit also refuses the pinned proof when the tracked Cargo configuration, workspace manifests, field-cycle package, or proof tool differs from the tested commit. It resolves all three historical tested-input, receipt, and anchor commit/tree pairs, requires each tested → receipt → anchor ancestry edge, requires the configured upstream to contain every anchor, and requires the current anchor bytes to equal their committed forms. This fast audit therefore requires a Git checkout with its upstream configured; the fresh two-root build command itself does not depend on an upstream.
 
-The pinned v1 receipt proves local repetition for commit `3bba173c63d56dab1038260948f509081fec79e5` on one Windows MSVC toolchain. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.
+The pinned v1 receipt proves local repetition for commit `43b2f51642087e14247fa535d7201123deaee597` on one Windows MSVC toolchain. Each extracted source root independently selects and reports the same Rust and Cargo identities. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.
 
 ## Prerequisites
 
@@ -38,7 +38,7 @@ The tool records the toolchain it actually observes. Matching the pinned toolcha
 - `toolchain` exposes the readable Rust release and commit plus Cargo, host, LLVM, and the full `rustc -vV` digest.
 - `build` states every controlled environment value and exact Cargo command.
 - `artifact` is the byte length, SHA-256, and direct byte-comparison result.
-- `behavior` binds the exact contract output, governed field digest, report identities, expected dispositions, and zero provider requests.
+- `behavior` binds the exact contract output, governed field digest, report file and verifier-computed identities, exchange counts, expected dispositions, and zero provider requests.
 - `cleanup` says whether diagnostic artifacts were retained without disclosing a random local path.
 - `claim` is the maximum conclusion the receipt supports.
 

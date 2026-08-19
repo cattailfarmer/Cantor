@@ -20,10 +20,10 @@ $receiptPath = Join-Path $workspaceRoot $receiptRelative
 
 $expectedSourceSha256 = 'd03e4473b8250aea7c672360cda7c61ce95ccd2e70723bbc37572d65340870e7'
 $expectedSourceBytes = 3669
-$expectedReceiptSha256 = '70f5422120eead7771c65f58802b7172618f0ea6c3cc22e1fe375f6876d340d1'
-$expectedReceiptBytes = 2761
-$expectedCommit = '3bba173c63d56dab1038260948f509081fec79e5'
-$expectedTree = '8aa003a8b17452caab0b718f03821499cd002b31'
+$expectedReceiptSha256 = '14f6a7d322bfb04b680499e9f16550e08ee264037d2850f9bb8c6c7220bec98a'
+$expectedReceiptBytes = 3154
+$expectedCommit = '43b2f51642087e14247fa535d7201123deaee597'
+$expectedTree = 'bb0d70f5957523cca45d1f9e817bf98d5bb41011'
 $expectedArtifactSha256 = '983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b'
 
 $sourceSha256 = (Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -56,12 +56,18 @@ foreach ($required in @(
     '-C link-arg=/Brepro',
     "'--locked'",
     "'--offline'",
+    "'--verify'",
+    "'--end-of-options'",
+    '-WorkingDirectory $sourceA',
+    '-WorkingDirectory $sourceB',
     'Assert-SafeCampaignRoot',
     'ReparsePoint',
     'Test-FileBytesEqual',
     "@('contract')",
     "@('field-digest'",
-    "@('verify'"
+    "@('verify'",
+    'ExchangeCount',
+    'VerifiedReportSha256'
 )) {
     if (-not $implementation.Contains($required)) {
         throw "Reproducible-build implementation omitted a required control: $required"
@@ -133,21 +139,52 @@ if ($sourceDiffExit -ne 0) {
 }
 
 $expectedReports = [ordered]@{
-    'evox2_live_v5.json' = '7a2b934811beb4bff4917791f68ee5e2988574480443c212616cf950b133418e'
-    'evox2_control_v5.json' = '2fa77676b688a7ee6893e56c9afec596a8fa5f197011c065bb645bb8a6bbb337'
-    'evox2_hostile_boundary_v5.json' = 'e7109037bc3ad84d0c8e19501d6c234e858cd9d5d4599c13afd825306ac09b98'
+    'evox2_live_v5.json' = [ordered]@{
+        file_sha256 = '7a2b934811beb4bff4917791f68ee5e2988574480443c212616cf950b133418e'
+        terminal_state = 'completed'
+        latch_status = 'admitted_for_attention'
+        assurance = 'stored_provider_replay'
+        exchange_count = 5
+        verified_report_sha256 = 'ac2a07ac0b25267e16eefa68b56eb76ea08afd502ac9a555cc311de8eb0d204c'
+    }
+    'evox2_control_v5.json' = [ordered]@{
+        file_sha256 = '2fa77676b688a7ee6893e56c9afec596a8fa5f197011c065bb645bb8a6bbb337'
+        terminal_state = 'control_completed'
+        latch_status = $null
+        assurance = 'stored_provider_replay'
+        exchange_count = 1
+        verified_report_sha256 = '83a8450d88147acd0b93db1a7952955084d6736e9aa04e3e7a1d51d1bcbff599'
+    }
+    'evox2_hostile_boundary_v5.json' = [ordered]@{
+        file_sha256 = 'e7109037bc3ad84d0c8e19501d6c234e858cd9d5d4599c13afd825306ac09b98'
+        terminal_state = 'rejected'
+        latch_status = $null
+        assurance = 'stored_provider_replay'
+        exchange_count = 4
+        verified_report_sha256 = '6d57cd6fd9a0366b9f69105e30bc97be3e504bbd4af15968af3a9b47b931907e'
+    }
 }
 if (@($receipt.behavior.reports).Count -ne $expectedReports.Count) {
     throw 'Pinned receipt report cardinality changed.'
 }
 foreach ($entry in $expectedReports.GetEnumerator()) {
     $record = @($receipt.behavior.reports | Where-Object report -CEQ $entry.Key)
-    if ($record.Count -ne 1 -or $record[0].report_sha256 -cne $entry.Value) {
+    $latchMatches = $record.Count -eq 1 -and (
+        ($null -eq $entry.Value.latch_status -and $null -eq $record[0].latch_status) -or
+        ($null -ne $entry.Value.latch_status -and $record[0].latch_status -ceq $entry.Value.latch_status)
+    )
+    if ($record.Count -ne 1 -or
+        $record[0].report_sha256 -cne $entry.Value.file_sha256 -or
+        $record[0].terminal_state -cne $entry.Value.terminal_state -or
+        -not $latchMatches -or
+        $record[0].assurance -cne $entry.Value.assurance -or
+        $record[0].exchange_count -ne $entry.Value.exchange_count -or
+        $record[0].verified_report_sha256 -cne $entry.Value.verified_report_sha256) {
         throw "Pinned receipt report identity changed: $($entry.Key)"
     }
     $reportPath = Join-Path $workspaceRoot "experiments\cantor_field_cycle_p0\$($entry.Key)"
     $actualReportSha256 = (Get-FileHash -LiteralPath $reportPath -Algorithm SHA256).Hash.ToLowerInvariant()
-    if ($actualReportSha256 -cne $entry.Value) {
+    if ($actualReportSha256 -cne $entry.Value.file_sha256) {
         throw "Retained report bytes changed: $($entry.Key)"
     }
 }
@@ -190,6 +227,7 @@ if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($upstream)) {
     throw 'The reproducibility anchor audit requires one configured upstream branch.'
 }
 
+$previousAnchorCommit = $null
 foreach ($anchor in $anchorRecords) {
     $anchorPath = Join-Path $workspaceRoot $anchor.relative_path
     $anchorText = Get-Content -LiteralPath $anchorPath -Raw
@@ -229,6 +267,12 @@ foreach ($anchor in $anchorRecords) {
     if ($LASTEXITCODE -ne 0) {
         throw "Anchor commit does not descend from its receipt commit: $($anchor.relative_path)"
     }
+    if ($null -ne $previousAnchorCommit) {
+        & git.exe -C $workspaceRoot merge-base --is-ancestor $previousAnchorCommit $anchor.tested_commit
+        if ($LASTEXITCODE -ne 0) {
+            throw "Reproducibility Git anchor histories do not form one successor chain: $($anchor.relative_path)"
+        }
+    }
     & git.exe -C $workspaceRoot merge-base --is-ancestor $anchor.anchor_commit $upstream
     if ($LASTEXITCODE -ne 0) {
         throw "Configured upstream does not contain the anchor commit: $($anchor.relative_path)"
@@ -243,12 +287,13 @@ foreach ($anchor in $anchorRecords) {
     if ($LASTEXITCODE -ne 0) {
         throw "Current anchor bytes differ from the committed anchor: $($anchor.relative_path)"
     }
+    $previousAnchorCommit = $anchor.anchor_commit
 }
 
 [ordered]@{
     profile = 'cantor-field-attention-reproducible-windows-build-audit/0.1'
     result = 'passed_with_declared_boundaries'
-    checks = 16
+    checks = 18
     source_sha256 = $sourceSha256
     receipt_sha256 = $receiptSha256
     source_commit = $receipt.source.commit
