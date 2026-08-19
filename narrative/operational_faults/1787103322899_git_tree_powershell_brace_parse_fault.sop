@@ -1,0 +1,23 @@
+Subject: Git Tree PowerShell Brace Parse Diagnostic Fault
+
+@ [fault_uuid] da01fee8-aa57-4cd1-b50a-b23d07333a20
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [captured_at] 2026-08-18T20:35:22.8991343-05:00
+
+& [Observed] an unquoted HEAD caret-brace tree revision expression was passed through PowerShell while measuring the campaign tree
+  + PowerShell treated the brace expression as shell syntax and the captured value contained multiple unrelated strings
+  + Git also emitted an ambiguous-revision diagnostic
+
+& [Impact] is rejected_read_only_diagnostic
+  + no repository remote process deployment evidence or authority state changed
+  + the malformed value was rejected before it entered an anchor or proof claim
+
+& [Correction] uses git show format percent-T against exact HEAD
+  + corrected tree is 3f3237f6d26fa2a7a64434cf8c7b8b55fbd33034
+  + git cat-file identifies that object as tree and git fsck succeeds
+
+& [Prevention] avoids caret-brace revision syntax at the PowerShell command boundary
+  + use git show format percent-T or pass revision expressions as explicit quoted arguments
+  + reject any multi-value digest observation or command containing a Git diagnostic
+
+& [Disposition] is closed_invalid_read_only_diagnostic
