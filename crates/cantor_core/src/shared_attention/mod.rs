@@ -9,11 +9,13 @@ mod compaction;
 mod dream;
 mod forms;
 mod runtime;
+mod tool;
 
 pub use compaction::*;
 pub use dream::*;
 pub use forms::*;
 pub use runtime::*;
+pub use tool::*;
 
 pub const SHARED_ATTENTION_PROFILE: &str = "cantor-shared-attention-frame/0.1";
 pub const ATTENTION_DELTA_PROFILE: &str = "cantor-shared-attention-delta/0.1";

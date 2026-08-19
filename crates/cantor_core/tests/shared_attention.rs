@@ -7,11 +7,13 @@ use cantor_core::{
     DreamReview, DreamReviewDisposition, DreamStatus, EpistemicStatus, FRAME_ATTESTATION_PROFILE,
     FacultyKind, FrameAttestation, FrameDeltaOperation, FramedProposition,
     ReconciliationDisposition, SemanticId, SettlementDisposition, SharedAttentionFaultCode,
-    SharedAttentionFrame, SharedAttentionFrameSeed, SharedFrameStatus, compact_attention_frame,
-    compute_delta_digest, discard_dream_frame, finalize_attention_compaction,
-    finalize_attention_delta, finalize_dream_review, finalize_frame_attestation, fork_dream_frame,
-    from_machine_form, new_shared_attention_frame, prepare_attention_candidate,
-    project_dream_promotion, reconcile_attention_deltas, record_dream_evidence, review_dream_frame,
+    SharedAttentionFrame, SharedAttentionFrameSeed, SharedAttentionToolRequest,
+    SharedAttentionToolResult, SharedAttentionToolStatus, SharedFrameStatus,
+    compact_attention_frame, compute_delta_digest, discard_dream_frame,
+    execute_shared_attention_tool_request, finalize_attention_compaction, finalize_attention_delta,
+    finalize_dream_review, finalize_frame_attestation, fork_dream_frame, from_machine_form,
+    new_shared_attention_frame, prepare_attention_candidate, project_dream_promotion,
+    reconcile_attention_deltas, record_dream_evidence, review_dream_frame,
     settle_attention_candidate, to_machine_form, validate_dream_frame,
     validate_shared_attention_frame,
 };
@@ -1250,4 +1252,126 @@ fn compaction_requires_refiner_exact_base_evidence_and_monotonic_reduction() {
             .code,
         SharedAttentionFaultCode::StaleBase
     );
+}
+
+#[test]
+fn shared_tool_dispatch_reaches_all_eleven_closed_operations() {
+    let working = frame_with_headroom(1_000_000);
+    let validated =
+        execute_shared_attention_tool_request(SharedAttentionToolRequest::ValidateFrame {
+            frame: working.clone(),
+        });
+    assert_eq!(validated.status, SharedAttentionToolStatus::Succeeded);
+    assert!(matches!(
+        validated.result,
+        Some(SharedAttentionToolResult::Frame(_))
+    ));
+
+    let reconciled = execute_shared_attention_tool_request(SharedAttentionToolRequest::Reconcile {
+        base: working.clone(),
+        deltas: vec![delta(
+            &working,
+            "delta:tool-dispatch",
+            "participant:guard",
+            1,
+            vec![FrameDeltaOperation::AttachEvidence {
+                evidence_ref: sid("evidence:tool-dispatch"),
+            }],
+        )],
+    });
+    assert!(matches!(
+        reconciled.result,
+        Some(SharedAttentionToolResult::Reconciliation(_))
+    ));
+
+    let compacted = execute_shared_attention_tool_request(SharedAttentionToolRequest::Compact {
+        base: working.clone(),
+        compaction: compaction(&working, "compaction:tool-dispatch", "participant:server"),
+    });
+    assert!(matches!(
+        compacted.result,
+        Some(SharedAttentionToolResult::Compaction(_))
+    ));
+
+    let prepared = execute_shared_attention_tool_request(SharedAttentionToolRequest::Prepare {
+        working: working.clone(),
+    });
+    let candidate = match prepared.result {
+        Some(SharedAttentionToolResult::Preparation(prepared)) => prepared.candidate,
+        other => panic!("unexpected preparation result: {other:?}"),
+    };
+    let settled = execute_shared_attention_tool_request(SharedAttentionToolRequest::Settle {
+        attestations: complete_attestations(&candidate),
+        candidate,
+    });
+    let parent = match settled.result {
+        Some(SharedAttentionToolResult::Settlement(outcome)) => {
+            outcome.sealed_frame.expect("sealed tool frame")
+        }
+        other => panic!("unexpected settlement result: {other:?}"),
+    };
+
+    let forked = execute_shared_attention_tool_request(SharedAttentionToolRequest::ForkDream {
+        seed: dream_seed(&parent),
+        parent: parent.clone(),
+    });
+    let dream = match forked.result {
+        Some(SharedAttentionToolResult::Dream(dream)) => dream,
+        other => panic!("unexpected fork result: {other:?}"),
+    };
+    let validated_dream =
+        execute_shared_attention_tool_request(SharedAttentionToolRequest::ValidateDream {
+            parent: parent.clone(),
+            dream: dream.clone(),
+        });
+    assert!(matches!(
+        validated_dream.result,
+        Some(SharedAttentionToolResult::Dream(_))
+    ));
+
+    let testing =
+        execute_shared_attention_tool_request(SharedAttentionToolRequest::RecordDreamEvidence {
+            parent: parent.clone(),
+            dream: dream.clone(),
+            evidence_refs: BTreeSet::from([sid("evidence:dream-test")]),
+        });
+    let testing = match testing.result {
+        Some(SharedAttentionToolResult::Dream(testing)) => testing,
+        other => panic!("unexpected evidence result: {other:?}"),
+    };
+    let reviewed = execute_shared_attention_tool_request(SharedAttentionToolRequest::ReviewDream {
+        parent: parent.clone(),
+        reviews: gate_dream_reviews(&testing),
+        dream: testing,
+    });
+    let verified = match reviewed.result {
+        Some(SharedAttentionToolResult::DreamReview(outcome)) => {
+            outcome.successor.expect("verified tool dream")
+        }
+        other => panic!("unexpected review result: {other:?}"),
+    };
+    let promotion =
+        execute_shared_attention_tool_request(SharedAttentionToolRequest::ProjectDreamPromotion {
+            parent: parent.clone(),
+            dream: verified,
+            delta_id: sid("delta:tool-promotion"),
+            author_ref: sid("participant:projection"),
+            target_status: EpistemicStatus::Assumed,
+            logical_time: 2,
+        });
+    assert!(matches!(
+        promotion.result,
+        Some(SharedAttentionToolResult::PromotionDelta(_))
+    ));
+
+    let discarded =
+        execute_shared_attention_tool_request(SharedAttentionToolRequest::DiscardDream {
+            parent,
+            dream,
+            reason: "separate tool discard path".to_owned(),
+        });
+    assert!(matches!(
+        discarded.result,
+        Some(SharedAttentionToolResult::DreamDiscard(_))
+    ));
 }

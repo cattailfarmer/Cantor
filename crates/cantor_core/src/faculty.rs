@@ -14,6 +14,7 @@ pub const ALL_FACULTIES: [FacultyKind; 7] = [
     FacultyKind::Weaver,
 ];
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum FacultyKind {

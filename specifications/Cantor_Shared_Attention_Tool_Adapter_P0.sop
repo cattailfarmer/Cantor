@@ -1,0 +1,62 @@
+Subject: Cantor Shared Attention Tool Adapter P0
+
+@ [specification_uuid] 809734e8-c3cf-4eef-82b5-90236be5250f
+@ [profile] cantor-shared-attention-tool-adapter/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_shared_attention_tool_adapter\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Shared_Attention_Tool_Adapter_P0.exploded.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Shared_Attention_Imagination_Runtime_P0.sop
+
+& [SharedToolContract] is one semantic seam
+  + [SATA-001] SharedAttentionToolRequest is a strict tagged union over all eleven existing runtime operations
+  + [SATA-002] SharedAttentionToolResult is a closed typed union and preserves every operation-specific result
+  + [SATA-003] SharedAttentionToolResponse contains profile operation status optional result optional fault and mandatory nonclaims
+  + [SATA-004] one public pure dispatch function is shared by CLI MCP and direct tests
+  + [SATA-005] the dispatch function performs no IO clock randomness network persistence model inference signing or effect execution
+
+& [Compatibility] preserves the first shell
+  + [SATA-006] cantor-shared-attention continues accepting stdin or --input and emitting the same JSON field shape and exit classes
+  + [SATA-007] succeeded or buffered exits zero malformed transport exits two semantic refusal exits three and internal failure exits four
+  + [SATA-008] serialization failure is an internal fault and cannot be labelled as a semantic domain refusal
+
+& [MachineSchema] is derived and closed
+  + [SATA-009] every reachable shared-attention request response and nested form supports JsonSchema from the same Rust type used by serde
+  + [SATA-010] request variants nested forms and MCP argument wrapper reject unknown fields
+  + [SATA-011] generated input schema requires exactly one request property and generated output schema describes SharedAttentionToolResponse
+  + [SATA-012] schemas are deterministic serializable JSON objects and expose all eleven operation tags
+
+& [MCPAdapter] is stateless stdio
+  + [SATA-013] a new separate executable exposes exactly one MCP tool named coordinate_attention
+  + [SATA-014] each call carries one complete SharedAttentionToolRequest and has a 32 MiB encoded-argument bound
+  + [SATA-015] the adapter retains no frame dream or participant state after a call and delegates semantic decisions only to core dispatch
+  + [SATA-016] structuredContent is the complete SharedAttentionToolResponse and text content is a bounded non-authoritative summary
+  + [SATA-017] succeeded and buffered are MCP success while refused invalid_request and internal_fault set isError true without dropping structuredContent
+  + [SATA-018] tool annotations are readOnly true destructive false idempotent true and openWorld false
+  + [SATA-019] server instructions tell callers to preserve exact generation digest faults backpressure epistemic labels and nonclaims
+
+& [InferenceBoundary] is between passes
+  + [SATA-020] a host may supply the structured successor to a later model pass but the adapter never inserts data into an active token generation
+  + [SATA-021] settlement remains coordination rather than external truth and DreamFrame remains non-authoritative imagination
+  + [SATA-022] no tool call authorizes a model host provider network external effect or another Cantor tool
+
+& [Acceptance] is measurable
+  + [SATA-A01] source manifest seven-fold explosion justification plan matrix and signature verify
+  + [SATA-A02] direct shared dispatch reproduces current CLI operation success buffered and refusal shapes
+  + [SATA-A03] generated schemas are closed deterministic and contain all operation tags
+  + [SATA-A04] direct MCP invocation is byte-equivalent to direct core dispatch for positive buffered and refused requests
+  + [SATA-A05] malformed extra and oversized arguments fail before semantic execution with structured adapter faults
+  + [SATA-A06] official RMCP client initializes lists exactly one tool calls it and receives the exact structured response
+  + [SATA-A07] formatting focused tests warnings-denied lint workspace regression and scoped Git review pass
+
+& [AuthorityBoundary] is adapter_only
+  + permits shared request response dispatch schema derivation one stateless stdio MCP server tests documentation proof and local process invocation
+  + excludes host registration model calls llama.cpp modification network listener persistence session store cryptographic participant signatures deployment and autonomous effects
+
+& [SatisfactionSignature] is valid bounded SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 03e7d76c-1294-4736-b1de-690ff57c0ecf
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Shared_Attention_Tool_Adapter_P0.sop
+  + [source_snapshot_uuid] is 52cd244d-1a8e-41fa-b6b3-caed12eb47b5
+  + [source_manifest_sha256] is 4AD21C06796B85674618ED37A11102CB40DC5CCCFDE5EEA7264F3FD93A211FED
+  + [processed_stage_set] is source_preserved delineated seven_fold_exploded dual_hemisphere_reconciled data_designed constraint_checked pruned flowcharted acceptance_formed justified planned feature_sliced phase_locked and signed
+  + [signature_status] is valid_for_stateless_adapter_P0_implementation_only
+  + [invalidation] is core_semantic_change stateful_adapter schema_runtime_divergence hidden_state_claim effect_execution host_registration or widened_tool_authority

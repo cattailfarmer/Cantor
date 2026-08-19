@@ -7,8 +7,9 @@ use cantor_core::{
     AttentionCapacity, AttentionCompaction, AttentionFrameDelta, AttentionParticipant,
     AttestationDisposition, ContentDigest, EpistemicStatus, FRAME_ATTESTATION_PROFILE, FacultyKind,
     FrameAttestation, FrameDeltaOperation, FramedProposition, SemanticId, SharedAttentionFrame,
-    SharedAttentionFrameSeed, finalize_attention_compaction, finalize_attention_delta,
-    finalize_frame_attestation, new_shared_attention_frame,
+    SharedAttentionFrameSeed, SharedAttentionToolRequest, execute_shared_attention_tool_request,
+    finalize_attention_compaction, finalize_attention_delta, finalize_frame_attestation,
+    new_shared_attention_frame,
 };
 
 fn sid(value: &str) -> SemanticId {
@@ -240,6 +241,40 @@ fn unknown_request_field_is_rejected_before_runtime_execution() {
     assert_eq!(response["status"], "invalid_request");
     assert_eq!(response["fault"]["code"], "malformed_request");
     assert!(response["result"].is_null());
+}
+
+#[test]
+fn cli_transport_is_exactly_shared_dispatch_equivalent() {
+    let roomy = frame(1_000_000);
+    let constrained = frame(1);
+    let mut stale = delta(&roomy);
+    stale.base_generation += 1;
+    stale = finalize_attention_delta(stale).expect("resign stale fixture");
+    let requests = vec![
+        SharedAttentionToolRequest::ValidateFrame {
+            frame: roomy.clone(),
+        },
+        SharedAttentionToolRequest::Reconcile {
+            base: roomy.clone(),
+            deltas: vec![delta(&roomy)],
+        },
+        SharedAttentionToolRequest::Reconcile {
+            base: constrained.clone(),
+            deltas: vec![delta(&constrained)],
+        },
+        SharedAttentionToolRequest::Reconcile {
+            base: roomy,
+            deltas: vec![stale],
+        },
+    ];
+
+    for request in requests {
+        let expected = serde_json::to_value(execute_shared_attention_tool_request(request.clone()))
+            .expect("direct response JSON");
+        let request_json = serde_json::to_value(request).expect("request JSON");
+        let actual = output_json(&run(&request_json));
+        assert_eq!(actual, expected);
+    }
 }
 
 #[test]

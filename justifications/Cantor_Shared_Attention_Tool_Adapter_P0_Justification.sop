@@ -1,0 +1,28 @@
+Subject: Cantor Shared Attention Tool Adapter P0 Justification
+
+@ [justification_uuid] 7ce01431-3267-4fb1-9f55-2345eb372775
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Shared_Attention_Tool_Adapter_P0.sop
+
+& [Problem] is the verified shared-attention runtime has a JSON process shell but no single reusable typed dispatch or native tool-discovery surface for an inference host
+
+& [Decision] is a shared pure request-response contract plus one stateless MCP adapter
+  + CLI and MCP delegate to the same dispatch so transport cannot silently redefine semantic results
+  + generated schemas make the full operation surface discoverable without a hand-maintained second type system
+  + each call carries complete state so reentry remains inspectable and process-independent
+
+& [RejectedAlternative] is modifying llama.cpp first
+  + an ordinary tool loop already tests the intended between-pass semantic reflection and preserves provider portability
+
+& [RejectedAlternative] is storing current frames inside the MCP server
+  + hidden mutable server state would complicate replay identity concurrency recovery and caller understanding before the stateless contract is proven
+
+& [RejectedAlternative] is adding operations to existing query_sop or route_attention
+  + signed semantic retrieval learned routing and shared-frame transition have different authority and state identities
+
+& [Value] is immediate callable leverage
+  + Codex llama.cpp Ollama or a custom controller can integrate the same pure operation without core change
+  + later session storage streaming transport or multi-model orchestration can wrap one stable tool contract
+
+& [CostBoundary] is accepted
+  + complete frame payloads can be large and generated schemas are correspondingly rich
+  + P0 proves protocol equivalence and not provider usefulness latency or semantic-quality improvement

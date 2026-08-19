@@ -249,10 +249,36 @@ Exit codes are:
 | 3 | semantic transition refused |
 | 4 | shell-internal failure |
 
-This shell is the initial provider-neutral tool seam. An Ollama, llama.cpp,
-Codex, or custom host can call it between passes today. Converting the closed
-operations into an MCP or OpenAI function schema is an adapter task; it does
-not require changing the core state machine.
+This shell and the MCP adapter use the same provider-neutral request, result,
+response, and pure dispatch function. An Ollama, llama.cpp, Codex, or custom
+host can call that contract between passes without changing the core state
+machine.
+
+## Stateless MCP adapter
+
+Build the native MCP process with:
+
+```powershell
+cargo build -p cantor_shared_attention_mcp --release
+```
+
+It exposes exactly one STDIO tool, `coordinate_attention`. Tool arguments have
+one required `request` property containing the same closed operation union used
+by the JSON shell. Input and output JSON Schemas are generated from the same
+Rust types used for deserialization and serialization.
+
+The adapter is intentionally stateless: every call carries its complete frame
+or DreamFrame and returns its complete typed successor, backpressure receipt,
+or refusal as `structuredContent`. That makes process restart and replay
+straightforward and prevents a server-local “current frame” from becoming
+hidden authority. Succeeded and buffered responses are MCP successes; refused
+or malformed calls retain a structured response and set the MCP error flag.
+
+This adapter is the callable between-pass seam. It does not register itself
+with a host, invoke a model, insert material into an active generation, open a
+network listener, persist a session, or authorize any external effect. A later
+digest-addressed frame store can reduce payload repetition under separate SJS
+authority without changing the operation contract.
 
 ## Authority and proof
 
@@ -266,8 +292,9 @@ Focused verification:
 ```powershell
 cargo test -p cantor_core --test shared_attention
 cargo test -p cantor_cli --test shared_attention_cli
+cargo test -p cantor_shared_attention_mcp --test mcp_protocol
 cargo clippy -p cantor_core --all-targets --all-features -- -D warnings
-cargo clippy -p cantor_cli --bin cantor-shared-attention -- -D warnings
+cargo clippy -p cantor_cli -p cantor_shared_attention_mcp --all-targets --all-features -- -D warnings
 ```
 
 The current P0 deliberately defers network streaming, model calls, persistent

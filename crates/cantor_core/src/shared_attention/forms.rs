@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{ContentDigest, FacultyKind, SemanticId};
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum EpistemicStatus {
@@ -15,6 +16,7 @@ pub enum EpistemicStatus {
     Verified,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum SharedFrameStatus {
@@ -23,6 +25,7 @@ pub enum SharedFrameStatus {
     Sealed,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ReconciliationDisposition {
@@ -30,6 +33,7 @@ pub enum ReconciliationDisposition {
     Buffered,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum AttestationDisposition {
@@ -38,6 +42,7 @@ pub enum AttestationDisposition {
     Defer,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum SettlementDisposition {
@@ -47,6 +52,7 @@ pub enum SettlementDisposition {
     Incomplete,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DreamStatus {
@@ -56,6 +62,7 @@ pub enum DreamStatus {
     Discarded,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DreamReviewDisposition {
@@ -65,6 +72,7 @@ pub enum DreamReviewDisposition {
     Incomplete,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum SharedAttentionFaultCode {
@@ -107,6 +115,7 @@ impl SharedAttentionFaultCode {
     }
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SharedAttentionFault {
@@ -138,6 +147,7 @@ impl fmt::Display for SharedAttentionFault {
 
 impl std::error::Error for SharedAttentionFault {}
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AttentionParticipant {
@@ -146,6 +156,7 @@ pub struct AttentionParticipant {
     pub required: bool,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct FramedProposition {
@@ -157,6 +168,7 @@ pub struct FramedProposition {
     pub dream_ref: Option<SemanticId>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AttentionCapacity {
@@ -169,6 +181,7 @@ pub struct AttentionCapacity {
     pub reserved_headroom_bytes: u64,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SharedAttentionFrameSeed {
@@ -184,6 +197,7 @@ pub struct SharedAttentionFrameSeed {
     pub capacity: AttentionCapacity,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SharedAttentionFrame {
@@ -209,6 +223,7 @@ pub struct SharedAttentionFrame {
     pub frame_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "operator", rename_all = "snake_case", deny_unknown_fields)]
 pub enum FrameDeltaOperation {
@@ -252,6 +267,7 @@ pub enum FrameDeltaOperation {
     },
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AttentionFrameDelta {
@@ -267,6 +283,7 @@ pub struct AttentionFrameDelta {
     pub delta_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct BackpressureReceipt {
@@ -280,6 +297,7 @@ pub struct BackpressureReceipt {
     pub receipt_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AttentionCompaction {
@@ -298,6 +316,7 @@ pub struct AttentionCompaction {
     pub compaction_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AttentionCompactionReceipt {
@@ -311,6 +330,7 @@ pub struct AttentionCompactionReceipt {
     pub receipt_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AttentionCompactionOutcome {
@@ -318,6 +338,7 @@ pub struct AttentionCompactionOutcome {
     pub receipt: AttentionCompactionReceipt,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct FrameTransitionReceipt {
@@ -329,6 +350,7 @@ pub struct FrameTransitionReceipt {
     pub transition_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct FrameReconciliation {
@@ -339,6 +361,7 @@ pub struct FrameReconciliation {
     pub backpressure_receipt: Option<BackpressureReceipt>,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CandidatePreparationReceipt {
@@ -349,6 +372,7 @@ pub struct CandidatePreparationReceipt {
     pub receipt_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct PreparedAttentionCandidate {
@@ -356,6 +380,7 @@ pub struct PreparedAttentionCandidate {
     pub receipt: CandidatePreparationReceipt,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct FrameAttestation {
@@ -371,6 +396,7 @@ pub struct FrameAttestation {
     pub attestation_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SettlementReceipt {
@@ -386,6 +412,7 @@ pub struct SettlementReceipt {
     pub receipt_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SettlementOutcome {
@@ -394,6 +421,7 @@ pub struct SettlementOutcome {
     pub receipt: SettlementReceipt,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct DreamFrameSeed {
@@ -411,6 +439,7 @@ pub struct DreamFrameSeed {
     pub maximum_depth: u32,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct DreamFrame {
@@ -435,6 +464,7 @@ pub struct DreamFrame {
     pub dream_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct DreamReview {
@@ -450,6 +480,7 @@ pub struct DreamReview {
     pub review_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct DreamReviewReceipt {
@@ -465,6 +496,7 @@ pub struct DreamReviewReceipt {
     pub receipt_digest: ContentDigest,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct DreamReviewOutcome {
@@ -473,6 +505,7 @@ pub struct DreamReviewOutcome {
     pub receipt: DreamReviewReceipt,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct DreamDiscardReceipt {

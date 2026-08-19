@@ -266,6 +266,20 @@ or a typed buffered backpressure result, `2` means the request envelope was
 invalid, `3` means the semantic transition was refused, and `4` means the
 shell itself failed. Settlement records coordination, not external truth.
 
+The same pure request/response dispatch is also exposed through one stateless
+STDIO MCP tool, `coordinate_attention`:
+
+```powershell
+cargo build -p cantor_shared_attention_mcp --release
+.\target\release\cantor-shared-attention-mcp.exe
+```
+
+Each MCP call carries one complete request under `request` and returns the
+complete machine response as `structuredContent`. The adapter stores no frame,
+invokes no model, and performs no effect. Host registration and provider-loop
+experiments remain separate operator decisions. See
+[`crates/cantor_shared_attention_mcp/README.md`](crates/cantor_shared_attention_mcp/README.md).
+
 Compile the reviewed self-hosted corpus with operator-supplied distinct keys:
 
 ```powershell
@@ -321,6 +335,7 @@ Current executable proofs:
 - [`proofs/Cantor_Deterministic_Temporal_Runtime_Proof.sop`](proofs/Cantor_Deterministic_Temporal_Runtime_Proof.sop)
 - [`proofs/Cantor_Field_Attention_Delineation_Latch_P0_Proof.sop`](proofs/Cantor_Field_Attention_Delineation_Latch_P0_Proof.sop)
 - [`proofs/Cantor_Field_Attention_Reproducible_Windows_Build_P0_Proof.sop`](proofs/Cantor_Field_Attention_Reproducible_Windows_Build_P0_Proof.sop)
+- [`proofs/Cantor_Shared_Attention_Imagination_Runtime_P0_Proof.sop`](proofs/Cantor_Shared_Attention_Imagination_Runtime_P0_Proof.sop)
 - [`proofs/CEB_Deterministic_Baseline_Release_Audit.sop`](proofs/CEB_Deterministic_Baseline_Release_Audit.sop)
 
 1. [`SOP_CORE_MAP.sop`](SOP_CORE_MAP.sop) — authority and project map

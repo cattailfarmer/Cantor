@@ -1,0 +1,32 @@
+Subject: Shared Attention Tool Adapter P0 Requirement Matrix
+
+@ [matrix_uuid] 3d4aeb12-7c9a-4c66-bfa1-25b79f5b07ee
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Shared_Attention_Tool_Adapter_P0.sop
+@ [status] implemented_verified
+
+& [SATA-A01] source SJS and signature
+  + [requirement] SATA-001 through SATA-022
+  + [proof] locked source hashes seven-fold trace bounded signature and Cantor_Shared_Attention_Tool_Adapter_P0_Proof.sop
+& [SATA-A02] shared dispatch and CLI compatibility
+  + [requirement] SATA-001 through SATA-008
+  + [proof] all-eleven-operation core dispatch test seven CLI tests and four-case byte-equivalent direct-to-CLI comparison
+& [SATA-A03] generated closed schemas
+  + [requirement] SATA-009 through SATA-012
+  + [proof] metadata_is_closed_bounded_and_lists_every_operation test over generated request and response schemas
+& [SATA-A04] direct MCP equivalence
+  + [requirement] SATA-013 through SATA-019
+  + [proof] direct_mcp_success and buffered_and_refused_dispositions tests preserve exact typed core responses and MCP error distinction
+& [SATA-A05] adapter fault wall
+  + [requirement] SATA-010 SATA-014 SATA-016 and SATA-017
+  + [proof] malformed_extra_and_oversized_arguments_fail_before_dispatch returns typed invalid_request faults
+& [SATA-A06] official client process proof
+  + [requirement] SATA-013 through SATA-022
+  + [proof] official_client_lists_one_tool_and_receives_exact_response launches the stdio process and equals direct core dispatch
+& [SATA-A07] release verification
+  + [requirement] complete specification
+  + [proof] formatting 36 focused tests warnings-denied three-package Clippy 629-test workspace regression and 1030-reference evidence audit
+
+& [DependencySlice] is source -> schema -> dispatch -> CLI -> MCP -> proof -> publication
+
+& [CompletionRule] is one exact tool contract proven through direct and official-client paths without host registration
+  + [disposition] is satisfied_for_stateless_adapter_P0

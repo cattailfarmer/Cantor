@@ -1,0 +1,36 @@
+Subject: Shared Attention Tool Adapter Dictated Source
+
+@ [source_snapshot_uuid] 52cd244d-1a8e-41fa-b6b3-caed12eb47b5
+@ [captured_at] 2026-08-19T14:12:01.2023036Z
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [status] preserved_observed
+
+& [BasicTool] preserves the user's proposed lightweight seam
+  + "then can Cantor be simplified to a basic tool and implemented without requiring a modded llama.cpp?"
+  + "could Cantor become a tool used by OpenAI Codex then?"
+  + "that would make it extremely useful. it's an inference co-processor."
+
+& [PrototypeFlow] preserves the user's selected first executable workflow
+  + "propose a small prototype of the basic function of loading a LLM and giving it a command by which it calls the tool in inference/attention window"
+  + the tool should "execute some behavior and obtain results from that subroutine"
+  + the model should "reflect on those results in the final pass and then write to output"
+  + "after we have a work flow set up, then we just grow it from there to meet requirements."
+
+& [ProviderShell] preserves the user's wrapper intuition
+  + "I believe I was imagining Cantor as a wrapper for llama.cpp."
+  + "if we create an attention-accessible tool to call back to Rust, we should have a working shell"
+  + prior conversation clarifies that the first shell need not modify llama.cpp and may be called by an ordinary host tool loop
+
+& [InferenceStaging] preserves the between-pass boundary
+  + the user wants an inference step that loads SOP attention language before drift makes a fresh start necessary
+  + the user wants a model to call Cantor, receive typed semantic results, reflect on those results, and continue in a later pass
+  + the existing shared-attention P0 establishes that this is transportable semantic state rather than literal insertion into a running token-generation hidden state
+
+& [SharedJunction] preserves the future multi-model intent
+  + the user imagines Cantor as the seam where independent instances coordinate
+  + the immediate tool should make one state transition inspectable and reusable without pretending that one call implements network streaming or shared neural state
+
+& [AuthorityBoundary] is dictated_source_only
+  + this source selects a callable provider-neutral tool seam over the completed shared-attention state machine
+  + schema semantics adapter behavior tests registration deployment and solution claims belong to later SJS artifacts
+  + no statement here authorizes model calls network listeners persistent services autonomous effects Codex configuration mutation llama.cpp modification or production deployment
