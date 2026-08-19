@@ -21,3 +21,41 @@ Run the fast repository-and-receipt audit without rebuilding:
 The audit also refuses the pinned proof when the tracked Cargo configuration, workspace manifests, field-cycle package, or proof tool differs from the tested commit.
 
 The pinned v1 receipt proves local repetition for commit `3bba173c63d56dab1038260948f509081fec79e5` on one Windows MSVC toolchain. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.
+
+## Prerequisites
+
+- Run from inside the Cantor Git repository on Windows.
+- `git.exe`, `tar.exe`, `cargo.exe`, and `rustc.exe` must be available.
+- The selected revision must contain `Cargo.lock`, the `cantor_field_cycle` package, and all three governed reports.
+- Locked dependencies must already exist in the local Cargo cache because the build is offline.
+- The MSVC linker must accept `/Brepro` through `RUSTFLAGS`.
+
+The tool records the toolchain it actually observes. Matching the pinned toolchain is not assumed merely because the command runs.
+
+## Reading the receipt
+
+- `source` binds the commit, tree, commit epoch, archive, lockfile, and two-root isolation.
+- `toolchain` exposes the readable Rust release and commit plus Cargo, host, LLVM, and the full `rustc -vV` digest.
+- `build` states every controlled environment value and exact Cargo command.
+- `artifact` is the byte length, SHA-256, and direct byte-comparison result.
+- `behavior` binds the exact contract output, governed field digest, report identities, expected dispositions, and zero provider requests.
+- `cleanup` says whether diagnostic artifacts were retained without disclosing a random local path.
+- `claim` is the maximum conclusion the receipt supports.
+
+Success requires all three layers simultaneously: two clean builds agree, the output equals the governed P0 behavior reference, and local temporary-state policy completes. An older executable may reproduce itself and still be correctly rejected.
+
+## Failure interpretation
+
+- A Git-resolution failure means no immutable source identity was available; it is not a compiler result.
+- An offline Cargo failure means the local dependency cache cannot satisfy the locked graph; the tool does not download or repair it.
+- An artifact mismatch means the controlled local build was not byte reproducible.
+- A contract, field, report-byte, verifier-property, or disposition mismatch means the equal binaries do not preserve the governed P0 reference.
+- A cleanup-boundary failure means the tool refused to recursively remove a path it could not prove was one physical target child.
+
+Every failure exits nonzero and withholds a `passed` receipt. Ordinary failed campaigns clean their validated temporary root in `finally`.
+
+## Git identity and proof freshness
+
+The receipt follows the commit it tests, and Git anchors follow the receipt. This successor ordering is intentional: a receipt cannot truthfully include itself. The fast audit additionally checks that the current tracked Cargo configuration, workspace manifests, field-cycle package, and proof tool still equal the tested commit.
+
+The Minecraft handoff file is a separate workstream and is intentionally absent from every Cantor campaign commit.
