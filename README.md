@@ -99,7 +99,12 @@ baseline:
 - the Phase3A candidate-workspace gate now proves one operator-prepared,
   disposable linked Git worktree by exact executable, repository, branch,
   base, clean state, path policy, resource account, and deterministic receipt
-  before any separately authorized writer can use it.
+  before any separately authorized writer can use it; and
+- the field-attention P0 cycle now compiles model proposals through the
+  `FIELD_ATTEND → DELINEATE → LATCH` host sequence, and its pinned Windows
+  profile proves byte-identical release artifacts from two clean local source
+  and target roots while checking exact contract, field, retained-report, and
+  Git-anchor identities without provider access.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -146,6 +151,11 @@ The specification-first graduation policy, executable two-pass flow, live
 EVO-X2 result, reproduction commands, and preserved boundaries for the first
 Cantor reflection loop are documented in
 [`docs/CANTOR_REFLECTION_LOOP_P0.md`](docs/CANTOR_REFLECTION_LOOP_P0.md).
+The field-attention cycle, exact host authority boundary, retained P0 evidence,
+and local reproducible-build command are documented in
+[`docs/CANTOR_FIELD_ATTENTION_CYCLE_P0.md`](docs/CANTOR_FIELD_ATTENTION_CYCLE_P0.md)
+and
+[`docs/CANTOR_FIELD_ATTENTION_REPRODUCIBLE_WINDOWS_BUILD_P0.md`](docs/CANTOR_FIELD_ATTENTION_REPRODUCIBLE_WINDOWS_BUILD_P0.md).
 The separate post-checkpoint routing harness, immutable first-run evidence, and
 the discovered caller-subject grounding fault are documented in
 [`experiments/needle2_attention_calibration/README.md`](experiments/needle2_attention_calibration/README.md)
@@ -277,6 +287,8 @@ Current executable proofs:
 - [`proofs/Cantor_Candidate_Workspace_Admission_Proof.sop`](proofs/Cantor_Candidate_Workspace_Admission_Proof.sop)
 - [`proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop`](proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop)
 - [`proofs/Cantor_Deterministic_Temporal_Runtime_Proof.sop`](proofs/Cantor_Deterministic_Temporal_Runtime_Proof.sop)
+- [`proofs/Cantor_Field_Attention_Delineation_Latch_P0_Proof.sop`](proofs/Cantor_Field_Attention_Delineation_Latch_P0_Proof.sop)
+- [`proofs/Cantor_Field_Attention_Reproducible_Windows_Build_P0_Proof.sop`](proofs/Cantor_Field_Attention_Reproducible_Windows_Build_P0_Proof.sop)
 - [`proofs/CEB_Deterministic_Baseline_Release_Audit.sop`](proofs/CEB_Deterministic_Baseline_Release_Audit.sop)
 
 1. [`SOP_CORE_MAP.sop`](SOP_CORE_MAP.sop) — authority and project map

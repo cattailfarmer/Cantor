@@ -18,7 +18,7 @@ Run the fast repository-and-receipt audit without rebuilding:
 .\scripts\audit_cantor_field_attention_reproducible_windows_build.ps1
 ```
 
-The audit also refuses the pinned proof when the tracked Cargo configuration, workspace manifests, field-cycle package, or proof tool differs from the tested commit.
+The audit also refuses the pinned proof when the tracked Cargo configuration, workspace manifests, field-cycle package, or proof tool differs from the tested commit. It resolves all three historical tested-input, receipt, and anchor commit/tree pairs, requires each tested → receipt → anchor ancestry edge, requires the configured upstream to contain every anchor, and requires the current anchor bytes to equal their committed forms. This fast audit therefore requires a Git checkout with its upstream configured; the fresh two-root build command itself does not depend on an upstream.
 
 The pinned v1 receipt proves local repetition for commit `3bba173c63d56dab1038260948f509081fec79e5` on one Windows MSVC toolchain. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.
 

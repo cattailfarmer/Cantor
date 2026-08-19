@@ -152,15 +152,112 @@ foreach ($entry in $expectedReports.GetEnumerator()) {
     }
 }
 
+$anchorRecords = @(
+    [ordered]@{
+        relative_path = 'proofs\Cantor_Field_Attention_Reproducible_Windows_Build_P0_Git_Anchor.sop'
+        anchor_uuid = 'cfba4a76-73e9-40f2-8a3e-60606ed5db14'
+        tested_commit = '7f4e283edcadfc93af7aa69e246aae89f6b64e04'
+        tested_tree = 'e50ef5d6ac5b6d21bc65e774ca100802972a77d5'
+        receipt_commit = 'c762c2df407c9863f8ab3fa06f03da1f445b1271'
+        receipt_tree = 'd919534566b9308681d59302841cba1ba323a4b2'
+        anchor_commit = 'f4163b78559c054b88613173da2516d12ee2dd9f'
+        anchor_tree = '2c48c46005f61a6e8b418214b677942a47104a8e'
+    },
+    [ordered]@{
+        relative_path = 'proofs\Cantor_Field_Attention_Reproducible_Windows_Build_P0_Behavior_Hardening_Git_Anchor.sop'
+        anchor_uuid = '604d2c84-ffbd-4a9f-8e41-21bd05ffc44d'
+        tested_commit = '42ae3f7206469038c649936946b874516459ff0d'
+        tested_tree = '633f023140d7f554c3952ca1c7c663888731edd9'
+        receipt_commit = '8a92e2e6c396e3915c0d991dc74acfa979d37e91'
+        receipt_tree = 'a6f3b1195f8d3b23256fd52744e953819e435a45'
+        anchor_commit = '74d63f1f7959ee292c25aba69bb66b19713585f3'
+        anchor_tree = '51241d0f042f0c03b0e7f5c1cc084e868c92eded'
+    },
+    [ordered]@{
+        relative_path = 'proofs\Cantor_Field_Attention_Reproducible_Windows_Build_P0_Cleanup_Hardening_Git_Anchor.sop'
+        anchor_uuid = 'e46a9d45-eaf8-49d6-bb56-5a4d8ceb4b3b'
+        tested_commit = '3bba173c63d56dab1038260948f509081fec79e5'
+        tested_tree = '8aa003a8b17452caab0b718f03821499cd002b31'
+        receipt_commit = '9a2f692ef62f73ce09013ac0535f74bbad53653c'
+        receipt_tree = '5935e0b66d38787f7995e408e7f36d856a911771'
+        anchor_commit = 'a2e8a2c815b0c640371c33a963cfbe3c284bc8f3'
+        anchor_tree = 'cf3a847bea461c0c8b5b4b14a40deb1bc0b56c64'
+    }
+)
+
+$upstream = (& git.exe -C $workspaceRoot rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>$null | Out-String).Trim()
+if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($upstream)) {
+    throw 'The reproducibility anchor audit requires one configured upstream branch.'
+}
+
+foreach ($anchor in $anchorRecords) {
+    $anchorPath = Join-Path $workspaceRoot $anchor.relative_path
+    $anchorText = Get-Content -LiteralPath $anchorPath -Raw
+    foreach ($required in @(
+        "[anchor_uuid] $($anchor.anchor_uuid)",
+        "[tested_build_input_commit] is $($anchor.tested_commit)",
+        "[tested_build_input_tree] is $($anchor.tested_tree)",
+        "[receipt_and_proof_commit] is $($anchor.receipt_commit)",
+        "[receipt_and_proof_tree] is $($anchor.receipt_tree)"
+    )) {
+        if (-not $anchorText.Contains($required)) {
+            throw "Reproducibility Git anchor content changed or is incomplete: $($anchor.relative_path): $required"
+        }
+    }
+
+    $resolvedTestedCommit = (& git.exe -C $workspaceRoot rev-parse "$($anchor.tested_commit)^{commit}" 2>$null | Out-String).Trim()
+    $resolvedTestedTree = (& git.exe -C $workspaceRoot rev-parse "$($anchor.tested_commit)^{tree}" 2>$null | Out-String).Trim()
+    $resolvedReceiptCommit = (& git.exe -C $workspaceRoot rev-parse "$($anchor.receipt_commit)^{commit}" 2>$null | Out-String).Trim()
+    $resolvedReceiptTree = (& git.exe -C $workspaceRoot rev-parse "$($anchor.receipt_commit)^{tree}" 2>$null | Out-String).Trim()
+    $resolvedAnchorCommit = (& git.exe -C $workspaceRoot rev-parse "$($anchor.anchor_commit)^{commit}" 2>$null | Out-String).Trim()
+    $resolvedAnchorTree = (& git.exe -C $workspaceRoot rev-parse "$($anchor.anchor_commit)^{tree}" 2>$null | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0 -or
+        $resolvedTestedCommit -cne $anchor.tested_commit -or
+        $resolvedTestedTree -cne $anchor.tested_tree -or
+        $resolvedReceiptCommit -cne $anchor.receipt_commit -or
+        $resolvedReceiptTree -cne $anchor.receipt_tree -or
+        $resolvedAnchorCommit -cne $anchor.anchor_commit -or
+        $resolvedAnchorTree -cne $anchor.anchor_tree) {
+        throw "Reproducibility Git anchor object identity cannot be re-resolved: $($anchor.relative_path)"
+    }
+
+    & git.exe -C $workspaceRoot merge-base --is-ancestor $anchor.tested_commit $anchor.receipt_commit
+    if ($LASTEXITCODE -ne 0) {
+        throw "Receipt commit does not descend from its tested input: $($anchor.relative_path)"
+    }
+    & git.exe -C $workspaceRoot merge-base --is-ancestor $anchor.receipt_commit $anchor.anchor_commit
+    if ($LASTEXITCODE -ne 0) {
+        throw "Anchor commit does not descend from its receipt commit: $($anchor.relative_path)"
+    }
+    & git.exe -C $workspaceRoot merge-base --is-ancestor $anchor.anchor_commit $upstream
+    if ($LASTEXITCODE -ne 0) {
+        throw "Configured upstream does not contain the anchor commit: $($anchor.relative_path)"
+    }
+
+    $anchorGitPath = $anchor.relative_path.Replace('\', '/')
+    & git.exe -C $workspaceRoot cat-file -e "$($anchor.anchor_commit):$anchorGitPath"
+    if ($LASTEXITCODE -ne 0) {
+        throw "Anchor file is absent from its declared containing commit: $($anchor.relative_path)"
+    }
+    & git.exe -C $workspaceRoot diff --quiet $anchor.anchor_commit -- $anchorGitPath
+    if ($LASTEXITCODE -ne 0) {
+        throw "Current anchor bytes differ from the committed anchor: $($anchor.relative_path)"
+    }
+}
+
 [ordered]@{
     profile = 'cantor-field-attention-reproducible-windows-build-audit/0.1'
     result = 'passed_with_declared_boundaries'
-    checks = 12
+    checks = 16
     source_sha256 = $sourceSha256
     receipt_sha256 = $receiptSha256
     source_commit = $receipt.source.commit
     artifact_sha256 = $receipt.artifact.sha256
     report_count = @($receipt.behavior.reports).Count
+    git_anchor_count = $anchorRecords.Count
+    latest_git_anchor_commit = $anchorRecords[-1].anchor_commit
+    upstream = $upstream
+    upstream_contains_all_git_anchors = $true
     tested_tracked_input_surface_current = $true
     provider_request_count = 0
     external_effects = 'none'

@@ -38,7 +38,9 @@ Subject: Cantor Field Attention Reproducible Windows Build P0 Proof
   + receipt is 2761 bytes SHA-256 70f5422120eead7771c65f58802b7172618f0ea6c3cc22e1fe375f6876d340d1
   + two consecutive default campaigns against the committed implementation emitted the same receipt fields and values
   + the receipt omits workspace and random campaign paths
-  + static audit passes twelve source signature implementation receipt Git-object input-freshness and retained-report checks
+  + static audit passes sixteen source signature implementation receipt Git-object input-freshness retained-report and Git-anchor-chain checks
+  + all three tested-input to receipt to anchor histories resolve to exact commit and tree objects are contained by the configured upstream and retain their committed anchor bytes
+  + a temporary post-commit marker in the latest anchor was rejected as current-anchor byte drift and was then removed exactly
   + current tracked Cargo configuration root manifests field-cycle package source and proof tool exactly match the tested commit
   + the receipt is a successor record for the tested commit and therefore does not claim self-inclusion in that commit
 
