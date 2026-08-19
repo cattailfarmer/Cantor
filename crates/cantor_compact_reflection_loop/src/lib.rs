@@ -3,6 +3,7 @@
 #![forbid(unsafe_code)]
 
 mod attention_reentry;
+mod dispatch_lifecycle;
 mod dual_transcript;
 mod iterative;
 mod provider_protocol;
@@ -21,6 +22,17 @@ pub use attention_reentry::{
     generate_attention_reentry_measurement, pretty_attention_reentry_measurement_bytes,
     validate_attention_reentry_frame, validate_attention_reentry_measurement,
     validate_compact_attention_request,
+};
+pub use dispatch_lifecycle::{
+    EFFECTLESS_DISPATCH_NONCLAIMS, EFFECTLESS_DISPATCH_TRACE_PROFILE,
+    EFFECTLESS_FIXTURE_DISPATCH_PROFILE, EffectlessDispatchPhase, EffectlessDispatchTrace,
+    EffectlessFixtureDispatchRecord, SCRIPTED_EFFECTLESS_DISPATCH_RUN_NONCLAIMS,
+    SCRIPTED_EFFECTLESS_DISPATCH_RUN_PROFILE, ScriptedEffectlessDispatchRun,
+    admit_iteration_effectless_dispatch, admit_terminal_effectless_dispatch,
+    generate_scripted_effectless_dispatch_run, prepare_effectless_dispatch,
+    pretty_scripted_effectless_dispatch_run_bytes, record_effectless_fixture_dispatch,
+    record_effectless_fixture_response, validate_effectless_dispatch_trace,
+    validate_scripted_effectless_dispatch_run,
 };
 pub use dual_transcript::{
     AttentionTransportKind, AttentionTransportRecord, SCRIPTED_COMPACT_TRANSPORT_NONCLAIMS,
