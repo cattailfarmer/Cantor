@@ -1,0 +1,32 @@
+Subject: Cantor Iterative Attention Procedure Loop P1 Slice 7B Solution
+
+@ [solution_uuid] 9d096335-b159-465f-b68e-8caabbcc72c6
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Iterative_Attention_Procedure_Loop_P1.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Iterative_Attention_Procedure_Loop_P1_Slice7B_Activation_Phase_Lock.sop
+
+& [Implementation]
+  + CheckpointCustodyRegistry is an immutable BTreeMap keyed by exact lowercase SHA-256 checkpoint digest values
+  + each entry retains the exact compact handle complete checkpoint and a domain-separated entry digest
+  + the registry root commits the ordered complete entry map and rederives after every immutable registration
+  + registration validates predecessor registry handle-checkpoint binding key vacancy and successor structure and refuses duplicate digests
+  + resolution validates the registry and supplied handle then returns the exact retained checkpoint only after total handle equality
+  + iteration and terminal helpers resolve a handle then pass the checkpoint through existing canonical fixture resume
+  + the scripted registry contains twelve distinct entries matching every Slice6F case
+
+& [IdentityBoundary]
+  + registry is an in-process immutable value and not filesystem database service or persistence
+  + lookup returns exact retained bytes rather than reconstructing meaning from a hash
+  + internal map coherence remains weaker than separate equality with the canonical scripted corpus
+  + content digests remain identifiers rather than signatures authentication or authority
+
+& [Adversarial]
+  + duplicate missing wrong-position and iteration-terminal cross-use refuse
+  + count root key entry digest persistence and unknown-field mutations refuse
+  + predecessor registry remains unchanged after registration
+
+& [Rollback]
+  + checkpoint_custody module exports tests and documentation are additive and isolated
+  + P0 through Slice7A handles checkpoints lineage and replay authority remain unchanged
+
+& [Deferred]
+  + physical persistence database service concurrency eviction signing live adapter remote hidden-state effects FPGA and Minecraft remain unimplemented and unactivated

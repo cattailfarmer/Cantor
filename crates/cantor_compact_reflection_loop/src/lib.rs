@@ -3,6 +3,7 @@
 #![forbid(unsafe_code)]
 
 mod attention_reentry;
+mod checkpoint_custody;
 mod checkpoint_handle;
 mod dispatch_checkpoint;
 mod dispatch_lifecycle;
@@ -25,6 +26,15 @@ pub use attention_reentry::{
     generate_attention_reentry_measurement, pretty_attention_reentry_measurement_bytes,
     validate_attention_reentry_frame, validate_attention_reentry_measurement,
     validate_compact_attention_request,
+};
+pub use checkpoint_custody::{
+    CHECKPOINT_CUSTODY_ENTRY_PROFILE, CHECKPOINT_CUSTODY_REGISTRY_NONCLAIMS,
+    CHECKPOINT_CUSTODY_REGISTRY_PROFILE, CheckpointCustodyEntry, CheckpointCustodyRegistry,
+    generate_scripted_checkpoint_custody_registry, new_checkpoint_custody_registry,
+    pretty_checkpoint_custody_registry_bytes, register_checkpoint_custody,
+    resolve_checkpoint_custody, resume_iteration_from_checkpoint_custody,
+    resume_terminal_from_checkpoint_custody, validate_checkpoint_custody_registry,
+    validate_scripted_checkpoint_custody_registry,
 };
 pub use checkpoint_handle::{
     DISPATCH_CHECKPOINT_HANDLE_MEASUREMENT_NONCLAIMS,

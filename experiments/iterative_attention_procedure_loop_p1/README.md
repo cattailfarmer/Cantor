@@ -43,3 +43,5 @@ cargo run -p cantor_compact_reflection_loop -- index-provider-free-lineage
 ```
 
 Slice 7A is the digest-only table of contents for eleven provider-free fixture artifacts. It commits 1,396,447 bytes of generated bodies through a 5,139-byte index and records a strict capability ledger. It does not embed the indexed requests, responses, checkpoints, registries, or messages.
+
+Slice 7B adds `checkpoint_custody.rs`, an immutable in-memory BTreeMap from checkpoint digest to exact bound handle and checkpoint. All 12 fixture handles resolve and resume to their uninterrupted traces. This makes the compact handle operational without claiming a physical database, persistence, service, or reconstruction of meaning from a hash.
