@@ -243,9 +243,14 @@ $anchorRecords = @(
     }
 )
 
+$currentBranch = (& git.exe -C $workspaceRoot branch --show-current 2>$null | Out-String).Trim()
+$currentHead = (& git.exe -C $workspaceRoot rev-parse 'HEAD^{commit}' 2>$null | Out-String).Trim()
 $upstream = (& git.exe -C $workspaceRoot rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>$null | Out-String).Trim()
-if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($upstream)) {
-    throw 'The reproducibility anchor audit requires one configured upstream branch.'
+if ($LASTEXITCODE -ne 0 -or
+    $currentBranch -cne 'codex/self-hosted-corpus' -or
+    $currentHead -notmatch '^[0-9a-f]{40}$' -or
+    $upstream -cne 'origin/codex/self-hosted-corpus') {
+    throw 'The reproducibility anchor audit requires branch codex/self-hosted-corpus with upstream origin/codex/self-hosted-corpus.'
 }
 
 $previousAnchorCommit = $null
@@ -257,7 +262,9 @@ foreach ($anchor in $anchorRecords) {
         "[tested_build_input_commit] is $($anchor.tested_commit)",
         "[tested_build_input_tree] is $($anchor.tested_tree)",
         "[receipt_and_proof_commit] is $($anchor.receipt_commit)",
-        "[receipt_and_proof_tree] is $($anchor.receipt_tree)"
+        "[receipt_and_proof_tree] is $($anchor.receipt_tree)",
+        '[branch] is codex/self-hosted-corpus',
+        '[upstream] is origin/codex/self-hosted-corpus'
     )) {
         if (-not $anchorText.Contains($required)) {
             throw "Reproducibility Git anchor content changed or is incomplete: $($anchor.relative_path): $required"
@@ -311,10 +318,15 @@ foreach ($anchor in $anchorRecords) {
     $previousAnchorCommit = $anchor.anchor_commit
 }
 
+& git.exe -C $workspaceRoot merge-base --is-ancestor $anchorRecords[-1].anchor_commit $currentHead
+if ($LASTEXITCODE -ne 0) {
+    throw 'Current HEAD does not descend from the latest reproducibility Git anchor.'
+}
+
 [ordered]@{
     profile = 'cantor-field-attention-reproducible-windows-build-audit/0.1'
     result = 'passed_with_declared_boundaries'
-    checks = 18
+    checks = 19
     source_sha256 = $sourceSha256
     receipt_sha256 = $receiptSha256
     source_commit = $receipt.source.commit
@@ -322,6 +334,9 @@ foreach ($anchor in $anchorRecords) {
     report_count = @($receipt.behavior.reports).Count
     git_anchor_count = $anchorRecords.Count
     latest_git_anchor_commit = $anchorRecords[-1].anchor_commit
+    current_branch = $currentBranch
+    current_head = $currentHead
+    head_contains_latest_git_anchor = $true
     upstream = $upstream
     upstream_contains_all_git_anchors = $true
     tested_tracked_input_surface_current = $true
