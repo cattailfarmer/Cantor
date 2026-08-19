@@ -41,8 +41,10 @@ Description: Signed experimental profile for proving byte-identical local Window
 
 & [BehaviorPreservation] is effect-free executable inspection
   + both executables must emit byte-identical contract output
-  + both executables must emit the same sixty-four-character lowercase field digest for the retained attention_cycle_field fixture
-  + both executables must successfully verify retained positive control and hostile-boundary reports
+  + contract output must preserve the exact P0 cycle field request and authority profiles
+  + both executables must emit the governed field digest for the retained attention_cycle_field fixture
+  + retained positive control and hostile-boundary report bytes must match their governed SHA-256 identities
+  + both executables must verify each report to its exact governed terminal latch and assurance disposition
   + [provider_request_count] is 0
   + [external_effects] is none_except_local_temporary_build_files
   - never: invoke run control-run or any command that contacts a provider

@@ -239,32 +239,77 @@ try {
     if ($contractA -cne $contractB) {
         throw 'Behavior gate failed: contract outputs differ.'
     }
+    $contract = $contractA | ConvertFrom-Json
+    if ($contract.profile -cne 'cantor-field-attention-cycle/0.1' -or
+        $contract.field_profile -cne 'cantor-semantic-field/0.1' -or
+        $contract.request_profile -cne 'cantor-field-attention-requests/0.5' -or
+        $contract.authority -cne 'attention-local proposal and admission only') {
+        throw 'Behavior gate failed: contract identity differs from the governed P0 reference.'
+    }
 
     $fieldPathA = Join-Path $sourceA 'experiments\cantor_field_cycle_p0\attention_cycle_field.json'
     $fieldPathB = Join-Path $sourceB 'experiments\cantor_field_cycle_p0\attention_cycle_field.json'
     $fieldDigestA = (Invoke-NativeCommand -FilePath $executableA -ArgumentList @('field-digest', $fieldPathA) -WorkingDirectory $sourceA).StdOut.Trim()
     $fieldDigestB = (Invoke-NativeCommand -FilePath $executableB -ArgumentList @('field-digest', $fieldPathB) -WorkingDirectory $sourceB).StdOut.Trim()
-    if ($fieldDigestA -cne $fieldDigestB -or $fieldDigestA -notmatch '^[0-9a-f]{64}$') {
-        throw 'Behavior gate failed: field digests differ or are malformed.'
+    if ($fieldDigestA -cne $fieldDigestB -or
+        $fieldDigestA -cne '136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0') {
+        throw 'Behavior gate failed: field digests differ from each other or the governed fixture.'
     }
 
-    $reportNames = @('evox2_live_v5.json', 'evox2_control_v5.json', 'evox2_hostile_boundary_v5.json')
+    $reportContracts = @(
+        [pscustomobject]@{
+            Name = 'evox2_live_v5.json'
+            Sha256 = '7a2b934811beb4bff4917791f68ee5e2988574480443c212616cf950b133418e'
+            TerminalState = 'completed'
+            LatchStatus = 'admitted_for_attention'
+            Assurance = 'stored_provider_replay'
+        },
+        [pscustomobject]@{
+            Name = 'evox2_control_v5.json'
+            Sha256 = '2fa77676b688a7ee6893e56c9afec596a8fa5f197011c065bb645bb8a6bbb337'
+            TerminalState = 'control_completed'
+            LatchStatus = $null
+            Assurance = 'stored_provider_replay'
+        },
+        [pscustomobject]@{
+            Name = 'evox2_hostile_boundary_v5.json'
+            Sha256 = 'e7109037bc3ad84d0c8e19501d6c234e858cd9d5d4599c13afd825306ac09b98'
+            TerminalState = 'rejected'
+            LatchStatus = $null
+            Assurance = 'stored_provider_replay'
+        }
+    )
     $reportEvidence = @()
-    foreach ($reportName in $reportNames) {
+    foreach ($reportContract in $reportContracts) {
+        $reportName = $reportContract.Name
         $reportA = Join-Path $sourceA "experiments\cantor_field_cycle_p0\$reportName"
         $reportB = Join-Path $sourceB "experiments\cantor_field_cycle_p0\$reportName"
+        $reportShaA = (Get-FileHash -LiteralPath $reportA -Algorithm SHA256).Hash.ToLowerInvariant()
+        $reportShaB = (Get-FileHash -LiteralPath $reportB -Algorithm SHA256).Hash.ToLowerInvariant()
+        if ($reportShaA -cne $reportContract.Sha256 -or $reportShaB -cne $reportContract.Sha256) {
+            throw "Behavior gate failed: retained report bytes differ from the governed reference for $reportName."
+        }
         $verifyA = (Invoke-NativeCommand -FilePath $executableA -ArgumentList @('verify', $reportA) -WorkingDirectory $sourceA).StdOut
         $verifyB = (Invoke-NativeCommand -FilePath $executableB -ArgumentList @('verify', $reportB) -WorkingDirectory $sourceB).StdOut
         if ($verifyA -cne $verifyB) {
             throw "Behavior gate failed: verifier outputs differ for $reportName."
         }
         $verification = $verifyA | ConvertFrom-Json
-        if ($verification.valid -ne $true) {
-            throw "Behavior gate failed: retained report is invalid for $reportName."
+        $latchMatches = if ($null -eq $reportContract.LatchStatus) {
+            $null -eq $verification.latch_status
+        }
+        else {
+            $verification.latch_status -ceq $reportContract.LatchStatus
+        }
+        if ($verification.valid -ne $true -or
+            $verification.terminal_state -cne $reportContract.TerminalState -or
+            -not $latchMatches -or
+            $verification.assurance -cne $reportContract.Assurance) {
+            throw "Behavior gate failed: retained report disposition differs from the governed reference for $reportName."
         }
         $reportEvidence += [ordered]@{
             report = $reportName
-            report_sha256 = (Get-FileHash -LiteralPath $reportA -Algorithm SHA256).Hash.ToLowerInvariant()
+            report_sha256 = $reportShaA
             terminal_state = $verification.terminal_state
             latch_status = $verification.latch_status
             assurance = $verification.assurance
