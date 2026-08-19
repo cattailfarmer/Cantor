@@ -206,7 +206,7 @@ try {
     [void] (New-Item -ItemType Directory -Path $sourceA)
     [void] (New-Item -ItemType Directory -Path $sourceB)
 
-    $commit = (Invoke-NativeCommand -FilePath 'git.exe' -ArgumentList @('rev-parse', "$SourceRevision^{commit}") -WorkingDirectory $repositoryRoot).StdOut.Trim()
+    $commit = (Invoke-NativeCommand -FilePath 'git.exe' -ArgumentList @('rev-parse', '--verify', '--end-of-options', "$SourceRevision^{commit}") -WorkingDirectory $repositoryRoot).StdOut.Trim()
     if ($commit -notmatch '^[0-9a-f]{40}$') {
         throw "Resolved source commit is not a full lowercase Git object ID: $commit"
     }
@@ -228,8 +228,15 @@ try {
         throw 'Extracted Cargo.lock identities differ.'
     }
 
-    $rustcVerbose = (Invoke-NativeCommand -FilePath 'rustc.exe' -ArgumentList @('-vV') -WorkingDirectory $repositoryRoot).StdOut.Trim()
-    $cargoVersion = (Invoke-NativeCommand -FilePath 'cargo.exe' -ArgumentList @('--version') -WorkingDirectory $repositoryRoot).StdOut.Trim()
+    $rustcVerboseA = (Invoke-NativeCommand -FilePath 'rustc.exe' -ArgumentList @('-vV') -WorkingDirectory $sourceA).StdOut.Trim()
+    $rustcVerboseB = (Invoke-NativeCommand -FilePath 'rustc.exe' -ArgumentList @('-vV') -WorkingDirectory $sourceB).StdOut.Trim()
+    $cargoVersionA = (Invoke-NativeCommand -FilePath 'cargo.exe' -ArgumentList @('--version') -WorkingDirectory $sourceA).StdOut.Trim()
+    $cargoVersionB = (Invoke-NativeCommand -FilePath 'cargo.exe' -ArgumentList @('--version') -WorkingDirectory $sourceB).StdOut.Trim()
+    if ($rustcVerboseA -cne $rustcVerboseB -or $cargoVersionA -cne $cargoVersionB) {
+        throw 'Toolchain gate failed: isolated source roots select different rustc or Cargo identities.'
+    }
+    $rustcVerbose = $rustcVerboseA
+    $cargoVersion = $cargoVersionA
     $rustcVersion = ($rustcVerbose -split "`r?`n")[0].Trim()
     $rustcCommitHash = ([regex]::Match($rustcVerbose, '(?m)^commit-hash:\s*(.+)$')).Groups[1].Value.Trim()
     $rustcCommitDate = ([regex]::Match($rustcVerbose, '(?m)^commit-date:\s*(.+)$')).Groups[1].Value.Trim()
@@ -299,6 +306,8 @@ try {
             TerminalState = 'completed'
             LatchStatus = 'admitted_for_attention'
             Assurance = 'stored_provider_replay'
+            ExchangeCount = 5
+            VerifiedReportSha256 = 'ac2a07ac0b25267e16eefa68b56eb76ea08afd502ac9a555cc311de8eb0d204c'
         },
         [pscustomobject]@{
             Name = 'evox2_control_v5.json'
@@ -306,6 +315,8 @@ try {
             TerminalState = 'control_completed'
             LatchStatus = $null
             Assurance = 'stored_provider_replay'
+            ExchangeCount = 1
+            VerifiedReportSha256 = '83a8450d88147acd0b93db1a7952955084d6736e9aa04e3e7a1d51d1bcbff599'
         },
         [pscustomobject]@{
             Name = 'evox2_hostile_boundary_v5.json'
@@ -313,6 +324,8 @@ try {
             TerminalState = 'rejected'
             LatchStatus = $null
             Assurance = 'stored_provider_replay'
+            ExchangeCount = 4
+            VerifiedReportSha256 = '6d57cd6fd9a0366b9f69105e30bc97be3e504bbd4af15968af3a9b47b931907e'
         }
     )
     $reportEvidence = @()
@@ -343,7 +356,9 @@ try {
         if ($verification.valid -ne $true -or
             $verification.terminal_state -cne $reportContract.TerminalState -or
             -not $latchMatches -or
-            $verification.assurance -cne $reportContract.Assurance) {
+            $verification.assurance -cne $reportContract.Assurance -or
+            $verification.exchange_count -ne $reportContract.ExchangeCount -or
+            $verification.report_sha256 -cne $reportContract.VerifiedReportSha256) {
             throw "Behavior gate failed: retained report disposition differs from the governed reference for $reportName."
         }
         $reportEvidence += [ordered]@{
@@ -352,6 +367,8 @@ try {
             terminal_state = $verification.terminal_state
             latch_status = $verification.latch_status
             assurance = $verification.assurance
+            exchange_count = $verification.exchange_count
+            verified_report_sha256 = $verification.report_sha256
         }
     }
 
