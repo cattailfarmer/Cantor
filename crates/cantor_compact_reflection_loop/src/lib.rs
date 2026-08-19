@@ -3,6 +3,7 @@
 #![forbid(unsafe_code)]
 
 mod attention_reentry;
+mod dual_transcript;
 mod iterative;
 mod provider_protocol;
 mod scripted_orchestrator;
@@ -19,6 +20,14 @@ pub use attention_reentry::{
     generate_attention_reentry_measurement, pretty_attention_reentry_measurement_bytes,
     validate_attention_reentry_frame, validate_attention_reentry_measurement,
     validate_compact_attention_request,
+};
+pub use dual_transcript::{
+    AttentionTransportKind, AttentionTransportRecord, SCRIPTED_COMPACT_TRANSPORT_NONCLAIMS,
+    SCRIPTED_COMPACT_TRANSPORT_PROFILE, ScriptedCompactTransportProjection,
+    TerminalReflectionTransport, TransportByteAccount,
+    generate_scripted_compact_transport_projection,
+    pretty_scripted_compact_transport_projection_bytes, project_compact_transport,
+    validate_scripted_compact_transport_projection,
 };
 pub use iterative::{
     DETERMINISTIC_DRIVE_MEASUREMENT_PROFILE, DETERMINISTIC_DRIVE_NONCLAIMS,
