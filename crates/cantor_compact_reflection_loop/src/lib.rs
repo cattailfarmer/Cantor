@@ -10,6 +10,7 @@ mod scripted_orchestrator;
 mod scripted_stopped;
 mod terminal_pending;
 mod transcript_measurement;
+mod transport_envelope;
 
 pub use attention_reentry::{
     ATTENTION_REENTRY_FRAME_NONCLAIMS, ATTENTION_REENTRY_FRAME_PROFILE,
@@ -70,6 +71,16 @@ pub use transcript_measurement::{
     IterativeTranscriptMeasurement, ProviderPassByteMeasurement,
     generate_iterative_transcript_measurement, pretty_iterative_transcript_measurement_bytes,
     validate_iterative_transcript_measurement,
+};
+pub use transport_envelope::{
+    ATTENTION_TRANSPORT_ENVELOPE_NONCLAIMS, ATTENTION_TRANSPORT_ENVELOPE_PROFILE,
+    AttentionTransportEnvelope, SCRIPTED_TRANSPORT_ENVELOPE_SET_NONCLAIMS,
+    SCRIPTED_TRANSPORT_ENVELOPE_SET_PROFILE, ScriptedTransportEnvelopeSet,
+    compile_iteration_transport_envelope, compile_terminal_transport_envelope,
+    generate_scripted_transport_envelope_set, pretty_scripted_transport_envelope_set_bytes,
+    project_transport_envelopes, validate_attention_transport_envelope,
+    validate_iteration_transport_envelope_against, validate_scripted_transport_envelope_set,
+    validate_terminal_transport_envelope_against,
 };
 
 use cantor_compact_coordination_mcp::{

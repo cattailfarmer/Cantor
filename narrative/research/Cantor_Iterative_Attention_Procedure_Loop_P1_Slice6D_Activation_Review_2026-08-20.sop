@@ -1,0 +1,54 @@
+Subject: Cantor Iterative Attention Procedure Loop P1 Slice 6D Activation Review 2026-08-20
+
+@ [review_uuid] bd36cbe5-3516-4d19-a4e7-53bf41a07e0d
+@ [status] satisfied_for_provider_free_self_digested_transport_envelope
+@ [source] C:\Project\Cantor\source_documents\2026-08-19_iterative_attention_procedure_loop\P1_Slice6D_Self_Digested_Transport_Envelope_Activation_Source.sop
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Iterative_Attention_Procedure_Loop_P1.sop
+@ [slice6c_proof] C:\Project\Cantor\proofs\Cantor_Iterative_Attention_Procedure_Loop_P1_Slice6C_Proof.sop
+
+& [SourcePreservation]
+  + [source_bytes] 4337
+  + [source_sha256] 902DA90E18490CA9D253F120DFBD3ABDBE047987DD701A516931D80F4F7C3A0B
+  + [source_manifest_bytes] 4082
+  + [source_manifest_sha256] 60E3C5DEB159CD1F006A3E657A6E8808CDC47B78D4C105A30A8C6E8A3178B308
+
+& [DependencyReview]
+  + [slice6c_proof_bytes] 3318
+  + [slice6c_proof_sha256] EE5982619F55E66E960DAD994891322F4E6B8A1C69BEA29FBD234555D4C859BE
+  + [dual_transcript_module_bytes] 12608
+  + [dual_transcript_module_sha256] E1E125620D76449A79BD221D14E41D7835ED919D713CBF9E44B83EAC30F8A31C
+  + [attention_reentry_module_bytes] 28846
+  + [attention_reentry_module_sha256] 9F9DDE3697252669A50C7E6A6A9CFA6BB4B5EBC3756F4237E6B1CA1EA7C9C135
+
+& [SJS]
+  + Situation: compact requests are reconstructable against retained history but a received or queued packet has no small independent corruption check
+  + Justification: a domain-separated request and frame digest makes packet identity inspectable before the host pays the cost of canonical replay validation
+  + Solution: wrap each projected transport in a strict self-digested envelope then retain a separate stronger validator against the canonical Slice6C projection
+
+& [Delineation]
+  + local integrity asks whether the carried bytes still match their carried digests and shape
+  + canonical binding asks whether the entire envelope is the uniquely reconstructed envelope for one validated canonical transport
+  + local integrity cannot establish provenance authenticity host custody semantic truth model interpretation or provider execution
+  + a digest is a corruption-evident identifier and not a keyed signature
+
+& [DataDrivenDesign]
+  + digest input is domain tag followed by one zero byte followed by deterministic compact JSON bytes
+  + all digest algorithms are exactly sha256 with lowercase hexadecimal values
+  + phase kind index and optional-field shape are validated independently of hash agreement
+  + full-prefix iteration compact iteration and compact terminal envelopes form three explicit structural cases
+
+& [FacultyReview]
+  + Honesty names self-consistency canonical binding and authentication as different claims
+  + Security domain-separates frame and request digests and refuses malformed optional-field combinations
+  + Planner fixes envelope order and phase-index rules
+  + Weaver echoes the retained-prefix digest only where a reentry frame exists
+  + Scribe preserves request frame digest and nonclaim evidence in strict normalized JSON
+  + Refiner supplies the smallest local integrity surface without copying canonical history
+  + Observer requires both local and canonical validation in fixture acceptance
+
+& [Decision]
+  + activate isolated transport_envelope forms compilation validation projection normalization and adversarial tests
+  + keep signatures key trust provider execution and persistence under separate future authority
+
+& [Rollback]
+  + additive module exports and tests remove without changing predecessor forms or behavior
