@@ -29,6 +29,7 @@ Preserved reports:
 - remote `cantor-field-cycle-p0-h6.exe`: final assurance-aware verifier that classifies twenty-nine stored-provider and two response-backed-fault reports without new inference.
 - remote `cantor-field-cycle-p0-h7.exe`: final contract-discoverable assurance verifier with the same exact remote replay distribution.
 - `attention_cost_summary_v1.json`: token, cache, provider-compute, exchange, and evidence-byte statistics over all thirty-one provider reports.
+- `closure_audit_v1.json`: effect-free reconciliation of preserved sources, proof references, receipts, assurance distribution, and final h7 identity.
 
 The repeatability campaign holds the positive candidate and relation sequence constant, keeps every control latch-ineligible, and rejects every hostile field. It also preserves the warning that all twenty positive probes assess the whole proposal as `conflicted` before the separate delineation pass says `supported`.
 

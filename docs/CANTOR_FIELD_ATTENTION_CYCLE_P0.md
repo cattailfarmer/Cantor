@@ -104,6 +104,12 @@ Replay any complete, rejected, control, or response-backed fault report:
 target\release\cantor_field_cycle.exe verify experiments\cantor_field_cycle_p0\evox2_live_v5.json
 ```
 
+Audit the frozen source, proof, acceptance, cost, and deployment identities without provider inference or external effects:
+
+```powershell
+.\scripts\audit_cantor_field_attention_closure.ps1
+```
+
 Output files are create-new: an existing report is never overwritten. The runtime accepts ordinary loopback HTTP URLs only.
 
 The verifier applies the same provider-identity boundary to every terminal class, including response-less transport faults: run and model identities must be nonempty, request profiles must be recognized, and non-fixture endpoints must be canonical loopback HTTP base URLs.
