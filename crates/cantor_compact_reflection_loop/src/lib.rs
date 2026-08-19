@@ -13,6 +13,7 @@ mod dual_transcript;
 mod iterative;
 mod lineage_index;
 mod provider_protocol;
+mod release_manifest;
 mod scripted_orchestrator;
 mod scripted_stopped;
 mod terminal_pending;
@@ -114,6 +115,14 @@ pub use provider_protocol::{
     IterativeProviderPrefixProjection, admit_iterative_provider_iteration,
     iterative_advance_request, iterative_terminal_reflection_request,
     validate_iterative_provider_prefix, validate_provider_prefix_projection,
+};
+pub use release_manifest::{
+    PROVIDER_FREE_SHELL_RELEASE_KIND, PROVIDER_FREE_SHELL_RELEASE_MANIFEST_PROFILE,
+    PROVIDER_FREE_SHELL_RELEASE_NONCLAIMS, ProviderFreeShellReleaseCapabilities,
+    ProviderFreeShellReleaseManifest, ReleaseArtifactIdentity, ReleaseMeasurementIdentity,
+    ReleaseProofCommitment, ReleaseQueryIdentity, generate_provider_free_shell_release_manifest,
+    pretty_provider_free_shell_release_manifest_bytes,
+    validate_provider_free_shell_release_manifest,
 };
 pub use scripted_orchestrator::{
     SCRIPTED_COMPLETE_RUN_NONCLAIMS, SCRIPTED_COMPLETE_RUN_PROFILE, SCRIPTED_PROVIDER_BASE,
