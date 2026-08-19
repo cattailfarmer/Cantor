@@ -49,6 +49,10 @@ The pinned v1 receipt proves local repetition for commit `b4532cff5876d94b116bf7
 
 The tool records the toolchain it actually observes. Matching the pinned toolchain is not assumed merely because the command runs.
 
+## Environment claim boundary
+
+Profile 0.1 controls the four declared process values and binds the resulting artifact and behavior, but it does not enumerate every inherited process variable or make Cargo's cache and global configuration hermetic. A post-campaign read-only inspection found `RUSTC`, both Rust compiler wrappers, Cargo compiler overrides, `CARGO_ENCODED_RUSTFLAGS`, `CARGO_HOME`, and `RUSTUP_TOOLCHAIN` unset and found no user Cargo config file on this host. Those observations are not fields in the pinned receipt and do not expand the claim. The cross-host successor must define an allowed environment and bind linker, SDK, CRT, Cargo configuration, and tool locations before it can compare environments honestly.
+
 ## Reading the receipt
 
 - `source` binds the commit, tree, commit epoch, archive, lockfile, and two-root isolation.

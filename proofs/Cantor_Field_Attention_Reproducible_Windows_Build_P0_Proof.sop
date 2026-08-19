@@ -68,6 +68,8 @@ Subject: Cantor Field Attention Reproducible Windows Build P0 Proof
 
 & [Residuals] keep the conclusion narrow
   + one Windows host and toolchain do not prove cross-host or cross-toolchain reproducibility
+  + profile 0.1 controls its declared build values but does not claim a hermetic complete-process environment or bind user Cargo configuration in the receipt
+  + post-campaign read-only inspection found the known compiler wrapper encoded-rustflags Cargo-home and rustup override variables unset and no user Cargo config but this observation is not promoted into campaign evidence
   + h8 was not built under this profile and remains historical deployment content identity only
   + no signing ACL installation or immutable trust root was created
   + no provider inference semantic-quality or P1 behavior was exercised or authorized
