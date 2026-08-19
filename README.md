@@ -129,7 +129,12 @@ baseline:
 - `cantor_coordination_measurement` now reproduces exact structured transport
   costs across quotas 1, 2, 4, 8, and 64, showing that coarser bounded stepping
   removes substantially more traffic than an impossible zero-byte
-  context-only handle while retaining statelessness.
+  context-only handle while retaining statelessness; and
+- the separate `cantor-compact-coordination-mcp` process now retains exact
+  context plus checkpoint behind a sequence-bound digest handle, shrinking
+  measured tool metadata from 56,243 to 4,951 bytes and ordinary quota-eight
+  advance arguments to 367 bytes while preserving exact `READ` inspection,
+  stale-writer refusal, and explicit restart loss.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -201,6 +206,10 @@ The deterministic structured-byte artifact, quota comparison, source
 correction, and evidence-led decision to defer a context-only registry are
 documented in
 [`docs/COORDINATION_TRANSPORT_MEASUREMENT_P0.md`](docs/COORDINATION_TRANSPORT_MEASUREMENT_P0.md).
+The volatile registry, context-plus-checkpoint record, compact handle,
+compare-and-set concurrency rule, exact readback, measured control surface, and
+restart-loss boundary are documented in
+[`docs/COMPACT_COORDINATION_SESSION_P0.md`](docs/COMPACT_COORDINATION_SESSION_P0.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell

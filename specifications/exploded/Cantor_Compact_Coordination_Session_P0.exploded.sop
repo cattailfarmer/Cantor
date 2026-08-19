@@ -1,0 +1,45 @@
+Subject: Cantor Compact Coordination Session P0 Seven-Fold Explosion
+
+@ [explosion_uuid] 8e64f3e8-6a4a-422d-b1e2-17f488fb4f00
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_compact_coordination_session\Source_Document_Manifest.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Coordination_Transport_Measurement_P0.sop
+
+& [Fold1Identity] separates registry record and handle
+  + registry is one volatile content-addressed process snapshot
+  + record owns one exact context and either current checkpoint or terminal outcome
+  + handle is a compact projection naming registry session sequence record and current state digests
+
+& [Fold2Lifecycle] is OPEN ADVANCE INSPECT READ
+  + OPEN parses one bounded exact context JSON and creates genesis
+  + ADVANCE compare-and-sets registry session sequence and record then runs one bounded core step slice
+  + INSPECT returns the compact handle while READ returns exact record JSON
+  + process exit discards all state
+
+& [Fold3Integrity] validates every boundary
+  + registry record and handle digests cover all fields except their own digest
+  + map keys sequence state checkpoint outcome and digest shapes are checked before every command
+  + stale duplicate changed corrupt terminal or unknown-session commands do not mutate state
+
+& [Fold4Concurrency] admits one equal-head writer
+  + MCP serializes pure transitions under one process-local mutex
+  + two callers using the same predecessor can produce at most one successor
+  + every successful mutation increments registry generation and session sequence
+
+& [Fold5CompactSchema] avoids recursive model-facing forms
+  + MCP OPEN carries context_json string while READ returns record_json string
+  + ADVANCE and INSPECT expose only identities digests sequence and quota
+  + internal parsing remains strict typed and core-validated
+
+& [Fold6Proof] measures both semantics and size
+  + direct open advance inspect read and terminal flows match stateless core
+  + stale concurrent and corrupt registry cases fail closed
+  + official client proves one real subprocess and tool
+  + metadata and ordinary ADVANCE payload sizes are recorded against the stateless baseline
+
+& [Fold7Boundary] keeps custody local and temporary
+  + no disk database restart recovery authentication network provider model prompt effect or production authority exists
+  + digest identity is not producer authentication
+  + compact JSON strings reduce schema expansion but do not change semantic types
+
+& [SelectedFlow] is exact context JSON -> typed OPEN -> digest handle -> CAS ADVANCE -> inspectable READ -> terminal record or process exit
+

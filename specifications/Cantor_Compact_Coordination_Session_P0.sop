@@ -1,0 +1,65 @@
+Subject: Cantor Compact Coordination Session P0
+
+@ [specification_uuid] fc7b6aec-7bb2-44db-a964-a534428afc07
+@ [profile] cantor-compact-coordination-session/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_compact_coordination_session\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Compact_Coordination_Session_P0.exploded.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Coordination_Transport_Measurement_P0.sop
+
+& [RegistryForm] is complete volatile custody
+  + [CCS-001] CompactCoordinationRegistry is strict versioned JSON with registry identity generation ordered session records and registry digest
+  + [CCS-002] CompactCoordinationRecord binds session identity sequence exact CoordinationToolContext current checkpoint or terminal outcome and record digest
+  + [CCS-003] a record carries exactly one checkpoint or outcome
+  + [CCS-004] registry and record digests are canonical SHA-256 over complete forms with only their own digest cleared
+  + [CCS-005] validation rejects wrong profile map key identity digest sequence empty state or mixed state
+
+& [HandleForm] is compact compare-and-set state
+  + [CCS-006] CompactCoordinationHandle carries registry identity and digest session identity sequence record digest status optional checkpoint digest optional outcome digest and handle digest
+  + [CCS-007] ready handles carry checkpoint only and terminal handles carry outcome only
+  + [CCS-008] handle digest covers every field except itself
+
+& [Commands] are closed
+  + [CCS-009] OPEN requires expected registry digest unique session identity and context_json no larger than 4194304 bytes
+  + [CCS-010] OPEN strictly parses CoordinationToolContext calls core BEGIN stores genesis and returns sequence one ready handle
+  + [CCS-011] ADVANCE requires expected registry digest session identity expected sequence expected record digest and positive maximum_steps
+  + [CCS-012] ADVANCE calls core ADVANCE and stores either one successor checkpoint or terminal outcome while incrementing registry generation and session sequence
+  + [CCS-013] INSPECT requires exact registry digest and session identity and returns current handle without mutation
+  + [CCS-014] READ requires exact registry digest and session identity and returns current handle plus exact compact record_json and record digest without mutation
+  + [CCS-015] terminal sessions cannot advance and session identities cannot be reused
+
+& [Transition] is pure before transport
+  + [CCS-016] apply_compact_coordination_command accepts immutable registry and command and returns one successor registry plus typed response
+  + [CCS-017] refused invalid and read-only commands return a byte-equal registry
+  + [CCS-018] equal immutable registry and command values return byte-equal transitions
+  + [CCS-019] no filesystem clock random provider model or external effect occurs in the transition
+
+& [MCP] is one serialized volatile process
+  + [CCS-020] cantor-compact-coordination-mcp exposes exactly continue_procedure_session over local STDIO
+  + [CCS-021] one mutex serializes registry transitions so equal-head concurrent writes yield one success and one stale refusal
+  + [CCS-022] MCP input and output schemas expand compact command response and handle forms but not CoordinationToolContext CoordinationCheckpoint or CoordinationOutcome
+  + [CCS-023] ingress is bounded at 8388608 bytes and malformed oversized or unknown fields fail closed
+  + [CCS-024] tool metadata is non-destructive non-idempotent non-read-only and closed-world
+  + [CCS-025] restart creates a new empty registry and loses every session
+
+& [Boundary] is a P0 local control plane
+  + [CCS-026] no close deletion persistence recovery authentication authorization remote transport provider invocation prompt injection automatic selection effect or production deployment is included
+  + [CCS-027] exact JSON strings are transport envelopes and only successful typed parse and core validation grant runtime use
+  + [CCS-028] SHA-256 proves content binding not producer identity semantic truth or authorization
+
+& [Acceptance] is finite
+  + [CCS-A01] source SJS signature and seven-fold trace verify
+  + [CCS-A02] direct OPEN ADVANCE INSPECT READ terminal and replay tests match stateless core
+  + [CCS-A03] stale duplicate zero-quota malformed oversized corrupt and concurrent equal-head cases fail closed
+  + [CCS-A04] official RMCP subprocess lifecycle and compact schema and payload measurements pass
+  + [CCS-A05] formatting warnings-denied lint workspace regression manifest audit narrative and scoped Git review pass
+
+& [SatisfactionSignature] is bounded SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is e6dfa82f-1681-4574-9bb0-f76b0e3b6e87
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Compact_Coordination_Session_P0.sop
+  + [source_snapshot_uuid] is 10021455-c47a-4792-b205-9443cb6c471b
+  + [source_manifest_sha256] is 8BC8C19D5DEFF98DFA8AEE580B7FDC8F5600501D371A060208376112E6901528
+  + [processed_stage_set] is source_preserved audited delineated seven_fold_exploded dual_hemisphere_reconciled data_designed constraint_checked pruned flowcharted acceptance_formed justified planned feature_sliced phase_locked and signed
+  + [signature_status] is valid_for_volatile_compact_coordination_session_P0_only
+  + [invalidation] is hidden_unreadable_state missing_CAS mixed_record_state unbounded_ingress durable_claim authentication_claim effect_execution or deferred_scope_expansion
+

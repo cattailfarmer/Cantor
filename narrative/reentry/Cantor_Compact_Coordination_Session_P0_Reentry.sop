@@ -1,0 +1,44 @@
+Subject: Cantor Compact Coordination Session P0 Reentry
+
+Description: Compact non-authoritative restart map for the verified volatile context-plus-checkpoint handle.
+
+@ [reentry_uuid] 05652ee1-1a55-4728-ac18-809c12e6875a
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Compact_Coordination_Session_P0.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Compact_Coordination_Session_P0_Solution.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Compact_Coordination_Session_P0_Proof.sop
+@ [operator] C:\Project\Cantor\docs\COMPACT_COORDINATION_SESSION_P0.md
+
+& [CurrentMechanism] is verified volatile P0
+  + OPEN imports exact typed context JSON once and returns a ready handle
+  + ADVANCE uses registry digest session sequence record digest and quota only
+  + INSPECT returns handle while READ returns exact retained record JSON
+  + two quota-eight advances reach the stateless terminal outcome
+
+& [IdentityBoundary] is explicit
+  + registry record and handle have independent content digests
+  + every mutation compare-and-sets global and session lineage
+  + mutex serialization admits one equal-head writer and terminal sessions refuse advancement
+
+& [MeasuredSurface] is compact
+  + tool metadata is 4951 bytes against stateless 56243
+  + ordinary ADVANCE argument is 367 bytes against measured stateless maximum 49681 at quota eight
+  + OPEN and READ remain large exact transfer operations
+
+& [Verification] is current
+  + six focused tests and 662 complete workspace tests pass with zero failure and one governed ignore across 124 groups
+  + formatting warnings-denied lint and twenty-three-manifest 1030-reference zero-stale reconciliation pass
+  + disk exhaustion and WSL read-only failures are rejected infrastructure evidence and controlled serial rerun passes
+
+& [OpenBoundary] remains deliberate
+  + process restart loses sessions and old handles refuse
+  + no close durable storage recovery signature authentication provider model prompt or effect exists
+  + model-facing primer policy and automatic call selection remain separate host work
+
+& [NextDependencyOrder] is experience before durability
+  + create a checked operator fixture or small host loop that OPENs once and ADVANCEs by handle
+  + measure retained registry bytes lifecycle and failure recovery under several sessions
+  + govern close cleanup persistence and authentication separately only if needed
+  - never: hide retained state from READ or represent digest binding as producer identity
+
+& [AuthorityBoundary] is reentry only and grants no successor implementation authority
+
