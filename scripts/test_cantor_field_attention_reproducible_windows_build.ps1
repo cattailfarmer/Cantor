@@ -83,6 +83,26 @@ function Get-TextSha256 {
     }
 }
 
+function Assert-ExactJsonPropertySet {
+    param(
+        [Parameter(Mandatory)]
+        [psobject] $InputObject,
+
+        [Parameter(Mandatory)]
+        [string[]] $ExpectedProperties,
+
+        [Parameter(Mandatory)]
+        [string] $Context
+    )
+
+    $actual = @($InputObject.PSObject.Properties.Name)
+    $missing = @($ExpectedProperties | Where-Object { $actual -cnotcontains $_ })
+    $unexpected = @($actual | Where-Object { $ExpectedProperties -cnotcontains $_ })
+    if ($missing.Count -ne 0 -or $unexpected.Count -ne 0) {
+        throw "Behavior gate failed: $Context property set differs from the governed reference; missing=$($missing -join ',') unexpected=$($unexpected -join ',')."
+    }
+}
+
 function Test-FileBytesEqual {
     param(
         [Parameter(Mandatory)]
@@ -239,6 +259,10 @@ try {
     if ($contractA -cne $contractB) {
         throw 'Behavior gate failed: contract outputs differ.'
     }
+    $contractSha256 = Get-TextSha256 -Text $contractA
+    if ($contractSha256 -cne 'b6f5fd56767a0857c8f30560c63a2e4ae5c138f6ff374d6033f3e2a551e46e37') {
+        throw 'Behavior gate failed: contract output bytes differ from the governed P0 reference.'
+    }
     $contract = $contractA | ConvertFrom-Json
     if ($contract.profile -cne 'cantor-field-attention-cycle/0.1' -or
         $contract.field_profile -cne 'cantor-semantic-field/0.1' -or
@@ -295,6 +319,9 @@ try {
             throw "Behavior gate failed: verifier outputs differ for $reportName."
         }
         $verification = $verifyA | ConvertFrom-Json
+        Assert-ExactJsonPropertySet -InputObject $verification -ExpectedProperties @(
+            'valid', 'terminal_state', 'latch_status', 'exchange_count', 'assurance', 'report_sha256'
+        ) -Context "verifier output for $reportName"
         $latchMatches = if ($null -eq $reportContract.LatchStatus) {
             $null -eq $verification.latch_status
         }
@@ -351,7 +378,7 @@ try {
             byte_equal = $byteEqual
         }
         behavior = [ordered]@{
-            contract_output_sha256 = Get-TextSha256 -Text $contractA
+            contract_output_sha256 = $contractSha256
             field_digest = $fieldDigestA
             verifier_invocations = 6
             reports = $reportEvidence
