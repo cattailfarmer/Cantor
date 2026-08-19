@@ -156,6 +156,13 @@ and local reproducible-build command are documented in
 [`docs/CANTOR_FIELD_ATTENTION_CYCLE_P0.md`](docs/CANTOR_FIELD_ATTENTION_CYCLE_P0.md)
 and
 [`docs/CANTOR_FIELD_ATTENTION_REPRODUCIBLE_WINDOWS_BUILD_P0.md`](docs/CANTOR_FIELD_ATTENTION_REPRODUCIBLE_WINDOWS_BUILD_P0.md).
+Run their combined read-only local checkpoint with:
+
+```powershell
+.\scripts\audit_cantor_field_attention_local_proof_checkpoint.ps1
+```
+
+This does not rebuild, contact EVO-X2, or authorize P1.
 The separate post-checkpoint routing harness, immutable first-run evidence, and
 the discovered caller-subject grounding fault are documented in
 [`experiments/needle2_attention_calibration/README.md`](experiments/needle2_attention_calibration/README.md)
