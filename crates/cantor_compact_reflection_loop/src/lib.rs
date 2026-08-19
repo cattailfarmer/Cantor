@@ -7,6 +7,7 @@ mod provider_protocol;
 mod scripted_orchestrator;
 mod scripted_stopped;
 mod terminal_pending;
+mod transcript_measurement;
 
 pub use iterative::{
     DETERMINISTIC_DRIVE_MEASUREMENT_PROFILE, DETERMINISTIC_DRIVE_NONCLAIMS,
@@ -43,6 +44,12 @@ pub use terminal_pending::{
     generate_scripted_terminal_pending_fixture, run_scripted_terminal_pending,
     scripted_terminal_reflection_response, validate_scripted_terminal_pending_run,
     validate_terminal_reflection_pending_report,
+};
+pub use transcript_measurement::{
+    ITERATIVE_TRANSCRIPT_MEASUREMENT_NONCLAIMS, ITERATIVE_TRANSCRIPT_MEASUREMENT_PROFILE,
+    IterativeTranscriptMeasurement, ProviderPassByteMeasurement,
+    generate_iterative_transcript_measurement, pretty_iterative_transcript_measurement_bytes,
+    validate_iterative_transcript_measurement,
 };
 
 use cantor_compact_coordination_mcp::{

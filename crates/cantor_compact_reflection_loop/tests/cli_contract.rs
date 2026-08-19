@@ -25,6 +25,7 @@ fn help_exposes_the_bounded_live_contract() {
     assert!(stdout.contains("--context PATH"));
     assert!(stdout.contains("--maximum-steps N"));
     assert!(stdout.contains("measure-iterative-fixture"));
+    assert!(stdout.contains("measure-iterative-transcript-fixture"));
 }
 
 #[test]
@@ -44,6 +45,27 @@ fn iterative_measurement_command_is_provider_free_and_typed() {
 
     let extra = Command::new(binary())
         .args(["measure-iterative-fixture", "unexpected"])
+        .output()
+        .expect("run invalid command");
+    assert_eq!(extra.status.code(), Some(2));
+}
+
+#[test]
+fn iterative_transcript_measurement_command_is_provider_free_and_typed() {
+    let output = Command::new(binary())
+        .arg("measure-iterative-transcript-fixture")
+        .output()
+        .expect("run");
+    assert!(output.status.success());
+    assert!(output.stderr.is_empty());
+    let measurement: cantor_compact_reflection_loop::IterativeTranscriptMeasurement =
+        serde_json::from_slice(&output.stdout).expect("typed transcript measurement");
+    cantor_compact_reflection_loop::validate_iterative_transcript_measurement(&measurement)
+        .expect("valid transcript measurement");
+    assert_eq!(measurement.passes.len(), 3);
+
+    let extra = Command::new(binary())
+        .args(["measure-iterative-transcript-fixture", "unexpected"])
         .output()
         .expect("run invalid command");
     assert_eq!(extra.status.code(), Some(2));
