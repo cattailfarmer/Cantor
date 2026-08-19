@@ -10,6 +10,7 @@ mod custody_query_measurement;
 mod dispatch_checkpoint;
 mod dispatch_lifecycle;
 mod dual_transcript;
+mod handle_discovery;
 mod iterative;
 mod lineage_index;
 mod provider_protocol;
@@ -89,6 +90,13 @@ pub use dual_transcript::{
     generate_scripted_compact_transport_projection,
     pretty_scripted_compact_transport_projection_bytes, project_compact_transport,
     validate_scripted_compact_transport_projection,
+};
+pub use handle_discovery::{
+    CHECKPOINT_HANDLE_DISCOVERY_NONCLAIMS, CHECKPOINT_HANDLE_DISCOVERY_RESPONSE_PROFILE,
+    CHECKPOINT_HANDLE_DISCOVERY_SELECTOR_PROFILE, CheckpointHandleDiscoveryResponse,
+    CheckpointHandleDiscoverySelector, DiscoveredCheckpointHandle, discover_checkpoint_handles,
+    pretty_checkpoint_handle_discovery_response_bytes,
+    validate_checkpoint_handle_discovery_response, validate_checkpoint_handle_discovery_selector,
 };
 pub use iterative::{
     DETERMINISTIC_DRIVE_MEASUREMENT_PROFILE, DETERMINISTIC_DRIVE_NONCLAIMS,

@@ -11,16 +11,17 @@ use std::{
 };
 
 use cantor_compact_reflection_loop::{
-    CheckpointCustodyQuery, REPORT_NONCLAIMS, REPORT_PROFILE, RunReport,
-    advance_bound_session_terminal, dispatch_checkpoint_custody_query,
-    experimental_fixture_context_json, extract_advance_call, extract_final_output, first_request,
-    generate_custody_query_surface_measurement, generate_dispatch_checkpoint_handle_measurement,
+    CheckpointCustodyQuery, CheckpointHandleDiscoverySelector, REPORT_NONCLAIMS, REPORT_PROFILE,
+    RunReport, advance_bound_session_terminal, discover_checkpoint_handles,
+    dispatch_checkpoint_custody_query, experimental_fixture_context_json, extract_advance_call,
+    extract_final_output, first_request, generate_custody_query_surface_measurement,
+    generate_dispatch_checkpoint_handle_measurement,
     generate_fixture_deterministic_drive_measurement, generate_fixture_transport_measurement,
     generate_iterative_transcript_measurement, generate_provider_free_attention_lineage_index,
     generate_provider_free_shell_release_manifest, generate_scripted_checkpoint_custody_registry,
     inspect_report, normalize_loopback_base_url, open_bound_session,
-    pretty_checkpoint_custody_response_bytes, pretty_custody_query_surface_measurement_bytes,
-    pretty_deterministic_drive_measurement_bytes,
+    pretty_checkpoint_custody_response_bytes, pretty_checkpoint_handle_discovery_response_bytes,
+    pretty_custody_query_surface_measurement_bytes, pretty_deterministic_drive_measurement_bytes,
     pretty_dispatch_checkpoint_handle_measurement_bytes,
     pretty_iterative_transcript_measurement_bytes,
     pretty_provider_free_attention_lineage_index_bytes,
@@ -38,6 +39,7 @@ type AnyError = Box<dyn Error + Send + Sync>;
 const MAX_CONTEXT_BYTES: u64 = 4 * 1024 * 1024;
 const MAX_PROMPT_BYTES: usize = 32 * 1024;
 const MAX_CUSTODY_QUERY_BYTES: u64 = 1024 * 1024;
+const MAX_HANDLE_DISCOVERY_SELECTOR_BYTES: u64 = 64 * 1024;
 
 #[derive(Debug)]
 struct Config {
@@ -195,6 +197,15 @@ async fn main() -> ExitCode {
             return ExitCode::from(2);
         }
         return provider_free_shell_release_command();
+    }
+    if arguments.first().map(String::as_str) == Some("discover-scripted-checkpoint-handles") {
+        if arguments.len() != 1 {
+            eprintln!(
+                "configuration_fault: usage: cantor-compact-reflection-loop discover-scripted-checkpoint-handles"
+            );
+            return ExitCode::from(2);
+        }
+        return scripted_checkpoint_handle_discovery_command();
     }
     if arguments.first().map(String::as_str) == Some("fixture-context") {
         return fixture_context_command(&arguments[1..]);
@@ -578,6 +589,44 @@ fn provider_free_shell_release_command() -> ExitCode {
     }
 }
 
+fn scripted_checkpoint_handle_discovery_command() -> ExitCode {
+    let result = (|| -> Result<Vec<u8>, String> {
+        let mut bytes = Vec::new();
+        std::io::stdin()
+            .take(MAX_HANDLE_DISCOVERY_SELECTOR_BYTES + 1)
+            .read_to_end(&mut bytes)
+            .map_err(|error| format!("failed to read handle discovery selector: {error}"))?;
+        if bytes.is_empty() {
+            return Err("checkpoint handle discovery selector stdin is empty".to_owned());
+        }
+        if bytes.len() as u64 > MAX_HANDLE_DISCOVERY_SELECTOR_BYTES {
+            return Err(format!(
+                "checkpoint handle discovery selector exceeds {MAX_HANDLE_DISCOVERY_SELECTOR_BYTES} bytes"
+            ));
+        }
+        let selector: CheckpointHandleDiscoverySelector =
+            serde_json::from_slice(&bytes).map_err(|error| {
+                format!("checkpoint handle discovery selector JSON is invalid: {error}")
+            })?;
+        let registry = generate_scripted_checkpoint_custody_registry()?;
+        let response = discover_checkpoint_handles(&registry, &selector)?;
+        pretty_checkpoint_handle_discovery_response_bytes(&registry, &selector, &response)
+    })();
+    match result {
+        Ok(bytes) => {
+            if let Err(error) = std::io::stdout().write_all(&bytes) {
+                eprintln!("checkpoint_handle_discovery_fault: {error}");
+                return ExitCode::from(1);
+            }
+            ExitCode::SUCCESS
+        }
+        Err(error) => {
+            eprintln!("checkpoint_handle_discovery_fault: {error}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn print_help() {
     println!(
         "cantor-compact-reflection-loop\n\
@@ -595,6 +644,7 @@ fn print_help() {
            echo QUERY_JSON | cantor-compact-reflection-loop query-scripted-checkpoint-custody\n\
            cantor-compact-reflection-loop measure-checkpoint-custody-query-surface\n\
            cantor-compact-reflection-loop describe-provider-free-shell-release\n\
+           echo SELECTOR_JSON | cantor-compact-reflection-loop discover-scripted-checkpoint-handles\n\
          \n\
          Required:\n\
            --context PATH          exact CoordinationToolContext JSON\n\

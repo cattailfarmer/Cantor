@@ -63,3 +63,5 @@ cargo run -p cantor_compact_reflection_loop -- describe-provider-free-shell-rele
 ```
 
 Slice 7E publishes additive release root `b173777725ecf99c48038de2023c71b49dd55db4458b73d3f8d4585781c63e36`. It preserves the historical Slice 7A root and commits current custody, query, measurement, and 17 proof-file identities under an explicit capability ledger. This is an audit-grade provider-free fixture-shell release candidate, not a live model runtime; full regeneration is deliberately much heavier than ordinary custody inspection.
+
+Slice 8A adds `handle_discovery.rs` and `discover-scripted-checkpoint-handles`. A strict selector can bootstrap without a root or pin an exact known root, then intersect phase, next operation, position, terminal identity, and digest-prefix filters under a one-through-twelve result bound. Responses contain exact handles and entry digests but no checkpoint or transport bodies. This is structural catalogue discovery, not semantic or weighted search.
