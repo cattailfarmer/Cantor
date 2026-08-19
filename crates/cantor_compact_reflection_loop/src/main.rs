@@ -4,19 +4,21 @@ use std::{
     env,
     error::Error,
     fs::{self, OpenOptions},
-    io::Write,
+    io::{Read, Write},
     path::{Path, PathBuf},
     process::ExitCode,
     time::Duration,
 };
 
 use cantor_compact_reflection_loop::{
-    REPORT_NONCLAIMS, REPORT_PROFILE, RunReport, advance_bound_session_terminal,
+    CheckpointCustodyQuery, REPORT_NONCLAIMS, REPORT_PROFILE, RunReport,
+    advance_bound_session_terminal, dispatch_checkpoint_custody_query,
     experimental_fixture_context_json, extract_advance_call, extract_final_output, first_request,
     generate_dispatch_checkpoint_handle_measurement,
     generate_fixture_deterministic_drive_measurement, generate_fixture_transport_measurement,
     generate_iterative_transcript_measurement, generate_provider_free_attention_lineage_index,
-    inspect_report, normalize_loopback_base_url, open_bound_session,
+    generate_scripted_checkpoint_custody_registry, inspect_report, normalize_loopback_base_url,
+    open_bound_session, pretty_checkpoint_custody_response_bytes,
     pretty_deterministic_drive_measurement_bytes,
     pretty_dispatch_checkpoint_handle_measurement_bytes,
     pretty_iterative_transcript_measurement_bytes,
@@ -33,6 +35,7 @@ use sha2::{Digest as _, Sha256};
 type AnyError = Box<dyn Error + Send + Sync>;
 const MAX_CONTEXT_BYTES: u64 = 4 * 1024 * 1024;
 const MAX_PROMPT_BYTES: usize = 32 * 1024;
+const MAX_CUSTODY_QUERY_BYTES: u64 = 1024 * 1024;
 
 #[derive(Debug)]
 struct Config {
@@ -163,6 +166,15 @@ async fn main() -> ExitCode {
             return ExitCode::from(2);
         }
         return provider_free_lineage_index_command();
+    }
+    if arguments.first().map(String::as_str) == Some("query-scripted-checkpoint-custody") {
+        if arguments.len() != 1 {
+            eprintln!(
+                "configuration_fault: usage: cantor-compact-reflection-loop query-scripted-checkpoint-custody"
+            );
+            return ExitCode::from(2);
+        }
+        return scripted_checkpoint_custody_query_command();
     }
     if arguments.first().map(String::as_str) == Some("fixture-context") {
         return fixture_context_command(&arguments[1..]);
@@ -480,6 +492,42 @@ fn provider_free_lineage_index_command() -> ExitCode {
     }
 }
 
+fn scripted_checkpoint_custody_query_command() -> ExitCode {
+    let result = (|| -> Result<Vec<u8>, String> {
+        let mut bytes = Vec::new();
+        std::io::stdin()
+            .take(MAX_CUSTODY_QUERY_BYTES + 1)
+            .read_to_end(&mut bytes)
+            .map_err(|error| format!("failed to read checkpoint custody query: {error}"))?;
+        if bytes.is_empty() {
+            return Err("checkpoint custody query stdin is empty".to_owned());
+        }
+        if bytes.len() as u64 > MAX_CUSTODY_QUERY_BYTES {
+            return Err(format!(
+                "checkpoint custody query exceeds {MAX_CUSTODY_QUERY_BYTES} bytes"
+            ));
+        }
+        let query: CheckpointCustodyQuery = serde_json::from_slice(&bytes)
+            .map_err(|error| format!("checkpoint custody query JSON is invalid: {error}"))?;
+        let registry = generate_scripted_checkpoint_custody_registry()?;
+        let response = dispatch_checkpoint_custody_query(&registry, &query)?;
+        pretty_checkpoint_custody_response_bytes(&registry, &query, &response)
+    })();
+    match result {
+        Ok(bytes) => {
+            if let Err(error) = std::io::stdout().write_all(&bytes) {
+                eprintln!("checkpoint_custody_query_fault: {error}");
+                return ExitCode::from(1);
+            }
+            ExitCode::SUCCESS
+        }
+        Err(error) => {
+            eprintln!("checkpoint_custody_query_fault: {error}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn print_help() {
     println!(
         "cantor-compact-reflection-loop\n\
@@ -494,6 +542,7 @@ fn print_help() {
            cantor-compact-reflection-loop measure-iterative-transcript-fixture\n\
            cantor-compact-reflection-loop measure-dispatch-checkpoint-handles\n\
            cantor-compact-reflection-loop index-provider-free-lineage\n\
+           echo QUERY_JSON | cantor-compact-reflection-loop query-scripted-checkpoint-custody\n\
          \n\
          Required:\n\
            --context PATH          exact CoordinationToolContext JSON\n\

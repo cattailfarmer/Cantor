@@ -5,6 +5,7 @@
 mod attention_reentry;
 mod checkpoint_custody;
 mod checkpoint_handle;
+mod custody_query;
 mod dispatch_checkpoint;
 mod dispatch_lifecycle;
 mod dual_transcript;
@@ -44,6 +45,14 @@ pub use checkpoint_handle::{
     generate_dispatch_checkpoint_handle_measurement,
     pretty_dispatch_checkpoint_handle_measurement_bytes, validate_dispatch_checkpoint_handle,
     validate_dispatch_checkpoint_handle_against, validate_dispatch_checkpoint_handle_measurement,
+};
+pub use custody_query::{
+    CHECKPOINT_CUSTODY_INSPECTION_PROFILE, CHECKPOINT_CUSTODY_QUERY_NONCLAIMS,
+    CHECKPOINT_CUSTODY_QUERY_PROFILE, CHECKPOINT_CUSTODY_RESPONSE_PROFILE,
+    CheckpointCustodyInspection, CheckpointCustodyOperation, CheckpointCustodyQuery,
+    CheckpointCustodyResponse, CheckpointCustodyResult, dispatch_checkpoint_custody_query,
+    pretty_checkpoint_custody_query_bytes, pretty_checkpoint_custody_response_bytes,
+    validate_checkpoint_custody_query, validate_checkpoint_custody_response,
 };
 pub use dispatch_checkpoint::{
     DISPATCH_LIFECYCLE_CHECKPOINT_NONCLAIMS, DISPATCH_LIFECYCLE_CHECKPOINT_PROFILE,
