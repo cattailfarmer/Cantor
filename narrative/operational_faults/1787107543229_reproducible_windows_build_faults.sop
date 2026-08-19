@@ -84,3 +84,10 @@ Subject: Cantor Field Attention Reproducible Windows Build Operational Faults
   + [repair] construct the exact base-to-HEAD range as one quoted string before passing it to Git
   + [proof] the successor query reports thirty-one pre-closure commits across fifty-five files without error
   + [status] is closed
+
+& [FARW_F012] is cold-close evidence-manifest staleness after boundary-harness hardening
+  + [observed] the first composite checkpoint after commit d8476e0 reported twenty stale records across twenty-three manifests and 1030 references
+  + [cause] the current evidence graph transitively binds the changed boundary harness and its narrative records so the committed change correctly invalidated dependent digests
+  + [repair] run the governed dependency-first rehasher then repeat VerifyOnly
+  + [proof] all twenty-three manifest diffs change only generated timestamps artifact byte counts and SHA-256 fields and VerifyOnly returns zero stale records across the same 1030 references
+  + [status] is closed
