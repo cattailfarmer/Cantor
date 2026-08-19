@@ -1048,7 +1048,7 @@ pub fn validate_iterative_report(report: &IterativeReport) -> Result<(), String>
     if report.opening_handle.profile != HANDLE_PROFILE
         || report.opening_handle.status != CompactSessionStatus::Ready
         || report.opening_handle.session_id != report.session_id
-        || report.opening_handle.sequence != 1
+        || report.opening_handle.sequence == 0
         || report.base_url.trim().is_empty()
         || report.model.trim().is_empty()
     {

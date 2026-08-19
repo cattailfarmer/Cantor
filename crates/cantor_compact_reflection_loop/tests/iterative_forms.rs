@@ -373,6 +373,10 @@ fn iteration_chain_rejects_a_predecessor_fork() {
     };
     validate_iterative_report(&report).expect("two-iteration report");
 
+    let mut zero_opening_sequence = report.clone();
+    zero_opening_sequence.opening_handle.sequence = 0;
+    assert!(validate_iterative_report(&zero_opening_sequence).is_err());
+
     let mut duplicate_sequence = report.clone();
     state_handle_mut(&mut duplicate_sequence.iterations[0].compact_response).sequence += 1;
     match &mut duplicate_sequence.iterations[0].successor {
