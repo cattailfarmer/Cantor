@@ -6,6 +6,7 @@ mod attention_reentry;
 mod checkpoint_custody;
 mod checkpoint_handle;
 mod custody_query;
+mod custody_query_measurement;
 mod dispatch_checkpoint;
 mod dispatch_lifecycle;
 mod dual_transcript;
@@ -53,6 +54,12 @@ pub use custody_query::{
     CheckpointCustodyResponse, CheckpointCustodyResult, dispatch_checkpoint_custody_query,
     pretty_checkpoint_custody_query_bytes, pretty_checkpoint_custody_response_bytes,
     validate_checkpoint_custody_query, validate_checkpoint_custody_response,
+};
+pub use custody_query_measurement::{
+    CUSTODY_QUERY_SURFACE_MEASUREMENT_NONCLAIMS, CUSTODY_QUERY_SURFACE_MEASUREMENT_PROFILE,
+    CustodyQuerySurfaceByteCase, CustodyQuerySurfaceMeasurement,
+    generate_custody_query_surface_measurement, pretty_custody_query_surface_measurement_bytes,
+    validate_custody_query_surface_measurement,
 };
 pub use dispatch_checkpoint::{
     DISPATCH_LIFECYCLE_CHECKPOINT_NONCLAIMS, DISPATCH_LIFECYCLE_CHECKPOINT_PROFILE,

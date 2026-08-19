@@ -14,12 +14,12 @@ use cantor_compact_reflection_loop::{
     CheckpointCustodyQuery, REPORT_NONCLAIMS, REPORT_PROFILE, RunReport,
     advance_bound_session_terminal, dispatch_checkpoint_custody_query,
     experimental_fixture_context_json, extract_advance_call, extract_final_output, first_request,
-    generate_dispatch_checkpoint_handle_measurement,
+    generate_custody_query_surface_measurement, generate_dispatch_checkpoint_handle_measurement,
     generate_fixture_deterministic_drive_measurement, generate_fixture_transport_measurement,
     generate_iterative_transcript_measurement, generate_provider_free_attention_lineage_index,
     generate_scripted_checkpoint_custody_registry, inspect_report, normalize_loopback_base_url,
     open_bound_session, pretty_checkpoint_custody_response_bytes,
-    pretty_deterministic_drive_measurement_bytes,
+    pretty_custody_query_surface_measurement_bytes, pretty_deterministic_drive_measurement_bytes,
     pretty_dispatch_checkpoint_handle_measurement_bytes,
     pretty_iterative_transcript_measurement_bytes,
     pretty_provider_free_attention_lineage_index_bytes, pretty_transport_measurement_bytes,
@@ -175,6 +175,15 @@ async fn main() -> ExitCode {
             return ExitCode::from(2);
         }
         return scripted_checkpoint_custody_query_command();
+    }
+    if arguments.first().map(String::as_str) == Some("measure-checkpoint-custody-query-surface") {
+        if arguments.len() != 1 {
+            eprintln!(
+                "configuration_fault: usage: cantor-compact-reflection-loop measure-checkpoint-custody-query-surface"
+            );
+            return ExitCode::from(2);
+        }
+        return custody_query_surface_measurement_command();
     }
     if arguments.first().map(String::as_str) == Some("fixture-context") {
         return fixture_context_command(&arguments[1..]);
@@ -528,6 +537,21 @@ fn scripted_checkpoint_custody_query_command() -> ExitCode {
     }
 }
 
+fn custody_query_surface_measurement_command() -> ExitCode {
+    match generate_custody_query_surface_measurement()
+        .and_then(|measurement| pretty_custody_query_surface_measurement_bytes(&measurement))
+    {
+        Ok(bytes) => {
+            print!("{}", String::from_utf8_lossy(&bytes));
+            ExitCode::SUCCESS
+        }
+        Err(error) => {
+            eprintln!("custody_query_surface_measurement_fault: {error}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn print_help() {
     println!(
         "cantor-compact-reflection-loop\n\
@@ -543,6 +567,7 @@ fn print_help() {
            cantor-compact-reflection-loop measure-dispatch-checkpoint-handles\n\
            cantor-compact-reflection-loop index-provider-free-lineage\n\
            echo QUERY_JSON | cantor-compact-reflection-loop query-scripted-checkpoint-custody\n\
+           cantor-compact-reflection-loop measure-checkpoint-custody-query-surface\n\
          \n\
          Required:\n\
            --context PATH          exact CoordinationToolContext JSON\n\
