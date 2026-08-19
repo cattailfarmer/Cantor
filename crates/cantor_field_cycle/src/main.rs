@@ -12,8 +12,8 @@ use reqwest::Client;
 use serde::Serialize;
 use serde_json::Value;
 use std::error::Error;
-use std::fs::{self, OpenOptions};
-use std::io::Write;
+use std::fs::{self, File, OpenOptions};
+use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
@@ -494,10 +494,24 @@ fn read_json<T: for<'de> serde::Deserialize<'de>>(
     maximum_bytes: u64,
     label: &str,
 ) -> Result<T, AnyError> {
-    ensure_file_size(label, fs::metadata(path)?.len(), maximum_bytes)?;
-    let bytes = fs::read(path)?;
-    ensure_file_size(label, bytes.len() as u64, maximum_bytes)?;
+    let mut file = File::open(path)?;
+    ensure_file_size(label, file.metadata()?.len(), maximum_bytes)?;
+    let bytes = read_body_limited(&mut file, maximum_bytes, label)?;
     Ok(serde_json::from_slice(&bytes)?)
+}
+
+fn read_body_limited(
+    reader: &mut impl Read,
+    maximum_bytes: u64,
+    label: &str,
+) -> Result<Vec<u8>, AnyError> {
+    let read_ceiling = maximum_bytes
+        .checked_add(1)
+        .ok_or_else(|| format!("{label} byte file limit cannot be represented"))?;
+    let mut bytes = Vec::new();
+    reader.take(read_ceiling).read_to_end(&mut bytes)?;
+    ensure_file_size(label, bytes.len() as u64, maximum_bytes)?;
+    Ok(bytes)
 }
 
 fn ensure_file_size(label: &str, observed: u64, maximum: u64) -> Result<(), AnyError> {
@@ -603,6 +617,16 @@ mod tests {
         assert!(ensure_file_size("fixture", MAX_FIELD_FILE_BYTES, MAX_FIELD_FILE_BYTES).is_ok());
         assert!(
             ensure_file_size("fixture", MAX_FIELD_FILE_BYTES + 1, MAX_FIELD_FILE_BYTES)
+                .unwrap_err()
+                .to_string()
+                .contains("exceeds")
+        );
+        assert_eq!(
+            read_body_limited(&mut std::io::Cursor::new(b"1234"), 4, "fixture").unwrap(),
+            b"1234"
+        );
+        assert!(
+            read_body_limited(&mut std::io::Cursor::new(b"12345"), 4, "fixture")
                 .unwrap_err()
                 .to_string()
                 .contains("exceeds")

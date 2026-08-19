@@ -137,12 +137,12 @@ Assert-Exact -Condition ($assuranceCounts["deterministic_construction"] -eq 1) -
 Assert-Exact -Condition ($assuranceCounts["stored_provider_replay"] -eq 7) -Message "stored-provider assurance count changed"
 Assert-Exact -Condition ($assuranceCounts["response_backed_fault_replay"] -eq 2) -Message "response-backed fault assurance count changed"
 
-Assert-Exact -Condition ($deployment.final_verifier.path -ceq "C:\AI\services\cantor-field-cycle\cantor-field-cycle-p0-h7.exe") -Message "final verifier path changed"
-Assert-Exact -Condition ($deployment.final_verifier.sha256 -ceq "10e9afe819a4aec17d13c4b4edb02a6519b5fca066f3549d3121fbdd5d05f721") -Message "final verifier digest changed"
-Assert-Exact -Condition ($deployment.final_verifier.bytes -eq 2838016) -Message "final verifier byte count changed"
-Assert-Exact -Condition ($deployment.final_h7_replay.verified_count -eq 31) -Message "final h7 replay count changed"
-Assert-Exact -Condition ($deployment.final_h7_replay.stored_provider_replay -eq 29) -Message "final h7 stored-provider count changed"
-Assert-Exact -Condition ($deployment.final_h7_replay.response_backed_fault_replay -eq 2) -Message "final h7 response-backed fault count changed"
+Assert-Exact -Condition ($deployment.final_verifier.path -ceq "C:\AI\services\cantor-field-cycle\cantor-field-cycle-p0-h8.exe") -Message "final verifier path changed"
+Assert-Exact -Condition ($deployment.final_verifier.sha256 -ceq "abf9c33976320297018bc90723c50ee779b746b129539daaf963e91f5eb40b52") -Message "final verifier digest changed"
+Assert-Exact -Condition ($deployment.final_verifier.bytes -eq 2840064) -Message "final verifier byte count changed"
+Assert-Exact -Condition ($deployment.final_h8_replay.verified_count -eq 31) -Message "final h8 replay count changed"
+Assert-Exact -Condition ($deployment.final_h8_replay.stored_provider_replay -eq 29) -Message "final h8 stored-provider count changed"
+Assert-Exact -Condition ($deployment.final_h8_replay.response_backed_fault_replay -eq 2) -Message "final h8 response-backed fault count changed"
 Assert-Exact -Condition (-not $deployment.provider.modified_or_restarted) -Message "deployment claims provider mutation"
 
 $referencePattern = '(?m)^\s*@\s+\[[^\]]+\]\s+(C:\\Project\\Cantor\\[^\r\n]+)$'
