@@ -86,7 +86,8 @@ Run the full loop against a loopback llama.cpp server:
 target\release\cantor_field_cycle.exe run `
   --field experiments\cantor_field_cycle_p0\attention_cycle_field.json `
   --out experiments\cantor_field_cycle_p0\my_live_report.json `
-  --base-url http://127.0.0.1:8081
+  --base-url http://127.0.0.1:8081 `
+  --model MODEL_ID
 ```
 
 Run the one-pass non-latch control:
@@ -95,7 +96,8 @@ Run the one-pass non-latch control:
 target\release\cantor_field_cycle.exe control `
   --field experiments\cantor_field_cycle_p0\attention_cycle_field.json `
   --out experiments\cantor_field_cycle_p0\my_control_report.json `
-  --base-url http://127.0.0.1:8081
+  --base-url http://127.0.0.1:8081 `
+  --model MODEL_ID
 ```
 
 Replay any complete, rejected, control, or response-backed fault report:
@@ -123,6 +125,8 @@ When EVO-X2 is reachable, re-observe the deployed h8 bytes, replay all 31 remote
 ```
 
 The live audit intentionally returns `passed_with_open_acl_residual` while the inherited executable ACL grants `Authenticated Users` `Modify, Synchronize`. It requires every remote report to equal its tracked local bytes and hashes h8 before and after replay. Exact bytes at observation time are still deployment content evidence, not proof that the directory is a protected production trust root.
+
+Supply `--model` for evidence-producing runs. The optional discovery path calls `/v1/models` before a `CycleReport` exists; discovery failure currently returns a nonzero process error without a replayable report. Also use each declared CLI option exactly once: strict rejection of trailing and duplicate arguments is a successor hardening requirement.
 
 Output files are create-new: an existing report is never overwritten. The runtime accepts ordinary loopback HTTP URLs only.
 
@@ -173,5 +177,7 @@ Local semantic-field and cycle-report reads are handle-bound and allocation-boun
 - Report publication is create-new and preverified, but a physical write interruption can leave an invalid partial file; crash-atomic publication and durability are outside P0.
 - Sanitization removes the declared private-reasoning keys recursively. It is a known-key evidence policy, not a universal confidentiality guarantee for arbitrary provider fields or ordinary content.
 - The EVO-X2 h8 executable currently inherits `Authenticated Users` `Modify, Synchronize`; its exact observed digest and replay success do not make that modifiable location a production trust root.
+- Model discovery failure occurs before report construction, so FADL-011 trace coverage is partial at preflight; explicit `--model` avoids that discovery step.
+- CLI `contract` and `verify` currently ignore trailing arguments, while `run` and `control` accept duplicate recognized options with last-value-wins semantics.
 - No database retrieval, faculty loading, effects, shared inference, training, dynamic procedure creation, or production authorization is part of P0.
 - This is an attention I/O co-processor mechanism test, not a small language model and not proof of “holistic cognition.”

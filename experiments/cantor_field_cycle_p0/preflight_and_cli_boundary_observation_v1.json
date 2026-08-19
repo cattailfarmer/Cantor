@@ -1,0 +1,30 @@
+{
+  "profile": "cantor-field-attention-preflight-cli-boundary-observation/0.1",
+  "observed_at": "2026-08-18T20:17:57.4696388-05:00",
+  "implementation_commit": "97388f9c67b286b1ebe27e55dfccdfdc717d3e61",
+  "main_rs_sha256": "298afcdf0a3579d71636abac10d546956248643ef714267d83beede0a8e59659",
+  "main_rs_bytes": 23797,
+  "observations": {
+    "contract_with_unexpected_trailing_argument": {
+      "exit_code": 0,
+      "contract_emitted": true
+    },
+    "verify_with_unexpected_trailing_argument": {
+      "exit_code": 0,
+      "verification_valid": true
+    },
+    "run_with_unreachable_loopback_model_discovery": {
+      "base_url": "http://127.0.0.1:9",
+      "exit_code": 1,
+      "error": "cantor-field-cycle: error sending request for url (http://127.0.0.1:9/v1/models)",
+      "cycle_report_created": false,
+      "provider_inference_calls": 0
+    }
+  },
+  "findings": [
+    "Model discovery occurs before CycleReport construction, so discovery failure has no typed replayable report.",
+    "Contract and verify ignore trailing arguments; run and control use last-value-wins semantics for duplicate recognized options.",
+    "Strict CLI parsing is separable from the semantic core, while preflight trace repair requires a governed report or preflight-envelope decision."
+  ],
+  "authority": "Effect-free local observation only; no interface repair, schema amendment, provider inference, or production authority."
+}

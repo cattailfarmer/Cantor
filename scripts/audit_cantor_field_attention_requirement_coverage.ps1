@@ -68,18 +68,24 @@ foreach ($surface in $surfacePatterns.Keys) {
 }
 
 foreach ($requirement in $requirements) {
-    Assert-Exact ([regex]::IsMatch($texts.matrix, "(?m)^\s*\+ \[$requirement\].*support_status is passed")) "matrix does not pass $requirement"
-    Assert-Exact ([regex]::IsMatch($texts.review, "(?m)^\s*\+ \[$requirement\] is passed")) "completion review does not pass $requirement"
-    Assert-Exact ([regex]::IsMatch($texts.proof, "(?m)^& \[$requirement\] passes")) "proof does not pass $requirement"
+    if ($requirement -ceq "FADL-011") {
+        Assert-Exact ([regex]::IsMatch($texts.matrix, "(?m)^\s*\+ \[FADL-011\].*support_status is partial_after_report_initialization")) "matrix does not preserve FADL-011 partial status"
+        Assert-Exact ([regex]::IsMatch($texts.review, "(?m)^\s*\+ \[FADL-011\] is partial_after_report_initialization")) "completion review does not preserve FADL-011 partial status"
+        Assert-Exact ([regex]::IsMatch($texts.proof, "(?m)^& \[FADL-011\] is partial after report initialization")) "proof does not preserve FADL-011 partial status"
+    } else {
+        Assert-Exact ([regex]::IsMatch($texts.matrix, "(?m)^\s*\+ \[$requirement\].*support_status is passed")) "matrix does not pass $requirement"
+        Assert-Exact ([regex]::IsMatch($texts.review, "(?m)^\s*\+ \[$requirement\] is passed")) "completion review does not pass $requirement"
+        Assert-Exact ([regex]::IsMatch($texts.proof, "(?m)^& \[$requirement\] passes")) "proof does not pass $requirement"
+    }
 }
 foreach ($phase in 1..6) {
     Assert-Exact ([regex]::IsMatch($texts.plan, "(?m)^\s*\+ \[P$phase\] is completed")) "plan phase P$phase is not completed"
 }
 Assert-Exact ($texts.solution.Contains("& [Boundary] is experimental attention I/O only")) "solution boundary is missing"
-Assert-Exact ($texts.proof.Contains("[AcceptanceConclusion] is FADL-001 through FADL-013 satisfied for experimental P0 mechanism scope")) "proof conclusion changed"
+Assert-Exact ($texts.proof.Contains("FADL-011 is partial at the preflight boundary")) "proof preflight conclusion changed"
 
 $faultIds = @(1..14 | ForEach-Object { "FADL_F{0:D3}" -f $_ })
-$residualIds = @(1..5 | ForEach-Object { "FADL_R{0:D3}" -f $_ })
+$residualIds = @(1..7 | ForEach-Object { "FADL_R{0:D3}" -f $_ })
 $ledgerIds = Get-Ids -Text $texts.faults -Pattern '(?m)^& \[(FADL_[FR]\d{3})\]'
 Assert-IdSet -Name "fault and residual ledger" -Actual $ledgerIds -Expected @(($faultIds + $residualIds) | Sort-Object)
 
@@ -95,7 +101,7 @@ for ($index = 0; $index -lt $headers.Count; $index++) {
 }
 
 $openIds = @($statuses.Keys | Where-Object { $statuses[$_] -like "open_*" } | Sort-Object)
-$expectedOpenIds = @("FADL_F009", "FADL_R001", "FADL_R002", "FADL_R003", "FADL_R004", "FADL_R005")
+$expectedOpenIds = @("FADL_F009", "FADL_R001", "FADL_R002", "FADL_R003", "FADL_R004", "FADL_R005", "FADL_R006", "FADL_R007")
 Assert-IdSet -Name "open residual" -Actual $openIds -Expected $expectedOpenIds
 Assert-Exact ($statuses["FADL_F011"] -ceq "closed_for_current_artifact_environmental_recurrence_possible") "current artifact Application Control closure changed"
 
@@ -112,24 +118,27 @@ Assert-Exact ($texts.reentry.Contains("no implementation should choose the vocab
 $summaryPath = Join-Path $workspaceRoot "experiments\cantor_field_cycle_p0\requirement_coverage_audit_v1.json"
 $summary = Get-Content -LiteralPath $summaryPath -Raw | ConvertFrom-Json
 Assert-Exact ($summary.profile -ceq "cantor-field-attention-requirement-coverage-audit/0.1") "coverage summary profile changed"
+Assert-Exact ($summary.status -ceq "reconciled_with_open_requirement_residual") "coverage summary status changed"
 Assert-Exact ($summary.audit_script -ceq "scripts/audit_cantor_field_attention_requirement_coverage.ps1") "coverage summary script identity changed"
 Assert-Exact ($summary.requirement_count -eq $requirements.Count) "coverage summary requirement count changed"
 Assert-Exact ($summary.completed_plan_phase_count -eq 6) "coverage summary plan count changed"
 Assert-Exact ($summary.fault_count -eq $faultIds.Count) "coverage summary fault count changed"
 Assert-Exact ($summary.residual_record_count -eq $residualIds.Count) "coverage summary residual count changed"
 Assert-Exact ((@($summary.open_residual_ids) -join "`n") -ceq ($openIds -join "`n")) "coverage summary open residuals changed"
+Assert-Exact ((@($summary.partially_satisfied_requirement_ids) -join "`n") -ceq "FADL-011") "coverage summary partial requirements changed"
 Assert-Exact ($summary.deployment_observation_sha256 -ceq $deploymentObservationSha256) "coverage summary deployment identity changed"
 Assert-Exact (-not $summary.p1_implementation_authority) "coverage summary improperly grants P1 authority"
 
 [pscustomobject]@{
     profile = "cantor-field-attention-requirement-coverage-audit/0.1"
-    status = "passed"
+    status = "reconciled_with_open_requirement_residual"
     requirement_count = $requirements.Count
     requirement_surfaces = @($surfacePatterns.Keys)
     completed_plan_phase_count = 6
     fault_count = $faultIds.Count
     residual_record_count = $residualIds.Count
     open_residual_ids = $openIds
+    partially_satisfied_requirement_ids = @("FADL-011")
     closed_current_artifact_environmental_fault = "FADL_F011"
     deployment_observation_sha256 = $deploymentObservationSha256
     p1_implementation_authority = $false
