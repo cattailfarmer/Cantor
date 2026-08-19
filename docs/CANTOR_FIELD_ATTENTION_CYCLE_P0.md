@@ -118,6 +118,15 @@ Audit requirement coverage, plan completion, fault/residual classification, depl
 .\scripts\audit_cantor_field_attention_requirement_coverage.ps1
 ```
 
+Run the complete local checkpoint in one command, optionally adding the read-only EVO-X2 deployment audit:
+
+```powershell
+.\scripts\audit_cantor_field_attention_checkpoint.ps1
+.\scripts\audit_cantor_field_attention_checkpoint.ps1 -IncludeEvox2
+```
+
+The EVO-X2 form also requires exact structural equality with `checkpoint_audit_v1.json`; a changed requirement disposition, residual set, verifier identity, report set, or deployment observation fails instead of silently refreshing the receipt.
+
 When EVO-X2 is reachable, re-observe the deployed h8 bytes, replay all 31 remote reports, confirm the pinned llama.cpp process/listener, and expose the deployment ACL without writing remote state:
 
 ```powershell
