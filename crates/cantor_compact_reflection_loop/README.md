@@ -14,3 +14,7 @@ persist the volatile session.
 `fixture-context --output PATH` emits one create-new, explicitly experimental
 context for local proof. `--model ID` selects one exact identifier from a
 multi-model advertisement; it never enables remote discovery or fallback.
+
+`verify --report PATH` and `inspect --report PATH` independently replay-check a
+saved report or emit its compact identity projection without provider access,
+procedure execution, or historical context-file access.

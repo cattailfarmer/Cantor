@@ -11,10 +11,10 @@ use std::{
 };
 
 use cantor_compact_reflection_loop::{
-    REPORT_PROFILE, TerminalObservation, advance_bound_session_terminal,
+    REPORT_NONCLAIMS, REPORT_PROFILE, RunReport, advance_bound_session_terminal,
     experimental_fixture_context_json, extract_advance_call, extract_final_output, first_request,
-    normalize_loopback_base_url, open_bound_session, reflection_request, sanitize,
-    select_advertised_model,
+    inspect_report, normalize_loopback_base_url, open_bound_session, reflection_request, sanitize,
+    select_advertised_model, verify_report,
 };
 use cantor_core::SemanticId;
 use reqwest::Client;
@@ -104,29 +104,15 @@ impl Config {
     }
 }
 
-#[derive(Debug, Serialize)]
-struct RunReport {
-    profile: &'static str,
-    status: &'static str,
-    base_url: String,
-    model: String,
-    context_path: String,
-    context_sha256: String,
-    session_id: SemanticId,
-    maximum_steps: u64,
-    first_request: Value,
-    first_response: Value,
-    terminal_observation: TerminalObservation,
-    reflection_request: Value,
-    reflection_response: Value,
-    final_output: cantor_compact_reflection_loop::FinalOutput,
-    private_reasoning_recorded: bool,
-    nonclaims: Vec<&'static str>,
-}
-
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> ExitCode {
     let arguments: Vec<String> = env::args().skip(1).collect();
+    if matches!(
+        arguments.first().map(String::as_str),
+        Some("verify" | "inspect")
+    ) {
+        return report_command(&arguments);
+    }
     if arguments.first().map(String::as_str) == Some("fixture-context") {
         return fixture_context_command(&arguments[1..]);
     }
@@ -169,8 +155,8 @@ async fn run(config: Config) -> Result<(), AnyError> {
     let final_output = extract_final_output(&later_response, &observation)?;
 
     let report = RunReport {
-        profile: REPORT_PROFILE,
-        status: "passed",
+        profile: REPORT_PROFILE.to_owned(),
+        status: "passed".to_owned(),
         base_url: config.base_url,
         model,
         context_path: context_path.display().to_string(),
@@ -184,12 +170,10 @@ async fn run(config: Config) -> Result<(), AnyError> {
         reflection_response: sanitize(&later_response),
         final_output,
         private_reasoning_recorded: false,
-        nonclaims: vec![
-            "no hidden-state or live-token insertion",
-            "no external effect or semantic-truth claim",
-            "no persistent or authenticated session",
-            "no automatic remote or OneDrive access",
-        ],
+        nonclaims: REPORT_NONCLAIMS
+            .iter()
+            .map(|value| (*value).to_owned())
+            .collect(),
     };
     write_json_new(&config.output, &report)?;
     println!("PASS: report written to {}", config.output.display());
@@ -326,11 +310,57 @@ fn fixture_context_command(arguments: &[String]) -> ExitCode {
     }
 }
 
+fn report_command(arguments: &[String]) -> ExitCode {
+    if arguments.len() != 3 || arguments[1] != "--report" {
+        eprintln!(
+            "configuration_fault: usage: cantor-compact-reflection-loop verify|inspect --report PATH"
+        );
+        return ExitCode::from(2);
+    }
+    let path = Path::new(&arguments[2]);
+    let report = match fs::read(path)
+        .map_err(|error| error.to_string())
+        .and_then(|bytes| {
+            serde_json::from_slice::<RunReport>(&bytes).map_err(|error| error.to_string())
+        }) {
+        Ok(report) => report,
+        Err(error) => {
+            eprintln!("report_input_fault: {}: {error}", path.display());
+            return ExitCode::from(2);
+        }
+    };
+    let value = if arguments[0] == "verify" {
+        verify_report(&report)
+            .and_then(|value| serde_json::to_value(value).map_err(|error| error.to_string()))
+    } else {
+        inspect_report(&report)
+            .and_then(|value| serde_json::to_value(value).map_err(|error| error.to_string()))
+    };
+    match value {
+        Ok(value) => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&value)
+                    .expect("verification projection always serializes")
+            );
+            ExitCode::SUCCESS
+        }
+        Err(error) => {
+            eprintln!("report_verification_fault: {error}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn print_help() {
     println!(
         "cantor-compact-reflection-loop\n\
          \n\
          Runs one loopback model -> compact Cantor procedure -> model reflection P0.\n\
+         \n\
+         Offline report replay:\n\
+           cantor-compact-reflection-loop verify --report PATH\n\
+           cantor-compact-reflection-loop inspect --report PATH\n\
          \n\
          Required:\n\
            --context PATH          exact CoordinationToolContext JSON\n\

@@ -57,6 +57,23 @@ when it advertises one, selection may be implicit. The output path is create-new
 the context file, prompt, timeout, and quota are bounded. Provider-private
 reasoning fields are recursively omitted from the preserved report.
 
+Replay-verify or compactly inspect a saved report without contacting the
+provider, executing the procedure, or rereading the historical context path:
+
+```powershell
+.\target\release\cantor-compact-reflection-loop.exe verify `
+  --report C:\path\to\compact-reflection-report.json
+.\target\release\cantor-compact-reflection-loop.exe inspect `
+  --report C:\path\to\compact-reflection-report.json
+```
+
+Replay verification reconstructs the deterministic first request, validates
+the model call, rebuilds and validates the fresh one-session terminal compact
+registry, reconstructs the reflection request, admits the final response, and
+requires recursive absence of private reasoning fields and the exact compiled
+nonclaim set. `inspect` emits a small identity projection only after that full
+verification succeeds.
+
 ## What is proven
 
 - the run-scoped model tool argument is only `maximum_steps`;
@@ -68,7 +85,9 @@ reasoning fields are recursively omitted from the preserved report.
   digests, empty contexts, and existing output paths fail closed; and
 - the complete executable performs root health, multi-model discovery, first
   HTTP pass, compact execution, terminal READ, second HTTP pass, sanitization,
-  and create-new report against a deterministic loopback provider.
+  and create-new report against a deterministic loopback provider; and
+- valid report replay succeeds while profile, request, terminal digest, final
+  digest, privacy, and nonclaim tampering fails closed.
 
 Live generative-model acceptance remains a separate deployment checkpoint. This P0 does
 not modify llama.cpp, inject information during a live token stream, access

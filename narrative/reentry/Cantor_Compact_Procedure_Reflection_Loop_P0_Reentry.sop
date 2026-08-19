@@ -19,8 +19,11 @@ Subject: Cantor Compact Procedure Reflection Loop P0 Reentry
 & [LocalCommands]
   + [fixture] cantor-compact-reflection-loop fixture-context --output PATH
   + [multi_model] add --model with one exact identifier returned by the local v1 models endpoint
+  + [verify] cantor-compact-reflection-loop verify --report PATH
+  + [inspect] cantor-compact-reflection-loop inspect --report PATH
 
 & [DoNotInfer]
   + the executable completed against a deterministic loopback HTTP provider but no live generative model was contacted
   + P0 requires terminal completion in one advancement and does not yet loop over paused successors
   + no persistence authentication effect or hidden-state integration exists
+  + replay verification proves internal lineage consistency not external truth producer authenticity or model quality

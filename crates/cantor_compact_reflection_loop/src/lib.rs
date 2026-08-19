@@ -5,7 +5,8 @@
 use cantor_compact_coordination_mcp::{
     CompactCoordinationHandle, CompactCoordinationRecord, CompactCoordinationRegistry,
     CompactResponseStatus, CompactSessionCommand, CompactSessionResult, CompactSessionStatus,
-    apply_compact_coordination_command, new_compact_coordination_registry,
+    REGISTRY_PROFILE, apply_compact_coordination_command, new_compact_coordination_registry,
+    validate_compact_coordination_registry,
 };
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -22,6 +23,12 @@ use serde_json::{Map, Value, json};
 pub const REPORT_PROFILE: &str = "cantor-compact-procedure-reflection-report/0.1";
 pub const TOOL_NAME: &str = "advance_attention_procedure";
 pub const FINAL_STATEMENT: &str = "Cantor reached the referenced terminal procedure outcome; its digest is evidence, not external truth or effect authority.";
+pub const REPORT_NONCLAIMS: [&str; 4] = [
+    "no hidden-state or live-token insertion",
+    "no external effect or semantic-truth claim",
+    "no persistent or authenticated session",
+    "no automatic remote or OneDrive access",
+];
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -58,6 +65,54 @@ pub struct FinalOutput {
 pub struct BoundSession {
     pub registry: CompactCoordinationRegistry,
     pub handle: CompactCoordinationHandle,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct RunReport {
+    pub profile: String,
+    pub status: String,
+    pub base_url: String,
+    pub model: String,
+    pub context_path: String,
+    pub context_sha256: String,
+    pub session_id: SemanticId,
+    pub maximum_steps: u64,
+    pub first_request: Value,
+    pub first_response: Value,
+    pub terminal_observation: TerminalObservation,
+    pub reflection_request: Value,
+    pub reflection_response: Value,
+    pub final_output: FinalOutput,
+    pub private_reasoning_recorded: bool,
+    pub nonclaims: Vec<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ReportVerification {
+    pub profile: String,
+    pub status: String,
+    pub model: String,
+    pub session_id: SemanticId,
+    pub outcome_digest: ContentDigest,
+    pub compact_registry_valid: bool,
+    pub reflection_reconstructed: bool,
+    pub private_reasoning_absent: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ReportInspection {
+    pub profile: String,
+    pub status: String,
+    pub model: String,
+    pub session_id: SemanticId,
+    pub maximum_steps: u64,
+    pub outcome_digest: ContentDigest,
+    pub record_digest: ContentDigest,
+    pub statement: String,
+    pub authority: String,
 }
 
 pub fn normalize_loopback_base_url(candidate: &str) -> Result<String, String> {
@@ -446,6 +501,125 @@ pub fn sanitize(value: &Value) -> Value {
         Value::Array(items) => Value::Array(items.iter().map(sanitize).collect()),
         _ => value.clone(),
     }
+}
+
+pub fn verify_report(report: &RunReport) -> Result<ReportVerification, String> {
+    if report.profile != REPORT_PROFILE || report.status != "passed" {
+        return Err("report profile or status is not recognized".to_owned());
+    }
+    if normalize_loopback_base_url(&report.base_url)? != report.base_url {
+        return Err("report base URL is not canonical".to_owned());
+    }
+    if report.model.is_empty() || report.context_path.is_empty() {
+        return Err("report model or historical context path is empty".to_owned());
+    }
+    if !is_lower_hex_sha256(&report.context_sha256) || !(1..=4096).contains(&report.maximum_steps) {
+        return Err("report context digest or step quota is invalid".to_owned());
+    }
+    if report.private_reasoning_recorded
+        || sanitize(&report.first_response) != report.first_response
+        || sanitize(&report.reflection_response) != report.reflection_response
+    {
+        return Err("report contains or declares provider-private reasoning".to_owned());
+    }
+    let expected_nonclaims = REPORT_NONCLAIMS
+        .iter()
+        .map(|value| (*value).to_owned())
+        .collect::<Vec<_>>();
+    if report.nonclaims != expected_nonclaims {
+        return Err("report nonclaims differ from the compiled boundary".to_owned());
+    }
+
+    let prompt = report
+        .first_request
+        .pointer("/messages/1/content")
+        .and_then(Value::as_str)
+        .ok_or("report first request omitted the user prompt")?;
+    if report.first_request != first_request(&report.model, prompt, report.maximum_steps) {
+        return Err("report first request differs from deterministic reconstruction".to_owned());
+    }
+    let call = extract_advance_call(&report.first_response, report.maximum_steps)?;
+
+    let observation = &report.terminal_observation;
+    if observation.observed_status != "terminal_outcome"
+        || observation.handle.status != CompactSessionStatus::Terminal
+        || observation.handle.session_id != report.session_id
+        || observation.handle.outcome_digest.as_ref() != Some(&observation.outcome_digest)
+    {
+        return Err("terminal observation identity or status is invalid".to_owned());
+    }
+    let record: CompactCoordinationRecord = serde_json::from_str(&observation.record_json)
+        .map_err(|error| format!("terminal record JSON is invalid: {error}"))?;
+    if record.session_id != report.session_id
+        || record.sequence != observation.handle.sequence
+        || record.record_digest != observation.handle.record_digest
+        || record.checkpoint.is_some()
+        || record.outcome.is_none()
+    {
+        return Err("terminal record differs from its report handle".to_owned());
+    }
+    let registry = CompactCoordinationRegistry {
+        profile: REGISTRY_PROFILE.to_owned(),
+        registry_id: observation.handle.registry_id.clone(),
+        generation: observation.handle.sequence,
+        sessions: BTreeMap::from([(record.session_id.clone(), record)]),
+        registry_digest: observation.handle.registry_digest.clone(),
+    };
+    validate_compact_coordination_registry(&registry)
+        .map_err(|error| format!("reconstructed terminal registry is invalid: {error}"))?;
+    let inspected = apply_compact_coordination_command(
+        &registry,
+        CompactSessionCommand::Inspect {
+            expected_registry_digest: observation.handle.registry_digest.clone(),
+            session_id: report.session_id.clone(),
+        },
+    );
+    let inspected_handle = successful_state_handle(&inspected.response)?;
+    if inspected.successor != registry || inspected_handle != observation.handle {
+        return Err("terminal handle differs from reconstructed registry inspection".to_owned());
+    }
+
+    let expected_reflection = reflection_request(&report.model, prompt, &call, observation);
+    if report.reflection_request != expected_reflection {
+        return Err("reflection request differs from deterministic reconstruction".to_owned());
+    }
+    let final_output = extract_final_output(&report.reflection_response, observation)?;
+    if final_output != report.final_output {
+        return Err("recorded final output differs from admitted reflection response".to_owned());
+    }
+    Ok(ReportVerification {
+        profile: "cantor-compact-procedure-reflection-verification/0.1".to_owned(),
+        status: "verified".to_owned(),
+        model: report.model.clone(),
+        session_id: report.session_id.clone(),
+        outcome_digest: observation.outcome_digest.clone(),
+        compact_registry_valid: true,
+        reflection_reconstructed: true,
+        private_reasoning_absent: true,
+    })
+}
+
+pub fn inspect_report(report: &RunReport) -> Result<ReportInspection, String> {
+    let verification = verify_report(report)?;
+    Ok(ReportInspection {
+        profile: "cantor-compact-procedure-reflection-inspection/0.1".to_owned(),
+        status: verification.status,
+        model: report.model.clone(),
+        session_id: report.session_id.clone(),
+        maximum_steps: report.maximum_steps,
+        outcome_digest: report.terminal_observation.outcome_digest.clone(),
+        record_digest: report.terminal_observation.handle.record_digest.clone(),
+        statement: report.final_output.statement.clone(),
+        authority: "internally_consistent_evidence_not_external_truth_or_effect_authority"
+            .to_owned(),
+    })
+}
+
+fn is_lower_hex_sha256(value: &str) -> bool {
+    value.len() == 64
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || matches!(byte, b'a'..=b'f'))
 }
 
 fn successful_state_handle(

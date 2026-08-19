@@ -8,7 +8,8 @@ use std::{
 };
 
 use cantor_compact_reflection_loop::{
-    FINAL_STATEMENT, TerminalObservation, experimental_fixture_context_json,
+    FINAL_STATEMENT, RunReport, TerminalObservation, experimental_fixture_context_json,
+    inspect_report, verify_report,
 };
 use serde_json::{Value, json};
 
@@ -62,8 +63,8 @@ fn executable_completes_the_full_loopback_model_tool_model_flow() {
         "stderr={}",
         String::from_utf8_lossy(&output.stderr)
     );
-    let report: Value = serde_json::from_slice(&fs::read(&report_path).expect("report bytes"))
-        .expect("report JSON");
+    let report_bytes = fs::read(&report_path).expect("report bytes");
+    let report: Value = serde_json::from_slice(&report_bytes).expect("report JSON");
     assert_eq!(report["status"], "passed");
     assert_eq!(report["model"], "fixture-tool-model");
     assert_eq!(report["private_reasoning_recorded"], false);
@@ -77,6 +78,44 @@ fn executable_completes_the_full_loopback_model_tool_model_flow() {
             .is_none()
     );
     assert!(report.pointer("/reflection_response/thinking").is_none());
+
+    let typed: RunReport = serde_json::from_slice(&report_bytes).expect("typed report");
+    assert_eq!(verify_report(&typed).expect("verify").status, "verified");
+    assert_eq!(inspect_report(&typed).expect("inspect").status, "verified");
+    for command in ["verify", "inspect"] {
+        let replay = Command::new(binary())
+            .args([
+                command,
+                "--report",
+                report_path.to_str().expect("report path"),
+            ])
+            .output()
+            .expect("run replay");
+        assert!(
+            replay.status.success(),
+            "{command} stderr={}",
+            String::from_utf8_lossy(&replay.stderr)
+        );
+    }
+
+    let mut changed = typed.clone();
+    changed.profile = "wrong".to_owned();
+    assert!(verify_report(&changed).is_err());
+    let mut changed = typed.clone();
+    changed.first_request["model"] = json!("other-model");
+    assert!(verify_report(&changed).is_err());
+    let mut changed = typed.clone();
+    changed.terminal_observation.outcome_digest.value = "0".repeat(64);
+    assert!(verify_report(&changed).is_err());
+    let mut changed = typed.clone();
+    changed.final_output.outcome_digest.value = "0".repeat(64);
+    assert!(verify_report(&changed).is_err());
+    let mut changed = typed.clone();
+    changed.first_response["reasoning_content"] = json!("private");
+    assert!(verify_report(&changed).is_err());
+    let mut changed = typed;
+    changed.nonclaims.push("expanded".to_owned());
+    assert!(verify_report(&changed).is_err());
 
     fs::remove_file(context_path).expect("remove context");
     fs::remove_file(report_path).expect("remove report");
