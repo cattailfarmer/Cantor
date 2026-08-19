@@ -45,7 +45,7 @@ is claimed at this checkpoint.
 | Procedure/reflection model host | P0 executable and loopback-proved | One procedure call must reach terminal state |
 | Saved-report replay | P0 implemented with mutation refusal | Internal lineage consistency, not external truth |
 | Terminal attention projection | P0 implemented and measured | Exact READ remains authority |
-| Iterative READY continuation | P1 Slice 2 deterministic stepper implemented | Provider protocol is not activated |
+| Iterative READY continuation | P1 Slice 3 pure provider protocol implemented | Provider process orchestration is not activated |
 | Live local model acceptance | Pending | Windows Ollama is not reachable from the governed WSL loopback lane |
 | Persistent or distributed session custody | Not implemented | No cluster lock, token ring, or shared hidden state |
 | Effect execution and production authentication | Not implemented | No autonomous computer action or trust claim |
@@ -77,8 +77,8 @@ model quality or causal reasoning.
 
 ## Verification state
 
-- 134 Rust test-result groups completed;
-- 687 tests passed, zero failed, and one governed physical fixture remained
+- 135 Rust test-result groups completed;
+- 692 tests passed, zero failed, and one governed physical fixture remained
   ignored;
 - workspace all-target/all-feature Clippy passed with warnings denied;
 - the evidence audit covers 23 current manifests and 1,030 artifact references
@@ -128,17 +128,21 @@ terminal -> exact READ -> TerminalProjection -> no-tool reflection -> complete
 cap or fault -> stopped report + current live reentry handle
 ```
 
-The first three dependencies are complete: artifact-bound activation, Slice 1
-strict forms, and the Slice 2 provider-free deterministic stepper. Quota 64 is
+The first four dependencies are complete: artifact-bound activation, Slice 1
+strict forms, the Slice 2 provider-free deterministic stepper, and the Slice 3
+pure provider protocol. Quota 64 is
 byte-identical to the P0 terminal path; quota 8 yields exactly READY then
 terminal; and quota 1 with a two-call cap stops at an exact live head that can
 be explicitly resumed to the same outcome. Structural replay, mutation
 refusal, and deterministic transport measurement are proven for this pure
-surface.
+surface. The provider protocol now reconstructs exact first and continuation
+requests, admits one sanitized tool call against one separately proven
+advance, and creates a tools-disabled reflection request only after terminal
+state. It performs no provider call itself.
 
-The remaining order begins with a separately activated Slice 3 provider
-protocol, followed by two-call loopback process proof, provider-attributed
-report replay, provider-transport measurement, and release. `READY` still
+The remaining order begins with a separately activated Slice 4 two-call
+loopback process proof, followed by provider-attributed report replay,
+provider-transport measurement, and release. `READY` still
 cannot be called complete, and the deterministic result does not claim that a
 provider call or shared transformer forward pass occurred.
 
@@ -162,9 +166,9 @@ insertions, and 234 deletions from `4769ae5^` through `dd3beff`. Those commits
 progress from shared forms, tool exposure, reentry, checkpoints, and transport
 measurement through compact custody, the executable model/tool/model loop,
 replay verification, terminal projection, and the governed P1 specification.
-The later Slice1 and Slice2 proofs are the authority for the current iterative
-implementation state.
+The later Slice1 Slice2 and Slice3 proofs are the authority for the current
+iterative implementation state.
 
-The next provider implementation must begin from a separate Slice 3 activation
-rather than silently interpreting Slice 2 or this status document as provider
-authority.
+The next provider-process implementation must begin from a separate Slice 4
+activation rather than silently interpreting Slice 3 or this status document
+as process or transport authority.

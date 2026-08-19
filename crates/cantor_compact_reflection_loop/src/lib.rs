@@ -3,6 +3,7 @@
 #![forbid(unsafe_code)]
 
 mod iterative;
+mod provider_protocol;
 
 pub use iterative::{
     DETERMINISTIC_DRIVE_MEASUREMENT_PROFILE, DETERMINISTIC_DRIVE_NONCLAIMS,
@@ -15,6 +16,12 @@ pub use iterative::{
     project_ready_record, validate_deterministic_drive_measurement,
     validate_deterministic_drive_result, validate_iterative_report, validate_ready_projection,
     validate_run_policy,
+};
+pub use provider_protocol::{
+    ITERATIVE_PROVIDER_NONCLAIMS, ITERATIVE_PROVIDER_PREFIX_PROFILE, IterativeProviderPhase,
+    IterativeProviderPrefixProjection, admit_iterative_provider_iteration,
+    iterative_advance_request, iterative_terminal_reflection_request,
+    validate_iterative_provider_prefix, validate_provider_prefix_projection,
 };
 
 use cantor_compact_coordination_mcp::{
