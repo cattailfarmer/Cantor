@@ -1,0 +1,35 @@
+Subject: Cantor Field Attention Reproducible Windows Build P0 Justification
+
+@ [justification_uuid] a195b407-c8ad-4bd9-b11f-e405df534503
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_field_attention_reproducible_windows_build\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Field_Attention_Reproducible_Windows_Build_P0.exploded.sop
+@ [canonical_specification] C:\Project\Cantor\specifications\Cantor_Field_Attention_Reproducible_Windows_Build_P0.sop
+
+& [Problem] is that FADL h8 has exact content identity but its build process was not shown to reproduce that identity
+
+& [Decision] is a separately signed local proof profile over two clean archived source roots
+  + exact Git identity prevents the dirty working tree from silently entering either build
+  + separate source and target roots expose path and incremental-state sensitivity
+  + SOURCE_DATE_EPOCH removes uncontrolled time input while remaining bound to source history
+  + CARGO_INCREMENTAL zero prevents incremental cache state from entering the result
+  + MSVC /Brepro requests deterministic linker output
+  + locked offline Cargo prevents dependency resolution or network drift during the campaign
+  + byte equality proves local artifact repetition while behavior checks guard against proving equality of the wrong executable
+
+& [Alternatives] are bounded
+  - rebuilding twice in one target directory is rejected because it can reuse outputs
+  - two target directories under one mutable source tree are useful preliminary evidence but rejected as the final profile because source-path sensitivity remains hidden
+  - comparing hashes alone is rejected because direct byte comparison is equally available
+  - reproducing h8 retroactively is rejected because the original h8 build environment was not preserved under this profile
+  - deploying the result is rejected because build repeatability and deployment authority are separate identities
+
+& [RiskControl] keeps the proof tool subordinate to its evidence
+  + temporary recursive cleanup is restricted to one validated target child
+  + provider-facing commands are excluded so proof collection cannot create inference effects
+  + stable receipts omit random temporary paths
+  + any failed comparison or behavior check exits nonzero and withholds passed status
+
+& [Nonclaim] is one host and toolchain establish local repeatability only
+  + cross-machine reproduction remains a separate growth seed
+  + protected signing and deployment trust remain separate work
+  + this profile neither repairs nor replaces the historical h8 content identity

@@ -1,0 +1,322 @@
+[CmdletBinding()]
+param(
+    [Parameter()]
+    [ValidateNotNullOrEmpty()]
+    [string] $SourceRevision = 'HEAD',
+
+    [Parameter()]
+    [switch] $KeepArtifacts
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+
+$Profile = 'cantor-field-attention-reproducible-windows-build/0.1'
+$CampaignPrefix = 'cantor-field-cycle-repro-'
+
+function Invoke-NativeCommand {
+    param(
+        [Parameter(Mandatory)]
+        [string] $FilePath,
+
+        [Parameter()]
+        [string[]] $ArgumentList = @(),
+
+        [Parameter(Mandatory)]
+        [string] $WorkingDirectory
+    )
+
+    $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
+    $startInfo.FileName = $FilePath
+    $startInfo.WorkingDirectory = $WorkingDirectory
+    $startInfo.UseShellExecute = $false
+    $startInfo.CreateNoWindow = $true
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.RedirectStandardError = $true
+    foreach ($argument in $ArgumentList) {
+        [void] $startInfo.ArgumentList.Add($argument)
+    }
+
+    $process = [System.Diagnostics.Process]::new()
+    $process.StartInfo = $startInfo
+    try {
+        if (-not $process.Start()) {
+            throw "Failed to start native command: $FilePath"
+        }
+        $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+        $stderrTask = $process.StandardError.ReadToEndAsync()
+        $process.WaitForExit()
+        $stdout = $stdoutTask.GetAwaiter().GetResult()
+        $stderr = $stderrTask.GetAwaiter().GetResult()
+        if ($process.ExitCode -ne 0) {
+            $summary = $stderr.Trim()
+            if ([string]::IsNullOrWhiteSpace($summary)) {
+                $summary = $stdout.Trim()
+            }
+            throw "Native command failed with exit code $($process.ExitCode): $FilePath $($ArgumentList -join ' ')`n$summary"
+        }
+        return [pscustomobject]@{
+            StdOut = $stdout
+            StdErr = $stderr
+        }
+    }
+    finally {
+        $process.Dispose()
+    }
+}
+
+function Get-TextSha256 {
+    param(
+        [Parameter(Mandatory)]
+        [AllowEmptyString()]
+        [string] $Text
+    )
+
+    $algorithm = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $bytes = [System.Text.Encoding]::UTF8.GetBytes($Text)
+        return ([Convert]::ToHexString($algorithm.ComputeHash($bytes))).ToLowerInvariant()
+    }
+    finally {
+        $algorithm.Dispose()
+    }
+}
+
+function Test-FileBytesEqual {
+    param(
+        [Parameter(Mandatory)]
+        [string] $LeftPath,
+
+        [Parameter(Mandatory)]
+        [string] $RightPath
+    )
+
+    $leftInfo = Get-Item -LiteralPath $LeftPath
+    $rightInfo = Get-Item -LiteralPath $RightPath
+    if ($leftInfo.Length -ne $rightInfo.Length) {
+        return $false
+    }
+
+    $left = [System.IO.File]::OpenRead($leftInfo.FullName)
+    $right = [System.IO.File]::OpenRead($rightInfo.FullName)
+    try {
+        $leftBuffer = [byte[]]::new(1048576)
+        $rightBuffer = [byte[]]::new(1048576)
+        while ($true) {
+            $leftCount = $left.Read($leftBuffer, 0, $leftBuffer.Length)
+            $rightCount = $right.Read($rightBuffer, 0, $rightBuffer.Length)
+            if ($leftCount -ne $rightCount) {
+                return $false
+            }
+            if ($leftCount -eq 0) {
+                return $true
+            }
+            for ($index = 0; $index -lt $leftCount; $index++) {
+                if ($leftBuffer[$index] -ne $rightBuffer[$index]) {
+                    return $false
+                }
+            }
+        }
+    }
+    finally {
+        $left.Dispose()
+        $right.Dispose()
+    }
+}
+
+function Assert-SafeCampaignRoot {
+    param(
+        [Parameter(Mandatory)]
+        [string] $CandidatePath,
+
+        [Parameter(Mandatory)]
+        [string] $TargetRoot
+    )
+
+    $resolvedCandidate = [System.IO.Path]::GetFullPath($CandidatePath).TrimEnd('\', '/')
+    $resolvedTarget = [System.IO.Path]::GetFullPath($TargetRoot).TrimEnd('\', '/')
+    $parent = [System.IO.Directory]::GetParent($resolvedCandidate)
+    $leaf = [System.IO.Path]::GetFileName($resolvedCandidate)
+    if ($null -eq $parent -or
+        -not $parent.FullName.Equals($resolvedTarget, [System.StringComparison]::OrdinalIgnoreCase) -or
+        $leaf -notmatch '^cantor-field-cycle-repro-[0-9a-f]{32}$') {
+        throw "Refusing campaign path outside the declared target child boundary: $resolvedCandidate"
+    }
+    return $resolvedCandidate
+}
+
+$initialDirectory = (Get-Location).Path
+$repoQuery = Invoke-NativeCommand -FilePath 'git.exe' -ArgumentList @('rev-parse', '--show-toplevel') -WorkingDirectory $initialDirectory
+$repositoryRoot = [System.IO.Path]::GetFullPath($repoQuery.StdOut.Trim())
+$targetRoot = Join-Path $repositoryRoot 'target'
+[void] (New-Item -ItemType Directory -Path $targetRoot -Force)
+$campaignName = $CampaignPrefix + ([guid]::NewGuid().ToString('N'))
+$campaignRoot = Assert-SafeCampaignRoot -CandidatePath (Join-Path $targetRoot $campaignName) -TargetRoot $targetRoot
+$campaignCreated = $false
+$receipt = $null
+
+$inheritedEnvironment = [ordered]@{
+    SOURCE_DATE_EPOCH = [Environment]::GetEnvironmentVariable('SOURCE_DATE_EPOCH', 'Process')
+    CARGO_INCREMENTAL = [Environment]::GetEnvironmentVariable('CARGO_INCREMENTAL', 'Process')
+    RUSTFLAGS = [Environment]::GetEnvironmentVariable('RUSTFLAGS', 'Process')
+    CARGO_TARGET_DIR = [Environment]::GetEnvironmentVariable('CARGO_TARGET_DIR', 'Process')
+}
+
+try {
+    [void] (New-Item -ItemType Directory -Path $campaignRoot)
+    $campaignCreated = $true
+    $sourceA = Join-Path $campaignRoot 'source-a'
+    $sourceB = Join-Path $campaignRoot 'source-b'
+    $targetA = Join-Path $campaignRoot 'target-a'
+    $targetB = Join-Path $campaignRoot 'target-b'
+    $archivePath = Join-Path $campaignRoot 'source.tar'
+    [void] (New-Item -ItemType Directory -Path $sourceA)
+    [void] (New-Item -ItemType Directory -Path $sourceB)
+
+    $commit = (Invoke-NativeCommand -FilePath 'git.exe' -ArgumentList @('rev-parse', "$SourceRevision^{commit}") -WorkingDirectory $repositoryRoot).StdOut.Trim()
+    if ($commit -notmatch '^[0-9a-f]{40}$') {
+        throw "Resolved source commit is not a full lowercase Git object ID: $commit"
+    }
+    $tree = (Invoke-NativeCommand -FilePath 'git.exe' -ArgumentList @('rev-parse', "$commit^{tree}") -WorkingDirectory $repositoryRoot).StdOut.Trim()
+    $sourceDateEpoch = (Invoke-NativeCommand -FilePath 'git.exe' -ArgumentList @('show', '-s', '--format=%ct', $commit) -WorkingDirectory $repositoryRoot).StdOut.Trim()
+    if ($tree -notmatch '^[0-9a-f]{40}$' -or $sourceDateEpoch -notmatch '^[0-9]+$') {
+        throw 'Git tree or commit timestamp identity is malformed.'
+    }
+
+    [void] (Invoke-NativeCommand -FilePath 'git.exe' -ArgumentList @('archive', '--format=tar', "--output=$archivePath", $commit) -WorkingDirectory $repositoryRoot)
+    $archiveSha256 = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+    [void] (Invoke-NativeCommand -FilePath 'tar.exe' -ArgumentList @('-xf', $archivePath, '-C', $sourceA) -WorkingDirectory $campaignRoot)
+    [void] (Invoke-NativeCommand -FilePath 'tar.exe' -ArgumentList @('-xf', $archivePath, '-C', $sourceB) -WorkingDirectory $campaignRoot)
+
+    $cargoLockA = Join-Path $sourceA 'Cargo.lock'
+    $cargoLockB = Join-Path $sourceB 'Cargo.lock'
+    $cargoLockSha256 = (Get-FileHash -LiteralPath $cargoLockA -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($cargoLockSha256 -ne (Get-FileHash -LiteralPath $cargoLockB -Algorithm SHA256).Hash.ToLowerInvariant()) {
+        throw 'Extracted Cargo.lock identities differ.'
+    }
+
+    $rustcVerbose = (Invoke-NativeCommand -FilePath 'rustc.exe' -ArgumentList @('-vV') -WorkingDirectory $repositoryRoot).StdOut.Trim()
+    $cargoVersion = (Invoke-NativeCommand -FilePath 'cargo.exe' -ArgumentList @('--version') -WorkingDirectory $repositoryRoot).StdOut.Trim()
+    $rustcHost = ([regex]::Match($rustcVerbose, '(?m)^host:\s*(.+)$')).Groups[1].Value.Trim()
+    $llvmVersion = ([regex]::Match($rustcVerbose, '(?m)^LLVM version:\s*(.+)$')).Groups[1].Value.Trim()
+    if ([string]::IsNullOrWhiteSpace($rustcHost) -or [string]::IsNullOrWhiteSpace($llvmVersion)) {
+        throw 'rustc verbose output did not expose host and LLVM identities.'
+    }
+
+    $env:SOURCE_DATE_EPOCH = $sourceDateEpoch
+    $env:CARGO_INCREMENTAL = '0'
+    $env:RUSTFLAGS = '-C link-arg=/Brepro'
+    $buildArguments = @('build', '--release', '-p', 'cantor_field_cycle', '--locked', '--offline')
+
+    $env:CARGO_TARGET_DIR = $targetA
+    [void] (Invoke-NativeCommand -FilePath 'cargo.exe' -ArgumentList $buildArguments -WorkingDirectory $sourceA)
+    $env:CARGO_TARGET_DIR = $targetB
+    [void] (Invoke-NativeCommand -FilePath 'cargo.exe' -ArgumentList $buildArguments -WorkingDirectory $sourceB)
+
+    $executableA = Join-Path $targetA 'release\cantor_field_cycle.exe'
+    $executableB = Join-Path $targetB 'release\cantor_field_cycle.exe'
+    $artifactA = Get-Item -LiteralPath $executableA
+    $artifactB = Get-Item -LiteralPath $executableB
+    $shaA = (Get-FileHash -LiteralPath $executableA -Algorithm SHA256).Hash.ToLowerInvariant()
+    $shaB = (Get-FileHash -LiteralPath $executableB -Algorithm SHA256).Hash.ToLowerInvariant()
+    $byteEqual = Test-FileBytesEqual -LeftPath $executableA -RightPath $executableB
+    if ($artifactA.Length -ne $artifactB.Length -or $shaA -ne $shaB -or -not $byteEqual) {
+        throw 'Reproducibility gate failed: executable identities differ.'
+    }
+
+    $contractA = (Invoke-NativeCommand -FilePath $executableA -ArgumentList @('contract') -WorkingDirectory $sourceA).StdOut
+    $contractB = (Invoke-NativeCommand -FilePath $executableB -ArgumentList @('contract') -WorkingDirectory $sourceB).StdOut
+    if ($contractA -cne $contractB) {
+        throw 'Behavior gate failed: contract outputs differ.'
+    }
+
+    $fieldPathA = Join-Path $sourceA 'experiments\cantor_field_cycle_p0\attention_cycle_field.json'
+    $fieldPathB = Join-Path $sourceB 'experiments\cantor_field_cycle_p0\attention_cycle_field.json'
+    $fieldDigestA = (Invoke-NativeCommand -FilePath $executableA -ArgumentList @('field-digest', $fieldPathA) -WorkingDirectory $sourceA).StdOut.Trim()
+    $fieldDigestB = (Invoke-NativeCommand -FilePath $executableB -ArgumentList @('field-digest', $fieldPathB) -WorkingDirectory $sourceB).StdOut.Trim()
+    if ($fieldDigestA -cne $fieldDigestB -or $fieldDigestA -notmatch '^[0-9a-f]{64}$') {
+        throw 'Behavior gate failed: field digests differ or are malformed.'
+    }
+
+    $reportNames = @('evox2_live_v5.json', 'evox2_control_v5.json', 'evox2_hostile_boundary_v5.json')
+    $reportEvidence = @()
+    foreach ($reportName in $reportNames) {
+        $reportA = Join-Path $sourceA "experiments\cantor_field_cycle_p0\$reportName"
+        $reportB = Join-Path $sourceB "experiments\cantor_field_cycle_p0\$reportName"
+        $verifyA = (Invoke-NativeCommand -FilePath $executableA -ArgumentList @('verify', $reportA) -WorkingDirectory $sourceA).StdOut
+        $verifyB = (Invoke-NativeCommand -FilePath $executableB -ArgumentList @('verify', $reportB) -WorkingDirectory $sourceB).StdOut
+        if ($verifyA -cne $verifyB) {
+            throw "Behavior gate failed: verifier outputs differ for $reportName."
+        }
+        $verification = $verifyA | ConvertFrom-Json
+        if ($verification.valid -ne $true) {
+            throw "Behavior gate failed: retained report is invalid for $reportName."
+        }
+        $reportEvidence += [ordered]@{
+            report = $reportName
+            report_sha256 = (Get-FileHash -LiteralPath $reportA -Algorithm SHA256).Hash.ToLowerInvariant()
+            terminal_state = $verification.terminal_state
+            latch_status = $verification.latch_status
+            assurance = $verification.assurance
+        }
+    }
+
+    $receipt = [ordered]@{
+        profile = $Profile
+        result = 'passed'
+        source = [ordered]@{
+            commit = $commit
+            tree = $tree
+            commit_timestamp = [long] $sourceDateEpoch
+            archive_sha256 = $archiveSha256
+            cargo_lock_sha256 = $cargoLockSha256
+            source_root_count = 2
+        }
+        toolchain = [ordered]@{
+            rustc_verbose_sha256 = Get-TextSha256 -Text $rustcVerbose
+            cargo_version = $cargoVersion
+            host = $rustcHost
+            llvm_version = $llvmVersion
+        }
+        build = [ordered]@{
+            command = 'cargo build --release -p cantor_field_cycle --locked --offline'
+            source_date_epoch = [long] $sourceDateEpoch
+            cargo_incremental = 0
+            rustflags = '-C link-arg=/Brepro'
+            target_root_count = 2
+        }
+        artifact = [ordered]@{
+            file_name = 'cantor_field_cycle.exe'
+            bytes = [long] $artifactA.Length
+            sha256 = $shaA
+            byte_equal = $byteEqual
+        }
+        behavior = [ordered]@{
+            contract_output_sha256 = Get-TextSha256 -Text $contractA
+            field_digest = $fieldDigestA
+            verifier_invocations = 6
+            reports = $reportEvidence
+            provider_request_count = 0
+        }
+        cleanup = [ordered]@{
+            artifacts_retained = [bool] $KeepArtifacts
+            temporary_paths_disclosed = $false
+        }
+        claim = 'byte-identical local reproduction on one Windows host and one recorded toolchain; not cross-host reproducibility, deployment trust, signing, semantic truth, or historical h8 provenance'
+    }
+}
+finally {
+    foreach ($entry in $inheritedEnvironment.GetEnumerator()) {
+        [Environment]::SetEnvironmentVariable($entry.Key, $entry.Value, 'Process')
+    }
+    if ($campaignCreated -and -not $KeepArtifacts) {
+        $validatedCampaignRoot = Assert-SafeCampaignRoot -CandidatePath $campaignRoot -TargetRoot $targetRoot
+        Remove-Item -LiteralPath $validatedCampaignRoot -Recurse -Force
+    }
+}
+
+if ($null -eq $receipt) {
+    throw 'Campaign ended without a receipt.'
+}
+$receipt | ConvertTo-Json -Depth 8

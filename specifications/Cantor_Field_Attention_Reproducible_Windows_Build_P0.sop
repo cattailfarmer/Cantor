@@ -1,0 +1,103 @@
+Subject: Cantor Field Attention Reproducible Windows Build P0
+
+Description: Signed experimental profile for proving byte-identical local Windows release outputs from two clean copies of one exact Cantor Git revision while preserving existing field-attention behavior.
+
+@ [specification_uuid] 0463bdaf-a91e-4957-aa88-89b7910217dc
+@ [profile] cantor-field-attention-reproducible-windows-build/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_field_attention_reproducible_windows_build\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Field_Attention_Reproducible_Windows_Build_P0.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Field_Attention_Reproducible_Windows_Build_P0_Justification.sop
+@ [base_specification] C:\Project\Cantor\specifications\Cantor_Field_Attention_Delineation_Latch_P0.sop
+
+& [CampaignInput] identifies one immutable source and build environment
+  + [source_revision] is an invocation argument defaulting to HEAD
+  + [source_commit] is the exact resolved commit object
+  + [source_tree] is the exact tree bound by source_commit
+  + [source_archive_sha256] binds the Git archive used for both source roots
+  + [cargo_lock_sha256] binds dependency resolution
+  + [toolchain_identity] records rustc verbose version cargo version host triple and LLVM version
+  + [target_package] is cantor_field_cycle
+  + [target_binary] is cantor_field_cycle.exe
+  = must: fail unless source_revision resolves to one commit and required tools and files exist
+
+& [BuildControls] defines the closed local profile
+  + [cargo_command] is cargo build --release -p cantor_field_cycle --locked --offline
+  + [SOURCE_DATE_EPOCH] is the exact source commit timestamp
+  + [CARGO_INCREMENTAL] is 0
+  + [RUSTFLAGS] is -C link-arg=/Brepro
+  + [source_root_count] is 2
+  + [target_root_count] is 2
+  = must: extract the same archive into two distinct source roots
+  = must: build each source root into its own initially absent target root
+  = must: restore inherited environment values after the campaign
+  - never: download dependencies mutate the source revision or reuse a target root
+
+& [ArtifactComparison] is exact
+  + [artifact_bytes] is the executable byte length
+  + [artifact_sha256] is lowercase SHA-256
+  + [byte_equal] is an exact byte-for-byte comparison
+  = must: require equal lengths equal SHA-256 values and byte_equal true
+  - never: accept timestamp metadata similarity or functional similarity as byte identity
+
+& [BehaviorPreservation] is effect-free executable inspection
+  + both executables must emit byte-identical contract output
+  + both executables must emit the same sixty-four-character lowercase field digest for the retained attention_cycle_field fixture
+  + both executables must successfully verify retained positive control and hostile-boundary reports
+  + [provider_request_count] is 0
+  + [external_effects] is none_except_local_temporary_build_files
+  - never: invoke run control-run or any command that contacts a provider
+
+& [Receipt] is deterministic evidence
+  + [profile] is cantor-field-attention-reproducible-windows-build/0.1
+  + [result] is passed only after every source build artifact and behavior gate passes
+  + [stable_fields] include source identities tool identities build controls artifact identity behavior digests verification counts and claim boundary
+  + [temporary_paths] are omitted
+  + [receipt_output] is UTF-8 JSON on standard output
+  = must: serialize stable object keys and arrays in one declared order
+  = must: emit no positive receipt after a failed gate
+
+& [CleanupBoundary] is fail-closed
+  + all campaign files live below the repository target directory in one uniquely named campaign root
+  + recursive cleanup is permitted only after the resolved campaign path is proven to be a direct child with the declared name prefix
+  + explicit diagnostic retention may preserve the validated campaign root
+  - never: recursively delete the repository root target root user profile drive root or an unresolved path
+
+& [ProgramExecutionFlow] is closed
+  + [F0 Resolve] records repository commit tree epoch lock and toolchain identities
+  + [F1 Archive] creates one exact Git archive and hashes it
+  + [F2 Isolate] extracts the archive into source-a and source-b and allocates distinct target roots
+  + [F3 Build] applies the closed environment and command separately in each source root
+  + [F4 Compare] requires exact executable identity
+  + [F5 Inspect] compares contract and field-digest outputs and verifies three retained report classes with both executables
+  + [F6 Emit] writes one deterministic receipt to standard output
+  + [F7 Clean] safely removes the campaign root unless retention was explicitly requested
+  + [failure] is nonzero exit with no passed receipt
+
+& [AcceptanceCriteria] is measurable
+  + [FARW-001] preserved source bytes hash manifest exploded specification justification and signature verify
+  + [FARW-002] two source roots originate from one hashed archive of one exact commit
+  + [FARW-003] both initially clean target roots build release cantor_field_cycle with locked offline dependencies and exact controls
+  + [FARW-004] executables have equal bytes SHA-256 and byte length
+  + [FARW-005] contract outputs and field digests are exactly equal
+  + [FARW-006] both executables verify positive control and hostile retained reports for six successful verifier invocations
+  + [FARW-007] receipt is deterministic omits temporary paths and states the local-only claim boundary
+  + [FARW-008] default cleanup removes only a validated campaign root and retained mode reports retention without broad deletion
+  + [FARW-009] existing focused and workspace verification remain green
+
+& [AuthorityBoundary] is reversible experimental build-proof authority
+  + [permits] is one PowerShell proof tool temporary files below target local compilation executable inspection deterministic receipt documentation and defect repair
+  + [excludes] is inference provider access llama.cpp modification runtime semantic change CLI semantic change report mutation deployment installation ACL change production signing and P1 authorization
+  + [nonclaim] is local byte equality does not establish cross-host reproducibility production supply-chain trust semantic truth or historical h8 provenance
+
+& [SatisfactionSignature] is valid bounded SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 3a8fea18-7ba7-410e-8f5a-2122c79e5591
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Field_Attention_Reproducible_Windows_Build_P0.sop
+  + [source_snapshot_uuid] is 755c1aa1-ac13-474e-81ff-c51f7e538e5b
+  + [source_document] is C:\Project\Cantor\source_documents\2026-08-18_field_attention_reproducible_windows_build\Field_Attention_Reproducible_Windows_Build_Source_Selection.sop
+  + [source_manifest] is C:\Project\Cantor\source_documents\2026-08-18_field_attention_reproducible_windows_build\Source_Document_Manifest.sop
+  + [exploded_specification] is C:\Project\Cantor\specifications\exploded\Cantor_Field_Attention_Reproducible_Windows_Build_P0.exploded.sop
+  + [processed_stage_set] is source_preserved delineated exploded semantically_refined inward_deepened subcomponent_woven cross_woven flowcharted execution_formed data_designed dual_reviewed constraint_checked pruned falsification_formed feature_supported justified seven_fold_phase_locked and signed
+  + [exhaustion_state] is phase_locked_for_reversible_P0
+  + [signature_status] is valid_for_local_effect_free_build_proof_only
+  + [invalidation_condition] is source_manifest_change build_control_relaxation source_root_reuse target_root_reuse network_dependency provider_effect behavior_gate_removal temporary_path_leak broad_cleanup historical_h8_relabel or claim_expansion
