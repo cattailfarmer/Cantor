@@ -1,0 +1,45 @@
+{
+  "profile": "cantor-field-attention-tension-policy-summary/0.1",
+  "analysis_profile": "cantor-field-attention-tension-policy-analysis/0.1",
+  "analysis_script": "scripts/analyze_cantor_field_attention_tension_policy.ps1",
+  "audit_script": "scripts/audit_cantor_field_attention_tension_policy.ps1",
+  "corpus": "experiments/cantor_field_cycle_p0",
+  "ordered_cycle_report_set_sha256": "4633832629c7c3a1df178712b1d8f17231b5608d75715226f039e4cd4cc52cd4",
+  "counts": {
+    "cycle_reports": 32,
+    "provider_reports": 31,
+    "candidate_delineation_reports": 14,
+    "current_completed_reports": 10,
+    "current_provider_completed_reports": 9,
+    "current_completed_with_signals": 10,
+    "current_completed_without_signals": 0,
+    "completed_typed_whole_proposal_conflict_signals": 36,
+    "completed_epistemic_fixture_caveats": 4
+  },
+  "strict_any_signal_blocks_counterfactual": {
+    "newly_rejected_completed_reports": 10,
+    "remaining_completed_reports": 0,
+    "finding": "Array membership is not pertinence: a raw nonempty-signal rule collapses typed semantic conflict and an epistemic non-authority caveat."
+  },
+  "corpus_findings": [
+    "All nine provider-backed completed reports retain four typed whole-proposal conflict signals apiece, so their current supported latch does not establish cross-pass semantic coherence.",
+    "The deterministic completed fixture retains four explicit correlated-evidence-not-truth caveats and no typed whole-proposal conflict signal.",
+    "No retained P0 report proves the successor behavior for one typed blocking signal originating only in a non-winning probe; that case requires a held-out P1 fixture.",
+    "Legacy signal strings lack a signed signal class and exact semantic scope, so P1 must not promote them through prose classification."
+  ],
+  "required_successor_signal_classes": [
+    "semantic_conflict",
+    "semantic_exclusion",
+    "semantic_uncertainty",
+    "host_boundary_violation",
+    "epistemic_limit",
+    "legacy_unclassified"
+  ],
+  "policy_consequence": {
+    "blocking": "Only source-preserved typed semantic conflict, exclusion, or uncertainty whose exact candidate, member, or relation scope intersects the proposed delineation may create cross_pass_disagreement.",
+    "distinct_existing_gate": "A host identity or relation boundary violation remains an existing hard gate and is not relabeled as semantic disagreement.",
+    "nonblocking_retained": "An epistemic non-authority caveat remains visible but does not become semantic conflict merely because it occupies a legacy tension array.",
+    "legacy": "Legacy untyped text remains replayable evidence but cannot authorize P1 admission or blocking through text matching."
+  },
+  "authority": "Effect-free retrospective policy evidence only; it does not authorize a P1 schema, runtime, blocking policy, provider call, or effect."
+}
