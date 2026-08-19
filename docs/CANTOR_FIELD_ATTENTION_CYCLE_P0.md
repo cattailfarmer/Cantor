@@ -110,6 +110,12 @@ Audit the frozen source, proof, acceptance, cost, and deployment identities with
 .\scripts\audit_cantor_field_attention_closure.ps1
 ```
 
+Audit requirement coverage, plan completion, fault/residual classification, deployment-observation binding, and the P1 non-authority boundary:
+
+```powershell
+.\scripts\audit_cantor_field_attention_requirement_coverage.ps1
+```
+
 When EVO-X2 is reachable, re-observe the deployed h8 bytes, replay all 31 remote reports, confirm the pinned llama.cpp process/listener, and expose the deployment ACL without writing remote state:
 
 ```powershell

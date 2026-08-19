@@ -33,6 +33,7 @@ Preserved reports:
 - `closure_audit_v1.json`: effect-free reconciliation of preserved sources, proof references, receipts, assurance distribution, complete cost corpus, and final h8 identity.
 - `evox2_h8_read_only_audit_2026-08-18.json`: a fresh read-only h8 byte, 31-report replay, llama process/listener, and inherited deployment-ACL observation.
 - `cross_pass_tension_policy_analysis_v1.json`: effect-free retrospective evidence falsifying raw signal-array presence as a P1 semantic-pertinence rule; it grants no successor runtime authority.
+- `requirement_coverage_audit_v1.json`: effect-free reconciliation of all thirteen requirements across specification, matrix, completion review, and proof plus plan, fault, residual, deployment-observation, and P1 authority boundaries.
 
 The repeatability campaign holds the positive candidate and relation sequence constant, keeps every control latch-ineligible, and rejects every hostile field. It also preserves the warning that all twenty positive probes assess the whole proposal as `conflicted` before the separate delineation pass says `supported`.
 
