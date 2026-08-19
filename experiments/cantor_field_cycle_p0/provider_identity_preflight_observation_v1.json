@@ -1,0 +1,39 @@
+{
+  "profile": "cantor-field-provider-identity-preflight-observation/0.1",
+  "computer": "EVO-X2",
+  "executable": {
+    "path": "C:\\AI\\services\\cantor-field-cycle\\cantor-field-cycle-p0-h8.exe",
+    "sha256_before": "abf9c33976320297018bc90723c50ee779b746b129539daaf963e91f5eb40b52",
+    "sha256_after": "abf9c33976320297018bc90723c50ee779b746b129539daaf963e91f5eb40b52"
+  },
+  "implementation_source": {
+    "path": "crates/cantor_field_cycle/src/main.rs",
+    "sha256": "298afcdf0a3579d71636abac10d546956248643ef714267d83beede0a8e59659",
+    "bytes": 23797,
+    "observation_base_commit": "cb3baf4cb470fa90f2cfb349472bca129e5cca9f"
+  },
+  "field": {
+    "path": "C:\\AI\\services\\cantor-field-cycle\\attention-cycle-field-v1.json",
+    "sha256": "b73fe30f1bdcc4b0cb179f5cd3ba507306f802f6e2e34d56904f191ebb4962ad"
+  },
+  "invocation": {
+    "operation": "run",
+    "base_url": "http://127.0.0.1:9",
+    "supplied_model_class": "one_ascii_space",
+    "provider_available_at_endpoint": false
+  },
+  "result": {
+    "exit_code": 1,
+    "output_report_exists": false,
+    "diagnostic": "cantor-field-cycle: cycle produced an unverifiable report: provider model must not be empty",
+    "temporary_state_removed": true
+  },
+  "causal_observation": {
+    "report_construction_reached": true,
+    "field_request_rejected_model_before_post_chat": true,
+    "provider_inference_possible": false,
+    "replayable_invocation_or_cycle_account_exists": false
+  },
+  "conclusion": "FADL_R006 includes invalid supplied or discovered provider identity as well as discovery transport failure; an explicit model avoids discovery only when that identity is itself admitted before cycle construction.",
+  "authority": "effect-minimized counterexample only; no runtime specification deployment provider state or P1 implementation authority"
+}

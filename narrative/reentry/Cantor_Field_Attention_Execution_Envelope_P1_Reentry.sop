@@ -6,12 +6,15 @@ Description: Non-authoritative repair proposal for pre-report trace and non-exac
 @ [p0_proof] C:\Project\Cantor\proofs\Cantor_Field_Attention_Delineation_Latch_P0_Proof.sop
 @ [counterexample] C:\Project\Cantor\experiments\cantor_field_cycle_p0\preflight_and_cli_boundary_observation_v1.json
 @ [counterexample_sha256] 5db91e564ed098f313b62c8e9a3107b57781309b9f3a1c34e2cc55b3c777eaa9
+@ [provider_identity_counterexample] C:\Project\Cantor\experiments\cantor_field_cycle_p0\provider_identity_preflight_observation_v1.json
+@ [provider_identity_counterexample_sha256] 9b6ac7f9e2c09b872e525986def8cb9bee1331f8518f98c5e386584dee184d6c
 @ [fault_ledger] C:\Project\Cantor\narrative\operational_faults\1787093837058_field_attention_cycle_p0_faults.sop
 
 & [ObservedBoundary] distinguishes invocation from cycle
   + exact CycleReport replay begins only after command arguments field provider endpoint and model identity have been admitted
   + model discovery currently performs provider I O before CycleReport construction
   + a discovery transport fault therefore has honest stderr and nonzero exit but no replayable machine account
+  + a blank explicit model reaches CycleReport construction but makes its own fault report unverifiable and unpublished
   + contract and verify ignore trailing arguments while run and control overwrite duplicate recognized option values
   + evidence publication itself can fail and no design can truthfully claim a file contains its own failed write
 
@@ -25,7 +28,7 @@ Description: Non-authoritative repair proposal for pre-report trace and non-exac
 & [RecommendedFlow] stages observable work before inference
   + PARSE_EXACT then ACCOUNT_INVOCATION then VALIDATE_FIELD then ADMIT_PROVIDER then RESOLVE_MODEL then BEGIN_CYCLE then VERIFY_REPORT then PUBLISH_CREATE_NEW then EMIT_OUTCOME
   + exact parsing rejects unknown trailing duplicate missing and ambiguous arguments before file reads provider calls directory creation or output writes
-  + governed run and control require explicit model identity
+  + governed run and control require an exactly validated nonempty bounded explicit model identity
   + optional model discovery becomes a separate DISCOVER_MODEL operation with its own typed outcome and no implied cycle start
   + every stage carries one exact predecessor digest and cannot skip forward
 
@@ -67,7 +70,7 @@ Description: Non-authoritative repair proposal for pre-report trace and non-exac
   + [FEP1-001] every command rejects one trailing token and every duplicate option before file network or write effects
   + [FEP1-002] missing value unknown option option permutation and exact valid invocation have deterministic outcomes
   + [FEP1-003] unreachable model discovery yields a replayable discovery fault with zero cycle and inference calls
-  + [FEP1-004] explicit-model run reaches CycleReport construction without calling model discovery
+  + [FEP1-004] valid explicit-model run reaches CycleReport construction without calling model discovery while blank oversized or otherwise invalid model identity refuses before cycle construction
   + [FEP1-005] invalid field missing field endpoint refusal and output collision remain distinct stages and codes
   + [FEP1-006] changed argv order field digest provider model stage event predecessor report digest or publication claim fails verification
   + [FEP1-007] a report write failure cannot carry published and an account write failure is visible on stdout without false durability

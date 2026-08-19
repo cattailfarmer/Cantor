@@ -35,6 +35,7 @@ Preserved reports:
 - `cross_pass_tension_policy_analysis_v1.json`: effect-free retrospective evidence falsifying raw signal-array presence as a P1 semantic-pertinence rule; it grants no successor runtime authority.
 - `requirement_coverage_audit_v1.json`: effect-free reconciliation of all thirteen requirements across specification, matrix, completion review, and proof plus plan, fault, residual, deployment-observation, and P1 authority boundaries.
 - `preflight_and_cli_boundary_observation_v1.json`: effect-free reproduction of missing pre-report discovery evidence and non-exact CLI argument admission.
+- `provider_identity_preflight_observation_v1.json`: effect-minimized EVO-X2 reproduction showing that an explicitly blank model reaches report construction but cannot yield a self-verifying report; no inference-capable endpoint is involved.
 - `checkpoint_audit_v1.json`: one-command composite of offline acceptance, closure, requirement disposition, tension-policy analysis, manifest freshness, and read-only EVO-X2 identity replay.
 
 The repeatability campaign holds the positive candidate and relation sequence constant, keeps every control latch-ineligible, and rejects every hostile field. It also preserves the warning that all twenty positive probes assess the whole proposal as `conflicted` before the separate delineation pass says `supported`.

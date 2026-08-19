@@ -1,0 +1,19 @@
+Subject: Provider Identity Preflight Observation Harness Faults
+
+@ [fault_uuid] edbaa1e1-d81c-47b2-8df4-7e660c6b8805
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [captured_at] 2026-08-18T20:40:26.3372169-05:00
+
+& [FirstFault] assumed attention-cycle-field.json instead of resolving the deployed fixture identity
+  + Get-Item failed before temporary directory creation or executable invocation
+
+& [SecondFault] compared the temporary directory parent without normalizing a trailing separator
+  + the over-strict containment guard rejected a safe candidate before directory creation or executable invocation
+
+& [Correction] resolves attention-cycle-field-v1.json exactly and compares the normalized full candidate path against the normalized system temporary base
+  + the successor creates one unique temporary directory invokes h8 once removes the directory recursively and verifies absence
+
+& [Impact] is rejected_pre_effect_diagnostics
+  + neither failed attempt changed repository deployment provider process evidence or temporary filesystem state
+
+& [Disposition] is closed_before_observation_acceptance

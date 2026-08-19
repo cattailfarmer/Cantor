@@ -37,6 +37,7 @@ Subject: Cantor Field Attention Delineation Latch P0 Proof
   + changed requests or responses remain invalid even after their individual digests are recomputed
   + changed response-backed fault text is rejected
   + model discovery failure occurs before CycleReport construction and therefore returns honest stderr and nonzero exit without replayable report evidence
+  + an explicitly blank model reaches report construction but makes that fault report unverifiable so it also exits nonzero without replayable report evidence
 & [FADL-012] passes thirty-one provider-backed EVO-X2 traces
   + final verifier replays profiles 0.1 through 0.5 thirteen repeatability reports nine hardening smoke reports and two relation-boundary reports with thirty-one zero exits
   + llama PID 12780 and creation value /Date(1786827109837)/ remain exact
@@ -126,7 +127,7 @@ Subject: Cantor Field Attention Delineation Latch P0 Proof
   + create-new report publication is fail-closed and non-overwriting but not claimed crash-atomic or durable
   + sanitization removes a closed known-key set and is not a universal confidentiality proof for arbitrary provider payloads
   + h8 and all remote report bytes reverify exactly but the deployment root inherits Authenticated Users Modify and therefore is not a protected production trust root
-  + provider model discovery can fail before report construction and is not yet replayable as a typed report or preflight envelope
+  + provider model discovery can fail before report construction and an invalid explicit or discovered model can prevent the constructed fault report from self-verifying; neither path is replayable as a typed invocation or preflight envelope
   + contract and verify ignore trailing CLI arguments while live commands accept duplicate recognized options under last-value-wins semantics
   + a post-h5 workspace all-target build yields 2830336 bytes SHA-256 dbcda01b93ce599c59f2a4ed9d63b2ec8016b422cdba3be3baec6264ed617682 and does not replace remote h5
   + the current post-h7 workspace all-target build passes and yields 2836480 bytes SHA-256 4722a7604051a776231e764ad2fd37dfc5f34e29d91f55ae7d8875dbe459e61d without replacing remote h7
