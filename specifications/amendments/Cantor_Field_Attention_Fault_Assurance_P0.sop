@@ -1,0 +1,34 @@
+Subject: Cantor Field Attention Fault Assurance P0 Amendment
+
+Description: Additive machine-visible evidence-strength interpretation for the existing P0 report verifier.
+
+@ [specification_uuid] 5829777c-92d2-42da-8294-42d1b5740a79
+@ [base_specification] C:\Project\Cantor\specifications\Cantor_Field_Attention_Delineation_Latch_P0.sop
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_field_attention_fault_assurance\Source_Document_Manifest.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Field_Attention_Fault_Assurance_P0.exploded.sop
+@ [justification] C:\Project\Cantor\justifications\Cantor_Field_Attention_Fault_Assurance_P0_Justification.sop
+
+| [VerificationAssurance] is (deterministic_construction | stored_provider_replay | response_backed_fault_replay | structural_runtime_fault_only)
+
+& [Classification] is deterministic
+  + deterministic fixture reports emit deterministic_construction
+  + completed rejected and control provider reports emit stored_provider_replay
+  + fault reports with a retained failed response that recomputes exact fault text emit response_backed_fault_replay
+  + fault reports whose canonical failure occurs without a retained failed response emit structural_runtime_fault_only
+
+& [Compatibility] preserves report identity
+  + no CycleReport field request profile provider exchange or report digest changes
+  + assurance is added only to ReportVerification output
+  + historical reports remain replayable under their original bytes
+
+& [Integrity] refuses laundering
+  + a present failed response must replay exactly or verification fails
+  + a fault may not select or self-declare its assurance class
+  + callers must not infer an unretained external cause from structural_runtime_fault_only
+
+& [SatisfactionSignature] binds the assurance amendment
+  @ [signature_uuid] 04f2ef81-0e64-4f32-93bd-4390849a2b03
+  @ [protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [satisfied_scope] is additive deterministic verification assurance over existing P0 report classes
+  + [excluded_scope] is truth causation external attestation production trust effects and provider honesty
+  = satisfaction: source-preserved justified falsifiable reversible and bounded for P0

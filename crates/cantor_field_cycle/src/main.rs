@@ -65,6 +65,7 @@ async fn dispatch(arguments: Vec<String>) -> Result<(), AnyError> {
                     "cycle_report_file_bytes": MAX_REPORT_FILE_BYTES
                 },
                 "states": ["created", "field_validated", "probes_requested", "probes_collected", "candidate_aggregated", "delineation_requested", "delineation_collected", "latch_evaluated", "completed", "rejected", "faulted", "control_completed"],
+                "verification_assurance": ["deterministic_construction", "stored_provider_replay", "response_backed_fault_replay", "structural_runtime_fault_only"],
                 "authority": "attention-local proposal and admission only"
             }))?;
         }

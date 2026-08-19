@@ -65,6 +65,12 @@ $sources = @(
         Manifest = "source_documents\2026-08-18_field_attention_resource_bounds\Source_Document_Manifest.sop"
         Sha256 = "1716df7863b26bfb39251dd914eab2e7ef43081e93461f6a24f01794f9025276"
         Bytes = 2160
+    },
+    [pscustomobject]@{
+        Path = "source_documents\2026-08-18_field_attention_fault_assurance\Observed_Field_Attention_Fault_Assurance_Evidence.sop"
+        Manifest = "source_documents\2026-08-18_field_attention_fault_assurance\Source_Document_Manifest.sop"
+        Sha256 = "2ac898d3bae7330f297bb9949f72c5be61b229731cf096ead548758d8be4eb25"
+        Bytes = 2165
     }
 )
 
@@ -92,7 +98,10 @@ $amendment = Get-Content -LiteralPath (
 $resourceAmendment = Get-Content -LiteralPath (
     Join-Path $workspaceRoot "specifications\amendments\Cantor_Field_Attention_Resource_Bounds_P0.sop"
 ) -Raw
-foreach ($document in @($canonical, $amendment, $resourceAmendment)) {
+$assuranceAmendment = Get-Content -LiteralPath (
+    Join-Path $workspaceRoot "specifications\amendments\Cantor_Field_Attention_Fault_Assurance_P0.sop"
+) -Raw
+foreach ($document in @($canonical, $amendment, $resourceAmendment, $assuranceAmendment)) {
     if (-not $document.Contains("ad10f10f-d506-48ef-a805-f8b0a133766c")) {
         throw "canonical document omitted the specification satisfaction protocol"
     }
@@ -117,6 +126,7 @@ if ($contract.profile -cne "cantor-field-attention-cycle/0.1" -or
     $contract.max_provider_response_bytes -ne 1048576 -or
     $contract.provider_proxy_policy -cne "disabled" -or
     $contract.provider_redirect_limit -ne 0 -or
+    (@($contract.verification_assurance) -join ",") -cne "deterministic_construction,stored_provider_replay,response_backed_fault_replay,structural_runtime_fault_only" -or
     $contract.resource_budgets.element_content_bytes -ne 16384 -or
     $contract.resource_budgets.semantic_field_file_bytes -ne 524288 -or
     $contract.resource_budgets.cycle_report_file_bytes -ne 16777216) {
@@ -158,16 +168,16 @@ foreach ($field in $fields) {
 }
 
 $reports = @(
-    [pscustomobject]@{ Path = "deterministic_fixture_report.json"; Terminal = "completed"; Latch = "admitted_for_attention" },
-    [pscustomobject]@{ Path = "evox2_live_v1.json"; Terminal = "rejected"; Latch = "rejected" },
-    [pscustomobject]@{ Path = "evox2_live_v2.json"; Terminal = "rejected"; Latch = "rejected" },
-    [pscustomobject]@{ Path = "evox2_live_v3_fault.json"; Terminal = "faulted"; Latch = $null },
-    [pscustomobject]@{ Path = "evox2_live_v4_fault.json"; Terminal = "faulted"; Latch = $null },
-    [pscustomobject]@{ Path = "evox2_live_v5.json"; Terminal = "completed"; Latch = "admitted_for_attention" },
-    [pscustomobject]@{ Path = "evox2_control_v5.json"; Terminal = "control_completed"; Latch = $null },
-    [pscustomobject]@{ Path = "evox2_hostile_boundary_v5.json"; Terminal = "rejected"; Latch = $null }
-    [pscustomobject]@{ Path = "evox2_forbidden_relation_v1.json"; Terminal = "rejected"; Latch = "rejected" }
-    [pscustomobject]@{ Path = "evox2_forbidden_relation_all_kinds_v1.json"; Terminal = "rejected"; Latch = "rejected" }
+    [pscustomobject]@{ Path = "deterministic_fixture_report.json"; Terminal = "completed"; Latch = "admitted_for_attention"; Assurance = "deterministic_construction" },
+    [pscustomobject]@{ Path = "evox2_live_v1.json"; Terminal = "rejected"; Latch = "rejected"; Assurance = "stored_provider_replay" },
+    [pscustomobject]@{ Path = "evox2_live_v2.json"; Terminal = "rejected"; Latch = "rejected"; Assurance = "stored_provider_replay" },
+    [pscustomobject]@{ Path = "evox2_live_v3_fault.json"; Terminal = "faulted"; Latch = $null; Assurance = "response_backed_fault_replay" },
+    [pscustomobject]@{ Path = "evox2_live_v4_fault.json"; Terminal = "faulted"; Latch = $null; Assurance = "response_backed_fault_replay" },
+    [pscustomobject]@{ Path = "evox2_live_v5.json"; Terminal = "completed"; Latch = "admitted_for_attention"; Assurance = "stored_provider_replay" },
+    [pscustomobject]@{ Path = "evox2_control_v5.json"; Terminal = "control_completed"; Latch = $null; Assurance = "stored_provider_replay" },
+    [pscustomobject]@{ Path = "evox2_hostile_boundary_v5.json"; Terminal = "rejected"; Latch = $null; Assurance = "stored_provider_replay" }
+    [pscustomobject]@{ Path = "evox2_forbidden_relation_v1.json"; Terminal = "rejected"; Latch = "rejected"; Assurance = "stored_provider_replay" }
+    [pscustomobject]@{ Path = "evox2_forbidden_relation_all_kinds_v1.json"; Terminal = "rejected"; Latch = "rejected"; Assurance = "stored_provider_replay" }
 )
 $verifiedReports = @()
 foreach ($report in $reports) {
@@ -176,7 +186,8 @@ foreach ($report in $reports) {
         "run", "-q", "-p", "cantor_field_cycle", "--", "verify", $path
     )
     if (-not $verification.valid -or $verification.terminal_state -cne $report.Terminal -or
-        $verification.latch_status -cne $report.Latch) {
+        $verification.latch_status -cne $report.Latch -or
+        $verification.assurance -cne $report.Assurance) {
         throw "report disposition disagrees: $($report.Path)"
     }
     $verifiedReports += [pscustomobject]@{
@@ -184,6 +195,7 @@ foreach ($report in $reports) {
         terminal_state = $verification.terminal_state
         latch_status = $verification.latch_status
         exchange_count = $verification.exchange_count
+        assurance = $verification.assurance
         report_sha256 = $verification.report_sha256
     }
 }

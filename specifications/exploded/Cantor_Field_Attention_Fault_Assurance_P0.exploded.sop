@@ -1,0 +1,24 @@
+Subject: Cantor Field Attention Fault Assurance P0 Exploded Specification
+
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-18_field_attention_fault_assurance\Source_Document_Manifest.sop
+@ [base] C:\Project\Cantor\specifications\Cantor_Field_Attention_Delineation_Latch_P0.sop
+
+& [Delineation] separates report validity from evidentiary assurance
+  + validity means the retained report satisfies one closed replay contract
+  + assurance names which facts that replay actually reconstructs
+  + neither status establishes correspondence with unretained external state
+
+& [SevenFoldExplosion] closes the distinction
+  + [identity] every verification result carries one finite assurance class
+  + [relationship] assurance is derived from terminal class and retained failed-exchange position
+  + [condition] a fault is response-backed only when the failing response recomputes the exact fault text
+  + [transformation] existing reports remain byte-identical while verifier output gains an explicit classification
+  + [process] validate identity field events exchanges lineage terminal then emit assurance
+  + [evidence] deterministic fixture stored provider response-backed fault and structural-only fault remain distinct
+  + [boundary] structural-only faults preserve declarations without claiming their external cause was replayed
+
+& [Falsification] is concrete
+  + removing the failed response from a canonical runtime fault changes assurance to structural-only
+  + changing a retained failed response or its fault text rejects rather than downgrades
+  + completed rejected and control reports cannot claim deterministic or fault assurance
+  + fixture reports cannot claim provider evidence

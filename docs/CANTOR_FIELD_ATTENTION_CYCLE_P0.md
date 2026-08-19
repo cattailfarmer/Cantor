@@ -53,6 +53,15 @@ The host supplies and verifies:
 
 Compiler-generated accounts describe the mechanical transform. They are not presented as model-authored explanations.
 
+Verifier output separates report validity from evidence strength:
+
+- `deterministic_construction` reconstructs the exact host fixture;
+- `stored_provider_replay` reconstructs a completed, rejected, or control path from retained provider exchanges;
+- `response_backed_fault_replay` recomputes a fault from its retained failed provider response;
+- `structural_runtime_fault_only` validates a canonical runtime-fault trajectory but does not claim its unretained external cause was replayed.
+
+These assurance classes describe retained evidence, not truth or external-world attestation.
+
 ## CLI
 
 Build and inspect the contract:
@@ -123,9 +132,9 @@ The completed v5 report has canonical replay SHA-256 `ac2a07ac0b25267e16eefa68b5
 
 The identity-hardened repeatability campaign adds thirteen reports: five positive runs completed with the same candidate and relation sequence, five controls remained latch-ineligible, and three hostile runs were rejected before candidate creation. The same hardened executable replayed those thirteen plus all seven historical provider reports directly on EVO-X2. All twenty positive probe responses still say `conflicted`; repeatability therefore strengthens structural mechanism evidence and not semantic correctness.
 
-The resource-bounded h2 executable repeated one positive, one control, and one hostile run. Network-closed h3 repeated all three after proxy and redirect removal. h4 moved the sequential CLI from a multithread scheduler to Tokio’s current-thread runtime, reducing the binary by 171520 bytes (about 5.7%), and repeated all three cases again. Final h5 binds exact event evidence-reference trajectories and replayed all thirty-one provider reports without making a provider inference call. Every created report self-verified before create-new publication, while llama.cpp PID 12780 and its creation value remained unchanged.
+The resource-bounded h2 executable repeated one positive, one control, and one hostile run. Network-closed h3 repeated all three after proxy and redirect removal. h4 moved the sequential CLI from a multithread scheduler to Tokio’s current-thread runtime, reducing the binary by 171520 bytes (about 5.7%), and repeated all three cases again. h5 binds exact event evidence-reference trajectories; h6 adds machine-visible assurance. Final h7 advertises the closed assurance vocabulary and replayed all thirty-one provider reports as twenty-nine stored-provider and two response-backed-fault records without making a provider inference call. Every created report self-verified before create-new publication, while llama.cpp PID 12780 and its creation value remained unchanged.
 
-The h5 SHA-256 is deployment content identity, not a reproducible-build claim. A whole-workspace release and multiple package-only builds produced different Windows PE hashes; the observations are retained in the deployment manifest, and the deployed h4 and h5 files each re-verify their recorded identities.
+The h7 SHA-256 is deployment content identity, not a reproducible-build claim. A whole-workspace release and multiple package-only builds produced different Windows PE hashes; the observations are retained in the deployment manifest, and deployed h4 through h7 files retain their recorded identities.
 
 ## Observed cost
 

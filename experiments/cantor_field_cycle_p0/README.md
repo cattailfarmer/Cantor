@@ -1,6 +1,6 @@
 # Field Attention Cycle P0 Evidence
 
-This directory preserves the complete bounded corpus for the `FIELD_ATTEND → DELINEATE → LATCH` experiment. Reports contain sanitized exact requests/responses and can be replayed with `cantor-field-cycle verify`; event states, ordinals, and evidence-reference labels are all checked against canonical trajectories.
+This directory preserves the complete bounded corpus for the `FIELD_ATTEND → DELINEATE → LATCH` experiment. Reports contain sanitized exact requests/responses and can be replayed with `cantor-field-cycle verify`; event states, ordinals, evidence-reference labels, and the derived verification-assurance class are checked against canonical trajectories.
 
 Accepted fixtures:
 
@@ -26,6 +26,8 @@ Preserved reports:
 - `smoke-field-attend-h3/`: final network-closed verifier smoke after disabling proxies and redirects.
 - `smoke-field-attend-h4/`: final current-thread-runtime smoke with the same three structural outcomes.
 - remote `cantor-field-cycle-p0-h5.exe`: exact-event-reference verifier that replays all thirty-one provider reports without new inference.
+- remote `cantor-field-cycle-p0-h6.exe`: final assurance-aware verifier that classifies twenty-nine stored-provider and two response-backed-fault reports without new inference.
+- remote `cantor-field-cycle-p0-h7.exe`: final contract-discoverable assurance verifier with the same exact remote replay distribution.
 - `attention_cost_summary_v1.json`: token, cache, provider-compute, exchange, and evidence-byte statistics over all thirty-one provider reports.
 
 The repeatability campaign holds the positive candidate and relation sequence constant, keeps every control latch-ineligible, and rejects every hostile field. It also preserves the warning that all twenty positive probes assess the whole proposal as `conflicted` before the separate delineation pass says `supported`.

@@ -364,7 +364,17 @@ pub struct ReportVerification {
     pub terminal_state: CycleState,
     pub latch_status: Option<LatchStatus>,
     pub exchange_count: usize,
+    pub assurance: VerificationAssurance,
     pub report_sha256: String,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum VerificationAssurance {
+    DeterministicConstruction,
+    StoredProviderReplay,
+    ResponseBackedFaultReplay,
+    StructuralRuntimeFaultOnly,
 }
 
 pub fn sha256_hex(bytes: impl AsRef<[u8]>) -> String {
@@ -1333,7 +1343,7 @@ pub fn verify_report(report: &CycleReport) -> Result<ReportVerification, String>
         if deterministic_fixture {
             return Err("fault report cannot claim deterministic fixture provider".to_owned());
         }
-        verify_fault_report(report)?;
+        let assurance = verify_fault_report(report)?;
         let encoded = serde_json::to_vec(report)
             .map_err(|error| format!("report serialization failed: {error}"))?;
         return Ok(ReportVerification {
@@ -1341,6 +1351,7 @@ pub fn verify_report(report: &CycleReport) -> Result<ReportVerification, String>
             terminal_state: CycleState::Faulted,
             latch_status: None,
             exchange_count: report.exchanges.len(),
+            assurance,
             report_sha256: sha256_hex(encoded),
         });
     }
@@ -1356,6 +1367,7 @@ pub fn verify_report(report: &CycleReport) -> Result<ReportVerification, String>
             terminal_state: CycleState::ControlCompleted,
             latch_status: None,
             exchange_count: report.exchanges.len(),
+            assurance: VerificationAssurance::StoredProviderReplay,
             report_sha256: sha256_hex(encoded),
         });
     }
@@ -1436,6 +1448,11 @@ pub fn verify_report(report: &CycleReport) -> Result<ReportVerification, String>
             .as_ref()
             .map(|decision| decision.status),
         exchange_count: report.exchanges.len(),
+        assurance: if deterministic_fixture {
+            VerificationAssurance::DeterministicConstruction
+        } else {
+            VerificationAssurance::StoredProviderReplay
+        },
         report_sha256: sha256_hex(encoded),
     })
 }
@@ -1855,7 +1872,7 @@ fn verify_completed_probe_exchange(report: &CycleReport, probe_index: usize) -> 
     Ok(())
 }
 
-fn verify_fault_report(report: &CycleReport) -> Result<(), String> {
+fn verify_fault_report(report: &CycleReport) -> Result<VerificationAssurance, String> {
     let fault = report
         .fault
         .as_deref()
@@ -1887,18 +1904,23 @@ fn verify_fault_report(report: &CycleReport) -> Result<(), String> {
         CycleState::DelineationRequested,
         CycleState::Faulted,
     ];
-    if states == control_prefix {
+    let response_backed = if states == control_prefix {
         verify_control_fault(report, fault)
     } else if states == probe_prefix {
         verify_probe_fault(report, fault)
     } else if states == delineation_prefix {
         verify_delineation_fault(report, fault)
     } else {
-        Err("fault report has an unsupported state prefix".to_owned())
-    }
+        return Err("fault report has an unsupported state prefix".to_owned());
+    }?;
+    Ok(if response_backed {
+        VerificationAssurance::ResponseBackedFaultReplay
+    } else {
+        VerificationAssurance::StructuralRuntimeFaultOnly
+    })
 }
 
-fn verify_control_fault(report: &CycleReport, fault: &str) -> Result<(), String> {
+fn verify_control_fault(report: &CycleReport, fault: &str) -> Result<bool, String> {
     if !report.probes.is_empty()
         || report.exchanges.len() > 1
         || report.candidate.is_some()
@@ -1907,7 +1929,7 @@ fn verify_control_fault(report: &CycleReport, fault: &str) -> Result<(), String>
         return Err("control fault contains impossible post-control state".to_owned());
     }
     let Some(exchange) = report.exchanges.first() else {
-        return Ok(());
+        return Ok(false);
     };
     if exchange.stage != "control_probe_1" {
         return Err("control fault exchange stage must be control_probe_1".to_owned());
@@ -1921,10 +1943,11 @@ fn verify_control_fault(report: &CycleReport, fault: &str) -> Result<(), String>
     if exchange.request != expected_request {
         return Err("control fault request does not recompute".to_owned());
     }
-    verify_failed_probe_response(report, 0, fault, exchange)
+    verify_failed_probe_response(report, 0, fault, exchange)?;
+    Ok(true)
 }
 
-fn verify_probe_fault(report: &CycleReport, fault: &str) -> Result<(), String> {
+fn verify_probe_fault(report: &CycleReport, fault: &str) -> Result<bool, String> {
     if report.candidate.is_some() || report.delineation_proposal.is_some() {
         return Err("probe fault contains candidate or delineation proposal".to_owned());
     }
@@ -1939,7 +1962,7 @@ fn verify_probe_fault(report: &CycleReport, fault: &str) -> Result<(), String> {
         verify_completed_probe_exchange(report, probe_index)?;
     }
     if report.exchanges.len() == report.probes.len() {
-        return Ok(());
+        return Ok(false);
     }
     let probe_index = report.probes.len();
     let exchange = &report.exchanges[probe_index];
@@ -1960,7 +1983,8 @@ fn verify_probe_fault(report: &CycleReport, fault: &str) -> Result<(), String> {
             "{expected_stage} failed request does not recompute"
         ));
     }
-    verify_failed_probe_response(report, probe_index, fault, exchange)
+    verify_failed_probe_response(report, probe_index, fault, exchange)?;
+    Ok(true)
 }
 
 fn verify_failed_probe_response(
@@ -1983,7 +2007,7 @@ fn verify_failed_probe_response(
     Ok(())
 }
 
-fn verify_delineation_fault(report: &CycleReport, fault: &str) -> Result<(), String> {
+fn verify_delineation_fault(report: &CycleReport, fault: &str) -> Result<bool, String> {
     if report.probes.len() != PROBE_COUNT
         || !(report.exchanges.len() == PROBE_COUNT || report.exchanges.len() == PROBE_COUNT + 1)
         || report.delineation_proposal.is_some()
@@ -1996,7 +2020,7 @@ fn verify_delineation_fault(report: &CycleReport, fault: &str) -> Result<(), Str
         return Err("delineation fault candidate does not recompute".to_owned());
     }
     let Some(exchange) = report.exchanges.get(PROBE_COUNT) else {
-        return Ok(());
+        return Ok(false);
     };
     if exchange.stage != "delineation" {
         return Err("failed fifth exchange must be delineation".to_owned());
@@ -2020,7 +2044,7 @@ fn verify_delineation_fault(report: &CycleReport, fault: &str) -> Result<(), Str
     if fault != recomputed_fault {
         return Err("recorded delineation fault does not match failed response".to_owned());
     }
-    Ok(())
+    Ok(true)
 }
 
 fn verify_control_report(report: &CycleReport) -> Result<(), String> {
@@ -2924,6 +2948,10 @@ mod tests {
             verified.latch_status,
             Some(LatchStatus::AdmittedForAttention)
         );
+        assert_eq!(
+            verified.assurance,
+            VerificationAssurance::DeterministicConstruction
+        );
         let mut tampered = report;
         tampered
             .candidate
@@ -2997,9 +3025,14 @@ mod tests {
     #[test]
     fn live_lineage_replays_and_rejects_redigested_request_or_response_tampering() {
         let report = live_report();
+        let verified = verify_report(&report).unwrap();
         assert_eq!(
-            verify_report(&report).unwrap().latch_status,
+            verified.latch_status,
             Some(LatchStatus::AdmittedForAttention)
+        );
+        assert_eq!(
+            verified.assurance,
+            VerificationAssurance::StoredProviderReplay
         );
 
         let mut request_tampered = report.clone();
@@ -3085,6 +3118,10 @@ mod tests {
         assert_eq!(verified.terminal_state, CycleState::ControlCompleted);
         assert_eq!(verified.latch_status, None);
         assert_eq!(verified.exchange_count, 1);
+        assert_eq!(
+            verified.assurance,
+            VerificationAssurance::StoredProviderReplay
+        );
 
         let mut tampered = report;
         tampered.candidate = live_report().candidate;
@@ -3151,9 +3188,20 @@ mod tests {
             terminal_state: CycleState::Faulted,
             fault: Some(fault),
         };
+        let verified = verify_report(&report).unwrap();
+        assert_eq!(verified.terminal_state, CycleState::Faulted);
         assert_eq!(
-            verify_report(&report).unwrap().terminal_state,
-            CycleState::Faulted
+            verified.assurance,
+            VerificationAssurance::ResponseBackedFaultReplay
+        );
+
+        let mut structural_only = report.clone();
+        structural_only.exchanges.clear();
+        structural_only.fault =
+            Some("provider request failed without retained response".to_owned());
+        assert_eq!(
+            verify_report(&structural_only).unwrap().assurance,
+            VerificationAssurance::StructuralRuntimeFaultOnly
         );
         let mut rewritten = report;
         rewritten.fault = Some("different explanation".to_owned());
