@@ -230,6 +230,16 @@ $anchorRecords = @(
         receipt_tree = '8a915e19fcf8694c71f22158ba8fe85854257c81'
         anchor_commit = 'cfa8cc957476d51a1878e4486dd074e92acd7eed'
         anchor_tree = 'a36c360a11eae3ef62d3bbf96429605e5ab32fc7'
+    },
+    [ordered]@{
+        relative_path = 'proofs\Cantor_Field_Attention_Reproducible_Windows_Build_P0_PowerShell_Boundary_Git_Anchor.sop'
+        anchor_uuid = '678f97b5-fc4e-4c67-b4f0-89f9b1582408'
+        tested_commit = 'b4532cff5876d94b116bf7ab44ee5017d70ce5ea'
+        tested_tree = '61f271169e803ed730f02b99390ac0114d890f17'
+        receipt_commit = '5980c8ea03119f43d185342fc3f31eae1e889fdc'
+        receipt_tree = '84ca0d480eed984a769aeeb44033b6511b2b9023'
+        anchor_commit = '835c13c62aed6c28ce97e676a454fae1f965599b'
+        anchor_tree = '8034a8b3424252d20b07ee63e338c90317efe52c'
     }
 )
 
