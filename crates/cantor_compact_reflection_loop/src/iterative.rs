@@ -154,8 +154,8 @@ pub fn validate_run_policy(policy: &RunPolicy) -> Result<(), String> {
     if !(1..=MAX_PROVIDER_CALLS).contains(&policy.maximum_provider_calls) {
         return Err("maximum_provider_calls is outside 1..=129".to_owned());
     }
-    if policy.maximum_provider_calls < policy.maximum_tool_calls {
-        return Err("provider-call cap cannot be below tool-call cap".to_owned());
+    if policy.maximum_provider_calls < policy.maximum_tool_calls.saturating_add(1) {
+        return Err("provider-call cap must reserve one terminal reflection call".to_owned());
     }
     if !(1..=MAX_TIMEOUT_SECONDS).contains(&policy.timeout_seconds) {
         return Err("timeout_seconds is outside 1..=3600".to_owned());

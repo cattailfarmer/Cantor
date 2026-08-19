@@ -111,6 +111,11 @@ fn run_policy_is_positive_bounded_and_provider_sufficient() {
             ..RunPolicy::default()
         },
         RunPolicy {
+            maximum_tool_calls: 8,
+            maximum_provider_calls: 8,
+            ..RunPolicy::default()
+        },
+        RunPolicy {
             timeout_seconds: 3_601,
             ..RunPolicy::default()
         },
