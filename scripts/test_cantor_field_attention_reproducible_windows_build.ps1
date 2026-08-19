@@ -10,6 +10,9 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+if ($PSVersionTable.PSVersion.Major -lt 7) {
+    throw 'Cantor reproducible-build profile 0.1 requires PowerShell 7 or later.'
+}
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 
 $Profile = 'cantor-field-attention-reproducible-windows-build/0.1'
