@@ -3,6 +3,7 @@
 #![forbid(unsafe_code)]
 
 mod attention_reentry;
+mod checkpoint_handle;
 mod dispatch_checkpoint;
 mod dispatch_lifecycle;
 mod dual_transcript;
@@ -23,6 +24,15 @@ pub use attention_reentry::{
     generate_attention_reentry_measurement, pretty_attention_reentry_measurement_bytes,
     validate_attention_reentry_frame, validate_attention_reentry_measurement,
     validate_compact_attention_request,
+};
+pub use checkpoint_handle::{
+    DISPATCH_CHECKPOINT_HANDLE_MEASUREMENT_NONCLAIMS,
+    DISPATCH_CHECKPOINT_HANDLE_MEASUREMENT_PROFILE, DISPATCH_CHECKPOINT_HANDLE_NONCLAIMS,
+    DISPATCH_CHECKPOINT_HANDLE_PROFILE, DispatchCheckpointHandle, DispatchCheckpointHandleByteCase,
+    DispatchCheckpointHandleMeasurement, compile_dispatch_checkpoint_handle,
+    generate_dispatch_checkpoint_handle_measurement,
+    pretty_dispatch_checkpoint_handle_measurement_bytes, validate_dispatch_checkpoint_handle,
+    validate_dispatch_checkpoint_handle_against, validate_dispatch_checkpoint_handle_measurement,
 };
 pub use dispatch_checkpoint::{
     DISPATCH_LIFECYCLE_CHECKPOINT_NONCLAIMS, DISPATCH_LIFECYCLE_CHECKPOINT_PROFILE,
