@@ -1,0 +1,21 @@
+Subject: Turn Record - Compact Reflection Local Proof Usability
+
+@ [turn_uuid] 778bd09a-4df5-4862-8789-d5d1570bb5f4
+@ [timestamp_utc] 2026-08-19T16:57:52.1075707Z
+@ [thread] 019f94c8-da23-7131-aef2-6ac02612d155
+
+& [Observation]
+  + Windows hosts an already-running Ollama service on loopback with five advertised models
+  + WSL cannot reach the Windows loopback listener and no trusted loopback llama.cpp server is active inside WSL
+  + running a Windows Rust binary was avoided because prior Smart App Control notifications remain an operational concern
+
+& [Implementation]
+  + added exact operator-selected advertised model support
+  + replaced provider-specific health-path dependence with successful loopback root health
+  + added create-new experimental context fixture export
+  + added a complete deterministic loopback HTTP process test over the executable
+
+& [Boundary]
+  + no WSL gateway trust expansion Windows firewall or port-proxy change remote connection EVO-X2 use or OneDrive access occurred
+  + live generative-model acceptance remains pending
+

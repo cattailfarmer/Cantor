@@ -11,9 +11,10 @@ use std::{
 };
 
 use cantor_compact_reflection_loop::{
-    REPORT_PROFILE, TerminalObservation, advance_bound_session_terminal, extract_advance_call,
-    extract_final_output, first_request, normalize_loopback_base_url, open_bound_session,
-    reflection_request, sanitize,
+    REPORT_PROFILE, TerminalObservation, advance_bound_session_terminal,
+    experimental_fixture_context_json, extract_advance_call, extract_final_output, first_request,
+    normalize_loopback_base_url, open_bound_session, reflection_request, sanitize,
+    select_advertised_model,
 };
 use cantor_core::SemanticId;
 use reqwest::Client;
@@ -34,6 +35,7 @@ struct Config {
     prompt: String,
     maximum_steps: u64,
     timeout: Duration,
+    model: Option<String>,
 }
 
 impl Config {
@@ -45,6 +47,7 @@ impl Config {
         let mut prompt = None;
         let mut maximum_steps = 64_u64;
         let mut timeout = Duration::from_secs(180);
+        let mut model = None;
         let mut arguments = arguments.into_iter();
         while let Some(argument) = arguments.next() {
             match argument.as_str() {
@@ -55,6 +58,7 @@ impl Config {
                 "--output" => output = PathBuf::from(required(&mut arguments, "--output")?),
                 "--session-id" => session_id = required(&mut arguments, "--session-id")?,
                 "--prompt" => prompt = Some(required(&mut arguments, "--prompt")?),
+                "--model" => model = Some(required(&mut arguments, "--model")?),
                 "--maximum-steps" => {
                     maximum_steps = required(&mut arguments, "--maximum-steps")?.parse()?;
                 }
@@ -81,6 +85,9 @@ impl Config {
         if timeout.is_zero() || timeout > Duration::from_secs(600) {
             return Err("timeout-seconds must be within 1..=600".into());
         }
+        if model.as_ref().is_some_and(String::is_empty) {
+            return Err("model identity cannot be empty".into());
+        }
         if output.exists() {
             return Err(format!("output already exists: {}", output.display()).into());
         }
@@ -92,6 +99,7 @@ impl Config {
             prompt,
             maximum_steps,
             timeout,
+            model,
         })
     }
 }
@@ -118,7 +126,11 @@ struct RunReport {
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> ExitCode {
-    let config = match Config::parse(env::args().skip(1).collect()) {
+    let arguments: Vec<String> = env::args().skip(1).collect();
+    if arguments.first().map(String::as_str) == Some("fixture-context") {
+        return fixture_context_command(&arguments[1..]);
+    }
+    let config = match Config::parse(arguments) {
         Ok(config) => config,
         Err(error) => {
             eprintln!("configuration_fault: {error}");
@@ -146,7 +158,7 @@ async fn run(config: Config) -> Result<(), AnyError> {
 
     let client = Client::builder().timeout(config.timeout).build()?;
     health_check(&client, &config.base_url).await?;
-    let model = discover_model(&client, &config.base_url).await?;
+    let model = discover_model(&client, &config.base_url, config.model.as_deref()).await?;
     let initial_request = first_request(&model, &config.prompt, config.maximum_steps);
     let initial_response = post_chat(&client, &config.base_url, &initial_request).await?;
     let call = extract_advance_call(&initial_response, config.maximum_steps)?;
@@ -186,31 +198,24 @@ async fn run(config: Config) -> Result<(), AnyError> {
 
 async fn health_check(client: &Client, base_url: &str) -> Result<(), AnyError> {
     let root = base_url.strip_suffix("/v1").unwrap_or(base_url);
-    let response = client.get(format!("{root}/health")).send().await?;
+    let response = client.get(root).send().await?;
     if !response.status().is_success() {
         return Err(format!("provider health returned HTTP {}", response.status()).into());
     }
     Ok(())
 }
 
-async fn discover_model(client: &Client, base_url: &str) -> Result<String, AnyError> {
+async fn discover_model(
+    client: &Client,
+    base_url: &str,
+    requested: Option<&str>,
+) -> Result<String, AnyError> {
     let response = client.get(format!("{base_url}/models")).send().await?;
     if !response.status().is_success() {
         return Err(format!("model discovery returned HTTP {}", response.status()).into());
     }
     let value: Value = response.json().await?;
-    let models = value
-        .get("data")
-        .and_then(Value::as_array)
-        .ok_or("model discovery omitted data array")?;
-    if models.len() != 1 {
-        return Err(format!("expected one advertised model, observed {}", models.len()).into());
-    }
-    models[0]
-        .get("id")
-        .and_then(Value::as_str)
-        .map(str::to_owned)
-        .ok_or_else(|| "advertised model omitted id".into())
+    select_advertised_model(&value, requested).map_err(Into::into)
 }
 
 async fn post_chat(client: &Client, base_url: &str, request: &Value) -> Result<Value, AnyError> {
@@ -272,6 +277,55 @@ fn required(arguments: &mut impl Iterator<Item = String>, name: &str) -> Result<
         .ok_or_else(|| format!("{name} requires a value").into())
 }
 
+fn fixture_context_command(arguments: &[String]) -> ExitCode {
+    if arguments.len() != 2 || arguments[0] != "--output" {
+        eprintln!(
+            "configuration_fault: usage: cantor-compact-reflection-loop fixture-context --output PATH"
+        );
+        return ExitCode::from(2);
+    }
+    let path = Path::new(&arguments[1]);
+    if path.exists() {
+        eprintln!(
+            "configuration_fault: output already exists: {}",
+            path.display()
+        );
+        return ExitCode::from(2);
+    }
+    let context = match experimental_fixture_context_json() {
+        Ok(context) => context,
+        Err(error) => {
+            eprintln!("fixture_fault: {error}");
+            return ExitCode::from(1);
+        }
+    };
+    let result = (|| -> Result<(), AnyError> {
+        if let Some(parent) = path.parent()
+            && !parent.as_os_str().is_empty()
+        {
+            fs::create_dir_all(parent)?;
+        }
+        let mut file = OpenOptions::new().write(true).create_new(true).open(path)?;
+        file.write_all(context.as_bytes())?;
+        file.write_all(b"\n")?;
+        file.sync_all()?;
+        Ok(())
+    })();
+    match result {
+        Ok(()) => {
+            println!(
+                "FIXTURE: experimental nonauthoritative context written to {}",
+                path.display()
+            );
+            ExitCode::SUCCESS
+        }
+        Err(error) => {
+            eprintln!("fixture_fault: {error}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn print_help() {
     println!(
         "cantor-compact-reflection-loop\n\
@@ -281,8 +335,10 @@ fn print_help() {
          Required:\n\
            --context PATH          exact CoordinationToolContext JSON\n\
            --prompt TEXT           bounded user stimulus\n\
+           fixture-context --output PATH emits one experimental local proof context\n\
          Options:\n\
            --base-url URL          loopback OpenAI API root (default http://127.0.0.1:8081/v1)\n\
+           --model ID              exact advertised model; required when more than one is advertised\n\
            --session-id ID         semantic session identity\n\
            --maximum-steps N       required one-call quota within 1..=4096 (default 64)\n\
            --output PATH           create-new JSON report path\n\

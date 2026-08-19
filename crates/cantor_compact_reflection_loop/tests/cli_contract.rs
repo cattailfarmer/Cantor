@@ -83,3 +83,34 @@ fn context_and_create_new_output_boundaries_fail_closed() {
     fs::remove_file(empty_context).expect("remove fixture");
     fs::remove_file(existing_output).expect("remove fixture");
 }
+
+#[test]
+fn fixture_context_is_create_new_typed_and_nonauthoritative() {
+    let fixture = unique_path("fixture-context");
+    let generated = Command::new(binary())
+        .args([
+            "fixture-context",
+            "--output",
+            fixture.to_str().expect("path"),
+        ])
+        .output()
+        .expect("run");
+    assert!(generated.status.success());
+    let context: cantor_procedure_tool::CoordinationToolContext =
+        serde_json::from_slice(&fs::read(&fixture).expect("fixture bytes")).expect("typed fixture");
+    assert_eq!(
+        context.request.invocation_id.as_str(),
+        "invocation:experimental-live-fixture"
+    );
+    let duplicate = Command::new(binary())
+        .args([
+            "fixture-context",
+            "--output",
+            fixture.to_str().expect("path"),
+        ])
+        .output()
+        .expect("run");
+    assert_eq!(duplicate.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&duplicate.stderr).contains("output already exists"));
+    fs::remove_file(fixture).expect("remove fixture");
+}

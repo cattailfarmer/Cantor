@@ -1,7 +1,5 @@
-use std::collections::{BTreeMap, BTreeSet};
-
 use cantor_compact_reflection_loop::*;
-use cantor_core::*;
+use cantor_core::{ContentDigest, SemanticId};
 use cantor_procedure_tool::{CoordinationToolContext, CoordinationToolRequest};
 use serde_json::{Value, json};
 
@@ -10,57 +8,8 @@ fn sid(value: &str) -> SemanticId {
 }
 
 fn context() -> CoordinationToolContext {
-    let mut candidate: ProcedureCandidate = serde_json::from_str(include_str!(
-        "../../cantor_core/tests/fixtures/cppe_two_process_candidate.json"
-    ))
-    .expect("checked candidate");
-    candidate.candidate_id = sid("tool-candidate:compact-reflection");
-    candidate.author_ref = sid("model-output:compact-reflection-author");
-    candidate.provenance_refs = BTreeSet::from([sid("evidence:compact-reflection")]);
-    candidate.source_digest = compute_candidate_source_digest(&candidate).expect("source digest");
-    let template = AuthorshipLaneTemplate {
-        class: AuthorshipClass::ModelShaped,
-        authorship_evidence_refs: BTreeSet::from([sid("evidence:compact-reflection")]),
-        validator_ref: sid("validator:compact-reflection"),
-        policy_ref: sid("policy:compact-reflection"),
-        aliases: BTreeSet::from(["compact-reflection".to_owned()]),
-        permitted_invocation_context: "effectless-compact-reflection".to_owned(),
-        revocation_conditions: BTreeSet::from(["identity changes".to_owned()]),
-        invocation_ref: sid("invocation:compact-reflection"),
-        caller_ref: sid("caller:compact-reflection"),
-        input: ProcedureValue::Record {
-            fields: BTreeMap::from([(
-                "subject".to_owned(),
-                ProcedureValue::Text {
-                    value: "hello".to_owned(),
-                },
-            )]),
-        },
-        input_sensitivity: SensitivityClass::ProjectInternal,
-        sop_generation_ref: sid("sop-generation:compact-reflection"),
-        initial_logical_time: 20,
-        budgets: InvocationBudget {
-            logical_time_limit: 64,
-            step_limit: 64,
-            memory_unit_limit: 16_384,
-            message_limit: 16,
-            trace_event_limit: 128,
-        },
-        retention_policy_ref: sid("policy:retention"),
-        session_generation_ref: sid("session-generation:compact-reflection"),
-        session_ref: sid("negotiation-session:compact-reflection"),
-        session_purpose: "prove compact procedure reflection binding".to_owned(),
-        frame_ref: sid("frame:compact-reflection"),
-        frame_conditions: BTreeSet::from(["effectless".to_owned()]),
-        frame_constraints: BTreeSet::from(["provider-neutral".to_owned()]),
-        permitted_message_kinds: BTreeSet::from([
-            ProcedureMessageKind::Propose,
-            ProcedureMessageKind::Support,
-            ProcedureMessageKind::Pass,
-        ]),
-    };
-    let lane = run_authorship_lane(&candidate, &template, &BTreeMap::new()).expect("lane");
-    CoordinationToolContext::from(&lane)
+    serde_json::from_str(&experimental_fixture_context_json().expect("fixture context"))
+        .expect("typed context")
 }
 
 fn bound_terminal() -> TerminalObservation {
@@ -223,6 +172,13 @@ fn provider_and_trace_boundaries_are_closed() {
     );
     assert!(normalize_loopback_base_url("http://192.168.1.19:8081/v1").is_err());
     assert!(normalize_loopback_base_url("https://localhost:8081/v1").is_err());
+    let advertised = json!({"data": [{"id": "model-a"}, {"id": "model-b"}]});
+    assert_eq!(
+        select_advertised_model(&advertised, Some("model-b")).unwrap(),
+        "model-b"
+    );
+    assert!(select_advertised_model(&advertised, None).is_err());
+    assert!(select_advertised_model(&advertised, Some("model-c")).is_err());
     let sanitized = sanitize(&json!({
         "choices": [{"message": {"content": "public", "reasoning_content": "private"}}],
         "thinking": "private"

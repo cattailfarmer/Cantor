@@ -29,7 +29,16 @@ a paused successor fails rather than silently adding another provider pass.
 ## Run
 
 Build the executable and provide an exact serialized
-`CoordinationToolContext` already admitted by the procedure compiler path:
+`CoordinationToolContext` already admitted by the procedure compiler path. For
+an effectless local proof only, the executable can emit a deterministic,
+explicitly non-authoritative fixture:
+
+```powershell
+.\target\release\cantor-compact-reflection-loop.exe fixture-context `
+  --output C:\path\to\experimental-context.json
+```
+
+Then run the host:
 
 ```powershell
 cargo build --release -p cantor_compact_reflection_loop --locked
@@ -37,12 +46,14 @@ cargo build --release -p cantor_compact_reflection_loop --locked
   --context C:\path\to\coordination-context.json `
   --prompt "Run and reflect over the bound attention procedure." `
   --base-url http://127.0.0.1:8081/v1 `
+  --model exact-advertised-model-id `
   --maximum-steps 64 `
   --output C:\path\to\compact-reflection-report.json
 ```
 
-The endpoint must be unauthenticated loopback HTTP and advertise exactly one
-model at `/v1/models`. The output path is create-new. Provider response bodies,
+The endpoint must be unauthenticated loopback HTTP. If it advertises several
+models at `/v1/models`, `--model` must exactly match one advertised identifier;
+when it advertises one, selection may be implicit. The output path is create-new. Provider response bodies,
 the context file, prompt, timeout, and quota are bounded. Provider-private
 reasoning fields are recursively omitted from the preserved report.
 
@@ -55,11 +66,11 @@ reasoning fields are recursively omitted from the preserved report.
   boundary;
 - wrong names, counts, quotas, premature content, remote URLs, altered final
   digests, empty contexts, and existing output paths fail closed; and
-- the host compiles and passes deterministic protocol and CLI tests without a
-  live provider.
+- the complete executable performs root health, multi-model discovery, first
+  HTTP pass, compact execution, terminal READ, second HTTP pass, sanitization,
+  and create-new report against a deterministic loopback provider.
 
-Live model acceptance remains a separate deployment checkpoint. This P0 does
+Live generative-model acceptance remains a separate deployment checkpoint. This P0 does
 not modify llama.cpp, inject information during a live token stream, access
 hidden state, persist or authenticate sessions, execute effects, establish
 external truth, contact EVO-X2 automatically, or access OneDrive.
-

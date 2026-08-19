@@ -1,0 +1,22 @@
+Subject: Compact Procedure Reflection Loop Local Provider Usability Addendum
+
+@ [source_uuid] 6a7de543-7829-4dd5-9817-d837e7fadc19
+@ [captured_at_utc] 2026-08-19T16:53:41.3415545Z
+
+& [ObservedLocalSurface]
+  + one local-only Ollama process listens at 127.0.0.1:11434
+  + its OpenAI-compatible v1 models endpoint advertises five models
+  + its root endpoint reports healthy while its health path returns not found
+  + no EVO-X2 or remote connection is needed for this observation
+
+& [UsabilityNeed]
+  + permit the operator to select exactly one model identity from the advertised set
+  + retain fail-closed auto-selection when no model is specified and the set is not singular
+  + accept a successful local provider root health response without requiring a llama.cpp-specific health path
+  + emit one explicitly experimental deterministic CoordinationToolContext fixture for local end-to-end testing
+  + mark the fixture as test evidence rather than signed SOP authority or general user data
+
+& [Boundary]
+  + model selection must match one exact advertised identifier
+  + fixture export is create-new and effectless except for the named local output file
+  + neither capability discovers contacts or falls back to a remote host

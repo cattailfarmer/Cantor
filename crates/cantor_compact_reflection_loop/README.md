@@ -11,3 +11,6 @@ requires one advancement to reach terminal state. It does not modify
 llama.cpp, access hidden state, execute effects, contact a remote host, or
 persist the volatile session.
 
+`fixture-context --output PATH` emits one create-new, explicitly experimental
+context for local proof. `--model ID` selects one exact identifier from a
+multi-model advertisement; it never enables remote discovery or fallback.

@@ -7,7 +7,14 @@ use cantor_compact_coordination_mcp::{
     CompactResponseStatus, CompactSessionCommand, CompactSessionResult, CompactSessionStatus,
     apply_compact_coordination_command, new_compact_coordination_registry,
 };
-use cantor_core::{ContentDigest, SemanticId};
+use std::collections::{BTreeMap, BTreeSet};
+
+use cantor_core::{
+    AuthorshipClass, AuthorshipLaneTemplate, ContentDigest, InvocationBudget, ProcedureCandidate,
+    ProcedureMessageKind, ProcedureValue, SemanticId, SensitivityClass,
+    compute_candidate_source_digest, run_authorship_lane,
+};
+use cantor_procedure_tool::CoordinationToolContext;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value, json};
@@ -67,6 +74,99 @@ pub fn normalize_loopback_base_url(candidate: &str) -> Result<String, String> {
         return Err("base URL must be an unauthenticated loopback HTTP /v1 root".to_owned());
     }
     Ok(candidate.trim_end_matches('/').to_owned())
+}
+
+pub fn select_advertised_model(
+    response: &Value,
+    requested: Option<&str>,
+) -> Result<String, String> {
+    let models = response
+        .get("data")
+        .and_then(Value::as_array)
+        .ok_or("model discovery omitted data array")?;
+    let identifiers = models
+        .iter()
+        .map(|model| {
+            model
+                .get("id")
+                .and_then(Value::as_str)
+                .ok_or_else(|| "advertised model omitted id".to_owned())
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if identifiers.iter().copied().collect::<BTreeSet<_>>().len() != identifiers.len() {
+        return Err("model advertisement contains duplicate identities".to_owned());
+    }
+    if let Some(requested) = requested {
+        if requested.is_empty() || !identifiers.contains(&requested) {
+            return Err(format!("requested model is not advertised: {requested}"));
+        }
+        return Ok(requested.to_owned());
+    }
+    if identifiers.len() != 1 {
+        return Err(format!(
+            "expected one advertised model without --model, observed {}",
+            identifiers.len()
+        ));
+    }
+    Ok(identifiers[0].to_owned())
+}
+
+pub fn experimental_fixture_context_json() -> Result<String, String> {
+    let sid = |value: &str| SemanticId::new(value).map_err(|fault| fault.to_string());
+    let mut candidate: ProcedureCandidate = serde_json::from_str(include_str!(
+        "../../cantor_core/tests/fixtures/cppe_two_process_candidate.json"
+    ))
+    .map_err(|error| format!("compiled fixture candidate is invalid: {error}"))?;
+    candidate.candidate_id = sid("tool-candidate:compact-reflection-live-fixture")?;
+    candidate.author_ref = sid("model-output:compact-reflection-live-fixture")?;
+    candidate.provenance_refs = BTreeSet::from([sid("evidence:experimental-live-fixture")?]);
+    candidate.source_digest = compute_candidate_source_digest(&candidate)
+        .map_err(|fault| format!("fixture source digest failed: {fault}"))?;
+    let template = AuthorshipLaneTemplate {
+        class: AuthorshipClass::ModelShaped,
+        authorship_evidence_refs: BTreeSet::from([sid("evidence:experimental-live-fixture")?]),
+        validator_ref: sid("validator:experimental-live-fixture")?,
+        policy_ref: sid("policy:experimental-live-fixture")?,
+        aliases: BTreeSet::from(["experimental-compact-reflection-fixture".to_owned()]),
+        permitted_invocation_context: "effectless-local-proof-only".to_owned(),
+        revocation_conditions: BTreeSet::from(["identity changes".to_owned()]),
+        invocation_ref: sid("invocation:experimental-live-fixture")?,
+        caller_ref: sid("caller:experimental-live-fixture")?,
+        input: ProcedureValue::Record {
+            fields: BTreeMap::from([(
+                "subject".to_owned(),
+                ProcedureValue::Text {
+                    value: "experimental local compact reflection".to_owned(),
+                },
+            )]),
+        },
+        input_sensitivity: SensitivityClass::ProjectInternal,
+        sop_generation_ref: sid("sop-generation:experimental-live-fixture")?,
+        initial_logical_time: 20,
+        budgets: InvocationBudget {
+            logical_time_limit: 64,
+            step_limit: 64,
+            memory_unit_limit: 16_384,
+            message_limit: 16,
+            trace_event_limit: 128,
+        },
+        retention_policy_ref: sid("policy:retention")?,
+        session_generation_ref: sid("session-generation:experimental-live-fixture")?,
+        session_ref: sid("negotiation-session:experimental-live-fixture")?,
+        session_purpose: "prove one local compact model tool model loop".to_owned(),
+        frame_ref: sid("frame:experimental-live-fixture")?,
+        frame_conditions: BTreeSet::from(["effectless".to_owned(), "experimental".to_owned()]),
+        frame_constraints: BTreeSet::from(["local-only".to_owned()]),
+        permitted_message_kinds: BTreeSet::from([
+            ProcedureMessageKind::Propose,
+            ProcedureMessageKind::Support,
+            ProcedureMessageKind::Pass,
+        ]),
+    };
+    let lane = run_authorship_lane(&candidate, &template, &BTreeMap::new())
+        .map_err(|fault| format!("fixture authorship lane failed: {fault}"))?;
+    serde_json::to_string_pretty(&CoordinationToolContext::from(&lane))
+        .map_err(|error| format!("fixture context serialization failed: {error}"))
 }
 
 pub fn open_bound_session(
