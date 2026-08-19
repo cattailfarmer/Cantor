@@ -120,7 +120,12 @@ baseline:
 - the existing CPPE two-process coordinator now exposes a digest-bound
   `CoordinationCheckpoint` and bounded start/advance stepper, allowing the
   complete scheduler frontier to pause and resume across host calls while
-  producing byte-identical terminal outcomes under different slice sizes.
+  producing byte-identical terminal outcomes under different slice sizes; and
+- `cantor_procedure_tool` now projects that stepper through strict
+  provider-neutral `BEGIN` and `ADVANCE` requests, while the separate stateless
+  `cantor-coordination-mcp` process exposes one local
+  `step_procedure_coordination` tool for ordinary between-pass inference loops
+  without retained context, model access, effects, or llama.cpp changes.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -184,6 +189,10 @@ The correspondence between execution frames, typed local variables,
 instruction cursors, per-process continuations, and the new whole-scheduler
 checkpoint is documented in
 [`docs/RESUMABLE_COORDINATION_CHECKPOINT_P0.md`](docs/RESUMABLE_COORDINATION_CHECKPOINT_P0.md).
+The strict provider-neutral request, stateless MCP surface, complete
+model–tool–model staging flow, proof boundary, and deferred context custody are
+documented in
+[`docs/RESUMABLE_COORDINATION_TOOL_P0.md`](docs/RESUMABLE_COORDINATION_TOOL_P0.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell

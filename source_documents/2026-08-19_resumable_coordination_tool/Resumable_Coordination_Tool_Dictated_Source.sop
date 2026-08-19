@@ -1,0 +1,32 @@
+Subject: Resumable Coordination Tool Dictated Source
+
+@ [source_snapshot_uuid] 0957d185-0ee3-4881-ae4e-fcaa3f344400
+@ [captured_at] 2026-08-19T15:16:10.4606862Z
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [status] preserved_observed
+
+& [ToolPurpose] preserves the user's repeated executable seam
+  + the user wants "a basic tool" called during inference to execute behavior and return results for a later reflective pass
+  + the user asks whether Cantor can be "a tool used by OpenAI Codex" and describes it as "an inference co-processor"
+  + the user wants a llama.cpp attention-accessible tool to call back into the Rust procedure system
+
+& [CheckpointFoundation] records the immediate predecessor
+  + Cantor now has begin_coordination_checkpoint and advance_coordination_checkpoint pure functions
+  + the complete scheduler frontier is strict digest-bound predecessor-linked and produces byte-equal terminal outcomes under different host slice sizes
+  + those functions are not yet exposed through a standard inference-tool transport
+
+& [SelectedAdapter] is one stateless provider-neutral command and one local STDIO MCP tool
+  + BEGIN carries exact admitted coordination context and returns a genesis checkpoint
+  + ADVANCE carries the same exact context one checkpoint and a positive step quota and returns paused or terminal transition
+  + the tool stores no state so every result remains caller-visible and restart-simple
+  + Codex llama.cpp Ollama or another host may call it only between model passes using their own ordinary tool loop
+
+& [ContextBoundary] is minimal executable authority
+  + context contains catalogue procedure IR admission invocation request and initial negotiation session
+  + it does not require unrelated authorship-lane output replay stable-session or candidate history already subsumed by the exact admitted objects
+  + core validation remains the authority and the adapter does not reinterpret faults or checkpoint content
+
+& [AuthorityBoundary] is dictated_source_only
+  + this source selects transport-neutral strict forms dispatch and one stateless local MCP adapter as the next prototype slice
+  + canonical machine forms statuses schemas size ceilings tests registration and documentation require later SJS authority
+  + no process-local custody persistence provider call prompt insertion mid-generation mutation host registration external effect authentication or production deployment is authorized

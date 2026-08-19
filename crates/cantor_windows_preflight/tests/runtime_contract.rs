@@ -1,13 +1,17 @@
+#[cfg(windows)]
 use std::{fs, path::Path};
 
+#[cfg(windows)]
 use cantor_ecosystem::{
     PlatformPreflightDisposition, ValidatePlatformPreflightForm,
     WINDOWS_PLATFORM_PREFLIGHT_PROFILE, WINDOWS_PLATFORM_PREFLIGHT_REQUEST_PROFILE,
     WINDOWS_PLATFORM_PREFLIGHT_TARGET, WindowsPlatformPreflightRecord,
     WindowsPlatformPreflightRequest,
 };
+#[cfg(windows)]
 use cantor_windows_preflight::observe_platform_preflight;
 
+#[cfg(windows)]
 const EXACT_FIXTURE_ROOT: &str = r"\\?\C:\Project\Cantor\.local\m2b-platform-preflight-fixture";
 
 #[test]

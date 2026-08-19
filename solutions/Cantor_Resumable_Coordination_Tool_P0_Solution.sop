@@ -1,0 +1,40 @@
+Subject: Cantor Resumable Coordination Tool P0 Solution
+
+@ [solution_uuid] 4b76d9b6-7fb4-4c6e-8b9d-d93edfe25ff4
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Resumable_Coordination_Tool_P0.sop
+@ [implementation] C:\Project\Cantor\crates\cantor_procedure_tool\src\coordination.rs
+@ [transport] C:\Project\Cantor\crates\cantor_coordination_mcp\src\lib.rs
+@ [proof] C:\Project\Cantor\proofs\Cantor_Resumable_Coordination_Tool_P0_Proof.sop
+
+& [ContextSolution] projects exact runtime authority
+  + CoordinationToolContext carries catalogue procedure IR admission request and initial session only
+  + conversion from successful AuthorshipLaneEvidence omits candidate validation compilation prior outcome replay and stable-session history
+  + boxed large forms reduce Rust enum stack size without changing serialized JSON shape
+
+& [DispatchSolution] has one semantic implementation
+  + strict internally tagged BEGIN calls begin_coordination_checkpoint
+  + strict internally tagged ADVANCE calls advance_coordination_checkpoint after a positive-quota gate
+  + core faults become bounded category-preserving transport faults with no successor result
+  + successful results contain the exact core checkpoint or transition and equal inputs replay byte-identically
+
+& [McpSolution] is one stateless local transport
+  + cantor-coordination-mcp advertises exactly step_procedure_coordination over STDIO
+  + complete request state enters under request and the complete response exits under structuredContent
+  + text is a short nonauthoritative summary
+  + metadata is read-only non-destructive idempotent and closed-world and ingress is capped at 32 MiB
+
+& [InferenceSolution] uses ordinary staged tool calling
+  + a host finishes one model pass or applies deterministic policy before calling Cantor
+  + the host may place the returned structuredContent in the next inference pass
+  + no llama.cpp patch token insertion KV-cache access hidden-state sharing or live forward-pass mutation is required
+
+& [OperationalRepair] closes a workspace-only lint fault
+  + Windows-only runtime-contract test imports and fixture constant now share the existing cfg(windows) boundary
+  + Windows behavior and test content are unchanged while warnings-denied Linux Clippy becomes truthful
+
+& [Boundary] is callable checkpoint P0
+  + no retained custody persistence authentication provider invocation automatic registration prompt policy external effect or model-choice guarantee is added
+  + checkpoint content binding remains distinct from producer identity and semantic truth
+
+& [Disposition] is implemented_verified_stateless_resumable_coordination_tool_P0
+

@@ -15,6 +15,9 @@ use cantor_core::{
 };
 use serde::{Deserialize, Serialize};
 
+mod coordination;
+pub use coordination::*;
+
 #[cfg(feature = "json-schema")]
 mod schema_generation;
 #[cfg(feature = "json-schema")]

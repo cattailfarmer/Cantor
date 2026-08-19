@@ -1,0 +1,63 @@
+Subject: Cantor Resumable Coordination Tool P0
+
+@ [specification_uuid] ce4e55a3-d428-4e75-9aaf-176f427cdf44
+@ [profile] cantor-resumable-coordination-tool/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_resumable_coordination_tool\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Resumable_Coordination_Tool_P0.exploded.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Resumable_Coordination_Checkpoint_P0.sop
+
+& [ContextForm] carries exact admitted authority
+  + [RCT-001] CoordinationToolContext is a strict versioned JSON and JsonSchema-capable form
+  + [RCT-002] it contains ProcedureCatalogueState CompiledProcedureIdentity CantorProcessIr AdmissionDisposition InvocationRequest and NegotiationSession
+  + [RCT-003] it contains no replay candidate history provider prompt model hidden state runtime handle or adapter-owned session identifier
+  + [RCT-004] a convenience conversion from successful AuthorshipLaneEvidence copies only those six exact fields
+
+& [CommandForm] is closed
+  + [RCT-005] CoordinationToolRequest is a strict tagged BEGIN or ADVANCE union
+  + [RCT-006] BEGIN contains one context and ADVANCE contains one context one CoordinationCheckpoint and maximum_steps
+  + [RCT-007] CoordinationToolOperation CoordinationToolStatus CoordinationToolResult and CoordinationToolFault are typed closed forms
+  + [RCT-008] CoordinationToolResponse always carries profile operation status optional result optional fault and explicit nonclaims
+  + [RCT-009] succeeded carries one matching result and no fault while refused or invalid carries one fault and no result
+
+& [PureDispatch] preserves core semantics
+  + [RCT-010] BEGIN delegates to begin_coordination_checkpoint without rebuilding validation
+  + [RCT-011] ADVANCE delegates to advance_coordination_checkpoint without rebuilding validation
+  + [RCT-012] EvaluationFault becomes a stable string category and exact message without fabricating a checkpoint or transition
+  + [RCT-013] maximum_steps equal to zero is invalid before core execution and returns no result
+  + [RCT-014] equal immutable request values produce byte-equal response values without external effects or retained state
+
+& [LocalMCP] is one bounded stateless transport
+  + [RCT-015] cantor-coordination-mcp is a local STDIO executable with one tool named step_procedure_coordination
+  + [RCT-016] tool input is CoordinationToolRequest and full CoordinationToolResponse is returned as structuredContent
+  + [RCT-017] text content is a short nonauthoritative status summary and cannot replace structuredContent
+  + [RCT-018] tool annotations declare read-only idempotent non-destructive closed-world behavior
+  + [RCT-019] server ingress is bounded at 33554432 bytes and parse size internal and dispatch failures return stable MCP-visible errors
+  + [RCT-020] server retains no coordination context checkpoint or result between calls
+
+& [HostFlow] is explicitly staged
+  + [RCT-021] this P0 operates only between inference passes after a host receives a complete model tool request or deterministically selects one
+  + [RCT-022] a host may append returned structured content to a subsequent model pass but this project does not modify model tokens KV cache hidden state or a live forward pass
+  + [RCT-023] Codex llama.cpp Ollama and other tool hosts are prospective callers and no automatic registration or provider compatibility claim is made
+
+& [Boundary] is a callable proof-of-concept
+  + [RCT-024] no process-local custody persistence ledger authentication authorization external effect model invocation prompt template IDE UI deployment or network listener is included
+  + [RCT-025] digest binding remains integrity and lineage evidence rather than producer identity or semantic truth
+  + [RCT-026] the existing procedure-tool CLI and schemas remain behaviorally compatible
+
+& [Acceptance] is finite
+  + [RCT-A01] source SJS signature and seven-fold trace verify
+  + [RCT-A02] direct BEGIN and ADVANCE responses equal their core entrypoint values and deterministic replay is byte-equal
+  + [RCT-A03] strict JSON schema unknown-field zero-quota and core refusal cases fail closed with no successor result
+  + [RCT-A04] official RMCP subprocess discovery invocation structured response metadata and shutdown pass
+  + [RCT-A05] formatting warnings-denied lint full workspace regression manifest audit narrative and scoped Git review pass
+
+& [SatisfactionSignature] is bounded SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is d6ef486e-aaa1-41f9-ad6b-21e2544d17c1
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Resumable_Coordination_Tool_P0.sop
+  + [source_snapshot_uuid] is 0957d185-0ee3-4881-ae4e-fcaa3f344400
+  + [source_manifest_sha256] is 67F818E8A6717BB08D7EB476F702C329E08097437642D883028B02A8F512902D
+  + [processed_stage_set] is source_preserved audited delineated seven_fold_exploded dual_hemisphere_reconciled data_designed constraint_checked pruned flowcharted acceptance_formed justified planned feature_sliced phase_locked and signed
+  + [signature_status] is valid_for_stateless_resumable_coordination_tool_P0_only
+  + [invalidation] is adapter_interpreter hidden_state semantic_reinterpretation unbounded_ingress retained_custody effect_execution automatic_registration or deferred_scope_expansion
+

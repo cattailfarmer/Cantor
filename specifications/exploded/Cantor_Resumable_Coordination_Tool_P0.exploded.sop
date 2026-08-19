@@ -1,0 +1,57 @@
+Subject: Cantor Resumable Coordination Tool P0 Seven-Fold Explosion
+
+@ [explosion_uuid] 3a75898a-ad1f-4a28-961f-41e18cb682ce
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_resumable_coordination_tool\Source_Document_Manifest.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Resumable_Coordination_Checkpoint_P0.sop
+
+& [Fold1Identity] names a transport seam rather than a runtime
+  + CoordinationToolContext contains the six exact objects already admitted by the checkpoint core
+  + CoordinationToolRequest selects BEGIN or ADVANCE and carries every value needed for a pure call
+  + CoordinationToolResponse reports a typed status result or fault and explicit nonclaims
+  + no adapter-owned session authority exists
+
+& [Fold2Form] keeps machine exchange closed and inspectable
+  + context request response status operation result and fault forms reject unknown JSON fields and generate schemas
+  + BEGIN carries context only while ADVANCE additionally carries one checkpoint and positive step quota
+  + success contains exactly the core checkpoint or transition rather than a paraphrase
+  + fault contains stable category code message and no successor value
+
+& [Fold3Dispatch] delegates without reinterpretation
+  + BEGIN calls begin_coordination_checkpoint with the six exact context values
+  + ADVANCE calls advance_coordination_checkpoint with the same context checkpoint and quota
+  + core EvaluationFault category and message are copied into transport fault material
+  + equal requests produce byte-equal responses and no external effect
+
+& [Fold4MCP] exposes one ordinary between-pass tool
+  + a local STDIO server advertises exactly step_procedure_coordination
+  + the tool accepts the transport-neutral request and returns the complete response in structuredContent
+  + text content is only a short nonauthoritative operator summary
+  + metadata declares read-only idempotent closed-world behavior and the ingress ceiling is finite
+
+& [Fold5InferenceFlow] is host model tool host model
+  + a host sends a model prompt containing the small Cantor primer and available tool schema
+  + the model or deterministic host emits one tool request between generation passes
+  + Cantor validates and advances bounded executable state
+  + the host appends the structured response as tool material and starts the next model pass
+  + no token hidden-state or KV-cache mutation is required or claimed
+
+& [Fold6Proof] compares adapter and core directly
+  + direct BEGIN response equals begin_coordination_checkpoint
+  + direct ADVANCE response equals advance_coordination_checkpoint and can reach the proven terminal outcome
+  + malformed JSON unknown fields zero quota lineage faults and oversized MCP input fail closed
+  + an official RMCP client proves initialization discovery invocation and shutdown against a real subprocess
+
+& [Fold7Boundary] prevents prototype singularity
+  + no provider call prompt injection tool registration process-local custody persistence authentication external effect UI or deployment is authorized
+  + no existing procedure command schema is silently expanded
+  + no claim is made that models will reliably choose the tool without host policy evaluation
+  + llama.cpp modification and mid-generation semantic insertion remain deferred
+
+& [PrunedAlternatives] preserves one semantic authority
+  - do not rebuild checkpoint validation in the adapter
+  - do not place static context in hidden server globals
+  - do not treat tool text as authoritative data
+  - do not couple the transport-neutral dispatcher to MCP types
+
+& [SelectedFlow] is strict request -> pure core dispatch -> strict response -> structured MCP transport -> later model pass
+

@@ -1,0 +1,32 @@
+Subject: Cantor Resumable Coordination Tool P0 Justification
+
+@ [justification_uuid] 9cc52fe8-2d8b-4b1a-b250-b9783b6bbaaf
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Resumable_Coordination_Tool_P0.sop
+
+& [Need] is an ordinary callable seam
+  + the checkpoint stepper proves execution-frame reentry but is currently reachable only by Rust callers
+  + the requested inference coprocessor requires strict machine forms a transport-neutral dispatcher and a standard local tool surface
+  + a later model pass must be able to inspect the complete response rather than trust an operator paraphrase
+
+& [Leverage] is unusually high for a thin adapter
+  + one command makes the proven deterministic runtime callable by Codex llama.cpp or any MCP-capable host without modifying inference engines
+  + stateless requests make all authority visible and make crash recovery identical to resubmission
+  + isolating MCP preserves a reusable Rust dispatcher for other transports
+
+& [Safety] follows the checkpoint core
+  + every call carries the exact admitted context and the core rechecks lineage
+  + no server-held memory can silently diverge between callers
+  + finite input size closed forms and typed failures bound the parsing and execution surface
+
+& [Tradeoff] accepts larger repeated requests
+  + the six static context objects repeat on every P0 advance call
+  + this is intentional until measurements justify a separately governed context registry
+  + correctness inspectability and restart simplicity take priority over premature transport compression
+
+& [AlternativesRejected] prevents duplicated authority
+  - modifying llama.cpp first would tie the semantic proof to one host
+  - a stateful MCP first would add custody recovery and concurrency obligations
+  - extending the old procedure command would confuse full authorship orchestration with bounded checkpoint stepping
+
+& [Conclusion] is implement one strict pure dispatcher and one stateless local STDIO MCP adapter
+
