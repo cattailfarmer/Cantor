@@ -188,6 +188,12 @@ fn stopped_report_preserves_the_exact_ready_head_exclusively() {
         nonclaims: nonclaims(),
     };
     validate_iterative_report(&report).expect("stopped report");
+    let encoded = serde_json::to_value(&report).expect("serialize report");
+    let decoded: IterativeReport = serde_json::from_value(encoded.clone()).expect("round trip");
+    assert_eq!(decoded, report);
+    let mut unknown = encoded;
+    unknown["hidden"] = Value::Bool(true);
+    assert!(serde_json::from_value::<IterativeReport>(unknown).is_err());
 
     let mut premature_timeout = report.clone();
     premature_timeout.stop_reason = Some(StopReason::Timeout);
@@ -259,6 +265,22 @@ fn complete_report_requires_one_terminal_head_and_no_reentry() {
         nonclaims: nonclaims(),
     };
     validate_iterative_report(&report).expect("complete report");
+
+    let mut substituted_projection = report.clone();
+    substituted_projection
+        .terminal_projection
+        .as_mut()
+        .expect("projection")
+        .step_count += 1;
+    assert!(validate_iterative_report(&substituted_projection).is_err());
+
+    let mut changed_statement = report.clone();
+    changed_statement
+        .final_output
+        .as_mut()
+        .expect("final output")
+        .statement = "unsupported".to_owned();
+    assert!(validate_iterative_report(&changed_statement).is_err());
 
     let mut contradictory = report;
     contradictory.reentry_handle = Some(terminal.handle);

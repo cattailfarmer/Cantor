@@ -9,7 +9,10 @@ use cantor_core::{ContentDigest, SemanticId};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::{FinalOutput, TerminalObservation, TerminalProjection};
+use crate::{
+    FINAL_STATEMENT, FinalOutput, TerminalObservation, TerminalProjection,
+    project_terminal_observation,
+};
 
 pub const READY_PROJECTION_PROFILE: &str = "cantor-ready-projection/0.1";
 pub const ITERATIVE_REPORT_PROFILE: &str = "cantor-iterative-attention-procedure-loop-report/0.1";
@@ -329,6 +332,8 @@ fn validate_complete_report(
         .final_output
         .as_ref()
         .ok_or_else(|| "complete report is missing final output".to_owned())?;
+    let derived_projection = project_terminal_observation(observation)?;
+    let recorded_successor = report.iterations.last().map(|record| &record.successor);
     if report.iterations.is_empty()
         || head.status != CompactSessionStatus::Terminal
         || report.reentry_handle.is_some()
@@ -336,10 +341,15 @@ fn validate_complete_report(
         || report.stop_reason.is_some()
         || report.usage.provider_calls != report.usage.tool_calls.saturating_add(1)
         || observation.handle != *head
-        || projection.session_id != report.session_id
-        || projection.outcome_digest != observation.outcome_digest
+        || projection != &derived_projection
+        || !matches!(
+            recorded_successor,
+            Some(IterationSuccessor::Terminal { projection: successor }) if successor == projection
+        )
         || output.session_id != report.session_id
         || output.outcome_digest != projection.outcome_digest
+        || output.observed_status != projection.observed_status
+        || output.statement != FINAL_STATEMENT
     {
         return Err("complete report terminal identity or exclusivity is invalid".to_owned());
     }
