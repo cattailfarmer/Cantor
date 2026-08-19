@@ -120,3 +120,24 @@ Subject: Cantor Field Attention Cycle P0 Operational Faults
   + [proof] the existing file-budget test now covers exact-ceiling success and ceiling-plus-one streaming refusal while the complete P0 acceptance harness remains green
   + [boundary] handle-bound reading improves local resource discipline and does not claim adversarial production denial-of-service resistance
   + [status] is closed
+
+& [FADL_R002] is name-based loopback without peer-address attestation
+  + [observed] provider admission accepts canonical 127.0.0.1 or localhost text but the retained report does not prove the resolved socket peer address
+  + [containment] every P0 evidence run uses numeric 127.0.0.1 proxies and redirects are disabled and the observed EVO-X2 server listener is exactly 127.0.0.1 port 8081
+  + [boundary] current evidence does not demonstrate a route escape but localhost text alone is weaker than resolved-peer attestation
+  + [reentry] a production transport profile may require numeric loopback only or retain independently checked connected-peer evidence
+  + [status] is open_nonblocking_P0_residual
+
+& [FADL_R003] is create-new but non-atomic report publication
+  + [observed] a report self-verifies before OpenOptions create_new and existing files are never overwritten but interruption or write failure can leave a partial new file
+  + [containment] the command returns failure and a partial artifact cannot pass strict report deserialization and replay verification
+  + [boundary] create-new identity and semantic validity do not establish crash atomicity filesystem durability or multi-consumer publication protocol
+  + [reentry] a production writer may use same-directory exclusive staging flush durability policy and no-replace atomic publication under separate platform specification
+  + [status] is open_nonblocking_P0_residual
+
+& [FADL_R004] is known-key sanitization rather than universal confidentiality
+  + [observed] recursive sanitization removes reasoning reasoning_content thinking and chain_of_thought keys exactly while retaining other bounded provider fields needed for replay
+  + [containment] thinking is disabled in requests model output uses a closed schema responses are byte bounded and retained evidence makes no secret-store claim
+  + [boundary] no finite field-name filter proves an arbitrary provider cannot place sensitive content under another key or inside ordinary content
+  + [reentry] production confidentiality requires provider-specific schema allowlisting data classification and evidence retention policy rather than broader key guessing
+  + [status] is open_nonblocking_P0_residual

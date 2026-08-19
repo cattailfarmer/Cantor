@@ -155,5 +155,8 @@ Local semantic-field and cycle-report reads are handle-bound and allocation-boun
 - The four probes are correlated outputs from one model, not independent witnesses.
 - A compiled connected chain proves structural contract satisfaction, not that each relation kind is semantically correct.
 - All four v5 field probes described the whole proposal as conflicted without member attribution; the separate delineation returned supported. That disagreement is preserved as a semantic-confidence warning.
+- Every retained provider run uses numeric `127.0.0.1`; the accepted `localhost` spelling is not accompanied by connected-peer address attestation and should not be promoted to a production network claim.
+- Report publication is create-new and preverified, but a physical write interruption can leave an invalid partial file; crash-atomic publication and durability are outside P0.
+- Sanitization removes the declared private-reasoning keys recursively. It is a known-key evidence policy, not a universal confidentiality guarantee for arbitrary provider fields or ordinary content.
 - No database retrieval, faculty loading, effects, shared inference, training, dynamic procedure creation, or production authorization is part of P0.
 - This is an attention I/O co-processor mechanism test, not a small language model and not proof of “holistic cognition.”
