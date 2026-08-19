@@ -8,6 +8,7 @@ mod dispatch_checkpoint;
 mod dispatch_lifecycle;
 mod dual_transcript;
 mod iterative;
+mod lineage_index;
 mod provider_protocol;
 mod scripted_orchestrator;
 mod scripted_stopped;
@@ -73,6 +74,14 @@ pub use iterative::{
     project_ready_record, validate_deterministic_drive_measurement,
     validate_deterministic_drive_result, validate_iterative_report, validate_ready_projection,
     validate_run_policy,
+};
+pub use lineage_index::{
+    PROVIDER_FREE_ATTENTION_LINEAGE_INDEX_NONCLAIMS, PROVIDER_FREE_ATTENTION_LINEAGE_INDEX_PROFILE,
+    ProviderFreeAttentionLineageIndex, ProviderFreeCapabilityLedger,
+    ProviderFreeLineageArtifactCommitment, ProviderFreeLineageArtifactKind,
+    generate_provider_free_attention_lineage_index,
+    pretty_provider_free_attention_lineage_index_bytes,
+    validate_provider_free_attention_lineage_index,
 };
 pub use provider_protocol::{
     ITERATIVE_PROVIDER_NONCLAIMS, ITERATIVE_PROVIDER_PREFIX_PROFILE, IterativeProviderPhase,
