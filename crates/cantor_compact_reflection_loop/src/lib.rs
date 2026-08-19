@@ -2,6 +2,7 @@
 
 #![forbid(unsafe_code)]
 
+mod attention_reentry;
 mod iterative;
 mod provider_protocol;
 mod scripted_orchestrator;
@@ -9,6 +10,16 @@ mod scripted_stopped;
 mod terminal_pending;
 mod transcript_measurement;
 
+pub use attention_reentry::{
+    ATTENTION_REENTRY_FRAME_NONCLAIMS, ATTENTION_REENTRY_FRAME_PROFILE,
+    ATTENTION_REENTRY_MEASUREMENT_NONCLAIMS, ATTENTION_REENTRY_MEASUREMENT_PROFILE,
+    AttentionHeadKind, AttentionReentryFrame, AttentionReentryMeasurement,
+    ReentryRequestByteMeasurement, compact_iterative_advance_request,
+    compact_terminal_reflection_request, compile_attention_reentry_frame,
+    generate_attention_reentry_measurement, pretty_attention_reentry_measurement_bytes,
+    validate_attention_reentry_frame, validate_attention_reentry_measurement,
+    validate_compact_attention_request,
+};
 pub use iterative::{
     DETERMINISTIC_DRIVE_MEASUREMENT_PROFILE, DETERMINISTIC_DRIVE_NONCLAIMS,
     DETERMINISTIC_DRIVE_PROFILE, DeterministicAdvanceRecord, DeterministicAdvanceSuccessor,

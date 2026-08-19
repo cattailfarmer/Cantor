@@ -17,3 +17,5 @@ cargo run -p cantor_compact_reflection_loop -- measure-iterative-transcript-fixt
 ```
 
 This second provider-free measurement records the three provider-shaped pass envelopes and compares their compact UTF-8 JSON sizes with exact terminal custody. Bytes are not model tokens, latency, memory, or reasoning-quality evidence.
+
+`artifacts/attention_reentry_measurement_v1.json` measures an experimental digest-bound attention reentry frame over a fourteen-pass quota-one fixture. The full transcript remains authoritative. The compact request preserves the objective, current frame, latest assistant/tool pair, quota, tool schema, phase, and terminal response schema; it does not establish semantic output equivalence or provider compatibility.
