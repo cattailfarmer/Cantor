@@ -1,0 +1,291 @@
+#![forbid(unsafe_code)]
+
+use std::{
+    env,
+    error::Error,
+    fs::{self, OpenOptions},
+    io::Write,
+    path::{Path, PathBuf},
+    process::ExitCode,
+    time::Duration,
+};
+
+use cantor_compact_reflection_loop::{
+    REPORT_PROFILE, TerminalObservation, advance_bound_session_terminal, extract_advance_call,
+    extract_final_output, first_request, normalize_loopback_base_url, open_bound_session,
+    reflection_request, sanitize,
+};
+use cantor_core::SemanticId;
+use reqwest::Client;
+use serde::Serialize;
+use serde_json::Value;
+use sha2::{Digest as _, Sha256};
+
+type AnyError = Box<dyn Error + Send + Sync>;
+const MAX_CONTEXT_BYTES: u64 = 4 * 1024 * 1024;
+const MAX_PROMPT_BYTES: usize = 32 * 1024;
+
+#[derive(Debug)]
+struct Config {
+    base_url: String,
+    context: PathBuf,
+    output: PathBuf,
+    session_id: SemanticId,
+    prompt: String,
+    maximum_steps: u64,
+    timeout: Duration,
+}
+
+impl Config {
+    fn parse(arguments: Vec<String>) -> Result<Self, AnyError> {
+        let mut base_url = "http://127.0.0.1:8081/v1".to_owned();
+        let mut context = None;
+        let mut output = PathBuf::from("cantor_compact_reflection_report.json");
+        let mut session_id = "session:compact-reflection-local".to_owned();
+        let mut prompt = None;
+        let mut maximum_steps = 64_u64;
+        let mut timeout = Duration::from_secs(180);
+        let mut arguments = arguments.into_iter();
+        while let Some(argument) = arguments.next() {
+            match argument.as_str() {
+                "--base-url" => base_url = required(&mut arguments, "--base-url")?,
+                "--context" => {
+                    context = Some(PathBuf::from(required(&mut arguments, "--context")?));
+                }
+                "--output" => output = PathBuf::from(required(&mut arguments, "--output")?),
+                "--session-id" => session_id = required(&mut arguments, "--session-id")?,
+                "--prompt" => prompt = Some(required(&mut arguments, "--prompt")?),
+                "--maximum-steps" => {
+                    maximum_steps = required(&mut arguments, "--maximum-steps")?.parse()?;
+                }
+                "--timeout-seconds" => {
+                    timeout = Duration::from_secs(
+                        required(&mut arguments, "--timeout-seconds")?.parse()?,
+                    );
+                }
+                "--help" | "-h" => {
+                    print_help();
+                    std::process::exit(0);
+                }
+                value => return Err(format!("unknown argument: {value}").into()),
+            }
+        }
+        let context = context.ok_or("--context is required")?;
+        let prompt = prompt.ok_or("--prompt is required")?;
+        if prompt.is_empty() || prompt.len() > MAX_PROMPT_BYTES {
+            return Err(format!("prompt must contain 1..={MAX_PROMPT_BYTES} bytes").into());
+        }
+        if !(1..=4096).contains(&maximum_steps) {
+            return Err("maximum-steps must be within 1..=4096".into());
+        }
+        if timeout.is_zero() || timeout > Duration::from_secs(600) {
+            return Err("timeout-seconds must be within 1..=600".into());
+        }
+        if output.exists() {
+            return Err(format!("output already exists: {}", output.display()).into());
+        }
+        Ok(Self {
+            base_url: normalize_loopback_base_url(&base_url)?,
+            context,
+            output,
+            session_id: SemanticId::new(session_id)?,
+            prompt,
+            maximum_steps,
+            timeout,
+        })
+    }
+}
+
+#[derive(Debug, Serialize)]
+struct RunReport {
+    profile: &'static str,
+    status: &'static str,
+    base_url: String,
+    model: String,
+    context_path: String,
+    context_sha256: String,
+    session_id: SemanticId,
+    maximum_steps: u64,
+    first_request: Value,
+    first_response: Value,
+    terminal_observation: TerminalObservation,
+    reflection_request: Value,
+    reflection_response: Value,
+    final_output: cantor_compact_reflection_loop::FinalOutput,
+    private_reasoning_recorded: bool,
+    nonclaims: Vec<&'static str>,
+}
+
+#[tokio::main(flavor = "current_thread")]
+async fn main() -> ExitCode {
+    let config = match Config::parse(env::args().skip(1).collect()) {
+        Ok(config) => config,
+        Err(error) => {
+            eprintln!("configuration_fault: {error}");
+            return ExitCode::from(2);
+        }
+    };
+    match run(config).await {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(error) => {
+            eprintln!("run_fault: {error}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+async fn run(config: Config) -> Result<(), AnyError> {
+    let context_path = canonical_bounded_context(&config.context)?;
+    let context_json = fs::read_to_string(&context_path)?;
+    let context_sha256 = hex_digest(context_json.as_bytes());
+    let session = open_bound_session(
+        context_json,
+        SemanticId::new("registry:compact-reflection-local")?,
+        config.session_id.clone(),
+    )?;
+
+    let client = Client::builder().timeout(config.timeout).build()?;
+    health_check(&client, &config.base_url).await?;
+    let model = discover_model(&client, &config.base_url).await?;
+    let initial_request = first_request(&model, &config.prompt, config.maximum_steps);
+    let initial_response = post_chat(&client, &config.base_url, &initial_request).await?;
+    let call = extract_advance_call(&initial_response, config.maximum_steps)?;
+    let (_terminal_session, observation) =
+        advance_bound_session_terminal(&session, call.arguments.maximum_steps)?;
+    let later_request = reflection_request(&model, &config.prompt, &call, &observation);
+    let later_response = post_chat(&client, &config.base_url, &later_request).await?;
+    let final_output = extract_final_output(&later_response, &observation)?;
+
+    let report = RunReport {
+        profile: REPORT_PROFILE,
+        status: "passed",
+        base_url: config.base_url,
+        model,
+        context_path: context_path.display().to_string(),
+        context_sha256,
+        session_id: config.session_id,
+        maximum_steps: config.maximum_steps,
+        first_request: initial_request,
+        first_response: sanitize(&initial_response),
+        terminal_observation: observation,
+        reflection_request: later_request,
+        reflection_response: sanitize(&later_response),
+        final_output,
+        private_reasoning_recorded: false,
+        nonclaims: vec![
+            "no hidden-state or live-token insertion",
+            "no external effect or semantic-truth claim",
+            "no persistent or authenticated session",
+            "no automatic remote or OneDrive access",
+        ],
+    };
+    write_json_new(&config.output, &report)?;
+    println!("PASS: report written to {}", config.output.display());
+    Ok(())
+}
+
+async fn health_check(client: &Client, base_url: &str) -> Result<(), AnyError> {
+    let root = base_url.strip_suffix("/v1").unwrap_or(base_url);
+    let response = client.get(format!("{root}/health")).send().await?;
+    if !response.status().is_success() {
+        return Err(format!("provider health returned HTTP {}", response.status()).into());
+    }
+    Ok(())
+}
+
+async fn discover_model(client: &Client, base_url: &str) -> Result<String, AnyError> {
+    let response = client.get(format!("{base_url}/models")).send().await?;
+    if !response.status().is_success() {
+        return Err(format!("model discovery returned HTTP {}", response.status()).into());
+    }
+    let value: Value = response.json().await?;
+    let models = value
+        .get("data")
+        .and_then(Value::as_array)
+        .ok_or("model discovery omitted data array")?;
+    if models.len() != 1 {
+        return Err(format!("expected one advertised model, observed {}", models.len()).into());
+    }
+    models[0]
+        .get("id")
+        .and_then(Value::as_str)
+        .map(str::to_owned)
+        .ok_or_else(|| "advertised model omitted id".into())
+}
+
+async fn post_chat(client: &Client, base_url: &str, request: &Value) -> Result<Value, AnyError> {
+    let response = client
+        .post(format!("{base_url}/chat/completions"))
+        .json(request)
+        .send()
+        .await?;
+    let status = response.status();
+    let bytes = response.bytes().await?;
+    if bytes.len() > 8 * 1024 * 1024 {
+        return Err("provider response exceeds 8 MiB".into());
+    }
+    if !status.is_success() {
+        return Err(format!(
+            "provider returned HTTP {status}: {}",
+            String::from_utf8_lossy(&bytes[..bytes.len().min(2000)])
+        )
+        .into());
+    }
+    Ok(serde_json::from_slice(&bytes)?)
+}
+
+fn canonical_bounded_context(path: &Path) -> Result<PathBuf, AnyError> {
+    let canonical = fs::canonicalize(path)?;
+    let metadata = fs::metadata(&canonical)?;
+    if !metadata.is_file() || metadata.len() == 0 || metadata.len() > MAX_CONTEXT_BYTES {
+        return Err(format!(
+            "context must be a nonempty regular file at most {MAX_CONTEXT_BYTES} bytes"
+        )
+        .into());
+    }
+    Ok(canonical)
+}
+
+fn write_json_new(path: &Path, value: &impl Serialize) -> Result<(), AnyError> {
+    if let Some(parent) = path.parent()
+        && !parent.as_os_str().is_empty()
+    {
+        fs::create_dir_all(parent)?;
+    }
+    let mut file = OpenOptions::new().write(true).create_new(true).open(path)?;
+    serde_json::to_writer_pretty(&mut file, value)?;
+    file.write_all(b"\n")?;
+    file.sync_all()?;
+    Ok(())
+}
+
+fn hex_digest(bytes: &[u8]) -> String {
+    Sha256::digest(bytes)
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect()
+}
+
+fn required(arguments: &mut impl Iterator<Item = String>, name: &str) -> Result<String, AnyError> {
+    arguments
+        .next()
+        .ok_or_else(|| format!("{name} requires a value").into())
+}
+
+fn print_help() {
+    println!(
+        "cantor-compact-reflection-loop\n\
+         \n\
+         Runs one loopback model -> compact Cantor procedure -> model reflection P0.\n\
+         \n\
+         Required:\n\
+           --context PATH          exact CoordinationToolContext JSON\n\
+           --prompt TEXT           bounded user stimulus\n\
+         Options:\n\
+           --base-url URL          loopback OpenAI API root (default http://127.0.0.1:8081/v1)\n\
+           --session-id ID         semantic session identity\n\
+           --maximum-steps N       required one-call quota within 1..=4096 (default 64)\n\
+           --output PATH           create-new JSON report path\n\
+           --timeout-seconds N     provider timeout within 1..=600"
+    );
+}

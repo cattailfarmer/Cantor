@@ -137,7 +137,11 @@ baseline:
   stale-writer refusal, and explicit restart loss; and
 - `invoke_bounded_workspace_verification.ps1` now provides a capacity-gated,
   serialized, reusable WSL verification lane with a plan-only default and no
-  automatic cleanup, remote access, or OneDrive access.
+  automatic cleanup, remote access, or OneDrive access; and
+- `cantor-compact-reflection-loop` now composes an unmodified loopback
+  OpenAI-compatible model with a host-custodied compact procedure session: the
+  model emits only a bounded quota call, then reflects over the exact terminal
+  record and its digest in a separate pass.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -216,6 +220,10 @@ restart-loss boundary are documented in
 The build-capacity preflight, reusable target policy, plan-only default, and
 explicit local-only boundary are documented in
 [`docs/BOUNDED_WORKSPACE_VERIFICATION_P0.md`](docs/BOUNDED_WORKSPACE_VERIFICATION_P0.md).
+The compact model–procedure–model flow, hidden handle boundary, exact terminal
+projection, CLI, deterministic proof, and live-provider deferral are documented
+in
+[`docs/COMPACT_PROCEDURE_REFLECTION_LOOP_P0.md`](docs/COMPACT_PROCEDURE_REFLECTION_LOOP_P0.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell

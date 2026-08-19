@@ -1,0 +1,23 @@
+[package]
+name = "cantor_compact_reflection_loop"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[[bin]]
+name = "cantor-compact-reflection-loop"
+path = "src/main.rs"
+
+[dependencies]
+cantor_compact_coordination_mcp = { path = "../cantor_compact_coordination_mcp" }
+cantor_core = { path = "../cantor_core" }
+cantor_procedure_tool = { path = "../cantor_procedure_tool" }
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+tokio = { workspace = true, features = ["macros", "rt", "time"] }
+
+[lints]
+workspace = true
