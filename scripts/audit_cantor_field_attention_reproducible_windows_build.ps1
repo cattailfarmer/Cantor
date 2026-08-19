@@ -219,6 +219,16 @@ $anchorRecords = @(
         receipt_tree = '5935e0b66d38787f7995e408e7f36d856a911771'
         anchor_commit = 'a2e8a2c815b0c640371c33a963cfbe3c284bc8f3'
         anchor_tree = 'cf3a847bea461c0c8b5b4b14a40deb1bc0b56c64'
+    },
+    [ordered]@{
+        relative_path = 'proofs\Cantor_Field_Attention_Reproducible_Windows_Build_P0_Toolchain_Verifier_Hardening_Git_Anchor.sop'
+        anchor_uuid = '7848d802-65fa-414e-8290-e9221b528aed'
+        tested_commit = '43b2f51642087e14247fa535d7201123deaee597'
+        tested_tree = 'bb0d70f5957523cca45d1f9e817bf98d5bb41011'
+        receipt_commit = 'ef5519b7d142907a8dd7c22eff285ba4c1bd8e5a'
+        receipt_tree = '8a915e19fcf8694c71f22158ba8fe85854257c81'
+        anchor_commit = 'cfa8cc957476d51a1878e4486dd074e92acd7eed'
+        anchor_tree = 'a36c360a11eae3ef62d3bbf96429605e5ab32fc7'
     }
 )
 
