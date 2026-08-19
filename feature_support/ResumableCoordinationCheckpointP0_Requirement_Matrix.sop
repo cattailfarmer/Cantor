@@ -1,0 +1,31 @@
+Subject: Resumable Coordination Checkpoint P0 Requirement Matrix
+
+@ [matrix_uuid] 666b65a1-2cf0-45ba-ad0d-2b48bc7cdafc
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Resumable_Coordination_Checkpoint_P0.sop
+@ [status] verified_complete
+
+& [RCC-A01] source SJS and signature
+  + [requirement] RCC-001 through RCC-030
+  + [planned_proof] source hashes explosion trace and bounded authority audit
+& [RCC-A02] genesis and replay
+  + [requirement] RCC-001 through RCC-007 RCC-014 and RCC-024
+  + [planned_proof] exact checkpoint validation and repeated byte equality
+  + [implementation] checkpoint_genesis_is_strict_valid_and_byte_deterministic
+& [RCC-A03] one-step pause and resume
+  + [requirement] RCC-008 through RCC-013 and RCC-025 through RCC-027
+  + [planned_proof] exactly one new step successor checkpoint then terminal continuation
+  + [implementation] quota_one_pauses_exactly_then_resumes_to_uninterrupted_outcome
+& [RCC-A04] partition equivalence
+  + [requirement] RCC-021 through RCC-025
+  + [planned_proof] quotas one two four and large equal uninterrupted CoordinationOutcome
+  + [implementation] quota_partitions_do_not_change_terminal_semantics
+& [RCC-A05] integrity boundary
+  + [requirement] RCC-014 through RCC-020 and RCC-030
+  + [planned_proof] digest input state continuation message trace and zero-quota negative fixtures
+  + [implementation] corrupt_or_cross_input_checkpoints_refuse_before_advancement plus nested_continuation_message_and_trace_tampering_cannot_be_rehashed_valid
+& [RCC-A06] release verification
+  + [requirement] complete specification
+  + [planned_proof] original and focused tests fmt warnings-denied lint workspace regression manifest audit and scoped diff
+  + [evidence] proofs/Cantor_Resumable_Coordination_Checkpoint_P0_Proof.sop
+
+& [CompletionRule] is one pure resumable scheduler with no interpreter fork deferred feature or effect claim

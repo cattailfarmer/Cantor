@@ -27,6 +27,8 @@ use crate::{
 
 pub const CPPE_COORDINATOR_ID: &str = "cantor-effectless-coordinator/0.1";
 pub const CPPE_TOKEN_RING_ID: &str = "cantor-token-ring/0.1";
+pub const CPPE_COORDINATION_CHECKPOINT_PROFILE: &str =
+    "cantor-resumable-coordination-checkpoint/0.1";
 
 #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -72,7 +74,59 @@ pub struct CoordinationReplayReceipt {
     pub receipt_digest: ContentDigest,
 }
 
-#[derive(Default)]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CoordinationSliceDisposition {
+    Paused,
+    Returned,
+    Faulted,
+    BudgetRefused,
+}
+
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CoordinationCheckpoint {
+    pub profile: String,
+    pub invocation_ref: SemanticId,
+    pub procedure_ref: SemanticId,
+    pub procedure_digest: ContentDigest,
+    pub ir_ref: SemanticId,
+    pub ir_digest: ContentDigest,
+    pub admission_disposition_ref: SemanticId,
+    pub admission_disposition_digest: ContentDigest,
+    pub catalogue_generation_digest: ContentDigest,
+    pub request_digest: ContentDigest,
+    pub initial_session_digest: ContentDigest,
+    pub slice_index: u64,
+    pub predecessor_checkpoint_digest: Option<ContentDigest>,
+    pub process_states: BTreeMap<SemanticId, ProcessInstanceState>,
+    pub steps: Vec<ProcessStep>,
+    pub continuations: BTreeMap<SemanticId, SerializedContinuation>,
+    pub active_continuation_refs: BTreeMap<SemanticId, SemanticId>,
+    pub messages: BTreeMap<SemanticId, ProcedureMessage>,
+    pub delivered_message_refs: BTreeSet<SemanticId>,
+    pub pending_reactivation_refs: BTreeSet<SemanticId>,
+    pub terminal_returns: BTreeMap<SemanticId, ProcedureValue>,
+    pub trace_events: Vec<SemanticTraceEvent>,
+    pub logical_clock: u64,
+    pub initial_session: NegotiationSession,
+    pub checkpoint_digest: ContentDigest,
+}
+
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CoordinationSliceTransition {
+    pub disposition: CoordinationSliceDisposition,
+    pub predecessor_checkpoint_digest: ContentDigest,
+    pub steps_advanced: u64,
+    pub checkpoint: Option<CoordinationCheckpoint>,
+    pub outcome: Option<CoordinationOutcome>,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 struct RuntimeProducts {
     states: BTreeMap<SemanticId, ProcessInstanceState>,
     steps: Vec<ProcessStep>,
@@ -85,6 +139,11 @@ struct RuntimeProducts {
     trace: Vec<SemanticTraceEvent>,
     clock: u64,
     session: Option<NegotiationSession>,
+}
+
+enum CoordinationDrive {
+    Paused(Box<RuntimeProducts>),
+    Finished(Box<CoordinationOutcome>),
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -112,6 +171,116 @@ pub fn coordinate_catalogued_procedure(
         );
     }
 
+    let runtime = initialize_coordination_runtime(ir, procedure, request, session)?;
+    match drive_coordination(procedure, ir, admission, request, session, runtime, None)? {
+        CoordinationDrive::Finished(outcome) => Ok(*outcome),
+        CoordinationDrive::Paused(_) => Err(machine_fault(
+            "unbounded compatibility coordinator paused unexpectedly",
+        )),
+    }
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn begin_coordination_checkpoint(
+    catalogue: &ProcedureCatalogueState,
+    procedure: &CompiledProcedureIdentity,
+    ir: &CantorProcessIr,
+    admission: &AdmissionDisposition,
+    request: &InvocationRequest,
+    session: &NegotiationSession,
+) -> Result<CoordinationCheckpoint, EvaluationFault> {
+    validate_invocation_inputs(catalogue, procedure, ir, admission, request)?;
+    validate_coordination_inputs(ir, request, admission, session)?;
+    let runtime = initialize_coordination_runtime(ir, procedure, request, session)?;
+    checkpoint_from_runtime(
+        catalogue, procedure, ir, admission, request, session, 0, None, runtime,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn advance_coordination_checkpoint(
+    catalogue: &ProcedureCatalogueState,
+    procedure: &CompiledProcedureIdentity,
+    ir: &CantorProcessIr,
+    admission: &AdmissionDisposition,
+    request: &InvocationRequest,
+    session: &NegotiationSession,
+    checkpoint: &CoordinationCheckpoint,
+    maximum_steps: u64,
+) -> Result<CoordinationSliceTransition, EvaluationFault> {
+    if maximum_steps == 0 {
+        return Err(machine_fault(
+            "coordination checkpoint advance requires a positive step quota",
+        ));
+    }
+    validate_invocation_inputs(catalogue, procedure, ir, admission, request)?;
+    validate_coordination_inputs(ir, request, admission, session)?;
+    validate_coordination_checkpoint(
+        catalogue, procedure, ir, admission, request, session, checkpoint,
+    )?;
+
+    let predecessor_checkpoint_digest = checkpoint.checkpoint_digest.clone();
+    let step_count_before = checkpoint.steps.len() as u64;
+    let runtime = runtime_from_checkpoint(checkpoint.clone());
+    match drive_coordination(
+        procedure,
+        ir,
+        admission,
+        request,
+        session,
+        runtime,
+        Some((step_count_before, maximum_steps)),
+    )? {
+        CoordinationDrive::Paused(runtime) => {
+            let steps_advanced = runtime.steps.len() as u64 - step_count_before;
+            let next_slice = checkpoint
+                .slice_index
+                .checked_add(1)
+                .ok_or_else(|| machine_fault("coordination checkpoint slice index overflow"))?;
+            let successor = checkpoint_from_runtime(
+                catalogue,
+                procedure,
+                ir,
+                admission,
+                request,
+                session,
+                next_slice,
+                Some(predecessor_checkpoint_digest.clone()),
+                *runtime,
+            )?;
+            Ok(CoordinationSliceTransition {
+                disposition: CoordinationSliceDisposition::Paused,
+                predecessor_checkpoint_digest,
+                steps_advanced,
+                checkpoint: Some(successor),
+                outcome: None,
+            })
+        }
+        CoordinationDrive::Finished(outcome) => {
+            let disposition = match outcome.result.disposition {
+                InvocationDisposition::Returned => CoordinationSliceDisposition::Returned,
+                InvocationDisposition::BudgetRefused => CoordinationSliceDisposition::BudgetRefused,
+                InvocationDisposition::Faulted | InvocationDisposition::Cancelled => {
+                    CoordinationSliceDisposition::Faulted
+                }
+            };
+            Ok(CoordinationSliceTransition {
+                disposition,
+                predecessor_checkpoint_digest,
+                steps_advanced: outcome.result.consumed_budget.steps - step_count_before,
+                checkpoint: None,
+                outcome: Some(*outcome),
+            })
+        }
+    }
+}
+
+fn initialize_coordination_runtime(
+    ir: &CantorProcessIr,
+    procedure: &CompiledProcedureIdentity,
+    request: &InvocationRequest,
+    session: &NegotiationSession,
+) -> Result<RuntimeProducts, EvaluationFault> {
     let mut runtime = RuntimeProducts {
         clock: request.initial_logical_time,
         session: Some(session.clone()),
@@ -131,14 +300,27 @@ pub fn coordinate_catalogued_procedure(
         TraceEventKind::InvocationStarted,
         &request.input,
     )?;
+    Ok(runtime)
+}
 
+#[allow(clippy::too_many_arguments)]
+fn drive_coordination(
+    procedure: &CompiledProcedureIdentity,
+    ir: &CantorProcessIr,
+    admission: &AdmissionDisposition,
+    request: &InvocationRequest,
+    session: &NegotiationSession,
+    mut runtime: RuntimeProducts,
+    slice_bound: Option<(u64, u64)>,
+) -> Result<CoordinationDrive, EvaluationFault> {
     loop {
         if runtime
             .states
             .values()
             .all(|state| state.lifecycle == ProcessLifecycle::TerminalReturn)
         {
-            return successful_coordination_outcome(procedure, ir, admission, request, runtime);
+            return successful_coordination_outcome(procedure, ir, admission, request, runtime)
+                .map(|outcome| CoordinationDrive::Finished(Box::new(outcome)));
         }
         if runtime.steps.len() as u64 >= request.budgets.step_limit
             || runtime.trace.len() as u64 + 3 > request.budgets.trace_event_limit
@@ -152,13 +334,19 @@ pub fn coordinate_catalogued_procedure(
                 InvocationDisposition::BudgetRefused,
                 "coordination step, trace, or logical-time budget exhausted".to_owned(),
                 runtime,
-            );
+            )
+            .map(|outcome| CoordinationDrive::Finished(Box::new(outcome)));
+        }
+        if slice_bound.is_some_and(|(start, maximum)| runtime.steps.len() as u64 - start >= maximum)
+        {
+            return Ok(CoordinationDrive::Paused(Box::new(runtime)));
         }
         if let Some(definition_ref) = next_scheduler_wakeup(&runtime) {
             if let Err(fault) =
                 apply_scheduler_wakeup(&mut runtime, ir, procedure, request, &definition_ref)
             {
-                return runtime_error_outcome(procedure, request, fault, runtime);
+                return runtime_error_outcome(procedure, request, fault, runtime)
+                    .map(|outcome| CoordinationDrive::Finished(Box::new(outcome)));
             }
             continue;
         }
@@ -177,7 +365,8 @@ pub fn coordinate_catalogued_procedure(
                 session,
                 &definition_ref,
             ) {
-                return runtime_error_outcome(procedure, request, fault, runtime);
+                return runtime_error_outcome(procedure, request, fault, runtime)
+                    .map(|outcome| CoordinationDrive::Finished(Box::new(outcome)));
             }
             if runtime.states.values().any(|state| {
                 state.lifecycle == ProcessLifecycle::TerminalFault
@@ -190,7 +379,8 @@ pub fn coordinate_catalogued_procedure(
                     InvocationDisposition::Faulted,
                     "one coordinated process reached a terminal fault".to_owned(),
                     runtime,
-                );
+                )
+                .map(|outcome| CoordinationDrive::Finished(Box::new(outcome)));
             }
             continue;
         }
@@ -216,7 +406,8 @@ pub fn coordinate_catalogued_procedure(
                     InvocationDisposition::BudgetRefused,
                     "logical wait exceeds invocation time bound".to_owned(),
                     runtime,
-                );
+                )
+                .map(|outcome| CoordinationDrive::Finished(Box::new(outcome)));
             }
             runtime.clock = next_clock;
             continue;
@@ -228,8 +419,428 @@ pub fn coordinate_catalogued_procedure(
             InvocationDisposition::Faulted,
             "coordination reached a wait cycle with no eligible deterministic wakeup".to_owned(),
             runtime,
-        );
+        )
+        .map(|outcome| CoordinationDrive::Finished(Box::new(outcome)));
     }
+}
+
+#[allow(clippy::too_many_arguments)]
+fn checkpoint_from_runtime(
+    catalogue: &ProcedureCatalogueState,
+    procedure: &CompiledProcedureIdentity,
+    ir: &CantorProcessIr,
+    admission: &AdmissionDisposition,
+    request: &InvocationRequest,
+    session: &NegotiationSession,
+    slice_index: u64,
+    predecessor_checkpoint_digest: Option<ContentDigest>,
+    runtime: RuntimeProducts,
+) -> Result<CoordinationCheckpoint, EvaluationFault> {
+    if runtime.session.as_ref() != Some(session) {
+        return Err(machine_fault(
+            "coordination runtime session differs from initial session",
+        ));
+    }
+    let mut checkpoint = CoordinationCheckpoint {
+        profile: CPPE_COORDINATION_CHECKPOINT_PROFILE.to_owned(),
+        invocation_ref: request.invocation_id.clone(),
+        procedure_ref: procedure.procedure_id.clone(),
+        procedure_digest: procedure.procedure_digest.clone(),
+        ir_ref: ir.ir_id.clone(),
+        ir_digest: ir.ir_digest.clone(),
+        admission_disposition_ref: admission.disposition_id.clone(),
+        admission_disposition_digest: admission.disposition_digest.clone(),
+        catalogue_generation_digest: catalogue.generation_digest.clone(),
+        request_digest: digest_serialized(request, "coordination checkpoint request")?,
+        initial_session_digest: digest_serialized(
+            session,
+            "coordination checkpoint initial session",
+        )?,
+        slice_index,
+        predecessor_checkpoint_digest,
+        process_states: runtime.states,
+        steps: runtime.steps,
+        continuations: runtime.continuations,
+        active_continuation_refs: runtime.active_continuations,
+        messages: runtime.messages,
+        delivered_message_refs: runtime.delivered,
+        pending_reactivation_refs: runtime.pending_reactivations,
+        terminal_returns: runtime.returns,
+        trace_events: runtime.trace,
+        logical_clock: runtime.clock,
+        initial_session: session.clone(),
+        checkpoint_digest: empty_sha256(),
+    };
+    checkpoint.checkpoint_digest = compute_coordination_checkpoint_digest(&checkpoint)?;
+    validate_coordination_checkpoint(
+        catalogue,
+        procedure,
+        ir,
+        admission,
+        request,
+        session,
+        &checkpoint,
+    )?;
+    Ok(checkpoint)
+}
+
+fn runtime_from_checkpoint(checkpoint: CoordinationCheckpoint) -> RuntimeProducts {
+    RuntimeProducts {
+        states: checkpoint.process_states,
+        steps: checkpoint.steps,
+        continuations: checkpoint.continuations,
+        active_continuations: checkpoint.active_continuation_refs,
+        messages: checkpoint.messages,
+        delivered: checkpoint.delivered_message_refs,
+        pending_reactivations: checkpoint.pending_reactivation_refs,
+        returns: checkpoint.terminal_returns,
+        trace: checkpoint.trace_events,
+        clock: checkpoint.logical_clock,
+        session: Some(checkpoint.initial_session),
+    }
+}
+
+pub fn compute_coordination_checkpoint_digest(
+    checkpoint: &CoordinationCheckpoint,
+) -> Result<ContentDigest, EvaluationFault> {
+    let mut canonical = checkpoint.clone();
+    canonical.checkpoint_digest = empty_sha256();
+    digest_serialized(&canonical, "coordination checkpoint")
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn validate_coordination_checkpoint(
+    catalogue: &ProcedureCatalogueState,
+    procedure: &CompiledProcedureIdentity,
+    ir: &CantorProcessIr,
+    admission: &AdmissionDisposition,
+    request: &InvocationRequest,
+    session: &NegotiationSession,
+    checkpoint: &CoordinationCheckpoint,
+) -> Result<(), EvaluationFault> {
+    if checkpoint.profile != CPPE_COORDINATION_CHECKPOINT_PROFILE
+        || checkpoint.checkpoint_digest != compute_coordination_checkpoint_digest(checkpoint)?
+    {
+        return Err(machine_fault(
+            "coordination checkpoint profile or digest is invalid",
+        ));
+    }
+    if checkpoint.invocation_ref != request.invocation_id
+        || checkpoint.procedure_ref != procedure.procedure_id
+        || checkpoint.procedure_digest != procedure.procedure_digest
+        || checkpoint.ir_ref != ir.ir_id
+        || checkpoint.ir_digest != ir.ir_digest
+        || checkpoint.admission_disposition_ref != admission.disposition_id
+        || checkpoint.admission_disposition_digest != admission.disposition_digest
+        || checkpoint.catalogue_generation_digest != catalogue.generation_digest
+        || checkpoint.request_digest
+            != digest_serialized(request, "coordination checkpoint request")?
+        || checkpoint.initial_session_digest
+            != digest_serialized(session, "coordination checkpoint initial session")?
+        || checkpoint.initial_session != *session
+    {
+        return Err(machine_fault(
+            "coordination checkpoint exact input lineage is stale or mismatched",
+        ));
+    }
+    validate_checkpoint_runtime(ir, procedure, admission, request, session, checkpoint)
+}
+
+fn validate_checkpoint_runtime(
+    ir: &CantorProcessIr,
+    procedure: &CompiledProcedureIdentity,
+    admission: &AdmissionDisposition,
+    request: &InvocationRequest,
+    session: &NegotiationSession,
+    checkpoint: &CoordinationCheckpoint,
+) -> Result<(), EvaluationFault> {
+    let definition_refs = ir
+        .process_definitions
+        .keys()
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    if checkpoint
+        .process_states
+        .keys()
+        .cloned()
+        .collect::<BTreeSet<_>>()
+        != definition_refs
+        || checkpoint.logical_clock < request.initial_logical_time
+        || checkpoint
+            .logical_clock
+            .saturating_sub(request.initial_logical_time)
+            > request.budgets.logical_time_limit
+        || checkpoint.steps.len() as u64 > request.budgets.step_limit
+        || checkpoint.trace_events.len() as u64 > request.budgets.trace_event_limit
+        || checkpoint.messages.len() as u64 > request.budgets.message_limit
+        || checkpoint.messages.len() as u64 > ir.bounds.maximum_messages
+    {
+        return Err(machine_fault(
+            "coordination checkpoint process set clock or aggregate bounds are invalid",
+        ));
+    }
+    let predecessor_shape_is_valid = checkpoint
+        .predecessor_checkpoint_digest
+        .as_ref()
+        .is_none_or(|digest| {
+            digest.algorithm == "sha256"
+                && digest.value.len() == 64
+                && digest
+                    .value
+                    .bytes()
+                    .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+        });
+    if !predecessor_shape_is_valid
+        || checkpoint.slice_index > checkpoint.steps.len() as u64
+        || (checkpoint.slice_index == 0
+            && (checkpoint.predecessor_checkpoint_digest.is_some() || !checkpoint.steps.is_empty()))
+        || (checkpoint.slice_index > 0 && checkpoint.predecessor_checkpoint_digest.is_none())
+    {
+        return Err(machine_fault(
+            "coordination checkpoint slice lineage is invalid",
+        ));
+    }
+
+    let mut instance_refs = BTreeSet::new();
+    let mut state_refs = BTreeSet::new();
+    for (definition_ref, state) in &checkpoint.process_states {
+        validate_checkpoint_process_state(
+            ir,
+            request,
+            checkpoint.logical_clock,
+            definition_ref,
+            state,
+        )?;
+        if !instance_refs.insert(state.process_instance_id.clone())
+            || !state_refs.insert(state.state_id.clone())
+        {
+            return Err(machine_fault(
+                "coordination checkpoint repeats process or state identity",
+            ));
+        }
+    }
+
+    let message_refs = checkpoint.messages.keys().cloned().collect::<BTreeSet<_>>();
+    if !checkpoint.delivered_message_refs.is_subset(&message_refs)
+        || !checkpoint
+            .pending_reactivation_refs
+            .is_subset(&definition_refs)
+    {
+        return Err(machine_fault(
+            "coordination checkpoint message or reactivation frontier is invalid",
+        ));
+    }
+    for (message_ref, message) in &checkpoint.messages {
+        if message_ref != &message.message_id
+            || message.session_ref != session.session_id
+            || !definition_refs.contains(&message.sender_ref)
+            || !definition_refs.contains(&message.receiver_ref)
+            || message.frame_generation != session.frame_generation
+            || message.sop_anchor_refs != session.pinned_sop_anchor_refs
+            || message.evidence_refs != BTreeSet::from([admission.disposition_id.clone()])
+            || message.logical_time > checkpoint.logical_clock
+            || message.expires_at_logical_time
+                != request
+                    .initial_logical_time
+                    .saturating_add(request.budgets.logical_time_limit)
+            || message_tag(message).is_none()
+            || !message.causal_predecessor_refs.is_subset(&message_refs)
+        {
+            return Err(machine_fault(
+                "coordination checkpoint contains an invalid message",
+            ));
+        }
+    }
+    for state in checkpoint.process_states.values() {
+        if !state.inbox_frontier.is_subset(&message_refs)
+            || !state.outbox_frontier.is_subset(&message_refs)
+        {
+            return Err(machine_fault(
+                "coordination checkpoint process message frontier is invalid",
+            ));
+        }
+    }
+
+    let mut continuation_refs = BTreeSet::new();
+    for (continuation_ref, continuation) in &checkpoint.continuations {
+        if continuation_ref != &continuation.continuation_id
+            || continuation.procedure_ref != procedure.procedure_id
+            || continuation.continuation_digest != compute_continuation_digest(continuation)?
+            || continuation.inbox_generation
+                != continuation.process_state.inbox_frontier.len() as u64
+            || !definition_refs.contains(&continuation.process_state.definition_ref)
+        {
+            return Err(machine_fault(
+                "coordination checkpoint contains an invalid continuation",
+            ));
+        }
+        validate_checkpoint_process_state(
+            ir,
+            request,
+            checkpoint.logical_clock,
+            &continuation.process_state.definition_ref,
+            &continuation.process_state,
+        )?;
+        if !continuation_refs.insert(continuation_ref.clone()) {
+            return Err(machine_fault(
+                "coordination checkpoint repeats continuation identity",
+            ));
+        }
+    }
+    for (definition_ref, continuation_ref) in &checkpoint.active_continuation_refs {
+        let continuation = checkpoint
+            .continuations
+            .get(continuation_ref)
+            .ok_or_else(|| machine_fault("active continuation is absent"))?;
+        let state = checkpoint
+            .process_states
+            .get(definition_ref)
+            .ok_or_else(|| machine_fault("active continuation process is absent"))?;
+        if continuation.process_state != *state
+            || !matches!(
+                state.lifecycle,
+                ProcessLifecycle::Waiting | ProcessLifecycle::Passivated
+            )
+        {
+            return Err(machine_fault(
+                "active continuation differs from current waiting process state",
+            ));
+        }
+    }
+    for definition_ref in &checkpoint.pending_reactivation_refs {
+        let state = checkpoint
+            .process_states
+            .get(definition_ref)
+            .ok_or_else(|| machine_fault("reactivation process is absent"))?;
+        if state.lifecycle != ProcessLifecycle::Passivated
+            || !checkpoint
+                .active_continuation_refs
+                .contains_key(definition_ref)
+        {
+            return Err(machine_fault(
+                "pending reactivation lacks one active passivated continuation",
+            ));
+        }
+    }
+
+    let expected_return_refs = checkpoint
+        .process_states
+        .iter()
+        .filter(|(_, state)| state.lifecycle == ProcessLifecycle::TerminalReturn)
+        .map(|(definition_ref, _)| definition_ref.clone())
+        .collect::<BTreeSet<_>>();
+    if checkpoint
+        .terminal_returns
+        .keys()
+        .cloned()
+        .collect::<BTreeSet<_>>()
+        != expected_return_refs
+    {
+        return Err(machine_fault(
+            "coordination checkpoint terminal returns differ from process lifecycle",
+        ));
+    }
+
+    validate_checkpoint_steps(request, &instance_refs, &message_refs, checkpoint)?;
+    validate_checkpoint_trace(procedure, request, checkpoint)
+}
+
+fn validate_checkpoint_process_state(
+    ir: &CantorProcessIr,
+    request: &InvocationRequest,
+    logical_clock: u64,
+    definition_ref: &SemanticId,
+    state: &ProcessInstanceState,
+) -> Result<(), EvaluationFault> {
+    let definition = ir
+        .process_definitions
+        .get(definition_ref)
+        .ok_or_else(|| machine_fault("checkpoint process definition is absent"))?;
+    let region = definition
+        .control_regions
+        .get(&state.region_ref)
+        .ok_or_else(|| machine_fault("checkpoint process region is absent"))?;
+    if state.definition_ref != *definition_ref
+        || state.invocation_ref != request.invocation_id
+        || state.logical_time > logical_clock
+        || state.instruction_index as usize >= region.instructions.len()
+        || state.remaining_budgets.transitions_remaining > request.budgets.step_limit
+        || state.remaining_budgets.messages_remaining > request.budgets.message_limit
+        || state.remaining_budgets.memory_units_remaining > request.budgets.memory_unit_limit
+        || state.remaining_budgets.trace_events_remaining > request.budgets.trace_event_limit
+    {
+        return Err(machine_fault(
+            "coordination checkpoint process state fields are incoherent",
+        ));
+    }
+    let mut normalized = state.clone();
+    refresh_state_identity(&mut normalized)?;
+    if normalized.state_id != state.state_id {
+        return Err(machine_fault(
+            "coordination checkpoint process state identity is invalid",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_checkpoint_steps(
+    request: &InvocationRequest,
+    instance_refs: &BTreeSet<SemanticId>,
+    message_refs: &BTreeSet<SemanticId>,
+    checkpoint: &CoordinationCheckpoint,
+) -> Result<(), EvaluationFault> {
+    let mut step_refs = BTreeSet::new();
+    for step in &checkpoint.steps {
+        if step.invocation_ref != request.invocation_id
+            || !instance_refs.contains(&step.process_instance_ref)
+            || step.logical_time_before > step.logical_time_after
+            || step.logical_time_after > checkpoint.logical_clock
+            || !step.input_message_refs.is_subset(message_refs)
+            || !step.emitted_message_refs.is_subset(message_refs)
+            || !step_refs.insert(step.step_id.clone())
+        {
+            return Err(machine_fault(
+                "coordination checkpoint contains an invalid process step",
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn validate_checkpoint_trace(
+    procedure: &CompiledProcedureIdentity,
+    request: &InvocationRequest,
+    checkpoint: &CoordinationCheckpoint,
+) -> Result<(), EvaluationFault> {
+    let mut event_refs = BTreeSet::new();
+    let mut predecessor = None;
+    for (index, event) in checkpoint.trace_events.iter().enumerate() {
+        let expected_predecessors = predecessor
+            .iter()
+            .cloned()
+            .collect::<BTreeSet<SemanticId>>();
+        let seed = digest_serialized(
+            &(
+                &request.invocation_id,
+                index as u64,
+                event.kind,
+                &event.normalized_payload_digest,
+            ),
+            "coordination trace event",
+        )?;
+        if event.logical_index != index as u64
+            || event.procedure_ref != procedure.procedure_id
+            || event.causal_predecessor_refs != expected_predecessors
+            || event.event_id != derived_id("cppe:trace-event", &seed)?
+            || !event_refs.insert(event.event_id.clone())
+        {
+            return Err(machine_fault(
+                "coordination checkpoint trace chain is invalid",
+            ));
+        }
+        predecessor = Some(event.event_id.clone());
+    }
+    Ok(())
 }
 
 pub fn record_token_ring_pass(

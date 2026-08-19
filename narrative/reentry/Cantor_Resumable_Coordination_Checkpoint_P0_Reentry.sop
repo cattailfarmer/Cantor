@@ -1,0 +1,43 @@
+Subject: Cantor Resumable Coordination Checkpoint P0 Reentry
+
+Description: Compact non-authoritative restart map for the verified whole-scheduler execution-frame continuation.
+
+@ [reentry_uuid] 8a4988ae-ed56-48c4-b218-b27b59ea83df
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Resumable_Coordination_Checkpoint_P0.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Resumable_Coordination_Checkpoint_P0_Solution.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Resumable_Coordination_Checkpoint_P0_Proof.sop
+@ [operator] C:\Project\Cantor\docs\RESUMABLE_COORDINATION_CHECKPOINT_P0.md
+
+& [CurrentMechanism] is verified pure P0
+  + begin_coordination_checkpoint creates the deterministic two-process genesis frontier
+  + advance_coordination_checkpoint executes at most a positive caller step quota
+  + Paused returns one digest-bound predecessor-linked successor checkpoint
+  + returned faulted and budget-refused paths return the existing CoordinationOutcome without a checkpoint
+  + original coordinate_catalogued_procedure runs through the same engine with no slice ceiling
+
+& [ExecutionFrameCorrespondence] is explicit
+  + ProcessInstanceState is the frame
+  + local_state is the typed variable environment
+  + definition region and instruction index are the program cursor
+  + generation steps trace logical time and predecessor checkpoints are the trajectory
+  + SerializedContinuation is one yielded or waiting process while CoordinationCheckpoint is the complete scheduler frontier
+
+& [Verification] is current
+  + fourteen focused tests pass including six new checkpoint cases
+  + quotas one two four mixed one-two-four and sixty-four equal uninterrupted output byte for byte
+  + complete workspace result is 644 passed zero failed one governed ignore across 111 groups
+  + formatting warnings-denied lint and twenty-three-manifest 1030-reference zero-stale reconciliation pass
+
+& [OpenBoundary] remains deliberate
+  + logical call frame call and subroutine return instructions are not implemented
+  + no source grammar IDE MCP attention-ledger storage durable persistence authentication provider or llama.cpp integration exists
+  + checkpoints contain no native stack KV cache hidden state or external effect authority
+
+& [NextDependencyOrder] is narrow
+  + first measure checkpoint size and per-slice overhead against the uninterrupted fixture
+  + second specify bounded logical call-frame forms only if named main and subroutines are selected as the next language feature
+  + third expose the proven pure stepper through a tool before attempting provider orchestration
+  + fourth govern storage and authentication independently before durable or remote use
+  - never: implement a second interpreter or represent SHA-256 as producer authentication
+
+& [AuthorityBoundary] is reentry only and grants no successor implementation authority

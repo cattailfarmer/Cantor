@@ -1,0 +1,65 @@
+Subject: Cantor Resumable Coordination Checkpoint P0
+
+@ [specification_uuid] ab31b066-c2d9-4f7d-8103-2d1dc240abcd
+@ [profile] cantor-resumable-coordination-checkpoint/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_resumable_coordination_checkpoint\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Resumable_Coordination_Checkpoint_P0.exploded.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Process_Procedure_Experiment.sop
+
+& [CheckpointForm] is the complete scheduler frontier
+  + [RCC-001] CoordinationCheckpoint is a strict versioned JSON and JsonSchema-capable form
+  + [RCC-002] it binds invocation procedure procedure digest IR IR digest admission disposition and digest catalogue generation request digest initial session digest slice index and optional predecessor checkpoint digest
+  + [RCC-003] it retains process states steps continuations active continuation references messages delivered references pending reactivations terminal returns trace events logical clock and the initial negotiation session
+  + [RCC-004] checkpoint_digest is canonical SHA-256 over the complete form with only checkpoint_digest cleared
+  + [RCC-005] it contains no native stack pointer thread future closure host handle ambient cache or hidden neural state
+
+& [StartAndAdvance] are closed pure transitions
+  + [RCC-006] BEGIN runs the existing invocation and coordination validation gates before constructing state
+  + [RCC-007] BEGIN initializes byte-equal process state session clock and InvocationStarted trace material to the uninterrupted coordinator
+  + [RCC-008] ADVANCE requires maximum_steps greater than zero
+  + [RCC-009] ADVANCE validates the checkpoint and exact current catalogue procedure IR admission request and initial session bindings before any step
+  + [RCC-010] ADVANCE executes at most maximum_steps new process or scheduler steps under the existing deterministic scheduler
+  + [RCC-011] caller slice exhaustion returns Paused with exactly one successor checkpoint and no terminal outcome
+  + [RCC-012] returned faulted or budget-refused completion returns exactly one existing CoordinationOutcome and no checkpoint
+  + [RCC-013] global step trace logical-time message memory and static IR bounds retain their existing terminal fault meanings and take precedence over pause
+
+& [Validation] rejects false reentry
+  + [RCC-014] checkpoint validation recomputes its digest exact input lineage and slice-predecessor shape
+  + [RCC-015] process map keys definitions invocation references state identities regions instruction indices and remaining budgets must be coherent
+  + [RCC-016] continuation map keys digests procedure refs active references and current states must be coherent
+  + [RCC-017] message keys session process frame and frontier references plus delivered subsets must be coherent
+  + [RCC-018] trace logical indexes procedure refs and causal predecessor chain plus unique step and event identities must be coherent
+  + [RCC-019] terminal-return maps pending-reactivation sets logical clock and session lineage must be coherent with retained states
+  + [RCC-020] any stale changed corrupt cross-invocation or structurally invalid checkpoint refuses with no successor runtime value
+
+& [Compatibility] has one interpreter
+  + [RCC-021] coordinate_catalogued_procedure keeps its public signature and existing invalid-input typed outcome
+  + [RCC-022] uninterrupted coordination delegates to the same initialization and drive machinery used by slices
+  + [RCC-023] any finite positive quota partition that reaches termination yields a byte-equal terminal outcome for equal exact inputs
+  + [RCC-024] repeated equal BEGIN or ADVANCE from equal immutable inputs is byte-equal
+  + [RCC-025] inputs and predecessor checkpoints are never mutated and no external effect occurs
+
+& [Boundary] is execution-frame reentry not a new language
+  + [RCC-026] ProcessInstanceState remains the P0 frame with instruction cursor typed local state lifecycle wait state message frontier logical time and budgets
+  + [RCC-027] SerializedContinuation remains the P0 yielded-process continuation and no native stack capture is introduced
+  + [RCC-028] logical call-stack subroutine call return recursion parser or source-syntax changes are deferred
+  + [RCC-029] MCP host attention-ledger persistence provider llama.cpp and IDE integration are deferred
+  + [RCC-030] digest equality proves internal content binding and determinism not producer authentication semantic truth or neural-state continuation
+
+& [Acceptance] is measurable
+  + [RCC-A01] source SJS signature and seven-fold trace verify
+  + [RCC-A02] genesis checkpoint validates and equal replay is byte-identical
+  + [RCC-A03] quota-one advance pauses with exactly one step and resumes to terminal
+  + [RCC-A04] multiple quota partitions equal the uninterrupted outcome byte for byte
+  + [RCC-A05] tamper stale cross-input structural and zero-quota cases refuse without successor
+  + [RCC-A06] original coordination suite formatting warnings-denied lint full workspace regression manifest audit and scoped Git review pass
+
+& [SatisfactionSignature] is bounded SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is faa7760f-3909-4997-8953-0c2d4caef6f7
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Resumable_Coordination_Checkpoint_P0.sop
+  + [source_snapshot_uuid] is b75e7a00-a43c-4ddf-8710-edd3cfa5145b
+  + [source_manifest_sha256] is 6D02372279C39A07628D6D7812B64430FBCBA1482EBE233CB9115967025A743B
+  + [processed_stage_set] is source_preserved audited delineated seven_fold_exploded dual_hemisphere_reconciled data_designed constraint_checked pruned flowcharted acceptance_formed justified planned feature_sliced phase_locked and signed
+  + [signature_status] is valid_for_pure_resumable_coordination_checkpoint_P0_only
+  + [invalidation] is interpreter_fork hidden_runtime_product native_stack_capture input_binding_omission terminal_drift effect_execution or deferred_scope_expansion

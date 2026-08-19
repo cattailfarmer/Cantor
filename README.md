@@ -116,7 +116,11 @@ baseline:
   handles and compare-and-set reentry, while the separate volatile
   `cantor-attention-ledger-mcp` process exposes one local
   `continue_attention_session` tool without persistence, provider calls, or
-  hidden-state claims.
+  hidden-state claims; and
+- the existing CPPE two-process coordinator now exposes a digest-bound
+  `CoordinationCheckpoint` and bounded start/advance stepper, allowing the
+  complete scheduler frontier to pause and resume across host calls while
+  producing byte-identical terminal outcomes under different slice sizes.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -176,6 +180,10 @@ The exact reentry handle, append-only event contract, compare-and-set race
 behavior, volatile MCP boundary, and deferred persistence work are documented
 in
 [`docs/ATTENTION_REENTRY_LEDGER_P0.md`](docs/ATTENTION_REENTRY_LEDGER_P0.md).
+The correspondence between execution frames, typed local variables,
+instruction cursors, per-process continuations, and the new whole-scheduler
+checkpoint is documented in
+[`docs/RESUMABLE_COORDINATION_CHECKPOINT_P0.md`](docs/RESUMABLE_COORDINATION_CHECKPOINT_P0.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell

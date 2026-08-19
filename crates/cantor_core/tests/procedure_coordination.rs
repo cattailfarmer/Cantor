@@ -633,6 +633,404 @@ fn session(pipeline: &Pipeline) -> NegotiationSession {
     }
 }
 
+fn run_chunked(
+    pipeline: &Pipeline,
+    request: &InvocationRequest,
+    session: &NegotiationSession,
+    quotas: &[u64],
+) -> CoordinationOutcome {
+    let mut checkpoint = begin_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        request,
+        session,
+    )
+    .expect("begin checkpoint");
+    for index in 0..256 {
+        let transition = advance_coordination_checkpoint(
+            &pipeline.catalogue,
+            &pipeline.procedure,
+            &pipeline.ir,
+            &pipeline.admission,
+            request,
+            session,
+            &checkpoint,
+            quotas[index % quotas.len()],
+        )
+        .expect("advance checkpoint");
+        if let Some(outcome) = transition.outcome {
+            assert!(transition.checkpoint.is_none());
+            return outcome;
+        }
+        assert_eq!(transition.disposition, CoordinationSliceDisposition::Paused);
+        checkpoint = transition.checkpoint.expect("paused checkpoint");
+    }
+    panic!("chunked coordination did not terminate")
+}
+
+fn resign_checkpoint(checkpoint: &mut CoordinationCheckpoint) {
+    checkpoint.checkpoint_digest = empty_digest();
+    checkpoint.checkpoint_digest =
+        compute_coordination_checkpoint_digest(checkpoint).expect("checkpoint digest");
+}
+
+#[test]
+fn checkpoint_genesis_is_strict_valid_and_byte_deterministic() {
+    let pipeline = pipeline();
+    let request = request(&pipeline);
+    let session = session(&pipeline);
+    let first = begin_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("first checkpoint");
+    let replay = begin_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("checkpoint replay");
+    assert_eq!(first, replay);
+    assert_eq!(first.slice_index, 0);
+    assert!(first.steps.is_empty());
+    assert_eq!(first.process_states.len(), 2);
+    assert_eq!(first.trace_events.len(), 1);
+    validate_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+        &first,
+    )
+    .expect("valid checkpoint");
+
+    let mut value = serde_json::to_value(first).expect("checkpoint JSON");
+    value["ambient_stack_pointer"] = serde_json::json!(1234);
+    assert!(serde_json::from_value::<CoordinationCheckpoint>(value).is_err());
+}
+
+#[test]
+fn quota_one_pauses_exactly_then_resumes_to_uninterrupted_outcome() {
+    let pipeline = pipeline();
+    let request = request(&pipeline);
+    let session = session(&pipeline);
+    let checkpoint = begin_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("begin checkpoint");
+    let first = advance_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+        &checkpoint,
+        1,
+    )
+    .expect("one step");
+    assert_eq!(first.disposition, CoordinationSliceDisposition::Paused);
+    assert_eq!(first.steps_advanced, 1);
+    assert!(first.outcome.is_none());
+    assert_eq!(
+        first
+            .checkpoint
+            .as_ref()
+            .expect("successor checkpoint")
+            .predecessor_checkpoint_digest,
+        Some(checkpoint.checkpoint_digest.clone())
+    );
+    assert_eq!(
+        first
+            .checkpoint
+            .as_ref()
+            .expect("successor checkpoint")
+            .steps
+            .len(),
+        1
+    );
+
+    let uninterrupted = coordinate_catalogued_procedure(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("uninterrupted coordination");
+    assert_eq!(
+        run_chunked(&pipeline, &request, &session, &[1]),
+        uninterrupted
+    );
+}
+
+#[test]
+fn quota_partitions_do_not_change_terminal_semantics() {
+    let pipeline = pipeline();
+    let request = request(&pipeline);
+    let session = session(&pipeline);
+    let uninterrupted = coordinate_catalogued_procedure(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("uninterrupted coordination");
+    for quotas in [&[1][..], &[2][..], &[4][..], &[1, 2, 4][..], &[64][..]] {
+        assert_eq!(
+            run_chunked(&pipeline, &request, &session, quotas),
+            uninterrupted,
+            "quota partition {quotas:?} changed the terminal outcome"
+        );
+    }
+}
+
+#[test]
+fn corrupt_or_cross_input_checkpoints_refuse_before_advancement() {
+    let pipeline = pipeline();
+    let request = request(&pipeline);
+    let session = session(&pipeline);
+    let mut checkpoint = begin_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("begin checkpoint");
+
+    assert!(
+        advance_coordination_checkpoint(
+            &pipeline.catalogue,
+            &pipeline.procedure,
+            &pipeline.ir,
+            &pipeline.admission,
+            &request,
+            &session,
+            &checkpoint,
+            0,
+        )
+        .is_err()
+    );
+
+    checkpoint.checkpoint_digest.value = "00".repeat(32);
+    assert!(
+        advance_coordination_checkpoint(
+            &pipeline.catalogue,
+            &pipeline.procedure,
+            &pipeline.ir,
+            &pipeline.admission,
+            &request,
+            &session,
+            &checkpoint,
+            1,
+        )
+        .is_err()
+    );
+
+    let checkpoint = begin_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("fresh checkpoint");
+    let mut changed_request = request.clone();
+    changed_request.caller_ref = sid("caller:substituted");
+    assert!(
+        advance_coordination_checkpoint(
+            &pipeline.catalogue,
+            &pipeline.procedure,
+            &pipeline.ir,
+            &pipeline.admission,
+            &changed_request,
+            &session,
+            &checkpoint,
+            1,
+        )
+        .is_err()
+    );
+    let mut changed_session = session.clone();
+    changed_session
+        .frame
+        .conditions
+        .insert("substituted".to_owned());
+    assert!(
+        advance_coordination_checkpoint(
+            &pipeline.catalogue,
+            &pipeline.procedure,
+            &pipeline.ir,
+            &pipeline.admission,
+            &request,
+            &changed_session,
+            &checkpoint,
+            1,
+        )
+        .is_err()
+    );
+
+    let mut invalid_state = checkpoint.clone();
+    invalid_state
+        .process_states
+        .values_mut()
+        .next()
+        .expect("process state")
+        .instruction_index = u64::MAX;
+    resign_checkpoint(&mut invalid_state);
+    assert!(
+        validate_coordination_checkpoint(
+            &pipeline.catalogue,
+            &pipeline.procedure,
+            &pipeline.ir,
+            &pipeline.admission,
+            &request,
+            &session,
+            &invalid_state,
+        )
+        .is_err()
+    );
+}
+
+#[test]
+fn nested_continuation_message_and_trace_tampering_cannot_be_rehashed_valid() {
+    let pipeline = pipeline();
+    let request = request(&pipeline);
+    let session = session(&pipeline);
+    let mut checkpoint = begin_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("begin checkpoint");
+    for _ in 0..32 {
+        let transition = advance_coordination_checkpoint(
+            &pipeline.catalogue,
+            &pipeline.procedure,
+            &pipeline.ir,
+            &pipeline.admission,
+            &request,
+            &session,
+            &checkpoint,
+            1,
+        )
+        .expect("advance to rich checkpoint");
+        checkpoint = transition.checkpoint.expect("fixture has not terminated");
+        if !checkpoint.continuations.is_empty() && !checkpoint.messages.is_empty() {
+            break;
+        }
+    }
+    assert!(!checkpoint.continuations.is_empty());
+    assert!(!checkpoint.messages.is_empty());
+
+    let mut invalid_continuation = checkpoint.clone();
+    invalid_continuation
+        .continuations
+        .values_mut()
+        .next()
+        .expect("continuation")
+        .continuation_digest = empty_digest();
+    resign_checkpoint(&mut invalid_continuation);
+    let mut invalid_message = checkpoint.clone();
+    invalid_message
+        .messages
+        .values_mut()
+        .next()
+        .expect("message")
+        .sender_ref = sid("process:substituted");
+    resign_checkpoint(&mut invalid_message);
+    let mut invalid_trace = checkpoint.clone();
+    invalid_trace
+        .trace_events
+        .last_mut()
+        .expect("trace event")
+        .causal_predecessor_refs
+        .clear();
+    resign_checkpoint(&mut invalid_trace);
+
+    for invalid in [invalid_continuation, invalid_message, invalid_trace] {
+        assert!(
+            validate_coordination_checkpoint(
+                &pipeline.catalogue,
+                &pipeline.procedure,
+                &pipeline.ir,
+                &pipeline.admission,
+                &request,
+                &session,
+                &invalid,
+            )
+            .is_err()
+        );
+    }
+}
+
+#[test]
+fn global_budget_refusal_is_terminal_and_matches_compatibility_path() {
+    let pipeline = pipeline();
+    let mut request = request(&pipeline);
+    request.budgets.step_limit = 4;
+    let session = session(&pipeline);
+    let checkpoint = begin_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("begin checkpoint");
+    let sliced = advance_coordination_checkpoint(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+        &checkpoint,
+        64,
+    )
+    .expect("terminal budget transition");
+    assert_eq!(
+        sliced.disposition,
+        CoordinationSliceDisposition::BudgetRefused
+    );
+    assert!(sliced.checkpoint.is_none());
+    let uninterrupted = coordinate_catalogued_procedure(
+        &pipeline.catalogue,
+        &pipeline.procedure,
+        &pipeline.ir,
+        &pipeline.admission,
+        &request,
+        &session,
+    )
+    .expect("compatibility budget outcome");
+    assert_eq!(sliced.outcome, Some(uninterrupted));
+}
+
 #[test]
 fn two_process_coordination_is_deterministic_and_covers_the_scheduler_contract() {
     let pipeline = pipeline();

@@ -1,0 +1,27 @@
+Subject: Cantor Resumable Coordination Checkpoint P0 Justification
+
+@ [justification_uuid] bded1938-2845-472b-9b82-c811fa3d710e
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Resumable_Coordination_Checkpoint_P0.sop
+
+& [Need] is whole-program rather than per-process reentry
+  + existing ProcessInstanceState and SerializedContinuation already cover variables instruction cursor and yielded process state
+  + current coordination execution still retains scheduler queues traces messages returns wake sets and other process states only inside one host call
+  + serializing only one process would lose information required to select the next deterministic transition
+
+& [Leverage] reuses the mature interpreter
+  + exposing the full scheduler frontier adds chunking without inventing a second attention bytecode
+  + identical terminal outcomes demonstrate that checkpoint partitioning is transport scheduling rather than semantic change
+  + later tools can operate on this pure seam without modifying llama.cpp
+
+& [Safety] is exact and finite
+  + every resume revalidates original authority and input lineage
+  + caller quota is positive finite and subordinate to existing invocation and IR bounds
+  + content hashes catch accidental drift while explicit nonclaims prevent them from becoming authentication
+
+& [AlternativesRejected] keeps architecture coherent
+  - native stack snapshots are nonportable unsafe and already prohibited
+  - a new interpreter would split semantics and proof
+  - persistence before a pure restart value would combine crash consistency with language semantics
+  - subroutines before resumable scheduler state would add control complexity without fixing the current all-at-once host boundary
+
+& [Conclusion] is implement the pure checkpoint stepper before call-stack MCP persistence or model-host integration
