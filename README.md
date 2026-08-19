@@ -125,7 +125,11 @@ baseline:
   provider-neutral `BEGIN` and `ADVANCE` requests, while the separate stateless
   `cantor-coordination-mcp` process exposes one local
   `step_procedure_coordination` tool for ordinary between-pass inference loops
-  without retained context, model access, effects, or llama.cpp changes.
+  without retained context, model access, effects, or llama.cpp changes; and
+- `cantor_coordination_measurement` now reproduces exact structured transport
+  costs across quotas 1, 2, 4, 8, and 64, showing that coarser bounded stepping
+  removes substantially more traffic than an impossible zero-byte
+  context-only handle while retaining statelessness.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -193,6 +197,10 @@ The strict provider-neutral request, stateless MCP surface, complete
 model–tool–model staging flow, proof boundary, and deferred context custody are
 documented in
 [`docs/RESUMABLE_COORDINATION_TOOL_P0.md`](docs/RESUMABLE_COORDINATION_TOOL_P0.md).
+The deterministic structured-byte artifact, quota comparison, source
+correction, and evidence-led decision to defer a context-only registry are
+documented in
+[`docs/COORDINATION_TRANSPORT_MEASUREMENT_P0.md`](docs/COORDINATION_TRANSPORT_MEASUREMENT_P0.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell

@@ -1,0 +1,22 @@
+[package]
+name = "cantor_coordination_measurement"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[[bin]]
+name = "cantor-coordination-measurement"
+path = "src/main.rs"
+
+[dependencies]
+cantor_coordination_mcp = { path = "../cantor_coordination_mcp" }
+cantor_core = { path = "../cantor_core", features = ["json-schema"] }
+cantor_procedure_tool = { path = "../cantor_procedure_tool", features = ["json-schema"] }
+schemars.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true
+

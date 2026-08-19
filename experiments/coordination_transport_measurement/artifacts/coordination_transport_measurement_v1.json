@@ -1,0 +1,156 @@
+{
+  "profile": "cantor-coordination-transport-measurement/0.1",
+  "fixture_source": "crates/cantor_core/tests/fixtures/cppe_two_process_candidate.json",
+  "tool_name": "step_procedure_coordination",
+  "expected_terminal_steps": 14,
+  "static_metrics": {
+    "context_bytes": 18653,
+    "begin_request_bytes": 18685,
+    "begin_argument_bytes": 18697,
+    "begin_response_bytes": 5041,
+    "genesis_checkpoint_bytes": 4628,
+    "tool_metadata_bytes": 56243,
+    "input_schema_bytes": 34666,
+    "output_schema_bytes": 21106
+  },
+  "schedules": [
+    {
+      "maximum_steps": 1,
+      "call_count": 15,
+      "advance_call_count": 14,
+      "steps_advanced": 14,
+      "request_bytes": 640285,
+      "response_bytes": 415835,
+      "structured_bytes": 1056120,
+      "maximum_request_bytes": 63621,
+      "maximum_response_bytes": 48008,
+      "checkpoint_samples": 14,
+      "minimum_checkpoint_bytes": 4628,
+      "maximum_checkpoint_bytes": 44890,
+      "aggregate_checkpoint_bytes": 359354,
+      "repeated_context_bytes": 279795,
+      "zero_byte_handle_upper_bound": 261142,
+      "context_request_share_basis_points": 4369,
+      "context_total_share_basis_points": 2649,
+      "terminal_outcome_bytes": 47386,
+      "terminal_outcome_digest": {
+        "algorithm": "sha256",
+        "value": "cf7f8a3dabc33480f5eefd02e382eed716ab8a36a9166a7455a147a8225590b1"
+      }
+    },
+    {
+      "maximum_steps": 2,
+      "call_count": 8,
+      "advance_call_count": 7,
+      "steps_advanced": 14,
+      "request_bytes": 319399,
+      "response_bytes": 221726,
+      "structured_bytes": 541125,
+      "maximum_request_bytes": 61630,
+      "maximum_response_bytes": 48008,
+      "checkpoint_samples": 7,
+      "minimum_checkpoint_bytes": 4628,
+      "maximum_checkpoint_bytes": 42899,
+      "aggregate_checkpoint_bytes": 169585,
+      "repeated_context_bytes": 149224,
+      "zero_byte_handle_upper_bound": 130571,
+      "context_request_share_basis_points": 4672,
+      "context_total_share_basis_points": 2757,
+      "terminal_outcome_bytes": 47386,
+      "terminal_outcome_digest": {
+        "algorithm": "sha256",
+        "value": "cf7f8a3dabc33480f5eefd02e382eed716ab8a36a9166a7455a147a8225590b1"
+      }
+    },
+    {
+      "maximum_steps": 4,
+      "call_count": 5,
+      "advance_call_count": 4,
+      "steps_advanced": 14,
+      "request_bytes": 190374,
+      "response_bytes": 147034,
+      "structured_bytes": 337408,
+      "maximum_request_bytes": 61630,
+      "maximum_response_bytes": 48008,
+      "checkpoint_samples": 4,
+      "minimum_checkpoint_bytes": 4628,
+      "maximum_checkpoint_bytes": 42899,
+      "aggregate_checkpoint_bytes": 96753,
+      "repeated_context_bytes": 93265,
+      "zero_byte_handle_upper_bound": 74612,
+      "context_request_share_basis_points": 4899,
+      "context_total_share_basis_points": 2764,
+      "terminal_outcome_bytes": 47386,
+      "terminal_outcome_digest": {
+        "algorithm": "sha256",
+        "value": "cf7f8a3dabc33480f5eefd02e382eed716ab8a36a9166a7455a147a8225590b1"
+      }
+    },
+    {
+      "maximum_steps": 8,
+      "call_count": 3,
+      "advance_call_count": 2,
+      "steps_advanced": 14,
+      "request_bytes": 91737,
+      "response_bytes": 84619,
+      "structured_bytes": 176356,
+      "maximum_request_bytes": 49681,
+      "maximum_response_bytes": 48008,
+      "checkpoint_samples": 2,
+      "minimum_checkpoint_bytes": 4628,
+      "maximum_checkpoint_bytes": 30950,
+      "aggregate_checkpoint_bytes": 35578,
+      "repeated_context_bytes": 55959,
+      "zero_byte_handle_upper_bound": 37306,
+      "context_request_share_basis_points": 6099,
+      "context_total_share_basis_points": 3173,
+      "terminal_outcome_bytes": 47386,
+      "terminal_outcome_digest": {
+        "algorithm": "sha256",
+        "value": "cf7f8a3dabc33480f5eefd02e382eed716ab8a36a9166a7455a147a8225590b1"
+      }
+    },
+    {
+      "maximum_steps": 64,
+      "call_count": 2,
+      "advance_call_count": 1,
+      "steps_advanced": 14,
+      "request_bytes": 42057,
+      "response_bytes": 53050,
+      "structured_bytes": 95107,
+      "maximum_request_bytes": 23360,
+      "maximum_response_bytes": 48009,
+      "checkpoint_samples": 1,
+      "minimum_checkpoint_bytes": 4628,
+      "maximum_checkpoint_bytes": 4628,
+      "aggregate_checkpoint_bytes": 4628,
+      "repeated_context_bytes": 37306,
+      "zero_byte_handle_upper_bound": 18653,
+      "context_request_share_basis_points": 8870,
+      "context_total_share_basis_points": 3922,
+      "terminal_outcome_bytes": 47386,
+      "terminal_outcome_digest": {
+        "algorithm": "sha256",
+        "value": "cf7f8a3dabc33480f5eefd02e382eed716ab8a36a9166a7455a147a8225590b1"
+      }
+    }
+  ],
+  "findings": [
+    "quota one uses 15 calls and 1056120 structured bytes",
+    "quota eight uses 3 calls and 176356 structured bytes",
+    "quota sixty-four uses 2 calls and 95107 structured bytes",
+    "the zero-byte-handle ceiling ranges from 18653 to 261142 removable bytes across measured schedules"
+  ],
+  "decision": "measurement_only_no_registry_authority",
+  "nonclaims": [
+    "structured JSON bytes are not model tokens or context-window usage",
+    "no latency allocation RSS throughput or network framing was measured",
+    "one checked fixture does not establish general-program performance",
+    "the zero-byte-handle upper bound is not realizable registry savings",
+    "no stateful registry persistence authentication provider or effect is authorized"
+  ],
+  "report_digest": {
+    "algorithm": "sha256",
+    "value": "a9c469d4ca05d8419eae043552ad2d8c5faaab0897af0849d1c5025d37aba393"
+  }
+}

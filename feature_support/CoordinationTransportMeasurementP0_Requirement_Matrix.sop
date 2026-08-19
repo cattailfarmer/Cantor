@@ -1,0 +1,27 @@
+Subject: Coordination Transport Measurement P0 Requirement Matrix
+
+@ [matrix_uuid] 8c2f5227-a919-4dce-bbf5-c96c3038d82b
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Coordination_Transport_Measurement_P0.sop
+@ [status] verified_complete
+
+& [CTM-A01] source SJS and signature
+  + [requirement] CTM-001 through CTM-024
+  + [planned_proof] source hashes explosion trace and bounded authority audit
+& [CTM-A02] deterministic report
+  + [requirement] CTM-001 through CTM-010 and CTM-020 through CTM-022
+  + [planned_proof] repeated generation digest validation and fresh-artifact equality
+  + [implementation] generation_is_byte_deterministic_and_self_validating plus checked_artifact_equals_fresh_generation_byte_for_byte
+& [CTM-A03] schedule equivalence
+  + [requirement] CTM-011 through CTM-021
+  + [planned_proof] five quota schedules exact recorded step result byte and arithmetic checks
+  + [implementation] all_schedules_reach_one_exact_terminal_outcome_with_valid_accounts
+& [CTM-A04] bounded finding
+  + [requirement] CTM-016 through CTM-024
+  + [planned_proof] context-share and zero-handle ceiling account plus explicit nonclaims
+  + [implementation] corruption_and_scope_escalation_fail_validation plus coordination_transport_measurement_v1.json
+& [CTM-A05] release verification
+  + [requirement] complete specification
+  + [planned_proof] focused tests artifact check fmt warnings-denied lint workspace regression manifest audit narrative and scoped diff
+  + [evidence] proofs/Cantor_Coordination_Transport_Measurement_P0_Proof.sop
+
+& [CompletionRule] is one deterministic exact-fixture byte account with no stateful registry or generalized performance claim
