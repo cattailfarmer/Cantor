@@ -146,6 +146,8 @@ The h7 SHA-256 is deployment content identity, not a reproducible-build claim. A
 
 Across nine completed typed cycles, each run used five exchanges, 2455 prompt tokens, and 2751–2761 total tokens; provider-reported compute ranged from 5.012 to 7.865 seconds. Nine controls used one exchange and exactly 496 total tokens, with 0.808–1.221 seconds reported compute. Seven co-membership boundary rejections stopped after four probes at exactly 2245 tokens, before paying for delineation. The two early free-text profiles consumed 3112–3293 tokens and about 13.7–14.0 seconds before rejection. Two later relation-boundary runs pay for delineation because the forbidden relation can only be evaluated after typed edges exist. These figures describe this model, field, server, cache state, and corpus—not general performance or semantic quality.
 
+The effect-free closure audit reruns the cost analyzer in memory and compares the ordered identity of all thirty-one provider reports, all five class counts, and every published minimum/median/mean/maximum statistic. It does not merely trust the compact summary's own digest.
+
 ## Limits
 
 - The four probes are correlated outputs from one model, not independent witnesses.

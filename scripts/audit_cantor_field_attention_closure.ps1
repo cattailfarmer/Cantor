@@ -9,6 +9,7 @@ $proofPath = Join-Path $workspaceRoot "proofs\Cantor_Field_Attention_Delineation
 $acceptancePath = Join-Path $workspaceRoot "experiments\cantor_field_cycle_p0\offline_acceptance_v1.json"
 $costPath = Join-Path $workspaceRoot "experiments\cantor_field_cycle_p0\attention_cost_summary_v1.json"
 $deploymentPath = Join-Path $workspaceRoot "experiments\cantor_field_cycle_p0\deployment_manifest_2026-08-18.json"
+$costAnalyzerPath = Join-Path $PSScriptRoot "analyze_cantor_field_attention_costs.ps1"
 
 function Assert-Exact {
     param(
@@ -34,6 +35,23 @@ function Resolve-ProofPath {
         return Join-Path $workspaceRoot $DeclaredPath.Substring($prefix.Length)
     }
     return $DeclaredPath
+}
+
+function Assert-StatisticSummary {
+    param(
+        [Parameter(Mandatory)]$Observed,
+        [Parameter(Mandatory)]$Expected,
+        [Parameter(Mandatory)][string[]]$Order,
+        [Parameter(Mandatory)][string]$Label
+    )
+    $expectedValues = @($Expected)
+    Assert-Exact -Condition ($expectedValues.Count -eq $Order.Count) -Message "statistic cardinality mismatch: $Label"
+    for ($index = 0; $index -lt $Order.Count; $index++) {
+        $propertyName = $Order[$index]
+        $property = $Observed.PSObject.Properties[$propertyName]
+        Assert-Exact -Condition ($null -ne $property) -Message "missing statistic $propertyName`: $Label"
+        Assert-Exact -Condition ([decimal]$property.Value -eq [decimal]$expectedValues[$index]) -Message "statistic mismatch $propertyName`: $Label"
+    }
 }
 
 $sources = @(
@@ -85,6 +103,27 @@ Assert-Exact -Condition ($acceptance.report_count -eq 10) -Message "offline acce
 Assert-Exact -Condition ($acceptance.cost_analysis.provider_report_count -eq 31) -Message "provider report count changed"
 Assert-Exact -Condition ($acceptance.cost_analysis.ordered_corpus_input_sha256 -ceq $cost.ordered_corpus_input_sha256) -Message "acceptance and cost corpus identities disagree"
 
+$costAnalysis = (& $costAnalyzerPath | Out-String | ConvertFrom-Json)
+Assert-Exact -Condition ($costAnalysis.profile -ceq "cantor-field-attention-cost-analysis/0.1") -Message "cost analyzer profile changed"
+Assert-Exact -Condition ($cost.profile -ceq "cantor-field-attention-cost-summary/0.1") -Message "cost summary profile changed"
+Assert-Exact -Condition ($cost.analysis_script -ceq "scripts/analyze_cantor_field_attention_costs.ps1") -Message "cost summary analyzer identity changed"
+Assert-Exact -Condition ($costAnalysis.provider_report_count -eq $cost.provider_report_count) -Message "recomputed provider report count changed"
+Assert-Exact -Condition ($costAnalysis.ordered_corpus_input_sha256 -ceq $cost.ordered_corpus_input_sha256) -Message "recomputed provider corpus identity changed"
+$statOrder = @($cost.stat_order | ForEach-Object { [string]$_ })
+Assert-Exact -Condition (($statOrder -join ",") -ceq "minimum,median,mean,maximum") -Message "cost statistic order changed"
+$observedGroups = @($costAnalysis.groups)
+$expectedGroups = @($cost.groups)
+Assert-Exact -Condition ($observedGroups.Count -eq $expectedGroups.Count) -Message "recomputed cost group count changed"
+foreach ($observedGroup in $observedGroups) {
+    $matches = @($expectedGroups | Where-Object { $_.class -ceq $observedGroup.class })
+    Assert-Exact -Condition ($matches.Count -eq 1) -Message "missing or duplicate cost group: $($observedGroup.class)"
+    $expectedGroup = $matches[0]
+    Assert-Exact -Condition ($observedGroup.report_count -eq $expectedGroup.report_count) -Message "cost report count mismatch: $($observedGroup.class)"
+    foreach ($statistic in @("exchange_count", "prompt_tokens", "cached_prompt_tokens", "completion_tokens", "total_tokens", "observed_compute_ms", "report_bytes")) {
+        Assert-StatisticSummary -Observed $observedGroup.$statistic -Expected $expectedGroup.$statistic -Order $statOrder -Label "$($observedGroup.class).$statistic"
+    }
+}
+
 $assuranceCounts = @{}
 foreach ($report in @($acceptance.reports)) {
     $assurance = [string]$report.assurance
@@ -124,6 +163,7 @@ foreach ($reference in $proofReferences) {
     deployment_manifest_sha256 = $deploymentSha
     final_verifier_sha256 = $deployment.final_verifier.sha256
     core_assurance_counts = $assuranceCounts
+    cost_corpus_recomputed = $true
     remote_reexecution = $false
     external_effects = "none"
 } | ConvertTo-Json -Depth 5
