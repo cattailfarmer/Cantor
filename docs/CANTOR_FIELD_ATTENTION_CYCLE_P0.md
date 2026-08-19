@@ -187,6 +187,6 @@ Local semantic-field and cycle-report reads are handle-bound and allocation-boun
 - Sanitization removes the declared private-reasoning keys recursively. It is a known-key evidence policy, not a universal confidentiality guarantee for arbitrary provider fields or ordinary content.
 - The EVO-X2 h8 executable currently inherits `Authenticated Users` `Modify, Synchronize`; its exact observed digest and replay success do not make that modifiable location a production trust root.
 - Model discovery failure occurs before report construction, so FADL-011 trace coverage is partial at preflight. An explicit `--model` avoids discovery only when the supplied identity is itself valid; a blank explicit model reaches report construction but makes the fault report unverifiable and unpublished.
-- CLI `contract` and `verify` currently ignore trailing arguments, while `run` and `control` accept duplicate recognized options with last-value-wins semantics.
+- CLI `contract`, `field-digest`, `help`, and `verify` currently ignore trailing arguments, while `run` and `control` accept duplicate recognized options with last-value-wins semantics.
 - No database retrieval, faculty loading, effects, shared inference, training, dynamic procedure creation, or production authorization is part of P0.
 - This is an attention I/O co-processor mechanism test, not a small language model and not proof of “holistic cognition.”

@@ -1,6 +1,7 @@
 {
   "profile": "cantor-field-attention-preflight-cli-boundary-observation/0.1",
   "observed_at": "2026-08-18T20:17:57.4696388-05:00",
+  "successor_observed_at": "2026-08-18T20:49:57.1977306-05:00",
   "implementation_commit": "97388f9c67b286b1ebe27e55dfccdfdc717d3e61",
   "main_rs_sha256": "298afcdf0a3579d71636abac10d546956248643ef714267d83beede0a8e59659",
   "main_rs_bytes": 23797,
@@ -13,6 +14,22 @@
       "exit_code": 0,
       "verification_valid": true
     },
+    "field_digest_with_unexpected_trailing_argument": {
+      "host": "EVO-X2",
+      "executable_sha256_before": "abf9c33976320297018bc90723c50ee779b746b129539daaf963e91f5eb40b52",
+      "executable_sha256_after": "abf9c33976320297018bc90723c50ee779b746b129539daaf963e91f5eb40b52",
+      "exit_code": 0,
+      "digest_emitted": "136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0",
+      "files_written": 0,
+      "provider_requests": 0
+    },
+    "help_with_unexpected_trailing_argument": {
+      "host": "EVO-X2",
+      "exit_code": 0,
+      "help_emitted": true,
+      "files_written": 0,
+      "provider_requests": 0
+    },
     "run_with_unreachable_loopback_model_discovery": {
       "base_url": "http://127.0.0.1:9",
       "exit_code": 1,
@@ -23,8 +40,8 @@
   },
   "findings": [
     "Model discovery occurs before CycleReport construction, so discovery failure has no typed replayable report.",
-    "Contract and verify ignore trailing arguments; run and control use last-value-wins semantics for duplicate recognized options.",
+    "Contract, field-digest, help, and verify ignore trailing arguments; run and control use last-value-wins semantics for duplicate recognized options.",
     "Strict CLI parsing is separable from the semantic core, while preflight trace repair requires a governed report or preflight-envelope decision."
   ],
-  "authority": "Effect-free local observation only; no interface repair, schema amendment, provider inference, or production authority."
+  "authority": "Effect-free local and EVO-X2 observation only; no interface repair, schema amendment, provider inference, or production authority."
 }
