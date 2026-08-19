@@ -48,4 +48,3 @@ order.
 P1 still represents separate provider calls joined by explicit host state. It
 does not create one shared transformer forward pass, mutate hidden state,
 persist sessions, execute effects, or contact EVO-X2 or OneDrive automatically.
-

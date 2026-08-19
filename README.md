@@ -232,6 +232,10 @@ The next bounded READY-continuation state machine, progress projection,
 stop/reentry contract, faculty checks, replay rules, and implementation slices
 are specified—but not yet activated—in
 [`docs/ITERATIVE_ATTENTION_PROCEDURE_LOOP_P1.md`](docs/ITERATIVE_ATTENTION_PROCEDURE_LOOP_P1.md).
+The consolidated local executable state, measured transport result, maturity
+boundaries, safe verification lane, and next dependency frontier are recorded
+in
+[`docs/CANTOR_LOCAL_RUNTIME_STATUS_2026-08-19.md`](docs/CANTOR_LOCAL_RUNTIME_STATUS_2026-08-19.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell
