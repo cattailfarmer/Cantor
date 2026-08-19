@@ -5,10 +5,16 @@
 mod iterative;
 
 pub use iterative::{
-    ITERATIVE_REPORT_NONCLAIMS, ITERATIVE_REPORT_PROFILE, IterationRecord, IterationSuccessor,
-    IterativeReport, IterativeRunState, NextIterativeOperation, PolicyUsage,
-    READY_PROJECTION_PROFILE, ReadyProjection, RunPolicy, StopReason, project_ready_record,
-    validate_iterative_report, validate_ready_projection, validate_run_policy,
+    DETERMINISTIC_DRIVE_MEASUREMENT_PROFILE, DETERMINISTIC_DRIVE_NONCLAIMS,
+    DETERMINISTIC_DRIVE_PROFILE, DeterministicAdvanceRecord, DeterministicAdvanceSuccessor,
+    DeterministicDriveMeasurement, DeterministicDriveResult, ITERATIVE_REPORT_NONCLAIMS,
+    ITERATIVE_REPORT_PROFILE, IterationRecord, IterationSuccessor, IterativeReport,
+    IterativeRunState, NextIterativeOperation, PolicyUsage, READY_PROJECTION_PROFILE,
+    ReadyProjection, RunPolicy, StopReason, drive_bound_session,
+    measure_deterministic_drive_result, normalize_deterministic_drive_result_json,
+    project_ready_record, validate_deterministic_drive_measurement,
+    validate_deterministic_drive_result, validate_iterative_report, validate_ready_projection,
+    validate_run_policy,
 };
 
 use cantor_compact_coordination_mcp::{
@@ -277,6 +283,37 @@ pub fn experimental_fixture_context_json() -> Result<String, String> {
         .map_err(|fault| format!("fixture authorship lane failed: {fault}"))?;
     serde_json::to_string_pretty(&CoordinationToolContext::from(&lane))
         .map_err(|error| format!("fixture context serialization failed: {error}"))
+}
+
+pub fn generate_fixture_deterministic_drive_measurement()
+-> Result<DeterministicDriveMeasurement, String> {
+    let opening = open_bound_session(
+        experimental_fixture_context_json()?,
+        SemanticId::new("registry:deterministic-drive-measurement")
+            .map_err(|fault| fault.to_string())?,
+        SemanticId::new("session:deterministic-drive-measurement")
+            .map_err(|fault| fault.to_string())?,
+    )?;
+    let result = drive_bound_session(
+        &opening,
+        RunPolicy {
+            maximum_steps_per_call: 8,
+            maximum_tool_calls: 8,
+            maximum_provider_calls: 9,
+            timeout_seconds: 120,
+        },
+    )?;
+    measure_deterministic_drive_result(&result)
+}
+
+pub fn pretty_deterministic_drive_measurement_bytes(
+    measurement: &DeterministicDriveMeasurement,
+) -> Result<Vec<u8>, String> {
+    validate_deterministic_drive_measurement(measurement)?;
+    let mut bytes = serde_json::to_vec_pretty(measurement)
+        .map_err(|error| format!("deterministic measurement serialization failed: {error}"))?;
+    bytes.push(b'\n');
+    Ok(bytes)
 }
 
 pub fn open_bound_session(

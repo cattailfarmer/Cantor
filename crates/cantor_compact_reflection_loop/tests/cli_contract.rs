@@ -24,6 +24,29 @@ fn help_exposes_the_bounded_live_contract() {
     assert!(stdout.contains("model -> compact Cantor procedure -> model reflection"));
     assert!(stdout.contains("--context PATH"));
     assert!(stdout.contains("--maximum-steps N"));
+    assert!(stdout.contains("measure-iterative-fixture"));
+}
+
+#[test]
+fn iterative_measurement_command_is_provider_free_and_typed() {
+    let output = Command::new(binary())
+        .arg("measure-iterative-fixture")
+        .output()
+        .expect("run");
+    assert!(output.status.success());
+    assert!(output.stderr.is_empty());
+    let measurement: cantor_compact_reflection_loop::DeterministicDriveMeasurement =
+        serde_json::from_slice(&output.stdout).expect("typed measurement");
+    cantor_compact_reflection_loop::validate_deterministic_drive_measurement(&measurement)
+        .expect("valid measurement");
+    assert_eq!(measurement.advance_count, 2);
+    assert_eq!(measurement.ready_projection_count, 1);
+
+    let extra = Command::new(binary())
+        .args(["measure-iterative-fixture", "unexpected"])
+        .output()
+        .expect("run invalid command");
+    assert_eq!(extra.status.code(), Some(2));
 }
 
 #[test]

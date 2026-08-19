@@ -2,7 +2,7 @@
 
 This status anchor consolidates the local shared-attention base campaign from
 Git checkpoint `4769ae5` through `dd3beff` and tracks the subsequently
-activated P1 Slice 1 state. It is a navigation surface, not new implementation
+activated P1 Slice 2 state. It is a navigation surface, not new implementation
 authority. The cited specifications, solutions, and proofs remain canonical.
 
 ## Executable outcome
@@ -45,7 +45,7 @@ is claimed at this checkpoint.
 | Procedure/reflection model host | P0 executable and loopback-proved | One procedure call must reach terminal state |
 | Saved-report replay | P0 implemented with mutation refusal | Internal lineage consistency, not external truth |
 | Terminal attention projection | P0 implemented and measured | Exact READ remains authority |
-| Iterative READY continuation | P1 Slice 1 strict forms implemented | Stepper and provider loop are not activated |
+| Iterative READY continuation | P1 Slice 2 deterministic stepper implemented | Provider protocol is not activated |
 | Live local model acceptance | Pending | Windows Ollama is not reachable from the governed WSL loopback lane |
 | Persistent or distributed session custody | Not implemented | No cluster lock, token ring, or shared hidden state |
 | Effect execution and production authentication | Not implemented | No autonomous computer action or trust claim |
@@ -66,11 +66,19 @@ The measurement artifacts are:
 
 - `experiments/compact_reflection_transport_measurement/artifacts/compact_reflection_transport_measurement_v1.json`
 - `experiments/compact_reflection_transport_measurement/artifacts/compact_reflection_transport_measurement_v2.json`
+- `experiments/iterative_attention_procedure_loop_p1/artifacts/deterministic_drive_measurement_v1.json`
+
+For the quota-eight deterministic iterative fixture, one 652-byte READY
+projection plus one 807-byte terminal projection totals 1,459 bytes. That is
+98 basis points (0.98%) of the 148,072-byte exact drive result retained for
+validation. The exact terminal observation is 73,720 bytes and the successor
+registry is 67,821 bytes. These figures measure serialized shape only, not
+model quality or causal reasoning.
 
 ## Verification state
 
-- 132 Rust test-result groups completed;
-- 677 tests passed, zero failed, and one governed physical fixture remained
+- 134 Rust test-result groups completed;
+- 687 tests passed, zero failed, and one governed physical fixture remained
   ignored;
 - workspace all-target/all-feature Clippy passed with warnings denied;
 - the evidence audit covers 23 current manifests and 1,030 artifact references
@@ -95,11 +103,12 @@ The compact host provides these principal commands:
 
 ```text
 cantor-compact-reflection-loop fixture-context --output PATH
-cantor-compact-reflection-loop --endpoint URL --model MODEL \
+cantor-compact-reflection-loop --base-url URL --model MODEL \
   --context PATH --output PATH
 cantor-compact-reflection-loop verify --report PATH
 cantor-compact-reflection-loop inspect --report PATH
 cantor-compact-reflection-loop measure-fixture
+cantor-compact-reflection-loop measure-iterative-fixture
 ```
 
 The first generative call receives only the run-scoped
@@ -108,7 +117,7 @@ sequence, record, registry, checkpoint, and digest bindings remain outside the
 model's arguments. The terminal reflection receives a verified projection; the
 saved report retains the exact observation for independent replay.
 
-## Iterative P1 frontier
+## Iterative P1 state and frontier
 
 The next canonical frontier is the deterministic driver for procedures that
 return `READY` after one advancement quota:
@@ -119,13 +128,19 @@ terminal -> exact READ -> TerminalProjection -> no-tool reflection -> complete
 cap or fault -> stopped report + current live reentry handle
 ```
 
-The first two dependencies are now complete: an artifact-bound activation
-review released Slice 1 only, and pure strict forms plus structural validation
-are focused-proven. The remaining order is deterministic stepper, provider
-protocol, two-call loopback process proof, replay and mutation proof, transport
-measurement, and release checkpoint. `READY` cannot be called complete, and
-policy exhaustion must preserve a replayable stopped state rather than
-fabricate success.
+The first three dependencies are complete: artifact-bound activation, Slice 1
+strict forms, and the Slice 2 provider-free deterministic stepper. Quota 64 is
+byte-identical to the P0 terminal path; quota 8 yields exactly READY then
+terminal; and quota 1 with a two-call cap stops at an exact live head that can
+be explicitly resumed to the same outcome. Structural replay, mutation
+refusal, and deterministic transport measurement are proven for this pure
+surface.
+
+The remaining order begins with a separately activated Slice 3 provider
+protocol, followed by two-call loopback process proof, provider-attributed
+report replay, provider-transport measurement, and release. `READY` still
+cannot be called complete, and the deterministic result does not claim that a
+provider call or shared transformer forward pass occurred.
 
 ## Locality and trust boundaries
 
@@ -147,8 +162,9 @@ insertions, and 234 deletions from `4769ae5^` through `dd3beff`. Those commits
 progress from shared forms, tool exposure, reentry, checkpoints, and transport
 measurement through compact custody, the executable model/tool/model loop,
 replay verification, terminal projection, and the governed P1 specification.
-The later Slice1 proof is the authority for the pure-form implementation state.
+The later Slice1 and Slice2 proofs are the authority for the current iterative
+implementation state.
 
-The next implementation must begin from a separate Slice 2 activation rather
-than silently interpreting Slice 1 or this status document as stepper or
-provider-loop authority.
+The next provider implementation must begin from a separate Slice 3 activation
+rather than silently interpreting Slice 2 or this status document as provider
+authority.
