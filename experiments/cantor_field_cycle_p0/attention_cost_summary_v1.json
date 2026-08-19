@@ -1,0 +1,76 @@
+{
+  "profile": "cantor-field-attention-cost-summary/0.1",
+  "analysis_script": "scripts/analyze_cantor_field_attention_costs.ps1",
+  "provider_report_count": 31,
+  "ordered_corpus_input_sha256": "66a37d6b4603210d945d5cdda5b4c5b2b05e1a2314198e51ec2bd442592e40ee",
+  "provider": "Qwen3.5-0.8B-Q4_0 through unmodified llama.cpp loopback",
+  "stat_order": [
+    "minimum",
+    "median",
+    "mean",
+    "maximum"
+  ],
+  "groups": [
+    {
+      "class": "completed",
+      "report_count": 9,
+      "exchange_count": [5, 5, 5, 5],
+      "prompt_tokens": [2455, 2455, 2455, 2455],
+      "cached_prompt_tokens": [396, 1163, 1643.111, 2435],
+      "completion_tokens": [296, 296, 297.111, 306],
+      "total_tokens": [2751, 2751, 2752.111, 2761],
+      "observed_compute_ms": [5012.389, 6714.082, 6275.195, 7865.106],
+      "report_bytes": [40370, 40417, 40399.778, 40428]
+    },
+    {
+      "class": "control",
+      "report_count": 9,
+      "exchange_count": [1, 1, 1, 1],
+      "prompt_tokens": [454, 454, 454, 454],
+      "cached_prompt_tokens": [132, 450, 414.667, 450],
+      "completion_tokens": [42, 42, 42, 42],
+      "total_tokens": [496, 496, 496, 496],
+      "observed_compute_ms": [807.837, 820.648, 874.812, 1220.656],
+      "report_bytes": [9512, 9518, 9518, 9528]
+    },
+    {
+      "class": "faulted",
+      "report_count": 2,
+      "exchange_count": [1, 1, 1, 1],
+      "prompt_tokens": [437, 442, 442, 447],
+      "cached_prompt_tokens": [0, 0, 0, 0],
+      "completion_tokens": [42, 277, 277, 512],
+      "total_tokens": [489, 719, 719, 949],
+      "observed_compute_ms": [1219.112, 2205.732, 2205.732, 3192.352],
+      "report_bytes": [9005, 10016.5, 10016.5, 11028]
+    },
+    {
+      "class": "host_boundary_rejected",
+      "report_count": 7,
+      "exchange_count": [4, 4, 4, 4],
+      "prompt_tokens": [2076, 2076, 2076, 2076],
+      "cached_prompt_tokens": [528, 528, 965.714, 2060],
+      "completion_tokens": [169, 169, 169, 169],
+      "total_tokens": [2245, 2245, 2245, 2245],
+      "observed_compute_ms": [3334.028, 5032.135, 4642.535, 5442.856],
+      "report_bytes": [30617, 30673, 30659.286, 30681]
+    },
+    {
+      "class": "post_delineation_rejected",
+      "report_count": 4,
+      "exchange_count": [5, 5, 5, 5],
+      "prompt_tokens": [2178, 2540.5, 2874.5, 4239],
+      "cached_prompt_tokens": [228, 414, 396, 528],
+      "completion_tokens": [309, 600.5, 656.25, 1115],
+      "total_tokens": [3112, 3231.5, 3530.75, 4548],
+      "observed_compute_ms": [8854.212, 11762.409, 11605.464, 14042.827],
+      "report_bytes": [43079, 45297, 46315.75, 51590]
+    }
+  ],
+  "interpretation": [
+    "timings are provider-reported prompt_ms plus predicted_ms and exclude SSH, process startup, file I/O, and model discovery",
+    "cache counts are observations rather than a stable API guarantee",
+    "token and byte cost do not measure semantic correctness",
+    "reports preserve repeated executions and are not independent semantic witnesses"
+  ]
+}

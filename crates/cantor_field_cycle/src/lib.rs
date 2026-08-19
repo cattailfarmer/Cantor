@@ -1292,7 +1292,9 @@ pub fn verify_report(report: &CycleReport) -> Result<ReportVerification, String>
     if report.field_digest != field_digest {
         return Err("report field_digest does not match field".to_owned());
     }
-    verify_events(&report.events, report.terminal_state)?;
+    let deterministic_fixture = report.provider.base_url == "fixture://local"
+        && report.provider.model == "deterministic-contract-fixture";
+    verify_events(&report.events, report.terminal_state, deterministic_fixture)?;
     for exchange in &report.exchanges {
         if canonical_digest(&exchange.request)? != exchange.request_sha256 {
             return Err(format!("{} request digest mismatch", exchange.stage));
@@ -1327,8 +1329,6 @@ pub fn verify_report(report: &CycleReport) -> Result<ReportVerification, String>
         }
     }
 
-    let deterministic_fixture = report.provider.base_url == "fixture://local"
-        && report.provider.model == "deterministic-contract-fixture";
     if report.terminal_state == CycleState::Faulted {
         if deterministic_fixture {
             return Err("fault report cannot claim deterministic fixture provider".to_owned());
@@ -2093,7 +2093,11 @@ fn verify_delineation_exchange_lineage(
     Ok(())
 }
 
-fn verify_events(events: &[CycleEvent], terminal: CycleState) -> Result<(), String> {
+fn verify_events(
+    events: &[CycleEvent],
+    terminal: CycleState,
+    deterministic_fixture: bool,
+) -> Result<(), String> {
     if events.is_empty() {
         return Err("report contains no events".to_owned());
     }
@@ -2182,6 +2186,43 @@ fn verify_events(events: &[CycleEvent], terminal: CycleState) -> Result<(), Stri
     };
     if states != expected {
         return Err("event state path is not canonical".to_owned());
+    }
+    let control_path = terminal == CycleState::ControlCompleted
+        || states
+            == [
+                CycleState::Created,
+                CycleState::FieldValidated,
+                CycleState::Faulted,
+            ];
+    for (index, event) in events.iter().enumerate() {
+        let expected_ref = if deterministic_fixture {
+            format!("fixture-event-{}", index + 1)
+        } else {
+            let label = match event.state {
+                CycleState::Created if control_path => "control-field-input",
+                CycleState::Created => "field-input",
+                CycleState::FieldValidated if control_path => "control-field-digest",
+                CycleState::FieldValidated => "field-digest",
+                CycleState::ProbesRequested => "probe-orders",
+                CycleState::ProbesCollected => "field-probes",
+                CycleState::CandidateAggregated => "gestalt-candidate",
+                CycleState::DelineationRequested => "delineation-request",
+                CycleState::DelineationCollected => "delineation-result",
+                CycleState::LatchEvaluated => "latch-decision",
+                CycleState::Completed => "terminal-decision",
+                CycleState::Rejected if states.len() == 5 => "aggregation-rejection",
+                CycleState::Rejected => "terminal-decision",
+                CycleState::Faulted => "typed-fault",
+                CycleState::ControlCompleted => "control-probe-only-no-latch",
+            };
+            label.to_owned()
+        };
+        if event.evidence_ref != expected_ref {
+            return Err(format!(
+                "event {} evidence reference does not match canonical trajectory",
+                index + 1
+            ));
+        }
     }
     Ok(())
 }
@@ -2391,16 +2432,16 @@ mod tests {
         exchanges.push(provider_exchange("delineation", request, response).unwrap());
         let result = validate_delineation(&field, &candidate, &proposal);
         let decision = latch(&field, &candidate, &result);
-        let states = [
-            CycleState::Created,
-            CycleState::FieldValidated,
-            CycleState::ProbesRequested,
-            CycleState::ProbesCollected,
-            CycleState::CandidateAggregated,
-            CycleState::DelineationRequested,
-            CycleState::DelineationCollected,
-            CycleState::LatchEvaluated,
-            CycleState::Completed,
+        let events = [
+            (CycleState::Created, "field-input"),
+            (CycleState::FieldValidated, "field-digest"),
+            (CycleState::ProbesRequested, "probe-orders"),
+            (CycleState::ProbesCollected, "field-probes"),
+            (CycleState::CandidateAggregated, "gestalt-candidate"),
+            (CycleState::DelineationRequested, "delineation-request"),
+            (CycleState::DelineationCollected, "delineation-result"),
+            (CycleState::LatchEvaluated, "latch-decision"),
+            (CycleState::Completed, "terminal-decision"),
         ];
         CycleReport {
             profile: CYCLE_PROFILE.to_owned(),
@@ -2412,13 +2453,13 @@ mod tests {
             },
             field_digest: canonical_digest(&field).unwrap(),
             field,
-            events: states
+            events: events
                 .into_iter()
                 .enumerate()
-                .map(|(index, state)| CycleEvent {
+                .map(|(index, (state, evidence_ref))| CycleEvent {
                     ordinal: index + 1,
                     state,
-                    evidence_ref: format!("typed-live-event-{}", index + 1),
+                    evidence_ref: evidence_ref.to_owned(),
                 })
                 .collect(),
             exchanges,
@@ -2450,16 +2491,16 @@ mod tests {
             field_digest: canonical_digest(&field).unwrap(),
             field,
             events: [
-                CycleState::Created,
-                CycleState::FieldValidated,
-                CycleState::ControlCompleted,
+                (CycleState::Created, "control-field-input"),
+                (CycleState::FieldValidated, "control-field-digest"),
+                (CycleState::ControlCompleted, "control-probe-only-no-latch"),
             ]
             .into_iter()
             .enumerate()
-            .map(|(index, state)| CycleEvent {
+            .map(|(index, (state, evidence_ref))| CycleEvent {
                 ordinal: index + 1,
                 state,
-                evidence_ref: format!("typed-control-event-{}", index + 1),
+                evidence_ref: evidence_ref.to_owned(),
             })
             .collect(),
             exchanges: vec![provider_exchange("control_probe_1", request, response).unwrap()],
@@ -2486,6 +2527,34 @@ mod tests {
                 .iter()
                 .all(|order| order.iter().cloned().collect::<BTreeSet<_>>() == expected)
         );
+    }
+
+    #[test]
+    fn field_order_generator_is_unique_at_every_supported_cardinality() {
+        for cardinality in MINIMUM_ELEMENTS..=MAXIMUM_ELEMENTS {
+            let mut field = field();
+            field.elements = (0..cardinality)
+                .map(|index| {
+                    element(
+                        &format!("element-{index:02}"),
+                        &format!("content-{index:02}"),
+                    )
+                })
+                .collect();
+            field.boundaries.clear();
+            validate_field(&field).unwrap();
+            let expected = field_ids(&field);
+            let orders = probe_orders(&field).unwrap();
+            assert_eq!(
+                orders.iter().cloned().collect::<BTreeSet<_>>().len(),
+                PROBE_COUNT
+            );
+            assert!(
+                orders
+                    .iter()
+                    .all(|order| order.iter().cloned().collect::<BTreeSet<_>>() == expected)
+            );
+        }
     }
 
     #[test]
@@ -2970,6 +3039,46 @@ mod tests {
     }
 
     #[test]
+    fn live_control_and_fault_event_evidence_references_are_exact() {
+        let mut live = live_report();
+        live.events[3].evidence_ref = "substituted-but-nonempty".to_owned();
+        assert!(
+            verify_report(&live)
+                .unwrap_err()
+                .contains("evidence reference does not match canonical trajectory")
+        );
+
+        let mut control = control_report();
+        control.events[0].evidence_ref = "field-input".to_owned();
+        assert!(
+            verify_report(&control)
+                .unwrap_err()
+                .contains("evidence reference does not match canonical trajectory")
+        );
+
+        let mut fault = live_report();
+        fault.events.truncate(4);
+        fault.events[3] = CycleEvent {
+            ordinal: 4,
+            state: CycleState::Faulted,
+            evidence_ref: "wrong-fault-label".to_owned(),
+        };
+        fault.exchanges.truncate(1);
+        fault.probes.clear();
+        fault.candidate = None;
+        fault.delineation_proposal = None;
+        fault.delineation_result = None;
+        fault.latch_decision = None;
+        fault.terminal_state = CycleState::Faulted;
+        fault.fault = Some("synthetic fault".to_owned());
+        assert!(
+            verify_report(&fault)
+                .unwrap_err()
+                .contains("evidence reference does not match canonical trajectory")
+        );
+    }
+
+    #[test]
     fn control_report_replays_but_cannot_carry_candidate_or_latch() {
         let report = control_report();
         let verified = verify_report(&report).unwrap();
@@ -3020,17 +3129,17 @@ mod tests {
             field_digest: canonical_digest(&field).unwrap(),
             field,
             events: [
-                CycleState::Created,
-                CycleState::FieldValidated,
-                CycleState::ProbesRequested,
-                CycleState::Faulted,
+                (CycleState::Created, "field-input"),
+                (CycleState::FieldValidated, "field-digest"),
+                (CycleState::ProbesRequested, "probe-orders"),
+                (CycleState::Faulted, "typed-fault"),
             ]
             .into_iter()
             .enumerate()
-            .map(|(index, state)| CycleEvent {
+            .map(|(index, (state, evidence_ref))| CycleEvent {
                 ordinal: index + 1,
                 state,
-                evidence_ref: format!("typed-fault-event-{}", index + 1),
+                evidence_ref: evidence_ref.to_owned(),
             })
             .collect(),
             exchanges: vec![provider_exchange("field_probe_1", request, response).unwrap()],

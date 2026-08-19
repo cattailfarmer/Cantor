@@ -1,224 +1,224 @@
 {
-    "schema":  "cantor-supervised-mock-loop-evidence-manifest/0.1",
-    "evidence_manifest_uuid":  "05cfc930-01a3-4af2-b481-f11f6570022a",
-    "generated_at_utc":  "2026-08-18T23:40:13.8074965Z",
-    "authority":  {
-                      "canonical_specification_uuid":  "50f6f41c-f35b-4844-93cb-38593db6acc0",
-                      "satisfaction_signature_uuid":  "497849e2-8156-41e4-a76d-d679b5a3f2ed",
-                      "solution_uuid":  "4711c0b4-bfeb-4e29-abdd-333bca962cf4"
-                  },
-    "profile":  "cantor-supervised-mock-loop/0.1",
-    "deterministic_fixture_outcome_sha256":  "2ef72ed3edf4bf58e80e24c5d86bea18572ba10324e27e02aacc63569cd78b3c",
-    "verification":  [
-                         {
-                             "command":  "cargo fmt --all -- --check",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --workspace --all-targets --locked --offline",
-                             "tests":  174,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --workspace --all-targets --release --locked --offline",
-                             "tests":  174,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo doc --workspace --no-deps --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo audit --file Cargo.lock",
-                             "dependencies":  112,
-                             "advisories":  1173,
-                             "vulnerabilities":  0,
-                             "status":  "passed"
-                         }
-                     ],
-    "artifacts":  [
-                      {
-                          "path":  ".gitattributes",
-                          "sha256":  "52A5677DBDD956DCABD61442DF1967048ACC10F3A5F962EBF5243140E0746E07",
-                          "bytes":  167
-                      },
-                      {
-                          "path":  "Cargo.toml",
-                          "sha256":  "24053F1130532FB14D2D6C8518DA10CDB2DE21E5A3B4713EEF06717AB7E98178",
-                          "bytes":  870
-                      },
-                      {
-                          "path":  "Cargo.lock",
-                          "sha256":  "C7C10E5503DFF3E44BB16D0D4800536D541032A001EC02FC48B9A77F948A2D82",
-                          "bytes":  39771
-                      },
-                      {
-                          "path":  "source_documents/2026-07-30_cantor_supervised_mock_loop_activation/Dictated_Cantor_Supervised_Mock_Loop_Activation_Source.sop",
-                          "sha256":  "A1DD190C51D99DC23D60A5E65165DDD7CF63BE027B128309172A2204F26899F1",
-                          "bytes":  528
-                      },
-                      {
-                          "path":  "source_documents/2026-07-30_cantor_supervised_mock_loop_activation/Source_Document_Manifest.sop",
-                          "sha256":  "00745D67672BBC57D94BC3721CE821BE4BFED3CDBF03D9646F8A0230309637D9",
-                          "bytes":  1258
-                      },
-                      {
-                          "path":  "specifications/exploded/Cantor_Supervised_Mock_Loop_Activation.exploded.sop",
-                          "sha256":  "4FFC37562FF18657A5F61D95EC68513E7FFB39DB0DCB23F07EF7E1E17C74F73D",
-                          "bytes":  11055
-                      },
-                      {
-                          "path":  "specifications/Cantor_Supervised_Mock_Loop_Activation.sop",
-                          "sha256":  "C8ECD5152C66D6C024F9E784AB30B7BC58CAAF2A8AF2644BFC1520100DF530A6",
-                          "bytes":  13285
-                      },
-                      {
-                          "path":  "justifications/Cantor_Supervised_Mock_Loop_Activation_Justification.sop",
-                          "sha256":  "AB31A058CC99468AB6373A98BFB318EDFC1CE99648A36BD95E12C1309EFFB674",
-                          "bytes":  3613
-                      },
-                      {
-                          "path":  "feature_support/slices/SupervisedMockLoop.sop",
-                          "sha256":  "E50CA0D3B68579BD12A48FDFCA1A4C610641DC7820675401A7D580232A716B3A",
-                          "bytes":  1493
-                      },
-                      {
-                          "path":  "feature_support/SupervisedMockLoop_Requirement_Matrix.sop",
-                          "sha256":  "35BF33DEBD3DCB0F9B4B4E4CCFC6BF59EEA27D08E53BF5C50F7DF8A0DF305262",
-                          "bytes":  2822
-                      },
-                      {
-                          "path":  "feature_support/Cantor_Engine_Build_Slice_Index.sop",
-                          "sha256":  "4483F98CE47E32DE00C973787DEC0F858A76734E094353B46FD69A46881432BD",
-                          "bytes":  27870
-                      },
-                      {
-                          "path":  "plans/Cantor_Engine_Build_Plan.sop",
-                          "sha256":  "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
-                          "bytes":  28862
-                      },
-                      {
-                          "path":  "solutions/Cantor_Supervised_Mock_Loop_Solution.sop",
-                          "sha256":  "372B8B91273E1A0A56EF7D0BA0130F702BA825938AA305900AB33FB1F510A8A6",
-                          "bytes":  5058
-                      },
-                      {
-                          "path":  "narrative/Project_Narrative.sop",
-                          "sha256":  "5E73E5B8650E598E06EFF340F2AAAC54C66EF2CD35996CC1911AE830FD0A8DCE",
-                          "bytes":  240860
-                      },
-                      {
-                          "path":  "narrative/operational_faults/1785422987701_supervised_mock_loop_faults.sop",
-                          "sha256":  "0C1F54B0B47C4E2D57C111A868118DA31E02DDEA411084C42E8CDD3293CC16BD",
-                          "bytes":  5057
-                      },
-                      {
-                          "path":  "narrative/turns/1785422987701_cantor_supervised_mock_loop.sop",
-                          "sha256":  "AFBD16C2CCB80B70EC30E43B7C63C04EAA010DFCA986582F6C1F59DF43C6F71A",
-                          "bytes":  3270
-                      },
-                      {
-                          "path":  "narrative/file_changes/1785422987701_supervised_mock_loop_file_change.sop",
-                          "sha256":  "E18D1FEFDC78153113A8D906AE4C771984288F9263E1660E59095CEEE61D1CED",
-                          "bytes":  2746
-                      },
-                      {
-                          "path":  "README.md",
-                          "sha256":  "8AD8414DDBE8731F742F74BD6F3E425FF9FD9435B577FCEDB14B541C313193CE",
-                          "bytes":  18835
-                      },
-                      {
-                          "path":  "SOP_CORE_MAP.sop",
-                          "sha256":  "118F2ADB7201EC22166ADC5AA46A0F39412D53171E6B48C79EB26FC768CC8B2C",
-                          "bytes":  29292
-                      },
-                      {
-                          "path":  "docs/SUPERVISED_MOCK_LOOP.md",
-                          "sha256":  "958829D31BEF07834299E97CA03656EB9E2926C4F3CC86C13E8D699C0B964F5F",
-                          "bytes":  5618
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/Cargo.toml",
-                          "sha256":  "D071736DA3A1279878AC9D1426471AB975ED6CBF6A5030FB366C64D6FA9EC6D8",
-                          "bytes":  505
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/lib.rs",
-                          "sha256":  "20C04DAC4B74ADED4CEB250CA6508175B31FF957760A54D9B91131D03A9EE856",
-                          "bytes":  2168
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/model.rs",
-                          "sha256":  "3A7DFE4F361AECABC8F51F6954921B76F15EA82281BD35668D47BFB8AEE97B6D",
-                          "bytes":  30186
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/transcript.rs",
-                          "sha256":  "D50FAB40AA4D4A21474E1652B21F3959477BBD652E6C40C66C503A750D6D9088",
-                          "bytes":  17869
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/adapter.rs",
-                          "sha256":  "DE0D1DCCCB7B6ED2E1F54D2F328BAEAC998464F30F5046E23B3ECC74AF7D85C3",
-                          "bytes":  4626
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/review.rs",
-                          "sha256":  "C201FA6E615113C31FC2DE6EC001AB9B0C6FDA7D8BF6510590B61222EB8021A9",
-                          "bytes":  4246
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/runtime.rs",
-                          "sha256":  "A8417F43D093E8E9AB6B79B2D38042F0A7813DE9C4A7706523D3720DC3108658",
-                          "bytes":  23753
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/tests/common/mod.rs",
-                          "sha256":  "4F7CC16DFB15C8D962BCA856C7676459C63FE0AB3B99A48ABBE05998810A18E1",
-                          "bytes":  11440
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/tests/admission_faults.rs",
-                          "sha256":  "61C55FAEF4923772441E148A792CB862BD9098BF8DE0AD1576688CDB9CAFF2E2",
-                          "bytes":  20350
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/tests/supervised_cycle.rs",
-                          "sha256":  "86D6FA551BF70B4C940137FABCC4084E23680C7E131C74131FAF9794F2245789",
-                          "bytes":  15800
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/tests/evidence.rs",
-                          "sha256":  "5BCA037E09093B0123AF7DD145783A06366308796C559FDA03AE5DA4FE683125",
-                          "bytes":  2126
-                      },
-                      {
-                          "path":  "scripts/build_supervised_mock_loop_evidence_manifest.ps1",
-                          "sha256":  "4A2BE9F6B49FF254CA6CE3484EFAEB2A61B990A22E81B3C982434F935FED4318",
-                          "bytes":  4471
-                      },
-                      {
-                          "path":  "crates/cantor_service/evidence/supervised_lifecycle_evidence_manifest.json",
-                          "sha256":  "A6229D07ACF26FFBDB56B676701FBBBB73FF87DFF57B4B04C5C37A96A68DC2A3",
-                          "bytes":  10602
-                      },
-                      {
-                          "path":  "proofs/Cantor_Supervised_Local_Lifecycle_Proof.sop",
-                          "sha256":  "41A8929F3348F5B51EFC571D8E01945A076A8812EC84020C40A1965D8CBE4572",
-                          "bytes":  5657
-                      },
-                      {
-                          "path":  "proofs/CEB_Deterministic_Baseline_Release_Audit.sop",
-                          "sha256":  "D83833A9BA3610A1D5F15B7F3FEBA564D5C7697D4268AA245F9218A34CACA9AA",
-                          "bytes":  7435
-                      }
-                  ]
+  "schema": "cantor-supervised-mock-loop-evidence-manifest/0.1",
+  "evidence_manifest_uuid": "05cfc930-01a3-4af2-b481-f11f6570022a",
+  "generated_at_utc": "2026-08-19T00:08:12.9147172Z",
+  "authority": {
+    "canonical_specification_uuid": "50f6f41c-f35b-4844-93cb-38593db6acc0",
+    "satisfaction_signature_uuid": "497849e2-8156-41e4-a76d-d679b5a3f2ed",
+    "solution_uuid": "4711c0b4-bfeb-4e29-abdd-333bca962cf4"
+  },
+  "profile": "cantor-supervised-mock-loop/0.1",
+  "deterministic_fixture_outcome_sha256": "2ef72ed3edf4bf58e80e24c5d86bea18572ba10324e27e02aacc63569cd78b3c",
+  "verification": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "status": "passed"
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --workspace --all-targets --locked --offline",
+      "tests": 174,
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --workspace --all-targets --release --locked --offline",
+      "tests": 174,
+      "status": "passed"
+    },
+    {
+      "command": "cargo build --workspace --all-targets --release --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo doc --workspace --no-deps --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo audit --file Cargo.lock",
+      "dependencies": 112,
+      "advisories": 1173,
+      "vulnerabilities": 0,
+      "status": "passed"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".gitattributes",
+      "sha256": "52A5677DBDD956DCABD61442DF1967048ACC10F3A5F962EBF5243140E0746E07",
+      "bytes": 167
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "24053F1130532FB14D2D6C8518DA10CDB2DE21E5A3B4713EEF06717AB7E98178",
+      "bytes": 870
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "C7C10E5503DFF3E44BB16D0D4800536D541032A001EC02FC48B9A77F948A2D82",
+      "bytes": 39771
+    },
+    {
+      "path": "source_documents/2026-07-30_cantor_supervised_mock_loop_activation/Dictated_Cantor_Supervised_Mock_Loop_Activation_Source.sop",
+      "sha256": "A1DD190C51D99DC23D60A5E65165DDD7CF63BE027B128309172A2204F26899F1",
+      "bytes": 528
+    },
+    {
+      "path": "source_documents/2026-07-30_cantor_supervised_mock_loop_activation/Source_Document_Manifest.sop",
+      "sha256": "00745D67672BBC57D94BC3721CE821BE4BFED3CDBF03D9646F8A0230309637D9",
+      "bytes": 1258
+    },
+    {
+      "path": "specifications/exploded/Cantor_Supervised_Mock_Loop_Activation.exploded.sop",
+      "sha256": "4FFC37562FF18657A5F61D95EC68513E7FFB39DB0DCB23F07EF7E1E17C74F73D",
+      "bytes": 11055
+    },
+    {
+      "path": "specifications/Cantor_Supervised_Mock_Loop_Activation.sop",
+      "sha256": "C8ECD5152C66D6C024F9E784AB30B7BC58CAAF2A8AF2644BFC1520100DF530A6",
+      "bytes": 13285
+    },
+    {
+      "path": "justifications/Cantor_Supervised_Mock_Loop_Activation_Justification.sop",
+      "sha256": "AB31A058CC99468AB6373A98BFB318EDFC1CE99648A36BD95E12C1309EFFB674",
+      "bytes": 3613
+    },
+    {
+      "path": "feature_support/slices/SupervisedMockLoop.sop",
+      "sha256": "E50CA0D3B68579BD12A48FDFCA1A4C610641DC7820675401A7D580232A716B3A",
+      "bytes": 1493
+    },
+    {
+      "path": "feature_support/SupervisedMockLoop_Requirement_Matrix.sop",
+      "sha256": "35BF33DEBD3DCB0F9B4B4E4CCFC6BF59EEA27D08E53BF5C50F7DF8A0DF305262",
+      "bytes": 2822
+    },
+    {
+      "path": "feature_support/Cantor_Engine_Build_Slice_Index.sop",
+      "sha256": "4483F98CE47E32DE00C973787DEC0F858A76734E094353B46FD69A46881432BD",
+      "bytes": 27870
+    },
+    {
+      "path": "plans/Cantor_Engine_Build_Plan.sop",
+      "sha256": "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
+      "bytes": 28862
+    },
+    {
+      "path": "solutions/Cantor_Supervised_Mock_Loop_Solution.sop",
+      "sha256": "372B8B91273E1A0A56EF7D0BA0130F702BA825938AA305900AB33FB1F510A8A6",
+      "bytes": 5058
+    },
+    {
+      "path": "narrative/Project_Narrative.sop",
+      "sha256": "FCBF885FC546CF49C4DF896668F5096662276C50E7B4950272F1175E966E2EE0",
+      "bytes": 243357
+    },
+    {
+      "path": "narrative/operational_faults/1785422987701_supervised_mock_loop_faults.sop",
+      "sha256": "0C1F54B0B47C4E2D57C111A868118DA31E02DDEA411084C42E8CDD3293CC16BD",
+      "bytes": 5057
+    },
+    {
+      "path": "narrative/turns/1785422987701_cantor_supervised_mock_loop.sop",
+      "sha256": "AFBD16C2CCB80B70EC30E43B7C63C04EAA010DFCA986582F6C1F59DF43C6F71A",
+      "bytes": 3270
+    },
+    {
+      "path": "narrative/file_changes/1785422987701_supervised_mock_loop_file_change.sop",
+      "sha256": "E18D1FEFDC78153113A8D906AE4C771984288F9263E1660E59095CEEE61D1CED",
+      "bytes": 2746
+    },
+    {
+      "path": "README.md",
+      "sha256": "8AD8414DDBE8731F742F74BD6F3E425FF9FD9435B577FCEDB14B541C313193CE",
+      "bytes": 18835
+    },
+    {
+      "path": "SOP_CORE_MAP.sop",
+      "sha256": "118F2ADB7201EC22166ADC5AA46A0F39412D53171E6B48C79EB26FC768CC8B2C",
+      "bytes": 29292
+    },
+    {
+      "path": "docs/SUPERVISED_MOCK_LOOP.md",
+      "sha256": "958829D31BEF07834299E97CA03656EB9E2926C4F3CC86C13E8D699C0B964F5F",
+      "bytes": 5618
+    },
+    {
+      "path": "crates/cantor_ecosystem/Cargo.toml",
+      "sha256": "D071736DA3A1279878AC9D1426471AB975ED6CBF6A5030FB366C64D6FA9EC6D8",
+      "bytes": 505
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/lib.rs",
+      "sha256": "20C04DAC4B74ADED4CEB250CA6508175B31FF957760A54D9B91131D03A9EE856",
+      "bytes": 2168
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/model.rs",
+      "sha256": "3A7DFE4F361AECABC8F51F6954921B76F15EA82281BD35668D47BFB8AEE97B6D",
+      "bytes": 30186
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/transcript.rs",
+      "sha256": "D50FAB40AA4D4A21474E1652B21F3959477BBD652E6C40C66C503A750D6D9088",
+      "bytes": 17869
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/adapter.rs",
+      "sha256": "DE0D1DCCCB7B6ED2E1F54D2F328BAEAC998464F30F5046E23B3ECC74AF7D85C3",
+      "bytes": 4626
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/review.rs",
+      "sha256": "C201FA6E615113C31FC2DE6EC001AB9B0C6FDA7D8BF6510590B61222EB8021A9",
+      "bytes": 4246
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/runtime.rs",
+      "sha256": "A8417F43D093E8E9AB6B79B2D38042F0A7813DE9C4A7706523D3720DC3108658",
+      "bytes": 23753
+    },
+    {
+      "path": "crates/cantor_ecosystem/tests/common/mod.rs",
+      "sha256": "4F7CC16DFB15C8D962BCA856C7676459C63FE0AB3B99A48ABBE05998810A18E1",
+      "bytes": 11440
+    },
+    {
+      "path": "crates/cantor_ecosystem/tests/admission_faults.rs",
+      "sha256": "61C55FAEF4923772441E148A792CB862BD9098BF8DE0AD1576688CDB9CAFF2E2",
+      "bytes": 20350
+    },
+    {
+      "path": "crates/cantor_ecosystem/tests/supervised_cycle.rs",
+      "sha256": "86D6FA551BF70B4C940137FABCC4084E23680C7E131C74131FAF9794F2245789",
+      "bytes": 15800
+    },
+    {
+      "path": "crates/cantor_ecosystem/tests/evidence.rs",
+      "sha256": "5BCA037E09093B0123AF7DD145783A06366308796C559FDA03AE5DA4FE683125",
+      "bytes": 2126
+    },
+    {
+      "path": "scripts/build_supervised_mock_loop_evidence_manifest.ps1",
+      "sha256": "4A2BE9F6B49FF254CA6CE3484EFAEB2A61B990A22E81B3C982434F935FED4318",
+      "bytes": 4471
+    },
+    {
+      "path": "crates/cantor_service/evidence/supervised_lifecycle_evidence_manifest.json",
+      "sha256": "DE784459281881D82529B63AC96C3DFF7136FF2EBC50FE4E43FE180674961952",
+      "bytes": 6851
+    },
+    {
+      "path": "proofs/Cantor_Supervised_Local_Lifecycle_Proof.sop",
+      "sha256": "41A8929F3348F5B51EFC571D8E01945A076A8812EC84020C40A1965D8CBE4572",
+      "bytes": 5657
+    },
+    {
+      "path": "proofs/CEB_Deterministic_Baseline_Release_Audit.sop",
+      "sha256": "D83833A9BA3610A1D5F15B7F3FEBA564D5C7697D4268AA245F9218A34CACA9AA",
+      "bytes": 7435
+    }
+  ]
 }

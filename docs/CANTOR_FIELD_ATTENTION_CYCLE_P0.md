@@ -48,7 +48,8 @@ The host supplies and verifies:
 - hard co-membership and relation boundaries;
 - complete relation coverage and graph connectivity;
 - contradiction, exclusion, and uncertainty gates;
-- replay lineage from each exact request and response to every stored probe, proposal, decision, and fault.
+- replay lineage from each exact request and response to every stored probe, proposal, decision, and fault;
+- exact state-path evidence labels, so a nonblank but substituted transition reference fails replay.
 
 Compiler-generated accounts describe the mechanical transform. They are not presented as model-authored explanations.
 
@@ -115,14 +116,20 @@ The campaign used the existing Qwen3.5-0.8B Q4_0 server on `127.0.0.1:8081`. Its
 | `evox2_live_v5.json` | completed | Four exact probes, separate typed delineation, connected identity-preserving chain, all host gates passed. |
 | `evox2_control_v5.json` | control_completed | One ordinary pass selected the same members but produced no candidate or latch. |
 | `evox2_hostile_boundary_v5.json` | rejected | Four convergent probes could not override a host `forbid_co_membership` boundary. |
+| `evox2_forbidden_relation_v1.json` | rejected | The model avoided the single prohibited kind and rejected its own delineation; no host relation conflict was claimed. |
+| `evox2_forbidden_relation_all_kinds_v1.json` | rejected | The model returned `supported`, but its adjacent edge crossed a declared relation boundary and the host emitted `boundary_conflict`. |
 
 The completed v5 report has canonical replay SHA-256 `ac2a07ac0b25267e16eefa68b56eb76ea08afd502ac9a555cc311de8eb0d204c`. The control replay is `83a8450d88147acd0b93db1a7952955084d6736e9aa04e3e7a1d51d1bcbff599`; hostile-boundary replay is `6d57cd6fd9a0366b9f69105e30bc97be3e504bbd4af15968af3a9b47b931907e`.
 
 The identity-hardened repeatability campaign adds thirteen reports: five positive runs completed with the same candidate and relation sequence, five controls remained latch-ineligible, and three hostile runs were rejected before candidate creation. The same hardened executable replayed those thirteen plus all seven historical provider reports directly on EVO-X2. All twenty positive probe responses still say `conflicted`; repeatability therefore strengthens structural mechanism evidence and not semantic correctness.
 
-The resource-bounded h2 executable repeated one positive, one control, and one hostile run. Network-closed h3 repeated all three after proxy and redirect removal. Final h4 moved the sequential CLI from a multithread scheduler to Tokio’s current-thread runtime, reducing the binary by 171520 bytes (about 5.7%), and repeated all three cases again. Every report self-verified before create-new publication, while llama.cpp PID 12780 and its creation value remained unchanged.
+The resource-bounded h2 executable repeated one positive, one control, and one hostile run. Network-closed h3 repeated all three after proxy and redirect removal. h4 moved the sequential CLI from a multithread scheduler to Tokio’s current-thread runtime, reducing the binary by 171520 bytes (about 5.7%), and repeated all three cases again. Final h5 binds exact event evidence-reference trajectories and replayed all thirty-one provider reports without making a provider inference call. Every created report self-verified before create-new publication, while llama.cpp PID 12780 and its creation value remained unchanged.
 
-The h4 SHA-256 is deployment content identity, not a reproducible-build claim. A whole-workspace release and a later package-only rebuild produced different Windows PE hashes; both observations are retained in the deployment manifest, while the deployed h4 file still re-verifies its original hash.
+The h5 SHA-256 is deployment content identity, not a reproducible-build claim. A whole-workspace release and multiple package-only builds produced different Windows PE hashes; the observations are retained in the deployment manifest, and the deployed h4 and h5 files each re-verify their recorded identities.
+
+## Observed cost
+
+Across nine completed typed cycles, each run used five exchanges, 2455 prompt tokens, and 2751–2761 total tokens; provider-reported compute ranged from 5.012 to 7.865 seconds. Nine controls used one exchange and exactly 496 total tokens, with 0.808–1.221 seconds reported compute. Seven co-membership boundary rejections stopped after four probes at exactly 2245 tokens, before paying for delineation. The two early free-text profiles consumed 3112–3293 tokens and about 13.7–14.0 seconds before rejection. Two later relation-boundary runs pay for delineation because the forbidden relation can only be evaluated after typed edges exist. These figures describe this model, field, server, cache state, and corpus—not general performance or semantic quality.
 
 ## Limits
 

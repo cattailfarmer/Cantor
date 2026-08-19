@@ -3,13 +3,17 @@
   "host": "EVO-X2",
   "remote_root": "C:\\AI\\services\\cantor-field-cycle",
   "final_verifier": {
-    "path": "C:\\AI\\services\\cantor-field-cycle\\cantor-field-cycle-p0-h4.exe",
-    "sha256": "1b5b234b1f149c5a44eb26b2e35d2ab24329ed0fecf10b2b6ca61d927a4e4651",
-    "bytes": 2830848,
+    "path": "C:\\AI\\services\\cantor-field-cycle\\cantor-field-cycle-p0-h5.exe",
+    "sha256": "fac6a27f2d29e9249eee95aad6281251133acfec32300bbff5c7653cbe9baebf",
+    "bytes": 2831360,
     "request_profile": "cantor-field-attention-requests/0.5",
-    "hardening": "identity_binding_resource_budgets_bounded_transport_no_proxy_no_redirect_prepublication_self_verification_and_current_thread_runtime"
+    "hardening": "identity_binding_resource_budgets_bounded_transport_no_proxy_no_redirect_prepublication_self_verification_current_thread_runtime_and_exact_event_reference_trajectories"
   },
   "historical_executors": [
+    {
+      "name": "cantor-field-cycle-p0-h4.exe",
+      "sha256": "1b5b234b1f149c5a44eb26b2e35d2ab24329ed0fecf10b2b6ca61d927a4e4651"
+    },
     {
       "name": "cantor-field-cycle-p0-h3.exe",
       "sha256": "3a595c861c51834876c964a5ab92a77ccd78f71e1c768f5ffa12425e8caf5039"
@@ -61,7 +65,7 @@
     "modified_or_restarted": false
   },
   "final_remote_replay": {
-    "report_count": 29,
+    "report_count": 31,
     "all_exit_zero": true,
     "profiles": [
       "cantor-field-attention-requests/0.1",
@@ -83,6 +87,16 @@
       "sha256": "3ff64e7ca48fbb19896ee7eb90eb47283544dfcd0fab80d2c3293b2351785ba4",
       "bytes": 2830848,
       "context": "package_release_after_workspace_build"
+    },
+    "event_reference_hardened_package_observation": {
+      "sha256": "fac6a27f2d29e9249eee95aad6281251133acfec32300bbff5c7653cbe9baebf",
+      "bytes": 2831360,
+      "context": "package_release_after_exact_event_reference_hardening"
+    },
+    "post_h5_workspace_all_target_observation": {
+      "sha256": "dbcda01b93ce599c59f2a4ed9d63b2ec8016b422cdba3be3baec6264ed617682",
+      "bytes": 2830336,
+      "context": "workspace_all_target_release_after_h5_deployment"
     }
   },
   "repeatability_campaign": {
@@ -100,6 +114,14 @@
     ],
     "probe_assessment": "conflicted_in_all_twenty_positive_probes",
     "ordered_file_set_sha256": "b9b1963bb660ba92b927a888596d3d47bd7540a5d2311a07996c9e545942bc61"
+  },
+  "relation_boundary_evidence": {
+    "single_kind_field_digest": "f90a4a5682ed4893ac67a742ce3c9c27bb71c826567c26d77fb9fe26b0051331",
+    "single_kind_replay_sha256": "90c044744a8b96db1205ea8e704a9f0f84a898839479cf8578f5dcd4f0956bf9",
+    "single_kind_disposition": "model_rejected_without_crossing_declared_relation",
+    "all_kinds_field_digest": "821f57f68e1dff8c3469b0815e4dd72cdc38539e327487abd5f574e738f1bba8",
+    "all_kinds_replay_sha256": "d43a3c4f4565cf2c4946078d691c4bcf94f2d33d5604c76244bcbc19d91067d0",
+    "all_kinds_disposition": "model_supported_host_boundary_conflict_rejected"
   },
   "resource_h2_smoke": {
     "path": "C:\\AI\\services\\cantor-field-cycle\\smoke-field-attend-h2",
@@ -121,6 +143,17 @@
     "positive_replay_sha256": "7003e0b523294371bfe6d0dbc4369faea772a38e0f9f6a677362c43658b97129",
     "control_replay_sha256": "f589d518e87068af0549340e6799d6bb9068d3f27839e98df01f3d8b9fb073fc",
     "hostile_replay_sha256": "5fb1351f325553d99d7b8b4c56adc60adf0bb115bd1fa072d81639312da7f760"
+  },
+  "final_h5_replay": {
+    "path": "C:\\AI\\services\\cantor-field-cycle\\cantor-field-cycle-p0-h5.exe",
+    "report_count": 31,
+    "verified_count": 31,
+    "completed": 9,
+    "rejected": 11,
+    "control_completed": 9,
+    "faulted": 2,
+    "provider_inference_calls": 0,
+    "llama_process_unchanged": true
   },
   "persistent_processes_added": 0,
   "external_effect_authority": false

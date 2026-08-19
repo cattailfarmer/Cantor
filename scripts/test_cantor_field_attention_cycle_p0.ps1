@@ -131,6 +131,14 @@ $fields = @(
     [pscustomobject]@{
         Path = "experiments\cantor_field_cycle_p0\attention_cycle_forbidden_comembership_field.json"
         Digest = "1fe069762f31c4afe7a2478b210c9a332191eb4099602a6333eb179654c54a71"
+    },
+    [pscustomobject]@{
+        Path = "experiments\cantor_field_cycle_p0\attention_cycle_forbidden_relation_field.json"
+        Digest = "f90a4a5682ed4893ac67a742ce3c9c27bb71c826567c26d77fb9fe26b0051331"
+    },
+    [pscustomobject]@{
+        Path = "experiments\cantor_field_cycle_p0\attention_cycle_forbidden_relation_all_kinds_field.json"
+        Digest = "821f57f68e1dff8c3469b0815e4dd72cdc38539e327487abd5f574e738f1bba8"
     }
 )
 foreach ($field in $fields) {
@@ -158,6 +166,8 @@ $reports = @(
     [pscustomobject]@{ Path = "evox2_live_v5.json"; Terminal = "completed"; Latch = "admitted_for_attention" },
     [pscustomobject]@{ Path = "evox2_control_v5.json"; Terminal = "control_completed"; Latch = $null },
     [pscustomobject]@{ Path = "evox2_hostile_boundary_v5.json"; Terminal = "rejected"; Latch = $null }
+    [pscustomobject]@{ Path = "evox2_forbidden_relation_v1.json"; Terminal = "rejected"; Latch = "rejected" }
+    [pscustomobject]@{ Path = "evox2_forbidden_relation_all_kinds_v1.json"; Terminal = "rejected"; Latch = "rejected" }
 )
 $verifiedReports = @()
 foreach ($report in $reports) {
@@ -176,6 +186,14 @@ foreach ($report in $reports) {
         exchange_count = $verification.exchange_count
         report_sha256 = $verification.report_sha256
     }
+}
+$relationBoundaryReport = Get-Content -LiteralPath (
+    Join-Path $workspaceRoot "experiments\cantor_field_cycle_p0\evox2_forbidden_relation_all_kinds_v1.json"
+) -Raw | ConvertFrom-Json
+if ($relationBoundaryReport.delineation_proposal.status -cne "supported" -or
+    @($relationBoundaryReport.delineation_result.failed_gates) -notcontains "boundary_conflict" -or
+    @($relationBoundaryReport.latch_decision.failed_gates) -notcontains "boundary_conflict") {
+    throw "all-kinds relation-boundary report does not prove post-delineation host enforcement"
 }
 
 $campaignRoot = Join-Path $workspaceRoot "experiments\cantor_field_cycle_p0\campaign-field-attend-h1"
@@ -289,12 +307,44 @@ foreach ($expected in $smokeExpectations) {
     $currentThreadSmokeReplayHashes += $verification.report_sha256
 }
 
+$analysisOutput = & (Join-Path $PSScriptRoot "analyze_cantor_field_attention_costs.ps1")
+$costAnalysis = ($analysisOutput -join [Environment]::NewLine) | ConvertFrom-Json
+$costSummary = Get-Content -LiteralPath (
+    Join-Path $workspaceRoot "experiments\cantor_field_cycle_p0\attention_cost_summary_v1.json"
+) -Raw | ConvertFrom-Json
+if ($costAnalysis.provider_report_count -ne $costSummary.provider_report_count -or
+    $costAnalysis.ordered_corpus_input_sha256 -cne $costSummary.ordered_corpus_input_sha256) {
+    throw "cost summary corpus identity disagrees"
+}
+$metricNames = @(
+    "exchange_count", "prompt_tokens", "cached_prompt_tokens", "completion_tokens",
+    "total_tokens", "observed_compute_ms", "report_bytes"
+)
+foreach ($summaryGroup in @($costSummary.groups)) {
+    $observedGroup = @($costAnalysis.groups | Where-Object { $_.class -ceq $summaryGroup.class })
+    if ($observedGroup.Count -ne 1 -or $observedGroup[0].report_count -ne $summaryGroup.report_count) {
+        throw "cost summary group identity disagrees: $($summaryGroup.class)"
+    }
+    foreach ($metric in $metricNames) {
+        $observedValues = @(
+            $observedGroup[0].$metric.minimum,
+            $observedGroup[0].$metric.median,
+            $observedGroup[0].$metric.mean,
+            $observedGroup[0].$metric.maximum
+        )
+        $expectedValues = @($summaryGroup.$metric)
+        if (($observedValues -join ",") -cne ($expectedValues -join ",")) {
+            throw "cost summary metric disagrees: $($summaryGroup.class) $metric"
+        }
+    }
+}
+
 [pscustomobject]@{
     profile = "cantor-field-attention-offline-acceptance/0.1"
     status = "passed"
     cycle_profile = $contract.profile
     request_profile = $contract.request_profile
-    focused_test_count = 28
+    focused_test_count = 30
     source_count = $sources.Count
     field_count = $fields.Count
     report_count = $verifiedReports.Count
@@ -329,6 +379,11 @@ foreach ($expected in $smokeExpectations) {
         control_completed = 1
         hostile_rejected = 1
         replay_sha256 = $currentThreadSmokeReplayHashes
+    }
+    cost_analysis = [pscustomobject]@{
+        provider_report_count = $costAnalysis.provider_report_count
+        ordered_corpus_input_sha256 = $costAnalysis.ordered_corpus_input_sha256
+        group_count = @($costAnalysis.groups).Count
     }
     external_effects = "none"
 } | ConvertTo-Json -Depth 8
