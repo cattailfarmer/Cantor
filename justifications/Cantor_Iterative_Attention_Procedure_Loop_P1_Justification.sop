@@ -1,0 +1,19 @@
+Subject: Cantor Iterative Attention Procedure Loop P1 Justification
+
+@ [justification_uuid] 79f73f75-8d7f-452d-9013-0054245272bc
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Iterative_Attention_Procedure_Loop_P1.sop
+
+& [Need]
+  + P0 proves one model tool model call but deliberately rejects a legitimate READY successor
+  + user intends chunked attention procedures and repeated inference checkpoints
+
+& [Decision]
+  + specify an explicit bounded host state machine whose model-visible continuity is a verified projection transcript and whose exact custody remains Cantor-owned
+
+& [WhyNotAutoRun]
+  + silently advancing all slices inside one call removes the intended opportunity for the model to observe progress and adjust at a checkpoint
+  + unbounded model iteration risks cost drift loops and unverifiable partial completion
+
+& [WhyNotImplementNow]
+  + report cardinality replay stop and reentry semantics are materially larger than the proven P0 and require their own activation review
+

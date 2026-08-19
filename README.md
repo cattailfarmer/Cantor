@@ -228,6 +228,10 @@ The compact model–procedure–model flow, hidden handle boundary, exact termin
 projection, CLI, deterministic proof, and live-provider deferral are documented
 in
 [`docs/COMPACT_PROCEDURE_REFLECTION_LOOP_P0.md`](docs/COMPACT_PROCEDURE_REFLECTION_LOOP_P0.md).
+The next bounded READY-continuation state machine, progress projection,
+stop/reentry contract, faculty checks, replay rules, and implementation slices
+are specified—but not yet activated—in
+[`docs/ITERATIVE_ATTENTION_PROCEDURE_LOOP_P1.md`](docs/ITERATIVE_ATTENTION_PROCEDURE_LOOP_P1.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell

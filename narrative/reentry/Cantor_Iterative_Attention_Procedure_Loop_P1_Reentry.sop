@@ -1,0 +1,20 @@
+Subject: Cantor Iterative Attention Procedure Loop P1 Reentry
+
+@ [reentry_uuid] 1a9d4e5f-db4b-49ce-b9d9-528e680677dc
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Iterative_Attention_Procedure_Loop_P1.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Iterative_Attention_Procedure_Loop_P1_Specification_Proof.sop
+
+& [CurrentState]
+  + P0 compact one-call loop projection replay and measurement are implemented and proven
+  + P1 repeated READY checkpoint behavior is specified and not implemented
+
+& [NextAction]
+  + review and activate Dependency0 explicitly
+  + implement pure forms and verifier before provider-loop code
+  + use quota eight fixture to require a real READY then terminal chain
+
+& [Guardrails]
+  + do not silently turn specification authority into implementation authority
+  + do not conflate separate model passes with one shared forward pass
+  + do not represent stopped or READY state as completion
+

@@ -1,0 +1,95 @@
+Subject: Cantor Iterative Attention Procedure Loop P1
+
+@ [specification_uuid] 85b7b595-ead7-44b6-afa9-0c5b335f2ee4
+@ [profile] cantor-iterative-attention-procedure-loop/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_iterative_attention_procedure_loop\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Iterative_Attention_Procedure_Loop_P1.exploded.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Compact_Procedure_Reflection_Loop_P0.sop
+
+& [FeatureFlowchart] is the minimum repeated checkpoint path
+  + [F0 Open] host opens one exact context under compact custody
+  + [F1 RequestAdvance] host asks model for exactly one advance_attention_procedure call
+  + [F2 AdmitCall] host validates closed quota arguments and run phase
+  + [F3 Advance] host applies one exact compare-and-set ADVANCE
+  + [F4 ProjectReady] paused result becomes one verified ReadyProjection
+  + [F5 ContinueInference] separate provider pass receives ordered transcript and projection then returns to F2
+  + [F6 ProjectTerminal] terminal result is READ and becomes verified TerminalProjection
+  + [F7 Reflect] separate no-tool provider pass imports terminal projection
+  + [F8 Complete] final output and complete transcript replay-verify
+  + [F9 Stop] any cap refusal or fault seals a stopped report and current reentry handle
+  + [path] F0 -> F1 -> F2 -> F3 -> F4 -> F5 -> F2 repeated or F6 -> F7 -> F8
+  + [stop_path] any active state -> F9
+
+& [RunPolicy]
+  + [IAPL-001] host policy binds positive maximum_steps_per_call maximum_tool_calls maximum_provider_calls and timeout
+  + [IAPL-002] parallel tool calls are false and only one run-scoped tool exists
+  + [IAPL-003] provider can neither increase policy bounds nor supply registry session sequence record or handle digests
+  + [IAPL-004] default policy is deliberately small and caller-visible
+
+& [ReadyProjection]
+  + [IAPL-005] derive only from a successful READY compact response and exact successor handle
+  + [IAPL-006] carry profile session sequence record digest checkpoint digest handle digest slice progress and next legal operation
+  + [IAPL-007] carry no checkpoint body context or model-generated semantic summary
+  + [IAPL-008] declare state remains nonterminal and exact state remains under host custody
+
+& [IterationRecord]
+  + [IAPL-009] bind zero-based iteration index predecessor handle request sanitized response exact parsed call compact response and ready or terminal projection
+  + [IAPL-010] exactly one successor projection exists per admitted iteration
+  + [IAPL-011] successor sequence and predecessor digest form a causal chain with no gap or fork
+  + [IAPL-012] private reasoning fields are absent recursively
+
+& [ProviderLoop]
+  + [IAPL-013] first pass and every READY continuation require exactly one advance call with host-selected quota
+  + [IAPL-014] each READY projection is appended as a tool result before a new provider request
+  + [IAPL-015] earlier tool calls and results remain ordered but exact context and checkpoint bodies remain absent
+  + [IAPL-016] provider final content before terminal is a protocol fault
+  + [IAPL-017] terminal state disables tools and uses the P0 verified TerminalProjection reflection contract
+
+& [StopAndReentry]
+  + [IAPL-018] tool-call or provider-call cap exhaustion produces stopped not failed or completed state
+  + [IAPL-019] stopped report carries exact current compact handle policy usage last verified projection and stop reason
+  + [IAPL-020] reentry requires the still-live owning compact process and exact registry digest session sequence and record digest
+  + [IAPL-021] process restart makes volatile reentry unavailable and must be reported honestly
+  + [IAPL-022] provider schema call compact or projection fault produces faulted stopped report with no invented successor
+
+& [IterativeReport]
+  + [IAPL-023] strict report binds policy provider model opening identity ordered iterations exact final observation terminal projection optional final reflection and stopped state
+  + [IAPL-024] completed report has terminal projection and final output but no reentry handle
+  + [IAPL-025] stopped report has reentry handle but no terminal projection or final output
+  + [IAPL-026] exact final record is stored once and never duplicated into model-facing history
+  + [IAPL-027] replay reconstructs every request call projection handle transition and terminal reflection without provider or procedure execution
+
+& [FacultyCycle]
+  + [IAPL-028] Honesty validates state names completion claims and projection derivation
+  + [IAPL-029] Security validates custody compare-and-set identity policy and closed calls
+  + [IAPL-030] Planner validates bounds legal next state and stop conditions
+  + [IAPL-031] Weaver validates ordered causal transcript and predecessor chain
+  + [IAPL-032] Scribe validates exact public record and privacy omission
+  + [IAPL-033] Refiner validates minimum sufficient projection and no exact-record duplication
+  + [IAPL-034] Observer admits each iteration and final report only after all required checks
+
+& [Boundary]
+  + [IAPL-035] provider calls are separate inference checkpoints and not one shared transformer forward pass
+  + [IAPL-036] no hidden state KV cache live-token insertion persistent session effect execution or producer authentication is added
+  + [IAPL-037] no automatic remote EVO-X2 or OneDrive access is added
+  + [IAPL-038] this checkpoint authorizes design planning fixtures and acceptance formation only not implementation
+
+& [Acceptance]
+  + [IAPL-A01] quota-eight governed fixture produces at least one READY iteration then byte-identical terminal outcome
+  + [IAPL-A02] exact one-call terminal path remains backward-compatible with P0 final identity
+  + [IAPL-A03] cap exhaustion yields replay-valid stopped report and live reentry handle
+  + [IAPL-A04] wrong call missing call early answer stale handle projection drift transcript fork and restart loss fail closed
+  + [IAPL-A05] replay catches mutation of any policy iteration handle projection stop or final field
+  + [IAPL-A06] measurement compares repeated model-facing bytes with stateless and one-call baselines
+  + [IAPL-A07] implementation requires a separate activation solution proof narrative full regression and publication checkpoint
+
+& [SatisfactionSignature] is specification-only SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 53c69416-c075-4c1a-a4d4-159c950098aa
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Iterative_Attention_Procedure_Loop_P1.sop
+  + [source_uuid] is 850e1d17-04d9-4f61-89cd-25191c5d35b3
+  + [processed_stage_set] is source_preserved predecessor_measured delineated seven_fold_exploded flowcharted state_formed data_designed faculty_mapped faults_formed acceptance_formed justified planned and signed
+  + [signature_status] is valid_for_P1_specification_and_planning_only
+  + [implementation_status] is not_activated
+  + [invalidation] is unbounded_loop provider_custody hidden_state fabricated_completion missing_replay remote_fallback effect_execution or premature_implementation
+
