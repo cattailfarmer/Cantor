@@ -20,10 +20,10 @@ $receiptPath = Join-Path $workspaceRoot $receiptRelative
 
 $expectedSourceSha256 = 'd03e4473b8250aea7c672360cda7c61ce95ccd2e70723bbc37572d65340870e7'
 $expectedSourceBytes = 3669
-$expectedReceiptSha256 = '0bc0baad64c41fa83b4e4bb8f56efbea00e20a1e88d6130ce98c18d850d159e6'
+$expectedReceiptSha256 = '1dfe37223cab2ae609a139c7f994daf044f47cb6dfeb8e51ad44c8b3ecb2d65c'
 $expectedReceiptBytes = 2761
-$expectedCommit = '7f4e283edcadfc93af7aa69e246aae89f6b64e04'
-$expectedTree = 'e50ef5d6ac5b6d21bc65e774ca100802972a77d5'
+$expectedCommit = '42ae3f7206469038c649936946b874516459ff0d'
+$expectedTree = '633f023140d7f554c3952ca1c7c663888731edd9'
 $expectedArtifactSha256 = '983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b'
 
 $sourceSha256 = (Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash.ToLowerInvariant()
