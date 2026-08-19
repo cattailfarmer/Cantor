@@ -1,5 +1,7 @@
 //! Strict effectless forms for the bounded iterative attention loop.
 
+use std::collections::BTreeSet;
+
 use cantor_compact_coordination_mcp::{
     CompactCoordinationHandle, CompactCoordinationRegistry, CompactResponseStatus,
     CompactSessionOperation, CompactSessionResponse, CompactSessionResult, CompactSessionStatus,
@@ -272,11 +274,13 @@ pub fn validate_iterative_report(report: &IterativeReport) -> Result<(), String>
     }
 
     let mut expected_predecessor = &report.opening_handle;
+    let mut call_ids = BTreeSet::new();
     for (index, iteration) in report.iterations.iter().enumerate() {
         if usize::try_from(iteration.iteration_index).ok() != Some(index)
             || &iteration.predecessor_handle != expected_predecessor
             || iteration.maximum_steps != report.policy.maximum_steps_per_call
             || iteration.call_id.trim().is_empty()
+            || !call_ids.insert(iteration.call_id.as_str())
             || iteration.predecessor_handle.status != CompactSessionStatus::Ready
             || iteration.compact_response.profile != RESPONSE_PROFILE
             || iteration.compact_response.operation != CompactSessionOperation::Advance
@@ -391,6 +395,7 @@ fn validate_stopped_report(
         || report.final_output.is_some()
         || head.status != CompactSessionStatus::Ready
         || reentry != head
+        || report.usage.provider_calls > report.usage.tool_calls.saturating_add(1)
     {
         return Err("stopped report state or exclusivity is invalid".to_owned());
     }
@@ -401,6 +406,16 @@ fn validate_stopped_report(
         && report.usage.elapsed_milliseconds < report.policy.timeout_seconds.saturating_mul(1_000)
     {
         return Err("timeout stop precedes the declared timeout boundary".to_owned());
+    }
+    if report.stop_reason == Some(StopReason::ToolCallCap)
+        && report.usage.tool_calls != report.policy.maximum_tool_calls
+    {
+        return Err("tool-call-cap stop occurred before its declared cap".to_owned());
+    }
+    if report.stop_reason == Some(StopReason::ProviderCallCap)
+        && report.usage.provider_calls != report.policy.maximum_provider_calls
+    {
+        return Err("provider-call-cap stop occurred before its declared cap".to_owned());
     }
     Ok(())
 }

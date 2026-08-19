@@ -216,6 +216,10 @@ fn stopped_report_preserves_the_exact_ready_head_exclusively() {
     after_restart.stop_reason = Some(StopReason::ToolCallCap);
     assert!(validate_iterative_report(&after_restart).is_err());
 
+    let mut premature_provider_cap = report.clone();
+    premature_provider_cap.stop_reason = Some(StopReason::ProviderCallCap);
+    assert!(validate_iterative_report(&premature_provider_cap).is_err());
+
     let mut fabricated = report;
     fabricated.status = IterativeRunState::Complete;
     assert!(validate_iterative_report(&fabricated).is_err());
@@ -372,6 +376,10 @@ fn iteration_chain_rejects_a_predecessor_fork() {
     }
     duplicate_sequence.iterations[1].predecessor_handle.sequence += 1;
     assert!(validate_iterative_report(&duplicate_sequence).is_err());
+
+    let mut duplicate_call = report.clone();
+    duplicate_call.iterations[1].call_id = duplicate_call.iterations[0].call_id.clone();
+    assert!(validate_iterative_report(&duplicate_call).is_err());
 
     report.iterations[1].predecessor_handle = opening.handle;
     assert!(validate_iterative_report(&report).is_err());
