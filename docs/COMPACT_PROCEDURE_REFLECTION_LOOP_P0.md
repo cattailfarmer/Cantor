@@ -74,6 +74,25 @@ requires recursive absence of private reasoning fields and the exact compiled
 nonclaim set. `inspect` emits a small identity projection only after that full
 verification succeeds.
 
+## Transport measurement
+
+`measure-fixture` regenerates the exact governed structured-byte measurement:
+
+```powershell
+.\target\release\cantor-compact-reflection-loop.exe measure-fixture
+```
+
+For the deterministic fixture, the model-facing tool arguments are 20 bytes
+and the terminal handle is 679 bytes. The exact terminal record is 67,522
+bytes, the reflection request is 86,092 bytes, and the complete report is
+162,385 bytes. The record therefore occupies 78.43% of the reflection request
+and 41.58% of the report. This selects a verified compact terminal projection
+as the next optimization candidate, provided exact `READ` remains available.
+
+These are compact UTF-8 JSON bytes, not model tokens, latency, memory, quality,
+or a general performance result. The canonical artifact is
+`experiments/compact_reflection_transport_measurement/artifacts/compact_reflection_transport_measurement_v1.json`.
+
 ## What is proven
 
 - the run-scoped model tool argument is only `maximum_steps`;
@@ -87,7 +106,8 @@ verification succeeds.
   HTTP pass, compact execution, terminal READ, second HTTP pass, sanitization,
   and create-new report against a deterministic loopback provider; and
 - valid report replay succeeds while profile, request, terminal digest, final
-  digest, privacy, and nonclaim tampering fails closed.
+  digest, privacy, and nonclaim tampering fails closed; and
+- the transport measurement validates and regenerates byte for byte.
 
 Live generative-model acceptance remains a separate deployment checkpoint. This P0 does
 not modify llama.cpp, inject information during a live token stream, access

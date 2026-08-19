@@ -18,3 +18,6 @@ multi-model advertisement; it never enables remote discovery or fallback.
 `verify --report PATH` and `inspect --report PATH` independently replay-check a
 saved report or emit its compact identity projection without provider access,
 procedure execution, or historical context-file access.
+
+`measure-fixture` emits the deterministic structured-byte transport report used
+to select the next compression target without invoking a provider.

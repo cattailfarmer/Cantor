@@ -19,6 +19,7 @@ use cantor_procedure_tool::CoordinationToolContext;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value, json};
+use sha2::{Digest as _, Sha256};
 
 pub const REPORT_PROFILE: &str = "cantor-compact-procedure-reflection-report/0.1";
 pub const TOOL_NAME: &str = "advance_attention_procedure";
@@ -113,6 +114,26 @@ pub struct ReportInspection {
     pub record_digest: ContentDigest,
     pub statement: String,
     pub authority: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct TransportMeasurement {
+    pub profile: String,
+    pub fixture: String,
+    pub maximum_steps: u64,
+    pub context_json_bytes: usize,
+    pub first_request_bytes: usize,
+    pub tool_arguments_bytes: usize,
+    pub terminal_handle_bytes: usize,
+    pub terminal_record_bytes: usize,
+    pub terminal_observation_bytes: usize,
+    pub reflection_request_bytes: usize,
+    pub final_output_bytes: usize,
+    pub complete_report_bytes: usize,
+    pub terminal_record_share_of_reflection_basis_points: u64,
+    pub terminal_record_share_of_report_basis_points: u64,
+    pub nonclaims: Vec<String>,
 }
 
 pub fn normalize_loopback_base_url(candidate: &str) -> Result<String, String> {
@@ -613,6 +634,191 @@ pub fn inspect_report(report: &RunReport) -> Result<ReportInspection, String> {
         authority: "internally_consistent_evidence_not_external_truth_or_effect_authority"
             .to_owned(),
     })
+}
+
+pub fn generate_fixture_transport_measurement() -> Result<TransportMeasurement, String> {
+    let context_json = experimental_fixture_context_json()?;
+    let session_id = SemanticId::new("session:compact-reflection-measurement")
+        .map_err(|fault| fault.to_string())?;
+    let session = open_bound_session(
+        context_json.clone(),
+        SemanticId::new("registry:compact-reflection-measurement")
+            .map_err(|fault| fault.to_string())?,
+        session_id.clone(),
+    )?;
+    let model = "fixture-tool-model";
+    let prompt = "Run the measured bound procedure and reflect over its terminal identity.";
+    let maximum_steps = 64;
+    let initial_request = first_request(model, prompt, maximum_steps);
+    let tool_arguments = AdvanceAttentionArguments { maximum_steps };
+    let initial_response = json!({
+        "choices": [{
+            "finish_reason": "tool_calls",
+            "message": {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [{
+                    "id": "call-measurement-1",
+                    "type": "function",
+                    "function": {
+                        "name": TOOL_NAME,
+                        "arguments": serde_json::to_string(&tool_arguments)
+                            .expect("tool arguments serialize")
+                    }
+                }]
+            }
+        }]
+    });
+    let call = extract_advance_call(&initial_response, maximum_steps)?;
+    let (_, observation) = advance_bound_session_terminal(&session, maximum_steps)?;
+    let later_request = reflection_request(model, prompt, &call, &observation);
+    let final_output = FinalOutput {
+        observed_status: observation.observed_status.clone(),
+        session_id: observation.handle.session_id.clone(),
+        outcome_digest: observation.outcome_digest.clone(),
+        statement: FINAL_STATEMENT.to_owned(),
+    };
+    let later_response = json!({
+        "choices": [{
+            "finish_reason": "stop",
+            "message": {
+                "role": "assistant",
+                "content": serde_json::to_string(&final_output).expect("final output serializes")
+            }
+        }]
+    });
+    let report = RunReport {
+        profile: REPORT_PROFILE.to_owned(),
+        status: "passed".to_owned(),
+        base_url: "http://127.0.0.1:8081/v1".to_owned(),
+        model: model.to_owned(),
+        context_path: "fixture://experimental-compact-reflection-context".to_owned(),
+        context_sha256: sha256_hex(context_json.as_bytes()),
+        session_id,
+        maximum_steps,
+        first_request: initial_request.clone(),
+        first_response: initial_response,
+        terminal_observation: observation.clone(),
+        reflection_request: later_request.clone(),
+        reflection_response: later_response,
+        final_output: final_output.clone(),
+        private_reasoning_recorded: false,
+        nonclaims: REPORT_NONCLAIMS
+            .iter()
+            .map(|value| (*value).to_owned())
+            .collect(),
+    };
+    verify_report(&report)?;
+
+    let terminal_record_bytes = observation.record_json.len();
+    let reflection_request_bytes = compact_json_bytes(&later_request)?;
+    let complete_report_bytes = compact_json_bytes(&report)?;
+    let measurement = TransportMeasurement {
+        profile: "cantor-compact-reflection-transport-measurement/0.1".to_owned(),
+        fixture: "experimental_compact_reflection_context_v1".to_owned(),
+        maximum_steps,
+        context_json_bytes: context_json.len(),
+        first_request_bytes: compact_json_bytes(&initial_request)?,
+        tool_arguments_bytes: compact_json_bytes(&tool_arguments)?,
+        terminal_handle_bytes: compact_json_bytes(&observation.handle)?,
+        terminal_record_bytes,
+        terminal_observation_bytes: compact_json_bytes(&observation)?,
+        reflection_request_bytes,
+        final_output_bytes: compact_json_bytes(&final_output)?,
+        complete_report_bytes,
+        terminal_record_share_of_reflection_basis_points: share_basis_points(
+            terminal_record_bytes,
+            reflection_request_bytes,
+        )?,
+        terminal_record_share_of_report_basis_points: share_basis_points(
+            terminal_record_bytes,
+            complete_report_bytes,
+        )?,
+        nonclaims: vec![
+            "structured UTF-8 JSON bytes are not model tokens".to_owned(),
+            "measurement is not latency memory quality or general performance".to_owned(),
+            "fixture execution invokes no provider effect or remote host".to_owned(),
+        ],
+    };
+    validate_transport_measurement(&measurement)?;
+    Ok(measurement)
+}
+
+pub fn validate_transport_measurement(measurement: &TransportMeasurement) -> Result<(), String> {
+    if measurement.profile != "cantor-compact-reflection-transport-measurement/0.1"
+        || measurement.fixture != "experimental_compact_reflection_context_v1"
+        || measurement.maximum_steps != 64
+    {
+        return Err("transport measurement identity is invalid".to_owned());
+    }
+    let sizes = [
+        measurement.context_json_bytes,
+        measurement.first_request_bytes,
+        measurement.tool_arguments_bytes,
+        measurement.terminal_handle_bytes,
+        measurement.terminal_record_bytes,
+        measurement.terminal_observation_bytes,
+        measurement.reflection_request_bytes,
+        measurement.final_output_bytes,
+        measurement.complete_report_bytes,
+    ];
+    if sizes.contains(&0)
+        || measurement.terminal_handle_bytes >= measurement.terminal_record_bytes
+        || measurement.terminal_record_bytes >= measurement.terminal_observation_bytes
+        || measurement.terminal_observation_bytes >= measurement.reflection_request_bytes
+        || measurement.reflection_request_bytes >= measurement.complete_report_bytes
+    {
+        return Err("transport measurement size relationships are invalid".to_owned());
+    }
+    if measurement.terminal_record_share_of_reflection_basis_points
+        != share_basis_points(
+            measurement.terminal_record_bytes,
+            measurement.reflection_request_bytes,
+        )?
+        || measurement.terminal_record_share_of_report_basis_points
+            != share_basis_points(
+                measurement.terminal_record_bytes,
+                measurement.complete_report_bytes,
+            )?
+        || measurement.nonclaims.len() != 3
+    {
+        return Err("transport measurement proportions or boundary are invalid".to_owned());
+    }
+    Ok(())
+}
+
+pub fn pretty_transport_measurement_bytes(
+    measurement: &TransportMeasurement,
+) -> Result<Vec<u8>, String> {
+    validate_transport_measurement(measurement)?;
+    let mut bytes = serde_json::to_vec_pretty(measurement)
+        .map_err(|error| format!("measurement serialization failed: {error}"))?;
+    bytes.push(b'\n');
+    Ok(bytes)
+}
+
+fn compact_json_bytes(value: &impl Serialize) -> Result<usize, String> {
+    serde_json::to_vec(value)
+        .map(|bytes| bytes.len())
+        .map_err(|error| format!("measurement value serialization failed: {error}"))
+}
+
+fn share_basis_points(numerator: usize, denominator: usize) -> Result<u64, String> {
+    if denominator == 0 {
+        return Err("measurement denominator is zero".to_owned());
+    }
+    let scaled = (numerator as u128)
+        .checked_mul(10_000)
+        .ok_or("measurement proportion overflow")?
+        / denominator as u128;
+    u64::try_from(scaled).map_err(|_| "measurement proportion does not fit u64".to_owned())
+}
+
+fn sha256_hex(bytes: &[u8]) -> String {
+    Sha256::digest(bytes)
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect()
 }
 
 fn is_lower_hex_sha256(value: &str) -> bool {

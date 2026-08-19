@@ -13,7 +13,8 @@ use std::{
 use cantor_compact_reflection_loop::{
     REPORT_NONCLAIMS, REPORT_PROFILE, RunReport, advance_bound_session_terminal,
     experimental_fixture_context_json, extract_advance_call, extract_final_output, first_request,
-    inspect_report, normalize_loopback_base_url, open_bound_session, reflection_request, sanitize,
+    generate_fixture_transport_measurement, inspect_report, normalize_loopback_base_url,
+    open_bound_session, pretty_transport_measurement_bytes, reflection_request, sanitize,
     select_advertised_model, verify_report,
 };
 use cantor_core::SemanticId;
@@ -112,6 +113,13 @@ async fn main() -> ExitCode {
         Some("verify" | "inspect")
     ) {
         return report_command(&arguments);
+    }
+    if arguments.first().map(String::as_str) == Some("measure-fixture") {
+        if arguments.len() != 1 {
+            eprintln!("configuration_fault: usage: cantor-compact-reflection-loop measure-fixture");
+            return ExitCode::from(2);
+        }
+        return measurement_command();
     }
     if arguments.first().map(String::as_str) == Some("fixture-context") {
         return fixture_context_command(&arguments[1..]);
@@ -352,6 +360,21 @@ fn report_command(arguments: &[String]) -> ExitCode {
     }
 }
 
+fn measurement_command() -> ExitCode {
+    match generate_fixture_transport_measurement()
+        .and_then(|measurement| pretty_transport_measurement_bytes(&measurement))
+    {
+        Ok(bytes) => {
+            print!("{}", String::from_utf8_lossy(&bytes));
+            ExitCode::SUCCESS
+        }
+        Err(error) => {
+            eprintln!("measurement_fault: {error}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn print_help() {
     println!(
         "cantor-compact-reflection-loop\n\
@@ -361,6 +384,7 @@ fn print_help() {
          Offline report replay:\n\
            cantor-compact-reflection-loop verify --report PATH\n\
            cantor-compact-reflection-loop inspect --report PATH\n\
+           cantor-compact-reflection-loop measure-fixture\n\
          \n\
          Required:\n\
            --context PATH          exact CoordinationToolContext JSON\n\

@@ -143,7 +143,8 @@ baseline:
   model emits only a bounded quota call, then reflects over the exact terminal
   record and its digest in a separate pass; an explicit model selector and
   non-authoritative fixture exporter make the full loop locally testable, and
-  offline report verification reconstructs its complete identity chain.
+  offline report verification reconstructs its complete identity chain; exact
+  transport measurement shows the terminal record dominates reflection input.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
