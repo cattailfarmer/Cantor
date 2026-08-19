@@ -125,7 +125,7 @@ Run the complete local checkpoint in one command, optionally adding the read-onl
 .\scripts\audit_cantor_field_attention_checkpoint.ps1 -IncludeEvox2
 ```
 
-The EVO-X2 form also requires exact structural equality with `checkpoint_audit_v1.json`; a changed requirement disposition, residual set, verifier identity, report set, or deployment observation fails instead of silently refreshing the receipt.
+The EVO-X2 form first requires the exact pinned SHA-256 of `checkpoint_audit_v1.json`, then requires structural equality with that receipt. A changed receipt, requirement disposition, residual set, verifier identity, report set, or deployment observation fails instead of silently refreshing the baseline.
 
 When EVO-X2 is reachable, re-observe the deployed h8 bytes, replay all 31 remote reports, confirm the pinned llama.cpp process/listener, and expose the deployment ACL without writing remote state:
 

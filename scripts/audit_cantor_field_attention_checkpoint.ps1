@@ -5,6 +5,7 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
+$pinnedReceiptSha256 = "888343ff729e1a0a694a56ce18b192b7686954cf81122cab3d391de68b31582b"
 
 function Invoke-JsonAudit {
     param([Parameter(Mandatory = $true)] [string] $Path)
@@ -98,6 +99,8 @@ $result = [ordered]@{
 
 if ($IncludeEvox2) {
     $receiptPath = Join-Path $PSScriptRoot "..\experiments\cantor_field_cycle_p0\checkpoint_audit_v1.json"
+    $actualReceiptSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $receiptPath).Hash.ToLowerInvariant()
+    Assert-Exact ($actualReceiptSha256 -ceq $pinnedReceiptSha256) "EVO-X2 composite checkpoint receipt digest changed"
     $receipt = Get-Content -Raw -LiteralPath $receiptPath | ConvertFrom-Json
     $actualCanonical = $result | ConvertTo-Json -Depth 20 -Compress
     $expectedCanonical = $receipt | ConvertTo-Json -Depth 20 -Compress
