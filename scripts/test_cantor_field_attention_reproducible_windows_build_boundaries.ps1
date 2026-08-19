@@ -64,6 +64,16 @@ if (-not (Test-Path -LiteralPath $windowsPowerShell -PathType Leaf)) {
     throw 'Windows PowerShell 5.1 executable is unavailable for the governed refusal test.'
 }
 
+$legacyVersion = Invoke-CapturedProcess -FilePath $windowsPowerShell -WorkingDirectory $workspaceRoot -ArgumentList @(
+    '-NoProfile', '-Command', '$PSVersionTable.PSVersion.ToString()'
+)
+$legacyVersionText = $legacyVersion.StdOut.Trim()
+if ($legacyVersion.ExitCode -ne 0 -or
+    $legacyVersion.StdErr.Trim().Length -ne 0 -or
+    $legacyVersionText -notmatch '^5\.1(?:\.|$)') {
+    throw "Expected the governed legacy boundary to execute Windows PowerShell 5.1, observed '$legacyVersionText'."
+}
+
 $initialCount = Get-CampaignRootCount -TargetRoot $targetRoot
 $legacy = Invoke-CapturedProcess -FilePath $windowsPowerShell -WorkingDirectory $workspaceRoot -ArgumentList @(
     '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $proofTool
@@ -89,9 +99,10 @@ if ($optionLike.ExitCode -eq 0 -or
 }
 
 [ordered]@{
-    profile = 'cantor-field-attention-reproducible-windows-build-boundary-tests/0.1'
+    profile = 'cantor-field-attention-reproducible-windows-build-boundary-tests/0.2'
     status = 'passed'
     windows_powershell_5_1 = [ordered]@{
+        observed_version = $legacyVersionText
         exit_nonzero = $true
         named_version_refusal = $true
         passed_receipt_emitted = $false
