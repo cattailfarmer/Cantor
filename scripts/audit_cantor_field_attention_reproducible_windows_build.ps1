@@ -20,10 +20,10 @@ $receiptPath = Join-Path $workspaceRoot $receiptRelative
 
 $expectedSourceSha256 = 'd03e4473b8250aea7c672360cda7c61ce95ccd2e70723bbc37572d65340870e7'
 $expectedSourceBytes = 3669
-$expectedReceiptSha256 = '14f6a7d322bfb04b680499e9f16550e08ee264037d2850f9bb8c6c7220bec98a'
+$expectedReceiptSha256 = 'f284a021919a597368e13bed14852997dfa424bd524db145535ece93a345c5b8'
 $expectedReceiptBytes = 3154
-$expectedCommit = '43b2f51642087e14247fa535d7201123deaee597'
-$expectedTree = 'bb0d70f5957523cca45d1f9e817bf98d5bb41011'
+$expectedCommit = 'b4532cff5876d94b116bf7ab44ee5017d70ce5ea'
+$expectedTree = '61f271169e803ed730f02b99390ac0114d890f17'
 $expectedArtifactSha256 = '983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b'
 
 $sourceSha256 = (Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -52,6 +52,7 @@ foreach ($required in @(
 $implementation = Get-Content -LiteralPath $implementationPath -Raw
 foreach ($required in @(
     'SOURCE_DATE_EPOCH',
+    'requires PowerShell 7 or later',
     'CARGO_INCREMENTAL',
     '-C link-arg=/Brepro',
     "'--locked'",

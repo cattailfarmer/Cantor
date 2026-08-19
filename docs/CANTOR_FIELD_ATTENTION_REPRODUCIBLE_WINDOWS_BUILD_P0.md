@@ -20,11 +20,12 @@ Run the fast repository-and-receipt audit without rebuilding:
 
 The audit also refuses the pinned proof when the tracked Cargo configuration, workspace manifests, field-cycle package, or proof tool differs from the tested commit. It resolves all four historical tested-input, receipt, and anchor commit/tree pairs, requires each tested → receipt → anchor ancestry edge and each anchor → next-tested successor edge, requires the configured upstream to contain every anchor, and requires the current anchor bytes to equal their committed forms. This fast audit therefore requires a Git checkout with its upstream configured; the fresh two-root build command itself does not depend on an upstream.
 
-The pinned v1 receipt proves local repetition for commit `43b2f51642087e14247fa535d7201123deaee597` on one Windows MSVC toolchain. Each extracted source root independently selects and reports the same Rust and Cargo identities. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.
+The pinned v1 receipt proves local repetition for commit `b4532cff5876d94b116bf7ab44ee5017d70ce5ea` on one Windows MSVC toolchain. Each extracted source root independently selects and reports the same Rust and Cargo identities. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.
 
 ## Prerequisites
 
 - Run from inside the Cantor Git repository on Windows.
+- Use PowerShell 7 or later; Windows PowerShell 5.1 is rejected before campaign state is created.
 - `git.exe`, `tar.exe`, `cargo.exe`, and `rustc.exe` must be available.
 - The selected revision must contain `Cargo.lock`, the `cantor_field_cycle` package, and all three governed reports.
 - Locked dependencies must already exist in the local Cargo cache because the build is offline.

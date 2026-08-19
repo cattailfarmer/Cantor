@@ -12,9 +12,9 @@ Subject: Cantor Field Attention Reproducible Windows Build P0 Proof
   + signature 3a8fea18-7ba7-410e-8f5a-2122c79e5591 uses protocol ad10f10f-d506-48ef-a805-f8b0a133766c
 
 & [CommittedSourceProof] binds the implementation under test
-  + source commit is 43b2f51642087e14247fa535d7201123deaee597
-  + source tree is bb0d70f5957523cca45d1f9e817bf98d5bb41011
-  + Git archive SHA-256 is e26046f48b73c04740590a3aa308c52b3ca04a991f7a05dd53fe3bb8bba715cd
+  + source commit is b4532cff5876d94b116bf7ab44ee5017d70ce5ea
+  + source tree is 61f271169e803ed730f02b99390ac0114d890f17
+  + Git archive SHA-256 is 90140f7a31132814cd45ae584071f29451ae82f5884c1c67dae01d4e1e6df009
   + Cargo.lock SHA-256 is c7c10e5503dff3e44bb16d0d4800536d541032a001ec02fc48b9a77f948a2d82
   + two separately extracted source roots and two initially absent target roots were used per campaign
 
@@ -22,7 +22,7 @@ Subject: Cantor Field Attention Reproducible Windows Build P0 Proof
   + rustc is 1.96.0 commit ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96 dated 2026-05-25 with verbose identity SHA-256 c4755273f5f5c5995abbf4457d4f58cdb2e5918a85dca23ce7f25dae2c5e36f2
   + Cargo is 1.96.0 host is x86_64-pc-windows-msvc and LLVM is 22.1.2
   + both extracted source roots independently select the exact same rustc verbose and Cargo identities before compilation
-  + SOURCE_DATE_EPOCH is 1787110314 CARGO_INCREMENTAL is 0 and RUSTFLAGS is -C link-arg=/Brepro
+  + SOURCE_DATE_EPOCH is 1787110789 CARGO_INCREMENTAL is 0 and RUSTFLAGS is -C link-arg=/Brepro
   + both release executables are 2840576 bytes SHA-256 983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b
   + direct byte comparison is true
 
@@ -36,8 +36,9 @@ Subject: Cantor Field Attention Reproducible Windows Build P0 Proof
   + provider request count is zero
 
 & [ReceiptProof] is stable and pinned
-  + receipt is 3154 bytes SHA-256 14f6a7d322bfb04b680499e9f16550e08ee264037d2850f9bb8c6c7220bec98a
+  + receipt is 3154 LF-normalized UTF-8 bytes SHA-256 f284a021919a597368e13bed14852997dfa424bd524db145535ece93a345c5b8
   + two consecutive default campaigns against the committed implementation emitted the same receipt fields and values
+  + a third fresh campaign normalized only host newline transport to LF and matched the pinned receipt byte length and SHA-256 exactly
   + the receipt omits workspace and random campaign paths
   + static audit passes eighteen source signature implementation receipt Git-object input-freshness retained-report verifier-identity and Git-anchor-chain checks
   + all four tested-input to receipt to anchor histories resolve to exact commit and tree objects form one successor chain are contained by the configured upstream and retain their committed anchor bytes
@@ -49,6 +50,8 @@ Subject: Cantor Field Attention Reproducible Windows Build P0 Proof
 & [Acceptance] satisfies the bounded profile
   + [FARW-001] through [FARW-009] pass
   + default cleanup removed each fresh campaign root and restored inherited environment
+  + Windows PowerShell 5.1 is refused by an explicit version gate before campaign creation and preserves the preexisting campaign-root count
+  + option-like source revision --help is passed after Git end-of-options rejected without a receipt and preserves the preexisting campaign-root count
   + cleanup rejects target or campaign roots represented by filesystem reparse points
   + a missing Git revision fails before archive or build and leaves the preexisting campaign-root count unchanged
   + historical implementation commit 5b1621b6416edef0541360dcac79d63b1a11aad9 reproduces itself but is refused by the governed contract-byte gate and leaves campaign-root count unchanged
