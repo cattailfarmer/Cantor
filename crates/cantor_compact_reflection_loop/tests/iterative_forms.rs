@@ -26,6 +26,13 @@ fn state_handle(response: &CompactSessionResponse) -> CompactCoordinationHandle 
     }
 }
 
+fn state_handle_mut(response: &mut CompactSessionResponse) -> &mut CompactCoordinationHandle {
+    match response.result.as_mut().expect("result") {
+        CompactSessionResult::State { handle } => handle,
+        CompactSessionResult::Record { .. } => panic!("expected state"),
+    }
+}
+
 fn advance(bound: &BoundSession, maximum_steps: u64) -> (BoundSession, CompactSessionResponse) {
     let transition = apply_compact_coordination_command(
         &bound.registry,
@@ -356,6 +363,15 @@ fn iteration_chain_rejects_a_predecessor_fork() {
         nonclaims: nonclaims(),
     };
     validate_iterative_report(&report).expect("two-iteration report");
+
+    let mut duplicate_sequence = report.clone();
+    state_handle_mut(&mut duplicate_sequence.iterations[0].compact_response).sequence += 1;
+    match &mut duplicate_sequence.iterations[0].successor {
+        IterationSuccessor::Ready { projection } => projection.sequence += 1,
+        IterationSuccessor::Terminal { .. } => panic!("expected ready"),
+    }
+    duplicate_sequence.iterations[1].predecessor_handle.sequence += 1;
+    assert!(validate_iterative_report(&duplicate_sequence).is_err());
 
     report.iterations[1].predecessor_handle = opening.handle;
     assert!(validate_iterative_report(&report).is_err());

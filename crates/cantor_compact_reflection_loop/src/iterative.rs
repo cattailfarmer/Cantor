@@ -2,8 +2,8 @@
 
 use cantor_compact_coordination_mcp::{
     CompactCoordinationHandle, CompactCoordinationRegistry, CompactResponseStatus,
-    CompactSessionResponse, CompactSessionResult, CompactSessionStatus,
-    validate_compact_coordination_registry,
+    CompactSessionOperation, CompactSessionResponse, CompactSessionResult, CompactSessionStatus,
+    HANDLE_PROFILE, RESPONSE_PROFILE, validate_compact_coordination_registry,
 };
 use cantor_core::{ContentDigest, SemanticId};
 use serde::{Deserialize, Serialize};
@@ -254,8 +254,10 @@ pub fn validate_iterative_report(report: &IterativeReport) -> Result<(), String>
     {
         return Err("iterative report nonclaims differ from the compiled set".to_owned());
     }
-    if report.opening_handle.status != CompactSessionStatus::Ready
+    if report.opening_handle.profile != HANDLE_PROFILE
+        || report.opening_handle.status != CompactSessionStatus::Ready
         || report.opening_handle.session_id != report.session_id
+        || report.opening_handle.sequence != 1
         || report.base_url.trim().is_empty()
         || report.model.trim().is_empty()
     {
@@ -275,11 +277,27 @@ pub fn validate_iterative_report(report: &IterativeReport) -> Result<(), String>
             || &iteration.predecessor_handle != expected_predecessor
             || iteration.maximum_steps != report.policy.maximum_steps_per_call
             || iteration.call_id.trim().is_empty()
+            || iteration.predecessor_handle.status != CompactSessionStatus::Ready
+            || iteration.compact_response.profile != RESPONSE_PROFILE
+            || iteration.compact_response.operation != CompactSessionOperation::Advance
             || iteration.compact_response.status != CompactResponseStatus::Succeeded
+            || iteration.compact_response.fault.is_some()
         {
             return Err("iterative record identity policy or response is invalid".to_owned());
         }
         let successor_handle = response_handle(&iteration.compact_response)?;
+        if successor_handle.profile != HANDLE_PROFILE
+            || successor_handle.registry_id != report.opening_handle.registry_id
+            || successor_handle.session_id != report.session_id
+            || successor_handle.sequence
+                != iteration
+                    .predecessor_handle
+                    .sequence
+                    .checked_add(1)
+                    .ok_or_else(|| "iteration sequence overflow".to_owned())?
+        {
+            return Err("iteration successor leaves identity or sequence continuity".to_owned());
+        }
         match &iteration.successor {
             IterationSuccessor::Ready { projection } => {
                 validate_ready_projection(projection, successor_handle)?;
