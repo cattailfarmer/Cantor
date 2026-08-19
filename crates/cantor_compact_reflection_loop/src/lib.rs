@@ -2,6 +2,15 @@
 
 #![forbid(unsafe_code)]
 
+mod iterative;
+
+pub use iterative::{
+    ITERATIVE_REPORT_NONCLAIMS, ITERATIVE_REPORT_PROFILE, IterationRecord, IterationSuccessor,
+    IterativeReport, IterativeRunState, NextIterativeOperation, PolicyUsage,
+    READY_PROJECTION_PROFILE, ReadyProjection, RunPolicy, StopReason, project_ready_record,
+    validate_iterative_report, validate_ready_projection, validate_run_policy,
+};
+
 use cantor_compact_coordination_mcp::{
     CompactCoordinationHandle, CompactCoordinationRecord, CompactCoordinationRegistry,
     CompactResponseStatus, CompactSessionCommand, CompactSessionResult, CompactSessionStatus,

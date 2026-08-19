@@ -1,9 +1,9 @@
 # Cantor local runtime status — 2026-08-19
 
-This status anchor consolidates the local shared-attention campaign from Git
-checkpoint `4769ae5` through `dd3beff`. It is a navigation surface, not new
-implementation authority. The cited specifications, solutions, and proofs
-remain canonical.
+This status anchor consolidates the local shared-attention base campaign from
+Git checkpoint `4769ae5` through `dd3beff` and tracks the subsequently
+activated P1 Slice 1 state. It is a navigation surface, not new implementation
+authority. The cited specifications, solutions, and proofs remain canonical.
 
 ## Executable outcome
 
@@ -45,7 +45,7 @@ is claimed at this checkpoint.
 | Procedure/reflection model host | P0 executable and loopback-proved | One procedure call must reach terminal state |
 | Saved-report replay | P0 implemented with mutation refusal | Internal lineage consistency, not external truth |
 | Terminal attention projection | P0 implemented and measured | Exact READ remains authority |
-| Iterative READY continuation | P1 canonical specification complete | Implementation is not activated |
+| Iterative READY continuation | P1 Slice 1 strict forms implemented | Stepper and provider loop are not activated |
 | Live local model acceptance | Pending | Windows Ollama is not reachable from the governed WSL loopback lane |
 | Persistent or distributed session custody | Not implemented | No cluster lock, token ring, or shared hidden state |
 | Effect execution and production authentication | Not implemented | No autonomous computer action or trust claim |
@@ -69,8 +69,8 @@ The measurement artifacts are:
 
 ## Verification state
 
-- 131 Rust test-result groups completed;
-- 672 tests passed, zero failed, and one governed physical fixture remained
+- 132 Rust test-result groups completed;
+- 677 tests passed, zero failed, and one governed physical fixture remained
   ignored;
 - workspace all-target/all-feature Clippy passed with warnings denied;
 - the evidence audit covers 23 current manifests and 1,030 artifact references
@@ -110,8 +110,8 @@ saved report retains the exact observation for independent replay.
 
 ## Iterative P1 frontier
 
-The next canonical frontier is a bounded loop for procedures that return
-`READY` after one advancement quota:
+The next canonical frontier is the deterministic driver for procedures that
+return `READY` after one advancement quota:
 
 ```text
 READY -> verified ReadyProjection -> new provider checkpoint -> next tool call
@@ -119,11 +119,13 @@ terminal -> exact READ -> TerminalProjection -> no-tool reflection -> complete
 cap or fault -> stopped report + current live reentry handle
 ```
 
-The implementation dependency order is fixed: activation review, pure forms,
-deterministic stepper, provider protocol, two-call loopback process proof,
-replay and mutation proof, transport measurement, and release checkpoint.
-`READY` cannot be called complete, and policy exhaustion must preserve a
-replayable stopped state rather than fabricate success.
+The first two dependencies are now complete: an artifact-bound activation
+review released Slice 1 only, and pure strict forms plus structural validation
+are focused-proven. The remaining order is deterministic stepper, provider
+protocol, two-call loopback process proof, replay and mutation proof, transport
+measurement, and release checkpoint. `READY` cannot be called complete, and
+policy exhaustion must preserve a replayable stopped state rather than
+fabricate success.
 
 ## Locality and trust boundaries
 
@@ -140,11 +142,13 @@ replayable stopped state rather than fabricate success.
 
 ## Git campaign
 
-The checkpoint comprises 14 published commits, 219 changed paths, 19,584
-insertions, and 234 deletions from `4769ae5^` through `dd3beff`. The commits
+The pre-Slice1 base comprises 14 published commits, 219 changed paths, 19,584
+insertions, and 234 deletions from `4769ae5^` through `dd3beff`. Those commits
 progress from shared forms, tool exposure, reentry, checkpoints, and transport
 measurement through compact custody, the executable model/tool/model loop,
 replay verification, terminal projection, and the governed P1 specification.
+The later Slice1 proof is the authority for the pure-form implementation state.
 
-The next implementation must begin from the P1 activation boundary rather than
-silently interpreting this status document as executable authority.
+The next implementation must begin from a separate Slice 2 activation rather
+than silently interpreting Slice 1 or this status document as stepper or
+provider-loop authority.

@@ -39,11 +39,18 @@ stop state, and final reflection without contacting a provider or executing
 the procedure. Exact records remain host-side and are not duplicated into
 model attention.
 
-This checkpoint is specification and planning authority only. Implementation
-requires a separate activation review, then pure forms, deterministic stepping,
-provider protocol, two-call loopback proof, stopped reentry, replay mutation
-tests, transport measurement, and a full release checkpoint in that dependency
-order.
+The original checkpoint was specification and planning authority only. A later
+artifact-bound review has now activated and completed Slice 1 only: strict
+`RunPolicy`, registry-derived `ReadyProjection`, `IterationRecord`, exclusive
+successor, run-state, stop-reason, policy-usage, and `IterativeReport` forms plus
+pure structural validation. Five focused tests cover bounds, closed fields,
+registry custody, ready projection, stopped/complete exclusivity, timeout
+evidence, and predecessor-fork refusal.
+
+Deterministic stepping, provider protocol, two-call loopback proof, stopped
+reentry execution, complete replay, transport measurement, and release remain
+separately locked in that dependency order. Structural report validation does
+not claim full causal replay.
 
 P1 still represents separate provider calls joined by explicit host state. It
 does not create one shared transformer forward pass, mutate hidden state,

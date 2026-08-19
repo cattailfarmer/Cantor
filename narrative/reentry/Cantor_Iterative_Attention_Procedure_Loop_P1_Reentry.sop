@@ -2,18 +2,22 @@ Subject: Cantor Iterative Attention Procedure Loop P1 Reentry
 
 @ [reentry_uuid] 1a9d4e5f-db4b-49ce-b9d9-528e680677dc
 @ [canonical] C:\Project\Cantor\specifications\Cantor_Iterative_Attention_Procedure_Loop_P1.sop
-@ [proof] C:\Project\Cantor\proofs\Cantor_Iterative_Attention_Procedure_Loop_P1_Specification_Proof.sop
+@ [specification_proof] C:\Project\Cantor\proofs\Cantor_Iterative_Attention_Procedure_Loop_P1_Specification_Proof.sop
+@ [slice1_proof] C:\Project\Cantor\proofs\Cantor_Iterative_Attention_Procedure_Loop_P1_Slice1_Proof.sop
 
 & [CurrentState]
   + P0 compact one-call loop projection replay and measurement are implemented and proven
-  + P1 repeated READY checkpoint behavior is specified and not implemented
+  + P1 repeated READY checkpoint behavior is specified
+  + Dependency0 activation review and Slice1 strict pure forms are implemented and proven
+  + RunPolicy bounds registry-derived ReadyProjection causal iteration records and complete-versus-stopped report shape fail closed
 
 & [NextAction]
-  + review and activate Dependency0 explicitly
-  + implement pure forms and verifier before provider-loop code
-  + use quota eight fixture to require a real READY then terminal chain
+  + conduct separate Slice2 deterministic-stepper activation and completed-work review
+  + drive the quota-eight fixture through an actual READY then terminal chain without a provider
+  + prove tool and provider caps stopped state and exact live reentry head as pure transitions
 
 & [Guardrails]
-  + do not silently turn specification authority into implementation authority
+  + Slice1 activation gives no inherited authority to Slice2 or provider code
   + do not conflate separate model passes with one shared forward pass
   + do not represent stopped or READY state as completion
+  + structural validation is not complete causal replay or producer authentication
