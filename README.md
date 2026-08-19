@@ -110,7 +110,13 @@ baseline:
   conflict refusal, deterministic byte-proxy backpressure, exact-digest
   faculty settlement, and evidence-gated DreamFrame branches; the
   `cantor-shared-attention` JSON shell exposes those transitions without
-  modifying a model or claiming shared hidden state.
+  modifying a model or claiming shared hidden state; and
+- `cantor_core::shared_attention::ledger` now retains those frames in a pure,
+  append-only content-addressed session history with exact continuation
+  handles and compare-and-set reentry, while the separate volatile
+  `cantor-attention-ledger-mcp` process exposes one local
+  `continue_attention_session` tool without persistence, provider calls, or
+  hidden-state claims.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -166,6 +172,10 @@ The shared semantic-frame state machine, three-node faculty mapping,
 backpressure contract, DreamFrame boundary, and closed JSON shell are
 documented in
 [`docs/SHARED_ATTENTION_IMAGINATION_RUNTIME_P0.md`](docs/SHARED_ATTENTION_IMAGINATION_RUNTIME_P0.md).
+The exact reentry handle, append-only event contract, compare-and-set race
+behavior, volatile MCP boundary, and deferred persistence work are documented
+in
+[`docs/ATTENTION_REENTRY_LEDGER_P0.md`](docs/ATTENTION_REENTRY_LEDGER_P0.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell
@@ -279,6 +289,20 @@ complete machine response as `structuredContent`. The adapter stores no frame,
 invokes no model, and performs no effect. Host registration and provider-loop
 experiments remain separate operator decisions. See
 [`crates/cantor_shared_attention_mcp/README.md`](crates/cantor_shared_attention_mcp/README.md).
+
+To retain frames across calls inside one volatile local process, run the
+separate content-addressed reentry tool:
+
+```powershell
+cargo build -p cantor_attention_ledger_mcp --release
+.\target\release\cantor-attention-ledger-mcp.exe --ledger-id ledger:local-session
+```
+
+Its single `continue_attention_session` tool opens one complete frame, then
+accepts compact compare-and-set continuation operations and exact inspection
+or read commands. Restart loses the ledger; no persistence, registration,
+model invocation, or semantic authority is implied. See
+[`crates/cantor_attention_ledger_mcp/README.md`](crates/cantor_attention_ledger_mcp/README.md).
 
 Compile the reviewed self-hosted corpus with operator-supplied distinct keys:
 

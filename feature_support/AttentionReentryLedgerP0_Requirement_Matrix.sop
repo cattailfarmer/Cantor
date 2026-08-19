@@ -1,0 +1,39 @@
+Subject: Attention Reentry Ledger P0 Requirement Matrix
+
+@ [matrix_uuid] c4ce37e6-8451-4881-a95a-4420156495bb
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Attention_Reentry_Ledger_P0.sop
+@ [status] verified_complete
+
+& [ARL-A01] source SJS and signature
+  + [requirement] ARL-001 through ARL-027
+  + [planned_proof] hashes explosion trace and authority audit
+& [ARL-A02] deterministic open
+  + [requirement] ARL-001 through ARL-008 and ARL-013
+  + [planned_proof] exact frame session event continuation and replay equality
+  + [implementation] crates/cantor_core/tests/attention_ledger.rs open_is_deterministic_content_addressed_and_exactly_readable
+& [ARL-A03] advancing apply and stale replay
+  + [requirement] ARL-009 through ARL-018
+  + [planned_proof] internal base resolution successor head and compare-and-set refusal
+  + [implementation] crates/cantor_core/tests/attention_ledger.rs compact_apply_advances_head_and_stale_replay_has_no_successor
+& [ARL-A04] non-advancing outcomes
+  + [requirement] ARL-013 through ARL-018
+  + [planned_proof] buffered and semantic-refusal events with invariant head
+  + [implementation] crates/cantor_core/tests/attention_ledger.rs buffered_and_refused_attempts_append_events_without_advancing_head
+& [ARL-A05] settlement trajectory
+  + [requirement] ARL-009 through ARL-018
+  + [planned_proof] prepare candidate then complete exact-digest settlement to sealed head
+  + [implementation] crates/cantor_core/tests/attention_ledger.rs prepare_and_settle_form_one_auditable_candidate_to_sealed_trajectory
+& [ARL-A06] corruption and read boundary
+  + [requirement] ARL-002 through ARL-006 ARL-012 and ARL-016 through ARL-018
+  + [planned_proof] root frame session event tamper and unknown read refusals
+  + [implementation] crates/cantor_core/tests/attention_ledger.rs stale_unknown_strict_and_tampered_inputs_fail_closed
+& [ARL-A07] MCP session path
+  + [requirement] ARL-019 through ARL-027
+  + [planned_proof] direct adapter and official-client open apply inspect read equality
+  + [implementation] crates/cantor_attention_ledger_mcp/tests/mcp_protocol.rs
+& [ARL-A08] release verification
+  + [requirement] complete specification
+  + [planned_proof] fmt focused tests warnings-denied lint workspace regression evidence audit and scoped Git diff
+  + [evidence] proofs/Cantor_Attention_Reentry_Ledger_P0_Proof.sop
+
+& [CompletionRule] is pure ledger plus volatile local MCP reentry proven without durable or distributed claims

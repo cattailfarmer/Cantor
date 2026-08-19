@@ -1,0 +1,79 @@
+Subject: Cantor Attention Reentry Ledger P0 Seven-Fold Explosion
+
+@ [explosion_uuid] 7b10b7d7-3344-4d16-a8a0-0de08c5acdb3
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_attention_reentry_ledger\Source_Document_Manifest.sop
+@ [predecessor_runtime] C:\Project\Cantor\specifications\Cantor_Shared_Attention_Imagination_Runtime_P0.sop
+@ [predecessor_tool] C:\Project\Cantor\specifications\Cantor_Shared_Attention_Tool_Adapter_P0.sop
+@ [method] seven_fold_specification_explosion
+
+& [Fold1IdentityAndPurpose] distinguishes ledger from frame semantics
+  + the ledger is an append-only content-addressed custody layer for already typed shared-attention frames and operation outcomes
+  + one session names one explicit current head while every retained frame remains retrievable by full SHA-256 digest
+  + the purpose is compact exact reentry without resending the complete base frame on every operation
+  + ledger custody does not sign SOP assert truth authorize effects or replace frame validation
+
+& [Fold2ActorsAuthorityAndVisibility] prevents hidden server authority
+  + the caller chooses ledger and session identities and supplies an initial complete validated frame
+  + later apply calls bind expected session sequence head generation head digest and policy through the underlying operation forms
+  + the core runtime remains transition authority and the ledger may only record its exact typed response
+  + every successful ledger command returns ledger digest session sequence head identity and event reference
+  + inspect read-frame and read-event operations expose complete retained state by exact identity
+
+& [Fold3DataAndRelationships] forms the append-only graph
+  + AttentionLedger contains profile ledger identity frames keyed by frame digest sessions events and ledger digest
+  + AttentionSessionState contains session identity sequence current head digest generation status ordered event references and session digest
+  + AttentionLedgerEvent binds session sequence command digest response digest predecessor head optional successor head disposition and event digest
+  + AttentionContinuation binds the exact successor ledger digest session head and latest event
+  + frames are immutable values and a digest collision with unequal bytes is refused
+
+& [Fold4CommandsAndTransitions] closes the initial runtime
+  + OPEN validates the supplied frame and creates a new session whose first appended event establishes sequence one
+  + APPLY resolves the current frame from the ledger and executes reconcile compact prepare or settle without caller repetition of the base frame
+  + APPLY requires exact expected sequence and head digest before semantic dispatch
+  + every admitted attempt appends one event and advances session sequence exactly once
+  + applied compaction prepared candidate or sealed settlement changes the head to the exact returned frame
+  + buffered incomplete deferred revision-required or semantic refusal records the outcome while retaining the prior head
+  + INSPECT returns one session continuation READ_FRAME returns one exact frame and READ_EVENT returns one exact event
+
+& [Fold5ConcurrencyBackpressureAndReentry] keeps updates linearizable
+  + pure core execution accepts an immutable ledger and returns either one complete successor ledger plus result or one fault and no successor
+  + a local MCP host serializes process-local mutations and still requires compare-and-set bindings from every caller
+  + simultaneous callers from one observed head cannot both silently advance it because the second becomes stale
+  + core backpressure remains distinct from ledger staleness and retains the unchanged head
+  + a continuation is a compact locator and proof handle rather than a replacement for inspectable retained records
+
+& [Fold6HonestySecurityAndProof] guards history
+  + ledger frame session event and root digests are recomputed and validated at every command
+  + unknown frame event or session identity duplicate session stale sequence stale head bad digest and illegal operation state refuse without successor
+  + event identity and response digest make recorded failure success and backpressure distinguishable
+  + no update deletes rewrites or reclassifies a historical frame or event
+  + serialization rejects unknown fields and deterministic replay produces equal successor ledger bytes
+  + process restart loss is declared and never represented as durable persistence
+
+& [Fold7PruningGrowthAndPhaseLock] selects a local in-memory vertical slice
+  + retain pure ledger forms digest validation open apply inspect read-frame read-event and one separately named stateless-schema stateful-process MCP adapter
+  + retain only reality-frame reconcile compact prepare and settle under APPLY
+  + prune DreamFrame session custody persistence files database network listeners replication authentication leases cleanup deletion compaction encryption and deployment
+  + later layers may store the same canonical ledger in SQLite RocksDB or a replicated service under separate authority
+  + [exhaustion_state] is seven_fold_phase_locked_for_in_memory_reentry_P0
+
+& [Flowchart] is the session execution surface
+  + L0 create empty ledger
+  + L1 OPEN session with complete validated frame
+  + L2 return continuation handle
+  + L3 caller proposes compact APPLY against exact handle
+  + L4 resolve full frame and execute core transition
+  + L5 append outcome event and optionally advance head
+  + L6 return new continuation and core response
+  + L7 later caller INSPECT READ_FRAME or re-enters at L3
+
+& [DualHemisphereReview] reconciles stream and audit
+  + holistic side sees one continuing semantic trajectory and can resume it by a small handle
+  + delineating side sees immutable frame objects explicit event edges compare-and-set heads and complete readback
+  + reconciliation provides a shared junction without confusing convenience state with authority or persistence
+
+& [ResidualFrontier] remains explicit
+  + large result payloads remain until compact response projection is separately specified
+  + in-memory process state does not survive restart
+  + multi-process transport needs authentication durable ordering and recovery
+  + DreamFrame branches need their own ledger identity and merge policy

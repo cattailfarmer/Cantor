@@ -1,0 +1,61 @@
+Subject: Cantor Attention Reentry Ledger P0 Proof
+
+@ [proof_uuid] 5a7802a9-dc79-4c62-989b-e37af937e80e
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Attention_Reentry_Ledger_P0.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Attention_Reentry_Ledger_P0_Solution.sop
+@ [matrix] C:\Project\Cantor\feature_support\AttentionReentryLedgerP0_Requirement_Matrix.sop
+
+& [SourceProof] binds authority before implementation
+  + dictated source is 2772 bytes SHA-256 9A1A8198D7FC3F34A6B17BC5862905FD88D5CD2EA227FD87C8A34C0E86392366
+  + source manifest SHA-256 is 3EF1AB4367B8745F657416057F8D81FB1A1D3AC2C9B2DDD7C2A7A4A17679EE36
+  + seven-fold explosion SHA-256 is 92CD56B384E79F00AFD05008D7D9BA00849495C2329DBFD6D662F6BBF48D6D7B
+  + canonical specification SHA-256 is B3918BBC8A04C45603D77A35F28AA8CCFB883E6A73BE4769A7CA38F357B3DB99
+  + signature 13d7db04-51ed-4bb4-82c8-3369b6d32846 grants only local in-memory reentry P0 implementation
+
+& [ImplementationProof] binds the reviewed surfaces
+  + pure ledger module SHA-256 is 86A7879EC460755747043ECC2F09525A8F21636229B1E033830FA337119871CB
+  + shared fault forms SHA-256 is 11902DAE1991947DC4E841E7D1F001702639D2810E2551492CEE3A66DBF9D992
+  + shared module export SHA-256 is 7DE9688133024E101C8FA9429393C4109900B87237283C43140721CAFF620204
+  + pure ledger acceptance test SHA-256 is CDFD7C00E5AF0EB69E395E4A990AFC051114E7784B0C1F447D77C1E901FB0734
+  + MCP library SHA-256 is 527EE65EAC461FD01BD08BB9772E35CBD3964C8F98484D25E223518413034479
+  + MCP STDIO main SHA-256 is 64954215976F78C66B3526F3BF8F0E582051C4A5C0844FD99426641C2A772E9D
+  + MCP protocol test SHA-256 is C6A6814D9BCC4D1EF3185A13A4B21AC452DD889340750B12022FFB540239B5C1
+  + Cargo.lock SHA-256 is C79875C6B6BD4EA5CC8E9E0C6DE158C32C3179C6817980BA3555501B0910E915 and adds only the isolated workspace package over already locked dependency versions
+
+& [PureLedgerAcceptance] is five passed zero failed zero ignored
+  + equal OPEN replay is byte-equal and stores one exact frame session event and continuation
+  + successful READ_FRAME and READ_EVENT return exact retained values without successors
+  + COMPACT resolves the stored head advances generation and makes old root-bound replay stale
+  + buffered and semantically refused reconciliations append distinct events increment sequence and retain the head
+  + PREPARE and complete exact-digest faculty SETTLE form an auditable working candidate sealed trajectory
+  + stale root unknown session unknown frame unknown event strict-form violation and independently root-rehashed frame session and event tampering fail closed
+
+& [McpAcceptance] is four passed zero failed zero ignored
+  + live metadata contains exactly one closed generated-schema tool with complete command inventory and volatile instructions
+  + direct calls open apply inspect read frame and read event against one exact server ledger
+  + two concurrent equal-head applies yield exactly one success and one typed stale refusal
+  + an official RMCP client launches the STDIO executable initializes lists one tool opens a session inspects the exact continuation and closes
+
+& [ReleaseAcceptance] is complete
+  + cargo fmt --all -- --check passes
+  + warnings-denied all-target all-feature Clippy passes for cantor_core and cantor_attention_ledger_mcp
+  + locked all-feature WSL2 workspace regression reports 111 result groups 638 passed zero failed and one governed explicit schema-golden update ignore
+  + dependency-first evidence reconciliation reports 23 current manifests 1030 artifact references and zero stale
+  + git diff --check passes and the unrelated Minecraft handoff file remains untracked and excluded
+
+& [AcceptanceReconciliation] is exact
+  + [ARL-A01] passes preserved source manifest seven-fold trace canonical specification and bounded signature
+  + [ARL-A02] passes deterministic OPEN exact storage continuation replay frame read and event read
+  + [ARL-A03] passes internally resolved COMPACT advancement and stale successor replay refusal
+  + [ARL-A04] passes buffered and semantic-refusal event admission with invariant head
+  + [ARL-A05] passes candidate preparation and complete sealed settlement
+  + [ARL-A06] passes nested digest corruption strict machine form and unknown exact-read refusals
+  + [ARL-A07] passes direct adapter concurrency and official-client process behavior
+  + [ARL-A08] passes formatting lint complete regression evidence reconciliation and scoped diff
+
+& [Nonclaims] keep the proof honest
+  + no durable recovery crash consistency network transport replication authentication host registration provider call hidden-state access external truth or effect safety is proven
+  + global ledger compare-and-set may serialize unrelated sessions and no throughput or payload-reduction benchmark is claimed
+  + event admission proves only what this Cantor runtime returned from declared input
+
+& [Conclusion] is content_addressed_attention_reentry_ledger_P0_verified

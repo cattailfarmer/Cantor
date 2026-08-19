@@ -1,0 +1,68 @@
+Subject: Cantor Attention Reentry Ledger P0
+
+@ [specification_uuid] 593bb306-70d6-436b-b5de-dfe18d67a3e7
+@ [profile] cantor-attention-reentry-ledger/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_attention_reentry_ledger\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Attention_Reentry_Ledger_P0.exploded.sop
+@ [predecessor] C:\Project\Cantor\specifications\Cantor_Shared_Attention_Tool_Adapter_P0.sop
+
+& [LedgerForm] is content-addressed and append-only
+  + [ARL-001] AttentionLedger contains profile ledger_id frames sessions events and ledger_digest in deterministic collections
+  + [ARL-002] frames are keyed by lowercase SHA-256 frame digest and stored bytes must validate that digest
+  + [ARL-003] AttentionSessionState binds session_id sequence head_frame_digest head_generation head_status event_refs and session_digest
+  + [ARL-004] AttentionLedgerEvent binds event_id session sequence command operation request digest response digest predecessor head optional successor head response status and event digest
+  + [ARL-005] AttentionContinuation binds ledger identity and digest session sequence exact head generation digest status and latest event
+  + [ARL-006] every form is strict JSON and JsonSchema capable
+
+& [PureCommands] are closed
+  + [ARL-007] new_attention_ledger deterministically creates one validated empty ledger
+  + [ARL-008] OPEN validates one complete frame creates a previously absent session stores the frame and appends one open event
+  + [ARL-009] APPLY accepts reconcile compact prepare or settle and resolves its base frame only from the current ledger head
+  + [ARL-010] APPLY requires exact expected ledger digest session sequence and head frame digest before core dispatch
+  + [ARL-011] the operation's own delta compaction or attestation bindings remain subject to existing core validation
+  + [ARL-012] INSPECT READ_FRAME and READ_EVENT are pure exact-identity projections
+
+& [TransitionRules] preserve history
+  + [ARL-013] every admitted OPEN or APPLY appends exactly one event and advances session sequence exactly once
+  + [ARL-014] applied reconciliation compaction candidate preparation or sealing stores and selects the returned successor frame
+  + [ARL-015] buffered incomplete deferred revision-required and semantic-refusal responses retain the current head while recording exact outcome
+  + [ARL-016] stale ledger stale sequence stale head duplicate session unknown session unknown frame unknown event digest mismatch collision or invalid ledger refuses with no successor
+  + [ARL-017] no command removes or rewrites a frame event or prior session event reference
+  + [ARL-018] equal repeated execution from equal input produces byte-equal output while replay against the successor is stale
+
+& [LocalMCP] is explicit state custody
+  + [ARL-019] a separate local STDIO server exposes exactly one tool continue_attention_session
+  + [ARL-020] tool operations are open apply inspect read_frame and read_event and use the pure ledger command forms
+  + [ARL-021] the server serializes mutations within one process but compare-and-set inputs remain mandatory
+  + [ARL-022] every response includes a typed ledger result or typed fault and never relies on text summary as authority
+  + [ARL-023] process state is volatile and server instructions declare that restart loses unpersisted sessions
+  + [ARL-024] tool annotations are non-destructive idempotence depends on command and openWorld is false
+
+& [Boundary] is a reentry locator not hidden truth
+  + [ARL-025] continuation handles reduce repeated base-frame transport but full frames and events remain exactly readable
+  + [ARL-026] ledger event admission records what Cantor returned and does not convert agreement refusal or imagination into external truth
+  + [ARL-027] P0 performs no persistence model call network listener signing effect execution host registration or DreamFrame ledgering
+
+& [Acceptance] is measurable
+  + [ARL-A01] source SJS signature and seven-fold trace verify
+  + [ARL-A02] deterministic open stores one exact frame event session and continuation
+  + [ARL-A03] compact apply resolves base internally advances the head and rejects stale replay
+  + [ARL-A04] buffered and refused apply append distinct events without advancing the head
+  + [ARL-A05] prepare and complete settle advance through candidate to sealed head
+  + [ARL-A06] tampered ledger frame session event and root digests plus unknown reads refuse without successor
+  + [ARL-A07] direct MCP and official client open apply inspect and read equal pure ledger behavior
+  + [ARL-A08] formatting focused tests warnings-denied lint workspace regression manifest audit and scoped Git review pass
+
+& [AuthorityBoundary] is local_in_memory_reentry_P0
+  + permits pure ledger forms transitions validation tests one volatile local MCP server documentation proof and local process execution
+  + excludes persistence database files network transport replication authentication deletion cleanup DreamFrame custody provider calls and effects
+
+& [SatisfactionSignature] is valid bounded SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 13d7db04-51ed-4bb4-82c8-3369b6d32846
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Attention_Reentry_Ledger_P0.sop
+  + [source_snapshot_uuid] is 314e11d5-9a62-4b1e-802d-e78734b80ceb
+  + [source_manifest_sha256] is 3EF1AB4367B8745F657416057F8D81FB1A1D3AC2C9B2DDD7C2A7A4A17679EE36
+  + [processed_stage_set] is source_preserved delineated seven_fold_exploded dual_hemisphere_reconciled data_designed constraint_checked pruned flowcharted acceptance_formed justified planned feature_sliced phase_locked and signed
+  + [signature_status] is valid_for_local_in_memory_reentry_P0_only
+  + [invalidation] is hidden_head_update history_rewrite missing_compare_and_set durable_claim distributed_claim effect_execution or DreamFrame_scope_expansion

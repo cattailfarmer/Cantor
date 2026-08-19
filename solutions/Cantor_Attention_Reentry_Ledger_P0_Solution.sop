@@ -1,0 +1,49 @@
+Subject: Cantor Attention Reentry Ledger P0 Solution
+
+@ [solution_uuid] cc490c5f-17b0-4f83-bbf0-b3b71c7d3a20
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Attention_Reentry_Ledger_P0.sop
+@ [ledger_core] C:\Project\Cantor\crates\cantor_core\src\shared_attention\ledger.rs
+@ [mcp_adapter] C:\Project\Cantor\crates\cantor_attention_ledger_mcp
+@ [proof] C:\Project\Cantor\proofs\Cantor_Attention_Reentry_Ledger_P0_Proof.sop
+
+& [LedgerSolution] is pure content-addressed custody
+  + AttentionLedger stores validated complete frames by lowercase SHA-256 digest in deterministic maps
+  + each session binds one exact head sequence generation status event history and session digest
+  + each event binds command response predecessor optional successor status and its own digest
+  + root validation recomputes every nested digest walks each event chain and rejects orphan or multiply referenced events
+
+& [ContinuationSolution] is compact explicit reentry
+  + AttentionContinuation binds ledger identity and digest session identity and sequence exact head digest generation status and latest event
+  + OPEN carries one complete frame while later APPLY calls resolve the base only from the current stored head
+  + every command compares the global ledger root and APPLY also compares session sequence and head digest
+  + equal repeated execution from an equal immutable ledger is byte-equal while replay against its successor is stale
+
+& [OperationSolution] reuses the verified core
+  + APPLY accepts only reconcile compact prepare or settle
+  + the operation is translated into the existing provider-neutral SharedAttentionToolRequest and dispatched through the one shared core function
+  + applied reconciliation compaction preparation and sealed settlement store and select their successor frame
+  + buffered refused incomplete deferred and revision-required results append an exact event without advancing the head
+
+& [HistorySolution] distinguishes admission from semantic advancement
+  + every admitted OPEN or APPLY appends exactly one event and advances sequence exactly once
+  + INSPECT READ_FRAME and READ_EVENT project exact retained state without a successor
+  + stale unknown duplicate corrupt discontinuous or collision-shaped inputs refuse without a successor
+  + no operation deletes a frame event or prior event reference
+
+& [McpSolution] is one volatile serialized custodian
+  + cantor-attention-ledger-mcp owns one process-local ledger behind an asynchronous mutex
+  + continue_attention_session is the only STDIO tool and accepts the exact pure command union under request
+  + structuredContent carries the complete result or typed fault and text remains a non-authoritative summary
+  + mutations are serialized but all compare-and-set bindings remain mandatory and a same-head race admits at most one command
+  + the combined tool declares mutating non-destructive non-idempotent closed-world metadata
+
+& [MemoryBoundary] is external semantic state rather than neural state
+  + a continuation reduces repeated base-frame transport but every frame and event remains exactly inspectable
+  + no KV cache hidden state or mid-generation token stream is accessed
+  + event admission records Cantor behavior and does not convert agreement refusal or settlement into external truth
+
+& [Noninterference] is explicit
+  + the stateless coordinate_attention adapter remains available as the restart-simple complete-payload path
+  + no persistence network listener replication authentication signature model invocation registration effect execution or DreamFrame ledgering occurs
+
+& [Disposition] is implemented_verified_local_volatile_reentry_P0

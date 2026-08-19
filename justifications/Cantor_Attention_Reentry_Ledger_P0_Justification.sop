@@ -1,0 +1,28 @@
+Subject: Cantor Attention Reentry Ledger P0 Justification
+
+@ [justification_uuid] 841625e3-9d58-4884-9f06-0a3ca6afc7c5
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Attention_Reentry_Ledger_P0.sop
+
+& [Problem] is the stateless tool proves exact transition semantics but repeats a complete base frame and does not retain an inspectable trajectory across calls
+
+& [Decision] is an append-only content-addressed ledger with explicit compare-and-set session heads
+  + exact digests compress reentry identity while full frames and events remain retrievable
+  + session sequence and head digest make stale concurrent work visible
+  + recording non-advancing refusals and backpressure preserves the path walked instead of retaining only successes
+
+& [RejectedAlternative] is an implicit mutable current-frame singleton
+  + it would hide authority from callers make replay ambiguous and allow concurrent updates to overwrite context silently
+
+& [RejectedAlternative] is durable database implementation first
+  + pure transition and history invariants should be falsified before filesystem schema crash recovery locking migration and authentication are introduced
+
+& [RejectedAlternative] is storing DreamFrame under the reality head
+  + hypothetical branches have different lineage and merge semantics and remain a separately governed successor
+
+& [Value] is a minimal shared-junction prototype
+  + a model or worker can reenter with a small exact handle while Cantor resolves and audits the full frame
+  + the same pure ledger can later back a process service database or replicated transport without redefining session history
+
+& [CostBoundary] is accepted
+  + P0 clones in-memory ledger snapshots for pure proof and is not a throughput design
+  + process-local MCP state is volatile and unauthenticated and therefore not production custody
