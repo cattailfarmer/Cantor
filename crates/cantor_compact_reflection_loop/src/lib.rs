@@ -4,6 +4,7 @@
 
 mod iterative;
 mod provider_protocol;
+mod scripted_orchestrator;
 
 pub use iterative::{
     DETERMINISTIC_DRIVE_MEASUREMENT_PROFILE, DETERMINISTIC_DRIVE_NONCLAIMS,
@@ -22,6 +23,11 @@ pub use provider_protocol::{
     IterativeProviderPrefixProjection, admit_iterative_provider_iteration,
     iterative_advance_request, iterative_terminal_reflection_request,
     validate_iterative_provider_prefix, validate_provider_prefix_projection,
+};
+pub use scripted_orchestrator::{
+    SCRIPTED_COMPLETE_RUN_NONCLAIMS, SCRIPTED_COMPLETE_RUN_PROFILE, SCRIPTED_PROVIDER_BASE,
+    ScriptedCompleteRun, generate_scripted_complete_fixture, run_scripted_complete_iterative,
+    validate_scripted_complete_run,
 };
 
 use cantor_compact_coordination_mcp::{

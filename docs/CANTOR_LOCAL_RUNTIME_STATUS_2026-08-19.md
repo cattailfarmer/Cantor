@@ -45,7 +45,7 @@ is claimed at this checkpoint.
 | Procedure/reflection model host | P0 executable and loopback-proved | One procedure call must reach terminal state |
 | Saved-report replay | P0 implemented with mutation refusal | Internal lineage consistency, not external truth |
 | Terminal attention projection | P0 implemented and measured | Exact READ remains authority |
-| Iterative READY continuation | P1 Slice 3 pure provider protocol implemented | Provider process orchestration is not activated |
+| Iterative READY continuation | P1 Slice 4A scripted complete orchestration implemented | Stopped orchestration and provider process are not activated |
 | Live local model acceptance | Pending | Windows Ollama is not reachable from the governed WSL loopback lane |
 | Persistent or distributed session custody | Not implemented | No cluster lock, token ring, or shared hidden state |
 | Effect execution and production authentication | Not implemented | No autonomous computer action or trust claim |
@@ -77,8 +77,8 @@ model quality or causal reasoning.
 
 ## Verification state
 
-- 135 Rust test-result groups completed;
-- 692 tests passed, zero failed, and one governed physical fixture remained
+- 136 Rust test-result groups completed;
+- 697 tests passed, zero failed, and one governed physical fixture remained
   ignored;
 - workspace all-target/all-feature Clippy passed with warnings denied;
 - the evidence audit covers 23 current manifests and 1,030 artifact references
@@ -128,7 +128,7 @@ terminal -> exact READ -> TerminalProjection -> no-tool reflection -> complete
 cap or fault -> stopped report + current live reentry handle
 ```
 
-The first four dependencies are complete: artifact-bound activation, Slice 1
+The first five dependencies are complete: artifact-bound activation, Slice 1
 strict forms, the Slice 2 provider-free deterministic stepper, and the Slice 3
 pure provider protocol. Quota 64 is
 byte-identical to the P0 terminal path; quota 8 yields exactly READY then
@@ -138,10 +138,14 @@ refusal, and deterministic transport measurement are proven for this pure
 surface. The provider protocol now reconstructs exact first and continuation
 requests, admits one sanitized tool call against one separately proven
 advance, and creates a tools-disabled reflection request only after terminal
-state. It performs no provider call itself.
+state. It performs no provider call itself. Slice 4A now orders these pure
+pieces into a complete scripted run: two fixture calls, one READY projection,
+one terminal projection, one no-tool reflection, one complete IterativeReport,
+and exact final-registry replay. The fixture explicitly denies provider
+execution, and quota 64 remains byte-identical to P0.
 
-The remaining order begins with a separately activated Slice 4 two-call
-loopback process proof, followed by provider-attributed report replay,
+The remaining order begins with separately activated Slice 4B stopped and
+faulted orchestration then the Slice 4C loopback process proof, followed by provider-attributed report replay,
 provider-transport measurement, and release. `READY` still
 cannot be called complete, and the deterministic result does not claim that a
 provider call or shared transformer forward pass occurred.
@@ -166,9 +170,9 @@ insertions, and 234 deletions from `4769ae5^` through `dd3beff`. Those commits
 progress from shared forms, tool exposure, reentry, checkpoints, and transport
 measurement through compact custody, the executable model/tool/model loop,
 replay verification, terminal projection, and the governed P1 specification.
-The later Slice1 Slice2 and Slice3 proofs are the authority for the current
+The later Slice1 Slice2 Slice3 and Slice4A proofs are the authority for the current
 iterative implementation state.
 
-The next provider-process implementation must begin from a separate Slice 4
-activation rather than silently interpreting Slice 3 or this status document
-as process or transport authority.
+The next orchestration implementation must begin from a separate Slice 4B
+activation rather than silently interpreting Slice 4A or this status document
+as stopped-path process or transport authority.
