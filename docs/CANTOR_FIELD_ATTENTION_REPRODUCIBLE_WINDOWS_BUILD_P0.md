@@ -26,6 +26,14 @@ Run the combined local field-attention and reproducibility checkpoint without ch
 
 The wrapper composes the existing checkpoint and reproducibility audit; it does not change either child profile or contact EVO-X2.
 
+Re-run the fast Windows PowerShell and option-like Git revision refusal evidence with:
+
+```powershell
+.\scripts\test_cantor_field_attention_reproducible_windows_build_boundaries.ps1
+```
+
+The second negative case creates and removes one validated temporary campaign root but never builds or contacts a provider.
+
 The audit also refuses the pinned proof when the tracked Cargo configuration, workspace manifests, field-cycle package, or proof tool differs from the tested commit. It resolves all five historical tested-input, receipt, and anchor commit/tree pairs, requires each tested → receipt → anchor ancestry edge and each anchor → next-tested successor edge, requires exact branch `codex/self-hosted-corpus` and upstream `origin/codex/self-hosted-corpus`, requires both current `HEAD` and the upstream to contain the latest anchor, and requires the current anchor bytes to equal their committed forms. This publication-aware fast audit therefore requires the declared Git branch and upstream; the fresh two-root build command itself does not depend on either.
 
 The pinned v1 receipt proves local repetition for commit `b4532cff5876d94b116bf7ab44ee5017d70ce5ea` on one Windows MSVC toolchain. Each extracted source root independently selects and reports the same Rust and Cargo identities. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.
