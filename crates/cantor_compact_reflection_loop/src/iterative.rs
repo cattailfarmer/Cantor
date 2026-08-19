@@ -133,6 +133,7 @@ pub struct IterativeReport {
     pub terminal_projection: Option<TerminalProjection>,
     pub final_output: Option<FinalOutput>,
     pub reentry_handle: Option<CompactCoordinationHandle>,
+    pub reentry_available: Option<bool>,
     pub stop_reason: Option<StopReason>,
     pub private_reasoning_recorded: bool,
     pub nonclaims: Vec<String>,
@@ -331,6 +332,7 @@ fn validate_complete_report(
     if report.iterations.is_empty()
         || head.status != CompactSessionStatus::Terminal
         || report.reentry_handle.is_some()
+        || report.reentry_available.is_some()
         || report.stop_reason.is_some()
         || report.usage.provider_calls != report.usage.tool_calls.saturating_add(1)
         || observation.handle != *head
@@ -352,6 +354,9 @@ fn validate_stopped_report(
         .reentry_handle
         .as_ref()
         .ok_or_else(|| "stopped report is missing its reentry handle".to_owned())?;
+    let reentry_available = report
+        .reentry_available
+        .ok_or_else(|| "stopped report is missing reentry availability".to_owned())?;
     if report.stop_reason.is_none()
         || report.terminal_observation.is_some()
         || report.terminal_projection.is_some()
@@ -360,6 +365,9 @@ fn validate_stopped_report(
         || reentry != head
     {
         return Err("stopped report state or exclusivity is invalid".to_owned());
+    }
+    if (report.stop_reason == Some(StopReason::RestartUnavailable)) == reentry_available {
+        return Err("stop reason and reentry availability contradict".to_owned());
     }
     if report.stop_reason == Some(StopReason::Timeout)
         && report.usage.elapsed_milliseconds < report.policy.timeout_seconds.saturating_mul(1_000)

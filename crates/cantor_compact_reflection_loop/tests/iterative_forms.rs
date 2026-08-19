@@ -182,6 +182,7 @@ fn stopped_report_preserves_the_exact_ready_head_exclusively() {
         terminal_projection: None,
         final_output: None,
         reentry_handle: Some(ready.handle),
+        reentry_available: Some(true),
         stop_reason: Some(StopReason::ToolCallCap),
         private_reasoning_recorded: false,
         nonclaims: nonclaims(),
@@ -194,6 +195,13 @@ fn stopped_report_preserves_the_exact_ready_head_exclusively() {
     assert!(validate_iterative_report(&premature_timeout).is_err());
     premature_timeout.usage.elapsed_milliseconds = 120_000;
     validate_iterative_report(&premature_timeout).expect("observed timeout");
+
+    let mut after_restart = report.clone();
+    after_restart.stop_reason = Some(StopReason::RestartUnavailable);
+    after_restart.reentry_available = Some(false);
+    validate_iterative_report(&after_restart).expect("honest restart loss");
+    after_restart.stop_reason = Some(StopReason::ToolCallCap);
+    assert!(validate_iterative_report(&after_restart).is_err());
 
     let mut fabricated = report;
     fabricated.status = IterativeRunState::Complete;
@@ -245,6 +253,7 @@ fn complete_report_requires_one_terminal_head_and_no_reentry() {
         terminal_projection: Some(projection),
         final_output: Some(final_output),
         reentry_handle: None,
+        reentry_available: None,
         stop_reason: None,
         private_reasoning_recorded: false,
         nonclaims: nonclaims(),
@@ -319,6 +328,7 @@ fn iteration_chain_rejects_a_predecessor_fork() {
         terminal_projection: Some(terminal_projection),
         final_output: Some(final_output),
         reentry_handle: None,
+        reentry_available: None,
         stop_reason: None,
         private_reasoning_recorded: false,
         nonclaims: nonclaims(),
