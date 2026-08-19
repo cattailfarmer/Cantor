@@ -31,7 +31,11 @@ Preserved reports:
 - remote `cantor-field-cycle-p0-h8.exe`: final same-handle bounded-file-read verifier with the same exact remote replay distribution.
 - `attention_cost_summary_v1.json`: token, cache, provider-compute, exchange, and evidence-byte statistics over all thirty-one provider reports.
 - `closure_audit_v1.json`: effect-free reconciliation of preserved sources, proof references, receipts, assurance distribution, complete cost corpus, and final h8 identity.
+- `evox2_h8_read_only_audit_2026-08-18.json`: a fresh read-only h8 byte, 31-report replay, llama process/listener, and inherited deployment-ACL observation.
+- `cross_pass_tension_policy_analysis_v1.json`: effect-free retrospective evidence falsifying raw signal-array presence as a P1 semantic-pertinence rule; it grants no successor runtime authority.
 
 The repeatability campaign holds the positive candidate and relation sequence constant, keeps every control latch-ineligible, and rejects every hostile field. It also preserves the warning that all twenty positive probes assess the whole proposal as `conflicted` before the separate delineation pass says `supported`.
 
 These records establish mechanism behavior for one Qwen3.5-0.8B Q4_0 llama.cpp endpoint. They do not establish semantic correctness, truth, production trust, or general model reliability.
+
+Run `scripts/audit_cantor_field_attention_evox2_deployment.ps1` to repeat the live read-only deployment check when EVO-X2 is reachable. Its known `passed_with_open_acl_residual` result is deliberate: the deployed bytes match, but the inherited `Authenticated Users` Modify grant remains unsuitable for a production trust root.

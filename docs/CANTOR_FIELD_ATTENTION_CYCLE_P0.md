@@ -110,6 +110,14 @@ Audit the frozen source, proof, acceptance, cost, and deployment identities with
 .\scripts\audit_cantor_field_attention_closure.ps1
 ```
 
+When EVO-X2 is reachable, re-observe the deployed h8 bytes, replay all 31 remote reports, confirm the pinned llama.cpp process/listener, and expose the deployment ACL without writing remote state:
+
+```powershell
+.\scripts\audit_cantor_field_attention_evox2_deployment.ps1
+```
+
+The live audit intentionally returns `passed_with_open_acl_residual` while the inherited executable ACL grants `Authenticated Users` `Modify, Synchronize`. It requires every remote report to equal its tracked local bytes and hashes h8 before and after replay. Exact bytes at observation time are still deployment content evidence, not proof that the directory is a protected production trust root.
+
 Output files are create-new: an existing report is never overwritten. The runtime accepts ordinary loopback HTTP URLs only.
 
 The verifier applies the same provider-identity boundary to every terminal class, including response-less transport faults: run and model identities must be nonempty, request profiles must be recognized, and non-fixture endpoints must be canonical loopback HTTP base URLs.
@@ -158,5 +166,6 @@ Local semantic-field and cycle-report reads are handle-bound and allocation-boun
 - Every retained provider run uses numeric `127.0.0.1`; the accepted `localhost` spelling is not accompanied by connected-peer address attestation and should not be promoted to a production network claim.
 - Report publication is create-new and preverified, but a physical write interruption can leave an invalid partial file; crash-atomic publication and durability are outside P0.
 - Sanitization removes the declared private-reasoning keys recursively. It is a known-key evidence policy, not a universal confidentiality guarantee for arbitrary provider fields or ordinary content.
+- The EVO-X2 h8 executable currently inherits `Authenticated Users` `Modify, Synchronize`; its exact observed digest and replay success do not make that modifiable location a production trust root.
 - No database retrieval, faculty loading, effects, shared inference, training, dynamic procedure creation, or production authorization is part of P0.
 - This is an attention I/O co-processor mechanism test, not a small language model and not proof of “holistic cognition.”
