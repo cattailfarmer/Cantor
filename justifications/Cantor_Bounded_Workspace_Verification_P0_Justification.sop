@@ -1,0 +1,20 @@
+Subject: Cantor Bounded Workspace Verification P0 Justification
+
+@ [justification_uuid] 6f382cab-345c-431d-a8c5-1db03d12fe49
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Bounded_Workspace_Verification_P0.sop
+
+& [Problem]
+  + isolated build targets exhausted the system volume and made otherwise-correct workspace verification fail through WSL infrastructure faults
+
+& [Decision]
+  + encode one reusable serialized verification lane with a capacity preflight and safe plan-only default
+
+& [WhyNow]
+  + the compact-session proof reproduced the operational failure during this shift
+  + preventing recurrence preserves development throughput more directly than adding another inference feature atop an unstable verification surface
+
+& [Rejected]
+  + automatic cache deletion is rejected because cleanup is destructive and needs separate target inspection
+  + remote build fallback is rejected because it crosses the explicitly local boundary
+  + a unique target per run is rejected because it caused the measured accumulation
+

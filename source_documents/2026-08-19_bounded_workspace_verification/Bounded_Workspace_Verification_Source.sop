@@ -1,0 +1,32 @@
+Subject: Bounded Workspace Verification Preserved Source
+
+@ [source_uuid] b48730da-10d7-49bd-9449-c8992be1b893
+@ [captured_at_utc] 2026-08-19T16:30:37.9781336Z
+@ [speaker] Codex engineering observation under the active user-authorized five-hour Cantor shift
+
+& [ObservedFault]
+  + several isolated Cargo target directories accumulated during one shift
+  + C drive reached zero free bytes
+  + WSL then returned input output errors became read-only and temporarily failed to start
+  + product tests passed after only rebuild caches were reclaimed and verification was serialized
+
+& [UserBoundary]
+  + the user reported OneDrive capacity notifications and asked whether work was occurring on EVO-X2
+  + this shift is local to C:\Project\Cantor
+  + no EVO-X2 file transfer or OneDrive write is required for workspace verification
+
+& [DevelopmentNeed]
+  + use one reusable WSL Cargo target rather than a new target for every checkpoint
+  + inspect Windows system-volume free space before expensive verification
+  + default to a read-only machine-readable plan
+  + execute only when explicitly selected
+  + serialize Cargo build jobs and Rust test threads for the complete regression lane
+  + refuse execution below a declared free-space threshold
+  + never delete caches automatically
+  + never contact a remote host or write into OneDrive
+  + leave cleanup as a separately inspected and explicitly selected operation
+
+& [SelectedPrototype]
+  + one PowerShell entry point composes preflight and either workspace tests or warnings-denied Clippy inside one named WSL distribution
+  + one offline contract test proves plan shape closed action selection threshold refusal and absence of remote or destructive operations
+  + this is development-machine operational policy not product runtime authority

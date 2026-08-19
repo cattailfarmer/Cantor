@@ -134,7 +134,10 @@ baseline:
   context plus checkpoint behind a sequence-bound digest handle, shrinking
   measured tool metadata from 56,243 to 4,951 bytes and ordinary quota-eight
   advance arguments to 367 bytes while preserving exact `READ` inspection,
-  stale-writer refusal, and explicit restart loss.
+  stale-writer refusal, and explicit restart loss; and
+- `invoke_bounded_workspace_verification.ps1` now provides a capacity-gated,
+  serialized, reusable WSL verification lane with a plan-only default and no
+  automatic cleanup, remote access, or OneDrive access.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -210,6 +213,9 @@ The volatile registry, context-plus-checkpoint record, compact handle,
 compare-and-set concurrency rule, exact readback, measured control surface, and
 restart-loss boundary are documented in
 [`docs/COMPACT_COORDINATION_SESSION_P0.md`](docs/COMPACT_COORDINATION_SESSION_P0.md).
+The build-capacity preflight, reusable target policy, plan-only default, and
+explicit local-only boundary are documented in
+[`docs/BOUNDED_WORKSPACE_VERIFICATION_P0.md`](docs/BOUNDED_WORKSPACE_VERIFICATION_P0.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell

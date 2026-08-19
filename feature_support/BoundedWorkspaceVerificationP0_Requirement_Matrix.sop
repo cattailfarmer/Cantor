@@ -1,0 +1,21 @@
+Subject: Bounded Workspace Verification P0 Requirement Matrix
+
+@ [matrix_uuid] 4055b447-eb21-42aa-95dd-574b035def33
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Bounded_Workspace_Verification_P0.sop
+@ [status] verified_complete
+
+& [BWV-A01] command and plan contract
+  + [requirements] BWV-001 through BWV-006 and BWV-016
+  + [proof] scripts/test_bounded_workspace_verification.ps1
+  + [implementation] scripts/invoke_bounded_workspace_verification.ps1 plan path and five offline cases
+& [BWV-A02] capacity reuse and execution
+  + [requirements] BWV-007 through BWV-015
+  + [proof] scripts/test_bounded_workspace_verification.ps1 plus controlled wrapper execution
+  + [implementation] complete workspace test and warnings-denied Clippy succeeded through /home/pinky/.cache/cantor-final-serial
+& [BWV-A03] boundary
+  + [requirements] BWV-017 through BWV-020
+  + [proof] static command audit and plan empty sets
+  + [implementation] plan declares remote_hosts empty destructive_actions empty and automatic_cleanup false
+& [BWV-A04] release
+  + [requirements] complete specification
+  + [proof] proofs/Cantor_Bounded_Workspace_Verification_P0_Proof.sop

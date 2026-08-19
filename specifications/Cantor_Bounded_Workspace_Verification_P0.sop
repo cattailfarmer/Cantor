@@ -1,0 +1,50 @@
+Subject: Cantor Bounded Workspace Verification P0
+
+@ [specification_uuid] eea86f80-6b7d-465a-b28f-6fb97e9fbb1a
+@ [profile] cantor-bounded-workspace-verification/0.1
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-19_bounded_workspace_verification\Source_Document_Manifest.sop
+@ [exploded_specification] C:\Project\Cantor\specifications\exploded\Cantor_Bounded_Workspace_Verification_P0.exploded.sop
+
+& [CommandContract] is one local PowerShell entry point
+  + [BWV-001] action is exactly test or clippy
+  + [BWV-002] default behavior emits one JSON plan and invokes neither WSL nor Cargo
+  + [BWV-003] Execute is the sole switch that admits the selected WSL Cargo lane
+  + [BWV-004] repository root is derived from the script location and must contain Cargo.toml
+  + [BWV-005] target is one caller-visible absolute WSL home path containing only conservative path characters
+  + [BWV-006] distribution is passed as a process argument and not interpolated into the Bash program
+
+& [CapacityAndReuse]
+  + [BWV-007] inspect free bytes on the Windows volume containing the repository
+  + [BWV-008] compare free bytes with a caller-visible minimum GiB threshold before WSL execution
+  + [BWV-009] refuse insufficient capacity with no cleanup or child launch
+  + [BWV-010] default target is /home/pinky/.cache/cantor-workspace-verification
+  + [BWV-011] set CARGO_BUILD_JOBS to one and tests to one thread
+  + [BWV-012] use one stable target and stable temporary directory across invocations
+
+& [Execution]
+  + [BWV-013] test runs cargo test workspace all-features locked no-fail-fast quiet with one test thread
+  + [BWV-014] clippy runs warnings-denied cargo clippy workspace all-targets all-features locked quiet
+  + [BWV-015] child failure returns a nonzero wrapper status and preserves the exact child status in fault detail
+  + [BWV-016] plan declares empty remote_hosts and destructive_actions collections
+
+& [IdentityBoundary]
+  + [BWV-017] no command contacts EVO-X2 SSH SCP SFTP rsync network shares or any remote host
+  + [BWV-018] no command reads writes pauses resumes or configures OneDrive
+  + [BWV-019] no command deletes targets caches artifacts sources or evidence
+  + [BWV-020] this tool is development verification policy and has no Cantor runtime or SOP authorization power
+
+& [Acceptance]
+  + [BWV-A01] default plan is valid JSON and reports execute false
+  + [BWV-A02] explicit plan reports the closed action stable target serialization and empty remote and destructive sets
+  + [BWV-A03] impossible free-space threshold refuses with a nonzero exit and no WSL launch
+  + [BWV-A04] invalid action or target refuses before plan admission
+  + [BWV-A05] script passes PowerShell parsing and repository diff checks
+
+& [SatisfactionSignature] is bounded SJS authority
+  + [signature_protocol_uuid] is ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] is 54ba8b70-943b-4a04-aaf9-33798fb808be
+  + [signed_subject] is C:\Project\Cantor\specifications\Cantor_Bounded_Workspace_Verification_P0.sop
+  + [source_uuid] is b48730da-10d7-49bd-9449-c8992be1b893
+  + [processed_stage_set] is source_preserved delineated seven_fold_exploded data_designed faults_formed acceptance_formed justified planned and signed
+  + [signature_status] is valid_for_local_bounded_workspace_verification_P0_only
+  + [invalidation] is automatic_cleanup remote_access OneDrive_access hidden_target per_run_target unbounded_action or product_authority

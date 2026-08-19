@@ -1,0 +1,22 @@
+Subject: Cantor Bounded Workspace Verification P0 Reentry
+
+@ [reentry_uuid] cc79a959-12d3-478a-9f64-b5dda895cb22
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Bounded_Workspace_Verification_P0.sop
+@ [proof] C:\Project\Cantor\proofs\Cantor_Bounded_Workspace_Verification_P0_Proof.sop
+
+& [Use]
+  + inspect the default JSON plan before expensive verification
+  + run test or clippy with Execute only after free-space admission
+  + reuse one stable target rather than minting an isolated target per checkpoint
+
+& [Commands]
+  + [plan] .\scripts\invoke_bounded_workspace_verification.ps1
+  + [test] .\scripts\invoke_bounded_workspace_verification.ps1 -Action test -Execute
+  + [clippy] .\scripts\invoke_bounded_workspace_verification.ps1 -Action clippy -Execute
+  + [offline_contract] .\scripts\test_bounded_workspace_verification.ps1
+
+& [DoNotInfer]
+  + the wrapper does not reclaim capacity automatically
+  + success says the selected verification lane passed and does not authorize product behavior
+  + no EVO-X2 OneDrive network or background execution is involved
+

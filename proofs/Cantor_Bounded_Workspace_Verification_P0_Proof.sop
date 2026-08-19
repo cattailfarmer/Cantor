@@ -1,0 +1,38 @@
+Subject: Cantor Bounded Workspace Verification P0 Proof
+
+@ [proof_uuid] c3a9b3ad-f8cb-4263-bf75-242f50591aaa
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Bounded_Workspace_Verification_P0.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Bounded_Workspace_Verification_P0_Solution.sop
+
+& [Identity]
+  + [canonical_bytes] 3453
+  + [canonical_sha256] 2FFF0CEF3130F1BADAAFDA79DE95556FB229176805A6B3198A155CE6E3B05B59
+  + [runner_bytes] 3335
+  + [runner_sha256] 45A277CC16B6AF71FC81749A5A1418834F6EB8DB932368A1D23E264EE607EFE6
+  + [offline_test_bytes] 2408
+  + [offline_test_sha256] A1C3F72E6098379CF027322CBE11911F4F295776AF7007FCA726C6D707E1E00E
+  + [documentation_bytes] 1261
+  + [documentation_sha256] 83906A94CDDB05B19816D66732E6548DF88E3C09476ED416917B67299351FA21
+
+& [OfflineAcceptance]
+  + [command] .\scripts\test_bounded_workspace_verification.ps1
+  + [result] bounded_workspace_verification_tests=passed cases=5
+  + [coverage] default JSON plan clippy plan impossible capacity unknown action and parent-traversing target
+
+& [ExecutableAcceptance]
+  + [test_command] .\scripts\invoke_bounded_workspace_verification.ps1 -Action test -TargetDir /home/pinky/.cache/cantor-final-serial -Execute
+  + [test_result] complete workspace regression passed with no failed test
+  + [clippy_command] .\scripts\invoke_bounded_workspace_verification.ps1 -Action clippy -TargetDir /home/pinky/.cache/cantor-final-serial -Execute
+  + [clippy_result] warnings-denied workspace all-target all-feature Clippy passed
+  + [capacity_at_clippy_start] 62530584576 free Windows-system-volume bytes against 21474836480 minimum
+
+& [BoundaryEvidence]
+  + plan remote_hosts is empty
+  + plan destructive_actions is empty
+  + plan automatic_cleanup is false
+  + proof reused the prior target and contacted no remote host or OneDrive path
+
+& [Conclusion]
+  + [status] verified_complete
+  + the operational fault now has a bounded repeatable prevention surface without expanding Cantor runtime authority
+

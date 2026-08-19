@@ -1,0 +1,29 @@
+Subject: Cantor Bounded Workspace Verification P0 Solution
+
+@ [solution_uuid] c6e346a0-88b2-4038-899b-8e0bd07daf5c
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Bounded_Workspace_Verification_P0.sop
+
+& [ImplementedSurface]
+  + scripts/invoke_bounded_workspace_verification.ps1 resolves the repository and containing Windows volume from its own location
+  + closed test and clippy actions compile to exact serialized Cargo commands
+  + the default emits JSON and returns without invoking WSL
+  + Execute admits only an installed named WSL distribution after capacity passes
+  + caller-visible target temp and Python shim directories are stable across calls
+
+& [SafetyShape]
+  + target paths are restricted to conservative absolute home paths without parent traversal
+  + distribution names use conservative characters and are passed as a native argument
+  + target strings use a conservative alphabet before interpolation into Bash
+  + insufficient capacity unknown action unknown distribution and child failure fail closed
+  + the JSON plan exposes empty remote and destructive sets and automatic cleanup false
+
+& [ObservedExecution]
+  + five offline cases passed
+  + the wrapper executed the complete workspace regression through the already-built /home/pinky/.cache/cantor-final-serial target
+  + the wrapper executed workspace all-target all-feature warnings-denied Clippy through the same target
+  + no additional Cargo target was allocated for proof
+
+& [Boundary]
+  + this controls local development verification only
+  + it performs no cleanup remote access OneDrive operation deployment scheduling or product-runtime action
+
