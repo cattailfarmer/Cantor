@@ -156,12 +156,24 @@ function Assert-SafeCampaignRoot {
 
     $resolvedCandidate = [System.IO.Path]::GetFullPath($CandidatePath).TrimEnd('\', '/')
     $resolvedTarget = [System.IO.Path]::GetFullPath($TargetRoot).TrimEnd('\', '/')
+    $targetItem = Get-Item -LiteralPath $resolvedTarget
+    if (-not $targetItem.PSIsContainer -or
+        ($targetItem.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) {
+        throw "Refusing a target root that is not a physical directory: $resolvedTarget"
+    }
     $parent = [System.IO.Directory]::GetParent($resolvedCandidate)
     $leaf = [System.IO.Path]::GetFileName($resolvedCandidate)
     if ($null -eq $parent -or
         -not $parent.FullName.Equals($resolvedTarget, [System.StringComparison]::OrdinalIgnoreCase) -or
         $leaf -notmatch '^cantor-field-cycle-repro-[0-9a-f]{32}$') {
         throw "Refusing campaign path outside the declared target child boundary: $resolvedCandidate"
+    }
+    if (Test-Path -LiteralPath $resolvedCandidate) {
+        $candidateItem = Get-Item -LiteralPath $resolvedCandidate
+        if (-not $candidateItem.PSIsContainer -or
+            ($candidateItem.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) {
+            throw "Refusing a campaign root that is not a physical directory: $resolvedCandidate"
+        }
     }
     return $resolvedCandidate
 }

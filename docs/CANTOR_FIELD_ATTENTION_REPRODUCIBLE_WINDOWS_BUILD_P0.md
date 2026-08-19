@@ -20,4 +20,4 @@ Run the fast repository-and-receipt audit without rebuilding:
 
 The audit also refuses the pinned proof when the tracked Cargo configuration, workspace manifests, field-cycle package, or proof tool differs from the tested commit.
 
-The pinned v1 receipt proves local repetition for commit `42ae3f7206469038c649936946b874516459ff0d` on one Windows MSVC toolchain. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.
+The pinned v1 receipt proves local repetition for commit `d0618d96cfe2a274f56d25e933e5990b360d24ae` on one Windows MSVC toolchain. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.

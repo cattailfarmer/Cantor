@@ -20,10 +20,10 @@ $receiptPath = Join-Path $workspaceRoot $receiptRelative
 
 $expectedSourceSha256 = 'd03e4473b8250aea7c672360cda7c61ce95ccd2e70723bbc37572d65340870e7'
 $expectedSourceBytes = 3669
-$expectedReceiptSha256 = '1dfe37223cab2ae609a139c7f994daf044f47cb6dfeb8e51ad44c8b3ecb2d65c'
+$expectedReceiptSha256 = 'a9f99e1ea4aa83a3db4a203c12044fa1ecfd8f8b4720b393a9c84046023f857d'
 $expectedReceiptBytes = 2761
-$expectedCommit = '42ae3f7206469038c649936946b874516459ff0d'
-$expectedTree = '633f023140d7f554c3952ca1c7c663888731edd9'
+$expectedCommit = 'd0618d96cfe2a274f56d25e933e5990b360d24ae'
+$expectedTree = '23a2464bfbcca1cf9b2042a69cf18e62c640cd6d'
 $expectedArtifactSha256 = '983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b'
 
 $sourceSha256 = (Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -57,6 +57,7 @@ foreach ($required in @(
     "'--locked'",
     "'--offline'",
     'Assert-SafeCampaignRoot',
+    'ReparsePoint',
     'Test-FileBytesEqual',
     "@('contract')",
     "@('field-digest'",

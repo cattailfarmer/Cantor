@@ -61,6 +61,7 @@ Description: Signed experimental profile for proving byte-identical local Window
 & [CleanupBoundary] is fail-closed
   + all campaign files live below the repository target directory in one uniquely named campaign root
   + recursive cleanup is permitted only after the resolved campaign path is proven to be a direct child with the declared name prefix
+  + target and campaign roots must be physical directories rather than reparse points
   + explicit diagnostic retention may preserve the validated campaign root
   - never: recursively delete the repository root target root user profile drive root or an unresolved path
 
