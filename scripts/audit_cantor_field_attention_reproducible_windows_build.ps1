@@ -20,10 +20,10 @@ $receiptPath = Join-Path $workspaceRoot $receiptRelative
 
 $expectedSourceSha256 = 'd03e4473b8250aea7c672360cda7c61ce95ccd2e70723bbc37572d65340870e7'
 $expectedSourceBytes = 3669
-$expectedReceiptSha256 = 'e11648fa013a9749f3624c229d8668032e96e1a19c653ffe50cbe66ca192f15f'
-$expectedReceiptBytes = 2562
-$expectedCommit = 'bd9403e1385e4e4a8cbd54bcb109c08d444b45f5'
-$expectedTree = 'e7064cb79ab2c3fa3da9f468a96b62def77d4004'
+$expectedReceiptSha256 = '0bc0baad64c41fa83b4e4bb8f56efbea00e20a1e88d6130ce98c18d850d159e6'
+$expectedReceiptBytes = 2761
+$expectedCommit = '7f4e283edcadfc93af7aa69e246aae89f6b64e04'
+$expectedTree = 'e50ef5d6ac5b6d21bc65e774ca100802972a77d5'
 $expectedArtifactSha256 = '983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b'
 
 $sourceSha256 = (Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -86,6 +86,10 @@ if ($receipt.profile -cne 'cantor-field-attention-reproducible-windows-build/0.1
     $receipt.build.cargo_incremental -ne 0 -or
     $receipt.build.rustflags -cne '-C link-arg=/Brepro' -or
     $receipt.build.target_root_count -ne 2 -or
+    $receipt.toolchain.rustc_version -cne 'rustc 1.96.0 (ac68faa20 2026-05-25)' -or
+    $receipt.toolchain.rustc_commit_hash -cne 'ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96' -or
+    $receipt.toolchain.rustc_commit_date -cne '2026-05-25' -or
+    $receipt.toolchain.rustc_release -cne '1.96.0' -or
     $receipt.artifact.sha256 -cne $expectedArtifactSha256 -or
     $receipt.artifact.bytes -ne 2840576 -or
     $receipt.artifact.byte_equal -ne $true -or
@@ -95,6 +99,36 @@ if ($receipt.profile -cne 'cantor-field-attention-reproducible-windows-build/0.1
     $receipt.cleanup.artifacts_retained -ne $false -or
     $receipt.cleanup.temporary_paths_disclosed -ne $false) {
     throw 'Pinned reproducible-build receipt violates the canonical profile.'
+}
+
+$resolvedCommit = (& git.exe -C $workspaceRoot rev-parse "$expectedCommit^{commit}" 2>$null | Out-String).Trim()
+$resolvedTree = (& git.exe -C $workspaceRoot rev-parse "$expectedCommit^{tree}" 2>$null | Out-String).Trim()
+$resolvedEpoch = (& git.exe -C $workspaceRoot show -s '--format=%ct' $expectedCommit 2>$null | Out-String).Trim()
+if ($LASTEXITCODE -ne 0 -or
+    $resolvedCommit -cne $expectedCommit -or
+    $resolvedTree -cne $expectedTree -or
+    $resolvedEpoch -cne ([string] $receipt.source.commit_timestamp)) {
+    throw 'Pinned reproducible-build Git commit tree or epoch cannot be re-resolved exactly.'
+}
+
+$priorPreference = $ErrorActionPreference
+$ErrorActionPreference = 'Continue'
+try {
+    $diffArguments = @(
+        '-C', $workspaceRoot, 'diff', '--quiet', $expectedCommit, '--',
+        'Cargo.toml', 'Cargo.lock', '.cargo', 'rust-toolchain', 'rust-toolchain.toml',
+        'crates/cantor_field_cycle',
+        'scripts/test_cantor_field_attention_reproducible_windows_build.ps1'
+    )
+    $sourceDiff = & git.exe @diffArguments 2>&1
+    $sourceDiffExit = $LASTEXITCODE
+}
+finally {
+    $ErrorActionPreference = $priorPreference
+}
+if ($sourceDiffExit -ne 0) {
+    $detail = ($sourceDiff -join [Environment]::NewLine).Trim()
+    throw "Pinned reproducible-build input surface is stale relative to the tested commit. $detail"
 }
 
 $expectedReports = [ordered]@{
@@ -120,12 +154,13 @@ foreach ($entry in $expectedReports.GetEnumerator()) {
 [ordered]@{
     profile = 'cantor-field-attention-reproducible-windows-build-audit/0.1'
     result = 'passed_with_declared_boundaries'
-    checks = 9
+    checks = 12
     source_sha256 = $sourceSha256
     receipt_sha256 = $receiptSha256
     source_commit = $receipt.source.commit
     artifact_sha256 = $receipt.artifact.sha256
     report_count = @($receipt.behavior.reports).Count
+    tested_tracked_input_surface_current = $true
     provider_request_count = 0
     external_effects = 'none'
     claim = 'repository and receipt consistency only; fresh rebuild and cross-host reproducibility are not implied'

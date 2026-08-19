@@ -18,4 +18,6 @@ Run the fast repository-and-receipt audit without rebuilding:
 .\scripts\audit_cantor_field_attention_reproducible_windows_build.ps1
 ```
 
-The pinned v1 receipt proves local repetition for commit `bd9403e1385e4e4a8cbd54bcb109c08d444b45f5` on one Windows MSVC toolchain. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.
+The audit also refuses the pinned proof when the tracked Cargo configuration, workspace manifests, field-cycle package, or proof tool differs from the tested commit.
+
+The pinned v1 receipt proves local repetition for commit `7f4e283edcadfc93af7aa69e246aae89f6b64e04` on one Windows MSVC toolchain. It does not prove cross-host reproducibility, package signing, deployment trust, semantic correctness, or that the historical h8 executable was built reproducibly.

@@ -12,16 +12,16 @@ Subject: Cantor Field Attention Reproducible Windows Build P0 Proof
   + signature 3a8fea18-7ba7-410e-8f5a-2122c79e5591 uses protocol ad10f10f-d506-48ef-a805-f8b0a133766c
 
 & [CommittedSourceProof] binds the implementation under test
-  + source commit is bd9403e1385e4e4a8cbd54bcb109c08d444b45f5
-  + source tree is e7064cb79ab2c3fa3da9f468a96b62def77d4004
-  + Git archive SHA-256 is 78491e72faa3f8cd2a31cbd8892a95db7f98f96b121193d093a2d2b014e9c77a
+  + source commit is 7f4e283edcadfc93af7aa69e246aae89f6b64e04
+  + source tree is e50ef5d6ac5b6d21bc65e774ca100802972a77d5
+  + Git archive SHA-256 is d4d83183ef2821c6f5f466347571514a42daca6d8b1a8acb3d70ec8e99e3c039
   + Cargo.lock SHA-256 is c7c10e5503dff3e44bb16d0d4800536d541032a001ec02fc48b9a77f948a2d82
   + two separately extracted source roots and two initially absent target roots were used per campaign
 
 & [BuildProof] is byte exact
-  + rustc verbose identity SHA-256 is c4755273f5f5c5995abbf4457d4f58cdb2e5918a85dca23ce7f25dae2c5e36f2
+  + rustc is 1.96.0 commit ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96 dated 2026-05-25 with verbose identity SHA-256 c4755273f5f5c5995abbf4457d4f58cdb2e5918a85dca23ce7f25dae2c5e36f2
   + Cargo is 1.96.0 host is x86_64-pc-windows-msvc and LLVM is 22.1.2
-  + SOURCE_DATE_EPOCH is 1787107247 CARGO_INCREMENTAL is 0 and RUSTFLAGS is -C link-arg=/Brepro
+  + SOURCE_DATE_EPOCH is 1787107873 CARGO_INCREMENTAL is 0 and RUSTFLAGS is -C link-arg=/Brepro
   + both release executables are 2840576 bytes SHA-256 983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b
   + direct byte comparison is true
 
@@ -32,15 +32,23 @@ Subject: Cantor Field Attention Reproducible Windows Build P0 Proof
   + provider request count is zero
 
 & [ReceiptProof] is stable and pinned
-  + receipt is 2562 bytes SHA-256 e11648fa013a9749f3624c229d8668032e96e1a19c653ffe50cbe66ca192f15f
+  + receipt is 2761 bytes SHA-256 0bc0baad64c41fa83b4e4bb8f56efbea00e20a1e88d6130ce98c18d850d159e6
   + two consecutive default campaigns against the committed implementation emitted the same receipt fields and values
   + the receipt omits workspace and random campaign paths
-  + static audit passes nine source signature implementation receipt and retained-report checks
+  + static audit passes twelve source signature implementation receipt Git-object input-freshness and retained-report checks
+  + current tracked Cargo configuration root manifests field-cycle package source and proof tool exactly match the tested commit
+  + the receipt is a successor record for the tested commit and therefore does not claim self-inclusion in that commit
 
 & [Acceptance] satisfies the bounded profile
   + [FARW-001] through [FARW-009] pass
   + default cleanup removed each fresh campaign root and restored inherited environment
+  + a missing Git revision fails before archive or build and leaves the preexisting campaign-root count unchanged
+  + a four-variable sentinel campaign restores SOURCE_DATE_EPOCH CARGO_INCREMENTAL RUSTFLAGS and CARGO_TARGET_DIR exactly
   + explicit retention mode passed and changed only the declared artifacts_retained observation
+  + full workspace all-target locked offline tests pass with the one governed Windows fixture ignore
+  + workspace all-target locked offline Clippy passes with warnings denied
+  + workspace all-target locked offline release build passes
+  + composite field-attention checkpoint returns verified_with_declared_residuals with 1030 current manifest references and zero stale
   + a later direct cleanup command was blocked by the external command safety policy before execution so retained diagnostic and preliminary ignored directories are not represented as removed
 
 & [Residuals] keep the conclusion narrow
