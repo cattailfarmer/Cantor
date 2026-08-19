@@ -82,16 +82,19 @@ verification succeeds.
 .\target\release\cantor-compact-reflection-loop.exe measure-fixture
 ```
 
-For the deterministic fixture, the model-facing tool arguments are 20 bytes
-and the terminal handle is 679 bytes. The exact terminal record is 67,522
-bytes, the reflection request is 86,092 bytes, and the complete report is
-162,385 bytes. The record therefore occupies 78.43% of the reflection request
-and 41.58% of the report. This selects a verified compact terminal projection
-as the next optimization candidate, provided exact `READ` remains available.
+The first measurement found that the 67,522-byte exact record occupied 78.43%
+of an 86,092-byte reflection request. The implemented verified terminal
+projection carries stable identities, digests, disposition, consumed budget,
+counts, optional negotiation status, and explicit `READ` availability in 806
+bytes. It reduces the model-facing reflection request to 2,499 bytes—a 97.09%
+reduction—while the exact record remains in the host report and retrievable
+through `READ`. Avoiding the escaped duplicate also reduces the complete report
+from 162,385 to 79,621 bytes.
 
 These are compact UTF-8 JSON bytes, not model tokens, latency, memory, quality,
 or a general performance result. The canonical artifact is
-`experiments/compact_reflection_transport_measurement/artifacts/compact_reflection_transport_measurement_v1.json`.
+`experiments/compact_reflection_transport_measurement/artifacts/compact_reflection_transport_measurement_v2.json`;
+the v1 artifact remains preserved as the pre-projection baseline.
 
 ## What is proven
 

@@ -20,4 +20,6 @@ saved report or emit its compact identity projection without provider access,
 procedure execution, or historical context-file access.
 
 `measure-fixture` emits the deterministic structured-byte transport report used
-to select the next compression target without invoking a provider.
+to verify the compact terminal projection savings without invoking a provider.
+The full exact record remains in the report and available through compact
+session `READ`; the model-facing message receives only the verified projection.

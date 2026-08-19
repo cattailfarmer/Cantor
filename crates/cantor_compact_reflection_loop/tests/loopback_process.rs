@@ -8,7 +8,7 @@ use std::{
 };
 
 use cantor_compact_reflection_loop::{
-    FINAL_STATEMENT, RunReport, TerminalObservation, experimental_fixture_context_json,
+    FINAL_STATEMENT, RunReport, TerminalProjection, experimental_fixture_context_json,
     inspect_report, verify_report,
 };
 use serde_json::{Value, json};
@@ -167,12 +167,12 @@ fn serve_campaign(listener: TcpListener) {
                     .pointer("/messages/3/content")
                     .and_then(Value::as_str)
                     .expect("tool observation");
-                let observation: TerminalObservation =
-                    serde_json::from_str(encoded).expect("typed observation");
+                let projection: TerminalProjection =
+                    serde_json::from_str(encoded).expect("typed projection");
                 let final_output = json!({
-                    "observed_status": observation.observed_status,
-                    "session_id": observation.handle.session_id,
-                    "outcome_digest": observation.outcome_digest,
+                    "observed_status": projection.observed_status,
+                    "session_id": projection.session_id,
+                    "outcome_digest": projection.outcome_digest,
                     "statement": FINAL_STATEMENT
                 });
                 json!({

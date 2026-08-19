@@ -14,8 +14,8 @@ use cantor_compact_reflection_loop::{
     REPORT_NONCLAIMS, REPORT_PROFILE, RunReport, advance_bound_session_terminal,
     experimental_fixture_context_json, extract_advance_call, extract_final_output, first_request,
     generate_fixture_transport_measurement, inspect_report, normalize_loopback_base_url,
-    open_bound_session, pretty_transport_measurement_bytes, reflection_request, sanitize,
-    select_advertised_model, verify_report,
+    open_bound_session, pretty_transport_measurement_bytes, project_terminal_observation,
+    reflection_request, sanitize, select_advertised_model, verify_report,
 };
 use cantor_core::SemanticId;
 use reqwest::Client;
@@ -158,9 +158,10 @@ async fn run(config: Config) -> Result<(), AnyError> {
     let call = extract_advance_call(&initial_response, config.maximum_steps)?;
     let (_terminal_session, observation) =
         advance_bound_session_terminal(&session, call.arguments.maximum_steps)?;
-    let later_request = reflection_request(&model, &config.prompt, &call, &observation);
+    let projection = project_terminal_observation(&observation)?;
+    let later_request = reflection_request(&model, &config.prompt, &call, &projection);
     let later_response = post_chat(&client, &config.base_url, &later_request).await?;
-    let final_output = extract_final_output(&later_response, &observation)?;
+    let final_output = extract_final_output(&later_response, &projection)?;
 
     let report = RunReport {
         profile: REPORT_PROFILE.to_owned(),
@@ -174,6 +175,7 @@ async fn run(config: Config) -> Result<(), AnyError> {
         first_request: initial_request,
         first_response: sanitize(&initial_response),
         terminal_observation: observation,
+        terminal_projection: projection,
         reflection_request: later_request,
         reflection_response: sanitize(&later_response),
         final_output,

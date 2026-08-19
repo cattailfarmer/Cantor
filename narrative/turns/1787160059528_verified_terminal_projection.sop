@@ -1,0 +1,24 @@
+Subject: Turn Record - Verified Terminal Projection
+
+@ [turn_uuid] 2895e204-73e0-4c17-95de-398b7dfe6471
+@ [timestamp_utc] 2026-08-19T17:20:59.5281841Z
+@ [thread] 019f94c8-da23-7131-aef2-6ac02612d155
+
+& [Cause]
+  + v1 measurement showed exact record occupied 7843 basis points of reflection input
+
+& [Implementation]
+  + strict typed projection derives only from terminal exact record and digest-bound handle
+  + reflection receives projection while report retains exact observation and projection
+  + replay rederives projection from validated record before accepting reflection
+
+& [Measurement]
+  + projection is 806 bytes
+  + reflection request falls from 86092 to 2499 bytes
+  + reduction is 9709 basis points
+  + report falls from 162385 to 79621 bytes while retaining exact record
+
+& [Boundary]
+  + projection is not record authority and exact READ remains required
+  + no model-authored semantic summary provider remote EVO-X2 or OneDrive is introduced
+

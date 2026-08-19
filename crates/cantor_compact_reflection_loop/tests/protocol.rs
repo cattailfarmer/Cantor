@@ -105,11 +105,12 @@ fn model_tool_model_contract_preserves_terminal_identity() {
     let response = call_response(TOOL_NAME, 64, Value::Null);
     let call = extract_advance_call(&response, 64).expect("call");
     let observation = bound_terminal();
+    let projection = project_terminal_observation(&observation).expect("projection");
     let reflection = reflection_request(
         "fixture-model",
         "Run the bounded procedure.",
         &call,
-        &observation,
+        &projection,
     );
     assert_eq!(reflection["tool_choice"], "none");
     assert_eq!(
@@ -119,9 +120,9 @@ fn model_tool_model_contract_preserves_terminal_identity() {
         Some("call-compact-1")
     );
     let expected = FinalOutput {
-        observed_status: observation.observed_status.clone(),
-        session_id: observation.handle.session_id.clone(),
-        outcome_digest: observation.outcome_digest.clone(),
+        observed_status: projection.observed_status.clone(),
+        session_id: projection.session_id.clone(),
+        outcome_digest: projection.outcome_digest.clone(),
         statement: FINAL_STATEMENT.to_owned(),
     };
     let final_response = json!({
@@ -134,7 +135,7 @@ fn model_tool_model_contract_preserves_terminal_identity() {
         }]
     });
     assert_eq!(
-        extract_final_output(&final_response, &observation).expect("final"),
+        extract_final_output(&final_response, &projection).expect("final"),
         expected
     );
 }
@@ -146,6 +147,7 @@ fn malformed_or_identity_changing_model_outputs_fail_closed() {
     assert!(extract_advance_call(&call_response(TOOL_NAME, 64, json!("premature")), 64).is_err());
 
     let observation = bound_terminal();
+    let projection = project_terminal_observation(&observation).expect("projection");
     let changed = FinalOutput {
         observed_status: observation.observed_status.clone(),
         session_id: observation.handle.session_id.clone(),
@@ -161,7 +163,7 @@ fn malformed_or_identity_changing_model_outputs_fail_closed() {
             "message": {"role": "assistant", "content": serde_json::to_string(&changed).unwrap()}
         }]
     });
-    assert!(extract_final_output(&response, &observation).is_err());
+    assert!(extract_final_output(&response, &projection).is_err());
 }
 
 #[test]

@@ -11,9 +11,10 @@ use cantor_compact_coordination_mcp::{
 use std::collections::{BTreeMap, BTreeSet};
 
 use cantor_core::{
-    AuthorshipClass, AuthorshipLaneTemplate, ContentDigest, InvocationBudget, ProcedureCandidate,
-    ProcedureMessageKind, ProcedureValue, SemanticId, SensitivityClass,
-    compute_candidate_source_digest, run_authorship_lane,
+    AuthorshipClass, AuthorshipLaneTemplate, ConsumedBudget, ContentDigest, InvocationBudget,
+    InvocationDisposition, NegotiationStatus, ProcedureCandidate, ProcedureMessageKind,
+    ProcedureValue, SemanticId, SensitivityClass, compute_candidate_source_digest,
+    run_authorship_lane,
 };
 use cantor_procedure_tool::CoordinationToolContext;
 use reqwest::Url;
@@ -55,6 +56,26 @@ pub struct TerminalObservation {
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
+pub struct TerminalProjection {
+    pub profile: String,
+    pub observed_status: String,
+    pub session_id: SemanticId,
+    pub sequence: u64,
+    pub record_digest: ContentDigest,
+    pub outcome_digest: ContentDigest,
+    pub invocation_ref: SemanticId,
+    pub procedure_ref: SemanticId,
+    pub disposition: InvocationDisposition,
+    pub consumed_budget: ConsumedBudget,
+    pub step_count: usize,
+    pub message_count: usize,
+    pub terminal_return_count: usize,
+    pub negotiation_status: Option<NegotiationStatus>,
+    pub exact_record_available_via_read: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
 pub struct FinalOutput {
     pub observed_status: String,
     pub session_id: SemanticId,
@@ -82,6 +103,7 @@ pub struct RunReport {
     pub first_request: Value,
     pub first_response: Value,
     pub terminal_observation: TerminalObservation,
+    pub terminal_projection: TerminalProjection,
     pub reflection_request: Value,
     pub reflection_response: Value,
     pub final_output: FinalOutput,
@@ -128,10 +150,13 @@ pub struct TransportMeasurement {
     pub terminal_handle_bytes: usize,
     pub terminal_record_bytes: usize,
     pub terminal_observation_bytes: usize,
+    pub terminal_projection_bytes: usize,
+    pub exact_observation_reflection_request_bytes: usize,
     pub reflection_request_bytes: usize,
     pub final_output_bytes: usize,
     pub complete_report_bytes: usize,
-    pub terminal_record_share_of_reflection_basis_points: u64,
+    pub reflection_request_reduction_basis_points: u64,
+    pub terminal_projection_share_of_reflection_basis_points: u64,
     pub terminal_record_share_of_report_basis_points: u64,
     pub nonclaims: Vec<String>,
 }
@@ -339,6 +364,52 @@ pub fn advance_bound_session_terminal(
     ))
 }
 
+pub fn project_terminal_observation(
+    observation: &TerminalObservation,
+) -> Result<TerminalProjection, String> {
+    if observation.observed_status != "terminal_outcome"
+        || observation.handle.status != CompactSessionStatus::Terminal
+        || observation.handle.outcome_digest.as_ref() != Some(&observation.outcome_digest)
+    {
+        return Err(
+            "terminal observation cannot be projected from its status or handle".to_owned(),
+        );
+    }
+    let record: CompactCoordinationRecord = serde_json::from_str(&observation.record_json)
+        .map_err(|error| format!("terminal record JSON is invalid: {error}"))?;
+    if record.session_id != observation.handle.session_id
+        || record.sequence != observation.handle.sequence
+        || record.record_digest != observation.handle.record_digest
+        || record.checkpoint.is_some()
+    {
+        return Err("terminal record differs from its projection handle".to_owned());
+    }
+    let outcome = record
+        .outcome
+        .as_ref()
+        .ok_or("terminal record omitted outcome")?;
+    Ok(TerminalProjection {
+        profile: "cantor-verified-terminal-projection/0.1".to_owned(),
+        observed_status: observation.observed_status.clone(),
+        session_id: record.session_id,
+        sequence: record.sequence,
+        record_digest: record.record_digest,
+        outcome_digest: observation.outcome_digest.clone(),
+        invocation_ref: outcome.result.invocation_ref.clone(),
+        procedure_ref: outcome.result.procedure_ref.clone(),
+        disposition: outcome.result.disposition,
+        consumed_budget: outcome.result.consumed_budget.clone(),
+        step_count: outcome.steps.len(),
+        message_count: outcome.messages.len(),
+        terminal_return_count: outcome.terminal_returns.len(),
+        negotiation_status: outcome
+            .session_successor
+            .as_ref()
+            .map(|session| session.status),
+        exact_record_available_via_read: true,
+    })
+}
+
 pub fn first_request(model: &str, prompt: &str, maximum_steps: u64) -> Value {
     json!({
         "model": model,
@@ -435,7 +506,7 @@ pub fn reflection_request(
     model: &str,
     prompt: &str,
     call: &ParsedAdvanceCall,
-    observation: &TerminalObservation,
+    projection: &TerminalProjection,
 ) -> Value {
     json!({
         "model": model,
@@ -449,7 +520,7 @@ pub fn reflection_request(
             {
                 "role": "tool",
                 "tool_call_id": call.call_id,
-                "content": serde_json::to_string(observation).expect("observation serializes")
+                "content": serde_json::to_string(projection).expect("projection serializes")
             },
             {"role": "user", "content": "Reflection checkpoint: acknowledge the imported terminal result now."}
         ],
@@ -458,7 +529,7 @@ pub fn reflection_request(
         "parallel_tool_calls": false,
         "response_format": {
             "type": "json_object",
-            "schema": final_schema(observation)
+            "schema": final_schema(projection)
         },
         "chat_template_kwargs": {"enable_thinking": false},
         "temperature": 0,
@@ -468,7 +539,7 @@ pub fn reflection_request(
 
 pub fn extract_final_output(
     response: &Value,
-    observation: &TerminalObservation,
+    projection: &TerminalProjection,
 ) -> Result<FinalOutput, String> {
     let choice = single_choice(response)?;
     if choice.get("finish_reason").and_then(Value::as_str) != Some("stop") {
@@ -494,9 +565,9 @@ pub fn extract_final_output(
     let output: FinalOutput = serde_json::from_str(content)
         .map_err(|error| format!("reflection output violates JSON contract: {error}"))?;
     let expected = FinalOutput {
-        observed_status: observation.observed_status.clone(),
-        session_id: observation.handle.session_id.clone(),
-        outcome_digest: observation.outcome_digest.clone(),
+        observed_status: projection.observed_status.clone(),
+        session_id: projection.session_id.clone(),
+        outcome_digest: projection.outcome_digest.clone(),
         statement: FINAL_STATEMENT.to_owned(),
     };
     if output != expected {
@@ -600,11 +671,16 @@ pub fn verify_report(report: &RunReport) -> Result<ReportVerification, String> {
         return Err("terminal handle differs from reconstructed registry inspection".to_owned());
     }
 
-    let expected_reflection = reflection_request(&report.model, prompt, &call, observation);
+    let projection = project_terminal_observation(observation)?;
+    if projection != report.terminal_projection {
+        return Err("terminal projection differs from exact record derivation".to_owned());
+    }
+
+    let expected_reflection = reflection_request(&report.model, prompt, &call, &projection);
     if report.reflection_request != expected_reflection {
         return Err("reflection request differs from deterministic reconstruction".to_owned());
     }
-    let final_output = extract_final_output(&report.reflection_response, observation)?;
+    let final_output = extract_final_output(&report.reflection_response, &projection)?;
     if final_output != report.final_output {
         return Err("recorded final output differs from admitted reflection response".to_owned());
     }
@@ -671,7 +747,8 @@ pub fn generate_fixture_transport_measurement() -> Result<TransportMeasurement, 
     });
     let call = extract_advance_call(&initial_response, maximum_steps)?;
     let (_, observation) = advance_bound_session_terminal(&session, maximum_steps)?;
-    let later_request = reflection_request(model, prompt, &call, &observation);
+    let projection = project_terminal_observation(&observation)?;
+    let later_request = reflection_request(model, prompt, &call, &projection);
     let final_output = FinalOutput {
         observed_status: observation.observed_status.clone(),
         session_id: observation.handle.session_id.clone(),
@@ -699,6 +776,7 @@ pub fn generate_fixture_transport_measurement() -> Result<TransportMeasurement, 
         first_request: initial_request.clone(),
         first_response: initial_response,
         terminal_observation: observation.clone(),
+        terminal_projection: projection.clone(),
         reflection_request: later_request.clone(),
         reflection_response: later_response,
         final_output: final_output.clone(),
@@ -711,11 +789,16 @@ pub fn generate_fixture_transport_measurement() -> Result<TransportMeasurement, 
     verify_report(&report)?;
 
     let terminal_record_bytes = observation.record_json.len();
+    let mut exact_observation_request = later_request.clone();
+    exact_observation_request["messages"][3]["content"] =
+        json!(serde_json::to_string(&observation).expect("terminal observation serializes"));
+    let exact_observation_reflection_request_bytes =
+        compact_json_bytes(&exact_observation_request)?;
     let reflection_request_bytes = compact_json_bytes(&later_request)?;
     let complete_report_bytes = compact_json_bytes(&report)?;
     let measurement = TransportMeasurement {
-        profile: "cantor-compact-reflection-transport-measurement/0.1".to_owned(),
-        fixture: "experimental_compact_reflection_context_v1".to_owned(),
+        profile: "cantor-compact-reflection-transport-measurement/0.2".to_owned(),
+        fixture: "experimental_compact_reflection_context_v2".to_owned(),
         maximum_steps,
         context_json_bytes: context_json.len(),
         first_request_bytes: compact_json_bytes(&initial_request)?,
@@ -723,11 +806,17 @@ pub fn generate_fixture_transport_measurement() -> Result<TransportMeasurement, 
         terminal_handle_bytes: compact_json_bytes(&observation.handle)?,
         terminal_record_bytes,
         terminal_observation_bytes: compact_json_bytes(&observation)?,
+        terminal_projection_bytes: compact_json_bytes(&projection)?,
+        exact_observation_reflection_request_bytes,
         reflection_request_bytes,
         final_output_bytes: compact_json_bytes(&final_output)?,
         complete_report_bytes,
-        terminal_record_share_of_reflection_basis_points: share_basis_points(
-            terminal_record_bytes,
+        reflection_request_reduction_basis_points: reduction_basis_points(
+            exact_observation_reflection_request_bytes,
+            reflection_request_bytes,
+        )?,
+        terminal_projection_share_of_reflection_basis_points: share_basis_points(
+            compact_json_bytes(&projection)?,
             reflection_request_bytes,
         )?,
         terminal_record_share_of_report_basis_points: share_basis_points(
@@ -745,8 +834,8 @@ pub fn generate_fixture_transport_measurement() -> Result<TransportMeasurement, 
 }
 
 pub fn validate_transport_measurement(measurement: &TransportMeasurement) -> Result<(), String> {
-    if measurement.profile != "cantor-compact-reflection-transport-measurement/0.1"
-        || measurement.fixture != "experimental_compact_reflection_context_v1"
+    if measurement.profile != "cantor-compact-reflection-transport-measurement/0.2"
+        || measurement.fixture != "experimental_compact_reflection_context_v2"
         || measurement.maximum_steps != 64
     {
         return Err("transport measurement identity is invalid".to_owned());
@@ -758,6 +847,8 @@ pub fn validate_transport_measurement(measurement: &TransportMeasurement) -> Res
         measurement.terminal_handle_bytes,
         measurement.terminal_record_bytes,
         measurement.terminal_observation_bytes,
+        measurement.terminal_projection_bytes,
+        measurement.exact_observation_reflection_request_bytes,
         measurement.reflection_request_bytes,
         measurement.final_output_bytes,
         measurement.complete_report_bytes,
@@ -765,16 +856,23 @@ pub fn validate_transport_measurement(measurement: &TransportMeasurement) -> Res
     if sizes.contains(&0)
         || measurement.terminal_handle_bytes >= measurement.terminal_record_bytes
         || measurement.terminal_record_bytes >= measurement.terminal_observation_bytes
-        || measurement.terminal_observation_bytes >= measurement.reflection_request_bytes
+        || measurement.terminal_projection_bytes >= measurement.terminal_observation_bytes
+        || measurement.reflection_request_bytes
+            >= measurement.exact_observation_reflection_request_bytes
         || measurement.reflection_request_bytes >= measurement.complete_report_bytes
     {
         return Err("transport measurement size relationships are invalid".to_owned());
     }
-    if measurement.terminal_record_share_of_reflection_basis_points
-        != share_basis_points(
-            measurement.terminal_record_bytes,
+    if measurement.reflection_request_reduction_basis_points
+        != reduction_basis_points(
+            measurement.exact_observation_reflection_request_bytes,
             measurement.reflection_request_bytes,
         )?
+        || measurement.terminal_projection_share_of_reflection_basis_points
+            != share_basis_points(
+                measurement.terminal_projection_bytes,
+                measurement.reflection_request_bytes,
+            )?
         || measurement.terminal_record_share_of_report_basis_points
             != share_basis_points(
                 measurement.terminal_record_bytes,
@@ -812,6 +910,13 @@ fn share_basis_points(numerator: usize, denominator: usize) -> Result<u64, Strin
         .ok_or("measurement proportion overflow")?
         / denominator as u128;
     u64::try_from(scaled).map_err(|_| "measurement proportion does not fit u64".to_owned())
+}
+
+fn reduction_basis_points(baseline: usize, reduced: usize) -> Result<u64, String> {
+    if reduced > baseline {
+        return Err("reduced measurement exceeds baseline".to_owned());
+    }
+    share_basis_points(baseline - reduced, baseline)
 }
 
 fn sha256_hex(bytes: &[u8]) -> String {
@@ -867,17 +972,17 @@ fn single_choice(response: &Value) -> Result<&Map<String, Value>, String> {
         .ok_or_else(|| "provider choice is not an object".to_owned())
 }
 
-fn final_schema(observation: &TerminalObservation) -> Value {
+fn final_schema(projection: &TerminalProjection) -> Value {
     json!({
         "type": "object",
         "properties": {
-            "observed_status": {"type": "string", "const": observation.observed_status},
-            "session_id": {"type": "string", "const": observation.handle.session_id.as_str()},
+            "observed_status": {"type": "string", "const": projection.observed_status},
+            "session_id": {"type": "string", "const": projection.session_id.as_str()},
             "outcome_digest": {
                 "type": "object",
                 "properties": {
-                    "algorithm": {"type": "string", "const": observation.outcome_digest.algorithm},
-                    "value": {"type": "string", "const": observation.outcome_digest.value}
+                    "algorithm": {"type": "string", "const": projection.outcome_digest.algorithm},
+                    "value": {"type": "string", "const": projection.outcome_digest.value}
                 },
                 "required": ["algorithm", "value"],
                 "additionalProperties": false

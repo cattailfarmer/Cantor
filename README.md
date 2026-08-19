@@ -144,7 +144,8 @@ baseline:
   record and its digest in a separate pass; an explicit model selector and
   non-authoritative fixture exporter make the full loop locally testable, and
   offline report verification reconstructs its complete identity chain; exact
-  transport measurement shows the terminal record dominates reflection input.
+  transport measurement led to an 806-byte verified terminal projection that
+  cuts the measured reflection request by 97.09% while preserving exact `READ`.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
