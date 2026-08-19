@@ -8,6 +8,8 @@ Description: Compact non-authoritative map of the completed experimental mechani
 @ [proof] C:\Project\Cantor\proofs\Cantor_Field_Attention_Delineation_Latch_P0_Proof.sop
 @ [operator] C:\Project\Cantor\docs\CANTOR_FIELD_ATTENTION_CYCLE_P0.md
 @ [checkpoint] C:\Project\Cantor\experiments\cantor_field_cycle_p0\checkpoint_audit_v1.json
+@ [reproducible_build] C:\Project\Cantor\specifications\Cantor_Field_Attention_Reproducible_Windows_Build_P0.sop
+@ [reproducible_build_receipt] C:\Project\Cantor\experiments\cantor_field_cycle_p0\reproducible_windows_build_v1.json
 @ [execution_envelope_reentry] C:\Project\Cantor\narrative\reentry\Cantor_Field_Attention_Execution_Envelope_P1_Reentry.sop
 @ [semantic_tension_reentry] C:\Project\Cantor\narrative\reentry\Cantor_Field_Attention_Semantic_Tension_P1_Reentry.sop
 
@@ -24,14 +26,18 @@ Description: Compact non-authoritative map of the completed experimental mechani
   + the observed repository predecessor before authoring this reentry is 9ab94b4809381f2668144ffdb9e0c7b36eef23aa on origin codex/self-hosted-corpus; the reentry does not claim self-inclusion
   + full workspace testing passes 588 tests zero failures and one governed ignore across ninety-six result groups
   + current manifests cover twenty-three manifests and 1030 references with zero stale
+  + committed source bd9403e1385e4e4a8cbd54bcb109c08d444b45f5 reproduces a local successor executable twice per campaign at 2840576 bytes SHA-256 983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b
+  + the reproducible-build receipt is 2562 bytes SHA-256 e11648fa013a9749f3624c229d8668032e96e1a19c653ffe50cbe66ca192f15f and is stable across two consecutive campaigns
 
 & [OneCommandReentry] is exact verification
   + local command is scripts\audit_cantor_field_attention_checkpoint.ps1
   + live read-only command adds IncludeEvox2 and requires the pinned receipt digest plus structural equality
   + expected status is verified_with_declared_residuals rather than unconditional completion
+  + fresh local build proof is scripts\test_cantor_field_attention_reproducible_windows_build.ps1 -SourceRevision bd9403e
+  + fast pinned proof audit is scripts\audit_cantor_field_attention_reproducible_windows_build.ps1
 
-& [OpenIdentities] remain eight exact residuals
-  + FADL_F009 is nonreproducible Windows executable identity
+& [OpenIdentities] remain eight exact residuals with one narrowed by local proof
+  + FADL_F009 now has a passing one-host reproducible-build profile while historical h8 provenance cross-host proof signing and deployment remain open
   + FADL_R001 is probe conflict versus supported delineation semantic tension
   + FADL_R002 is name-based loopback without connected-peer attestation
   + FADL_R003 is create-new but non-atomic and nondurable report publication
@@ -45,7 +51,7 @@ Description: Compact non-authoritative map of the completed experimental mechani
   + first preserve a user decision and run SJS for exact Invocation Cycle Publication separation strict CLI admission provider identity admission and typed discovery outcome
   + second implement and prove the pure invocation parser and outcome verifier before changing provider behavior
   + third preserve a separate user decision and run SJS for typed cross-pass semantic tension after invocation evidence is stable
-  + fourth treat connected-peer publication confidentiality reproducible build and least-privilege deployment as production profiles rather than experimental semantic shortcuts
+  + fourth treat connected-peer publication confidentiality cross-host reproducibility signing and least-privilege deployment as production profiles rather than experimental semantic shortcuts
   - never: implement either P1 reentry as if this status map granted authority
   - never: promote h8 from exact observed bytes to a protected production trust root
 

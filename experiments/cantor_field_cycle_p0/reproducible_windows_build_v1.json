@@ -1,0 +1,65 @@
+{
+  "profile": "cantor-field-attention-reproducible-windows-build/0.1",
+  "result": "passed",
+  "source": {
+    "commit": "bd9403e1385e4e4a8cbd54bcb109c08d444b45f5",
+    "tree": "e7064cb79ab2c3fa3da9f468a96b62def77d4004",
+    "commit_timestamp": 1787107247,
+    "archive_sha256": "78491e72faa3f8cd2a31cbd8892a95db7f98f96b121193d093a2d2b014e9c77a",
+    "cargo_lock_sha256": "c7c10e5503dff3e44bb16d0d4800536d541032a001ec02fc48b9a77f948a2d82",
+    "source_root_count": 2
+  },
+  "toolchain": {
+    "rustc_verbose_sha256": "c4755273f5f5c5995abbf4457d4f58cdb2e5918a85dca23ce7f25dae2c5e36f2",
+    "cargo_version": "cargo 1.96.0 (30a34c682 2026-05-25)",
+    "host": "x86_64-pc-windows-msvc",
+    "llvm_version": "22.1.2"
+  },
+  "build": {
+    "command": "cargo build --release -p cantor_field_cycle --locked --offline",
+    "source_date_epoch": 1787107247,
+    "cargo_incremental": 0,
+    "rustflags": "-C link-arg=/Brepro",
+    "target_root_count": 2
+  },
+  "artifact": {
+    "file_name": "cantor_field_cycle.exe",
+    "bytes": 2840576,
+    "sha256": "983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b",
+    "byte_equal": true
+  },
+  "behavior": {
+    "contract_output_sha256": "b6f5fd56767a0857c8f30560c63a2e4ae5c138f6ff374d6033f3e2a551e46e37",
+    "field_digest": "136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0",
+    "verifier_invocations": 6,
+    "reports": [
+      {
+        "report": "evox2_live_v5.json",
+        "report_sha256": "7a2b934811beb4bff4917791f68ee5e2988574480443c212616cf950b133418e",
+        "terminal_state": "completed",
+        "latch_status": "admitted_for_attention",
+        "assurance": "stored_provider_replay"
+      },
+      {
+        "report": "evox2_control_v5.json",
+        "report_sha256": "2fa77676b688a7ee6893e56c9afec596a8fa5f197011c065bb645bb8a6bbb337",
+        "terminal_state": "control_completed",
+        "latch_status": null,
+        "assurance": "stored_provider_replay"
+      },
+      {
+        "report": "evox2_hostile_boundary_v5.json",
+        "report_sha256": "e7109037bc3ad84d0c8e19501d6c234e858cd9d5d4599c13afd825306ac09b98",
+        "terminal_state": "rejected",
+        "latch_status": null,
+        "assurance": "stored_provider_replay"
+      }
+    ],
+    "provider_request_count": 0
+  },
+  "cleanup": {
+    "artifacts_retained": false,
+    "temporary_paths_disclosed": false
+  },
+  "claim": "byte-identical local reproduction on one Windows host and one recorded toolchain; not cross-host reproducibility, deployment trust, signing, semantic truth, or historical h8 provenance"
+}

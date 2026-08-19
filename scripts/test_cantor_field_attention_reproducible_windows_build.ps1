@@ -198,10 +198,19 @@ try {
 
     $rustcVerbose = (Invoke-NativeCommand -FilePath 'rustc.exe' -ArgumentList @('-vV') -WorkingDirectory $repositoryRoot).StdOut.Trim()
     $cargoVersion = (Invoke-NativeCommand -FilePath 'cargo.exe' -ArgumentList @('--version') -WorkingDirectory $repositoryRoot).StdOut.Trim()
+    $rustcVersion = ($rustcVerbose -split "`r?`n")[0].Trim()
+    $rustcCommitHash = ([regex]::Match($rustcVerbose, '(?m)^commit-hash:\s*(.+)$')).Groups[1].Value.Trim()
+    $rustcCommitDate = ([regex]::Match($rustcVerbose, '(?m)^commit-date:\s*(.+)$')).Groups[1].Value.Trim()
+    $rustcRelease = ([regex]::Match($rustcVerbose, '(?m)^release:\s*(.+)$')).Groups[1].Value.Trim()
     $rustcHost = ([regex]::Match($rustcVerbose, '(?m)^host:\s*(.+)$')).Groups[1].Value.Trim()
     $llvmVersion = ([regex]::Match($rustcVerbose, '(?m)^LLVM version:\s*(.+)$')).Groups[1].Value.Trim()
-    if ([string]::IsNullOrWhiteSpace($rustcHost) -or [string]::IsNullOrWhiteSpace($llvmVersion)) {
-        throw 'rustc verbose output did not expose host and LLVM identities.'
+    if ([string]::IsNullOrWhiteSpace($rustcVersion) -or
+        $rustcCommitHash -notmatch '^[0-9a-f]{40}$' -or
+        $rustcCommitDate -notmatch '^\d{4}-\d{2}-\d{2}$' -or
+        [string]::IsNullOrWhiteSpace($rustcRelease) -or
+        [string]::IsNullOrWhiteSpace($rustcHost) -or
+        [string]::IsNullOrWhiteSpace($llvmVersion)) {
+        throw 'rustc verbose output did not expose complete version commit release host and LLVM identities.'
     }
 
     $env:SOURCE_DATE_EPOCH = $sourceDateEpoch
@@ -274,6 +283,10 @@ try {
             source_root_count = 2
         }
         toolchain = [ordered]@{
+            rustc_version = $rustcVersion
+            rustc_commit_hash = $rustcCommitHash
+            rustc_commit_date = $rustcCommitDate
+            rustc_release = $rustcRelease
             rustc_verbose_sha256 = Get-TextSha256 -Text $rustcVerbose
             cargo_version = $cargoVersion
             host = $rustcHost

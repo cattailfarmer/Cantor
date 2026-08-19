@@ -1,0 +1,52 @@
+Subject: Cantor Field Attention Reproducible Windows Build P0 Proof
+
+@ [proof_uuid] a012508b-f0c8-469f-89a9-950680d46b57
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Field_Attention_Reproducible_Windows_Build_P0.sop
+@ [solution] C:\Project\Cantor\solutions\Cantor_Field_Attention_Reproducible_Windows_Build_P0_Solution.sop
+@ [matrix] C:\Project\Cantor\feature_support\Cantor_Field_Attention_Reproducible_Windows_Build_P0_Requirement_Matrix.sop
+@ [receipt] C:\Project\Cantor\experiments\cantor_field_cycle_p0\reproducible_windows_build_v1.json
+
+& [SourceProof] binds the independently preserved input
+  + source is 3669 bytes SHA-256 d03e4473b8250aea7c672360cda7c61ce95ccd2e70723bbc37572d65340870e7
+  + source manifest repeats exact bytes digest snapshot and processing target
+  + signature 3a8fea18-7ba7-410e-8f5a-2122c79e5591 uses protocol ad10f10f-d506-48ef-a805-f8b0a133766c
+
+& [CommittedSourceProof] binds the implementation under test
+  + source commit is bd9403e1385e4e4a8cbd54bcb109c08d444b45f5
+  + source tree is e7064cb79ab2c3fa3da9f468a96b62def77d4004
+  + Git archive SHA-256 is 78491e72faa3f8cd2a31cbd8892a95db7f98f96b121193d093a2d2b014e9c77a
+  + Cargo.lock SHA-256 is c7c10e5503dff3e44bb16d0d4800536d541032a001ec02fc48b9a77f948a2d82
+  + two separately extracted source roots and two initially absent target roots were used per campaign
+
+& [BuildProof] is byte exact
+  + rustc verbose identity SHA-256 is c4755273f5f5c5995abbf4457d4f58cdb2e5918a85dca23ce7f25dae2c5e36f2
+  + Cargo is 1.96.0 host is x86_64-pc-windows-msvc and LLVM is 22.1.2
+  + SOURCE_DATE_EPOCH is 1787107247 CARGO_INCREMENTAL is 0 and RUSTFLAGS is -C link-arg=/Brepro
+  + both release executables are 2840576 bytes SHA-256 983cbd21308456d9a920f1dde98359d08e1d434ef5fe0133b3e9159653ae838b
+  + direct byte comparison is true
+
+& [BehaviorProof] guards executable identity
+  + both contract outputs have SHA-256 b6f5fd56767a0857c8f30560c63a2e4ae5c138f6ff374d6033f3e2a551e46e37
+  + both field digests are 136955ea1f1931de88c22cef392377f3a1fa4e6d4bd1de53450cb7e1f598c8e0
+  + both executables verify the positive control and hostile reports for six successful verifier invocations
+  + provider request count is zero
+
+& [ReceiptProof] is stable and pinned
+  + receipt is 2562 bytes SHA-256 e11648fa013a9749f3624c229d8668032e96e1a19c653ffe50cbe66ca192f15f
+  + two consecutive default campaigns against the committed implementation emitted the same receipt fields and values
+  + the receipt omits workspace and random campaign paths
+  + static audit passes nine source signature implementation receipt and retained-report checks
+
+& [Acceptance] satisfies the bounded profile
+  + [FARW-001] through [FARW-009] pass
+  + default cleanup removed each fresh campaign root and restored inherited environment
+  + explicit retention mode passed and changed only the declared artifacts_retained observation
+  + a later direct cleanup command was blocked by the external command safety policy before execution so retained diagnostic and preliminary ignored directories are not represented as removed
+
+& [Residuals] keep the conclusion narrow
+  + one Windows host and toolchain do not prove cross-host or cross-toolchain reproducibility
+  + h8 was not built under this profile and remains historical deployment content identity only
+  + no signing ACL installation or immutable trust root was created
+  + no provider inference semantic-quality or P1 behavior was exercised or authorized
+
+& [Conclusion] is completed_local_effect_free_reproducibility_profile_with_external_frontiers

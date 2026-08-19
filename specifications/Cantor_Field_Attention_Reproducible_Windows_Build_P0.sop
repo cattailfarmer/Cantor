@@ -15,7 +15,7 @@ Description: Signed experimental profile for proving byte-identical local Window
   + [source_tree] is the exact tree bound by source_commit
   + [source_archive_sha256] binds the Git archive used for both source roots
   + [cargo_lock_sha256] binds dependency resolution
-  + [toolchain_identity] records rustc verbose version cargo version host triple and LLVM version
+  + [toolchain_identity] records readable rustc version commit date release Cargo version host triple and LLVM version plus the full rustc verbose digest
   + [target_package] is cantor_field_cycle
   + [target_binary] is cantor_field_cycle.exe
   = must: fail unless source_revision resolves to one commit and required tools and files exist
