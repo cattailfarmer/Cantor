@@ -104,7 +104,13 @@ baseline:
   `FIELD_ATTEND → DELINEATE → LATCH` host sequence, and its pinned Windows
   profile proves byte-identical release artifacts from two clean local source
   and target roots while checking exact contract, field, retained-report, and
-  Git-anchor identities without provider access.
+  Git-anchor identities without provider access; and
+- `cantor_core::shared_attention` now governs a pure, versioned semantic frame
+  across independent inference passes with atomic typed deltas, stale-base and
+  conflict refusal, deterministic byte-proxy backpressure, exact-digest
+  faculty settlement, and evidence-gated DreamFrame branches; the
+  `cantor-shared-attention` JSON shell exposes those transitions without
+  modifying a model or claiming shared hidden state.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is
@@ -156,6 +162,10 @@ and local reproducible-build command are documented in
 [`docs/CANTOR_FIELD_ATTENTION_CYCLE_P0.md`](docs/CANTOR_FIELD_ATTENTION_CYCLE_P0.md)
 and
 [`docs/CANTOR_FIELD_ATTENTION_REPRODUCIBLE_WINDOWS_BUILD_P0.md`](docs/CANTOR_FIELD_ATTENTION_REPRODUCIBLE_WINDOWS_BUILD_P0.md).
+The shared semantic-frame state machine, three-node faculty mapping,
+backpressure contract, DreamFrame boundary, and closed JSON shell are
+documented in
+[`docs/SHARED_ATTENTION_IMAGINATION_RUNTIME_P0.md`](docs/SHARED_ATTENTION_IMAGINATION_RUNTIME_P0.md).
 Run their combined read-only local checkpoint with:
 
 ```powershell
@@ -240,6 +250,21 @@ qualification. See
 [`docs/PROCEDURE_TOOL_PROTOCOL.md`](docs/PROCEDURE_TOOL_PROTOCOL.md) for the
 four-stage controller flow, strict envelopes, exit classes, and current
 machine-schema and MCP gaps.
+
+Drive one pure shared-attention transition from a closed request on standard
+input or from a bounded file:
+
+```powershell
+Get-Content -Raw .\path\to\shared-attention-request.json | .\target\release\cantor-shared-attention.exe
+.\target\release\cantor-shared-attention.exe --input .\path\to\shared-attention-request.json
+```
+
+The shell accepts `validate_frame`, `reconcile`, `compact`, `prepare`, `settle`,
+`fork_dream`, `validate_dream`, `record_dream_evidence`, `review_dream`,
+`discard_dream`, and `project_dream_promotion`. Exit `0` means a typed success
+or a typed buffered backpressure result, `2` means the request envelope was
+invalid, `3` means the semantic transition was refused, and `4` means the
+shell itself failed. Settlement records coordination, not external truth.
 
 Compile the reviewed self-hosted corpus with operator-supplied distinct keys:
 

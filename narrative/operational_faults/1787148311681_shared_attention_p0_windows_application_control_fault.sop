@@ -1,0 +1,40 @@
+Subject: Shared Attention and Imagination Runtime P0 Windows Application Control Fault
+
+@ [fault_uuid] aff00cb9-a252-4ad8-a14f-9093a43bc490
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [occurred_at_utc] 2026-08-19T14:05:11.6843635Z
+
+& [FaultIdentity] is exact
+  + [class] is host_application_control_execution_denial
+  + [stage] is complete Windows workspace regression after focused P0 acceptance
+  + [affected_host] is the local Windows development host
+
+& [Observation] is preserved
+  + focused cantor_core and cantor_cli shared-attention suites completed before the denial series
+  + Windows then denied execution of freshly linked Rust test and service executables
+  + cargo surfaced OS error 4551 for denied harnesses and could not execute those targets
+  + the user observed repeated "Part of this app has been blocked" notifications naming the stable Rust toolchain path
+  + the notifications stopped when the Windows cargo run ended
+  + no failed assertion from an unexecuted harness is represented as a semantic contradiction
+
+& [HostEvidence] is direct
+  + Code Integrity events 3077 and 3033 identify cargo.exe loading freshly linked Cantor target executables
+  + event 3077 identifies policy 0283AC0F-FFF1-49AE-ADA1-8A933130CAD6 and Enterprise signing level refusal
+  + named examples include cantor_procedure_tool machine-schema tests cantor_service cantord cantorctl resident-service lifecycle evidence cantor_windows_preflight and runtime-contract harnesses
+  + this matches the repository's previously preserved host Application Control fault class
+
+& [Recovery] is bounded
+  + Windows Smart App Control remains enabled and no security policy is disabled relaxed or bypassed
+  + the established WSL2 Ubuntu-24.04 pure and static proof lane is used with a separate temporary target directory
+  + the Linux dependency cache is populated from the locked Cargo dependency graph without changing Cargo.lock
+  + a temporary WSL-only python command shim points to the existing /usr/bin/python3 for one inherited MCP fixture
+  + the shim exists only under /tmp and does not modify repository source or production behavior
+  + WSL2 results are cited only for cross-platform pure and static verification and never as Windows physical proof
+
+& [Effects] are absent
+  + no model provider inference network deployment signing key persistent service or external semantic effect is invoked by the P0 runtime
+  + no USB device driver graphics setting or unrelated host configuration is changed
+
+& [Authority] is unchanged
+  + pure P0 implementation authority remains the signed shared-attention and imagination specification
+  + Windows-native executable reputation and signing remain environmental deployment concerns outside this slice
