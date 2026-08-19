@@ -273,7 +273,7 @@ fn complete_scripted_run(
     Ok(run)
 }
 
-fn validate_terminal_registry(
+pub(crate) fn validate_terminal_registry(
     registry: &CompactCoordinationRegistry,
     observation: &crate::TerminalObservation,
 ) -> Result<(), String> {
@@ -320,7 +320,7 @@ fn validate_terminal_registry(
     }
 }
 
-fn scripted_advance_response(call_id: &str, maximum_steps: u64) -> Value {
+pub(crate) fn scripted_advance_response(call_id: &str, maximum_steps: u64) -> Value {
     json!({
         "choices": [{
             "finish_reason": "tool_calls",

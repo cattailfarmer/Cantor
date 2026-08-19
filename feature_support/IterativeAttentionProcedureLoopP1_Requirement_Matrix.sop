@@ -2,7 +2,7 @@ Subject: Iterative Attention Procedure Loop P1 Requirement Matrix
 
 @ [matrix_uuid] 6b3d8e22-59ec-4228-8db6-dfd8c16d254a
 @ [canonical] C:\Project\Cantor\specifications\Cantor_Iterative_Attention_Procedure_Loop_P1.sop
-@ [status] slice4b_scripted_ready_stopped_orchestration_implemented_process_not_activated
+@ [status] slice4c_scripted_terminal_pending_orchestration_implemented_process_not_activated
 @ [specification_proof] C:\Project\Cantor\proofs\Cantor_Iterative_Attention_Procedure_Loop_P1_Specification_Proof.sop
 
 & [IAPL-A01] policy and projection forms
@@ -52,3 +52,11 @@ Subject: Iterative Attention Procedure Loop P1 Requirement Matrix
   + [continuity] resumed report segments accept a nonzero READY opening and preserve exact predecessor and sequence continuity
   + [equivalence] resumed execution reaches the same terminal outcome digest as uninterrupted execution
   + [boundary] terminal-reflection-pending is refused rather than mislabeled as READY stopped
+
+& [Slice4CAcceptance]
+  + [IAPL-017] terminal phase emits one deterministic no-tool reflection request without a response or final-output claim
+  + [IAPL-023 through IAPL-027] pending report binds policy usage opening iterations terminal observation and projection while retaining exact terminal registry separately
+  + [phase] pending has no ADVANCE reentry stop reason response or completion claim
+  + [admission] whole-wrapper validation precedes sanitization and closed FinalOutput parsing of one supplied reflection response
+  + [equivalence] pending then admission produces the exact uninterrupted ScriptedCompleteRun for identical inputs
+  + [boundary] reflection changes report phase only and leaves terminal procedure registry unchanged

@@ -6,6 +6,7 @@ mod iterative;
 mod provider_protocol;
 mod scripted_orchestrator;
 mod scripted_stopped;
+mod terminal_pending;
 
 pub use iterative::{
     DETERMINISTIC_DRIVE_MEASUREMENT_PROFILE, DETERMINISTIC_DRIVE_NONCLAIMS,
@@ -34,6 +35,14 @@ pub use scripted_stopped::{
     SCRIPTED_STOPPED_RUN_NONCLAIMS, SCRIPTED_STOPPED_RUN_PROFILE, ScriptedStoppedRun,
     generate_scripted_exhaustion_fixture, generate_scripted_tool_cap_fixture,
     resume_scripted_stopped, run_scripted_ready_stopped, validate_scripted_stopped_run,
+};
+pub use terminal_pending::{
+    SCRIPTED_TERMINAL_PENDING_NONCLAIMS, SCRIPTED_TERMINAL_PENDING_PROFILE,
+    ScriptedTerminalPendingRun, TERMINAL_PENDING_REPORT_NONCLAIMS, TERMINAL_PENDING_REPORT_PROFILE,
+    TerminalReflectionPendingReport, admit_scripted_terminal_reflection,
+    generate_scripted_terminal_pending_fixture, run_scripted_terminal_pending,
+    scripted_terminal_reflection_response, validate_scripted_terminal_pending_run,
+    validate_terminal_reflection_pending_report,
 };
 
 use cantor_compact_coordination_mcp::{
