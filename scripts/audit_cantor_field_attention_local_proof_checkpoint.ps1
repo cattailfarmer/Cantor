@@ -70,5 +70,5 @@ Assert-Exact ($reproducibility.provider_request_count -eq 0) 'Reproducibility au
         included = $false
         effect = 'not contacted'
     }
-    authority = 'read-only local proof aggregation only; no fresh rebuild cross-host deployment signing semantic P1 or remote-effect authority'
+    authority = 'local proof aggregation; field-cycle acceptance may refresh ordinary local build cache; no fresh two-root build cross-host deployment signing semantic P1 or remote-effect authority'
 } | ConvertTo-Json -Depth 8

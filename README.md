@@ -162,7 +162,7 @@ Run their combined read-only local checkpoint with:
 .\scripts\audit_cantor_field_attention_local_proof_checkpoint.ps1
 ```
 
-This does not rebuild, contact EVO-X2, or authorize P1.
+This does not run the fresh two-root reproducibility build, contact EVO-X2, or authorize P1. Its field-cycle child may refresh the ordinary local Cargo build cache.
 The separate post-checkpoint routing harness, immutable first-run evidence, and
 the discovered caller-subject grounding fault are documented in
 [`experiments/needle2_attention_calibration/README.md`](experiments/needle2_attention_calibration/README.md)
