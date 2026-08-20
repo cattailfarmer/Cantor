@@ -18,9 +18,11 @@ use cantor_core::{
     SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress, SemanticAnchorCatalogue, SemanticFabric,
     SemanticId, SourceAnchor, UnitKind, UnitStatus, admit_package, anchor_query_result_digest,
     candidate_association_account, candidate_relationship_paths, catalogue_derivation_digest,
-    catalogue_root, derive_semantic_anchor_catalogue, derived_semantic_anchor_catalogue_digest,
-    lexical_tokenizer_adversarial_fixture_digest, tokenize_lexical_surface,
-    validate_anchor_candidate, validate_anchor_query, validate_anchor_query_result,
+    catalogue_root, derive_lexical_association_index, derive_semantic_anchor_catalogue,
+    derived_semantic_anchor_catalogue_digest, lexical_association_index_proof_digest,
+    lexical_association_index_root, lexical_tokenizer_adversarial_fixture_digest,
+    tokenize_lexical_surface, validate_anchor_candidate, validate_anchor_query,
+    validate_anchor_query_result, validate_derived_lexical_association_index,
     validate_derived_lexical_association_index_form, validate_derived_semantic_anchor_catalogue,
     validate_lexical_index_derivation_request, validate_semantic_anchor_catalogue,
 };
@@ -114,7 +116,7 @@ fn lexical_index_form() -> DerivedLexicalAssociationIndex {
         occurrence_count: 1,
         evidence_refs: BTreeSet::from([id("evidence:anchor")]),
     };
-    DerivedLexicalAssociationIndex {
+    let mut index = DerivedLexicalAssociationIndex {
         profile: DERIVED_LEXICAL_ASSOCIATION_INDEX_PROFILE.to_owned(),
         index_id: id("lexical-index:fixture"),
         logical_revision: "fixture-r1".to_owned(),
@@ -132,7 +134,37 @@ fn lexical_index_form() -> DerivedLexicalAssociationIndex {
         postings: BTreeMap::from([("anchor".to_owned(), vec![posting])]),
         index_root: digest('1'),
         proof_digest: digest('2'),
+    };
+    index.index_root = lexical_association_index_root(&index).expect("lexical fixture root");
+    index
+}
+
+fn lexical_derivation_request() -> LexicalIndexDerivationRequest {
+    LexicalIndexDerivationRequest {
+        index_id: id("lexical-index:derived_fixture"),
+        logical_revision: "fixture-lexical-r1".to_owned(),
+        tokenizer_profile: LEXICAL_TOKENIZER_PROFILE.to_owned(),
     }
+}
+
+fn reseal_lexical_index(
+    index: &mut DerivedLexicalAssociationIndex,
+    request: &LexicalIndexDerivationRequest,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+) {
+    index.index_root = lexical_association_index_root(index).expect("resealed lexical root");
+    index.proof_digest = lexical_association_index_proof_digest(index, request, catalogue)
+        .expect("resealed lexical proof");
+}
+
+fn reseal_derived_catalogue(derived: &mut DerivedSemanticAnchorCatalogue) {
+    derived.catalogue.identity.derivation_digest =
+        catalogue_derivation_digest(&derived.catalogue.identity)
+            .expect("resealed catalogue derivation");
+    derived.catalogue.identity.catalogue_root =
+        catalogue_root(&derived.catalogue).expect("resealed catalogue root");
+    derived.proof_digest =
+        derived_semantic_anchor_catalogue_digest(derived).expect("resealed catalogue proof");
 }
 
 fn address(unit: &str, kind: UnitKind, byte: char) -> SemanticAddress {
@@ -1311,5 +1343,316 @@ fn lexical_tokenizer_bounds_and_fixture_digest_are_deterministic() {
     assert_eq!(
         first.value,
         "90a9cd4be7a9173f5aa15ba6b9c224a269b76c5f617ab4bc25f6e700a1e3deb9"
+    );
+}
+
+#[test]
+fn lexical_sidecar_derives_preferred_alias_and_meaning_surfaces() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let request = lexical_derivation_request();
+    let index = derive_lexical_association_index(&fabric, &catalogue, request.clone())
+        .expect("lexical sidecar derives");
+
+    validate_derived_lexical_association_index(&index, &catalogue, &fabric)
+        .expect("whole lexical replay");
+    assert_eq!(
+        index.catalogue_root,
+        catalogue.catalogue.identity.catalogue_root
+    );
+    assert_eq!(index.fabric_root, catalogue.catalogue.identity.fabric_root);
+    assert_eq!(
+        index.index_root,
+        lexical_association_index_root(&index).unwrap()
+    );
+    assert_eq!(
+        index.proof_digest,
+        lexical_association_index_proof_digest(&index, &request, &catalogue).unwrap()
+    );
+
+    let bank = &index.postings["bank"];
+    assert_eq!(bank.len(), 2);
+    assert!(
+        bank.iter()
+            .all(|posting| posting.surface_kind == LexicalSurfaceKind::PreferredExpression)
+    );
+    assert_eq!(bank[0].address.unit_id, id("unit:bank_financial"));
+    assert_eq!(bank[1].address.unit_id, id("unit:bank_river"));
+
+    let institution = &index.postings["institution"];
+    assert_eq!(institution.len(), 2);
+    assert_eq!(institution[0].surface_kind, LexicalSurfaceKind::Alias);
+    assert_eq!(institution[1].surface_kind, LexicalSurfaceKind::Meaning);
+    assert_ne!(institution[0].surface_digest, institution[1].surface_digest);
+
+    for token_postings in index.postings.values() {
+        for posting in token_postings {
+            let entry = catalogue
+                .catalogue
+                .identity_entries
+                .iter()
+                .find(|entry| entry.address.unit_id == posting.address.unit_id)
+                .expect("posting exact-resolves in catalogue");
+            assert_eq!(posting.address, entry.address);
+            assert!(posting.evidence_refs.contains(&entry.address.unit_id));
+            assert!(posting.evidence_refs.contains(&entry.address.package_id));
+            assert!(posting.evidence_refs.contains(&entry.address.context_id));
+            assert!(posting.evidence_refs.contains(&entry.meaning_ref));
+            for source in &entry.address.source_anchors {
+                assert!(posting.evidence_refs.contains(&source.file_id));
+                assert!(posting.evidence_refs.contains(&source.clause_id));
+            }
+        }
+    }
+}
+
+#[test]
+fn lexical_sidecar_counts_repetition_without_collapsing_distinct_surfaces() {
+    let mut input = common::package_input("");
+    input.units[0].unit.expression = "Bank BANK".to_owned();
+    input.units[0].unit.aliases.insert("bank bank".to_owned());
+    input.units[0].unit.aliases.insert("---".to_owned());
+    let fabric = fabric_from_inputs(vec![input], common::scope());
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar derives");
+
+    let financial = index.postings["bank"]
+        .iter()
+        .filter(|posting| posting.address.unit_id == id("unit:bank_financial"))
+        .collect::<Vec<_>>();
+    assert_eq!(financial.len(), 2);
+    assert_eq!(
+        financial[0].surface_kind,
+        LexicalSurfaceKind::PreferredExpression
+    );
+    assert_eq!(financial[0].occurrence_count, 2);
+    assert_eq!(financial[1].surface_kind, LexicalSurfaceKind::Alias);
+    assert_eq!(financial[1].occurrence_count, 2);
+    assert_ne!(financial[0].surface_digest, financial[1].surface_digest);
+    assert!(!index.postings.contains_key("---"));
+    validate_derived_lexical_association_index(&index, &catalogue, &fabric)
+        .expect("repeated surface replay");
+}
+
+#[test]
+fn lexical_sidecar_equal_inputs_are_byte_identical_and_revision_bound() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let request = lexical_derivation_request();
+    let first = derive_lexical_association_index(&fabric, &catalogue, request.clone())
+        .expect("first sidecar");
+    let second =
+        derive_lexical_association_index(&fabric, &catalogue, request).expect("second sidecar");
+    assert_eq!(first, second);
+    assert_eq!(
+        serde_json::to_vec(&first).unwrap(),
+        serde_json::to_vec(&second).unwrap()
+    );
+
+    let revised = derive_lexical_association_index(
+        &fabric,
+        &catalogue,
+        LexicalIndexDerivationRequest {
+            index_id: first.index_id.clone(),
+            logical_revision: "fixture-lexical-r2".to_owned(),
+            tokenizer_profile: LEXICAL_TOKENIZER_PROFILE.to_owned(),
+        },
+    )
+    .expect("revised sidecar");
+    assert_ne!(first.index_root, revised.index_root);
+    assert_ne!(first.proof_digest, revised.proof_digest);
+    assert_eq!(first.catalogue_root, revised.catalogue_root);
+    assert_eq!(first.fabric_root, revised.fabric_root);
+}
+
+#[test]
+fn lexical_sidecar_whole_replay_rejects_self_consistent_posting_mutations() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let request = lexical_derivation_request();
+    let baseline = derive_lexical_association_index(&fabric, &catalogue, request.clone())
+        .expect("baseline sidecar");
+
+    let mut missing = baseline.clone();
+    missing
+        .postings
+        .remove("deposits")
+        .expect("deposits posting");
+    reseal_lexical_index(&mut missing, &request, &catalogue);
+    validate_derived_lexical_association_index_form(&missing).expect("self-consistent form");
+    assert_eq!(
+        validate_derived_lexical_association_index(&missing, &catalogue, &fabric)
+            .expect_err("missing posting")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
+    );
+
+    let mut occurrence = baseline.clone();
+    occurrence.postings.get_mut("deposits").unwrap()[0].occurrence_count = 2;
+    reseal_lexical_index(&mut occurrence, &request, &catalogue);
+    validate_derived_lexical_association_index_form(&occurrence).expect("occurrence form");
+    assert_eq!(
+        validate_derived_lexical_association_index(&occurrence, &catalogue, &fabric)
+            .expect_err("wrong occurrence")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
+    );
+
+    let mut evidence = baseline;
+    let removable = evidence.postings["deposits"][0]
+        .evidence_refs
+        .iter()
+        .next()
+        .cloned()
+        .unwrap();
+    evidence.postings.get_mut("deposits").unwrap()[0]
+        .evidence_refs
+        .remove(&removable);
+    reseal_lexical_index(&mut evidence, &request, &catalogue);
+    validate_derived_lexical_association_index_form(&evidence).expect("evidence form");
+    assert_eq!(
+        validate_derived_lexical_association_index(&evidence, &catalogue, &fabric)
+            .expect_err("wrong evidence")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
+    );
+
+    let mut surface_digest =
+        derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+            .expect("surface mutation baseline");
+    surface_digest.postings.get_mut("deposits").unwrap()[0].surface_digest = digest('6');
+    reseal_lexical_index(&mut surface_digest, &request, &catalogue);
+    validate_derived_lexical_association_index_form(&surface_digest)
+        .expect("self-consistent surface digest form");
+    assert_eq!(
+        validate_derived_lexical_association_index(&surface_digest, &catalogue, &fabric)
+            .expect_err("wrong surface digest")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
+    );
+
+    let mut source_span =
+        derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+            .expect("source mutation baseline");
+    source_span.postings.get_mut("deposits").unwrap()[0]
+        .address
+        .source_anchors[0]
+        .span_digest = digest('5');
+    reseal_lexical_index(&mut source_span, &request, &catalogue);
+    validate_derived_lexical_association_index_form(&source_span)
+        .expect("self-consistent source mutation form");
+    assert_eq!(
+        validate_derived_lexical_association_index(&source_span, &catalogue, &fabric)
+            .expect_err("wrong source span digest")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
+    );
+
+    let mut addition =
+        derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+            .expect("addition baseline");
+    let mut invented = addition.postings["deposits"][0].clone();
+    invented.token = "invented".to_owned();
+    invented.surface_digest = digest('4');
+    addition
+        .postings
+        .insert("invented".to_owned(), vec![invented]);
+    reseal_lexical_index(&mut addition, &request, &catalogue);
+    validate_derived_lexical_association_index_form(&addition)
+        .expect("self-consistent posting addition form");
+    assert_eq!(
+        validate_derived_lexical_association_index(&addition, &catalogue, &fabric)
+            .expect_err("invented posting")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
+    );
+}
+
+#[test]
+fn lexical_sidecar_refuses_self_consistent_stale_meaning_and_package_catalogues() {
+    let fabric = fixture_fabric();
+    let canonical = derive_fixture(&fabric);
+
+    let mut wrong_meaning = canonical.clone();
+    wrong_meaning.catalogue.identity_entries[0].meaning_ref = id("meaning:invented");
+    reseal_derived_catalogue(&mut wrong_meaning);
+    validate_semantic_anchor_catalogue(&wrong_meaning.catalogue)
+        .expect("mutated meaning catalogue is structurally self-consistent");
+    assert_eq!(
+        derive_lexical_association_index(&fabric, &wrong_meaning, lexical_derivation_request(),)
+            .expect_err("stale meaning correspondence")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
+    );
+
+    let mut wrong_package = canonical;
+    let invented_package_digest = digest('3');
+    for entry in &mut wrong_package.catalogue.identity_entries {
+        entry.address.package_digest = invented_package_digest.clone();
+    }
+    for entry in &mut wrong_package.catalogue.operation_entries {
+        entry.address.package_digest = invented_package_digest.clone();
+    }
+    for package_digest in wrong_package.catalogue.identity.package_roots.values_mut() {
+        *package_digest = invented_package_digest.clone();
+    }
+    reseal_derived_catalogue(&mut wrong_package);
+    validate_semantic_anchor_catalogue(&wrong_package.catalogue)
+        .expect("mutated package catalogue is structurally self-consistent");
+    assert_eq!(
+        derive_lexical_association_index(&fabric, &wrong_package, lexical_derivation_request(),)
+            .expect_err("stale package correspondence")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
+    );
+}
+
+#[test]
+fn lexical_sidecar_roots_and_proof_fail_closed() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let request = lexical_derivation_request();
+    let baseline = derive_lexical_association_index(&fabric, &catalogue, request.clone())
+        .expect("baseline sidecar");
+
+    let mut wrong_index_root = baseline.clone();
+    wrong_index_root.index_root = digest('9');
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&wrong_index_root)
+            .expect_err("wrong index root")
+            .kind,
+        LexicalIndexFaultKind::RootMismatch
+    );
+
+    let mut wrong_proof = baseline.clone();
+    wrong_proof.proof_digest = digest('8');
+    assert_eq!(
+        validate_derived_lexical_association_index(&wrong_proof, &catalogue, &fabric)
+            .expect_err("wrong proof")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
+    );
+
+    let mut stale_catalogue_root = baseline;
+    stale_catalogue_root.catalogue_root = digest('7');
+    reseal_lexical_index(&mut stale_catalogue_root, &request, &catalogue);
+    assert_eq!(
+        validate_derived_lexical_association_index(&stale_catalogue_root, &catalogue, &fabric)
+            .expect_err("stale catalogue root")
+            .kind,
+        LexicalIndexFaultKind::RootMismatch
+    );
+
+    let mut stale_fabric_root =
+        derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+            .expect("fabric-root mutation baseline");
+    stale_fabric_root.fabric_root = digest('6');
+    reseal_lexical_index(&mut stale_fabric_root, &request, &catalogue);
+    assert_eq!(
+        validate_derived_lexical_association_index(&stale_fabric_root, &catalogue, &fabric)
+            .expect_err("stale fabric root")
+            .kind,
+        LexicalIndexFaultKind::RootMismatch
     );
 }

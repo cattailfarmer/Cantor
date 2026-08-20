@@ -1,0 +1,26 @@
+Subject: Semantic Anchor Catalogue P0 Slice 4B1 Windows Application Control Operational Fault
+
+& [FaultIdentity]
+  + [fault_uuid] 3a426446-d215-4834-b371-873be9f02c02
+  + [recognized_at_utc] 2026-08-20T13:10:35Z
+  + [command] cargo test --release -p cantor_core --test semantic_anchor_catalogue lexical --no-default-features
+  + [fault] Windows refused to execute target\release\build\proc-macro2-d8ef5ad212981620\build-script-build
+  + [os_error] 4551 Application Control policy blocked this file
+
+& [Boundary]
+  + the failure occurred while Cargo was building a third-party procedural-macro dependency before the lexical test binary executed
+  + no Cantor assertion failed and no derived lexical sidecar was accepted or emitted by the failed attempt
+  + no permission prompt could be serviced and no security setting policy exclusion signing rule or system configuration was changed
+
+& [RecoveryEvidence]
+  + the chained independent release scanner lane continued and completed its release dependency graph
+  + all fifteen unchanged release scanner tests then passed
+  + immediate retry of the exact release lexical command compiled cantor_core and passed all eleven lexical tests
+  + native debug focused tests native warnings-denied cantor_core Clippy capacity-guarded workspace tests and workspace warnings-denied Clippy also passed
+
+& [Disposition]
+  + classify as transient Windows application-control tooling interference rather than product failure
+  + retain the first nonzero observation and successful retry together
+  + do not infer that future newly generated native executables will always be admitted
+  + prefer the capacity-guarded WSL verification lane for authoritative workspace closure while leaving Windows security policy unchanged
+  + no remote host OneDrive EVO-X2 Minecraft provider hidden-state persistence FPGA or effect behavior occurred

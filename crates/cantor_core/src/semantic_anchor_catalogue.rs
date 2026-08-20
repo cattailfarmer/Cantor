@@ -3,8 +3,10 @@
 //!
 //! Slice 1 defines and validates the closed machine forms. Slice 2 reads one
 //! already admitted immutable semantic fabric and derives a disposable,
-//! generation-bound catalogue projection. It does not compile or admit source,
-//! scan a query, invoke a provider, persist state, or authorize an effect.
+//! generation-bound catalogue projection. Slice 4B1 derives a separate,
+//! disposable lexical token-posting sidecar from that validated projection and
+//! the same fabric. It does not compile or admit source, scan a query, rank a
+//! candidate, invoke a provider, persist state, or authorize an effect.
 
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -48,6 +50,10 @@ const MEANING_DOMAIN: &str = "cantor.semantic-anchor-catalogue.meaning.v1";
 const CONTEXT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.context.v1";
 const LEXICAL_TOKENIZER_FIXTURE_DOMAIN: &str =
     "cantor.semantic-anchor-catalogue.lexical-tokenizer-fixtures.v1";
+const LEXICAL_SURFACE_DOMAIN: &str = "cantor.semantic-anchor-catalogue.lexical-surface.v1";
+const LEXICAL_INDEX_ROOT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.lexical-index-root.v1";
+const LEXICAL_INDEX_PROOF_DOMAIN: &str = "cantor.semantic-anchor-catalogue.lexical-index-proof.v1";
+const LEXICAL_DERIVATION_DECISION_PROFILE: &str = "cantor.lexical-index-derivation-decisions/0.1";
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -691,6 +697,95 @@ pub fn validate_lexical_tokenizer_identity(
     Ok(())
 }
 
+pub fn derive_lexical_association_index(
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    request: LexicalIndexDerivationRequest,
+) -> LexicalIndexValidation<DerivedLexicalAssociationIndex> {
+    validate_lexical_index_derivation_request(&request)?;
+    validate_derived_semantic_anchor_catalogue(catalogue, fabric)
+        .map_err(anchor_derivation_to_lexical_fault)?;
+    let index = build_derived_lexical_association_index(fabric, catalogue, &request)?;
+    validate_derived_lexical_association_index_form(&index)?;
+    Ok(index)
+}
+
+pub fn validate_derived_lexical_association_index(
+    index: &DerivedLexicalAssociationIndex,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    fabric: &SemanticFabric,
+) -> LexicalIndexValidation {
+    validate_derived_lexical_association_index_form(index)?;
+    validate_derived_semantic_anchor_catalogue(catalogue, fabric)
+        .map_err(anchor_derivation_to_lexical_fault)?;
+    if index.catalogue_root != catalogue.catalogue.identity.catalogue_root
+        || index.fabric_root != catalogue.catalogue.identity.fabric_root
+    {
+        return lexical_fault(
+            LexicalIndexFaultKind::RootMismatch,
+            "index_roots",
+            "lexical index roots differ from the validated catalogue and admitted fabric",
+        );
+    }
+    let expected = build_derived_lexical_association_index(
+        fabric,
+        catalogue,
+        &LexicalIndexDerivationRequest {
+            index_id: index.index_id.clone(),
+            logical_revision: index.logical_revision.clone(),
+            tokenizer_profile: index.tokenizer.profile.clone(),
+        },
+    )?;
+    if &expected != index {
+        return lexical_fault(
+            LexicalIndexFaultKind::ProjectionMismatch,
+            "derived_lexical_index",
+            "lexical index differs from a canonical rebuild of the admitted surfaces",
+        );
+    }
+    Ok(())
+}
+
+pub fn lexical_association_index_root(
+    index: &DerivedLexicalAssociationIndex,
+) -> LexicalIndexValidation<ContentDigest> {
+    lexical_digest_form(
+        LEXICAL_INDEX_ROOT_DOMAIN,
+        &(
+            &index.profile,
+            &index.index_id,
+            &index.logical_revision,
+            &index.catalogue_root,
+            &index.fabric_root,
+            &index.compiler_id,
+            &index.compiler_version,
+            &index.tokenizer,
+            &index.postings,
+        ),
+    )
+}
+
+pub fn lexical_association_index_proof_digest(
+    index: &DerivedLexicalAssociationIndex,
+    request: &LexicalIndexDerivationRequest,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+) -> LexicalIndexValidation<ContentDigest> {
+    lexical_digest_form(
+        LEXICAL_INDEX_PROOF_DOMAIN,
+        &(
+            request,
+            &catalogue.generation,
+            &catalogue.proof_digest,
+            LEXICAL_DERIVATION_DECISION_PROFILE,
+            &index.profile,
+            &index.compiler_id,
+            &index.compiler_version,
+            &index.tokenizer,
+            &index.index_root,
+        ),
+    )
+}
+
 pub fn validate_derived_lexical_association_index_form(
     index: &DerivedLexicalAssociationIndex,
 ) -> LexicalIndexValidation {
@@ -820,7 +915,226 @@ pub fn validate_derived_lexical_association_index_form(
             "serialized lexical index bound exceeded",
         );
     }
+    if index.index_root != lexical_association_index_root(index)? {
+        return lexical_fault(
+            LexicalIndexFaultKind::RootMismatch,
+            "index_root",
+            "lexical index root differs from its canonical posting projection",
+        );
+    }
     Ok(())
+}
+
+fn build_derived_lexical_association_index(
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    request: &LexicalIndexDerivationRequest,
+) -> LexicalIndexValidation<DerivedLexicalAssociationIndex> {
+    validate_lexical_index_derivation_request(request)?;
+    let compiler_id = SemanticId::new(LEXICAL_ASSOCIATION_INDEX_COMPILER_ID).map_err(|error| {
+        LexicalIndexFault {
+            kind: LexicalIndexFaultKind::InvalidIdentity,
+            field: "compiler_id".to_owned(),
+            detail: error.to_string(),
+        }
+    })?;
+    let tokenizer = LexicalTokenizerIdentity {
+        profile: request.tokenizer_profile.clone(),
+        compiler_id: compiler_id.clone(),
+        compiler_version: LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION.to_owned(),
+        adversarial_fixture_digest: lexical_tokenizer_adversarial_fixture_digest()?,
+    };
+    let mut postings = BTreeMap::<String, Vec<LexicalPosting>>::new();
+    let mut total_postings = 0usize;
+
+    for entry in &catalogue.catalogue.identity_entries {
+        let unit = fabric
+            .unit(&entry.address.unit_id)
+            .ok_or_else(|| LexicalIndexFault {
+                kind: LexicalIndexFaultKind::ProjectionMismatch,
+                field: "surface.unit".to_owned(),
+                detail: format!(
+                    "catalogue identity {} has no admitted semantic unit",
+                    entry.address.unit_id
+                ),
+            })?;
+        let admitted = fabric
+            .package_for_unit(&entry.address.unit_id)
+            .ok_or_else(|| LexicalIndexFault {
+                kind: LexicalIndexFaultKind::ProjectionMismatch,
+                field: "surface.package".to_owned(),
+                detail: format!(
+                    "catalogue identity {} has no admitted package owner",
+                    entry.address.unit_id
+                ),
+            })?;
+        if admitted.package().package_id != entry.address.package_id {
+            return lexical_fault(
+                LexicalIndexFaultKind::ProjectionMismatch,
+                "surface.package",
+                "catalogue address and admitted package owner differ",
+            );
+        }
+        let meaning_ref = content_identity("meaning", MEANING_DOMAIN, &unit.meaning)
+            .map_err(anchor_derivation_to_lexical_fault)?;
+        if meaning_ref != entry.meaning_ref {
+            return lexical_fault(
+                LexicalIndexFaultKind::ProjectionMismatch,
+                "surface.meaning_ref",
+                "catalogue meaning reference differs from admitted meaning bytes",
+            );
+        }
+        let evidence_refs = lexical_surface_evidence_refs(entry)?;
+        append_lexical_surface_postings(
+            &mut postings,
+            &mut total_postings,
+            entry,
+            LexicalSurfaceKind::PreferredExpression,
+            &entry.preferred_expression,
+            &evidence_refs,
+        )?;
+        for alias in &entry.aliases {
+            append_lexical_surface_postings(
+                &mut postings,
+                &mut total_postings,
+                entry,
+                LexicalSurfaceKind::Alias,
+                alias,
+                &evidence_refs,
+            )?;
+        }
+        append_lexical_surface_postings(
+            &mut postings,
+            &mut total_postings,
+            entry,
+            LexicalSurfaceKind::Meaning,
+            &unit.meaning,
+            &evidence_refs,
+        )?;
+    }
+
+    for token_postings in postings.values_mut() {
+        token_postings.sort_by(lexical_posting_canonical_cmp);
+        for pair in token_postings.windows(2) {
+            if lexical_posting_canonical_key(&pair[0]) == lexical_posting_canonical_key(&pair[1]) {
+                return lexical_fault(
+                    LexicalIndexFaultKind::DuplicatePosting,
+                    "postings",
+                    "canonical surface projection produced a duplicate lexical posting",
+                );
+            }
+        }
+    }
+
+    let mut index = DerivedLexicalAssociationIndex {
+        profile: DERIVED_LEXICAL_ASSOCIATION_INDEX_PROFILE.to_owned(),
+        index_id: request.index_id.clone(),
+        logical_revision: request.logical_revision.clone(),
+        catalogue_root: catalogue.catalogue.identity.catalogue_root.clone(),
+        fabric_root: catalogue.catalogue.identity.fabric_root.clone(),
+        compiler_id,
+        compiler_version: LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION.to_owned(),
+        tokenizer,
+        postings,
+        index_root: zero_sha256(),
+        proof_digest: zero_sha256(),
+    };
+    index.index_root = lexical_association_index_root(&index)?;
+    index.proof_digest = lexical_association_index_proof_digest(&index, request, catalogue)?;
+    Ok(index)
+}
+
+fn lexical_surface_evidence_refs(
+    entry: &IdentityAnchorEntry,
+) -> LexicalIndexValidation<BTreeSet<SemanticId>> {
+    let mut refs = BTreeSet::from([
+        entry.address.unit_id.clone(),
+        entry.address.package_id.clone(),
+        entry.address.context_id.clone(),
+        entry.meaning_ref.clone(),
+    ]);
+    for anchor in &entry.address.source_anchors {
+        refs.insert(anchor.file_id.clone());
+        refs.insert(anchor.clause_id.clone());
+    }
+    if refs.is_empty() || refs.len() > MAX_LEXICAL_EVIDENCE_REFS {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidBound,
+            "posting.evidence_refs",
+            "surface evidence reference bound exceeded",
+        );
+    }
+    Ok(refs)
+}
+
+fn append_lexical_surface_postings(
+    postings: &mut BTreeMap<String, Vec<LexicalPosting>>,
+    total_postings: &mut usize,
+    entry: &IdentityAnchorEntry,
+    surface_kind: LexicalSurfaceKind,
+    surface: &str,
+    evidence_refs: &BTreeSet<SemanticId>,
+) -> LexicalIndexValidation {
+    let surface_digest = lexical_surface_digest(&entry.address, &surface_kind, surface)?;
+    for (token, occurrence_count) in tokenize_lexical_surface(surface)? {
+        *total_postings = total_postings
+            .checked_add(1)
+            .ok_or_else(|| LexicalIndexFault {
+                kind: LexicalIndexFaultKind::InvalidBound,
+                field: "postings".to_owned(),
+                detail: "total lexical posting count overflow".to_owned(),
+            })?;
+        if *total_postings > MAX_LEXICAL_TOTAL_POSTINGS {
+            return lexical_fault(
+                LexicalIndexFaultKind::InvalidBound,
+                "postings",
+                "total lexical posting bound exceeded",
+            );
+        }
+        let token_postings = postings.entry(token.clone()).or_default();
+        if token_postings.len() >= MAX_LEXICAL_POSTINGS_PER_TOKEN {
+            return lexical_fault(
+                LexicalIndexFaultKind::InvalidBound,
+                "postings",
+                "lexical postings-per-token bound exceeded",
+            );
+        }
+        token_postings.push(LexicalPosting {
+            token,
+            address: entry.address.clone(),
+            surface_kind: surface_kind.clone(),
+            surface_digest: surface_digest.clone(),
+            occurrence_count,
+            evidence_refs: evidence_refs.clone(),
+        });
+    }
+    Ok(())
+}
+
+fn lexical_surface_digest(
+    address: &SemanticAddress,
+    surface_kind: &LexicalSurfaceKind,
+    surface: &str,
+) -> LexicalIndexValidation<ContentDigest> {
+    lexical_digest_form(LEXICAL_SURFACE_DOMAIN, &(surface_kind, address, surface))
+}
+
+fn lexical_posting_canonical_key(
+    posting: &LexicalPosting,
+) -> (&SemanticId, &SemanticId, &LexicalSurfaceKind, &str) {
+    (
+        &posting.address.unit_id,
+        &posting.address.package_id,
+        &posting.surface_kind,
+        &posting.surface_digest.value,
+    )
+}
+
+fn lexical_posting_canonical_cmp(
+    left: &LexicalPosting,
+    right: &LexicalPosting,
+) -> std::cmp::Ordering {
+    lexical_posting_canonical_key(left).cmp(&lexical_posting_canonical_key(right))
 }
 
 pub fn derived_semantic_anchor_catalogue_digest(
@@ -1947,6 +2261,27 @@ fn anchor_form_to_lexical_fault(fault: AnchorFormFault) -> LexicalIndexFault {
     LexicalIndexFault {
         kind: LexicalIndexFaultKind::InvalidIdentity,
         field: fault.field,
+        detail: fault.detail,
+    }
+}
+
+fn anchor_derivation_to_lexical_fault(fault: AnchorDerivationFault) -> LexicalIndexFault {
+    LexicalIndexFault {
+        kind: match fault.kind {
+            AnchorDerivationFaultKind::InvalidRequest
+            | AnchorDerivationFaultKind::InvalidGeneratedIdentity => {
+                LexicalIndexFaultKind::InvalidIdentity
+            }
+            AnchorDerivationFaultKind::MissingCertificate
+            | AnchorDerivationFaultKind::MissingPackage
+            | AnchorDerivationFaultKind::MissingSourceAnchor
+            | AnchorDerivationFaultKind::SourceCorrespondence
+            | AnchorDerivationFaultKind::InvalidCatalogue
+            | AnchorDerivationFaultKind::ProjectionMismatch => {
+                LexicalIndexFaultKind::ProjectionMismatch
+            }
+        },
+        field: fault.stage,
         detail: fault.detail,
     }
 }
