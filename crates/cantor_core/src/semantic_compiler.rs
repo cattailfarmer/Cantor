@@ -23,6 +23,9 @@ pub use inference_host_backend::*;
 mod native_artifact_backend;
 pub use native_artifact_backend::*;
 
+mod native_build_receipt;
+pub use native_build_receipt::*;
+
 pub const SOP_SEED_PROFILE: &str = "cantor-sop-seed/0.1";
 pub const COMPILER_CAPABILITY_CEILING_PROFILE: &str = "cantor-compiler-capability-ceiling/0.1";
 pub const TYPED_SOP_IR_PROFILE: &str = "cantor-typed-sop-ir/0.1";

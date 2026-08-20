@@ -1,0 +1,29 @@
+Subject: Cantor Seeded Compiler Slice 6 Windows Application Control Fault
+
+@ [fault_record_uuid] f8b8a5cc-ab8a-4fc8-ad99-57175b3bf624
+@ [occurred_at] 2026-08-20
+@ [scope] native_build_observation_artifact_receipt_and_independent_verification
+
+& [Observation]
+  + the focused native-artifact lifecycle test binary executed all 13 cases successfully
+  + warnings-denied all-feature all-target cantor_core Clippy completed successfully
+  + the broader all-feature cantor_core test sweep executed every reached assertion successfully through procedure_runtime
+  + Windows Application Control then blocked the existing procedure_tool test executable before it ran and Cargo reported operating-system error 4551
+
+& [Classification]
+  + the stopped launch is a host execution-policy recurrence rather than a failed product assertion
+  + procedure_tool is not counted as executed in that sweep
+  + the successful focused and reached compatibility evidence remains valid but does not imply the unexecuted remainder passed
+
+& [Response]
+  + do not weaken Smart App Control Code Integrity signer trust or host security policy
+  + do not repeatedly launch the same refused executable as though retry changed its authority
+  + preserve the native refusal and use unaffected focused compilation lint and established guarded proof lanes where available
+
+& [ResolutionEvidence]
+  + Ubuntu-24.04 WSL2 used isolated CARGO_TARGET_DIR /tmp/cantor-slice6-target with locked offline dependencies
+  + cargo test -p cantor_core --all-features --locked --offline -- --test-threads=1 passed 314 tests in 30 result groups with zero failed and zero ignored
+  + the guarded lane includes the exact 13-test Slice6 lifecycle suite and all existing cantor_core compatibility suites
+
+& [Security]
+  + no policy exclusion bypass alternate unsigned trust claim or product-code weakening occurred
