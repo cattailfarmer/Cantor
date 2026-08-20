@@ -109,6 +109,11 @@ async fn official_client_lists_one_tool_and_receives_exact_valid_response() {
         serde_json::from_value(result.structured_content.expect("structured response"))
             .expect("typed response");
     assert_eq!(response, direct);
+
+    client
+        .call_tool(CallToolRequestParams::new("unknown_compiler_operation"))
+        .await
+        .expect_err("unknown tool name must remain a protocol method fault");
     client.cancel().await.expect("client closes");
 }
 

@@ -1,0 +1,35 @@
+Subject: Cantor Seeded Compiler Slice 8 Lifecycle Validation MCP Solution
+
+@ [solution_uuid] e9ed805e-91c9-4551-89ed-98eabfdd9dc5
+@ [source_uuid] 526cea59-fda0-47ff-9dac-12ccc7c59d39
+@ [review_uuid] f6616a79-c3f6-4844-8a02-507cdf29e943
+@ [phase_lock_uuid] c0784a45-1c63-4370-9082-40b8d1eea6ff
+
+& [Status]
+  + [implementation] complete_against_exact_Slice8_phase_lock
+  + [authority] consumed_and_closed
+
+& [Server]
+  + cantor_compiler_mcp is a separate workspace crate and cantor-compiler-mcp is a no-argument stdio binary
+  + exactly one tool named validate_native_lifecycle is advertised
+  + the server owns no lifecycle state and changes no existing MCP tool discovery
+
+& [TransportProjection]
+  + one strict request object is decoded as NativeLifecycleValidationRequest and delegated once to validate_native_lifecycle_request
+  + structuredContent is the exact serialized NativeLifecycleValidationResponse returned by the core
+  + is_error is false only for artifact_valid or verification_valid and true for lifecycle_refused or input_refused
+  + response serialization failure is converted fail-closed into an input refusal
+
+& [BoundsAndMetadata]
+  + the complete MCP argument is measured before typed dispatch against the core eight-megabyte ceiling plus 65536 wrapper bytes
+  + unknown missing extra and oversized arguments refuse before semantic replay
+  + metadata is closed read-only nondestructive idempotent and closed-world
+  + short text directs callers to structuredContent and preserves the distinction between coherence and authority
+
+& [NoEffect]
+  + no provider model filesystem network clock environment runner signer installer deployer executor custody registry or remote host exists in the adapter
+  + caller-supplied public trust context remains evidence for core replay and is not promoted into platform trust
+
+& [Rollback]
+  + remove the cantor_compiler_mcp crate workspace member and Slice8 completion records
+  + retain Slice7 core protocol and CLI plus all preserved Slice8 source SJS canonical justification plan matrix and phase lock records
