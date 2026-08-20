@@ -666,6 +666,25 @@ impl ProducedFixture {
             receipt: &self.receipt,
         }
     }
+
+    fn bundle(&self) -> NativeArtifactLifecycleBundle {
+        NativeArtifactLifecycleBundle {
+            seed: self.authorization_fixture.seed.clone(),
+            ir: self.authorization_fixture.ir.clone(),
+            candidate_plan: self.authorization_fixture.candidate_plan.clone(),
+            candidate_request: self.authorization_fixture.candidate_request.clone(),
+            candidate_projection: self.authorization_fixture.projection.clone(),
+            build_plan: self.authorization_fixture.build_plan.clone(),
+            build_capability: self.authorization_fixture.capability.clone(),
+            sandbox_admission: self.authorization_fixture.sandbox.clone(),
+            approval: self.authorization.statement.clone(),
+            trust_store: self.authorization_fixture.trust_store.clone(),
+            authorization: self.authorization.clone(),
+            observation: self.observation.clone(),
+            attempt_ledger: self.ledger.clone(),
+            artifact_receipt: self.receipt.clone(),
+        }
+    }
 }
 
 fn produced_fixture(distinct_suffix: Option<&str>) -> ProducedFixture {
@@ -1574,4 +1593,481 @@ fn lifecycle_machine_forms_refuse_unknown_fields() {
         .expect("plan object")
         .insert("install_after_pass".to_owned(), serde_json::json!(true));
     assert!(serde_json::from_value::<NativeArtifactVerificationPlan>(plan_json).is_err());
+}
+
+fn artifact_validation_request(produced: &ProducedFixture) -> NativeLifecycleValidationRequest {
+    NativeLifecycleValidationRequest {
+        protocol: NATIVE_LIFECYCLE_VALIDATION_PROTOCOL.to_owned(),
+        request_id: id("request:native-lifecycle-validation"),
+        operation: NativeLifecycleValidationOperation::ValidateArtifact,
+        artifact: produced.bundle(),
+        verification: None,
+    }
+}
+
+fn passed_verification_validation_request(
+    produced: &ProducedFixture,
+) -> NativeLifecycleValidationRequest {
+    let lineage = produced.lineage();
+    let evidence = BTreeSet::from([id("evidence:protocol-passed")]);
+    let plan = project_native_artifact_verification_plan(
+        &lineage,
+        id("verification-plan:protocol-passed"),
+        independent_verifier(),
+        evidence.clone(),
+        false,
+    )
+    .expect("verification plan");
+    let observation = project_native_artifact_verification_observation(
+        &lineage,
+        &plan,
+        id("verification-observation:protocol-passed"),
+        Some(produced.receipt.artifact.clone()),
+        Some(plan.expected_interface_input_schema_digest.clone()),
+        Some(plan.expected_interface_output_schema_digest.clone()),
+        evidence,
+        None,
+    )
+    .expect("verification observation");
+    let receipt = project_native_artifact_verification_receipt(
+        &lineage,
+        &plan,
+        &observation,
+        None,
+        id("verification-receipt:protocol-passed"),
+    )
+    .expect("verification receipt");
+    NativeLifecycleValidationRequest {
+        protocol: NATIVE_LIFECYCLE_VALIDATION_PROTOCOL.to_owned(),
+        request_id: id("request:validation:protocol-passed"),
+        operation: NativeLifecycleValidationOperation::ValidateVerification,
+        artifact: produced.bundle(),
+        verification: Some(NativeVerificationLifecycleBundle {
+            plan,
+            observation,
+            receipt,
+            second_artifact: None,
+        }),
+    }
+}
+
+#[test]
+fn lifecycle_validation_protocol_replays_artifact_deterministically() {
+    let produced = produced_fixture(None);
+    let request = artifact_validation_request(&produced);
+    let first = validate_native_lifecycle_request(&request);
+    let second = validate_native_lifecycle_request(&request);
+    assert_eq!(first, second);
+    assert_eq!(
+        first.outcome,
+        NativeLifecycleValidationOutcome::ArtifactValid
+    );
+    assert_eq!(first.exit_code(), 0);
+    assert_eq!(
+        first.deepest_valid_stage,
+        Some(NativeLifecycleValidationStage::ArtifactReceipt)
+    );
+    assert_eq!(first.stage_account.len(), 14);
+    assert_eq!(
+        first.artifact_id,
+        Some(produced.receipt.artifact.artifact_id)
+    );
+    assert!(first.verification_disposition.is_none());
+    assert!(first.faults.is_empty());
+    assert_eq!(
+        first.non_authority,
+        NATIVE_LIFECYCLE_VALIDATION_NON_AUTHORITY
+    );
+    assert_eq!(
+        serde_json::to_vec(&first).expect("first response JSON"),
+        serde_json::to_vec(&second).expect("second response JSON")
+    );
+    let wire = serde_json::to_vec(&request).expect("request JSON");
+    assert_eq!(validate_native_lifecycle_json(&wire), first);
+}
+
+#[test]
+fn lifecycle_validation_preserves_all_verification_dispositions() {
+    for (suffix, observed_artifact, evidence, expected) in [
+        (
+            "passed",
+            Some(digest('a')),
+            true,
+            NativeArtifactVerificationDisposition::Passed,
+        ),
+        (
+            "failed",
+            Some(digest('f')),
+            true,
+            NativeArtifactVerificationDisposition::Failed,
+        ),
+        (
+            "unresolved",
+            None,
+            false,
+            NativeArtifactVerificationDisposition::Unresolved,
+        ),
+    ] {
+        let produced = produced_fixture(None);
+        let lineage = produced.lineage();
+        let evidence_refs = BTreeSet::from([id(&format!("evidence:{suffix}"))]);
+        let plan = project_native_artifact_verification_plan(
+            &lineage,
+            id(&format!("verification-plan:{suffix}")),
+            independent_verifier(),
+            evidence_refs.clone(),
+            false,
+        )
+        .expect("verification plan");
+        let artifact = observed_artifact.map(|artifact_digest| {
+            let mut artifact = produced.receipt.artifact.clone();
+            artifact.artifact_digest = artifact_digest;
+            artifact
+        });
+        let observation = project_native_artifact_verification_observation(
+            &lineage,
+            &plan,
+            id(&format!("verification-observation:{suffix}")),
+            artifact,
+            evidence.then(|| plan.expected_interface_input_schema_digest.clone()),
+            evidence.then(|| plan.expected_interface_output_schema_digest.clone()),
+            if evidence {
+                evidence_refs
+            } else {
+                BTreeSet::new()
+            },
+            None,
+        )
+        .expect("verification observation");
+        let receipt = project_native_artifact_verification_receipt(
+            &lineage,
+            &plan,
+            &observation,
+            None,
+            id(&format!("verification-receipt:{suffix}")),
+        )
+        .expect("verification receipt");
+        assert_eq!(receipt.disposition, expected);
+        let request = NativeLifecycleValidationRequest {
+            protocol: NATIVE_LIFECYCLE_VALIDATION_PROTOCOL.to_owned(),
+            request_id: id(&format!("request:validation:{suffix}")),
+            operation: NativeLifecycleValidationOperation::ValidateVerification,
+            artifact: produced.bundle(),
+            verification: Some(NativeVerificationLifecycleBundle {
+                plan,
+                observation,
+                receipt,
+                second_artifact: None,
+            }),
+        };
+        let response = validate_native_lifecycle_request(&request);
+        assert_eq!(
+            response.outcome,
+            NativeLifecycleValidationOutcome::VerificationValid
+        );
+        assert_eq!(response.verification_disposition, Some(expected));
+        assert_eq!(response.exit_code(), 0);
+    }
+}
+
+#[test]
+fn lifecycle_validation_replays_complete_second_build_lineage() {
+    let primary = produced_fixture(None);
+    let second = produced_fixture(Some("protocol-reproducibility"));
+    let primary_lineage = primary.lineage();
+    let second_lineage = second.lineage();
+    let evidence = BTreeSet::from([id("evidence:protocol-reproducibility")]);
+    let plan = project_native_artifact_verification_plan(
+        &primary_lineage,
+        id("verification-plan:protocol-reproducibility"),
+        independent_verifier(),
+        evidence.clone(),
+        true,
+    )
+    .expect("verification plan");
+    let observation = project_native_artifact_verification_observation(
+        &primary_lineage,
+        &plan,
+        id("verification-observation:protocol-reproducibility"),
+        Some(primary.receipt.artifact.clone()),
+        Some(plan.expected_interface_input_schema_digest.clone()),
+        Some(plan.expected_interface_output_schema_digest.clone()),
+        evidence,
+        Some(&second_lineage),
+    )
+    .expect("verification observation");
+    let receipt = project_native_artifact_verification_receipt(
+        &primary_lineage,
+        &plan,
+        &observation,
+        Some(&second_lineage),
+        id("verification-receipt:protocol-reproducibility"),
+    )
+    .expect("verification receipt");
+    let request = NativeLifecycleValidationRequest {
+        protocol: NATIVE_LIFECYCLE_VALIDATION_PROTOCOL.to_owned(),
+        request_id: id("request:validation:protocol-reproducibility"),
+        operation: NativeLifecycleValidationOperation::ValidateVerification,
+        artifact: primary.bundle(),
+        verification: Some(NativeVerificationLifecycleBundle {
+            plan,
+            observation,
+            receipt,
+            second_artifact: Some(Box::new(second.bundle())),
+        }),
+    };
+    let response = validate_native_lifecycle_request(&request);
+    assert_eq!(
+        response.outcome,
+        NativeLifecycleValidationOutcome::VerificationValid
+    );
+    assert_eq!(
+        response.verification_disposition,
+        Some(NativeArtifactVerificationDisposition::Passed)
+    );
+    assert!(
+        response
+            .stage_account
+            .contains(&NativeLifecycleValidationStage::SecondArtifactReceipt)
+    );
+}
+
+#[test]
+fn lifecycle_validation_stops_at_earliest_fault_and_closes_json_shape() {
+    let produced = produced_fixture(None);
+    let mut request = artifact_validation_request(&produced);
+    request.artifact.approval.non_authority = "expanded authority".to_owned();
+    let response = validate_native_lifecycle_request(&request);
+    assert_eq!(
+        response.outcome,
+        NativeLifecycleValidationOutcome::LifecycleRefused
+    );
+    assert_eq!(response.exit_code(), 1);
+    assert_eq!(
+        response.deepest_valid_stage,
+        Some(NativeLifecycleValidationStage::SandboxAdmission)
+    );
+    assert_eq!(
+        response.faults[0].stage,
+        Some(NativeLifecycleValidationStage::ApprovalStatement)
+    );
+    assert!(response.artifact_id.is_none());
+
+    let mut unknown =
+        serde_json::to_value(artifact_validation_request(&produced)).expect("request JSON value");
+    unknown["repair_invalid_forms"] = serde_json::json!(true);
+    assert!(serde_json::from_value::<NativeLifecycleValidationRequest>(unknown).is_err());
+
+    let mut mismatch = artifact_validation_request(&produced);
+    mismatch.operation = NativeLifecycleValidationOperation::ValidateVerification;
+    let response = validate_native_lifecycle_request(&mismatch);
+    assert_eq!(
+        response.faults[0].kind,
+        NativeLifecycleValidationFaultKind::OperationMismatch
+    );
+    assert!(response.stage_account.is_empty());
+
+    let valid = serde_json::to_vec(&artifact_validation_request(&produced)).expect("valid JSON");
+    let mut trailing = valid.clone();
+    trailing.extend_from_slice(b" true");
+    assert_eq!(
+        validate_native_lifecycle_json(&trailing).outcome,
+        NativeLifecycleValidationOutcome::InputRefused
+    );
+    assert_eq!(
+        validate_native_lifecycle_json(&vec![b'x'; NATIVE_LIFECYCLE_MAX_INPUT_BYTES + 1]).faults[0]
+            .kind,
+        NativeLifecycleValidationFaultKind::InvalidBound
+    );
+}
+
+#[test]
+fn lifecycle_validation_attributes_every_primary_dependency_fault() {
+    let produced = produced_fixture(None);
+    macro_rules! expect_stage {
+        ($mutation:expr, $stage:expr) => {{
+            let mut request = artifact_validation_request(&produced);
+            $mutation(&mut request);
+            let response = validate_native_lifecycle_request(&request);
+            assert_eq!(
+                response.outcome,
+                NativeLifecycleValidationOutcome::LifecycleRefused
+            );
+            assert_eq!(response.faults.len(), 1);
+            assert_eq!(response.faults[0].stage, Some($stage));
+        }};
+    }
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request.artifact.seed.profile.push('x'),
+        NativeLifecycleValidationStage::Seed
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request.artifact.ir.profile.push('x'),
+        NativeLifecycleValidationStage::TypedSopIr
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .candidate_plan
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::CandidatePlan
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .candidate_projection
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::NativeCandidateProjection
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .build_plan
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::NativeBuildPlan
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .build_capability
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::NativeBuildCapability
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .sandbox_admission
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::SandboxAdmission
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .approval
+            .non_authority
+            .push('x'),
+        NativeLifecycleValidationStage::ApprovalStatement
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .trust_store
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::TrustStore
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .authorization
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::Authorization
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .observation
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::BuildObservation
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .attempt_ledger
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::AttemptLedger
+    );
+    expect_stage!(
+        |request: &mut NativeLifecycleValidationRequest| request
+            .artifact
+            .artifact_receipt
+            .profile
+            .push('x'),
+        NativeLifecycleValidationStage::ArtifactReceipt
+    );
+}
+
+#[test]
+fn lifecycle_validation_attributes_verification_and_second_lineage_faults() {
+    let produced = produced_fixture(None);
+    for (mutation, expected) in [
+        (0_u8, NativeLifecycleValidationStage::VerificationPlan),
+        (
+            1_u8,
+            NativeLifecycleValidationStage::VerificationObservation,
+        ),
+        (2_u8, NativeLifecycleValidationStage::VerificationReceipt),
+    ] {
+        let mut request = passed_verification_validation_request(&produced);
+        let verification = request.verification.as_mut().expect("verification bundle");
+        match mutation {
+            0 => verification.plan.profile.push('x'),
+            1 => verification.observation.profile.push('x'),
+            2 => verification.receipt.profile.push('x'),
+            _ => unreachable!(),
+        }
+        let response = validate_native_lifecycle_request(&request);
+        assert_eq!(response.faults[0].stage, Some(expected));
+        assert!(response.artifact_id.is_some());
+    }
+
+    let second = produced_fixture(Some("protocol-second-fault"));
+    let primary_lineage = produced.lineage();
+    let second_lineage = second.lineage();
+    let evidence = BTreeSet::from([id("evidence:protocol-second-fault")]);
+    let plan = project_native_artifact_verification_plan(
+        &primary_lineage,
+        id("verification-plan:protocol-second-fault"),
+        independent_verifier(),
+        evidence.clone(),
+        true,
+    )
+    .expect("verification plan");
+    let observation = project_native_artifact_verification_observation(
+        &primary_lineage,
+        &plan,
+        id("verification-observation:protocol-second-fault"),
+        Some(produced.receipt.artifact.clone()),
+        Some(plan.expected_interface_input_schema_digest.clone()),
+        Some(plan.expected_interface_output_schema_digest.clone()),
+        evidence,
+        Some(&second_lineage),
+    )
+    .expect("verification observation");
+    let receipt = project_native_artifact_verification_receipt(
+        &primary_lineage,
+        &plan,
+        &observation,
+        Some(&second_lineage),
+        id("verification-receipt:protocol-second-fault"),
+    )
+    .expect("verification receipt");
+    let mut second_bundle = second.bundle();
+    second_bundle.artifact_receipt.profile.push('x');
+    let request = NativeLifecycleValidationRequest {
+        protocol: NATIVE_LIFECYCLE_VALIDATION_PROTOCOL.to_owned(),
+        request_id: id("request:validation:protocol-second-fault"),
+        operation: NativeLifecycleValidationOperation::ValidateVerification,
+        artifact: produced.bundle(),
+        verification: Some(NativeVerificationLifecycleBundle {
+            plan,
+            observation,
+            receipt,
+            second_artifact: Some(Box::new(second_bundle)),
+        }),
+    };
+    let response = validate_native_lifecycle_request(&request);
+    assert_eq!(
+        response.faults[0].stage,
+        Some(NativeLifecycleValidationStage::SecondArtifactReceipt)
+    );
+    assert!(response.faults[0].field.starts_with("second_artifact."));
 }
