@@ -9,14 +9,19 @@ use cantor_core::{
     ApplicabilityStatus, AssociationChannel, AssociationContribution, AuthorityContext,
     AuthorityScope, BoundaryAccount, CandidateEligibility, CatalogueDerivationRequest,
     CatalogueIdentity, ChannelLocalValue, ContentDigest, ContributionStatus,
-    DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, OperationAnchorEntry, OperationClass,
-    OperationRole, PriorityTier, RelationType, RelationshipDirection, RequestedDetailKind,
-    SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress, SemanticAnchorCatalogue, SemanticFabric,
-    SemanticId, SourceAnchor, UnitKind, UnitStatus, admit_package, anchor_query_result_digest,
-    candidate_association_account, candidate_relationship_paths, catalogue_derivation_digest,
-    catalogue_root, derive_semantic_anchor_catalogue, derived_semantic_anchor_catalogue_digest,
+    DERIVED_LEXICAL_ASSOCIATION_INDEX_PROFILE, DerivedLexicalAssociationIndex,
+    DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, LEXICAL_ASSOCIATION_INDEX_COMPILER_ID,
+    LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION, LEXICAL_TOKENIZER_PROFILE,
+    LexicalIndexDerivationRequest, LexicalIndexFaultKind, LexicalPosting, LexicalSurfaceKind,
+    LexicalTokenizerIdentity, OperationAnchorEntry, OperationClass, OperationRole, PriorityTier,
+    RelationType, RelationshipDirection, RequestedDetailKind, SEMANTIC_ANCHOR_CATALOGUE_PROFILE,
+    SemanticAddress, SemanticAnchorCatalogue, SemanticFabric, SemanticId, SourceAnchor, UnitKind,
+    UnitStatus, admit_package, anchor_query_result_digest, candidate_association_account,
+    candidate_relationship_paths, catalogue_derivation_digest, catalogue_root,
+    derive_semantic_anchor_catalogue, derived_semantic_anchor_catalogue_digest,
     validate_anchor_candidate, validate_anchor_query, validate_anchor_query_result,
-    validate_derived_semantic_anchor_catalogue, validate_semantic_anchor_catalogue,
+    validate_derived_lexical_association_index_form, validate_derived_semantic_anchor_catalogue,
+    validate_lexical_index_derivation_request, validate_semantic_anchor_catalogue,
 };
 
 fn id(value: &str) -> SemanticId {
@@ -97,6 +102,35 @@ fn renamed_package_input(suffix: &str) -> cantor_core::PackageCompilationInput {
 fn derive_fixture(fabric: &SemanticFabric) -> DerivedSemanticAnchorCatalogue {
     derive_semantic_anchor_catalogue(fabric, derivation_request())
         .expect("fixture catalogue derives")
+}
+
+fn lexical_index_form() -> DerivedLexicalAssociationIndex {
+    let posting = LexicalPosting {
+        token: "anchor".to_owned(),
+        address: address("unit:anchor", UnitKind::Declaration, 'c'),
+        surface_kind: LexicalSurfaceKind::PreferredExpression,
+        surface_digest: digest('d'),
+        occurrence_count: 1,
+        evidence_refs: BTreeSet::from([id("evidence:anchor")]),
+    };
+    DerivedLexicalAssociationIndex {
+        profile: DERIVED_LEXICAL_ASSOCIATION_INDEX_PROFILE.to_owned(),
+        index_id: id("lexical-index:fixture"),
+        logical_revision: "fixture-r1".to_owned(),
+        catalogue_root: digest('e'),
+        fabric_root: digest('f'),
+        compiler_id: id(LEXICAL_ASSOCIATION_INDEX_COMPILER_ID),
+        compiler_version: LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION.to_owned(),
+        tokenizer: LexicalTokenizerIdentity {
+            profile: LEXICAL_TOKENIZER_PROFILE.to_owned(),
+            compiler_id: id(LEXICAL_ASSOCIATION_INDEX_COMPILER_ID),
+            compiler_version: LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION.to_owned(),
+            adversarial_fixture_digest: digest('a'),
+        },
+        postings: BTreeMap::from([("anchor".to_owned(), vec![posting])]),
+        index_root: digest('1'),
+        proof_digest: digest('2'),
+    }
 }
 
 fn address(unit: &str, kind: UnitKind, byte: char) -> SemanticAddress {
@@ -1040,4 +1074,156 @@ fn derived_catalogue_machine_form_rejects_unknown_fields() {
         .expect("derived object")
         .insert("unrecognized_authority".to_owned(), serde_json::json!(true));
     assert!(serde_json::from_value::<DerivedSemanticAnchorCatalogue>(value).is_err());
+}
+
+#[test]
+fn lexical_sidecar_closed_forms_validate_and_deny_unknown_fields() {
+    let index = lexical_index_form();
+    validate_derived_lexical_association_index_form(&index).expect("valid lexical sidecar form");
+
+    let request = LexicalIndexDerivationRequest {
+        index_id: id("lexical-index:fixture"),
+        logical_revision: "fixture-r1".to_owned(),
+        tokenizer_profile: LEXICAL_TOKENIZER_PROFILE.to_owned(),
+    };
+    validate_lexical_index_derivation_request(&request).expect("valid lexical request form");
+
+    let mut index_value = serde_json::to_value(&index).expect("lexical index value");
+    index_value
+        .as_object_mut()
+        .expect("lexical index object")
+        .insert("authority_score".to_owned(), serde_json::json!(10_000));
+    assert!(serde_json::from_value::<DerivedLexicalAssociationIndex>(index_value).is_err());
+
+    let mut posting_value =
+        serde_json::to_value(&index.postings["anchor"][0]).expect("lexical posting value");
+    posting_value
+        .as_object_mut()
+        .expect("lexical posting object")
+        .insert("permission".to_owned(), serde_json::json!(true));
+    assert!(serde_json::from_value::<LexicalPosting>(posting_value).is_err());
+}
+
+#[test]
+fn lexical_sidecar_request_profile_and_bounds_fail_closed() {
+    let mut request = LexicalIndexDerivationRequest {
+        index_id: id("lexical-index:fixture"),
+        logical_revision: "fixture-r1".to_owned(),
+        tokenizer_profile: "cantor-lexical-tokenizer/9.9".to_owned(),
+    };
+    assert_eq!(
+        validate_lexical_index_derivation_request(&request)
+            .expect_err("unsupported tokenizer profile")
+            .kind,
+        LexicalIndexFaultKind::InvalidProfile
+    );
+    request.tokenizer_profile = LEXICAL_TOKENIZER_PROFILE.to_owned();
+    request.logical_revision = "x".repeat(257);
+    assert_eq!(
+        validate_lexical_index_derivation_request(&request)
+            .expect_err("oversized logical revision")
+            .kind,
+        LexicalIndexFaultKind::InvalidBound
+    );
+}
+
+#[test]
+fn lexical_sidecar_structural_mutations_fail_closed() {
+    let baseline = lexical_index_form();
+
+    let mut wrong_profile = baseline.clone();
+    wrong_profile.profile = "cantor-derived-lexical-association-index/9.9".to_owned();
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&wrong_profile)
+            .expect_err("wrong index profile")
+            .kind,
+        LexicalIndexFaultKind::InvalidProfile
+    );
+
+    let mut wrong_compiler = baseline.clone();
+    wrong_compiler.compiler_id = id("compiler:other");
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&wrong_compiler)
+            .expect_err("wrong compiler")
+            .kind,
+        LexicalIndexFaultKind::InvalidIdentity
+    );
+
+    let mut uppercase_token = baseline.clone();
+    let mut postings = uppercase_token
+        .postings
+        .remove("anchor")
+        .expect("anchor postings");
+    postings[0].token = "Anchor".to_owned();
+    uppercase_token
+        .postings
+        .insert("Anchor".to_owned(), postings);
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&uppercase_token)
+            .expect_err("uppercase token")
+            .kind,
+        LexicalIndexFaultKind::InvalidBound
+    );
+
+    let mut mismatched_token = baseline.clone();
+    mismatched_token
+        .postings
+        .get_mut("anchor")
+        .expect("posting")[0]
+        .token = "different".to_owned();
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&mismatched_token)
+            .expect_err("posting token mismatch")
+            .kind,
+        LexicalIndexFaultKind::InvalidIdentity
+    );
+
+    let mut zero_occurrence = baseline.clone();
+    zero_occurrence.postings.get_mut("anchor").expect("posting")[0].occurrence_count = 0;
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&zero_occurrence)
+            .expect_err("zero occurrence")
+            .kind,
+        LexicalIndexFaultKind::InvalidBound
+    );
+
+    let mut no_evidence = baseline.clone();
+    no_evidence.postings.get_mut("anchor").expect("posting")[0]
+        .evidence_refs
+        .clear();
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&no_evidence)
+            .expect_err("missing evidence")
+            .kind,
+        LexicalIndexFaultKind::InvalidBound
+    );
+
+    let mut duplicate = baseline.clone();
+    let repeated = duplicate.postings["anchor"][0].clone();
+    duplicate
+        .postings
+        .get_mut("anchor")
+        .expect("posting")
+        .push(repeated);
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&duplicate)
+            .expect_err("duplicate posting")
+            .kind,
+        LexicalIndexFaultKind::DuplicatePosting
+    );
+
+    let mut wrong_order = baseline;
+    let mut earlier = wrong_order.postings["anchor"][0].clone();
+    earlier.address = address("unit:aaa", UnitKind::Declaration, '9');
+    wrong_order
+        .postings
+        .get_mut("anchor")
+        .expect("posting")
+        .push(earlier);
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&wrong_order)
+            .expect_err("noncanonical posting order")
+            .kind,
+        LexicalIndexFaultKind::NonCanonicalOrder
+    );
 }

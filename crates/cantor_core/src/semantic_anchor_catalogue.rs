@@ -21,8 +21,19 @@ pub const ANCHOR_QUERY_PROFILE: &str = "cantor-anchor-query/0.1";
 pub const ANCHOR_QUERY_RESULT_PROFILE: &str = "cantor-anchor-query-result/0.1";
 pub const DERIVED_SEMANTIC_ANCHOR_CATALOGUE_PROFILE: &str =
     "cantor-derived-semantic-anchor-catalogue/0.1";
+pub const DERIVED_LEXICAL_ASSOCIATION_INDEX_PROFILE: &str =
+    "cantor-derived-lexical-association-index/0.1";
+pub const LEXICAL_TOKENIZER_PROFILE: &str = "cantor-lexical-tokenizer/0.1";
 pub const SEMANTIC_ANCHOR_CATALOGUE_COMPILER_ID: &str = "compiler:cantor_semantic_anchor_catalogue";
 pub const SEMANTIC_ANCHOR_CATALOGUE_COMPILER_VERSION: &str = "0.1.0";
+pub const LEXICAL_ASSOCIATION_INDEX_COMPILER_ID: &str = "compiler:cantor_lexical_association_index";
+pub const LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION: &str = "0.1.0";
+pub const MAX_LEXICAL_LOGICAL_REVISION_BYTES: usize = 256;
+pub const MAX_LEXICAL_TOKEN_BYTES: usize = 256;
+pub const MAX_LEXICAL_POSTINGS_PER_TOKEN: usize = 4096;
+pub const MAX_LEXICAL_TOTAL_POSTINGS: usize = 262_144;
+pub const MAX_LEXICAL_EVIDENCE_REFS: usize = 64;
+pub const MAX_LEXICAL_INDEX_SERIALIZED_BYTES: usize = 64 * 1024 * 1024;
 
 const DIGEST_ALGORITHM: &str = "sha256";
 const DERIVATION_DOMAIN: &str = "cantor.semantic-anchor-catalogue.derivation.v1";
@@ -94,6 +105,77 @@ pub struct DerivedSemanticAnchorCatalogue {
     pub relation_adjacency: BTreeMap<SemanticId, BTreeSet<SemanticId>>,
     pub omissions: Vec<CatalogueDerivationOmission>,
     pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalTokenizerIdentity {
+    pub profile: String,
+    pub compiler_id: SemanticId,
+    pub compiler_version: String,
+    pub adversarial_fixture_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum LexicalSurfaceKind {
+    PreferredExpression,
+    Alias,
+    Meaning,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalPosting {
+    pub token: String,
+    pub address: SemanticAddress,
+    pub surface_kind: LexicalSurfaceKind,
+    pub surface_digest: ContentDigest,
+    pub occurrence_count: u32,
+    pub evidence_refs: BTreeSet<SemanticId>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct DerivedLexicalAssociationIndex {
+    pub profile: String,
+    pub index_id: SemanticId,
+    pub logical_revision: String,
+    pub catalogue_root: ContentDigest,
+    pub fabric_root: ContentDigest,
+    pub compiler_id: SemanticId,
+    pub compiler_version: String,
+    pub tokenizer: LexicalTokenizerIdentity,
+    pub postings: BTreeMap<String, Vec<LexicalPosting>>,
+    pub index_root: ContentDigest,
+    pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalIndexDerivationRequest {
+    pub index_id: SemanticId,
+    pub logical_revision: String,
+    pub tokenizer_profile: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum LexicalIndexFaultKind {
+    InvalidProfile,
+    InvalidBound,
+    InvalidIdentity,
+    InvalidDigest,
+    NonCanonicalOrder,
+    DuplicatePosting,
+    RootMismatch,
+    ProjectionMismatch,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalIndexFault {
+    pub kind: LexicalIndexFaultKind,
+    pub field: String,
+    pub detail: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -437,6 +519,7 @@ pub struct AnchorFormFault {
 
 type AnchorValidation<T = ()> = Result<T, AnchorFormFault>;
 type AnchorDerivationResult<T = ()> = Result<T, AnchorDerivationFault>;
+type LexicalIndexValidation<T = ()> = Result<T, LexicalIndexFault>;
 
 pub fn derive_semantic_anchor_catalogue(
     fabric: &SemanticFabric,
@@ -495,6 +578,185 @@ pub fn validate_derived_semantic_anchor_catalogue(
             "derived_catalogue",
             "derived catalogue differs from a canonical rebuild of the admitted fabric",
             Vec::new(),
+        );
+    }
+    Ok(())
+}
+
+pub fn validate_lexical_index_derivation_request(
+    request: &LexicalIndexDerivationRequest,
+) -> LexicalIndexValidation {
+    if request.tokenizer_profile != LEXICAL_TOKENIZER_PROFILE {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidProfile,
+            "tokenizer_profile",
+            "unsupported lexical tokenizer profile",
+        );
+    }
+    if request.logical_revision.trim().is_empty()
+        || request.logical_revision.len() > MAX_LEXICAL_LOGICAL_REVISION_BYTES
+    {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidBound,
+            "logical_revision",
+            "lexical logical revision is empty or oversized",
+        );
+    }
+    Ok(())
+}
+
+pub fn validate_lexical_tokenizer_identity(
+    tokenizer: &LexicalTokenizerIdentity,
+) -> LexicalIndexValidation {
+    if tokenizer.profile != LEXICAL_TOKENIZER_PROFILE {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidProfile,
+            "tokenizer.profile",
+            "unsupported lexical tokenizer profile",
+        );
+    }
+    if tokenizer.compiler_id.as_str() != LEXICAL_ASSOCIATION_INDEX_COMPILER_ID
+        || tokenizer.compiler_version != LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION
+    {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidIdentity,
+            "tokenizer.compiler",
+            "lexical tokenizer compiler identity differs",
+        );
+    }
+    validate_lexical_digest(
+        &tokenizer.adversarial_fixture_digest,
+        "tokenizer.adversarial_fixture_digest",
+    )
+}
+
+pub fn validate_derived_lexical_association_index_form(
+    index: &DerivedLexicalAssociationIndex,
+) -> LexicalIndexValidation {
+    if index.profile != DERIVED_LEXICAL_ASSOCIATION_INDEX_PROFILE {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidProfile,
+            "profile",
+            "wrong derived lexical association index profile",
+        );
+    }
+    if index.logical_revision.trim().is_empty()
+        || index.logical_revision.len() > MAX_LEXICAL_LOGICAL_REVISION_BYTES
+    {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidBound,
+            "logical_revision",
+            "lexical logical revision is empty or oversized",
+        );
+    }
+    if index.compiler_id.as_str() != LEXICAL_ASSOCIATION_INDEX_COMPILER_ID
+        || index.compiler_version != LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION
+    {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidIdentity,
+            "compiler",
+            "lexical index compiler identity differs",
+        );
+    }
+    validate_lexical_tokenizer_identity(&index.tokenizer)?;
+    validate_lexical_digest(&index.catalogue_root, "catalogue_root")?;
+    validate_lexical_digest(&index.fabric_root, "fabric_root")?;
+    validate_lexical_digest(&index.index_root, "index_root")?;
+    validate_lexical_digest(&index.proof_digest, "proof_digest")?;
+
+    let mut total_postings = 0usize;
+    for (token, postings) in &index.postings {
+        if token.is_empty()
+            || token.len() > MAX_LEXICAL_TOKEN_BYTES
+            || token
+                .chars()
+                .any(|character| !character.is_alphanumeric() || character.is_uppercase())
+        {
+            return lexical_fault(
+                LexicalIndexFaultKind::InvalidBound,
+                "postings.token",
+                "lexical token is empty oversized uppercase or non-alphanumeric",
+            );
+        }
+        if postings.is_empty() || postings.len() > MAX_LEXICAL_POSTINGS_PER_TOKEN {
+            return lexical_fault(
+                LexicalIndexFaultKind::InvalidBound,
+                "postings",
+                "posting set is empty or oversized",
+            );
+        }
+        total_postings =
+            total_postings
+                .checked_add(postings.len())
+                .ok_or_else(|| LexicalIndexFault {
+                    kind: LexicalIndexFaultKind::InvalidBound,
+                    field: "postings".to_owned(),
+                    detail: "total lexical posting count overflow".to_owned(),
+                })?;
+        if total_postings > MAX_LEXICAL_TOTAL_POSTINGS {
+            return lexical_fault(
+                LexicalIndexFaultKind::InvalidBound,
+                "postings",
+                "total lexical posting bound exceeded",
+            );
+        }
+        for posting in postings {
+            if posting.token != *token {
+                return lexical_fault(
+                    LexicalIndexFaultKind::InvalidIdentity,
+                    "posting.token",
+                    "posting token differs from its map key",
+                );
+            }
+            validate_address(&posting.address).map_err(anchor_form_to_lexical_fault)?;
+            validate_lexical_digest(&posting.surface_digest, "posting.surface_digest")?;
+            if posting.occurrence_count == 0
+                || posting.evidence_refs.is_empty()
+                || posting.evidence_refs.len() > MAX_LEXICAL_EVIDENCE_REFS
+            {
+                return lexical_fault(
+                    LexicalIndexFaultKind::InvalidBound,
+                    "posting",
+                    "positive occurrence count and bounded evidence are required",
+                );
+            }
+        }
+        for pair in postings.windows(2) {
+            let left = (
+                &pair[0].address.unit_id,
+                &pair[0].address.package_id,
+                &pair[0].surface_kind,
+                &pair[0].surface_digest.value,
+            );
+            let right = (
+                &pair[1].address.unit_id,
+                &pair[1].address.package_id,
+                &pair[1].surface_kind,
+                &pair[1].surface_digest.value,
+            );
+            if left >= right {
+                return lexical_fault(
+                    if left == right {
+                        LexicalIndexFaultKind::DuplicatePosting
+                    } else {
+                        LexicalIndexFaultKind::NonCanonicalOrder
+                    },
+                    "postings",
+                    "lexical postings are not strictly canonical and unique",
+                );
+            }
+        }
+    }
+    let serialized_bytes = serde_json::to_vec(index).map_err(|error| LexicalIndexFault {
+        kind: LexicalIndexFaultKind::InvalidIdentity,
+        field: "serialization".to_owned(),
+        detail: error.to_string(),
+    })?;
+    if serialized_bytes.len() > MAX_LEXICAL_INDEX_SERIALIZED_BYTES {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidBound,
+            "serialized_index",
+            "serialized lexical index bound exceeded",
         );
     }
     Ok(())
@@ -1545,6 +1807,43 @@ fn digest_form<T: Serialize>(domain: &str, value: &T) -> AnchorValidation<Conten
             .iter()
             .map(|byte| format!("{byte:02x}"))
             .collect(),
+    })
+}
+
+fn validate_lexical_digest(digest: &ContentDigest, field: &str) -> LexicalIndexValidation {
+    if digest.algorithm != DIGEST_ALGORITHM
+        || digest.value.len() != 64
+        || !digest
+            .value
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+    {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidDigest,
+            field,
+            "expected lowercase SHA-256",
+        );
+    }
+    Ok(())
+}
+
+fn anchor_form_to_lexical_fault(fault: AnchorFormFault) -> LexicalIndexFault {
+    LexicalIndexFault {
+        kind: LexicalIndexFaultKind::InvalidIdentity,
+        field: fault.field,
+        detail: fault.detail,
+    }
+}
+
+fn lexical_fault<T>(
+    kind: LexicalIndexFaultKind,
+    field: &str,
+    detail: &str,
+) -> LexicalIndexValidation<T> {
+    Err(LexicalIndexFault {
+        kind,
+        field: field.to_owned(),
+        detail: detail.to_owned(),
     })
 }
 
