@@ -30,6 +30,9 @@ pub const SEMANTIC_ANCHOR_CATALOGUE_COMPILER_ID: &str = "compiler:cantor_semanti
 pub const SEMANTIC_ANCHOR_CATALOGUE_COMPILER_VERSION: &str = "0.1.0";
 pub const LEXICAL_ASSOCIATION_INDEX_COMPILER_ID: &str = "compiler:cantor_lexical_association_index";
 pub const LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION: &str = "0.1.0";
+pub const LEXICAL_ANCHOR_LOOKUP_PROFILE: &str = "cantor-lexical-anchor-lookup/0.1";
+pub const LEXICAL_ANCHOR_LOOKUP_RESULT_PROFILE: &str = "cantor-lexical-anchor-lookup-result/0.1";
+pub const LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY: &str = "Lexical correspondence evidence only. Semantic purpose, truth, permission, authority, safety, applicability, lifecycle, and boundary gates did not run.";
 pub const MAX_LEXICAL_LOGICAL_REVISION_BYTES: usize = 256;
 pub const MAX_LEXICAL_SURFACE_BYTES: usize = 16 * 1024;
 pub const MAX_LEXICAL_TOKEN_BYTES: usize = 256;
@@ -38,6 +41,12 @@ pub const MAX_LEXICAL_POSTINGS_PER_TOKEN: usize = 4096;
 pub const MAX_LEXICAL_TOTAL_POSTINGS: usize = 262_144;
 pub const MAX_LEXICAL_EVIDENCE_REFS: usize = 64;
 pub const MAX_LEXICAL_INDEX_SERIALIZED_BYTES: usize = 64 * 1024 * 1024;
+pub const MAX_LEXICAL_LOOKUP_TERMS: u32 = 128;
+pub const MAX_LEXICAL_LOOKUP_QUERY_BYTES: u64 = 65_536;
+pub const MAX_LEXICAL_LOOKUP_UNIQUE_TOKENS: u32 = 4_096;
+pub const MAX_LEXICAL_LOOKUP_POSTINGS: u32 = 131_072;
+pub const MAX_LEXICAL_LOOKUP_MATCHES: u32 = 4_096;
+pub const MAX_LEXICAL_LOOKUP_RESULT_BYTES: u64 = 67_108_864;
 
 const DIGEST_ALGORITHM: &str = "sha256";
 const DERIVATION_DOMAIN: &str = "cantor.semantic-anchor-catalogue.derivation.v1";
@@ -54,6 +63,9 @@ const LEXICAL_SURFACE_DOMAIN: &str = "cantor.semantic-anchor-catalogue.lexical-s
 const LEXICAL_INDEX_ROOT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.lexical-index-root.v1";
 const LEXICAL_INDEX_PROOF_DOMAIN: &str = "cantor.semantic-anchor-catalogue.lexical-index-proof.v1";
 const LEXICAL_DERIVATION_DECISION_PROFILE: &str = "cantor.lexical-index-derivation-decisions/0.1";
+const LEXICAL_LOOKUP_PROOF_DOMAIN: &str =
+    "cantor.semantic-anchor-catalogue.lexical-lookup-proof.v1";
+const LEXICAL_LOOKUP_DECISION_PROFILE: &str = "cantor.lexical-anchor-lookup-decisions/0.1";
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -166,6 +178,90 @@ pub struct LexicalIndexDerivationRequest {
     pub index_id: SemanticId,
     pub logical_revision: String,
     pub tokenizer_profile: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalAnchorLookupBudget {
+    pub maximum_terms: u32,
+    pub maximum_query_bytes: u64,
+    pub maximum_unique_tokens: u32,
+    pub maximum_postings: u32,
+    pub maximum_matches: u32,
+    pub maximum_serialized_result_bytes: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalAnchorLookupRequest {
+    pub profile: String,
+    pub request_id: SemanticId,
+    pub terms: Vec<String>,
+    pub budget: LexicalAnchorLookupBudget,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalTermAccount {
+    pub original_term: String,
+    pub token_occurrences: BTreeMap<String, u32>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct MatchedLexicalEvidence {
+    pub token: String,
+    pub surface_kind: LexicalSurfaceKind,
+    pub surface_digest: ContentDigest,
+    pub occurrence_count: u32,
+    pub evidence_refs: BTreeSet<SemanticId>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalAnchorMatch {
+    pub address: SemanticAddress,
+    pub matched_tokens: BTreeSet<String>,
+    pub evidence: Vec<MatchedLexicalEvidence>,
+    pub coverage_basis_points: u16,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalAnchorLookupResult {
+    pub profile: String,
+    pub request_id: SemanticId,
+    pub catalogue_root: ContentDigest,
+    pub fabric_root: ContentDigest,
+    pub index_root: ContentDigest,
+    pub tokenizer: LexicalTokenizerIdentity,
+    pub term_accounts: Vec<LexicalTermAccount>,
+    pub eligible_tokens: BTreeSet<String>,
+    pub unmatched_tokens: BTreeSet<String>,
+    pub complete_posting_count: u32,
+    pub matches: Vec<LexicalAnchorMatch>,
+    pub non_authority_statement: String,
+    pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum LexicalLookupFaultKind {
+    InvalidProfile,
+    InvalidBound,
+    IndexRejected,
+    BudgetExceeded,
+    RootMismatch,
+    NonCanonicalOrder,
+    ProjectionMismatch,
+    ProofMismatch,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalLookupFault {
+    pub kind: LexicalLookupFaultKind,
+    pub field: String,
+    pub detail: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -530,6 +626,7 @@ pub struct AnchorFormFault {
 type AnchorValidation<T = ()> = Result<T, AnchorFormFault>;
 type AnchorDerivationResult<T = ()> = Result<T, AnchorDerivationFault>;
 type LexicalIndexValidation<T = ()> = Result<T, LexicalIndexFault>;
+type LexicalLookupValidation<T = ()> = Result<T, LexicalLookupFault>;
 
 pub fn derive_semantic_anchor_catalogue(
     fabric: &SemanticFabric,
@@ -744,6 +841,207 @@ pub fn validate_derived_lexical_association_index(
         );
     }
     Ok(())
+}
+
+pub fn validate_lexical_anchor_lookup_request(
+    request: &LexicalAnchorLookupRequest,
+) -> LexicalLookupValidation {
+    if request.profile != LEXICAL_ANCHOR_LOOKUP_PROFILE {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::InvalidProfile,
+            "request.profile",
+            "unsupported lexical anchor lookup profile",
+        );
+    }
+    let budget = &request.budget;
+    if budget.maximum_terms == 0
+        || budget.maximum_terms > MAX_LEXICAL_LOOKUP_TERMS
+        || budget.maximum_query_bytes == 0
+        || budget.maximum_query_bytes > MAX_LEXICAL_LOOKUP_QUERY_BYTES
+        || budget.maximum_unique_tokens == 0
+        || budget.maximum_unique_tokens > MAX_LEXICAL_LOOKUP_UNIQUE_TOKENS
+        || budget.maximum_postings == 0
+        || budget.maximum_postings > MAX_LEXICAL_LOOKUP_POSTINGS
+        || budget.maximum_matches == 0
+        || budget.maximum_matches > MAX_LEXICAL_LOOKUP_MATCHES
+        || budget.maximum_serialized_result_bytes == 0
+        || budget.maximum_serialized_result_bytes > MAX_LEXICAL_LOOKUP_RESULT_BYTES
+    {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::InvalidBound,
+            "request.budget",
+            "lexical lookup budget is zero or exceeds a hard cap",
+        );
+    }
+    if request.terms.is_empty() || request.terms.len() > budget.maximum_terms as usize {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::InvalidBound,
+            "request.terms",
+            "lexical lookup term count is empty or exceeds its budget",
+        );
+    }
+    let mut query_bytes = 0_u64;
+    for term in &request.terms {
+        if term.trim().is_empty() || term.len() > MAX_LEXICAL_SURFACE_BYTES {
+            return lexical_lookup_fault(
+                LexicalLookupFaultKind::InvalidBound,
+                "request.term",
+                "lexical lookup term is blank or exceeds the lexical surface bound",
+            );
+        }
+        query_bytes =
+            query_bytes
+                .checked_add(term.len() as u64)
+                .ok_or_else(|| LexicalLookupFault {
+                    kind: LexicalLookupFaultKind::InvalidBound,
+                    field: "request.terms".to_owned(),
+                    detail: "lexical lookup query byte count overflow".to_owned(),
+                })?;
+    }
+    if query_bytes > budget.maximum_query_bytes {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::BudgetExceeded,
+            "request.budget.maximum_query_bytes",
+            "complete lexical lookup query bytes exceed budget",
+        );
+    }
+    Ok(())
+}
+
+pub fn lookup_lexical_anchors(
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    index: &DerivedLexicalAssociationIndex,
+    request: LexicalAnchorLookupRequest,
+) -> LexicalLookupValidation<LexicalAnchorLookupResult> {
+    validate_lexical_anchor_lookup_request(&request)?;
+    validate_derived_lexical_association_index(index, catalogue, fabric)
+        .map_err(lexical_index_to_lookup_fault)?;
+    let result = build_lexical_anchor_lookup_result(index, &request, catalogue)?;
+    validate_lexical_anchor_lookup_result_form(&result, &request, index, catalogue)?;
+    Ok(result)
+}
+
+pub fn validate_lexical_anchor_lookup_result_form(
+    result: &LexicalAnchorLookupResult,
+    request: &LexicalAnchorLookupRequest,
+    index: &DerivedLexicalAssociationIndex,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+) -> LexicalLookupValidation {
+    validate_lexical_anchor_lookup_request(request)?;
+    validate_derived_lexical_association_index_form(index)
+        .map_err(lexical_index_to_lookup_fault)?;
+    validate_semantic_anchor_catalogue(&catalogue.catalogue)
+        .map_err(anchor_form_to_lookup_fault)?;
+    if result.profile != LEXICAL_ANCHOR_LOOKUP_RESULT_PROFILE {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::InvalidProfile,
+            "result.profile",
+            "unsupported lexical anchor lookup result profile",
+        );
+    }
+    if result.request_id != request.request_id
+        || result.catalogue_root != catalogue.catalogue.identity.catalogue_root
+        || result.fabric_root != catalogue.catalogue.identity.fabric_root
+        || result.index_root != index.index_root
+        || result.tokenizer != index.tokenizer
+    {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::RootMismatch,
+            "result.identity",
+            "lookup result identity differs from request catalogue fabric or lexical index",
+        );
+    }
+    if result.non_authority_statement != LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::ProjectionMismatch,
+            "result.non_authority_statement",
+            "lookup result must retain the exact lexical-only non-authority statement",
+        );
+    }
+    validate_lexical_digest(&result.proof_digest, "result.proof_digest")
+        .map_err(lexical_index_to_lookup_fault)?;
+    let serialized_bytes = serde_json::to_vec(result).map_err(|error| LexicalLookupFault {
+        kind: LexicalLookupFaultKind::ProjectionMismatch,
+        field: "result.serialization".to_owned(),
+        detail: error.to_string(),
+    })?;
+    if serialized_bytes.len() as u64 > request.budget.maximum_serialized_result_bytes
+        || serialized_bytes.len() as u64 > MAX_LEXICAL_LOOKUP_RESULT_BYTES
+    {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::BudgetExceeded,
+            "result.serialized_bytes",
+            "complete lexical lookup result exceeds its byte budget",
+        );
+    }
+    if result.proof_digest != lexical_anchor_lookup_proof_digest(result, request, index, catalogue)?
+    {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::ProofMismatch,
+            "result.proof_digest",
+            "lexical lookup proof digest differs from the result body",
+        );
+    }
+    let expected = build_lexical_anchor_lookup_result(index, request, catalogue)?;
+    if &expected != result {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::ProjectionMismatch,
+            "lookup_result",
+            "lexical lookup result differs from canonical replay over the supplied index",
+        );
+    }
+    Ok(())
+}
+
+pub fn validate_lexical_anchor_lookup_result(
+    result: &LexicalAnchorLookupResult,
+    request: &LexicalAnchorLookupRequest,
+    index: &DerivedLexicalAssociationIndex,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    fabric: &SemanticFabric,
+) -> LexicalLookupValidation {
+    validate_derived_lexical_association_index(index, catalogue, fabric)
+        .map_err(lexical_index_to_lookup_fault)?;
+    validate_lexical_anchor_lookup_result_form(result, request, index, catalogue)
+}
+
+pub fn lexical_anchor_lookup_proof_digest(
+    result: &LexicalAnchorLookupResult,
+    request: &LexicalAnchorLookupRequest,
+    index: &DerivedLexicalAssociationIndex,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+) -> LexicalLookupValidation<ContentDigest> {
+    lexical_lookup_digest_form(
+        LEXICAL_LOOKUP_PROOF_DOMAIN,
+        &(
+            (
+                request,
+                &catalogue.generation,
+                &catalogue.proof_digest,
+                LEXICAL_LOOKUP_DECISION_PROFILE,
+                &index.profile,
+                &index.compiler_id,
+                &index.compiler_version,
+            ),
+            (
+                &result.profile,
+                &result.request_id,
+                &result.catalogue_root,
+                &result.fabric_root,
+                &result.index_root,
+                &result.tokenizer,
+            ),
+            (
+                &result.term_accounts,
+                &result.eligible_tokens,
+                &result.unmatched_tokens,
+                result.complete_posting_count,
+                &result.matches,
+                &result.non_authority_statement,
+            ),
+        ),
+    )
 }
 
 pub fn lexical_association_index_root(
@@ -1042,6 +1340,246 @@ fn build_derived_lexical_association_index(
     index.index_root = lexical_association_index_root(&index)?;
     index.proof_digest = lexical_association_index_proof_digest(&index, request, catalogue)?;
     Ok(index)
+}
+
+#[derive(Clone)]
+struct LexicalMatchAccumulator {
+    address: SemanticAddress,
+    matched_tokens: BTreeSet<String>,
+    evidence: Vec<MatchedLexicalEvidence>,
+}
+
+fn build_lexical_anchor_lookup_result(
+    index: &DerivedLexicalAssociationIndex,
+    request: &LexicalAnchorLookupRequest,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+) -> LexicalLookupValidation<LexicalAnchorLookupResult> {
+    validate_lexical_anchor_lookup_request(request)?;
+    let mut term_accounts = Vec::with_capacity(request.terms.len());
+    let mut eligible_tokens = BTreeSet::new();
+    for term in &request.terms {
+        let token_occurrences =
+            tokenize_lexical_surface(term).map_err(lexical_index_to_lookup_fault)?;
+        eligible_tokens.extend(token_occurrences.keys().cloned());
+        term_accounts.push(LexicalTermAccount {
+            original_term: term.clone(),
+            token_occurrences,
+        });
+    }
+    if eligible_tokens.len() > request.budget.maximum_unique_tokens as usize {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::BudgetExceeded,
+            "request.budget.maximum_unique_tokens",
+            "complete lexical lookup token union exceeds budget",
+        );
+    }
+
+    let mut complete_posting_count = 0_u32;
+    for token in &eligible_tokens {
+        let posting_count = index.postings.get(token).map_or(0, Vec::len);
+        complete_posting_count = complete_posting_count
+            .checked_add(posting_count.try_into().map_err(|_| LexicalLookupFault {
+                kind: LexicalLookupFaultKind::InvalidBound,
+                field: "lookup.postings".to_owned(),
+                detail: "posting count cannot be represented as u32".to_owned(),
+            })?)
+            .ok_or_else(|| LexicalLookupFault {
+                kind: LexicalLookupFaultKind::InvalidBound,
+                field: "lookup.postings".to_owned(),
+                detail: "complete posting count overflow".to_owned(),
+            })?;
+    }
+    if complete_posting_count > request.budget.maximum_postings {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::BudgetExceeded,
+            "request.budget.maximum_postings",
+            "complete lexical posting union exceeds budget",
+        );
+    }
+
+    let catalogue_addresses = catalogue
+        .catalogue
+        .identity_entries
+        .iter()
+        .map(|entry| (entry.address.unit_id.clone(), entry.address.clone()))
+        .collect::<BTreeMap<_, _>>();
+    let mut accumulators = BTreeMap::<SemanticId, LexicalMatchAccumulator>::new();
+    for token in &eligible_tokens {
+        let Some(postings) = index.postings.get(token) else {
+            continue;
+        };
+        for posting in postings {
+            let catalogue_address = catalogue_addresses
+                .get(&posting.address.unit_id)
+                .ok_or_else(|| LexicalLookupFault {
+                    kind: LexicalLookupFaultKind::ProjectionMismatch,
+                    field: "posting.address".to_owned(),
+                    detail: format!(
+                        "lexical posting target {} is absent from the catalogue",
+                        posting.address.unit_id
+                    ),
+                })?;
+            if catalogue_address != &posting.address {
+                return lexical_lookup_fault(
+                    LexicalLookupFaultKind::ProjectionMismatch,
+                    "posting.address",
+                    "lexical posting address differs from the exact catalogue address",
+                );
+            }
+            let accumulator = accumulators
+                .entry(posting.address.unit_id.clone())
+                .or_insert_with(|| LexicalMatchAccumulator {
+                    address: posting.address.clone(),
+                    matched_tokens: BTreeSet::new(),
+                    evidence: Vec::new(),
+                });
+            if accumulator.address != posting.address {
+                return lexical_lookup_fault(
+                    LexicalLookupFaultKind::ProjectionMismatch,
+                    "posting.address",
+                    "one lexical unit identity resolved to more than one address",
+                );
+            }
+            accumulator.matched_tokens.insert(token.clone());
+            accumulator.evidence.push(MatchedLexicalEvidence {
+                token: token.clone(),
+                surface_kind: posting.surface_kind.clone(),
+                surface_digest: posting.surface_digest.clone(),
+                occurrence_count: posting.occurrence_count,
+                evidence_refs: posting.evidence_refs.clone(),
+            });
+        }
+    }
+
+    let eligible_count = eligible_tokens.len() as u64;
+    let mut keyed_matches = Vec::with_capacity(accumulators.len());
+    let mut all_matched_tokens = BTreeSet::new();
+    for (_, mut accumulator) in accumulators {
+        accumulator.evidence.sort_by(lexical_matched_evidence_cmp);
+        for pair in accumulator.evidence.windows(2) {
+            if lexical_matched_evidence_key(&pair[0]) == lexical_matched_evidence_key(&pair[1]) {
+                return lexical_lookup_fault(
+                    LexicalLookupFaultKind::NonCanonicalOrder,
+                    "match.evidence",
+                    "lookup aggregation produced duplicate lexical evidence",
+                );
+            }
+        }
+        let matched_count = accumulator.matched_tokens.len() as u64;
+        if matched_count == 0 || eligible_count == 0 {
+            return lexical_lookup_fault(
+                LexicalLookupFaultKind::ProjectionMismatch,
+                "match.matched_tokens",
+                "an emitted match requires positive matched and eligible token counts",
+            );
+        }
+        let coverage = matched_count
+            .checked_mul(10_000)
+            .ok_or_else(|| LexicalLookupFault {
+                kind: LexicalLookupFaultKind::InvalidBound,
+                field: "match.coverage_basis_points".to_owned(),
+                detail: "lexical coverage multiplication overflow".to_owned(),
+            })?
+            / eligible_count;
+        let coverage_basis_points = u16::try_from(coverage).map_err(|_| LexicalLookupFault {
+            kind: LexicalLookupFaultKind::ProjectionMismatch,
+            field: "match.coverage_basis_points".to_owned(),
+            detail: "lexical coverage is outside the basis-point range".to_owned(),
+        })?;
+        if coverage_basis_points == 0 || coverage_basis_points > 10_000 {
+            return lexical_lookup_fault(
+                LexicalLookupFaultKind::ProjectionMismatch,
+                "match.coverage_basis_points",
+                "lexical coverage must be from one through ten-thousand basis points",
+            );
+        }
+        all_matched_tokens.extend(accumulator.matched_tokens.iter().cloned());
+        let address_order =
+            serde_json::to_vec(&accumulator.address).map_err(|error| LexicalLookupFault {
+                kind: LexicalLookupFaultKind::ProjectionMismatch,
+                field: "match.address".to_owned(),
+                detail: error.to_string(),
+            })?;
+        keyed_matches.push((
+            address_order,
+            LexicalAnchorMatch {
+                address: accumulator.address,
+                matched_tokens: accumulator.matched_tokens,
+                evidence: accumulator.evidence,
+                coverage_basis_points,
+            },
+        ));
+    }
+    if keyed_matches.len() > request.budget.maximum_matches as usize {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::BudgetExceeded,
+            "request.budget.maximum_matches",
+            "complete lexical match set exceeds budget",
+        );
+    }
+    keyed_matches.sort_by(|left, right| {
+        right
+            .1
+            .coverage_basis_points
+            .cmp(&left.1.coverage_basis_points)
+            .then_with(|| left.0.cmp(&right.0))
+    });
+    let matches = keyed_matches
+        .into_iter()
+        .map(|(_, candidate)| candidate)
+        .collect::<Vec<_>>();
+    let unmatched_tokens = eligible_tokens
+        .difference(&all_matched_tokens)
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    let mut result = LexicalAnchorLookupResult {
+        profile: LEXICAL_ANCHOR_LOOKUP_RESULT_PROFILE.to_owned(),
+        request_id: request.request_id.clone(),
+        catalogue_root: catalogue.catalogue.identity.catalogue_root.clone(),
+        fabric_root: catalogue.catalogue.identity.fabric_root.clone(),
+        index_root: index.index_root.clone(),
+        tokenizer: index.tokenizer.clone(),
+        term_accounts,
+        eligible_tokens,
+        unmatched_tokens,
+        complete_posting_count,
+        matches,
+        non_authority_statement: LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY.to_owned(),
+        proof_digest: zero_sha256(),
+    };
+    result.proof_digest = lexical_anchor_lookup_proof_digest(&result, request, index, catalogue)?;
+    let serialized_bytes = serde_json::to_vec(&result).map_err(|error| LexicalLookupFault {
+        kind: LexicalLookupFaultKind::ProjectionMismatch,
+        field: "result.serialization".to_owned(),
+        detail: error.to_string(),
+    })?;
+    if serialized_bytes.len() as u64 > request.budget.maximum_serialized_result_bytes
+        || serialized_bytes.len() as u64 > MAX_LEXICAL_LOOKUP_RESULT_BYTES
+    {
+        return lexical_lookup_fault(
+            LexicalLookupFaultKind::BudgetExceeded,
+            "request.budget.maximum_serialized_result_bytes",
+            "complete lexical lookup result exceeds its serialized byte budget",
+        );
+    }
+    Ok(result)
+}
+
+fn lexical_matched_evidence_key(
+    evidence: &MatchedLexicalEvidence,
+) -> (&str, &LexicalSurfaceKind, &str) {
+    (
+        &evidence.token,
+        &evidence.surface_kind,
+        &evidence.surface_digest.value,
+    )
+}
+
+fn lexical_matched_evidence_cmp(
+    left: &MatchedLexicalEvidence,
+    right: &MatchedLexicalEvidence,
+) -> std::cmp::Ordering {
+    lexical_matched_evidence_key(left).cmp(&lexical_matched_evidence_key(right))
 }
 
 fn lexical_surface_evidence_refs(
@@ -2265,6 +2803,40 @@ fn anchor_form_to_lexical_fault(fault: AnchorFormFault) -> LexicalIndexFault {
     }
 }
 
+fn anchor_form_to_lookup_fault(fault: AnchorFormFault) -> LexicalLookupFault {
+    LexicalLookupFault {
+        kind: match fault.kind {
+            AnchorFormFaultKind::RootMismatch => LexicalLookupFaultKind::RootMismatch,
+            AnchorFormFaultKind::NonCanonicalOrder | AnchorFormFaultKind::DuplicateIdentity => {
+                LexicalLookupFaultKind::NonCanonicalOrder
+            }
+            AnchorFormFaultKind::InvalidProfile => LexicalLookupFaultKind::InvalidProfile,
+            AnchorFormFaultKind::InvalidBound => LexicalLookupFaultKind::InvalidBound,
+            _ => LexicalLookupFaultKind::ProjectionMismatch,
+        },
+        field: fault.field,
+        detail: fault.detail,
+    }
+}
+
+fn lexical_index_to_lookup_fault(fault: LexicalIndexFault) -> LexicalLookupFault {
+    LexicalLookupFault {
+        kind: match fault.kind {
+            LexicalIndexFaultKind::InvalidProfile => LexicalLookupFaultKind::InvalidProfile,
+            LexicalIndexFaultKind::InvalidBound => LexicalLookupFaultKind::InvalidBound,
+            LexicalIndexFaultKind::RootMismatch => LexicalLookupFaultKind::RootMismatch,
+            LexicalIndexFaultKind::NonCanonicalOrder | LexicalIndexFaultKind::DuplicatePosting => {
+                LexicalLookupFaultKind::NonCanonicalOrder
+            }
+            LexicalIndexFaultKind::InvalidIdentity
+            | LexicalIndexFaultKind::InvalidDigest
+            | LexicalIndexFaultKind::ProjectionMismatch => LexicalLookupFaultKind::IndexRejected,
+        },
+        field: fault.field,
+        detail: fault.detail,
+    }
+}
+
 fn anchor_derivation_to_lexical_fault(fault: AnchorDerivationFault) -> LexicalIndexFault {
     LexicalIndexFault {
         kind: match fault.kind {
@@ -2292,6 +2864,25 @@ fn lexical_fault<T>(
     detail: &str,
 ) -> LexicalIndexValidation<T> {
     Err(LexicalIndexFault {
+        kind,
+        field: field.to_owned(),
+        detail: detail.to_owned(),
+    })
+}
+
+fn lexical_lookup_digest_form<T: Serialize>(
+    domain: &str,
+    value: &T,
+) -> LexicalLookupValidation<ContentDigest> {
+    lexical_digest_form(domain, value).map_err(lexical_index_to_lookup_fault)
+}
+
+fn lexical_lookup_fault<T>(
+    kind: LexicalLookupFaultKind,
+    field: &str,
+    detail: &str,
+) -> LexicalLookupValidation<T> {
+    Err(LexicalLookupFault {
         kind,
         field: field.to_owned(),
         detail: detail.to_owned(),

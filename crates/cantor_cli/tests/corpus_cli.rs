@@ -65,6 +65,58 @@ fn tracked_corpus_build_is_deterministic_secret_free_and_direct_cli_queryable() 
     assert!(!artifact_text.contains(&compiler_hex));
 
     let environment_path = first_output.join("environment.json");
+    let first_lookup = run_anchor_lab(&environment_path, "PreparedRuntime", None, None);
+    assert_eq!(
+        first_lookup.status.code(),
+        Some(0),
+        "{}",
+        String::from_utf8_lossy(&first_lookup.stderr)
+    );
+    assert!(first_lookup.stderr.is_empty());
+    let second_lookup = run_anchor_lab(&environment_path, "PreparedRuntime", None, None);
+    assert_eq!(second_lookup.status.code(), Some(0));
+    assert_eq!(first_lookup.stdout, second_lookup.stdout);
+    let lookup_value: serde_json::Value = serde_json::from_slice(&first_lookup.stdout)
+        .expect("anchor lab output must be one JSON value");
+    assert_eq!(lookup_value["status"], "success");
+    assert_eq!(
+        lookup_value["result"]["eligible_tokens"],
+        serde_json::json!(["preparedruntime"])
+    );
+    assert!(
+        lookup_value["result"]["matches"]
+            .as_array()
+            .is_some_and(|matches| !matches.is_empty())
+    );
+    assert!(
+        lookup_value["result"]["matches"][0]["address"]["source_anchors"]
+            .as_array()
+            .is_some_and(|anchors| !anchors.is_empty())
+    );
+    assert!(
+        lookup_value["result"]["non_authority_statement"]
+            .as_str()
+            .is_some_and(|statement| statement.contains("Semantic purpose"))
+    );
+
+    let substring = run_anchor_lab(&environment_path, "reparedruntime", None, None);
+    assert_eq!(substring.status.code(), Some(0));
+    let substring_value: serde_json::Value =
+        serde_json::from_slice(&substring.stdout).expect("substring control must be JSON");
+    assert_eq!(substring_value["result"]["matches"], serde_json::json!([]));
+    assert_eq!(
+        substring_value["result"]["unmatched_tokens"],
+        serde_json::json!(["reparedruntime"])
+    );
+
+    let invalid_bound = run_anchor_lab(&environment_path, "PreparedRuntime", Some(0), None);
+    assert_eq!(invalid_bound.status.code(), Some(2));
+    assert!(invalid_bound.stdout.is_empty());
+    let invalid_value: serde_json::Value = serde_json::from_slice(&invalid_bound.stderr)
+        .expect("anchor lab fault must be one JSON value");
+    assert_eq!(invalid_value["status"], "fault");
+    assert_eq!(invalid_value["kind"], "invalid_bound");
+
     for (request_name, expected_expression, expected_quote_prefix) in [
         (
             "query-semantic-unit.json",
@@ -262,6 +314,28 @@ fn run_corpus(
         command.arg("--replace");
     }
     command.output().expect("cantor-corpus must run")
+}
+
+fn run_anchor_lab(
+    environment: &Path,
+    text: &str,
+    maximum_postings: Option<u32>,
+    maximum_matches: Option<u32>,
+) -> Output {
+    let mut command = Command::new(env!("CARGO_BIN_EXE_cantor-anchor-lab"));
+    command
+        .arg("query")
+        .arg("--environment")
+        .arg(environment)
+        .arg("--text")
+        .arg(text);
+    if let Some(value) = maximum_postings {
+        command.arg("--maximum-postings").arg(value.to_string());
+    }
+    if let Some(value) = maximum_matches {
+        command.arg("--maximum-matches").arg(value.to_string());
+    }
+    command.output().expect("anchor lab subprocess must run")
 }
 
 fn temporary_directory(label: &str) -> PathBuf {

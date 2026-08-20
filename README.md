@@ -386,6 +386,17 @@ Compile the reviewed self-hosted corpus with operator-supplied distinct keys:
 .\target\release\cantor.exe query --environment .\.local\cantor-self-hosted\environment.json --input .\.local\cantor-self-hosted\query-semantic-unit.json
 ```
 
+Run the separate lexical anchor laboratory against the same signed environment:
+
+```powershell
+.\target\release\cantor-anchor-lab.exe query --environment .\.local\cantor-self-hosted\environment.json --text "PreparedRuntime"
+```
+
+It returns ordered proof-bearing lexical addresses and source evidence without
+changing the exact query protocol. Purpose, authority, safety, and boundary
+gates do not run in this lab. See
+[`docs/CANTOR_ANCHOR_LAB.md`](docs/CANTOR_ANCHOR_LAB.md).
+
 Initialize and run the bounded resident service over a compiled environment:
 
 ```powershell

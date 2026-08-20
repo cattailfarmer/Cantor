@@ -10,20 +10,24 @@ use cantor_core::{
     AuthorityScope, BoundaryAccount, CandidateEligibility, CatalogueDerivationRequest,
     CatalogueIdentity, ChannelLocalValue, ContentDigest, ContributionStatus,
     DERIVED_LEXICAL_ASSOCIATION_INDEX_PROFILE, DerivedLexicalAssociationIndex,
-    DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, LEXICAL_ASSOCIATION_INDEX_COMPILER_ID,
+    DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY,
+    LEXICAL_ANCHOR_LOOKUP_PROFILE, LEXICAL_ASSOCIATION_INDEX_COMPILER_ID,
     LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION, LEXICAL_TOKENIZER_PROFILE,
-    LexicalIndexDerivationRequest, LexicalIndexFaultKind, LexicalPosting, LexicalSurfaceKind,
+    LexicalAnchorLookupBudget, LexicalAnchorLookupRequest, LexicalIndexDerivationRequest,
+    LexicalIndexFaultKind, LexicalLookupFaultKind, LexicalPosting, LexicalSurfaceKind,
     LexicalTokenizerIdentity, MAX_LEXICAL_SURFACE_BYTES, OperationAnchorEntry, OperationClass,
     OperationRole, PriorityTier, RelationType, RelationshipDirection, RequestedDetailKind,
     SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress, SemanticAnchorCatalogue, SemanticFabric,
     SemanticId, SourceAnchor, UnitKind, UnitStatus, admit_package, anchor_query_result_digest,
     candidate_association_account, candidate_relationship_paths, catalogue_derivation_digest,
     catalogue_root, derive_lexical_association_index, derive_semantic_anchor_catalogue,
-    derived_semantic_anchor_catalogue_digest, lexical_association_index_proof_digest,
-    lexical_association_index_root, lexical_tokenizer_adversarial_fixture_digest,
-    tokenize_lexical_surface, validate_anchor_candidate, validate_anchor_query,
-    validate_anchor_query_result, validate_derived_lexical_association_index,
-    validate_derived_lexical_association_index_form, validate_derived_semantic_anchor_catalogue,
+    derived_semantic_anchor_catalogue_digest, lexical_anchor_lookup_proof_digest,
+    lexical_association_index_proof_digest, lexical_association_index_root,
+    lexical_tokenizer_adversarial_fixture_digest, lookup_lexical_anchors, tokenize_lexical_surface,
+    validate_anchor_candidate, validate_anchor_query, validate_anchor_query_result,
+    validate_derived_lexical_association_index, validate_derived_lexical_association_index_form,
+    validate_derived_semantic_anchor_catalogue, validate_lexical_anchor_lookup_request,
+    validate_lexical_anchor_lookup_result, validate_lexical_anchor_lookup_result_form,
     validate_lexical_index_derivation_request, validate_semantic_anchor_catalogue,
 };
 
@@ -144,6 +148,22 @@ fn lexical_derivation_request() -> LexicalIndexDerivationRequest {
         index_id: id("lexical-index:derived_fixture"),
         logical_revision: "fixture-lexical-r1".to_owned(),
         tokenizer_profile: LEXICAL_TOKENIZER_PROFILE.to_owned(),
+    }
+}
+
+fn lexical_lookup_request(terms: &[&str]) -> LexicalAnchorLookupRequest {
+    LexicalAnchorLookupRequest {
+        profile: LEXICAL_ANCHOR_LOOKUP_PROFILE.to_owned(),
+        request_id: id("request:lexical_lookup_fixture"),
+        terms: terms.iter().map(|term| (*term).to_owned()).collect(),
+        budget: LexicalAnchorLookupBudget {
+            maximum_terms: 16,
+            maximum_query_bytes: 16_384,
+            maximum_unique_tokens: 256,
+            maximum_postings: 4_096,
+            maximum_matches: 256,
+            maximum_serialized_result_bytes: 4 * 1024 * 1024,
+        },
     }
 }
 
@@ -1654,5 +1674,266 @@ fn lexical_sidecar_roots_and_proof_fail_closed() {
             .expect_err("stale fabric root")
             .kind,
         LexicalIndexFaultKind::RootMismatch
+    );
+}
+
+#[test]
+fn lexical_lookup_orders_unique_token_coverage_and_retains_exact_evidence() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let request = lexical_lookup_request(&["Bank deposits"]);
+    let result = lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone())
+        .expect("lexical lookup");
+
+    validate_lexical_anchor_lookup_result(&result, &request, &index, &catalogue, &fabric)
+        .expect("whole lexical lookup replay");
+    assert_eq!(
+        result.eligible_tokens,
+        BTreeSet::from(["bank".to_owned(), "deposits".to_owned()])
+    );
+    assert!(result.unmatched_tokens.is_empty());
+    assert_eq!(result.matches[0].address.unit_id, id("unit:bank_financial"));
+    assert_eq!(result.matches[0].coverage_basis_points, 10_000);
+    assert_eq!(
+        result.matches[0].matched_tokens,
+        BTreeSet::from(["bank".to_owned(), "deposits".to_owned()])
+    );
+    assert_eq!(result.matches[1].address.unit_id, id("unit:bank_river"));
+    assert_eq!(result.matches[1].coverage_basis_points, 5_000);
+    assert_eq!(
+        result.non_authority_statement,
+        LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY
+    );
+    for candidate in &result.matches {
+        assert!(!candidate.evidence.is_empty());
+        for evidence in &candidate.evidence {
+            assert!(candidate.matched_tokens.contains(&evidence.token));
+            assert!(evidence.occurrence_count > 0);
+            assert!(evidence.evidence_refs.contains(&candidate.address.unit_id));
+            assert!(
+                evidence
+                    .evidence_refs
+                    .contains(&candidate.address.package_id)
+            );
+        }
+    }
+}
+
+#[test]
+fn lexical_lookup_duplicate_terms_and_occurrences_do_not_inflate_coverage() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let request = lexical_lookup_request(&["bank bank", "BANK"]);
+    let first =
+        lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone()).expect("first lookup");
+    let second = lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone())
+        .expect("second lookup");
+
+    assert_eq!(first, second);
+    assert_eq!(
+        serde_json::to_vec(&first).unwrap(),
+        serde_json::to_vec(&second).unwrap()
+    );
+    assert_eq!(first.term_accounts.len(), 2);
+    assert_eq!(first.term_accounts[0].token_occurrences["bank"], 2);
+    assert_eq!(first.term_accounts[1].token_occurrences["bank"], 1);
+    assert_eq!(first.eligible_tokens, BTreeSet::from(["bank".to_owned()]));
+    assert_eq!(first.matches.len(), 2);
+    assert!(
+        first
+            .matches
+            .iter()
+            .all(|candidate| candidate.coverage_basis_points == 10_000)
+    );
+    assert_eq!(first.matches[0].address.unit_id, id("unit:bank_financial"));
+    assert_eq!(first.matches[1].address.unit_id, id("unit:bank_river"));
+    validate_lexical_anchor_lookup_result_form(&first, &request, &index, &catalogue)
+        .expect("index-bound replay");
+}
+
+#[test]
+fn lexical_lookup_substrings_missing_tokens_and_empty_token_terms_are_explicit() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+
+    let substring_request = lexical_lookup_request(&["ank absent-token"]);
+    let substring = lookup_lexical_anchors(&fabric, &catalogue, &index, substring_request.clone())
+        .expect("substring lookup");
+    assert!(substring.matches.is_empty());
+    assert_eq!(
+        substring.unmatched_tokens,
+        BTreeSet::from(["absent".to_owned(), "ank".to_owned(), "token".to_owned()])
+    );
+    validate_lexical_anchor_lookup_result(
+        &substring,
+        &substring_request,
+        &index,
+        &catalogue,
+        &fabric,
+    )
+    .expect("empty lookup replay");
+
+    let punctuation_request = lexical_lookup_request(&["---"]);
+    let punctuation =
+        lookup_lexical_anchors(&fabric, &catalogue, &index, punctuation_request.clone())
+            .expect("empty-token lookup");
+    assert!(punctuation.eligible_tokens.is_empty());
+    assert!(punctuation.unmatched_tokens.is_empty());
+    assert!(punctuation.matches.is_empty());
+    assert_eq!(punctuation.complete_posting_count, 0);
+}
+
+#[test]
+fn lexical_lookup_request_and_complete_union_budgets_fail_before_partial_results() {
+    let mut invalid = lexical_lookup_request(&["bank"]);
+    invalid.profile = "cantor-lexical-anchor-lookup/9.9".to_owned();
+    assert_eq!(
+        validate_lexical_anchor_lookup_request(&invalid)
+            .expect_err("unsupported lookup profile")
+            .kind,
+        LexicalLookupFaultKind::InvalidProfile
+    );
+    invalid = lexical_lookup_request(&["bank"]);
+    invalid.terms[0] = " ".to_owned();
+    assert_eq!(
+        validate_lexical_anchor_lookup_request(&invalid)
+            .expect_err("blank lookup term")
+            .kind,
+        LexicalLookupFaultKind::InvalidBound
+    );
+
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let mut posting_budget = lexical_lookup_request(&["bank"]);
+    posting_budget.budget.maximum_postings = 1;
+    assert_eq!(
+        lookup_lexical_anchors(&fabric, &catalogue, &index, posting_budget)
+            .expect_err("complete posting budget")
+            .kind,
+        LexicalLookupFaultKind::BudgetExceeded
+    );
+    let mut match_budget = lexical_lookup_request(&["bank"]);
+    match_budget.budget.maximum_matches = 1;
+    assert_eq!(
+        lookup_lexical_anchors(&fabric, &catalogue, &index, match_budget)
+            .expect_err("complete match budget")
+            .kind,
+        LexicalLookupFaultKind::BudgetExceeded
+    );
+    let mut token_budget = lexical_lookup_request(&["bank deposits"]);
+    token_budget.budget.maximum_unique_tokens = 1;
+    assert_eq!(
+        lookup_lexical_anchors(&fabric, &catalogue, &index, token_budget)
+            .expect_err("complete token budget")
+            .kind,
+        LexicalLookupFaultKind::BudgetExceeded
+    );
+    let mut result_bytes = lexical_lookup_request(&["bank"]);
+    result_bytes.budget.maximum_serialized_result_bytes = 1;
+    assert_eq!(
+        lookup_lexical_anchors(&fabric, &catalogue, &index, result_bytes)
+            .expect_err("complete result byte budget")
+            .kind,
+        LexicalLookupFaultKind::BudgetExceeded
+    );
+}
+
+#[test]
+fn lexical_lookup_proof_and_whole_replay_reject_self_consistent_mutation() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let request = lexical_lookup_request(&["bank deposits"]);
+    let baseline = lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone())
+        .expect("lookup baseline");
+
+    let mut wrong_proof = baseline.clone();
+    wrong_proof.proof_digest = digest('2');
+    assert_eq!(
+        validate_lexical_anchor_lookup_result_form(&wrong_proof, &request, &index, &catalogue,)
+            .expect_err("wrong lookup proof")
+            .kind,
+        LexicalLookupFaultKind::ProofMismatch
+    );
+
+    let mut resealed = baseline.clone();
+    resealed.matches[0].coverage_basis_points = 9_999;
+    resealed.proof_digest =
+        lexical_anchor_lookup_proof_digest(&resealed, &request, &index, &catalogue)
+            .expect("resealed lookup proof");
+    assert_eq!(
+        validate_lexical_anchor_lookup_result(&resealed, &request, &index, &catalogue, &fabric,)
+            .expect_err("self-consistent coverage mutation")
+            .kind,
+        LexicalLookupFaultKind::ProjectionMismatch
+    );
+
+    let mut evidence = baseline.clone();
+    evidence.matches[0].evidence[0].occurrence_count += 1;
+    evidence.proof_digest =
+        lexical_anchor_lookup_proof_digest(&evidence, &request, &index, &catalogue)
+            .expect("resealed evidence proof");
+    assert_eq!(
+        validate_lexical_anchor_lookup_result(&evidence, &request, &index, &catalogue, &fabric,)
+            .expect_err("self-consistent evidence mutation")
+            .kind,
+        LexicalLookupFaultKind::ProjectionMismatch
+    );
+
+    let mut reordered = baseline;
+    reordered.matches.swap(0, 1);
+    reordered.proof_digest =
+        lexical_anchor_lookup_proof_digest(&reordered, &request, &index, &catalogue)
+            .expect("resealed order proof");
+    assert_eq!(
+        validate_lexical_anchor_lookup_result(&reordered, &request, &index, &catalogue, &fabric,)
+            .expect_err("self-consistent order mutation")
+            .kind,
+        LexicalLookupFaultKind::ProjectionMismatch
+    );
+}
+
+#[test]
+fn lexical_lookup_forms_deny_unknown_fields_and_stale_index_identity() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let request = lexical_lookup_request(&["bank"]);
+    let result = lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone())
+        .expect("lookup result");
+
+    let mut request_value = serde_json::to_value(&request).unwrap();
+    request_value
+        .as_object_mut()
+        .unwrap()
+        .insert("authority".to_owned(), serde_json::json!(true));
+    assert!(serde_json::from_value::<LexicalAnchorLookupRequest>(request_value).is_err());
+
+    let mut result_value = serde_json::to_value(&result).unwrap();
+    result_value
+        .as_object_mut()
+        .unwrap()
+        .insert("truth".to_owned(), serde_json::json!(true));
+    assert!(
+        serde_json::from_value::<cantor_core::LexicalAnchorLookupResult>(result_value).is_err()
+    );
+
+    let mut stale_index = index;
+    stale_index.index_root = digest('3');
+    assert_eq!(
+        lookup_lexical_anchors(&fabric, &catalogue, &stale_index, request)
+            .expect_err("stale lexical index")
+            .kind,
+        LexicalLookupFaultKind::RootMismatch
     );
 }
