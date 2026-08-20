@@ -1,15 +1,24 @@
 //! Read-only MCP projection of Cantor's deterministic protocol.
 //!
 //! This crate is intentionally an adapter, not another semantic authority.
-//! It exposes one tool and delegates every valid request to `cantor_core`.
+//! Embedded mode exposes signed query and lexical anchor-discovery tools;
+//! resident-service mode preserves the signed query tool alone. Every valid
+//! operation delegates its semantics and proof construction to `cantor_core`.
 
 #![recursion_limit = "512"]
 
 use std::{fmt, fs::File, io::Read, path::Path, sync::Arc};
 
 use cantor_core::{
-    EmbeddedRuntimeEnvironment, PreparedRuntime, ProtocolRequest, ProtocolResponse, ProtocolStatus,
-    SemanticId, preflight_runtime_environment,
+    CatalogueDerivationRequest, ContentDigest, DerivedLexicalAssociationIndex,
+    DerivedSemanticAnchorCatalogue, EmbeddedRuntimeEnvironment, LEXICAL_ANCHOR_LOOKUP_PROFILE,
+    LEXICAL_TOKENIZER_PROFILE, LexicalAnchorLookupBudget, LexicalAnchorLookupRequest,
+    LexicalAnchorLookupResult, LexicalAnchorSourceProjectionBudget,
+    LexicalAnchorSourceProjectionResult, LexicalIndexDerivationRequest, MAX_LEXICAL_LOOKUP_MATCHES,
+    MAX_LEXICAL_LOOKUP_POSTINGS, MAX_LEXICAL_SURFACE_BYTES, PreparedRuntime, ProtocolRequest,
+    ProtocolResponse, ProtocolStatus, SemanticFabric, SemanticId, admit_package,
+    derive_lexical_association_index, derive_semantic_anchor_catalogue, lookup_lexical_anchors,
+    preflight_runtime_environment, project_lexical_anchor_sources, sha256_bytes,
 };
 use cantor_service::{
     ServiceClient, ServiceDisposition, ServiceOperation, ServiceResponse, ServiceResult,
@@ -23,10 +32,11 @@ use rmcp::{
     },
     service::{RequestContext, RoleServer},
 };
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 
 pub const TOOL_NAME: &str = "query_sop";
+pub const ANCHOR_TOOL_NAME: &str = "lookup_sop_anchors";
 pub const ADAPTER_PROTOCOL_VERSION: &str = "cantor-mcp-adapter/0.1";
 pub const MAX_ARGUMENT_BYTES: usize = 1_048_576;
 pub const MAX_ENVIRONMENT_BYTES: usize = 67_108_864;
@@ -34,6 +44,15 @@ pub const MAX_ENVIRONMENT_BYTES: usize = 67_108_864;
 #[derive(Clone, Debug)]
 pub struct CantorMcpServer {
     backend: RuntimeBackend,
+    anchor_runtime: Option<Arc<AnchorLookupRuntime>>,
+}
+
+#[derive(Clone, Debug)]
+struct AnchorLookupRuntime {
+    environment_digest: ContentDigest,
+    fabric: SemanticFabric,
+    catalogue: DerivedSemanticAnchorCatalogue,
+    index: DerivedLexicalAssociationIndex,
 }
 
 #[derive(Clone, Debug)]
@@ -62,15 +81,105 @@ struct QuerySopArguments {
     request: ProtocolRequest,
 }
 
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LookupSopAnchorsArguments {
+    text: String,
+    #[serde(default = "default_include_source")]
+    include_source: bool,
+    #[serde(default = "default_maximum_postings")]
+    maximum_postings: u32,
+    #[serde(default = "default_maximum_matches")]
+    maximum_matches: u32,
+}
+
+#[derive(Serialize)]
+#[serde(deny_unknown_fields)]
+struct AnchorLookupToolResult {
+    adapter_protocol_version: &'static str,
+    status: &'static str,
+    environment_digest: ContentDigest,
+    result: LexicalAnchorLookupResult,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    source_projection: Option<LexicalAnchorSourceProjectionResult>,
+}
+
+impl AnchorLookupRuntime {
+    fn prepare(
+        environment: &EmbeddedRuntimeEnvironment,
+        environment_digest: ContentDigest,
+    ) -> Result<Self, StartupFault> {
+        let mut admitted = Vec::with_capacity(environment.packages.len());
+        for package in &environment.packages {
+            let certificate = package.certificate.as_ref().ok_or_else(|| StartupFault {
+                code: "anchor_package_missing_certificate",
+                message: bounded_message(&format!(
+                    "package {} has no recognition certificate",
+                    package.package_id
+                )),
+            })?;
+            admitted.push(
+                admit_package(
+                    package,
+                    &environment.trust_store,
+                    &certificate.authority_scope,
+                    environment.now_epoch_seconds,
+                )
+                .map_err(|fault| StartupFault {
+                    code: "anchor_package_admission_failed",
+                    message: bounded_message(&fault.message),
+                })?,
+            );
+        }
+        let fabric = SemanticFabric::from_admitted(admitted).map_err(|fault| StartupFault {
+            code: "anchor_fabric_initialization_failed",
+            message: bounded_message(&format!("{fault:?}")),
+        })?;
+        let logical_revision = format!("environment:{}", environment_digest.value);
+        let catalogue = derive_semantic_anchor_catalogue(
+            &fabric,
+            CatalogueDerivationRequest {
+                catalogue_id: static_semantic_id("catalogue:cantor_mcp_anchor_lookup"),
+                logical_revision: logical_revision.clone(),
+            },
+        )
+        .map_err(|fault| StartupFault {
+            code: "anchor_catalogue_derivation_failed",
+            message: bounded_message(&format!("{}: {}", fault.stage, fault.detail)),
+        })?;
+        let index = derive_lexical_association_index(
+            &fabric,
+            &catalogue,
+            LexicalIndexDerivationRequest {
+                index_id: static_semantic_id("lexical-index:cantor_mcp_anchor_lookup"),
+                logical_revision,
+                tokenizer_profile: LEXICAL_TOKENIZER_PROFILE.to_owned(),
+            },
+        )
+        .map_err(|fault| StartupFault {
+            code: "anchor_index_derivation_failed",
+            message: bounded_message(&format!("{}: {}", fault.field, fault.detail)),
+        })?;
+        Ok(Self {
+            environment_digest,
+            fabric,
+            catalogue,
+            index,
+        })
+    }
+}
+
 impl CantorMcpServer {
     pub fn new(environment: EmbeddedRuntimeEnvironment) -> Result<Self, StartupFault> {
-        preflight_environment(&environment)?;
+        let environment_digest = preflight_environment(&environment)?;
+        let anchor_runtime = AnchorLookupRuntime::prepare(&environment, environment_digest)?;
         let runtime = PreparedRuntime::new(environment).map_err(|fault| StartupFault {
             code: "prepared_runtime_initialization_failed",
             message: bounded_message(&fault.to_string()),
         })?;
         Ok(Self {
             backend: RuntimeBackend::Embedded(Arc::new(runtime)),
+            anchor_runtime: Some(Arc::new(anchor_runtime)),
         })
     }
 
@@ -85,6 +194,7 @@ impl CantorMcpServer {
         require_status_result(&response)?;
         Ok(Self {
             backend: RuntimeBackend::Resident(client),
+            anchor_runtime: None,
         })
     }
 
@@ -114,6 +224,23 @@ impl CantorMcpServer {
         .with_raw_output_schema(Arc::new(output_schema()))
         .with_annotations(
             ToolAnnotations::with_title("Query signed SOP")
+                .read_only(true)
+                .destructive(false)
+                .idempotent(true)
+                .open_world(false),
+        )
+    }
+
+    pub fn anchor_tool_definition() -> Tool {
+        Tool::new(
+            ANCHOR_TOOL_NAME,
+            "Map ordinary text to ordered proof-bearing anchors in the active signed SOP environment. Exact admitted source quotations are included by default. Results are lexical evidence and signed-snapshot correspondence, not truth, permission, authority, safety, or applicability decisions.",
+            anchor_input_schema(),
+        )
+        .with_title("Lookup signed SOP anchors")
+        .with_raw_output_schema(Arc::new(anchor_output_schema()))
+        .with_annotations(
+            ToolAnnotations::with_title("Lookup signed SOP anchors")
                 .read_only(true)
                 .destructive(false)
                 .idempotent(true)
@@ -164,6 +291,124 @@ impl CantorMcpServer {
             }
         }
     }
+
+    pub fn execute_anchor_tool_arguments(&self, arguments: Option<JsonObject>) -> CallToolResult {
+        let Some(runtime) = &self.anchor_runtime else {
+            return adapter_fault(
+                "anchor_lookup_unavailable",
+                "lookup_sop_anchors is available only with an embedded signed environment"
+                    .to_owned(),
+            );
+        };
+        let argument_value = Value::Object(arguments.unwrap_or_default());
+        let encoded_length = match serde_json::to_vec(&argument_value) {
+            Ok(encoded) => encoded.len(),
+            Err(error) => {
+                return adapter_fault("invalid_arguments", bounded_message(&error.to_string()));
+            }
+        };
+        if encoded_length > MAX_ARGUMENT_BYTES {
+            return adapter_fault(
+                "argument_limit_exceeded",
+                format!(
+                    "tool arguments contain {encoded_length} bytes; maximum is {MAX_ARGUMENT_BYTES}"
+                ),
+            );
+        }
+        let parsed: LookupSopAnchorsArguments = match serde_json::from_value(argument_value) {
+            Ok(parsed) => parsed,
+            Err(error) => {
+                return adapter_fault("invalid_arguments", bounded_message(&error.to_string()));
+            }
+        };
+        let request_digest = sha256_bytes(parsed.text.as_bytes());
+        let request_id = match SemanticId::new(format!(
+            "request:mcp_anchor_lookup:{}",
+            request_digest.value
+        )) {
+            Ok(request_id) => request_id,
+            Err(fault) => {
+                return adapter_fault("request_identity_failed", bounded_message(&fault.message));
+            }
+        };
+        let request = LexicalAnchorLookupRequest {
+            profile: LEXICAL_ANCHOR_LOOKUP_PROFILE.to_owned(),
+            request_id,
+            terms: vec![parsed.text],
+            budget: LexicalAnchorLookupBudget {
+                maximum_terms: 1,
+                maximum_query_bytes: 65_536,
+                maximum_unique_tokens: 4_096,
+                maximum_postings: parsed.maximum_postings,
+                maximum_matches: parsed.maximum_matches,
+                maximum_serialized_result_bytes: 16 * 1024 * 1024,
+            },
+        };
+        let result = match lookup_lexical_anchors(
+            &runtime.fabric,
+            &runtime.catalogue,
+            &runtime.index,
+            request.clone(),
+        ) {
+            Ok(result) => result,
+            Err(fault) => {
+                return adapter_fault(
+                    "anchor_lookup_failed",
+                    bounded_message(&format!("{}: {}", fault.field, fault.detail)),
+                );
+            }
+        };
+        let source_projection = if parsed.include_source {
+            match project_lexical_anchor_sources(
+                &runtime.fabric,
+                &runtime.catalogue,
+                &runtime.index,
+                &request,
+                &result,
+                LexicalAnchorSourceProjectionBudget {
+                    maximum_projections: parsed.maximum_matches,
+                    maximum_quote_bytes: 16 * 1024 * 1024,
+                    maximum_serialized_result_bytes: 32 * 1024 * 1024,
+                },
+            ) {
+                Ok(projection) => Some(projection),
+                Err(fault) => {
+                    return adapter_fault(
+                        "anchor_source_projection_failed",
+                        bounded_message(&format!("{}: {}", fault.field, fault.detail)),
+                    );
+                }
+            }
+        } else {
+            None
+        };
+        let match_count = result.matches.len();
+        let projection_count = source_projection
+            .as_ref()
+            .map_or(0, |projection| projection.projections.len());
+        let value = match serde_json::to_value(AnchorLookupToolResult {
+            adapter_protocol_version: ADAPTER_PROTOCOL_VERSION,
+            status: "success",
+            environment_digest: runtime.environment_digest.clone(),
+            result,
+            source_projection,
+        }) {
+            Ok(value) => value,
+            Err(error) => {
+                return adapter_fault(
+                    "response_encoding_failed",
+                    bounded_message(&error.to_string()),
+                );
+            }
+        };
+        structured_result(
+            value,
+            false,
+            format!(
+                "Cantor anchor lookup success; matches={match_count}; source_projections={projection_count}."
+            ),
+        )
+    }
 }
 
 impl ServerHandler for CantorMcpServer {
@@ -177,12 +422,18 @@ impl ServerHandler for CantorMcpServer {
                     ),
             )
             .with_instructions(
-                "Use query_sop when the subject may be governed by the active signed SOP generation and a trusted supervisor has supplied a ProtocolRequest template. This server does not mint caller identity, package bindings, environment digest, or authority scope; do not guess them. Treat structuredContent as the authoritative ProtocolResponse. On a fault, preserve its exit_class, faults, proof, and continuation; do not invent missing authority.",
+                "Use lookup_sop_anchors to discover exact signed SOP records and quotations from ordinary text when that tool is advertised. Treat its lexical and snapshot-boundary statements as mandatory. Use query_sop only when a trusted supervisor has supplied a complete ProtocolRequest template; never guess caller identity, package bindings, environment digest, scope, permission, or authority. Treat structuredContent as authoritative and preserve every fault and proof boundary.",
             )
     }
 
     fn get_tool(&self, name: &str) -> Option<Tool> {
-        (name == TOOL_NAME).then(Self::tool_definition)
+        match name {
+            TOOL_NAME => Some(Self::tool_definition()),
+            ANCHOR_TOOL_NAME if self.anchor_runtime.is_some() => {
+                Some(Self::anchor_tool_definition())
+            }
+            _ => None,
+        }
     }
 
     async fn list_tools(
@@ -190,9 +441,11 @@ impl ServerHandler for CantorMcpServer {
         _request: Option<PaginatedRequestParams>,
         _context: RequestContext<RoleServer>,
     ) -> Result<ListToolsResult, McpError> {
-        Ok(ListToolsResult::with_all_items(vec![
-            Self::tool_definition(),
-        ]))
+        let mut tools = vec![Self::tool_definition()];
+        if self.anchor_runtime.is_some() {
+            tools.push(Self::anchor_tool_definition());
+        }
+        Ok(ListToolsResult::with_all_items(tools))
     }
 
     async fn call_tool(
@@ -200,10 +453,13 @@ impl ServerHandler for CantorMcpServer {
         request: CallToolRequestParams,
         _context: RequestContext<RoleServer>,
     ) -> Result<CallToolResponse, McpError> {
-        if request.name != TOOL_NAME {
-            return Err(McpError::method_not_found::<CallToolRequestMethod>());
+        match request.name.as_ref() {
+            TOOL_NAME => Ok(self.execute_tool_arguments(request.arguments).into()),
+            ANCHOR_TOOL_NAME if self.anchor_runtime.is_some() => {
+                Ok(self.execute_anchor_tool_arguments(request.arguments).into())
+            }
+            _ => Err(McpError::method_not_found::<CallToolRequestMethod>()),
         }
-        Ok(self.execute_tool_arguments(request.arguments).into())
     }
 }
 
@@ -253,20 +509,20 @@ pub fn load_environment_file(path: &Path) -> Result<EmbeddedRuntimeEnvironment, 
     load_environment_bytes(&bytes)
 }
 
-fn preflight_environment(environment: &EmbeddedRuntimeEnvironment) -> Result<(), StartupFault> {
-    preflight_runtime_environment(environment)
-        .map(|_| ())
-        .map_err(|fault| StartupFault {
-            code: match fault.code.as_str() {
-                "unsupported_environment_version" => "unsupported_environment_version",
-                "empty_environment" => "empty_environment",
-                "environment_digest_failed" => "environment_digest_failed",
-                "environment_package_rejected" => "environment_package_rejected",
-                "environment_fabric_rejected" => "environment_fabric_rejected",
-                _ => "environment_preflight_failed",
-            },
-            message: bounded_message(&fault.message),
-        })
+fn preflight_environment(
+    environment: &EmbeddedRuntimeEnvironment,
+) -> Result<ContentDigest, StartupFault> {
+    preflight_runtime_environment(environment).map_err(|fault| StartupFault {
+        code: match fault.code.as_str() {
+            "unsupported_environment_version" => "unsupported_environment_version",
+            "empty_environment" => "empty_environment",
+            "environment_digest_failed" => "environment_digest_failed",
+            "environment_package_rejected" => "environment_package_rejected",
+            "environment_fabric_rejected" => "environment_fabric_rejected",
+            _ => "environment_preflight_failed",
+        },
+        message: bounded_message(&fault.message),
+    })
 }
 
 fn protocol_result(response: ProtocolResponse) -> CallToolResult {
@@ -363,11 +619,79 @@ fn bounded_message(message: &str) -> String {
     message.chars().take(512).collect()
 }
 
+const fn default_include_source() -> bool {
+    true
+}
+
+const fn default_maximum_postings() -> u32 {
+    16_384
+}
+
+const fn default_maximum_matches() -> u32 {
+    256
+}
+
+fn static_semantic_id(value: &str) -> SemanticId {
+    SemanticId::new(value).unwrap_or_else(|_| unreachable!("static MCP semantic identity is valid"))
+}
+
 fn object(value: Value) -> JsonObject {
     value
         .as_object()
         .expect("static schema must be a JSON object")
         .clone()
+}
+
+fn anchor_input_schema() -> JsonObject {
+    object(json!({
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["text"],
+        "properties": {
+            "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": MAX_LEXICAL_SURFACE_BYTES,
+                "description": "Ordinary text whose lexical tokens should be resolved against the active signed SOP generation."
+            },
+            "include_source": {
+                "type": "boolean",
+                "default": true,
+                "description": "Include exact admitted snapshot paths, line spans, quotations, certificate identities, and source-projection proofs."
+            },
+            "maximum_postings": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": MAX_LEXICAL_LOOKUP_POSTINGS,
+                "default": 16_384
+            },
+            "maximum_matches": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": MAX_LEXICAL_LOOKUP_MATCHES,
+                "default": 256
+            }
+        }
+    }))
+}
+
+fn anchor_output_schema() -> JsonObject {
+    object(json!({
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+            "adapter_protocol_version", "status", "environment_digest", "result"
+        ],
+        "properties": {
+            "adapter_protocol_version": { "type": "string", "const": ADAPTER_PROTOCOL_VERSION },
+            "status": { "type": "string", "const": "success" },
+            "environment_digest": { "type": "object" },
+            "result": { "type": "object" },
+            "source_projection": { "type": "object" }
+        }
+    }))
 }
 
 fn input_schema() -> JsonObject {

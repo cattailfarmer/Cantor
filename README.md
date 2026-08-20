@@ -44,9 +44,10 @@ baseline:
   digest; and
 - the `cantor` executable exposes the same core through environment-bound
   `query` and `inspect` JSON operations with stable exit classes; and
-- the `cantor-mcp` executable exposes exactly one local STDIO `query_sop`
-  tool whose structured result is the same protocol response, with no
-  transport-specific semantic authority; and
+- embedded `cantor-mcp` exposes the existing local STDIO `query_sop` tool and
+  a `lookup_sop_anchors` discovery tool that maps ordinary text to ordered
+  lexical anchors and exact admitted source quotations without granting
+  truth, permission, authority, safety, or applicability; and
 - `cantor_core::PreparedRuntime` retains at most one immutable exact-scope
   projection for repeated resident reads, with atomic generation replacement,
   invalidation, rollback, and the direct request path preserved; and
@@ -60,8 +61,9 @@ baseline:
   status, query, inspect, compare-and-refresh, and exact-generation shutdown
   operations without acquiring semantic authority; and
 - `cantor-mcp` may alternatively use `--service-config` to project its
-  unchanged one-tool contract through that shared refreshable generation,
-  while embedded `--environment` mode remains the rollback path; and
+  unchanged one-tool `query_sop` contract through that shared refreshable
+  generation, while embedded `--environment` mode owns the immutable lexical
+  sidecar and remains the rollback path; and
 - the Windows supervised lifecycle scripts start `cantord` hidden, require
   authenticated readiness before atomic secret-free state publication,
   provide fresh authenticated health, and stop only a PID/start-time/executable
@@ -421,8 +423,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\stop_cantor_servic
 The generated demo uses public fixture keys and must never become real
 authority. See [`docs/CLI_PROTOCOL.md`](docs/CLI_PROTOCOL.md) for the trust
 boundary, protocol verifier, Codex subprocess rules, and exit classes. See
-[`docs/MCP_PROTOCOL.md`](docs/MCP_PROTOCOL.md) for the one-tool MCP contract,
-Codex registration example, limits, and proof surface.
+[`docs/MCP_PROTOCOL.md`](docs/MCP_PROTOCOL.md) for the embedded two-tool and
+resident one-tool MCP contracts, Codex registration example, limits, and proof
+surface.
 
 ## Read first
 

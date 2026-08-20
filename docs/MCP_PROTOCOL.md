@@ -3,30 +3,50 @@
 `cantor-mcp` is a local STDIO Model Context Protocol server. It is a transport
 projection of `cantor_core`, not a second inference engine or authority layer.
 
-## Contract
+## Contracts
 
-The server publishes exactly one tool:
+Embedded `--environment` mode publishes two tools:
 
 - name: `query_sop`
 - input: `{ "request": <ProtocolRequest> }`
 - structured output: the existing `ProtocolResponse`
 - annotations: read-only, non-destructive, idempotent, closed-world
+- name: `lookup_sop_anchors`
+- input: `{ "text": <string>, "include_source"?: <boolean>,
+  "maximum_postings"?: <integer>, "maximum_matches"?: <integer> }`
+- structured output: the existing `LexicalAnchorLookupResult`, the pinned
+  environment digest, and by default an exact `SourceProjectionResult`
+- annotations: read-only, non-destructive, idempotent, closed-world
+
+Resident `--service-config` mode publishes only `query_sop`. The resident
+service protocol does not yet carry the derived lexical sidecar; the adapter
+does not silently rebuild it from a mutable filesystem or substitute a
+different generation.
 
 The nested `ProtocolRequest` is the same strict request accepted by the
 `cantor query` and `cantor inspect` CLI operations. It pins the caller,
 purpose, read-only effect boundary, environment digest, expected signed
 packages, requested authority scope, operation, and query budget.
 
+The `lookup_sop_anchors` tool tokenizes ordinary input, searches the immutable
+lexical index prepared from the admitted signed generation at startup, orders
+the bounded matches deterministically, and projects exact admitted paths,
+line spans, quotations, document and certificate identities, and proof
+digests. `include_source` defaults to `true`. The result states lexical
+correspondence and signed-snapshot provenance; it does not state that a record
+is true, applicable, permitted, safe, or authoritative for the caller's
+purpose. Those decisions remain separate protocol work.
+
 The adapter does not infer omitted authority. Unknown fields and malformed
 identities are rejected. Trust, scope, ambiguity, absence, contradiction, and
-budget outcomes remain visible in the structured response. A non-successful
-Cantor protocol response is also marked as an MCP tool error so the model
-cannot mistake it for successful authority.
+budget outcomes remain visible in structured results. A non-successful Cantor
+result is also marked as an MCP tool error so the model cannot mistake it for
+successful authority.
 
 ## Invocation prerequisite
 
-Registration is not sufficient by itself. Before the first call, a trusted
-supervisor must give the model a valid `ProtocolRequest` template containing
+Registration is not sufficient to call `query_sop`. Before that call, a
+trusted supervisor must give the model a valid `ProtocolRequest` template containing
 the caller identity, purpose/effect policy, pinned environment digest,
 expected signed package set, and allowed scope. The model may specialize the
 authorized query fields and request ID only as that supervisor permits.
@@ -34,7 +54,12 @@ authorized query fields and request ID only as that supervisor permits.
 Cantor deliberately does not mint or guess these bindings from model prose.
 The fixture generator writes usable `query.json` and `inspect.json` examples.
 A later convenience/bootstrap surface would need its own governed authority
-contract; it is not smuggled into this one-tool slice.
+contract; it is not smuggled into either discovery or query.
+
+`lookup_sop_anchors` is the bounded bootstrap/discovery surface. A model may
+call it with subject text without inventing a `ProtocolRequest`, but it must
+retain the result's explicit non-authority boundary and must not reinterpret
+lexical proximity as permission or applicability.
 
 ## Startup
 
@@ -74,10 +99,17 @@ but it is not production authority.
 
 ## Prepared runtime
 
-The server owns one core `PreparedRuntime` for the lifetime of the process.
-After a request passes its independent environment-digest, package-set,
-caller, purpose, effect, and protocol gates, the runtime may reuse one
-immutable `SemanticFabric` prepared for the structurally exact requested
+In embedded mode, the server owns one core `PreparedRuntime` and one immutable
+anchor lookup runtime for the lifetime of the process. The lookup runtime
+admits every configured signed package and derives its semantic fabric,
+anchor catalogue, and lexical association index before MCP STDIO opens.
+Consequently, an edited source or environment file cannot alter a running
+process; it must be recompiled, re-signed, admitted, and loaded by a new
+process.
+
+After a `query_sop` request passes its independent environment-digest,
+package-set, caller, purpose, effect, and protocol gates, the prepared runtime
+may reuse one immutable `SemanticFabric` for the structurally exact requested
 `AuthorityScope`. A different valid scope builds and atomically replaces the
 complete projection. It never treats a broader, narrower, overlapping, or
 similar scope as equivalent.
@@ -120,8 +152,11 @@ directly to an executable may use `codex` instead.
 
 Suggested server instruction:
 
-> Use `query_sop` only when the current subject may be governed by the loaded
-> signed SOP environment and a trusted supervisor supplied a request template.
+> Use `lookup_sop_anchors` to discover exact signed SOP records and quotations
+> from ordinary text when that tool is advertised. Preserve its proof and its
+> lexical/snapshot-only boundary. Use `query_sop` only when the subject may be
+> governed by the loaded signed SOP environment and a trusted supervisor
+> supplied a request template.
 > Treat `structuredContent` as the authoritative `ProtocolResponse`. Preserve
 > faults, proof, and continuation. Do not invent caller, package, digest, or
 > scope bindings.
@@ -151,6 +186,11 @@ uses only the authenticated loopback protocol declared by
 
 - environment file: 64 MiB
 - tool argument object: 1 MiB
+- anchor input text: 16 KiB
+- anchor postings inspected: 16,384 by default, caller-reducible or boundedly
+  caller-increasable under the core limit
+- anchor matches returned: 256 by default, caller-reducible or boundedly
+  caller-increasable under the core limit
 - semantic query result: bounded again by the request's `QueryBudget`
 
 The outer limits protect the adapter. The inner Cantor budget remains part of
@@ -166,7 +206,11 @@ cargo build --workspace --release
 
 The test suite proves:
 
-- the server publishes exactly one tool with the declared annotations;
+- embedded mode publishes exactly the two declared tools while resident mode
+  preserves its one-tool contract;
+- anchor lookup is repeatable, bounded, rejects unknown arguments, and returns
+  exact admitted quotations by default;
+- each source-projection proof is bound to the lexical lookup proof;
 - malformed arguments produce visible structured tool faults;
 - trust failures remain exact `ProtocolResponse` values;
 - direct core, CLI, and MCP adapter results are equivalent; and

@@ -6,7 +6,7 @@ use cantor_core::{
     ProtocolOutcome, ProtocolResponse, SopCorpusManifest, SopDocumentInput, SopSigningKeys,
     build_sop_corpus, execute_protocol_request, verify_protocol_response_against_environment,
 };
-use cantor_mcp::TOOL_NAME;
+use cantor_mcp::{ANCHOR_TOOL_NAME, TOOL_NAME};
 use ed25519_dalek::SigningKey;
 use rmcp::{
     ServiceExt,
@@ -107,6 +107,35 @@ async fn real_mcp_process_returns_exact_self_hosted_cantor_quote() {
     assert_eq!(response, direct);
     verify_protocol_response_against_environment(&built.environment, &request, &response)
         .expect("MCP response must equal pinned core execution");
+
+    let anchor = client
+        .call_tool(
+            CallToolRequestParams::new(ANCHOR_TOOL_NAME).with_arguments(
+                json!({ "text": "Cantor" })
+                    .as_object()
+                    .expect("anchor arguments are an object")
+                    .clone(),
+            ),
+        )
+        .await
+        .expect("self-hosted anchor tools/call must succeed");
+    assert_eq!(anchor.is_error, Some(false));
+    let anchor_value = anchor
+        .structured_content
+        .expect("anchor tool must return structured content");
+    assert_eq!(
+        anchor_value["source_projection"]["lookup_proof_digest"],
+        anchor_value["result"]["proof_digest"]
+    );
+    assert!(
+        anchor_value["source_projection"]["projections"]
+            .as_array()
+            .is_some_and(|projections| projections.iter().any(|projection| {
+                projection["text"]
+                    .as_str()
+                    .is_some_and(|text| text.starts_with("+ [Cantor]"))
+            }))
+    );
 
     client.cancel().await.expect("MCP client must stop");
     fs::remove_file(environment_path).expect("temporary environment must be removed");

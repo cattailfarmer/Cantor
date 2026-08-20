@@ -17,7 +17,7 @@ use cantor_core::{
     embedded_environment_digest, execute_protocol_request,
     verify_protocol_response_against_environment,
 };
-use cantor_mcp::{CantorMcpServer, MAX_ARGUMENT_BYTES, TOOL_NAME};
+use cantor_mcp::{ANCHOR_TOOL_NAME, CantorMcpServer, MAX_ARGUMENT_BYTES, TOOL_NAME};
 use cantor_service::{
     ACTIVATION_SCHEMA, BoundServer, EnvironmentActivation, SERVICE_CONFIG_SCHEMA, ServiceClient,
     ServiceConfig, ServiceDisposition, ServiceOperation, ServiceResult,
@@ -198,6 +198,20 @@ fn tool_arguments(request: &ProtocolRequest) -> serde_json::Map<String, serde_js
         .clone()
 }
 
+fn anchor_arguments(
+    text: &str,
+    include_source: Option<bool>,
+) -> serde_json::Map<String, serde_json::Value> {
+    let mut value = json!({ "text": text });
+    if let Some(include_source) = include_source {
+        value["include_source"] = json!(include_source);
+    }
+    value
+        .as_object()
+        .expect("anchor tool arguments must be an object")
+        .clone()
+}
+
 fn structured_response(result: &rmcp::model::CallToolResult) -> ProtocolResponse {
     serde_json::from_value(
         result
@@ -209,7 +223,7 @@ fn structured_response(result: &rmcp::model::CallToolResult) -> ProtocolResponse
 }
 
 #[test]
-fn tool_metadata_declares_one_closed_read_only_operation() {
+fn query_tool_metadata_declares_one_closed_read_only_operation() {
     let tool = CantorMcpServer::tool_definition();
     assert_eq!(tool.name, TOOL_NAME);
     assert!(tool.output_schema.is_some());
@@ -232,6 +246,101 @@ fn tool_metadata_declares_one_closed_read_only_operation() {
         metadata_bytes < 32_768,
         "tool discovery metadata must remain a bounded attention payload"
     );
+}
+
+#[test]
+fn anchor_tool_metadata_is_small_strict_read_only_and_honest() {
+    let tool = CantorMcpServer::anchor_tool_definition();
+    assert_eq!(tool.name, ANCHOR_TOOL_NAME);
+    assert!(tool.output_schema.is_some());
+    assert_eq!(
+        tool.input_schema.get("additionalProperties"),
+        Some(&json!(false))
+    );
+    assert_eq!(
+        tool.input_schema["properties"]["include_source"]["default"],
+        json!(true)
+    );
+    let annotations = tool
+        .annotations
+        .as_ref()
+        .expect("anchor annotations are required");
+    assert_eq!(annotations.read_only_hint, Some(true));
+    assert_eq!(annotations.destructive_hint, Some(false));
+    assert_eq!(annotations.idempotent_hint, Some(true));
+    assert_eq!(annotations.open_world_hint, Some(false));
+    assert!(
+        tool.description
+            .as_deref()
+            .is_some_and(|description| description.contains("not truth"))
+    );
+    assert!(serde_json::to_vec(&tool).unwrap().len() < 8_192);
+}
+
+#[test]
+fn embedded_anchor_tool_returns_repeatable_lookup_and_exact_signed_source_by_default() {
+    let (environment, _) = fixture("cantor");
+    let server = CantorMcpServer::new(environment).expect("fixture must pass preflight");
+    let arguments = anchor_arguments("Cantor", None);
+    let first = server.execute_anchor_tool_arguments(Some(arguments.clone()));
+    let second = server.execute_anchor_tool_arguments(Some(arguments));
+
+    assert_eq!(first.is_error, Some(false));
+    assert_eq!(first.structured_content, second.structured_content);
+    let value = first
+        .structured_content
+        .expect("anchor lookup must return structured content");
+    assert_eq!(value["status"], "success");
+    assert_eq!(value["result"]["eligible_tokens"], json!(["cantor"]));
+    assert_eq!(value["result"]["matches"].as_array().unwrap().len(), 1);
+    assert_eq!(
+        value["source_projection"]["lookup_proof_digest"],
+        value["result"]["proof_digest"]
+    );
+    assert_eq!(
+        value["source_projection"]["projections"][0]["source_path"],
+        "fixtures/mcp.sop"
+    );
+    assert_eq!(
+        value["source_projection"]["projections"][0]["text"],
+        "& [cantor] is a signed semantic coprocessor"
+    );
+    assert!(
+        value["result"]["non_authority_statement"]
+            .as_str()
+            .is_some_and(|statement| statement.contains("Lexical correspondence"))
+    );
+}
+
+#[test]
+fn anchor_tool_source_toggle_and_argument_faults_are_explicit() {
+    let (environment, _) = fixture("cantor");
+    let server = CantorMcpServer::new(environment).expect("fixture must pass preflight");
+    let lexical_only = server
+        .execute_anchor_tool_arguments(Some(anchor_arguments("Cantor", Some(false))))
+        .structured_content
+        .expect("lexical-only anchor lookup must be structured");
+    assert!(lexical_only.get("source_projection").is_none());
+
+    for arguments in [
+        json!({ "text": "Cantor", "authority": true }),
+        json!({ "text": "Cantor", "maximum_matches": 0 }),
+        json!({ "text": " " }),
+    ] {
+        let result = server.execute_anchor_tool_arguments(Some(
+            arguments
+                .as_object()
+                .expect("fault fixture must be an object")
+                .clone(),
+        ));
+        assert_eq!(result.is_error, Some(true));
+        assert_eq!(
+            result
+                .structured_content
+                .expect("anchor fault must be structured")["status"],
+            "fault"
+        );
+    }
 }
 
 #[test]
@@ -352,8 +461,25 @@ async fn real_stdio_server_lists_and_executes_the_tool() {
         .list_all_tools()
         .await
         .expect("tools/list must succeed");
-    assert_eq!(tools.len(), 1);
+    assert_eq!(tools.len(), 2);
     assert_eq!(tools[0].name, TOOL_NAME);
+    assert_eq!(tools[1].name, ANCHOR_TOOL_NAME);
+
+    let anchor = client
+        .call_tool(
+            CallToolRequestParams::new(ANCHOR_TOOL_NAME)
+                .with_arguments(anchor_arguments("Cantor", None)),
+        )
+        .await
+        .expect("anchor tools/call must succeed");
+    assert_eq!(anchor.is_error, Some(false));
+    assert_eq!(
+        anchor
+            .structured_content
+            .expect("anchor process result must be structured")["source_projection"]["projections"]
+            [0]["text"],
+        "& [cantor] is a signed semantic coprocessor"
+    );
 
     for _ in 0..25 {
         let result = client
@@ -398,6 +524,14 @@ fn resident_backend_is_exact_pinned_and_visibly_unavailable() {
     assert!(server.is_resident_backed());
     assert!(server.runtime().is_none());
     assert!(server.environment().is_none());
+    let unavailable = server.execute_anchor_tool_arguments(Some(anchor_arguments("Cantor", None)));
+    assert_eq!(unavailable.is_error, Some(true));
+    assert_eq!(
+        unavailable
+            .structured_content
+            .expect("resident anchor fault must be structured")["fault"]["code"],
+        "anchor_lookup_unavailable"
+    );
     let result = server.execute_tool_arguments(Some(tool_arguments(&request)));
     assert_eq!(structured_response(&result), direct);
 

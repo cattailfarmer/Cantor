@@ -1,0 +1,23 @@
+Subject: Cantor Anchor Lookup MCP Verification Host Faults
+
+@ [fault_uuid] 0048b9ee-ff41-4206-aa39-13f2505b51f8
+@ [occurred_at] 2026-08-20
+@ [scope] anchor_lookup_mcp_completion_verification
+
+& [Fault1StaleCargoPath]
+  + [observation] the first optimized WSL command named the obsolete path /home/enjer/.cargo/bin/cargo and failed before compilation
+  + [classification] verification launcher fault with no product assertion
+  + [resolution] resolved current WSL identity pinky and invoked Cargo from /home/pinky/.cargo/bin through PATH
+
+& [Fault2MissingPythonAlias]
+  + [observation] the first complete workspace WSL test run stopped in five existing cantor_attention_mcp fixture setups because they launch python while this WSL image exposes python3
+  + [classification] preexisting host fixture prerequisite outside the anchor implementation; no tested anchor or core assertion failed
+  + [resolution] created an ephemeral /tmp PATH shim named python pointing to installed /usr/bin/python3 and reran the whole workspace from the beginning
+  + [result] 817 registered tests 816 passed zero failed and one governed ignore
+
+& [Security]
+  + no Windows Application Control security setting execution policy signing authority package source or repository code was weakened or changed to obtain the pass
+  + the temporary shim grants no additional capability beyond the already installed interpreter and is removed after verification
+
+& [Prevention]
+  + future WSL workspace proofs should resolve the active user Cargo path and explicitly provide the test fixture's python command prerequisite before beginning the long serialized run

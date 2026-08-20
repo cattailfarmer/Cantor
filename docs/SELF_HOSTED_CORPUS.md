@@ -78,15 +78,19 @@ line, byte and display-line anchors, source and span digests, package and
 certificate identities, signers, relationship paths, decision trace, detail
 accounts, and a recomputable result digest.
 
-The same environment can be served through the existing one-tool MCP process:
+The same environment can be served through the embedded MCP process:
 
 ```powershell
 .\target\release\cantor-mcp.exe `
   --environment .\.local\cantor-self-hosted\environment.json
 ```
 
-The MCP adapter owns no parser, trust, query, ranking, or proof policy. Its
-structured result is exactly the core `ProtocolResponse`.
+Embedded mode advertises `query_sop` and `lookup_sop_anchors`. The former
+returns exactly the core `ProtocolResponse`; the latter maps ordinary text to
+the derived lexical catalogue and, by default, returns the exact admitted SOP
+source quotations and source-projection proof. The MCP adapter owns no parser,
+trust, ranking, source-projection, or proof policy: it invokes the corresponding
+core operations over the immutable admitted generation prepared at startup.
 
 ## Bounded source profile
 
