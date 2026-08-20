@@ -41,23 +41,37 @@ accounting, stage skips, and false successor recognition fail closed.
 
 ## Deliberate non-capabilities
 
-This slice does not parse or lower SOP, create an attention procedure, invoke
-Cargo or another compiler, build a binary, alter llama.cpp, sign a package,
-install or execute a candidate, contact a model, or recognize its own
-successor. An inference-host plan may name a future internal llama.cpp addon,
-but such work remains separately governed and requires measured evidence that
-the preferred external seam is insufficient.
+Slice 2 adds one narrow lowering seam. A strict `SelfOrderingRequest` explicitly
+assigns semantic roles to selected proof-bearing addresses. Cantor replays the
+lookup and exact source projection against the admitted fabric, then derives a
+`TypedSopIr`, one `CandidateCompilationPlan`, and a `SelfAssemblyLedger` that
+stops after observed self-description and candidate self-ordering. Lexical
+matching never assigns semantic roles by itself.
+
+The tracked self-hosted corpus is the first provider-free fixture for this
+path. It resolves `Cantor`, `SemanticUnit`, and `PreparedRuntime` from three
+signed SOP documents and projects an inert attention-procedure plan. Public
+deterministic fixture keys are test material, not production trust roots.
+
+These slices do not create an attention procedure, invoke Cargo or another
+compiler as a backend, build a binary, alter llama.cpp, install or execute a
+candidate, contact a model, or recognize a successor. An inference-host plan
+may name a future internal llama.cpp addon, but such work remains separately
+governed and requires measured evidence that the preferred external seam is
+insufficient.
 
 ## Verification
 
 ```powershell
 cargo test -p cantor_core --test semantic_compiler_forms -- --test-threads=1
 cargo test --release -p cantor_core --test semantic_compiler_forms -- --test-threads=1
+cargo test -p cantor_core --test semantic_compiler_self_ordering -- --test-threads=1
+cargo test --release -p cantor_core --test semantic_compiler_self_ordering -- --test-threads=1
 cargo clippy -p cantor_core --all-targets --all-features -- -D warnings
 ```
 
 The governing source, SJS review, plan, requirement matrix, phase lock,
 solution, and proof remain separate records. The next implementation slice is
-a provider-free self-description and self-ordering fixture that consumes the
-admitted Cantor corpus and proof-bearing anchors; it must be separately
-activated.
+composition of the existing procedure compiler as the first real
+`AttentionProcedureBackend`; artifact projection and execution remain separate
+authority boundaries.

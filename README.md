@@ -52,6 +52,10 @@ baseline:
   one-backend candidate plan, capability receipt, and self-assembly ledger
   forms that keep attention-procedure, inference-host, and native-artifact
   compilation identities non-substitutable without emitting an artifact; and
+- `cantor_core` can now replay the tracked admitted Cantor corpus, bind explicit
+  semantic-role directives to proof-bearing anchors and exact signed source,
+  and project deterministic typed IR, one inert backend plan, and a two-stage
+  self-description/self-ordering ledger without a provider or execution; and
 - `cantor_core::PreparedRuntime` retains at most one immutable exact-scope
   projection for repeated resident reads, with atomic generation replacement,
   invalidation, rollback, and the direct request path preserved; and
