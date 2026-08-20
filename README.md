@@ -136,8 +136,11 @@ baseline:
   advance arguments to 367 bytes while preserving exact `READ` inspection,
   stale-writer refusal, and explicit restart loss; and
 - `invoke_bounded_workspace_verification.ps1` now provides a capacity-gated,
-  serialized, reusable WSL verification lane with a plan-only default and no
-  automatic cleanup, remote access, or OneDrive access; and
+  serialized, reusable WSL verification lane whose plan-only default remains
+  diagnostic below capacity, whose lean Cargo profile avoids incremental and
+  debug artifacts, and whose live reserve guard interrupts before the Windows
+  host floor is consumed, with no automatic cleanup, remote access, or
+  OneDrive access; and
 - `cantor-compact-reflection-loop` now composes an unmodified loopback
   OpenAI-compatible model with a host-custodied compact procedure session: the
   model emits only a bounded quota call, then reflects over the exact terminal

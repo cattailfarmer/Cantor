@@ -1,0 +1,56 @@
+Subject: Cantor Bounded Workspace Verification P1
+
+@ [specification_uuid] da0218cd-a259-424c-b9f5-8c6da41b58da
+@ [profile] cantor-bounded-workspace-verification/0.2
+@ [source_manifest] C:\Project\Cantor\source_documents\2026-08-20_bounded_workspace_verification_p1\Source_Document_Manifest.sop
+@ [review] C:\Project\Cantor\narrative\research\Cantor_Bounded_Workspace_Verification_P1_Review_2026-08-20.sop
+@ [prior_profile] cantor-bounded-workspace-verification/0.1
+
+& [PlanContract]
+  + [BWV1-001] action is exactly test or clippy
+  + [BWV1-002] default behavior emits one valid JSON plan returns success and invokes neither WSL nor Cargo regardless of capacity status
+  + [BWV1-003] Execute is the sole switch admitting distribution discovery WSL and Cargo
+  + [BWV1-004] plan reports exact repository volume free bytes startup minimum reserve floor monitor interval capacity_sufficient and command
+  + [BWV1-005] repository distribution and target identities retain P0 closed validation
+
+& [CapacityIdentity]
+  + [BWV1-006] MinimumFreeGiB defaults to forty and is startup admission headroom
+  + [BWV1-007] ReserveFreeGiB defaults to eight and is the runtime floor
+  + [BWV1-008] MonitorIntervalSeconds defaults to two and is between one and ten inclusive
+  + [BWV1-009] startup minimum must be strictly greater than runtime reserve
+  + [BWV1-010] Execute refuses before distribution discovery when plan capacity_sufficient is false
+  + [BWV1-011] the WSL Windows-volume mount is derived from the exact repository drive and exposed in the plan
+
+& [LeanArtifactContract]
+  + [BWV1-012] set CARGO_BUILD_JOBS to one
+  + [BWV1-013] set CARGO_INCREMENTAL to zero
+  + [BWV1-014] set CARGO_PROFILE_TEST_DEBUG and CARGO_PROFILE_DEV_DEBUG to zero
+  + [BWV1-015] test and Clippy Cargo selections remain exactly the P0 workspace all-feature locked selections
+  + [BWV1-016] test threads remain one and the target temp and Python shim paths remain stable
+
+& [RuntimeGuard]
+  + [BWV1-017] execute Cargo as one background child under a Bash capacity-guard function
+  + [BWV1-018] sample available bytes on the derived Windows-volume mount while the child is alive
+  + [BWV1-019] set LC_ALL to C and require the sample to be nonempty decimal bytes
+  + [BWV1-020] unreadable capacity interrupts the child and returns guard status seventy-four
+  + [BWV1-021] availability below reserve interrupts the child and returns capacity status seventy-three
+  + [BWV1-022] otherwise preserve the exact Cargo child status after it exits
+  + [BWV1-023] wrapper distinguishes runtime capacity and monitor faults from general verification child failure
+
+& [Boundary]
+  + [BWV1-024] plan remote_hosts destructive_actions and automatic_cleanup remain empty empty and false
+  + [BWV1-025] no target deletion cache cleanup compaction sparse mutation WSL configuration OneDrive or remote operation
+  + [BWV1-026] no product runtime SOP trust query provider semantic or effect authority
+  + [BWV1-027] lean artifact settings do not authorize omission of workspace features targets tests warnings or lock enforcement
+
+& [Acceptance]
+  + [BWV1-A01] low-capacity default plan succeeds and reports capacity_sufficient false
+  + [BWV1-A02] impossible-capacity Execute refuses before WSL discovery with capacity_fault
+  + [BWV1-A03] invalid action target threshold relation and monitor bounds refuse
+  + [BWV1-A04] plan contains exact lean variables derived mount reserve bytes guard sample interrupt statuses and exact Cargo commands
+  + [BWV1-A05] offline suite invokes no Cargo WSL cleanup remote or OneDrive operation
+  + [BWV1-A06] script parsing format diff recursive evidence and source-linked solution proof pass
+
+& [Rollback]
+  + restore profile 0.1 scripts documentation and proof identities
+  + retain this source review fault and P1 evidence as rejected or superseded operational history

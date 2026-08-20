@@ -1,0 +1,98 @@
+Subject: Cantor Bounded Workspace Verification P1 Review 2026-08-20
+
+@ [review_uuid] cfb438b6-933f-4aa3-83e8-e8241eb4c034
+@ [source_uuid] b85a80ba-1ec4-477c-80a8-9e0cc5c88c3c
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [status] satisfied_for_plan_capacity_status_lean_artifacts_and_runtime_reserve_guard
+
+& [SourcePreservation]
+  + [source_bytes] 3674
+  + [source_sha256] 645965E092978F1F223B3075EAC2BCF9D3B18875E51DE1750D3DF7ACC130CE42
+  + [manifest_bytes] 580
+  + [manifest_sha256] 44A8FC6818ABA986E46240E8F4F3AED5D5FADD97BCAE9695BA69EAC9540F6490
+
+& [PriorAuthority]
+  + [P0_specification_bytes] 3453
+  + [P0_specification_sha256] 2FFF0CEF3130F1BADAAFDA79DE95556FB229176805A6B3198A155CE6E3B05B59
+  + [P0_proof_bytes] 1989
+  + [P0_proof_sha256] 9A9B77A5D07C744F3D78CA8D9A92010BE98A9B41AFFBCBA4C6F93D22092129EC
+  + [fault_bytes] 5794
+  + [fault_sha256] 29078E0D6042D5AF37EB326DF1DAF71546A17E54D35D528D11439180DC5064E3
+  + [P0_runner_sha256] 45A277CC16B6AF71FC81749A5A1418834F6EB8DB932368A1D23E264EE607EFE6
+  + [P0_test_sha256] A1C3F72E6098379CF027322CBE11911F4F295776AF7007FCA726C6D707E1E00E
+
+& [SJS]
+  + Situation: P0 prevents low-capacity startup but clean workspace builds can consume more than its threshold and it cannot observe the reserve after Cargo begins
+  + Justification: a verifier that can itself exhaust the machine weakens the evidence boundary and makes its offline diagnostic unusable during the fault state
+  + Solution: separate plan status startup admission and runtime reserve then reduce unnecessary artifacts and guard the running child with a fail-closed host-volume monitor
+
+& [CompletedWorkSupportReview]
+  + P0 already closes actions distribution target syntax repository identity serialization remote and destructive boundaries
+  + P0 already uses one stable WSL target one build job and one test thread
+  + P0 proof remains historical evidence for profile 0.1 and is not rewritten
+  + P1 may evolve the same script path only under a new 0.2 profile and explicit source-linked phase lock
+  + P1 does not reopen Cantor product runtime package trust semantic query or provider behavior
+
+& [Delineation]
+  + plan-only reports observed capacity but starts no child and returns success
+  + Execute converts insufficient startup capacity into a pre-child fault
+  + startup minimum is admission headroom while runtime reserve is the floor that must remain
+  + lean Cargo profile changes artifact debug and incremental storage only and does not omit tests features targets or warnings
+  + live guard observes the Windows volume that owns the repository from its exact WSL mount
+  + guard failure interruption and child status are operational outcomes not product-test assertions
+  + cache cleanup VHD compaction sparse mode and configuration mutation remain outside
+
+& [DataDrivenDesign]
+  + [input] action distribution target startup minimum reserve monitor interval Execute and repository volume free bytes
+  + [derived] capacity_sufficient Windows drive WSL volume mount reserve bytes exact Bash command and declared environment
+  + [output] one JSON plan plus optional guarded child outcome
+  + [freshness] capacity is sampled once for the plan and repeatedly by the admitted child guard
+  + [failure] invalid parameters unreadable sample startup insufficiency runtime reserve breach missing distribution or child failure refuse
+  + [side_effect] only explicit Execute may create or update stable Cargo target temp and Python shim build artifacts
+
+& [DualHemisphereReview]
+  + Master view: verification must preserve enough machine capacity to remain an observer rather than become the fault it is trying to inspect
+  + Emissary view: forty-GiB startup minimum eight-GiB reserve two-second monitor one target and zero-debug nonincremental Cargo settings make that boundary testable
+  + correction: a startup estimate alone is not a bound because clean dependency graphs and virtual-disk allocation vary
+  + reconciliation: retain conservative admission and add a runtime guard that reacts to actual free bytes
+
+& [SecurityAndHonesty]
+  + plan capacity status never implies Execute authority
+  + low capacity is visible in JSON and cannot be hidden by plan success
+  + runtime sample parse failure interrupts rather than silently disabling the guard
+  + reserve breach has a distinct status from Cargo test or linker failure
+  + inputs interpolated into Bash remain closed conservative values or derived drive identity
+  + no automatic cleanup follows any failure
+
+& [Premortem]
+  + failure: plan mode becomes environment-dependent; mitigation never throw capacity in plan-only mode
+  + failure: guard watches WSL root rather than Windows backing volume; mitigation derive and expose /mnt/<drive> from repository volume
+  + failure: df output is localized or malformed; mitigation LC_ALL=C numeric admission and fail-closed parse handling
+  + failure: child finishes between kill check and sample; mitigation tolerate absent PID and preserve final wait status
+  + failure: Cargo descendants survive interrupt; mitigation signal Cargo parent and retain no claim of process-group hard kill in P1
+  + failure: lean settings change selected tests; mitigation keep exact Cargo selection unchanged and assert only artifact-profile variables differ
+  + failure: threshold values reverse; mitigation require startup minimum strictly exceeds runtime reserve
+
+& [SevenFoldTrace]
+  + fold_1 preserves the two capacity incidents and P0 identities
+  + fold_2 separates plan observation execution admission runtime reserve and product results
+  + fold_3 models closed parameters derived capacity state guard states and distinct faults
+  + fold_4 traces Windows drive to WSL mount and caller thresholds to exact bytes
+  + fold_5 prunes cleanup compaction reconfiguration remote product runtime and semantic authority
+  + fold_6 adds low-capacity plan impossible execute invalid relation guard text and parse tests
+  + fold_7 converges on one evolved wrapper one offline suite documentation solution proof and rollback
+  + [exhaustion_state] ready_for_P1_canonical_formation_and_phase_lock
+
+& [Decision]
+  + authorize only plan capacity status startup-versus-reserve validation lean artifact variables and one WSL runtime reserve guard
+  + default MinimumFreeGiB is forty ReserveFreeGiB is eight and MonitorIntervalSeconds is two
+  + retain the exact workspace test and Clippy semantic selections from P0
+  + require offline tests format diff evidence and static audit without executing Cargo during P1 proof
+
+& [SatisfactionSignature]
+  + [signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] b26e07e9-2aa3-4228-9e79-ed931873a299
+  + [signed_subject] C:\Project\Cantor\narrative\research\Cantor_Bounded_Workspace_Verification_P1_Review_2026-08-20.sop
+  + [source_specification] C:\Project\Cantor\source_documents\2026-08-20_bounded_workspace_verification_p1\Bounded_Workspace_Verification_P1_Source.sop
+  + [processed_stage_set] source_preserved delineated data_designed dual_hemisphere security_honesty premortem seven_fold justified and solution_selected
+  + [signature_status] valid_for_BWV_P1_local_guard_only

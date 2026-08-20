@@ -1,0 +1,54 @@
+Subject: Cantor Bounded Workspace Verification P1 Exploded Specification
+
+@ [exploded_uuid] 548add44-e25c-4e16-903b-8ba5d5a38c95
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Bounded_Workspace_Verification_P1.sop
+
+& [IdentityAxis]
+  + plan observation is not execution admission
+  + startup minimum is not runtime reserve
+  + capacity guard fault is not Cargo test failure
+  + generated target identity is not source identity
+
+& [StateAxis]
+  + Planned reports capacity and exact command without child admission
+  + RefusedStart means Execute was selected below startup minimum
+  + Running means WSL admitted one guarded Cargo child
+  + RefusedMonitor means capacity sample was unreadable
+  + RefusedReserve means free bytes crossed below reserve
+  + ChildComplete preserves zero or nonzero Cargo status
+
+& [DataAxis]
+  + free_bytes derives from the repository Windows volume
+  + minimum_free_bytes and reserve_free_bytes derive by exact GiB multiplication
+  + capacity_sufficient is free_bytes greater than or equal to minimum_free_bytes
+  + windows_volume_mount derives from the lowercase drive letter only
+  + guard samples decimal available bytes from that mount under C locale
+
+& [ControlAxis]
+  + validate parameters derive identities sample plan emit JSON return when not Execute
+  + on Execute require capacity then distribution then run exact guarded command
+  + while child lives sample validate compare wait interval and repeat
+  + on malformed sample interrupt wait and return seventy-four
+  + on reserve breach interrupt wait and return seventy-three
+  + on child exit return its status unchanged
+
+& [ArtifactAxis]
+  + incremental zero prevents reusable incremental compilation state
+  + test and development debug zero prevent PDB and debug payload not needed for semantic verification
+  + one build job and one test thread retain bounded concurrency
+  + stable target temp and shim retain reuse identity
+
+& [FaultAxis]
+  + InvalidParameter before plan
+  + CapacityFault before WSL
+  + WslFault before Cargo
+  + CapacityGuardFault during Cargo
+  + CapacityMonitorFault during Cargo
+  + VerificationFault after ordinary nonzero child status
+
+& [ProofAxis]
+  + parse scripts without execution
+  + run plan-only cases in isolated PowerShell children
+  + use impossible startup threshold with Execute to prove pre-WSL refusal
+  + inspect exact Bash string for mount lean settings guard loop sample parsing signals statuses and Cargo selection
+  + perform no executable Cargo acceptance while host capacity is below admission

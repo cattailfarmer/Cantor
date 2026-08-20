@@ -1,0 +1,45 @@
+Subject: Bounded Workspace Verification P1 Preserved Source
+
+@ [source_uuid] b85a80ba-1ec4-477c-80a8-9e0cc5c88c3c
+@ [captured_at_utc] 2026-08-20T03:47:25.8785992Z
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [speaker] Codex engineering observation under the active user-authorized four-hour Cantor shift
+@ [prior_authority] C:\Project\Cantor\specifications\Cantor_Bounded_Workspace_Verification_P0.sop
+@ [trigger_fault] C:\Project\Cantor\narrative\operational_faults\1787196382189_semantic_anchor_catalogue_p0_slice4a_capacity_fault.sop
+
+& [ObservedFailure]
+  + the P0 twenty-GiB startup threshold admitted a clean WSL workspace build that expanded its non-sparse dynamic virtual disk until the Windows system volume approached zero free space
+  + cleaning the exact WSL Cargo target released internal filesystem blocks but did not immediately return their backing allocation to Windows
+  + a later native-Windows workspace build began with approximately twenty-seven GiB free and reached effectively zero while linking a test PDB
+  + the linker returned LNK1318 FILE_SYSTEM before that test executed
+  + exact Cargo cleanup restored host capacity and no source or user data was deleted
+
+& [ContractGap]
+  + P0 checks capacity only at startup and cannot stop an admitted child before the reserve is consumed
+  + P0 compiles default test and development debug information and permits incremental artifacts whose storage is not required for semantic verification
+  + P0 plan-only mode throws below its execution threshold even though the canonical contract says plan-only invokes neither WSL nor Cargo
+  + the offline contract test consequently refuses to run when the machine is most in need of a read-only diagnostic plan
+  + one fixed minimum threshold does not distinguish admission headroom from the reserve that must remain available throughout execution
+
+& [DevelopmentNeed]
+  + keep the default operation read-only plan-only and successful at any observable capacity
+  + expose current free bytes startup minimum reserve floor capacity status and exact command in the JSON plan
+  + enforce startup capacity only when Execute is selected so an impossible threshold can prove pre-child refusal safely
+  + disable Cargo incremental output and test or development debug information for the verification lane
+  + poll the Windows repository volume from the WSL child while Cargo runs
+  + interrupt the admitted Cargo child and return a distinct capacity-guard status before free space crosses the caller-visible reserve
+  + retain one build job one test thread stable target stable temporary directory no automatic cleanup and no remote or OneDrive behavior
+
+& [SelectedPrototype]
+  + evolve the existing entry point to profile cantor-bounded-workspace-verification/0.2
+  + retain MinimumFreeGiB as startup admission and add ReserveFreeGiB plus MonitorIntervalSeconds
+  + require MinimumFreeGiB to be strictly greater than ReserveFreeGiB
+  + derive the WSL mount for the repository volume from its exact Windows drive identity
+  + run Cargo as one background child inside a Bash guard loop that samples available bytes and sends interrupt on reserve breach
+  + render plan Bash without invoking WSL and test the exact guard text with isolated PowerShell child processes
+
+& [Boundary]
+  + no cache deletion compaction sparse-mode mutation WSL configuration remote host OneDrive product runtime semantic authority or autonomous cleanup
+  + no claim that lean debug settings reduce semantic test coverage
+  + no claim that a startup estimate predicts final target size
+  + P1 is local development verification policy and does not alter Cantor runtime behavior

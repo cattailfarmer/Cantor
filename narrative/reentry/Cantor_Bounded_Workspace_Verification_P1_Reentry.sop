@@ -1,0 +1,28 @@
+Subject: Cantor Bounded Workspace Verification P1 Reentry
+
+@ [reentry_uuid] 68ff2bfd-2426-47bd-a39e-8c235895186a
+@ [canonical] C:\Project\Cantor\specifications\Cantor_Bounded_Workspace_Verification_P1.sop
+@ [phase_lock] C:\Project\Cantor\narrative\registries\Cantor_Bounded_Workspace_Verification_P1_Phase_Lock.sop
+
+& [Use]
+  + inspect plan capacity even while the system is below execution admission
+  + distinguish forty-GiB startup minimum from eight-GiB live reserve
+  + execute one stable lean target only when capacity_sufficient is true
+  + treat statuses seventy-three and seventy-four as operational guard outcomes rather than Rust test failures
+
+& [Commands]
+  + [plan] .\scripts\invoke_bounded_workspace_verification.ps1
+  + [test] .\scripts\invoke_bounded_workspace_verification.ps1 -Action test -Execute
+  + [clippy] .\scripts\invoke_bounded_workspace_verification.ps1 -Action clippy -Execute
+  + [offline_contract] .\scripts\test_bounded_workspace_verification.ps1
+
+& [CurrentCapacityDisposition]
+  + do not execute when the plan reports capacity_sufficient false
+  + after a guard interruption inspect cargo rustc linker and PDB-service processes before any cleanup decision
+  + cleanup compaction or WSL reconfiguration remains a separate authorized operation
+
+& [DoNotInfer]
+  + startup admission predicts no exact final target size
+  + debug-zero and incremental-zero change artifacts not selected semantic coverage
+  + Cargo-parent interrupt is not a process-group hard-kill guarantee
+  + verifier success adds no Cantor runtime or SOP authority
