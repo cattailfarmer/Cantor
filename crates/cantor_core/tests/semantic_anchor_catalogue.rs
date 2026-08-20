@@ -126,7 +126,8 @@ fn lexical_index_form() -> DerivedLexicalAssociationIndex {
             profile: LEXICAL_TOKENIZER_PROFILE.to_owned(),
             compiler_id: id(LEXICAL_ASSOCIATION_INDEX_COMPILER_ID),
             compiler_version: LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION.to_owned(),
-            adversarial_fixture_digest: digest('a'),
+            adversarial_fixture_digest: lexical_tokenizer_adversarial_fixture_digest()
+                .expect("lexical fixture digest"),
         },
         postings: BTreeMap::from([("anchor".to_owned(), vec![posting])]),
         index_root: digest('1'),
@@ -1148,6 +1149,19 @@ fn lexical_sidecar_structural_mutations_fail_closed() {
             .expect_err("wrong compiler")
             .kind,
         LexicalIndexFaultKind::InvalidIdentity
+    );
+
+    let mut wrong_fixture = baseline.clone();
+    wrong_fixture
+        .tokenizer
+        .adversarial_fixture_digest
+        .value
+        .replace_range(0..1, "f");
+    assert_eq!(
+        validate_derived_lexical_association_index_form(&wrong_fixture)
+            .expect_err("wrong tokenizer fixture digest")
+            .kind,
+        LexicalIndexFaultKind::ProjectionMismatch
     );
 
     let mut uppercase_token = baseline.clone();

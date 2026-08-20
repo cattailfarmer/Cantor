@@ -680,7 +680,15 @@ pub fn validate_lexical_tokenizer_identity(
     validate_lexical_digest(
         &tokenizer.adversarial_fixture_digest,
         "tokenizer.adversarial_fixture_digest",
-    )
+    )?;
+    if tokenizer.adversarial_fixture_digest != lexical_tokenizer_adversarial_fixture_digest()? {
+        return lexical_fault(
+            LexicalIndexFaultKind::ProjectionMismatch,
+            "tokenizer.adversarial_fixture_digest",
+            "lexical tokenizer fixture digest differs from canonical behavior",
+        );
+    }
+    Ok(())
 }
 
 pub fn validate_derived_lexical_association_index_form(

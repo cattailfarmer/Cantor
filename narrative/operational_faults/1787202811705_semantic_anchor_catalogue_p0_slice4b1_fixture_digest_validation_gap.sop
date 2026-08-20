@@ -1,0 +1,26 @@
+Subject: Semantic Anchor Catalogue P0 Slice 4B1 Fixture Digest Validation Gap
+
+& [FaultIdentity]
+  + [fault_uuid] 7906cca8-afdb-4a49-94c8-9ac2413776e1
+  + [recognized_at_utc] 2026-08-20T05:13:31Z
+  + post-publication audit found LexicalTokenizerIdentity structural validation required a valid lowercase SHA-256 shape but did not require equality with the canonical adversarial fixture digest
+
+& [Risk]
+  + a caller could present a structurally valid unrelated digest while retaining the supported tokenizer profile and compiler identity
+  + no query compiler sidecar or external effect exists yet so the gap authorized no product action and corrupted no stored artifact
+  + the gap made the fixture digest decorative metadata rather than a validated behavior identity
+
+& [Correction]
+  + validation now deterministically recomputes lexical_tokenizer_adversarial_fixture_digest and requires exact equality
+  + a well-formed changed digest returns ProjectionMismatch
+  + the exact canonical digest remains 90a9cd4be7a9173f5aa15ba6b9c224a269b76c5f617ab4bc25f6e700a1e3deb9
+
+& [Evidence]
+  + twenty-three catalogue tests including the new mutation assertion pass
+  + fifteen unchanged scanner tests pass
+  + focused cantor_core all-targets all-features warnings-denied Clippy passes
+
+& [Disposition]
+  + corrected before surface projection or compiler implementation
+  + retain as evidence that digest syntax validation and digest semantic correspondence are distinct gates
+  + no remote OneDrive EVO-X2 provider persistence effect hidden-state FPGA or Minecraft behavior occurred
