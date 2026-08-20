@@ -29,7 +29,9 @@ pub const SEMANTIC_ANCHOR_CATALOGUE_COMPILER_VERSION: &str = "0.1.0";
 pub const LEXICAL_ASSOCIATION_INDEX_COMPILER_ID: &str = "compiler:cantor_lexical_association_index";
 pub const LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION: &str = "0.1.0";
 pub const MAX_LEXICAL_LOGICAL_REVISION_BYTES: usize = 256;
+pub const MAX_LEXICAL_SURFACE_BYTES: usize = 16 * 1024;
 pub const MAX_LEXICAL_TOKEN_BYTES: usize = 256;
+pub const MAX_LEXICAL_TOKENS_PER_SURFACE: usize = 4096;
 pub const MAX_LEXICAL_POSTINGS_PER_TOKEN: usize = 4096;
 pub const MAX_LEXICAL_TOTAL_POSTINGS: usize = 262_144;
 pub const MAX_LEXICAL_EVIDENCE_REFS: usize = 64;
@@ -44,6 +46,8 @@ const DERIVED_ARTIFACT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.derived-
 const UNIT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.unit.v1";
 const MEANING_DOMAIN: &str = "cantor.semantic-anchor-catalogue.meaning.v1";
 const CONTEXT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.context.v1";
+const LEXICAL_TOKENIZER_FIXTURE_DOMAIN: &str =
+    "cantor.semantic-anchor-catalogue.lexical-tokenizer-fixtures.v1";
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -603,6 +607,55 @@ pub fn validate_lexical_index_derivation_request(
         );
     }
     Ok(())
+}
+
+pub fn tokenize_lexical_surface(surface: &str) -> LexicalIndexValidation<BTreeMap<String, u32>> {
+    if surface.len() > MAX_LEXICAL_SURFACE_BYTES {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidBound,
+            "surface",
+            "lexical surface byte bound exceeded",
+        );
+    }
+    let mut tokens = BTreeMap::<String, u32>::new();
+    let mut current = String::new();
+    let mut occurrences = 0usize;
+    for character in surface.trim().chars() {
+        for lowercase in character.to_lowercase() {
+            if lowercase.is_alphanumeric() {
+                current.push(lowercase);
+                if current.len() > MAX_LEXICAL_TOKEN_BYTES {
+                    return lexical_fault(
+                        LexicalIndexFaultKind::InvalidBound,
+                        "token",
+                        "lexical token byte bound exceeded",
+                    );
+                }
+            } else {
+                commit_lexical_token(&mut current, &mut tokens, &mut occurrences)?;
+            }
+        }
+    }
+    commit_lexical_token(&mut current, &mut tokens, &mut occurrences)?;
+    Ok(tokens)
+}
+
+pub fn lexical_tokenizer_adversarial_fixture_digest() -> LexicalIndexValidation<ContentDigest> {
+    let surfaces = [
+        " Anchor,ANCHOR ",
+        "R2D2 v1.0",
+        "ÉLAN 東京 ١٢٣",
+        "İ",
+        "e\u{301} é",
+        "---",
+        "A_B",
+        "x",
+    ];
+    let fixtures = surfaces
+        .into_iter()
+        .map(|surface| tokenize_lexical_surface(surface).map(|tokens| (surface.to_owned(), tokens)))
+        .collect::<LexicalIndexValidation<Vec<_>>>()?;
+    lexical_digest_form(LEXICAL_TOKENIZER_FIXTURE_DOMAIN, &fixtures)
 }
 
 pub fn validate_lexical_tokenizer_identity(
@@ -1793,6 +1846,61 @@ where
 fn digest_form<T: Serialize>(domain: &str, value: &T) -> AnchorValidation<ContentDigest> {
     let bytes = serde_json::to_vec(value).map_err(|error| AnchorFormFault {
         kind: AnchorFormFaultKind::InvalidIdentity,
+        field: "serialization".to_owned(),
+        detail: error.to_string(),
+    })?;
+    let mut hasher = Sha256::new();
+    hasher.update(domain.as_bytes());
+    hasher.update([0]);
+    hasher.update(bytes);
+    Ok(ContentDigest {
+        algorithm: DIGEST_ALGORITHM.to_owned(),
+        value: hasher
+            .finalize()
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect(),
+    })
+}
+
+fn commit_lexical_token(
+    current: &mut String,
+    tokens: &mut BTreeMap<String, u32>,
+    occurrences: &mut usize,
+) -> LexicalIndexValidation {
+    if current.is_empty() {
+        return Ok(());
+    }
+    *occurrences = occurrences
+        .checked_add(1)
+        .ok_or_else(|| LexicalIndexFault {
+            kind: LexicalIndexFaultKind::InvalidBound,
+            field: "surface.tokens".to_owned(),
+            detail: "lexical token occurrence count overflow".to_owned(),
+        })?;
+    if *occurrences > MAX_LEXICAL_TOKENS_PER_SURFACE {
+        return lexical_fault(
+            LexicalIndexFaultKind::InvalidBound,
+            "surface.tokens",
+            "lexical tokens-per-surface bound exceeded",
+        );
+    }
+    let token = std::mem::take(current);
+    let count = tokens.entry(token).or_default();
+    *count = count.checked_add(1).ok_or_else(|| LexicalIndexFault {
+        kind: LexicalIndexFaultKind::InvalidBound,
+        field: "surface.token_occurrence".to_owned(),
+        detail: "lexical token occurrence count overflow".to_owned(),
+    })?;
+    Ok(())
+}
+
+fn lexical_digest_form<T: Serialize>(
+    domain: &str,
+    value: &T,
+) -> LexicalIndexValidation<ContentDigest> {
+    let bytes = serde_json::to_vec(value).map_err(|error| LexicalIndexFault {
+        kind: LexicalIndexFaultKind::InvalidIdentity,
         field: "serialization".to_owned(),
         detail: error.to_string(),
     })?;

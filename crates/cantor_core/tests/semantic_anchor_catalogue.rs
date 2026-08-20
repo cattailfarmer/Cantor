@@ -13,12 +13,13 @@ use cantor_core::{
     DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, LEXICAL_ASSOCIATION_INDEX_COMPILER_ID,
     LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION, LEXICAL_TOKENIZER_PROFILE,
     LexicalIndexDerivationRequest, LexicalIndexFaultKind, LexicalPosting, LexicalSurfaceKind,
-    LexicalTokenizerIdentity, OperationAnchorEntry, OperationClass, OperationRole, PriorityTier,
-    RelationType, RelationshipDirection, RequestedDetailKind, SEMANTIC_ANCHOR_CATALOGUE_PROFILE,
-    SemanticAddress, SemanticAnchorCatalogue, SemanticFabric, SemanticId, SourceAnchor, UnitKind,
-    UnitStatus, admit_package, anchor_query_result_digest, candidate_association_account,
-    candidate_relationship_paths, catalogue_derivation_digest, catalogue_root,
-    derive_semantic_anchor_catalogue, derived_semantic_anchor_catalogue_digest,
+    LexicalTokenizerIdentity, MAX_LEXICAL_SURFACE_BYTES, OperationAnchorEntry, OperationClass,
+    OperationRole, PriorityTier, RelationType, RelationshipDirection, RequestedDetailKind,
+    SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress, SemanticAnchorCatalogue, SemanticFabric,
+    SemanticId, SourceAnchor, UnitKind, UnitStatus, admit_package, anchor_query_result_digest,
+    candidate_association_account, candidate_relationship_paths, catalogue_derivation_digest,
+    catalogue_root, derive_semantic_anchor_catalogue, derived_semantic_anchor_catalogue_digest,
+    lexical_tokenizer_adversarial_fixture_digest, tokenize_lexical_surface,
     validate_anchor_candidate, validate_anchor_query, validate_anchor_query_result,
     validate_derived_lexical_association_index_form, validate_derived_semantic_anchor_catalogue,
     validate_lexical_index_derivation_request, validate_semantic_anchor_catalogue,
@@ -1225,5 +1226,76 @@ fn lexical_sidecar_structural_mutations_fail_closed() {
             .expect_err("noncanonical posting order")
             .kind,
         LexicalIndexFaultKind::NonCanonicalOrder
+    );
+}
+
+#[test]
+fn lexical_tokenizer_follows_declared_unicode_and_separator_contract() {
+    assert_eq!(
+        tokenize_lexical_surface(" Anchor,ANCHOR ").expect("ASCII tokens"),
+        BTreeMap::from([("anchor".to_owned(), 2)])
+    );
+    assert_eq!(
+        tokenize_lexical_surface("R2D2 v1.0").expect("numeric tokens"),
+        BTreeMap::from([
+            ("0".to_owned(), 1),
+            ("r2d2".to_owned(), 1),
+            ("v1".to_owned(), 1),
+        ])
+    );
+    assert_eq!(
+        tokenize_lexical_surface("ÉLAN 東京 ١٢٣").expect("non-Latin tokens"),
+        BTreeMap::from([
+            ("élan".to_owned(), 1),
+            ("١٢٣".to_owned(), 1),
+            ("東京".to_owned(), 1),
+        ])
+    );
+    assert_eq!(
+        tokenize_lexical_surface("İ").expect("expanding lowercase token"),
+        BTreeMap::from([("i".to_owned(), 1)])
+    );
+    assert_eq!(
+        tokenize_lexical_surface("e\u{301} é").expect("no normalization"),
+        BTreeMap::from([("e".to_owned(), 1), ("é".to_owned(), 1)])
+    );
+    assert!(
+        tokenize_lexical_surface("---")
+            .expect("empty token surface")
+            .is_empty()
+    );
+    assert_eq!(
+        tokenize_lexical_surface("A_B").expect("underscore separator"),
+        BTreeMap::from([("a".to_owned(), 1), ("b".to_owned(), 1)])
+    );
+}
+
+#[test]
+fn lexical_tokenizer_bounds_and_fixture_digest_are_deterministic() {
+    assert_eq!(
+        tokenize_lexical_surface(&"x".repeat(MAX_LEXICAL_SURFACE_BYTES + 1))
+            .expect_err("surface byte bound")
+            .kind,
+        LexicalIndexFaultKind::InvalidBound
+    );
+    assert_eq!(
+        tokenize_lexical_surface(&"x".repeat(257))
+            .expect_err("token byte bound")
+            .kind,
+        LexicalIndexFaultKind::InvalidBound
+    );
+    assert_eq!(
+        tokenize_lexical_surface(&"a ".repeat(4097))
+            .expect_err("token occurrence bound")
+            .kind,
+        LexicalIndexFaultKind::InvalidBound
+    );
+    let first = lexical_tokenizer_adversarial_fixture_digest().expect("fixture digest");
+    let second = lexical_tokenizer_adversarial_fixture_digest().expect("repeat fixture digest");
+    assert_eq!(first, second);
+    assert_eq!(first.algorithm, "sha256");
+    assert_eq!(
+        first.value,
+        "90a9cd4be7a9173f5aa15ba6b9c224a269b76c5f617ab4bc25f6e700a1e3deb9"
     );
 }

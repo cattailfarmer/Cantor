@@ -1,0 +1,32 @@
+Subject: Cantor Semantic Anchor Catalogue P0 Slice 4B1 Step 2A Solution
+
+@ [solution_uuid] ea1114d0-6f7d-4036-b5ac-8360b521a246
+@ [phase_lock_uuid] 7368c658-2324-4ec9-a5ec-fd91191ca89f
+
+& [Status]
+  + [Step2A] tokenizer_implemented_focused_verified
+  + [Slice4B1] active_not_consumed
+  + [publication_meaning] tokenizer_checkpoint_only
+
+& [Tokenizer]
+  + rejects surfaces above sixteen KiB before tokenization
+  + trims the complete surface then applies Rust Unicode lowercase expansion character by character
+  + accumulates alphanumeric runs and commits every non-alphanumeric character as a separator
+  + returns a canonical BTreeMap from unique token to checked occurrence count
+  + rejects token bytes above 256 or more than 4096 occurrences per surface
+  + preserves no raw surface beyond caller custody and performs no normalization confusable folding stop-word stemming synonym fuzzy n-gram or learned transform
+
+& [FixtureIdentity]
+  + fixture inputs cover repeated ASCII case punctuation alphanumeric decimal segmentation non-Latin scripts expanding lowercase combining marks composed-decomposed forms separator-only input underscore and one-character tokens
+  + [fixture_digest] sha256:90a9cd4be7a9173f5aa15ba6b9c224a269b76c5f617ab4bc25f6e700a1e3deb9
+  + the digest commits exact fixture input and observed canonical token-occurrence maps under a separate domain
+
+& [Evidence]
+  + twenty-three catalogue tests and fifteen unchanged scanner tests pass with zero failure
+  + focused cantor_core all-targets all-features warnings-denied Clippy passes
+  + exact digest equality prevents an unnoticed tokenizer behavior change from retaining the same fixture identity
+
+& [Boundary]
+  + preferred alias and meaning surface resolution posting generation sidecar compiler roots proof and whole-index replay remain absent
+  + exact query scanner and result forms remain unchanged
+  + no lexical query rank gate provider persistence effect remote hidden-state FPGA OneDrive EVO-X2 or Minecraft behavior
