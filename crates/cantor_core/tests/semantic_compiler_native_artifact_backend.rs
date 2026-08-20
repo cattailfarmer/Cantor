@@ -2071,3 +2071,9 @@ fn lifecycle_validation_attributes_verification_and_second_lineage_faults() {
     );
     assert!(response.faults[0].field.starts_with("second_artifact."));
 }
+
+/// Shared deterministic fixture entry used by the isolated MCP adapter's
+/// cross-crate transport-equivalence test.
+pub fn exported_artifact_validation_request() -> NativeLifecycleValidationRequest {
+    artifact_validation_request(&produced_fixture(None))
+}
