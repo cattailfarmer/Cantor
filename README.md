@@ -236,6 +236,14 @@ The next bounded READY-continuation state machine, progress projection,
 stop/reentry contract, faculty checks, replay rules, and implementation slices
 are specified—but not yet activated—in
 [`docs/ITERATIVE_ATTENTION_PROCEDURE_LOOP_P1.md`](docs/ITERATIVE_ATTENTION_PROCEDURE_LOOP_P1.md).
+The next semantic retrieval frontier is now source-preserved, SJS-processed,
+and canonically formed in
+[`Cantor_Semantic_Anchor_Catalogue_P0.sop`](specifications/Cantor_Semantic_Anchor_Catalogue_P0.sop).
+It defines generation-bound identity and operation catalogue views, typed
+association channels, exact-address resolution, a non-collapsing priority
+lattice, and seven dependency-ordered slices. Slice 1 now implements its strict
+pure machine forms, canonical digests, validators, and adversarial fixtures;
+catalogue derivation and retrieval remain inactive pending Slice 2 authority.
 The consolidated local executable state, measured transport result, maturity
 boundaries, safe verification lane, and next dependency frontier are recorded
 in
