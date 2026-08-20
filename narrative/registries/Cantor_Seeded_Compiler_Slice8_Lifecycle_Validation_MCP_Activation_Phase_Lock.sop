@@ -1,0 +1,45 @@
+Subject: Cantor Seeded Compiler Slice 8 Lifecycle Validation MCP Activation Phase Lock
+
+@ [phase_lock_uuid] c0784a45-1c63-4370-9082-40b8d1eea6ff
+@ [source_uuid] 526cea59-fda0-47ff-9dac-12ccc7c59d39
+@ [canonical_uuid] 90a93873-f7da-4d6f-ad48-563a138734a7
+
+& [AuthorityIdentity]
+  + [source_bytes] 2563
+  + [source_sha256] 363CE9403887759A8E74915D5AA566B144D3CECC8396B504287B00C0918DC27A
+  + [manifest_bytes] 865
+  + [manifest_sha256] F489124235D74CA30AB31064994421880DFA190416C9237892531B5D753C7C5A
+  + [review_bytes] 2239
+  + [review_sha256] 55CDC54E5774D2CFADF57E6F07487C6F4C755391F89AD1B4E3B1C95E6FF5D5AA
+  + [canonical_bytes] 2143
+  + [canonical_sha256] F1A2BC9D2788512421822602BF349FE8C5BFBCC85377BC5132F146FD918F70A7
+  + [justification_bytes] 944
+  + [justification_sha256] 232A17204F86B37FFEA8BF4C523D0AC51B4946CBE63314F51D557CC40CA8AE6F
+  + [plan_bytes] 935
+  + [plan_sha256] C6955FC3A563C1FF7A69FE79F654A0DFC7AD4823E19CD139A54A4F6361473EBC
+  + [matrix_bytes] 1168
+  + [matrix_sha256] 31F2A2B6499ECD1003D616B566336179FDEF95B24BF7287E16FD2BF420D64E38
+  + [core_protocol_bytes] 23092
+  + [core_protocol_sha256] 4F24776C0FE242B50B6D4FFC2731CF1E8CABCA8AA98096658497771546F76A8B
+  + [workspace_manifest_bytes] 1129
+  + [workspace_manifest_sha256] 14873E3E5CB310AF31B93B046D3F447832E44AA8B2A4626EB4303FD90D0ED100
+
+& [Preimplementation]
+  + [new_workspace_member] absent
+  + [new_adapter_crate] absent
+  + [existing_core_protocol] closed_at_commit_505b4df2
+
+& [PermittedSurface]
+  + one new workspace member with library stdio binary tests and completion records using existing dependencies
+  + no semantic change to Slice7 or existing MCP servers
+
+& [ExactBehavior]
+  + one tool delegates one typed full request to the closed core and returns exact structured response
+  + metadata bounds refusals and no-effect claims match the canonical specification
+
+& [AuthorityDisposition]
+  + [status] phase_locked_for_implementation
+  + [rollback] remove new crate workspace member tests and Slice8 completion records while retaining source SJS canonical justification plan matrix and phase lock
+
+& [Locked]
+  + existing server modification effect provider state custody host install remote and Minecraft

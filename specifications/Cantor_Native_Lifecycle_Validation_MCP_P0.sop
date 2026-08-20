@@ -1,0 +1,38 @@
+Subject: Cantor Native Lifecycle Validation MCP P0 Canonical Source Specification
+
+@ [canonical_uuid] 90a93873-f7da-4d6f-ad48-563a138734a7
+@ [source_uuid] 526cea59-fda0-47ff-9dac-12ccc7c59d39
+@ [manifest_uuid] fe665f10-bcf9-49ce-92e1-5f2bc204d42f
+@ [review_uuid] f6616a79-c3f6-4844-8a02-507cdf29e943
+@ [justification_uuid] 6f196fce-dba4-423b-9f9c-2cbbea2db737
+
+& [Server]
+  + separate crate and binary cantor-compiler-mcp
+  + stdio transport only and no arguments
+  + exactly one advertised tool validate_native_lifecycle
+
+& [Arguments]
+  + closed object with exactly request
+  + request deserializes as NativeLifecycleValidationRequest and retains every nested deny-unknown-field rule
+  + serialized MCP argument size is at most core request bound plus 65536 bytes of wrapper allowance
+
+& [Dispatch]
+  + call validate_native_lifecycle_request exactly once with the typed supplied request
+  + do not derive repair normalize sign persist execute or reinterpret lifecycle forms
+  + structuredContent equals serialized NativeLifecycleValidationResponse
+  + is_error is false only for ArtifactValid and VerificationValid and true for LifecycleRefused or InputRefused
+
+& [Metadata]
+  + tool annotations are read-only nondestructive idempotent and closed-world
+  + top-level input schema is strict and nested request is described as the complete Slice7 request object
+  + output schema describes the structured response object without changing runtime response validation
+  + server instructions preserve coherence-versus-truth and all effect non-authority
+
+& [Acceptance]
+  + direct server dispatch and official rmcp subprocess client list and call paths work
+  + missing extra oversized and wrong tool inputs refuse before core mutation
+  + response and summary are deterministic bounded and secret-free
+  + focused debug release workspace lint format evidence and diff gates pass
+
+& [NonGoals]
+  + server state custody handles resources prompts HTTP auth installation host configuration model calls authoring repair runner signing global consumption admission installation deployment execution remote FPGA llama.cpp OneDrive EVO-X2 and Minecraft
