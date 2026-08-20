@@ -27,6 +27,11 @@ interrupts the Cargo parent with status 73 if available bytes cross below the
 reserve, or status 74 if the sample is not numeric. Ordinary Cargo status is
 otherwise preserved.
 
+The Bash program crosses the Windows-to-WSL boundary as an exposed UTF-8 base64
+payload. The outer command contains no shell variables, decodes under pipeline
+failure checking, and feeds the program to an inner Bash exactly once. The JSON
+plan exposes the decoded program, encoding, payload, and exact transport command.
+
 The lane sets one build job and one test thread, disables incremental output,
 and disables test and development debug information. Test, feature, lockfile,
 target, and warnings selections are unchanged from P0. The settings reduce
@@ -48,3 +53,9 @@ Run the offline contract proof with:
 The offline suite uses isolated PowerShell processes and an impossible startup
 threshold to prove pre-WSL refusal. The emitted Bash program can be syntax
 checked with local Git Bash without executing its body.
+
+The first corrected capacity-admitted acceptance on 2026-08-20 completed 154
+workspace result groups with 792 passed, zero failed, and one governed ignored
+test. A separate workspace/all-targets/all-features warnings-denied Clippy run
+also returned zero. These observations prove the selected repository bytes and
+guarded lane; they do not guarantee that future runs will have enough capacity.

@@ -20,20 +20,22 @@ Subject: Cantor Bounded Workspace Verification P1 Proof
   + [phase_lock_sha256] 26D83A385867B48DBAD765402D67693C235354C0ADC3B79E6C6E856F1531B5C3
 
 & [ImplementationIdentity]
-  + [runner_bytes] 5630
-  + [runner_sha256] 049D58F0C8874FB51A0AF8F6B0090A969CEB5F7F5A8E30C24F327CDF8E9BA5F2
-  + [offline_test_bytes] 4288
-  + [offline_test_sha256] 530FBD66CF08A9195A5ED09042297907F4CD9E76932F454C32476F46103C1253
-  + [documentation_bytes] 2074
-  + [documentation_sha256] DEDFCFED312A327BAF1283629120B4D8823B15D0DDED6FEB0293ACF12EA1123D
+  + [runner_bytes] 6034
+  + [runner_sha256] 3A9746BE2DFBFA16A7E9CD467538575BCD893C15E2ECB225BA4465672FC8282D
+  + [offline_test_bytes] 4711
+  + [offline_test_sha256] 0EAEA809624D6C7D871AA767F16D51CF2984A291101D8E7635B4BBA5D7C1A8A5
+  + [documentation_bytes] 2791
+  + [documentation_sha256] ADB3C77A01877AC891533AEE983D5D6CB9A1040C1D0008746E7181A18999848B
   + [plan_bytes] 1099
   + [plan_sha256] 47C9087D070710CD8090A4FB18086B94611505F8AE799A16DCD9610DD7C057F4
-  + [matrix_bytes] 1343
-  + [matrix_sha256] 432D94DFFCA4F836EEE122F5AF079D400A48CEE26FD926AA8E97BB6F835365FD
-  + [solution_bytes] 2663
-  + [solution_sha256] 1A1B125389888F318B8E74679CA04AA068878DD4228B6F25B09AF203A06C91DE
-  + [reentry_bytes] 1565
-  + [reentry_sha256] F24A8CFE57B7ECFEF46D17C392F3FEB1DF34362F5775F20F6963333703974E52
+  + [matrix_bytes] 1357
+  + [matrix_sha256] D8360642C7D71BEEB1022C131FDFAAED22A3A89AD95675F7B7C84E6E140796BE
+  + [solution_bytes] 3600
+  + [solution_sha256] FEBB3226EAA9DB6E593EF0548BCE77CEA13116B7E9DF029CBFBFFA7515BFAE52
+  + [reentry_bytes] 1766
+  + [reentry_sha256] 6466E9C4103D14CDBEDBC440DA911203272F3525A9B077C8A1A284A6490F55BA
+  + [transport_fault_bytes] 2625
+  + [transport_fault_sha256] C97B2D51698CD94E8279414402372B6B87CC713D2D0F781E539386D62F5750AB
 
 & [OfflineAcceptance]
   + PowerShell parses the runner and test scripts without execution
@@ -55,6 +57,8 @@ Subject: Cantor Bounded Workspace Verification P1 Proof
   + plan returned successfully and invoked neither WSL nor Cargo under that insufficient state
 
 & [GuardCorrespondence]
+  + Windows carries the UTF-8 Bash program as a base64 payload exposed beside its decoded source and exact outer command
+  + the payload decodes byte-for-byte to bash_command and the dollar-free outer command delegates interpretation to one inner Bash
   + generated Bash exports one build job nonincremental mode zero test and development debug information C locale stable target and temp identities
   + guard starts one Cargo parent samples numeric df bytes while live and waits for exact ordinary status
   + malformed sample interrupts and returns seventy-four
@@ -62,14 +66,31 @@ Subject: Cantor Bounded Workspace Verification P1 Proof
   + wrapper distinguishes both guard outcomes from ordinary child failure
   + exact test Clippy features targets lock warnings and thread selections remain visible in plan text
 
+& [ExecutableAcceptance]
+  + [workspace_result_groups] 154
+  + [workspace_passed] 792
+  + [workspace_failed] 0
+  + [workspace_ignored] 1 governed
+  + [workspace_wrapper_exit] 0
+  + [clippy] workspace_all_targets_all_features_warnings_denied
+  + [clippy_wrapper_exit] 0
+  + [lane] capacity_admitted_reusable_WSL_target_one_build_job_one_test_thread
+  + both corrected transport runs retained the declared forty-GiB startup gate and eight-GiB live reserve
+
+& [TransportFault]
+  + the first capacity-admitted attempt exposed direct-command mediation consuming child variables before inner Bash interpretation
+  + Cargo did not start and no Rust result was inferred from that attempt
+  + a minimal true-child reproduction isolated the seam and a corrected base64 transport probe returned zero with a retained child identity
+  + the event is preserved under narrative/operational_faults/1787199952254_bounded_workspace_verification_p1_wsl_transport_fault.sop
+
 & [BoundaryEvidence]
   + remote_hosts is empty destructive_actions is empty and automatic_cleanup is false
-  + no proof command executed WSL Cargo cleanup compaction sparse mutation remote or OneDrive behavior
-  + no executable acceptance was attempted because the P1 plan itself reported insufficient startup capacity
-  + runtime reserve behavior is statically and syntactically proved but awaits its first capacity-admitted execution observation
+  + executable acceptance invoked local WSL and Cargo only after a later plan reported sufficient startup capacity
+  + no cleanup compaction sparse mutation WSL configuration remote host OneDrive product runtime EVO-X2 or Minecraft behavior occurred
+  + reserve breach and monitor-fault branches remain adversarial offline proof rather than intentionally destructive live events
 
 & [Conclusion]
-  + [status] offline_verified_complete_execution_observation_deferred_by_capacity
+  + [status] offline_and_executable_verified_complete
   + [P0] remains historical rollback authority for profile 0.1
   + [P1] replaces the active script contract with profile 0.2 plan startup reserve and lean-guard behavior
   + [product_authority] none

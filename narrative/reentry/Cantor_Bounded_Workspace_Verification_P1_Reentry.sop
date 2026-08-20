@@ -9,6 +9,7 @@ Subject: Cantor Bounded Workspace Verification P1 Reentry
   + distinguish forty-GiB startup minimum from eight-GiB live reserve
   + execute one stable lean target only when capacity_sufficient is true
   + treat statuses seventy-three and seventy-four as operational guard outcomes rather than Rust test failures
+  + treat bash_transport_payload as the exact UTF-8 Bash program crossing a dollar-free outer WSL command
 
 & [Commands]
   + [plan] .\scripts\invoke_bounded_workspace_verification.ps1
@@ -20,6 +21,7 @@ Subject: Cantor Bounded Workspace Verification P1 Reentry
   + do not execute when the plan reports capacity_sufficient false
   + after a guard interruption inspect cargo rustc linker and PDB-service processes before any cleanup decision
   + cleanup compaction or WSL reconfiguration remains a separate authorized operation
+  + first corrected capacity-admitted test and Clippy observations pass with wrapper exit zero
 
 & [DoNotInfer]
   + startup admission predicts no exact final target size

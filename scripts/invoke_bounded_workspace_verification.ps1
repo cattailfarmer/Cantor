@@ -96,6 +96,10 @@ $bashCommand = @(
     $cargoCommand
 ) | Where-Object { $_ }
 $bashCommand = $bashCommand -join "`n"
+$bashCommandBytes = [System.Text.Encoding]::UTF8.GetBytes($bashCommand)
+$bashTransportPayload = [Convert]::ToBase64String($bashCommandBytes)
+$bashTransportCommand =
+    "set -o pipefail; printf '%s' '$bashTransportPayload' | base64 --decode | bash"
 
 $plan = [ordered]@{
     profile = $profile
@@ -126,6 +130,9 @@ $plan = [ordered]@{
     destructive_actions = @()
     automatic_cleanup = $false
     bash_command = $bashCommand
+    bash_transport_encoding = 'utf8-base64'
+    bash_transport_payload = $bashTransportPayload
+    bash_transport_command = $bashTransportCommand
 }
 
 $plan | ConvertTo-Json -Depth 4
@@ -146,7 +153,7 @@ if ($installedDistros -notcontains $Distro) {
     throw "wsl_fault: distribution is not installed: $Distro"
 }
 
-& wsl.exe -d $Distro --cd $repositoryRoot -- bash -lc $bashCommand
+& wsl.exe -d $Distro --cd $repositoryRoot -- bash -lc $bashTransportCommand
 $childExitCode = $LASTEXITCODE
 if ($childExitCode -eq 73) {
     throw 'capacity_guard_fault: child interrupted after crossing the declared runtime reserve'

@@ -29,6 +29,9 @@ if ($default.Code -ne 0) {
     throw "default plan failed: $($default.Output)"
 }
 $defaultPlan = $default.Output | ConvertFrom-Json
+$decodedDefaultCommand = [System.Text.Encoding]::UTF8.GetString(
+    [Convert]::FromBase64String($defaultPlan.bash_transport_payload)
+)
 if ($defaultPlan.profile -ne 'cantor-bounded-workspace-verification/0.2' -or
     $defaultPlan.action -ne 'test' -or
     $defaultPlan.execute -ne $false -or
@@ -45,6 +48,10 @@ if ($defaultPlan.profile -ne 'cantor-bounded-workspace-verification/0.2' -or
     $defaultPlan.cargo_profile_dev_debug -ne 0 -or
     $defaultPlan.capacity_guard_exit_code -ne 73 -or
     $defaultPlan.capacity_monitor_exit_code -ne 74 -or
+    $defaultPlan.bash_transport_encoding -ne 'utf8-base64' -or
+    $decodedDefaultCommand -ne $defaultPlan.bash_command -or
+    $defaultPlan.bash_transport_command -match '\$' -or
+    $defaultPlan.bash_transport_command -notmatch [regex]::Escape($defaultPlan.bash_transport_payload) -or
     $defaultPlan.remote_hosts.Count -ne 0 -or
     $defaultPlan.destructive_actions.Count -ne 0 -or
     $defaultPlan.automatic_cleanup -ne $false) {

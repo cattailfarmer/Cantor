@@ -1,0 +1,34 @@
+Subject: Bounded Workspace Verification P1 WSL Transport Operational Fault
+
+& [FaultIdentity] is premature shell-variable expansion at the Windows-to-WSL boundary
+  + [fault_uuid] is 26581338-99e5-4438-8d3f-17a4edc5703e
+  + [recognized_at_utc] 2026-08-20T04:25:52Z
+  + the first capacity-admitted P1 Execute attempt passed the generated Bash program directly through WSL command mediation
+  + mediation expanded positional and process variables before the intended inner Bash received them
+  + the capacity wrapper consequently reached wait with an empty child identity and reported that an empty string was not a process identifier
+  + Cargo did not start and no Rust compilation test or product failure occurred
+
+& [IsolationEvidence] distinguishes transport from guarded-command behavior
+  + a minimal true child under the same direct transport reproduced the missing child identity
+  + the generated Bash program was valid under local Git Bash syntax parsing
+  + encoding the same UTF-8 program as base64 decoding it through an outer variable-free command and passing it to one inner Bash preserved the child identity and returned zero
+  + the defect therefore belonged to the shell transport seam rather than the capacity guard algorithm or Cargo
+
+& [Correction] is a byte-verifiable single-interpretation transport
+  + PowerShell exposes bash_command bash_transport_encoding bash_transport_payload and bash_transport_command in the plan
+  + bash_transport_encoding is utf8-base64
+  + the payload decodes byte-for-byte to bash_command
+  + the outer command contains no dollar-prefixed shell variables and enables pipeline failure propagation
+  + only the inner Bash interprets the generated guard variables command substitution positional arguments and child process identity
+
+& [RegressionEvidence] is bounded and offline before executable reuse
+  + the policy test decodes the emitted payload and requires byte equality with bash_command
+  + the policy test rejects any dollar character in the outer transport
+  + the local Git Bash syntax gate continues to parse the decoded inner program
+  + impossible-capacity Execute still refuses before WSL discovery
+
+& [Disposition] is corrected pending authoritative executable closure
+  + retain the failed observation as transport-fault evidence
+  + accept no inference from the failed attempt about workspace tests or product correctness
+  + require a capacity-admitted test and Clippy execution through the corrected transport before declaring P1 executable acceptance complete
+  + make no WSL compaction sparse-mode remote OneDrive cleanup or unrelated filesystem change

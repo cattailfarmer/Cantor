@@ -1,0 +1,28 @@
+Subject: Bounded Workspace Verification P1 Transport Correction Turn
+
+@ [turn_uuid] 0b8a8aee-cd33-402f-a7ac-76142c8a8076
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [fault_uuid] 26581338-99e5-4438-8d3f-17a4edc5703e
+@ [solution_uuid] 89e3b81e-1ee3-4efd-b11e-67d00c69051a
+@ [proof_uuid] 2db64279-c463-4379-86f1-784a872c591e
+
+& [Trigger]
+  + host capacity later rose above the P1 startup floor and admitted the first executable attempt
+  + direct Windows-to-WSL command transport consumed Bash variables before the intended shell and the child never began
+
+& [Work]
+  + reproduced the missing child identity with a minimal true command under the same transport shape
+  + transported the exact UTF-8 Bash program as an exposed base64 payload through a dollar-free outer command
+  + decoded the payload into one inner Bash so positional process and command-substitution variables are interpreted exactly once
+  + added offline byte-equality and outer-variable-absence regression assertions
+  + preserved the event as an operational fault rather than misclassifying it as a workspace or product failure
+
+& [Verification]
+  + eight offline policy cases pass after the correction
+  + minimal corrected transport returns zero and retains a nonempty child process identity
+  + corrected capacity-admitted warnings-denied workspace Clippy returns zero
+  + corrected capacity-admitted full workspace test returns zero across 154 result groups with 792 passed zero failed and one governed ignored test
+
+& [Boundary]
+  + no source cleanup compaction sparse mutation WSL configuration remote host OneDrive EVO-X2 product behavior or Minecraft file change is performed
+  + the correction changes command transport only and does not alter the selected Cargo workspace features targets lock warnings or thread semantics
