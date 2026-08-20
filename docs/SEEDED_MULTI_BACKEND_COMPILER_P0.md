@@ -82,6 +82,23 @@ provider contact, process launch, network access, registration, or execution.
 An internal llama.cpp addon remains a separate target that this slice refuses;
 it requires a later signed, measured limitation receipt.
 
+## Third compiled backend: native artifact candidate
+
+Slice 5 projects a proposed `NativeArtifactCandidate` for one conventional
+Rust CLI build. It pins selected existing source inputs and requires their
+semantic-node sets to cover the typed IR exactly once. It also binds the stable
+Rust 2024 toolchain and executable/configuration digests, target triple,
+interface schemas, Cargo manifests and lock, locked-offline dependency policy,
+release profile, feature set, expected output identity and relative path,
+finite process/time/memory/byte/artifact bounds, verifier set, cleanup, runtime
+requirements, rollback, unresolved account, and fixed non-authority text.
+
+This is a pre-build candidate, not an artifact receipt. Projection permits only
+semantic and source reads. Generated source, path escape, build-capability
+laundering, incomplete or overlapping semantic coverage, multiple artifacts,
+and re-sealed substitutions refuse. No `artifact_digest` exists until a later
+build slice actually produces bytes and independently records them.
+
 ## Deliberate non-capabilities
 
 Slice 2 adds one narrow lowering seam. A strict `SelfOrderingRequest` explicitly
@@ -114,11 +131,14 @@ cargo test -p cantor_core --test semantic_compiler_attention_backend -- --test-t
 cargo test --release -p cantor_core --test semantic_compiler_attention_backend -- --test-threads=1
 cargo test -p cantor_core --test semantic_compiler_inference_host_backend -- --test-threads=1
 cargo test --release -p cantor_core --test semantic_compiler_inference_host_backend -- --test-threads=1
+cargo test -p cantor_core --test semantic_compiler_native_artifact_backend -- --test-threads=1
+cargo test --release -p cantor_core --test semantic_compiler_native_artifact_backend -- --test-threads=1
 cargo clippy -p cantor_core --all-targets --all-features -- -D warnings
 ```
 
 The governing source, SJS review, plan, requirement matrix, phase lock,
-solution, and proof remain separate records. The next compiler work should
-define attention-procedure authorship or activate the native artifact candidate;
-provider execution, internal llama.cpp work, artifact build, installation, and
-every runtime authority remain separate slices.
+solution, and proof remain separate records. All three candidate backends are
+now projected. The next compiler work should define attention-procedure
+authorship or separately govern an actual native build receipt; provider
+execution, internal llama.cpp work, artifact signing/admission/installation,
+and every runtime authority remain separate slices.

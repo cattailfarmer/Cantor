@@ -65,6 +65,12 @@ baseline:
   two-pass tool seam, MCP identity, bounded flow, cancellation, buffered-only
   limitation, compatibility evidence, and rollback without contacting a model
   or granting runtime capabilities; and
+- `cantor_core` can now project one native Rust CLI artifact candidate that
+  binds selected source and complete semantic-node coverage, toolchain and
+  configuration digests, locked-offline Cargo inputs, interface schemas,
+  expected output identity and path, finite build bounds, runtime requirements,
+  verifiers, and rollback while neither running a compiler nor inventing the
+  post-build artifact digest; and
 - `cantor_core::PreparedRuntime` retains at most one immutable exact-scope
   projection for repeated resident reads, with atomic generation replacement,
   invalidation, rollback, and the direct request path preserved; and
