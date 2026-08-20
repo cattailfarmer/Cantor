@@ -1,0 +1,20 @@
+Subject: Semantic Anchor Catalogue P0 Slice 3 Application Control Operational Fault
+
+& [FaultIdentity] is transient host execution policy during competing local Cargo jobs
+  + [fault_uuid] is efa19089-9cf2-4556-89dc-98296da76fa8
+  + [recognition] a parallel focused-test and Clippy attempt rebuilt the same Windows test target while Windows refused to execute semantic_anchor_scan with OS error 4551
+  + [Rust_test_failure] is absent because the test process never executed
+  + [style_fault] the concurrent Clippy process independently reported one collapsible_if finding which was corrected
+
+& [Isolation] is bounded
+  + semantic_anchor_scan had passed thirteen tests immediately before the blocked attempt
+  + focused warnings-denied Clippy passed after the style correction
+  + the authoritative bounded serial WSL workspace rerun later executed fourteen scanner tests and the entire workspace with zero failure
+  + no host policy privilege security setting binary deletion cache deletion or external machine change was used
+
+& [Disposition] is transient and retained
+  + preserve the blocked Windows launch as operational evidence rather than a code-test failure
+  + avoid concurrent local Cargo build and test execution against the same target directory
+  + use the established bounded serial WSL lane for authoritative full-workspace execution
+  + do not claim the Windows Application Control policy is disabled understood or permanently resolved
+  - never: weaken host policy elevate privileges or destructively delete build state as an ungoverned workaround

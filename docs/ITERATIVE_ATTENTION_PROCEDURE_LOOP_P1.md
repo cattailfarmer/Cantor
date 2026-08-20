@@ -64,10 +64,11 @@ cargo run -p cantor_compact_reflection_loop -- witness-scripted-discovery-inspec
 ```
 
 Its deterministic first handle is a fixture policy, not semantic relevance.
-Semantic Anchor Catalogue P0 Slices 1 and 2 now define and deterministically
-derive the proof-bearing catalogue from already admitted `SemanticFabric`.
-Exact catalogue scanning and ranking remain a separately activated frontier;
-signed compilation and exact custody admission remain authoritative.
+Semantic Anchor Catalogue P0 Slices 1 through 3 now define, deterministically
+derive, and exactly scan the proof-bearing catalogue from already admitted
+`SemanticFabric`. Deterministic lexical recall and compact detail projection
+remain a separately activated frontier; signed compilation and exact custody
+admission remain authoritative.
 
 P1 still represents separate provider calls joined by explicit host state. It
 does not create one shared transformer forward pass, mutate hidden state,
