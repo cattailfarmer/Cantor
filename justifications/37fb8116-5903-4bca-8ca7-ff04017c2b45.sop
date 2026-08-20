@@ -1,0 +1,29 @@
+Subject: Cantor Seeded Compiler Slice 7 Lifecycle Validation Protocol Justification
+
+@ [justification_uuid] 37fb8116-5903-4bca-8ca7-ff04017c2b45
+@ [source_uuid] 814703e0-0f4f-426a-a37d-60a76c608397
+@ [canonical_uuid] 019dcef5-71bd-457a-828b-830a68fae0f1
+
+& [Problem]
+  + Slice6 proves a pure native build lifecycle but exposes it only as Rust forms and functions
+  + tool callers need a stable machine boundary before Cantor can feed the compiler fabric into inference or other adapters
+
+& [SelectedSolution]
+  + implement an owned strict lifecycle request, deterministic staged replay, compact typed response, and provider-free compiler-lab CLI
+  + reuse existing validators as authority rather than restating their semantic rules
+
+& [WhyNow]
+  + this is the smallest bridge between proven compiler semantics and a usable tool call
+  + it creates immediate testability without prematurely granting production build authority
+
+& [RejectedAlternatives]
+  + production process runner is rejected because admitted host sandbox and denial evidence remain unresolved
+  + MCP and HTTP are deferred because a transport-independent core protocol must be proven first
+  + content-addressed handles are deferred because registry custody and availability would add a new trust boundary
+  + automatic repair and derivation are rejected because validation must not become hidden authorship
+
+& [Safety]
+  + complete supplied forms, public trust material, bounded input, strict schemas, exact replay, no private keys, no runner, and fixed non-authority preserve the Slice6 boundary
+
+& [ExpectedGain]
+  + Cantor gains one deterministic callable seam that later tools can invoke and inspect while the effectful compiler remains separately governed

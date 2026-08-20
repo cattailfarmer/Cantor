@@ -1,0 +1,79 @@
+Subject: Cantor Native Lifecycle Validation Protocol P0 Canonical Source Specification
+
+@ [canonical_uuid] 019dcef5-71bd-457a-828b-830a68fae0f1
+@ [source_uuid] 814703e0-0f4f-426a-a37d-60a76c608397
+@ [source_manifest_uuid] 9baeebe2-a992-428c-9d02-f495f3a64f25
+@ [justification_uuid] 37fb8116-5903-4bca-8ca7-ff04017c2b45
+@ [review_uuid] 78446059-c37a-402c-aff8-c60711cd3953
+@ [Slice6_dependency] specifications/Cantor_Native_Build_And_Artifact_Receipt_P0.sop
+
+& [NativeLifecycleValidationRequest]
+  + protocol is cantor.native_lifecycle_validation.v1
+  + request identity is a nonempty bounded caller correlation identity with no authority semantics
+  + operation is validate_artifact or validate_verification
+  + artifact bundle owns exact seed IR candidate plan native request native projection build plan capability sandbox approval trust store authorization observation attempt ledger and artifact receipt forms
+  + verification operation additionally owns exact verifier plan observation and receipt
+  + artifact operation forbids a verification bundle and verification operation requires one
+  + every form remains strict and independently self-validating
+
+& [Replay]
+  + validate the request envelope before semantic replay
+  + invoke existing seed IR candidate native build capability sandbox approval trust authorization observation ledger artifact and verification validators in causal order
+  + do not synthesize, normalize away, repair, sign, execute, or replace any supplied lifecycle form
+  + stop at the first invalid dependency and report its stable stage plus typed faults
+  + a fully replayed artifact request yields artifact_valid
+  + a fully replayed verification request yields verification_valid regardless of whether its valid receipt disposition is passed failed or unresolved
+
+& [NativeLifecycleValidationResponse]
+  + protocol echoes exactly
+  + request identity and operation echo exactly
+  + outcome is artifact_valid verification_valid lifecycle_refused or input_refused
+  + deepest_valid_stage names the last successfully replayed stage or none
+  + stage account is ordered in canonical causal order with each entered stage exactly once
+  + validated artifact identity and digest occur only after artifact receipt replay
+  + verification disposition occurs only after verification receipt replay
+  + faults are bounded typed and deterministically ordered
+  + fixed non-authority denies truth safety authorization execution signing admission installation deployment successor recognition and globally atomic single-use enforcement
+
+& [WireProtocol]
+  + UTF-8 JSON only, one object, no trailing non-whitespace data, deny unknown fields at every owned form, maximum input 8388608 bytes
+  + normalized compact JSON followed by one line feed on stdout, maximum response 1048576 bytes
+  + stdin is default; one --input path may be read; no output path or write surface exists
+  + help and version are human-facing stdout modes and do not process semantic input
+  + successful valid lifecycle exits 0, lifecycle refusal exits 1, invocation parse limit or wire fault exits 2
+
+& [HonestyAndSecurityBoundary]
+  + validity means the representation is internally coherent under the supplied trust roots and exact validators
+  + validity does not establish that a reported physical observation occurred, an artifact is correct or safe, a verification passed, or an authority approved later use
+  + trust public keys are caller-supplied context; private keys are not part of the schema
+  + local attempt-ledger validation does not claim globally atomic authorization consumption
+
+& [EffectBoundary]
+  + library validation is pure over supplied values
+  + CLI effects are limited to bounded reading of stdin or one named input file and writing response bytes to stdout or diagnostics to stderr
+  + no process spawn environment import network clock filesystem write signing installation deployment artifact execution or successor recognition
+
+& [Acceptance]
+  + deterministic complete artifact and verification fixtures pass through library and CLI
+  + every dependency substitution refuses at or before its owning stage
+  + passed failed and unresolved receipts retain exact distinct dispositions
+  + malformed trailing unknown oversized wrong-version operation-correspondence and incomplete inputs fail closed
+  + full workspace debug and optimized release, warnings-denied lint, format, evidence, and diff gates pass
+
+& [NonGoals]
+  + runner, authoring, repair, signing, approval, custody registry, transactional consumption, source generation, install, deploy, execute, internal llama.cpp, FPGA, remote, OneDrive, EVO-X2, and Minecraft
+
+& [CantorNativeLifecycleValidationProtocolP0SatisfactionSignature]
+  + [signature_protocol_uuid] 1162d661-19da-4383-a483-573720b38e75
+  + [signature_uuid] fc6a2985-f4d0-44ba-a910-07b3795348e4
+  + [signed_subject] specifications/Cantor_Native_Lifecycle_Validation_Protocol_P0.sop
+  + [source_specification] source_documents/2026-08-20_seeded_compiler_slice7_lifecycle_validation_protocol/Seeded_Compiler_Slice7_Lifecycle_Validation_Protocol_Activation_Source.sop
+  + [exploded_specification] narrative/research/Cantor_Seeded_Compiler_Slice7_Lifecycle_Validation_Protocol_SJS_Review_2026-08-20.sop
+  + [processed_stage_set] source_preserved delineated exploded semantically_refined constraint_checked pruned seven_fold_phase_locked justified registry_recorded
+  + [exhaustion_state] phase_locked
+  + [signature_status] valid_for_read_only_native_lifecycle_protocol_P0_only
+  + [invalidation_condition] source_change hidden_authoring effect_expansion trust_semantics_change validator_bypass incomplete_replay nonauthority_omission or implementation_contradiction
+
+* [NativeLifecycleValidationRequest] -(owns)> [complete lifecycle forms]
+* [complete lifecycle forms] -(replayed_by)> [existing pure validators]
+* [replay] -(reported_as)> [NativeLifecycleValidationResponse]

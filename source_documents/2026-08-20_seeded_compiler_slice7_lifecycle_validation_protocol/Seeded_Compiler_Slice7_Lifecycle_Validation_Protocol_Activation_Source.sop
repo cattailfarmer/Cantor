@@ -1,0 +1,50 @@
+Subject: Cantor Seeded Compiler Slice 7 Lifecycle Validation Protocol Activation Source
+
+@ [source_uuid] 814703e0-0f4f-426a-a37d-60a76c608397
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [captured_at_utc] 2026-08-20T20:54:14Z
+@ [Slice6_dependency] proofs/Cantor_Seeded_Compiler_Slice6_Native_Build_Receipt_Proof.sop
+
+& [PreservedUserInstruction]
+  + [verbatim] "take another 5-hour slice"
+  + [continuity] continue after the native build and ArtifactReceipt lifecycle milestone rather than closing the broader shift
+  + [selected_frontier] expose the completed authority chain through the smallest deterministic read-only machine protocol so Cantor and later tool adapters can inspect it
+
+& [Purpose]
+  + accept one bounded strict JSON request containing already-supplied native build lifecycle forms
+  + replay those forms through the existing Slice5 and Slice6 validators in dependency order
+  + return one compact deterministic JSON result identifying the deepest valid stage, exact identities, and any typed validation faults
+  + make the authority-separated compiler lifecycle callable without creating a production runner
+
+& [Request]
+  + owns a complete candidate-to-artifact bundle and may optionally own an independent verification bundle
+  + selects validate_artifact or validate_verification explicitly
+  + carries trust public keys and signatures but never private signing material
+  + rejects unknown fields, duplicate semantic identities, trailing JSON, oversized input, unsupported version, and incomplete optional stages
+
+& [Validation]
+  + replays seed, IR, candidate plan, native candidate projection, build plan, build capability, sandbox admission, approval, authorization, observation, attempt ledger, and ArtifactReceipt
+  + verification mode additionally replays verifier plan, verifier observation, and verification receipt
+  + reports valid only when every supplied form is exact and all required lineage agrees
+  + preserves passed, failed, and unresolved verification dispositions as valid recorded outcomes rather than conflating validity with a passing artifact
+
+& [Response]
+  + identifies protocol version, request identity, requested operation, outcome, deepest validated stage, stage account, artifact identity and digest when validated, verification disposition when supplied, faults, and fixed non-authority
+  + is deterministic and normalized for equal requests
+  + response validity means coherent evidence replay only
+
+& [CLI]
+  + add a provider-free cantor-compiler-lab binary that reads one request from stdin or one explicitly named file and writes one response to stdout
+  + stdout remains machine JSON; diagnostics go to stderr
+  + exit 0 means structurally valid lifecycle evidence, exit 1 means semantic refusal, and exit 2 means input or invocation fault
+  + the binary performs no writes, subprocess creation, network access, dependency fetch, signing, clock read, installation, deployment, artifact execution, or successor recognition
+
+& [Acceptance]
+  + exact complete artifact and verification fixtures validate through both library and CLI
+  + tampered forms fail at their earliest dependency boundary with a typed fault
+  + malformed, trailing, unknown-field, oversized, wrong-version, mismatched-operation, and incomplete-stage inputs refuse
+  + validation response cannot be presented as build authorization, execution evidence, verification passage, or global single-use consumption
+  + focused debug, optimized release, complete workspace, warnings-denied lint, format, evidence, and diff gates pass
+
+& [Locked]
+  + production build runner, filesystem mutation, global attempt-ledger CAS, secret keys, signing, network, clock, install, deploy, execute, admit, self-replace, internal llama.cpp, FPGA, remote machines, OneDrive, EVO-X2, and Minecraft
