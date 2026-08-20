@@ -1,0 +1,20 @@
+Subject: Cantor Seeded Compiler Slice 10 Volatile Custody MCP Justification
+
+@ [justification_uuid] 6a16054a-ac2b-4968-ba6e-6ec4cec6f66e
+@ [source_uuid] 7b16c90f-3425-485d-a025-707db8e7fef2
+@ [canonical_uuid] 91b35c98-908d-4dc3-8302-ef50dbb94630
+
+& [Need]
+  + Slice8 requires retransmission of a potentially multi-megabyte request on every validation call
+  + Slice9 proves exact compact addressing but has no inference-facing state owner
+
+& [Choice]
+  + compose a separate volatile MCP adapter over Slice9 rather than mutate Slice8 or invent durable infrastructure
+  + use one tagged tool so an inference primer loads one bounded operation vocabulary
+
+& [WhyNow]
+  + this is the smallest seam that makes content-addressed lifecycle custody useful in an actual model tool loop
+  + it tests stateful attention-tool ergonomics before persistence authentication or production execution is considered
+
+& [RiskControl]
+  + exact core replay bounded capacity serialized mutation strict JSON fixed nonclaims restart-loss tests and no-effect implementation constrain the experiment

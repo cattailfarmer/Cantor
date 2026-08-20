@@ -1,0 +1,48 @@
+Subject: Cantor Native Lifecycle Volatile Custody MCP P0 Canonical Source Specification
+
+@ [canonical_uuid] 91b35c98-908d-4dc3-8302-ef50dbb94630
+@ [source_uuid] 7b16c90f-3425-485d-a025-707db8e7fef2
+@ [manifest_uuid] abb4810f-2991-4d25-bf81-f86580bf4064
+@ [review_uuid] e58f1527-b9b9-4fda-b2e6-af1d55444963
+
+& [Server]
+  + separate no-argument stdio MCP server with one tool named manage_native_lifecycle_custody
+  + one process-local async mutex owns exactly one valid Slice9 registry initialized empty at startup
+  + no change to Slice8 tool discovery or behavior
+
+& [Command]
+  + strict tagged REGISTER carries one complete lifecycle request
+  + strict tagged VALIDATE carries one compact Slice9 handle
+  + strict tagged INSPECT carries no payload
+  + complete arguments are bounded before typed decode and unknown fields refuse
+
+& [Response]
+  + exact profile operation status registry summary optional handle optional lifecycle response optional bounded fault and fixed nonclaims
+  + REGISTER returns registered status handle and successor summary only after atomic successor installation
+  + VALIDATE returns validated status exact Slice7 response and current summary without mutation
+  + INSPECT returns inspected status and current summary without request bodies
+  + any adapter refusal returns no handle or lifecycle response and leaves state unchanged
+
+& [Concurrency]
+  + commands serialize on one async mutex
+  + duplicate equal concurrent REGISTER calls yield one registered result and one duplicate refusal
+  + state poisoning serialization failure and invalid retained state fail closed
+
+& [TruthAndError]
+  + outer MCP is_error is true for adapter refusal and for inner lifecycle_refused or input_refused
+  + outer validated status remains distinct from inner lifecycle outcome
+  + registry coherence and digest identity confer no external authority
+
+& [Bounds]
+  + Slice9 eight-entry eight-megabyte-per-request sixty-four-megabyte-total limits remain authoritative
+  + complete MCP argument limit is Slice7 input ceiling plus 65536 wrapper bytes
+  + fault text is at most 512 Unicode scalar values and tool summary remains short
+
+& [Acceptance]
+  + direct and official-client register inspect validate restart and concurrency paths pass
+  + compact validation equals direct Slice7 response for valid and refused inputs
+  + malformed oversized unknown duplicate missing substituted and restart handles refuse without mutation
+  + focused debug release lint format evidence and diff gates pass
+
+& [NonGoals]
+  + retained request readback persistence authentication authorization client isolation expiry eviction crash recovery provider model runner filesystem network signing admission installation deployment execution internal llama.cpp FPGA remote OneDrive EVO-X2 and Minecraft
