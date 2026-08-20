@@ -1,0 +1,37 @@
+Subject: Cantor Seeded Compiler Slice 9 Lifecycle Custody Solution
+
+@ [solution_uuid] dca5b825-6984-4ae4-9f89-edde413d5c24
+@ [source_uuid] 36ffda77-25d1-4872-918b-55e539b26591
+@ [review_uuid] 655d7177-0e3d-4c5d-81a5-ecf5b197d1f5
+@ [phase_lock_uuid] 3162d9a1-660f-4ed0-a71d-e7f9baebe0fc
+
+& [Status]
+  + [implementation] complete_against_exact_Slice9_phase_lock
+  + [authority] consumed_and_closed
+
+& [CustodyForms]
+  + NativeLifecycleCustodyHandle binds exact request identity operation and normalized request SHA256 digest
+  + NativeLifecycleCustodyEntry retains the complete typed request byte account exact handle and domain-separated entry digest
+  + NativeLifecycleCustodyRegistry is one strict immutable BTreeMap with exact count retained-byte account root digest and fixed nonclaims
+
+& [Operations]
+  + new returns one replay-valid empty registry
+  + compile_handle bounds and normalizes a typed request without deciding its lifecycle outcome
+  + register validates the entire predecessor returns a successor value and refuses duplicate digests without overwrite
+  + resolve validates the entire registry and exact supplied handle before returning the retained request
+  + validate_from_custody resolves then delegates once to the unchanged Slice7 validator
+
+& [Bounds]
+  + at most eight entries eight megabytes per normalized request and sixty-four megabytes aggregate retained request bytes
+  + unknown fields malformed digests key drift count drift byte drift root drift entry drift and handle substitution fail closed
+  + equivalent insertion sets produce byte-equivalent registries independent of insertion order
+
+& [HonestyAndSecurity]
+  + the digest is a locator commitment and never reconstructs omitted meaning
+  + refused lifecycle requests may be retained and remain refused because custody does not reinterpret them
+  + no digest registry or successful lookup claims truth correctness safety authentication authorization signature permission or later lifecycle authority
+  + no hidden mutation persistence expiry eviction provider model filesystem process network clock environment remote or external effect exists
+
+& [Rollback]
+  + remove the lifecycle custody module export focused tests and Slice9 completion records
+  + retain Slice7 validation Slice8 MCP and all preserved Slice9 source SJS canonical justification plan matrix and phase lock records
