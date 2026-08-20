@@ -22,8 +22,17 @@ Subject: Cantor Seeded Compiler Slice 6 Windows Application Control Fault
 
 & [ResolutionEvidence]
   + Ubuntu-24.04 WSL2 used isolated CARGO_TARGET_DIR /tmp/cantor-slice6-target with locked offline dependencies
-  + cargo test -p cantor_core --all-features --locked --offline -- --test-threads=1 passed 314 tests in 30 result groups with zero failed and zero ignored
-  + the guarded lane includes the exact 13-test Slice6 lifecycle suite and all existing cantor_core compatibility suites
+  + an initial core-only checkpoint passed 314 tests before the final strict-machine-form case was added
+  + final debug and overflow-checked optimized release workspace gates each registered 846 tests passed 845 failed zero and retained one governed schema-golden ignore
+  + the final guarded lanes include the exact 14-test Slice6 lifecycle suite and all existing workspace compatibility suites
+  + warnings-denied all-feature all-target locked offline workspace Clippy passed
+
+& [WslFixtureCompatibility]
+  + the first workspace debug attempt reached five existing attention-MCP tests that require the executable name python while Ubuntu-24.04 exposes Python 3.12.3 as python3
+  + a temporary symlink mapped a unique /tmp executable path to /usr/bin/python3 without changing repository files or installed packages
+  + a broad first shim name was later removed by existing temporary-directory cleanup so the release proof used a unique non-Cantor temporary directory
+  + one malformed shell PATH composition probe failed before Cargo launch and contributed no product evidence
+  + the five stopped tests passed in focused optimized release and in both complete workspace gates after exact fixture admission
 
 & [Security]
   + no policy exclusion bypass alternate unsigned trust claim or product-code weakening occurred

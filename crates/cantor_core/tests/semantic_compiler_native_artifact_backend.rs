@@ -957,6 +957,31 @@ fn stale_signature_revocation_and_whole_lineage_substitution_refuse() {
         SemanticCompilerFormFaultKind::RecognitionBoundary
     );
 
+    let mut revoked_approval = fixture.trust_store.clone();
+    revoked_approval
+        .revoked_approval_ids
+        .insert(authorization.statement.approval_id.clone());
+    revoked_approval.store_digest =
+        native_build_trust_store_digest(&revoked_approval).expect("reseal approval revocation");
+    let mut approval_rebound = authorization.clone();
+    approval_rebound.trust_store_digest = revoked_approval.store_digest.clone();
+    approval_rebound.authorization_digest =
+        native_build_authorization_digest(&approval_rebound).expect("reseal approval rebound");
+    assert_eq!(
+        validate_native_build_authorization_certificate(
+            &lineage,
+            &fixture.build_plan,
+            &fixture.capability,
+            &fixture.sandbox,
+            &revoked_approval,
+            &approval_rebound,
+            150,
+        )
+        .expect_err("revoked signed approval refuses every certificate envelope")
+        .kind,
+        SemanticCompilerFormFaultKind::RecognitionBoundary
+    );
+
     assert_eq!(
         validate_native_build_authorization_certificate(
             &lineage,
@@ -1128,6 +1153,75 @@ fn failed_observation_is_preserved_but_cannot_produce_artifact_receipt() {
         .kind,
         SemanticCompilerFormFaultKind::StageOrder
     );
+}
+
+#[test]
+fn timeout_cancel_and_infrastructure_observations_never_project_artifact_receipts() {
+    let fixture = authorization_fixture();
+    let authorization = issue_authorization(&fixture);
+    let lineage = NativeArtifactBuildLineage {
+        seed: &fixture.seed,
+        ir: &fixture.ir,
+        candidate_plan: &fixture.candidate_plan,
+        candidate_request: &fixture.candidate_request,
+        projection: &fixture.projection,
+    };
+    for (suffix, disposition, fault) in [
+        (
+            "timed-out",
+            NativeBuildObservationDisposition::TimedOut,
+            "wall_clock_bound_reached",
+        ),
+        (
+            "cancelled",
+            NativeBuildObservationDisposition::Cancelled,
+            "external_cancellation",
+        ),
+        (
+            "infrastructure",
+            NativeBuildObservationDisposition::InfrastructureFault,
+            "sandbox_provider_fault",
+        ),
+    ] {
+        let mut observation = successful_observation(&fixture, &authorization);
+        observation.attempt_id = id(&format!("attempt:native-fixture:{suffix}"));
+        observation.disposition = disposition;
+        observation.exit_code = None;
+        observation.artifacts.clear();
+        observation.resources.artifact_bytes = 0;
+        observation.fault_codes = BTreeSet::from([fault.to_owned()]);
+        observation.observation_digest = empty_digest();
+        let observation = seal_native_build_observation(
+            &lineage,
+            &fixture.build_plan,
+            &fixture.capability,
+            &fixture.sandbox,
+            &fixture.trust_store,
+            &authorization,
+            observation,
+        )
+        .expect("partial observation remains evidence");
+        let initial = new_native_build_attempt_ledger(id(&format!("attempt-ledger:{suffix}")))
+            .expect("attempt ledger");
+        let consumed = record_native_build_attempt(&initial, &authorization, &observation)
+            .expect("non-success attempt consumes approval");
+        assert_eq!(
+            project_native_artifact_receipt(
+                &lineage,
+                &fixture.build_plan,
+                &fixture.capability,
+                &fixture.sandbox,
+                &fixture.trust_store,
+                &authorization,
+                &observation,
+                &consumed,
+                id(&format!("artifact-receipt:must-refuse:{suffix}")),
+            )
+            .expect_err("non-success observation cannot project an artifact receipt")
+            .kind,
+            SemanticCompilerFormFaultKind::StageOrder
+        );
+    }
 }
 
 #[test]
