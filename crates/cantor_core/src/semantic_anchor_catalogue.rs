@@ -1,7 +1,10 @@
-//! Strict pure forms for the semantic anchor catalogue P0.
+//! Strict pure forms and admitted-fabric derivation for the semantic anchor
+//! catalogue P0.
 //!
-//! This slice defines and validates data only. It does not derive a catalogue,
-//! scan a fabric, invoke a provider, persist state, or authorize an effect.
+//! Slice 1 defines and validates the closed machine forms. Slice 2 reads one
+//! already admitted immutable semantic fabric and derives a disposable,
+//! generation-bound catalogue projection. It does not compile or admit source,
+//! scan a query, invoke a provider, persist state, or authorize an effect.
 
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -9,30 +12,109 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest as _, Sha256};
 
 use crate::{
-    AuthorityContext, BoundaryAccount, ContentDigest, RelationType, RequestedDetailKind,
-    SemanticId, SourceAnchor, UnitKind,
+    AuthorityContext, AuthorityScope, BoundaryAccount, ContentDigest, RelationType,
+    RequestedDetailKind, SemanticFabric, SemanticId, SourceAnchor, UnitKind, UnitStatus,
 };
 
 pub const SEMANTIC_ANCHOR_CATALOGUE_PROFILE: &str = "cantor-semantic-anchor-catalogue/0.1";
 pub const ANCHOR_QUERY_PROFILE: &str = "cantor-anchor-query/0.1";
 pub const ANCHOR_QUERY_RESULT_PROFILE: &str = "cantor-anchor-query-result/0.1";
+pub const DERIVED_SEMANTIC_ANCHOR_CATALOGUE_PROFILE: &str =
+    "cantor-derived-semantic-anchor-catalogue/0.1";
+pub const SEMANTIC_ANCHOR_CATALOGUE_COMPILER_ID: &str = "compiler:cantor_semantic_anchor_catalogue";
+pub const SEMANTIC_ANCHOR_CATALOGUE_COMPILER_VERSION: &str = "0.1.0";
 
 const DIGEST_ALGORITHM: &str = "sha256";
 const DERIVATION_DOMAIN: &str = "cantor.semantic-anchor-catalogue.derivation.v1";
 const CATALOGUE_DOMAIN: &str = "cantor.semantic-anchor-catalogue.root.v1";
 const RESULT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.result.v1";
+const FABRIC_GENERATION_DOMAIN: &str = "cantor.semantic-anchor-catalogue.fabric-generation.v1";
+const DERIVED_ARTIFACT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.derived-artifact.v1";
+const UNIT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.unit.v1";
+const MEANING_DOMAIN: &str = "cantor.semantic-anchor-catalogue.meaning.v1";
+const CONTEXT_DOMAIN: &str = "cantor.semantic-anchor-catalogue.context.v1";
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CatalogueIdentity {
     pub profile: String,
     pub catalogue_id: SemanticId,
+    pub logical_revision: String,
     pub catalogue_root: ContentDigest,
     pub fabric_root: ContentDigest,
     pub package_roots: BTreeMap<SemanticId, ContentDigest>,
     pub compiler_id: SemanticId,
     pub compiler_version: String,
     pub derivation_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CatalogueDerivationRequest {
+    pub catalogue_id: SemanticId,
+    pub logical_revision: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct FabricPackageIdentity {
+    pub package_id: SemanticId,
+    pub package_digest: ContentDigest,
+    pub certificate_id: SemanticId,
+    pub semantic_root_digest: ContentDigest,
+    pub source_root_digest: ContentDigest,
+    pub compiler_id: SemanticId,
+    pub compiler_version: String,
+    pub authority_scope: AuthorityScope,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct FabricGenerationIdentity {
+    pub packages: Vec<FabricPackageIdentity>,
+    pub fabric_root: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CatalogueDerivationOmission {
+    pub unit_id: SemanticId,
+    pub omitted_fields: BTreeSet<String>,
+    pub reason: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct DerivedSemanticAnchorCatalogue {
+    pub profile: String,
+    pub logical_revision: String,
+    pub generation: FabricGenerationIdentity,
+    pub catalogue: SemanticAnchorCatalogue,
+    pub exact_label_index: BTreeMap<String, BTreeSet<SemanticId>>,
+    pub relation_adjacency: BTreeMap<SemanticId, BTreeSet<SemanticId>>,
+    pub omissions: Vec<CatalogueDerivationOmission>,
+    pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum AnchorDerivationFaultKind {
+    InvalidRequest,
+    MissingCertificate,
+    MissingPackage,
+    MissingSourceAnchor,
+    InvalidGeneratedIdentity,
+    SourceCorrespondence,
+    InvalidCatalogue,
+    ProjectionMismatch,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AnchorDerivationFault {
+    pub kind: AnchorDerivationFaultKind,
+    pub stage: String,
+    pub detail: String,
+    pub related_ids: Vec<SemanticId>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -317,6 +399,469 @@ pub struct AnchorFormFault {
 }
 
 type AnchorValidation<T = ()> = Result<T, AnchorFormFault>;
+type AnchorDerivationResult<T = ()> = Result<T, AnchorDerivationFault>;
+
+pub fn derive_semantic_anchor_catalogue(
+    fabric: &SemanticFabric,
+    request: CatalogueDerivationRequest,
+) -> AnchorDerivationResult<DerivedSemanticAnchorCatalogue> {
+    if request.logical_revision.trim().is_empty() {
+        return derivation_fault(
+            AnchorDerivationFaultKind::InvalidRequest,
+            "request",
+            "logical revision is empty",
+            Vec::new(),
+        );
+    }
+    let derived = build_derived_semantic_anchor_catalogue(fabric, &request)?;
+    validate_semantic_anchor_catalogue(&derived.catalogue).map_err(|fault| {
+        AnchorDerivationFault {
+            kind: AnchorDerivationFaultKind::InvalidCatalogue,
+            stage: fault.field,
+            detail: fault.detail,
+            related_ids: Vec::new(),
+        }
+    })?;
+    Ok(derived)
+}
+
+pub fn validate_derived_semantic_anchor_catalogue(
+    derived: &DerivedSemanticAnchorCatalogue,
+    fabric: &SemanticFabric,
+) -> AnchorDerivationResult {
+    if derived.profile != DERIVED_SEMANTIC_ANCHOR_CATALOGUE_PROFILE {
+        return derivation_fault(
+            AnchorDerivationFaultKind::ProjectionMismatch,
+            "profile",
+            "wrong derived catalogue profile",
+            Vec::new(),
+        );
+    }
+    validate_semantic_anchor_catalogue(&derived.catalogue).map_err(|fault| {
+        AnchorDerivationFault {
+            kind: AnchorDerivationFaultKind::InvalidCatalogue,
+            stage: fault.field,
+            detail: fault.detail,
+            related_ids: Vec::new(),
+        }
+    })?;
+    let expected = build_derived_semantic_anchor_catalogue(
+        fabric,
+        &CatalogueDerivationRequest {
+            catalogue_id: derived.catalogue.identity.catalogue_id.clone(),
+            logical_revision: derived.logical_revision.clone(),
+        },
+    )?;
+    if &expected != derived {
+        return derivation_fault(
+            AnchorDerivationFaultKind::ProjectionMismatch,
+            "derived_catalogue",
+            "derived catalogue differs from a canonical rebuild of the admitted fabric",
+            Vec::new(),
+        );
+    }
+    Ok(())
+}
+
+pub fn derived_semantic_anchor_catalogue_digest(
+    derived: &DerivedSemanticAnchorCatalogue,
+) -> AnchorValidation<ContentDigest> {
+    digest_form(
+        DERIVED_ARTIFACT_DOMAIN,
+        &(
+            &derived.profile,
+            &derived.logical_revision,
+            &derived.generation,
+            &derived.catalogue,
+            &derived.exact_label_index,
+            &derived.relation_adjacency,
+            &derived.omissions,
+        ),
+    )
+}
+
+fn build_derived_semantic_anchor_catalogue(
+    fabric: &SemanticFabric,
+    request: &CatalogueDerivationRequest,
+) -> AnchorDerivationResult<DerivedSemanticAnchorCatalogue> {
+    let generation = derive_fabric_generation(fabric)?;
+    let package_roots = generation
+        .packages
+        .iter()
+        .map(|package| (package.package_id.clone(), package.package_digest.clone()))
+        .collect::<BTreeMap<_, _>>();
+    let relation_adjacency = derive_relation_adjacency(fabric);
+    let mut identity_entries = Vec::new();
+    let mut exact_label_index: BTreeMap<String, BTreeSet<SemanticId>> = BTreeMap::new();
+    let mut omissions = Vec::new();
+
+    for unit in fabric.units() {
+        let admitted =
+            fabric
+                .package_for_unit(&unit.unit_id)
+                .ok_or_else(|| AnchorDerivationFault {
+                    kind: AnchorDerivationFaultKind::MissingPackage,
+                    stage: "unit_package".to_owned(),
+                    detail: format!("unit {} has no admitted package owner", unit.unit_id),
+                    related_ids: vec![unit.unit_id.clone()],
+                })?;
+        let certificate =
+            admitted
+                .package()
+                .certificate
+                .as_ref()
+                .ok_or_else(|| AnchorDerivationFault {
+                    kind: AnchorDerivationFaultKind::MissingCertificate,
+                    stage: "unit_package".to_owned(),
+                    detail: format!("unit {} owner has no recognition certificate", unit.unit_id),
+                    related_ids: vec![unit.unit_id.clone()],
+                })?;
+        let mut source_anchors = admitted
+            .content()
+            .source_anchors
+            .iter()
+            .filter(|anchor| anchor.unit_id == unit.unit_id)
+            .cloned()
+            .collect::<Vec<_>>();
+        source_anchors.sort_by(|left, right| {
+            (
+                &left.file_id,
+                &left.clause_id,
+                left.byte_start,
+                left.byte_end,
+                left.display_line_start,
+                left.display_line_end,
+            )
+                .cmp(&(
+                    &right.file_id,
+                    &right.clause_id,
+                    right.byte_start,
+                    right.byte_end,
+                    right.display_line_start,
+                    right.display_line_end,
+                ))
+        });
+        if source_anchors.is_empty() {
+            return derivation_fault(
+                AnchorDerivationFaultKind::MissingSourceAnchor,
+                "source_anchor",
+                &format!("unit {} has no exact source anchor", unit.unit_id),
+                vec![unit.unit_id.clone()],
+            );
+        }
+        let unit_digest = content_commitment(UNIT_DOMAIN, unit)?;
+        let meaning_ref = content_identity("meaning", MEANING_DOMAIN, &unit.meaning)?;
+        let context_id = content_identity("context", CONTEXT_DOMAIN, &unit.context)?;
+        let package = admitted.package();
+        let version = format!(
+            "{}:{}@{}#{}",
+            admitted.content().format_version,
+            admitted.content().compiler_id,
+            admitted.content().compiler_version,
+            admitted.certificate_id()
+        );
+        let address = SemanticAddress {
+            unit_id: unit.unit_id.clone(),
+            unit_digest,
+            package_id: package.package_id.clone(),
+            package_digest: certificate.package_digest.clone(),
+            kind: unit.kind.clone(),
+            context_id,
+            version,
+            source_anchors,
+        };
+        let purposes = (!unit.context.purpose.trim().is_empty())
+            .then(|| unit.context.purpose.clone())
+            .into_iter()
+            .collect();
+        let relation_refs = relation_adjacency
+            .get(&unit.unit_id)
+            .cloned()
+            .unwrap_or_default();
+        identity_entries.push(IdentityAnchorEntry {
+            address,
+            preferred_expression: unit.expression.clone(),
+            aliases: unit.aliases.clone(),
+            meaning_ref,
+            purposes,
+            use_cases: BTreeSet::new(),
+            included_boundaries: BTreeSet::new(),
+            excluded_boundaries: BTreeSet::new(),
+            protected_identities: BTreeSet::new(),
+            relation_refs,
+            lifecycle: if unit.status == UnitStatus::Superseded {
+                AnchorLifecycle::Superseded
+            } else {
+                AnchorLifecycle::Admitted
+            },
+        });
+        exact_label_index
+            .entry(normalize_catalogue_label(&unit.expression))
+            .or_default()
+            .insert(unit.unit_id.clone());
+        for alias in &unit.aliases {
+            exact_label_index
+                .entry(normalize_catalogue_label(alias))
+                .or_default()
+                .insert(unit.unit_id.clone());
+        }
+        if unit.kind == UnitKind::Operation {
+            omissions.push(CatalogueDerivationOmission {
+                unit_id: unit.unit_id.clone(),
+                omitted_fields: [
+                    "applicability_bindings",
+                    "authority_requirements",
+                    "effect_class",
+                    "failure_conditions",
+                    "invariants",
+                    "non_transfer_set",
+                    "operation_class",
+                    "postconditions",
+                    "preconditions",
+                    "roles",
+                    "verbs",
+                ]
+                .into_iter()
+                .map(str::to_owned)
+                .collect(),
+                reason: "SemanticFabric has no admitted structured operation contract; natural-language inference is prohibited"
+                    .to_owned(),
+            });
+        }
+    }
+    identity_entries.sort_by(|left, right| left.address.unit_id.cmp(&right.address.unit_id));
+    omissions.sort_by(|left, right| left.unit_id.cmp(&right.unit_id));
+    validate_label_source_correspondence(fabric, &exact_label_index)?;
+
+    let compiler_id = SemanticId::new(SEMANTIC_ANCHOR_CATALOGUE_COMPILER_ID).map_err(|error| {
+        AnchorDerivationFault {
+            kind: AnchorDerivationFaultKind::InvalidGeneratedIdentity,
+            stage: "catalogue_compiler".to_owned(),
+            detail: error.to_string(),
+            related_ids: Vec::new(),
+        }
+    })?;
+    let mut catalogue = SemanticAnchorCatalogue {
+        identity: CatalogueIdentity {
+            profile: SEMANTIC_ANCHOR_CATALOGUE_PROFILE.to_owned(),
+            catalogue_id: request.catalogue_id.clone(),
+            logical_revision: request.logical_revision.clone(),
+            catalogue_root: zero_sha256(),
+            fabric_root: generation.fabric_root.clone(),
+            package_roots,
+            compiler_id,
+            compiler_version: SEMANTIC_ANCHOR_CATALOGUE_COMPILER_VERSION.to_owned(),
+            derivation_digest: zero_sha256(),
+        },
+        identity_entries,
+        operation_entries: Vec::new(),
+        applicability_bindings: Vec::new(),
+    };
+    catalogue.identity.derivation_digest =
+        catalogue_derivation_digest(&catalogue.identity).map_err(anchor_form_to_derivation)?;
+    catalogue.identity.catalogue_root =
+        catalogue_root(&catalogue).map_err(anchor_form_to_derivation)?;
+    let mut derived = DerivedSemanticAnchorCatalogue {
+        profile: DERIVED_SEMANTIC_ANCHOR_CATALOGUE_PROFILE.to_owned(),
+        logical_revision: request.logical_revision.clone(),
+        generation,
+        catalogue,
+        exact_label_index,
+        relation_adjacency,
+        omissions,
+        proof_digest: zero_sha256(),
+    };
+    derived.proof_digest =
+        derived_semantic_anchor_catalogue_digest(&derived).map_err(anchor_form_to_derivation)?;
+    Ok(derived)
+}
+
+fn derive_fabric_generation(
+    fabric: &SemanticFabric,
+) -> AnchorDerivationResult<FabricGenerationIdentity> {
+    let mut packages = Vec::new();
+    for package_id in fabric.package_ids() {
+        let admitted = fabric
+            .package(package_id)
+            .ok_or_else(|| AnchorDerivationFault {
+                kind: AnchorDerivationFaultKind::MissingPackage,
+                stage: "fabric_generation".to_owned(),
+                detail: format!("fabric package {package_id} cannot be resolved"),
+                related_ids: vec![package_id.clone()],
+            })?;
+        let certificate =
+            admitted
+                .package()
+                .certificate
+                .as_ref()
+                .ok_or_else(|| AnchorDerivationFault {
+                    kind: AnchorDerivationFaultKind::MissingCertificate,
+                    stage: "fabric_generation".to_owned(),
+                    detail: format!("admitted package {package_id} has no certificate"),
+                    related_ids: vec![package_id.clone()],
+                })?;
+        let actual_package_digest =
+            crate::package_content_digest(admitted.content()).map_err(|error| {
+                trust_to_derivation("package_digest", error.to_string(), package_id)
+            })?;
+        let actual_semantic_root = crate::semantic_root_digest(admitted.content())
+            .map_err(|error| trust_to_derivation("semantic_root", error.to_string(), package_id))?;
+        let actual_source_root = crate::source_root_digest(admitted.content())
+            .map_err(|error| trust_to_derivation("source_root", error.to_string(), package_id))?;
+        let derived_package_id =
+            crate::derive_package_id(&actual_package_digest).map_err(|error| {
+                trust_to_derivation("package_identity", error.to_string(), package_id)
+            })?;
+        if actual_package_digest != certificate.package_digest
+            || actual_semantic_root != certificate.semantic_root_digest
+            || actual_source_root != certificate.source_root_digest
+            || derived_package_id != *package_id
+            || certificate.certificate_id != *admitted.certificate_id()
+        {
+            return derivation_fault(
+                AnchorDerivationFaultKind::SourceCorrespondence,
+                "fabric_generation",
+                &format!("admitted package {package_id} no longer matches certificate roots"),
+                vec![package_id.clone()],
+            );
+        }
+        packages.push(FabricPackageIdentity {
+            package_id: package_id.clone(),
+            package_digest: certificate.package_digest.clone(),
+            certificate_id: certificate.certificate_id.clone(),
+            semantic_root_digest: certificate.semantic_root_digest.clone(),
+            source_root_digest: certificate.source_root_digest.clone(),
+            compiler_id: admitted.content().compiler_id.clone(),
+            compiler_version: admitted.content().compiler_version.clone(),
+            authority_scope: certificate.authority_scope.clone(),
+        });
+    }
+    packages.sort_by(|left, right| left.package_id.cmp(&right.package_id));
+    let fabric_root = content_commitment(FABRIC_GENERATION_DOMAIN, &packages)?;
+    Ok(FabricGenerationIdentity {
+        packages,
+        fabric_root,
+    })
+}
+
+fn derive_relation_adjacency(
+    fabric: &SemanticFabric,
+) -> BTreeMap<SemanticId, BTreeSet<SemanticId>> {
+    let mut adjacency = BTreeMap::<SemanticId, BTreeSet<SemanticId>>::new();
+    for (_, relation) in fabric.relations() {
+        adjacency
+            .entry(relation.source.clone())
+            .or_default()
+            .insert(relation.relation_id.clone());
+        adjacency
+            .entry(relation.target.clone())
+            .or_default()
+            .insert(relation.relation_id.clone());
+    }
+    adjacency
+}
+
+fn validate_label_source_correspondence(
+    fabric: &SemanticFabric,
+    derived_labels: &BTreeMap<String, BTreeSet<SemanticId>>,
+) -> AnchorDerivationResult {
+    let mut admitted_labels: BTreeMap<String, BTreeSet<SemanticId>> = BTreeMap::new();
+    for package_id in fabric.package_ids() {
+        let package = fabric
+            .package(package_id)
+            .ok_or_else(|| AnchorDerivationFault {
+                kind: AnchorDerivationFaultKind::MissingPackage,
+                stage: "label_index".to_owned(),
+                detail: format!("fabric package {package_id} cannot be resolved"),
+                related_ids: vec![package_id.clone()],
+            })?;
+        for (label, units) in &package.content().exact_indexes.labels {
+            admitted_labels
+                .entry(label.clone())
+                .or_default()
+                .extend(units.iter().cloned());
+        }
+    }
+    if &admitted_labels != derived_labels {
+        return derivation_fault(
+            AnchorDerivationFaultKind::SourceCorrespondence,
+            "label_index",
+            "derived labels differ from admitted package exact indexes",
+            Vec::new(),
+        );
+    }
+    Ok(())
+}
+
+fn content_commitment<T: Serialize>(
+    domain: &str,
+    value: &T,
+) -> AnchorDerivationResult<ContentDigest> {
+    digest_form(domain, value).map_err(anchor_form_to_derivation)
+}
+
+fn content_identity<T: Serialize>(
+    prefix: &str,
+    domain: &str,
+    value: &T,
+) -> AnchorDerivationResult<SemanticId> {
+    let digest = content_commitment(domain, value)?;
+    SemanticId::new(format!("{prefix}:{}:{}", digest.algorithm, digest.value)).map_err(|error| {
+        AnchorDerivationFault {
+            kind: AnchorDerivationFaultKind::InvalidGeneratedIdentity,
+            stage: prefix.to_owned(),
+            detail: error.to_string(),
+            related_ids: Vec::new(),
+        }
+    })
+}
+
+fn normalize_catalogue_label(value: &str) -> String {
+    value.trim().to_ascii_lowercase()
+}
+
+fn zero_sha256() -> ContentDigest {
+    ContentDigest {
+        algorithm: DIGEST_ALGORITHM.to_owned(),
+        value: "0".repeat(64),
+    }
+}
+
+fn anchor_form_to_derivation(fault: AnchorFormFault) -> AnchorDerivationFault {
+    AnchorDerivationFault {
+        kind: AnchorDerivationFaultKind::InvalidCatalogue,
+        stage: fault.field,
+        detail: fault.detail,
+        related_ids: Vec::new(),
+    }
+}
+
+fn trust_to_derivation(
+    stage: &str,
+    detail: String,
+    package_id: &SemanticId,
+) -> AnchorDerivationFault {
+    AnchorDerivationFault {
+        kind: AnchorDerivationFaultKind::SourceCorrespondence,
+        stage: stage.to_owned(),
+        detail,
+        related_ids: vec![package_id.clone()],
+    }
+}
+
+fn derivation_fault<T>(
+    kind: AnchorDerivationFaultKind,
+    stage: &str,
+    detail: &str,
+    related_ids: Vec<SemanticId>,
+) -> AnchorDerivationResult<T> {
+    Err(AnchorDerivationFault {
+        kind,
+        stage: stage.to_owned(),
+        detail: detail.to_owned(),
+        related_ids,
+    })
+}
 
 pub fn validate_semantic_anchor_catalogue(catalogue: &SemanticAnchorCatalogue) -> AnchorValidation {
     if catalogue.identity.profile != SEMANTIC_ANCHOR_CATALOGUE_PROFILE {
@@ -335,7 +880,9 @@ pub fn validate_semantic_anchor_catalogue(catalogue: &SemanticAnchorCatalogue) -
         &catalogue.identity.derivation_digest,
         "identity.derivation_digest",
     )?;
-    if catalogue.identity.package_roots.is_empty() || catalogue.identity.compiler_version.is_empty()
+    if catalogue.identity.package_roots.is_empty()
+        || catalogue.identity.logical_revision.trim().is_empty()
+        || catalogue.identity.compiler_version.is_empty()
     {
         return fault(
             AnchorFormFaultKind::InvalidIdentity,
@@ -597,6 +1144,7 @@ pub fn catalogue_derivation_digest(
         &(
             &identity.profile,
             &identity.catalogue_id,
+            &identity.logical_revision,
             &identity.fabric_root,
             &identity.package_roots,
             &identity.compiler_id,
@@ -611,6 +1159,7 @@ pub fn catalogue_root(catalogue: &SemanticAnchorCatalogue) -> AnchorValidation<C
         &(
             &catalogue.identity.profile,
             &catalogue.identity.catalogue_id,
+            &catalogue.identity.logical_revision,
             &catalogue.identity.fabric_root,
             &catalogue.identity.package_roots,
             &catalogue.identity.compiler_id,

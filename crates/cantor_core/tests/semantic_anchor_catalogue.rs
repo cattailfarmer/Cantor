@@ -1,16 +1,21 @@
 use std::collections::{BTreeMap, BTreeSet};
 
+mod common;
+
 use cantor_core::{
     ANCHOR_QUERY_PROFILE, ANCHOR_QUERY_RESULT_PROFILE, AnchorBudget, AnchorCandidate,
-    AnchorFormFaultKind, AnchorLifecycle, AnchorProof, AnchorQuery, AnchorQueryResult,
-    ApplicabilityBinding, ApplicabilityStatus, AssociationChannel, AssociationContribution,
-    AuthorityContext, BoundaryAccount, CandidateEligibility, CatalogueIdentity, ChannelLocalValue,
-    ContentDigest, ContributionStatus, IdentityAnchorEntry, OperationAnchorEntry, OperationClass,
-    OperationRole, PriorityTier, RelationType, RequestedDetailKind,
-    SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress, SemanticAnchorCatalogue, SemanticId,
-    SourceAnchor, UnitKind, anchor_query_result_digest, catalogue_derivation_digest,
-    catalogue_root, validate_anchor_candidate, validate_anchor_query, validate_anchor_query_result,
-    validate_semantic_anchor_catalogue,
+    AnchorDerivationFaultKind, AnchorFormFaultKind, AnchorLifecycle, AnchorProof, AnchorQuery,
+    AnchorQueryResult, ApplicabilityBinding, ApplicabilityStatus, AssociationChannel,
+    AssociationContribution, AuthorityContext, AuthorityScope, BoundaryAccount,
+    CandidateEligibility, CatalogueDerivationRequest, CatalogueIdentity, ChannelLocalValue,
+    ContentDigest, ContributionStatus, DerivedSemanticAnchorCatalogue, IdentityAnchorEntry,
+    OperationAnchorEntry, OperationClass, OperationRole, PriorityTier, RelationType,
+    RequestedDetailKind, SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress,
+    SemanticAnchorCatalogue, SemanticFabric, SemanticId, SourceAnchor, UnitKind, UnitStatus,
+    admit_package, anchor_query_result_digest, catalogue_derivation_digest, catalogue_root,
+    derive_semantic_anchor_catalogue, derived_semantic_anchor_catalogue_digest,
+    validate_anchor_candidate, validate_anchor_query, validate_anchor_query_result,
+    validate_derived_semantic_anchor_catalogue, validate_semantic_anchor_catalogue,
 };
 
 fn id(value: &str) -> SemanticId {
@@ -22,6 +27,75 @@ fn digest(byte: char) -> ContentDigest {
         algorithm: "sha256".to_owned(),
         value: byte.to_string().repeat(64),
     }
+}
+
+fn derivation_request() -> CatalogueDerivationRequest {
+    CatalogueDerivationRequest {
+        catalogue_id: id("catalogue:derived_fixture"),
+        logical_revision: "fixture-generation-r1".to_owned(),
+    }
+}
+
+fn fabric_from_inputs(
+    inputs: Vec<cantor_core::PackageCompilationInput>,
+    authority_scope: AuthorityScope,
+) -> SemanticFabric {
+    let compiler = common::compiler("1.0.0");
+    let store = common::trust_store(&compiler, "1.0.0", &authority_scope);
+    let admitted = inputs
+        .into_iter()
+        .map(|mut input| {
+            input.authority_scope = authority_scope.clone();
+            let package = compiler.compile(input).expect("fixture package compiles");
+            admit_package(&package, &store, &authority_scope, common::NOW)
+                .expect("fixture package admits")
+        })
+        .collect::<Vec<_>>();
+    SemanticFabric::from_admitted(admitted).expect("fixture fabric loads")
+}
+
+fn fixture_fabric() -> SemanticFabric {
+    fabric_from_inputs(vec![common::package_input("")], common::scope())
+}
+
+fn renamed_package_input(suffix: &str) -> cantor_core::PackageCompilationInput {
+    let mut input = common::package_input("");
+    let mut file_ids = BTreeMap::new();
+    for source in &mut input.sources {
+        let renamed = id(&format!("{}:{suffix}", source.file_id.as_str()));
+        file_ids.insert(source.file_id.clone(), renamed.clone());
+        source.file_id = renamed;
+        source.path = format!("fixtures/{suffix}/{}", source.path);
+    }
+    let mut unit_ids = BTreeMap::new();
+    for compilation in &mut input.units {
+        let renamed = id(&format!("{}:{suffix}", compilation.unit.unit_id.as_str()));
+        unit_ids.insert(compilation.unit.unit_id.clone(), renamed.clone());
+        compilation.unit.unit_id = renamed;
+        compilation.file_id = file_ids
+            .get(&compilation.file_id)
+            .expect("source identity remaps")
+            .clone();
+        compilation.clause_id = id(&format!("{}:{suffix}", compilation.clause_id.as_str()));
+    }
+    for relation in &mut input.relations {
+        relation.relation_id = id(&format!("{}:{suffix}", relation.relation_id.as_str()));
+        relation.source = unit_ids
+            .get(&relation.source)
+            .expect("relation source remaps")
+            .clone();
+        relation.target = unit_ids
+            .get(&relation.target)
+            .expect("relation target remaps")
+            .clone();
+        relation.source_ref = format!("fixture:{suffix}");
+    }
+    input
+}
+
+fn derive_fixture(fabric: &SemanticFabric) -> DerivedSemanticAnchorCatalogue {
+    derive_semantic_anchor_catalogue(fabric, derivation_request())
+        .expect("fixture catalogue derives")
 }
 
 fn address(unit: &str, kind: UnitKind, byte: char) -> SemanticAddress {
@@ -56,6 +130,7 @@ fn fixture_catalogue() -> SemanticAnchorCatalogue {
         identity: CatalogueIdentity {
             profile: SEMANTIC_ANCHOR_CATALOGUE_PROFILE.to_owned(),
             catalogue_id: id("catalogue:fixture"),
+            logical_revision: "fixture-r1".to_owned(),
             catalogue_root: digest('0'),
             fabric_root: digest('e'),
             package_roots: BTreeMap::from([(id("package:fixture"), digest('a'))]),
@@ -461,4 +536,251 @@ fn duplicate_result_candidates_and_records_are_not_canonical() {
             .kind,
         AnchorFormFaultKind::NonCanonicalOrder
     );
+}
+
+#[test]
+fn admitted_fabric_derives_exact_identity_index_adjacency_and_source_proof() {
+    let fabric = fixture_fabric();
+    let derived = derive_fixture(&fabric);
+
+    validate_derived_semantic_anchor_catalogue(&derived, &fabric).expect("canonical rebuild");
+    assert_eq!(derived.generation.packages.len(), 1);
+    assert_eq!(derived.catalogue.identity_entries.len(), 2);
+    assert!(derived.catalogue.operation_entries.is_empty());
+    assert!(derived.catalogue.applicability_bindings.is_empty());
+    assert!(derived.omissions.is_empty());
+    assert_eq!(
+        derived
+            .exact_label_index
+            .get("bank")
+            .expect("shared exact label")
+            .len(),
+        2
+    );
+    let relation_id = id("relation:bank_meanings_distinct");
+    for unit_id in [id("unit:bank_financial"), id("unit:bank_river")] {
+        let unit = fabric.unit(&unit_id).expect("exact source unit");
+        let package = fabric
+            .package_for_unit(&unit_id)
+            .expect("exact source package");
+        let certificate = package
+            .package()
+            .certificate
+            .as_ref()
+            .expect("admitted certificate");
+        let entry = derived
+            .catalogue
+            .identity_entries
+            .iter()
+            .find(|entry| entry.address.unit_id == unit_id)
+            .expect("derived identity entry");
+        assert_eq!(entry.preferred_expression, unit.expression);
+        assert_eq!(entry.aliases, unit.aliases);
+        assert_eq!(entry.address.kind, unit.kind);
+        assert_eq!(entry.address.package_id, package.package().package_id);
+        assert_eq!(entry.address.package_digest, certificate.package_digest);
+        assert_eq!(
+            entry.address.source_anchors,
+            package
+                .content()
+                .source_anchors
+                .iter()
+                .filter(|anchor| anchor.unit_id == unit_id)
+                .cloned()
+                .collect::<Vec<_>>()
+        );
+        assert!(entry.meaning_ref.as_str().starts_with("meaning:sha256:"));
+        assert!(
+            entry
+                .address
+                .context_id
+                .as_str()
+                .starts_with("context:sha256:")
+        );
+        assert!(entry.relation_refs.contains(&relation_id));
+        assert!(
+            derived
+                .relation_adjacency
+                .get(&unit_id)
+                .expect("relation adjacency")
+                .contains(&relation_id)
+        );
+    }
+}
+
+#[test]
+fn admitted_package_input_order_does_not_change_derived_bytes() {
+    let first = renamed_package_input("first");
+    let second = renamed_package_input("second");
+    let forward = fabric_from_inputs(vec![first.clone(), second.clone()], common::scope());
+    let reverse = fabric_from_inputs(vec![second, first], common::scope());
+    let forward_derived = derive_fixture(&forward);
+    let reverse_derived = derive_fixture(&reverse);
+
+    assert_eq!(forward_derived, reverse_derived);
+    assert_eq!(
+        serde_json::to_vec(&forward_derived).expect("forward bytes"),
+        serde_json::to_vec(&reverse_derived).expect("reverse bytes")
+    );
+}
+
+#[test]
+fn governed_unit_relation_and_source_mutations_change_generation_commitments() {
+    let baseline = derive_fixture(&fixture_fabric());
+
+    let mut meaning_input = common::package_input("");
+    meaning_input.units[0]
+        .unit
+        .meaning
+        .push_str(" under policy");
+    let meaning = derive_fixture(&fabric_from_inputs(vec![meaning_input], common::scope()));
+
+    let mut relation_input = common::package_input("");
+    relation_input.relations[0].relation_type = RelationType::Contradicts;
+    let relation = derive_fixture(&fabric_from_inputs(vec![relation_input], common::scope()));
+
+    let source = derive_fixture(&fabric_from_inputs(
+        vec![common::package_input("# shifted source\n")],
+        common::scope(),
+    ));
+
+    for changed in [&meaning, &relation, &source] {
+        assert_ne!(
+            baseline.generation.fabric_root,
+            changed.generation.fabric_root
+        );
+        assert_ne!(
+            baseline.catalogue.identity.catalogue_root,
+            changed.catalogue.identity.catalogue_root
+        );
+        assert_ne!(baseline.proof_digest, changed.proof_digest);
+    }
+}
+
+#[test]
+fn operation_units_are_indexed_as_identities_and_never_inferred_as_operations() {
+    let mut operation_input = common::package_input("");
+    operation_input.units[0].unit.kind = UnitKind::Operation;
+    operation_input.units[0].unit.expression = "observe".to_owned();
+    operation_input.units[0].unit.aliases = BTreeSet::from(["inspect".to_owned()]);
+    operation_input.units[0].unit.status = UnitStatus::Validated;
+    let mut typed_scope = common::scope();
+    typed_scope.semantic_kinds.insert(UnitKind::Operation);
+    let fabric = fabric_from_inputs(vec![operation_input], typed_scope);
+    let derived = derive_fixture(&fabric);
+
+    assert!(derived.catalogue.operation_entries.is_empty());
+    assert!(derived.catalogue.applicability_bindings.is_empty());
+    assert!(
+        derived
+            .catalogue
+            .identity_entries
+            .iter()
+            .any(|entry| entry.address.unit_id == id("unit:bank_financial")
+                && entry.address.kind == UnitKind::Operation)
+    );
+    assert_eq!(derived.omissions.len(), 1);
+    let omission = &derived.omissions[0];
+    assert_eq!(omission.unit_id, id("unit:bank_financial"));
+    assert!(omission.omitted_fields.contains("operation_class"));
+    assert!(omission.omitted_fields.contains("roles"));
+    assert!(omission.omitted_fields.contains("effect_class"));
+    assert!(omission.omitted_fields.contains("applicability_bindings"));
+    assert!(omission.reason.contains("inference is prohibited"));
+    validate_derived_semantic_anchor_catalogue(&derived, &fabric).expect("omission proof");
+}
+
+#[test]
+fn derived_projection_index_root_and_proof_tampering_fail_closed() {
+    let fabric = fixture_fabric();
+    let derived = derive_fixture(&fabric);
+
+    let mut missing_label = derived.clone();
+    missing_label.exact_label_index.remove("bank");
+    assert_eq!(
+        validate_derived_semantic_anchor_catalogue(&missing_label, &fabric)
+            .expect_err("label tampering")
+            .kind,
+        AnchorDerivationFaultKind::ProjectionMismatch
+    );
+
+    let mut wrong_proof = derived.clone();
+    wrong_proof.proof_digest.value.replace_range(0..1, "f");
+    assert_eq!(
+        validate_derived_semantic_anchor_catalogue(&wrong_proof, &fabric)
+            .expect_err("proof tampering")
+            .kind,
+        AnchorDerivationFaultKind::ProjectionMismatch
+    );
+
+    let mut wrong_root = derived;
+    wrong_root
+        .catalogue
+        .identity
+        .catalogue_root
+        .value
+        .replace_range(0..1, "f");
+    assert_eq!(
+        validate_derived_semantic_anchor_catalogue(&wrong_root, &fabric)
+            .expect_err("root tampering")
+            .kind,
+        AnchorDerivationFaultKind::InvalidCatalogue
+    );
+
+    let mut missing_source = derive_fixture(&fabric);
+    missing_source.catalogue.identity_entries[0]
+        .address
+        .source_anchors
+        .clear();
+    missing_source.catalogue.identity.catalogue_root =
+        catalogue_root(&missing_source.catalogue).expect("tampered catalogue root");
+    missing_source.proof_digest =
+        derived_semantic_anchor_catalogue_digest(&missing_source).expect("tampered proof digest");
+    assert_eq!(
+        validate_derived_semantic_anchor_catalogue(&missing_source, &fabric)
+            .expect_err("missing source proof")
+            .kind,
+        AnchorDerivationFaultKind::ProjectionMismatch
+    );
+}
+
+#[test]
+fn logical_revision_is_required_and_committed_without_changing_fabric_identity() {
+    let fabric = fixture_fabric();
+    let empty = derive_semantic_anchor_catalogue(
+        &fabric,
+        CatalogueDerivationRequest {
+            catalogue_id: id("catalogue:derived_fixture"),
+            logical_revision: " ".to_owned(),
+        },
+    )
+    .expect_err("empty logical revision");
+    assert_eq!(empty.kind, AnchorDerivationFaultKind::InvalidRequest);
+
+    let first = derive_fixture(&fabric);
+    let second = derive_semantic_anchor_catalogue(
+        &fabric,
+        CatalogueDerivationRequest {
+            catalogue_id: id("catalogue:derived_fixture"),
+            logical_revision: "fixture-generation-r2".to_owned(),
+        },
+    )
+    .expect("second logical revision");
+    assert_eq!(first.generation.fabric_root, second.generation.fabric_root);
+    assert_ne!(
+        first.catalogue.identity.catalogue_root,
+        second.catalogue.identity.catalogue_root
+    );
+    assert_ne!(first.proof_digest, second.proof_digest);
+}
+
+#[test]
+fn derived_catalogue_machine_form_rejects_unknown_fields() {
+    let derived = derive_fixture(&fixture_fabric());
+    let mut value = serde_json::to_value(&derived).expect("derived value");
+    value
+        .as_object_mut()
+        .expect("derived object")
+        .insert("unrecognized_authority".to_owned(), serde_json::json!(true));
+    assert!(serde_json::from_value::<DerivedSemanticAnchorCatalogue>(value).is_err());
 }
