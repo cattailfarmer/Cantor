@@ -402,3 +402,63 @@ fn source_anchor_and_applicability_target_boundaries_fail_closed() {
         AnchorFormFaultKind::InvalidIdentity
     );
 }
+
+#[test]
+fn package_operation_and_binding_references_are_closed_over_the_catalogue() {
+    let mut wrong_package = fixture_catalogue();
+    wrong_package.identity_entries[0].address.package_digest = digest('9');
+    assert_eq!(
+        validate_semantic_anchor_catalogue(&wrong_package)
+            .expect_err("package root")
+            .kind,
+        AnchorFormFaultKind::RootMismatch
+    );
+
+    let mut wrong_kind = fixture_catalogue();
+    wrong_kind.operation_entries[0].address.kind = UnitKind::Program;
+    assert_eq!(
+        validate_semantic_anchor_catalogue(&wrong_kind)
+            .expect_err("operation kind")
+            .kind,
+        AnchorFormFaultKind::InvalidIdentity
+    );
+
+    let mut missing_binding = fixture_catalogue();
+    missing_binding.operation_entries[0]
+        .applicability_refs
+        .insert(id("binding:absent"));
+    assert_eq!(
+        validate_semantic_anchor_catalogue(&missing_binding)
+            .expect_err("binding closure")
+            .kind,
+        AnchorFormFaultKind::InvalidIdentity
+    );
+}
+
+#[test]
+fn duplicate_result_candidates_and_records_are_not_canonical() {
+    let mut duplicate_candidate = fixture_result();
+    duplicate_candidate
+        .candidates
+        .push(duplicate_candidate.candidates[0].clone());
+    duplicate_candidate.result_digest =
+        anchor_query_result_digest(&duplicate_candidate).expect("digest");
+    assert_eq!(
+        validate_anchor_query_result(&duplicate_candidate)
+            .expect_err("candidate order")
+            .kind,
+        AnchorFormFaultKind::NonCanonicalOrder
+    );
+
+    let mut duplicate_record = fixture_result();
+    duplicate_record
+        .record_ids
+        .push(duplicate_record.record_ids[0].clone());
+    duplicate_record.result_digest = anchor_query_result_digest(&duplicate_record).expect("digest");
+    assert_eq!(
+        validate_anchor_query_result(&duplicate_record)
+            .expect_err("record order")
+            .kind,
+        AnchorFormFaultKind::NonCanonicalOrder
+    );
+}

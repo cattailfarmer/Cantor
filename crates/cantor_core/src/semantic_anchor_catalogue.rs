@@ -361,8 +361,24 @@ pub fn validate_semantic_anchor_catalogue(catalogue: &SemanticAnchorCatalogue) -
         |binding| binding.binding_id.as_str(),
         "applicability_bindings",
     )?;
+    let operation_ids = catalogue
+        .operation_entries
+        .iter()
+        .map(|entry| entry.address.unit_id.clone())
+        .collect::<BTreeSet<_>>();
+    let identity_ids = catalogue
+        .identity_entries
+        .iter()
+        .map(|entry| entry.address.unit_id.clone())
+        .collect::<BTreeSet<_>>();
+    let binding_ids = catalogue
+        .applicability_bindings
+        .iter()
+        .map(|binding| binding.binding_id.clone())
+        .collect::<BTreeSet<_>>();
     for entry in &catalogue.identity_entries {
         validate_address(&entry.address)?;
+        validate_address_package_root(&catalogue.identity, &entry.address)?;
         if entry.preferred_expression.trim().is_empty() {
             return fault(
                 AnchorFormFaultKind::InvalidIdentity,
@@ -373,7 +389,12 @@ pub fn validate_semantic_anchor_catalogue(catalogue: &SemanticAnchorCatalogue) -
     }
     for entry in &catalogue.operation_entries {
         validate_address(&entry.address)?;
-        if entry.verbs.is_empty() || entry.roles.is_empty() || entry.effect_class.trim().is_empty()
+        validate_address_package_root(&catalogue.identity, &entry.address)?;
+        if entry.verbs.is_empty()
+            || entry.roles.is_empty()
+            || entry.effect_class.trim().is_empty()
+            || entry.address.kind != UnitKind::Operation
+            || !entry.applicability_refs.is_subset(&binding_ids)
         {
             return fault(
                 AnchorFormFaultKind::InvalidIdentity,
@@ -396,6 +417,11 @@ pub fn validate_semantic_anchor_catalogue(catalogue: &SemanticAnchorCatalogue) -
             || binding.context.trim().is_empty()
             || binding.purpose.trim().is_empty()
             || (binding.identity_ref.is_some() == binding.admitted_kind.is_some())
+            || !operation_ids.contains(&binding.operation_ref)
+            || binding
+                .identity_ref
+                .as_ref()
+                .is_some_and(|identity| !identity_ids.contains(identity))
         {
             return fault(
                 AnchorFormFaultKind::InvalidIdentity,
@@ -547,6 +573,11 @@ pub fn validate_anchor_query_result(result: &AnchorQueryResult) -> AnchorValidat
         }
     }
     ensure_candidate_order(&result.candidates)?;
+    ensure_sorted_unique_by(
+        &result.record_ids,
+        |record_id| record_id.as_str(),
+        "record_ids",
+    )?;
     let expected = anchor_query_result_digest(result)?;
     if result.result_digest != expected {
         return fault(
@@ -684,6 +715,20 @@ fn validate_address(address: &SemanticAddress) -> AnchorValidation {
     Ok(())
 }
 
+fn validate_address_package_root(
+    identity: &CatalogueIdentity,
+    address: &SemanticAddress,
+) -> AnchorValidation {
+    if identity.package_roots.get(&address.package_id) != Some(&address.package_digest) {
+        return fault(
+            AnchorFormFaultKind::RootMismatch,
+            "address.package_digest",
+            "address package identity and digest are absent from catalogue package roots",
+        );
+    }
+    Ok(())
+}
+
 fn validate_digest(digest: &ContentDigest, field: &str) -> AnchorValidation {
     if digest.algorithm != DIGEST_ALGORITHM
         || digest.value.len() != 64
@@ -725,7 +770,7 @@ fn ensure_candidate_order(candidates: &[AnchorCandidate]) -> AnchorValidation {
             pair[1].channel_local_rank,
             pair[1].address.unit_id.as_str(),
         );
-        if left > right {
+        if left >= right {
             return fault(
                 AnchorFormFaultKind::NonCanonicalOrder,
                 "candidates",
