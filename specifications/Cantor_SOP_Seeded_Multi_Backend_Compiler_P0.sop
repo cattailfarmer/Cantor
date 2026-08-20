@@ -1,0 +1,128 @@
+Subject: Cantor SOP Seeded Multi-Backend Compiler P0 Canonical Source Specification
+
+@ [canonical_uuid] c0c0f643-43b7-498c-91ff-cec2e2a4dda4
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [source_manifest] source_documents/2026-08-20_sop_seed_and_three_compiler_backends/Source_Document_Manifest.sop
+@ [justification] justifications/00b6215e-fd50-4a13-9c2f-480467365cbc.sop
+@ [speak_into_order_dependency] specifications/Cantor_Speak_Into_Order_P0.sop
+
+& [SOPSeed] is the minimum externally recognized root from which one Cantor generation may be assembled
+  + [seed_identity] binds seed profile generation purpose and immutable digest
+  + [trust_roots] binds independently supplied Honesty Security authority and compiler verifying keys
+  + [dependency_roots] binds exact admitted packages compiler profiles toolchain identities and predecessor generation
+  + [discovery_contract] names how additional signed SOP packages may be located and inspected
+  + [compiler_entrypoints] names permitted semantic front-end and backend profiles
+  + [capability_ceiling] is the maximum read build write execute install network and effect scope this seed may request
+  + [successor_policy] states the external signatures tests receipts and approval needed to recognize a new generation
+
+  = must: remain small enough for independent inspection and deterministic boot replay
+  = must: fail closed when any trust dependency compiler or predecessor identity differs
+  - never: contain a private signing key grant itself successor recognition or imply that self-description is self-authorization
+
+& [SemanticCompilerFrontEnd] compiles preserved and SJS-processed SOP into backend-neutral typed SOP IR
+  + [input] is exact source manifest canonical specification admitted semantic addresses declared purpose target backend and capability request
+  + [resolution] binds identities terms clauses contracts roles inputs outputs preconditions invariants transforms postconditions faults evidence and non-transfer rules
+  + [type_check] checks semantic identity kind context units authority lifecycle and boundary compatibility
+  + [dependency_graph] is acyclic or reports an explicit unresolved cycle
+  + [backend_plan] selects exactly one backend profile plus its inputs expected outputs verifier rollback and capability ceiling
+  + [output] is CandidateCompilationPlan with source map IR digest unresolved account and non-authority label
+
+  = must: preserve exact source-to-IR addresses and every inferred edge as a typed derived claim
+  = must: refuse prose that lacks the structured contract required by the selected backend
+  - never: treat parsing canonical formation compilation or internal coherence as installation or execution permission
+
+& [AttentionProcedureBackend] compiles typed SOP IR into an attention-procedure candidate
+  + [artifact] is bounded inputs outputs focus holds transforms gates faculty checkpoints tool calls stop continuation and reentry contracts
+  + [execution_surface] is an agent host orchestrating explicit inference passes and ordinary tool calls
+  + [proof] binds procedure source map registry schema budget transition and verification identities
+  + [nonclaim] is no direct access to hidden attention KV cache logits or model internal state
+
+& [InferenceHostBackend] compiles typed SOP IR into an inference-host integration candidate
+  + [preferred_target] is an external process MCP or ordinary tool-call adapter with a versioned schema and process boundary
+  + [internal_target] is a version-pinned llama.cpp extension only when a signed measured limitation receipt shows the external seam cannot satisfy the requirement
+  + [artifact] binds host source revision ABI tool schema lifecycle concurrency cancellation streaming fault and compatibility identities
+  + [proof] includes standard-seam control internal-extension comparison tests and upstream rebase risk
+
+  - never: modify llama.cpp merely to avoid designing an explicit host protocol
+
+& [NativeArtifactBackend] compiles typed SOP IR into a conventional artifact candidate
+  + [targets] include Rust C C++ service CLI library and later separately activated HDL or FPGA artifacts
+  + [toolchain] is an externally identified compiler linker dependency lock target platform and reproducible build plan
+  + [artifact] binds generated or selected source build manifest binary digest interface capability package and rollback identity
+  + [execution] occurs only in a separately admitted sandbox or deployment scope
+
+  - never: claim Cantor replaces conventional compilers when it actually authors inputs and orchestrates identified toolchains
+
+& [BackendSeparation]
+  + attention procedure inference-host integration and native artifact identities never substitute for one another
+  + each backend owns distinct capability budget verification receipt reproducibility claim admission signature installation state and rollback
+  + a multi-target objective becomes several linked CandidateCompilationPlan values rather than one cross-domain executable
+  + shared semantic IR permits traceability and comparison but grants no shared execution authority
+
+& [CompilationLifecycle]
+  + preserve source
+  + complete SJS canonical formation
+  + resolve governing semantic addresses through proof-bearing query
+  + construct typed SOP IR and unresolved account
+  + select one backend and produce a candidate plan
+  + build or project candidate artifact in declared sandbox
+  + verify source correspondence type invariants backend-specific behavior capability ceiling and reproducibility
+  + obtain independent Honesty and Security receipts
+  + obtain external authority recognition for installation or execution
+  + admit immutable successor generation retain predecessor and observe post-admission behavior
+
+& [SelfAssemblyLedger] records Cantor applying the lifecycle to its own admitted identity
+  + [self_description] identifies current source artifacts capabilities gaps and dependencies
+  + [self_ordering] produces a candidate dependency and build plan
+  + [self_hosting] builds and verifies a candidate successor without replacing the running authority
+  + [self_revision] proposes a successor generation whose recognition remains external
+  + [delta] binds every source IR artifact test receipt signature capability and installed-generation change
+
+  = must: retain every prior admitted generation needed for rollback
+  - never: let the candidate compiler verifier signer approver and installer collapse into one unaccounted identity
+
+& [SeedExpansion]
+  + the seed may locate and verify a next signed package under its discovery and capability ceilings
+  + each admitted package may expose additional semantic addresses procedures or compiler profiles
+  + expansion proceeds one immutable generation at a time and stops on ambiguity missing proof scope excess signature failure or verification fault
+  + no recursive expansion is implied merely because a package references another package
+
+& [Acceptance]
+  + equal seed source admitted fabric purpose backend toolchain and build inputs yield byte-identical plans and reproducible artifacts where the selected backend claims reproducibility
+  + every output resolves to exact source addresses and retains an unresolved omission and non-transfer account
+  + changing source target backend toolchain capability signature receipt or predecessor changes owning identity or refuses
+  + attention native and inference-host controls prove that one backend artifact cannot be admitted under another backend profile
+  + a self-hosted candidate cannot replace its predecessor without external successor recognition
+
+& [ImplementationSlices]
+  + [Slice1] strict seed backend plan SOP IR source map capability receipt and self-assembly ledger forms only
+  + [Slice2] provider-free self-description and self-ordering fixture using the admitted Cantor corpus and proof-bearing catalogue query
+  + [Slice3] compose the existing procedure compiler as the first AttentionProcedureBackend profile
+  + [Slice4] external-tool inference-host adapter profile over unmodified llama.cpp
+  + [Slice5] conventional Rust CLI candidate through the NativeArtifactBackend and identified Cargo toolchain
+  + [Slice6] measured external-versus-internal llama.cpp limitation experiment before any internal extension authority
+  + [Slice7] externally signed successor-generation self-hosting experiment with immutable rollback
+
+  = must: preserve source review phase-lock implement verify and publish each slice separately
+
+& [CurrentDisposition]
+  + [architecture] SJS_formed
+  + [implementation] inactive
+  + [existing_procedure_compiler] partial AttentionProcedureBackend precursor not retroactively reclassified as complete multi-backend support
+  + [next] complete Slice4B2 proof-bearing lexical query then activate only Slice1 forms or Slice2 planning fixture under a separate source
+  + [locked] artifact generation llama.cpp modification external compilation installation deployment remote mutation FPGA and autonomous self-revision
+
+& [CantorSOPSeededMultiBackendCompilerP0SatisfactionSignature] is the valid SJS processing signature
+  + [signature_protocol_uuid] 6e6bebca-1194-40e6-ad39-e276e7280850
+  + [signature_uuid] 73fda80a-62e4-4477-b653-d1087e8195eb
+  + [signed_subject] specifications/Cantor_SOP_Seeded_Multi_Backend_Compiler_P0.sop
+  + [source_manifest_uuid] 323ede7e-d6ed-4b20-8a0a-50b3cb111c61
+  + [justification_uuid] 00b6215e-fd50-4a13-9c2f-480467365cbc
+  + [processed_stage_set] source_preserved delineated data_modeled divergently_projected convergently_grounded constraint_checked faculty_reviewed seven_fold_phase_locked and signed
+  + [exhaustion_state] architecture_complete_implementation_slices_inactive
+  + [signature_status] valid
+  + [invalidation_condition] source_snapshot_change backend_collapse self_signing capability_laundering missing_source_map unmeasured_internal_extension or implementation_contradiction
+
+* [SOPSeed] -(boots)> [SemanticCompilerFrontEnd]
+* [SemanticCompilerFrontEnd] -(selects_one)> [AttentionProcedureBackend], [InferenceHostBackend], [NativeArtifactBackend]
+* [Backend candidate], [Honesty receipt], [Security receipt], [external recognition] -(admits)> [successor generation]
