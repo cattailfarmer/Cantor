@@ -60,6 +60,28 @@ The result contains the exact CPPE compilation receipt, Process IR, and
 verification, admission, catalogue insertion, attention loading, invocation,
 installation, effects, and successor recognition have not occurred.
 
+## Second compiled backend: external inference-host integration
+
+Slice 4 projects a proposed `InferenceHostIntegrationCandidate` for the
+preferred external seam. It binds an exact host implementation revision and
+digests; llama.cpp OpenAI-compatible loopback `/v1` protocol and model selector;
+model-visible tool schemas; MCP executable, configuration, operation, and
+result contract; and the ordered two-pass tool/reflection flow.
+
+The P0 flow allows one tool call, forbids parallel calls, requires cancellation,
+and records bounded request, response, token, and timeout limits. Streaming is
+explicitly `buffered_only`: arbitrary semantic insertion during a running
+completion, hidden-state access, KV-cache access, and logits access are not
+claimed. Positive, refusal, and no-tool control evidence plus the known
+mid-completion limitation remain visible in the compatibility account.
+
+Loopback network, provider process, MCP process, and model invocation are
+recorded as future runtime requirements, not compilation capabilities. The
+pure projector still permits only semantic and source reads and performs no
+provider contact, process launch, network access, registration, or execution.
+An internal llama.cpp addon remains a separate target that this slice refuses;
+it requires a later signed, measured limitation receipt.
+
 ## Deliberate non-capabilities
 
 Slice 2 adds one narrow lowering seam. A strict `SelfOrderingRequest` explicitly
@@ -90,11 +112,13 @@ cargo test -p cantor_core --test semantic_compiler_self_ordering -- --test-threa
 cargo test --release -p cantor_core --test semantic_compiler_self_ordering -- --test-threads=1
 cargo test -p cantor_core --test semantic_compiler_attention_backend -- --test-threads=1
 cargo test --release -p cantor_core --test semantic_compiler_attention_backend -- --test-threads=1
+cargo test -p cantor_core --test semantic_compiler_inference_host_backend -- --test-threads=1
+cargo test --release -p cantor_core --test semantic_compiler_inference_host_backend -- --test-threads=1
 cargo clippy -p cantor_core --all-targets --all-features -- -D warnings
 ```
 
 The governing source, SJS review, plan, requirement matrix, phase lock,
 solution, and proof remain separate records. The next compiler work should
-first define attention-procedure authorship or separately activate the
-inference-host adapter; native artifact projection and every execution boundary
-remain separate authority slices.
+define attention-procedure authorship or activate the native artifact candidate;
+provider execution, internal llama.cpp work, artifact build, installation, and
+every runtime authority remain separate slices.

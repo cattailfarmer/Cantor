@@ -60,6 +60,11 @@ baseline:
   attention-procedure candidate through the existing effectless CPPE compiler,
   retaining exact validation and compilation lineage while leaving verification,
   admission, loading, invocation, and effects ungranted; and
+- `cantor_core` can now project one external inference-host integration
+  candidate that pins an unmodified loopback llama.cpp OpenAI-compatible
+  two-pass tool seam, MCP identity, bounded flow, cancellation, buffered-only
+  limitation, compatibility evidence, and rollback without contacting a model
+  or granting runtime capabilities; and
 - `cantor_core::PreparedRuntime` retains at most one immutable exact-scope
   projection for repeated resident reads, with atomic generation replacement,
   invalidation, rollback, and the direct request path preserved; and
