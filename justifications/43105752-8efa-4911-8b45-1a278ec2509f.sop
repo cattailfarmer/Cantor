@@ -1,0 +1,30 @@
+Subject: Cantor Seeded Compiler Slice 6 Native Build Receipt Justification
+
+@ [justification_uuid] 43105752-8efa-4911-8b45-1a278ec2509f
+@ [source_uuid] a22089f8-8790-4b8d-9951-11bd9752be59
+@ [review_uuid] ab6e1f84-6fcc-427f-9467-1175909f833c
+
+& [Problem]
+  + Slice5 can identify a reproducible native build candidate but cannot report that bytes were built
+  + treating candidate metadata or its read-only plan receipt as build permission would violate backend and authority boundaries
+
+& [Decision]
+  + add a later-stage native execution plan capability receipt sandbox admission dual approval build observation artifact receipt and independent verification lifecycle
+  + implement only pure validation projection replay signature verification and supplied-runner boundaries in cantor_core
+  + leave the production physical process runner inactive until its target sandbox has independent evidence
+
+& [Why]
+  + exact later-stage forms make process authority inspectable without granting it to semantic compilation
+  + dual approval connects Security containment and external authority while keeping keys outside model control
+  + supplied observations let an effectful host report results without importing ambient I/O into deterministic core semantics
+  + produced_unverified prevents successful exit or a digest from masquerading as correctness
+
+& [Rejected]
+  + reuse Slice5 CandidateCompilationPlan capability receipt because its request is intentionally read-only
+  + call std::process::Command directly from the semantic projector because that hides ambient host and sandbox authority
+  + call Cargo success an ArtifactVerificationReceipt because build success is only an observation
+  + claim reproducibility from one build because equality requires at least two independently identified observations
+
+& [Support]
+  + source preservation SJS review requirement matrix phase lock adversarial tests and complete workspace verification support the pure lifecycle seam
+  + physical runner support remains explicitly absent and cannot be inferred from this implementation
