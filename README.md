@@ -146,6 +146,10 @@ baseline:
   offline report verification reconstructs its complete identity chain; exact
   transport measurement led to an 806-byte verified terminal projection that
   cuts the measured reflection request by 97.09% while preserving exact `READ`.
+  Its provider-free continuation layer now also exposes bounded structural
+  handle discovery and a reproducible bootstrap→pin→inspect witness, allowing
+  a caller with no prior handle to obtain one compact verified custody record
+  without importing full state or claiming semantic relevance.
 
 Phase6 also measured canonical JSON snapshots against SQLite and redb at 1,
 32, and 256 signed-package scales. JSON plus request-scoped admitted in-memory fabric is

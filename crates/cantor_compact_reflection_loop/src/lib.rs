@@ -7,6 +7,7 @@ mod checkpoint_custody;
 mod checkpoint_handle;
 mod custody_query;
 mod custody_query_measurement;
+mod discovery_inspection_witness;
 mod dispatch_checkpoint;
 mod dispatch_lifecycle;
 mod dual_transcript;
@@ -62,6 +63,12 @@ pub use custody_query_measurement::{
     CustodyQuerySurfaceByteCase, CustodyQuerySurfaceMeasurement,
     generate_custody_query_surface_measurement, pretty_custody_query_surface_measurement_bytes,
     validate_custody_query_surface_measurement,
+};
+pub use discovery_inspection_witness::{
+    DISCOVERY_INSPECTION_WITNESS_NONCLAIMS, DISCOVERY_INSPECTION_WITNESS_PROFILE,
+    ScriptedDiscoveryInspectionWitness, generate_scripted_discovery_inspection_witness,
+    pretty_scripted_discovery_inspection_witness_bytes,
+    validate_scripted_discovery_inspection_witness,
 };
 pub use dispatch_checkpoint::{
     DISPATCH_LIFECYCLE_CHECKPOINT_NONCLAIMS, DISPATCH_LIFECYCLE_CHECKPOINT_PROFILE,

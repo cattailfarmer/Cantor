@@ -39,18 +39,34 @@ stop state, and final reflection without contacting a provider or executing
 the procedure. Exact records remain host-side and are not duplicated into
 model attention.
 
-The original checkpoint was specification and planning authority only. A later
-artifact-bound review has now activated and completed Slice 1 only: strict
-`RunPolicy`, registry-derived `ReadyProjection`, `IterationRecord`, exclusive
-successor, run-state, stop-reason, policy-usage, and `IterativeReport` forms plus
-pure structural validation. Five focused tests cover bounds, closed fields,
-registry custody, ready projection, stopped/complete exclusivity, timeout
-evidence, and predecessor-fork refusal.
+The original checkpoint began as specification and planning authority. Its
+provider-free implementation now covers strict run forms, deterministic
+READY-to-terminal advancement, stopped and terminal-pending reentry, exact
+replay, dual transcript evidence, digest-bound transport, phase checkpoints,
+compact handle custody, typed custody queries, structural handle discovery,
+and a staged discovery-to-inspection witness. Each slice was activated only
+after source preservation, SJS review, and an artifact-bound phase lock.
 
-Deterministic stepping, provider protocol, two-call loopback proof, stopped
-reentry execution, complete replay, transport measurement, and release remain
-separately locked in that dependency order. Structural report validation does
-not claim full causal replay.
+The smallest executable entry witness is:
+
+```text
+bootstrap discovery (no root, maximum 1)
+  -> pin returned root + full checkpoint digest
+  -> rediscover identical handle and entry digest
+  -> inspect exact custody entry
+  -> validate compact metadata and workflow digest
+```
+
+Run it without a provider:
+
+```powershell
+cargo run -p cantor_compact_reflection_loop -- witness-scripted-discovery-inspection
+```
+
+Its deterministic first handle is a fixture policy, not semantic relevance.
+The next independent frontier is a governed semantic anchor catalogue that can
+rank subject-to-purpose candidates while leaving signed compilation and exact
+custody admission authoritative.
 
 P1 still represents separate provider calls joined by explicit host state. It
 does not create one shared transformer forward pass, mutate hidden state,

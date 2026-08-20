@@ -19,13 +19,15 @@ use cantor_compact_reflection_loop::{
     generate_fixture_deterministic_drive_measurement, generate_fixture_transport_measurement,
     generate_iterative_transcript_measurement, generate_provider_free_attention_lineage_index,
     generate_provider_free_shell_release_manifest, generate_scripted_checkpoint_custody_registry,
-    inspect_report, normalize_loopback_base_url, open_bound_session,
-    pretty_checkpoint_custody_response_bytes, pretty_checkpoint_handle_discovery_response_bytes,
+    generate_scripted_discovery_inspection_witness, inspect_report, normalize_loopback_base_url,
+    open_bound_session, pretty_checkpoint_custody_response_bytes,
+    pretty_checkpoint_handle_discovery_response_bytes,
     pretty_custody_query_surface_measurement_bytes, pretty_deterministic_drive_measurement_bytes,
     pretty_dispatch_checkpoint_handle_measurement_bytes,
     pretty_iterative_transcript_measurement_bytes,
     pretty_provider_free_attention_lineage_index_bytes,
-    pretty_provider_free_shell_release_manifest_bytes, pretty_transport_measurement_bytes,
+    pretty_provider_free_shell_release_manifest_bytes,
+    pretty_scripted_discovery_inspection_witness_bytes, pretty_transport_measurement_bytes,
     project_terminal_observation, reflection_request, sanitize, select_advertised_model,
     verify_report,
 };
@@ -206,6 +208,15 @@ async fn main() -> ExitCode {
             return ExitCode::from(2);
         }
         return scripted_checkpoint_handle_discovery_command();
+    }
+    if arguments.first().map(String::as_str) == Some("witness-scripted-discovery-inspection") {
+        if arguments.len() != 1 {
+            eprintln!(
+                "configuration_fault: usage: cantor-compact-reflection-loop witness-scripted-discovery-inspection"
+            );
+            return ExitCode::from(2);
+        }
+        return scripted_discovery_inspection_witness_command();
     }
     if arguments.first().map(String::as_str) == Some("fixture-context") {
         return fixture_context_command(&arguments[1..]);
@@ -627,6 +638,21 @@ fn scripted_checkpoint_handle_discovery_command() -> ExitCode {
     }
 }
 
+fn scripted_discovery_inspection_witness_command() -> ExitCode {
+    match generate_scripted_discovery_inspection_witness()
+        .and_then(|witness| pretty_scripted_discovery_inspection_witness_bytes(&witness))
+    {
+        Ok(bytes) => {
+            print!("{}", String::from_utf8_lossy(&bytes));
+            ExitCode::SUCCESS
+        }
+        Err(error) => {
+            eprintln!("discovery_inspection_witness_fault: {error}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn print_help() {
     println!(
         "cantor-compact-reflection-loop\n\
@@ -645,6 +671,7 @@ fn print_help() {
            cantor-compact-reflection-loop measure-checkpoint-custody-query-surface\n\
            cantor-compact-reflection-loop describe-provider-free-shell-release\n\
            echo SELECTOR_JSON | cantor-compact-reflection-loop discover-scripted-checkpoint-handles\n\
+           cantor-compact-reflection-loop witness-scripted-discovery-inspection\n\
          \n\
          Required:\n\
            --context PATH          exact CoordinationToolContext JSON\n\
