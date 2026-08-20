@@ -6,8 +6,8 @@ use cantor_core::{
     ANCHOR_QUERY_PROFILE, AnchorBudget, AnchorQuery, AnchorScanFaultKind, AssociationChannel,
     AuthorityContext, AuthorityScope, CandidateEligibility, CatalogueDerivationRequest,
     DerivedSemanticAnchorCatalogue, PriorityTier, RelationType, SemanticFabric, SemanticId,
-    UnitStatus, admit_package, derive_semantic_anchor_catalogue, scan_exact_semantic_anchors,
-    validate_exact_anchor_scan_result,
+    UnitStatus, admit_package, anchor_query_result_digest, derive_semantic_anchor_catalogue,
+    scan_exact_semantic_anchors, validate_anchor_query_result, validate_exact_anchor_scan_result,
 };
 
 fn id(value: &str) -> SemanticId {
@@ -226,6 +226,61 @@ fn typed_relation_walk_preserves_path_identity_direction_and_hops() {
             .evidence_refs
             .contains(&id("relation:bank_meanings_distinct"))
     );
+    assert_eq!(result.relationship_paths.len(), 1);
+    let path = &result.relationship_paths[0];
+    assert_eq!(path.seed_id, id("unit:bank_financial"));
+    assert_eq!(path.target_id, id("unit:bank_river"));
+    assert_eq!(
+        path.steps[0].direction,
+        cantor_core::RelationshipDirection::Forward
+    );
+    assert_eq!(path.steps[0].relation_type, RelationType::DistinctFrom);
+    assert_eq!(result.association_account.len(), 2);
+    assert_eq!(
+        result.association_account[0].channel,
+        AssociationChannel::ExactIdentity
+    );
+    assert_eq!(
+        result.association_account[1].channel,
+        AssociationChannel::TypedRelation
+    );
+}
+
+#[test]
+fn relation_type_mutation_is_rejected_by_canonical_scanner_replay() {
+    let fabric = fixture_fabric();
+    let derived = derive_fixture(&fabric);
+    let mut query = scan_query();
+    query.allowed_channels = BTreeSet::from([
+        AssociationChannel::ExactIdentity,
+        AssociationChannel::TypedRelation,
+    ]);
+    query.allowed_relations = BTreeSet::from([RelationType::DistinctFrom]);
+    query.known_identities.insert(id("unit:bank_financial"));
+
+    let mut result = scan_exact_semantic_anchors(&derived, &fabric, &query, None)
+        .expect("typed relation scan succeeds");
+    let related = result
+        .candidates
+        .iter_mut()
+        .find(|candidate| candidate.address.unit_id == id("unit:bank_river"))
+        .expect("related identity retained");
+    related.contributions[0]
+        .relationship_path
+        .as_mut()
+        .expect("typed path")
+        .steps[0]
+        .relation_type = RelationType::Supports;
+    result.relationship_paths[0].steps[0].relation_type = RelationType::Supports;
+    result.result_digest = anchor_query_result_digest(&result).expect("mutated result digest");
+
+    validate_anchor_query_result(&result).expect("mutated result remains internally coherent");
+    assert_eq!(
+        validate_exact_anchor_scan_result(&derived, &fabric, &query, None, &result)
+            .expect_err("relation type must match admitted fabric replay")
+            .kind,
+        AnchorScanFaultKind::ResultMismatch
+    );
 }
 
 #[test]
@@ -254,6 +309,11 @@ fn reverse_relation_walk_is_explicit_and_cycle_free() {
         .find(|contribution| contribution.channel == AssociationChannel::TypedRelation)
         .expect("reverse relation contribution");
     assert!(contribution.basis.contains("reverse"));
+    assert_eq!(result.relationship_paths.len(), 1);
+    assert_eq!(
+        result.relationship_paths[0].steps[0].direction,
+        cantor_core::RelationshipDirection::Reverse
+    );
     assert_eq!(
         financial
             .contributions

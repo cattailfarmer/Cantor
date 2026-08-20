@@ -1,0 +1,64 @@
+Subject: Semantic Anchor Catalogue P0 Slice 4A Capacity Operational Fault
+
+& [FaultIdentity] is bounded local verification storage exhaustion
+  + [fault_uuid] is 45e2809b-d872-4f09-ae0d-e3f960a2a984
+  + [recognized_at_utc] 2026-08-20T03:26:22Z
+  + [recognition] the first bounded full-workspace verifier stopped at its declared twenty-GiB host-capacity preflight before Cargo ran
+  + [initial_host_free] approximately 8.9 GiB
+  + [test_failure] absent because that attempt never entered Cargo
+
+& [FirstRecovery] is exact generated-target cleanup
+  + /home/pinky/.cache/cantor-final-serial resolved exactly under the declared WSL cache home and held approximately 26 GiB of reproducible Cargo output
+  + cargo clean for that exact target reported 37899 generated files and 28.8 GiB removed
+  + C:\Project\Cantor\target resolved exactly under the repository and held approximately 5.0 GiB of reproducible Cargo output
+  + cargo clean for that exact target reported 4428 generated files and 5.5 GiB removed
+  + no source governance evidence user file remote host OneDrive content or unrelated cache was deleted
+  + WSL reported approximately 6.7 GiB used and 950 GiB available internally after cleanup
+
+& [RecoveredAttempt] entered the verifier only after host free space rose asynchronously to 34.30 GiB
+  + the verifier declared one Cargo build job one test thread no remote hosts no destructive actions and the same exact WSL target
+  + the clean WSL rebuild expanded the Ubuntu-24.04 dynamic virtual disk until host C free space fell to approximately 0.27 GiB
+  + the quiet full-workspace child exited status one without returning a Rust diagnostic or test result through the wrapper
+  + a diagnostic focused retry was stopped manually at dependency build item 12 of 55 as soon as the 0.27-GiB host state was observed
+  + neither recovered attempt reached a reported Cantor compiler error Rust assertion or completed test group
+
+& [SecondRecovery] is exact generated-target cleanup
+  + the interrupted target resolved as /home/pinky/.cache/cantor-final-serial and measured approximately 14 GiB
+  + cargo clean for that exact target reported 14062 generated files and 17.0 GiB removed
+  + WSL again reports approximately 6.7 GiB used internally
+  + no cargo or rustc process remains
+  + the Ubuntu-24.04 ext4.vhdx is non-sparse and remained approximately 35.62 GiB on the host after WSL exited naturally
+  + host C free space remained approximately 0.27 GiB at last observation
+
+& [EvidenceBoundary] is fail closed
+  + the Slice4A implementation first passed 32 focused tests before the expanded adversarial test additions plus focused warnings-denied Clippy format diff and cargo-check gates
+  + a later serial native-Windows focused run compiled and passed the expanded suite with eighteen catalogue tests and fifteen scanner tests for 33 passed and zero failed
+  + the added passing cases cover seed target continuity duplicate path omitted and extra accounts and admitted-fabric relation-type replay
+  + the post-Slice4A full workspace has not completed and must not be described as passing
+  + the prior published Slice3 workspace proof remains valid because this capacity event occurred only during uncommitted Slice4A work
+
+& [NativeWorkspaceAttempt] is a second capacity-bound operational failure
+  + native focused verification began with approximately 28.78 GiB free and completed 33 focused tests successfully
+  + the serial full-workspace continuation reused the same target with one build job and one test thread
+  + while linking the pre-existing cantor_compact_reflection_loop handle_discovery test Windows reported LNK1318 Unexpected PDB error FILE_SYSTEM 3
+  + the target test binary did not execute and no Rust assertion failed
+  + immediate inspection found no cargo rustc link or mspdbsrv process and effectively zero host free space
+  + cargo clean on the exact C:\Project\Cantor\target marker removed 10729 generated files and 14.3 GiB
+  + host free space recovered to approximately 13.15 GiB and the target directory is absent
+  + classify LNK1318 as capacity-correlated native linker failure unless later evidence establishes a different cause
+
+& [LowFootprintGateDisposition] distinguishes completed from capacity-held checks
+  + recursive evidence refresh completed with twenty-three manifests one thousand thirty artifact references and zero stale
+  + cargo format check and git diff check completed successfully after the expanded focused tests and documentation
+  + the bounded-verifier policy test stopped before its assertions because its default dry-run invokes the same twenty-GiB host preflight while only 13.15 GiB was free
+  + final warnings-denied Clippy was not attempted after cleanup because it would rebuild the target below the capacity floor
+  + policy-test and Clippy results remain pending rather than failed
+
+& [Disposition] is implementation checkpoint verification held by host capacity
+  + perform no further build test lint evidence refresh commit or push while the host volume remains critically low
+  + do not force WSL shutdown because it already exited naturally
+  + do not enable sparse mode compact or reconfigure the WSL virtual disk without separate user authority
+  + do not delete any additional cache or user data as an inferred remedy
+  + do not rely on the earlier 5.5-GiB target observation as a safe full-workspace estimate because the clean native attempt later exhausted approximately 28.78 GiB of available host capacity
+  + require a different volume memory-backed capacity above measured demand or separately authorized WSL compaction before another clean full-workspace build
+  - never: claim either operational child status as a Rust test failure or claim Slice4A completion without a later successful authoritative rerun

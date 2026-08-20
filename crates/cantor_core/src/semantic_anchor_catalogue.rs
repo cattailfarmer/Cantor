@@ -268,6 +268,30 @@ pub enum ContributionStatus {
     Clipped,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum RelationshipDirection {
+    Forward,
+    Reverse,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AnchorRelationshipStep {
+    pub relation_id: SemanticId,
+    pub relation_type: RelationType,
+    pub relation_source: SemanticId,
+    pub relation_target: SemanticId,
+    pub direction: RelationshipDirection,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AnchorRelationshipPath {
+    pub seed_id: SemanticId,
+    pub target_id: SemanticId,
+    pub steps: Vec<AnchorRelationshipStep>,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AssociationContribution {
@@ -278,7 +302,16 @@ pub struct AssociationContribution {
     pub evidence_refs: BTreeSet<SemanticId>,
     pub conditions: BTreeSet<String>,
     pub unresolved_guards: BTreeSet<String>,
+    pub relationship_path: Option<AnchorRelationshipPath>,
     pub status: ContributionStatus,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AssociationChannelAccount {
+    pub channel: AssociationChannel,
+    pub candidate_ids: Vec<SemanticId>,
+    pub contribution_count: u32,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -367,6 +400,8 @@ pub struct AnchorQueryResult {
     pub fabric_root: ContentDigest,
     pub candidates: Vec<AnchorCandidate>,
     pub record_ids: Vec<SemanticId>,
+    pub relationship_paths: Vec<AnchorRelationshipPath>,
+    pub association_account: Vec<AssociationChannelAccount>,
     pub source_anchors: Vec<SourceAnchor>,
     pub boundary_account: BoundaryAccount,
     pub proof: AnchorProof,
@@ -383,6 +418,8 @@ pub enum AnchorFormFaultKind {
     DuplicateIdentity,
     NonCanonicalOrder,
     ChannelValueMismatch,
+    RelationshipPathMismatch,
+    AssociationAccountMismatch,
     PriorityMismatch,
     ExactResolutionDisabled,
     RootMismatch,
@@ -1120,6 +1157,22 @@ pub fn validate_anchor_query_result(result: &AnchorQueryResult) -> AnchorValidat
         }
     }
     ensure_candidate_order(&result.candidates)?;
+    let expected_paths = candidate_relationship_paths(&result.candidates)?;
+    if result.relationship_paths != expected_paths {
+        return fault(
+            AnchorFormFaultKind::RelationshipPathMismatch,
+            "relationship_paths",
+            "result relationship paths differ from canonical candidate contributions",
+        );
+    }
+    let expected_account = candidate_association_account(&result.candidates)?;
+    if result.association_account != expected_account {
+        return fault(
+            AnchorFormFaultKind::AssociationAccountMismatch,
+            "association_account",
+            "result association account differs from canonical candidate contributions",
+        );
+    }
     ensure_sorted_unique_by(
         &result.record_ids,
         |record_id| record_id.as_str(),
@@ -1134,6 +1187,56 @@ pub fn validate_anchor_query_result(result: &AnchorQueryResult) -> AnchorValidat
         );
     }
     Ok(())
+}
+
+pub fn candidate_relationship_paths(
+    candidates: &[AnchorCandidate],
+) -> AnchorValidation<Vec<AnchorRelationshipPath>> {
+    let mut paths = Vec::new();
+    for candidate in candidates {
+        for contribution in &candidate.contributions {
+            if let Some(path) = &contribution.relationship_path {
+                validate_relationship_path(contribution, path)?;
+                paths.push(path.clone());
+            }
+        }
+    }
+    paths.sort();
+    if paths.windows(2).any(|pair| pair[0] == pair[1]) {
+        return fault(
+            AnchorFormFaultKind::RelationshipPathMismatch,
+            "relationship_paths",
+            "duplicate relationship path",
+        );
+    }
+    Ok(paths)
+}
+
+pub fn candidate_association_account(
+    candidates: &[AnchorCandidate],
+) -> AnchorValidation<Vec<AssociationChannelAccount>> {
+    let mut grouped = BTreeMap::<AssociationChannel, (BTreeSet<SemanticId>, u32)>::new();
+    for candidate in candidates {
+        for contribution in &candidate.contributions {
+            let account = grouped.entry(contribution.channel.clone()).or_default();
+            account.0.insert(candidate.address.unit_id.clone());
+            account.1 = account.1.checked_add(1).ok_or_else(|| AnchorFormFault {
+                kind: AnchorFormFaultKind::InvalidBound,
+                field: "association_account.contribution_count".to_owned(),
+                detail: "contribution count overflow".to_owned(),
+            })?;
+        }
+    }
+    Ok(grouped
+        .into_iter()
+        .map(
+            |(channel, (candidate_ids, contribution_count))| AssociationChannelAccount {
+                channel,
+                candidate_ids: candidate_ids.into_iter().collect(),
+                contribution_count,
+            },
+        )
+        .collect())
 }
 
 pub fn catalogue_derivation_digest(
@@ -1182,6 +1285,8 @@ pub fn anchor_query_result_digest(result: &AnchorQueryResult) -> AnchorValidatio
             &result.fabric_root,
             &result.candidates,
             &result.record_ids,
+            &result.relationship_paths,
+            &result.association_account,
             &result.source_anchors,
             &result.boundary_account,
             &result.proof,
@@ -1232,6 +1337,83 @@ fn validate_contribution(contribution: &AssociationContribution) -> AnchorValida
         &contribution.channel_local_value
     {
         validate_digest(model_digest, "model_digest")?;
+    }
+    match (
+        &contribution.channel,
+        &contribution.channel_local_value,
+        &contribution.relationship_path,
+    ) {
+        (AssociationChannel::TypedRelation, ChannelLocalValue::RelationHops(_), Some(path)) => {
+            validate_relationship_path(contribution, path)?
+        }
+        (AssociationChannel::TypedRelation, _, None) => {
+            return fault(
+                AnchorFormFaultKind::RelationshipPathMismatch,
+                "relationship_path",
+                "typed relation contribution requires one relationship path",
+            );
+        }
+        (_, _, Some(_)) => {
+            return fault(
+                AnchorFormFaultKind::RelationshipPathMismatch,
+                "relationship_path",
+                "only typed relation contributions may carry a relationship path",
+            );
+        }
+        _ => {}
+    }
+    Ok(())
+}
+
+fn validate_relationship_path(
+    contribution: &AssociationContribution,
+    path: &AnchorRelationshipPath,
+) -> AnchorValidation {
+    let hops = match contribution.channel_local_value {
+        ChannelLocalValue::RelationHops(hops) => usize::from(hops),
+        _ => {
+            return fault(
+                AnchorFormFaultKind::RelationshipPathMismatch,
+                "relationship_path",
+                "relationship path requires relation-hop channel value",
+            );
+        }
+    };
+    if path.steps.is_empty()
+        || path.steps.len() != hops
+        || path.target_id != contribution.candidate_address.unit_id
+    {
+        return fault(
+            AnchorFormFaultKind::RelationshipPathMismatch,
+            "relationship_path",
+            "path steps hops or target differ from the contribution",
+        );
+    }
+    let mut cursor = path.seed_id.clone();
+    let mut visited = BTreeSet::from([cursor.clone()]);
+    for step in &path.steps {
+        let (from, to) = match step.direction {
+            RelationshipDirection::Forward => (&step.relation_source, &step.relation_target),
+            RelationshipDirection::Reverse => (&step.relation_target, &step.relation_source),
+        };
+        if from != &cursor
+            || !contribution.evidence_refs.contains(&step.relation_id)
+            || !visited.insert(to.clone())
+        {
+            return fault(
+                AnchorFormFaultKind::RelationshipPathMismatch,
+                "relationship_path.steps",
+                "path is discontinuous cyclic or lacks exact relation evidence",
+            );
+        }
+        cursor = to.clone();
+    }
+    if cursor != path.target_id {
+        return fault(
+            AnchorFormFaultKind::RelationshipPathMismatch,
+            "relationship_path.target_id",
+            "path does not terminate at its target",
+        );
     }
     Ok(())
 }

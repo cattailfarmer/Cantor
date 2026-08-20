@@ -5,15 +5,16 @@ mod common;
 use cantor_core::{
     ANCHOR_QUERY_PROFILE, ANCHOR_QUERY_RESULT_PROFILE, AnchorBudget, AnchorCandidate,
     AnchorDerivationFaultKind, AnchorFormFaultKind, AnchorLifecycle, AnchorProof, AnchorQuery,
-    AnchorQueryResult, ApplicabilityBinding, ApplicabilityStatus, AssociationChannel,
-    AssociationContribution, AuthorityContext, AuthorityScope, BoundaryAccount,
-    CandidateEligibility, CatalogueDerivationRequest, CatalogueIdentity, ChannelLocalValue,
-    ContentDigest, ContributionStatus, DerivedSemanticAnchorCatalogue, IdentityAnchorEntry,
-    OperationAnchorEntry, OperationClass, OperationRole, PriorityTier, RelationType,
-    RequestedDetailKind, SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress,
-    SemanticAnchorCatalogue, SemanticFabric, SemanticId, SourceAnchor, UnitKind, UnitStatus,
-    admit_package, anchor_query_result_digest, catalogue_derivation_digest, catalogue_root,
-    derive_semantic_anchor_catalogue, derived_semantic_anchor_catalogue_digest,
+    AnchorQueryResult, AnchorRelationshipPath, AnchorRelationshipStep, ApplicabilityBinding,
+    ApplicabilityStatus, AssociationChannel, AssociationContribution, AuthorityContext,
+    AuthorityScope, BoundaryAccount, CandidateEligibility, CatalogueDerivationRequest,
+    CatalogueIdentity, ChannelLocalValue, ContentDigest, ContributionStatus,
+    DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, OperationAnchorEntry, OperationClass,
+    OperationRole, PriorityTier, RelationType, RelationshipDirection, RequestedDetailKind,
+    SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress, SemanticAnchorCatalogue, SemanticFabric,
+    SemanticId, SourceAnchor, UnitKind, UnitStatus, admit_package, anchor_query_result_digest,
+    candidate_association_account, candidate_relationship_paths, catalogue_derivation_digest,
+    catalogue_root, derive_semantic_anchor_catalogue, derived_semantic_anchor_catalogue_digest,
     validate_anchor_candidate, validate_anchor_query, validate_anchor_query_result,
     validate_derived_semantic_anchor_catalogue, validate_semantic_anchor_catalogue,
 };
@@ -244,14 +245,31 @@ fn contribution(address: &SemanticAddress, channel: AssociationChannel) -> Assoc
             model_digest: digest('f'),
         },
     };
+    let relation_id = id("relation:fixture_contribution");
+    let relationship_path =
+        (channel == AssociationChannel::TypedRelation).then(|| AnchorRelationshipPath {
+            seed_id: id("unit:fixture_seed"),
+            target_id: address.unit_id.clone(),
+            steps: vec![AnchorRelationshipStep {
+                relation_id: relation_id.clone(),
+                relation_type: RelationType::Supports,
+                relation_source: id("unit:fixture_seed"),
+                relation_target: address.unit_id.clone(),
+                direction: RelationshipDirection::Forward,
+            }],
+        });
     AssociationContribution {
         channel,
         candidate_address: address.clone(),
         basis: "fixture basis".to_owned(),
         channel_local_value,
-        evidence_refs: BTreeSet::new(),
+        evidence_refs: relationship_path
+            .as_ref()
+            .map(|_| BTreeSet::from([relation_id]))
+            .unwrap_or_default(),
         conditions: BTreeSet::new(),
         unresolved_guards: BTreeSet::new(),
+        relationship_path,
         status: ContributionStatus::Retained,
     }
 }
@@ -273,13 +291,18 @@ fn fixture_result() -> AnchorQueryResult {
     let candidate = candidate(catalogue.identity_entries[0].address.clone());
     let unit_id = candidate.address.unit_id.clone();
     let source_anchors = candidate.address.source_anchors.clone();
+    let candidates = vec![candidate];
+    let relationship_paths = candidate_relationship_paths(&candidates).expect("paths");
+    let association_account = candidate_association_account(&candidates).expect("account");
     let mut result = AnchorQueryResult {
         profile: ANCHOR_QUERY_RESULT_PROFILE.to_owned(),
         request_id: id("request:fixture"),
         catalogue_root: catalogue.identity.catalogue_root.clone(),
         fabric_root: catalogue.identity.fabric_root.clone(),
-        candidates: vec![candidate],
+        candidates,
         record_ids: vec![unit_id.clone()],
+        relationship_paths,
+        association_account,
         source_anchors,
         boundary_account: BoundaryAccount {
             admitted: Vec::new(),
@@ -426,6 +449,240 @@ fn priority_lattice_and_exact_resolution_are_mandatory() {
             .expect_err("resolution")
             .kind,
         AnchorFormFaultKind::ExactResolutionDisabled
+    );
+}
+
+#[test]
+fn typed_relationship_paths_bind_channel_hops_direction_target_and_evidence() {
+    let address = fixture_catalogue().identity_entries[0].address.clone();
+    let typed = contribution(&address, AssociationChannel::TypedRelation);
+    let typed_candidate = AnchorCandidate {
+        address: address.clone(),
+        contributions: vec![typed.clone()],
+        priority_tier: PriorityTier::TypedRelation,
+        channel_local_rank: 1,
+        eligibility: CandidateEligibility::Eligible,
+        unresolved_guards: BTreeSet::new(),
+        exact_resolution_required: true,
+    };
+    validate_anchor_candidate(&typed_candidate).expect("typed path is valid");
+
+    let mut missing = typed_candidate.clone();
+    missing.contributions[0].relationship_path = None;
+    assert_eq!(
+        validate_anchor_candidate(&missing)
+            .expect_err("typed path required")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+
+    let mut wrong_direction = typed_candidate.clone();
+    wrong_direction.contributions[0]
+        .relationship_path
+        .as_mut()
+        .expect("path")
+        .steps[0]
+        .direction = RelationshipDirection::Reverse;
+    assert_eq!(
+        validate_anchor_candidate(&wrong_direction)
+            .expect_err("direction")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+
+    let mut wrong_seed = typed_candidate.clone();
+    wrong_seed.contributions[0]
+        .relationship_path
+        .as_mut()
+        .expect("path")
+        .seed_id = id("unit:wrong_seed");
+    assert_eq!(
+        validate_anchor_candidate(&wrong_seed)
+            .expect_err("seed must begin the first step")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+
+    let mut wrong_target = typed_candidate.clone();
+    wrong_target.contributions[0]
+        .relationship_path
+        .as_mut()
+        .expect("path")
+        .target_id = id("unit:wrong_target");
+    assert_eq!(
+        validate_anchor_candidate(&wrong_target)
+            .expect_err("target must equal candidate")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+
+    let mut discontinuous = typed_candidate.clone();
+    discontinuous.contributions[0]
+        .relationship_path
+        .as_mut()
+        .expect("path")
+        .steps[0]
+        .relation_source = id("unit:unrelated");
+    assert_eq!(
+        validate_anchor_candidate(&discontinuous)
+            .expect_err("path must remain continuous")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+
+    let mut wrong_hops = typed_candidate.clone();
+    wrong_hops.contributions[0].channel_local_value = ChannelLocalValue::RelationHops(2);
+    assert_eq!(
+        validate_anchor_candidate(&wrong_hops)
+            .expect_err("hops")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+
+    let mut missing_evidence = typed_candidate.clone();
+    missing_evidence.contributions[0].evidence_refs.clear();
+    assert_eq!(
+        validate_anchor_candidate(&missing_evidence)
+            .expect_err("evidence")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+
+    let mut wrong_channel = candidate(address);
+    wrong_channel.contributions[0].relationship_path = typed.relationship_path.clone();
+    assert_eq!(
+        validate_anchor_candidate(&wrong_channel)
+            .expect_err("path channel")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+
+    let mut duplicate = typed_candidate;
+    duplicate.contributions.push(typed);
+    assert_eq!(
+        candidate_relationship_paths(std::slice::from_ref(&duplicate))
+            .expect_err("duplicate path")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+}
+
+#[test]
+fn result_paths_and_association_account_exactly_recompute_from_candidates() {
+    let mut result = fixture_result();
+    let result_address = result.candidates[0].address.clone();
+    result.candidates[0]
+        .contributions
+        .push(contribution(&result_address, AssociationChannel::Lexical));
+    result.relationship_paths = candidate_relationship_paths(&result.candidates).expect("paths");
+    result.association_account =
+        candidate_association_account(&result.candidates).expect("account");
+    result.result_digest = anchor_query_result_digest(&result).expect("digest");
+    validate_anchor_query_result(&result).expect("accounted result");
+    assert_eq!(result.association_account.len(), 2);
+
+    let mut wrong_count = result.clone();
+    wrong_count.association_account[0].contribution_count += 1;
+    wrong_count.result_digest = anchor_query_result_digest(&wrong_count).expect("mutated digest");
+    assert_eq!(
+        validate_anchor_query_result(&wrong_count)
+            .expect_err("count")
+            .kind,
+        AnchorFormFaultKind::AssociationAccountMismatch
+    );
+
+    let mut wrong_order = result.clone();
+    wrong_order.association_account.reverse();
+    wrong_order.result_digest = anchor_query_result_digest(&wrong_order).expect("mutated digest");
+    assert_eq!(
+        validate_anchor_query_result(&wrong_order)
+            .expect_err("account order")
+            .kind,
+        AnchorFormFaultKind::AssociationAccountMismatch
+    );
+
+    let mut omitted_account = result.clone();
+    omitted_account.association_account.clear();
+    omitted_account.result_digest =
+        anchor_query_result_digest(&omitted_account).expect("mutated digest");
+    assert_eq!(
+        validate_anchor_query_result(&omitted_account)
+            .expect_err("account omission")
+            .kind,
+        AnchorFormFaultKind::AssociationAccountMismatch
+    );
+
+    let mut extra_account = result.clone();
+    extra_account
+        .association_account
+        .push(extra_account.association_account[0].clone());
+    extra_account.result_digest =
+        anchor_query_result_digest(&extra_account).expect("mutated digest");
+    assert_eq!(
+        validate_anchor_query_result(&extra_account)
+            .expect_err("account addition")
+            .kind,
+        AnchorFormFaultKind::AssociationAccountMismatch
+    );
+
+    let address = result.candidates[0].address.clone();
+    let typed = AnchorCandidate {
+        address: address.clone(),
+        contributions: vec![contribution(&address, AssociationChannel::TypedRelation)],
+        priority_tier: PriorityTier::TypedRelation,
+        channel_local_rank: 1,
+        eligibility: CandidateEligibility::Eligible,
+        unresolved_guards: BTreeSet::new(),
+        exact_resolution_required: true,
+    };
+    let mut typed_result = result;
+    typed_result.candidates = vec![typed];
+    typed_result.record_ids = vec![address.unit_id.clone()];
+    typed_result.relationship_paths =
+        candidate_relationship_paths(&typed_result.candidates).expect("typed paths");
+    typed_result.association_account =
+        candidate_association_account(&typed_result.candidates).expect("typed account");
+    typed_result.boundary_account = BoundaryAccount {
+        admitted: vec![address.unit_id.clone()],
+        excluded: Vec::new(),
+        ambiguous: Vec::new(),
+        contradictory: Vec::new(),
+        unknown: Vec::new(),
+        stale: Vec::new(),
+        unauthorized: Vec::new(),
+        budget_clipped: false,
+    };
+    typed_result.result_digest = anchor_query_result_digest(&typed_result).expect("typed digest");
+    validate_anchor_query_result(&typed_result).expect("typed result");
+    typed_result.relationship_paths.clear();
+    typed_result.result_digest = anchor_query_result_digest(&typed_result).expect("mutated digest");
+    assert_eq!(
+        validate_anchor_query_result(&typed_result)
+            .expect_err("path omission")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
+    );
+
+    let mut extra_path = fixture_result();
+    extra_path.relationship_paths.push(
+        candidate_relationship_paths(&[AnchorCandidate {
+            address: address.clone(),
+            contributions: vec![contribution(&address, AssociationChannel::TypedRelation)],
+            priority_tier: PriorityTier::TypedRelation,
+            channel_local_rank: 1,
+            eligibility: CandidateEligibility::Eligible,
+            unresolved_guards: BTreeSet::new(),
+            exact_resolution_required: true,
+        }])
+        .expect("fixture typed path")
+        .remove(0),
+    );
+    extra_path.result_digest = anchor_query_result_digest(&extra_path).expect("mutated digest");
+    assert_eq!(
+        validate_anchor_query_result(&extra_path)
+            .expect_err("extra path")
+            .kind,
+        AnchorFormFaultKind::RelationshipPathMismatch
     );
 }
 

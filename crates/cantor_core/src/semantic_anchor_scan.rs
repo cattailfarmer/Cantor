@@ -12,12 +12,13 @@ use sha2::{Digest as _, Sha256};
 
 use crate::{
     ANCHOR_QUERY_RESULT_PROFILE, AnchorCandidate, AnchorLifecycle, AnchorProof, AnchorQuery,
-    AnchorQueryResult, ApplicabilityStatus, AssociationChannel, AssociationContribution,
-    BoundaryAccount, CandidateEligibility, ChannelLocalValue, ContentDigest, ContributionStatus,
-    DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, PriorityTier, SemanticAddress,
-    SemanticFabric, SemanticId, SemanticRelation, SourceAnchor, UnitStatus,
-    anchor_query_result_digest, validate_anchor_query, validate_anchor_query_result,
-    validate_derived_semantic_anchor_catalogue,
+    AnchorQueryResult, AnchorRelationshipPath, AnchorRelationshipStep, ApplicabilityStatus,
+    AssociationChannel, AssociationContribution, BoundaryAccount, CandidateEligibility,
+    ChannelLocalValue, ContentDigest, ContributionStatus, DerivedSemanticAnchorCatalogue,
+    IdentityAnchorEntry, PriorityTier, RelationshipDirection, SemanticAddress, SemanticFabric,
+    SemanticId, SemanticRelation, SourceAnchor, UnitStatus, anchor_query_result_digest,
+    candidate_association_account, candidate_relationship_paths, validate_anchor_query,
+    validate_anchor_query_result, validate_derived_semantic_anchor_catalogue,
 };
 
 pub const EXACT_ANCHOR_SCAN_PROFILE: &str = "cantor-exact-anchor-scan/0.1";
@@ -375,6 +376,7 @@ fn gather_exact_identity(
                     ]),
                     conditions: BTreeSet::new(),
                     unresolved_guards: BTreeSet::new(),
+                    relationship_path: None,
                     status: ContributionStatus::Retained,
                 },
                 scan_capacity,
@@ -420,6 +422,7 @@ fn gather_exact_labels(
                         evidence_refs: BTreeSet::from([unit_id.clone()]),
                         conditions: BTreeSet::new(),
                         unresolved_guards: BTreeSet::new(),
+                        relationship_path: None,
                         status: ContributionStatus::Retained,
                     },
                     scan_capacity,
@@ -570,6 +573,7 @@ fn gather_declared_applicability(
                 .collect(),
             conditions: binding.conditions.clone(),
             unresolved_guards: guards.clone(),
+            relationship_path: None,
             status: ContributionStatus::Retained,
         };
         if !add_contribution(
@@ -684,6 +688,8 @@ fn gather_typed_relations(
                     .ok_or_else(|| unresolved_fault(next, "typed_relation.target"))?;
                 let outcome = gate_identity(entry, derived, fabric, query)?;
                 let evidence_refs = path_relations.iter().cloned().collect();
+                let relationship_path =
+                    build_relationship_path(&seed_id, &path_nodes, &path_relations, &relations);
                 if !add_contribution(
                     accumulators,
                     &entry.address,
@@ -702,6 +708,7 @@ fn gather_typed_relations(
                         evidence_refs,
                         conditions: BTreeSet::new(),
                         unresolved_guards: outcome.unresolved_guards.clone(),
+                        relationship_path: Some(relationship_path),
                         status: ContributionStatus::Retained,
                     },
                     scan_capacity,
@@ -1130,6 +1137,20 @@ fn assemble_result(
     source_anchors.sort_by(source_anchor_order);
     source_anchors.dedup();
     let boundary_account = boundary_account(&candidates, unknown, budget_clipped);
+    let relationship_paths =
+        candidate_relationship_paths(&candidates).map_err(|fault| AnchorScanFault {
+            kind: AnchorScanFaultKind::ResultMismatch,
+            stage: fault.field,
+            detail: fault.detail,
+            related_ids: vec![query.request_id.clone()],
+        })?;
+    let association_account =
+        candidate_association_account(&candidates).map_err(|fault| AnchorScanFault {
+            kind: AnchorScanFaultKind::ResultMismatch,
+            stage: fault.field,
+            detail: fault.detail,
+            related_ids: vec![query.request_id.clone()],
+        })?;
     let mut result = AnchorQueryResult {
         profile: ANCHOR_QUERY_RESULT_PROFILE.to_owned(),
         request_id: query.request_id.clone(),
@@ -1137,6 +1158,8 @@ fn assemble_result(
         fabric_root: derived.generation.fabric_root.clone(),
         candidates,
         record_ids,
+        relationship_paths,
+        association_account,
         source_anchors,
         boundary_account,
         proof: AnchorProof {
@@ -1319,6 +1342,44 @@ fn format_relation_basis(
         .collect::<Vec<_>>()
         .join("|");
     format!("typed relation seed={seed} path={steps}")
+}
+
+fn build_relationship_path(
+    seed: &SemanticId,
+    nodes: &[SemanticId],
+    relation_ids: &[SemanticId],
+    relations: &BTreeMap<SemanticId, &SemanticRelation>,
+) -> AnchorRelationshipPath {
+    let steps = relation_ids
+        .iter()
+        .enumerate()
+        .map(|(index, relation_id)| {
+            let relation = relations
+                .get(relation_id)
+                .expect("relation path was resolved before construction");
+            let direction =
+                if relation.source == nodes[index] && relation.target == nodes[index + 1] {
+                    RelationshipDirection::Forward
+                } else {
+                    RelationshipDirection::Reverse
+                };
+            AnchorRelationshipStep {
+                relation_id: relation.relation_id.clone(),
+                relation_type: relation.relation_type.clone(),
+                relation_source: relation.source.clone(),
+                relation_target: relation.target.clone(),
+                direction,
+            }
+        })
+        .collect();
+    AnchorRelationshipPath {
+        seed_id: seed.clone(),
+        target_id: nodes
+            .last()
+            .expect("relationship path has a target")
+            .clone(),
+        steps,
+    }
 }
 
 fn opposite_endpoint<'a>(
