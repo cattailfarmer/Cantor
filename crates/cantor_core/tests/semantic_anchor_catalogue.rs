@@ -13,8 +13,9 @@ use cantor_core::{
     DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY,
     LEXICAL_ANCHOR_LOOKUP_PROFILE, LEXICAL_ASSOCIATION_INDEX_COMPILER_ID,
     LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION, LEXICAL_TOKENIZER_PROFILE,
-    LexicalAnchorLookupBudget, LexicalAnchorLookupRequest, LexicalIndexDerivationRequest,
-    LexicalIndexFaultKind, LexicalLookupFaultKind, LexicalPosting, LexicalSurfaceKind,
+    LexicalAnchorLookupBudget, LexicalAnchorLookupRequest, LexicalAnchorSourceProjectionBudget,
+    LexicalAnchorSourceProjectionResult, LexicalIndexDerivationRequest, LexicalIndexFaultKind,
+    LexicalLookupFaultKind, LexicalPosting, LexicalSourceProjectionFaultKind, LexicalSurfaceKind,
     LexicalTokenizerIdentity, MAX_LEXICAL_SURFACE_BYTES, OperationAnchorEntry, OperationClass,
     OperationRole, PriorityTier, RelationType, RelationshipDirection, RequestedDetailKind,
     SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress, SemanticAnchorCatalogue, SemanticFabric,
@@ -22,12 +23,16 @@ use cantor_core::{
     candidate_association_account, candidate_relationship_paths, catalogue_derivation_digest,
     catalogue_root, derive_lexical_association_index, derive_semantic_anchor_catalogue,
     derived_semantic_anchor_catalogue_digest, lexical_anchor_lookup_proof_digest,
+    lexical_anchor_source_projection_digest, lexical_anchor_source_projection_result_digest,
     lexical_association_index_proof_digest, lexical_association_index_root,
-    lexical_tokenizer_adversarial_fixture_digest, lookup_lexical_anchors, tokenize_lexical_surface,
-    validate_anchor_candidate, validate_anchor_query, validate_anchor_query_result,
+    lexical_tokenizer_adversarial_fixture_digest, lookup_lexical_anchors,
+    project_lexical_anchor_sources, tokenize_lexical_surface, validate_anchor_candidate,
+    validate_anchor_query, validate_anchor_query_result,
     validate_derived_lexical_association_index, validate_derived_lexical_association_index_form,
     validate_derived_semantic_anchor_catalogue, validate_lexical_anchor_lookup_request,
     validate_lexical_anchor_lookup_result, validate_lexical_anchor_lookup_result_form,
+    validate_lexical_anchor_source_projection_result,
+    validate_lexical_anchor_source_projection_result_form,
     validate_lexical_index_derivation_request, validate_semantic_anchor_catalogue,
 };
 
@@ -164,6 +169,14 @@ fn lexical_lookup_request(terms: &[&str]) -> LexicalAnchorLookupRequest {
             maximum_matches: 256,
             maximum_serialized_result_bytes: 4 * 1024 * 1024,
         },
+    }
+}
+
+fn lexical_source_projection_budget() -> LexicalAnchorSourceProjectionBudget {
+    LexicalAnchorSourceProjectionBudget {
+        maximum_projections: 256,
+        maximum_quote_bytes: 4 * 1024 * 1024,
+        maximum_serialized_result_bytes: 8 * 1024 * 1024,
     }
 }
 
@@ -1936,4 +1949,194 @@ fn lexical_lookup_forms_deny_unknown_fields_and_stale_index_identity() {
             .kind,
         LexicalLookupFaultKind::RootMismatch
     );
+}
+
+#[test]
+fn lexical_source_projection_returns_exact_admitted_paths_lines_text_and_proof() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let request = lexical_lookup_request(&["bank deposits"]);
+    let lookup = lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone())
+        .expect("lexical lookup");
+    let budget = lexical_source_projection_budget();
+    let first = project_lexical_anchor_sources(
+        &fabric,
+        &catalogue,
+        &index,
+        &request,
+        &lookup,
+        budget.clone(),
+    )
+    .expect("source projection");
+    let second = project_lexical_anchor_sources(
+        &fabric,
+        &catalogue,
+        &index,
+        &request,
+        &lookup,
+        budget.clone(),
+    )
+    .expect("repeated source projection");
+
+    assert_eq!(first, second);
+    assert_eq!(
+        serde_json::to_vec(&first).unwrap(),
+        serde_json::to_vec(&second).unwrap()
+    );
+    assert_eq!(first.lookup_proof_digest, lookup.proof_digest);
+    assert_eq!(first.projections.len(), lookup.matches.len());
+    assert_eq!(
+        first.projections[0].address.unit_id,
+        id("unit:bank_financial")
+    );
+    assert_eq!(
+        first.projections[0].source_path,
+        "fixtures/bank_financial.sop"
+    );
+    assert_eq!(
+        first.projections[0].text,
+        "& [bank_financial] is a financial institution"
+    );
+    assert_eq!(first.projections[0].source_anchor.display_line_start, 1);
+    assert_eq!(first.projections[0].source_anchor.display_line_end, 1);
+    assert!(!first.projections[0].certificate_id.as_str().is_empty());
+    validate_lexical_anchor_source_projection_result(
+        &first, &fabric, &catalogue, &index, &request, &lookup, &budget,
+    )
+    .expect("whole source projection replay");
+}
+
+#[test]
+fn lexical_source_projection_refuses_incomplete_projection_and_quote_budgets() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let request = lexical_lookup_request(&["bank"]);
+    let lookup = lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone())
+        .expect("ambiguous lexical lookup");
+
+    let mut projection_bound = lexical_source_projection_budget();
+    projection_bound.maximum_projections = 1;
+    assert_eq!(
+        project_lexical_anchor_sources(
+            &fabric,
+            &catalogue,
+            &index,
+            &request,
+            &lookup,
+            projection_bound,
+        )
+        .expect_err("complete projection budget")
+        .kind,
+        LexicalSourceProjectionFaultKind::BudgetExceeded
+    );
+
+    let mut quote_bound = lexical_source_projection_budget();
+    quote_bound.maximum_quote_bytes = 1;
+    assert_eq!(
+        project_lexical_anchor_sources(
+            &fabric,
+            &catalogue,
+            &index,
+            &request,
+            &lookup,
+            quote_bound,
+        )
+        .expect_err("complete quote budget")
+        .kind,
+        LexicalSourceProjectionFaultKind::BudgetExceeded
+    );
+
+    let mut result_bound = lexical_source_projection_budget();
+    result_bound.maximum_serialized_result_bytes = 1;
+    assert_eq!(
+        project_lexical_anchor_sources(
+            &fabric,
+            &catalogue,
+            &index,
+            &request,
+            &lookup,
+            result_bound,
+        )
+        .expect_err("complete serialized result budget")
+        .kind,
+        LexicalSourceProjectionFaultKind::BudgetExceeded
+    );
+}
+
+#[test]
+fn lexical_source_projection_whole_replay_rejects_self_consistent_source_mutation() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let request = lexical_lookup_request(&["bank"]);
+    let lookup = lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone())
+        .expect("lexical lookup");
+    let budget = lexical_source_projection_budget();
+    let baseline = project_lexical_anchor_sources(
+        &fabric,
+        &catalogue,
+        &index,
+        &request,
+        &lookup,
+        budget.clone(),
+    )
+    .expect("source projection baseline");
+
+    let mut wrong_proof = baseline.clone();
+    wrong_proof.proof_digest = digest('8');
+    assert_eq!(
+        validate_lexical_anchor_source_projection_result_form(&wrong_proof, &lookup, &budget)
+            .expect_err("wrong source projection proof")
+            .kind,
+        LexicalSourceProjectionFaultKind::ProofMismatch
+    );
+
+    let mut resealed = baseline;
+    resealed.projections[0].source_path = "fixtures/invented.sop".to_owned();
+    resealed.projections[0].text = "invented admitted-looking text".to_owned();
+    resealed.projections[0].certificate_id = id("certificate:invented");
+    resealed.projections[0].projection_digest =
+        lexical_anchor_source_projection_digest(&resealed.projections[0])
+            .expect("resealed projection digest");
+    resealed.proof_digest =
+        lexical_anchor_source_projection_result_digest(&resealed, &lookup, &budget)
+            .expect("resealed result digest");
+    validate_lexical_anchor_source_projection_result_form(&resealed, &lookup, &budget)
+        .expect("self-consistent source projection form");
+    assert_eq!(
+        validate_lexical_anchor_source_projection_result(
+            &resealed, &fabric, &catalogue, &index, &request, &lookup, &budget,
+        )
+        .expect_err("self-consistent invented source")
+        .kind,
+        LexicalSourceProjectionFaultKind::ProjectionMismatch
+    );
+}
+
+#[test]
+fn lexical_source_projection_empty_match_and_unknown_fields_are_explicit() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let request = lexical_lookup_request(&["absent"]);
+    let lookup = lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone())
+        .expect("empty lexical lookup");
+    let budget = lexical_source_projection_budget();
+    let projected =
+        project_lexical_anchor_sources(&fabric, &catalogue, &index, &request, &lookup, budget)
+            .expect("empty source projection");
+    assert!(projected.projections.is_empty());
+
+    let mut value = serde_json::to_value(&projected).unwrap();
+    value
+        .as_object_mut()
+        .unwrap()
+        .insert("live_file_verified".to_owned(), serde_json::json!(true));
+    assert!(serde_json::from_value::<LexicalAnchorSourceProjectionResult>(value).is_err());
 }

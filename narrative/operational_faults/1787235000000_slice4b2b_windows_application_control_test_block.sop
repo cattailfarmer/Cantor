@@ -1,0 +1,23 @@
+Subject: Slice4B2B Windows Application Control Test Block
+
+@ [fault_uuid] 4465f5c6-e496-450f-814c-d6ec7d00605d
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [occurred_at] 2026-08-20
+
+& [Observation]
+  + cargo compiled the cantor_core semantic_anchor_catalogue test target successfully on native Windows
+  + Windows refused to execute target\debug\deps\semantic_anchor_catalogue-d36b05b3f6b6fa66.exe
+  + the process reported "An Application Control policy has blocked this file" and OS error 4551 before any test ran
+  + native optimized compilation subsequently completed successfully but Windows Application Control also blocked the new target\release\cantor-anchor-lab.exe at process launch
+
+& [Classification]
+  + [kind] host_application_control_preexecution_block
+  + [product_test_result] native_execution_not_permitted; independent_WSL_debug_and_release_execution_available
+  + [security_policy_change] none
+  + [destructive_action] none
+
+& [Recovery]
+  + run the exact focused test through the established capacity-guarded WSL build lane
+  + retain the Windows observation even if the independent lane passes
+  + do not disable or weaken Windows application-control policy
+  + treat native Windows signing reputation or deployment packaging as a separate operational slice rather than changing product semantics

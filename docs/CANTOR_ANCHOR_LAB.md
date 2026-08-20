@@ -19,6 +19,15 @@ Query an existing environment:
   --text "Cantor"
 ```
 
+To inspect the exact signed SOP snapshot behind every returned address:
+
+```powershell
+.\target\debug\cantor-anchor-lab.exe query `
+  --environment .\.local\cantor-demo\environment.json `
+  --text "Cantor" `
+  --include-source
+```
+
 Or query an operator-built self-hosted corpus:
 
 ```powershell
@@ -42,6 +51,21 @@ The success JSON binds:
 - preferred-expression, alias, and meaning-surface evidence;
 - exact unit, package, context, file, clause, span, and line identities; and
 - a replayable proof digest.
+
+With `--include-source`, the success envelope also contains a separately
+proof-bearing `source_projection`:
+
+- the package-relative path recorded in the admitted snapshot;
+- exact UTF-8 quote text and its `SourceAnchor` byte and display-line span;
+- the signed document digest and recognition-certificate identity;
+- one digest per projection and one digest for the ordered projection result;
+- an explicit warning that the quote proves the admitted snapshot, not the
+  current mutable filesystem or external truth.
+
+Cantor never opens the projected path. The bytes come from the package that was
+already signature-checked and admitted in memory. If any lexical match lacks an
+exact package, quote, source snapshot, certificate, or anchor correspondence,
+the entire projection refuses instead of silently omitting that match.
 
 This laboratory performs lexical correspondence only. It does not run purpose,
 use-case, boundary, lifecycle, applicability, authority, safety, or truth

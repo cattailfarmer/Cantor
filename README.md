@@ -392,6 +392,10 @@ Run the separate lexical anchor laboratory against the same signed environment:
 .\target\release\cantor-anchor-lab.exe query --environment .\.local\cantor-self-hosted\environment.json --text "PreparedRuntime"
 ```
 
+Add `--include-source` to return the exact admitted SOP snapshot path, display
+lines, quoted text, document digest, certificate identity, and a separately
+replayable source-projection proof for every lexical match.
+
 It returns ordered proof-bearing lexical addresses and source evidence without
 changing the exact query protocol. Purpose, authority, safety, and boundary
 gates do not run in this lab. See

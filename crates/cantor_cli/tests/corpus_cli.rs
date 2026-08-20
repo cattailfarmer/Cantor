@@ -65,7 +65,7 @@ fn tracked_corpus_build_is_deterministic_secret_free_and_direct_cli_queryable() 
     assert!(!artifact_text.contains(&compiler_hex));
 
     let environment_path = first_output.join("environment.json");
-    let first_lookup = run_anchor_lab(&environment_path, "PreparedRuntime", None, None);
+    let first_lookup = run_anchor_lab(&environment_path, "PreparedRuntime", None, None, false);
     assert_eq!(
         first_lookup.status.code(),
         Some(0),
@@ -73,12 +73,13 @@ fn tracked_corpus_build_is_deterministic_secret_free_and_direct_cli_queryable() 
         String::from_utf8_lossy(&first_lookup.stderr)
     );
     assert!(first_lookup.stderr.is_empty());
-    let second_lookup = run_anchor_lab(&environment_path, "PreparedRuntime", None, None);
+    let second_lookup = run_anchor_lab(&environment_path, "PreparedRuntime", None, None, false);
     assert_eq!(second_lookup.status.code(), Some(0));
     assert_eq!(first_lookup.stdout, second_lookup.stdout);
     let lookup_value: serde_json::Value = serde_json::from_slice(&first_lookup.stdout)
         .expect("anchor lab output must be one JSON value");
     assert_eq!(lookup_value["status"], "success");
+    assert!(lookup_value.get("source_projection").is_none());
     assert_eq!(
         lookup_value["result"]["eligible_tokens"],
         serde_json::json!(["preparedruntime"])
@@ -99,7 +100,42 @@ fn tracked_corpus_build_is_deterministic_secret_free_and_direct_cli_queryable() 
             .is_some_and(|statement| statement.contains("Semantic purpose"))
     );
 
-    let substring = run_anchor_lab(&environment_path, "reparedruntime", None, None);
+    let projected_lookup = run_anchor_lab(&environment_path, "PreparedRuntime", None, None, true);
+    assert_eq!(projected_lookup.status.code(), Some(0));
+    assert!(projected_lookup.stderr.is_empty());
+    let repeated_projection =
+        run_anchor_lab(&environment_path, "PreparedRuntime", None, None, true);
+    assert_eq!(projected_lookup.stdout, repeated_projection.stdout);
+    let projected_value: serde_json::Value = serde_json::from_slice(&projected_lookup.stdout)
+        .expect("source projection output must be one JSON value");
+    let projection = &projected_value["source_projection"]["projections"][0];
+    assert_eq!(
+        projected_value["source_projection"]["lookup_proof_digest"],
+        projected_value["result"]["proof_digest"]
+    );
+    assert!(
+        projection["source_path"]
+            .as_str()
+            .is_some_and(|path| path.ends_with(".sop"))
+    );
+    assert!(
+        projection["text"]
+            .as_str()
+            .is_some_and(|text| text.contains("PreparedRuntime"))
+    );
+    assert!(
+        projection["source_anchor"]["display_line_start"]
+            .as_u64()
+            .is_some_and(|line| line > 0)
+    );
+    assert!(projection["certificate_id"].as_str().is_some());
+    assert!(
+        projected_value["source_projection"]["snapshot_boundary_statement"]
+            .as_str()
+            .is_some_and(|statement| statement.contains("admitted signed package snapshot"))
+    );
+
+    let substring = run_anchor_lab(&environment_path, "reparedruntime", None, None, false);
     assert_eq!(substring.status.code(), Some(0));
     let substring_value: serde_json::Value =
         serde_json::from_slice(&substring.stdout).expect("substring control must be JSON");
@@ -109,7 +145,7 @@ fn tracked_corpus_build_is_deterministic_secret_free_and_direct_cli_queryable() 
         serde_json::json!(["reparedruntime"])
     );
 
-    let invalid_bound = run_anchor_lab(&environment_path, "PreparedRuntime", Some(0), None);
+    let invalid_bound = run_anchor_lab(&environment_path, "PreparedRuntime", Some(0), None, false);
     assert_eq!(invalid_bound.status.code(), Some(2));
     assert!(invalid_bound.stdout.is_empty());
     let invalid_value: serde_json::Value = serde_json::from_slice(&invalid_bound.stderr)
@@ -321,6 +357,7 @@ fn run_anchor_lab(
     text: &str,
     maximum_postings: Option<u32>,
     maximum_matches: Option<u32>,
+    include_source: bool,
 ) -> Output {
     let mut command = Command::new(env!("CARGO_BIN_EXE_cantor-anchor-lab"));
     command
@@ -334,6 +371,9 @@ fn run_anchor_lab(
     }
     if let Some(value) = maximum_matches {
         command.arg("--maximum-matches").arg(value.to_string());
+    }
+    if include_source {
+        command.arg("--include-source");
     }
     command.output().expect("anchor lab subprocess must run")
 }

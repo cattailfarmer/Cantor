@@ -7,10 +7,11 @@ use std::process::ExitCode;
 use cantor_core::{
     CatalogueDerivationRequest, ContentDigest, EmbeddedRuntimeEnvironment,
     LEXICAL_ANCHOR_LOOKUP_PROFILE, LEXICAL_TOKENIZER_PROFILE, LexicalAnchorLookupBudget,
-    LexicalAnchorLookupRequest, LexicalAnchorLookupResult, LexicalIndexDerivationRequest,
-    MAX_LEXICAL_LOOKUP_MATCHES, MAX_LEXICAL_LOOKUP_POSTINGS, SemanticFabric, SemanticId,
-    admit_package, derive_lexical_association_index, derive_semantic_anchor_catalogue,
-    lookup_lexical_anchors, preflight_runtime_environment, sha256_bytes,
+    LexicalAnchorLookupRequest, LexicalAnchorLookupResult, LexicalAnchorSourceProjectionBudget,
+    LexicalAnchorSourceProjectionResult, LexicalIndexDerivationRequest, MAX_LEXICAL_LOOKUP_MATCHES,
+    MAX_LEXICAL_LOOKUP_POSTINGS, SemanticFabric, SemanticId, admit_package,
+    derive_lexical_association_index, derive_semantic_anchor_catalogue, lookup_lexical_anchors,
+    preflight_runtime_environment, project_lexical_anchor_sources, sha256_bytes,
 };
 use serde::Serialize;
 
@@ -44,6 +45,8 @@ struct LookupSuccess {
     status: &'static str,
     environment_digest: ContentDigest,
     result: LexicalAnchorLookupResult,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    source_projection: Option<LexicalAnchorSourceProjectionResult>,
 }
 
 #[derive(Serialize)]
@@ -71,6 +74,7 @@ struct LookupArguments {
     text: String,
     maximum_postings: u32,
     maximum_matches: u32,
+    include_source: bool,
 }
 
 fn run(arguments: Vec<String>) -> Result<LookupSuccess, LookupFault> {
@@ -156,17 +160,44 @@ fn run(arguments: Vec<String>) -> Result<LookupSuccess, LookupFault> {
             maximum_serialized_result_bytes: 16 * 1024 * 1024,
         },
     };
-    let result = lookup_lexical_anchors(&fabric, &catalogue, &index, request).map_err(|fault| {
-        LookupFault::new(
-            "lookup",
-            &format!("{:?}", fault.kind),
-            format!("{}: {}", fault.field, fault.detail),
+    let result =
+        lookup_lexical_anchors(&fabric, &catalogue, &index, request.clone()).map_err(|fault| {
+            LookupFault::new(
+                "lookup",
+                &format!("{:?}", fault.kind),
+                format!("{}: {}", fault.field, fault.detail),
+            )
+        })?;
+    let source_projection = if arguments.include_source {
+        Some(
+            project_lexical_anchor_sources(
+                &fabric,
+                &catalogue,
+                &index,
+                &request,
+                &result,
+                LexicalAnchorSourceProjectionBudget {
+                    maximum_projections: arguments.maximum_matches,
+                    maximum_quote_bytes: 16 * 1024 * 1024,
+                    maximum_serialized_result_bytes: 32 * 1024 * 1024,
+                },
+            )
+            .map_err(|fault| {
+                LookupFault::new(
+                    "source_projection",
+                    &format!("{:?}", fault.kind),
+                    format!("{}: {}", fault.field, fault.detail),
+                )
+            })?,
         )
-    })?;
+    } else {
+        None
+    };
     Ok(LookupSuccess {
         status: "success",
         environment_digest,
         result,
+        source_projection,
     })
 }
 
@@ -175,16 +206,29 @@ fn parse_arguments(arguments: &[String]) -> Result<LookupArguments, LookupFault>
         return Err(LookupFault::new(
             "arguments",
             "invalid_command",
-            "usage: cantor-anchor-lab query --environment <path> --text <text> [--maximum-postings N] [--maximum-matches N]",
+            "usage: cantor-anchor-lab query --environment <path> --text <text> [--maximum-postings N] [--maximum-matches N] [--include-source]",
         ));
     }
     let mut environment = None;
     let mut text = None;
     let mut maximum_postings = None;
     let mut maximum_matches = None;
+    let mut include_source = false;
     let mut position = 1;
     while position < arguments.len() {
         let flag = &arguments[position];
+        if flag == "--include-source" {
+            if include_source {
+                return Err(LookupFault::new(
+                    "arguments",
+                    "duplicate_argument",
+                    "--include-source may be supplied only once",
+                ));
+            }
+            include_source = true;
+            position += 1;
+            continue;
+        }
         let value = arguments
             .get(position + 1)
             .filter(|value| !value.is_empty())
@@ -245,6 +289,7 @@ fn parse_arguments(arguments: &[String]) -> Result<LookupArguments, LookupFault>
             .ok_or_else(|| LookupFault::new("arguments", "missing_text", "--text is required"))?,
         maximum_postings: maximum_postings.unwrap_or(DEFAULT_MAXIMUM_POSTINGS),
         maximum_matches: maximum_matches.unwrap_or(DEFAULT_MAXIMUM_MATCHES),
+        include_source,
     })
 }
 

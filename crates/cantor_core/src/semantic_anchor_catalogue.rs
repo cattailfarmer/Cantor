@@ -33,6 +33,9 @@ pub const LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION: &str = "0.1.0";
 pub const LEXICAL_ANCHOR_LOOKUP_PROFILE: &str = "cantor-lexical-anchor-lookup/0.1";
 pub const LEXICAL_ANCHOR_LOOKUP_RESULT_PROFILE: &str = "cantor-lexical-anchor-lookup-result/0.1";
 pub const LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY: &str = "Lexical correspondence evidence only. Semantic purpose, truth, permission, authority, safety, applicability, lifecycle, and boundary gates did not run.";
+pub const LEXICAL_ANCHOR_SOURCE_PROJECTION_RESULT_PROFILE: &str =
+    "cantor-lexical-anchor-source-projection-result/0.1";
+pub const LEXICAL_ANCHOR_SOURCE_PROJECTION_BOUNDARY: &str = "Quoted text and path correspond to the admitted signed package snapshot only. They do not assert current live-file state, semantic purpose, truth, permission, authority, safety, applicability, lifecycle, or boundary satisfaction.";
 pub const MAX_LEXICAL_LOGICAL_REVISION_BYTES: usize = 256;
 pub const MAX_LEXICAL_SURFACE_BYTES: usize = 16 * 1024;
 pub const MAX_LEXICAL_TOKEN_BYTES: usize = 256;
@@ -47,6 +50,9 @@ pub const MAX_LEXICAL_LOOKUP_UNIQUE_TOKENS: u32 = 4_096;
 pub const MAX_LEXICAL_LOOKUP_POSTINGS: u32 = 131_072;
 pub const MAX_LEXICAL_LOOKUP_MATCHES: u32 = 4_096;
 pub const MAX_LEXICAL_LOOKUP_RESULT_BYTES: u64 = 67_108_864;
+pub const MAX_LEXICAL_SOURCE_PROJECTIONS: u32 = 4_096;
+pub const MAX_LEXICAL_SOURCE_QUOTE_BYTES: u64 = 16_777_216;
+pub const MAX_LEXICAL_SOURCE_PROJECTION_RESULT_BYTES: u64 = 67_108_864;
 
 const DIGEST_ALGORITHM: &str = "sha256";
 const DERIVATION_DOMAIN: &str = "cantor.semantic-anchor-catalogue.derivation.v1";
@@ -66,6 +72,10 @@ const LEXICAL_DERIVATION_DECISION_PROFILE: &str = "cantor.lexical-index-derivati
 const LEXICAL_LOOKUP_PROOF_DOMAIN: &str =
     "cantor.semantic-anchor-catalogue.lexical-lookup-proof.v1";
 const LEXICAL_LOOKUP_DECISION_PROFILE: &str = "cantor.lexical-anchor-lookup-decisions/0.1";
+const LEXICAL_SOURCE_PROJECTION_DOMAIN: &str =
+    "cantor.semantic-anchor-catalogue.lexical-source-projection.v1";
+const LEXICAL_SOURCE_PROJECTION_RESULT_DOMAIN: &str =
+    "cantor.semantic-anchor-catalogue.lexical-source-projection-result.v1";
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -242,6 +252,57 @@ pub struct LexicalAnchorLookupResult {
     pub matches: Vec<LexicalAnchorMatch>,
     pub non_authority_statement: String,
     pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalAnchorSourceProjectionBudget {
+    pub maximum_projections: u32,
+    pub maximum_quote_bytes: u64,
+    pub maximum_serialized_result_bytes: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct VerifiedAnchorSourceProjection {
+    pub address: SemanticAddress,
+    pub source_path: String,
+    pub source_anchor: SourceAnchor,
+    pub text: String,
+    pub document_digest: ContentDigest,
+    pub certificate_id: SemanticId,
+    pub projection_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalAnchorSourceProjectionResult {
+    pub profile: String,
+    pub lookup_proof_digest: ContentDigest,
+    pub projections: Vec<VerifiedAnchorSourceProjection>,
+    pub snapshot_boundary_statement: String,
+    pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum LexicalSourceProjectionFaultKind {
+    InvalidProfile,
+    InvalidBound,
+    LookupRejected,
+    SourceProofMissing,
+    IdentityMismatch,
+    InvalidUtf8,
+    BudgetExceeded,
+    ProjectionMismatch,
+    ProofMismatch,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicalSourceProjectionFault {
+    pub kind: LexicalSourceProjectionFaultKind,
+    pub field: String,
+    pub detail: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -627,6 +688,7 @@ type AnchorValidation<T = ()> = Result<T, AnchorFormFault>;
 type AnchorDerivationResult<T = ()> = Result<T, AnchorDerivationFault>;
 type LexicalIndexValidation<T = ()> = Result<T, LexicalIndexFault>;
 type LexicalLookupValidation<T = ()> = Result<T, LexicalLookupFault>;
+type LexicalSourceProjectionValidation<T = ()> = Result<T, LexicalSourceProjectionFault>;
 
 pub fn derive_semantic_anchor_catalogue(
     fabric: &SemanticFabric,
@@ -1040,6 +1102,216 @@ pub fn lexical_anchor_lookup_proof_digest(
                 &result.matches,
                 &result.non_authority_statement,
             ),
+        ),
+    )
+}
+
+pub fn validate_lexical_anchor_source_projection_budget(
+    budget: &LexicalAnchorSourceProjectionBudget,
+) -> LexicalSourceProjectionValidation {
+    if budget.maximum_projections == 0
+        || budget.maximum_projections > MAX_LEXICAL_SOURCE_PROJECTIONS
+        || budget.maximum_quote_bytes == 0
+        || budget.maximum_quote_bytes > MAX_LEXICAL_SOURCE_QUOTE_BYTES
+        || budget.maximum_serialized_result_bytes == 0
+        || budget.maximum_serialized_result_bytes > MAX_LEXICAL_SOURCE_PROJECTION_RESULT_BYTES
+    {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::InvalidBound,
+            "source_projection.budget",
+            "source projection budget is zero or exceeds a hard cap",
+        );
+    }
+    Ok(())
+}
+
+pub fn project_lexical_anchor_sources(
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    index: &DerivedLexicalAssociationIndex,
+    lookup_request: &LexicalAnchorLookupRequest,
+    lookup_result: &LexicalAnchorLookupResult,
+    budget: LexicalAnchorSourceProjectionBudget,
+) -> LexicalSourceProjectionValidation<LexicalAnchorSourceProjectionResult> {
+    validate_lexical_anchor_source_projection_budget(&budget)?;
+    validate_lexical_anchor_lookup_result(lookup_result, lookup_request, index, catalogue, fabric)
+        .map_err(lexical_lookup_to_source_projection_fault)?;
+    let result = build_lexical_anchor_source_projection_result(fabric, lookup_result, &budget)?;
+    validate_lexical_anchor_source_projection_result_form(&result, lookup_result, &budget)?;
+    Ok(result)
+}
+
+pub fn validate_lexical_anchor_source_projection_result_form(
+    result: &LexicalAnchorSourceProjectionResult,
+    lookup_result: &LexicalAnchorLookupResult,
+    budget: &LexicalAnchorSourceProjectionBudget,
+) -> LexicalSourceProjectionValidation {
+    validate_lexical_anchor_source_projection_budget(budget)?;
+    if result.profile != LEXICAL_ANCHOR_SOURCE_PROJECTION_RESULT_PROFILE {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::InvalidProfile,
+            "source_projection.profile",
+            "unsupported lexical source projection result profile",
+        );
+    }
+    if result.lookup_proof_digest != lookup_result.proof_digest {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::IdentityMismatch,
+            "source_projection.lookup_proof_digest",
+            "source projection does not bind the supplied lexical lookup proof",
+        );
+    }
+    if result.snapshot_boundary_statement != LEXICAL_ANCHOR_SOURCE_PROJECTION_BOUNDARY {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::ProjectionMismatch,
+            "source_projection.snapshot_boundary_statement",
+            "source projection must retain the exact admitted-snapshot boundary statement",
+        );
+    }
+    if result.projections.len() != lookup_result.matches.len()
+        || result.projections.len() > budget.maximum_projections as usize
+    {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::ProjectionMismatch,
+            "source_projection.projections",
+            "source projection must contain exactly one bounded entry per lexical match",
+        );
+    }
+    let mut quote_bytes = 0_u64;
+    for (projection, matched) in result.projections.iter().zip(&lookup_result.matches) {
+        if projection.address != matched.address
+            || !projection
+                .address
+                .source_anchors
+                .contains(&projection.source_anchor)
+        {
+            return lexical_source_projection_fault(
+                LexicalSourceProjectionFaultKind::IdentityMismatch,
+                "source_projection.address",
+                "source projection order address or source anchor differs from its lexical match",
+            );
+        }
+        if projection.source_path.trim().is_empty() {
+            return lexical_source_projection_fault(
+                LexicalSourceProjectionFaultKind::ProjectionMismatch,
+                "source_projection.source_path",
+                "admitted source projection requires a human-readable snapshot path",
+            );
+        }
+        validate_lexical_digest(
+            &projection.document_digest,
+            "source_projection.document_digest",
+        )
+        .map_err(lexical_index_to_source_projection_fault)?;
+        validate_lexical_digest(
+            &projection.projection_digest,
+            "source_projection.projection_digest",
+        )
+        .map_err(lexical_index_to_source_projection_fault)?;
+        quote_bytes = quote_bytes
+            .checked_add(projection.text.len() as u64)
+            .ok_or_else(|| LexicalSourceProjectionFault {
+                kind: LexicalSourceProjectionFaultKind::InvalidBound,
+                field: "source_projection.text".to_owned(),
+                detail: "source projection quote byte count overflow".to_owned(),
+            })?;
+        if projection.projection_digest != lexical_anchor_source_projection_digest(projection)? {
+            return lexical_source_projection_fault(
+                LexicalSourceProjectionFaultKind::ProofMismatch,
+                "source_projection.projection_digest",
+                "source projection digest differs from its exact body",
+            );
+        }
+    }
+    if quote_bytes > budget.maximum_quote_bytes {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::BudgetExceeded,
+            "source_projection.budget.maximum_quote_bytes",
+            "complete admitted quote bytes exceed source projection budget",
+        );
+    }
+    validate_lexical_digest(&result.proof_digest, "source_projection.proof_digest")
+        .map_err(lexical_index_to_source_projection_fault)?;
+    if result.proof_digest
+        != lexical_anchor_source_projection_result_digest(result, lookup_result, budget)?
+    {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::ProofMismatch,
+            "source_projection.proof_digest",
+            "source projection result proof differs from its exact body",
+        );
+    }
+    let serialized_bytes =
+        serde_json::to_vec(result).map_err(|error| LexicalSourceProjectionFault {
+            kind: LexicalSourceProjectionFaultKind::ProjectionMismatch,
+            field: "source_projection.serialization".to_owned(),
+            detail: error.to_string(),
+        })?;
+    if serialized_bytes.len() as u64 > budget.maximum_serialized_result_bytes
+        || serialized_bytes.len() as u64 > MAX_LEXICAL_SOURCE_PROJECTION_RESULT_BYTES
+    {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::BudgetExceeded,
+            "source_projection.budget.maximum_serialized_result_bytes",
+            "complete source projection result exceeds its serialized byte budget",
+        );
+    }
+    Ok(())
+}
+
+pub fn validate_lexical_anchor_source_projection_result(
+    result: &LexicalAnchorSourceProjectionResult,
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    index: &DerivedLexicalAssociationIndex,
+    lookup_request: &LexicalAnchorLookupRequest,
+    lookup_result: &LexicalAnchorLookupResult,
+    budget: &LexicalAnchorSourceProjectionBudget,
+) -> LexicalSourceProjectionValidation {
+    validate_lexical_anchor_lookup_result(lookup_result, lookup_request, index, catalogue, fabric)
+        .map_err(lexical_lookup_to_source_projection_fault)?;
+    validate_lexical_anchor_source_projection_result_form(result, lookup_result, budget)?;
+    let expected = build_lexical_anchor_source_projection_result(fabric, lookup_result, budget)?;
+    if &expected != result {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::ProjectionMismatch,
+            "source_projection",
+            "source projection result differs from canonical replay over admitted packages",
+        );
+    }
+    Ok(())
+}
+
+pub fn lexical_anchor_source_projection_digest(
+    projection: &VerifiedAnchorSourceProjection,
+) -> LexicalSourceProjectionValidation<ContentDigest> {
+    lexical_source_projection_digest_form(
+        LEXICAL_SOURCE_PROJECTION_DOMAIN,
+        &(
+            &projection.address,
+            &projection.source_path,
+            &projection.source_anchor,
+            &projection.text,
+            &projection.document_digest,
+            &projection.certificate_id,
+        ),
+    )
+}
+
+pub fn lexical_anchor_source_projection_result_digest(
+    result: &LexicalAnchorSourceProjectionResult,
+    lookup_result: &LexicalAnchorLookupResult,
+    budget: &LexicalAnchorSourceProjectionBudget,
+) -> LexicalSourceProjectionValidation<ContentDigest> {
+    lexical_source_projection_digest_form(
+        LEXICAL_SOURCE_PROJECTION_RESULT_DOMAIN,
+        &(
+            budget,
+            &lookup_result.proof_digest,
+            &result.profile,
+            &result.lookup_proof_digest,
+            &result.projections,
+            &result.snapshot_boundary_statement,
         ),
     )
 }
@@ -1560,6 +1832,144 @@ fn build_lexical_anchor_lookup_result(
             LexicalLookupFaultKind::BudgetExceeded,
             "request.budget.maximum_serialized_result_bytes",
             "complete lexical lookup result exceeds its serialized byte budget",
+        );
+    }
+    Ok(result)
+}
+
+fn build_lexical_anchor_source_projection_result(
+    fabric: &SemanticFabric,
+    lookup_result: &LexicalAnchorLookupResult,
+    budget: &LexicalAnchorSourceProjectionBudget,
+) -> LexicalSourceProjectionValidation<LexicalAnchorSourceProjectionResult> {
+    validate_lexical_anchor_source_projection_budget(budget)?;
+    if lookup_result.matches.len() > budget.maximum_projections as usize {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::BudgetExceeded,
+            "source_projection.budget.maximum_projections",
+            "complete lexical match set exceeds source projection budget",
+        );
+    }
+    let mut projections = Vec::with_capacity(lookup_result.matches.len());
+    let mut quote_bytes = 0_u64;
+    for matched in &lookup_result.matches {
+        let address = &matched.address;
+        let package = fabric.package_for_unit(&address.unit_id).ok_or_else(|| {
+            LexicalSourceProjectionFault {
+                kind: LexicalSourceProjectionFaultKind::SourceProofMissing,
+                field: "source_projection.package".to_owned(),
+                detail: format!("lexical match {} has no admitted package", address.unit_id),
+            }
+        })?;
+        let compiled = package.package();
+        let certificate =
+            compiled
+                .certificate
+                .as_ref()
+                .ok_or_else(|| LexicalSourceProjectionFault {
+                    kind: LexicalSourceProjectionFaultKind::SourceProofMissing,
+                    field: "source_projection.certificate".to_owned(),
+                    detail: format!(
+                        "admitted package {} has no retained recognition certificate",
+                        compiled.package_id
+                    ),
+                })?;
+        if compiled.package_id != address.package_id
+            || certificate.package_digest != address.package_digest
+            || package.certificate_id() != &certificate.certificate_id
+        {
+            return lexical_source_projection_fault(
+                LexicalSourceProjectionFaultKind::IdentityMismatch,
+                "source_projection.package_identity",
+                "admitted package or certificate identity differs from the lexical address",
+            );
+        }
+        let quote =
+            package
+                .quote(&address.unit_id)
+                .ok_or_else(|| LexicalSourceProjectionFault {
+                    kind: LexicalSourceProjectionFaultKind::SourceProofMissing,
+                    field: "source_projection.quote".to_owned(),
+                    detail: format!(
+                        "lexical match {} has no admitted quote record",
+                        address.unit_id
+                    ),
+                })?;
+        if !address.source_anchors.contains(&quote.anchor) {
+            return lexical_source_projection_fault(
+                LexicalSourceProjectionFaultKind::IdentityMismatch,
+                "source_projection.source_anchor",
+                "admitted quote anchor is absent from the lexical address",
+            );
+        }
+        let source = package
+            .content()
+            .sources
+            .iter()
+            .find(|source| source.file_id == quote.anchor.file_id)
+            .ok_or_else(|| LexicalSourceProjectionFault {
+                kind: LexicalSourceProjectionFaultKind::SourceProofMissing,
+                field: "source_projection.source_snapshot".to_owned(),
+                detail: format!(
+                    "admitted quote file {} has no signed source snapshot",
+                    quote.anchor.file_id
+                ),
+            })?;
+        let text = String::from_utf8(quote.bytes.clone()).map_err(|error| {
+            LexicalSourceProjectionFault {
+                kind: LexicalSourceProjectionFaultKind::InvalidUtf8,
+                field: "source_projection.text".to_owned(),
+                detail: format!("admitted quote is not valid UTF-8: {error}"),
+            }
+        })?;
+        quote_bytes = quote_bytes.checked_add(text.len() as u64).ok_or_else(|| {
+            LexicalSourceProjectionFault {
+                kind: LexicalSourceProjectionFaultKind::InvalidBound,
+                field: "source_projection.text".to_owned(),
+                detail: "source projection quote byte count overflow".to_owned(),
+            }
+        })?;
+        if quote_bytes > budget.maximum_quote_bytes {
+            return lexical_source_projection_fault(
+                LexicalSourceProjectionFaultKind::BudgetExceeded,
+                "source_projection.budget.maximum_quote_bytes",
+                "complete admitted quote bytes exceed source projection budget",
+            );
+        }
+        let mut projection = VerifiedAnchorSourceProjection {
+            address: address.clone(),
+            source_path: source.path.clone(),
+            source_anchor: quote.anchor.clone(),
+            text,
+            document_digest: source.document_digest.clone(),
+            certificate_id: package.certificate_id().clone(),
+            projection_digest: zero_sha256(),
+        };
+        projection.projection_digest = lexical_anchor_source_projection_digest(&projection)?;
+        projections.push(projection);
+    }
+    let mut result = LexicalAnchorSourceProjectionResult {
+        profile: LEXICAL_ANCHOR_SOURCE_PROJECTION_RESULT_PROFILE.to_owned(),
+        lookup_proof_digest: lookup_result.proof_digest.clone(),
+        projections,
+        snapshot_boundary_statement: LEXICAL_ANCHOR_SOURCE_PROJECTION_BOUNDARY.to_owned(),
+        proof_digest: zero_sha256(),
+    };
+    result.proof_digest =
+        lexical_anchor_source_projection_result_digest(&result, lookup_result, budget)?;
+    let serialized_bytes =
+        serde_json::to_vec(&result).map_err(|error| LexicalSourceProjectionFault {
+            kind: LexicalSourceProjectionFaultKind::ProjectionMismatch,
+            field: "source_projection.serialization".to_owned(),
+            detail: error.to_string(),
+        })?;
+    if serialized_bytes.len() as u64 > budget.maximum_serialized_result_bytes
+        || serialized_bytes.len() as u64 > MAX_LEXICAL_SOURCE_PROJECTION_RESULT_BYTES
+    {
+        return lexical_source_projection_fault(
+            LexicalSourceProjectionFaultKind::BudgetExceeded,
+            "source_projection.budget.maximum_serialized_result_bytes",
+            "complete source projection result exceeds its serialized byte budget",
         );
     }
     Ok(result)
@@ -2837,6 +3247,58 @@ fn lexical_index_to_lookup_fault(fault: LexicalIndexFault) -> LexicalLookupFault
     }
 }
 
+fn lexical_lookup_to_source_projection_fault(
+    fault: LexicalLookupFault,
+) -> LexicalSourceProjectionFault {
+    LexicalSourceProjectionFault {
+        kind: match fault.kind {
+            LexicalLookupFaultKind::InvalidProfile => {
+                LexicalSourceProjectionFaultKind::InvalidProfile
+            }
+            LexicalLookupFaultKind::InvalidBound => LexicalSourceProjectionFaultKind::InvalidBound,
+            LexicalLookupFaultKind::BudgetExceeded => {
+                LexicalSourceProjectionFaultKind::BudgetExceeded
+            }
+            LexicalLookupFaultKind::RootMismatch => {
+                LexicalSourceProjectionFaultKind::IdentityMismatch
+            }
+            LexicalLookupFaultKind::IndexRejected
+            | LexicalLookupFaultKind::NonCanonicalOrder
+            | LexicalLookupFaultKind::ProjectionMismatch
+            | LexicalLookupFaultKind::ProofMismatch => {
+                LexicalSourceProjectionFaultKind::LookupRejected
+            }
+        },
+        field: fault.field,
+        detail: fault.detail,
+    }
+}
+
+fn lexical_index_to_source_projection_fault(
+    fault: LexicalIndexFault,
+) -> LexicalSourceProjectionFault {
+    LexicalSourceProjectionFault {
+        kind: match fault.kind {
+            LexicalIndexFaultKind::InvalidProfile => {
+                LexicalSourceProjectionFaultKind::InvalidProfile
+            }
+            LexicalIndexFaultKind::InvalidBound => LexicalSourceProjectionFaultKind::InvalidBound,
+            LexicalIndexFaultKind::RootMismatch => {
+                LexicalSourceProjectionFaultKind::IdentityMismatch
+            }
+            LexicalIndexFaultKind::InvalidIdentity
+            | LexicalIndexFaultKind::InvalidDigest
+            | LexicalIndexFaultKind::NonCanonicalOrder
+            | LexicalIndexFaultKind::DuplicatePosting
+            | LexicalIndexFaultKind::ProjectionMismatch => {
+                LexicalSourceProjectionFaultKind::ProjectionMismatch
+            }
+        },
+        field: fault.field,
+        detail: fault.detail,
+    }
+}
+
 fn anchor_derivation_to_lexical_fault(fault: AnchorDerivationFault) -> LexicalIndexFault {
     LexicalIndexFault {
         kind: match fault.kind {
@@ -2877,12 +3339,31 @@ fn lexical_lookup_digest_form<T: Serialize>(
     lexical_digest_form(domain, value).map_err(lexical_index_to_lookup_fault)
 }
 
+fn lexical_source_projection_digest_form<T: Serialize>(
+    domain: &str,
+    value: &T,
+) -> LexicalSourceProjectionValidation<ContentDigest> {
+    lexical_digest_form(domain, value).map_err(lexical_index_to_source_projection_fault)
+}
+
 fn lexical_lookup_fault<T>(
     kind: LexicalLookupFaultKind,
     field: &str,
     detail: &str,
 ) -> LexicalLookupValidation<T> {
     Err(LexicalLookupFault {
+        kind,
+        field: field.to_owned(),
+        detail: detail.to_owned(),
+    })
+}
+
+fn lexical_source_projection_fault<T>(
+    kind: LexicalSourceProjectionFaultKind,
+    field: &str,
+    detail: &str,
+) -> LexicalSourceProjectionValidation<T> {
+    Err(LexicalSourceProjectionFault {
         kind,
         field: field.to_owned(),
         detail: detail.to_owned(),
