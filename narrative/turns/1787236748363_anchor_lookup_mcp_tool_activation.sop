@@ -1,0 +1,17 @@
+Subject: Cantor Anchor Lookup MCP Tool Activation Turn
+
+@ [turn_uuid] 5dfae15c-1285-4994-b76b-2852f30007cd
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [occurred_at] 2026-08-20
+
+& [Intent]
+  + make Cantor's proof-bearing lookup and source quotation directly callable by Codex and other tool-capable model hosts
+  + use the lightest existing transport and avoid llama.cpp modification
+
+& [Decision]
+  + extend the existing MCP server with one embedded-only tool and a startup-prepared immutable anchor runtime
+  + retain query_sop and resident service behavior as exact independent rollback surfaces
+  + default to exact source inclusion while permitting an explicit smaller lexical-only result
+
+& [Boundary]
+  + no prompt injection hidden-state access model execution semantic authority service expansion or compiler backend activation

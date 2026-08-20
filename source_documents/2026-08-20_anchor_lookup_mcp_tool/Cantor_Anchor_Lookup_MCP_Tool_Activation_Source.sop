@@ -1,0 +1,61 @@
+Subject: Cantor Anchor Lookup MCP Tool Activation Source
+
+@ [source_uuid] 06ac809f-cc55-481a-ba73-49af6d55b9a9
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [captured_at_utc] 2026-08-20T16:00:00Z
+@ [dependency] C:\Project\Cantor\proofs\Cantor_Semantic_Anchor_Catalogue_P0_Slice4B2B_Proof.sop
+
+& [PreservedUserIntent]
+  + [verbatim_1] "could Cantor become a tool used by OpenAI Codex then? that would make it extremely useful. it's an inference co-processor."
+  + [verbatim_2] "the lightest-weight operation we can configure? the slim SOP primer telling the inference to use the SOP query tool under conditions as SOP guides"
+  + [verbatim_3] "I want to have a runtime environment for Cantor to interface with Codex, sending messages and taking responses."
+  + [current_goal] expose the user-testable Speak Into Order path without requiring callers to reconstruct Cantor internals
+
+& [Purpose]
+  + expose completed lexical anchor lookup and admitted source quotation as one small read-only MCP tool for Codex and other MCP-capable hosts
+  + let tool discovery describe when to call the operation and let strict JSON arguments name only ordinary text finite result bounds and source inclusion
+  + preserve the existing supervisor-bound query_sop tool and direct protocol unchanged
+
+& [ToolIdentity]
+  + [name] lookup_sop_anchors
+  + [title] Lookup signed SOP anchors
+  + [annotations] read_only true destructive false idempotent true open_world false
+  + [availability] embedded-environment Cantor MCP mode only because resident service does not yet carry the lexical catalogue sidecar
+  + resident mode lists only query_sop and does not advertise an operation it cannot execute
+
+& [Input]
+  + text is required nonblank ordinary UTF-8 and bounded by the existing lexical query hard cap
+  + include_source defaults true and requests the completed Slice4B2B projection when true
+  + maximum_postings and maximum_matches are optional positive values within existing hard caps and conservative defaults
+  + unknown fields malformed values and oversized encoded argument objects refuse as MCP tool errors
+
+& [Execution]
+  + embedded MCP startup preflights and admits one supplied signed runtime environment
+  + prepare one immutable process-local SemanticFabric catalogue and lexical sidecar once at startup rather than rebuilding them on every call
+  + each call derives a request identity from exact input text and executes completed Slice4B2A lookup
+  + when requested each call executes completed Slice4B2B admitted source projection
+  + return the exact structured machine result plus only a short human summary
+  + no model call prompt mutation attention effect filesystem write network request background service or authority minting occurs
+
+& [Output]
+  + structuredContent binds adapter profile environment digest lexical lookup result and optional source projection
+  + success is byte-repeatable for equal server generation and arguments
+  + source projection is present by default and absent only when the caller explicitly sets include_source false
+  + faults are closed structured MCP errors with bounded stage kind and detail
+
+& [Compatibility]
+  + query_sop name input schema output schema behavior direct equivalence and resident behavior remain byte-stable unless unavoidable metadata list ordering is explicitly accounted
+  + existing MCP process command remains cantor-mcp --environment PATH or --service-config PATH
+  + embedded list_tools returns query_sop then lookup_sop_anchors in fixed order
+  + resident list_tools and get_tool expose query_sop only
+
+& [Acceptance]
+  + metadata is bounded strict and correctly annotated
+  + embedded direct adapter and real stdio MCP process return exact signed source quotation for fixture and tracked self-hosted corpus
+  + repeated calls return equal structured content
+  + include_source false omits projection without changing lookup proof
+  + bad arguments and resident attempt refuse without fallback or invented scope
+  + focused debug release complete workspace warnings-denied Clippy format evidence diff and existing query_sop equivalence gates pass
+
+& [Locked]
+  + service protocol modification automatic faculty or procedure selection semantic gating model provider attention injection prompt mutation effect persistence notification shared hidden state native compiler llama.cpp addon FPGA OneDrive EVO-X2 and Minecraft

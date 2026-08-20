@@ -1,0 +1,47 @@
+Subject: Cantor Anchor Lookup MCP Tool Activation Review 2026-08-20
+
+@ [review_uuid] e475ae54-6b6c-4650-8a87-d7b9cd52d500
+@ [source_uuid] 06ac809f-cc55-481a-ba73-49af6d55b9a9
+@ [status] authoritative_activation_review_ready_for_phase_lock
+
+& [SourcePreservation]
+  + [source_bytes] 4403
+  + [source_sha256] 1CD4CDBB0466BC7CC80F50E9CF10EC7C5398BE11B7C076BA597EC4DD8CBAD130
+  + [manifest_bytes] 563
+  + [manifest_sha256] EA86CF7F2B2A0F6441DBA8E6963BE654D90240328183AFBF3F6CB349596404F4
+  + [Slice4B2B_proof_bytes] 6522
+  + [Slice4B2B_proof_sha256] F16E96E4AD539720D68E050D895533D795DE5CAD1859CFBE50B6DEAE50EA6C8D
+
+& [SJS]
+  + Situation: the completed lookup and quotation path is callable as a CLI but a model host must know process syntax and parse an undocumented command surface
+  + Justification: the repository already has a proven read-only MCP server and can expose a second strict tool without modifying llama.cpp hidden state or the resident service
+  + Solution: prepare immutable anchor artifacts once in embedded mode and add one simple discovery-described lookup_sop_anchors tool beside unchanged query_sop
+
+& [ArchitectureDecision]
+  + reuse CantorMcpServer rather than create another process or transport
+  + add an optional embedded-only AnchorLookupRuntime containing environment digest admitted fabric catalogue and lexical sidecar
+  + do not add the tool to resident mode because doing so would require a new service operation and broader authority
+  + dispatch get_tool list_tools and call_tool by exact name and advertise only operations available in that backend
+
+& [ContractDecision]
+  + strict arguments are text include_source maximum_postings and maximum_matches
+  + include_source defaults true because direct inspectability is the intended tool use and can be explicitly disabled for a smaller payload
+  + structured output retains the complete core lookup and source projection forms without translating their proof semantics
+  + short text content describes status only and structuredContent remains authoritative
+
+& [SecurityAndHonesty]
+  + startup uses the exact existing preflight and admission path and every call replays core results
+  + tool metadata declares read-only idempotent closed-world behavior
+  + the adapter mints only a deterministic request identifier from exact text and never mints caller authority scope package bindings or effects
+  + lexical and snapshot non-authority statements remain present in core results
+  + resident unavailability is visible through tool discovery rather than runtime fallback
+
+& [TestDecision]
+  + embedded metadata tool list direct execution repeatability source-default source-disable strict argument and budget faults
+  + resident tool list excludes lookup_sop_anchors and direct attempted execution refuses
+  + existing query_sop exact core equivalence and real process tests remain green
+  + real stdio MCP process over tracked corpus returns exact admitted Cantor quote through the new tool
+
+& [Disposition]
+  + [status] ready_for_exact_phase_lock
+  + [still_locked] service_protocol_semantic_gating_provider_attention_effect_and_compiler_backends
