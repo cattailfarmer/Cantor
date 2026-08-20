@@ -56,6 +56,10 @@ baseline:
   semantic-role directives to proof-bearing anchors and exact signed source,
   and project deterministic typed IR, one inert backend plan, and a two-stage
   self-description/self-ordering ledger without a provider or execution; and
+- `cantor_core` can now compile one normalized, fully source-anchored
+  attention-procedure candidate through the existing effectless CPPE compiler,
+  retaining exact validation and compilation lineage while leaving verification,
+  admission, loading, invocation, and effects ungranted; and
 - `cantor_core::PreparedRuntime` retains at most one immutable exact-scope
   projection for repeated resident reads, with atomic generation replacement,
   invalidation, rollback, and the direct request path preserved; and

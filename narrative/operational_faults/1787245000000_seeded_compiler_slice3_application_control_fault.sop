@@ -1,0 +1,19 @@
+Subject: Cantor Seeded Compiler Slice 3 Windows Application Control Fault
+
+@ [fault_record_uuid] 14b705f3-4263-45a6-ad38-cc43318259a5
+@ [occurred_at] 2026-08-20
+
+& [Observation]
+  + the new focused native Windows attention-backend test binary executed and all three cases passed
+  + a subsequent unchanged procedure_compiler compatibility binary was blocked before execution with operating-system error 4551
+  + Windows reported that an Application Control policy blocked the unsigned newly emitted executable
+  + the first native workspace Clippy attempt likewise stopped when Application Control blocked third-party Cargo build-script executables before lint analysis
+
+& [Resolution]
+  + no Windows security policy signer trust store exclusion or durable host configuration changed
+  + the exact attention-backend and unchanged procedure-compiler cases passed in the guarded local WSL lane
+  + optimized release complete workspace and full warnings-denied Clippy gates pass in the same guarded lane when Windows refuses newly emitted binaries
+
+& [Classification]
+  + environment execution-policy recurrence rather than a product assertion
+  + the failed native launch remains evidence and is not counted as an executed test

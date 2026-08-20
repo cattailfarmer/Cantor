@@ -14,6 +14,9 @@ use crate::{ContentDigest, SemanticAddress, SemanticId};
 mod self_ordering;
 pub use self_ordering::*;
 
+mod attention_backend;
+pub use attention_backend::*;
+
 pub const SOP_SEED_PROFILE: &str = "cantor-sop-seed/0.1";
 pub const COMPILER_CAPABILITY_CEILING_PROFILE: &str = "cantor-compiler-capability-ceiling/0.1";
 pub const TYPED_SOP_IR_PROFILE: &str = "cantor-typed-sop-ir/0.1";

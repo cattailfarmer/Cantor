@@ -1,8 +1,9 @@
 # Seeded multi-backend compiler P0
 
-Cantor now has a strict inert planning vocabulary for one semantic front end
-and three non-substitutable compiler backends. This is a machine-form
-foundation, not an artifact-emitting compiler.
+Cantor now has a strict semantic front end for three non-substitutable compiler
+backends. The first backend can project a normalized, source-anchored attention
+procedure through the existing CPPE compiler. It emits an inert compiled
+candidate; it does not authorize or execute that candidate.
 
 ```text
 signed SOP generation + proof-bearing SemanticAddress values
@@ -39,6 +40,26 @@ Unknown JSON fields, changed digests, missing source maps, unresolved types,
 dependency cycles, backend/profile substitution, capability excess, faulty
 accounting, stage skips, and false successor recognition fail closed.
 
+## First compiled backend: attention procedures
+
+Slice 3 adds `AttentionProcedureBackendRequest` and
+`AttentionProcedureBackendProjection`. Before the adapter calls CPPE, it:
+
+- replays the seed, typed IR, and exact attention-procedure plan;
+- restricts the plan to semantic and source reads;
+- requires normalized machine form and forbids textual-source parsing;
+- binds the candidate purpose and provenance to the plan and IR;
+- requires a passed receipt from a verifier named by the plan, with the plan
+  and IR retained as evidence;
+- maps every IR node exactly once to a distinct procedure anchor whose package,
+  version, digest, and source clause equal the node's `SemanticAddress`; and
+- validates the complete CPPE candidate and output lineage.
+
+The result contains the exact CPPE compilation receipt, Process IR, and
+`CompiledProcedureIdentity`. Its fixed non-authority boundary still says that
+verification, admission, catalogue insertion, attention loading, invocation,
+installation, effects, and successor recognition have not occurred.
+
 ## Deliberate non-capabilities
 
 Slice 2 adds one narrow lowering seam. A strict `SelfOrderingRequest` explicitly
@@ -53,12 +74,12 @@ path. It resolves `Cantor`, `SemanticUnit`, and `PreparedRuntime` from three
 signed SOP documents and projects an inert attention-procedure plan. Public
 deterministic fixture keys are test material, not production trust roots.
 
-These slices do not create an attention procedure, invoke Cargo or another
-compiler as a backend, build a binary, alter llama.cpp, install or execute a
-candidate, contact a model, or recognize a successor. An inference-host plan
-may name a future internal llama.cpp addon, but such work remains separately
-governed and requires measured evidence that the preferred external seam is
-insufficient.
+These slices do not author an attention procedure from prose, invoke Cargo or
+another native compiler as a backend, build a binary, alter llama.cpp, install,
+load, or execute a candidate, contact a model, or recognize a successor. An
+inference-host plan may name a future internal llama.cpp addon, but such work
+remains separately governed and requires measured evidence that the preferred
+external seam is insufficient.
 
 ## Verification
 
@@ -67,11 +88,13 @@ cargo test -p cantor_core --test semantic_compiler_forms -- --test-threads=1
 cargo test --release -p cantor_core --test semantic_compiler_forms -- --test-threads=1
 cargo test -p cantor_core --test semantic_compiler_self_ordering -- --test-threads=1
 cargo test --release -p cantor_core --test semantic_compiler_self_ordering -- --test-threads=1
+cargo test -p cantor_core --test semantic_compiler_attention_backend -- --test-threads=1
+cargo test --release -p cantor_core --test semantic_compiler_attention_backend -- --test-threads=1
 cargo clippy -p cantor_core --all-targets --all-features -- -D warnings
 ```
 
 The governing source, SJS review, plan, requirement matrix, phase lock,
-solution, and proof remain separate records. The next implementation slice is
-composition of the existing procedure compiler as the first real
-`AttentionProcedureBackend`; artifact projection and execution remain separate
-authority boundaries.
+solution, and proof remain separate records. The next compiler work should
+first define attention-procedure authorship or separately activate the
+inference-host adapter; native artifact projection and every execution boundary
+remain separate authority slices.
