@@ -18,7 +18,7 @@ Subject: Cantor Seeded Compiler Slice 7 Lifecycle Validation Protocol SJS Review
 
 & [DataDrivenDesign]
   + [keys] protocol_version request_id operation stage artifact_id verification_receipt_id
-  + [roots] seed IR candidate plan native projection build plan capability sandbox approval authorization observation ledger artifact receipt verifier plan observation and receipt digests
+  + [roots] seed IR candidate plan native projection build plan capability sandbox approval authorization observation ledger artifact receipt verifier plan observation receipt and optional second artifact lineage digests
   + [relations] request owns bundle bundle replays lineage lineage reaches stage stage reported_by response
   + [states] input_refused lifecycle_refused artifact_valid verification_valid
   + [constraints] one request one operation complete stage closure exact identities bounded bytes closed enums deny_unknown_fields deterministic ordering
@@ -41,7 +41,7 @@ Subject: Cantor Seeded Compiler Slice 7 Lifecycle Validation Protocol SJS Review
 & [ConstraintLedger]
   + reuse Slice5 and Slice6 forms and validators rather than duplicate their laws
   + never deserialize private signing keys or ambient runner configuration
-  + validation mode requires artifact closure; verification mode requires the entire verification closure
+  + validation mode requires artifact closure; verification mode requires the entire verification closure and an exact second artifact bundle whenever reproducibility evidence is supplied
   + failed or unresolved verification can still be a valid receipt and must remain distinguishable from a passing receipt
   + fixed response non-authority must deny execution signing admission installation deployment safety truth and global atomic consumption
 
