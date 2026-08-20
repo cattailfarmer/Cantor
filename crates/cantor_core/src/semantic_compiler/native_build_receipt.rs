@@ -115,6 +115,7 @@ pub struct NativeBuildExecutionPlan {
     pub logical_not_before: u64,
     pub logical_not_after: u64,
     pub requested_capabilities: BTreeSet<CompilerCapability>,
+    pub requested_resource_scopes: BTreeSet<String>,
     pub maximum_seconds: u32,
     pub maximum_processes: u32,
     pub maximum_memory_bytes: u64,
@@ -142,6 +143,7 @@ pub struct NativeBuildCapabilityReceipt {
     pub admitted_capabilities: BTreeSet<CompilerCapability>,
     pub denied_capabilities: BTreeSet<CompilerCapability>,
     pub admitted_resource_scopes: BTreeSet<String>,
+    pub denied_resource_scopes: BTreeSet<String>,
     pub evidence_refs: BTreeSet<SemanticId>,
     pub disposition: CapabilityDisposition,
     pub non_authority: String,
@@ -310,6 +312,8 @@ pub fn project_native_build_execution_plan(
     let seed = lineage.seed;
     let projection = lineage.projection;
     let candidate = lineage.candidate();
+    let requested_resource_scopes =
+        BTreeSet::from([root_policy.disposable_root_id.as_str().to_owned()]);
     let mut value = NativeBuildExecutionPlan {
         profile: NATIVE_BUILD_EXECUTION_PLAN_PROFILE.to_owned(),
         plan_id,
@@ -327,6 +331,7 @@ pub fn project_native_build_execution_plan(
         logical_not_before,
         logical_not_after,
         requested_capabilities: required_build_capabilities(),
+        requested_resource_scopes,
         maximum_seconds: candidate.build.maximum_seconds,
         maximum_processes: candidate.build.maximum_processes,
         maximum_memory_bytes: candidate.build.maximum_memory_bytes,
@@ -366,6 +371,8 @@ pub fn validate_native_build_execution_plan(
         || plan.command_schema != candidate.build.command_schema
         || plan.environment_digest != candidate.toolchain.configuration_digest
         || plan.requested_capabilities != required_build_capabilities()
+        || plan.requested_resource_scopes
+            != BTreeSet::from([plan.root_policy.disposable_root_id.as_str().to_owned()])
         || plan.maximum_seconds != candidate.build.maximum_seconds
         || plan.maximum_processes != candidate.build.maximum_processes
         || plan.maximum_memory_bytes != candidate.build.maximum_memory_bytes
@@ -415,10 +422,15 @@ pub fn project_native_build_capability_receipt(
         .difference(&admitted_capabilities)
         .cloned()
         .collect();
+    let denied_resource_scopes: BTreeSet<String> = plan
+        .requested_resource_scopes
+        .difference(&admitted_resource_scopes)
+        .cloned()
+        .collect();
     let disposition = if !evidence_refs.is_empty()
         && denied_capabilities.is_empty()
+        && denied_resource_scopes.is_empty()
         && admitted_resource_scopes.is_subset(&seed.capability_ceiling.resource_scopes)
-        && !admitted_resource_scopes.is_empty()
     {
         CapabilityDisposition::WithinCeiling
     } else if denied_capabilities.is_empty() {
@@ -439,6 +451,7 @@ pub fn project_native_build_capability_receipt(
         admitted_capabilities,
         denied_capabilities,
         admitted_resource_scopes,
+        denied_resource_scopes,
         evidence_refs,
         disposition,
         non_authority: NATIVE_BUILD_PLAN_NON_AUTHORITY.to_owned(),
@@ -476,6 +489,15 @@ pub fn validate_native_build_capability_receipt(
             .admitted_resource_scopes
             .is_subset(&seed.capability_ceiling.resource_scopes)
         || !receipt
+            .admitted_resource_scopes
+            .is_disjoint(&receipt.denied_resource_scopes)
+        || receipt
+            .admitted_resource_scopes
+            .union(&receipt.denied_resource_scopes)
+            .cloned()
+            .collect::<BTreeSet<_>>()
+            != plan.requested_resource_scopes
+        || !receipt
             .admitted_capabilities
             .is_disjoint(&receipt.denied_capabilities)
         || receipt
@@ -500,7 +522,7 @@ pub fn validate_native_build_capability_receipt(
     }
     let expected = if !receipt.evidence_refs.is_empty()
         && receipt.denied_capabilities.is_empty()
-        && !receipt.admitted_resource_scopes.is_empty()
+        && receipt.denied_resource_scopes.is_empty()
     {
         CapabilityDisposition::WithinCeiling
     } else if receipt.denied_capabilities.is_empty() {

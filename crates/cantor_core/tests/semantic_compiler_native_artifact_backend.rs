@@ -124,7 +124,7 @@ fn seed() -> SopSeed {
             CompilerCapability::FileWrite,
             CompilerCapability::ProcessExecute,
         ]),
-        resource_scopes: BTreeSet::from(["fixture-only".to_owned()]),
+        resource_scopes: BTreeSet::from(["root:native-fixture".to_owned()]),
         maximum_artifacts: 1,
         maximum_serialized_bytes: 1_048_576,
         ceiling_digest: empty_digest(),
@@ -478,7 +478,7 @@ fn authorization_fixture() -> AuthorizationFixture {
         &build_plan,
         id("build-capability:native-fixture"),
         build_plan.requested_capabilities.clone(),
-        BTreeSet::from(["fixture-only".to_owned()]),
+        BTreeSet::from(["root:native-fixture".to_owned()]),
         BTreeSet::from([id("evidence:capability")]),
     )
     .expect("build capability");
@@ -814,7 +814,7 @@ fn read_only_capability_and_unresolved_sandbox_cannot_authorize() {
         &fixture.build_plan,
         id("build-capability:read-only"),
         BTreeSet::from([CompilerCapability::SourceRead]),
-        BTreeSet::from(["fixture-only".to_owned()]),
+        BTreeSet::from(["root:native-fixture".to_owned()]),
         BTreeSet::from([id("evidence:read-only")]),
     )
     .expect("denied receipt is still exact accounting");
@@ -830,6 +830,20 @@ fn read_only_capability_and_unresolved_sandbox_cannot_authorize() {
         .expect_err("read-only receipt refuses")
         .kind,
         SemanticCompilerFormFaultKind::RecognitionBoundary
+    );
+
+    assert_eq!(
+        project_native_build_capability_receipt(
+            &lineage,
+            &fixture.build_plan,
+            id("build-capability:irrelevant-scope"),
+            fixture.build_plan.requested_capabilities.clone(),
+            BTreeSet::from(["root:unrelated".to_owned()]),
+            BTreeSet::from([id("evidence:irrelevant-scope")]),
+        )
+        .expect_err("an unrelated admitted scope cannot authorize the build root")
+        .kind,
+        SemanticCompilerFormFaultKind::AccountingMismatch
     );
 
     let mut unresolved = fixture.sandbox.clone();
