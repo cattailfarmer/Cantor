@@ -1,0 +1,23 @@
+Subject: Cantor Seeded Compiler Slice 1 Host Faults
+
+@ [fault_uuid] 2a63ac04-6c75-463d-9107-737c04d68425
+@ [occurred_at] 2026-08-20
+@ [scope] seeded_compiler_Slice1_forms
+
+& [WindowsExecution]
+  + native cargo check cantor_core all features passed
+  + Windows Application Control blocked the newly linked unsigned semantic_compiler_forms test executable with OS error 4551 before any test assertion ran
+  + classification is known host execution policy boundary rather than product failure
+  + resolution is use the established local WSL debug and optimized release proof lanes without weakening policy
+
+& [SchemaDerive]
+  + the first all-feature check found SemanticAddress does not implement optional JsonSchema
+  + classification is a scope boundary exposed by composition rather than a semantic form defect
+  + resolution is retain strict serde deny_unknown_fields forms and avoid forcing an unauthorized schema-derive cascade through established catalogue types
+
+& [Clippy]
+  + the first warnings-denied run rejected one logically correct nonminimal boolean expression in the type-reference guard
+  + resolution is the equivalent is_none_or expression followed by a clean focused rerun
+
+& [Security]
+  + no host security policy signing requirement dependency feature or established SemanticAddress contract was weakened

@@ -48,6 +48,10 @@ baseline:
   a `lookup_sop_anchors` discovery tool that maps ordinary text to ordered
   lexical anchors and exact admitted source quotations without granting
   truth, permission, authority, safety, or applicability; and
+- `cantor_core` now defines strict inert SOP seed, source-mapped typed IR,
+  one-backend candidate plan, capability receipt, and self-assembly ledger
+  forms that keep attention-procedure, inference-host, and native-artifact
+  compilation identities non-substitutable without emitting an artifact; and
 - `cantor_core::PreparedRuntime` retains at most one immutable exact-scope
   projection for repeated resident reads, with atomic generation replacement,
   invalidation, rollback, and the direct request path preserved; and
