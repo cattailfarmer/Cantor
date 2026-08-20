@@ -25,7 +25,7 @@ use crate::semantic_compiler::{
 pub const NATIVE_BUILD_OBSERVATION_PROFILE: &str = "cantor-native-build-observation/0.1";
 pub const NATIVE_BUILD_ATTEMPT_LEDGER_PROFILE: &str = "cantor-native-build-attempt-ledger/0.1";
 pub const NATIVE_ARTIFACT_RECEIPT_PROFILE: &str = "cantor-native-artifact-receipt/0.1";
-pub const NATIVE_BUILD_OBSERVATION_NON_AUTHORITY: &str = "Supplied runner observation and produced-unverified artifact evidence only. This form does not prove physical sandbox containment, semantic correctness, reproducibility, independent verification, signing, admission, installation, deployment, runtime execution, or successor recognition.";
+pub const NATIVE_BUILD_OBSERVATION_NON_AUTHORITY: &str = "Supplied runner observation and produced-unverified artifact evidence only. This form does not prove physical sandbox containment, globally atomic single-use execution, semantic correctness, reproducibility, independent verification, signing, admission, installation, deployment, runtime execution, or successor recognition.";
 pub const NATIVE_BUILD_ATTEMPT_LEDGER_NON_AUTHORITY: &str = "Deterministic single-use accounting projection only. Persistence, atomic compare-and-swap, physical execution exclusion, signing, admission, installation, deployment, runtime execution, and successor recognition require an external authority adapter.";
 
 const OBSERVATION_DOMAIN: &str = "cantor.native-build.observation.v1";

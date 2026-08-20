@@ -1445,3 +1445,39 @@ fn reproducibility_requires_distinct_signed_approval_attempt_and_equal_bytes() {
         Some(&NativeArtifactVerificationCheckDisposition::Failed)
     );
 }
+
+#[test]
+fn lifecycle_machine_forms_refuse_unknown_fields() {
+    let produced = produced_fixture(None);
+    let lineage = produced.lineage();
+    let plan = project_native_artifact_verification_plan(
+        &lineage,
+        id("verification-plan:strict-json"),
+        independent_verifier(),
+        BTreeSet::from([id("evidence:strict-json")]),
+        false,
+    )
+    .expect("strict verification plan");
+
+    let mut observation_json =
+        serde_json::to_value(&produced.observation).expect("observation JSON");
+    observation_json
+        .as_object_mut()
+        .expect("observation object")
+        .insert("hidden_effect".to_owned(), serde_json::json!(true));
+    assert!(serde_json::from_value::<NativeBuildObservation>(observation_json).is_err());
+
+    let mut receipt_json = serde_json::to_value(&produced.receipt).expect("receipt JSON");
+    receipt_json
+        .as_object_mut()
+        .expect("receipt object")
+        .insert("admitted".to_owned(), serde_json::json!(true));
+    assert!(serde_json::from_value::<NativeArtifactReceipt>(receipt_json).is_err());
+
+    let mut plan_json = serde_json::to_value(&plan).expect("verification plan JSON");
+    plan_json
+        .as_object_mut()
+        .expect("plan object")
+        .insert("install_after_pass".to_owned(), serde_json::json!(true));
+    assert!(serde_json::from_value::<NativeArtifactVerificationPlan>(plan_json).is_err());
+}
