@@ -1,0 +1,24 @@
+Subject: Cantor Seeded Compiler Slice 11 Windows Release Application Control Fault
+
+@ [fault_record_uuid] f18b089e-8c52-4d09-b885-34240766e23a
+@ [occurred_at] 2026-08-20
+@ [scope] live_lifecycle_tool_loop_experiment_optimized_release_execution
+
+& [Observation]
+  + Windows optimized-release execution passed all sixteen focused workspace compiler MCP custody and bridge tests
+  + the isolated llama_tool_reflection release build was then refused before experiment assertions when Application Control blocked fresh rmcp and thiserror build-script executables with operating-system error 4551
+  + no failed Cantor assertion occurred in the refused Windows experiment build
+
+& [Classification]
+  + this is a host executable-identity policy decision and not evidence that Slice11 transcript behavior failed
+  + successful Windows debug execution and successful Windows workspace release execution remain distinct from the blocked experiment release surface
+
+& [ResolutionEvidence]
+  + Ubuntu-24.04 WSL2 used isolated CARGO_TARGET_DIR /tmp/cantor-slice11-llama-experiment-target
+  + the locked dependency graph was fetched once after the WSL cache reported http-body-util absent; no model provider or remote inference service was contacted
+  + the exact locked optimized-release experiment then passed five transcript tests and three runner tests
+  + a second locked offline replay against the populated isolated cache passed the same eight tests
+
+& [Security]
+  + Smart App Control Code Integrity signer trust antivirus firewall and host policy were not disabled weakened bypassed or reconfigured
+  + no Windows-native optimized experiment execution is claimed

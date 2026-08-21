@@ -1,0 +1,25 @@
+Subject: Cantor Seeded Compiler Slice 11 Pinned Provider Unavailable
+
+@ [fault_record_uuid] a6ae655d-b766-4b69-9048-1d4aff97bdf2
+@ [occurred_at] 2026-08-20
+@ [scope] live_lifecycle_tool_loop_measurement_preflight
+@ [source_uuid] 01643fe4-eb03-47dd-a8a2-ed8d214f584a
+
+& [Observation]
+  + no listener answered the pinned loopback endpoint http://127.0.0.1:8080
+  + the verified b10181 llama.cpp installation directory and selected llama-server launcher are present
+  + the pinned gpt-oss-20b GGUF path declared by the release contract is absent
+  + the bounded harness wrote provider_unavailable with zero registrations and zero trials
+  + [evidence_path] experiments/llama_tool_reflection/artifacts/lifecycle_tool_loop/provider_unavailable_probe.json
+  + [evidence_bytes] 811
+  + [evidence_sha256] D066031B13AEE984EC6C5475D7C241E691DCCA57AAF41748970E974CBF458FE1
+
+& [Classification]
+  + this is an unresolved environmental dependency rather than an implementation assertion failure
+  + no live latency token or semantic comparison can be claimed from this record
+  + provider-independent fixture bridge transcript and measurement-accounting proof remains available
+
+& [Security]
+  + no provider or model was downloaded installed substituted or contacted remotely
+  + no Windows Application Control antivirus firewall or repository policy was changed
+  + live execution remains conditional on restoring the exact pinned local model and observing a healthy matching endpoint
