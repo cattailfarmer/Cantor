@@ -28,7 +28,8 @@ pub use evidence::{
     EvidenceVerificationFault, PROVIDER_INDEPENDENT_CONTRACT,
     PROVIDER_INDEPENDENT_EVIDENCE_MAX_BYTES, PROVIDER_INDEPENDENT_PROBE_NAME, ProbeComparison,
     ProbePhase, ProbeRestartTrial, ProviderIndependentProbeReport, ProviderIndependentProbeTrial,
-    VerifiedProbeEvidence, verify_provider_independent_probe,
+    VerifiedProbeEvidence, VerifiedProviderUnavailableEvidence, verify_provider_independent_probe,
+    verify_provider_unavailable_probe,
 };
 
 pub const STATELESS_TOOL_NAME: &str = "validate_native_lifecycle";

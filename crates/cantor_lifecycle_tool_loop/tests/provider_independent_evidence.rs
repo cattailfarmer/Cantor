@@ -1,9 +1,14 @@
-use cantor_lifecycle_tool_loop::verify_provider_independent_probe;
+use cantor_lifecycle_tool_loop::{
+    verify_provider_independent_probe, verify_provider_unavailable_probe,
+};
 use serde_json::Value;
 use std::{fs, process::Command};
 
 const EVIDENCE: &[u8] = include_bytes!(
     "../../../experiments/llama_tool_reflection/artifacts/lifecycle_tool_loop/provider_independent_bridge_probe.json"
+);
+const PROVIDER_UNAVAILABLE: &[u8] = include_bytes!(
+    "../../../experiments/llama_tool_reflection/artifacts/lifecycle_tool_loop/provider_unavailable_probe.json"
 );
 
 #[test]
@@ -27,6 +32,42 @@ fn committed_provider_independent_evidence_recomputes() {
             .custody_to_stateless_argument_basis_points,
         96
     );
+}
+
+#[test]
+fn committed_provider_unavailable_evidence_recomputes_without_trials() {
+    let verified = verify_provider_unavailable_probe(PROVIDER_UNAVAILABLE)
+        .expect("provider-unavailable evidence must verify");
+
+    assert_eq!(verified.status, "provider_unavailable_verified");
+    assert_eq!(verified.source_bytes, PROVIDER_UNAVAILABLE.len());
+    assert_eq!(verified.registration_count, 0);
+    assert_eq!(verified.trial_count, 0);
+    assert!(!verified.provider_contacted);
+}
+
+#[test]
+fn provider_unavailable_evidence_refuses_synthetic_trials() {
+    let mut evidence: Value = serde_json::from_slice(PROVIDER_UNAVAILABLE).expect("evidence JSON");
+    evidence["trials"] = serde_json::json!([{"synthetic": true}]);
+
+    assert_unavailable_fault(evidence, "trial_count");
+}
+
+#[test]
+fn provider_unavailable_evidence_refuses_remote_endpoint_substitution() {
+    let mut evidence: Value = serde_json::from_slice(PROVIDER_UNAVAILABLE).expect("evidence JSON");
+    evidence["base_url"] = Value::from("https://example.invalid/v1");
+
+    assert_unavailable_fault(evidence, "base_url");
+}
+
+#[test]
+fn provider_unavailable_evidence_refuses_false_preflight() {
+    let mut evidence: Value = serde_json::from_slice(PROVIDER_UNAVAILABLE).expect("evidence JSON");
+    evidence["preflight"] = serde_json::json!({"healthy": true});
+
+    assert_unavailable_fault(evidence, "preflight");
 }
 
 #[test]
@@ -122,6 +163,13 @@ fn value() -> Value {
 fn assert_fault(evidence: Value, expected_field: &str) {
     let encoded = serde_json::to_vec(&evidence).expect("tampered evidence must encode");
     let fault = verify_provider_independent_probe(&encoded).expect_err("tampering must be refused");
+
+    assert_eq!(fault.field, expected_field);
+}
+
+fn assert_unavailable_fault(evidence: Value, expected_field: &str) {
+    let encoded = serde_json::to_vec(&evidence).expect("tampered evidence must encode");
+    let fault = verify_provider_unavailable_probe(&encoded).expect_err("tampering must be refused");
 
     assert_eq!(fault.field, expected_field);
 }

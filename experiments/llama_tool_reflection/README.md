@@ -59,6 +59,9 @@ verifier. It decodes a strict report schema, reconstructs every expected trial
 coordinate and transport argument, checks exact lifecycle responses and
 restart loss, and recomputes the published byte comparison from raw trials.
 The producer's own summary is therefore not accepted as proof of itself.
+The verifier also has a distinct provider-unavailable mode that binds the
+pinned loopback and release identity, requires null preflight and zero
+registrations or trials, and rejects remote endpoint substitution.
 
 Run all provider-independent gates from the repository root:
 

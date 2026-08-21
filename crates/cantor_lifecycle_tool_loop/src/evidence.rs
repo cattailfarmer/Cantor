@@ -18,6 +18,14 @@ pub const PROVIDER_INDEPENDENT_PROBE_NAME: &str = "cantor_lifecycle_bridge_probe
 pub const PROVIDER_INDEPENDENT_CONTRACT: &str =
     "Cantor_Live_Lifecycle_Tool_Loop_Measurement_P0.sop";
 pub const PROVIDER_INDEPENDENT_EVIDENCE_MAX_BYTES: usize = 2_097_152;
+pub const PROVIDER_UNAVAILABLE_PROBE_NAME: &str = "cantor_live_lifecycle_tool_loop_measurement_p0";
+pub const PROVIDER_UNAVAILABLE_BASE_URL: &str = "http://127.0.0.1:8080/v1";
+pub const PROVIDER_UNAVAILABLE_MODEL: &str = "gpt-oss-20b";
+pub const PROVIDER_UNAVAILABLE_PROVIDER: &str = "llama.cpp";
+pub const PROVIDER_UNAVAILABLE_RELEASE: &str = "b10181";
+pub const PROVIDER_UNAVAILABLE_FINGERPRINT: &str = "b10181-caa596ab3";
+pub const PROVIDER_RELEASE_CONTRACT_SHA256: &str =
+    "3960F225A4CAC13DCA62D0670EDEB95D846B0E05A29E80B68FFC86ECD6218720";
 const CUSTODY_RESPONSE_PROFILE: &str = "cantor-native-lifecycle-volatile-custody-mcp/0.1";
 const CUSTODY_RESPONSE_NONCLAIMS: [&str; 6] = [
     "state is process-local and restart loses every retained request",
@@ -93,6 +101,50 @@ pub struct VerifiedProbeEvidence {
     pub provider_contacted: bool,
     pub private_reasoning_recorded: bool,
     pub restart_old_handle_refused: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ProviderUnavailableFault {
+    kind: String,
+    detail: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ProviderUnavailableReport {
+    base_url: String,
+    contract: String,
+    custody_registrations_outside_measured_steady_state: Vec<serde_json::Value>,
+    fault: ProviderUnavailableFault,
+    finished_unix_ms: u128,
+    model: String,
+    preflight: Option<serde_json::Value>,
+    private_reasoning_recorded: bool,
+    probe: String,
+    provider: String,
+    provider_release_contract_sha256: String,
+    provider_release_expected: String,
+    provider_system_fingerprint_expected: String,
+    started_unix_ms: u128,
+    status: String,
+    trials: Vec<serde_json::Value>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct VerifiedProviderUnavailableEvidence {
+    pub profile: String,
+    pub status: String,
+    pub source_digest: ContentDigest,
+    pub source_bytes: usize,
+    pub base_url: String,
+    pub model: String,
+    pub provider: String,
+    pub provider_contacted: bool,
+    pub private_reasoning_recorded: bool,
+    pub registration_count: usize,
+    pub trial_count: usize,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -209,6 +261,106 @@ pub fn verify_provider_independent_probe(
         provider_contacted: false,
         private_reasoning_recorded: false,
         restart_old_handle_refused: true,
+    })
+}
+
+pub fn verify_provider_unavailable_probe(
+    source: &[u8],
+) -> Result<VerifiedProviderUnavailableEvidence, EvidenceVerificationFault> {
+    ensure(
+        "source_bytes",
+        !source.is_empty() && source.len() <= PROVIDER_INDEPENDENT_EVIDENCE_MAX_BYTES,
+        format!(
+            "must be 1..={PROVIDER_INDEPENDENT_EVIDENCE_MAX_BYTES}; observed {}",
+            source.len()
+        ),
+    )?;
+    let report: ProviderUnavailableReport = serde_json::from_slice(source)
+        .map_err(|error| EvidenceVerificationFault::new("source_json", error))?;
+    ensure_equal(
+        "probe",
+        report.probe.as_str(),
+        PROVIDER_UNAVAILABLE_PROBE_NAME,
+    )?;
+    ensure_equal(
+        "contract",
+        report.contract.as_str(),
+        PROVIDER_INDEPENDENT_CONTRACT,
+    )?;
+    ensure_equal("status", report.status.as_str(), "provider_unavailable")?;
+    ensure_equal(
+        "base_url",
+        report.base_url.as_str(),
+        PROVIDER_UNAVAILABLE_BASE_URL,
+    )?;
+    ensure_equal("model", report.model.as_str(), PROVIDER_UNAVAILABLE_MODEL)?;
+    ensure_equal(
+        "provider",
+        report.provider.as_str(),
+        PROVIDER_UNAVAILABLE_PROVIDER,
+    )?;
+    ensure_equal(
+        "provider_release_contract_sha256",
+        report.provider_release_contract_sha256.as_str(),
+        PROVIDER_RELEASE_CONTRACT_SHA256,
+    )?;
+    ensure_equal(
+        "provider_release_expected",
+        report.provider_release_expected.as_str(),
+        PROVIDER_UNAVAILABLE_RELEASE,
+    )?;
+    ensure_equal(
+        "provider_system_fingerprint_expected",
+        report.provider_system_fingerprint_expected.as_str(),
+        PROVIDER_UNAVAILABLE_FINGERPRINT,
+    )?;
+    ensure_equal(
+        "private_reasoning_recorded",
+        report.private_reasoning_recorded,
+        false,
+    )?;
+    ensure(
+        "time_interval",
+        report.finished_unix_ms >= report.started_unix_ms,
+        "finished_unix_ms precedes started_unix_ms",
+    )?;
+    ensure_equal("preflight", &report.preflight, &None)?;
+    ensure_equal(
+        "registration_count",
+        report
+            .custody_registrations_outside_measured_steady_state
+            .len(),
+        0,
+    )?;
+    ensure_equal("trial_count", report.trials.len(), 0)?;
+    ensure_equal(
+        "fault_kind",
+        report.fault.kind.as_str(),
+        "provider_unavailable",
+    )?;
+    ensure(
+        "fault_detail",
+        !report.fault.detail.is_empty()
+            && report.fault.detail.len() <= 1_000
+            && report.fault.detail.contains("http://127.0.0.1:8080/props"),
+        "must be bounded and identify only the pinned loopback props endpoint",
+    )?;
+
+    Ok(VerifiedProviderUnavailableEvidence {
+        profile: "cantor-lifecycle-provider-unavailable-evidence-verification/0.1".to_owned(),
+        status: "provider_unavailable_verified".to_owned(),
+        source_digest: ContentDigest {
+            algorithm: "sha256".to_owned(),
+            value: sha256_hex(source),
+        },
+        source_bytes: source.len(),
+        base_url: report.base_url,
+        model: report.model,
+        provider: report.provider,
+        provider_contacted: false,
+        private_reasoning_recorded: false,
+        registration_count: 0,
+        trial_count: 0,
     })
 }
 

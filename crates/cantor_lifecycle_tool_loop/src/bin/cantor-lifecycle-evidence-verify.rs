@@ -2,12 +2,20 @@ use std::{env, fs, path::PathBuf, process::ExitCode};
 
 use cantor_lifecycle_tool_loop::{
     PROVIDER_INDEPENDENT_EVIDENCE_MAX_BYTES, verify_provider_independent_probe,
+    verify_provider_unavailable_probe,
 };
+
+#[derive(Clone, Copy, Debug)]
+enum EvidenceKind {
+    ProviderIndependent,
+    ProviderUnavailable,
+}
 
 #[derive(Debug)]
 struct Config {
     input: PathBuf,
     output: PathBuf,
+    kind: EvidenceKind,
 }
 
 impl Config {
@@ -19,14 +27,24 @@ impl Config {
             output: PathBuf::from(
                 "experiments/llama_tool_reflection/artifacts/lifecycle_tool_loop/provider_independent_bridge_probe_verification.json",
             ),
+            kind: EvidenceKind::ProviderIndependent,
         };
         let mut args = env::args().skip(1);
         while let Some(argument) = args.next() {
             match argument.as_str() {
                 "--input" => config.input = PathBuf::from(required(&mut args, &argument)?),
                 "--output" => config.output = PathBuf::from(required(&mut args, &argument)?),
+                "--evidence-kind" => {
+                    config.kind = match required(&mut args, &argument)?.as_str() {
+                        "provider-independent" => EvidenceKind::ProviderIndependent,
+                        "provider-unavailable" => EvidenceKind::ProviderUnavailable,
+                        value => return Err(format!("unsupported evidence kind: {value}")),
+                    }
+                }
                 "--help" | "-h" => {
-                    println!("cantor-lifecycle-evidence-verify [--input PATH] [--output PATH]");
+                    println!(
+                        "cantor-lifecycle-evidence-verify [--evidence-kind provider-independent|provider-unavailable] [--input PATH] [--output PATH]"
+                    );
                     std::process::exit(0);
                 }
                 other => return Err(format!("unknown argument: {other}")),
@@ -83,18 +101,32 @@ fn main() -> ExitCode {
             return ExitCode::from(2);
         }
     };
-    let verification = match verify_provider_independent_probe(&source) {
-        Ok(verification) => verification,
+    let encoded =
+        match config.kind {
+            EvidenceKind::ProviderIndependent => verify_provider_independent_probe(&source)
+                .and_then(|verification| {
+                    serde_json::to_vec_pretty(&verification).map_err(|error| {
+                        cantor_lifecycle_tool_loop::EvidenceVerificationFault {
+                            field: "verification_json".to_owned(),
+                            detail: error.to_string(),
+                        }
+                    })
+                }),
+            EvidenceKind::ProviderUnavailable => verify_provider_unavailable_probe(&source)
+                .and_then(|verification| {
+                    serde_json::to_vec_pretty(&verification).map_err(|error| {
+                        cantor_lifecycle_tool_loop::EvidenceVerificationFault {
+                            field: "verification_json".to_owned(),
+                            detail: error.to_string(),
+                        }
+                    })
+                }),
+        };
+    let encoded = match encoded {
+        Ok(encoded) => encoded,
         Err(error) => {
             eprintln!("verification_fault: {error}");
             return ExitCode::from(1);
-        }
-    };
-    let encoded = match serde_json::to_vec_pretty(&verification) {
-        Ok(encoded) => encoded,
-        Err(error) => {
-            eprintln!("evidence_fault: cannot encode verification: {error}");
-            return ExitCode::from(2);
         }
     };
     if let Some(parent) = config

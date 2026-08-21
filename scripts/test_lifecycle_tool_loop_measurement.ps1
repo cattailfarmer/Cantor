@@ -8,6 +8,7 @@ $repositoryRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $experimentManifest = Join-Path $repositoryRoot 'experiments\llama_tool_reflection\Cargo.toml'
 $probeOutput = Join-Path ([System.IO.Path]::GetTempPath()) "cantor-lifecycle-bridge-probe-$([guid]::NewGuid()).json"
 $verificationOutput = Join-Path ([System.IO.Path]::GetTempPath()) "cantor-lifecycle-bridge-verification-$([guid]::NewGuid()).json"
+$unavailableVerificationOutput = Join-Path ([System.IO.Path]::GetTempPath()) "cantor-lifecycle-provider-unavailable-verification-$([guid]::NewGuid()).json"
 
 Push-Location $repositoryRoot
 try {
@@ -42,6 +43,20 @@ try {
         -or $verification.comparison.transport_bytes_saved -ne 122944) {
         throw 'provider-independent lifecycle bridge verification is incomplete'
     }
+    & cargo run -p cantor_lifecycle_tool_loop --bin cantor-lifecycle-evidence-verify --locked --offline -- `
+        --evidence-kind provider-unavailable `
+        --input 'experiments/llama_tool_reflection/artifacts/lifecycle_tool_loop/provider_unavailable_probe.json' `
+        --output $unavailableVerificationOutput
+    if ($LASTEXITCODE -ne 0) {
+        throw 'provider-unavailable evidence did not verify'
+    }
+    $unavailableVerification = Get-Content -LiteralPath $unavailableVerificationOutput -Raw | ConvertFrom-Json
+    if ($unavailableVerification.status -ne 'provider_unavailable_verified' `
+        -or $unavailableVerification.provider_contacted -ne $false `
+        -or $unavailableVerification.registration_count -ne 0 `
+        -or $unavailableVerification.trial_count -ne 0) {
+        throw 'provider-unavailable verification is incomplete'
+    }
     & cargo clippy -p cantor_lifecycle_tool_loop -p cantor_compiler_mcp -p cantor_compiler_custody_mcp --all-targets --locked --offline -- -D warnings
     if ($LASTEXITCODE -ne 0) {
         throw 'workspace lifecycle bridge lint failed'
@@ -66,6 +81,9 @@ finally {
     }
     if (Test-Path -LiteralPath $verificationOutput) {
         Remove-Item -LiteralPath $verificationOutput -Force
+    }
+    if (Test-Path -LiteralPath $unavailableVerificationOutput) {
+        Remove-Item -LiteralPath $unavailableVerificationOutput -Force
     }
 }
 
