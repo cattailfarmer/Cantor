@@ -1,0 +1,28 @@
+Subject: Cantor Seeded Compiler Slice 11 Dependency Map
+
+@ [research_uuid] e856d98a-3b17-4f71-9c57-afa756353436
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [status] read_only_dependency_map_not_implementation_authority
+
+& [ObservedFixtureSeam]
+  + the complete deterministic request constructor is exported_artifact_validation_request at crates/cantor_core/tests/semantic_compiler_native_artifact_backend.rs line 2077
+  + Slice8 and Slice10 protocol tests import that integration-test file through a relative path attribute
+  + therefore the public-fixture prerequisite is one extraction boundary rather than a new semantic generator
+
+& [ObservedInferenceSeam]
+  + experiments/llama_tool_reflection/src/main.rs already owns the OpenAI-compatible endpoint configuration checkpoint-one required tool call checkpoint-two tool_choice none and tool_call_id message linkage
+  + its only false seam is the local reflect function at line 669 which substitutes an in-process result for an MCP client call
+  + the default recorded endpoint is http://127.0.0.1:8080/v1 with model alias gpt-oss-20b
+  + no process was listening on local ports 8080 or 8081 during this audit so no live experiment was attempted
+
+& [ObservedProtocolSeam]
+  + crates/cantor_compiler_custody_mcp/tests/mcp_protocol.rs already demonstrates the official rmcp TokioChildProcess client transport REGISTER INSPECT VALIDATE and restart-loss behavior
+  + crates/cantor_compiler_mcp/tests/mcp_protocol.rs provides the matching stateless Slice8 subprocess pattern
+  + production dependencies intentionally expose server-side rmcp only while client and process support remain dev dependencies
+
+& [RecommendedDependencyOrder]
+  + first extract a deterministic fixture-support library or governed serialized fixture without changing its output
+  + second introduce one experiment-only MCP client bridge shared by both measurement arms
+  + third replace only the llama experiment reflect call boundary while preserving its proven two-checkpoint transcript construction
+  + fourth add raw measurement records and adversarial restart malformed and substituted-handle trials
+  + activate none of these steps until the preserved Slice11 source completes SJS
