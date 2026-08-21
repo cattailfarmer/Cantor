@@ -40,7 +40,9 @@ fn metadata_declares_one_bounded_volatile_closed_world_tool() {
     assert_eq!(annotations.idempotent_hint, Some(false));
     assert_eq!(annotations.open_world_hint, Some(false));
     assert!(SERVER_INSTRUCTIONS.contains("restart loses all entries"));
-    assert!(serde_json::to_vec(&tool).expect("tool bytes").len() < 8_192);
+    let tool_bytes = serde_json::to_vec(&tool).expect("tool bytes").len();
+    println!("custody_tool_bytes={tool_bytes}");
+    assert!(tool_bytes < 8_192);
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -69,26 +71,25 @@ async fn register_inspect_and_compact_validate_preserve_exact_core_result() {
     let inspected_value = inspected.structured_content.clone().expect("inspect value");
     assert!(inspected_value["handle"].is_null());
     assert!(inspected_value["lifecycle_response"].is_null());
-    assert!(
-        serde_json::to_vec(&inspected_value)
-            .expect("inspect bytes")
-            .len()
-            < 2_048
-    );
+    let inspect_bytes = serde_json::to_vec(&inspected_value)
+        .expect("inspect bytes")
+        .len();
+    assert!(inspect_bytes < 2_048);
     assert_eq!(structured(&inspected).status, CustodyStatus::Inspected);
 
     let validate_arguments = json!({
         "command": {"operation": "validate", "handle": handle}
     });
-    assert!(
-        serde_json::to_vec(&validate_arguments)
-            .expect("validate bytes")
-            .len()
-            * 4
-            < serde_json::to_vec(&register_arguments)
-                .expect("register bytes")
-                .len()
+    let validate_bytes = serde_json::to_vec(&validate_arguments)
+        .expect("validate bytes")
+        .len();
+    let register_bytes = serde_json::to_vec(&register_arguments)
+        .expect("register bytes")
+        .len();
+    println!(
+        "custody_register_bytes={register_bytes} custody_validate_bytes={validate_bytes} custody_inspect_bytes={inspect_bytes}"
     );
+    assert!(validate_bytes * 4 < register_bytes);
     let validated = server
         .execute_tool_arguments(arguments(validate_arguments))
         .await;
