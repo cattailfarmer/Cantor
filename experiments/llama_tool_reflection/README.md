@@ -54,6 +54,12 @@ effect. The output retains trial-level byte, token, latency, call-validity, and
 import-validity observations while recursively omitting provider-private
 reasoning fields.
 
+The provider-free bridge probe is followed by a separate fail-closed evidence
+verifier. It decodes a strict report schema, reconstructs every expected trial
+coordinate and transport argument, checks exact lifecycle responses and
+restart loss, and recomputes the published byte comparison from raw trials.
+The producer's own summary is therefore not accepted as proof of itself.
+
 Run all provider-independent gates from the repository root:
 
 ```powershell

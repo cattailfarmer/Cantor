@@ -71,6 +71,15 @@ baseline:
   expected output identity and path, finite build bounds, runtime requirements,
   verifiers, and rollback while neither running a compiler nor inventing the
   post-build artifact digest; and
+- the seeded compiler lifecycle can now replay proof-bearing build and
+  verification records through strict Slice 7 validation, expose the unchanged
+  result through Slice 8 stateless MCP or Slice 10 volatile custody MCP, and run
+  a bounded two-checkpoint llama.cpp A/B experiment in which the host owns all
+  signed fixture meaning while the model can issue only a closed validation
+  command; provider-free evidence shows 124,144 full-request argument bytes
+  versus 1,200 compact-handle bytes with exact valid/refused outcomes and
+  visible restart loss, while live model-token and latency measurement remains
+  explicitly pending the absent pinned local GGUF and listener; and
 - `cantor_core::PreparedRuntime` retains at most one immutable exact-scope
   projection for repeated resident reads, with atomic generation replacement,
   invalidation, rollback, and the direct request path preserved; and

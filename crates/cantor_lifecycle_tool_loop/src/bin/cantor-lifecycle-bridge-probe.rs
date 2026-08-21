@@ -6,11 +6,12 @@ use std::{
 };
 
 use cantor_lifecycle_tool_loop::{
-    BridgeObservation, CustodySession, CustodyStatus, GovernedLifecycleFixture,
-    LifecycleFixtureCase, McpArm, RegistrationObservation, StatelessSession,
+    CustodySession, CustodyStatus, GovernedLifecycleFixture, LifecycleFixtureCase, McpArm,
+    ProbeComparison, ProbePhase, ProbeRestartTrial, ProviderIndependentProbeReport,
+    ProviderIndependentProbeTrial, RegistrationObservation, StatelessSession,
 };
 use serde::Serialize;
-use serde_json::{Value, json};
+use serde_json::json;
 
 const MAX_OUTPUT_BYTES: usize = 2_097_152;
 
@@ -97,15 +98,6 @@ impl ProbeFault {
     }
 }
 
-#[derive(Debug, Serialize)]
-#[serde(deny_unknown_fields)]
-struct ProbeTrial {
-    sequence: usize,
-    phase: String,
-    fixture_case: LifecycleFixtureCase,
-    observation: BridgeObservation,
-}
-
 fn main() -> ExitCode {
     match std::thread::Builder::new()
         .name("cantor-lifecycle-bridge-probe".to_owned())
@@ -150,7 +142,10 @@ async fn run_main() -> ExitCode {
     };
     let started = unix_time_ms();
     let (report, passed) = match run(&config, started).await {
-        Ok(report) => (report, true),
+        Ok(report) => (
+            serde_json::to_value(report).expect("typed probe report must encode"),
+            true,
+        ),
         Err(fault) => (
             json!({
                 "probe": "cantor_lifecycle_bridge_probe",
@@ -207,7 +202,10 @@ async fn run_main() -> ExitCode {
     }
 }
 
-async fn run(config: &Config, started_unix_ms: u128) -> Result<Value, ProbeFault> {
+async fn run(
+    config: &Config,
+    started_unix_ms: u128,
+) -> Result<ProviderIndependentProbeReport, ProbeFault> {
     let fixtures = [
         GovernedLifecycleFixture::load(LifecycleFixtureCase::Valid)
             .map_err(|error| ProbeFault::new("fixture_fault", error))?,
@@ -250,14 +248,13 @@ async fn run(config: &Config, started_unix_ms: u128) -> Result<Value, ProbeFault
                     McpArm::VolatileCustody => custody.validate(fixture).await,
                 }
                 .map_err(|error| ProbeFault::new("validation_fault", error))?;
-                trials.push(ProbeTrial {
+                trials.push(ProviderIndependentProbeTrial {
                     sequence,
                     phase: if round == 0 {
-                        "first_call"
+                        ProbePhase::FirstCall
                     } else {
-                        "steady_state"
-                    }
-                    .to_owned(),
+                        ProbePhase::SteadyState
+                    },
                     fixture_case: fixture.case,
                     observation,
                 });
@@ -300,33 +297,33 @@ async fn run(config: &Config, started_unix_ms: u128) -> Result<Value, ProbeFault
         .saturating_mul(10_000)
         .checked_div(stateless_bytes)
         .unwrap_or(0);
-    Ok(json!({
-        "probe": "cantor_lifecycle_bridge_probe",
-        "contract": "Cantor_Live_Lifecycle_Tool_Loop_Measurement_P0.sop",
-        "status": "passed",
-        "started_unix_ms": started_unix_ms,
-        "finished_unix_ms": unix_time_ms(),
-        "provider_contacted": false,
-        "private_reasoning_recorded": false,
-        "custody_registrations_outside_steady_state": registrations,
-        "comparison": {
-            "stateless_transport_argument_bytes": stateless_bytes,
-            "custody_transport_argument_bytes": custody_bytes,
-            "transport_bytes_saved": stateless_bytes.saturating_sub(custody_bytes),
-            "custody_to_stateless_argument_basis_points": compression_basis_points
+    Ok(ProviderIndependentProbeReport {
+        probe: "cantor_lifecycle_bridge_probe".to_owned(),
+        contract: "Cantor_Live_Lifecycle_Tool_Loop_Measurement_P0.sop".to_owned(),
+        status: "passed".to_owned(),
+        started_unix_ms,
+        finished_unix_ms: unix_time_ms(),
+        provider_contacted: false,
+        private_reasoning_recorded: false,
+        custody_registrations_outside_steady_state: registrations,
+        comparison: ProbeComparison {
+            stateless_transport_argument_bytes: stateless_bytes,
+            custody_transport_argument_bytes: custody_bytes,
+            transport_bytes_saved: stateless_bytes.saturating_sub(custody_bytes),
+            custody_to_stateless_argument_basis_points: compression_basis_points,
         },
-        "restart_trial": {
-            "status": "passed",
-            "old_handle_refused": true,
-            "response": restart_response,
-            "excluded_from_steady_state": true,
-            "persistence_claimed": false
+        restart_trial: ProbeRestartTrial {
+            status: "passed".to_owned(),
+            old_handle_refused: true,
+            response: restart_response,
+            excluded_from_steady_state: true,
+            persistence_claimed: false,
         },
-        "trials": trials
-    }))
+        trials,
+    })
 }
 
-fn transport_argument_bytes(trials: &[ProbeTrial], arm: McpArm) -> usize {
+fn transport_argument_bytes(trials: &[ProviderIndependentProbeTrial], arm: McpArm) -> usize {
     trials
         .iter()
         .filter(|trial| trial.observation.arm == arm)

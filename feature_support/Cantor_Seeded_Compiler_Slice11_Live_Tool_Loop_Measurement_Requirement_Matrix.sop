@@ -3,55 +3,60 @@ Subject: Cantor Seeded Compiler Slice 11 Live Tool Loop Measurement Requirement 
 @ [matrix_uuid] b4024718-1115-4bf6-af85-d6fa21587373
 @ [source_uuid] 01643fe4-eb03-47dd-a8a2-ed8d214f584a
 @ [canonical_uuid] 644edfa3-8912-4fdb-895b-61611d227d6a
-@ [status] phase_lock_ready
+@ [status] provider_independent_implemented_verified_live_provider_unresolved
 
 & [LTM-001_GovernedFixtures]
-  + [status] ready
+  + [status] completed
   + two deterministic canonical request fixtures carry stable identities digests expected response digests and snapshot equivalence
   + [support] existing exported_artifact_validation_request builder and Slice7 direct validator
 
 & [LTM-002_StatelessArm]
-  + [status] partial
-  + Slice8 server and official-client proof exist while experiment bridge remains to implement
-  + [support] crates/cantor_compiler_mcp
+  + [status] completed
+  + Slice8 server and the experiment bridge send and verify one complete governed request per call
+  + [support] crates/cantor_compiler_mcp and crates/cantor_lifecycle_tool_loop
 
 & [LTM-003_CustodyArm]
-  + [status] partial
-  + Slice10 register validate inspect restart and official-client proof exist while experiment bridge remains to implement
-  + [support] crates/cantor_compiler_custody_mcp
+  + [status] completed
+  + Slice10 bridge registers each complete request once then sends only its exact volatile handle and proves restart loss
+  + [support] crates/cantor_compiler_custody_mcp and crates/cantor_lifecycle_tool_loop
 
 & [LTM-004_CheckpointFlow]
-  + [status] partial
-  + exact unmodified llama.cpp two-checkpoint tool flow exists while lifecycle bridge replacement remains to implement
+  + [status] completed_provider_independent_live_ready
+  + exact unmodified llama.cpp two-checkpoint flow has one closed fixture command exact call-id binding tool_choice none checkpoint two and balanced arm scheduling
   + [support] experiments/llama_tool_reflection
 
 & [LTM-005_ClosedProjection]
-  + [status] required
+  + [status] completed
   + model returns only source identity operation lifecycle outcome stage and disposition and host verifies every field
 
 & [LTM-006_Measurement]
-  + [status] required
+  + [status] completed_provider_independent_live_pending
   + raw comparable A/B observations separate bytes tokens first latency steady latency call validity import validity and exact semantic equality
+  + provider-free evidence measures 124144 stateless argument bytes versus 1200 custody bytes while model-token and live end-to-end latency fields remain unclaimed
+  + an independent strict verifier recomputes fixture identities direct responses trial coordinates raw argument byte counts restart loss and the comparison summary from the committed evidence
 
 & [LTM-007_Adversarial]
-  + [status] required
+  + [status] completed
   + invalid fixture unknown tool malformed duplicate parallel substituted handle mismatched call-id restart and provider mismatch paths refuse visibly
 
 & [LTM-008_NoEffect]
-  + [status] required
+  + [status] completed
   + model tool has no build filesystem signing admission installation deployment remote FPGA persistent or generalized agent authority
 
 & [LTM-009_LiveProvider]
-  + [status] environmental_dependency
+  + [status] unresolved_environmental_dependency
   + local endpoint must be observed healthy with matching pinned model identity before live trials
-  + [support_gap] no listener was observed on ports 8080 or 8081 at source review
+  + [support_gap] no listener was observed and the pinned local GGUF path was absent at execution preflight
 
 & [LTM-010_Regression]
-  + [status] required
+  + [status] completed_with_declared_platform_residual
   + focused debug optimized release lint format evidence and diff gates plus exact worktree attribution
+  + Windows focused workspace release passed while Windows blocked fresh isolated experiment build scripts and exact locked offline WSL2 release replay passed
+  + exact-current-tree WSL2 debug and overflow-checked release each passed 174 result groups with 900 passed zero failed and 3 ignored; focused verifier tests include coordinate byte-account restart and CLI tamper gates
 
 & [WorkSliceTransform]
   + fixture identity and proof precede client bridge
   + client bridge precedes inference transcript integration
   + provider-independent tests precede optional live measurement
   + live-provider absence does not block closure of provider-independent support but remains an unresolved frontier
+  + [disposition] satisfied_by_Slice11_solution_and_proof_except_live_provider_measurement

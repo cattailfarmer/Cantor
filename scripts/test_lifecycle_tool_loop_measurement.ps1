@@ -7,6 +7,7 @@ $ErrorActionPreference = 'Stop'
 $repositoryRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $experimentManifest = Join-Path $repositoryRoot 'experiments\llama_tool_reflection\Cargo.toml'
 $probeOutput = Join-Path ([System.IO.Path]::GetTempPath()) "cantor-lifecycle-bridge-probe-$([guid]::NewGuid()).json"
+$verificationOutput = Join-Path ([System.IO.Path]::GetTempPath()) "cantor-lifecycle-bridge-verification-$([guid]::NewGuid()).json"
 
 Push-Location $repositoryRoot
 try {
@@ -29,6 +30,18 @@ try {
         -or $probe.trials.Count -ne 8) {
         throw 'provider-independent lifecycle bridge probe evidence is incomplete'
     }
+    & cargo run -p cantor_lifecycle_tool_loop --bin cantor-lifecycle-evidence-verify --locked --offline -- `
+        --input $probeOutput `
+        --output $verificationOutput
+    if ($LASTEXITCODE -ne 0) {
+        throw 'provider-independent lifecycle bridge evidence did not recompute'
+    }
+    $verification = Get-Content -LiteralPath $verificationOutput -Raw | ConvertFrom-Json
+    if ($verification.status -ne 'passed' `
+        -or $verification.verified_trial_count -ne 8 `
+        -or $verification.comparison.transport_bytes_saved -ne 122944) {
+        throw 'provider-independent lifecycle bridge verification is incomplete'
+    }
     & cargo clippy -p cantor_lifecycle_tool_loop -p cantor_compiler_mcp -p cantor_compiler_custody_mcp --all-targets --locked --offline -- -D warnings
     if ($LASTEXITCODE -ne 0) {
         throw 'workspace lifecycle bridge lint failed'
@@ -50,6 +63,9 @@ finally {
     Pop-Location
     if (Test-Path -LiteralPath $probeOutput) {
         Remove-Item -LiteralPath $probeOutput -Force
+    }
+    if (Test-Path -LiteralPath $verificationOutput) {
+        Remove-Item -LiteralPath $verificationOutput -Force
     }
 }
 

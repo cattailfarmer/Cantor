@@ -22,6 +22,15 @@ use serde_json::{Map, Value, json};
 use sha2::{Digest, Sha256};
 use tokio::{process::Command, time::timeout};
 
+mod evidence;
+
+pub use evidence::{
+    EvidenceVerificationFault, PROVIDER_INDEPENDENT_CONTRACT,
+    PROVIDER_INDEPENDENT_EVIDENCE_MAX_BYTES, PROVIDER_INDEPENDENT_PROBE_NAME, ProbeComparison,
+    ProbePhase, ProbeRestartTrial, ProviderIndependentProbeReport, ProviderIndependentProbeTrial,
+    VerifiedProbeEvidence, verify_provider_independent_probe,
+};
+
 pub const STATELESS_TOOL_NAME: &str = "validate_native_lifecycle";
 pub const CUSTODY_TOOL_NAME: &str = "manage_native_lifecycle_custody";
 pub const MAX_STRUCTURED_RESPONSE_BYTES: usize = 131_072;

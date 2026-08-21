@@ -2136,6 +2136,17 @@ fn regenerate_governed_lifecycle_request_fixtures() {
 fn governed_lifecycle_request_fixtures_match_their_deterministic_source() {
     use sha2::{Digest, Sha256};
 
+    struct FixtureCase {
+        label: &'static str,
+        expected_request: NativeLifecycleValidationRequest,
+        fixture_bytes: &'static [u8],
+        expected_request_bytes: usize,
+        expected_request_sha256: &'static str,
+        expected_response_bytes: usize,
+        expected_response_sha256: &'static str,
+        expected_outcome: NativeLifecycleValidationOutcome,
+    }
+
     fn sha256_hex(bytes: &[u8]) -> String {
         Sha256::digest(bytes)
             .iter()
@@ -2143,43 +2154,34 @@ fn governed_lifecycle_request_fixtures_match_their_deterministic_source() {
             .collect()
     }
 
-    let cases: [(
-        &str,
-        NativeLifecycleValidationRequest,
-        &[u8],
-        usize,
-        &str,
-        usize,
-        &str,
-        NativeLifecycleValidationOutcome,
-    ); 2] = [
-        (
-            "valid",
-            exported_artifact_validation_request(),
-            include_bytes!(
+    let cases = [
+        FixtureCase {
+            label: "valid",
+            expected_request: exported_artifact_validation_request(),
+            fixture_bytes: include_bytes!(
                 "../../../fixtures/semantic_compiler/native_lifecycle_valid_request.json"
             ) as &[u8],
-            31_018,
-            "6C9B3BDC5B6CF1DC3355B6FADBB7FF7C4E8245B15A723C4DC9C4FEB7C3105E47",
-            1_038,
-            "ACD7248EDAB82C1947930D5E1FA792428DB2B8B743D6825D7AA903494A29AA14",
-            NativeLifecycleValidationOutcome::ArtifactValid,
-        ),
-        (
-            "lifecycle-refused",
-            exported_lifecycle_refused_request(),
-            include_bytes!(
+            expected_request_bytes: 31_018,
+            expected_request_sha256: "6C9B3BDC5B6CF1DC3355B6FADBB7FF7C4E8245B15A723C4DC9C4FEB7C3105E47",
+            expected_response_bytes: 1_038,
+            expected_response_sha256: "ACD7248EDAB82C1947930D5E1FA792428DB2B8B743D6825D7AA903494A29AA14",
+            expected_outcome: NativeLifecycleValidationOutcome::ArtifactValid,
+        },
+        FixtureCase {
+            label: "lifecycle-refused",
+            expected_request: exported_lifecycle_refused_request(),
+            fixture_bytes: include_bytes!(
                 "../../../fixtures/semantic_compiler/native_lifecycle_refused_request.json"
             ) as &[u8],
-            31_030,
-            "8B5073B182FC356A75C2EC76CA622D68B3C8A231AC0582FA0B6F8DB918644107",
-            801,
-            "32AD9119B2C31BDE54F04088E84BCDF6A4F3986917925289FCE269E68185D4B3",
-            NativeLifecycleValidationOutcome::LifecycleRefused,
-        ),
+            expected_request_bytes: 31_030,
+            expected_request_sha256: "8B5073B182FC356A75C2EC76CA622D68B3C8A231AC0582FA0B6F8DB918644107",
+            expected_response_bytes: 801,
+            expected_response_sha256: "32AD9119B2C31BDE54F04088E84BCDF6A4F3986917925289FCE269E68185D4B3",
+            expected_outcome: NativeLifecycleValidationOutcome::LifecycleRefused,
+        },
     ];
 
-    for (
+    for FixtureCase {
         label,
         expected_request,
         fixture_bytes,
@@ -2188,7 +2190,7 @@ fn governed_lifecycle_request_fixtures_match_their_deterministic_source() {
         expected_response_bytes,
         expected_response_sha256,
         expected_outcome,
-    ) in cases
+    } in cases
     {
         assert_eq!(fixture_bytes.len(), expected_request_bytes, "{label}");
         assert_eq!(
