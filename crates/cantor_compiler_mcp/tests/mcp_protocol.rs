@@ -121,6 +121,35 @@ async fn official_client_lists_one_tool_and_receives_exact_valid_response() {
     client.cancel().await.expect("client closes");
 }
 
+#[tokio::test(flavor = "current_thread")]
+async fn slice11_bridge_sends_each_full_governed_request_and_preserves_both_outcomes() {
+    use cantor_lifecycle_tool_loop::{
+        GovernedLifecycleFixture, LifecycleFixtureCase, McpArm, StatelessSession,
+    };
+
+    let session = StatelessSession::open(
+        std::path::Path::new(env!("CARGO_BIN_EXE_cantor-compiler-mcp")),
+        std::time::Duration::from_secs(5),
+    )
+    .await
+    .expect("Slice11 stateless bridge opens");
+    for case in [
+        LifecycleFixtureCase::Valid,
+        LifecycleFixtureCase::LifecycleRefused,
+    ] {
+        let fixture = GovernedLifecycleFixture::load(case).expect("governed fixture");
+        let observation = session.validate(&fixture).await.expect("bridge validation");
+        assert_eq!(observation.arm, McpArm::Stateless);
+        assert!(observation.argument_bytes > fixture.request_bytes.len());
+        assert!(observation.exact_direct_response);
+        assert_eq!(observation.lifecycle_response, fixture.direct_response);
+    }
+    session
+        .close()
+        .await
+        .expect("Slice11 stateless bridge closes");
+}
+
 #[test]
 fn direct_adapter_preserves_exact_valid_core_response() {
     let server = CompilerMcpServer;

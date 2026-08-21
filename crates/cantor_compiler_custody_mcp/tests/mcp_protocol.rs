@@ -282,3 +282,65 @@ async fn official_client_registers_inspects_validates_and_unknown_method_refuses
     assert_eq!(structured(&lost).status, CustodyStatus::Refused);
     restarted.cancel().await.expect("restarted client closes");
 }
+
+#[tokio::test(flavor = "current_thread")]
+async fn slice11_bridge_registers_once_validates_compactly_and_exposes_restart_loss() {
+    use cantor_lifecycle_tool_loop::{
+        CustodySession, CustodyStatus as BridgeCustodyStatus, GovernedLifecycleFixture,
+        LifecycleFixtureCase, McpArm,
+    };
+
+    let binary = std::path::Path::new(env!("CARGO_BIN_EXE_cantor-compiler-custody-mcp"));
+    let timeout = std::time::Duration::from_secs(5);
+    let valid = GovernedLifecycleFixture::load(LifecycleFixtureCase::Valid)
+        .expect("governed valid fixture");
+    let refused = GovernedLifecycleFixture::load(LifecycleFixtureCase::LifecycleRefused)
+        .expect("governed refused fixture");
+    let mut session = CustodySession::open(binary, timeout)
+        .await
+        .expect("Slice11 custody bridge opens");
+    let valid_registration = session.register(&valid).await.expect("valid registration");
+    let refused_registration = session
+        .register(&refused)
+        .await
+        .expect("refused-case registration");
+    assert!(
+        session
+            .register(&valid)
+            .await
+            .expect_err("bridge refuses a duplicate fixture before traffic")
+            .field
+            .contains("duplicate_registration")
+    );
+
+    let valid_observation = session
+        .validate(&valid)
+        .await
+        .expect("valid bridge validation");
+    let refused_observation = session
+        .validate(&refused)
+        .await
+        .expect("refused bridge validation");
+    for observation in [&valid_observation, &refused_observation] {
+        assert_eq!(observation.arm, McpArm::VolatileCustody);
+        assert!(observation.exact_direct_response);
+    }
+    assert!(valid_observation.argument_bytes * 4 < valid_registration.argument_bytes);
+    assert!(refused_observation.argument_bytes * 4 < refused_registration.argument_bytes);
+
+    let retained_handle = valid_registration.handle;
+    session.close().await.expect("first custody bridge closes");
+    let restarted = CustodySession::open(binary, timeout)
+        .await
+        .expect("restarted custody bridge opens");
+    let lost = restarted
+        .validate_raw_handle(&retained_handle)
+        .await
+        .expect("restart returns structured refusal");
+    assert_eq!(lost.status, BridgeCustodyStatus::Refused);
+    assert!(lost.lifecycle_response.is_none());
+    restarted
+        .close()
+        .await
+        .expect("restarted custody bridge closes");
+}

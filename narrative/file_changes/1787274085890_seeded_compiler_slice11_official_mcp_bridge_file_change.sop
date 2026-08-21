@@ -1,0 +1,18 @@
+Subject: Seeded Compiler Slice 11 Official MCP Bridge File Change
+
+@ [change_uuid] a3ad1807-039e-4f4d-890c-5dd5d7dd1fb2
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [event_uuid] ffcda383-6c09-4889-aba3-a4f4833caaff
+
+& [Workspace]
+  + added cantor_lifecycle_tool_loop as one non-published workspace crate
+  + added bridge-only official subprocess coverage to Slice8 and Slice10 development tests
+  + updated the workspace lock graph without changing pinned dependency versions
+
+& [Semantics]
+  + Arm A transmits the complete governed request for every validation
+  + Arm B registers each governed request once then validates only by exact volatile handle
+  + both arms require exact typed equality to the direct Slice7 response
+
+& [Preservation]
+  + existing production MCP adapters and foreign Minecraft work remain unchanged

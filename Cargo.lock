@@ -134,6 +134,7 @@ name = "cantor_compiler_custody_mcp"
 version = "0.1.0"
 dependencies = [
  "cantor_core",
+ "cantor_lifecycle_tool_loop",
  "ed25519-dalek",
  "rmcp",
  "serde",
@@ -146,6 +147,7 @@ name = "cantor_compiler_mcp"
 version = "0.1.0"
 dependencies = [
  "cantor_core",
+ "cantor_lifecycle_tool_loop",
  "ed25519-dalek",
  "rmcp",
  "serde",
@@ -206,6 +208,18 @@ name = "cantor_field_cycle"
 version = "0.1.0"
 dependencies = [
  "reqwest",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tokio",
+]
+
+[[package]]
+name = "cantor_lifecycle_tool_loop"
+version = "0.1.0"
+dependencies = [
+ "cantor_core",
+ "rmcp",
  "serde",
  "serde_json",
  "sha2",
