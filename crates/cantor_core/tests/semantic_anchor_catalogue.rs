@@ -7,9 +7,12 @@ use cantor_core::{
     AnchorDerivationFaultKind, AnchorFormFaultKind, AnchorLifecycle, AnchorProof, AnchorQuery,
     AnchorQueryResult, AnchorRelationshipPath, AnchorRelationshipStep, ApplicabilityBinding,
     ApplicabilityStatus, AssociationChannel, AssociationContribution, AuthorityContext,
-    AuthorityScope, BoundaryAccount, CandidateEligibility, CatalogueDerivationRequest,
-    CatalogueIdentity, ChannelLocalValue, ContentDigest, ContributionStatus,
-    DERIVED_LEXICAL_ASSOCIATION_INDEX_PROFILE, DerivedLexicalAssociationIndex,
+    AuthorityScope, BoundaryAccount, COMPACT_ANCHOR_DIRECT_EQUIVALENCE_PROFILE,
+    COMPACT_ANCHOR_PROJECTION_NON_AUTHORITY, COMPACT_ANCHOR_PROJECTION_PROFILE,
+    CandidateEligibility, CatalogueDerivationRequest, CatalogueIdentity, ChannelLocalValue,
+    CompactAnchorProjectionBudget, CompactAnchorProjectionFaultKind,
+    CompactAnchorProjectionRequest, CompactAnchorProjectionResult, ContentDigest,
+    ContributionStatus, DERIVED_LEXICAL_ASSOCIATION_INDEX_PROFILE, DerivedLexicalAssociationIndex,
     DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY,
     LEXICAL_ANCHOR_LOOKUP_PROFILE, LEXICAL_ASSOCIATION_INDEX_COMPILER_ID,
     LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION, LEXICAL_TOKENIZER_PROFILE,
@@ -19,23 +22,26 @@ use cantor_core::{
     LexicalLookupFaultKind, LexicalPosting, LexicalSourceProjectionFaultKind, LexicalSurfaceKind,
     LexicalTokenizerIdentity, LexicallySeededAnchorGateBudget, LexicallySeededAnchorGateFaultKind,
     LexicallySeededAnchorGateRequest, MAX_LEXICAL_SURFACE_BYTES, OperationAnchorEntry,
-    OperationClass, OperationRole, PriorityTier, RelationType, RelationshipDirection,
-    RequestedDetailKind, SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress,
-    SemanticAnchorCatalogue, SemanticFabric, SemanticId, SourceAnchor, UnitKind, UnitStatus,
-    admit_package, anchor_query_result_digest, candidate_association_account,
+    OperationClass, OperationRole, PriorityTier, QUERY_PROTOCOL_VERSION, QueryBudget, RelationType,
+    RelationshipDirection, RequestedDetailKind, SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SearchMode,
+    SemanticAddress, SemanticAnchorCatalogue, SemanticFabric, SemanticId, SourceAnchor, UnitKind,
+    UnitStatus, admit_package, anchor_query_result_digest, candidate_association_account,
     candidate_relationship_paths, catalogue_derivation_digest, catalogue_root,
+    compact_anchor_direct_equivalence_digest, compact_anchor_projection_result_digest,
     derive_lexical_association_index, derive_semantic_anchor_catalogue,
-    derived_semantic_anchor_catalogue_digest, gate_lexical_anchor_matches,
+    derived_semantic_anchor_catalogue_digest, execute_query, gate_lexical_anchor_matches,
     lexical_anchor_lookup_proof_digest, lexical_anchor_source_projection_digest,
     lexical_anchor_source_projection_result_digest, lexical_association_index_proof_digest,
     lexical_association_index_root, lexical_tokenizer_adversarial_fixture_digest,
     lexically_seeded_anchor_gate_result_digest, lookup_lexical_anchors,
-    project_lexical_anchor_sources, tokenize_lexical_surface, validate_anchor_candidate,
+    project_compact_semantic_anchors, project_lexical_anchor_sources,
+    prove_compact_anchor_direct_equivalence, tokenize_lexical_surface, validate_anchor_candidate,
     validate_anchor_query, validate_anchor_query_result,
-    validate_derived_lexical_association_index, validate_derived_lexical_association_index_form,
-    validate_derived_semantic_anchor_catalogue, validate_lexical_anchor_lookup_request,
-    validate_lexical_anchor_lookup_result, validate_lexical_anchor_lookup_result_form,
-    validate_lexical_anchor_source_projection_result,
+    validate_compact_anchor_direct_equivalence_witness, validate_compact_anchor_projection_result,
+    validate_compact_anchor_projection_result_form, validate_derived_lexical_association_index,
+    validate_derived_lexical_association_index_form, validate_derived_semantic_anchor_catalogue,
+    validate_lexical_anchor_lookup_request, validate_lexical_anchor_lookup_result,
+    validate_lexical_anchor_lookup_result_form, validate_lexical_anchor_source_projection_result,
     validate_lexical_anchor_source_projection_result_form,
     validate_lexical_index_derivation_request, validate_lexically_seeded_anchor_gate_request,
     validate_lexically_seeded_anchor_gate_result,
@@ -223,6 +229,106 @@ fn lexical_gate_request(
             maximum_serialized_result_bytes: 4 * 1024 * 1024,
         },
     }
+}
+
+fn compact_projection_request() -> CompactAnchorProjectionRequest {
+    CompactAnchorProjectionRequest {
+        profile: COMPACT_ANCHOR_PROJECTION_PROFILE.to_owned(),
+        request_id: id("request:lexically_seeded_gate_fixture"),
+        requested_details: BTreeSet::from([
+            RequestedDetailKind::Term,
+            RequestedDetailKind::Definition,
+            RequestedDetailKind::SourceSpan,
+        ]),
+        budget: CompactAnchorProjectionBudget {
+            maximum_records: 16,
+            maximum_serialized_result_bytes: 4 * 1024 * 1024,
+        },
+    }
+}
+
+fn compact_direct_request(
+    projection: &CompactAnchorProjectionResult,
+) -> cantor_core::CantorQueryRequest {
+    cantor_core::CantorQueryRequest {
+        protocol_version: QUERY_PROTOCOL_VERSION.to_owned(),
+        request_id: id("request:compact_direct_fixture"),
+        term_set: projection
+            .records
+            .iter()
+            .map(|record| record.unit_id.as_str().to_owned())
+            .collect(),
+        subject: None,
+        purpose: "trusted-package fixture".to_owned(),
+        use_case_set: BTreeSet::new(),
+        include_boundary_set: BTreeSet::new(),
+        exclude_boundary_set: BTreeSet::new(),
+        description_need: None,
+        requested_detail_kinds: BTreeSet::from([
+            RequestedDetailKind::Term,
+            RequestedDetailKind::Definition,
+            RequestedDetailKind::SourceSpan,
+        ]),
+        search_modes: BTreeSet::from([SearchMode::Exact]),
+        relation_types: BTreeSet::new(),
+        criteria: BTreeSet::new(),
+        source_scopes: BTreeSet::new(),
+        perspectives: BTreeSet::new(),
+        known_units: BTreeSet::new(),
+        authority_context: AuthorityContext {
+            caller_id: id("caller:lexically_seeded_gate_fixture"),
+            allowed_package_scopes: BTreeSet::from(["cantor".to_owned()]),
+            operation: "semantic_read".to_owned(),
+            effect_boundary: "read_only".to_owned(),
+        },
+        budget: QueryBudget {
+            maximum_records: 16,
+            maximum_paths: 1,
+            maximum_depth: 1,
+            maximum_bytes: 128 * 1024,
+            maximum_elapsed_milliseconds: 1_000,
+        },
+    }
+}
+
+fn compact_fixture() -> (
+    SemanticFabric,
+    DerivedSemanticAnchorCatalogue,
+    DerivedLexicalAssociationIndex,
+    LexicalAnchorLookupRequest,
+    cantor_core::LexicalAnchorLookupResult,
+    LexicallySeededAnchorGateRequest,
+    cantor_core::LexicallySeededAnchorGateResult,
+    CompactAnchorProjectionRequest,
+) {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let lexical_request = lexical_lookup_request(&["deposits"]);
+    let lexical_result =
+        lookup_lexical_anchors(&fabric, &catalogue, &index, lexical_request.clone())
+            .expect("lexical lookup");
+    let gate_request = lexical_gate_request(&lexical_result);
+    let gate_result = gate_lexical_anchor_matches(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        gate_request.clone(),
+    )
+    .expect("semantic gate");
+    (
+        fabric,
+        catalogue,
+        index,
+        lexical_request,
+        lexical_result,
+        gate_request,
+        gate_result,
+        compact_projection_request(),
+    )
 }
 
 fn lexical_source_projection_budget() -> LexicalAnchorSourceProjectionBudget {
@@ -2416,5 +2522,353 @@ fn lexical_seed_gate_rejects_result_tampering_and_unknown_fields() {
     assert!(
         serde_json::from_value::<cantor_core::LexicallySeededAnchorGateResult>(result_value)
             .is_err()
+    );
+}
+
+#[test]
+fn compact_projection_whole_replays_eligible_exact_records_deterministically() {
+    let (
+        fabric,
+        catalogue,
+        index,
+        lexical_request,
+        lexical_result,
+        gate_request,
+        gate_result,
+        request,
+    ) = compact_fixture();
+    let result = project_compact_semantic_anchors(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &gate_request,
+        &gate_result,
+        request.clone(),
+    )
+    .expect("compact projection");
+    validate_compact_anchor_projection_result(
+        &result,
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &gate_request,
+        &gate_result,
+        &request,
+    )
+    .expect("whole compact replay");
+    assert_eq!(result.records.len(), 1);
+    assert_eq!(result.detail_accounts.len(), 3);
+    assert_eq!(
+        result.non_authority_statement,
+        COMPACT_ANCHOR_PROJECTION_NON_AUTHORITY
+    );
+    assert!(result.records.iter().all(|record| {
+        record.eligibility == CandidateEligibility::Eligible
+            && record.expression.is_some()
+            && record.aliases.is_some()
+            && record.meaning.is_some()
+            && record.source_anchors.is_some()
+            && record.context.is_none()
+    }));
+    let repeated = project_compact_semantic_anchors(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &gate_request,
+        &gate_result,
+        request,
+    )
+    .expect("repeat compact projection");
+    assert_eq!(
+        serde_json::to_vec(&result).unwrap(),
+        serde_json::to_vec(&repeated).unwrap()
+    );
+}
+
+#[test]
+fn compact_projection_never_leaks_noneligible_semantic_dispositions() {
+    let (fabric, catalogue, index, lexical_request, lexical_result, mut gate_request, _, request) =
+        compact_fixture();
+    gate_request.scanner_query.purpose = "outside purpose".to_owned();
+    let excluded_gate = gate_lexical_anchor_matches(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        gate_request.clone(),
+    )
+    .expect("excluded semantic gate");
+    assert!(
+        excluded_gate
+            .scanner_result
+            .candidates
+            .iter()
+            .all(|candidate| { candidate.eligibility == CandidateEligibility::Excluded })
+    );
+    let projected = project_compact_semantic_anchors(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &gate_request,
+        &excluded_gate,
+        request,
+    )
+    .expect("empty eligible projection");
+    assert!(projected.records.is_empty());
+    assert!(
+        projected
+            .detail_accounts
+            .iter()
+            .all(|account| account.record_ids.is_empty())
+    );
+    assert_eq!(projected.omissions.len(), 3);
+
+    gate_request.scanner_query.purpose = "trusted-package fixture".to_owned();
+    gate_request
+        .scanner_query
+        .authority_context
+        .allowed_package_scopes = BTreeSet::from(["outside".to_owned()]);
+    let unauthorized_gate = gate_lexical_anchor_matches(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        gate_request.clone(),
+    )
+    .expect("unauthorized semantic gate");
+    let unauthorized_projection = project_compact_semantic_anchors(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &gate_request,
+        &unauthorized_gate,
+        compact_projection_request(),
+    )
+    .expect("unauthorized candidates remain unprojected");
+    assert!(unauthorized_projection.records.is_empty());
+}
+
+#[test]
+fn compact_projection_refuses_unsupported_details_budgets_tamper_and_unknown_fields() {
+    let (
+        fabric,
+        catalogue,
+        index,
+        lexical_request,
+        lexical_result,
+        gate_request,
+        gate_result,
+        mut request,
+    ) = compact_fixture();
+    request
+        .requested_details
+        .insert(RequestedDetailKind::Authority);
+    assert_eq!(
+        project_compact_semantic_anchors(
+            &fabric,
+            &catalogue,
+            &index,
+            &lexical_request,
+            &lexical_result,
+            &gate_request,
+            &gate_result,
+            request,
+        )
+        .expect_err("unsupported detail")
+        .kind,
+        CompactAnchorProjectionFaultKind::UnsupportedDetail
+    );
+
+    let mut request = compact_projection_request();
+    request.budget.maximum_records = 0;
+    assert_eq!(
+        project_compact_semantic_anchors(
+            &fabric,
+            &catalogue,
+            &index,
+            &lexical_request,
+            &lexical_result,
+            &gate_request,
+            &gate_result,
+            request,
+        )
+        .expect_err("complete record budget")
+        .kind,
+        CompactAnchorProjectionFaultKind::InvalidBound
+    );
+
+    let request = compact_projection_request();
+    let result = project_compact_semantic_anchors(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &gate_request,
+        &gate_result,
+        request.clone(),
+    )
+    .expect("compact projection");
+    let mut tampered = result.clone();
+    tampered.records[0].meaning = Some("invented meaning".to_owned());
+    tampered.proof_digest = compact_anchor_projection_result_digest(&tampered, &request)
+        .expect("resealed compact proof");
+    validate_compact_anchor_projection_result_form(&tampered, &request, &gate_result)
+        .expect("self-consistent compact form");
+    assert_eq!(
+        validate_compact_anchor_projection_result(
+            &tampered,
+            &fabric,
+            &catalogue,
+            &index,
+            &lexical_request,
+            &lexical_result,
+            &gate_request,
+            &gate_result,
+            &request,
+        )
+        .expect_err("invented admitted field")
+        .kind,
+        CompactAnchorProjectionFaultKind::ProjectionMismatch
+    );
+    let mut value = serde_json::to_value(&result).unwrap();
+    value.as_object_mut().unwrap().insert(
+        "global_query_equivalence".to_owned(),
+        serde_json::json!(true),
+    );
+    assert!(serde_json::from_value::<CompactAnchorProjectionResult>(value).is_err());
+}
+
+#[test]
+fn compact_direct_equivalence_is_field_scoped_replayed_and_measured() {
+    let (
+        fabric,
+        catalogue,
+        index,
+        lexical_request,
+        lexical_result,
+        gate_request,
+        gate_result,
+        request,
+    ) = compact_fixture();
+    let projection = project_compact_semantic_anchors(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &gate_request,
+        &gate_result,
+        request.clone(),
+    )
+    .expect("compact projection");
+    let direct_request = compact_direct_request(&projection);
+    let direct_result = execute_query(&fabric, &direct_request).expect("direct exact query");
+    let witness = prove_compact_anchor_direct_equivalence(
+        &projection,
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &gate_request,
+        &gate_result,
+        &request,
+        &direct_request,
+        &direct_result,
+    )
+    .expect("field-scoped direct equivalence");
+    assert_eq!(witness.profile, COMPACT_ANCHOR_DIRECT_EQUIVALENCE_PROFILE);
+    assert!(witness.equivalent);
+    assert_eq!(witness.eligible_ids.len(), 1);
+    assert_eq!(
+        witness.proof_digest,
+        compact_anchor_direct_equivalence_digest(&witness).expect("witness digest")
+    );
+    validate_compact_anchor_direct_equivalence_witness(&witness).expect("equivalence witness form");
+    assert!(witness.equivalence_boundary.contains("no global"));
+    assert!(witness.compact_serialized_bytes > 0);
+    assert!(witness.direct_serialized_bytes > 0);
+    assert!(witness.saved_bytes > 0);
+}
+
+#[test]
+fn compact_direct_equivalence_refuses_profile_and_resealed_result_mutations() {
+    let (
+        fabric,
+        catalogue,
+        index,
+        lexical_request,
+        lexical_result,
+        gate_request,
+        gate_result,
+        request,
+    ) = compact_fixture();
+    let projection = project_compact_semantic_anchors(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &gate_request,
+        &gate_result,
+        request.clone(),
+    )
+    .expect("compact projection");
+    let direct_request = compact_direct_request(&projection);
+    let direct_result = execute_query(&fabric, &direct_request).expect("direct exact query");
+
+    let mut broadened = direct_request.clone();
+    broadened.search_modes.insert(SearchMode::Contextual);
+    assert_eq!(
+        prove_compact_anchor_direct_equivalence(
+            &projection,
+            &fabric,
+            &catalogue,
+            &index,
+            &lexical_request,
+            &lexical_result,
+            &gate_request,
+            &gate_result,
+            &request,
+            &broadened,
+            &direct_result,
+        )
+        .expect_err("broadened query profile")
+        .kind,
+        CompactAnchorProjectionFaultKind::DirectRequestRejected
+    );
+
+    let mut invented = direct_result;
+    invented.records[0].meaning = "invented direct meaning".to_owned();
+    assert_eq!(
+        prove_compact_anchor_direct_equivalence(
+            &projection,
+            &fabric,
+            &catalogue,
+            &index,
+            &lexical_request,
+            &lexical_result,
+            &gate_request,
+            &gate_result,
+            &request,
+            &direct_request,
+            &invented,
+        )
+        .expect_err("mutated direct result")
+        .kind,
+        CompactAnchorProjectionFaultKind::DirectReplayRejected
     );
 }

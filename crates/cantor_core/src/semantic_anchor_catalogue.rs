@@ -14,8 +14,9 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest as _, Sha256};
 
 use crate::{
-    AuthorityContext, AuthorityScope, BoundaryAccount, ContentDigest, RelationType,
-    RequestedDetailKind, SemanticFabric, SemanticId, SourceAnchor, UnitKind, UnitStatus,
+    AuthorityContext, AuthorityScope, BoundaryAccount, CantorQueryRequest, CantorQueryResult,
+    ContentDigest, RelationType, RequestedDetailKind, SearchMode, SemanticContext, SemanticFabric,
+    SemanticId, SourceAnchor, UnitKind, UnitStatus,
 };
 
 pub const SEMANTIC_ANCHOR_CATALOGUE_PROFILE: &str = "cantor-semantic-anchor-catalogue/0.1";
@@ -58,6 +59,14 @@ pub const MAX_LEXICAL_SOURCE_PROJECTION_RESULT_BYTES: u64 = 67_108_864;
 pub const MAX_LEXICALLY_SEEDED_GATE_MATCHES: u32 = 4_096;
 pub const MAX_LEXICALLY_SEEDED_GATE_CANDIDATES: u32 = 4_096;
 pub const MAX_LEXICALLY_SEEDED_GATE_RESULT_BYTES: u64 = 67_108_864;
+pub const COMPACT_ANCHOR_PROJECTION_PROFILE: &str = "cantor-compact-anchor-projection/0.1";
+pub const COMPACT_ANCHOR_PROJECTION_RESULT_PROFILE: &str =
+    "cantor-compact-anchor-projection-result/0.1";
+pub const COMPACT_ANCHOR_DIRECT_EQUIVALENCE_PROFILE: &str =
+    "cantor-compact-anchor-direct-equivalence/0.1";
+pub const COMPACT_ANCHOR_PROJECTION_NON_AUTHORITY: &str = "Compact fields reproduce exact admitted records for scanner-eligible identities only. Projection and field correspondence grant no new truth, permission, safety, execution, effect, or global query-algorithm equivalence authority.";
+pub const MAX_COMPACT_ANCHOR_RECORDS: u32 = 4_096;
+pub const MAX_COMPACT_ANCHOR_RESULT_BYTES: u64 = 67_108_864;
 
 const DIGEST_ALGORITHM: &str = "sha256";
 const DERIVATION_DOMAIN: &str = "cantor.semantic-anchor-catalogue.derivation.v1";
@@ -83,6 +92,10 @@ const LEXICAL_SOURCE_PROJECTION_RESULT_DOMAIN: &str =
     "cantor.semantic-anchor-catalogue.lexical-source-projection-result.v1";
 const LEXICALLY_SEEDED_GATE_RESULT_DOMAIN: &str =
     "cantor.semantic-anchor-catalogue.lexically-seeded-gate-result.v1";
+const COMPACT_ANCHOR_PROJECTION_RESULT_DOMAIN: &str =
+    "cantor.semantic-anchor-catalogue.compact-projection-result.v1";
+const COMPACT_ANCHOR_DIRECT_EQUIVALENCE_DOMAIN: &str =
+    "cantor.semantic-anchor-catalogue.compact-direct-equivalence.v1";
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -341,6 +354,98 @@ pub enum LexicallySeededAnchorGateFaultKind {
 #[serde(deny_unknown_fields)]
 pub struct LexicallySeededAnchorGateFault {
     pub kind: LexicallySeededAnchorGateFaultKind,
+    pub field: String,
+    pub detail: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompactAnchorProjectionBudget {
+    pub maximum_records: u32,
+    pub maximum_serialized_result_bytes: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompactAnchorProjectionRequest {
+    pub profile: String,
+    pub request_id: SemanticId,
+    pub requested_details: BTreeSet<RequestedDetailKind>,
+    pub budget: CompactAnchorProjectionBudget,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompactAnchorRecord {
+    pub unit_id: SemanticId,
+    pub unit_digest: ContentDigest,
+    pub kind: UnitKind,
+    pub status: UnitStatus,
+    pub eligibility: CandidateEligibility,
+    pub expression: Option<String>,
+    pub aliases: Option<BTreeSet<String>>,
+    pub meaning: Option<String>,
+    pub context: Option<SemanticContext>,
+    pub source_anchors: Option<Vec<SourceAnchor>>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompactAnchorDetailAccount {
+    pub kind: RequestedDetailKind,
+    pub record_ids: Vec<SemanticId>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompactAnchorProjectionResult {
+    pub profile: String,
+    pub request_id: SemanticId,
+    pub catalogue_root: ContentDigest,
+    pub fabric_root: ContentDigest,
+    pub gate_proof_digest: ContentDigest,
+    pub records: Vec<CompactAnchorRecord>,
+    pub detail_accounts: Vec<CompactAnchorDetailAccount>,
+    pub omissions: Vec<String>,
+    pub non_authority_statement: String,
+    pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompactAnchorDirectEquivalenceWitness {
+    pub profile: String,
+    pub compact_proof_digest: ContentDigest,
+    pub direct_result_digest: ContentDigest,
+    pub compared_details: BTreeSet<RequestedDetailKind>,
+    pub eligible_ids: Vec<SemanticId>,
+    pub compact_serialized_bytes: u64,
+    pub direct_serialized_bytes: u64,
+    pub saved_bytes: i64,
+    pub equivalent: bool,
+    pub equivalence_boundary: String,
+    pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum CompactAnchorProjectionFaultKind {
+    InvalidProfile,
+    InvalidBound,
+    UnsupportedDetail,
+    GateRejected,
+    IdentityMismatch,
+    ProjectionMismatch,
+    DirectRequestRejected,
+    DirectReplayRejected,
+    EquivalenceMismatch,
+    ProofMismatch,
+    Serialization,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CompactAnchorProjectionFault {
+    pub kind: CompactAnchorProjectionFaultKind,
     pub field: String,
     pub detail: String,
 }
@@ -751,6 +856,7 @@ type LexicalIndexValidation<T = ()> = Result<T, LexicalIndexFault>;
 type LexicalLookupValidation<T = ()> = Result<T, LexicalLookupFault>;
 type LexicalSourceProjectionValidation<T = ()> = Result<T, LexicalSourceProjectionFault>;
 pub type LexicallySeededAnchorGateValidation<T = ()> = Result<T, LexicallySeededAnchorGateFault>;
+pub type CompactAnchorProjectionValidation<T = ()> = Result<T, CompactAnchorProjectionFault>;
 
 pub fn derive_semantic_anchor_catalogue(
     fabric: &SemanticFabric,
@@ -1695,6 +1801,609 @@ pub fn lexically_seeded_anchor_gate_result_digest(
             .map(|byte| format!("{byte:02x}"))
             .collect(),
     })
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn project_compact_semantic_anchors(
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    index: &DerivedLexicalAssociationIndex,
+    lexical_request: &LexicalAnchorLookupRequest,
+    lexical_result: &LexicalAnchorLookupResult,
+    gate_request: &LexicallySeededAnchorGateRequest,
+    gate_result: &LexicallySeededAnchorGateResult,
+    request: CompactAnchorProjectionRequest,
+) -> CompactAnchorProjectionValidation<CompactAnchorProjectionResult> {
+    validate_lexically_seeded_anchor_gate_result(
+        gate_result,
+        fabric,
+        catalogue,
+        index,
+        lexical_request,
+        lexical_result,
+        gate_request,
+    )
+    .map_err(|fault| CompactAnchorProjectionFault {
+        kind: CompactAnchorProjectionFaultKind::GateRejected,
+        field: fault.field,
+        detail: fault.detail,
+    })?;
+    validate_compact_anchor_projection_request(&request, gate_result)?;
+    let wants_term = request
+        .requested_details
+        .contains(&RequestedDetailKind::Term);
+    let wants_meaning = request.requested_details.iter().any(|kind| {
+        matches!(
+            kind,
+            RequestedDetailKind::Definition | RequestedDetailKind::Description
+        )
+    });
+    let wants_source = request
+        .requested_details
+        .contains(&RequestedDetailKind::SourceSpan);
+    let eligible = gate_result
+        .scanner_result
+        .candidates
+        .iter()
+        .filter(|candidate| candidate.eligibility == CandidateEligibility::Eligible)
+        .collect::<Vec<_>>();
+    if eligible.len() > request.budget.maximum_records as usize {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::InvalidBound,
+            "request.budget.maximum_records",
+            "complete eligible record set exceeds the projection budget",
+        );
+    }
+    let mut records = Vec::with_capacity(eligible.len());
+    for candidate in eligible {
+        let unit = fabric.unit(&candidate.address.unit_id).ok_or_else(|| {
+            CompactAnchorProjectionFault {
+                kind: CompactAnchorProjectionFaultKind::IdentityMismatch,
+                field: "record.unit_id".to_owned(),
+                detail: format!(
+                    "eligible identity {} is absent from the admitted fabric",
+                    candidate.address.unit_id
+                ),
+            }
+        })?;
+        let unit_digest = content_commitment(UNIT_DOMAIN, unit).map_err(|fault| {
+            CompactAnchorProjectionFault {
+                kind: CompactAnchorProjectionFaultKind::Serialization,
+                field: fault.stage,
+                detail: fault.detail,
+            }
+        })?;
+        if unit_digest != candidate.address.unit_digest || unit.kind != candidate.address.kind {
+            return compact_projection_fault(
+                CompactAnchorProjectionFaultKind::IdentityMismatch,
+                "record.address",
+                "eligible scanner address differs from its exact admitted unit",
+            );
+        }
+        records.push(CompactAnchorRecord {
+            unit_id: unit.unit_id.clone(),
+            unit_digest,
+            kind: unit.kind.clone(),
+            status: unit.status.clone(),
+            eligibility: candidate.eligibility.clone(),
+            expression: wants_term.then(|| unit.expression.clone()),
+            aliases: wants_term.then(|| unit.aliases.clone()),
+            meaning: wants_meaning.then(|| unit.meaning.clone()),
+            context: None,
+            source_anchors: wants_source.then(|| candidate.address.source_anchors.clone()),
+        });
+    }
+    let record_ids = records
+        .iter()
+        .map(|record| record.unit_id.clone())
+        .collect::<Vec<_>>();
+    let detail_accounts = request
+        .requested_details
+        .iter()
+        .cloned()
+        .map(|kind| CompactAnchorDetailAccount {
+            kind,
+            record_ids: record_ids.clone(),
+        })
+        .collect::<Vec<_>>();
+    let omissions = if record_ids.is_empty() {
+        request
+            .requested_details
+            .iter()
+            .map(|kind| format!("{kind:?}: no eligible scanner records"))
+            .collect::<Vec<_>>()
+    } else {
+        Vec::new()
+    };
+    let mut result = CompactAnchorProjectionResult {
+        profile: COMPACT_ANCHOR_PROJECTION_RESULT_PROFILE.to_owned(),
+        request_id: request.request_id.clone(),
+        catalogue_root: gate_result.catalogue_root.clone(),
+        fabric_root: gate_result.fabric_root.clone(),
+        gate_proof_digest: gate_result.proof_digest.clone(),
+        records,
+        detail_accounts,
+        omissions,
+        non_authority_statement: COMPACT_ANCHOR_PROJECTION_NON_AUTHORITY.to_owned(),
+        proof_digest: zero_sha256(),
+    };
+    result.proof_digest = compact_anchor_projection_result_digest(&result, &request)?;
+    validate_compact_anchor_projection_result_form(&result, &request, gate_result)?;
+    Ok(result)
+}
+
+pub fn validate_compact_anchor_projection_request(
+    request: &CompactAnchorProjectionRequest,
+    gate_result: &LexicallySeededAnchorGateResult,
+) -> CompactAnchorProjectionValidation {
+    if request.profile != COMPACT_ANCHOR_PROJECTION_PROFILE {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::InvalidProfile,
+            "request.profile",
+            "unsupported compact anchor projection profile",
+        );
+    }
+    if request.request_id != gate_result.request_id {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::IdentityMismatch,
+            "request.request_id",
+            "compact projection and semantic gate request identities differ",
+        );
+    }
+    if request.requested_details.is_empty() {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::InvalidBound,
+            "request.requested_details",
+            "at least one compact detail is required",
+        );
+    }
+    let supported = BTreeSet::from([
+        RequestedDetailKind::Term,
+        RequestedDetailKind::Definition,
+        RequestedDetailKind::Description,
+        RequestedDetailKind::SourceSpan,
+    ]);
+    if !request.requested_details.is_subset(&supported) {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::UnsupportedDetail,
+            "request.requested_details",
+            "Slice4C supports only Term Definition Description and SourceSpan",
+        );
+    }
+    if request.budget.maximum_records == 0
+        || request.budget.maximum_records > MAX_COMPACT_ANCHOR_RECORDS
+        || request.budget.maximum_serialized_result_bytes == 0
+        || request.budget.maximum_serialized_result_bytes > MAX_COMPACT_ANCHOR_RESULT_BYTES
+    {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::InvalidBound,
+            "request.budget",
+            "compact projection budget is zero or exceeds a hard cap",
+        );
+    }
+    Ok(())
+}
+
+pub fn validate_compact_anchor_projection_result_form(
+    result: &CompactAnchorProjectionResult,
+    request: &CompactAnchorProjectionRequest,
+    gate_result: &LexicallySeededAnchorGateResult,
+) -> CompactAnchorProjectionValidation {
+    validate_compact_anchor_projection_request(request, gate_result)?;
+    if result.profile != COMPACT_ANCHOR_PROJECTION_RESULT_PROFILE
+        || result.request_id != request.request_id
+        || result.catalogue_root != gate_result.catalogue_root
+        || result.fabric_root != gate_result.fabric_root
+        || result.gate_proof_digest != gate_result.proof_digest
+        || result.non_authority_statement != COMPACT_ANCHOR_PROJECTION_NON_AUTHORITY
+    {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::ProjectionMismatch,
+            "result.identity",
+            "compact result identity roots boundary or omissions differ",
+        );
+    }
+    let expected_ids = gate_result
+        .scanner_result
+        .candidates
+        .iter()
+        .filter(|candidate| candidate.eligibility == CandidateEligibility::Eligible)
+        .map(|candidate| candidate.address.unit_id.clone())
+        .collect::<Vec<_>>();
+    let actual_ids = result
+        .records
+        .iter()
+        .map(|record| record.unit_id.clone())
+        .collect::<Vec<_>>();
+    if actual_ids != expected_ids
+        || result.records.len() > request.budget.maximum_records as usize
+        || result
+            .records
+            .iter()
+            .any(|record| record.eligibility != CandidateEligibility::Eligible)
+    {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::ProjectionMismatch,
+            "result.records",
+            "compact records must equal every eligible scanner identity in canonical order",
+        );
+    }
+    let expected_accounts = request
+        .requested_details
+        .iter()
+        .cloned()
+        .map(|kind| CompactAnchorDetailAccount {
+            kind,
+            record_ids: expected_ids.clone(),
+        })
+        .collect::<Vec<_>>();
+    let expected_omissions = if expected_ids.is_empty() {
+        request
+            .requested_details
+            .iter()
+            .map(|kind| format!("{kind:?}: no eligible scanner records"))
+            .collect::<Vec<_>>()
+    } else {
+        Vec::new()
+    };
+    if result.detail_accounts != expected_accounts || result.omissions != expected_omissions {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::ProjectionMismatch,
+            "result.detail_accounts",
+            "detail accounts differ from requested fields and eligible records",
+        );
+    }
+    let wants_term = request
+        .requested_details
+        .contains(&RequestedDetailKind::Term);
+    let wants_meaning = request.requested_details.iter().any(|kind| {
+        matches!(
+            kind,
+            RequestedDetailKind::Definition | RequestedDetailKind::Description
+        )
+    });
+    let wants_source = request
+        .requested_details
+        .contains(&RequestedDetailKind::SourceSpan);
+    if result.records.iter().any(|record| {
+        record.expression.is_some() != wants_term
+            || record.aliases.is_some() != wants_term
+            || record.meaning.is_some() != wants_meaning
+            || record.context.is_some()
+            || record.source_anchors.is_some() != wants_source
+    }) {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::ProjectionMismatch,
+            "result.records.fields",
+            "compact optional field presence differs from requested details",
+        );
+    }
+    if result.proof_digest != compact_anchor_projection_result_digest(result, request)? {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::ProofMismatch,
+            "result.proof_digest",
+            "compact projection proof differs from its exact body",
+        );
+    }
+    let bytes = serde_json::to_vec(result).map_err(|error| CompactAnchorProjectionFault {
+        kind: CompactAnchorProjectionFaultKind::Serialization,
+        field: "result.serialization".to_owned(),
+        detail: error.to_string(),
+    })?;
+    if bytes.len() as u64 > request.budget.maximum_serialized_result_bytes
+        || bytes.len() as u64 > MAX_COMPACT_ANCHOR_RESULT_BYTES
+    {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::InvalidBound,
+            "result.serialized_bytes",
+            "complete compact result exceeds its serialized byte budget",
+        );
+    }
+    Ok(())
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn validate_compact_anchor_projection_result(
+    result: &CompactAnchorProjectionResult,
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    index: &DerivedLexicalAssociationIndex,
+    lexical_request: &LexicalAnchorLookupRequest,
+    lexical_result: &LexicalAnchorLookupResult,
+    gate_request: &LexicallySeededAnchorGateRequest,
+    gate_result: &LexicallySeededAnchorGateResult,
+    request: &CompactAnchorProjectionRequest,
+) -> CompactAnchorProjectionValidation {
+    validate_compact_anchor_projection_result_form(result, request, gate_result)?;
+    let expected = project_compact_semantic_anchors(
+        fabric,
+        catalogue,
+        index,
+        lexical_request,
+        lexical_result,
+        gate_request,
+        gate_result,
+        request.clone(),
+    )?;
+    if &expected != result {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::ProjectionMismatch,
+            "result",
+            "compact projection differs from canonical whole replay",
+        );
+    }
+    Ok(())
+}
+
+pub fn compact_anchor_projection_result_digest(
+    result: &CompactAnchorProjectionResult,
+    request: &CompactAnchorProjectionRequest,
+) -> CompactAnchorProjectionValidation<ContentDigest> {
+    compact_projection_digest(
+        COMPACT_ANCHOR_PROJECTION_RESULT_DOMAIN,
+        &(
+            request,
+            &result.profile,
+            &result.request_id,
+            &result.catalogue_root,
+            &result.fabric_root,
+            &result.gate_proof_digest,
+            &result.records,
+            &result.detail_accounts,
+            &result.omissions,
+            &result.non_authority_statement,
+        ),
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn prove_compact_anchor_direct_equivalence(
+    projection: &CompactAnchorProjectionResult,
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    index: &DerivedLexicalAssociationIndex,
+    lexical_request: &LexicalAnchorLookupRequest,
+    lexical_result: &LexicalAnchorLookupResult,
+    gate_request: &LexicallySeededAnchorGateRequest,
+    gate_result: &LexicallySeededAnchorGateResult,
+    projection_request: &CompactAnchorProjectionRequest,
+    direct_request: &CantorQueryRequest,
+    direct_result: &CantorQueryResult,
+) -> CompactAnchorProjectionValidation<CompactAnchorDirectEquivalenceWitness> {
+    validate_compact_anchor_projection_result(
+        projection,
+        fabric,
+        catalogue,
+        index,
+        lexical_request,
+        lexical_result,
+        gate_request,
+        gate_result,
+        projection_request,
+    )?;
+    validate_compact_direct_overlap_request(
+        direct_request,
+        gate_request,
+        projection_request,
+        projection,
+    )?;
+    let replay = crate::execute_query(fabric, direct_request).map_err(|fault| {
+        CompactAnchorProjectionFault {
+            kind: CompactAnchorProjectionFaultKind::DirectReplayRejected,
+            field: fault.stage,
+            detail: fault.message,
+        }
+    })?;
+    if &replay != direct_result
+        || !crate::verify_query_result_digest(direct_result).map_err(|fault| {
+            CompactAnchorProjectionFault {
+                kind: CompactAnchorProjectionFaultKind::DirectReplayRejected,
+                field: fault.stage,
+                detail: fault.message,
+            }
+        })?
+    {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::DirectReplayRejected,
+            "direct_result",
+            "direct result differs from canonical execute_query replay or digest",
+        );
+    }
+    let eligible_ids = projection
+        .records
+        .iter()
+        .map(|record| record.unit_id.clone())
+        .collect::<Vec<_>>();
+    let direct_ids = direct_result
+        .records
+        .iter()
+        .map(|record| record.unit_id.clone())
+        .collect::<BTreeSet<_>>();
+    if direct_result
+        .resolved_subjects
+        .iter()
+        .cloned()
+        .collect::<BTreeSet<_>>()
+        != eligible_ids.iter().cloned().collect()
+        || direct_ids != eligible_ids.iter().cloned().collect()
+        || direct_result.records.len() != eligible_ids.len()
+    {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::EquivalenceMismatch,
+            "direct_result.records",
+            "direct subjects and records do not exactly account compact eligible identities",
+        );
+    }
+    for compact in &projection.records {
+        let direct = direct_result
+            .records
+            .iter()
+            .find(|record| record.unit_id == compact.unit_id)
+            .ok_or_else(|| CompactAnchorProjectionFault {
+                kind: CompactAnchorProjectionFaultKind::EquivalenceMismatch,
+                field: "direct_result.records".to_owned(),
+                detail: format!("direct result omits compact identity {}", compact.unit_id),
+            })?;
+        let direct_digest = content_commitment(UNIT_DOMAIN, direct).map_err(|fault| {
+            CompactAnchorProjectionFault {
+                kind: CompactAnchorProjectionFaultKind::Serialization,
+                field: fault.stage,
+                detail: fault.detail,
+            }
+        })?;
+        if compact.unit_digest != direct_digest
+            || compact.kind != direct.kind
+            || compact.status != direct.status
+            || compact
+                .expression
+                .as_ref()
+                .is_some_and(|value| value != &direct.expression)
+            || compact
+                .aliases
+                .as_ref()
+                .is_some_and(|value| value != &direct.aliases)
+            || compact
+                .meaning
+                .as_ref()
+                .is_some_and(|value| value != &direct.meaning)
+        {
+            return compact_projection_fault(
+                CompactAnchorProjectionFaultKind::EquivalenceMismatch,
+                "direct_result.record_fields",
+                "one or more projected fields differ from the direct SemanticUnit",
+            );
+        }
+        if let Some(anchors) = &compact.source_anchors {
+            let direct_anchors = direct_result
+                .verified_quotes
+                .iter()
+                .filter(|quote| quote.source_anchor.unit_id == compact.unit_id)
+                .map(|quote| quote.source_anchor.clone())
+                .collect::<Vec<_>>();
+            if &direct_anchors != anchors {
+                return compact_projection_fault(
+                    CompactAnchorProjectionFaultKind::EquivalenceMismatch,
+                    "direct_result.verified_quotes",
+                    "projected source anchors differ from direct verified quote anchors",
+                );
+            }
+        }
+    }
+    let compact_serialized_bytes = serde_json::to_vec(projection)
+        .map_err(compact_projection_serialization_fault)?
+        .len() as u64;
+    let direct_serialized_bytes = serde_json::to_vec(direct_result)
+        .map_err(compact_projection_serialization_fault)?
+        .len() as u64;
+    let saved_bytes = i64::try_from(direct_serialized_bytes)
+        .unwrap_or(i64::MAX)
+        .saturating_sub(i64::try_from(compact_serialized_bytes).unwrap_or(i64::MAX));
+    let mut witness = CompactAnchorDirectEquivalenceWitness {
+        profile: COMPACT_ANCHOR_DIRECT_EQUIVALENCE_PROFILE.to_owned(),
+        compact_proof_digest: projection.proof_digest.clone(),
+        direct_result_digest: direct_result.result_digest.clone(),
+        compared_details: projection_request.requested_details.clone(),
+        eligible_ids,
+        compact_serialized_bytes,
+        direct_serialized_bytes,
+        saved_bytes,
+        equivalent: true,
+        equivalence_boundary: "Exact field correspondence for eligible identities under the Slice4C exact-overlap profile only; no global ranking contextual fault or algorithm equivalence is asserted.".to_owned(),
+        proof_digest: zero_sha256(),
+    };
+    witness.proof_digest = compact_anchor_direct_equivalence_digest(&witness)?;
+    validate_compact_anchor_direct_equivalence_witness(&witness)?;
+    Ok(witness)
+}
+
+pub fn compact_anchor_direct_equivalence_digest(
+    witness: &CompactAnchorDirectEquivalenceWitness,
+) -> CompactAnchorProjectionValidation<ContentDigest> {
+    compact_projection_digest(
+        COMPACT_ANCHOR_DIRECT_EQUIVALENCE_DOMAIN,
+        &(
+            &witness.profile,
+            &witness.compact_proof_digest,
+            &witness.direct_result_digest,
+            &witness.compared_details,
+            &witness.eligible_ids,
+            witness.compact_serialized_bytes,
+            witness.direct_serialized_bytes,
+            witness.saved_bytes,
+            witness.equivalent,
+            &witness.equivalence_boundary,
+        ),
+    )
+}
+
+pub fn validate_compact_anchor_direct_equivalence_witness(
+    witness: &CompactAnchorDirectEquivalenceWitness,
+) -> CompactAnchorProjectionValidation {
+    let boundary = "Exact field correspondence for eligible identities under the Slice4C exact-overlap profile only; no global ranking contextual fault or algorithm equivalence is asserted.";
+    if witness.profile != COMPACT_ANCHOR_DIRECT_EQUIVALENCE_PROFILE
+        || !witness.equivalent
+        || witness.eligible_ids.is_empty()
+        || witness.compared_details.is_empty()
+        || witness.compact_serialized_bytes == 0
+        || witness.direct_serialized_bytes == 0
+        || witness.equivalence_boundary != boundary
+    {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::EquivalenceMismatch,
+            "witness",
+            "equivalence witness profile decision fields bytes or boundary differ",
+        );
+    }
+    if witness.proof_digest != compact_anchor_direct_equivalence_digest(witness)? {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::ProofMismatch,
+            "witness.proof_digest",
+            "equivalence witness proof differs from its exact body",
+        );
+    }
+    Ok(())
+}
+
+fn validate_compact_direct_overlap_request(
+    direct: &CantorQueryRequest,
+    gate: &LexicallySeededAnchorGateRequest,
+    projection_request: &CompactAnchorProjectionRequest,
+    projection: &CompactAnchorProjectionResult,
+) -> CompactAnchorProjectionValidation {
+    let eligible_terms = projection
+        .records
+        .iter()
+        .map(|record| record.unit_id.as_str().to_owned())
+        .collect::<BTreeSet<_>>();
+    if eligible_terms.is_empty()
+        || direct.term_set != eligible_terms
+        || direct.search_modes != BTreeSet::from([SearchMode::Exact])
+        || !direct.relation_types.is_empty()
+        || direct.subject.is_some()
+        || direct.description_need.is_some()
+        || !direct.use_case_set.is_empty()
+        || !direct.include_boundary_set.is_empty()
+        || !direct.exclude_boundary_set.is_empty()
+        || !direct.criteria.is_empty()
+        || !direct.source_scopes.is_empty()
+        || !direct.perspectives.is_empty()
+        || !direct.known_units.is_empty()
+        || direct.purpose != gate.scanner_query.purpose
+        || direct.requested_detail_kinds != projection_request.requested_details
+        || direct.authority_context.caller_id != gate.scanner_query.authority_context.caller_id
+        || direct.authority_context.allowed_package_scopes
+            != gate.scanner_query.authority_context.allowed_package_scopes
+        || direct.authority_context.operation != "semantic_read"
+        || direct.authority_context.effect_boundary != "read_only"
+        || direct.budget.maximum_records < projection.records.len() as u32
+    {
+        return compact_projection_fault(
+            CompactAnchorProjectionFaultKind::DirectRequestRejected,
+            "direct_request",
+            "direct query is outside the exact identity field-equivalence overlap profile",
+        );
+    }
+    Ok(())
 }
 
 pub fn lexical_association_index_root(
@@ -3759,6 +4468,43 @@ fn lexical_gate_fault<T>(
     detail: &str,
 ) -> LexicallySeededAnchorGateValidation<T> {
     Err(LexicallySeededAnchorGateFault {
+        kind,
+        field: field.to_owned(),
+        detail: detail.to_owned(),
+    })
+}
+
+fn compact_projection_digest<T: Serialize>(
+    domain: &str,
+    value: &T,
+) -> CompactAnchorProjectionValidation<ContentDigest> {
+    let bytes =
+        serde_json::to_vec(&(domain, value)).map_err(compact_projection_serialization_fault)?;
+    Ok(ContentDigest {
+        algorithm: DIGEST_ALGORITHM.to_owned(),
+        value: Sha256::digest(bytes)
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect(),
+    })
+}
+
+fn compact_projection_serialization_fault(
+    error: serde_json::Error,
+) -> CompactAnchorProjectionFault {
+    CompactAnchorProjectionFault {
+        kind: CompactAnchorProjectionFaultKind::Serialization,
+        field: "serialization".to_owned(),
+        detail: error.to_string(),
+    }
+}
+
+fn compact_projection_fault<T>(
+    kind: CompactAnchorProjectionFaultKind,
+    field: &str,
+    detail: &str,
+) -> CompactAnchorProjectionValidation<T> {
+    Err(CompactAnchorProjectionFault {
         kind,
         field: field.to_owned(),
         detail: detail.to_owned(),
