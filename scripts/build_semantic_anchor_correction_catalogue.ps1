@@ -29,10 +29,10 @@ function Assert-Catalogue($catalogue) {
         if ($observed.Count -ne 1 -or $null -ne $example.target_unit_id -or
             $example.status -ne 'requires_curated_exact_identity' -or
             [int]$example.observed.lexical_candidate_count -ne [int]$observed[0].lexical_match_count -or
-            [int]$example.observed.unauthorized_count -ne [int]$observed[0].unauthorized_count -or
+            [int]$example.observed.ambiguous_count -ne [int]$observed[0].ambiguous_count -or
             [int]$example.observed.unresolved_count -ne [int]$observed[0].unresolved_count -or
             [int]$example.observed.compact_record_count -ne [int]$observed[0].compact_record_count -or
-            [int]$example.desired.eligible_count -ne 1 -or [int]$example.desired.unauthorized_count -ne 0 -or [int]$example.desired.unresolved_count -ne 0) {
+            [int]$example.desired.eligible_count -ne 1 -or [int]$example.desired.ambiguous_count -ne 0 -or [int]$example.desired.unresolved_count -ne 0) {
             throw "example differs for $($example.query_name)"
         }
     }
@@ -51,13 +51,13 @@ $examples = @($baseline.queries | Sort-Object name | ForEach-Object {
         input_terms = @($_.requested_terms)
         observed = [ordered]@{
             lexical_candidate_count = $_.lexical_match_count
-            unauthorized_count = $_.unauthorized_count
+            ambiguous_count = $_.ambiguous_count
             unresolved_count = $_.unresolved_count
             compact_record_count = $_.compact_record_count
         }
-        desired = [ordered]@{ eligible_count = 1; unauthorized_count = 0; unresolved_count = 0; compact_record_count = 1 }
+        desired = [ordered]@{ eligible_count = 1; ambiguous_count = 0; unresolved_count = 0; compact_record_count = 1 }
         target_unit_id = $null
-        required_action = 'curate and source-authorize one exact semantic identity from proof-bound candidates'
+        required_action = 'curate one exact semantic identity from proof-bound ambiguous candidates'
         evidence_needed = @('curator identity','source anchor','authority scope','exact gate replay')
         status = 'requires_curated_exact_identity'
     }

@@ -22,6 +22,12 @@ fn tracked_evidence_is_repeatable_complete_and_matches_checked_json() {
     assert_eq!(first.body.relation_count, 360);
     assert_eq!(first.body.catalogue_identity_count, 417);
     assert_eq!(first.body.queries.len(), 3);
+    assert_eq!(first.body.scanner_authority_project, "cantor");
+    assert_eq!(
+        first.body.scanner_purpose,
+        "resolve governed Cantor meaning"
+    );
+    assert_eq!(first.body.scanner_operation, "read");
     assert!(first.body.proof_complete);
     assert!(first.body.queries.iter().all(|query| {
         query.scanner_candidate_count

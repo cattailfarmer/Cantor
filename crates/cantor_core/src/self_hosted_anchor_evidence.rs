@@ -74,6 +74,9 @@ pub struct SelfHostedAnchorEvidenceBody {
     pub catalogue_proof_digest: ContentDigest,
     pub lexical_index_root: ContentDigest,
     pub lexical_proof_digest: ContentDigest,
+    pub scanner_authority_project: String,
+    pub scanner_purpose: String,
+    pub scanner_operation: String,
     pub queries: Vec<SelfHostedAnchorQueryEvidence>,
     pub total_response_bytes: u64,
     pub proof_complete: bool,
@@ -201,7 +204,7 @@ pub fn generate_self_hosted_anchor_evidence(
                 request_id: request_id.clone(),
                 term_set: BTreeSet::new(),
                 subject: template.subject.clone(),
-                purpose: "bounded self-hosted catalogue evidence".to_owned(),
+                purpose: manifest.context.purpose.clone(),
                 use_cases: BTreeSet::new(),
                 include_boundaries: BTreeSet::new(),
                 exclude_boundaries: BTreeSet::new(),
@@ -215,8 +218,8 @@ pub fn generate_self_hosted_anchor_evidence(
                 allowed_channels: BTreeSet::from([AssociationChannel::ExactIdentity]),
                 authority_context: AuthorityContext {
                     caller_id: semantic_id("caller:self_hosted_slice5a")?,
-                    allowed_package_scopes: BTreeSet::from(["cantor".to_owned()]),
-                    operation: "semantic_read".to_owned(),
+                    allowed_package_scopes: BTreeSet::from([manifest.context.project.clone()]),
+                    operation: "read".to_owned(),
                     effect_boundary: "read_only".to_owned(),
                 },
                 budget: AnchorBudget {
@@ -348,6 +351,9 @@ pub fn generate_self_hosted_anchor_evidence(
         catalogue_proof_digest: catalogue.proof_digest,
         lexical_index_root: index.index_root,
         lexical_proof_digest: index.proof_digest,
+        scanner_authority_project: manifest.context.project.clone(),
+        scanner_purpose: manifest.context.purpose.clone(),
+        scanner_operation: "read".to_owned(),
         queries,
         total_response_bytes,
         proof_complete: true,
@@ -381,6 +387,9 @@ pub fn validate_self_hosted_anchor_evidence_form(
         || !evidence.body.proof_complete
         || evidence.body.latency_measurement != "not_measured_in_deterministic_slice5a_lane"
         || evidence.body.allocation_measurement != "not_measured_in_deterministic_slice5a_lane"
+        || evidence.body.scanner_authority_project.is_empty()
+        || evidence.body.scanner_purpose.is_empty()
+        || evidence.body.scanner_operation != "read"
     {
         return Err("Slice5A evidence form or bounds differ".to_owned());
     }
