@@ -1,0 +1,12 @@
+Subject: Semantic Anchor Slice5B WSL Path Transport Fault
+
+@ [fault_uuid] 986faf82-2a80-46f7-aa31-87aecc6ddbfc
+
+& [Observation]
+  + the first live runner passed an unquoted Windows temporary path through wslpath and Bash consumed its backslashes
+  + the controller received no converted path and refused before accepting any trial evidence
+
+& [Resolution]
+  + replace the transport with a bounded local drive-letter conversion to slash-normalized /mnt drive paths
+  + rerun completed all seven exact-output trials and verify-only acceptance
+  + no WSL configuration remote path product source or security policy changed
