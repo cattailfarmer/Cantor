@@ -36,6 +36,8 @@ pub const LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY: &str = "Lexical correspondence ev
 pub const LEXICAL_ANCHOR_SOURCE_PROJECTION_RESULT_PROFILE: &str =
     "cantor-lexical-anchor-source-projection-result/0.1";
 pub const LEXICAL_ANCHOR_SOURCE_PROJECTION_BOUNDARY: &str = "Quoted text and path correspond to the admitted signed package snapshot only. They do not assert current live-file state, semantic purpose, truth, permission, authority, safety, applicability, lifecycle, or boundary satisfaction.";
+pub const LEXICALLY_SEEDED_ANCHOR_GATE_PROFILE: &str = "cantor-lexically-seeded-anchor-gate/0.1";
+pub const LEXICALLY_SEEDED_ANCHOR_GATE_NON_AUTHORITY: &str = "Lexical evidence supplied candidate identities only. The unchanged exact scanner owns semantic eligibility and still grants no truth, permission, safety, execution, or effect authority.";
 pub const MAX_LEXICAL_LOGICAL_REVISION_BYTES: usize = 256;
 pub const MAX_LEXICAL_SURFACE_BYTES: usize = 16 * 1024;
 pub const MAX_LEXICAL_TOKEN_BYTES: usize = 256;
@@ -53,6 +55,9 @@ pub const MAX_LEXICAL_LOOKUP_RESULT_BYTES: u64 = 67_108_864;
 pub const MAX_LEXICAL_SOURCE_PROJECTIONS: u32 = 4_096;
 pub const MAX_LEXICAL_SOURCE_QUOTE_BYTES: u64 = 16_777_216;
 pub const MAX_LEXICAL_SOURCE_PROJECTION_RESULT_BYTES: u64 = 67_108_864;
+pub const MAX_LEXICALLY_SEEDED_GATE_MATCHES: u32 = 4_096;
+pub const MAX_LEXICALLY_SEEDED_GATE_CANDIDATES: u32 = 4_096;
+pub const MAX_LEXICALLY_SEEDED_GATE_RESULT_BYTES: u64 = 67_108_864;
 
 const DIGEST_ALGORITHM: &str = "sha256";
 const DERIVATION_DOMAIN: &str = "cantor.semantic-anchor-catalogue.derivation.v1";
@@ -76,6 +81,8 @@ const LEXICAL_SOURCE_PROJECTION_DOMAIN: &str =
     "cantor.semantic-anchor-catalogue.lexical-source-projection.v1";
 const LEXICAL_SOURCE_PROJECTION_RESULT_DOMAIN: &str =
     "cantor.semantic-anchor-catalogue.lexical-source-projection-result.v1";
+const LEXICALLY_SEEDED_GATE_RESULT_DOMAIN: &str =
+    "cantor.semantic-anchor-catalogue.lexically-seeded-gate-result.v1";
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -282,6 +289,60 @@ pub struct LexicalAnchorSourceProjectionResult {
     pub projections: Vec<VerifiedAnchorSourceProjection>,
     pub snapshot_boundary_statement: String,
     pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicallySeededAnchorGateBudget {
+    pub maximum_lexical_matches: u32,
+    pub maximum_scanner_candidates: u32,
+    pub maximum_serialized_result_bytes: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicallySeededAnchorGateRequest {
+    pub profile: String,
+    pub request_id: SemanticId,
+    pub scanner_query: AnchorQuery,
+    pub budget: LexicallySeededAnchorGateBudget,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicallySeededAnchorGateResult {
+    pub profile: String,
+    pub request_id: SemanticId,
+    pub catalogue_root: ContentDigest,
+    pub fabric_root: ContentDigest,
+    pub lexical_proof_digest: ContentDigest,
+    pub scanner_input_digest: ContentDigest,
+    pub ordered_seed_ids: Vec<SemanticId>,
+    pub scanner_result: AnchorQueryResult,
+    pub non_authority_statement: String,
+    pub proof_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum LexicallySeededAnchorGateFaultKind {
+    InvalidProfile,
+    InvalidBound,
+    LexicalReplayRejected,
+    QueryRejected,
+    SeedMismatch,
+    ScannerRejected,
+    CandidateAccountMismatch,
+    ProofMismatch,
+    ResultMismatch,
+    Serialization,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LexicallySeededAnchorGateFault {
+    pub kind: LexicallySeededAnchorGateFaultKind,
+    pub field: String,
+    pub detail: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -689,6 +750,7 @@ type AnchorDerivationResult<T = ()> = Result<T, AnchorDerivationFault>;
 type LexicalIndexValidation<T = ()> = Result<T, LexicalIndexFault>;
 type LexicalLookupValidation<T = ()> = Result<T, LexicalLookupFault>;
 type LexicalSourceProjectionValidation<T = ()> = Result<T, LexicalSourceProjectionFault>;
+pub type LexicallySeededAnchorGateValidation<T = ()> = Result<T, LexicallySeededAnchorGateFault>;
 
 pub fn derive_semantic_anchor_catalogue(
     fabric: &SemanticFabric,
@@ -1314,6 +1376,325 @@ pub fn lexical_anchor_source_projection_result_digest(
             &result.snapshot_boundary_statement,
         ),
     )
+}
+
+pub fn gate_lexical_anchor_matches(
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    index: &DerivedLexicalAssociationIndex,
+    lexical_request: &LexicalAnchorLookupRequest,
+    lexical_result: &LexicalAnchorLookupResult,
+    request: LexicallySeededAnchorGateRequest,
+) -> LexicallySeededAnchorGateValidation<LexicallySeededAnchorGateResult> {
+    validate_lexical_anchor_lookup_result(
+        lexical_result,
+        lexical_request,
+        index,
+        catalogue,
+        fabric,
+    )
+    .map_err(|fault| LexicallySeededAnchorGateFault {
+        kind: LexicallySeededAnchorGateFaultKind::LexicalReplayRejected,
+        field: fault.field,
+        detail: fault.detail,
+    })?;
+    validate_lexically_seeded_anchor_gate_request(&request, lexical_result)?;
+    let scanner_result =
+        crate::scan_exact_semantic_anchors(catalogue, fabric, &request.scanner_query, None)
+            .map_err(|fault| LexicallySeededAnchorGateFault {
+                kind: LexicallySeededAnchorGateFaultKind::ScannerRejected,
+                field: fault.stage,
+                detail: fault.detail,
+            })?;
+    let ordered_seed_ids = lexical_result
+        .matches
+        .iter()
+        .map(|matched| matched.address.unit_id.clone())
+        .collect::<Vec<_>>();
+    let mut result = LexicallySeededAnchorGateResult {
+        profile: LEXICALLY_SEEDED_ANCHOR_GATE_PROFILE.to_owned(),
+        request_id: request.request_id.clone(),
+        catalogue_root: catalogue.catalogue.identity.catalogue_root.clone(),
+        fabric_root: catalogue.catalogue.identity.fabric_root.clone(),
+        lexical_proof_digest: lexical_result.proof_digest.clone(),
+        scanner_input_digest: crate::exact_anchor_scan_input_digest(&request.scanner_query)
+            .map_err(|fault| LexicallySeededAnchorGateFault {
+                kind: LexicallySeededAnchorGateFaultKind::QueryRejected,
+                field: fault.stage,
+                detail: fault.detail,
+            })?,
+        ordered_seed_ids,
+        scanner_result,
+        non_authority_statement: LEXICALLY_SEEDED_ANCHOR_GATE_NON_AUTHORITY.to_owned(),
+        proof_digest: zero_sha256(),
+    };
+    result.proof_digest = lexically_seeded_anchor_gate_result_digest(&result, &request)?;
+    validate_lexically_seeded_anchor_gate_result_form(&result, lexical_result, &request)?;
+    Ok(result)
+}
+
+pub fn validate_lexically_seeded_anchor_gate_request(
+    request: &LexicallySeededAnchorGateRequest,
+    lexical_result: &LexicalAnchorLookupResult,
+) -> LexicallySeededAnchorGateValidation {
+    if request.profile != LEXICALLY_SEEDED_ANCHOR_GATE_PROFILE {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::InvalidProfile,
+            "request.profile",
+            "unsupported lexically seeded semantic gate profile",
+        );
+    }
+    let budget = &request.budget;
+    if budget.maximum_lexical_matches == 0
+        || budget.maximum_lexical_matches > MAX_LEXICALLY_SEEDED_GATE_MATCHES
+        || budget.maximum_scanner_candidates == 0
+        || budget.maximum_scanner_candidates > MAX_LEXICALLY_SEEDED_GATE_CANDIDATES
+        || budget.maximum_serialized_result_bytes == 0
+        || budget.maximum_serialized_result_bytes > MAX_LEXICALLY_SEEDED_GATE_RESULT_BYTES
+    {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::InvalidBound,
+            "request.budget",
+            "semantic gate budget is zero or exceeds a hard cap",
+        );
+    }
+    if lexical_result.matches.is_empty()
+        || lexical_result.matches.len() > budget.maximum_lexical_matches as usize
+    {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::InvalidBound,
+            "lexical_result.matches",
+            "lexical matches are empty or exceed the gate budget",
+        );
+    }
+    crate::validate_anchor_query(&request.scanner_query).map_err(|fault| {
+        LexicallySeededAnchorGateFault {
+            kind: LexicallySeededAnchorGateFaultKind::QueryRejected,
+            field: fault.field,
+            detail: fault.detail,
+        }
+    })?;
+    if request.request_id != request.scanner_query.request_id {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::QueryRejected,
+            "request.request_id",
+            "gate and scanner request identities differ",
+        );
+    }
+    let required_channels = BTreeSet::from([AssociationChannel::ExactIdentity]);
+    if request.scanner_query.allowed_channels != required_channels
+        || !request.scanner_query.term_set.is_empty()
+        || request.scanner_query.budget.maximum_continuations != 0
+    {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::QueryRejected,
+            "request.scanner_query",
+            "semantic gate requires exact-identity only empty terms and zero continuations",
+        );
+    }
+    let seed_ids = lexical_result
+        .matches
+        .iter()
+        .map(|matched| matched.address.unit_id.clone())
+        .collect::<BTreeSet<_>>();
+    if seed_ids.len() != lexical_result.matches.len()
+        || request.scanner_query.known_identities != seed_ids
+    {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::SeedMismatch,
+            "request.scanner_query.known_identities",
+            "known identities must equal every unique lexical match identity",
+        );
+    }
+    let required_count = u32::try_from(seed_ids.len()).unwrap_or(u32::MAX);
+    if required_count > budget.maximum_scanner_candidates
+        || request.scanner_query.budget.maximum_candidates < required_count
+        || request.scanner_query.budget.maximum_records < required_count
+        || request.scanner_query.budget.maximum_candidates > budget.maximum_scanner_candidates
+        || request.scanner_query.budget.maximum_records > budget.maximum_scanner_candidates
+    {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::InvalidBound,
+            "request.scanner_query.budget",
+            "scanner candidate and record budgets must contain every lexical seed within the gate cap",
+        );
+    }
+    Ok(())
+}
+
+pub fn validate_lexically_seeded_anchor_gate_result_form(
+    result: &LexicallySeededAnchorGateResult,
+    lexical_result: &LexicalAnchorLookupResult,
+    request: &LexicallySeededAnchorGateRequest,
+) -> LexicallySeededAnchorGateValidation {
+    validate_lexically_seeded_anchor_gate_request(request, lexical_result)?;
+    if result.profile != LEXICALLY_SEEDED_ANCHOR_GATE_PROFILE
+        || result.request_id != request.request_id
+        || result.catalogue_root != lexical_result.catalogue_root
+        || result.fabric_root != lexical_result.fabric_root
+        || result.lexical_proof_digest != lexical_result.proof_digest
+        || result.non_authority_statement != LEXICALLY_SEEDED_ANCHOR_GATE_NON_AUTHORITY
+    {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::ResultMismatch,
+            "result.identity",
+            "semantic gate result identity or non-authority statement differs",
+        );
+    }
+    crate::validate_anchor_query_result(&result.scanner_result).map_err(|fault| {
+        LexicallySeededAnchorGateFault {
+            kind: LexicallySeededAnchorGateFaultKind::ScannerRejected,
+            field: fault.field,
+            detail: fault.detail,
+        }
+    })?;
+    if result.scanner_result.request_id != request.scanner_query.request_id
+        || result.scanner_result.catalogue_root != result.catalogue_root
+        || result.scanner_result.fabric_root != result.fabric_root
+        || result.scanner_result.continuation.is_some()
+        || result.scanner_input_digest
+            != crate::exact_anchor_scan_input_digest(&request.scanner_query).map_err(|fault| {
+                LexicallySeededAnchorGateFault {
+                    kind: LexicallySeededAnchorGateFaultKind::QueryRejected,
+                    field: fault.stage,
+                    detail: fault.detail,
+                }
+            })?
+    {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::ResultMismatch,
+            "result.scanner_result",
+            "scanner identity roots input digest or continuation differs",
+        );
+    }
+    let expected_order = lexical_result
+        .matches
+        .iter()
+        .map(|matched| matched.address.unit_id.clone())
+        .collect::<Vec<_>>();
+    let candidate_ids = result
+        .scanner_result
+        .candidates
+        .iter()
+        .map(|candidate| candidate.address.unit_id.clone())
+        .collect::<BTreeSet<_>>();
+    let expected_ids = expected_order.iter().cloned().collect::<BTreeSet<_>>();
+    if result.ordered_seed_ids != expected_order
+        || candidate_ids != expected_ids
+        || result.scanner_result.candidates.len() != expected_ids.len()
+    {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::CandidateAccountMismatch,
+            "result.candidate_account",
+            "scanner candidates must account for every lexical seed and no exterior identity",
+        );
+    }
+    if result.proof_digest != lexically_seeded_anchor_gate_result_digest(result, request)? {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::ProofMismatch,
+            "result.proof_digest",
+            "semantic gate proof digest differs from the result body",
+        );
+    }
+    let serialized =
+        serde_json::to_vec(result).map_err(|error| LexicallySeededAnchorGateFault {
+            kind: LexicallySeededAnchorGateFaultKind::Serialization,
+            field: "result.serialization".to_owned(),
+            detail: error.to_string(),
+        })?;
+    if serialized.len() as u64 > request.budget.maximum_serialized_result_bytes
+        || serialized.len() as u64 > MAX_LEXICALLY_SEEDED_GATE_RESULT_BYTES
+    {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::InvalidBound,
+            "result.serialized_bytes",
+            "complete semantic gate result exceeds its byte budget",
+        );
+    }
+    Ok(())
+}
+
+pub fn validate_lexically_seeded_anchor_gate_result(
+    result: &LexicallySeededAnchorGateResult,
+    fabric: &SemanticFabric,
+    catalogue: &DerivedSemanticAnchorCatalogue,
+    index: &DerivedLexicalAssociationIndex,
+    lexical_request: &LexicalAnchorLookupRequest,
+    lexical_result: &LexicalAnchorLookupResult,
+    request: &LexicallySeededAnchorGateRequest,
+) -> LexicallySeededAnchorGateValidation {
+    validate_lexical_anchor_lookup_result(
+        lexical_result,
+        lexical_request,
+        index,
+        catalogue,
+        fabric,
+    )
+    .map_err(|fault| LexicallySeededAnchorGateFault {
+        kind: LexicallySeededAnchorGateFaultKind::LexicalReplayRejected,
+        field: fault.field,
+        detail: fault.detail,
+    })?;
+    validate_lexically_seeded_anchor_gate_result_form(result, lexical_result, request)?;
+    crate::validate_exact_anchor_scan_result(
+        catalogue,
+        fabric,
+        &request.scanner_query,
+        None,
+        &result.scanner_result,
+    )
+    .map_err(|fault| LexicallySeededAnchorGateFault {
+        kind: LexicallySeededAnchorGateFaultKind::ScannerRejected,
+        field: fault.stage,
+        detail: fault.detail,
+    })?;
+    let expected = gate_lexical_anchor_matches(
+        fabric,
+        catalogue,
+        index,
+        lexical_request,
+        lexical_result,
+        request.clone(),
+    )?;
+    if &expected != result {
+        return lexical_gate_fault(
+            LexicallySeededAnchorGateFaultKind::ResultMismatch,
+            "result",
+            "semantic gate result differs from canonical whole replay",
+        );
+    }
+    Ok(())
+}
+
+pub fn lexically_seeded_anchor_gate_result_digest(
+    result: &LexicallySeededAnchorGateResult,
+    request: &LexicallySeededAnchorGateRequest,
+) -> LexicallySeededAnchorGateValidation<ContentDigest> {
+    let bytes = serde_json::to_vec(&(
+        LEXICALLY_SEEDED_GATE_RESULT_DOMAIN,
+        request,
+        &result.profile,
+        &result.request_id,
+        &result.catalogue_root,
+        &result.fabric_root,
+        &result.lexical_proof_digest,
+        &result.scanner_input_digest,
+        &result.ordered_seed_ids,
+        &result.scanner_result,
+        &result.non_authority_statement,
+    ))
+    .map_err(|error| LexicallySeededAnchorGateFault {
+        kind: LexicallySeededAnchorGateFaultKind::Serialization,
+        field: "result.proof_digest".to_owned(),
+        detail: error.to_string(),
+    })?;
+    Ok(ContentDigest {
+        algorithm: DIGEST_ALGORITHM.to_owned(),
+        value: Sha256::digest(bytes)
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect(),
+    })
 }
 
 pub fn lexical_association_index_root(
@@ -2626,7 +3007,9 @@ pub fn validate_anchor_query(query: &AnchorQuery) -> AnchorValidation {
             "wrong query profile",
         );
     }
-    if query.term_set.is_empty()
+    let exact_identity_only =
+        query.allowed_channels == BTreeSet::from([AssociationChannel::ExactIdentity]);
+    if (query.term_set.is_empty() && (!exact_identity_only || query.known_identities.is_empty()))
         || query.purpose.trim().is_empty()
         || query.allowed_channels.is_empty()
         || query.budget.maximum_candidates == 0
@@ -3364,6 +3747,18 @@ fn lexical_source_projection_fault<T>(
     detail: &str,
 ) -> LexicalSourceProjectionValidation<T> {
     Err(LexicalSourceProjectionFault {
+        kind,
+        field: field.to_owned(),
+        detail: detail.to_owned(),
+    })
+}
+
+fn lexical_gate_fault<T>(
+    kind: LexicallySeededAnchorGateFaultKind,
+    field: &str,
+    detail: &str,
+) -> LexicallySeededAnchorGateValidation<T> {
+    Err(LexicallySeededAnchorGateFault {
         kind,
         field: field.to_owned(),
         detail: detail.to_owned(),

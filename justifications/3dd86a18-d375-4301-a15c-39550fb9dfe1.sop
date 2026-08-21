@@ -1,0 +1,18 @@
+Subject: Semantic Anchor Catalogue P0 Slice 4B2C Justification
+
+@ [justification_uuid] 3dd86a18-d375-4301-a15c-39550fb9dfe1
+@ [source_uuid] 6f9c3a5a-a0a2-4a96-b492-2fefec12c429
+@ [canonical_uuid] 2158e3a9-1598-4fd8-83a9-b9b2d5ee454e
+
+& [Why]
+  + lexical lookup is usable but explicitly non-authoritative
+  + the existing exact scanner already owns mandatory semantic eligibility gates
+  + composing validated artifacts closes the gap with less semantic risk than injecting a lexical channel into scanner internals
+
+& [Solution]
+  + add one strict wrapper form compiler validator digest and focused fixtures in semantic_anchor_catalogue
+  + require complete seed equality exact-identity-only scanning whole account and replay
+  + retain all prior APIs and executable surfaces byte-stable
+
+& [NonClaims]
+  + no semantic winner truth permission safety execution persistence provider or effect claim

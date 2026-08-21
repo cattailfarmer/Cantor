@@ -13,19 +13,23 @@ use cantor_core::{
     DerivedSemanticAnchorCatalogue, IdentityAnchorEntry, LEXICAL_ANCHOR_LOOKUP_NON_AUTHORITY,
     LEXICAL_ANCHOR_LOOKUP_PROFILE, LEXICAL_ASSOCIATION_INDEX_COMPILER_ID,
     LEXICAL_ASSOCIATION_INDEX_COMPILER_VERSION, LEXICAL_TOKENIZER_PROFILE,
+    LEXICALLY_SEEDED_ANCHOR_GATE_NON_AUTHORITY, LEXICALLY_SEEDED_ANCHOR_GATE_PROFILE,
     LexicalAnchorLookupBudget, LexicalAnchorLookupRequest, LexicalAnchorSourceProjectionBudget,
     LexicalAnchorSourceProjectionResult, LexicalIndexDerivationRequest, LexicalIndexFaultKind,
     LexicalLookupFaultKind, LexicalPosting, LexicalSourceProjectionFaultKind, LexicalSurfaceKind,
-    LexicalTokenizerIdentity, MAX_LEXICAL_SURFACE_BYTES, OperationAnchorEntry, OperationClass,
-    OperationRole, PriorityTier, RelationType, RelationshipDirection, RequestedDetailKind,
-    SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress, SemanticAnchorCatalogue, SemanticFabric,
-    SemanticId, SourceAnchor, UnitKind, UnitStatus, admit_package, anchor_query_result_digest,
-    candidate_association_account, candidate_relationship_paths, catalogue_derivation_digest,
-    catalogue_root, derive_lexical_association_index, derive_semantic_anchor_catalogue,
-    derived_semantic_anchor_catalogue_digest, lexical_anchor_lookup_proof_digest,
-    lexical_anchor_source_projection_digest, lexical_anchor_source_projection_result_digest,
-    lexical_association_index_proof_digest, lexical_association_index_root,
-    lexical_tokenizer_adversarial_fixture_digest, lookup_lexical_anchors,
+    LexicalTokenizerIdentity, LexicallySeededAnchorGateBudget, LexicallySeededAnchorGateFaultKind,
+    LexicallySeededAnchorGateRequest, MAX_LEXICAL_SURFACE_BYTES, OperationAnchorEntry,
+    OperationClass, OperationRole, PriorityTier, RelationType, RelationshipDirection,
+    RequestedDetailKind, SEMANTIC_ANCHOR_CATALOGUE_PROFILE, SemanticAddress,
+    SemanticAnchorCatalogue, SemanticFabric, SemanticId, SourceAnchor, UnitKind, UnitStatus,
+    admit_package, anchor_query_result_digest, candidate_association_account,
+    candidate_relationship_paths, catalogue_derivation_digest, catalogue_root,
+    derive_lexical_association_index, derive_semantic_anchor_catalogue,
+    derived_semantic_anchor_catalogue_digest, gate_lexical_anchor_matches,
+    lexical_anchor_lookup_proof_digest, lexical_anchor_source_projection_digest,
+    lexical_anchor_source_projection_result_digest, lexical_association_index_proof_digest,
+    lexical_association_index_root, lexical_tokenizer_adversarial_fixture_digest,
+    lexically_seeded_anchor_gate_result_digest, lookup_lexical_anchors,
     project_lexical_anchor_sources, tokenize_lexical_surface, validate_anchor_candidate,
     validate_anchor_query, validate_anchor_query_result,
     validate_derived_lexical_association_index, validate_derived_lexical_association_index_form,
@@ -33,7 +37,9 @@ use cantor_core::{
     validate_lexical_anchor_lookup_result, validate_lexical_anchor_lookup_result_form,
     validate_lexical_anchor_source_projection_result,
     validate_lexical_anchor_source_projection_result_form,
-    validate_lexical_index_derivation_request, validate_semantic_anchor_catalogue,
+    validate_lexical_index_derivation_request, validate_lexically_seeded_anchor_gate_request,
+    validate_lexically_seeded_anchor_gate_result,
+    validate_lexically_seeded_anchor_gate_result_form, validate_semantic_anchor_catalogue,
 };
 
 fn id(value: &str) -> SemanticId {
@@ -167,6 +173,53 @@ fn lexical_lookup_request(terms: &[&str]) -> LexicalAnchorLookupRequest {
             maximum_unique_tokens: 256,
             maximum_postings: 4_096,
             maximum_matches: 256,
+            maximum_serialized_result_bytes: 4 * 1024 * 1024,
+        },
+    }
+}
+
+fn lexical_gate_request(
+    lexical_result: &cantor_core::LexicalAnchorLookupResult,
+) -> LexicallySeededAnchorGateRequest {
+    LexicallySeededAnchorGateRequest {
+        profile: LEXICALLY_SEEDED_ANCHOR_GATE_PROFILE.to_owned(),
+        request_id: id("request:lexically_seeded_gate_fixture"),
+        scanner_query: AnchorQuery {
+            profile: ANCHOR_QUERY_PROFILE.to_owned(),
+            request_id: id("request:lexically_seeded_gate_fixture"),
+            term_set: BTreeSet::new(),
+            subject: Some("lexically proposed semantic anchors".to_owned()),
+            purpose: "trusted-package fixture".to_owned(),
+            use_cases: BTreeSet::new(),
+            include_boundaries: BTreeSet::new(),
+            exclude_boundaries: BTreeSet::new(),
+            known_identities: lexical_result
+                .matches
+                .iter()
+                .map(|matched| matched.address.unit_id.clone())
+                .collect(),
+            requested_details: BTreeSet::new(),
+            allowed_relations: BTreeSet::new(),
+            allowed_channels: BTreeSet::from([AssociationChannel::ExactIdentity]),
+            authority_context: AuthorityContext {
+                caller_id: id("caller:lexically_seeded_gate_fixture"),
+                allowed_package_scopes: BTreeSet::from(["cantor".to_owned()]),
+                operation: "read".to_owned(),
+                effect_boundary: "read_only".to_owned(),
+            },
+            budget: AnchorBudget {
+                maximum_candidates: 16,
+                maximum_records: 16,
+                maximum_paths: 1,
+                maximum_depth: 1,
+                maximum_bytes: 128 * 1024,
+                maximum_elapsed_milliseconds: 1_000,
+                maximum_continuations: 0,
+            },
+        },
+        budget: LexicallySeededAnchorGateBudget {
+            maximum_lexical_matches: 16,
+            maximum_scanner_candidates: 16,
             maximum_serialized_result_bytes: 4 * 1024 * 1024,
         },
     }
@@ -2139,4 +2192,229 @@ fn lexical_source_projection_empty_match_and_unknown_fields_are_explicit() {
         .unwrap()
         .insert("live_file_verified".to_owned(), serde_json::json!(true));
     assert!(serde_json::from_value::<LexicalAnchorSourceProjectionResult>(value).is_err());
+}
+
+#[test]
+fn lexical_seed_gate_is_deterministic_exact_identity_semantic_replay() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let lexical_request = lexical_lookup_request(&["Bank deposits"]);
+    let lexical_result =
+        lookup_lexical_anchors(&fabric, &catalogue, &index, lexical_request.clone())
+            .expect("lexical lookup");
+    let request = lexical_gate_request(&lexical_result);
+
+    let result = gate_lexical_anchor_matches(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        request.clone(),
+    )
+    .expect("semantic gate");
+    validate_lexically_seeded_anchor_gate_result(
+        &result,
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        &request,
+    )
+    .expect("whole semantic gate replay");
+    assert_eq!(result.ordered_seed_ids.len(), 2);
+    assert_eq!(result.scanner_result.candidates.len(), 2);
+    assert_eq!(
+        result.non_authority_statement,
+        LEXICALLY_SEEDED_ANCHOR_GATE_NON_AUTHORITY
+    );
+    assert!(result.scanner_result.candidates.iter().all(|candidate| {
+        candidate.priority_tier == PriorityTier::ExactIdentity
+            && candidate
+                .contributions
+                .iter()
+                .all(|contribution| contribution.channel == AssociationChannel::ExactIdentity)
+    }));
+
+    let repeated = gate_lexical_anchor_matches(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        request,
+    )
+    .expect("repeated semantic gate");
+    assert_eq!(
+        serde_json::to_vec(&result).unwrap(),
+        serde_json::to_vec(&repeated).unwrap()
+    );
+}
+
+#[test]
+fn lexical_seed_gate_preserves_semantic_purpose_and_authority_dispositions() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let lexical_request = lexical_lookup_request(&["Bank deposits"]);
+    let lexical_result =
+        lookup_lexical_anchors(&fabric, &catalogue, &index, lexical_request.clone())
+            .expect("lexical lookup");
+
+    let mut excluded_request = lexical_gate_request(&lexical_result);
+    excluded_request.scanner_query.purpose = "invented purpose".to_owned();
+    let excluded = gate_lexical_anchor_matches(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        excluded_request,
+    )
+    .expect("purpose mismatch remains a semantic disposition");
+    assert!(
+        excluded
+            .scanner_result
+            .candidates
+            .iter()
+            .all(|candidate| { candidate.eligibility == CandidateEligibility::Excluded })
+    );
+
+    let mut unauthorized_request = lexical_gate_request(&lexical_result);
+    unauthorized_request
+        .scanner_query
+        .authority_context
+        .allowed_package_scopes = BTreeSet::from(["outside".to_owned()]);
+    let unauthorized = gate_lexical_anchor_matches(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        unauthorized_request,
+    )
+    .expect("authority mismatch remains a semantic disposition");
+    assert!(
+        unauthorized
+            .scanner_result
+            .candidates
+            .iter()
+            .all(|candidate| { candidate.eligibility == CandidateEligibility::Unauthorized })
+    );
+}
+
+#[test]
+fn lexical_seed_gate_rejects_seed_channel_continuation_and_budget_mutations() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let lexical_request = lexical_lookup_request(&["Bank deposits"]);
+    let lexical_result = lookup_lexical_anchors(&fabric, &catalogue, &index, lexical_request)
+        .expect("lexical lookup");
+
+    let mut changed = lexical_gate_request(&lexical_result);
+    changed
+        .scanner_query
+        .known_identities
+        .remove(&id("unit:bank_river"));
+    assert_eq!(
+        validate_lexically_seeded_anchor_gate_request(&changed, &lexical_result)
+            .expect_err("missing lexical seed")
+            .kind,
+        LexicallySeededAnchorGateFaultKind::SeedMismatch
+    );
+
+    changed = lexical_gate_request(&lexical_result);
+    changed
+        .scanner_query
+        .allowed_channels
+        .insert(AssociationChannel::Lexical);
+    assert_eq!(
+        validate_lexically_seeded_anchor_gate_request(&changed, &lexical_result)
+            .expect_err("lexical ranking cannot enter scanner")
+            .kind,
+        LexicallySeededAnchorGateFaultKind::QueryRejected
+    );
+
+    changed = lexical_gate_request(&lexical_result);
+    changed.scanner_query.budget.maximum_continuations = 1;
+    assert_eq!(
+        validate_lexically_seeded_anchor_gate_request(&changed, &lexical_result)
+            .expect_err("continuation is prohibited")
+            .kind,
+        LexicallySeededAnchorGateFaultKind::QueryRejected
+    );
+
+    changed = lexical_gate_request(&lexical_result);
+    changed.scanner_query.budget.maximum_records = 17;
+    assert_eq!(
+        validate_lexically_seeded_anchor_gate_request(&changed, &lexical_result)
+            .expect_err("scanner budget exceeds gate cap")
+            .kind,
+        LexicallySeededAnchorGateFaultKind::InvalidBound
+    );
+}
+
+#[test]
+fn lexical_seed_gate_rejects_result_tampering_and_unknown_fields() {
+    let fabric = fixture_fabric();
+    let catalogue = derive_fixture(&fabric);
+    let index = derive_lexical_association_index(&fabric, &catalogue, lexical_derivation_request())
+        .expect("lexical sidecar");
+    let lexical_request = lexical_lookup_request(&["Bank deposits"]);
+    let lexical_result =
+        lookup_lexical_anchors(&fabric, &catalogue, &index, lexical_request.clone())
+            .expect("lexical lookup");
+    let request = lexical_gate_request(&lexical_result);
+    let result = gate_lexical_anchor_matches(
+        &fabric,
+        &catalogue,
+        &index,
+        &lexical_request,
+        &lexical_result,
+        request.clone(),
+    )
+    .expect("semantic gate");
+
+    let mut removed = result.clone();
+    removed.scanner_result.candidates.pop();
+    removed.proof_digest = lexically_seeded_anchor_gate_result_digest(&removed, &request)
+        .expect("resealed outer proof");
+    assert_eq!(
+        validate_lexically_seeded_anchor_gate_result_form(&removed, &lexical_result, &request)
+            .expect_err("missing scanner candidate")
+            .kind,
+        LexicallySeededAnchorGateFaultKind::ScannerRejected
+    );
+
+    let mut wrong_proof = result.clone();
+    wrong_proof.proof_digest = digest('9');
+    assert_eq!(
+        validate_lexically_seeded_anchor_gate_result_form(&wrong_proof, &lexical_result, &request)
+            .expect_err("wrong outer proof")
+            .kind,
+        LexicallySeededAnchorGateFaultKind::ProofMismatch
+    );
+
+    let mut request_value = serde_json::to_value(&request).unwrap();
+    request_value.as_object_mut().unwrap().insert(
+        "lexical_rank_is_authority".to_owned(),
+        serde_json::json!(true),
+    );
+    assert!(serde_json::from_value::<LexicallySeededAnchorGateRequest>(request_value).is_err());
+
+    let mut result_value = serde_json::to_value(&result).unwrap();
+    result_value
+        .as_object_mut()
+        .unwrap()
+        .insert("semantic_gate_bypassed".to_owned(), serde_json::json!(true));
+    assert!(
+        serde_json::from_value::<cantor_core::LexicallySeededAnchorGateResult>(result_value)
+            .is_err()
+    );
 }
