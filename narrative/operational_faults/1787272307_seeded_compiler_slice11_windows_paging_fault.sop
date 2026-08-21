@@ -1,0 +1,24 @@
+Subject: Seeded Compiler Slice 11 Windows Paging Fault
+
+@ [fault_uuid] 8be51210-815b-413c-92f6-1e73e7158a53
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [observed_at] 2026-08-20
+@ [status] host_resource_fault_preserved
+
+& [Attempt]
+  + cargo test --workspace --all-targets --all-features --locked --offline --quiet
+
+& [ObservedFault]
+  + rustc failed while compiling cantor_service lib tests because Windows could not memory-map target/debug/deps/libcantor_core-a13f4a3d2b564793.rlib
+  + Windows reported os error 1455 with message that the paging file was too small for the operation
+  + no Cantor test assertion failed before the compiler resource fault
+
+& [BoundedInterpretation]
+  + this attempt does not provide a fresh native full-workspace pass
+  + it does not contradict the earlier exact debug and overflow-checked release WSL workspace passes in this slice
+  + the immediately preceding focused cantor_compiler_custody_mcp suite passed 27 of 27 and the llama_tool_reflection harness completed an offline cargo check
+  + no paging antivirus Application Control or other host security setting was changed
+
+& [Recovery]
+  + preserve the fault and leave host policy under user control
+  + use the already completed WSL workspace gates as the slice-wide proof and rerun native full-workspace validation only when adequate committed memory is available
