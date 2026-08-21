@@ -1,0 +1,399 @@
+{
+  "comparison": {
+    "custody_to_stateless_argument_basis_points": 96,
+    "custody_transport_argument_bytes": 1200,
+    "stateless_transport_argument_bytes": 124144,
+    "transport_bytes_saved": 122944
+  },
+  "contract": "Cantor_Live_Lifecycle_Tool_Loop_Measurement_P0.sop",
+  "custody_registrations_outside_steady_state": [
+    {
+      "argument_bytes": 31065,
+      "elapsed_microseconds": 16872,
+      "fixture_id": "native-lifecycle-valid-r1",
+      "handle": {
+        "operation": "validate_artifact",
+        "profile": "cantor-native-lifecycle-custody-handle/0.1",
+        "request_digest": {
+          "algorithm": "sha256",
+          "value": "6c9b3bdc5b6cf1dc3355b6fadbb7ff7c4e8245b15a723c4dc9c4feb7c3105e47"
+        },
+        "request_id": "request:native-lifecycle-validation"
+      },
+      "structured_response_bytes": 1114
+    },
+    {
+      "argument_bytes": 31077,
+      "elapsed_microseconds": 30416,
+      "fixture_id": "native-lifecycle-refused-unsupported-protocol-r1",
+      "handle": {
+        "operation": "validate_artifact",
+        "profile": "cantor-native-lifecycle-custody-handle/0.1",
+        "request_digest": {
+          "algorithm": "sha256",
+          "value": "8b5073b182fc356a75c2ec76ca622d68b3c8a231ac0582fa0b6f8db918644107"
+        },
+        "request_id": "request:native-lifecycle-validation"
+      },
+      "structured_response_bytes": 1114
+    }
+  ],
+  "finished_unix_ms": 1787275293022,
+  "private_reasoning_recorded": false,
+  "probe": "cantor_lifecycle_bridge_probe",
+  "provider_contacted": false,
+  "restart_trial": {
+    "excluded_from_steady_state": true,
+    "old_handle_refused": true,
+    "persistence_claimed": false,
+    "response": {
+      "fault": {
+        "code": "handle_refused",
+        "message": "native lifecycle custody handle is not registered"
+      },
+      "handle": null,
+      "lifecycle_response": null,
+      "nonclaims": [
+        "state is process-local and restart loses every retained request",
+        "digest lookup returns retained meaning and does not reconstruct omitted meaning",
+        "custody coherence is not truth correctness safety or verification passage",
+        "digests are not authentication authorization signatures or permissions",
+        "no client isolation persistence expiry eviction or crash recovery is claimed",
+        "no provider model filesystem process network runner or external effect is accessed"
+      ],
+      "operation": "validate",
+      "profile": "cantor-native-lifecycle-volatile-custody-mcp/0.1",
+      "registry": {
+        "entry_count": 0,
+        "profile": "cantor-native-lifecycle-custody-registry/0.1",
+        "retained_request_bytes": 0,
+        "root_digest": {
+          "algorithm": "sha256",
+          "value": "173e22be9ed3ef818f47d62374d323f0fba7b287e4c09897b1890557634f3b4d"
+        }
+      },
+      "status": "refused"
+    },
+    "status": "passed"
+  },
+  "started_unix_ms": 1787275292629,
+  "status": "passed",
+  "trials": [
+    {
+      "fixture_case": "valid",
+      "observation": {
+        "argument_bytes": 31030,
+        "arm": "stateless",
+        "elapsed_microseconds": 45584,
+        "exact_direct_response": true,
+        "fixture_id": "native-lifecycle-valid-r1",
+        "lifecycle_response": {
+          "artifact_digest": {
+            "algorithm": "sha256",
+            "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "artifact_id": "artifact:cantor-cli",
+          "deepest_valid_stage": "artifact_receipt",
+          "faults": [],
+          "non_authority": "Read-only coherence replay over caller-supplied forms and public trust context only. This response does not establish physical truth, artifact correctness, safety, verification passage, authorization, globally atomic single-use consumption, signing, admission, installation, deployment, runtime execution, effect authority, or successor recognition.",
+          "operation": "validate_artifact",
+          "outcome": "artifact_valid",
+          "protocol": "cantor.native_lifecycle_validation.v1",
+          "request_id": "request:native-lifecycle-validation",
+          "stage_account": [
+            "envelope",
+            "seed",
+            "typed_sop_ir",
+            "candidate_plan",
+            "native_candidate_projection",
+            "native_build_plan",
+            "native_build_capability",
+            "sandbox_admission",
+            "approval_statement",
+            "trust_store",
+            "authorization",
+            "build_observation",
+            "attempt_ledger",
+            "artifact_receipt"
+          ],
+          "verification_disposition": null
+        },
+        "mcp_is_error": false,
+        "structured_response_bytes": 1038
+      },
+      "phase": "first_call",
+      "sequence": 0
+    },
+    {
+      "fixture_case": "valid",
+      "observation": {
+        "argument_bytes": 300,
+        "arm": "volatile_custody",
+        "elapsed_microseconds": 57457,
+        "exact_direct_response": true,
+        "fixture_id": "native-lifecycle-valid-r1",
+        "lifecycle_response": {
+          "artifact_digest": {
+            "algorithm": "sha256",
+            "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "artifact_id": "artifact:cantor-cli",
+          "deepest_valid_stage": "artifact_receipt",
+          "faults": [],
+          "non_authority": "Read-only coherence replay over caller-supplied forms and public trust context only. This response does not establish physical truth, artifact correctness, safety, verification passage, authorization, globally atomic single-use consumption, signing, admission, installation, deployment, runtime execution, effect authority, or successor recognition.",
+          "operation": "validate_artifact",
+          "outcome": "artifact_valid",
+          "protocol": "cantor.native_lifecycle_validation.v1",
+          "request_id": "request:native-lifecycle-validation",
+          "stage_account": [
+            "envelope",
+            "seed",
+            "typed_sop_ir",
+            "candidate_plan",
+            "native_candidate_projection",
+            "native_build_plan",
+            "native_build_capability",
+            "sandbox_admission",
+            "approval_statement",
+            "trust_store",
+            "authorization",
+            "build_observation",
+            "attempt_ledger",
+            "artifact_receipt"
+          ],
+          "verification_disposition": null
+        },
+        "mcp_is_error": false,
+        "structured_response_bytes": 2147
+      },
+      "phase": "first_call",
+      "sequence": 1
+    },
+    {
+      "fixture_case": "lifecycle_refused",
+      "observation": {
+        "argument_bytes": 31042,
+        "arm": "stateless",
+        "elapsed_microseconds": 4333,
+        "exact_direct_response": true,
+        "fixture_id": "native-lifecycle-refused-unsupported-protocol-r1",
+        "lifecycle_response": {
+          "artifact_digest": null,
+          "artifact_id": null,
+          "deepest_valid_stage": null,
+          "faults": [
+            {
+              "detail": "unsupported native lifecycle validation protocol",
+              "field": "request.protocol",
+              "kind": "unsupported_profile",
+              "stage": "envelope"
+            }
+          ],
+          "non_authority": "Read-only coherence replay over caller-supplied forms and public trust context only. This response does not establish physical truth, artifact correctness, safety, verification passage, authorization, globally atomic single-use consumption, signing, admission, installation, deployment, runtime execution, effect authority, or successor recognition.",
+          "operation": "validate_artifact",
+          "outcome": "lifecycle_refused",
+          "protocol": "cantor.native_lifecycle_validation.v1",
+          "request_id": "request:native-lifecycle-validation",
+          "stage_account": [],
+          "verification_disposition": null
+        },
+        "mcp_is_error": true,
+        "structured_response_bytes": 801
+      },
+      "phase": "first_call",
+      "sequence": 2
+    },
+    {
+      "fixture_case": "lifecycle_refused",
+      "observation": {
+        "argument_bytes": 300,
+        "arm": "volatile_custody",
+        "elapsed_microseconds": 16327,
+        "exact_direct_response": true,
+        "fixture_id": "native-lifecycle-refused-unsupported-protocol-r1",
+        "lifecycle_response": {
+          "artifact_digest": null,
+          "artifact_id": null,
+          "deepest_valid_stage": null,
+          "faults": [
+            {
+              "detail": "unsupported native lifecycle validation protocol",
+              "field": "request.protocol",
+              "kind": "unsupported_profile",
+              "stage": "envelope"
+            }
+          ],
+          "non_authority": "Read-only coherence replay over caller-supplied forms and public trust context only. This response does not establish physical truth, artifact correctness, safety, verification passage, authorization, globally atomic single-use consumption, signing, admission, installation, deployment, runtime execution, effect authority, or successor recognition.",
+          "operation": "validate_artifact",
+          "outcome": "lifecycle_refused",
+          "protocol": "cantor.native_lifecycle_validation.v1",
+          "request_id": "request:native-lifecycle-validation",
+          "stage_account": [],
+          "verification_disposition": null
+        },
+        "mcp_is_error": true,
+        "structured_response_bytes": 1910
+      },
+      "phase": "first_call",
+      "sequence": 3
+    },
+    {
+      "fixture_case": "valid",
+      "observation": {
+        "argument_bytes": 31030,
+        "arm": "stateless",
+        "elapsed_microseconds": 44083,
+        "exact_direct_response": true,
+        "fixture_id": "native-lifecycle-valid-r1",
+        "lifecycle_response": {
+          "artifact_digest": {
+            "algorithm": "sha256",
+            "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "artifact_id": "artifact:cantor-cli",
+          "deepest_valid_stage": "artifact_receipt",
+          "faults": [],
+          "non_authority": "Read-only coherence replay over caller-supplied forms and public trust context only. This response does not establish physical truth, artifact correctness, safety, verification passage, authorization, globally atomic single-use consumption, signing, admission, installation, deployment, runtime execution, effect authority, or successor recognition.",
+          "operation": "validate_artifact",
+          "outcome": "artifact_valid",
+          "protocol": "cantor.native_lifecycle_validation.v1",
+          "request_id": "request:native-lifecycle-validation",
+          "stage_account": [
+            "envelope",
+            "seed",
+            "typed_sop_ir",
+            "candidate_plan",
+            "native_candidate_projection",
+            "native_build_plan",
+            "native_build_capability",
+            "sandbox_admission",
+            "approval_statement",
+            "trust_store",
+            "authorization",
+            "build_observation",
+            "attempt_ledger",
+            "artifact_receipt"
+          ],
+          "verification_disposition": null
+        },
+        "mcp_is_error": false,
+        "structured_response_bytes": 1038
+      },
+      "phase": "steady_state",
+      "sequence": 4
+    },
+    {
+      "fixture_case": "valid",
+      "observation": {
+        "argument_bytes": 300,
+        "arm": "volatile_custody",
+        "elapsed_microseconds": 58129,
+        "exact_direct_response": true,
+        "fixture_id": "native-lifecycle-valid-r1",
+        "lifecycle_response": {
+          "artifact_digest": {
+            "algorithm": "sha256",
+            "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "artifact_id": "artifact:cantor-cli",
+          "deepest_valid_stage": "artifact_receipt",
+          "faults": [],
+          "non_authority": "Read-only coherence replay over caller-supplied forms and public trust context only. This response does not establish physical truth, artifact correctness, safety, verification passage, authorization, globally atomic single-use consumption, signing, admission, installation, deployment, runtime execution, effect authority, or successor recognition.",
+          "operation": "validate_artifact",
+          "outcome": "artifact_valid",
+          "protocol": "cantor.native_lifecycle_validation.v1",
+          "request_id": "request:native-lifecycle-validation",
+          "stage_account": [
+            "envelope",
+            "seed",
+            "typed_sop_ir",
+            "candidate_plan",
+            "native_candidate_projection",
+            "native_build_plan",
+            "native_build_capability",
+            "sandbox_admission",
+            "approval_statement",
+            "trust_store",
+            "authorization",
+            "build_observation",
+            "attempt_ledger",
+            "artifact_receipt"
+          ],
+          "verification_disposition": null
+        },
+        "mcp_is_error": false,
+        "structured_response_bytes": 2147
+      },
+      "phase": "steady_state",
+      "sequence": 5
+    },
+    {
+      "fixture_case": "lifecycle_refused",
+      "observation": {
+        "argument_bytes": 31042,
+        "arm": "stateless",
+        "elapsed_microseconds": 3955,
+        "exact_direct_response": true,
+        "fixture_id": "native-lifecycle-refused-unsupported-protocol-r1",
+        "lifecycle_response": {
+          "artifact_digest": null,
+          "artifact_id": null,
+          "deepest_valid_stage": null,
+          "faults": [
+            {
+              "detail": "unsupported native lifecycle validation protocol",
+              "field": "request.protocol",
+              "kind": "unsupported_profile",
+              "stage": "envelope"
+            }
+          ],
+          "non_authority": "Read-only coherence replay over caller-supplied forms and public trust context only. This response does not establish physical truth, artifact correctness, safety, verification passage, authorization, globally atomic single-use consumption, signing, admission, installation, deployment, runtime execution, effect authority, or successor recognition.",
+          "operation": "validate_artifact",
+          "outcome": "lifecycle_refused",
+          "protocol": "cantor.native_lifecycle_validation.v1",
+          "request_id": "request:native-lifecycle-validation",
+          "stage_account": [],
+          "verification_disposition": null
+        },
+        "mcp_is_error": true,
+        "structured_response_bytes": 801
+      },
+      "phase": "steady_state",
+      "sequence": 6
+    },
+    {
+      "fixture_case": "lifecycle_refused",
+      "observation": {
+        "argument_bytes": 300,
+        "arm": "volatile_custody",
+        "elapsed_microseconds": 16295,
+        "exact_direct_response": true,
+        "fixture_id": "native-lifecycle-refused-unsupported-protocol-r1",
+        "lifecycle_response": {
+          "artifact_digest": null,
+          "artifact_id": null,
+          "deepest_valid_stage": null,
+          "faults": [
+            {
+              "detail": "unsupported native lifecycle validation protocol",
+              "field": "request.protocol",
+              "kind": "unsupported_profile",
+              "stage": "envelope"
+            }
+          ],
+          "non_authority": "Read-only coherence replay over caller-supplied forms and public trust context only. This response does not establish physical truth, artifact correctness, safety, verification passage, authorization, globally atomic single-use consumption, signing, admission, installation, deployment, runtime execution, effect authority, or successor recognition.",
+          "operation": "validate_artifact",
+          "outcome": "lifecycle_refused",
+          "protocol": "cantor.native_lifecycle_validation.v1",
+          "request_id": "request:native-lifecycle-validation",
+          "stage_account": [],
+          "verification_disposition": null
+        },
+        "mcp_is_error": true,
+        "structured_response_bytes": 1910
+      },
+      "phase": "steady_state",
+      "sequence": 7
+    }
+  ]
+}

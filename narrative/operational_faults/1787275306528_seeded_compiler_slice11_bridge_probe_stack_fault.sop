@@ -1,0 +1,19 @@
+Subject: Cantor Seeded Compiler Slice 11 Bridge Probe Stack Fault
+
+@ [fault_record_uuid] 8c0a09c5-8f3a-467c-a330-6d8b746632ed
+@ [occurred_at] 2026-08-20
+@ [scope] provider_independent_lifecycle_bridge_probe_first_execution
+
+& [Observation]
+  + the first current-thread probe process overflowed its Windows main stack while retaining two complete proof-bearing fixture values and two live MCP client sessions
+  + the process ended with STATUS_STACK_OVERFLOW before writing an evidence result
+  + no lifecycle semantic mismatch MCP protocol failure or provider call occurred
+
+& [Resolution]
+  + orchestration now runs on one explicitly named dedicated thread with a fixed sixteen-megabyte stack and a current-thread Tokio runtime
+  + the bounded successor completed both fixture cases across both arms twice and proved fresh-process handle refusal
+  + ordinary library tests and warnings-denied lint pass after the change
+
+& [Security]
+  + the fix changes only local orchestration memory capacity and grants no additional semantic provider filesystem network process or effect authority
+  + stack capacity is finite explicit and not derived from model input
