@@ -1,0 +1,27 @@
+Subject: Cantor Seeded Compiler Slice 10 Volatile Custody MCP Solution
+
+@ [solution_uuid] be25cc43-45ee-4db5-8474-e03636b26791
+@ [source_uuid] 7b16c90f-3425-485d-a025-707db8e7fef2
+@ [phase_lock_uuid] f70a887b-13d9-4ac6-a073-dced3356fe92
+
+& [Status]
+  + [implementation] complete_against_exact_Slice10_phase_lock
+  + [authority] consumed_and_closed
+
+& [Server]
+  + separate no-argument cantor-compiler-custody-mcp stdio server advertises exactly manage_native_lifecycle_custody
+  + one async mutex owns one process-local Slice9 immutable registry
+  + tagged register validate and inspect commands pass an explicit pre-decode closed-key gate and strict typed decoding
+
+& [Behavior]
+  + register atomically installs one validated successor and returns a compact handle plus registry summary
+  + validate resolves retained meaning by exact handle and returns the unchanged Slice7 response without mutation
+  + inspect returns only count retained bytes and root identity and never retained request bodies
+  + every refusal leaves registry state byte-identical and restart visibly loses all handles
+
+& [Boundary]
+  + inner lifecycle refusal remains outer MCP error without being relabeled as adapter failure
+  + no persistence authentication authorization client isolation provider model filesystem process network runner signing admission installation deployment or execution exists
+
+& [Rollback]
+  + remove the separate crate workspace membership lock entry and Slice10 completion records while retaining all preserved Slice10 source and SJS authority
