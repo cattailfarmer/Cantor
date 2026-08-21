@@ -2077,3 +2077,153 @@ fn lifecycle_validation_attributes_verification_and_second_lineage_faults() {
 pub fn exported_artifact_validation_request() -> NativeLifecycleValidationRequest {
     artifact_validation_request(&produced_fixture(None))
 }
+
+/// Shared deterministic admitted-but-lifecycle-refused fixture used by
+/// inference-transport experiments. The unsupported protocol is intentional
+/// test data and does not alter the valid fixture's proof-bearing body.
+pub fn exported_lifecycle_refused_request() -> NativeLifecycleValidationRequest {
+    let mut request = exported_artifact_validation_request();
+    request.protocol.push_str(".unsupported");
+    request
+}
+
+#[test]
+#[ignore = "maintenance-only: requires explicit fixture regeneration opt-in"]
+fn regenerate_governed_lifecycle_request_fixtures() {
+    use sha2::{Digest, Sha256};
+
+    assert_eq!(
+        std::env::var("CANTOR_REGENERATE_GOVERNED_LIFECYCLE_FIXTURES").as_deref(),
+        Ok("1"),
+        "fixture generation requires an explicit opt-in"
+    );
+    let fixture_root =
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fixtures/semantic_compiler");
+    std::fs::create_dir_all(&fixture_root).expect("fixture directory");
+
+    for (name, request) in [
+        (
+            "native_lifecycle_valid_request.json",
+            exported_artifact_validation_request(),
+        ),
+        (
+            "native_lifecycle_refused_request.json",
+            exported_lifecycle_refused_request(),
+        ),
+    ] {
+        let request_bytes = serde_json::to_vec(&request).expect("canonical request bytes");
+        let response = validate_native_lifecycle_request(&request);
+        let response_bytes = serde_json::to_vec(&response).expect("canonical response bytes");
+        let request_sha256 = Sha256::digest(&request_bytes)
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect::<String>();
+        let response_sha256 = Sha256::digest(&response_bytes)
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect::<String>();
+        std::fs::write(fixture_root.join(name), &request_bytes).expect("fixture write");
+        println!(
+            "fixture={name} request_bytes={} request_sha256={request_sha256} response_bytes={} response_sha256={response_sha256} outcome={:?}",
+            request_bytes.len(),
+            response_bytes.len(),
+            response.outcome,
+        );
+    }
+}
+
+#[test]
+fn governed_lifecycle_request_fixtures_match_their_deterministic_source() {
+    use sha2::{Digest, Sha256};
+
+    fn sha256_hex(bytes: &[u8]) -> String {
+        Sha256::digest(bytes)
+            .iter()
+            .map(|byte| format!("{byte:02X}"))
+            .collect()
+    }
+
+    let cases: [(
+        &str,
+        NativeLifecycleValidationRequest,
+        &[u8],
+        usize,
+        &str,
+        usize,
+        &str,
+        NativeLifecycleValidationOutcome,
+    ); 2] = [
+        (
+            "valid",
+            exported_artifact_validation_request(),
+            include_bytes!(
+                "../../../fixtures/semantic_compiler/native_lifecycle_valid_request.json"
+            ) as &[u8],
+            31_018,
+            "6C9B3BDC5B6CF1DC3355B6FADBB7FF7C4E8245B15A723C4DC9C4FEB7C3105E47",
+            1_038,
+            "ACD7248EDAB82C1947930D5E1FA792428DB2B8B743D6825D7AA903494A29AA14",
+            NativeLifecycleValidationOutcome::ArtifactValid,
+        ),
+        (
+            "lifecycle-refused",
+            exported_lifecycle_refused_request(),
+            include_bytes!(
+                "../../../fixtures/semantic_compiler/native_lifecycle_refused_request.json"
+            ) as &[u8],
+            31_030,
+            "8B5073B182FC356A75C2EC76CA622D68B3C8A231AC0582FA0B6F8DB918644107",
+            801,
+            "32AD9119B2C31BDE54F04088E84BCDF6A4F3986917925289FCE269E68185D4B3",
+            NativeLifecycleValidationOutcome::LifecycleRefused,
+        ),
+    ];
+
+    for (
+        label,
+        expected_request,
+        fixture_bytes,
+        expected_request_bytes,
+        expected_request_sha256,
+        expected_response_bytes,
+        expected_response_sha256,
+        expected_outcome,
+    ) in cases
+    {
+        assert_eq!(fixture_bytes.len(), expected_request_bytes, "{label}");
+        assert_eq!(
+            sha256_hex(fixture_bytes),
+            expected_request_sha256,
+            "{label}"
+        );
+        assert_ne!(fixture_bytes.last(), Some(&b'\n'), "{label}");
+        assert_eq!(
+            fixture_bytes,
+            serde_json::to_vec(&expected_request)
+                .expect("canonical request")
+                .as_slice(),
+            "{label}"
+        );
+        let decoded: NativeLifecycleValidationRequest =
+            serde_json::from_slice(fixture_bytes).expect("strict typed fixture");
+        assert_eq!(decoded, expected_request, "{label}");
+
+        let mut unknown: serde_json::Value =
+            serde_json::from_slice(fixture_bytes).expect("fixture object");
+        unknown["unknown_fixture_authority"] = serde_json::json!(true);
+        assert!(
+            serde_json::from_value::<NativeLifecycleValidationRequest>(unknown).is_err(),
+            "{label}"
+        );
+
+        let response = validate_native_lifecycle_request(&decoded);
+        let response_bytes = serde_json::to_vec(&response).expect("canonical response");
+        assert_eq!(response.outcome, expected_outcome, "{label}");
+        assert_eq!(response_bytes.len(), expected_response_bytes, "{label}");
+        assert_eq!(
+            sha256_hex(&response_bytes),
+            expected_response_sha256,
+            "{label}"
+        );
+    }
+}

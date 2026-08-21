@@ -1,0 +1,41 @@
+Subject: Cantor Governed Native Lifecycle Request Fixture Manifest
+
+@ [fixture_manifest_uuid] 20d51f80-d88d-4dcd-8f7c-61f89183c2b4
+@ [canonical_uuid] 644edfa3-8912-4fdb-895b-61611d227d6a
+@ [source_uuid] 01643fe4-eb03-47dd-a8a2-ed8d214f584a
+
+& [Encoding]
+  + [format] strict NativeLifecycleValidationRequest JSON
+  + [serialization] serde_json compact UTF-8 bytes with deterministic BTreeMap and BTreeSet order
+  + [trailing_newline] absent
+  + [generator_ref] crates/cantor_core/tests/semantic_compiler_native_artifact_backend.rs::regenerate_governed_lifecycle_request_fixtures
+  + [generation_command] set CANTOR_REGENERATE_GOVERNED_LIFECYCLE_FIXTURES=1 and run the exact ignored generator test
+  + [generator_source_bytes_at_generation] 78913
+  + [generator_source_sha256_at_generation] 508B8D5D84BA3961939904F15B27250AA6EBEBACD47BF8C96D2DE6A121851089
+
+& [ValidFixture]
+  + [fixture_id] native-lifecycle-valid-r1
+  + [path] fixtures/semantic_compiler/native_lifecycle_valid_request.json
+  + [request_bytes] 31018
+  + [request_sha256] 6C9B3BDC5B6CF1DC3355B6FADBB7FF7C4E8245B15A723C4DC9C4FEB7C3105E47
+  + [expected_response_bytes] 1038
+  + [expected_response_sha256] ACD7248EDAB82C1947930D5E1FA792428DB2B8B743D6825D7AA903494A29AA14
+  + [expected_outcome] artifact_valid
+
+& [LifecycleRefusedFixture]
+  + [fixture_id] native-lifecycle-refused-unsupported-protocol-r1
+  + [path] fixtures/semantic_compiler/native_lifecycle_refused_request.json
+  + [request_bytes] 31030
+  + [request_sha256] 8B5073B182FC356A75C2EC76CA622D68B3C8A231AC0582FA0B6F8DB918644107
+  + [expected_response_bytes] 801
+  + [expected_response_sha256] 32AD9119B2C31BDE54F04088E84BCDF6A4F3986917925289FCE269E68185D4B3
+  + [expected_outcome] lifecycle_refused
+
+& [AuthorityBoundary]
+  + fixture keys signatures trust records observations and receipts are deterministic test data only
+  + fixture admission proves representation coherence under fixture trust context and grants no production truth safety permission identity or effect authority
+  + ordinary verification reads fixtures without writing and refuses any byte or response divergence
+
+& [MutationRule]
+  + never hand-edit request JSON
+  + source-builder changes require explicit regeneration manifest revision snapshot review and SJS freshness review

@@ -10,8 +10,12 @@ use rmcp::{
 };
 use serde_json::{Value, json};
 
-#[path = "../../cantor_core/tests/semantic_compiler_native_artifact_backend.rs"]
-mod native_lifecycle_fixture;
+fn governed_valid_lifecycle_request() -> cantor_core::NativeLifecycleValidationRequest {
+    serde_json::from_slice(include_bytes!(
+        "../../../fixtures/semantic_compiler/native_lifecycle_valid_request.json"
+    ))
+    .expect("governed valid lifecycle request fixture")
+}
 
 fn structured(result: &rmcp::model::CallToolResult) -> NativeLifecycleValidationResponse {
     serde_json::from_value(
@@ -91,7 +95,7 @@ async fn official_client_lists_one_tool_and_receives_exact_valid_response() {
     assert_eq!(tools.len(), 1);
     assert_eq!(tools[0].name, TOOL_NAME);
 
-    let request = native_lifecycle_fixture::exported_artifact_validation_request();
+    let request = governed_valid_lifecycle_request();
     let direct = cantor_core::validate_native_lifecycle_request(&request);
     let result = client
         .call_tool(
@@ -120,7 +124,7 @@ async fn official_client_lists_one_tool_and_receives_exact_valid_response() {
 #[test]
 fn direct_adapter_preserves_exact_valid_core_response() {
     let server = CompilerMcpServer;
-    let request = native_lifecycle_fixture::exported_artifact_validation_request();
+    let request = governed_valid_lifecycle_request();
     let direct = cantor_core::validate_native_lifecycle_request(&request);
     let arguments = Some(
         json!({ "request": request })

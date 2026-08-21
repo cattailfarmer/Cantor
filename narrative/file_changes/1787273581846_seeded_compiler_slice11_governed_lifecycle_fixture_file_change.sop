@@ -1,0 +1,15 @@
+Subject: Seeded Compiler Slice 11 Governed Lifecycle Fixture File Change
+
+@ [change_uuid] 6d0f26b2-03e2-4d46-968b-89e0dccc1645
+@ [conversation_uuid] 019f94c8-da23-7131-aef2-6ac02612d155
+@ [event_uuid] 5db3d29a-f0f3-40f9-a6a8-2611fe7d7816
+
+& [FixtureSurface]
+  + added one manifest and exact compact JSON requests for artifact-valid and unsupported-protocol lifecycle-refused cases
+  + added an ignored opt-in generator and a normal read-only source-equivalence snapshot test
+
+& [ConsumerSurface]
+  + stateless and custody MCP protocol tests now decode governed fixtures without importing and executing an unrelated core integration-test module
+
+& [Preservation]
+  + no production validation custody provider runner remote host or Minecraft behavior changed

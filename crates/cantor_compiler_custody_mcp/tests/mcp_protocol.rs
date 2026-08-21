@@ -10,8 +10,21 @@ use rmcp::{
 };
 use serde_json::{Value, json};
 
-#[path = "../../cantor_core/tests/semantic_compiler_native_artifact_backend.rs"]
-mod native_lifecycle_fixture;
+fn governed_lifecycle_request(bytes: &[u8]) -> cantor_core::NativeLifecycleValidationRequest {
+    serde_json::from_slice(bytes).expect("governed lifecycle request fixture")
+}
+
+fn governed_valid_lifecycle_request() -> cantor_core::NativeLifecycleValidationRequest {
+    governed_lifecycle_request(include_bytes!(
+        "../../../fixtures/semantic_compiler/native_lifecycle_valid_request.json"
+    ))
+}
+
+fn governed_refused_lifecycle_request() -> cantor_core::NativeLifecycleValidationRequest {
+    governed_lifecycle_request(include_bytes!(
+        "../../../fixtures/semantic_compiler/native_lifecycle_refused_request.json"
+    ))
+}
 
 fn arguments(value: Value) -> Option<serde_json::Map<String, Value>> {
     Some(value.as_object().expect("arguments object").clone())
@@ -48,7 +61,7 @@ fn metadata_declares_one_bounded_volatile_closed_world_tool() {
 #[tokio::test(flavor = "current_thread")]
 async fn register_inspect_and_compact_validate_preserve_exact_core_result() {
     let server = CompilerCustodyMcpServer::new().expect("server");
-    let request = native_lifecycle_fixture::exported_artifact_validation_request();
+    let request = governed_valid_lifecycle_request();
     let direct = validate_native_lifecycle_request(&request);
     let register_arguments = json!({
         "command": {"operation": "register", "request": request}
@@ -100,8 +113,7 @@ async fn register_inspect_and_compact_validate_preserve_exact_core_result() {
 #[tokio::test(flavor = "current_thread")]
 async fn refused_request_is_retained_without_outer_success_laundering() {
     let server = CompilerCustodyMcpServer::new().expect("server");
-    let mut request = native_lifecycle_fixture::exported_artifact_validation_request();
-    request.protocol.push_str(".unsupported");
+    let request = governed_refused_lifecycle_request();
     let registered = server
         .execute_tool_arguments(arguments(json!({
             "command": {"operation": "register", "request": request}
@@ -126,7 +138,7 @@ async fn refused_request_is_retained_without_outer_success_laundering() {
 #[tokio::test(flavor = "current_thread")]
 async fn duplicate_missing_malformed_oversized_and_restart_refuse_without_mutation() {
     let server = CompilerCustodyMcpServer::new().expect("server");
-    let request = native_lifecycle_fixture::exported_artifact_validation_request();
+    let request = governed_valid_lifecycle_request();
     let command = json!({"command": {"operation": "register", "request": request}});
     let registered = server
         .execute_tool_arguments(arguments(command.clone()))
@@ -179,7 +191,7 @@ async fn duplicate_missing_malformed_oversized_and_restart_refuse_without_mutati
 #[tokio::test(flavor = "current_thread")]
 async fn concurrent_equal_registration_admits_exactly_one_successor() {
     let server = CompilerCustodyMcpServer::new().expect("server");
-    let request = native_lifecycle_fixture::exported_artifact_validation_request();
+    let request = governed_valid_lifecycle_request();
     let payload = arguments(json!({"command": {"operation": "register", "request": request}}));
     let left = server.clone();
     let right = server.clone();
@@ -217,7 +229,7 @@ async fn official_client_registers_inspects_validates_and_unknown_method_refuses
     assert_eq!(tools.len(), 1);
     assert_eq!(tools[0].name, TOOL_NAME);
 
-    let request = native_lifecycle_fixture::exported_artifact_validation_request();
+    let request = governed_valid_lifecycle_request();
     let direct = validate_native_lifecycle_request(&request);
     let registered = client
         .call_tool(
