@@ -5,7 +5,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 
 use cantor_core::{
     SelfHostedAnchorEvidence, SopCorpusManifest, generate_self_hosted_anchor_evidence,
-    validate_self_hosted_anchor_evidence_form, verify_self_hosted_anchor_evidence,
+    sha256_digest, validate_self_hosted_anchor_evidence_form, verify_self_hosted_anchor_evidence,
 };
 
 static NEXT_TEMP: AtomicU64 = AtomicU64::new(1);
@@ -27,20 +27,49 @@ fn tracked_evidence_is_repeatable_complete_and_matches_checked_json() {
         first.body.scanner_purpose,
         "resolve governed Cantor meaning"
     );
+    assert!(first.body.queries.iter().all(|query| {
+        query
+            .candidates
+            .iter()
+            .filter(|candidate| candidate.exact_requested_expression)
+            .count()
+            == 1
+    }));
     assert_eq!(first.body.scanner_operation, "read");
     assert!(first.body.proof_complete);
     assert!(first.body.queries.iter().all(|query| {
-        query.scanner_candidate_count
-            == query.eligible_count
-                + query.ambiguous_count
-                + query.unknown_count
-                + query.excluded_count
-                + query.contradicted_count
-                + query.stale_count
-                + query.unauthorized_count
-                + query.unresolved_count
-                + query.clipped_count
+        query.candidates.len() == query.scanner_candidate_count as usize
+            && query.candidates.iter().all(|candidate| {
+                !candidate.preferred_expression.is_empty()
+                    && !candidate.source_anchors.is_empty()
+                    && !candidate.matched_tokens.is_empty()
+                    && !candidate.matched_surface_kinds.is_empty()
+                    && candidate.coverage_basis_points > 0
+            })
+            && query.scanner_candidate_count
+                == query.eligible_count
+                    + query.ambiguous_count
+                    + query.unknown_count
+                    + query.excluded_count
+                    + query.contradicted_count
+                    + query.stale_count
+                    + query.unauthorized_count
+                    + query.unresolved_count
+                    + query.clipped_count
     }));
+    assert_eq!(
+        first
+            .body
+            .queries
+            .iter()
+            .map(|query| (query.name.as_str(), query.candidates.len()))
+            .collect::<Vec<_>>(),
+        vec![
+            ("semantic-unit", 4),
+            ("cantor", 39),
+            ("prepared-runtime", 5)
+        ]
+    );
     let checked = fs::read(
         workspace_root()
             .join("experiments/semantic_anchor_catalogue_slice5a/self_hosted_anchor_evidence.json"),
@@ -64,6 +93,11 @@ fn strict_form_and_digest_refuse_unknown_fields_and_tamper() {
         .expect("report is object")
         .insert("unknown_field".to_owned(), serde_json::json!(true));
     assert!(serde_json::from_value::<SelfHostedAnchorEvidence>(value).is_err());
+
+    let mut incomplete = evidence.clone();
+    incomplete.body.queries[0].candidates.pop();
+    incomplete.report_digest = sha256_digest(&incomplete.body).expect("body rehashes");
+    assert!(validate_self_hosted_anchor_evidence_form(&incomplete).is_err());
 }
 
 #[test]

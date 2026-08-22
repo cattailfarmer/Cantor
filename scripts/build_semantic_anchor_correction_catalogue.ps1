@@ -15,7 +15,7 @@ function Assert-Catalogue($catalogue) {
     $allowed = @('profile','baseline_sha256','baseline_report_digest','use_status','training_status','examples','non_authority_statement')
     $actual = @($catalogue.PSObject.Properties.Name | Sort-Object)
     if (($actual -join ',') -ne (($allowed | Sort-Object) -join ',')) { throw 'catalogue fields differ' }
-    if ($catalogue.profile -ne 'cantor-semantic-anchor-correction-catalogue/0.1' -or
+    if ($catalogue.profile -ne 'cantor-semantic-anchor-correction-catalogue/0.2' -or
         $catalogue.baseline_sha256 -ne $baselineHash -or
         $catalogue.baseline_report_digest -ne $baseline.report_digest.value -or
         $catalogue.use_status -ne 'evaluation_and_curation_only' -or
@@ -26,8 +26,12 @@ function Assert-Catalogue($catalogue) {
     if ((@($examples.query_name) -join ',') -ne ($expectedNames -join ',')) { throw 'example order differs' }
     foreach ($example in $examples) {
         $observed = @($baseline.queries | Where-Object name -eq $example.query_name)
+        $candidateIds = @($observed[0].candidates.unit_id)
+        $exactIds = @($observed[0].candidates | Where-Object exact_requested_expression | ForEach-Object unit_id)
         if ($observed.Count -ne 1 -or $null -ne $example.target_unit_id -or
             $example.status -ne 'requires_curated_exact_identity' -or
+            (@($example.candidate_unit_ids) -join ',') -ne ($candidateIds -join ',') -or
+            (@($example.exact_requested_expression_candidate_ids) -join ',') -ne ($exactIds -join ',') -or
             [int]$example.observed.lexical_candidate_count -ne [int]$observed[0].lexical_match_count -or
             [int]$example.observed.ambiguous_count -ne [int]$observed[0].ambiguous_count -or
             [int]$example.observed.unresolved_count -ne [int]$observed[0].unresolved_count -or
@@ -57,19 +61,21 @@ $examples = @($baseline.queries | Sort-Object name | ForEach-Object {
         }
         desired = [ordered]@{ eligible_count = 1; ambiguous_count = 0; unresolved_count = 0; compact_record_count = 1 }
         target_unit_id = $null
+        candidate_unit_ids = @($_.candidates.unit_id)
+        exact_requested_expression_candidate_ids = @($_.candidates | Where-Object exact_requested_expression | ForEach-Object unit_id)
         required_action = 'curate one exact semantic identity from proof-bound ambiguous candidates'
         evidence_needed = @('curator identity','source anchor','authority scope','exact gate replay')
         status = 'requires_curated_exact_identity'
     }
 })
 $catalogue = [ordered]@{
-    profile = 'cantor-semantic-anchor-correction-catalogue/0.1'
+    profile = 'cantor-semantic-anchor-correction-catalogue/0.2'
     baseline_sha256 = $baselineHash
     baseline_report_digest = $baseline.report_digest.value
     use_status = 'evaluation_and_curation_only'
     training_status = 'training_not_authorized'
     examples = $examples
-    non_authority_statement = 'Labels are curation work items and grant no source admission training semantic execution or effect authority.'
+    non_authority_statement = 'Candidate identities and exact-expression observations are curation work items and grant no target selection source admission training semantic execution or effect authority.'
 }
 $catalogue = $catalogue | ConvertTo-Json -Depth 10 | ConvertFrom-Json
 Assert-Catalogue $catalogue

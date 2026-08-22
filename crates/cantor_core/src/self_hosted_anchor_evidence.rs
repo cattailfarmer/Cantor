@@ -13,18 +13,33 @@ use crate::{
     CandidateEligibility, CatalogueDerivationRequest, CompactAnchorProjectionBudget,
     CompactAnchorProjectionRequest, ContentDigest, LEXICAL_ANCHOR_LOOKUP_PROFILE,
     LEXICAL_TOKENIZER_PROFILE, LEXICALLY_SEEDED_ANCHOR_GATE_PROFILE, LexicalAnchorLookupBudget,
-    LexicalAnchorLookupRequest, LexicalIndexDerivationRequest, LexicallySeededAnchorGateBudget,
-    LexicallySeededAnchorGateRequest, RequestedDetailKind, SemanticFabric, SemanticId,
-    SopCorpusManifest, SopDocumentInput, SopSigningKeys, admit_package, build_sop_corpus,
-    derive_lexical_association_index, derive_semantic_anchor_catalogue,
-    gate_lexical_anchor_matches, lookup_lexical_anchors, project_compact_semantic_anchors,
-    sha256_digest,
+    LexicalAnchorLookupRequest, LexicalIndexDerivationRequest, LexicalSurfaceKind,
+    LexicallySeededAnchorGateBudget, LexicallySeededAnchorGateRequest, RequestedDetailKind,
+    SemanticFabric, SemanticId, SopCorpusManifest, SopDocumentInput, SopSigningKeys, SourceAnchor,
+    UnitKind, admit_package, build_sop_corpus, derive_lexical_association_index,
+    derive_semantic_anchor_catalogue, gate_lexical_anchor_matches, lookup_lexical_anchors,
+    project_compact_semantic_anchors, sha256_digest,
 };
 
-pub const SELF_HOSTED_ANCHOR_EVIDENCE_PROFILE: &str = "cantor-self-hosted-anchor-evidence/0.1";
+pub const SELF_HOSTED_ANCHOR_EVIDENCE_PROFILE: &str = "cantor-self-hosted-anchor-evidence/0.2";
 pub const MAX_EVIDENCE_DOCUMENTS: usize = 16;
 pub const MAX_EVIDENCE_QUERIES: usize = 128;
 pub const MAX_EVIDENCE_BYTES: usize = 64 * 1024 * 1024;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SelfHostedAnchorCandidateEvidence {
+    pub unit_id: SemanticId,
+    pub preferred_expression: String,
+    pub aliases: BTreeSet<String>,
+    pub kind: UnitKind,
+    pub source_anchors: Vec<SourceAnchor>,
+    pub matched_tokens: BTreeSet<String>,
+    pub matched_surface_kinds: BTreeSet<LexicalSurfaceKind>,
+    pub coverage_basis_points: u16,
+    pub eligibility: CandidateEligibility,
+    pub exact_requested_expression: bool,
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -34,6 +49,7 @@ pub struct SelfHostedAnchorQueryEvidence {
     pub lexical_match_count: u32,
     pub unmatched_tokens: BTreeSet<String>,
     pub scanner_candidate_count: u32,
+    pub candidates: Vec<SelfHostedAnchorCandidateEvidence>,
     pub eligible_count: u32,
     pub ambiguous_count: u32,
     pub unknown_count: u32,
@@ -297,6 +313,52 @@ pub fn generate_self_hosted_anchor_evidence(
             )
             .unwrap_or(u32::MAX)
         };
+        let candidates = lookup
+            .matches
+            .iter()
+            .map(|matched| {
+                let entry = catalogue
+                    .catalogue
+                    .identity_entries
+                    .iter()
+                    .find(|entry| entry.address.unit_id == matched.address.unit_id)
+                    .ok_or_else(|| {
+                        format!(
+                            "lexical candidate {} lacks catalogue identity",
+                            matched.address.unit_id
+                        )
+                    })?;
+                let scanner_candidate = gate
+                    .scanner_result
+                    .candidates
+                    .iter()
+                    .find(|candidate| candidate.address.unit_id == matched.address.unit_id)
+                    .ok_or_else(|| {
+                        format!(
+                            "lexical candidate {} lacks scanner candidate",
+                            matched.address.unit_id
+                        )
+                    })?;
+                Ok(SelfHostedAnchorCandidateEvidence {
+                    unit_id: matched.address.unit_id.clone(),
+                    preferred_expression: entry.preferred_expression.clone(),
+                    aliases: entry.aliases.clone(),
+                    kind: matched.address.kind.clone(),
+                    source_anchors: matched.address.source_anchors.clone(),
+                    matched_tokens: matched.matched_tokens.clone(),
+                    matched_surface_kinds: matched
+                        .evidence
+                        .iter()
+                        .map(|evidence| evidence.surface_kind.clone())
+                        .collect(),
+                    coverage_basis_points: matched.coverage_basis_points,
+                    eligibility: scanner_candidate.eligibility.clone(),
+                    exact_requested_expression: template
+                        .terms
+                        .contains(&entry.preferred_expression),
+                })
+            })
+            .collect::<Result<Vec<_>, String>>()?;
         queries.push(SelfHostedAnchorQueryEvidence {
             name: template.name.clone(),
             requested_terms: template.terms.clone(),
@@ -305,6 +367,7 @@ pub fn generate_self_hosted_anchor_evidence(
             unmatched_tokens: lookup.unmatched_tokens.clone(),
             scanner_candidate_count: u32::try_from(gate.scanner_result.candidates.len())
                 .map_err(|error| error.to_string())?,
+            candidates,
             eligible_count: count(CandidateEligibility::Eligible),
             ambiguous_count: count(CandidateEligibility::Ambiguous),
             unknown_count: count(CandidateEligibility::Unknown),
@@ -365,7 +428,7 @@ pub fn generate_self_hosted_anchor_evidence(
             "governed_labeled_correction_examples".to_owned(),
             "separate_learned_training_authorization".to_owned(),
         ]),
-        non_authority_statement: "This provider-free structural baseline grants no learned-training, truth, permission, safety, execution, or effect authority.".to_owned(),
+        non_authority_statement: "This provider-free structural baseline and candidate dossier grant no curator selection, learned-training, truth, permission, safety, execution, or effect authority.".to_owned(),
     };
     let report_digest = sha256_digest(&body).map_err(|error| format!("{error:?}"))?;
     let evidence = SelfHostedAnchorEvidence {
@@ -392,6 +455,25 @@ pub fn validate_self_hosted_anchor_evidence_form(
         || evidence.body.scanner_operation != "read"
     {
         return Err("Slice5A evidence form or bounds differ".to_owned());
+    }
+    for query in &evidence.body.queries {
+        if query.candidates.len() != query.lexical_match_count as usize
+            || query.candidates.len() != query.scanner_candidate_count as usize
+        {
+            return Err("Slice5A candidate dossier cardinality differs".to_owned());
+        }
+        let mut ids = BTreeSet::new();
+        for candidate in &query.candidates {
+            if !ids.insert(candidate.unit_id.clone())
+                || candidate.preferred_expression.is_empty()
+                || candidate.source_anchors.is_empty()
+                || candidate.matched_tokens.is_empty()
+                || candidate.matched_surface_kinds.is_empty()
+                || candidate.coverage_basis_points == 0
+            {
+                return Err("Slice5A candidate dossier form differs".to_owned());
+            }
+        }
     }
     let expected = sha256_digest(&evidence.body).map_err(|error| format!("{error:?}"))?;
     if evidence.report_digest != expected {

@@ -38,7 +38,7 @@ function Assert-Evidence($Evidence) {
         if ([decimal]$trial.elapsed_milliseconds -le 0 -or [uint64]$trial.peak_resident_bytes -eq 0 -or
             [uint64]$trial.report_bytes -ne (Get-Item $checked).Length -or
             [string]$trial.report_sha256 -ne (Get-RawHash $checked)) {
-            throw 'trial measurement or exact report equality differs'
+            throw "trial measurement or exact report equality differs: ordinal=$($trial.ordinal) elapsed_ms=$($trial.elapsed_milliseconds) peak_bytes=$($trial.peak_resident_bytes) report_bytes=$($trial.report_bytes) expected_bytes=$((Get-Item $checked).Length) report_sha256=$($trial.report_sha256) expected_sha256=$(Get-RawHash $checked)"
         }
     }
     $times = @($Evidence.trials | ForEach-Object { [decimal]$_.elapsed_milliseconds } | Sort-Object)
