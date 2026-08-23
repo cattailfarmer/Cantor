@@ -18,8 +18,9 @@ blocks identify later completion without rewriting that history.
 | Local service and operator control | Supervised lifecycle, diagnostic, atomic initial bootstrap, developer alpha, and mechanical private beta complete | No production secret, replacement, repair, migration, or OS-service policy |
 | Release mechanics | Deterministic portable bundle and supplied-policy detached-signature verification complete | No governed publisher identity, trust onboarding, installer, or supported delivery |
 | M2B supplied topology chain | Windows ABI probe through ordered-digest reconciliation implemented and proved | Compile/pure evidence does not prove physical Windows scanning |
+| Nested outer-host identity P0 | Pure strict identity-only request/envelope, deterministic digests, machine forms, and adversarial validation complete | No physical process, model load, provider, inner host, shared attention, or work authority |
 
-Exact current closure gates pass 174 result groups and 949 tests in both debug
+Exact current closure gates pass 175 result groups and 961 tests in both debug
 and overflow-checked release, with zero failures and three governed ignores.
 
 ## Active and gated work
@@ -45,9 +46,11 @@ inference.
 Existing substrate reduces the work materially: Needle2 SOP routing, pure
 shared-attention forms and reconciliation, MCP transport, supervised process
 lifecycle, iterative checkpoints, volatile custody, replay, and provider-host
-boundaries already exist. The following are not yet one executable system:
+boundaries already exist. The first dependency, an effectless outer host
+identity/session envelope, is implemented and workspace-proved. The following
+are not yet one executable system:
 
-1. Outer Cantor host identity, lifecycle, resource, and fault contract.
+1. SOP boot admission and a physical outer agent-process lifecycle/resource contract.
 2. Inner Cantor/model launch, identity, admission, and custody contract.
 3. Explicit model-loading authority without implicit download or installation.
 4. Negotiated shared-attention window protocol with causal attribution,
@@ -59,10 +62,27 @@ boundaries already exist. The following are not yet one executable system:
 The governed gap audit resolves this into 16 coordinates: six have proved
 reusable substrate, six have candidate-only substrate, two are historical
 provider evidence, and two have no admitted substrate. None is an integrated
-nested-system completion. The first dependency-correct successor is an outer
-host identity/session contract, followed by separate inner process identity,
+nested-system completion. The first dependency-correct successor is now strict
+SOP boot/session admission for the self-working agent path, while inner process
+identity remains next for the nested-model path. Both must preserve separate
 model admission/loading, launch, custody, negotiated-attention, provider-free
 integration, live-provider, and operator-product contracts.
+
+## SOP-bootable self-working target
+
+The current task additionally preserves a concrete product loop: admitted SOP
+boots a governed Cantor agent session; the session selects and plans bounded
+work; separately authorized tools perform and verify updates; and Cantor emits
+the succeeding SOP with causal evidence and an unresolved frontier. A generated
+SOP is a proposal/source, not a self-granted signature or activation.
+
+The dependency sequence is SWA-01 SOP boot admission, SWA-02 objective and
+authority accounting, SWA-03 resumable work lifecycle, SWA-04 workspace update
+broker, SWA-05 commit/push broker, SWA-06 self-SOP authorship and review,
+SWA-07 provider-free integration, and only then SWA-08 pinned-provider live
+evidence. Existing procedure authorship, iterative checkpoints, custody,
+workspace admission, operator bootstrap, and publication verification are
+reusable substrate; they are not yet composed into this autonomous loop.
 
 Engineering-time forecast from the current base, excluding unavailable-provider
 wait time:
