@@ -94,6 +94,12 @@ baseline:
   proves authenticated start/health/query/stop plus exact direct fallback, and
   removes the full run root without retaining fixture keys, token, state,
   generated semantic content, or installed binaries; and
+- one provider-free portable Windows x86_64 release-bundle candidate now
+  retains those four exact release binaries in a deterministic six-entry ZIP
+  with a strict embedded manifest, bounded operator README, companion evidence,
+  nonextracting verifier, cross-generation byte equality, and explicit denial
+  of installer, publisher-authenticity, configuration, provider, persistence,
+  effect, remote, FPGA, and Minecraft claims; and
 - `cantor-corpus` parses the bounded fail-closed
   `cantor-sop-source/0.1` profile, lowers exact source anchors and typed
   containment, compiles distinct-Ed25519 signed packages, and generates
@@ -306,6 +312,10 @@ The successor disposable provider-free private-beta workflow, exact operator
 command, retained evidence, cleanup rules, and remaining product gaps are
 documented in
 [`docs/PROVIDER_FREE_PRIVATE_BETA_WORKFLOW_P0.md`](docs/PROVIDER_FREE_PRIVATE_BETA_WORKFLOW_P0.md).
+The deterministic portable Windows release-bundle candidate, generation and
+verification commands, exact contents, handoff boundary, and remaining
+distribution gaps are documented in
+[`docs/PROVIDER_FREE_PORTABLE_RELEASE_BUNDLE_P0.md`](docs/PROVIDER_FREE_PORTABLE_RELEASE_BUNDLE_P0.md).
 The provider-free curator policy, canonical payload, signature verification,
 synthetic-fixture boundary, and operator commands are documented in
 [`docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md`](docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md).

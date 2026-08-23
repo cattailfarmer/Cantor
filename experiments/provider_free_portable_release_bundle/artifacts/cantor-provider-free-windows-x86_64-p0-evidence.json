@@ -1,0 +1,106 @@
+{
+  "profile": "cantor-provider-free-portable-release-bundle-evidence/0.1",
+  "status": "provider_free_portable_release_bundle_verified_with_declared_gaps",
+  "source_commit": "04937d5e13bebcd5a2650a9064275c9f3c680b28",
+  "target": "windows-x86_64",
+  "build_mode": "built_locked_offline",
+  "cargo_lock": {
+    "path": "Cargo.lock",
+    "role": "dependency_lock",
+    "bytes": 41425,
+    "sha256": "92CCA554423246A05601F45BD67F23FE65EDD4C6207041E8FD3F80F14C7DDF3B"
+  },
+  "archive": {
+    "file_name": "cantor-provider-free-windows-x86_64-p0.zip",
+    "bytes": 6535231,
+    "sha256": "E391E69397C83BBB8EF74D8B2136D316C2F36D3D7A656751086956CC236B7D67",
+    "format": "zip",
+    "compression": "store",
+    "timestamp_contract": "zip_dos_epoch_1980_01_01_00_00_00",
+    "entry_count": 6
+  },
+  "embedded_manifest": {
+    "path": "bundle-manifest.json",
+    "role": "bundle_manifest",
+    "bytes": 2288,
+    "sha256": "6EA494EA406FFA90A4266D9699DDC39EF51C52CF03BDCE47B5277728AD5B2770"
+  },
+  "entries": [
+    {
+      "ordinal": 0,
+      "path": "BUNDLE_README.txt",
+      "role": "operator_readme",
+      "bytes": 673,
+      "sha256": "7E68D77E1D6FC8ABABFEBFC8ADC03D485A0F0F94A2FC3078430A330FF4B987EC"
+    },
+    {
+      "ordinal": 1,
+      "path": "bin/cantor-corpus.exe",
+      "role": "corpus_compiler",
+      "bytes": 1585152,
+      "sha256": "0FEC6A3F74EA134BF36E5C097231A237105CC140C262EDDE36F0E83149C31D89",
+      "source_path": "target/release/cantor-corpus.exe"
+    },
+    {
+      "ordinal": 2,
+      "path": "bin/cantor.exe",
+      "role": "direct_cli",
+      "bytes": 1647616,
+      "sha256": "699A6EAEA4162909F4E2E59EB98651DA61B4CB4603B88D430BB92F2478597DFD",
+      "source_path": "target/release/cantor.exe"
+    },
+    {
+      "ordinal": 3,
+      "path": "bin/cantorctl.exe",
+      "role": "service_client",
+      "bytes": 1416704,
+      "sha256": "517B098803F06291FB2CFFB2B7C16212D7A2BD1CB478A597AB0F55D8410B98AD",
+      "source_path": "target/release/cantorctl.exe"
+    },
+    {
+      "ordinal": 4,
+      "path": "bin/cantord.exe",
+      "role": "resident_service",
+      "bytes": 1882112,
+      "sha256": "4BB9A95F1A34DC0B84F024CAC40E67FCBF9249243CA4B55D795D6075504535EC",
+      "source_path": "target/release/cantord.exe"
+    },
+    {
+      "ordinal": 5,
+      "path": "bundle-manifest.json",
+      "role": "bundle_manifest",
+      "bytes": 2288,
+      "sha256": "6EA494EA406FFA90A4266D9699DDC39EF51C52CF03BDCE47B5277728AD5B2770"
+    }
+  ],
+  "determinism": {
+    "generation_count": 2,
+    "byte_equal": true,
+    "sha256_equal": true,
+    "replay_archive_removed_before_publication": true
+  },
+  "safety": {
+    "archive_extracted": false,
+    "executables_invoked": false,
+    "service_started": false,
+    "keys_or_tokens_created": false,
+    "configuration_or_state_created": false,
+    "provider_contacted": false,
+    "remote_accessed": false,
+    "staging_removed_after_publication": true
+  },
+  "capability_denials": [
+    "os_installer_or_installation",
+    "archive_extraction_or_execution",
+    "production_trust_or_secret_lifecycle",
+    "operator_configuration_or_service_lifecycle",
+    "supported_distribution_or_upgrade_compatibility",
+    "live_provider_success",
+    "durable_or_distributed_custody",
+    "external_effect_execution",
+    "automatic_remote_access",
+    "fpga_execution",
+    "minecraft_scope"
+  ],
+  "non_authority_statement": "This deterministic archive proves portable provider-free package identity only. SHA256 reproducibility is not publisher authenticity and grants no installer, trust, configuration, provider, effect, persistence, operator-product, or production authority."
+}
