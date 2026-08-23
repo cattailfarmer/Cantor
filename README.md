@@ -273,14 +273,21 @@ The next bounded READY-continuation state machine, progress projection,
 stop/reentry contract, faculty checks, replay rules, and implementation slices
 are specified—but not yet activated—in
 [`docs/ITERATIVE_ATTENTION_PROCEDURE_LOOP_P1.md`](docs/ITERATIVE_ATTENTION_PROCEDURE_LOOP_P1.md).
-The next semantic retrieval frontier is now source-preserved, SJS-processed,
-and canonically formed in
+The semantic retrieval frontier is source-preserved, SJS-processed, and
+canonically formed in
 [`Cantor_Semantic_Anchor_Catalogue_P0.sop`](specifications/Cantor_Semantic_Anchor_Catalogue_P0.sop).
 It defines generation-bound identity and operation catalogue views, typed
 association channels, exact-address resolution, a non-collapsing priority
-lattice, and seven dependency-ordered slices. Slice 1 now implements its strict
-pure machine forms, canonical digests, validators, and adversarial fixtures;
-catalogue derivation and retrieval remain inactive pending Slice 2 authority.
+lattice, and seven dependency-ordered slices. Slices 1 through 4 implement and
+prove pure forms, deterministic derivation, exact scanning, lexical lookup,
+semantic gating, compact projection, and query-field equivalence. Slice 5A
+through 5E now add a self-hosted baseline, controlled measurement, correction
+catalogue, authority replay, and proof-bound curator candidate dossiers. All 48
+current lexical candidates remain explicitly ambiguous and no target has been
+selected; governed curator selection precedes the Slice 6 bridge.
+The consolidated current product boundary and true dependency frontiers are
+recorded in
+[`docs/CANTOR_PRODUCT_READINESS_2026-08-23.md`](docs/CANTOR_PRODUCT_READINESS_2026-08-23.md).
 The consolidated local executable state, measured transport result, maturity
 boundaries, safe verification lane, and next dependency frontier are recorded
 in

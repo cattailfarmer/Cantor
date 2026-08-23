@@ -1,5 +1,10 @@
 # Cantor local runtime status — 2026-08-19
 
+> Historical checkpoint: later governed work completed Iterative P1 through
+> Slice 8B and the Semantic Anchor Catalogue through Slice 5E. Its original
+> frontier statements below remain provenance. See
+> `docs/CANTOR_PRODUCT_READINESS_2026-08-23.md` for current navigation.
+
 This status anchor consolidates the local shared-attention base campaign from
 Git checkpoint `4769ae5` through `dd3beff` and tracks the subsequently
 activated P1 Slice 2 state. It is a navigation surface, not new implementation
