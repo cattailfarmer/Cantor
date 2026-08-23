@@ -66,3 +66,8 @@ drift from adding this workspace crate. The portable bundle and private-beta
 workflow were refreshed from published `e23bf27d`; the signature evidence above
 was then regenerated from published `dbe73a37` and reproduced from the same
 source in a separate short-path local clone.
+
+Closure commit `9ed521fd833a7b8921458ef2cce09be3fac5131b` is published on
+`origin/codex/self-hosted-corpus`; exact post-push signature, portable,
+private-beta, bootstrap, configuration, developer-alpha, and recursive-evidence
+replay passes.
