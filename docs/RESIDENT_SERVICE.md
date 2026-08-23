@@ -66,6 +66,24 @@ powershell -NoProfile -ExecutionPolicy Bypass `
 The initializer refuses to overwrite existing artifacts unless `-Replace` is
 explicit. Review the runtime directory before using that option.
 
+For a new runtime directory, the preferred governed initial-create path is the
+transactional bootstrap:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File scripts\initialize_cantor_service_transaction.ps1 `
+  -EnvironmentPath C:\Project\Cantor\.local\cantor-self-hosted\build\environment.json `
+  -RuntimeDirectory C:\Project\Cantor\.local\cantor-service `
+  -CantordPath C:\Project\Cantor\target\release\cantord.exe `
+  -AllowedEnvironmentRoot C:\Project\Cantor\.local `
+  -ListenAddress 127.0.0.1:39841
+```
+
+It refuses an existing runtime directory, stages the complete three-file set
+as a sibling, requires `cantord --check-config` before and after one directory
+rename, and emits a token-free receipt. It does not replace or repair an
+existing configuration and does not establish production secret lifecycle.
+
 Publication order is:
 
 1. write a new immutable environment file beneath `allowed_environment_root`;
