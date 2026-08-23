@@ -1,0 +1,19 @@
+Subject: Cantor Self Work Update Handoff Admission P0 Operational Faults
+
+@ [fault_record_uuid] cfe80a12-f317-4e91-9de9-8a3c380ff3a3
+
+& [HostStorageFault]
+  + C volume reached zero free bytes while a parallel WSL workspace compile expanded build caches
+  + WSL remounted temporary storage read-only and concurrent rustc processes terminated SIGBUS before any exact workspace test result
+  + verified C:\Project\Cantor\target contained 104.1 GiB of rebuildable Cargo artifacts and cargo clean removed that exact target only
+  + verified WSL Cantor target contained 51.5 GiB of rebuildable artifacts and cargo clean removed that exact target only
+  + recovery left more than 100 GiB free on C and more than 900 GiB free in WSL and clean serialized gates passed
+
+& [PythonNameFault]
+  + Ubuntu supplied /usr/bin/python3 but runtime fixtures invoked python and five MCP tests refused before fixture execution
+  + one exact temporary symlink named python pointed to /usr/bin/python3 only for the gate environment and was removed after debug and release
+  + no package installation download PATH persistence or repository change occurred
+
+& [Disposition]
+  + both faults are host operational conditions rather than Cantor semantic failures
+  + implementation and evidence remain unchanged and exact serialized replay closes the fault account
