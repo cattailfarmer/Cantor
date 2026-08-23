@@ -100,6 +100,10 @@ baseline:
   nonextracting verifier, cross-generation byte equality, and explicit denial
   of installer, publisher-authenticity, configuration, provider, persistence,
   effect, remote, FPGA, and Minecraft claims; and
+- `cantord --check-config <absolute-service-config>` now reuses the exact
+  service-config, token, activation, signed-environment, and prepared-runtime
+  validators without binding a listener, returning one deterministic redacted
+  ready or first-refusal JSON report with checked provider-free evidence; and
 - `cantor-corpus` parses the bounded fail-closed
   `cantor-sop-source/0.1` profile, lowers exact source anchors and typed
   containment, compiles distinct-Ed25519 signed packages, and generates
@@ -316,6 +320,10 @@ The deterministic portable Windows release-bundle candidate, generation and
 verification commands, exact contents, handoff boundary, and remaining
 distribution gaps are documented in
 [`docs/PROVIDER_FREE_PORTABLE_RELEASE_BUNDLE_P0.md`](docs/PROVIDER_FREE_PORTABLE_RELEASE_BUNDLE_P0.md).
+The no-listener operator configuration contract, exit classes, redaction
+boundary, checked reports, and independent verification commands are
+documented in
+[`docs/OPERATOR_CONFIGURATION_DIAGNOSTIC_P0.md`](docs/OPERATOR_CONFIGURATION_DIAGNOSTIC_P0.md).
 The provider-free curator policy, canonical payload, signature verification,
 synthetic-fixture boundary, and operator commands are documented in
 [`docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md`](docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md).
@@ -477,6 +485,7 @@ Initialize and run the bounded resident service over a compiled environment:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\initialize_cantor_service.ps1 -EnvironmentPath C:\Project\Cantor\.local\cantor-self-hosted\environment.json -RuntimeDirectory C:\Project\Cantor\.local\cantor-service
+.\target\release\cantord.exe --check-config C:\Project\Cantor\.local\cantor-service\service.json
 .\target\release\cantord.exe --config C:\Project\Cantor\.local\cantor-service\service.json
 .\target\release\cantorctl.exe status --config C:\Project\Cantor\.local\cantor-service\service.json --request-id request:operator_status_1
 .\target\release\cantor-mcp.exe --service-config C:\Project\Cantor\.local\cantor-service\service.json

@@ -63,9 +63,11 @@ replacement, three producer refusals, and fifteen verifier refusals.
 
 A recipient can hash the ZIP and compare it with the governed companion
 evidence, but SHA-256 reproducibility alone is not publisher authenticity.
-Supported delivery, publisher signing and trust provisioning, secret and
-configuration lifecycle, diagnostics, compatibility, migration, upgrade and
-rollback across releases, and support policy remain separate operator-product
-work. Live-provider compatibility remains contingent on the exact pinned local
-provider; no download, substitution, remote fallback, or synthetic live trial
-is authorized here.
+The separately governed no-listener configuration diagnostic is now available
+and documented in `docs/OPERATOR_CONFIGURATION_DIAGNOSTIC_P0.md`. Supported
+delivery, publisher signing and trust provisioning, production secret and
+configuration creation/repair lifecycle, compatibility, migration, upgrade
+and rollback across releases, operator acceptance, and support policy remain
+separate operator-product work. Live-provider compatibility remains contingent
+on the exact pinned local provider; no download, substitution, remote fallback,
+or synthetic live trial is authorized here.

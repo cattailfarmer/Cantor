@@ -19,13 +19,16 @@ representative self-hosted query, graceful stop, exact direct fallback, and
 complete run-root rollback. A successor deterministic Windows x86_64 archive
 now binds the same four release binaries to one published source commit, exact
 Cargo.lock, six-entry allowlist, embedded manifest, companion evidence, and
-nonextracting replay.
+nonextracting replay. The resident binary now also exposes one exact
+no-listener configuration diagnostic over the existing startup validators,
+with deterministic redacted ready/refused reports, public-test-only checked
+evidence, independent verification, and adversarial refusal coverage.
 
 This does not make Cantor an operator or production product. Live provider
-compatibility, a supported distribution, end-to-end operator lifecycle,
-production authentication, durable custody, effects, observability, upgrade
-and recovery policy, security review, and service-level evidence remain absent
-or separately locked.
+compatibility, a supported distribution, configuration generation and repair,
+production trust and secret provisioning, end-to-end operator acceptance,
+durable custody, effects, observability, upgrade and recovery policy, security
+review, and service-level evidence remain absent or separately locked.
 
 ## Release-stage acceptance
 
@@ -33,7 +36,7 @@ or separately locked.
 | --- | --- | --- |
 | Provider-free developer alpha | Satisfied | Maintain exact gates and coherent release navigation |
 | Private local beta | Satisfied mechanically, provider-free | Exact pinned live-provider compatibility remains contingent |
-| Operator product | Not satisfied; portable package identity proved | Supported delivery, publisher authenticity, trust provisioning, secrets, configuration, migration, diagnostics, upgrade compatibility, and support policy |
+| Operator product | Not satisfied; portable package identity and redacted preflight proved | Supported delivery, publisher authenticity, trust/secret provisioning, configuration creation and repair, migration, upgrade compatibility, acceptance, and support policy |
 | Production product | Not satisfied | Threat model, external trust, recovery, observability, SLO, sustained workload, security and deployment review |
 
 ## True current frontiers
@@ -44,10 +47,11 @@ or separately locked.
 2. After an exact governed target is admitted, implement the Semantic Anchor Slice 6
    address-to-attention-procedure bridge without conflating semantic identity,
    checkpoint identity, or authority.
-3. Continue from the now-proved portable package identity into the smallest
-   provider-free operator-configuration and diagnostics seam. Supported
-   delivery, publisher authenticity, trust/secret provisioning, migration,
-   upgrade/rollback compatibility, and support policy remain absent.
+3. Continue from the now-proved package identity and no-listener diagnostic
+   into the smallest separately governed provider-free configuration-creation
+   or supported-delivery seam. Publisher authenticity, production trust/secret
+   provisioning, repair, migration, upgrade/rollback compatibility, operator
+   acceptance, and support policy remain absent.
 4. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
 
@@ -69,3 +73,5 @@ The successor provider-free mechanical private-beta workflow is documented in
 `docs/PROVIDER_FREE_PRIVATE_BETA_WORKFLOW_P0.md`.
 The deterministic portable release-bundle candidate is documented in
 `docs/PROVIDER_FREE_PORTABLE_RELEASE_BUNDLE_P0.md`.
+The redacted no-listener configuration profile and checked evidence are
+documented in `docs/OPERATOR_CONFIGURATION_DIAGNOSTIC_P0.md`.
