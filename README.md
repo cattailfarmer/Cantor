@@ -316,6 +316,9 @@ selected; governed curator selection precedes the Slice 6 bridge.
 The consolidated current product boundary and true dependency frontiers are
 recorded in
 [`docs/CANTOR_PRODUCT_READINESS_2026-08-23.md`](docs/CANTOR_PRODUCT_READINESS_2026-08-23.md).
+The proof-bound completed, active, gated, and nested-Cantor host development
+view is recorded in
+[`docs/CANTOR_DEVELOPMENT_STATE_2026-08-23.md`](docs/CANTOR_DEVELOPMENT_STATE_2026-08-23.md).
 The deterministic generation, exact verification, optional focused replay,
 and stage nonclaims for that boundary are documented in
 [`docs/LOCAL_PRODUCT_DEVELOPER_ALPHA_ACCEPTANCE.md`](docs/LOCAL_PRODUCT_DEVELOPER_ALPHA_ACCEPTANCE.md).

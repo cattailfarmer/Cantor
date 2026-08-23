@@ -89,3 +89,9 @@ The governed absent-runtime configuration transaction and checked cleanup
 evidence are documented in `docs/OPERATOR_BOOTSTRAP_TRANSACTION_P0.md`.
 The verification-only detached signature profile and explicit trust nonclaims
 are documented in `docs/PROVIDER_FREE_RELEASE_SIGNATURE_VERIFICATION_P0.md`.
+
+The current proof-bound feature view and newly preserved nested-Cantor LLM-host
+objective are documented in `docs/CANTOR_DEVELOPMENT_STATE_2026-08-23.md`.
+Historical M2B readiness labels are preserved but no longer serve as
+unqualified current navigation; their exact supersession inventory is verified
+by `scripts/verify_cantor_development_state_supersession_audit.ps1`.
