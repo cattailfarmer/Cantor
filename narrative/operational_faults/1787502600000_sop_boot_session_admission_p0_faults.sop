@@ -1,0 +1,18 @@
+Subject: Cantor SOP Boot Session Admission P0 Operational Fault Ledger
+
+@ [fault_uuid] c17b4c3b-630f-48ca-87b2-0246b2512f55
+
+& [TypeInferenceFault]
+  + proposal JSON deserialization required an explicit SopBootSessionProposal annotation
+  + annotation added and production module check passed
+
+& [FixtureCompileFault]
+  + seven multi-case tests shadowed the fixture constructor with a local request binding
+  + a fresh_request helper removed ambiguity and all sixteen tests passed
+
+& [InterruptedContinuation]
+  + one unnecessary cold Windows release continuation began after the first fixture compile failure because the shell sequence did not fail fast
+  + the exact session was interrupted before completion and subsequent gates use fail-fast commands and stable WSL release storage
+
+& [Disposition]
+  + [status] resolved_without_semantic_or_authority_widening
