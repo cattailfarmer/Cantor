@@ -5,7 +5,7 @@
 //! never launches a model or shell.
 
 use std::{
-    path::PathBuf,
+    path::{Component, Path, PathBuf},
     time::{Duration, Instant},
 };
 
@@ -14,7 +14,10 @@ use serde::{Deserialize, Serialize};
 
 mod inventory;
 mod process;
+mod update_handoff;
 mod validation;
+
+pub use update_handoff::*;
 
 use inventory::*;
 use process::ProcessObservationRunner;
@@ -311,6 +314,187 @@ pub fn revalidate_candidate_workspace(
 ) -> Result<AdmissionReceipt, AdmissionFault> {
     let current = admit_candidate_workspace(request)?;
     require_same_receipt(prior, current)
+}
+
+fn validate_supplied_admission_integrity(
+    request: &CandidateWorkspaceRequest,
+    receipt: &AdmissionReceipt,
+) -> Result<(), AdmissionFault> {
+    validate_request_claims(request)?;
+    let account = empty_account(request.budget.timeout_millis);
+    if receipt.profile != CANDIDATE_WORKSPACE_ADMISSION_PROFILE || !receipt.admitted {
+        return Err(fault(
+            AdmissionFaultCode::Request,
+            "supplied_admission_receipt",
+            "supplied receipt profile or admitted disposition differs",
+            account,
+        ));
+    }
+    validate_content_digest(
+        &receipt.request_sha256,
+        "supplied_request_sha256",
+        account.clone(),
+    )?;
+    validate_content_digest(
+        &receipt.receipt_sha256,
+        "supplied_receipt_sha256",
+        account.clone(),
+    )?;
+    validate_content_digest(
+        &receipt.observation_sha256,
+        "supplied_observation_sha256",
+        account.clone(),
+    )?;
+    if digest_value(request, "supplied_request_digest", &account)? != receipt.request_sha256 {
+        return Err(fault(
+            AdmissionFaultCode::Request,
+            "supplied_request_digest",
+            "supplied request digest differs",
+            account,
+        ));
+    }
+    if receipt.candidate_uuid != request.candidate_uuid
+        || receipt.correlation_uuid != request.correlation_uuid
+        || receipt.admission_nonce != request.admission_nonce
+        || receipt.git_executable_sha256 != request.git_executable_sha256
+        || receipt.git_version != request.git_version
+        || receipt.principal_workspace != request.principal_workspace
+        || receipt.candidate_workspace != request.candidate_workspace
+        || receipt.repository_common_dir != request.expected_repository_common_dir
+        || receipt.base_commit != request.expected_base_commit
+        || receipt.branch_ref != request.expected_branch_ref
+        || receipt.allowed_relative_paths != request.allowed_relative_paths
+    {
+        return Err(fault(
+            AdmissionFaultCode::Request,
+            "supplied_admission_correspondence",
+            "supplied request and receipt identity facts differ",
+            account,
+        ));
+    }
+    for (path, operation) in [
+        (&receipt.principal_workspace, "supplied_principal_workspace"),
+        (&receipt.candidate_workspace, "supplied_candidate_workspace"),
+        (
+            &receipt.repository_common_dir,
+            "supplied_repository_common_dir",
+        ),
+        (&receipt.candidate_git_dir, "supplied_candidate_git_dir"),
+    ] {
+        validate_claimed_absolute_path(path, operation, account.clone())?;
+    }
+    if receipt.principal_workspace == receipt.candidate_workspace
+        || receipt
+            .principal_workspace
+            .starts_with(&receipt.candidate_workspace)
+        || receipt
+            .candidate_workspace
+            .starts_with(&receipt.principal_workspace)
+        || !receipt
+            .candidate_git_dir
+            .starts_with(receipt.repository_common_dir.join("worktrees"))
+    {
+        return Err(fault(
+            AdmissionFaultCode::Isolation,
+            "supplied_workspace_structure",
+            "supplied workspace paths are overlapping or not an isolated linked worktree claim",
+            account,
+        ));
+    }
+    validate_object_id(
+        &receipt.base_commit,
+        "supplied_base_commit",
+        account.clone(),
+    )?;
+    validate_branch_ref(&receipt.branch_ref, "supplied_branch_ref", account.clone())?;
+    if receipt.resource_account.process_count != ObservationKind::PLAN.len() as u16
+        || receipt.resource_account.received_bytes == 0
+        || receipt.resource_account.received_bytes > request.budget.maximum_total_bytes
+        || receipt.resource_account.configured_timeout_millis != request.budget.timeout_millis
+    {
+        return Err(fault(
+            AdmissionFaultCode::Budget,
+            "supplied_resource_account",
+            "supplied admission resource account is incomplete or outside the request budget",
+            account,
+        ));
+    }
+    let body = ReceiptBody {
+        profile: receipt.profile.clone(),
+        request_sha256: receipt.request_sha256.clone(),
+        observation_sha256: receipt.observation_sha256.clone(),
+        candidate_uuid: receipt.candidate_uuid.clone(),
+        correlation_uuid: receipt.correlation_uuid.clone(),
+        admission_nonce: receipt.admission_nonce.clone(),
+        git_executable_sha256: receipt.git_executable_sha256.clone(),
+        git_version: receipt.git_version.clone(),
+        principal_workspace: receipt.principal_workspace.clone(),
+        candidate_workspace: receipt.candidate_workspace.clone(),
+        repository_common_dir: receipt.repository_common_dir.clone(),
+        candidate_git_dir: receipt.candidate_git_dir.clone(),
+        base_commit: receipt.base_commit.clone(),
+        branch_ref: receipt.branch_ref.clone(),
+        allowed_relative_paths: receipt.allowed_relative_paths.clone(),
+        resource_account: receipt.resource_account.clone(),
+        admitted: receipt.admitted,
+    };
+    if digest_value(&body, "supplied_receipt_digest", &account)? != receipt.receipt_sha256 {
+        return Err(fault(
+            AdmissionFaultCode::Request,
+            "supplied_receipt_digest",
+            "supplied receipt digest differs",
+            account,
+        ));
+    }
+    Ok(())
+}
+
+fn validate_content_digest(
+    digest: &ContentDigest,
+    operation: &str,
+    account: AdmissionResourceAccount,
+) -> Result<(), AdmissionFault> {
+    let valid = digest.algorithm == "sha256"
+        && digest.value.len() == 64
+        && digest
+            .value
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte));
+    if valid {
+        Ok(())
+    } else {
+        Err(fault(
+            AdmissionFaultCode::Request,
+            operation,
+            "digest is not canonical lowercase SHA-256",
+            account,
+        ))
+    }
+}
+
+fn validate_claimed_absolute_path(
+    path: &Path,
+    operation: &str,
+    account: AdmissionResourceAccount,
+) -> Result<(), AdmissionFault> {
+    let text = path.to_str();
+    let valid = path.is_absolute()
+        && text.is_some_and(|value| {
+            !value.is_empty() && value.len() <= MAX_TEXT_BYTES && !value.contains('\0')
+        })
+        && !path
+            .components()
+            .any(|component| matches!(component, Component::CurDir | Component::ParentDir));
+    if valid {
+        Ok(())
+    } else {
+        Err(fault(
+            AdmissionFaultCode::Path,
+            operation,
+            "supplied path claim is not absolute canonical bounded UTF-8",
+            account,
+        ))
+    }
 }
 
 fn require_same_receipt(

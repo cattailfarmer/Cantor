@@ -11,6 +11,49 @@ use super::*;
 pub(super) fn validate_request(
     request: &CandidateWorkspaceRequest,
 ) -> Result<ValidatedRequest, AdmissionFault> {
+    validate_request_claims(request)?;
+    let account = empty_account(request.budget.timeout_millis);
+    let git_executable = validate_regular_file(
+        &request.git_executable,
+        &request.git_executable_sha256,
+        "git_executable",
+        account.clone(),
+    )?;
+    let principal_workspace = validate_directory(
+        &request.principal_workspace,
+        "principal_workspace",
+        account.clone(),
+    )?;
+    let candidate_workspace = validate_directory(
+        &request.candidate_workspace,
+        "candidate_workspace",
+        account.clone(),
+    )?;
+    let repository_common_dir = validate_directory(
+        &request.expected_repository_common_dir,
+        "expected_repository_common_dir",
+        account.clone(),
+    )?;
+    if overlaps(&principal_workspace, &candidate_workspace) {
+        return Err(fault(
+            AdmissionFaultCode::Isolation,
+            "workspace_separation",
+            "principal and candidate workspaces overlap",
+            account,
+        ));
+    }
+    Ok(ValidatedRequest {
+        source: request.clone(),
+        git_executable,
+        principal_workspace,
+        candidate_workspace,
+        repository_common_dir,
+    })
+}
+
+pub(super) fn validate_request_claims(
+    request: &CandidateWorkspaceRequest,
+) -> Result<(), AdmissionFault> {
     let account = empty_account(request.budget.timeout_millis);
     if request.profile != CANDIDATE_WORKSPACE_ADMISSION_PROFILE {
         return Err(fault(
@@ -50,42 +93,7 @@ pub(super) fn validate_request(
         account.clone(),
     )?;
     validate_allowed_paths(&request.allowed_relative_paths, account.clone())?;
-    let git_executable = validate_regular_file(
-        &request.git_executable,
-        &request.git_executable_sha256,
-        "git_executable",
-        account.clone(),
-    )?;
-    let principal_workspace = validate_directory(
-        &request.principal_workspace,
-        "principal_workspace",
-        account.clone(),
-    )?;
-    let candidate_workspace = validate_directory(
-        &request.candidate_workspace,
-        "candidate_workspace",
-        account.clone(),
-    )?;
-    let repository_common_dir = validate_directory(
-        &request.expected_repository_common_dir,
-        "expected_repository_common_dir",
-        account.clone(),
-    )?;
-    if overlaps(&principal_workspace, &candidate_workspace) {
-        return Err(fault(
-            AdmissionFaultCode::Isolation,
-            "workspace_separation",
-            "principal and candidate workspaces overlap",
-            account,
-        ));
-    }
-    Ok(ValidatedRequest {
-        source: request.clone(),
-        git_executable,
-        principal_workspace,
-        candidate_workspace,
-        repository_common_dir,
-    })
+    Ok(())
 }
 
 fn validate_budget(budget: AdmissionBudget) -> Result<(), AdmissionFault> {
