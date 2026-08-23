@@ -62,7 +62,12 @@ review, and service-level evidence remain absent or separately locked.
    production-secret, permission, or recovery seam. Do not fabricate a real
    publisher policy. Replacement, repair, migration, upgrade/rollback
    compatibility, operator acceptance, and support policy remain absent.
-4. Run live P1 and Slice11 experiments only if the exact pinned local provider
+4. Form the nested-Cantor host contracts in dependency order: outer host and
+   model identity, inner process and model admission, launch authority, custody,
+   negotiated shared-attention inference, provider-free integration, then live
+   integration. The current gap audit proves reusable substrate, not an
+   integrated nested agent.
+5. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
 
 ## Superseded navigation
@@ -95,3 +100,6 @@ objective are documented in `docs/CANTOR_DEVELOPMENT_STATE_2026-08-23.md`.
 Historical M2B readiness labels are preserved but no longer serve as
 unqualified current navigation; their exact supersession inventory is verified
 by `scripts/verify_cantor_development_state_supersession_audit.ps1`.
+The nested-host gap ledger is independently verified by
+`scripts/verify_cantor_nested_host_gap_audit.ps1` and grants no implementation
+or provider authority.

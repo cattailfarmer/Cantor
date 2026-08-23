@@ -56,6 +56,29 @@ boundaries already exist. The following are not yet one executable system:
    availability.
 6. Operator security, production trust, persistence, recovery, and support.
 
+The governed gap audit resolves this into 16 coordinates: six have proved
+reusable substrate, six have candidate-only substrate, two are historical
+provider evidence, and two have no admitted substrate. None is an integrated
+nested-system completion. The first dependency-correct successor is an outer
+host identity/session contract, followed by separate inner process identity,
+model admission/loading, launch, custody, negotiated-attention, provider-free
+integration, live-provider, and operator-product contracts.
+
+Engineering-time forecast from the current base, excluding unavailable-provider
+wait time:
+
+| Milestone | Estimated focused engineering time | Dependency |
+| --- | ---: | --- |
+| Signed provider-free identity/launch/attention contracts | 12–24 hours | SJS formation and proof fixtures |
+| Effectless provider-free “Cantor runs Cantor” simulator | additional 16–32 hours | Contracts above |
+| Local two-model experimental agent | additional 12–30 hours | Exact local model/provider availability |
+| Single-machine operator alpha | additional 40–80 hours | Isolation, trust, recovery, packaging, observability |
+| Supported beta/production product | multi-week program | Security review, sustained acceptance, upgrade/support policy |
+
+These are engineering ranges, not calendar promises. Current pinned-provider
+unavailability makes the live milestone’s calendar ETA indeterminate without
+weakening the no-download/no-substitution policy.
+
 A first provider-free nested-host contract and simulator is a small sequence of
 focused slices. A live two-model prototype additionally depends on exact local
 model/provider availability. An operator-quality agent process requires the

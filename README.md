@@ -566,3 +566,9 @@ without rewriting signed specifications, so historical absolute paths remain
 as provenance. New work is rooted in this repository.
 
 Official repository: <https://github.com/cattailfarmer/Cantor>
+
+Current nested-host development status is in
+[`docs/CANTOR_DEVELOPMENT_STATE_2026-08-23.md`](docs/CANTOR_DEVELOPMENT_STATE_2026-08-23.md).
+Its sixteen-coordinate substrate and gap ledger is independently checked by
+`scripts/verify_cantor_nested_host_gap_audit.ps1`; the audit grants no process
+or model authority.
