@@ -85,9 +85,11 @@ and objective into a bounded causal work plan while retaining an eight-entry
 not-granted capability account. SWA-03 now adds a deterministic pure
 source-to-substrate lifecycle: exact step attempts, dependency-ready release,
 stopped/resumable/failed/awaiting-review/complete states, predecessor-bound
-checkpoints, and replay, while issuing zero capability. The remaining dependency
-sequence is SWA-04 workspace update
-broker, SWA-05 commit/push broker, SWA-06 self-SOP authorship and review,
+checkpoints, and replay, while issuing zero capability. SWA-04A is now fully
+SJS-formed for a pure ready-step to supplied-admission bounded update proposal;
+its result must remain awaiting physical revalidation. The remaining dependency
+sequence is SWA-04A implementation, separately governed physical SWA-04B,
+SWA-05 commit/push broker, SWA-06 self-SOP authorship and review,
 SWA-07 provider-free integration, and only then SWA-08 pinned-provider live
 evidence. The SWA-03 audit still records five proved-reusable coordinates, four
 candidate-only coordinates, and three capability-broker coordinates absent;
