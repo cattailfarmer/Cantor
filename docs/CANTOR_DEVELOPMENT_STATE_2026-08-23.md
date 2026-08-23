@@ -86,7 +86,10 @@ not-granted capability account. The remaining dependency sequence is SWA-03
 source-to-substrate resumable work lifecycle, SWA-04 workspace update
 broker, SWA-05 commit/push broker, SWA-06 self-SOP authorship and review,
 SWA-07 provider-free integration, and only then SWA-08 pinned-provider live
-evidence. Existing procedure authorship, iterative checkpoints, custody,
+evidence. SWA-03 is now source-to-substrate audited and SJS-formed for pure
+lifecycle representation: five coordinates are proved reusable, four are
+candidate-only, and three exact capability-broker coordinates are absent.
+Existing procedure authorship, iterative checkpoints, custody,
 workspace admission, operator bootstrap, and publication verification are
 reusable substrate; they are not yet composed into this autonomous loop.
 

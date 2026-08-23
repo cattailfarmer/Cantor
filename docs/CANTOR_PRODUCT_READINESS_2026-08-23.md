@@ -72,7 +72,9 @@ review, and service-level evidence remain absent or separately locked.
 5. Compose the separately governed self-working sequence: admitted SOP to
    agent session, bounded work and checkpoints, workspace update verification,
    separately authorized commit/push, and attributable succeeding-SOP proposal.
-   The proposal-only boot and bounded planning stages are complete;
+   The proposal-only boot and bounded planning stages are complete, and the
+   next pure lifecycle/checkpoint contract is SJS-formed after an exact
+   source-to-substrate audit;
    self-authorship must not become self-signature or silent authority widening.
 6. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
