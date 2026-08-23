@@ -1,0 +1,156 @@
+Subject: Cantor Phase3 Topology Acquisition Lineage Forms Data Design
+
+Description: Data-Driven Design quality-gate record for the pure P3TALF profile. It fixes identities, ownership, cardinality, relations, validation order, state, versioning, resources, provenance, and failure behavior without authorizing Rust implementation or any producer or physical effect.
+
+@ [source] C:\Project\Cantor\source_documents\2026-07-31_cantor_phase3_topology_acquisition_lineage_forms\Cantor_Phase3_Topology_Acquisition_Lineage_Forms_Source.sop
+@ [exploded] C:\Project\Cantor\specifications\exploded\Cantor_Phase3_Topology_Acquisition_Lineage_Forms.exploded.sop
+@ [refinement] C:\Project\Cantor\narrative\research\Cantor_Phase3_Topology_Acquisition_Lineage_Forms_Semantic_Refinement_2026-07-31.sop
+@ [constraints] C:\Project\Cantor\narrative\research\Cantor_Phase3_Topology_Acquisition_Lineage_Forms_Constraint_Ledger_2026-07-31.sop
+@ [exhaustion] C:\Project\Cantor\narrative\research\Cantor_Phase3_Topology_Acquisition_Lineage_Forms_Seven_Fold_Exhaustion_2026-08-23.sop
+
+& [DesignIdentity] is exact
+  + [design_uuid] is 981d536c-9799-4563-b2a8-f99c63f7ac13
+  + [source_snapshot_uuid] is 6fffb113-5add-4910-970a-08ad7b82f0ec
+  + [candidate_profile] is cantor-phase3-topology-acquisition-lineage-forms/0.1
+  + [state] is data_design_checked_unsigned
+
+& [TypeGraph] is closed for canonicalization
+  + AcquisitionIdentity is a private nonzero u64 logical-correlation wrapper with strict serde and no generator
+  + AcquisitionScopeClaim is one strict caller-decodable complete comparison product
+  + CompletionDisposition has exactly CompleteClaimed
+  + AcquisitionLineageClaim owns identity, scope, disposition, and one complete current ordered-digest carrier
+  + CausalOrderKind has exactly FirstCompletionStrictlyPrecedesSecondStart
+  + CausalOrderClaim binds exact first and second acquisition identities and the closed kind
+  + OrderedAcquisitionPairClaim owns exact first and second lineage claims plus one causal-order claim
+  + RepeatedInventoryEvidencePlan binds exact profile, ordered pair, exact current reconciliation plan, and requested NonAtomicRepeatedInventoryEqual
+  + RepeatedInventoryEvidenceClaim is output-only and retains complete ordered pair, reconciliation input, current reconciliation result, requested grade, and ClaimOnly provenance
+  + AcquisitionLineageFault owns one closed code, one bounded field, and one bounded message
+
+& [ScopeProduct] is complete and structural
+  + exact candidate root reference
+  + exact strong root identity
+  + exact canonical root volume-GUID path
+  + scanner profile cantor-windows-candidate-topology/0.1
+  + machine forms profile cantor-phase3-machine-forms/0.2
+  + topology forms profile cantor-phase3-topology-forms/0.3
+  + topology receipt profile cantor-phase3-topology-receipt/0.3 where the receipt relation is claimed
+  + exact current topology inventory assembly profile
+  + exact current ordered topology inventory digest profile
+  + exact current ordered digest reconciliation profile
+  + exact current ordered observation encoding profile
+  + one complete TopologyScanLimits value
+  + one closed policy digest
+  + exact predecessor admission profile and predecessor receipt digest
+  + equality compares every coordinate and no separate comparison-scope identity exists
+
+& [IdentityModel] is noninflating
+  + zero is invalid and every other u64 value is syntactically well formed
+  + equality and inequality support correlation and exact role distinction only
+  + representation is canonical, allocation-free, bounded, and round-trip stable
+  + collision domain, generation, uniqueness, event occurrence, producer identity, and physical origin remain M2C responsibilities
+
+& [LineageOwnership] is single sourced
+  + each lineage owns exactly one complete ordered-digest carrier
+  + the carrier owns its current inventory assembly and every transitive supplied ancestor
+  + no peer assembly, bare digest, external locator, lookup key, mutable pointer, or summary is stored
+  + current validators and derivations are rerun before the lineage is accepted
+  + a carrier remains supplied semantic data and does not become an observation by ownership
+
+& [PairAndOrderModel] is exact
+  + pair cardinality is exactly two with named FirstAcquisition and SecondAcquisition fields
+  + identities must differ and complete scope products must be structurally equal
+  + causal relation endpoints must equal the pair identities in exact roles
+  + direction is first completion to second start and cannot be inferred from order, operand, or numeric value
+  + no clock, timestamp, tick, duration, freshness, or occurrence proof is represented
+
+& [ReconciliationModel] is subordinate
+  + current exact reconciliation plan consumes the pair's complete digest carriers in explicit mapped operand roles
+  + each carrier is independently validated and rederived
+  + current common reconciliation scope must match the complete acquisition scope
+  + current result is Equal or Different and retains complete operand lineage
+  + only Equal can release the requested ClaimOnly result
+  + Different is a bounded denial of repeated equality and says nothing about physical change timing or fault
+
+& [ProvenanceModel] has no upward conversion
+  + ClaimForm is public inspectable supplied data
+  + ValidClaim is deterministic pure structural and relational success
+  + ClaimOnly is output-only pure derivation with complete inspectable ancestry
+  + ProductionAdmittedLineage is absent
+  + IssuedEvidence is absent
+  + IssuedReceipt is absent
+  + ConsumptionDecision is absent
+  + no serde, private field, validation, rederivation, Equal result, or serialization crosses an absent boundary
+
+& [SerializationAndVisibility] are strict
+  + every serialized struct denies unknown fields
+  + input claims derive Serialize and Deserialize with no alias, default, flatten, untagged, catch-all, or compatibility fallback
+  + closed enums expose exact variants only
+  + output result fields are private with immutable getters and Serialize only
+  + output Deserialize, Default, public constructor, From, Into, and direct TopologyReceipt conversion are absent
+  + synthetic construction remains cfg(test) or ordinary pure derivation over declared claim inputs
+
+& [ValidationOrder] is deterministic
+  + V01 validate outer profile and requested capability
+  + V02 validate first then second acquisition identity syntax and bounds
+  + V03 validate first then second complete scope through current nested forms
+  + V04 require both completion dispositions CompleteClaimed
+  + V05 validate and independently rederive first then second complete carrier lineage
+  + V06 require distinct identities and exact structural scope equality
+  + V07 validate causal relation kind, endpoints, direction, and nonself relation
+  + V08 validate exact current reconciliation plan and operand binding
+  + V09 independently rerun current reconciliation and preserve its typed faults
+  + V10 require Equal and requested NonAtomicRepeatedInventoryEqual
+  + V11 release one complete ClaimOnly output or the first atomic bounded fault
+
+& [FaultModel] is closed
+  + InvalidRequest covers malformed outer request or unsupported outer capability
+  + Profile covers exact profile mismatch
+  + Identity covers zero, duplicate, or role-mismatched acquisition identity
+  + Scope covers invalid or unequal complete scope
+  + Lineage covers incomplete, stale, mismatched, bare, or invalid carrier ancestry
+  + Order covers absent, wrong-role, self, inverse, cyclic, or unsupported relation
+  + Reconciliation preserves current validation or derivation denial
+  + Different preserves valid current non-equality
+  + Evidence covers unsupported grade or self-authorization attempt
+  + Resource covers declared bound failure
+  + Capability is absent because no producer-admission operation exists
+  + every fault is one bounded atomic denial with no partial result
+
+& [CardinalityAndResources] are finite
+  + one profile and one plan
+  + exactly two acquisition identities, scopes, and lineage roles
+  + exactly one causal edge
+  + exactly two complete current carrier lineages
+  + exactly one reconciliation plan and result
+  + exactly one requested evidence grade and one output provenance grade
+  + existing entry, path, stream, file, total, carrier, profile, field, and diagnostic bounds are reused
+  + new identity storage is one u64 and no unbounded vector, map, recursion, arbitrary JSON, or free diagnostic exists
+
+& [StateModel] is governance monotonic and runtime empty
+  + current source_preserved to audited to exploded to refined to constrained to pruned_threat_reviewed to seven_fold_locked to data_designed
+  + later justified to planned to registered to canonicalized to artifact_phase_locked to implementation_signed
+  + no current state is implemented, acquired, admitted, issued, consumed, mutated, sealed, promoted, or physically proven
+
+& [VersionAndCompatibility] are exact
+  + candidate profile 0.1 is additive and independent
+  + every nested current profile is named and exact
+  + existing public types, carrier ownership, Cargo, and lockfile remain unchanged
+  + there is no compatibility decoder, alias, migration, or live state conversion
+  + future producer admission or effect profile requires new source and separate authority
+
+& [EffectModel] is empty
+  + no unsafe, platform, filesystem, handle, pointer, clock, random, process, environment, network, persistence, database, Git runtime, model, tool, or fixture execution
+  + no acquisition, admission, issuance, consumption, mutation, seal, cleanup, promotion, neural, distributed, or FPGA action
+  + pure CPU and bounded memory would be permitted only after an exact later implementation signature
+
+& [DataQualityGate] passes
+  + all fourteen requirements map to a settled conceptual type or proof boundary
+  + all twenty-four constraints reapply without collision
+  + all fourteen threat probes are denied or separately deferred
+  + all seven folds converge on the same ownership, provenance, and effect model
+  + unresolved data question is none
+  + source revision required is false
+  + implementation authority is absent
+  + execution authority is absent
+  + physical authority is absent
+  + next is justification, plan, registry, requirement matrix, build slice, canonical specification, artifact phase lock, and exact satisfaction signature before code
