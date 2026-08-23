@@ -6,13 +6,17 @@ it grants no new runtime capability.
 
 ## Current executable boundary
 
-Cantor is an executable provider-free developer alpha. The repository contains
+Cantor is an executable provider-free private-beta mechanical baseline. The repository contains
 signed SOP compilation and admission, exact semantic query and inspection,
 CLI/MCP/service surfaces, compact procedure custody, reflection and lifecycle
 shells, deterministic replay, and checked evidence. Iterative Attention P1 is
 implemented through the provider-free Slice 8B discovery-to-inspection witness.
-The Semantic Anchor Catalogue is implemented through Slice 5E candidate
-dossiers.
+The Semantic Anchor Catalogue is implemented through Slice 5F's governed
+curator-selection verifier, with no real target selected. One checked
+disposable Windows workflow now binds four exact release binaries to corpus
+compilation, loopback configuration, supervised start and health, a
+representative self-hosted query, graceful stop, exact direct fallback, and
+complete run-root rollback.
 
 This does not make Cantor an operator or production product. Live provider
 compatibility, a supported distribution, end-to-end operator lifecycle,
@@ -25,7 +29,7 @@ or separately locked.
 | Stage | State | Principal remaining evidence |
 | --- | --- | --- |
 | Provider-free developer alpha | Satisfied | Maintain exact gates and coherent release navigation |
-| Private local beta | Partial | One install-to-rollback workflow and representative task acceptance under one release identity |
+| Private local beta | Satisfied mechanically, provider-free | Exact pinned live-provider compatibility remains contingent |
 | Operator product | Not satisfied | Distribution, trust provisioning, secrets, configuration, migration, diagnostics, and support policy |
 | Production product | Not satisfied | Threat model, external trust, recovery, observability, SLO, sustained workload, security and deployment review |
 
@@ -37,11 +41,10 @@ or separately locked.
 2. After an exact governed target is admitted, implement the Semantic Anchor Slice 6
    address-to-attention-procedure bridge without conflating semantic identity,
    checkpoint identity, or authority.
-3. Extend the checked provider-free developer-alpha acceptance report into a
-   separately governed private-beta workflow only when one release identity
-   can prove install/build, configuration, startup, health, representative
-   query/tool flow, shutdown, and rollback. The current audit proves artifacts,
-   component boundaries, and capability denials—not that operator workflow.
+3. Form the smallest supported-distribution and operator-configuration seam
+   over the checked private-beta workflow: package identity, trust/secret
+   provisioning boundary, diagnostics, upgrade/rollback compatibility, and
+   support policy remain absent.
 4. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
 
@@ -59,3 +62,5 @@ support matrices.
 
 The reproducible developer-alpha acceptance command and its explicit nonclaims
 are documented in `docs/LOCAL_PRODUCT_DEVELOPER_ALPHA_ACCEPTANCE.md`.
+The successor provider-free mechanical private-beta workflow is documented in
+`docs/PROVIDER_FREE_PRIVATE_BETA_WORKFLOW_P0.md`.

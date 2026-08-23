@@ -88,6 +88,12 @@ baseline:
   service, semantic-anchor, Iterative P1, lifecycle, and recursive evidence,
   while retaining explicit private-beta, operator, production, provider,
   authority, persistence, effect, remote, FPGA, and Minecraft gaps; and
+- one provider-free private-beta workflow now builds or verifies the exact
+  `cantor`, `cantor-corpus`, `cantord`, and `cantorctl` release identities,
+  stages them into a validated disposable root, compiles the tracked corpus,
+  proves authenticated start/health/query/stop plus exact direct fallback, and
+  removes the full run root without retaining fixture keys, token, state,
+  generated semantic content, or installed binaries; and
 - `cantor-corpus` parses the bounded fail-closed
   `cantor-sop-source/0.1` profile, lowers exact source anchors and typed
   containment, compiles distinct-Ed25519 signed packages, and generates
@@ -296,6 +302,10 @@ recorded in
 The deterministic generation, exact verification, optional focused replay,
 and stage nonclaims for that boundary are documented in
 [`docs/LOCAL_PRODUCT_DEVELOPER_ALPHA_ACCEPTANCE.md`](docs/LOCAL_PRODUCT_DEVELOPER_ALPHA_ACCEPTANCE.md).
+The successor disposable provider-free private-beta workflow, exact operator
+command, retained evidence, cleanup rules, and remaining product gaps are
+documented in
+[`docs/PROVIDER_FREE_PRIVATE_BETA_WORKFLOW_P0.md`](docs/PROVIDER_FREE_PRIVATE_BETA_WORKFLOW_P0.md).
 The provider-free curator policy, canonical payload, signature verification,
 synthetic-fixture boundary, and operator commands are documented in
 [`docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md`](docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md).

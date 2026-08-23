@@ -1,6 +1,6 @@
 # Local product developer-alpha acceptance
 
-Cantor's current provider-free product boundary can be replayed with one
+Cantor's provider-free developer-alpha lower bound can be replayed with one
 repository command:
 
 ```powershell
@@ -67,12 +67,14 @@ The exact accepted status is
 
 ## Deliberate gaps
 
-This report is not private-beta, operator, or production acceptance. It does
-not prove a one-command install-to-rollback workflow, a currently running
-service, representative live-provider task outcomes, distribution and upgrade
-support, production authentication, trust-root or secret lifecycle, durable or
-distributed custody, external effects, threat-model closure, recovery,
-observability, SLOs, security review, or deployment fitness.
+This report is not by itself private-beta, operator, or production acceptance.
+The successor `docs/PROVIDER_FREE_PRIVATE_BETA_WORKFLOW_P0.md` now separately
+proves the provider-free mechanical install-to-rollback and representative
+self-hosted task path. Neither artifact proves representative live-provider
+outcomes, distribution and upgrade support, production authentication,
+trust-root or secret lifecycle, durable or distributed custody, external
+effects, threat-model closure, recovery, observability, SLOs, security review,
+or deployment fitness.
 
 Live compatibility remains contingent on the exact pinned local provider. The
 audit never downloads a model, substitutes a provider, or uses a remote

@@ -1,0 +1,24 @@
+Subject: Cantor Provider-Free Private Beta Workflow P0 Smoke Operational Faults
+
+@ [fault_uuid] c7ef8992-96b9-44b4-b670-0a6aed75b6c2
+
+& [PreEffectFault]
+  + first smoke used a case-insensitive home variable name reserved by PowerShell and stopped before creating a run root
+
+& [ShellSemanticFault]
+  + a pwsh-hosted supervisor health read auto-converted ISO JSON text into DateTime and rejected its own string contract after authenticated readiness
+  + the exact state and PID were retained; documented Windows PowerShell gracefully stopped PID 48204 with exit zero before the validated root was removed
+  + final workflow pins existing supervisor scripts to Windows PowerShell while the outer orchestration remains pwsh-compatible
+
+& [ChildCaptureFault]
+  + pipeline capture and then Start-Process Wait each waited on the intentionally persistent cantord descendant rather than only the launcher process
+  + interrupted smoke process trees exited and stale state roots were removed only after their recorded PIDs were proved absent
+  + final capture uses files plus Process.WaitForExit on the Windows PowerShell launcher PID alone
+
+& [ModuleFault]
+  + one hidden Windows PowerShell child did not autoload Get-FileHash; safe cleanup completed before any service start
+  + final encoded child imports Microsoft.PowerShell.Utility explicitly and removes argument-quoting ambiguity
+
+& [Resolution]
+  + final default workflow and repeated adversarial workflow both pass with graceful stop state removal exact response equality complete root rollback and zero cantord residual
+  + no Application Control policy force-kill remote fallback provider or security boundary was weakened
