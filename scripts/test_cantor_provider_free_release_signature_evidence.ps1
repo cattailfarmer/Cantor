@@ -4,7 +4,7 @@ param([string]$InputDirectory = 'experiments/provider_free_release_signature_ver
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$input = if ([IO.Path]::IsPathRooted($InputDirectory)) { [IO.Path]::GetFullPath($InputDirectory) } else { [IO.Path]::GetFullPath((Join-Path $root $InputDirectory)) }
+$inputFullPath = if ([IO.Path]::IsPathRooted($InputDirectory)) { [IO.Path]::GetFullPath($InputDirectory) } else { [IO.Path]::GetFullPath((Join-Path $root $InputDirectory)) }
 $builder = Join-Path $PSScriptRoot 'build_cantor_provider_free_release_signature_evidence.ps1'
 $verifier = Join-Path $PSScriptRoot 'verify_cantor_provider_free_release_signature_evidence.ps1'
 $temporaryBase = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
@@ -15,7 +15,7 @@ $script:verifierRefusals = 0
 function Assert-Test([bool]$Condition, [string]$Message) { if (-not $Condition) { throw $Message } }
 function Write-Json([string]$Path, [object]$Value) { [IO.File]::WriteAllText($Path, "$(($Value | ConvertTo-Json -Depth 100).Replace("`r`n", "`n"))`n", [Text.UTF8Encoding]::new($false)) }
 function Assert-ProducerRefused([string]$Label, [scriptblock]$Action) { $refused=$false; try { & $Action *> $null } catch { $refused=$true }; Assert-Test $refused "producer admitted unsafe case: $Label"; $script:producerRefusals++ }
-function Copy-Exact([string]$Destination) { [IO.Directory]::CreateDirectory($Destination) | Out-Null; foreach($item in Get-ChildItem -LiteralPath $input -File){ [IO.File]::Copy($item.FullName,(Join-Path $Destination $item.Name)) } }
+function Copy-Exact([string]$Destination) { [IO.Directory]::CreateDirectory($Destination) | Out-Null; foreach($item in Get-ChildItem -LiteralPath $inputFullPath -File){ [IO.File]::Copy($item.FullName,(Join-Path $Destination $item.Name)) } }
 function Assert-VerifierRefused([string]$Label, [scriptblock]$Mutation) {
     $case = Join-Path $testRoot $Label
     Copy-Exact $case
@@ -29,9 +29,9 @@ function Remove-TestRoot { if(-not [IO.Directory]::Exists($testRoot)){return}; $
 
 try {
     [IO.Directory]::CreateDirectory($testRoot) | Out-Null
-    & $verifier -InputDirectory $input | Out-Null
-    Assert-ProducerRefused 'preexisting-output' { & $builder -OutputDirectory $input -UsePrebuilt }
-    Assert-ProducerRefused 'file-as-output' { & $builder -OutputDirectory (Join-Path $input 'release_signature_evidence_v1.json') -UsePrebuilt }
+    & $verifier -InputDirectory $inputFullPath | Out-Null
+    Assert-ProducerRefused 'preexisting-output' { & $builder -OutputDirectory $inputFullPath -UsePrebuilt }
+    Assert-ProducerRefused 'file-as-output' { & $builder -OutputDirectory (Join-Path $inputFullPath 'release_signature_evidence_v1.json') -UsePrebuilt }
     Assert-ProducerRefused 'repo-root-output' { & $builder -OutputDirectory $root -UsePrebuilt }
     Assert-VerifierRefused 'report-status' { param($d) Mutate-Json (Join-Path $d 'release_signature_evidence_v1.json') { param($r) $r.status='false_success' } }
     Assert-VerifierRefused 'report-source' { param($d) Mutate-Json (Join-Path $d 'release_signature_evidence_v1.json') { param($r) $r.source_commit='0'*40 } }
