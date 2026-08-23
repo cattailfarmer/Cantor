@@ -64,17 +64,18 @@ review, and service-level evidence remain absent or separately locked.
    compatibility, operator acceptance, and support policy remain absent.
 4. Form the nested-Cantor host contracts in dependency order: outer host
    identity, SOP boot/session admission, and objective/work-plan admission are
-   now provider-free and pure; next form source-to-substrate work lifecycle and
-   inner process lineage, then model admission, launch authority, custody,
+   now provider-free and pure; source-to-substrate work lifecycle and replay are
+   also provider-free and pure; next form workspace update brokerage and inner
+   process lineage, then model admission, launch authority, custody,
    negotiated shared-attention inference, provider-free integration, then live
    integration. The current gap audit proves reusable substrate, not an
    integrated nested agent.
 5. Compose the separately governed self-working sequence: admitted SOP to
    agent session, bounded work and checkpoints, workspace update verification,
    separately authorized commit/push, and attributable succeeding-SOP proposal.
-   The proposal-only boot and bounded planning stages are complete, and the
-   next pure lifecycle/checkpoint contract is SJS-formed after an exact
-   source-to-substrate audit;
+   The proposal-only boot, bounded planning, and pure lifecycle/checkpoint
+   stages are complete and exact debug plus release verified; workspace update
+   brokerage remains the next physical-boundary contract;
    self-authorship must not become self-signature or silent authority widening.
 6. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.

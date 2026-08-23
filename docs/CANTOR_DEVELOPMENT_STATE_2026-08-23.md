@@ -82,13 +82,16 @@ SWA-01 SOP boot admission is pure, machine-executable, and workspace-proved: it
 checks an exact four-stage procedure admission chain and emits only a
 proposed-not-launched session identity. SWA-02 now compiles that exact proposal
 and objective into a bounded causal work plan while retaining an eight-entry
-not-granted capability account. The remaining dependency sequence is SWA-03
-source-to-substrate resumable work lifecycle, SWA-04 workspace update
+not-granted capability account. SWA-03 now adds a deterministic pure
+source-to-substrate lifecycle: exact step attempts, dependency-ready release,
+stopped/resumable/failed/awaiting-review/complete states, predecessor-bound
+checkpoints, and replay, while issuing zero capability. The remaining dependency
+sequence is SWA-04 workspace update
 broker, SWA-05 commit/push broker, SWA-06 self-SOP authorship and review,
 SWA-07 provider-free integration, and only then SWA-08 pinned-provider live
-evidence. SWA-03 is now source-to-substrate audited and SJS-formed for pure
-lifecycle representation: five coordinates are proved reusable, four are
-candidate-only, and three exact capability-broker coordinates are absent.
+evidence. The SWA-03 audit still records five proved-reusable coordinates, four
+candidate-only coordinates, and three capability-broker coordinates absent;
+the new lifecycle does not convert any of those missing brokers into authority.
 Existing procedure authorship, iterative checkpoints, custody,
 workspace admission, operator bootstrap, and publication verification are
 reusable substrate; they are not yet composed into this autonomous loop.

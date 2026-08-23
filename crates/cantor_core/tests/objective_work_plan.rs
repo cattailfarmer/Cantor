@@ -156,7 +156,7 @@ fn capabilities(values: &[WorkCapability]) -> BTreeSet<WorkCapability> {
     values.iter().copied().collect()
 }
 
-fn fixture_request() -> ObjectiveWorkPlanRequest {
+pub(crate) fn fixture_request() -> ObjectiveWorkPlanRequest {
     use WorkCapability::*;
     let boot = boot_proposal();
     let classes = [
