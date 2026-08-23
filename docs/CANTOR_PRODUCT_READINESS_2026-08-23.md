@@ -62,17 +62,18 @@ review, and service-level evidence remain absent or separately locked.
    production-secret, permission, or recovery seam. Do not fabricate a real
    publisher policy. Replacement, repair, migration, upgrade/rollback
    compatibility, operator acceptance, and support policy remain absent.
-4. Form the nested-Cantor host contracts in dependency order: outer host and
-   model identity and SOP boot/session admission are now provider-free and pure;
-   next form objective/work-plan admission and inner process lineage, then model admission, launch authority, custody,
+4. Form the nested-Cantor host contracts in dependency order: outer host
+   identity, SOP boot/session admission, and objective/work-plan admission are
+   now provider-free and pure; next form source-to-substrate work lifecycle and
+   inner process lineage, then model admission, launch authority, custody,
    negotiated shared-attention inference, provider-free integration, then live
    integration. The current gap audit proves reusable substrate, not an
    integrated nested agent.
 5. Compose the separately governed self-working sequence: admitted SOP to
    agent session, bounded work and checkpoints, workspace update verification,
    separately authorized commit/push, and attributable succeeding-SOP proposal.
-   The first proposal-only boot stage is complete; self-authorship must not
-   become self-signature or silent authority widening.
+   The proposal-only boot and bounded planning stages are complete;
+   self-authorship must not become self-signature or silent authority widening.
 6. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
 

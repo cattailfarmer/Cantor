@@ -20,8 +20,9 @@ blocks identify later completion without rewriting that history.
 | M2B supplied topology chain | Windows ABI probe through ordered-digest reconciliation implemented and proved | Compile/pure evidence does not prove physical Windows scanning |
 | Nested outer-host identity P0 | Pure strict identity-only request/envelope, deterministic digests, machine forms, and adversarial validation complete | No physical process, model load, provider, inner host, shared attention, or work authority |
 | SOP boot session admission P0 | Exact admitted SOP receipt chain deterministically proposes one non-launched agent-session identity | No session opening, process, workspace access, work, update, publication, provider, effect, or SOP activation authority |
+| Objective work-plan admission P0 | Exact boot proposal and objective deterministically admit a bounded causal plan and complete not-granted capability account | Planning only; no workspace, test, update, publication, provider, effect, or SOP activation authority |
 
-Exact current closure gates pass 176 result groups and 977 tests in both debug
+Exact current closure gates pass 177 result groups and 990 tests in both debug
 and overflow-checked release, with zero failures and three governed ignores.
 
 ## Active and gated work
@@ -77,10 +78,12 @@ work; separately authorized tools perform and verify updates; and Cantor emits
 the succeeding SOP with causal evidence and an unresolved frontier. A generated
 SOP is a proposal/source, not a self-granted signature or activation.
 
-SWA-01 SOP boot admission is now pure, machine-executable, and workspace-proved:
-it checks an exact four-stage procedure admission chain and emits only a
-proposed-not-launched session identity. The remaining dependency sequence is
-SWA-02 objective and authority accounting, SWA-03 resumable work lifecycle, SWA-04 workspace update
+SWA-01 SOP boot admission is pure, machine-executable, and workspace-proved: it
+checks an exact four-stage procedure admission chain and emits only a
+proposed-not-launched session identity. SWA-02 now compiles that exact proposal
+and objective into a bounded causal work plan while retaining an eight-entry
+not-granted capability account. The remaining dependency sequence is SWA-03
+source-to-substrate resumable work lifecycle, SWA-04 workspace update
 broker, SWA-05 commit/push broker, SWA-06 self-SOP authorship and review,
 SWA-07 provider-free integration, and only then SWA-08 pinned-provider live
 evidence. Existing procedure authorship, iterative checkpoints, custody,

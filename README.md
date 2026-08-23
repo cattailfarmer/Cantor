@@ -573,9 +573,11 @@ Its sixteen-coordinate substrate and gap ledger is independently checked by
 `scripts/verify_cantor_nested_host_gap_audit.ps1`; the audit grants no process
 or model authority.
 
-The pure outer-host identity and SOP-boot admission seams are implemented: an
-exact admitted SOP receipt chain can now propose, but not open, one agent
-session. The active product sequence next targets objective/capability planning,
-bounded self-work, verified workspace updates, separately authorized
-publication, and an attributable succeeding-SOP proposal. No self-signature,
-provider, process, workspace, or effect authority follows from proposal alone.
+The pure outer-host identity, SOP-boot admission, and objective/work-plan seams
+are implemented: an exact admitted SOP receipt chain can propose, but not open,
+one agent session, and that proposal can admit a bounded causal plan while all
+eight physical capabilities remain explicitly ungranted. The active product
+sequence next targets source-to-substrate checkpoint execution, verified
+workspace updates, separately authorized publication, and an attributable
+succeeding-SOP proposal. No self-signature, provider, process, workspace, or
+effect authority follows from proposal alone.
