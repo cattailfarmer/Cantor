@@ -24,8 +24,9 @@ and overflow-checked release, with zero failures and three governed ignores.
 
 ## Active and gated work
 
-- Development-state supersession audit: the exact 22 historical readiness
-  surfaces are reconciled by a strict inventory and independent verifier.
+- Development navigation: the exact 22 historical readiness surfaces are
+  reconciled by a strict inventory and independent verifier, published at
+  `85be2c6992084f1a01098556b273e0bae1010131` and post-push replayed.
 - Live provider work: blocked on the exact pinned local listener and model
   assets. No remote fallback or synthetic trial substitutes for live evidence.
 - Operator product: governed delivery, publisher trust, production key/secret
