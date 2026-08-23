@@ -1,0 +1,52 @@
+Subject: Phase3 Topology Acquisition Lineage Serde Carrier Conflict
+
+& [FaultIdentity] is exact
+  + [fault_uuid] is 657fc4df-e100-4948-8042-7f4714eddc22
+  + [conversation_uuid] is 01a02268-2614-7d80-9737-ea77f4aeacb1
+  + [detected_after_commit] is 1f715775136f38790c2cfca4fdd2bcb68332d10c
+  + [severity] is authority_blocking_pre_implementation
+  + [status] is contained_no_code_written
+
+& [ObservedConflict] is exact
+  + canonical line 142 states input claim structs may derive Serialize and Deserialize
+  + canonical line 194 requires positive strict round trip for every serialized input form
+  + AcquisitionLineageClaim canonically owns one complete current WindowsSuppliedOrderedTopologyInventoryDigest carrier
+  + RepeatedInventoryEvidencePlan canonically owns the pair of those carrier-bearing lineages
+  + current WindowsSuppliedOrderedTopologyInventoryDigest derives Serialize only at windows_supplied_ordered_topology_inventory_digest.rs line 136
+  + current WindowsSuppliedOrderedTopologyInventoryDigestReconciliationScope and result also derive Serialize only at reconciliation lines 159 and 196
+  + output-only carrier fields are private and no Deserialize path exists by design
+
+& [WhyImplementationIsImpossibleAsSigned] is structural
+  + Rust cannot derive Deserialize for a struct that owns a non-Deserialize carrier
+  + adding Deserialize to the current carrier would weaken a locked predecessor output-only boundary and violate the zero-predecessor-change signature
+  + substituting bare digest loose assembly locator or caller summary violates P3TALF-005 and C11 through C14
+  + hiding the carrier outside the serialized claim changes the canonical type graph and validation surface
+  + omitting the round-trip test violates P3TALF-010 P3TALF-012 and the signature
+
+& [MissedReviewEdge] is explicit
+  + SJS correctly selected complete output-only carrier ownership
+  + SJS separately selected Deserialize for all input claims
+  + constraint collision review did not test the Rust trait-closure conjunction of those two decisions
+  + pre-lock audit checked hashes and semantic clauses but not derive feasibility of the nested type graph
+
+& [Containment] is complete
+  + no production or test code was created
+  + no Cargo or lockfile changed
+  + implementation stopped before partial tree or publication
+  + satisfaction signature bdfc46ad-1d19-4a11-9051-d770cd96c9aa is externally invalidated
+  + physical M2C and every effect remain absent
+
+& [CorrectiveOptions] require SJS selection
+  + option A makes carrier-bearing lineage and pair values Serialize-only while separately deserializable metadata plans remain strict caller inputs
+  + option B splits transport ClaimForm metadata from a non-deserializable CarrierBoundInvocation assembled through a governed pure function
+  + option C introduces an exact stable reference shape only if it retains complete lineage without lookup or provenance inflation
+  + adding Deserialize to current carriers is forbidden
+  + bare digest or peer assembly substitution is forbidden
+
+& [RequiredCorrection] is bounded
+  + preserve this fault as a new SJS input
+  + reprocess refinement constraints data design canonical phase lock proof review and signature for serde trait closure
+  + add a compile-time trait-surface proof before any replacement signature
+  + preserve all seventeen prior locked inputs as historical invalidated authority
+
+& [Next] is select the smallest source-consistent corrected type graph and issue no implementation authority until it passes exact trait-feasibility proof
