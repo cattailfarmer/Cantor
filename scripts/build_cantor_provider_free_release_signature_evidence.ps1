@@ -5,7 +5,8 @@ param(
     [string]$Distro = 'Ubuntu-24.04',
     [ValidatePattern('^/home/[A-Za-z0-9._-]+/[A-Za-z0-9._/-]+$')]
     [string]$TargetDir = '/home/pinky/.cache/cantor-release-signature-evidence-target',
-    [switch]$UsePrebuilt
+    [switch]$UsePrebuilt,
+    [switch]$ReplaceOutput
 )
 
 Set-StrictMode -Version Latest
@@ -16,6 +17,8 @@ $outputParent = [IO.Path]::GetDirectoryName($outputFullPath)
 $outputLeaf = [IO.Path]::GetFileName($outputFullPath)
 $stagingPath = Join-Path $outputParent ('.crsv-evidence-' + [guid]::NewGuid().ToString('N'))
 $stagingCreated = $false
+$backupPath = $null
+$backupCreated = $false
 $fixtureRoot = '/tmp/cantor-release-signature-evidence'
 $archive = Join-Path $root 'experiments/provider_free_portable_release_bundle/artifacts/cantor-provider-free-windows-x86_64-p0.zip'
 $bundleEvidence = Join-Path $root 'experiments/provider_free_portable_release_bundle/artifacts/cantor-provider-free-windows-x86_64-p0-evidence.json'
@@ -45,10 +48,36 @@ function Remove-ExactStaging {
     [IO.Directory]::Delete($item.FullName, $true)
 }
 
-Assert-Evidence (-not (Test-Path -LiteralPath $outputFullPath)) 'OutputDirectory must be absent'
+function Assert-ExactOutputDirectory([string]$Path, [string]$Label) {
+    $item = Get-Item -LiteralPath $Path -Force
+    Assert-Evidence ($item.PSIsContainer -and ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0) "$Label must be one physical directory"
+    $actual = @(Get-ChildItem -LiteralPath $item.FullName -Force | ForEach-Object Name | Sort-Object)
+    Assert-Evidence (($actual -join ',') -ceq (($names | Sort-Object) -join ',')) "$Label inventory differs"
+    foreach ($name in $actual) {
+        $child = Get-Item -LiteralPath (Join-Path $item.FullName $name) -Force
+        Assert-Evidence (-not $child.PSIsContainer -and ($child.Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0) "$Label contains a nonphysical file"
+    }
+}
+
+function Remove-ExactBackup {
+    if (-not $backupCreated -or -not [IO.Directory]::Exists($backupPath)) { return }
+    $item = Get-Item -LiteralPath $backupPath -Force
+    $parent = [IO.Path]::GetFullPath([IO.Path]::GetDirectoryName($item.FullName)).TrimEnd('\', '/')
+    Assert-Evidence ($parent.Equals([IO.Path]::GetFullPath($outputParent).TrimEnd('\', '/'), [StringComparison]::OrdinalIgnoreCase) -and $item.Name -cmatch '^\.crsv-evidence-backup-[a-f0-9]{32}$') 'backup cleanup identity differs'
+    Assert-ExactOutputDirectory $item.FullName 'backup'
+    [IO.Directory]::Delete($item.FullName, $true)
+    $script:backupCreated = $false
+}
+
 Assert-Evidence ($outputFullPath.StartsWith($root.TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) -and $outputLeaf -notmatch '^\.?$') 'OutputDirectory must be one contained non-root directory'
 $parentItem = Get-Item -LiteralPath $outputParent -Force
 Assert-Evidence ($parentItem.PSIsContainer -and ($parentItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0) 'OutputDirectory parent must be one physical directory'
+$outputExists = Test-Path -LiteralPath $outputFullPath
+if ($outputExists) {
+    Assert-Evidence $ReplaceOutput 'OutputDirectory already exists; use ReplaceOutput only after reviewing its exact inventory'
+    Assert-ExactOutputDirectory $outputFullPath 'existing output'
+}
+else { Assert-Evidence (-not $ReplaceOutput) 'ReplaceOutput requires one existing exact output directory' }
 foreach ($input in @($archive, $bundleEvidence)) { $null = Get-Identity $input $input }
 $branch = (& git -C $root rev-parse --abbrev-ref HEAD).Trim()
 $head = (& git -C $root rev-parse HEAD).Trim()
@@ -164,9 +193,31 @@ printf 'release_signature_wsl_execution=passed\n'
     Write-Json $reportPath $report
     $actualNames = @(Get-ChildItem -LiteralPath $stagingPath -Force | ForEach-Object Name | Sort-Object)
     Assert-Evidence (($actualNames -join ',') -ceq (($names | Sort-Object) -join ',')) 'evidence staging inventory differs'
-    [IO.Directory]::Move($stagingPath, $outputFullPath)
-    $stagingCreated = $false
+    if ($outputExists) {
+        $backupPath = Join-Path $outputParent ('.crsv-evidence-backup-' + [guid]::NewGuid().ToString('N'))
+        [IO.Directory]::Move($outputFullPath, $backupPath)
+        $backupCreated = $true
+        try {
+            [IO.Directory]::Move($stagingPath, $outputFullPath)
+            $stagingCreated = $false
+            Remove-ExactBackup
+        }
+        catch {
+            if (-not (Test-Path -LiteralPath $outputFullPath) -and [IO.Directory]::Exists($backupPath)) {
+                [IO.Directory]::Move($backupPath, $outputFullPath)
+                $backupCreated = $false
+            }
+            throw
+        }
+    }
+    else {
+        [IO.Directory]::Move($stagingPath, $outputFullPath)
+        $stagingCreated = $false
+    }
 }
-finally { if ($stagingCreated) { Remove-ExactStaging } }
+finally {
+    if ($stagingCreated) { Remove-ExactStaging }
+    if ($backupCreated) { Remove-ExactBackup }
+}
 
 Write-Output "release_signature_evidence_written=true source_commit=$head executions=2 receipt_equal=true fixture_removed=true output=$outputFullPath"

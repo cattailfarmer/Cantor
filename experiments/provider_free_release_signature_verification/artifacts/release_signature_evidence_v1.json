@@ -1,0 +1,136 @@
+{
+  "profile": "cantor-provider-free-release-signature-evidence/0.1",
+  "status": "synthetic_signature_mechanics_verified_with_declared_trust_gaps",
+  "source_commit": "cc520563f031c3a9da2dfcc3d7991990bf5b9ec5",
+  "execution_platform": "linux_x86_64_wsl2",
+  "signed_artifact_target": "windows-x86_64",
+  "build_mode": "built_locked_offline",
+  "bundle_input": {
+    "path": "experiments/provider_free_portable_release_bundle/artifacts/cantor-provider-free-windows-x86_64-p0.zip",
+    "bytes": 6555711,
+    "sha256": "E2A41169FBBB5E940F99B7A4F59EA530C7E124387A846535574F8B3CBB9B8240"
+  },
+  "bundle_evidence_input": {
+    "path": "experiments/provider_free_portable_release_bundle/artifacts/cantor-provider-free-windows-x86_64-p0-evidence.json",
+    "bytes": 3635,
+    "sha256": "23E98E7388C395596D8186473424413E220E6405B4DD13F15B19FADF40AF6378"
+  },
+  "sources": {
+    "cargo_lock": {
+      "path": "Cargo.lock",
+      "bytes": 41561,
+      "sha256": "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20"
+    },
+    "workspace_manifest": {
+      "path": "Cargo.toml",
+      "bytes": 1285,
+      "sha256": "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C"
+    },
+    "crate_manifest": {
+      "path": "crates/cantor_release_signature/Cargo.toml",
+      "bytes": 331,
+      "sha256": "FE854F6B354BE6F13198F6715B59452F99A524CD13FF5CBC955A7B693ED5901A"
+    },
+    "library": {
+      "path": "crates/cantor_release_signature/src/lib.rs",
+      "bytes": 17745,
+      "sha256": "DF5B755515A5FE541D69957344490035C6ED62A80BDEDAD40C40AA4BF7C13070"
+    },
+    "cli": {
+      "path": "crates/cantor_release_signature/src/main.rs",
+      "bytes": 5866,
+      "sha256": "215BD5A5BA5E708D4C532155806B30C09B19F3B214A6CCD913FD4C6DF51C831F"
+    },
+    "fixture_helper": {
+      "path": "crates/cantor_release_signature/examples/generate_release_signature_fixture.rs",
+      "bytes": 1627,
+      "sha256": "2160DA7F72CE787FF2ACB26A6E7192D4A7B68F712612B098CDF39243D02403A9"
+    },
+    "library_tests": {
+      "path": "crates/cantor_release_signature/tests/release_signature.rs",
+      "bytes": 7344,
+      "sha256": "B9DA071DDCA7735512E4F4DE7EDDD6683EABCEC9E303082C98023ECD8509D1A9"
+    },
+    "cli_tests": {
+      "path": "crates/cantor_release_signature/tests/release_signature_cli.rs",
+      "bytes": 7308,
+      "sha256": "DE5EF75058F306DB6675F7AC8A9847F5484D06BD9E0CE0729F0A66D6834B1F20"
+    },
+    "producer": {
+      "path": "scripts/build_cantor_provider_free_release_signature_evidence.ps1",
+      "bytes": 12900,
+      "sha256": "2D0DD98FB49C2207329E86286609F61442AED4E5283AA552002D6F7CA861C1B8"
+    },
+    "verifier": {
+      "path": "scripts/verify_cantor_provider_free_release_signature_evidence.ps1",
+      "bytes": 11806,
+      "sha256": "23685F57959B70B6998EBA875BAF9316287568CAE7070739ED6540C49B2D753C"
+    },
+    "adversarial_tests": {
+      "path": "scripts/test_cantor_provider_free_release_signature_evidence.ps1",
+      "bytes": 5575,
+      "sha256": "81545BE2CC720734F3F3D0D573DEF19538B6E683F6490FA97F8480C9DE58C271"
+    }
+  },
+  "artifacts": {
+    "policy": {
+      "path": "release_signature_policy_synthetic_v1.json",
+      "bytes": 753,
+      "sha256": "07078DAD5507F3502ADE751920B0A89A8B5D480C51E9F4131C20A43CFA44DF7F"
+    },
+    "envelope": {
+      "path": "release_signature_envelope_synthetic_v1.json",
+      "bytes": 1237,
+      "sha256": "0E0154DF99B448AD2D1886294A9E89D7205A618D07D2E90CB1072319A9E6B5B0"
+    },
+    "receipt": {
+      "path": "release_signature_receipt_synthetic_v1.json",
+      "bytes": 1291,
+      "sha256": "7E8FA73F895610D995BE79C69910FDDCD9931CD604C88A512F1FF740DB3E7940"
+    },
+    "verifier_binary": {
+      "path": "cantor-release-verify-linux-x86_64",
+      "bytes": 841168,
+      "sha256": "66105D8661C10EED6C5AFC0E11BD68306BD4BDA089A9845C63FA0E980FC45334"
+    }
+  },
+  "observation": {
+    "verification_count": 2,
+    "receipt_byte_equal": true,
+    "signature_verified": true,
+    "use_status": "synthetic_fixture_only",
+    "policy_governance_proved": false,
+    "production_publisher_authenticity_proved": false,
+    "supported_delivery_proved": false
+  },
+  "cleanup": {
+    "fixture_root_removed": true,
+    "fixture_root_absent_at_publication": true,
+    "signing_key_retained": false,
+    "live_process_retained": false
+  },
+  "safety": {
+    "archive_extracted": false,
+    "archive_executed": false,
+    "installation_performed": false,
+    "service_started": false,
+    "provider_contacted": false,
+    "remote_accessed": false,
+    "production_secret_created": false,
+    "trust_state_mutated": false
+  },
+  "capability_denials": [
+    "policy_governance",
+    "production_publisher_authenticity",
+    "trust_onboarding",
+    "supported_delivery",
+    "installation_or_extraction",
+    "production_secret_lifecycle",
+    "service_or_provider_operation",
+    "automatic_remote_access",
+    "external_effect_execution",
+    "fpga_execution",
+    "minecraft_scope"
+  ],
+  "non_authority_statement": "This checked synthetic fixture proves detached release-signature mechanics only. It does not prove policy governance publisher identity trust onboarding supported delivery installation production secret lifecycle operator acceptance or production authority."
+}

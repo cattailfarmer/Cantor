@@ -228,6 +228,9 @@ The preferred governed absent-runtime bootstrap transaction, exact staged and
 final diagnostic gates, guarded rollback, and checked cleanup evidence are
 documented in
 [`docs/OPERATOR_BOOTSTRAP_TRANSACTION_P0.md`](docs/OPERATOR_BOOTSTRAP_TRANSACTION_P0.md).
+The detached release-signature verifier, supplied-policy boundary, public
+synthetic evidence, and explicit publisher-trust nonclaims are documented in
+[`docs/PROVIDER_FREE_RELEASE_SIGNATURE_VERIFICATION_P0.md`](docs/PROVIDER_FREE_RELEASE_SIGNATURE_VERIFICATION_P0.md).
 The first executable ecosystem protocol, exact route, authority boundary,
 Observer checks, outcome verifier, and nonclaims are documented in
 [`docs/SUPERVISED_MOCK_LOOP.md`](docs/SUPERVISED_MOCK_LOOP.md).

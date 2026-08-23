@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([string]$OutputPath = 'experiments/provider_free_release_signature_verification/artifacts/release_signature_evidence_manifest.json')
+param([string]$OutputPath = 'experiments/provider_free_release_signature_verification/release_signature_evidence_manifest.json')
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

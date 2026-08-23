@@ -46,3 +46,23 @@ cargo clippy -p cantor_release_signature --all-targets --locked --offline -- -D 
 .\scripts\verify_cantor_provider_free_release_signature_evidence.ps1
 .\scripts\test_cantor_provider_free_release_signature_evidence.ps1
 ```
+
+The checked synthetic report is 5243 bytes with SHA256
+`703852DFDBFA105BC10F04FBE3AE3D944F8D6711A8402DC9BC4DED525A96E63A`
+and binds published source commit
+`cc520563f031c3a9da2dfcc3d7991990bf5b9ec5`. Two locked-offline WSL
+executions emitted byte-identical receipts, all five retained artifacts were
+byte-identical across a second same-mode generation, and the independent suite
+passed three producer plus thirteen tamper refusals without invoking the Rust
+verifier or signing.
+
+The evidence producer refuses an existing artifact directory unless
+`-ReplaceOutput` is explicit and its complete five-file physical inventory is
+exact. Replacement uses a same-parent directory swap with an exact rollback
+identity; it is evidence publication, not product installation.
+
+The identities above describe the checked `cc520563` pre-closure run. The final
+acceptance gate subsequently exposed expected portable-evidence `Cargo.lock`
+drift from adding this workspace crate. They remain historical until the
+portable bundle and dependent signature evidence are refreshed and replayed
+from clean published identities.

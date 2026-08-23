@@ -26,11 +26,15 @@ evidence, independent verification, and adversarial refusal coverage. A
 separate governed initial-create transaction now stages a cryptographic bearer
 capability, activation, and configuration as one exact sibling inventory,
 requires that diagnostic before and after absent-directory publication, and
-uses identity-guarded rollback with checked secret-free evidence.
+uses identity-guarded rollback with checked secret-free evidence. A separate
+verification-only binary now also binds the exact portable bundle and evidence
+to a detached Ed25519 envelope and supplied public-key policy, with deterministic
+public-fixture evidence and exhaustive trust nonclaims.
 
 This does not make Cantor an operator or production product. Live provider
-compatibility, a supported distribution, production configuration replacement
-and repair, production trust and secret lifecycle, file-permission policy,
+compatibility, a supported distribution, governed publisher-policy onboarding,
+production configuration replacement and repair, production trust and secret
+lifecycle, file-permission policy,
 end-to-end operator acceptance,
 durable custody, effects, observability, upgrade and recovery policy, security
 review, and service-level evidence remain absent or separately locked.
@@ -41,7 +45,7 @@ review, and service-level evidence remain absent or separately locked.
 | --- | --- | --- |
 | Provider-free developer alpha | Satisfied | Maintain exact gates and coherent release navigation |
 | Private local beta | Satisfied mechanically, provider-free | Exact pinned live-provider compatibility remains contingent |
-| Operator product | Not satisfied; portable package identity, redacted preflight, and governed disposable initial creation proved | Supported delivery, publisher authenticity, production trust/secret lifecycle, permission policy, replacement and repair, migration, upgrade compatibility, acceptance, and support policy |
+| Operator product | Not satisfied; portable identity, detached-signature verification mechanics, redacted preflight, and governed disposable initial creation proved | Governed publisher policy/trust onboarding, supported delivery, production key/secret lifecycle, permission policy, replacement and repair, migration, upgrade compatibility, acceptance, and support policy |
 | Production product | Not satisfied | Threat model, external trust, recovery, observability, SLO, sustained workload, security and deployment review |
 
 ## True current frontiers
@@ -52,10 +56,11 @@ review, and service-level evidence remain absent or separately locked.
 2. After an exact governed target is admitted, implement the Semantic Anchor Slice 6
    address-to-attention-procedure bridge without conflating semantic identity,
    checkpoint identity, or authority.
-3. Continue from the now-proved package identity, no-listener diagnostic, and
-   disposable initial-create transaction into the smallest separately governed
-   supported-delivery, publisher-authenticity, production-secret, permission,
-   or recovery seam. Replacement, repair, migration, upgrade/rollback
+3. Continue from the now-proved package identity, detached-signature mechanics,
+   no-listener diagnostic, and disposable initial-create transaction into the
+   smallest separately governed publisher-policy onboarding, supported-delivery,
+   production-secret, permission, or recovery seam. Do not fabricate a real
+   publisher policy. Replacement, repair, migration, upgrade/rollback
    compatibility, operator acceptance, and support policy remain absent.
 4. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
@@ -82,3 +87,5 @@ The redacted no-listener configuration profile and checked evidence are
 documented in `docs/OPERATOR_CONFIGURATION_DIAGNOSTIC_P0.md`.
 The governed absent-runtime configuration transaction and checked cleanup
 evidence are documented in `docs/OPERATOR_BOOTSTRAP_TRANSACTION_P0.md`.
+The verification-only detached signature profile and explicit trust nonclaims
+are documented in `docs/PROVIDER_FREE_RELEASE_SIGNATURE_VERIFICATION_P0.md`.
