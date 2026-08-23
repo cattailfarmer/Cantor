@@ -47,3 +47,13 @@ Focused and checked evidence commands are:
 .\scripts\verify_cantor_operator_bootstrap_transaction_evidence.ps1
 .\scripts\test_cantor_operator_bootstrap_transaction_evidence.ps1
 ```
+
+The checked report is
+`experiments/operator_bootstrap_transaction/artifacts/operator_bootstrap_transaction_evidence_v1.json`.
+It is 3277 bytes with SHA256
+`A839F6FA01DF319525CC4CCB2164E627BCC5344C5C527FE80D2E2A4AEFFE0B74` and
+binds published source commit
+`367dda7e0e5544ac3d4737cec16d366e6d8f597c`. The producer executed two
+transactions, destroyed both random tokens and the full fixture root, and the
+independent verifier plus adversarial suite passed three producer and thirteen
+verifier refusal cases without invoking `cantord` from the verifier.

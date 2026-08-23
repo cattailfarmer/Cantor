@@ -1,0 +1,91 @@
+{
+  "profile": "cantor-operator-bootstrap-transaction-evidence/0.1",
+  "status": "provider_free_initial_create_transaction_verified_with_declared_gaps",
+  "source_commit": "367dda7e0e5544ac3d4737cec16d366e6d8f597c",
+  "platform": "windows_x86_64_local",
+  "build_mode": "built_locked_offline",
+  "cargo_lock": {
+    "path": "Cargo.lock",
+    "bytes": 41425,
+    "sha256": "92CCA554423246A05601F45BD67F23FE65EDD4C6207041E8FD3F80F14C7DDF3B"
+  },
+  "cantord": {
+    "path": "target/release/cantord.exe",
+    "bytes": 1902592,
+    "sha256": "8A0D5E22B12EB0AF7B3A9BA0D9A44793FB7F71F0BE1D9F0E795515B52DB8743F"
+  },
+  "transaction_script": {
+    "path": "scripts/initialize_cantor_service_transaction.ps1",
+    "bytes": 16470,
+    "sha256": "912A4682880A8CF04248D6336AF3D230E97B514D075C6E3CF62BB7404A5A4B59"
+  },
+  "focused_tests": {
+    "path": "scripts/test_cantor_operator_bootstrap_transaction.ps1",
+    "bytes": 12092,
+    "sha256": "F32186A5E5B7BB2B36012F33F813C333CE31BF4B9FDD27CAB4D314D3DC262D56"
+  },
+  "observation": {
+    "transaction_count": 2,
+    "receipt_profile": "cantor-operator-bootstrap-transaction/0.1",
+    "receipt_status": "initialized",
+    "receipt_bytes": 1582,
+    "receipt_sha256": "4A9D6167B7A63E88C4BCE305E4EFDAAD61AB08EAB817D3CBF9C9A18F41163BE3",
+    "receipt_byte_equal": true,
+    "final_diagnostic_profile": "cantor-operator-configuration-diagnostic/0.1",
+    "final_diagnostic_status": "ready",
+    "final_diagnostic_bytes": 1874,
+    "final_diagnostic_sha256": "58DC92CD8E37C81218945F84F32C2F48E03942F12F86B1D4A880648D2B72CD73",
+    "final_diagnostic_byte_equal": true,
+    "final_file_count_each": [
+      3,
+      3
+    ],
+    "token_shape_verified_each": [
+      true,
+      true
+    ],
+    "receipt_token_disclosure": false,
+    "changed_residual_refusal_proved": true
+  },
+  "cleanup": {
+    "runtime_removed_each": [
+      true,
+      true
+    ],
+    "random_tokens_destroyed": true,
+    "fixture_root_removed": true,
+    "fixture_root_absent_at_publication": true,
+    "staging_residual": false,
+    "live_cantord_residual": false
+  },
+  "safety": {
+    "listener_bound": false,
+    "service_started": false,
+    "provider_contacted": false,
+    "remote_accessed": false,
+    "replacement_performed": false,
+    "repair_performed": false,
+    "migration_performed": false,
+    "production_secret_lifecycle_claimed": false,
+    "token_content_recorded": false,
+    "token_hash_recorded": false,
+    "raw_receipt_retained": false,
+    "raw_diagnostic_retained": false
+  },
+  "capability_denials": [
+    "replacement_or_repair",
+    "migration_or_upgrade",
+    "production_secret_rotation_or_revocation",
+    "permission_or_acl_policy",
+    "installer_or_supported_delivery",
+    "listener_or_service_operation",
+    "provider_execution",
+    "durable_or_distributed_custody",
+    "external_effect_execution",
+    "automatic_remote_access",
+    "fpga_execution",
+    "minecraft_scope",
+    "operator_product_or_production_readiness"
+  ],
+  "non_authority_statement": "This evidence proves one disposable initial-create local bootstrap transaction only. It grants no replacement, repair, migration, production secret lifecycle, permission policy, installation, delivery, service, provider, effect, operator-product, or production authority."
+}

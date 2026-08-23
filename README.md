@@ -224,6 +224,10 @@ limitations are documented in
 The resident service security boundary, operator publication sequence,
 rollback path, and client contract are documented in
 [`docs/RESIDENT_SERVICE.md`](docs/RESIDENT_SERVICE.md).
+The preferred governed absent-runtime bootstrap transaction, exact staged and
+final diagnostic gates, guarded rollback, and checked cleanup evidence are
+documented in
+[`docs/OPERATOR_BOOTSTRAP_TRANSACTION_P0.md`](docs/OPERATOR_BOOTSTRAP_TRANSACTION_P0.md).
 The first executable ecosystem protocol, exact route, authority boundary,
 Observer checks, outcome verifier, and nonclaims are documented in
 [`docs/SUPERVISED_MOCK_LOOP.md`](docs/SUPERVISED_MOCK_LOOP.md).
@@ -484,7 +488,7 @@ gates do not run in this lab. See
 Initialize and run the bounded resident service over a compiled environment:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\initialize_cantor_service.ps1 -EnvironmentPath C:\Project\Cantor\.local\cantor-self-hosted\environment.json -RuntimeDirectory C:\Project\Cantor\.local\cantor-service
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\initialize_cantor_service_transaction.ps1 -EnvironmentPath C:\Project\Cantor\.local\cantor-self-hosted\environment.json -RuntimeDirectory C:\Project\Cantor\.local\cantor-service -CantordPath C:\Project\Cantor\target\release\cantord.exe -AllowedEnvironmentRoot C:\Project\Cantor\.local
 .\target\release\cantord.exe --check-config C:\Project\Cantor\.local\cantor-service\service.json
 .\target\release\cantord.exe --config C:\Project\Cantor\.local\cantor-service\service.json
 .\target\release\cantorctl.exe status --config C:\Project\Cantor\.local\cantor-service\service.json --request-id request:operator_status_1
