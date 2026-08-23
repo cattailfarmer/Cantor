@@ -1,0 +1,18 @@
+[package]
+name = "cantor_release_signature"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "cantor-release-verify"
+path = "src/main.rs"
+
+[dependencies]
+ed25519-dalek.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+
+[lints]
+workspace = true

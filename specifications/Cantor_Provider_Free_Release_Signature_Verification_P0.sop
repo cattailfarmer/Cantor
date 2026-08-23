@@ -1,0 +1,42 @@
+Subject: Cantor Provider-Free Release Signature Verification P0
+
+@ [canonical_uuid] 88d80b9e-f063-4572-897f-534634025cfa
+@ [source_uuid] fe5d58a2-e594-4d7d-b4f8-cc01aae397cb
+@ [exploded_uuid] f2a8b4e7-4614-48c1-9f3c-55f232d26dc2
+@ [profile_uuid] c06f4e32-e754-4aad-9833-c11ae734d96d
+
+& [Requirements]
+  + [CRSV-001] add one separate cantor_release_signature workspace crate and cantor-release-verify binary without changing existing release-binary behavior or adding a dependency
+  + [CRSV-002] accept exactly bundle bundle-evidence policy and signed-envelope paths with closed duplicate unknown missing and help behavior
+  + [CRSV-003] require every input to be one bounded nonempty physical regular non-symlink file and never follow a symlink as an admitted file
+  + [CRSV-004] cap bundle bytes at 16 MiB evidence at 64 KiB and policy and envelope each at 16 KiB
+  + [CRSV-005] use strict deny-unknown JSON forms for policy envelope payload and the complete top-level portable-bundle evidence projection
+  + [CRSV-006] policy closes profile use status policy ID publisher ID verifying key allowed release profile allowed target and fixed nonauthority
+  + [CRSV-007] envelope payload closes profile use status policy ID publisher ID release profile target source commit exact bundle and evidence identities and fixed nonauthority
+  + [CRSV-008] canonical signature bytes are exact compact serde JSON for the validated payload with no signature field ambiguity
+  + [CRSV-009] verify one exact Ed25519 signature strictly against the policy-pinned 32-byte public key
+  + [CRSV-010] rehash the exact supplied bundle and require byte count and SHA256 equality with the signed payload
+  + [CRSV-011] rehash the exact supplied evidence and require byte count and SHA256 equality with the signed payload
+  + [CRSV-012] require the signed evidence profile status source commit target and embedded archive identity to equal the payload and supplied bundle
+  + [CRSV-013] require policy and payload use status policy ID publisher ID release profile target and nonauthority to agree exactly
+  + [CRSV-014] emit one strict compact receipt with no paths raw policy raw envelope public key signature archive bytes or evidence bytes
+  + [CRSV-015] receipt states signature verified while policy governance production publisher authenticity supported delivery installation and secret lifecycle remain false
+  + [CRSV-016] use exit zero for verified two for invalid invocation or input transport three for verification refusal and seventy for serialization failure
+  + [CRSV-017] product binary exposes verification only and contains no signing key generation key storage rotation trust onboarding or policy mutation command
+  + [CRSV-018] a separate synthetic fixture helper may sign only with one fixed publicly disclosed test seed and must label every form synthetic fixture only
+  + [CRSV-019] library tests cover valid externally-governed and synthetic forms plus policy payload key signature archive evidence source target status and unknown-field refusal
+  + [CRSV-020] CLI tests cover exact receipt exits missing duplicate unknown malformed oversized directory symlink when supported and tampered inputs
+  + [CRSV-021] checked evidence executes the exact published verifier twice over the current portable archive and evidence using only public synthetic fixture material and requires byte equality and cleanup
+  + [CRSV-022] an independent evidence verifier checks current source binary policy envelope receipt identities refusals cleanup safety and denials without invoking cantor-release-verify or signing
+  + [CRSV-023] update release and product-readiness navigation while keeping trust provisioning supported delivery and production acceptance open
+  + [CRSV-024] pass focused debug release workspace warnings-denied Clippy format PowerShell parse recursive evidence attribution commit push and post-push gates
+  + [CRSV-025] never install extract execute the archive start a service contact a provider download create or retain a production secret mutate trust state use remote effects FPGA or Minecraft
+
+& [SatisfactionSignature]
+  + [signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+  + [signature_uuid] f862598e-d2d7-4213-8106-e3d48bcf8519
+  + [signed_subject] specifications/exploded/Cantor_Provider_Free_Release_Signature_Verification_P0.exploded.sop
+  + [canonical_source_specification] specifications/Cantor_Provider_Free_Release_Signature_Verification_P0.sop
+  + [processed_stage_set] source_preserved delineated exploded semantically_refined constraint_checked pruned seven_fold_phase_locked justified registry_recorded
+  + [exhaustion_state] phase_locked
+  + [signature_status] valid
