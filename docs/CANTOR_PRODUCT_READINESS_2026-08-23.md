@@ -37,9 +37,11 @@ or separately locked.
 2. After an exact governed target is admitted, implement the Semantic Anchor Slice 6
    address-to-attention-procedure bridge without conflating semantic identity,
    checkpoint identity, or authority.
-3. Consolidate one provider-free local-product acceptance command that proves
-   install/build, configuration, startup, health, representative query/tool
-   flow, shutdown, rollback, artifacts, and capability denials.
+3. Extend the checked provider-free developer-alpha acceptance report into a
+   separately governed private-beta workflow only when one release identity
+   can prove install/build, configuration, startup, health, representative
+   query/tool flow, shutdown, and rollback. The current audit proves artifacts,
+   component boundaries, and capability denials—not that operator workflow.
 4. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
 
@@ -54,3 +56,6 @@ Canonical current navigation remains in
 `narrative/reentry/Cantor_Iterative_Attention_Procedure_Loop_P1_Reentry.sop`,
 `narrative/reentry/Cantor_M2B_Current_Reentry.sop`, and the current feature
 support matrices.
+
+The reproducible developer-alpha acceptance command and its explicit nonclaims
+are documented in `docs/LOCAL_PRODUCT_DEVELOPER_ALPHA_ACCEPTANCE.md`.

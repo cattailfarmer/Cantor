@@ -83,6 +83,11 @@ baseline:
 - `cantor_core::PreparedRuntime` retains at most one immutable exact-scope
   projection for repeated resident reads, with atomic generation replacement,
   invalidation, rollback, and the direct request path preserved; and
+- the consolidated local-product acceptance audit now reconstructs one
+  published-commit-bound provider-free developer-alpha report across corpus,
+  service, semantic-anchor, Iterative P1, lifecycle, and recursive evidence,
+  while retaining explicit private-beta, operator, production, provider,
+  authority, persistence, effect, remote, FPGA, and Minecraft gaps; and
 - `cantor-corpus` parses the bounded fail-closed
   `cantor-sop-source/0.1` profile, lowers exact source anchors and typed
   containment, compiles distinct-Ed25519 signed packages, and generates
@@ -288,6 +293,9 @@ selected; governed curator selection precedes the Slice 6 bridge.
 The consolidated current product boundary and true dependency frontiers are
 recorded in
 [`docs/CANTOR_PRODUCT_READINESS_2026-08-23.md`](docs/CANTOR_PRODUCT_READINESS_2026-08-23.md).
+The deterministic generation, exact verification, optional focused replay,
+and stage nonclaims for that boundary are documented in
+[`docs/LOCAL_PRODUCT_DEVELOPER_ALPHA_ACCEPTANCE.md`](docs/LOCAL_PRODUCT_DEVELOPER_ALPHA_ACCEPTANCE.md).
 The provider-free curator policy, canonical payload, signature verification,
 synthetic-fixture boundary, and operator commands are documented in
 [`docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md`](docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md).
