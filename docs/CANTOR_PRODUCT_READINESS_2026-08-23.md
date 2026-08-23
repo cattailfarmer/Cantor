@@ -31,10 +31,10 @@ or separately locked.
 
 ## True current frontiers
 
-1. Build a governed curator-selection protocol over the Slice 5E candidate
-   dossier. The protocol may validate an explicit signed selection but must not
-   invent one.
-2. After an exact target is admitted, implement the Semantic Anchor Slice 6
+1. Obtain an independently governed curator policy and signed selection through
+   the implemented Slice 5F verifier. The repository deliberately supplies
+   only synthetic protocol evidence and does not invent a real target.
+2. After an exact governed target is admitted, implement the Semantic Anchor Slice 6
    address-to-attention-procedure bridge without conflating semantic identity,
    checkpoint identity, or authority.
 3. Consolidate one provider-free local-product acceptance command that proves

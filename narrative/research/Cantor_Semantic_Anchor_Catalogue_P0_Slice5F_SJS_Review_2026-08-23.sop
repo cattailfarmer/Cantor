@@ -1,0 +1,20 @@
+Subject: Semantic Anchor Catalogue P0 Slice5F SJS Review 2026-08-23
+
+@ [review_uuid] 5916c8fd-b22a-4e0a-a5fc-641b5e2cab74
+
+& [Situation]
+  + Slice5E exposes exact candidate identities and anchors but intentionally leaves target selections null
+
+& [Justification]
+  + Slice6 needs an auditable supplied selection path while Cantor must not invent curator authority
+
+& [Solution]
+  + verify one externally supplied trust policy and Ed25519-signed selection against exact dossier bytes and emit a typed non-authoritative receipt
+
+& [Delineation]
+  + cryptographic signature verifies key possession and payload integrity
+  + separately admitted policy provenance establishes whether that key has governance authority
+  + synthetic fixture status proves mechanics only and cannot become a governed selection
+
+& [Decision]
+  + activate additive provider-free protocol forms verifier fixture binary tests and evidence only

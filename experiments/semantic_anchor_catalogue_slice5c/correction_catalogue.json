@@ -1,9 +1,16 @@
 {
-    "profile":  "cantor-semantic-anchor-correction-catalogue/0.2",
+    "profile":  "cantor-semantic-anchor-correction-catalogue/0.3",
     "baseline_sha256":  "99C6C32F5FC75FE6A50C0EA91EA654BC0DC2CECD70535582435A54BF308A8BE9",
     "baseline_report_digest":  "235778704bd6dbb18dc27128fc861364a5af46d7ecfc0ee709e77249b610f8b1",
     "use_status":  "evaluation_and_curation_only",
     "training_status":  "training_not_authorized",
+    "selection_protocol":  {
+                               "policy_profile":  "cantor-semantic-anchor-curator-policy/0.1",
+                               "selection_profile":  "cantor-semantic-anchor-curator-selection/0.1",
+                               "receipt_profile":  "cantor-semantic-anchor-curator-receipt/0.1",
+                               "real_target_status":  "null_until_independently_governed_policy_and_verified_selection_receipt",
+                               "synthetic_fixture_not_authority":  true
+                           },
     "examples":  [
                      {
                          "example_id":  "correction:cantor",
@@ -70,9 +77,10 @@
                                                                       ],
                          "required_action":  "curate one exact semantic identity from proof-bound ambiguous candidates",
                          "evidence_needed":  [
-                                                 "curator identity",
+                                                 "independently governed curator policy",
+                                                 "Ed25519 signed selection",
+                                                 "verified selection receipt",
                                                  "source anchor",
-                                                 "authority scope",
                                                  "exact gate replay"
                                              ],
                          "status":  "requires_curated_exact_identity"
@@ -108,9 +116,10 @@
                                                                       ],
                          "required_action":  "curate one exact semantic identity from proof-bound ambiguous candidates",
                          "evidence_needed":  [
-                                                 "curator identity",
+                                                 "independently governed curator policy",
+                                                 "Ed25519 signed selection",
+                                                 "verified selection receipt",
                                                  "source anchor",
-                                                 "authority scope",
                                                  "exact gate replay"
                                              ],
                          "status":  "requires_curated_exact_identity"
@@ -145,13 +154,14 @@
                                                                       ],
                          "required_action":  "curate one exact semantic identity from proof-bound ambiguous candidates",
                          "evidence_needed":  [
-                                                 "curator identity",
+                                                 "independently governed curator policy",
+                                                 "Ed25519 signed selection",
+                                                 "verified selection receipt",
                                                  "source anchor",
-                                                 "authority scope",
                                                  "exact gate replay"
                                              ],
                          "status":  "requires_curated_exact_identity"
                      }
                  ],
-    "non_authority_statement":  "Candidate identities and exact-expression observations are curation work items and grant no target selection source admission training semantic execution or effect authority."
+    "non_authority_statement":  "Candidate identities exact-expression observations and synthetic protocol fixtures are curation work items and grant no governed target selection source admission training semantic execution or effect authority."
 }

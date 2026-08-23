@@ -1,0 +1,96 @@
+{
+  "profile": "cantor-semantic-anchor-synthetic-curation-fixture/0.1",
+  "policy": {
+    "profile": "cantor-semantic-anchor-curator-policy/0.1",
+    "use_status": "SyntheticFixtureOnly",
+    "baseline_sha256": {
+      "algorithm": "sha256",
+      "value": "99c6c32f5fc75fe6a50c0ea91ea654bc0dc2cecd70535582435a54bf308a8be9"
+    },
+    "grants": [
+      {
+        "curator_id": "curator:synthetic_fixture_only",
+        "verifying_key_hex": "f80cccdce4ae1c07ae208a2adf99a310ae4207e0306fa0236110b06827bbb8d0",
+        "allowed_query_names": [
+          "semantic-unit"
+        ],
+        "authority_scope": "semantic_anchor_exact_identity_curation",
+        "source_requirement": "selected_candidate_source_anchor"
+      }
+    ],
+    "non_authority_statement": "Signature verification proves payload integrity and possession of a policy-pinned key. The caller must independently prove policy governance. This receipt grants no semantic truth, training, execution, permission, safety, or effect authority."
+  },
+  "selection": {
+    "payload": {
+      "profile": "cantor-semantic-anchor-curator-selection/0.1",
+      "use_status": "SyntheticFixtureOnly",
+      "baseline_sha256": {
+        "algorithm": "sha256",
+        "value": "99c6c32f5fc75fe6a50c0ea91ea654bc0dc2cecd70535582435a54bf308a8be9"
+      },
+      "baseline_report_digest": {
+        "algorithm": "sha256",
+        "value": "235778704bd6dbb18dc27128fc861364a5af46d7ecfc0ee709e77249b610f8b1"
+      },
+      "curator_id": "curator:synthetic_fixture_only",
+      "query_name": "semantic-unit",
+      "candidate_unit_id": "unit:sop:e0efb33c86bb52c26a1f1447b2d6067822b3c36566e9ffef1b6407d4e2649706",
+      "selected_source_anchor": {
+        "package_id": "package:sha256:4e6e4b14d13c022b60643b77ced08081b8b5efc6a75152953c3d97f83b0ade30",
+        "file_id": "file:sop:94fa3e1661f674808e6ed0f5da6e9596",
+        "unit_id": "unit:sop:e0efb33c86bb52c26a1f1447b2d6067822b3c36566e9ffef1b6407d4e2649706",
+        "clause_id": "clause:sop:80e4300e207fde8d2df3bc1899c0c15635e0c2e8d4f3df9e9918106391754d31",
+        "byte_start": 746,
+        "byte_end": 818,
+        "span_digest": {
+          "algorithm": "sha256",
+          "value": "80520b7514462b62a495114d623b496089785bb016253905f8f101c2a3028590"
+        },
+        "display_line_start": 15,
+        "display_line_end": 15
+      },
+      "decision": "SelectExactIdentity",
+      "rationale": "synthetic protocol fixture; no governed target selection",
+      "non_authority_statement": "Signature verification proves payload integrity and possession of a policy-pinned key. The caller must independently prove policy governance. This receipt grants no semantic truth, training, execution, permission, safety, or effect authority."
+    },
+    "signature_hex": "0dce24c9a620cb2c77f8ec7c444a4ef04b67ea283be4ca66ae625fa87a7667a62467bbd731c5de9bc434bd4368216f8bdaf37b6b2d5d21d1b4c248311a03b908"
+  },
+  "receipt": {
+    "profile": "cantor-semantic-anchor-curator-receipt/0.1",
+    "use_status": "SyntheticFixtureOnly",
+    "baseline_sha256": {
+      "algorithm": "sha256",
+      "value": "99c6c32f5fc75fe6a50c0ea91ea654bc0dc2cecd70535582435a54bf308a8be9"
+    },
+    "baseline_report_digest": {
+      "algorithm": "sha256",
+      "value": "235778704bd6dbb18dc27128fc861364a5af46d7ecfc0ee709e77249b610f8b1"
+    },
+    "selection_digest": {
+      "algorithm": "sha256",
+      "value": "dc5d3d99120b4697547a9bfcb73c91daf22850e5b660d71a8521d837f9e38165"
+    },
+    "curator_id": "curator:synthetic_fixture_only",
+    "authority_scope": "semantic_anchor_exact_identity_curation",
+    "query_name": "semantic-unit",
+    "candidate_unit_id": "unit:sop:e0efb33c86bb52c26a1f1447b2d6067822b3c36566e9ffef1b6407d4e2649706",
+    "selected_preferred_expression": "SemanticUnit",
+    "selected_source_anchor": {
+      "package_id": "package:sha256:4e6e4b14d13c022b60643b77ced08081b8b5efc6a75152953c3d97f83b0ade30",
+      "file_id": "file:sop:94fa3e1661f674808e6ed0f5da6e9596",
+      "unit_id": "unit:sop:e0efb33c86bb52c26a1f1447b2d6067822b3c36566e9ffef1b6407d4e2649706",
+      "clause_id": "clause:sop:80e4300e207fde8d2df3bc1899c0c15635e0c2e8d4f3df9e9918106391754d31",
+      "byte_start": 746,
+      "byte_end": 818,
+      "span_digest": {
+        "algorithm": "sha256",
+        "value": "80520b7514462b62a495114d623b496089785bb016253905f8f101c2a3028590"
+      },
+      "display_line_start": 15,
+      "display_line_end": 15
+    },
+    "signature_verified": true,
+    "non_authority_statement": "Signature verification proves payload integrity and possession of a policy-pinned key. The caller must independently prove policy governance. This receipt grants no semantic truth, training, execution, permission, safety, or effect authority."
+  },
+  "non_authority_statement": "This deterministic synthetic fixture proves protocol mechanics only. It is not a governed curator policy or real target selection and grants no semantic truth, training, execution, permission, safety, or effect authority."
+}

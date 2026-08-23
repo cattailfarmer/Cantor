@@ -288,6 +288,9 @@ selected; governed curator selection precedes the Slice 6 bridge.
 The consolidated current product boundary and true dependency frontiers are
 recorded in
 [`docs/CANTOR_PRODUCT_READINESS_2026-08-23.md`](docs/CANTOR_PRODUCT_READINESS_2026-08-23.md).
+The provider-free curator policy, canonical payload, signature verification,
+synthetic-fixture boundary, and operator commands are documented in
+[`docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md`](docs/SEMANTIC_ANCHOR_CURATOR_SELECTION_PROTOCOL.md).
 The consolidated local executable state, measured transport result, maturity
 boundaries, safe verification lane, and next dependency frontier are recorded
 in
