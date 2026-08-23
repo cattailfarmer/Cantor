@@ -36,7 +36,9 @@ Subject: Cantor Self Work Update Handoff Admission P0 SJS Input Audit 2026-08-23
   + source explicitly authorizes SJS contract formation and all selected inputs have tracked definitions
   + the five relevant locally generated App Server schemas match their pinned tracked identities but SWA-04A does not consume or authorize the App Server
   + the formation must reuse existing validation APIs and may not duplicate or weaken SWA-03 Phase3A or Phase3 machine-form semantics
-  + [recommended_scope] one pure cantor_core or cantor_ecosystem module one export one focused target and no dependency runtime CLI MCP or effect delta
+  + [required_crate] cantor_ecosystem because it already depends on cantor_core and owns CandidateWorkspaceRequest AdmissionReceipt and Phase3 evidence forms
+  + cantor_core cannot consume cantor_ecosystem workspace types without reversing the existing dependency and creating an invalid cycle
+  + [recommended_scope] one pure cantor_ecosystem module one export one focused target and no dependency runtime CLI MCP or effect delta
   + [status] ready_for_seven_fold_explosion_data_design_matrix_plan_phase_lock_and_satisfaction_signature
   + [implementation_authority] absent
 
