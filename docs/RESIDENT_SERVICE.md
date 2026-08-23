@@ -9,7 +9,7 @@ remote API, package compiler, trust editor, autonomous agent, or effect broker.
 
 ## Security boundary
 
-- `cantord` starts only with `--config <absolute-path>`.
+- `cantord` serve mode starts only with `--config <absolute-path>`.
 - The configured listener must be an IPv4 or IPv6 loopback address.
 - Every request requires the 256-bit capability from `auth_token_path`.
 - The token is read from a file, never a command-line argument, and is omitted
@@ -72,6 +72,31 @@ Publication order is:
 2. verify its digest and contents;
 3. atomically publish a higher-sequence activation descriptor;
 4. request refresh with the exact current generation and sequence.
+
+## Check configuration without starting the service
+
+Run the complete startup-artifact validation chain before binding a listener:
+
+```powershell
+target\release\cantord.exe `
+  --check-config C:\Project\Cantor\.local\cantor-service\service.json
+```
+
+The command reuses the strict service-configuration, authentication-token,
+activation, signed-environment, and prepared-runtime validators. It emits one
+compact JSON object and newline to standard output. `status` is `ready` with a
+safe configuration/runtime summary, or `refused` with one public code, stage,
+subject, and closed guidance string. Exit `0` means ready, exit `3` means a
+domain refusal, exit `2` means invalid invocation, and exit `70` means the
+report could not be serialized.
+
+The report never contains an authority path, token or token hash, config,
+activation, or environment content, or the raw validator error message. This
+mode does not bind a listener, start the service loop, contact a provider, or
+repair, create, migrate, or replace operator artifacts. A ready report proves
+only that the exact current startup artifacts pass the validators that precede
+listener binding; it is not an availability, hostile-host isolation,
+operator-acceptance, or production-readiness claim.
 
 ## Start and inspect
 

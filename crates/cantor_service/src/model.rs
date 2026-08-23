@@ -9,6 +9,8 @@ pub const SERVICE_PROTOCOL_VERSION: &str = "cantor-service-protocol/0.1";
 pub const SERVICE_PROFILE: &str = "cantor-resident-service/0.1";
 pub const SERVICE_CONFIG_SCHEMA: &str = "cantor-service-config/0.1";
 pub const ACTIVATION_SCHEMA: &str = "cantor-environment-activation/0.1";
+pub const SERVICE_CONFIGURATION_DIAGNOSTIC_PROFILE: &str =
+    "cantor-operator-configuration-diagnostic/0.1";
 
 pub struct ServiceRequest {
     pub protocol_version: String,
@@ -94,6 +96,89 @@ pub struct ActiveBinding {
     pub activation_sequence: u64,
     pub activation_digest: ContentDigest,
     pub environment_file_sha256: ContentDigest,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ConfigurationDiagnosticStatus {
+    Ready,
+    Refused,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ConfigurationDiagnosticCheckStatus {
+    Passed,
+    Refused,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ConfigurationDiagnosticSubject {
+    ServiceConfig,
+    AuthenticationToken,
+    ActivationEnvironment,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ConfigurationDiagnosticCheck {
+    pub ordinal: u8,
+    pub subject: ConfigurationDiagnosticSubject,
+    pub status: ConfigurationDiagnosticCheckStatus,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PublicConfigurationDiagnosticFault {
+    pub code: String,
+    pub stage: String,
+    pub subject: ConfigurationDiagnosticSubject,
+    pub guidance: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ReadyServiceConfigurationSummary {
+    pub service_config_schema: String,
+    pub listen_family: String,
+    pub listen_port: u16,
+    pub max_frame_bytes: usize,
+    pub max_connections: usize,
+    pub read_timeout_milliseconds: u128,
+    pub write_timeout_milliseconds: u128,
+    pub active_binding: ActiveBinding,
+    pub runtime_metrics: PreparedRuntimeMetrics,
+    pub ordered_package_count: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ConfigurationDiagnosticPrivacyBoundary {
+    pub authority_paths_recorded: bool,
+    pub token_content_recorded: bool,
+    pub token_hash_recorded: bool,
+    pub config_content_recorded: bool,
+    pub activation_content_recorded: bool,
+    pub environment_content_recorded: bool,
+    pub raw_fault_message_recorded: bool,
+    pub listener_bound: bool,
+    pub service_started: bool,
+    pub provider_contacted: bool,
+    pub remote_accessed: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ServiceConfigurationDiagnostic {
+    pub profile: String,
+    pub status: ConfigurationDiagnosticStatus,
+    pub config_file_sha256: Option<ContentDigest>,
+    pub checks: Vec<ConfigurationDiagnosticCheck>,
+    pub ready_summary: Option<ReadyServiceConfigurationSummary>,
+    pub fault: Option<PublicConfigurationDiagnosticFault>,
+    pub privacy: ConfigurationDiagnosticPrivacyBoundary,
+    pub non_authority_statement: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

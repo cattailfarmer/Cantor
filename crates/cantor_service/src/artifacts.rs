@@ -13,7 +13,13 @@ use cantor_core::{
 };
 use serde::{Deserialize, Serialize};
 
-use crate::model::{ACTIVATION_SCHEMA, ActiveBinding, SERVICE_CONFIG_SCHEMA, ServiceFault};
+use crate::model::{
+    ACTIVATION_SCHEMA, ActiveBinding, ConfigurationDiagnosticCheck,
+    ConfigurationDiagnosticCheckStatus, ConfigurationDiagnosticPrivacyBoundary,
+    ConfigurationDiagnosticStatus, ConfigurationDiagnosticSubject,
+    PublicConfigurationDiagnosticFault, ReadyServiceConfigurationSummary, SERVICE_CONFIG_SCHEMA,
+    SERVICE_CONFIGURATION_DIAGNOSTIC_PROFILE, ServiceConfigurationDiagnostic, ServiceFault,
+};
 
 pub const MAX_CONFIG_BYTES: usize = 64 * 1024;
 pub const MAX_ACTIVATION_BYTES: usize = 64 * 1024;
@@ -296,6 +302,219 @@ pub fn load_generation(config: &ValidatedServiceConfig) -> Result<LoadedGenerati
         environment_file_digest,
         runtime,
     })
+}
+
+pub fn diagnose_service_configuration(path: &Path) -> ServiceConfigurationDiagnostic {
+    let config_file_sha256 = read_bounded(path, MAX_CONFIG_BYTES, "service configuration")
+        .ok()
+        .map(|bytes| sha256_bytes(&bytes));
+    let mut checks = Vec::with_capacity(3);
+    let config = match load_service_config(path) {
+        Ok(config) => {
+            checks.push(passed_check(
+                0,
+                ConfigurationDiagnosticSubject::ServiceConfig,
+            ));
+            config
+        }
+        Err(fault) => {
+            return refused_diagnostic(
+                config_file_sha256,
+                checks,
+                ConfigurationDiagnosticSubject::ServiceConfig,
+                fault,
+            );
+        }
+    };
+    match SecretToken::from_file(&config.auth_token_path) {
+        Ok(_token) => {
+            checks.push(passed_check(
+                1,
+                ConfigurationDiagnosticSubject::AuthenticationToken,
+            ));
+        }
+        Err(fault) => {
+            return refused_diagnostic(
+                config_file_sha256,
+                checks,
+                ConfigurationDiagnosticSubject::AuthenticationToken,
+                fault,
+            );
+        }
+    }
+    let loaded = match load_generation(&config) {
+        Ok(loaded) => {
+            checks.push(passed_check(
+                2,
+                ConfigurationDiagnosticSubject::ActivationEnvironment,
+            ));
+            loaded
+        }
+        Err(fault) => {
+            return refused_diagnostic(
+                config_file_sha256,
+                checks,
+                ConfigurationDiagnosticSubject::ActivationEnvironment,
+                fault,
+            );
+        }
+    };
+    let ready_summary = ReadyServiceConfigurationSummary {
+        service_config_schema: SERVICE_CONFIG_SCHEMA.to_owned(),
+        listen_family: if config.listen_address.is_ipv4() {
+            "ipv4_loopback".to_owned()
+        } else {
+            "ipv6_loopback".to_owned()
+        },
+        listen_port: config.listen_address.port(),
+        max_frame_bytes: config.max_frame_bytes,
+        max_connections: config.max_connections,
+        read_timeout_milliseconds: config.read_timeout.as_millis(),
+        write_timeout_milliseconds: config.write_timeout.as_millis(),
+        active_binding: loaded.binding(),
+        runtime_metrics: loaded.runtime.metrics(),
+        ordered_package_count: loaded.runtime.generation().ordered_package_ids.len(),
+    };
+    ServiceConfigurationDiagnostic {
+        profile: SERVICE_CONFIGURATION_DIAGNOSTIC_PROFILE.to_owned(),
+        status: ConfigurationDiagnosticStatus::Ready,
+        config_file_sha256,
+        checks,
+        ready_summary: Some(ready_summary),
+        fault: None,
+        privacy: diagnostic_privacy_boundary(),
+        non_authority_statement: diagnostic_non_authority_statement(),
+    }
+}
+
+fn passed_check(
+    ordinal: u8,
+    subject: ConfigurationDiagnosticSubject,
+) -> ConfigurationDiagnosticCheck {
+    ConfigurationDiagnosticCheck {
+        ordinal,
+        subject,
+        status: ConfigurationDiagnosticCheckStatus::Passed,
+    }
+}
+
+fn refused_diagnostic(
+    config_file_sha256: Option<ContentDigest>,
+    mut checks: Vec<ConfigurationDiagnosticCheck>,
+    subject: ConfigurationDiagnosticSubject,
+    fault: ServiceFault,
+) -> ServiceConfigurationDiagnostic {
+    checks.push(ConfigurationDiagnosticCheck {
+        ordinal: u8::try_from(checks.len()).unwrap_or(u8::MAX),
+        subject,
+        status: ConfigurationDiagnosticCheckStatus::Refused,
+    });
+    let guidance = public_diagnostic_guidance(&fault.code, subject).to_owned();
+    ServiceConfigurationDiagnostic {
+        profile: SERVICE_CONFIGURATION_DIAGNOSTIC_PROFILE.to_owned(),
+        status: ConfigurationDiagnosticStatus::Refused,
+        config_file_sha256,
+        checks,
+        ready_summary: None,
+        fault: Some(PublicConfigurationDiagnosticFault {
+            code: fault.code,
+            stage: fault.stage,
+            subject,
+            guidance,
+        }),
+        privacy: diagnostic_privacy_boundary(),
+        non_authority_statement: diagnostic_non_authority_statement(),
+    }
+}
+
+fn public_diagnostic_guidance(code: &str, subject: ConfigurationDiagnosticSubject) -> &'static str {
+    match (code, subject) {
+        (
+            "artifact_read_failed"
+            | "artifact_metadata_failed"
+            | "artifact_limit_exceeded"
+            | "empty_artifact",
+            ConfigurationDiagnosticSubject::ServiceConfig,
+        ) => "provision one readable nonempty service configuration within the 64 KiB limit",
+        (
+            "artifact_read_failed"
+            | "artifact_metadata_failed"
+            | "artifact_limit_exceeded"
+            | "empty_artifact",
+            ConfigurationDiagnosticSubject::AuthenticationToken,
+        ) => {
+            "provision a readable bounded authentication token with exactly 64 hexadecimal characters"
+        }
+        (
+            "artifact_read_failed"
+            | "artifact_metadata_failed"
+            | "artifact_limit_exceeded"
+            | "empty_artifact",
+            ConfigurationDiagnosticSubject::ActivationEnvironment,
+        ) => "provision readable bounded activation and environment artifacts",
+        ("relative_config_path", _) => "select one absolute service configuration path",
+        ("invalid_service_config" | "unsupported_service_config", _) => {
+            "repair the strict cantor-service-config/0.1 document"
+        }
+        ("invalid_listen_address" | "non_loopback_address", _) => {
+            "select one valid loopback listener address"
+        }
+        ("invalid_resource_limit" | "invalid_timeout", _) => {
+            "choose resource values within the published resident-service bounds"
+        }
+        (
+            "relative_authority_path"
+            | "authority_path_unavailable"
+            | "authority_metadata_failed"
+            | "authority_not_regular_file"
+            | "authority_not_directory"
+            | "authority_path_collision",
+            _,
+        ) => "provision distinct absolute regular-file and directory authority paths",
+        ("invalid_auth_token", _) => {
+            "provision a bounded authentication token with exactly 64 hexadecimal characters"
+        }
+        (
+            "invalid_activation_descriptor"
+            | "unsupported_activation_schema"
+            | "invalid_activation_sequence"
+            | "invalid_sha256",
+            _,
+        ) => "republish one strict positive-sequence activation descriptor",
+        ("environment_path_escape", _) => {
+            "place the activated environment within the configured allowed root"
+        }
+        ("environment_file_digest_mismatch", _) => {
+            "republish the activation digest from the exact environment bytes"
+        }
+        (
+            "invalid_runtime_environment"
+            | "prepared_runtime_initialization_failed"
+            | "activation_digest_failed",
+            _,
+        ) => "repair the signed runtime environment before service startup",
+        _ => "review the named validation stage without exposing private artifact details",
+    }
+}
+
+fn diagnostic_privacy_boundary() -> ConfigurationDiagnosticPrivacyBoundary {
+    ConfigurationDiagnosticPrivacyBoundary {
+        authority_paths_recorded: false,
+        token_content_recorded: false,
+        token_hash_recorded: false,
+        config_content_recorded: false,
+        activation_content_recorded: false,
+        environment_content_recorded: false,
+        raw_fault_message_recorded: false,
+        listener_bound: false,
+        service_started: false,
+        provider_contacted: false,
+        remote_accessed: false,
+    }
+}
+
+fn diagnostic_non_authority_statement() -> String {
+    "This deterministic preflight validates existing local startup artifacts without binding a listener. It records no authority path, token, raw fault, config, activation, or environment content and grants no mutation, migration, provider, effect, persistence, operator-product, or production authority.".to_owned()
 }
 
 fn validate_limit(value: usize, maximum: usize, name: &str) -> Result<(), ServiceFault> {
