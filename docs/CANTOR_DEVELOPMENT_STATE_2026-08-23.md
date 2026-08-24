@@ -120,6 +120,15 @@ record and one current carrier tip remains explicitly open. P2 does not observe
 physical placement. Hook placement, operator authorization, physical carrier
 proof, and the publication broker are still separate work.
 
+P3 now implements the read-only physical carrier/tree/blob observer needed
+between P2 and SWA-05. Controlled Git fixtures pass, while the live Cantor tip
+has no machine P2 record and therefore produces zero synthetic physical
+successes. P3 still grants no hook, staging, commit, push, recovery, operator,
+provider, or self-signature authority. Exact debug and overflow-checked release
+each pass 190 result groups and 1,129 tests with zero failures; workspace and
+experiment Clippy, format, lifecycle, evidence, local acceptance, attribution,
+and the 49-group ecosystem replay also pass before publication.
+
 Engineering-time forecast from the current base, excluding unavailable-provider
 wait time:
 

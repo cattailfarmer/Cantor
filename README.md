@@ -610,6 +610,27 @@ filesystem-write, hook, stage, commit, push, provider, self-signature, or
 operator-authority surface. Physical commit/tree placement observation and the
 SWA-05 publication broker remain separately governed work.
 
+## SJS commit-placement acquisition P3
+
+Cantor now has the signed read-only bridge from P2 supplied placement to local
+Git object evidence. `cantor-sjs-commit-placement-acquire` first replays the
+complete P2 journal without physical contact, then uses one hash-pinned Git
+executable to read each carrier commit, require its one exact parent, resolve
+one `100644` tree entry, and compare the raw blob byte-for-byte with canonical
+P2 record JSON plus one LF. Repository and executable identities are checked
+before and after, and the receipt remains `observation_only` with
+`physical_contact: true`.
+
+Controlled disposable repositories prove one-link, two-link, replay, raw-blob
+tamper, executable-mode, CLI output-path, noncanonical-path, and Git-version
+replay behavior. Exact debug and overflow-checked release each pass 190 result
+groups and 1,129 tests with zero failures; full quality, evidence, lifecycle,
+acceptance, and 49-group ecosystem gates also pass. The current Cantor tip
+does not contain a machine-form P2 record, so live P3 success is recorded as
+unavailable with zero acquisition runs rather than inferred from the human SOP
+bookend. P3 cannot install hooks, mutate the index, stage, commit, push,
+activate a provider, authorize SWA-05, or sign its own work.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under

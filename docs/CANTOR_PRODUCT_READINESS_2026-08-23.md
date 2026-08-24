@@ -65,6 +65,13 @@ policy is resolved in supplied-data form by P2's one-head-lag
 immediate-successor journal. Physical placement observation, hook integration,
 operator authority, and SWA-05 remain later contracts.
 
+The signed P3 commit-placement acquisition seam is now implemented and exact
+full-gate verified. It can physically check machine P2 records in exact carrier
+commit trees without mutation, but the current Cantor carrier contains a human
+SOP bookend rather than a machine P2 record, so live success remains an honest
+zero-run unavailable state. Publication and post-push equality are in progress;
+SWA-05 remains separate.
+
 1. Obtain an independently governed curator policy and signed selection through
    the implemented Slice 5F verifier. The repository deliberately supplies
    only synthetic protocol evidence and does not invent a real target.

@@ -1,0 +1,46 @@
+Subject: Cantor SJS Commit Placement Acquisition P3 Data Design
+
+@ [design_uuid] 7aef336e-f749-415d-8c7c-6fd751715349
+@ [canonical_uuid] 7602b617-05c5-459a-8a78-23bcd638e164
+
+& [Forms]
+  + PlacementAcquisitionLimits bounds command stdout stderr count record blob request and observation cardinality
+  + PlacementAcquisitionRequest binds profile repository root branch expected HEAD object format exact Git path digest one complete P2 journal and limits
+  + PhysicalPlacementEvidence binds record and supplied placement digests carrier commit single parent tree object journal path mode blob object raw blob SHA256 byte count and canonical record SHA256
+  + PlacementAcquisitionReceipt binds request journal and P2 receipt digests executable identity pre/post repository snapshots ordered physical observations command count authority contact nonauthority and self digest
+
+& [Cardinality]
+  + exactly one journal per request with one through 32 P2 links inherited
+  + exactly one physical observation per P2 link in link order
+  + exactly one parent one tree entry and one regular nonexecutable blob per carrier observation
+
+& [Identity]
+  + repository root is absolute canonical and byte-equal before and after
+  + branch is one normalized refs/heads value and expected HEAD is lowercase forty-hex SHA-1
+  + Git executable bytes are SHA256 checked before first and after last command
+  + commit tree and blob object identifiers are lowercase forty-hex and raw record blob is independently SHA256 checked
+
+& [Relations]
+  + request journal validates under unmodified P2 before physical contact
+  + expected HEAD equals journal open tip and final carrier commit
+  + each commit object has exactly one parent equal to placement carrier parent and record payload result
+  + tree entry path equals record and placement journal path and mode equals 100644
+  + blob bytes equal compact serde JSON of the complete record plus LF
+  + ordered observation set covers every journal link exactly once
+
+& [ValidationOrder]
+  + JSON size and strict parse then request scalar limits and P2 verification
+  + canonical executable and repository plus executable hash
+  + pre identity snapshot
+  + ordered carrier commit tree and blob observation
+  + post identity and executable hash equality
+  + receipt construction digest and independent replay validation
+
+& [Failure]
+  + closed first-fault classes Profile Request P2 Executable Repository Identity Process Commit Tree Blob Replay Digest Authority Resource Serialization IO and CLI
+  + any ambiguity refusal or drift yields no receipt and grants no downstream authority
+
+& [Versioning]
+  + cantor-sjs-commit-placement-acquisition/0.1
+  + cantor-sjs-commit-placement-evidence/0.1
+  + cantor-sjs-commit-placement-acquisition-receipt/0.1
