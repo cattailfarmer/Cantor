@@ -52,8 +52,9 @@ review, and service-level evidence remain absent or separately locked.
 
 The provider-free SJS repository graph P0 and staged-diff acquisition P1 are
 published and exact-workspace verified. The commit-envelope journal P2 is now
-implemented and exact-workspace verified while its commit and post-push
-bookend remain in progress. P0 validates a supplied typed change
+implemented, exact-workspace verified, and published at `74e79383`. Its
+immediate-successor bookend carries that payload record while remaining the
+one explicit open carrier tip. P0 validates a supplied typed change
 set against an independent supplied diff inventory and preserves per-element
 reasons, authorities, evidence, nonclaims, and frontiers beside Git history.
 P1 derives that inventory from one exact hash-pinned local staged index through
