@@ -18,7 +18,7 @@ fn digest(symbol: char) -> ContentDigest {
     }
 }
 
-fn lifecycle_request() -> SelfWorkLifecycleRequest {
+pub(crate) fn lifecycle_request() -> SelfWorkLifecycleRequest {
     let work_plan_proposal =
         compile_objective_work_plan(&fixture_request()).expect("work plan proposal");
     SelfWorkLifecycleRequest {
@@ -49,7 +49,7 @@ fn receipt(label: &str, symbol: char) -> ExternalReceiptReference {
     }
 }
 
-fn transition(
+pub(crate) fn transition(
     checkpoint: &SelfWorkLifecycleCheckpoint,
     step_ref: &SemanticId,
     kind: SelfWorkTransitionKind,

@@ -649,6 +649,26 @@ of the exact writer-host executable plus precreated candidate, temporary,
 evidence-writer roots and a named recovery owner. P3 can later supply an
 upstream commit-placement receipt, but it cannot supply those missing grants.
 
+## Succeeding-SOP proposal P0
+
+Cantor now has a pure provider-free compiler for the exact ready
+`propose_succeeding_sop` lifecycle attempt. The
+`cantor-succeeding-sop-proposal` CLI reads one bounded strict request from
+stdin and emits a self-contained verification receipt to stdout. The proposal
+binds the predecessor SOP, objective, plan, lifecycle checkpoint, completed
+direct dependencies, exact causal work evidence, author evidence, raw UTF-8
+source bytes, unresolved frontier, review obligations, and three
+domain-separated digests.
+
+The only successful disposition is `proposed_awaiting_independent_review` with
+`authorship_proposal_only` authority. It does not call a model, read or write a
+workspace, persist source, perform semantic review, issue a satisfaction
+signature, activate an SOP, commit, push, or contact a provider. Focused debug
+and overflow-checked release each pass 26 tests; exact workspace debug and
+release each pass 192 result groups and 1,155 tests with zero failures and
+three governed ignores. Windows Application Control refusals remain recorded;
+the admitted local Ubuntu-24.04 lane passed without weakening host policy.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under

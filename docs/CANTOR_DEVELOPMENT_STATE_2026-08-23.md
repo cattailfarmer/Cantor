@@ -103,7 +103,8 @@ supplied-admission bounded update proposal; its result remains
 `prepared_awaiting_physical_revalidation`, and supplied receipt integrity is
 explicitly neither authentication nor freshness. The remaining dependency
 sequence begins with separately governed physical SWA-04B,
-SWA-05 commit/push broker, SWA-06 self-SOP authorship and review,
+SWA-05 commit/push broker, the remaining independent semantic review and
+activation half of SWA-06,
 SWA-07 provider-free integration, and only then SWA-08 pinned-provider live
 evidence. The SWA-03 audit still records five proved-reusable coordinates, four
 candidate-only coordinates, and three capability-broker coordinates absent;
@@ -111,6 +112,17 @@ the new lifecycle does not convert any of those missing brokers into authority.
 Existing procedure authorship, iterative checkpoints, custody,
 workspace admission, operator bootstrap, and publication verification are
 reusable substrate; they are not yet composed into this autonomous loop.
+
+SWA-06A is now executable and exact-gate verified as a pure succeeding-SOP
+proposal compiler. It selects only the exact ready lifecycle attempt, requires
+complete direct dependencies and the exact causal evidence set, preserves raw
+source bytes and author lineage, and emits a self-contained machine receipt.
+Focused debug and overflow-checked release each pass 26 tests; full workspace
+debug and release each pass 192 result groups, 1,155 passed, zero failed, and
+three governed ignores. Its status remains
+`proposed_awaiting_independent_review`: semantic review, satisfaction signature,
+activation, persistence, SWA-05 publication authority, SWA-07 composition, and
+live-provider authorship remain separate contracts.
 
 The SJS acquisition P1 closes a supporting observation seam for future SWA-05:
 it can derive the independently checked P0 inventory from a pinned staged index.

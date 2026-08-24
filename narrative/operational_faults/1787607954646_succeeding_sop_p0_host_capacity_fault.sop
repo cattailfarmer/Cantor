@@ -1,0 +1,28 @@
+Subject: Cantor Succeeding SOP Proposal P0 Host Capacity Fault
+
+@ [fault_record_uuid] defbb60e-5fe7-40a9-a907-22a64e9609c4
+@ [occurred_at_utc] 2026-08-24T21:45:54.646Z
+@ [scope] SWA_06A_exact_workspace_gate_capacity
+
+& [Observation]
+  + the Windows system volume reached zero free bytes while the exact all-feature workspace debug gate compiled into C:\Project\Cantor\target
+  + rustc and the Windows linker reported no-space and file-system limit errors before semantic test execution could complete
+  + an earlier isolated WSL workspace build also stopped with an input-output error while the host system volume was full
+  + no Cantor semantic assertion failed in either interrupted gate
+  + C:\Project\Cantor\target contained 16.3 GiB of reproducible Rust compiler output after the interrupted Windows build
+
+& [Classification]
+  + host storage exhaustion interrupted compilation and is an operational capacity fault rather than product evidence
+  + foreign source narrative evidence and experiment work were not responsible remediation targets and remained untouched
+
+& [Resolution]
+  + verified that C:\Project\Cantor\target was the ordinary non-reparse-point Cargo target directory inside the Cantor workspace
+  + used cargo clean with that exact target directory to remove 7697 reproducible build-output files totaling 16.3 GiB
+  + recovered 14.93 GiB on C: while preserving every source evidence narrative and foreign untracked artifact
+  + route subsequent isolated gate output to D: which had 3600.03 GiB free at recovery time
+  + do not shut down WSL terminate unknown VmmemWSL work or alter host security policy
+
+& [VerificationBoundary]
+  + repeat the exact serialized workspace gates in an isolated D:-backed target directory
+  + keep the earlier focused Windows debug and WSL overflow-checked release results distinct from the interrupted workspace attempts
+  + do not claim workspace gate success from an interrupted compile

@@ -1,0 +1,22 @@
+Subject: Cantor Succeeding SOP Proposal P0 Windows Release Application Control Fault
+
+@ [fault_record_uuid] 7cc19dea-e01b-41c7-833c-6747d681df81
+@ [occurred_at_utc] 2026-08-24T21:29:01.0344537Z
+@ [scope] SWA_06A_focused_overflow_checked_release_CLI_spawn
+
+& [Observation]
+  + Windows focused debug passed 25 tests including deterministic CLI compile and verify replay
+  + Windows overflow-checked optimized release passed 24 semantic and static tests before the CLI integration test attempted to spawn the release binary
+  + Application Control refused that release executable with operating-system error 4551 before CLI assertions executed
+  + after one additional adversarial case was added an alternate D:\CantorBuilds focused debug target compiled successfully but Application Control refused its test binary with the same operating-system error before any of the 26 tests executed
+  + the ordinary C:\Project\Cantor target retry was then refused while launching the freshly compiled curve25519-dalek build script before the 26-test debug target could be built
+  + no Cantor semantic assertion failed and no evidence artifact was produced by the interrupted release runner
+
+& [Classification]
+  + host executable-identity policy blocked a test child process rather than demonstrating an SWA-06A semantic failure
+  + this is the same enforced host boundary previously observed for P3 optimized release execution
+
+& [ResolutionBoundary]
+  + do not disable weaken reconfigure or bypass Windows Application Control
+  + execute both exact focused debug and overflow-checked release tests under the already governed local Ubuntu-24.04 WSL toolchain
+  + retain the earlier 25-test Windows debug success current 26-test WSL debug and release success and current Windows host-policy refusals as separate evidence claims

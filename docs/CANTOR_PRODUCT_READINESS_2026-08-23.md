@@ -99,9 +99,12 @@ intentionally open carrier tip. SWA-05 remains separate.
    agent session, bounded work and checkpoints, workspace update verification,
    separately authorized commit/push, and attributable succeeding-SOP proposal.
    The proposal-only boot, bounded planning, pure lifecycle/checkpoint, and pure
-   update-intent stages are complete and exact debug plus release verified, but
-   physical revalidation and workspace update remain later
-   physical-boundary contracts;
+   update-intent stages are complete and exact debug plus release verified.
+   The pure SWA-06A succeeding-SOP compiler and machine receipt are also
+   implemented and exact-gate verified, but the output remains only
+   `proposed_awaiting_independent_review`. Physical revalidation, workspace
+   update, separately authorized publication, semantic review, satisfaction
+   signature, and activation remain later physical-boundary contracts;
    self-authorship must not become self-signature or silent authority widening.
 6. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.

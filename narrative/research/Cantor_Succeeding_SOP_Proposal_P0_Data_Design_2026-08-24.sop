@@ -1,0 +1,30 @@
+Subject: Cantor Succeeding SOP Proposal P0 Data Design
+
+@ [data_design_uuid] 83d62d4f-70d3-478b-a113-f53918550f55
+@ [source_snapshot_uuid] d47aca42-00c5-4352-b0af-ce0ea186d795
+
+& [Request]
+  + profile proposal_id complete lifecycle_request complete lifecycle_checkpoint selected_step_ref selected_attempt_ref author_ref authorship_evidence_refs source_subject source_text work_evidence_refs unresolved_frontier review_obligations and non_authority
+  + request embeds predecessor forms so validation never trusts caller-supplied duplicate lineage projections
+  + bounds are one request one selected step one through 32 author evidence one through 128 work evidence one through 32 frontier entries one through 16 review obligations 256-byte subject 131072-byte source and 8388608-byte machine form
+
+& [DerivedCausalSet]
+  + find exactly one plan step whose identity equals selected_step_ref
+  + require class propose_succeeding_sop and exact ready_awaiting_admission lifecycle attempt
+  + derive direct dependency_refs from that plan step and require each dependency lifecycle state complete
+  + derive required work evidence as lifecycle-request evidence union selected-step evidence union dependency-step evidence union all transition evidence for each dependency
+  + require the supplied work evidence set to equal the derived set so neither omission nor unrelated evidence inflation is accepted
+
+& [Proposal]
+  + project predecessor canonical SOP revision and digest objective plan lifecycle checkpoint selected step attempt author evidence source bytes source digest derived dependencies exact work evidence frontier obligations disposition authority and nonauthority
+  + disposition proposed_awaiting_independent_review and authority authorship_proposal_only are closed one-variant enums
+  + source digest is SHA-256 over exact UTF-8 bytes while request and proposal digests are separately domain-separated canonical JSON digests
+
+& [MachineVerificationReceipt]
+  + bind proposal ref request digest proposal digest verifier profile verified checks and receipt digest
+  + checks are exact profiles upstream replay step class ready attempt dependency completion work evidence source canonicality source digest lineage projection authority denial and proposal digest
+  + verified means machine-form correspondence only and never semantic adequacy signature or activation
+
+& [Faults]
+  + invalid_profile invalid_lifecycle invalid_step invalid_state invalid_dependency invalid_evidence invalid_source invalid_author invalid_frontier invalid_obligation invalid_authority invalid_correspondence invalid_digest invalid_bound and invalid_machine_form
+  + errors are bounded deterministic and contain no source body or private reasoning
