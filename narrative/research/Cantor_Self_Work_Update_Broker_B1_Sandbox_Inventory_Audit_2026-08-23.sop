@@ -1,0 +1,46 @@
+Subject: Cantor Self Work Update Broker B1 Sandbox Inventory Audit
+
+@ [audit_uuid] f736e429-5707-4e0f-8ebd-d1307bb3d4a1
+@ [source_snapshot_uuid] 1c6f7ee7-ea98-4a68-bacb-3b70f7110b18
+@ [B1_source_snapshot_uuid] 21ad03d7-3401-45fc-b767-03f202fd3d68
+
+& [ExactInputs]
+  + sandbox source is 7613 bytes SHA256 656716FCFE99FC0D1FA5561983F047A9F389BA03C6CFFECC0F9349A928B3666B
+  + source manifest is 2154 bytes SHA256 9162577EEDBF3AC142167A53C2256710F377F79BB605455EC5ED59994852B334
+  + predecessor environment inventory is published at b826e1d56695c2c387218fda33d98ec075fbb2b9
+
+& [ProtocolFinding]
+  + command/exec is the official one-command in-sandbox primitive and accepts an explicit sandbox policy
+  + thread/shellCommand and experimental process/spawn explicitly operate outside the sandbox
+  + externalSandbox explicitly suppresses internal enforcement while dangerFullAccess removes the intended boundary
+  + Windows setup and policy-discovery methods report configuration state but do not independently prove an attempted effect was blocked
+
+& [EnforcementFinding]
+  + official documentation distinguishes technical sandbox enforcement from approval workflow and states spawned descendants inherit the command boundary
+  + native Windows elevated and unelevated modes have different strength so current setup identity must be bound rather than assumed
+  + a protocol refusal is necessary but cannot prove unchanged host state
+  + independent canary pre-state and post-state equality is necessary but cannot prove the request actually crossed the intended protocol path
+  + B1 therefore requires both exact protocol refusal and independent unchanged post-state after descendant termination
+
+& [CarrierFinding]
+  + a safe B1 carrier must be unable to represent shellCommand process/spawn externalSandbox dangerFullAccess experimentalApi turn model MCP browser connector or remote network work
+  + initialize configuration reconciliation and one exact command/exec probe form the maximum candidate method set
+  + the exact method and policy grammar remains generated-schema dependent and cannot be signed before G01 and the remaining portion of G02 close
+
+& [SJSDelta]
+  + G04 admissible method forbidden bypass surfaces and dual protocol-plus-host evidence shape are resolved
+  + G04 selected-schema encoding Windows setup identity canary grammar independent observer network-local refusal and live receipts remain open
+  + G05 is narrowed to a method-closed carrier with forbidden variants unrepresentable but its Rust type and schema binding remain open
+  + G06 exact disposable fixture roots lifecycle cleanup recovery and owner remain open
+  + G01 G02 G03 and G07 retain their previously audited states
+
+& [Decision]
+  + [G04] narrowed_not_closed
+  + [G05] narrowed_not_closed
+  + [canonical_lock] not_ready
+  + [implementation_authority] absent
+  + [sandbox_setup] absent
+  + [process_authority] absent
+  + [observation_authority] absent
+  + [provider_contact] absent
+  + [next] governed executable selection exact generated schema then separately commissioned provider-free canary carrier and observer

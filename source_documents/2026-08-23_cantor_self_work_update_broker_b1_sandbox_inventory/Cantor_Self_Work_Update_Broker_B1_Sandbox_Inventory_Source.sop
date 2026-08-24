@@ -1,0 +1,78 @@
+Subject: Cantor Self Work Update Broker B1 Sandbox Inventory Source
+
+@ [source_selection_uuid] 3daf2b62-91fa-470a-9e61-f2adaf471fd6
+@ [source_snapshot_uuid] 1c6f7ee7-ea98-4a68-bacb-3b70f7110b18
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [captured_at_local] 2026-08-23
+@ [B1_source_snapshot_uuid] 21ad03d7-3401-45fc-b767-03f202fd3d68
+@ [interface_inventory_snapshot_uuid] 152efc76-a2b5-4c90-9d84-bfffad408024
+@ [environment_inventory_snapshot_uuid] 38d6e10d-efba-498f-aae2-18eb9c523d60
+@ [published_predecessor] b826e1d56695c2c387218fda33d98ec075fbb2b9
+
+& [Selection]
+  + preserve official App Server sandbox protocol facts and derive the smallest independent enforcement-evidence candidate for B1 gap G04
+  + this inventory does not select or launch an executable configure a sandbox create a canary run a command contact a provider or issue process observation authority
+
+& [OfficialAppServerSurface]
+  + [page] https://learn.chatgpt.com/docs/app-server.md is the official Codex App Server page captured on 2026-08-23
+  + turn/start accepts approval and sandbox overrides while turn/steer does not accept sandbox overrides
+  + supported sandboxPolicy types include dangerFullAccess readOnly workspaceWrite and externalSandbox
+  + readOnly can carry explicit read-access controls and workspaceWrite can carry writable roots read-only access controls and network access
+  + command/exec runs one argv command under the server sandbox without starting a thread or turn and accepts a sandboxPolicy deadline and bounded streaming controls
+  + thread/shellCommand explicitly runs outside the sandbox with full access and does not inherit the thread policy
+  + experimental process/spawn explicitly runs outside the sandbox and requires experimentalApi capability
+  + externalSandbox tells Codex to skip its own sandbox enforcement because another boundary is presumed
+  + windowsSandbox/setupStart asynchronously requests elevated or unelevated setup and windowsSandbox/setupCompleted reports setup outcome
+  + permissionProfile/list and configRequirements/read expose available policy and managed-requirement state but are configuration reports rather than independent effect observations
+
+& [OfficialEnforcementContext]
+  + [page] https://learn.chatgpt.com/docs/sandboxing.md is the official cross-client sandbox page captured on 2026-08-23
+  + sandboxing and approval are separate controls: the sandbox defines technical boundaries while approval policy defines when boundary crossing must stop for consent
+  + sandbox policy applies to spawned commands and their children rather than only built-in file operations
+  + official documentation describes platform-native enforcement and identifies native Windows sandboxing for PowerShell and Linux sandboxing for WSL2
+  + [page] https://learn.chatgpt.com/docs/windows/windows-sandbox.md is the official native Windows sandbox page captured on 2026-08-23
+  + native Windows offers stronger elevated setup and fallback unelevated setup with different enforcement strength
+  + setup completion policy echo successful request return or documentation claim does not independently prove the selected current binary enforced one attempted boundary
+
+& [B1ProtocolDenials]
+  + forbid dangerFullAccess externalSandbox thread/shellCommand process/spawn experimentalApi and any method whose declared semantics bypass the sandbox
+  + forbid turn/start model work MCP startup browser connector web search and other surfaces whose service traffic or side effects are outside local command sandbox proof
+  + permit only initialization required schema reconciliation configuration reads that cannot mutate and one separately commissioned command/exec enforcement probe
+  + use approval policy never only together with a deny-by-construction method allowlist so an unexpected request refuses rather than escalating
+  + bind the exact sandboxPolicy request response method sequence capability set and generated-schema digest to the selected executable commission
+
+& [IndependentEnforcementEvidenceCandidate]
+  + create all probe fixtures only inside separately admitted disposable roots with an exact cleanup and recovery owner under G06
+  + before launch an independent host observer records content digest metadata and existence for readable canaries denied-read canaries workspace-write canaries outside-root canaries and state roots
+  + command/exec receives an exact readOnly policy with the smallest admitted readable-root set and network disabled by the exact selected schema grammar
+  + the bounded probe attempts one allowed read and explicit denied reads and writes using fixed argv without shell expansion user input provider or repository mutation
+  + the App Server response must report refusal for denied operations and bounded success only for the allowed read
+  + after descendant termination the independent host observer remeasures every canary and refuses any bytes metadata existence root or descendant drift
+  + enforcement proof requires both protocol refusal and unchanged independent post-state; either one alone is insufficient
+  + network refusal needs an independently observed local-only fixture or platform trace that creates no external contact and must be separately specified rather than inferred from a false remote attempt
+  + windowsSandbox setup identity actual elevated-versus-unelevated mode and enforcement capability must be bound independently of a success notification
+
+& [Delineation]
+  + sandboxPolicy is a requested protocol object and not itself an enforcement receipt
+  + command/exec is the only documented bounded in-sandbox process primitive suitable for a B1 enforcement probe
+  + thread/shellCommand process/spawn and externalSandbox are explicit authority escapes and cannot be reachable from the B1 carrier
+  + app-server authentication model and other client service traffic are outside spawned-command sandbox guarantees so B1 must remain provider-free and method-closed
+  + readOnly does not prove zero state writes by the outer app-server process which is why disposable CODEX_HOME and CODEX_SQLITE_HOME roots remain separately required
+
+& [GapDelta]
+  + G04 changes from unspecified sandbox response and enforcement proof to exact admissible and forbidden App Server method families plus a dual protocol-and-host canary proof candidate
+  + G04 remains unresolved for the selected binary schema exact policy encoding Windows setup identity canary grammar independent observer and live refusal receipts
+  + G05 is narrowed to a method-closed carrier that cannot represent thread/shellCommand process/spawn externalSandbox dangerFullAccess experimentalApi or turn/model work but its Rust type is not yet specified
+  + G06 remains unresolved for exact disposable roots pre-state cleanup recovery and owner
+  + G01 G02 G03 and G07 retain their prior states
+
+& [StopRules]
+  + do not launch codex app-server command/exec windowsSandbox setup shellCommand process/spawn provider model MCP browser connector or network transport
+  + do not create modify or delete a sandbox permission profile canary state root firewall rule account ACL or repository path
+  + do not treat a requested policy echoed response setup success or official claim as independent host-enforcement proof
+  + do not use a remote network attempt to prove denial
+
+& [Next]
+  + hash and manifest this sandbox inventory
+  + preserve G04 as narrowed_not_closed and G05 as narrowed_not_closed
+  + after governed executable selection and exact generated schema commission the provider-free canary fixture observer and method-closed carrier separately
