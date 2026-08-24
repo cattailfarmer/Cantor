@@ -558,6 +558,21 @@ Current executable proofs:
 7. [`experiments/llama_tool_reflection/README.md`](experiments/llama_tool_reflection/README.md)
    — reproducible harness and run instructions
 
+## SJS repository graph P0
+
+Cantor now includes a safe provider-free verifier for supplied SJS change sets
+and independently supplied diff inventories. It validates stable element
+identities, typed nodes and edges, per-turn justification history, exact
+bidirectional path coverage, tombstones, renames, generated refreshes, foreign
+exclusions, and domain-separated digests, then emits only a
+`verification_only` receipt with `physical_contact: false`.
+
+The read-only CLI is `cantor-sjs-graph-verify`; deterministic fixtures and the
+focused PowerShell runner exercise three success paths and three adversarial
+refusals. This P0 does not inspect Git, stage files, commit, push, activate a
+provider, or grant self-signature. Physical staged-diff acquisition and
+commit-hook integration remain separately governed work.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under

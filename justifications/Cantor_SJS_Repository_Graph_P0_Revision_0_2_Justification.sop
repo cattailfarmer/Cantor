@@ -1,0 +1,20 @@
+Subject: Cantor SJS Repository Graph P0 Revision 0.2 Justification
+
+@ [justification_uuid] 8cf0778d-f70d-4a47-bf54-a0a8ba7c8306
+@ [canonical_uuid] ca7e0a5f-086f-4987-b968-c512defbfef9
+
+& [Claim]
+  + count-only replacement is required because one locked exploded sentence contradicts both governing source and implementation
+
+& [Support]
+  + seventeen governing edge entries and seventeen Rust variants are mechanically counted
+  + original CSG-008 and C15 already require the exact governing vocabulary
+  + retaining correct strict code avoids weakening or behavior churn
+
+& [AlternativesRejected]
+  + silently editing locked history erases the reason for correction
+  + deleting one Rust variant would violate governing source
+  + pretending count does not matter would leave signature contradiction unresolved
+
+& [Decision]
+  + replace only edge cardinality and re-sign exact existing implementation candidate

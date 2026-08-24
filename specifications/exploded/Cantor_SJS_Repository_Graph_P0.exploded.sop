@@ -1,0 +1,51 @@
+Subject: Cantor SJS Repository Graph P0 Exploded Specification
+
+@ [exploded_uuid] 8ebf362e-b928-48ff-bd3a-78ff792f901f
+@ [canonical_uuid] 3c7435a1-a5ae-44f1-a32b-a92741a7ec91
+
+& [InputForms]
+  + DiffInventory repository identity branch predecessor entries inventory_sha256
+  + DiffEntry status old_path new_path before_sha256 after_sha256
+  + ChangeSetManifest repository identity branch predecessor inventory_sha256 turn conversation nodes edges events foreign_exclusions change_set_sha256
+
+& [GraphForms]
+  + GraphNode node_id kind repository_path content_sha256
+  + GraphEdge edge_id kind source_node_id target_node_id
+  + exact nineteen node kinds and sixteen edge kinds from SJSRepositoryGraph
+
+& [EventForm]
+  + profile event_uuid element_id operation turn_uuid conversation_uuid change_set_uuid covered_changes
+  + source requirement constraint justification plan evidence proof narrative and frontier node refs
+  + reason_summary before_sha256 after_sha256 nonclaims unresolved_frontier generated event_sha256
+
+& [ValidationPasses]
+  + P01 profiles and encoded resource bounds
+  + P02 repository UUID commit branch semantic and SHA identities
+  + P03 normalized paths and unique diff coordinates
+  + P04 diff status identity-shape compatibility and inventory digest
+  + P05 graph node uniqueness content coupling and kind closure
+  + P06 graph edge uniqueness endpoint existence self-edge and duplicate-triple refusal
+  + P07 event uniqueness refs text transition coverage and event digest
+  + P08 operation-to-diff compatibility tombstone rename and generated rules
+  + P09 bidirectional coverage foreign disjointness and graph representation
+  + P10 change-set independent inventory join change-set digest receipt and replay
+
+& [MachineForms]
+  + serde deny_unknown_fields on every record and snake_case closed enums
+  + compact declaration-order JSON and bounded from/to functions
+  + result digest clears only result_sha256
+
+& [CLI]
+  + cantor-sjs-graph-verify --change-set PATH --diff-inventory PATH [--output PATH]
+  + exact argument duplication omission unknown option input bound JSON fault and output failure refusal
+  + stdout pretty JSON when output absent and optional bounded parent creation when output present
+
+& [AdversarialSet]
+  + unknown field invalid profile UUID semantic ID commit branch path SHA and overbound text
+  + duplicate diff node edge event element ref coverage or foreign path
+  + missing coverage extra event path generated mismatch deletion without tombstone rename without continuity
+  + dangling edge wrong typed ref missing event graph nodes foreign overlap inventory digest request digest and receipt replay tamper
+
+& [Authority]
+  + validation_only physical_contact false
+  + no Git process workspace mutation stage commit push provider network activation or self-signature

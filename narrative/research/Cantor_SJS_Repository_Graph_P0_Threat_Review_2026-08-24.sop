@@ -1,0 +1,31 @@
+Subject: Cantor SJS Repository Graph P0 Threat Review
+
+@ [threat_review_uuid] 3abedd34-04e5-4fe2-aa9a-6a0b0a041ef3
+
+& [Threats]
+  + T01 self-attested inventory accepted without an independent digest join
+  + T02 changed path omitted from all element events
+  + T03 event claims a path absent from the inventory
+  + T04 duplicate element events blur one-turn causality
+  + T05 line-number or mutable path substitutes for stable semantic identity
+  + T06 deletion erases history instead of carrying a tombstone
+  + T07 rename creates a new identity and loses continuity
+  + T08 generated manifest drift is grouped without enumerating every artifact
+  + T09 dangling or duplicate graph edges fabricate traversal
+  + T10 unknown fields silently widen schema or authority
+  + T11 digest fields authenticate themselves or use ambiguous domains
+  + T12 path traversal drive roots backslashes or NUL escape repository scope
+  + T13 foreign exclusions overlap owned inventory or graph content
+  + T14 oversized node edge event ref or text accounts exhaust resources
+  + T15 verification receipt is misread as Git mutation commit publication or trust
+  + T16 old mistakes are rewritten rather than corrected invalidated or superseded
+
+& [Controls]
+  + independent DiffInventory join exact bidirectional coverage and compatibility tables close T01 through T08
+  + strict node edge identity reference validation and deny_unknown_fields close T09 and T10
+  + domain-separated self-excluding uppercase SHA256 and strict paths close T11 and T12
+  + disjoint exclusions hard caps physical_contact false verification_only and append-only operations close T13 through T16
+
+& [Residual]
+  + a malicious producer can lie about the independently supplied inventory unless a later physical Git observer creates it
+  + P0 explicitly proves supplied-form consistency only and grants no claim about actual repository state

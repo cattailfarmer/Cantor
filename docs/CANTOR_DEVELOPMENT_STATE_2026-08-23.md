@@ -72,6 +72,14 @@ integration, live-provider, and operator-product contracts.
 
 ## SOP-bootable self-working target
 
+The whole-graph custody seam now has an executable P0: strict Rust forms and a
+read-only CLI verify supplied diff inventories, SJS nodes/edges, element-history
+events, exact coverage, exclusions, and deterministic receipts. Exact debug
+and overflow-checked release each pass 183 result groups and 1,078 tests with
+zero failures and three ignored maintenance cases. This advances durable
+justification and commit recall, but it does not yet acquire the Git index or
+authorize staging, commit, push, provider work, or self-signature.
+
 The current task additionally preserves a concrete product loop: admitted SOP
 boots a governed Cantor agent session; the session selects and plans bounded
 work; separately authorized tools perform and verify updates; and Cantor emits

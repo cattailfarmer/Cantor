@@ -1,0 +1,23 @@
+Subject: Cantor SJS Repository Graph Fixture Producer Refusals
+
+@ [fault_uuid] 21249e09-5be5-4a2e-8280-c5d7780cdc94
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [detected_utc] 2026-08-24T14:43:37.8382312Z
+
+& [Fault]
+  + the first generated rename fixture supplied a sixty-character before digest and the strict Rust verifier refused it
+  + PowerShell nullable string parameters then coerced absent old paths and digests to empty strings and the strict path validator refused them
+
+& [Containment]
+  + both faults occurred only in provider-free deterministic fixture generation before closure
+  + no production acceptance was weakened and no physical Git provider network activation or foreign state was touched
+
+& [Correction]
+  + produce every synthetic SHA256 as exactly sixty-four uppercase hexadecimal characters
+  + carry nullable fixture fields as object values so JSON null remains null rather than an empty string
+  + retain the same closed status operation and authority semantics
+
+& [Evidence]
+  + focused debug and overflow-checked release tests pass
+  + the release script passes three success paths and three adversarial refusals
+  + exact full-workspace debug and release pass 183 result groups 1078 tests zero failures and three ignored each

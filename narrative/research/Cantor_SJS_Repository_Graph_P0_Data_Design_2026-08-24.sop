@@ -1,0 +1,45 @@
+Subject: Cantor SJS Repository Graph P0 Data Design
+
+@ [data_design_uuid] 3a2de8cc-3a14-4ea2-8692-181ad4f86478
+@ [canonical_uuid] 3c7435a1-a5ae-44f1-a32b-a92741a7ec91
+
+& [Inputs]
+  + DiffInventory is independently supplied with repository branch predecessor and ordered changed-path entries
+  + ChangeSetManifest supplies graph nodes graph edges element history events exclusions and the exact DiffInventory digest it claims to cover
+
+& [StableIdentity]
+  + element_id is caller-stable lowercase semantic identity independent of line numbers and paths
+  + node_id event_uuid change_set_uuid turn_uuid conversation_uuid are strict lowercase UUIDs
+  + repository paths are normalized relative forward-slash paths without root prefix dot segments backslashes drive markers or NUL
+  + SHA256 identities are exact uppercase hexadecimal sixty-four-byte text
+
+& [DiffInventory]
+  + Added requires absent before identity and present after identity
+  + Modified and GeneratedRefresh require present before and after identities
+  + Deleted requires present before identity and absent after identity
+  + Renamed requires distinct old and new paths plus present before and after identities
+  + ordered entries are unique by status old path and new path and inventory digest excludes only its own digest field
+
+& [ElementHistoryEvent]
+  + one event per independently meaningful element per change set
+  + event operation must be compatible with every covered diff entry
+  + refs point to typed graph nodes for source requirement constraint justification plan evidence proof narrative frontier and implementation where applicable
+  + reason summary nonclaims and unresolved frontier are nonempty bounded accounts
+  + deletion preserves a tombstone and rename preserves stable element_id
+  + event digest excludes only its own digest field
+
+& [Graph]
+  + exact closed node and edge kind enums mirror the signed Pinky graph contract
+  + node IDs are unique and content nodes bind repository-relative path and digest
+  + edge IDs are unique source and target nodes exist self-edges are refused and exact duplicate triples are refused
+  + every element event is represented by one element_history_event node and modifies at least one element node
+
+& [Coverage]
+  + every changed path coordinate has one or more covering element events
+  + every event coverage coordinate resolves to the independent inventory
+  + foreign exclusions never overlap inventory paths event coverage or graph content paths
+  + generated refresh entries must be covered only by generated_refresh events with explicit derivation justification
+
+& [Output]
+  + deterministic receipt binds both input digests counts coverage authority verification_only physical_contact false and a self-excluding result digest
+  + replay requires byte-identical receipt

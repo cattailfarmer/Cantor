@@ -15,6 +15,7 @@ pub mod phase3_evidence;
 pub mod platform_preflight_forms;
 pub mod review;
 pub mod runtime;
+pub mod sjs_repository_graph;
 pub mod topology_forms;
 pub mod transcript;
 pub mod windows_entry_policy;

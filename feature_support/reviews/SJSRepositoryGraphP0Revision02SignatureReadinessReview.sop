@@ -1,0 +1,18 @@
+Subject: Cantor SJS Repository Graph P0 Revision 0.2 Signature Readiness Review
+
+@ [review_uuid] 1de2b372-15b0-43f5-9eb4-5e10802ad86b
+@ [phase_lock_uuid] 18adb87e-055c-4d5f-a99d-6d52c8618c21
+@ [proof_uuid] f21fb5ce-a648-4b51-8715-be9c7505b5ce
+
+& [Review]
+  + count conflict is real bounded and source-preserved
+  + original signature is explicitly invalidated before gate continuation
+  + revised artifacts change only sixteen to seventeen and reapply every original term
+  + candidate Rust already implements the corrected exact vocabulary and requires no code change
+
+& [Risk]
+  + silent rewrite deleted variant code churn or new authority is absent
+  + historical artifacts remain inspectable and later correction is append-only
+
+& [Decision]
+  + [state] ready_for_count_only_replacement_signature

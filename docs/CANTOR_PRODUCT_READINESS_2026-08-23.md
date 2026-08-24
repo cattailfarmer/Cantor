@@ -50,6 +50,13 @@ review, and service-level evidence remain absent or separately locked.
 
 ## True current frontiers
 
+The provider-free SJS repository graph P0 is now executable and exact-workspace
+verified. It can validate a supplied typed change set against an independent
+supplied diff inventory and preserve per-element reasons, authorities,
+evidence, nonclaims, and frontiers beside Git history. It is governance
+substrate, not a Git observer or autonomous publication broker; physical
+staged-diff capture, commit-hook integration, and SWA-05 remain later contracts.
+
 1. Obtain an independently governed curator policy and signed selection through
    the implemented Slice 5F verifier. The repository deliberately supplies
    only synthetic protocol evidence and does not invent a real target.

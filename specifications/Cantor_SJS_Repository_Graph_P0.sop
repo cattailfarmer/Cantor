@@ -1,0 +1,79 @@
+Subject: Cantor SJS Repository Graph P0
+
+@ [canonical_uuid] 3c7435a1-a5ae-44f1-a32b-a92741a7ec91
+@ [source_snapshot_uuid] 1927e300-f5ab-428c-8885-0a172a4d4087
+@ [source_manifest_uuid] a72695f6-b19c-4178-864a-639fd1b71e1b
+@ [input_manifest_uuid] 9d030679-50a9-4da8-a98b-1f655402ba1b
+@ [satisfaction_signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+@ [satisfaction_signature_uuid] 4942a8e7-1835-41bf-a3fb-47f75f6fa3c9
+
+& [Profiles]
+  + change_set is cantor-sjs-repository-change-set/0.1
+  + diff_inventory is cantor-sjs-diff-inventory/0.1
+  + element_event is cantor-sjs-element-history-event/0.1
+  + verification_receipt is cantor-sjs-repository-graph-verification/0.1
+
+& [Requirements]
+  + [CSG-001] strict profiles closed enums deny_unknown_fields and bounded machine forms are exact
+  + [CSG-002] repository change-set turn conversation node edge event and commit identities use strict grammars and uniqueness
+  + [CSG-003] stable element IDs are semantic identities independent of mutable line numbers and ordinary path movement
+  + [CSG-004] repository paths are normalized relative forward-slash paths with traversal root drive backslash NUL empty and duplicate refusal
+  + [CSG-005] DiffInventory independently binds repository branch predecessor ordered changed paths identities and self-excluding digest
+  + [CSG-006] Added Modified Deleted Renamed and GeneratedRefresh entries enforce exact old/new path and before/after identity shapes
+  + [CSG-007] graph nodes use the closed Pinky node-kind vocabulary unique IDs bounded content refs and exact optional path/digest coupling
+  + [CSG-008] graph edges use the closed Pinky edge-kind vocabulary unique IDs existing distinct endpoints and no duplicate kind/source/target triple
+  + [CSG-009] each ElementHistoryEvent binds one stable element one operation one turn one change set reason refs identity transition coverage nonclaims frontier and self-excluding digest
+  + [CSG-010] one change set refuses duplicate event UUID duplicate element ID and conflicting event coverage
+  + [CSG-011] event operations are compatible with every covered independent diff entry including tombstone deletion and identity-preserving rename
+  + [CSG-012] every inventory coordinate is covered by at least one event and every event coordinate resolves to the inventory
+  + [CSG-013] GeneratedRefresh inventory is covered by generated-refresh events only with source and justification refs and complete enumerated paths
+  + [CSG-014] event typed ref sets resolve to graph nodes of the required kinds and each event node modifies an element node
+  + [CSG-015] foreign exclusions are normalized unique and disjoint from inventory paths event paths and content-bearing graph paths
+  + [CSG-016] change-set inventory digest repository predecessor and branch must exactly join the independent DiffInventory
+  + [CSG-017] verification emits deterministic counts complete coverage verification_only authority physical_contact false nonauthority and self-excluding digest
+  + [CSG-018] result replay unknown-field tamper digest drift dangling refs duplicate graph path traversal missing coverage foreign overlap and resource overflow are refused
+  + [CSG-019] a read-only CLI accepts exact change-set and diff-inventory JSON paths emits the receipt to stdout or an optional output file and performs no Git process network provider or mutation action
+  + [CSG-020] unit integration CLI evidence format Clippy attribution and exact workspace gates bind implementation without new Cargo dependency
+
+& [Constraints]
+  + [C01] one safe Rust module and one cantor_ecosystem lib export
+  + [C02] one file-input verification binary in the existing crate
+  + [C03] current dependencies only and zero Cargo manifest or lock delta
+  + [C04] maximum change-set machine form 1048576 bytes
+  + [C05] maximum diff-inventory machine form 524288 bytes
+  + [C06] maximum 1024 diff entries 1024 nodes 4096 edges 1024 events and 1024 foreign exclusions
+  + [C07] maximum 128 refs or coverage coordinates per event
+  + [C08] maximum path 1024 bytes semantic ID 256 bytes reason or text 4096 bytes
+  + [C09] UUID is lowercase canonical 8-4-4-4-12 hexadecimal text
+  + [C10] SHA256 is uppercase sixty-four hexadecimal text and commit is lowercase forty hexadecimal text
+  + [C11] branch is refs/heads plus normalized ref text
+  + [C12] repository ID semantic IDs node IDs and edge IDs use bounded lowercase semantic-token grammar
+  + [C13] canonical JSON is serde declaration order compact encoding with domain-separated SHA256
+  + [C14] digest computation clears only the subject digest field
+  + [C15] graph node and edge vocabularies exactly match signed Pinky contract
+  + [C16] event reference type agreement is mechanically validated
+  + [C17] no filesystem access exists in the library module
+  + [C18] CLI filesystem reads and optional output write are the only physical operations
+  + [C19] CLI creates an output parent only when a nonempty parent exists and never invokes Git
+  + [C20] no unsafe platform environment clock randomness process network provider model MCP persistence commit push activation FPGA or Minecraft surface
+  + [C21] all owned artifacts receive per-element change-set history before commit while foreign paths remain excluded
+  + [C22] physical Git inventory acquisition and hook enforcement require separate authority
+
+& [Faults]
+  + Profile Identity Path Inventory Graph Event Coverage Foreign Digest Authority Serialization Resource Io Cli
+  + first-fault order is profile identity path inventory graph event coverage foreign digest authority serialization resource
+
+& [ImplementationBoundary]
+  + add crates/cantor_ecosystem/src/sjs_repository_graph.rs and export it from lib.rs
+  + add crates/cantor_ecosystem/src/bin/cantor-sjs-graph-verify.rs
+  + add unit tests and crates/cantor_ecosystem/tests/sjs_repository_graph_static.rs
+  + add deterministic fixture/evidence producer scripts fixture JSON checked evidence and independent verification
+  + no current behavior or dependency changes beyond one new export and auto-discovered binary
+
+& [Nonclaims]
+  + supplied DiffInventory is not proof of actual Git state until a separately authorized observer binds it
+  + verification is not staging mutation commit publication trust self-signature activation provider work or authorization
+  + historical backfill and published-history rewrite are absent
+
+& [SignatureState]
+  + pending exact artifact phase lock proof review and satisfaction signature before code
