@@ -14,6 +14,7 @@ use serde::{Deserialize, Serialize};
 
 mod inventory;
 mod process;
+pub mod update_broker_protocol;
 mod update_handoff;
 mod validation;
 
