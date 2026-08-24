@@ -629,7 +629,9 @@ acceptance, and 49-group ecosystem gates also pass. The current Cantor tip
 does not contain a machine-form P2 record, so live P3 success is recorded as
 unavailable with zero acquisition runs rather than inferred from the human SOP
 bookend. P3 cannot install hooks, mutate the index, stage, commit, push,
-activate a provider, authorize SWA-05, or sign its own work.
+activate a provider, authorize SWA-05, or sign its own work. The exact
+implementation is published at `570c4fd06ea6f438ec6beb1fc4de04a8b1f87812`;
+its immediate-successor bookend remains the one intentionally open carrier tip.
 
 ## Provenance
 

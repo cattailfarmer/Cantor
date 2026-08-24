@@ -69,8 +69,9 @@ The signed P3 commit-placement acquisition seam is now implemented and exact
 full-gate verified. It can physically check machine P2 records in exact carrier
 commit trees without mutation, but the current Cantor carrier contains a human
 SOP bookend rather than a machine P2 record, so live success remains an honest
-zero-run unavailable state. Publication and post-push equality are in progress;
-SWA-05 remains separate.
+zero-run unavailable state. The exact implementation is published remote-equal
+at `570c4fd06ea6f438ec6beb1fc4de04a8b1f87812`; its successor bookend is the one
+intentionally open carrier tip. SWA-05 remains separate.
 
 1. Obtain an independently governed curator policy and signed selection through
    the implemented Slice 5F verifier. The repository deliberately supplies

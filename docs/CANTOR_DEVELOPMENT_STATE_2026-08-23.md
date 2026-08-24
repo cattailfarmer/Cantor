@@ -127,7 +127,9 @@ successes. P3 still grants no hook, staging, commit, push, recovery, operator,
 provider, or self-signature authority. Exact debug and overflow-checked release
 each pass 190 result groups and 1,129 tests with zero failures; workspace and
 experiment Clippy, format, lifecycle, evidence, local acceptance, attribution,
-and the 49-group ecosystem replay also pass before publication.
+and the 49-group ecosystem replay also pass. Implementation commit
+`570c4fd06ea6f438ec6beb1fc4de04a8b1f87812` is published remote-equal; its
+successor bookend remains the one intentionally open carrier tip.
 
 Engineering-time forecast from the current base, excluding unavailable-provider
 wait time:
