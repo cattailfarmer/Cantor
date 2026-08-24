@@ -28,6 +28,7 @@ pub mod windows_supplied_ordered_topology_inventory_digest_reconciliation;
 pub mod windows_supplied_regular_file_topology_projection;
 pub mod windows_supplied_root_topology_projection;
 pub mod windows_supplied_topology_inventory_assembly;
+pub mod windows_topology_acquisition_lineage;
 pub mod workspace_admission;
 
 pub use adapter::*;
