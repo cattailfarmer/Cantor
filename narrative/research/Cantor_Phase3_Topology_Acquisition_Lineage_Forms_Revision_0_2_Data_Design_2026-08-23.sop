@@ -1,0 +1,106 @@
+Subject: Cantor Phase3 Topology Acquisition Lineage Forms Revision 0.2 Data Design
+
+Description: Data-Driven Design quality gate for the corrected 0.2 type graph. It fixes identity, ownership, joins, cardinality, serialization, validation order, fault behavior, resources, versioning, provenance, and effects without authorizing implementation.
+
+@ [source] C:\Project\Cantor\source_documents\2026-08-23_cantor_phase3_topology_acquisition_lineage_serde_trait_correction\Cantor_Phase3_Topology_Acquisition_Lineage_Serde_Trait_Correction_Source.sop
+@ [exhaustion] C:\Project\Cantor\narrative\research\Cantor_Phase3_Topology_Acquisition_Lineage_Forms_Revision_0_2_Seven_Fold_Exhaustion_2026-08-23.sop
+
+& [DesignIdentity] is exact
+  + [design_uuid] is bee9b0da-6bec-4072-9739-ea1e05abbb98
+  + [source_snapshot_uuid] is 2e6aaaca-8265-43b4-b0d7-b793013c74fd
+  + [candidate_profile] is cantor-phase3-topology-acquisition-lineage-forms/0.2
+  + [state] is corrective_data_design_checked_unsigned
+
+& [MetadataTypeGraph] is closed
+  + AcquisitionIdentity owns private nonzero u64
+  + AcquisitionScopeClaim owns candidate_root root_identity root_volume_guid_path scanner_profile machine_forms_profile topology_forms_profile topology_receipt_profile assembly_profile digest_profile reconciliation_profile encoding_profile limits policy_sha256 predecessor_admission_profile predecessor_receipt_sha256
+  + CompletionDisposition has exactly CompleteClaimed
+  + AcquisitionLineageMetadataClaim owns identity scope disposition
+  + CausalOrderKind has exactly FirstCompletionStrictlyPrecedesSecondStart
+  + CausalOrderClaim owns first identity second identity kind
+  + OrderedAcquisitionPairMetadataClaim owns first metadata second metadata causal order
+  + RepeatedInventoryEvidencePlan owns exact 0.2 profile pair metadata current reconciliation plan requested NonAtomicRepeatedInventoryEqual
+  + every metadata struct is private-field immutable strict Serialize Deserialize and has bounded decode/validation
+
+& [CarrierBearingTypeGraph] is closed
+  + AcquisitionLineageBinding owns one metadata claim and one WindowsSuppliedOrderedTopologyInventoryDigest
+  + OrderedAcquisitionPairBinding owns first and second bindings plus validated causal order
+  + RepeatedInventoryEvidenceClaim owns exact profile pair binding current reconciliation requested grade and ClaimOnly provenance
+  + every carrier-bearing value is private-field Serialize only with immutable getters
+  + no carrier-bearing value implements DeserializeOwned Default From Into or public construction
+
+& [InvocationGraph] is exact
+  + function arguments are RepeatedInventoryEvidencePlan first WindowsSuppliedOrderedTopologyInventoryDigest second WindowsSuppliedOrderedTopologyInventoryDigest
+  + arguments are owned and cardinality is encoded by the function signature
+  + success returns RepeatedInventoryEvidenceClaim
+  + failure returns one AcquisitionLineageFault
+  + no partial binding is externally released
+
+& [ScopeRelation] is complete
+  + role metadata scopes compare every field exactly
+  + carrier joins compare encoding_profile and complete limits
+  + carrier joins compare root relative_path kind volume_serial and file_id_hex
+  + carrier joins compare assembly digest and reconciliation profiles
+  + candidate_root root_volume_guid_path scanner/forms/receipt policy predecessor admission and predecessor receipt remain metadata-only exact coordinates
+
+& [OwnershipAndCardinality] are finite
+  + one metadata plan exactly two metadata lineages exactly two carrier arguments exactly two bindings one causal edge one reconciliation plan one reconciliation result one output
+  + current carrier ancestry remains single sourced
+  + no peer assembly digest locator lookup key optional role vector map recursion or arbitrary JSON exists
+
+& [SerializationModel] is trait exact
+  + metadata types implement Serialize plus DeserializeOwned and deny unknown fields
+  + current carrier binding pair binding current reconciliation and evidence output implement Serialize but not DeserializeOwned
+  + negative trait proof is transitive because each output owns at least one non-Deserialize current output
+  + output serialization supports inspection but no production replay
+
+& [ValidationOrder] is deterministic
+  + V01 exact outer profile and requested grade
+  + V02 first then second identity syntax disposition and complete metadata scope validation
+  + V03 distinct identities complete metadata scope equality and causal endpoints
+  + V04 exact current reconciliation plan profile
+  + V05 first then second carrier profile encoding assembly limits and root joins
+  + V06 independently rederive first then second carrier from retained plan and assembly
+  + V07 require rederived value equals supplied complete carrier
+  + V08 run current reconciliation with exact plan and rederived carriers
+  + V09 require reconciliation common scope equals every carrier-exposed metadata coordinate
+  + V10 map Different separately and require Equal
+  + V11 atomically construct pair bindings and ClaimOnly output
+
+& [FaultModel] is closed
+  + InvalidRequest covers malformed outer request or unsupported requested capability
+  + Profile covers exact outer or nested profile mismatch
+  + Identity covers zero duplicate or role endpoint mismatch
+  + Scope covers invalid unequal or carrier-mismatched complete scope
+  + Lineage covers invalid incomplete stale or failed carrier rederivation
+  + Order covers unsupported self inverse or wrong endpoint relation
+  + Reconciliation wraps current reconciliation structural denial
+  + Different preserves valid non-equality
+  + Evidence covers unsupported grade or provenance inflation attempt
+  + Resource covers bounded input or diagnostic failure
+
+& [TraitFeasibilityModel] is executable
+  + positive generic bound requires Serialize plus DeserializeOwned for every metadata type
+  + negative ambiguity assertions require current carrier AcquisitionLineageBinding OrderedAcquisitionPairBinding current reconciliation and RepeatedInventoryEvidenceClaim not to implement DeserializeOwned
+  + compile success is required before replacement phase lock and signature
+  + no dev dependency is added for this proof
+
+& [StateAndVersionModel] is monotonic
+  + 0.1 source and artifacts remain historical invalidated
+  + 0.2 progresses corrective_source to audit explosion refinement constraints threat exhaustion data trait_feasible canonical lock signed implemented verified published
+  + no runtime acquisition admitted issued consumed mutated sealed promoted or physically proven state exists
+
+& [EffectAndResourceModel] is empty and bounded
+  + pure CPU and owned bounded memory only after signature
+  + existing nested limits and fixed two-role cardinality bound work
+  + no unsafe platform filesystem handle pointer clock random process environment network persistence database Git model tool producer issuer consumer fixture execution FPGA Minecraft or neural operation
+
+& [DataQualityGate] passes analytically
+  + all fourteen requirements map to a settled type relation or proof boundary
+  + all thirty constraints and eighteen threats close
+  + all seven folds converge
+  + remaining pre-canonical gate is executable Rust trait feasibility against the exact tree
+  + implementation authority is absent
+  + execution authority is absent
+  + physical authority is absent
+  + next is exact trait-feasibility evidence before support and canonicalization
