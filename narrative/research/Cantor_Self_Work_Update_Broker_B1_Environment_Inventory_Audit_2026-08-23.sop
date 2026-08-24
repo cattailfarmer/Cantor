@@ -1,0 +1,57 @@
+Subject: Cantor Self Work Update Broker B1 Environment Inventory Audit
+
+@ [audit_uuid] f73ed7c6-b99c-470f-9bf3-5c110d75eebe
+@ [source_snapshot_uuid] 38d6e10d-efba-498f-aae2-18eb9c523d60
+@ [B1_source_snapshot_uuid] 21ad03d7-3401-45fc-b767-03f202fd3d68
+@ [interface_inventory_snapshot_uuid] 152efc76-a2b5-4c90-9d84-bfffad408024
+
+& [ExactInputs]
+  + environment source is 7193 bytes SHA256 F647AAB56526FB2472DD786E0FDCD0030C1ED6306958167F3A61EA32CB8ED66B
+  + source manifest is 2368 bytes SHA256 03B40731B5FA5F4D4471D803C7CC3F332B432702BD7FAB40D5D7C11DF0933124
+  + current Phase3A process source is 6102 bytes SHA256 1110C572F82E3A65F8EE71678276CE7FB13116ABCAD57A73ECCAC3E819E104D2
+  + predecessor B1 interface inventory is published at 2783826c042c60f6b6a3fc45c7f66472f04f3ec6
+
+& [OfficialVocabularyFinding]
+  + official Codex documentation exposes state-root installer credential workload-identity trust-store and logging variable families consumed by the CLI or app-server family
+  + CODEX_HOME and CODEX_SQLITE_HOME are the relevant public controls for moving app-server state away from ambient user roots
+  + credential workload-identity and trust-store inputs are not admissible to the provider-free schema and initialize-only probe
+  + official documentation does not claim that its public list exhausts operating-system dependency or subprocess environment reads
+
+& [PredecessorFinding]
+  + official Rust semantics make environment inheritance the default and env_clear the primitive for excluding all inherited values
+  + the current Phase3A runner removes eight exact Git override names and fixes four noninteractive or pager names
+  + it never calls env_clear so it cannot prove B1's closed nonsecret environment identity
+  + this finding does not weaken Phase3A's existing authority because B1 is a distinct host interface and the runner remains unchanged
+
+& [CandidateGrammarFinding]
+  + B1 should begin with env_clear use an absolute rehashed executable and compare Windows names case-insensitively
+  + only disposable CODEX_HOME and CODEX_SQLITE_HOME roots plus separately proven minimal nonsecret operating-system inputs may be admitted
+  + raw admitted values remain private while canonical name and value-digest pairs bind evidence
+  + provider credentials workload identity CA overrides proxies PATH shell Git hooks pagers editors replacement objects and network helpers remain denied by default
+  + this is a candidate grammar and not runtime proof because neither exact local executable has been selected or launched under it
+
+& [SJSDelta]
+  + G03 public Codex vocabulary predecessor inheritance threat and env_clear-first candidate grammar are resolved
+  + G03 exact minimal operating-system allowlist selected-binary success refusal behavior and canonical serialization remain open
+  + G06 state can be redirected through CODEX_HOME and CODEX_SQLITE_HOME but exact disposable roots lifecycle cleanup recovery and ownership remain open
+  + G01 executable selection G02 exact schema G04 sandbox response and enforcement G05 carrier and G07 live evidence remain open
+
+& [ThreatDelta]
+  + partial env_remove hardening is explicitly insufficient against unknown ambient variables
+  + case variants cannot bypass denial on Windows
+  + ambient PATH cannot choose or substitute the executable
+  + state-root redirection cannot be mistaken for cleanup proof sandbox enforcement or authentication isolation
+  + a name-and-digest record must not leak raw credential or path values through errors logs evidence or protocol payloads
+
+& [Decision]
+  + [G03] narrowed_not_closed
+  + [G06] narrowed_not_closed
+  + [G01] two_candidates_selection_open
+  + [G02] protocol_family_closed_exact_schema_open
+  + [G04_G05_G07] open
+  + [canonical_lock] not_ready
+  + [implementation_authority] absent
+  + [process_authority] absent
+  + [observation_authority] absent
+  + [provider_contact] absent
+  + [next] governed exact executable selection then a separately authorized provider-free disposable-root schema and initialize-only environment probe
