@@ -39,7 +39,7 @@ Description: Data-Driven Design quality gate for the corrected 0.2 type graph. I
 & [ScopeRelation] is complete
   + role metadata scopes compare every field exactly
   + carrier joins compare encoding_profile and complete limits
-  + carrier joins compare root relative_path kind volume_serial and file_id_hex
+  + carrier joins require root relative_path absent and kind RootDirectory then compare volume_serial and file_id_hex to the metadata strong root identity
   + carrier joins compare assembly digest and reconciliation profiles
   + candidate_root root_volume_guid_path scanner/forms/receipt policy predecessor admission and predecessor receipt remain metadata-only exact coordinates
 
@@ -59,7 +59,7 @@ Description: Data-Driven Design quality gate for the corrected 0.2 type graph. I
   + V02 first then second identity syntax disposition and complete metadata scope validation
   + V03 distinct identities complete metadata scope equality and causal endpoints
   + V04 exact current reconciliation plan profile
-  + V05 first then second carrier profile encoding assembly limits and root joins
+  + V05 first then second carrier profile encoding assembly limits fixed root path/kind and strong root identity joins
   + V06 independently rederive first then second carrier from retained plan and assembly
   + V07 require rederived value equals supplied complete carrier
   + V08 run current reconciliation with exact plan and rederived carriers
