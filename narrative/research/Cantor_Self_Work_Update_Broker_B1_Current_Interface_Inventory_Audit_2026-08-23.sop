@@ -1,0 +1,49 @@
+Subject: Cantor Self Work Update Broker B1 Current Interface Inventory Audit
+
+@ [audit_uuid] 72e6f133-6c34-4398-8bcd-0ca98d321979
+@ [source_snapshot_uuid] 152efc76-a2b5-4c90-9d84-bfffad408024
+@ [B1_source_snapshot_uuid] 21ad03d7-3401-45fc-b767-03f202fd3d68
+
+& [ExactInputs]
+  + inventory source is 6428 bytes SHA256 0289CF129104F8DC734E31DAD11449EFF4452752DC5BA0A49A4BAB19DDAF6DF1
+  + source manifest is 1994 bytes SHA256 9C37CC34C301DF622766296D64C37E545DD0552D957D1878F12A5D0C40B0D9C6
+  + predecessor B1 source audit is published at ee9ea1767e7d43836b444cec2bd2af0a27d26807
+
+& [OfficialProtocolFinding]
+  + official OpenAI documentation establishes codex app-server as the rich-client interface
+  + the bounded local route is stdio JSONL with JSON-RPC 2.0 framing that omits the jsonrpc field on the wire
+  + initialize then initialized is the mandatory connection precondition
+  + generated TypeScript and JSON Schema are explicitly version-specific
+  + experimental WebSocket and remote Code Mode paths are excluded from this B1 scope
+
+& [LocalIdentityFinding]
+  + npm candidate is package-declared version 0.135.0 with exact wrapper launcher native-executable digest and valid OpenAI Authenticode identity
+  + desktop candidate is package 26.818.2872.0 with AppVersion 26.818.22352 exact resource digest and a distinct valid OpenAI Authenticode identity
+  + native binaries differ in canonical path byte count SHA256 signer-certificate thumbprint packaging and apparent release lineage
+  + current PATH precedence chooses the npm wrapper but PATH is mutable ambient state and cannot be the selection rule
+  + no evidence proves the desktop resource binary's embedded CLI version without launch or proves either candidate's exact generated schema
+
+& [SJSDelta]
+  + G01 is narrowed from zero exact candidate to two exact nonselected candidates
+  + G02 protocol transport framing handshake order and schema-generation command family are closed
+  + G02 exact version-specific schema and refusal grammar remain open
+  + G03 environment remains open because the npm launcher forwards ambient environment and the desktop host environment contract is not yet inventoried
+  + G04 through G07 remain unchanged
+
+& [ThreatDelta]
+  + PATH substitution and dual-install ambiguity become explicit executable-selection threats
+  + wrapper-to-native indirection requires both wrapper and native binary identity when npm packaging is selected
+  + valid Authenticode proves signer validation only and cannot prove version schema sandbox transport side effects or suitability
+  + schema generation is a process plus filesystem-write action and cannot be smuggled into a read-only file inventory
+  + official documentation is mutable external context so the immutable source records only bounded paraphrased facts and capture date
+
+& [Decision]
+  + [G01] narrowed_not_closed
+  + [G02] protocol_family_closed_exact_schema_open
+  + [G03_through_G07] open
+  + [executable_selection_authority] absent
+  + [schema_generation_authority] absent
+  + [process_authority] absent
+  + [observation_authority] absent
+  + [provider_contact] absent
+  + [next] obtain an explicit operator or governed source decision between the two exact candidates before generating and hashing that candidate's schemas
