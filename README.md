@@ -633,6 +633,22 @@ activate a provider, authorize SWA-05, or sign its own work. The exact
 implementation is published at `570c4fd06ea6f438ec6beb1fc4de04a8b1f87812`;
 its immediate-successor bookend remains the one intentionally open carrier tip.
 
+## Self-work update broker B1 revalidation
+
+The published P3 observation substrate is now joined back to the SWA-05/B1
+authority ledger without transferring any mutation power. A read-only local
+revalidation found the same two exact hash-pinned Codex writer-host candidates
+preserved on 2026-08-23: one npm-native executable and one desktop-packaged
+executable. Neither current desktop use nor PATH precedence selects between
+them, and no candidate process, schema generator, provider, network route, or
+state-root fixture was launched.
+
+B1 therefore remains source-and-audit only. Its canonical lock, signature,
+implementation, and physical commission require an explicit operator choice
+of the exact writer-host executable plus precreated candidate, temporary,
+evidence-writer roots and a named recovery owner. P3 can later supply an
+upstream commit-placement receipt, but it cannot supply those missing grants.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under

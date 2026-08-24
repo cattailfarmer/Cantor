@@ -1,238 +1,238 @@
 {
-    "schema":  "cantor-candidate-workspace-admission-evidence-manifest/0.1",
-    "evidence_manifest_uuid":  "08d8dc36-9657-4152-a153-60170b242887",
-    "generated_at_utc":  "2026-08-24T20:08:59.9912284Z",
-    "artifact_rehash_at_utc":  "2026-07-31T15:05:22.5968897Z",
-    "artifact_rehash_scope":  "metadata_only_no_physical_probe",
-    "authority":  {
-                      "canonical_specification":  "specifications/Cantor_Candidate_Workspace_Admission.sop",
-                      "satisfaction_signature_uuid":  "62600061-8479-458d-a3e1-121e315bff24",
-                      "solution_uuid":  "29703a49-e9f5-4634-9fd5-d5be16a4f331"
-                  },
-    "probe":  {
-                  "schema":  "cantor-candidate-workspace-admission-probe-summary/0.1",
-                  "profile":  "cantor-candidate-workspace-admission/0.1",
-                  "git_version":  "git version 2.54.0.windows.1",
-                  "git_executable_sha256":  "81ef35ae005ca9318018d18e3327578ce939fb99feaad6b2d7c8ab15f3de8db5",
-                  "request_sha256":  "3e076f96a2b14d9468128136b11218174b11465dd335e215043324ca4fb127d3",
-                  "receipt_sha256":  "e1b0aad4efe9ce2aa2949aaf868778ed4906b26cc205e8cb47ffd5617e709b65",
-                  "observation_sha256":  "a8e289a8c0bd427b669537cde8dac419631e6c0e3541018f5a301bac727b1c9f",
-                  "base_commit":  "ba7942168bb101a5c0058886b141d590a2aa180c",
-                  "branch_ref":  "refs/heads/codex/candidate-admission",
-                  "process_count":  12,
-                  "received_bytes":  832,
-                  "configured_timeout_millis":  10000,
-                  "repeated_receipt_equal":  true,
-                  "principal_clean_before_and_after":  true,
-                  "candidate_clean_before_and_after":  true,
-                  "admitted":  true,
-                  "mutation_authority":  false,
-                  "promotion_authority":  false
-              },
-    "verification":  [
-                         {
-                             "command":  "cargo fmt --all -- --check",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --workspace --all-targets --locked --offline",
-                             "tests":  211,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --workspace --all-targets --release --locked --offline",
-                             "tests":  211,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo doc --workspace --no-deps --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo audit --file Cargo.lock",
-                             "dependencies":  112,
-                             "vulnerabilities":  0,
-                             "status":  "passed"
-                         }
-                     ],
-    "artifacts":  [
-                      {
-                          "path":  ".gitattributes",
-                          "sha256":  "52A5677DBDD956DCABD61442DF1967048ACC10F3A5F962EBF5243140E0746E07",
-                          "bytes":  167
-                      },
-                      {
-                          "path":  "README.md",
-                          "sha256":  "8ABAE57B7432D54CA427F7CDF30103D19D9B1D671D2A60B1FABCB44C0A87A8E9",
-                          "bytes":  41682
-                      },
-                      {
-                          "path":  "SOP_CORE_MAP.sop",
-                          "sha256":  "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
-                          "bytes":  30392
-                      },
-                      {
-                          "path":  "Cargo.toml",
-                          "sha256":  "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
-                          "bytes":  1285
-                      },
-                      {
-                          "path":  "Cargo.lock",
-                          "sha256":  "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
-                          "bytes":  41561
-                      },
-                      {
-                          "path":  "source_documents/2026-07-30_cantor_scoped_write_delineation/Cantor_Phase3_Scoped_Write_Source_Selection.sop",
-                          "sha256":  "2067070A5DEECD89975205A63901513C13612E9DE7125FAED8D56EAA19FE5D48",
-                          "bytes":  3946
-                      },
-                      {
-                          "path":  "source_documents/2026-07-30_cantor_scoped_write_delineation/Cantor_Candidate_Workspace_Admission_Reconciliation_Source.sop",
-                          "sha256":  "DD2CBE4E746D09B9BF910A4194B5D614A4ADEC1B1EEBA88E88F013F78FE3A750",
-                          "bytes":  1503
-                      },
-                      {
-                          "path":  "source_documents/2026-07-30_cantor_scoped_write_delineation/Source_Document_Manifest.sop",
-                          "sha256":  "70B9FDBDFE739B6DFB29A6CEB90605E9D8C9866255AEC719BBA3C88989C0B7EC",
-                          "bytes":  1098
-                      },
-                      {
-                          "path":  "specifications/Cantor_Candidate_Workspace_Admission.sop",
-                          "sha256":  "9D5F07D519C6D8CDD7584900CED8E5489DBBA6EDAD7305F24A81DA0ABE983EC3",
-                          "bytes":  12567
-                      },
-                      {
-                          "path":  "specifications/exploded/Cantor_Candidate_Workspace_Admission.exploded.sop",
-                          "sha256":  "98938C64D424F9C45C5C9C3273EA35156531BC870C9D493215E7560DBE7D5D41",
-                          "bytes":  5330
-                      },
-                      {
-                          "path":  "justifications/Cantor_Candidate_Workspace_Admission_Justification.sop",
-                          "sha256":  "041062CADB4F8BF897D876662373CDF3F4CDE197C7C971FEB45AE430CF550CE1",
-                          "bytes":  3152
-                      },
-                      {
-                          "path":  "feature_support/slices/CandidateWorkspaceAdmission.sop",
-                          "sha256":  "66DEB9DADC915110CF9587B51A939865DC2687C546E2326B43C0233ED29B5767",
-                          "bytes":  1923
-                      },
-                      {
-                          "path":  "feature_support/CandidateWorkspaceAdmission_Requirement_Matrix.sop",
-                          "sha256":  "828773523B7368C52A5DFF39047E9ABD421A1DD60643305C33759F42D9461BD0",
-                          "bytes":  3940
-                      },
-                      {
-                          "path":  "feature_support/Cantor_Engine_Build_Slice_Index.sop",
-                          "sha256":  "BCE6F6A043539E48A18EB16E463066B217CBEAE380EFBE03DA53CE28CB86A634",
-                          "bytes":  66654
-                      },
-                      {
-                          "path":  "plans/Cantor_Engine_Build_Plan.sop",
-                          "sha256":  "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
-                          "bytes":  28862
-                      },
-                      {
-                          "path":  "docs/CANDIDATE_WORKSPACE_ADMISSION.md",
-                          "sha256":  "66C94F5BC9B26C4822EC002ABA2D74F7F9326C2D8BB20AEFE487066EFD66EB08",
-                          "bytes":  2812
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/Cargo.toml",
-                          "sha256":  "D071736DA3A1279878AC9D1426471AB975ED6CBF6A5030FB366C64D6FA9EC6D8",
-                          "bytes":  505
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/lib.rs",
-                          "sha256":  "6C58FE12C776D3775C255A2F5E14C1A1074D675767410A55178FD4D560708C16",
-                          "bytes":  2356
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/workspace_admission.rs",
-                          "sha256":  "E3E3E046060B48FE04090C70D6FBDBD6CA2535022B5BE7BE17DD0B6A75B4BDE9",
-                          "bytes":  27422
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/workspace_admission/validation.rs",
-                          "sha256":  "2DDAB5A6E333630AB1F2A83B62EC24C43B66CE5D9296C104F6A20B37A24CBEBF",
-                          "bytes":  16305
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/workspace_admission/process.rs",
-                          "sha256":  "1110C572F82E3A65F8EE71678276CE7FB13116ABCAD57A73ECCAC3E819E104D2",
-                          "bytes":  6102
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/workspace_admission/inventory.rs",
-                          "sha256":  "75499BC00B2EB64ABDDA45AD77FD97AF27E9F79453303AAECC9C50326A347E73",
-                          "bytes":  5199
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/workspace_admission/tests.rs",
-                          "sha256":  "B653B2EAA6D2A868FDFD8594490006AEFF4F3D2E01A8208EC6C4482C024B3278",
-                          "bytes":  18958
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/examples/candidate_workspace_probe.rs",
-                          "sha256":  "4EE328A134C044D4C2384D871933D596A6BF04BBAD7EC91B466B4B93E2BB4145",
-                          "bytes":  1466
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/tests/candidate_workspace_admission_evidence.rs",
-                          "sha256":  "2D33966AC93638FB6128A4EF8B2E2514E0EDFD2EC5604C98EB46189602AACD1B",
-                          "bytes":  2191
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/evidence/candidate_workspace_admission_probe_summary.json",
-                          "sha256":  "250804E15380D100378BE3DAF3049AD6D467E0BA6CC7F751C72664EB36377346",
-                          "bytes":  1004
-                      },
-                      {
-                          "path":  "solutions/Cantor_Candidate_Workspace_Admission_Solution.sop",
-                          "sha256":  "C91F81D6F542127DDD38D61090DA32CE2B7EA28A30A056C155259AF3B8017CDD",
-                          "bytes":  2962
-                      },
-                      {
-                          "path":  "narrative/Project_Narrative.sop",
-                          "sha256":  "2D159D03BEE8502E29CDA4A4A2D828E15D51E5465C2A5B056CF9DD1FC5A7D52B",
-                          "bytes":  381343
-                      },
-                      {
-                          "path":  "narrative/operational_faults/1785429175325_candidate_workspace_admission_faults.sop",
-                          "sha256":  "6AC2C76C29F64CF80BB01112903CBCAF76A7C16246A7767ADCFA39A7CA81D2D0",
-                          "bytes":  2458
-                      },
-                      {
-                          "path":  "narrative/turns/1785429175325_candidate_workspace_admission.sop",
-                          "sha256":  "0DA6FAA34B8D6495D7A50412E725F0D8CAB6F44024A6A0D868B7F84C6EC40D5E",
-                          "bytes":  1493
-                      },
-                      {
-                          "path":  "narrative/file_changes/1785429175325_candidate_workspace_admission_file_change.sop",
-                          "sha256":  "7C639FACDB904EACDD80990F663D8B294D998F9275C5D5D69231785D277950EA",
-                          "bytes":  1054
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/evidence/read_only_live_codex_evidence_manifest.json",
-                          "sha256":  "231F64A269F7AF9BB1E67BFFEE7090131AFAF4D96AB6F10C047862C2322A3E73",
-                          "bytes":  13531
-                      },
-                      {
-                          "path":  "proofs/Cantor_Read_Only_Live_Codex_Adapter_Proof.sop",
-                          "sha256":  "7ADF389EFF09785A2726108999C9838FA35093308AB6BE124DC4A17AF0592571",
-                          "bytes":  8828
-                      },
-                      {
-                          "path":  "scripts/build_candidate_workspace_admission_evidence_manifest.ps1",
-                          "sha256":  "064FDAF1DC1BAE4A5DAD76C900B6B56085EA7C5F0D011AB0C7D0B3B440B388FD",
-                          "bytes":  8440
-                      }
-                  ]
+  "schema": "cantor-candidate-workspace-admission-evidence-manifest/0.1",
+  "evidence_manifest_uuid": "08d8dc36-9657-4152-a153-60170b242887",
+  "generated_at_utc": "2026-08-24T20:18:18.5581650Z",
+  "artifact_rehash_at_utc": "2026-07-31T15:05:22.5968897Z",
+  "artifact_rehash_scope": "metadata_only_no_physical_probe",
+  "authority": {
+    "canonical_specification": "specifications/Cantor_Candidate_Workspace_Admission.sop",
+    "satisfaction_signature_uuid": "62600061-8479-458d-a3e1-121e315bff24",
+    "solution_uuid": "29703a49-e9f5-4634-9fd5-d5be16a4f331"
+  },
+  "probe": {
+    "schema": "cantor-candidate-workspace-admission-probe-summary/0.1",
+    "profile": "cantor-candidate-workspace-admission/0.1",
+    "git_version": "git version 2.54.0.windows.1",
+    "git_executable_sha256": "81ef35ae005ca9318018d18e3327578ce939fb99feaad6b2d7c8ab15f3de8db5",
+    "request_sha256": "3e076f96a2b14d9468128136b11218174b11465dd335e215043324ca4fb127d3",
+    "receipt_sha256": "e1b0aad4efe9ce2aa2949aaf868778ed4906b26cc205e8cb47ffd5617e709b65",
+    "observation_sha256": "a8e289a8c0bd427b669537cde8dac419631e6c0e3541018f5a301bac727b1c9f",
+    "base_commit": "ba7942168bb101a5c0058886b141d590a2aa180c",
+    "branch_ref": "refs/heads/codex/candidate-admission",
+    "process_count": 12,
+    "received_bytes": 832,
+    "configured_timeout_millis": 10000,
+    "repeated_receipt_equal": true,
+    "principal_clean_before_and_after": true,
+    "candidate_clean_before_and_after": true,
+    "admitted": true,
+    "mutation_authority": false,
+    "promotion_authority": false
+  },
+  "verification": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "status": "passed"
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --workspace --all-targets --locked --offline",
+      "tests": 211,
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --workspace --all-targets --release --locked --offline",
+      "tests": 211,
+      "status": "passed"
+    },
+    {
+      "command": "cargo build --workspace --all-targets --release --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo doc --workspace --no-deps --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo audit --file Cargo.lock",
+      "dependencies": 112,
+      "vulnerabilities": 0,
+      "status": "passed"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".gitattributes",
+      "sha256": "52A5677DBDD956DCABD61442DF1967048ACC10F3A5F962EBF5243140E0746E07",
+      "bytes": 167
+    },
+    {
+      "path": "README.md",
+      "sha256": "D4DB0FF92AB81D287D6E66C27EBE12B5BBD66A1A0CFFC4ACCFFEAC482AB33F4B",
+      "bytes": 42597
+    },
+    {
+      "path": "SOP_CORE_MAP.sop",
+      "sha256": "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
+      "bytes": 30392
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
+      "bytes": 1285
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
+      "bytes": 41561
+    },
+    {
+      "path": "source_documents/2026-07-30_cantor_scoped_write_delineation/Cantor_Phase3_Scoped_Write_Source_Selection.sop",
+      "sha256": "2067070A5DEECD89975205A63901513C13612E9DE7125FAED8D56EAA19FE5D48",
+      "bytes": 3946
+    },
+    {
+      "path": "source_documents/2026-07-30_cantor_scoped_write_delineation/Cantor_Candidate_Workspace_Admission_Reconciliation_Source.sop",
+      "sha256": "DD2CBE4E746D09B9BF910A4194B5D614A4ADEC1B1EEBA88E88F013F78FE3A750",
+      "bytes": 1503
+    },
+    {
+      "path": "source_documents/2026-07-30_cantor_scoped_write_delineation/Source_Document_Manifest.sop",
+      "sha256": "70B9FDBDFE739B6DFB29A6CEB90605E9D8C9866255AEC719BBA3C88989C0B7EC",
+      "bytes": 1098
+    },
+    {
+      "path": "specifications/Cantor_Candidate_Workspace_Admission.sop",
+      "sha256": "9D5F07D519C6D8CDD7584900CED8E5489DBBA6EDAD7305F24A81DA0ABE983EC3",
+      "bytes": 12567
+    },
+    {
+      "path": "specifications/exploded/Cantor_Candidate_Workspace_Admission.exploded.sop",
+      "sha256": "98938C64D424F9C45C5C9C3273EA35156531BC870C9D493215E7560DBE7D5D41",
+      "bytes": 5330
+    },
+    {
+      "path": "justifications/Cantor_Candidate_Workspace_Admission_Justification.sop",
+      "sha256": "041062CADB4F8BF897D876662373CDF3F4CDE197C7C971FEB45AE430CF550CE1",
+      "bytes": 3152
+    },
+    {
+      "path": "feature_support/slices/CandidateWorkspaceAdmission.sop",
+      "sha256": "66DEB9DADC915110CF9587B51A939865DC2687C546E2326B43C0233ED29B5767",
+      "bytes": 1923
+    },
+    {
+      "path": "feature_support/CandidateWorkspaceAdmission_Requirement_Matrix.sop",
+      "sha256": "828773523B7368C52A5DFF39047E9ABD421A1DD60643305C33759F42D9461BD0",
+      "bytes": 3940
+    },
+    {
+      "path": "feature_support/Cantor_Engine_Build_Slice_Index.sop",
+      "sha256": "83BFB6292A97B1AE609898441B4744903BECDD4BDB713F27E2DABF2C4E497F29",
+      "bytes": 67700
+    },
+    {
+      "path": "plans/Cantor_Engine_Build_Plan.sop",
+      "sha256": "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
+      "bytes": 28862
+    },
+    {
+      "path": "docs/CANDIDATE_WORKSPACE_ADMISSION.md",
+      "sha256": "66C94F5BC9B26C4822EC002ABA2D74F7F9326C2D8BB20AEFE487066EFD66EB08",
+      "bytes": 2812
+    },
+    {
+      "path": "crates/cantor_ecosystem/Cargo.toml",
+      "sha256": "D071736DA3A1279878AC9D1426471AB975ED6CBF6A5030FB366C64D6FA9EC6D8",
+      "bytes": 505
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/lib.rs",
+      "sha256": "6C58FE12C776D3775C255A2F5E14C1A1074D675767410A55178FD4D560708C16",
+      "bytes": 2356
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/workspace_admission.rs",
+      "sha256": "E3E3E046060B48FE04090C70D6FBDBD6CA2535022B5BE7BE17DD0B6A75B4BDE9",
+      "bytes": 27422
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/workspace_admission/validation.rs",
+      "sha256": "2DDAB5A6E333630AB1F2A83B62EC24C43B66CE5D9296C104F6A20B37A24CBEBF",
+      "bytes": 16305
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/workspace_admission/process.rs",
+      "sha256": "1110C572F82E3A65F8EE71678276CE7FB13116ABCAD57A73ECCAC3E819E104D2",
+      "bytes": 6102
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/workspace_admission/inventory.rs",
+      "sha256": "75499BC00B2EB64ABDDA45AD77FD97AF27E9F79453303AAECC9C50326A347E73",
+      "bytes": 5199
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/workspace_admission/tests.rs",
+      "sha256": "B653B2EAA6D2A868FDFD8594490006AEFF4F3D2E01A8208EC6C4482C024B3278",
+      "bytes": 18958
+    },
+    {
+      "path": "crates/cantor_ecosystem/examples/candidate_workspace_probe.rs",
+      "sha256": "4EE328A134C044D4C2384D871933D596A6BF04BBAD7EC91B466B4B93E2BB4145",
+      "bytes": 1466
+    },
+    {
+      "path": "crates/cantor_ecosystem/tests/candidate_workspace_admission_evidence.rs",
+      "sha256": "2D33966AC93638FB6128A4EF8B2E2514E0EDFD2EC5604C98EB46189602AACD1B",
+      "bytes": 2191
+    },
+    {
+      "path": "crates/cantor_ecosystem/evidence/candidate_workspace_admission_probe_summary.json",
+      "sha256": "250804E15380D100378BE3DAF3049AD6D467E0BA6CC7F751C72664EB36377346",
+      "bytes": 1004
+    },
+    {
+      "path": "solutions/Cantor_Candidate_Workspace_Admission_Solution.sop",
+      "sha256": "C91F81D6F542127DDD38D61090DA32CE2B7EA28A30A056C155259AF3B8017CDD",
+      "bytes": 2962
+    },
+    {
+      "path": "narrative/Project_Narrative.sop",
+      "sha256": "FEBC4430789CE4D8A7F7EC5417893A6AE5F8405E633F3B2B8A2DECC7A5BD4CE9",
+      "bytes": 382505
+    },
+    {
+      "path": "narrative/operational_faults/1785429175325_candidate_workspace_admission_faults.sop",
+      "sha256": "6AC2C76C29F64CF80BB01112903CBCAF76A7C16246A7767ADCFA39A7CA81D2D0",
+      "bytes": 2458
+    },
+    {
+      "path": "narrative/turns/1785429175325_candidate_workspace_admission.sop",
+      "sha256": "0DA6FAA34B8D6495D7A50412E725F0D8CAB6F44024A6A0D868B7F84C6EC40D5E",
+      "bytes": 1493
+    },
+    {
+      "path": "narrative/file_changes/1785429175325_candidate_workspace_admission_file_change.sop",
+      "sha256": "7C639FACDB904EACDD80990F663D8B294D998F9275C5D5D69231785D277950EA",
+      "bytes": 1054
+    },
+    {
+      "path": "crates/cantor_ecosystem/evidence/read_only_live_codex_evidence_manifest.json",
+      "sha256": "3551270BB6E68BAA7A8704EBF3D9F9DAD172ABFECF3656B2D60D7C4CCAB1B018",
+      "bytes": 8908
+    },
+    {
+      "path": "proofs/Cantor_Read_Only_Live_Codex_Adapter_Proof.sop",
+      "sha256": "7ADF389EFF09785A2726108999C9838FA35093308AB6BE124DC4A17AF0592571",
+      "bytes": 8828
+    },
+    {
+      "path": "scripts/build_candidate_workspace_admission_evidence_manifest.ps1",
+      "sha256": "064FDAF1DC1BAE4A5DAD76C900B6B56085EA7C5F0D011AB0C7D0B3B440B388FD",
+      "bytes": 8440
+    }
+  ]
 }

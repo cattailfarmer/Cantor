@@ -1,325 +1,325 @@
 {
-    "schema":  "cantor-windows-supplied-directory-topology-projection-evidence-manifest/0.1",
-    "evidence_manifest_uuid":  "46081753-f671-4042-a9e1-cb337b7aa103",
-    "generated_at_utc":  "2026-08-24T20:09:00.3047799Z",
-    "authority":  {
-                      "canonical_specification":  "specifications/Cantor_M2B_Supplied_Directory_Topology_Projection.sop",
-                      "satisfaction_signature_uuid":  "2f24b78e-90ab-4413-9189-2c2bbcf65187",
-                      "stability_signature_uuid":  "cbeb4260-0db0-413c-89c6-2ca164775243",
-                      "topology_forms_signature_uuid":  "1edee945-9957-41d7-bd17-0765ec54f5cb",
-                      "solution_uuid":  "0461573f-053d-42cb-8be7-2a55c08a4f13",
-                      "implementation_commit":  "869a95f9939125397017894b817fc6fa98103429"
-                  },
-    "scope":  {
-                  "profile":  "cantor-windows-supplied-directory-topology-projection/0.1",
-                  "focused_unit_tests":  11,
-                  "focused_static_tests":  1,
-                  "focused_evidence_tests":  1,
-                  "plan_json_max_bytes":  262144,
-                  "mandatory_stability_revalidation":  true,
-                  "direct_stable_pair_input":  false,
-                  "fixed_directory_mode":  true,
-                  "absent_length":  true,
-                  "absent_content_digest":  true,
-                  "exact_entry_reference_gate":  true,
-                  "exact_final_component_gate":  true,
-                  "current_topology_form_validation":  true,
-                  "output_only_lineage_wrapper":  true,
-                  "unsafe_blocks":  0,
-                  "windows_api_calls":  0,
-                  "cargo_delta":  0,
-                  "physical_path_authority":  false,
-                  "enumeration_authority":  false,
-                  "traversal_authority":  false,
-                  "inventory_authority":  false,
-                  "stream_completeness_authority":  false,
-                  "receipt_authority":  false,
-                  "admission_authority":  false,
-                  "mutation_authority":  false,
-                  "physical_claim":  false
-              },
-    "verification":  [
-                         {
-                             "command":  "cargo test -p cantor_ecosystem --lib windows_supplied_directory_topology_projection --locked --offline",
-                             "passed":  11,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test -p cantor_ecosystem --test windows_supplied_directory_topology_projection_static --locked --offline",
-                             "passed":  1,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test -p cantor_ecosystem --test windows_supplied_directory_topology_projection_evidence --locked --offline",
-                             "passed":  1,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "RUSTFLAGS=-C overflow-checks=on -C metadata=cantor_m2b_sdtp_impl focused equivalents --release --locked --offline",
-                             "passed":  13,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --workspace --all-targets --locked --offline",
-                             "passed":  345,
-                             "ignored":  1,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "RUSTFLAGS=-C overflow-checks=on -C metadata=cantor_m2b_sdtp_impl cargo test --workspace --all-targets --release --locked --offline",
-                             "passed":  345,
-                             "ignored":  1,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo fmt --all -- --check",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo audit --file Cargo.lock",
-                             "dependencies":  113,
-                             "advisories":  1177,
-                             "vulnerabilities":  0,
-                             "status":  "passed"
-                         }
-                     ],
-    "artifacts":  [
-                      {
-                          "path":  ".gitattributes",
-                          "sha256":  "52A5677DBDD956DCABD61442DF1967048ACC10F3A5F962EBF5243140E0746E07",
-                          "bytes":  167
-                      },
-                      {
-                          "path":  "SOP_CORE_MAP.sop",
-                          "sha256":  "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
-                          "bytes":  30392
-                      },
-                      {
-                          "path":  "Cargo.toml",
-                          "sha256":  "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
-                          "bytes":  1285
-                      },
-                      {
-                          "path":  "Cargo.lock",
-                          "sha256":  "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
-                          "bytes":  41561
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/Cargo.toml",
-                          "sha256":  "D071736DA3A1279878AC9D1426471AB975ED6CBF6A5030FB366C64D6FA9EC6D8",
-                          "bytes":  505
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/lib.rs",
-                          "sha256":  "6C58FE12C776D3775C255A2F5E14C1A1074D675767410A55178FD4D560708C16",
-                          "bytes":  2356
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/topology_forms.rs",
-                          "sha256":  "5D2213C8A49DE278109503F51789A1648B61266F7581AE2AF743BF5EF324A11D",
-                          "bytes":  42216
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/windows_supplied_entry_observation.rs",
-                          "sha256":  "94617B29276422CD99C5275E614E5DD2A83A87C48646224800933884AD340715",
-                          "bytes":  31858
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/windows_supplied_entry_stability.rs",
-                          "sha256":  "345CA4FF2B0E253700051095CBB8D04C784327961B705663680D1726D32F6364",
-                          "bytes":  23013
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/src/windows_supplied_directory_topology_projection.rs",
-                          "sha256":  "9015B6DBB99C2E7D686C639204673CD19731364548DA53F557CD53F671FB004E",
-                          "bytes":  24031
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/tests/windows_supplied_directory_topology_projection_static.rs",
-                          "sha256":  "687090D44D449E36433155415E3F5AE50512FCE4E217E8ACDFF61E0BE0A021D2",
-                          "bytes":  3212
-                      },
-                      {
-                          "path":  "crates/cantor_ecosystem/tests/windows_supplied_directory_topology_projection_evidence.rs",
-                          "sha256":  "0B5FEB2F3D1B64A5FA3DCC06C788D487A964E345A00D555249811D658E1E8400",
-                          "bytes":  3373
-                      },
-                      {
-                          "path":  "source_documents/2026-07-31_cantor_m2b_supplied_directory_topology_projection/Cantor_M2B_Supplied_Directory_Topology_Projection_Source.sop",
-                          "sha256":  "C8BD158B415DA9AAFDB3439324293EB975959B20FCC9E4627CCE583665ECFD37",
-                          "bytes":  15096
-                      },
-                      {
-                          "path":  "source_documents/2026-07-31_cantor_m2b_supplied_directory_topology_projection/Source_Document_Manifest.sop",
-                          "sha256":  "AEB3AB8585DB4878202D6567F1032C914AFE28282F24FA0897FA637D9EB5826B",
-                          "bytes":  1062
-                      },
-                      {
-                          "path":  "narrative/research/Cantor_M2B_Post_Supplied_Regular_File_Topology_Projection_Architecture_Review_2026-07-31.sop",
-                          "sha256":  "F28AF3A3FCA69564C40CAB563391690CC751BF537BD2F562B7B740BA3287039D",
-                          "bytes":  8125
-                      },
-                      {
-                          "path":  "feature_support/reviews/M2BSuppliedRegularFileTopologyProjectionProgramCheckpointReview.sop",
-                          "sha256":  "F4BCD0B6CAAB34053BAE4BC176866EC3EB726B932CA5F935645CEBD97D3C2BED",
-                          "bytes":  2822
-                      },
-                      {
-                          "path":  "specifications/Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop",
-                          "sha256":  "6B63092DD56343C2698B1112308A6F34F0C21B570B6330F355D8315334AC0DE3",
-                          "bytes":  14710
-                      },
-                      {
-                          "path":  "proofs/Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Proof.sop",
-                          "sha256":  "F24299B0ADBF32116F8C59A05154927781420CBEB5F960341355B8036AEE78BB",
-                          "bytes":  5959
-                      },
-                      {
-                          "path":  "specifications/Cantor_Phase3_Topology_Machine_Forms.sop",
-                          "sha256":  "7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A",
-                          "bytes":  13696
-                      },
-                      {
-                          "path":  "proofs/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Proof.sop",
-                          "sha256":  "A8E76BD5DDF5F4FF067E5BED2320C356B3B9B5D186B43A3EEE8CA39698920ECC",
-                          "bytes":  3879
-                      },
-                      {
-                          "path":  "specifications/exploded/Cantor_M2B_Supplied_Directory_Topology_Projection.exploded.sop",
-                          "sha256":  "D86936CDC2C46AB406CD1F66211E1D9CD5D654B2D31DEB8F0B51568D94A1E556",
-                          "bytes":  15171
-                      },
-                      {
-                          "path":  "specifications/Cantor_M2B_Supplied_Directory_Topology_Projection.sop",
-                          "sha256":  "FCD7AD2D2E2352D4862E10A5109CF208B80B9377CBD36B5A0A4E9DE7CC8BF4C5",
-                          "bytes":  14522
-                      },
-                      {
-                          "path":  "justifications/Cantor_M2B_Supplied_Directory_Topology_Projection_Justification.sop",
-                          "sha256":  "4858B88EFFF7479B2E6C433175E8EBF7258FC0E04D73853D83F194134992605E",
-                          "bytes":  3768
-                      },
-                      {
-                          "path":  "plans/Cantor_M2B_Supplied_Directory_Topology_Projection_Plan.sop",
-                          "sha256":  "0449C44B8C61C894105FEE986C0F5DCEF9E0766F638C0621497A2D7343C1A509",
-                          "bytes":  3100
-                      },
-                      {
-                          "path":  "feature_support/M2BSuppliedDirectoryTopologyProjection_Requirement_Matrix.sop",
-                          "sha256":  "7A2CF141A370E2D5CDBAA56FAE4B890BF698AFFCC2B2DAE5399A30F1029DF816",
-                          "bytes":  2329
-                      },
-                      {
-                          "path":  "feature_support/slices/M2BSuppliedDirectoryTopologyProjection.sop",
-                          "sha256":  "EAE118F7FB0752218D905A074543719E8D1A659D6AE8425481182E7D78F181BF",
-                          "bytes":  1993
-                      },
-                      {
-                          "path":  "plans/Cantor_Engine_Build_Plan.sop",
-                          "sha256":  "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
-                          "bytes":  28862
-                      },
-                      {
-                          "path":  "plans/Cantor_Phase3_M2B_Activation_Readiness.sop",
-                          "sha256":  "A5B21F01CAEBAEF3FC74E996A01BDEA7F569A25C4883FA6F06A66798F101CC00",
-                          "bytes":  31111
-                      },
-                      {
-                          "path":  "feature_support/Phase3TopologyScanner_Requirement_Matrix.sop",
-                          "sha256":  "E4B209910398A26DB32AF9477C98562E1454E9452E6319C3F1D5C108F65BCCB2",
-                          "bytes":  6230
-                      },
-                      {
-                          "path":  "feature_support/Cantor_Engine_Build_Slice_Index.sop",
-                          "sha256":  "BCE6F6A043539E48A18EB16E463066B217CBEAE380EFBE03DA53CE28CB86A634",
-                          "bytes":  66654
-                      },
-                      {
-                          "path":  "solutions/Cantor_M2B_Supplied_Directory_Topology_Projection_Solution.sop",
-                          "sha256":  "89D30DD59AFFD3AD65F9FE1905FFCF6203F2F39775C6199E1EAC39D61DBCE0B4",
-                          "bytes":  2964
-                      },
-                      {
-                          "path":  "feature_support/reviews/M2BSuppliedDirectoryTopologyProjection_Completion_Review.sop",
-                          "sha256":  "B103D8A10AFA88E21EC49D1CD22DBA785BA2FD1C5EB424347F6A800D23D36241",
-                          "bytes":  2737
-                      },
-                      {
-                          "path":  "narrative/registries/Cantor_M2B_Supplied_Directory_Topology_Projection_Registry.sop",
-                          "sha256":  "AF6AA246B4823F91257BEDC398302C88DC54E33BF4061977F1048FFEB6256BE5",
-                          "bytes":  3444
-                      },
-                      {
-                          "path":  "narrative/turns/1785516170000_cantor_m2b_supplied_directory_topology_projection_source_preservation.sop",
-                          "sha256":  "4DCAE6242CC995FC9277A961A1C9FD6DE19D3C796658730CB874A6D46BDBD42C",
-                          "bytes":  1012
-                      },
-                      {
-                          "path":  "narrative/turns/1785516260000_cantor_m2b_supplied_directory_topology_projection_sjs_authority.sop",
-                          "sha256":  "F6857915E0C73BD32C38262869B4BC8DEFB2EAB3B0222200A927EB8DCD08F987",
-                          "bytes":  1649
-                      },
-                      {
-                          "path":  "narrative/turns/1785516970000_cantor_m2b_supplied_directory_topology_projection_implementation.sop",
-                          "sha256":  "C36D4B0BE2E2C6C160DC580C61B4D0D132251A3AA05CEDB39D6F630E50AA6FD6",
-                          "bytes":  1057
-                      },
-                      {
-                          "path":  "narrative/turns/1785516980000_cantor_m2b_supplied_directory_topology_projection_completion.sop",
-                          "sha256":  "276188EC77ECBCA3F912E08B87BC760BDC9369BDECEC3E1A227194774429290E",
-                          "bytes":  1189
-                      },
-                      {
-                          "path":  "narrative/file_changes/1785516170000_m2b_supplied_directory_topology_projection_source_file_change.sop",
-                          "sha256":  "A8B23BE7EFA8C7C8D0F7B70E11101E858873134216B556D62E63D613EA549CBB",
-                          "bytes":  715
-                      },
-                      {
-                          "path":  "narrative/file_changes/1785516260000_m2b_supplied_directory_topology_projection_sjs_file_change.sop",
-                          "sha256":  "B995180DE7D5319EA06EFB37C341EC985E0277121277AE49F666E278695ACC1F",
-                          "bytes":  902
-                      },
-                      {
-                          "path":  "narrative/file_changes/1785516970000_m2b_supplied_directory_topology_projection_implementation_file_change.sop",
-                          "sha256":  "2BC4B9C41F9C8E562ED07F2416A37152F51F941918D37B82C23E995C11A5820F",
-                          "bytes":  813
-                      },
-                      {
-                          "path":  "narrative/file_changes/1785516980000_m2b_supplied_directory_topology_projection_completion_file_change.sop",
-                          "sha256":  "564CE03CF87D39603D447646AC0189A735F1E3BE3276B5B0CD2FAD80402F7A4E",
-                          "bytes":  822
-                      },
-                      {
-                          "path":  "narrative/operational_faults/1785517000000_m2b_supplied_directory_topology_projection_application_control_fault.sop",
-                          "sha256":  "5486EF93ADF538A8E34BFCE035DB2A593377EC7C875474C305D323AEF6A2D0C6",
-                          "bytes":  1330
-                      },
-                      {
-                          "path":  "narrative/Project_Narrative.sop",
-                          "sha256":  "2D159D03BEE8502E29CDA4A4A2D828E15D51E5465C2A5B056CF9DD1FC5A7D52B",
-                          "bytes":  381343
-                      },
-                      {
-                          "path":  "narrative/reentry/Cantor_M2B_Current_Reentry.sop",
-                          "sha256":  "9B8C2F8F6D37A6C752ECC5BC1A1F84B7E814F4CFB9A6D20A813371B282FB5B25",
-                          "bytes":  135482
-                      },
-                      {
-                          "path":  "scripts/build_windows_supplied_directory_topology_projection_evidence_manifest.ps1",
-                          "sha256":  "138F913130E15F86C0A318A430A4B30B5993733289FF9D001FD77DCA914FA9D3",
-                          "bytes":  8271
-                      }
-                  ]
+  "schema": "cantor-windows-supplied-directory-topology-projection-evidence-manifest/0.1",
+  "evidence_manifest_uuid": "46081753-f671-4042-a9e1-cb337b7aa103",
+  "generated_at_utc": "2026-08-24T20:18:18.7149942Z",
+  "authority": {
+    "canonical_specification": "specifications/Cantor_M2B_Supplied_Directory_Topology_Projection.sop",
+    "satisfaction_signature_uuid": "2f24b78e-90ab-4413-9189-2c2bbcf65187",
+    "stability_signature_uuid": "cbeb4260-0db0-413c-89c6-2ca164775243",
+    "topology_forms_signature_uuid": "1edee945-9957-41d7-bd17-0765ec54f5cb",
+    "solution_uuid": "0461573f-053d-42cb-8be7-2a55c08a4f13",
+    "implementation_commit": "869a95f9939125397017894b817fc6fa98103429"
+  },
+  "scope": {
+    "profile": "cantor-windows-supplied-directory-topology-projection/0.1",
+    "focused_unit_tests": 11,
+    "focused_static_tests": 1,
+    "focused_evidence_tests": 1,
+    "plan_json_max_bytes": 262144,
+    "mandatory_stability_revalidation": true,
+    "direct_stable_pair_input": false,
+    "fixed_directory_mode": true,
+    "absent_length": true,
+    "absent_content_digest": true,
+    "exact_entry_reference_gate": true,
+    "exact_final_component_gate": true,
+    "current_topology_form_validation": true,
+    "output_only_lineage_wrapper": true,
+    "unsafe_blocks": 0,
+    "windows_api_calls": 0,
+    "cargo_delta": 0,
+    "physical_path_authority": false,
+    "enumeration_authority": false,
+    "traversal_authority": false,
+    "inventory_authority": false,
+    "stream_completeness_authority": false,
+    "receipt_authority": false,
+    "admission_authority": false,
+    "mutation_authority": false,
+    "physical_claim": false
+  },
+  "verification": [
+    {
+      "command": "cargo test -p cantor_ecosystem --lib windows_supplied_directory_topology_projection --locked --offline",
+      "passed": 11,
+      "status": "passed"
+    },
+    {
+      "command": "cargo test -p cantor_ecosystem --test windows_supplied_directory_topology_projection_static --locked --offline",
+      "passed": 1,
+      "status": "passed"
+    },
+    {
+      "command": "cargo test -p cantor_ecosystem --test windows_supplied_directory_topology_projection_evidence --locked --offline",
+      "passed": 1,
+      "status": "passed"
+    },
+    {
+      "command": "RUSTFLAGS=-C overflow-checks=on -C metadata=cantor_m2b_sdtp_impl focused equivalents --release --locked --offline",
+      "passed": 13,
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --workspace --all-targets --locked --offline",
+      "passed": 345,
+      "ignored": 1,
+      "status": "passed"
+    },
+    {
+      "command": "RUSTFLAGS=-C overflow-checks=on -C metadata=cantor_m2b_sdtp_impl cargo test --workspace --all-targets --release --locked --offline",
+      "passed": 345,
+      "ignored": 1,
+      "status": "passed"
+    },
+    {
+      "command": "cargo fmt --all -- --check",
+      "status": "passed"
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+      "status": "passed"
+    },
+    {
+      "command": "cargo build --workspace --all-targets --release --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo audit --file Cargo.lock",
+      "dependencies": 113,
+      "advisories": 1177,
+      "vulnerabilities": 0,
+      "status": "passed"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".gitattributes",
+      "sha256": "52A5677DBDD956DCABD61442DF1967048ACC10F3A5F962EBF5243140E0746E07",
+      "bytes": 167
+    },
+    {
+      "path": "SOP_CORE_MAP.sop",
+      "sha256": "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
+      "bytes": 30392
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
+      "bytes": 1285
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
+      "bytes": 41561
+    },
+    {
+      "path": "crates/cantor_ecosystem/Cargo.toml",
+      "sha256": "D071736DA3A1279878AC9D1426471AB975ED6CBF6A5030FB366C64D6FA9EC6D8",
+      "bytes": 505
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/lib.rs",
+      "sha256": "6C58FE12C776D3775C255A2F5E14C1A1074D675767410A55178FD4D560708C16",
+      "bytes": 2356
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/topology_forms.rs",
+      "sha256": "5D2213C8A49DE278109503F51789A1648B61266F7581AE2AF743BF5EF324A11D",
+      "bytes": 42216
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/windows_supplied_entry_observation.rs",
+      "sha256": "94617B29276422CD99C5275E614E5DD2A83A87C48646224800933884AD340715",
+      "bytes": 31858
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/windows_supplied_entry_stability.rs",
+      "sha256": "345CA4FF2B0E253700051095CBB8D04C784327961B705663680D1726D32F6364",
+      "bytes": 23013
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/windows_supplied_directory_topology_projection.rs",
+      "sha256": "9015B6DBB99C2E7D686C639204673CD19731364548DA53F557CD53F671FB004E",
+      "bytes": 24031
+    },
+    {
+      "path": "crates/cantor_ecosystem/tests/windows_supplied_directory_topology_projection_static.rs",
+      "sha256": "687090D44D449E36433155415E3F5AE50512FCE4E217E8ACDFF61E0BE0A021D2",
+      "bytes": 3212
+    },
+    {
+      "path": "crates/cantor_ecosystem/tests/windows_supplied_directory_topology_projection_evidence.rs",
+      "sha256": "0B5FEB2F3D1B64A5FA3DCC06C788D487A964E345A00D555249811D658E1E8400",
+      "bytes": 3373
+    },
+    {
+      "path": "source_documents/2026-07-31_cantor_m2b_supplied_directory_topology_projection/Cantor_M2B_Supplied_Directory_Topology_Projection_Source.sop",
+      "sha256": "C8BD158B415DA9AAFDB3439324293EB975959B20FCC9E4627CCE583665ECFD37",
+      "bytes": 15096
+    },
+    {
+      "path": "source_documents/2026-07-31_cantor_m2b_supplied_directory_topology_projection/Source_Document_Manifest.sop",
+      "sha256": "AEB3AB8585DB4878202D6567F1032C914AFE28282F24FA0897FA637D9EB5826B",
+      "bytes": 1062
+    },
+    {
+      "path": "narrative/research/Cantor_M2B_Post_Supplied_Regular_File_Topology_Projection_Architecture_Review_2026-07-31.sop",
+      "sha256": "F28AF3A3FCA69564C40CAB563391690CC751BF537BD2F562B7B740BA3287039D",
+      "bytes": 8125
+    },
+    {
+      "path": "feature_support/reviews/M2BSuppliedRegularFileTopologyProjectionProgramCheckpointReview.sop",
+      "sha256": "F4BCD0B6CAAB34053BAE4BC176866EC3EB726B932CA5F935645CEBD97D3C2BED",
+      "bytes": 2822
+    },
+    {
+      "path": "specifications/Cantor_M2B_Supplied_Entry_Stability_Reconciliation.sop",
+      "sha256": "6B63092DD56343C2698B1112308A6F34F0C21B570B6330F355D8315334AC0DE3",
+      "bytes": 14710
+    },
+    {
+      "path": "proofs/Cantor_M2B_Supplied_Entry_Stability_Reconciliation_Proof.sop",
+      "sha256": "F24299B0ADBF32116F8C59A05154927781420CBEB5F960341355B8036AEE78BB",
+      "bytes": 5959
+    },
+    {
+      "path": "specifications/Cantor_Phase3_Topology_Machine_Forms.sop",
+      "sha256": "7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A",
+      "bytes": 13696
+    },
+    {
+      "path": "proofs/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Proof.sop",
+      "sha256": "A8E76BD5DDF5F4FF067E5BED2320C356B3B9B5D186B43A3EEE8CA39698920ECC",
+      "bytes": 3879
+    },
+    {
+      "path": "specifications/exploded/Cantor_M2B_Supplied_Directory_Topology_Projection.exploded.sop",
+      "sha256": "D86936CDC2C46AB406CD1F66211E1D9CD5D654B2D31DEB8F0B51568D94A1E556",
+      "bytes": 15171
+    },
+    {
+      "path": "specifications/Cantor_M2B_Supplied_Directory_Topology_Projection.sop",
+      "sha256": "FCD7AD2D2E2352D4862E10A5109CF208B80B9377CBD36B5A0A4E9DE7CC8BF4C5",
+      "bytes": 14522
+    },
+    {
+      "path": "justifications/Cantor_M2B_Supplied_Directory_Topology_Projection_Justification.sop",
+      "sha256": "4858B88EFFF7479B2E6C433175E8EBF7258FC0E04D73853D83F194134992605E",
+      "bytes": 3768
+    },
+    {
+      "path": "plans/Cantor_M2B_Supplied_Directory_Topology_Projection_Plan.sop",
+      "sha256": "0449C44B8C61C894105FEE986C0F5DCEF9E0766F638C0621497A2D7343C1A509",
+      "bytes": 3100
+    },
+    {
+      "path": "feature_support/M2BSuppliedDirectoryTopologyProjection_Requirement_Matrix.sop",
+      "sha256": "7A2CF141A370E2D5CDBAA56FAE4B890BF698AFFCC2B2DAE5399A30F1029DF816",
+      "bytes": 2329
+    },
+    {
+      "path": "feature_support/slices/M2BSuppliedDirectoryTopologyProjection.sop",
+      "sha256": "EAE118F7FB0752218D905A074543719E8D1A659D6AE8425481182E7D78F181BF",
+      "bytes": 1993
+    },
+    {
+      "path": "plans/Cantor_Engine_Build_Plan.sop",
+      "sha256": "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
+      "bytes": 28862
+    },
+    {
+      "path": "plans/Cantor_Phase3_M2B_Activation_Readiness.sop",
+      "sha256": "A5B21F01CAEBAEF3FC74E996A01BDEA7F569A25C4883FA6F06A66798F101CC00",
+      "bytes": 31111
+    },
+    {
+      "path": "feature_support/Phase3TopologyScanner_Requirement_Matrix.sop",
+      "sha256": "E4B209910398A26DB32AF9477C98562E1454E9452E6319C3F1D5C108F65BCCB2",
+      "bytes": 6230
+    },
+    {
+      "path": "feature_support/Cantor_Engine_Build_Slice_Index.sop",
+      "sha256": "83BFB6292A97B1AE609898441B4744903BECDD4BDB713F27E2DABF2C4E497F29",
+      "bytes": 67700
+    },
+    {
+      "path": "solutions/Cantor_M2B_Supplied_Directory_Topology_Projection_Solution.sop",
+      "sha256": "89D30DD59AFFD3AD65F9FE1905FFCF6203F2F39775C6199E1EAC39D61DBCE0B4",
+      "bytes": 2964
+    },
+    {
+      "path": "feature_support/reviews/M2BSuppliedDirectoryTopologyProjection_Completion_Review.sop",
+      "sha256": "B103D8A10AFA88E21EC49D1CD22DBA785BA2FD1C5EB424347F6A800D23D36241",
+      "bytes": 2737
+    },
+    {
+      "path": "narrative/registries/Cantor_M2B_Supplied_Directory_Topology_Projection_Registry.sop",
+      "sha256": "AF6AA246B4823F91257BEDC398302C88DC54E33BF4061977F1048FFEB6256BE5",
+      "bytes": 3444
+    },
+    {
+      "path": "narrative/turns/1785516170000_cantor_m2b_supplied_directory_topology_projection_source_preservation.sop",
+      "sha256": "4DCAE6242CC995FC9277A961A1C9FD6DE19D3C796658730CB874A6D46BDBD42C",
+      "bytes": 1012
+    },
+    {
+      "path": "narrative/turns/1785516260000_cantor_m2b_supplied_directory_topology_projection_sjs_authority.sop",
+      "sha256": "F6857915E0C73BD32C38262869B4BC8DEFB2EAB3B0222200A927EB8DCD08F987",
+      "bytes": 1649
+    },
+    {
+      "path": "narrative/turns/1785516970000_cantor_m2b_supplied_directory_topology_projection_implementation.sop",
+      "sha256": "C36D4B0BE2E2C6C160DC580C61B4D0D132251A3AA05CEDB39D6F630E50AA6FD6",
+      "bytes": 1057
+    },
+    {
+      "path": "narrative/turns/1785516980000_cantor_m2b_supplied_directory_topology_projection_completion.sop",
+      "sha256": "276188EC77ECBCA3F912E08B87BC760BDC9369BDECEC3E1A227194774429290E",
+      "bytes": 1189
+    },
+    {
+      "path": "narrative/file_changes/1785516170000_m2b_supplied_directory_topology_projection_source_file_change.sop",
+      "sha256": "A8B23BE7EFA8C7C8D0F7B70E11101E858873134216B556D62E63D613EA549CBB",
+      "bytes": 715
+    },
+    {
+      "path": "narrative/file_changes/1785516260000_m2b_supplied_directory_topology_projection_sjs_file_change.sop",
+      "sha256": "B995180DE7D5319EA06EFB37C341EC985E0277121277AE49F666E278695ACC1F",
+      "bytes": 902
+    },
+    {
+      "path": "narrative/file_changes/1785516970000_m2b_supplied_directory_topology_projection_implementation_file_change.sop",
+      "sha256": "2BC4B9C41F9C8E562ED07F2416A37152F51F941918D37B82C23E995C11A5820F",
+      "bytes": 813
+    },
+    {
+      "path": "narrative/file_changes/1785516980000_m2b_supplied_directory_topology_projection_completion_file_change.sop",
+      "sha256": "564CE03CF87D39603D447646AC0189A735F1E3BE3276B5B0CD2FAD80402F7A4E",
+      "bytes": 822
+    },
+    {
+      "path": "narrative/operational_faults/1785517000000_m2b_supplied_directory_topology_projection_application_control_fault.sop",
+      "sha256": "5486EF93ADF538A8E34BFCE035DB2A593377EC7C875474C305D323AEF6A2D0C6",
+      "bytes": 1330
+    },
+    {
+      "path": "narrative/Project_Narrative.sop",
+      "sha256": "FEBC4430789CE4D8A7F7EC5417893A6AE5F8405E633F3B2B8A2DECC7A5BD4CE9",
+      "bytes": 382505
+    },
+    {
+      "path": "narrative/reentry/Cantor_M2B_Current_Reentry.sop",
+      "sha256": "729C283757E8956C6FA6012311845C6B83FFB4C9E22DFAF1C1243755968F3E60",
+      "bytes": 136571
+    },
+    {
+      "path": "scripts/build_windows_supplied_directory_topology_projection_evidence_manifest.ps1",
+      "sha256": "138F913130E15F86C0A318A430A4B30B5993733289FF9D001FD77DCA914FA9D3",
+      "bytes": 8271
+    }
+  ]
 }
