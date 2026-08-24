@@ -15,6 +15,7 @@ pub mod phase3_evidence;
 pub mod platform_preflight_forms;
 pub mod review;
 pub mod runtime;
+pub mod sjs_commit_envelope_journal;
 pub mod sjs_repository_graph;
 pub mod staged_diff_acquisition;
 pub mod topology_forms;

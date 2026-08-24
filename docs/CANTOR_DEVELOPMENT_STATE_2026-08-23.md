@@ -113,9 +113,12 @@ workspace admission, operator bootstrap, and publication verification are
 reusable substrate; they are not yet composed into this autonomous loop.
 
 The SJS acquisition P1 closes a supporting observation seam for future SWA-05:
-it can derive the independently checked P0 inventory from a pinned staged index,
-but the commit envelope, machine change-set self-path policy, hook placement,
-operator authorization, and publication broker are still separate work.
+it can derive the independently checked P0 inventory from a pinned staged index.
+The P2 commit-envelope journal then resolves the machine change-set self-path
+cycle in supplied-data form: an immediate successor carries the prior payload's
+record and one current carrier tip remains explicitly open. P2 does not observe
+physical placement. Hook placement, operator authorization, physical carrier
+proof, and the publication broker are still separate work.
 
 Engineering-time forecast from the current base, excluding unavailable-provider
 wait time:

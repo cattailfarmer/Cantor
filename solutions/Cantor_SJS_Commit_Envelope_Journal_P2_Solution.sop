@@ -1,0 +1,38 @@
+Subject: Cantor SJS Commit Envelope Journal P2 Solution
+
+@ [solution_uuid] 927d8e5b-9ddc-4506-807c-4cf28ea24396
+@ [canonical_uuid] 27ac629d-a885-49f1-85ca-14c52c2f3b0e
+@ [signature_uuid] 68b2e626-f5e1-4ce1-a631-1784e24caa15
+
+& [Production]
+  + one safe pure Rust module verifies a bounded one-head-lag journal over supplied commit-envelope records and placements
+  + every link independently reuses the published unmodified P0 inventory manifest and receipt validators for both candidate and published forms
+  + candidate and published manifests may differ only in publication state resulting commit and their own change-set digest
+  + a stdout-only CLI reads one bounded JSON bundle and emits one verification receipt or one typed first-fault refusal
+
+& [Chain]
+  + the first payload predecessor equals the supplied anchor and every placement carrier parent equals its payload resulting commit
+  + the next payload predecessor equals the prior payload result and the next payload result equals the prior carrier commit
+  + the final carrier equals exactly one intentionally open tip; the successor commit closes the prior payload without pretending to close itself
+  + record placement journal and receipt identities use separate deterministic SHA256 domains
+
+& [Safety]
+  + authority is verification_only placement authority is supplied_data and physical_contact is false
+  + product code has no Git command process filesystem write output path network provider model MCP tool mutation hook staging commit push self-signature or unsafe-code surface
+  + no Cargo dependency feature manifest or lockfile delta exists
+
+& [Evidence]
+  + deterministic one-link and two-link fixtures validate with stable receipt identities and exact one-open-tip counts
+  + twelve module tests two CLI tests and three independent static/integration tests pass
+  + the controlled runner passes three success paths and three adversarial refusals including unknown CLI output placement authority widening and open-tip tamper
+  + fourteen content-addressed P2 artifacts and the recursive current-evidence graph verify without stale references
+  + exact locked offline serialized debug and overflow-checked release each pass 188 result groups 1113 tests zero failed and three ignored
+  + full workspace and separate lifecycle-experiment warnings-denied Clippy format local acceptance and final 47-group ecosystem replay pass
+
+& [Rollback]
+  + revert the P2 implementation publication while retaining preserved source signed SJS phase-lock evidence operational faults and published P0 and P1 predecessors
+
+& [Nonclaims]
+  + supplied placement is not physical Git tree or carrier proof
+  + P2 does not install a hook stage commit push authorize an operator activate a provider sign its own work or implement SWA-05
+  + exact commit push and immediate-successor publication bookend remain required before publication completion

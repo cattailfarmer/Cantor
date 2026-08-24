@@ -1,0 +1,28 @@
+Subject: Cantor SJS Commit Envelope Journal P2 Compile Corrections
+
+@ [fault_uuid] 4eb36437-3066-47f1-8536-43cdbc96ff38
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] 27ac629d-a885-49f1-85ca-14c52c2f3b0e
+@ [signature_uuid] 68b2e626-f5e1-4ce1-a631-1784e24caa15
+@ [recorded_utc] 2026-08-24T17:14:05.2168018Z
+
+& [FindingOne]
+  + the initial journal digest renderer repeated the earlier unsupported attempt to apply uppercase-hex formatting directly to a SHA256 byte array
+  + Rust rejected the formatter at compile time and no invalid digest reached a fixture or acceptance result
+  + correction uses the same explicit bounded byte-wise uppercase hexadecimal encoding already proved in the P1 seam
+
+& [FindingTwo]
+  + one chain-refusal unit test attempted to hold an immutable link borrow while mutating the containing bundle
+  + Rust rejected the overlapping borrow and the test was corrected by limiting the borrow scope and cloning only the bounded identity needed for the assertion
+  + the correction changes test construction only and does not widen production acceptance semantics
+
+& [RecurrenceControl]
+  + later digest-bearing seams must reuse a shared reviewed hex encoder or the already published helper instead of reintroducing array formatting
+  + compile failures are excluded from acceptance counts and remain durable even though the corrected focused suite passes
+
+& [Verification]
+  + twelve module two CLI and three independent static/integration tests pass after both corrections
+  + controlled one-link two-link replay and three adversarial refusals pass with no Git process physical contact mutation dependency or provider activation
+
+& [Frontier]
+  + exact workspace gates evidence closure attribution publication and post-push bookend remain required

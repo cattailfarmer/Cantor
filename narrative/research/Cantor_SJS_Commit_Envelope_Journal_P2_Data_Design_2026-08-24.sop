@@ -1,0 +1,32 @@
+Subject: Cantor SJS Commit Envelope Journal P2 Data Design
+
+@ [design_uuid] 442d26f0-82ee-4d23-b839-3e16ee9fdd71
+@ [canonical_uuid] 27ac629d-a885-49f1-85ca-14c52c2f3b0e
+
+& [Forms]
+  + JournalBundle has a closed profile bounded nonempty ordered links pinned anchor open tip authority and self-excluding digest
+  + JournalLink embeds one P0 DiffInventory candidate manifest candidate receipt published manifest published receipt immutable JournalRecord and PlacementObservation
+  + JournalRecord binds payload predecessor/resulting commits inventory candidate/published manifest and receipt digests journal path lag policy authority and self digest
+  + PlacementObservation binds record digest path carrier parent carrier commit authority supplied_data physical_contact false and self digest
+  + JournalReceipt binds bundle digest link count anchor open tip closed commit count exact coverage one-open-tip result and nonauthority
+
+& [InvariantManifestProjection]
+  + candidate and published manifestations must be byte-equivalent as typed values after clearing change_set_sha256 and normalizing publication_state/resulting_commit to candidate/null
+  + both manifests retain the same change_set_uuid repository branch predecessor inventory graph events exclusions turn conversation authority and physical_contact fields
+
+& [Chain]
+  + each placement carrier parent equals its link payload resulting commit
+  + next link payload predecessor equals previous payload resulting commit
+  + next link payload resulting commit equals previous placement carrier commit
+  + first payload predecessor equals bundle anchor
+  + final placement carrier commit equals bundle open tip and no link governs that tip inside the same bundle
+
+& [Bounds]
+  + 1 through 32 links one normalized journal path per link and bounded JSON bytes
+  + all UUID commit SHA256 path text graph and event bounds remain inherited from P0 validation
+
+& [DigestDomains]
+  + cantor-sjs-commit-envelope-record/0.1
+  + cantor-sjs-commit-envelope-placement/0.1
+  + cantor-sjs-commit-envelope-journal/0.1
+  + cantor-sjs-commit-envelope-journal-receipt/0.1

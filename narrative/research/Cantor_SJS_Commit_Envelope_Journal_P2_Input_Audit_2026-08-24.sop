@@ -1,0 +1,24 @@
+Subject: Cantor SJS Commit Envelope Journal P2 Input Audit
+
+@ [audit_uuid] fb93d660-d5ef-48a6-8e13-b92070486814
+@ [canonical_uuid] 27ac629d-a885-49f1-85ca-14c52c2f3b0e
+
+& [ConfirmedInputs]
+  + P0 DiffInventory digest covers every changed coordinate and P0 exact coverage requires event-coordinate set equality
+  + P0 candidate manifest requires resulting_commit null while committed or published requires an exact commit identity
+  + candidate and published forms can independently validate against the same inventory after recomputing their change-set and receipt digests
+  + P1 physically acquires the staged inventory but intentionally excludes commit-envelope self-inclusion
+
+& [CycleProof]
+  + if the manifest path is in the described inventory then inventory_sha256 depends on raw manifest bytes
+  + raw manifest bytes contain inventory_sha256 and change_set_sha256 so exact same-payload construction is recursively self-dependent
+  + foreign exclusion cannot solve the cycle because an owned envelope path is not foreign
+  + a special ignored self path would break P0's exact bidirectional coverage contract
+
+& [SelectedResolution]
+  + time-shift envelope custody by one commit and retain one explicit open tip
+  + validate both candidate and published forms plus successor placement as separate immutable evidence
+
+& [RemainingGap]
+  + P2 supplied placement is internally verified data and not physical Git tree observation
+  + no process mutation operator authorization recovery hook or push broker is selected

@@ -1,0 +1,42 @@
+Subject: Cantor SJS Commit Envelope Journal P2 Source
+
+@ [source_snapshot_uuid] 47e5b824-c599-4a7a-8a43-fe10a143bee3
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [recorded_utc] 2026-08-24T16:56:49.4147396Z
+
+& [UserObjective]
+  + preserve the whole SJS graph beside Git so each element carries its change justification history
+  + advance Cantor toward SOP-governed self-work updates without granting self-signature or uncontrolled publication
+
+& [PublishedPredecessors]
+  + P0 repository graph verifier implementation is 02be4059d223504f5783560ceb2d70a3f44aa8a4 with publication bookend f1622b2e1f4a1adc58c5baa33582b01e1176c7ce
+  + P1 staged-diff acquisition implementation is a2385e1fc734bd6b9bbfbf191e702955238dfc4c with publication bookend 502850c722325f5411c86311ab95c4d6748e909e
+  + P0 validates candidate or published ChangeSetManifest forms against one unchanged DiffInventory
+  + P1 derives that inventory from an exact physical staged index without mutation authority
+
+& [Problem]
+  + placing a ChangeSetManifest inside the same staged payload it describes makes the inventory digest depend on the manifest bytes while the manifest bytes contain that inventory digest
+  + changing candidate publication fields after commit also changes the change-set digest and verification receipt
+  + omitting the self path silently weakening exact coverage or searching for a hash fixed point is forbidden
+
+& [SelectedPolicy]
+  + use an immutable one-head-lag successor journal rather than same-commit self-inclusion
+  + candidate and published manifests verify the same payload inventory and differ only in publication state resulting commit and recomputed self digest
+  + a journal record for payload commit N is carried by immediate successor commit N+1 and is therefore outside N's inventory
+  + commit N+1 is itself governed by a distinct record carried by N+2
+  + the chain has one pinned anchor and exactly one intentionally open current tip; every earlier commit has a successor-carried record
+
+& [ExecutableP2]
+  + implement a pure supplied-data verifier for bounded journal chains containing inventories candidate and published manifests both P0 receipts record forms and supplied placement observations
+  + reuse the existing unmodified P0 validators and digest functions twice per link
+  + verify invariant manifest content exact record bindings immediate-parent carrier placement consecutive chain linkage anchor and one-open-tip semantics
+  + emit only a deterministic verification receipt with verification_only physical_contact false
+
+& [DeniedAuthority]
+  + no Git command process index or commit observation staging hook install commit push fetch notes config object write provider model MCP tool mutation self-signature or history rewrite
+  + supplied placement observations are claims verified for internal consistency and not physical proof of Git object placement
+  + physical commit/tree observation and the SWA-05 mutation/publication broker require later signed slices
+
+& [Frontier]
+  + after pure P2 proof separately govern a read-only physical commit/tree placement observer
+  + only then compose candidate verification operator authorization mutation recovery published-envelope construction and successor-journal placement

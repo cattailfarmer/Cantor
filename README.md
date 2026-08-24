@@ -593,6 +593,23 @@ the repository, install hooks, stage, commit, push, activate a provider, sign
 its own work, or solve the change-set self-inclusion cycle. Commit-envelope and
 SWA-05 integration remain separately governed work.
 
+## SJS commit-envelope journal P2
+
+Cantor now has the bounded provider-free answer to the change-set self-inclusion
+cycle. `cantor-sjs-commit-envelope-journal-verify` checks an immediate-successor
+journal in which commit `N+1` carries the governed record for payload commit
+`N`. Candidate and published P0 manifests are both independently validated,
+their nonpublication content must remain identical, and a linear chain retains
+exactly one explicit open carrier tip instead of claiming an impossible
+same-commit digest fixed point.
+
+Deterministic one-link and two-link fixtures, independent static tests, and a
+controlled adversarial runner prove the supplied-data protocol. P2 remains
+`verification_only`, `physical_contact: false`, and has no Git process,
+filesystem-write, hook, stage, commit, push, provider, self-signature, or
+operator-authority surface. Physical commit/tree placement observation and the
+SWA-05 publication broker remain separately governed work.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under
