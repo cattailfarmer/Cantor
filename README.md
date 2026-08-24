@@ -573,6 +573,26 @@ refusals. This P0 does not inspect Git, stage files, commit, push, activate a
 provider, or grant self-signature. Physical staged-diff acquisition and
 commit-hook integration remain separately governed work.
 
+## SJS staged-diff acquisition P1
+
+Cantor now also includes a bounded read-only physical Git-index observer. The
+`cantor-sjs-staged-diff-acquire` CLI accepts a strict request that pins the
+repository, branch, HEAD, object format, index, absolute Git executable, raw
+executable SHA256, generated-refresh subset, and resource limits. It clears the
+child environment, invokes only a closed read-only Git vocabulary, rechecks the
+executable/repository/index identities, hashes raw baseline and staged blobs,
+and emits the existing P0 `DiffInventory` plus a nonauthorizing observation
+receipt to stdout.
+
+The controlled disposable-repository harness covers add, modify, delete,
+rename, and generated refresh coordinates with deterministic replay and typed
+identity/authority refusals. An exact probe of the current Cantor repository
+found an empty staged index and correctly refused to invent an inventory. P1
+has `physical_contact: true` and `authority: observation_only`; it cannot write
+the repository, install hooks, stage, commit, push, activate a provider, sign
+its own work, or solve the change-set self-inclusion cycle. Commit-envelope and
+SWA-05 integration remain separately governed work.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under

@@ -72,13 +72,17 @@ integration, live-provider, and operator-product contracts.
 
 ## SOP-bootable self-working target
 
-The whole-graph custody seam now has an executable P0: strict Rust forms and a
-read-only CLI verify supplied diff inventories, SJS nodes/edges, element-history
-events, exact coverage, exclusions, and deterministic receipts. Exact debug
-and overflow-checked release each pass 183 result groups and 1,078 tests with
-zero failures and three ignored maintenance cases. This advances durable
-justification and commit recall, but it does not yet acquire the Git index or
-authorize staging, commit, push, provider work, or self-signature.
+The whole-graph custody seam now has two executable layers. P0 verifies supplied
+diff inventories, SJS nodes/edges, element-history events, exact coverage,
+exclusions, and deterministic receipts. P1 physically observes one hash-pinned
+local Git staged index through a closed read-only command vocabulary, rechecks
+the executable/repository/index identities, hashes raw blobs, and emits the P0
+inventory plus a nonauthorizing receipt. Exact debug and overflow-checked
+release each pass 185 result groups and 1,096 tests with zero failures and three
+ignored maintenance cases. This advances durable justification and commit
+recall from supplied data to governed observation, but it does not install a
+hook or authorize staging, commit, push, provider work, change-set
+self-inclusion, or self-signature.
 
 The current task additionally preserves a concrete product loop: admitted SOP
 boots a governed Cantor agent session; the session selects and plans bounded
@@ -107,6 +111,11 @@ the new lifecycle does not convert any of those missing brokers into authority.
 Existing procedure authorship, iterative checkpoints, custody,
 workspace admission, operator bootstrap, and publication verification are
 reusable substrate; they are not yet composed into this autonomous loop.
+
+The SJS acquisition P1 closes a supporting observation seam for future SWA-05:
+it can derive the independently checked P0 inventory from a pinned staged index,
+but the commit envelope, machine change-set self-path policy, hook placement,
+operator authorization, and publication broker are still separate work.
 
 Engineering-time forecast from the current base, excluding unavailable-provider
 wait time:

@@ -50,12 +50,15 @@ review, and service-level evidence remain absent or separately locked.
 
 ## True current frontiers
 
-The provider-free SJS repository graph P0 is now executable and exact-workspace
-verified. It can validate a supplied typed change set against an independent
-supplied diff inventory and preserve per-element reasons, authorities,
-evidence, nonclaims, and frontiers beside Git history. It is governance
-substrate, not a Git observer or autonomous publication broker; physical
-staged-diff capture, commit-hook integration, and SWA-05 remain later contracts.
+The provider-free SJS repository graph P0 and staged-diff acquisition P1 are now
+executable and exact-workspace verified. P0 validates a supplied typed change
+set against an independent supplied diff inventory and preserves per-element
+reasons, authorities, evidence, nonclaims, and frontiers beside Git history.
+P1 derives that inventory from one exact hash-pinned local staged index through
+a closed read-only Git process boundary. The current live index was empty and
+was honestly refused with no synthetic inventory. This remains observation
+substrate, not an autonomous publication broker; commit-envelope self-path
+policy, hook integration, operator authority, and SWA-05 remain later contracts.
 
 1. Obtain an independently governed curator policy and signed selection through
    the implemented Slice 5F verifier. The repository deliberately supplies

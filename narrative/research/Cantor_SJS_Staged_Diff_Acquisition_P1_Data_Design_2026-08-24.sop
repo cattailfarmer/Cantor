@@ -1,0 +1,34 @@
+Subject: Cantor SJS Staged Diff Acquisition P1 Data Design
+
+@ [data_design_uuid] 0d3e8ec6-d1c7-4f89-9721-f203a255cb96
+
+& [AcquisitionRequest]
+  + profile repository_id branch_ref expected_head object_format repository_root git_executable expected_git_sha256 generated_refresh_paths limits
+
+& [AcquisitionReceipt]
+  + profile request_sha256 git_executable_sha256 git_version repository_root branch_ref head object_format index_path index_before_sha256 index_after_sha256 inventory command_count observation_only physical_contact true nonauthority result_sha256
+
+& [ProcessBoundary]
+  + one absolute executable with expected raw SHA256
+  + child environment cleared then fixed C locale terminal-prompt-off optional-locks-off lazy-fetch-off replacement-off system-config-off variables only
+  + stdout stderr exit byte and entry bounds apply to every command
+
+& [CommandSet]
+  + version build options repository root branch HEAD object format absolute index path cached raw diff and raw blob reads only
+  + exact config and flags disable external diff text conversion submodule recursion and ambiguous quoting
+  + no hook config mutation write-tree update-index add commit push fetch or object-writing command
+
+& [IndexSnapshot]
+  + resolve one absolute index path within the resolved Git administrative directory
+  + SHA256 raw index bytes before and after every command and refuse absence unreadability or drift
+  + re-read branch HEAD object format and repository root after capture
+
+& [DiffMapping]
+  + A M D and R map to added modified deleted and renamed
+  + an exact generated_refresh_paths subset remaps only M coordinates to generated_refresh
+  + C T U unknown scores nonregular modes submodules null object IDs duplicate coordinates non-UTF8 or invalid normalized paths are refused
+  + entries sort deterministically by status old path and new path before P0 self-digest generation
+
+& [DigestDomains]
+  + request and receipt use distinct length-prefixed SHA256 domains and self-cleared digest fields
+  + DiffInventory continues to use the published P0 domain and validator

@@ -1,0 +1,29 @@
+Subject: Cantor SJS Staged Diff Acquisition P1 Implementation Findings
+
+@ [fault_uuid] 824ab6f9-3ee9-4c22-af60-518f90f7f08b
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] 8fd08ecd-72ba-495c-b172-e91d554a8224
+@ [signature_uuid] e2d19a2a-88cb-4f48-b5b0-896e1b743f54
+@ [recorded_utc] 2026-08-24T15:48:13.4006600Z
+
+& [FindingOne]
+  + the initial SHA256 rendering attempted to apply an uppercase-hex formatter directly to a byte array
+  + Rust correctly rejected that unsupported formatting operation at compile time
+  + correction uses an explicit bounded byte-wise uppercase hexadecimal encoder with no dependency or digest-domain change
+
+& [FindingTwo]
+  + one overlong-path refusal produced the correct rejection but was initially classified as Parse rather than Resource
+  + the implementation and focused assertion were corrected to retain the closed first-fault taxonomy required by SDA-015
+  + the correction changes classification only and does not widen an accepted path status mode command or physical effect
+
+& [FindingThree]
+  + explicit staging surfaced Git's warning that a generated controlled-evidence JSON could normalize from CRLF to LF in the committed object
+  + the focused runner now normalizes ConvertTo-Json output to LF before writing and the evidence builder normalizes both production and verification serialization
+  + focused replay builder self-verification recursive evidence and raw staged-blob comparison are required after the correction
+
+& [Verification]
+  + focused debug overflow-checked release static CLI and controlled disposable-repository tests pass after both corrections
+  + no unsafe code Cargo dependency provider network hook staging commit push or self-signature authority was introduced
+
+& [Frontier]
+  + exact workspace gates evidence closure attribution and publication remain required before completion

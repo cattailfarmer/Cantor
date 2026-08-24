@@ -1,0 +1,28 @@
+Subject: Cantor SJS Staged Diff Acquisition P1 Input Audit
+
+@ [audit_uuid] c325a95f-5389-4a01-bf1d-347f6fcfb5f5
+@ [source_snapshot_uuid] df917e83-5c3d-43d6-9308-a79d65583699
+
+& [AuthorityAudit]
+  + user continuation authorizes in-repository development and publication but does not erase SJS or source boundaries
+  + P0 authorizes supplied-data verification only and explicitly requires a separate physical acquisition contract
+  + current Git executable identity is evidence for one local experiment and not universal trust authority
+
+& [CompatibilityAudit]
+  + P1 may construct the existing DiffInventory without changing its profile or P0 verifier semantics
+  + raw Git SHA-1 object IDs are locators only; DiffEntry before and after identities must be SHA256 of raw blob bytes
+  + generated_refresh is not inferable from Git status and requires an exact operator-supplied staged modified path list
+
+& [CriticalDelineation]
+  + index observation is physical_contact true and observation_only
+  + P0 graph verification remains physical_contact false and verification_only
+  + Git mutation publication provider and self-signature remain absent
+
+& [SelfReferenceFinding]
+  + placing a machine ChangeSetManifest inside its own raw-content DiffInventory creates a cycle through inventory_sha256 and the staged change-set after_sha256
+  + P1 must not claim to close commit-envelope self-reference
+  + a future sidecar trailing-bookend or normalized governance-self-path policy requires separate source and SJS
+
+& [Decision]
+  + exact read-only acquisition receipt and DiffInventory production are SJS-ready
+  + commit-hook integration and machine change-set self-custody are not part of this signature

@@ -1,0 +1,26 @@
+Subject: Cantor SJS Staged Diff Acquisition P1 Threat Review
+
+@ [threat_review_uuid] 451a5013-1ed7-40ee-a128-d2511bc7e943
+
+& [Threats]
+  + T01 executable substitution after selection
+  + T02 repository path substitution or symlink escape
+  + T03 ambient Git config external diff or textconv execution
+  + T04 credential prompt or lazy network object fetch
+  + T05 index mutation during multi-command acquisition
+  + T06 branch or HEAD movement during acquisition
+  + T07 malformed NUL raw records or score ambiguity
+  + T08 submodule gitlink or nonregular mode smuggling
+  + T09 copy type-change conflict or unmerged status coercion
+  + T10 SHA-1 object locator mistaken for content identity
+  + T11 missing object oversized blob stderr or exit truncation
+  + T12 generated-refresh classification widening
+  + T13 path traversal non-UTF8 duplicate or case ambiguity
+  + T14 receipt replay against another executable repository branch or index
+  + T15 observation receipt mistaken for mutation or publication authority
+  + T16 self-referential machine change-set falsely claimed complete
+
+& [Controls]
+  + exact executable raw hash request identity env-clear fixed commands double identity read index double hash strict parser closed status/mode map blob SHA256 bounds and domain receipts
+  + explicit observation_only physical_contact true and nonauthority fields
+  + P1 excludes machine commit-envelope integration

@@ -1,0 +1,27 @@
+Subject: Cantor SJS Staged Diff Acquisition P1 Gate Order And Wrapper Status Fault
+
+@ [fault_uuid] 84c277da-2fad-47d7-b2b3-568fbabf74c5
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] 8fd08ecd-72ba-495c-b172-e91d554a8224
+@ [recorded_utc] 2026-08-24T15:48:13.4006600Z
+
+& [EvidenceOrderFault]
+  + the first exact debug command ran after the parent lib export changed but before all current transitive evidence manifests were refreshed
+  + eighteen evidence tests correctly refused the stale recorded 2244-byte lib identity against the current 2277-byte file
+  + Cargo reported 185 result groups 1078 passed 18 failed and 3 ignored; this run is rejected as a gate
+  + the current-manifest rehasher then refreshed the intentional transitive records and independently verified 40 manifests 1535 artifact references and zero stale entries
+
+& [WrapperStatusFault]
+  + the first clean debug replay produced 185 groups 1096 passed zero failed and three ignored but its outer WSL wrapper returned status one
+  + removing the temporary Python-shim EXIT cleanup produced the same fully green transcript and outer status one, disproving cleanup as the root cause
+  + minimal zero and nonzero pipeline probes isolated the cause to leaving Bash errexit enabled during bash -lc login-shell teardown; disabling errexit immediately before explicit exit preserves the captured status in both directions
+  + both Cargo transcripts contain zero error FAILED panic or failed-result markers, but the replays remain nonauthoritative because their outer command exits were nonzero
+  + the admissible rerun disables errexit only after aggregation and immediately before exiting with the already captured Cargo pipeline status
+
+& [Delineation]
+  + both faults are orchestration and closure-order findings rather than product acceptance or authority widening
+  + no test was suppressed no evidence check was weakened and no synthetic success was substituted
+
+& [Frontier]
+  + accept debug only after the corrected exact rerun exits zero with independently aggregated clean totals
+  + repeat exact release quality evidence attribution and publication gates from the resulting tree
