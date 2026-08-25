@@ -1,6 +1,6 @@
 # Cantor
 
-Current self-work frontier (2026-08-25): SWA-06B1 and its publication bookend are published through `7e5a9ec83504a562ea35d0eaad70535d80b572ca`. SWA-06B2A is now implemented, exact-workspace verified, and independently evidence-verified as a provider-free activation-transaction admission seam. It binds the supplied source-reacquisition, current-registry, atomic-transition, supersession, rollback, and recovery plan needed by a later physical writer while keeping every physical result and execution eligibility false. Exact attribution and publication are in progress; SWA-06B2B physical execution and the operator-selected SWA-05 broker remain separately gated.
+Current self-work frontier (2026-08-25): SWA-06B2A is published at `d120bab60fbdf3d42711aa21a5fb582633036912` after exact-workspace and independent evidence verification. It binds the supplied source-reacquisition, current-registry, atomic-transition, supersession, rollback, and recovery plan needed by a later physical writer while keeping every physical result and execution eligibility false. Its immediate-successor publication bookend is forming; SWA-06B2B physical execution and the operator-selected SWA-05 broker remain separately gated.
 
 The bounded SWA-06B2A stdin/stdout CLI supports `admit` and `verify`:
 

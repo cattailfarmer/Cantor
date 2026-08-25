@@ -1,6 +1,6 @@
 # Cantor product readiness — 2026-08-23
 
-> 2026-08-25 SWA-06B2A readiness update: Cantor now has an implemented, exact-workspace-verified, and independently evidence-verified pure activation-transaction admission seam above the published SWA-06B1 chain. It provides a complete deterministic handoff contract for a later source/registry writer, including recovery ownership, supersession, rollback triggers, and atomic durability protocol. It still performs no filesystem operation, persistence, current-SOP selection, boot activation, or rollback; publication and a separately commissioned SWA-06B2B physical writer remain required.
+> 2026-08-25 SWA-06B2A readiness update: Cantor's exact-workspace-verified and independently evidence-verified pure activation-transaction admission seam is published at `d120bab60fbdf3d42711aa21a5fb582633036912`. It provides a complete deterministic handoff contract for a later source/registry writer, including recovery ownership, supersession, rollback triggers, and atomic durability protocol. It still performs no filesystem operation, persistence, current-SOP selection, boot activation, or rollback; the publication bookend and a separately commissioned SWA-06B2B physical writer remain required.
 
 This is the current navigation checkpoint for Cantor’s local-product path. It
 does not replace canonical specifications or historical status snapshots, and
