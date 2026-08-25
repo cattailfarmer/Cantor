@@ -1,6 +1,6 @@
 # Cantor product readiness — 2026-08-23
 
-> 2026-08-25 SWA-06B1 readiness update: provider-free cryptographic review admission is implemented and focused-verified (35 debug and 35 overflow-checked release tests). This is a real prerequisite for independently reviewed succeeding SOPs, but it is not yet physical source persistence or activation; SWA-06B2 and the operator-selected SWA-05 broker remain required before self-updating product operation.
+> 2026-08-25 SWA-06B1 readiness update: provider-free cryptographic review admission is published at `84e69339878217d43f451e0d44475ea585fe4b77` after focused and exact workspace verification. This is a real prerequisite for independently reviewed succeeding SOPs, but it is not physical source persistence or activation; SWA-06B2 and the operator-selected SWA-05 broker remain required before self-updating product operation.
 
 This is the current navigation checkpoint for Cantor’s local-product path. It
 does not replace canonical specifications or historical status snapshots, and

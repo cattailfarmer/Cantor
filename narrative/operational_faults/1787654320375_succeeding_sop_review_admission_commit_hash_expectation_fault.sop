@@ -1,0 +1,16 @@
+Subject: Succeeding SOP Review Admission Commit Hash Expectation Fault
+
+@ [fault_uuid] 724ba04a-d975-4fbc-9827-22d0cafb8505
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [recorded_utc] 2026-08-25T10:38:40.371Z
+
+& [Fault]
+  + the first post-push equality assertion used an inferred full hash rather than resolving the complete commit identity from Git
+  + the assertion refused its incorrect expectation even though observed HEAD tracking and remote values already agreed
+
+& [Correction]
+  + resolved the exact immutable hash 84e69339878217d43f451e0d44475ea585fe4b77 independently from HEAD tracking and remote
+  + reran equality against that observed value and passed without changing history evidence semantics or authority
+
+& [Prevention]
+  + never expand an abbreviated Git hash by inference; obtain all forty hexadecimal digits from Git before exact comparison or durable attribution
