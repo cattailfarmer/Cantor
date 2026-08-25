@@ -1,0 +1,33 @@
+Subject: Cantor Self Work Update Broker B1 Npm Native Preflight P0 Requirement Matrix
+
+@ [matrix_uuid] 18887b79-835e-4cac-b270-1ca8042c1af2
+@ [canonical_uuid] a1cf5c40-035e-4527-b56d-0a51f751b124
+
+& [Routes]
+  + [B1V-001..B1V-004] typed verifier manifest and strict JSON tests
+  + [B1V-005..B1V-007] inventory parser recomputation and exact preparation evidence tests
+  + [B1V-008..B1V-011] incompatibility NotRun authority record digest and round-trip tests
+  + [B1V-012] cantor-self-work-update-broker-b1 CLI test
+  + [B1V-013] adversarial mutation suite
+  + [B1V-014] static source denial suite
+  + [B1V-015] evidence attribution closure and retained-root handoff
+
+& [Gaps]
+  + [G01] closed npm-native exact selection
+  + [G02] closed selected-version schema inventory
+  + [G03] preparation environment observed final live environment not exercised
+  + [G04] incompatible selected schema missing read-scope control
+  + [G05] carrier implementation correctly not reached
+  + [G06] prepared roots and recovery owner closed fixture retained
+  + [G07] exact NotRun evidence independently verified and content-addressed
+
+& [Verification]
+  + safe Rust verifier and bounded CLI accept only exact preparation evidence and emit one self-digested NotRun record
+  + adversarial tests refuse raw inventory argument restart schema authority count and digest tampering
+  + focused lifecycle replay independently recomputes the provider-free bridge and preserves provider_unavailable with zero synthetic trials
+  + exact workspace debug and overflow-checked release each pass 201 groups 1276 tests zero failed three ignored
+  + tracked evidence graph verifies 47 manifests 1753 references zero stale
+
+& [Decision]
+  + all_B1V_requirements_satisfied_for_verified_NotRun_only
+  + live_SWA_05_preflight_remains_gated_on_read_scope_capable_selected_schema
