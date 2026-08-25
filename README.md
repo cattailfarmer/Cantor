@@ -668,6 +668,9 @@ and overflow-checked release each pass 26 tests; exact workspace debug and
 release each pass 192 result groups and 1,155 tests with zero failures and
 three governed ignores. Windows Application Control refusals remain recorded;
 the admitted local Ubuntu-24.04 lane passed without weakening host policy.
+The exact 82-path implementation checkpoint is published remote-equal at
+`5809f2b3da2d1f3f8187b96032c973ede2cb1881`; an immediate-successor bookend
+carries that immutable result without claiming its own self-inclusion.
 
 ## Provenance
 

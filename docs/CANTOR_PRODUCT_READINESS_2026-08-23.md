@@ -101,7 +101,8 @@ intentionally open carrier tip. SWA-05 remains separate.
    The proposal-only boot, bounded planning, pure lifecycle/checkpoint, and pure
    update-intent stages are complete and exact debug plus release verified.
    The pure SWA-06A succeeding-SOP compiler and machine receipt are also
-   implemented and exact-gate verified, but the output remains only
+   implemented, exact-gate verified, and published at
+   `5809f2b3da2d1f3f8187b96032c973ede2cb1881`, but the output remains only
    `proposed_awaiting_independent_review`. Physical revalidation, workspace
    update, separately authorized publication, semantic review, satisfaction
    signature, and activation remain later physical-boundary contracts;

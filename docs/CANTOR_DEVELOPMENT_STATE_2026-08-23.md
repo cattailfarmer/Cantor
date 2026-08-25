@@ -117,6 +117,9 @@ SWA-06A is now executable and exact-gate verified as a pure succeeding-SOP
 proposal compiler. It selects only the exact ready lifecycle attempt, requires
 complete direct dependencies and the exact causal evidence set, preserves raw
 source bytes and author lineage, and emits a self-contained machine receipt.
+The exact 82-path implementation checkpoint is published remote-equal at
+`5809f2b3da2d1f3f8187b96032c973ede2cb1881`; its immediate successor carries
+that result under the repository's one-head-lag publication protocol.
 Focused debug and overflow-checked release each pass 26 tests; full workspace
 debug and release each pass 192 result groups, 1,155 passed, zero failed, and
 three governed ignores. Its status remains
