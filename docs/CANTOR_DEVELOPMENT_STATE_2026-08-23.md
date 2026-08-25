@@ -1,6 +1,6 @@
 # Cantor development state — 2026-08-23
 
-> 2026-08-25 SWA-06B1 update: Cantor's pure review-admission verifier is published at `84e69339878217d43f451e0d44475ea585fe4b77`. It replays the exact succeeding-SOP proposal, enforces structural reviewer/author separation, checks source-preservation correspondence, and verifies a detached Ed25519 satisfaction signature under a supplied policy. Focused and exact workspace debug and overflow-checked release, warnings-denied lint, format, recursive evidence, local acceptance, and independent evidence gates pass. It deliberately reports semantic truth, policy governance, physical contact, and activation eligibility as false.
+> 2026-08-25 SWA-06B2A update: the published SWA-06B1 review-admission chain now has an implemented provider-free activation-transaction admission successor. It replays the exact B1 receipt and verifies supplied activation policy, raw-source reacquisition, current-registry, atomic-transition, supersession, rollback, and recovery-owner correspondence. Focused debug and overflow-checked release each pass 45 tests; exact workspace lanes each pass 198 groups and 1,267 tests with zero failures and three governed ignores. Independent evidence, recursive evidence, and local acceptance pass with zero provider trials. Every physical result remains false while attribution and publication close.
 
 This is the current navigation view. Historical plans, slices, and registries
 retain the state they had when written; proof-bound `CurrentSupersession`

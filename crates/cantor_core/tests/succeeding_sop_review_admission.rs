@@ -32,7 +32,7 @@ fn encode_hex(bytes: &[u8]) -> String {
     output
 }
 
-fn admission_request(
+pub(crate) fn admission_request(
     status: SucceedingSopReviewerPolicyUseStatus,
 ) -> SucceedingSopReviewAdmissionRequest {
     let proposal = compile_succeeding_sop(&proposal_fixture::ready_request()).expect("proposal");

@@ -1,0 +1,45 @@
+Subject: Cantor Succeeding SOP Activation Transaction P0 Data Design
+
+@ [data_design_uuid] e40d73b0-13dd-4d7a-84d2-31d8a76a0933
+@ [canonical_uuid] 28da111f-c6b2-4df7-b708-a2d47f8e0bbb
+
+& [Forms]
+  + ActivationPolicy holds profile use_status policy_ref activation_authority_ref recovery_owner_ref registry_ref allowed upstream profile required acquisition atomicity durability governance evidence nonauthority and policy digest
+  + SourceReacquisitionPlan holds profile plan_ref repository_root_ref exact preservation snapshot path subject source digest bytes proposal digest immutable and raw-byte requirements evidence and digest
+  + CurrentSopRegistrySnapshot holds profile snapshot_ref registry_ref registry_path generation current revision digest source path evidence and snapshot digest
+  + AtomicRegistryTransitionPlan holds profile transaction_ref expected snapshot digest generations registry final and temporary paths candidate and authority identities exact write protocol atomicity durability and digest
+  + SopSupersessionPlan holds exact predecessor and successor revision digest source generation reason preservation flag evidence and digest
+  + SopRollbackPlan holds recovery owner exact rollback target failed candidate generation triggers evidence preservation flag and digest
+  + ActivationTransactionRequest embeds the complete upstream receipt and every above form plus exact remaining physical obligations and nonauthority
+  + ActivationTransactionReceipt projects exact identities status authority policy status ten verified checks seven physical denials all transitive digests and its own digest
+
+& [ClosedValues]
+  + acquisition mode is exact_raw_bytes_reopen_no_follow
+  + atomicity is same_volume_replace_required
+  + durability is file_and_parent_flush_required
+  + write protocol is write_new_file verify_new_file flush_new_file atomically_replace_registry flush_parent_directory reopen_and_verify_registry
+  + rollback triggers are boot_validation_failure operator_abort persistence_failure post_write_verification_failure registry_precondition_mismatch source_reacquisition_mismatch
+  + status is transaction_correspondence_verified_awaiting_physical_execution
+  + authority is supplied_activation_plan_correspondence_only
+
+& [DigestDomains]
+  + cantor.succeeding-sop-activation.policy.v1
+  + cantor.succeeding-sop-activation.source-plan.v1
+  + cantor.succeeding-sop-activation.registry-snapshot.v1
+  + cantor.succeeding-sop-activation.transition-plan.v1
+  + cantor.succeeding-sop-activation.supersession-plan.v1
+  + cantor.succeeding-sop-activation.rollback-plan.v1
+  + cantor.succeeding-sop-activation.request.v1
+  + cantor.succeeding-sop-activation.receipt.v1
+
+& [Bounds]
+  + request or receipt machine form maximum is 16777216 UTF-8 bytes
+  + policy source supersession and rollback evidence maximum is thirty-two identities each and minimum is one
+  + path maximum is 1024 UTF-8 bytes and supersession reason maximum is 512 UTF-8 bytes
+  + generation maximum is u64 minus one so successor generation addition cannot overflow
+  + exact closed sets carry six write operations six rollback triggers six remaining activation obligations and ten verification checks
+
+& [AuthorityProjection]
+  + upstream cryptographic review correspondence is replayed rather than widened
+  + transaction form correspondence proves only internal supplied-data consistency
+  + physical contact source reacquisition registry observation persistence current selection boot verification rollback execution and physical eligibility remain false

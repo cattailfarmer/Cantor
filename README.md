@@ -1,6 +1,18 @@
 # Cantor
 
-Current self-work frontier (2026-08-25): SWA-06B1 is published at `84e69339878217d43f451e0d44475ea585fe4b77`. It deterministically revalidates a succeeding-SOP proposal and verifies a separately supplied reviewer policy, source-preservation record, and detached Ed25519 satisfaction signature. Its receipt remains physically ineligible: source persistence, activation, recovery, supersession, rollback, and the separately operator-authorized Git update broker are not implied.
+Current self-work frontier (2026-08-25): SWA-06B1 and its publication bookend are published through `7e5a9ec83504a562ea35d0eaad70535d80b572ca`. SWA-06B2A is now implemented, exact-workspace verified, and independently evidence-verified as a provider-free activation-transaction admission seam. It binds the supplied source-reacquisition, current-registry, atomic-transition, supersession, rollback, and recovery plan needed by a later physical writer while keeping every physical result and execution eligibility false. Exact attribution and publication are in progress; SWA-06B2B physical execution and the operator-selected SWA-05 broker remain separately gated.
+
+The bounded SWA-06B2A stdin/stdout CLI supports `admit` and `verify`:
+
+```text
+cargo run -p cantor_core --bin cantor-succeeding-sop-activation-transaction -- admit
+cargo run -p cantor_core --bin cantor-succeeding-sop-activation-transaction -- verify
+```
+
+It does not read or write SOP files or registries, select a current SOP, launch
+a provider, validate boot activation, or execute rollback. Its success status
+is `transaction_correspondence_verified_awaiting_physical_execution` under
+`supplied_activation_plan_correspondence_only` authority.
 
 Cantor is an emerging SOP semantic coprocessor: a local,
 provider-independent control layer that supplies verified Subject-Oriented

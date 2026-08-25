@@ -1,0 +1,18 @@
+Subject: Succeeding SOP Activation Transaction WSL Transport Fault
+
+@ [fault_uuid] 86210846-4b42-4e49-b8e9-c8f986818d0c
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [recorded_at_utc] 2026-08-25T11:33:05.827Z
+
+& [Fault]
+  + the first full exact debug attempt sent a multiline Bash command directly through PowerShell and wsl.exe
+  + the wrapper returned exit zero in approximately two tenths of a second without Cargo output and without creating the required transcript
+  + absence of the transcript contradicted the claimed execution surface so the result received zero success credit
+
+& [Correction]
+  + the established UTF-8 base64 transport carried the same locked offline serialized command into Ubuntu-24.04
+  + the corrected exact debug lane produced its complete transcript and passed 198 groups 1267 tests zero failed three ignored
+  + no host-policy bypass command weakening dependency substitution provider contact or synthetic result was used
+
+& [Prevention]
+  + exact WSL workspace gates must use a transport that preserves shell state and must prove transcript existence byte count hash and parsed result totals

@@ -1,0 +1,20 @@
+Subject: Succeeding SOP Activation Transaction Acceptance Ordering Fault
+
+@ [fault_uuid] 8734859e-2211-44b5-8224-503e239f04e1
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [recorded_at_utc] 2026-08-25T12:31:32.023Z
+
+& [Fault]
+  + recursive evidence initially verified 46 current manifests 1732 artifact references and zero stale entries
+  + the local product acceptance producer then intentionally rewrote its governed acceptance artifact
+  + the first acceptance test immediately refused because one manifest still carried the prior acceptance-artifact identity
+  + the refused attempt received no acceptance success credit
+
+& [Correction]
+  + the current evidence graph was rehashed after the acceptance artifact reached its final produced state
+  + recursive verification then passed 46 manifests 1732 references zero stale before acceptance verification
+  + acceptance verify-only passed eight immutable artifacts and the acceptance adversarial suite passed six report refusals plus one CLI refusal
+  + a final recursive verify-only replay remained at zero stale
+
+& [Prevention]
+  + when an acceptance producer writes an artifact represented in the recursive evidence graph the order is produce acceptance then rehash then verify-only acceptance then adversarial acceptance then final recursive verify-only
