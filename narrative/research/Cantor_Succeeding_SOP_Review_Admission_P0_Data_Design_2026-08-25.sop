@@ -1,0 +1,30 @@
+Subject: Cantor Succeeding SOP Review Admission P0 Data Design
+
+@ [canonical_uuid] ff7c9404-2676-4c41-ae98-419445b6ec45
+
+& [Forms]
+  + ReviewerPolicy holds profile use_status policy_ref reviewer_ref verifying_key_hex allowed proposal profile protocol UUID governance evidence and nonauthority
+  + SourcePreservationRecord holds exact preservation identity snapshot relative path proposal source identity evidence flags and digest
+  + ReviewPayload holds exact upstream policy reviewer author proposal source frontier preservation decision checks evidence protocol and digest
+  + SatisfactionSignatureEnvelope holds profile complete payload and detached signature_hex
+  + ReviewAdmissionRequest embeds the complete upstream receipt policy preservation and envelope plus admission identity obligations and nonauthority
+  + ReviewAdmissionReceipt projects exact identities verified booleans status authority policy status obligations physical denial and two digests
+
+& [DigestDomains]
+  + cantor.succeeding-sop-review.policy.v1
+  + cantor.succeeding-sop-review.preservation.v1
+  + cantor.succeeding-sop-review.payload.v1
+  + cantor.succeeding-sop-review.admission-request.v1
+  + cantor.succeeding-sop-review.admission-receipt.v1
+
+& [Bounds]
+  + machine form maximum 16777216 bytes
+  + governance and preservation evidence maximum thirty-two each
+  + review evidence maximum sixty-four
+  + review checks exactly six and activation obligations exactly six
+  + relative path maximum 1024 UTF-8 bytes
+
+& [AuthorityProjection]
+  + Ed25519 verifies integrity and possession of the supplied policy key
+  + structural reviewer separation is machine evidence only
+  + semantic truth policy governance physical contact and activation eligibility remain false

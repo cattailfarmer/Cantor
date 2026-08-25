@@ -1,5 +1,7 @@
 # Cantor development state — 2026-08-23
 
+> 2026-08-25 SWA-06B1 update: Cantor now has a focused-verified pure review-admission verifier that replays the exact succeeding-SOP proposal, enforces structural reviewer/author separation, checks source-preservation correspondence, and verifies a detached Ed25519 satisfaction signature under a supplied policy. It deliberately reports semantic truth, policy governance, physical contact, and activation eligibility as false. Exact workspace closure and publication remain pending at this checkpoint.
+
 This is the current navigation view. Historical plans, slices, and registries
 retain the state they had when written; proof-bound `CurrentSupersession`
 blocks identify later completion without rewriting that history.

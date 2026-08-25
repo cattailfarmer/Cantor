@@ -15,7 +15,7 @@ fn id(value: &str) -> SemanticId {
     SemanticId::new(value).expect("fixture identity")
 }
 
-fn ready_request() -> SucceedingSopRequest {
+pub(crate) fn ready_request() -> SucceedingSopRequest {
     let lifecycle_request = lifecycle_request();
     let mut checkpoint = compile_self_work_lifecycle(&lifecycle_request)
         .expect("lifecycle")

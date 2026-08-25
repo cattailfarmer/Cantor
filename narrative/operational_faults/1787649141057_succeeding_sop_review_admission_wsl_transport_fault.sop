@@ -1,0 +1,23 @@
+Subject: Succeeding SOP Review Admission WSL Transport Fault
+
+@ [fault_uuid] cc448f1e-effb-42ef-911c-f440436b5229
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] ff7c9404-2676-4c41-ae98-419445b6ec45
+@ [predecessor_commit] eefbad7c78fb898e9184abf835ff264ef5a41013
+
+& [Observation]
+  + two attempted exact debug workspace wrapper invocations exited before Cargo because direct PowerShell native-argument transport lost the Bash shim_dir assignment
+  + the first refusal attempted /python and the second attempted a quoted /python path
+  + neither invocation compiled or ran any Rust test and neither is counted as test evidence
+
+& [Cause]
+  + multiline Bash containing command substitution and shell-variable quoting was passed directly through the Windows native argument boundary
+  + the repository focused runner already supplied the proven base64 transport pattern but the first retry did not reuse it
+
+& [Correction]
+  + transport the exact Bash command as UTF-8 base64 and decode it inside WSL before Bash interpretation
+  + retain fresh mktemp shim creation cleanup trap locked offline serialization and exact Cargo arguments inside the decoded command
+  + rerun the exact debug gate from the beginning and credit only its complete exit-zero transcript
+
+& [Boundary]
+  + no host-policy bypass source mutation evidence weakening provider contact or partial-test credit occurred

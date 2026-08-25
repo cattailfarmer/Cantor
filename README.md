@@ -1,5 +1,7 @@
 # Cantor
 
+Current self-work frontier (2026-08-25): SWA-06B1 can deterministically revalidate a succeeding-SOP proposal and verify a separately supplied reviewer policy, source-preservation record, and detached Ed25519 satisfaction signature. Its receipt remains physically ineligible: source persistence, activation, recovery, supersession, rollback, and the separately operator-authorized Git update broker are not implied.
+
 Cantor is an emerging SOP semantic coprocessor: a local,
 provider-independent control layer that supplies verified Subject-Oriented
 Programming definitions and operations to a neural inference model.

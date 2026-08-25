@@ -1,0 +1,31 @@
+Subject: Cantor Succeeding SOP Review Admission P0 Exploded Specification
+
+@ [canonical_uuid] ff7c9404-2676-4c41-ae98-419445b6ec45
+@ [source_snapshot_uuid] 5755947d-04e7-41b9-9373-691541a1b5de
+
+& [Inputs]
+  + one exact valid SWA-06A verification receipt
+  + one closed reviewer policy with a pinned Ed25519 public key and explicit use status
+  + one exact source-preservation correspondence record
+  + one review payload and detached satisfaction-signature envelope supplied by an identity structurally distinct from the proposal author
+
+& [Transform]
+  + revalidate upstream proposal machine correspondence
+  + validate policy bounds identities nonauthority and reviewer separation
+  + validate source preservation path exact raw source byte identity and record digest
+  + validate exact approved review payload checks evidence frontier lineage and payload digest
+  + verify strict Ed25519 signature over the canonical payload bytes
+  + project one closed admission receipt and self-excluding digest
+
+& [Outputs]
+  + status cryptographically_verified_awaiting_physical_activation
+  + authority review_signature_correspondence_only
+  + physical_contact false physical_activation_eligible false semantic_truth_proved false policy_governance_proved false
+  + exact activation obligations carried to SWA-06B2
+
+& [Refusals]
+  + upstream reviewer identity policy evidence path source review protocol signature authority correspondence digest bounds and machine forms fail atomically
+  + synthetic_fixture_only never becomes a production-trust claim
+
+& [Outside]
+  + signature issuance review performance source observation or writing persistence activation registry current-SOP selection recovery rollback update commit push provider model and every external effect
