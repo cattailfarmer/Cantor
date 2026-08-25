@@ -140,7 +140,9 @@ failures; exact workspace debug and overflow-checked release each pass 194
 groups 1,187 tests zero failed and three ignored. Independent evidence verifies
 42 artifacts, recursive evidence verifies 44 manifests and 1,645 references
 with zero stale, and full quality plus governed lifecycle gates pass. Exact
-attribution and publication are in progress.
+86-path attribution is published remote-equal at
+`602ff51e8b32aa3d36390389ed712c740b63d9d8`; the immediate-successor bookend and
+post-push replay are in progress.
 This does not perform a workspace update, test, acceptance, rollback, commit,
 push, semantic review, signature, persistence, activation, provider call, or
 model work.

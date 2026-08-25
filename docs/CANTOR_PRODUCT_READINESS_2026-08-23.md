@@ -115,7 +115,9 @@ intentionally open carrier tip. SWA-05 remains separate.
    `physical_contact` remains false and it grants no update, testing,
    acceptance, publication, review, signature, persistence, activation,
    provider, or model authority. Full quality and governed lifecycle gates
-   pass; exact attribution and publication closure are in progress.
+   pass; exact 86-path attribution is published remote-equal at
+   `602ff51e8b32aa3d36390389ed712c740b63d9d8`, while its immediate-successor
+   bookend and post-push replay remain.
 6. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
 

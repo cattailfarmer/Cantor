@@ -692,8 +692,10 @@ governed artifacts with zero provider trials. This proves
 supplied-data causal correspondence only: it performs no workspace update,
 test, acceptance, rollback, commit, push, publication, semantic review,
 signature, persistence, activation, provider call, or model work. Full quality
-and governed lifecycle gates pass; attribution and publication closure are
-currently in progress.
+and governed lifecycle gates pass. The exact 86-path implementation checkpoint
+is published remote-equal at
+`602ff51e8b32aa3d36390389ed712c740b63d9d8`; its immediate-successor bookend is
+the current publication frontier.
 
 ## Provenance
 
