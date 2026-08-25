@@ -192,7 +192,7 @@ fn proposed_changes() -> Vec<ProposedPathChange> {
     ]
 }
 
-fn handoff_request() -> SelfWorkUpdateHandoffRequest {
+pub(crate) fn handoff_request() -> SelfWorkUpdateHandoffRequest {
     let lifecycle_request = lifecycle_request();
     let lifecycle_checkpoint = compile_self_work_lifecycle(&lifecycle_request)
         .expect("lifecycle")

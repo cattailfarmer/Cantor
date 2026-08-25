@@ -672,6 +672,29 @@ The exact 82-path implementation checkpoint is published remote-equal at
 `5809f2b3da2d1f3f8187b96032c973ede2cb1881`; an immediate-successor bookend
 carries that immutable result without claiming its own self-inclusion.
 
+## Provider-free self-work composition P0
+
+`cantor-provider-free-self-work-composition` now joins the existing unmodified
+SWA-04A update handoff and SWA-06A succeeding-SOP forms. It requires one common
+lifecycle, an exact proper checkpoint prefix, the same `propose_update` attempt
+completed later, and one bridge-evidence identity on that exact post-prefix
+transition. It then recompiles both predecessor products and emits a
+self-contained receipt whose only status is
+`provider_free_chain_correspondence_verified`, whose authority is
+`supplied_data_correspondence_only`, and whose `physical_contact` is false.
+
+The product surface is pure safe Rust plus a bounded stdin/stdout CLI. Focused
+debug and overflow-checked release each pass 32 tests, including seven direct
+composition cases and twenty-five reused predecessor fixtures; exact workspace
+debug and overflow-checked release each pass 194 groups and 1,187 tests with
+zero failures and three governed ignores. Independent evidence verifies 42
+governed artifacts with zero provider trials. This proves
+supplied-data causal correspondence only: it performs no workspace update,
+test, acceptance, rollback, commit, push, publication, semantic review,
+signature, persistence, activation, provider call, or model work. Full quality
+and governed lifecycle gates pass; attribution and publication closure are
+currently in progress.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under
@@ -687,11 +710,10 @@ Its sixteen-coordinate substrate and gap ledger is independently checked by
 `scripts/verify_cantor_nested_host_gap_audit.ps1`; the audit grants no process
 or model authority.
 
-The pure outer-host identity, SOP-boot admission, and objective/work-plan seams
-are implemented: an exact admitted SOP receipt chain can propose, but not open,
-one agent session, and that proposal can admit a bounded causal plan while all
-eight physical capabilities remain explicitly ungranted. The active product
-sequence next targets source-to-substrate checkpoint execution, verified
-workspace updates, separately authorized publication, and an attributable
-succeeding-SOP proposal. No self-signature, provider, process, workspace, or
-effect authority follows from proposal alone.
+The pure outer-host identity, SOP-boot admission, objective/work-plan,
+source-to-substrate lifecycle, update-handoff, succeeding-SOP, and SWA-07
+composition seams are implemented. Together they prove an exact supplied-data
+chain from admitted SOP through causal work state to update intent and a later
+attributable succeeding-SOP proposal. Physical workspace update, verification,
+publication, independent semantic review, signature, persistence, activation,
+provider, process, and effect authority remain separately governed.

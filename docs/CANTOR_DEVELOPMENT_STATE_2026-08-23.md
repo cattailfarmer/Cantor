@@ -124,8 +124,26 @@ Focused debug and overflow-checked release each pass 26 tests; full workspace
 debug and release each pass 192 result groups, 1,155 passed, zero failed, and
 three governed ignores. Its status remains
 `proposed_awaiting_independent_review`: semantic review, satisfaction signature,
-activation, persistence, SWA-05 publication authority, SWA-07 composition, and
-live-provider authorship remain separate contracts.
+activation, persistence, SWA-05 publication authority, and live-provider
+authorship remain separate contracts. The immediate-successor publication
+bookend is now published at `be06cdd41d28df47a730bcf616396d60a38c5252`.
+
+SWA-07 P0 is now implemented as the pure composition seam over the unmodified
+SWA-04A and SWA-06A forms. It requires a common lifecycle, an exact proper
+checkpoint prefix, the same ready `propose_update` attempt completed later,
+and an attributable bridge-evidence identity on that exact post-prefix
+transition. It recompiles the handoff, succeeding proposal, and verification
+receipt, then emits only `provider_free_chain_correspondence_verified` under
+`supplied_data_correspondence_only` authority with `physical_contact: false`.
+Focused debug and overflow-checked release each pass 32 tests with zero
+failures; exact workspace debug and overflow-checked release each pass 194
+groups 1,187 tests zero failed and three ignored. Independent evidence verifies
+42 artifacts, recursive evidence verifies 44 manifests and 1,645 references
+with zero stale, and full quality plus governed lifecycle gates pass. Exact
+attribution and publication are in progress.
+This does not perform a workspace update, test, acceptance, rollback, commit,
+push, semantic review, signature, persistence, activation, provider call, or
+model work.
 
 The SJS acquisition P1 closes a supporting observation seam for future SWA-05:
 it can derive the independently checked P0 inventory from a pinned staged index.

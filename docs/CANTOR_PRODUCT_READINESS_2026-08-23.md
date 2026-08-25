@@ -107,6 +107,15 @@ intentionally open carrier tip. SWA-05 remains separate.
    update, separately authorized publication, semantic review, satisfaction
    signature, and activation remain later physical-boundary contracts;
    self-authorship must not become self-signature or silent authority widening.
+   SWA-07 P0 now composes the unmodified update-handoff and succeeding-SOP
+   forms into one deterministic supplied-data correspondence receipt. Its
+   focused debug and overflow-checked release suites each pass 32 tests, and
+   exact workspace debug and overflow-checked release each pass 194 groups and
+   1,187 tests with zero failures and three governed ignores, but
+   `physical_contact` remains false and it grants no update, testing,
+   acceptance, publication, review, signature, persistence, activation,
+   provider, or model authority. Full quality and governed lifecycle gates
+   pass; exact attribution and publication closure are in progress.
 6. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
 
