@@ -759,6 +759,12 @@ D-drive, product-mutation, and cleanup counts are all zero. The next step is a
 separately sourced C-drive writer preflight, not reuse of this receipt as
 mutation authority.
 
+The exact 90-path capability implementation is published remote-equal at
+`ffb502fe5fb0c74349bec440cc94b1c0bb6660c0`. Post-push recursive evidence and
+format verification pass; native receipt execution remains truthfully refused
+by Windows Application Control, and no additional WSL compilation is being
+performed while the operator reviews the Cantor-owned WSL cache footprint.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under

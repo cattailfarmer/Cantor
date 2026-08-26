@@ -21,6 +21,15 @@ Subject: Self Work Update Broker B1 Permission Profile Exact Gate Faults
   + the first direct PowerShell-to-WSL command lost its shim variable through quoting and stopped at mkdir before Cargo source or tests
   + base64 UTF-8 script transport preserved the unchanged command; a later release attempt stopped before Cargo when WSL had reclaimed the debug-only temporary shim, and a fresh release-only shim corrected that transient precondition
 
+& [StorageSafetyPause]
+  + operator inspection identified C:\Users\enjer\AppData\Local\wsl\{d6b7c672-c4b3-419a-a35e-915cad1534ae}\ext4.vhdx as the Ubuntu-24.04 virtual disk at 123.43 GiB allocated and not sparse with 18.41 GiB free on C:
+  + read-only attribution measured 46 GiB under /home/pinky/.cache/cantor-workspace-verification and 45 GiB under /home/pinky/.cache/cantor-final-serial within a 98 GiB-used Linux filesystem
+  + the active WSL lifecycle verification was interrupted immediately; no cache deletion VHD compaction distro shutdown or further WSL compilation was authorized
+
+& [PostPushNativeReplayFault]
+  + after implementation commit ffb502fe5fb0c74349bec440cc94b1c0bb6660c0 became remote-equal both existing native receipt executables were refused before process start by Windows Application Control
+  + recursive evidence and format verification still pass but they do not substitute for runtime replay; no WSL rebuild policy bypass synthetic pass or host mutation occurred
+
 & [Resolution]
   + Ubuntu-24.04 executed the unchanged isolated overlay with fresh in-command python3 shims one Cargo job one test thread locked offline dependencies and no D-drive or provider contact
   + exact debug and overflow-checked release each pass 209 groups 1316 tests zero failed three ignored

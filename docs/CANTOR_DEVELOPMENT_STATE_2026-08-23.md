@@ -1,6 +1,6 @@
 # Cantor development state — 2026-08-23
 
-> 2026-08-26 SWA-05 B1 capability update: the exact pinned npm-native Codex 0.135.0 experimental named permission profile enforced one allowed C-drive read and one nested denied read without a model turn. Independent safe Rust emits only `host_capability_verified_writer_not_run`; exact workspace debug and overflow-checked release each pass 209 groups and 1,316 tests with zero failures and three governed ignores. Live writer, provider, model, Git publication, activation, service-network traffic, and D-drive authority remain absent.
+> 2026-08-26 SWA-05 B1 capability update: the exact pinned npm-native Codex 0.135.0 experimental named permission profile enforced one allowed C-drive read and one nested denied read without a model turn. Independent safe Rust emits only `host_capability_verified_writer_not_run`; exact workspace debug and overflow-checked release each pass 209 groups and 1,316 tests with zero failures and three governed ignores. The 90-path capability implementation is published remote-equal at `ffb502fe5fb0c74349bec440cc94b1c0bb6660c0`; live writer, provider, model-driven publication, activation, service-network traffic, and D-drive authority remain absent.
 
 This is the current navigation view. Historical plans, slices, and registries
 retain the state they had when written; proof-bound `CurrentSupersession`
@@ -251,6 +251,13 @@ The product implication is concrete but bounded: a compatible local read
 partition is now demonstrated. A fresh writer preflight must still be
 source-preserved, signed, and independently accepted; the pinned provider is
 still unavailable and synthetic provider trials remain forbidden.
+
+The implementation commit is remote-equal at
+`ffb502fe5fb0c74349bec440cc94b1c0bb6660c0`. Post-push recursive evidence
+verifies 49 manifests and 1,846 references with zero stale entries, and format
+verification passes. Native CLI replay is refused before process start by the
+already-governed Windows Application Control policy; no WSL rebuild or host
+policy bypass is counted as a pass.
 
 ## Mechanical audit
 

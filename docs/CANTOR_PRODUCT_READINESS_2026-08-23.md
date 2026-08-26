@@ -1,6 +1,6 @@
 # Cantor product readiness — 2026-08-23
 
-> 2026-08-26 SWA-05 readiness update: the selected npm-native Codex 0.135.0 host now has provider-free evidence that one beta named permission profile enforces both an allowed C-drive read and a nested denied read. Independent verification yields `host_capability_verified_writer_not_run`, not writer or product authority. A separately signed writer preflight, unavailable pinned provider, mutation acceptance, rollback, commit/push, activation, and operator isolation remain open.
+> 2026-08-26 SWA-05 readiness update: the selected npm-native Codex 0.135.0 host now has provider-free evidence that one beta named permission profile enforces both an allowed C-drive read and a nested denied read. Independent verification yields `host_capability_verified_writer_not_run`, not writer or product authority, and the capability implementation is published at `ffb502fe5fb0c74349bec440cc94b1c0bb6660c0`. A separately signed writer preflight, unavailable pinned provider, mutation acceptance, rollback, model-driven commit/push, activation, and operator isolation remain open.
 
 This is the current navigation checkpoint for Cantor’s local-product path. It
 does not replace canonical specifications or historical status snapshots, and
@@ -160,6 +160,13 @@ preflight under that profile, followed by independent mutation evidence,
 acceptance, rollback/quarantine, and separately authorized Git publication.
 Provider-backed behavior is still calendar-indeterminate while the pinned
 local provider and model asset are absent.
+
+Publication of the capability verifier does not change that readiness class.
+The exact implementation is remote-equal, recursive evidence and formatting
+pass post-push, and native executable replay remains policy-blocked. WSL
+compilation is paused because two Cantor-owned Rust target caches occupy about
+91 GiB inside the operator's Ubuntu distribution; neither cleanup nor VHD
+compaction has been authorized.
 
 ## Superseded navigation
 

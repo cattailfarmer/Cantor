@@ -1,219 +1,219 @@
 {
-    "schema":  "cantor-self-hosted-corpus-evidence-manifest/0.1",
-    "evidence_manifest_uuid":  "31b4c578-ec1d-4604-978d-9420341ee7e0",
-    "generated_at_utc":  "2026-08-26T20:28:50.3540698Z",
-    "authority":  {
-                      "canonical_specification_uuid":  "470b328b-0b4c-432b-9e7b-b7d84a1cca0e",
-                      "satisfaction_signature_uuid":  "74f2cb02-84e4-45b2-98ca-1883c9e5d54d",
-                      "solution_uuid":  "bb88172a-e70e-4a1a-aba3-20dfa572ec40"
-                  },
-    "corpus":  {
-                   "source_count":  3,
-                   "unit_count":  417,
-                   "relation_count":  360,
-                   "package_id":  "package:sha256:4e6e4b14d13c022b60643b77ced08081b8b5efc6a75152953c3d97f83b0ade30",
-                   "evidence_environment_digest":  "e59ea0ba39303627a7fad47a9c2892173e2f75e17bf91bc14dac5ffb00e7545b",
-                   "generated_runtime_artifacts_tracked":  false
-               },
-    "verification":  [
-                         {
-                             "command":  "cargo fmt --all -- --check",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --workspace --all-targets --locked --offline",
-                             "status":  "passed",
-                             "tests":  101
-                         },
-                         {
-                             "command":  "cargo test --workspace --all-targets --release --locked --offline",
-                             "status":  "passed",
-                             "tests":  101
-                         },
-                         {
-                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo doc --workspace --no-deps --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo clippy --all-targets --locked --offline -- -D warnings",
-                             "working_directory":  "experiments/self_hosted_corpus_benchmark",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --release --locked --offline",
-                             "working_directory":  "experiments/self_hosted_corpus_benchmark",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo audit",
-                             "working_directory":  "repository root",
-                             "status":  "passed",
-                             "dependencies":  110,
-                             "advisories_loaded":  1173,
-                             "vulnerabilities":  0
-                         },
-                         {
-                             "command":  "cargo audit",
-                             "working_directory":  "experiments/self_hosted_corpus_benchmark",
-                             "status":  "passed",
-                             "dependencies":  34,
-                             "advisories_loaded":  1173,
-                             "vulnerabilities":  0
-                         }
-                     ],
-    "artifacts":  [
-                      {
-                          "path":  ".gitattributes",
-                          "sha256":  "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
-                          "bytes":  185
-                      },
-                      {
-                          "path":  "source_documents/2026-07-29_cantor_self_hosting_ingestion/Dictated_Cantor_Self_Hosting_Ingestion_Source.sop",
-                          "sha256":  "F04B0FA2997C409F8207E4F7BF3023FE4BD2CCFF281807107A4229D6BEA80AEE",
-                          "bytes":  761
-                      },
-                      {
-                          "path":  "source_documents/2026-07-29_cantor_self_hosting_ingestion/Source_Document_Manifest.sop",
-                          "sha256":  "A1EB9C7B7121D90B78A5A8F51F7715C1E10A1548EF99BB6AC793CB6A9502BA2E",
-                          "bytes":  1237
-                      },
-                      {
-                          "path":  "specifications/exploded/Cantor_Self_Hosting_Ingestion.exploded.sop",
-                          "sha256":  "2860E9C4B3A96E0AB8C4AE5B7C259651D0BE2B2CB08A123473D1E0BC43ACDA8F",
-                          "bytes":  15614
-                      },
-                      {
-                          "path":  "specifications/Cantor_Self_Hosting_Ingestion.sop",
-                          "sha256":  "4B9C0922D07A2CE4B9C2AA0BEE30A1909DC8193B897E92811B1D5BEC9129F34B",
-                          "bytes":  14827
-                      },
-                      {
-                          "path":  "justifications/Cantor_Self_Hosting_Ingestion_Justification.sop",
-                          "sha256":  "887C77C01B253455056FA6400F12135D2D691404ACE50DFA8DF3D460D2B92FED",
-                          "bytes":  4001
-                      },
-                      {
-                          "path":  "feature_support/slices/SelfHostingIngestion.sop",
-                          "sha256":  "A51156C20A03B585843B635248760CFE3914A851B16B3870E91489FF5EB39772",
-                          "bytes":  1973
-                      },
-                      {
-                          "path":  "feature_support/SelfHostingIngestion_Requirement_Matrix.sop",
-                          "sha256":  "473CEB847EDC624F758E4D313E397E93F60DE9584F5FC5EE8632099EE1466A73",
-                          "bytes":  5582
-                      },
-                      {
-                          "path":  "corpus/self_hosted/corpus.json",
-                          "sha256":  "9D7AB1A2D9E790932254AC346DEC5C1BF42836BE508DCA45636A3131BB8145C5",
-                          "bytes":  1919
-                      },
-                      {
-                          "path":  "Cargo.toml",
-                          "sha256":  "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
-                          "bytes":  1285
-                      },
-                      {
-                          "path":  "Cargo.lock",
-                          "sha256":  "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
-                          "bytes":  41561
-                      },
-                      {
-                          "path":  "crates/cantor_core/src/lib.rs",
-                          "sha256":  "0BC2F5C37DBFB9B17F90909DB0C7BD042FE254669BFC1257810F9336E1485F88",
-                          "bytes":  2394
-                      },
-                      {
-                          "path":  "crates/cantor_core/src/sop.rs",
-                          "sha256":  "93AC8352B7A71D7F13AC6F6F16713CE1D06F405A5FB7225184AFCD08035C6183",
-                          "bytes":  44975
-                      },
-                      {
-                          "path":  "crates/cantor_core/tests/sop_ingestion.rs",
-                          "sha256":  "55D79F5716B2E3F0773CD8A5EB5B6F5B81A76639F515D808860F3207DDC34F0C",
-                          "bytes":  12945
-                      },
-                      {
-                          "path":  "crates/cantor_cli/Cargo.toml",
-                          "sha256":  "C2B1A0D094B3BDAB1F70C3170EEA1FDD855384DE87AE6970E63BD8EFC5B491C2",
-                          "bytes":  832
-                      },
-                      {
-                          "path":  "crates/cantor_cli/src/corpus_main.rs",
-                          "sha256":  "9ED78C6226EEF28ECA6FA6A8CC55AC8897DD6F6A99FF1ADD97BF74FC00FD5BB6",
-                          "bytes":  20072
-                      },
-                      {
-                          "path":  "crates/cantor_cli/tests/corpus_cli.rs",
-                          "sha256":  "726BA90AE982AF0E664F00EC175537308FC7D1E0B224E4D01CFA99EC81A69B6B",
-                          "bytes":  14921
-                      },
-                      {
-                          "path":  "crates/cantor_mcp/tests/self_hosted_corpus.rs",
-                          "sha256":  "35D149F4F2D210D99742BA6DFE0EDB2024564B78B9A64AAEEA3AA2A051EE6092",
-                          "bytes":  5375
-                      },
-                      {
-                          "path":  "docs/SELF_HOSTED_CORPUS.md",
-                          "sha256":  "C8C16220C3D41DD05AD7416243AF173E78CA68F4A74262C8B95D7F05DF9F7929",
-                          "bytes":  6659
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/Cargo.toml",
-                          "sha256":  "2DEF56F9FE3C9CA3575B7CEB04FB043A47F82C5DBF18BBDF3D37C15BEC4508A4",
-                          "bytes":  360
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/Cargo.lock",
-                          "sha256":  "36834F00FB71AC31BAB9F0FB7862D8E1705C3A4A6109470000C951703F2DD275",
-                          "bytes":  7597
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/src/main.rs",
-                          "sha256":  "1B9FB31C255DCFD9FA0FE4C8077E5251A73C6A19FB79C3A997ACB8F428456BA3",
-                          "bytes":  9555
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/tests/evidence.rs",
-                          "sha256":  "1B35FC44E0BF6CD312B057BC63285F02569884EFC8622AF2C32286FBD041BA07",
-                          "bytes":  3421
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/artifacts/2026-07-29-three-run-summary.json",
-                          "sha256":  "A19FB9D7C7322ADB41606270575163D51D49932A909448B4FFC4EE050C3549A2",
-                          "bytes":  4381
-                      },
-                      {
-                          "path":  "scripts/summarize_self_hosted_corpus_evidence.ps1",
-                          "sha256":  "CE717246CA3D882BC0A65F2DA3C08F5FC02D71E9BFE335BD7AF3DB55C42E937E",
-                          "bytes":  3576
-                      },
-                      {
-                          "path":  "scripts/build_self_hosted_corpus_evidence_manifest.ps1",
-                          "sha256":  "2BAA2518FE74A435F0ABDAAB684C5F0321033B336AFEFDF2070EBD610D2272D9",
-                          "bytes":  5135
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/artifacts/2026-07-29-run-1.json",
-                          "sha256":  "29553BED3061CF9A37609214F127ADC78B42676D04121F02261CB095FE7D33B9",
-                          "bytes":  1150
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/artifacts/2026-07-29-run-2.json",
-                          "sha256":  "354AD97A93616A531A0536A29865FE86E54E65CF76423D8D9F008B56064EB93F",
-                          "bytes":  1096
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/artifacts/2026-07-29-run-3.json",
-                          "sha256":  "98C7953F9C30E2FC707D1FAC703531897EB30753E8543D5302405B2BE332F039",
-                          "bytes":  1104
-                      }
-                  ]
+  "schema": "cantor-self-hosted-corpus-evidence-manifest/0.1",
+  "evidence_manifest_uuid": "31b4c578-ec1d-4604-978d-9420341ee7e0",
+  "generated_at_utc": "2026-08-26T20:47:18.2186665Z",
+  "authority": {
+    "canonical_specification_uuid": "470b328b-0b4c-432b-9e7b-b7d84a1cca0e",
+    "satisfaction_signature_uuid": "74f2cb02-84e4-45b2-98ca-1883c9e5d54d",
+    "solution_uuid": "bb88172a-e70e-4a1a-aba3-20dfa572ec40"
+  },
+  "corpus": {
+    "source_count": 3,
+    "unit_count": 417,
+    "relation_count": 360,
+    "package_id": "package:sha256:4e6e4b14d13c022b60643b77ced08081b8b5efc6a75152953c3d97f83b0ade30",
+    "evidence_environment_digest": "e59ea0ba39303627a7fad47a9c2892173e2f75e17bf91bc14dac5ffb00e7545b",
+    "generated_runtime_artifacts_tracked": false
+  },
+  "verification": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "status": "passed"
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --workspace --all-targets --locked --offline",
+      "status": "passed",
+      "tests": 101
+    },
+    {
+      "command": "cargo test --workspace --all-targets --release --locked --offline",
+      "status": "passed",
+      "tests": 101
+    },
+    {
+      "command": "cargo build --workspace --all-targets --release --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo doc --workspace --no-deps --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo clippy --all-targets --locked --offline -- -D warnings",
+      "working_directory": "experiments/self_hosted_corpus_benchmark",
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --release --locked --offline",
+      "working_directory": "experiments/self_hosted_corpus_benchmark",
+      "status": "passed"
+    },
+    {
+      "command": "cargo audit",
+      "working_directory": "repository root",
+      "status": "passed",
+      "dependencies": 110,
+      "advisories_loaded": 1173,
+      "vulnerabilities": 0
+    },
+    {
+      "command": "cargo audit",
+      "working_directory": "experiments/self_hosted_corpus_benchmark",
+      "status": "passed",
+      "dependencies": 34,
+      "advisories_loaded": 1173,
+      "vulnerabilities": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".gitattributes",
+      "sha256": "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
+      "bytes": 185
+    },
+    {
+      "path": "source_documents/2026-07-29_cantor_self_hosting_ingestion/Dictated_Cantor_Self_Hosting_Ingestion_Source.sop",
+      "sha256": "F04B0FA2997C409F8207E4F7BF3023FE4BD2CCFF281807107A4229D6BEA80AEE",
+      "bytes": 761
+    },
+    {
+      "path": "source_documents/2026-07-29_cantor_self_hosting_ingestion/Source_Document_Manifest.sop",
+      "sha256": "A1EB9C7B7121D90B78A5A8F51F7715C1E10A1548EF99BB6AC793CB6A9502BA2E",
+      "bytes": 1237
+    },
+    {
+      "path": "specifications/exploded/Cantor_Self_Hosting_Ingestion.exploded.sop",
+      "sha256": "2860E9C4B3A96E0AB8C4AE5B7C259651D0BE2B2CB08A123473D1E0BC43ACDA8F",
+      "bytes": 15614
+    },
+    {
+      "path": "specifications/Cantor_Self_Hosting_Ingestion.sop",
+      "sha256": "4B9C0922D07A2CE4B9C2AA0BEE30A1909DC8193B897E92811B1D5BEC9129F34B",
+      "bytes": 14827
+    },
+    {
+      "path": "justifications/Cantor_Self_Hosting_Ingestion_Justification.sop",
+      "sha256": "887C77C01B253455056FA6400F12135D2D691404ACE50DFA8DF3D460D2B92FED",
+      "bytes": 4001
+    },
+    {
+      "path": "feature_support/slices/SelfHostingIngestion.sop",
+      "sha256": "A51156C20A03B585843B635248760CFE3914A851B16B3870E91489FF5EB39772",
+      "bytes": 1973
+    },
+    {
+      "path": "feature_support/SelfHostingIngestion_Requirement_Matrix.sop",
+      "sha256": "473CEB847EDC624F758E4D313E397E93F60DE9584F5FC5EE8632099EE1466A73",
+      "bytes": 5582
+    },
+    {
+      "path": "corpus/self_hosted/corpus.json",
+      "sha256": "9D7AB1A2D9E790932254AC346DEC5C1BF42836BE508DCA45636A3131BB8145C5",
+      "bytes": 1919
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
+      "bytes": 1285
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
+      "bytes": 41561
+    },
+    {
+      "path": "crates/cantor_core/src/lib.rs",
+      "sha256": "0BC2F5C37DBFB9B17F90909DB0C7BD042FE254669BFC1257810F9336E1485F88",
+      "bytes": 2394
+    },
+    {
+      "path": "crates/cantor_core/src/sop.rs",
+      "sha256": "93AC8352B7A71D7F13AC6F6F16713CE1D06F405A5FB7225184AFCD08035C6183",
+      "bytes": 44975
+    },
+    {
+      "path": "crates/cantor_core/tests/sop_ingestion.rs",
+      "sha256": "55D79F5716B2E3F0773CD8A5EB5B6F5B81A76639F515D808860F3207DDC34F0C",
+      "bytes": 12945
+    },
+    {
+      "path": "crates/cantor_cli/Cargo.toml",
+      "sha256": "C2B1A0D094B3BDAB1F70C3170EEA1FDD855384DE87AE6970E63BD8EFC5B491C2",
+      "bytes": 832
+    },
+    {
+      "path": "crates/cantor_cli/src/corpus_main.rs",
+      "sha256": "9ED78C6226EEF28ECA6FA6A8CC55AC8897DD6F6A99FF1ADD97BF74FC00FD5BB6",
+      "bytes": 20072
+    },
+    {
+      "path": "crates/cantor_cli/tests/corpus_cli.rs",
+      "sha256": "726BA90AE982AF0E664F00EC175537308FC7D1E0B224E4D01CFA99EC81A69B6B",
+      "bytes": 14921
+    },
+    {
+      "path": "crates/cantor_mcp/tests/self_hosted_corpus.rs",
+      "sha256": "35D149F4F2D210D99742BA6DFE0EDB2024564B78B9A64AAEEA3AA2A051EE6092",
+      "bytes": 5375
+    },
+    {
+      "path": "docs/SELF_HOSTED_CORPUS.md",
+      "sha256": "C8C16220C3D41DD05AD7416243AF173E78CA68F4A74262C8B95D7F05DF9F7929",
+      "bytes": 6659
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/Cargo.toml",
+      "sha256": "2DEF56F9FE3C9CA3575B7CEB04FB043A47F82C5DBF18BBDF3D37C15BEC4508A4",
+      "bytes": 360
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/Cargo.lock",
+      "sha256": "36834F00FB71AC31BAB9F0FB7862D8E1705C3A4A6109470000C951703F2DD275",
+      "bytes": 7597
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/src/main.rs",
+      "sha256": "1B9FB31C255DCFD9FA0FE4C8077E5251A73C6A19FB79C3A997ACB8F428456BA3",
+      "bytes": 9555
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/tests/evidence.rs",
+      "sha256": "1B35FC44E0BF6CD312B057BC63285F02569884EFC8622AF2C32286FBD041BA07",
+      "bytes": 3421
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/artifacts/2026-07-29-three-run-summary.json",
+      "sha256": "A19FB9D7C7322ADB41606270575163D51D49932A909448B4FFC4EE050C3549A2",
+      "bytes": 4381
+    },
+    {
+      "path": "scripts/summarize_self_hosted_corpus_evidence.ps1",
+      "sha256": "CE717246CA3D882BC0A65F2DA3C08F5FC02D71E9BFE335BD7AF3DB55C42E937E",
+      "bytes": 3576
+    },
+    {
+      "path": "scripts/build_self_hosted_corpus_evidence_manifest.ps1",
+      "sha256": "2BAA2518FE74A435F0ABDAAB684C5F0321033B336AFEFDF2070EBD610D2272D9",
+      "bytes": 5135
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/artifacts/2026-07-29-run-1.json",
+      "sha256": "29553BED3061CF9A37609214F127ADC78B42676D04121F02261CB095FE7D33B9",
+      "bytes": 1150
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/artifacts/2026-07-29-run-2.json",
+      "sha256": "354AD97A93616A531A0536A29865FE86E54E65CF76423D8D9F008B56064EB93F",
+      "bytes": 1096
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/artifacts/2026-07-29-run-3.json",
+      "sha256": "98C7953F9C30E2FC707D1FAC703531897EB30753E8543D5302405B2BE332F039",
+      "bytes": 1104
+    }
+  ]
 }
