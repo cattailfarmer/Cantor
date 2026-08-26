@@ -711,6 +711,24 @@ is published remote-equal at
 `602ff51e8b32aa3d36390389ed712c740b63d9d8`; its immediate-successor bookend is
 the current publication frontier.
 
+## Succeeding-SOP fixture persistence P0
+
+SWA-06B2B1 now has a bounded safe-Rust physical persistence kernel over the
+exact unmodified SWA-06B2A synthetic receipt. On an explicitly marked
+disposable fixture root it replays the complete upstream transaction, reopens
+and hashes raw source bytes, validates the predecessor registry, writes and
+flushes a same-parent create-new temporary record, replaces the registry,
+flushes the parent directory, and reopens the final bytes before emitting a
+deterministic successor receipt awaiting boot validation.
+
+The positive durability lane is Ubuntu-24.04 WSL. Windows safely performed the
+registry replacement but refused directory `sync_all` with Access Denied
+(OS error 5); Cantor preserves that as a typed post-replacement fault with no
+success receipt and no invented rollback. The module has no CLI, environment,
+clock, process, network, provider, model, unsafe, Git, remote, boot, rollback,
+or caller-root cleanup surface. Independent evidence, exact final workspace
+gates, attribution, and publication are the active closure work.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under

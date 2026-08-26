@@ -1,0 +1,23 @@
+Subject: Succeeding SOP Fixture Generator Test Harness Correction
+
+@ [turn_uuid] 047bf2f3-f694-428a-aad9-0baf02bafdee
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [SourceAnchors]
+  + C:\Project\Cantor\crates\cantor_core\examples\succeeding_sop_activation_fixture.rs
+  + C:\Project\Cantor\scripts\build_cantor_succeeding_sop_activation_fixture.ps1
+  + C:\Project\Cantor\narrative\operational_faults\1787698000001_succeeding_sop_fixture_generator_test_harness_fault.sop
+
+& [AffectedSubjects]
+  + SWA-06B2B1 development fixture generation and exact all-target workspace verification
+
+& [Intention]
+  + preserve exact generator output while preventing fixture-only test modules from becoming an invalid example test suite
+
+& [Result]
+  + example test harness has zero tests and succeeds in WSL
+  + WSL producer replays the exact 49431-byte upstream receipt and its pinned SHA256
+  + Windows Application Control remains obeyed without exception or bypass
+
+& [UnresolvedFrontier]
+  + independent evidence final workspace gates attribution commit publication and post-push replay remain

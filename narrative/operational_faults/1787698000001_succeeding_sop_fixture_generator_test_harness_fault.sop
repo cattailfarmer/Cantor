@@ -1,0 +1,21 @@
+Subject: Succeeding SOP Fixture Generator Test Harness Fault
+
+@ [fault_uuid] 538e6f67-aaec-4e80-8930-f955ab00657e
+@ [canonical_uuid] b87c0711-1151-438e-a2eb-35375e88b134
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [Observation]
+  + the first exact all-target workspace replay compiled the development fixture generator as an example test harness
+  + its included B2A fixture modules exposed forty-five tests and three CLI tests refused because sibling binary paths are intentionally unavailable to an example harness
+  + eighteen additional evidence targets refused stale transitive lib.rs identities as expected before final recursive rehash
+
+& [Cause]
+  + Cargo all-target discovery crossed the generator reuse boundary; test=false did not by itself erase included #[test] items from an explicitly selected example harness
+  + a later native generator attempt was separately blocked by Windows Application Control error 4551
+
+& [Correction]
+  + cfg(not(test)) now removes generator-only includes use and main from test-harness compilation so the example contributes one zero-test result group
+  + the producer now runs the exact offline generator through the admitted Ubuntu-24.04 WSL lane and reproduces the same 49431-byte fixture SHA256 27A233C7366063DA04371A137CE4E68AE8F5DD97479BF70BFEFB9B180CAB0004
+
+& [Boundary]
+  + no host-policy bypass provider network download live root or semantic weakening occurred

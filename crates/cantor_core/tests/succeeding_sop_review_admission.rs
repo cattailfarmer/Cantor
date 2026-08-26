@@ -514,7 +514,11 @@ fn production_surface_has_no_signing_physical_or_activation_route() {
 }
 
 fn invoke_cli(operation: &str, input: &str, extra_arguments: &[&str]) -> std::process::Output {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_cantor-succeeding-sop-review-admission"))
+    let binary = match option_env!("CARGO_BIN_EXE_cantor-succeeding-sop-review-admission") {
+        Some(binary) => binary,
+        None => panic!("succeeding SOP review-admission test binary is unavailable"),
+    };
+    let mut child = Command::new(binary)
         .arg(operation)
         .args(extra_arguments)
         .stdin(Stdio::piped())

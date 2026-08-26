@@ -1,0 +1,17 @@
+Subject: Succeeding SOP Fixture Persistence Windows Durability Fault Turn
+
+@ [turn_uuid] df652089-5e2b-46f6-b237-8f24c412026a
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [fault_uuid] 02198a25-f2de-46cb-8ad2-71eeedc19e46
+
+& [Intention]
+  + verify exact durable same-parent registry replacement on the current Windows host without unsafe code or policy bypass
+
+& [Result]
+  + replacement worked but safe parent-directory flush refused with os error 5 and the kernel preserved exact post-replacement fault state
+  + the final Windows executable was separately blocked by Application Control 4551 before execution
+  + governed WSL debug passes all seven positive and adversarial persistence tests
+
+& [UnresolvedFrontier]
+  + run WSL overflow-release quality and evidence gates
+  + retain Windows durability and executable host-policy gaps without semantic weakening

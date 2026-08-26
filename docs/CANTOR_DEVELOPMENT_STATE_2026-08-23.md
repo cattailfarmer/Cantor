@@ -189,6 +189,22 @@ model/provider availability. An operator-quality agent process requires the
 remaining trust, custody, isolation, recovery, and support milestones rather
 than a single feature toggle.
 
+## SWA-06B2B1 fixture persistence checkpoint
+
+The first physical SWA-06B2B substage is implemented for synthetic disposable
+fixtures only. One safe `cantor_ecosystem` module consumes the exact published
+SWA-06B2A receipt, reacquires and hashes its raw source, validates a strict
+predecessor registry, constructs the succeeding snapshot, and performs the
+ordered same-parent temporary write, file flush, reopen, replacement, parent
+flush, and final reopen protocol. Seven focused filesystem and adversarial
+tests pass in debug and overflow-checked release on Ubuntu-24.04 WSL.
+
+This is not live activation. Windows parent-directory durability is currently
+a typed post-replacement Access Denied refusal, boot validation and rollback
+execution remain separate, and the selected SWA-05 npm-native host still lacks
+the required read-scope schema. The independent physical-file evidence verifier
+and exact closure/publication gates are in progress.
+
 ## Mechanical audit
 
 ```powershell

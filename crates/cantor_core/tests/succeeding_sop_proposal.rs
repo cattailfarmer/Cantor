@@ -452,7 +452,11 @@ fn production_surface_contains_no_physical_effect_route() {
 }
 
 fn invoke_cli(operation: &str, input: &str, extra_arguments: &[&str]) -> std::process::Output {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_cantor-succeeding-sop-proposal"))
+    let binary = match option_env!("CARGO_BIN_EXE_cantor-succeeding-sop-proposal") {
+        Some(binary) => binary,
+        None => panic!("succeeding SOP proposal test binary is unavailable"),
+    };
+    let mut child = Command::new(binary)
         .arg(operation)
         .args(extra_arguments)
         .stdin(Stdio::piped())

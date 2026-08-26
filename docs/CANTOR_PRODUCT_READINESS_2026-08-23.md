@@ -123,6 +123,17 @@ intentionally open carrier tip. SWA-05 remains separate.
 6. Run live P1 and Slice11 experiments only if the exact pinned local provider
    becomes available. Do not download, substitute, or use a remote fallback.
 
+## Current physical activation boundary
+
+SWA-06B2B1 advances product mechanics from a pure activation plan to an actual
+synthetic-fixture registry replacement on the admitted WSL lane. It proves raw
+source reacquisition, predecessor observation, atomic same-volume replacement,
+durability checks, final replay, and explicit partial-effect state. It does not
+make Cantor an operator-ready self-updating agent: externally governed live
+persistence, boot selection validation, rollback execution, concurrency,
+recovery orchestration, and SWA-05 publication remain separate release gates.
+Windows durability success is not claimed.
+
 ## Superseded navigation
 
 The dated 2026-08-19 local runtime checkpoint correctly records its historical

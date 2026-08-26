@@ -20,7 +20,7 @@ fn empty_digest() -> ContentDigest {
     }
 }
 
-fn activation_request(
+pub(crate) fn activation_request(
     status: SucceedingSopActivationPolicyUseStatus,
 ) -> SucceedingSopActivationTransactionRequest {
     let review_request = review_fixture::admission_request(
@@ -497,7 +497,10 @@ fn cli_admit_verify_and_static_effect_boundary_hold() {
     let request = activation_request(SucceedingSopActivationPolicyUseStatus::SyntheticFixtureOnly);
     let request_form = to_succeeding_sop_activation_transaction_request_machine_form(&request)
         .expect("request form");
-    let binary = env!("CARGO_BIN_EXE_cantor-succeeding-sop-activation-transaction");
+    let binary = match option_env!("CARGO_BIN_EXE_cantor-succeeding-sop-activation-transaction") {
+        Some(binary) => binary,
+        None => panic!("succeeding SOP activation-transaction test binary is unavailable"),
+    };
     let admitted = run_cli(binary, "admit", &request_form);
     assert!(
         admitted.status.success(),

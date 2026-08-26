@@ -1,0 +1,37 @@
+Subject: Cantor Succeeding SOP Fixture Persistence P0 Data Design
+
+@ [data_design_uuid] 57d7ba4f-5753-4e05-9b18-0e132d8b3303
+@ [canonical_uuid] b87c0711-1151-438e-a2eb-35375e88b134
+
+& [Forms]
+  + FixtureRootMarker binds profile marker_ref fixture_root_ref recovery_owner_ref disposable_fixture live_repository live_activation_allowed evidence and marker_digest
+  + FixturePersistenceCommission binds profile commission_ref fixture_root_ref recovery_owner_ref successor_snapshot_ref exact B2A receipt evidence fixture_only live_activation_allowed cleanup_authorized and commission_digest
+  + FixtureRegistryRecord binds profile fixture_root_ref activation_authority_ref recovery_owner_ref last_transaction_ref one complete current-registry snapshot and record_digest
+  + FixturePersistenceReceipt binds profile commission and upstream digests marker source predecessor successor raw byte identities status authority ordered checks physical results nonresults and receipt_digest
+  + FixturePersistenceFault binds one closed fault code message physical_contact replacement_performed and owned_temp_removed so partial-effect state is never hidden
+
+& [ClosedValues]
+  + status is fixture_registry_persisted_awaiting_boot_validation
+  + authority is synthetic_fixture_persistence_only
+  + success checks are upstream_replay marker_correspondence root_boundary source_reacquisition registry_precondition temp_create_new temp_reopen file_flush atomic_replace parent_flush final_reopen deterministic_digests authority_boundary
+  + physical success is source_reacquired registry_observed registry_persisted and current_sop_selected true
+  + boot_activation_verified rollback_executed live_activation_performed provider_contacted model_called process_launched network_contacted and cleanup_performed remain false
+
+& [DigestDomains]
+  + cantor.succeeding-sop.fixture-persistence.marker.v1
+  + cantor.succeeding-sop.fixture-persistence.commission.v1
+  + cantor.succeeding-sop.fixture-persistence.registry.v1
+  + cantor.succeeding-sop.fixture-persistence.receipt.v1
+
+& [Bounds]
+  + marker commission registry and receipt machine forms are at most 16777216 UTF-8 bytes and deny unknown fields
+  + evidence sets contain one through thirty-two distinct semantic identities
+  + every physical path comes from one validated B2A path at most 1024 UTF-8 bytes
+  + source bytes are bounded by the upstream u64 count and local addressability before allocation
+
+& [StateTransition]
+  + validated_B2A plus valid_marker plus exact_source plus exact_predecessor_registry plus absent_temp leads to successor_temp_owned
+  + successor_temp_owned plus exact_reopen plus file_flush leads to replacement_attempt
+  + successful replacement plus parent_flush plus exact_final_reopen leads to success_receipt
+  + pre_replacement fault removes only exact owned temp and leaves predecessor registry unchanged
+  + post_replacement fault reports replacement_performed true and leaves recovery for SWA-06B2B2

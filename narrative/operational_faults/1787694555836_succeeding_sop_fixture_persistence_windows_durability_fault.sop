@@ -1,0 +1,25 @@
+Subject: Succeeding SOP Fixture Persistence Windows Durability Fault
+
+@ [fault_uuid] 02198a25-f2de-46cb-8ad2-71eeedc19e46
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [captured_at_utc] 2026-08-25T21:49:15.8336388Z
+
+& [Observed]
+  + safe standard-library Windows registry replacement completed inside a recovery-owned disposable test fixture
+  + both ordinary directory File open and OpenOptionsExt with FILE_FLAG_BACKUP_SEMANTICS reached directory sync_all and received Access is denied os error 5
+  + the kernel returned Durability with physical_contact true replacement_performed true rollback_executed absent and no success receipt
+  + a subsequently linked exact-current-tree Windows test executable was blocked before execution by the already-governed Application Control error 4551
+
+& [Impact]
+  + Windows cannot currently produce the required file_and_parent_flush_required success receipt through this safe standard-library surface
+  + the explicit post-replacement fault state prevents the replaced registry from being misreported as durable or rolled back
+  + the test fixture remained recovery-owned and its test harness removed it; no Cantor Pinky D:\CantorB1 provider model process network or foreign path was changed
+
+& [Correction]
+  + retain the Windows result as an exact product gap and never weaken parent durability
+  + keep the Windows-specific test expecting the typed post-replacement refusal
+  + execute positive durable fixture persistence only through the governed Ubuntu-24.04 WSL filesystem lane
+
+& [Frontier]
+  + a later Windows physical writer requires a separately governed safe directory-durability carrier or an explicit platform requirement revision
+  + no host-policy bypass or user authorization prompt is needed for this recorded refusal
