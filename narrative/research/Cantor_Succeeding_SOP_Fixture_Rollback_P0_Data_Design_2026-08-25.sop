@@ -1,0 +1,31 @@
+Subject: Cantor Succeeding SOP Fixture Rollback P0 Data Design
+
+@ [design_uuid] 8c20da2a-980c-45e2-a328-4054a2618a90
+@ [source_snapshot_uuid] c15384bd-34a6-4b75-ae54-78281c1da583
+
+& [Commission]
+  + profile commission_ref fixture_root_ref recovery_owner_ref persistence_receipt trigger failed_snapshot_ref restored_snapshot_ref evidence_refs fixture_only live_activation_allowed cleanup_authorized commission_digest
+  + trigger is a closed enum with only boot_validation_failed admitted in P0
+  + commission and nested upstream forms deny unknown fields and remain bounded by 16777216 UTF-8 bytes
+
+& [RestoredState]
+  + reuse the strict B2B1 registry-record profile rather than introduce a second registry grammar
+  + restored snapshot has commissioned identity same registry identity current physical generation plus one predecessor revision and digest predecessor source path supplied evidence and recomputed snapshot digest
+  + restored record retains fixture root activation authority recovery owner and B2A transaction while replacing only the embedded current snapshot and record digest
+
+& [Receipt]
+  + profile status authority verified checks commission current failed record restored record trigger and raw digests plus physical and nonphysical result flags
+  + success status fixture_registry_rolled_back_awaiting_boot_validation and authority synthetic_fixture_recovery_only
+  + rollback_executed means registry replacement and final replay succeeded; it does not mean the restored SOP booted
+
+& [Fault]
+  + typed code field message physical_contact replacement_performed owned_temp_removed failed_candidate_preserved
+  + post-replacement durability failure retains replacement_performed true and cannot claim rollback success
+
+& [DigestDomains]
+  + commission restored receipt and every reused nested record retain separate canonical SHA256 domains
+  + raw current predecessor-source temporary and final byte digests remain distinct from semantic form digests
+
+& [Determinism]
+  + no clock environment random identity discovery process network or provider input enters production
+  + caller supplies every identity trigger evidence and explicit root; canonical bytes end in one LF

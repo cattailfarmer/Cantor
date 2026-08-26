@@ -134,6 +134,16 @@ persistence, boot selection validation, rollback execution, concurrency,
 recovery orchestration, and SWA-05 publication remain separate release gates.
 Windows durability success is not claimed.
 
+SWA-06B2B2 now adds deterministic recovery-owned rollback on that same
+disposable-fixture boundary. It preserves the failed candidate, reacquires the
+exact predecessor, advances the registry generation monotonically, and emits
+an independently verified receipt that still stops before boot validation.
+Both exact workspace debug and overflow-checked release pass 206 groups and
+1,307 tests with zero failures. This closes an important recovery mechanic,
+but it does not yet supply live-root authority, boot truth, external
+activation, concurrent-writer safety, operator recovery orchestration, or the
+read-scoped self-work host needed for an agent-process alpha.
+
 ## Superseded navigation
 
 The dated 2026-08-19 local runtime checkpoint correctly records its historical

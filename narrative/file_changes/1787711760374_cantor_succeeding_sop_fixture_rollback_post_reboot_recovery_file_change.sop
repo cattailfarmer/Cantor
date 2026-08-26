@@ -1,0 +1,26 @@
+Subject: Cantor Succeeding SOP Fixture Rollback Post-Reboot Recovery File Change
+
+@ [file_change_uuid] 7ae16bc7-ef96-4733-a9cc-825a31ccd922
+@ [turn_uuid] 84d557ca-6a0a-4544-a66f-f286cfadb716
+@ [canonical_uuid] 18cf8fd3-dfad-4b6f-a693-a9657c70cc32
+
+& [Intent]
+  + correct the implementation checkpoint to the exact post-reboot verification state without claiming unexecuted release or WSL success
+
+& [Changed]
+  + [path] crates/cantor_ecosystem/src/succeeding_sop_fixture_rollback.rs
+  + [path] crates/cantor_ecosystem/tests/succeeding_sop_fixture_rollback.rs
+  + [path] narrative/turns/1787708373787_cantor_succeeding_sop_fixture_rollback_p0_implementation_checkpoint.sop
+  + [path] narrative/operational_faults/1787708373786_succeeding_sop_fixture_rollback_reboot_execution_lane_fault.sop
+  + [path] proofs/Cantor_Succeeding_SOP_Fixture_Rollback_P0_Upstream_Correction_Proof.sop
+  + [path] feature_support/Cantor_Succeeding_SOP_Fixture_Rollback_P0_Requirement_Matrix.sop
+  + [path] plans/Cantor_Succeeding_SOP_Fixture_Rollback_P0_Plan.sop
+  + [path] scripts/build_cantor_succeeding_sop_fixture_rollback_evidence.ps1
+  + [path] scripts/test_cantor_succeeding_sop_fixture_rollback_evidence_verifier.ps1
+  + [path] scripts/verify_cantor_succeeding_sop_fixture_rollback_evidence.ps1
+  + [path] narrative/turns/1787711760373_cantor_succeeding_sop_fixture_rollback_post_reboot_recovery.sop
+  + [path] narrative/file_changes/1787711760374_cantor_succeeding_sop_fixture_rollback_post_reboot_recovery_file_change.sop
+
+& [Excluded]
+  + no implementation evidence activation or publication claim changed beyond recording exact observed state
+  + AGENTS.md protected Minecraft narrative and unrelated Zeta and Accountability work remain foreign and unstaged

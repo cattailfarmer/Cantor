@@ -1,0 +1,23 @@
+Subject: Cantor Succeeding SOP Fixture Rollback P0 Justification
+
+@ [justification_uuid] eacf5f2c-dfa9-4e64-8a10-b24aa243098a
+@ [canonical_uuid] 18cf8fd3-dfad-4b6f-a693-a9657c70cc32
+
+& [WhyNow]
+  + B2B1 is published and proves persistence awaiting boot validation; its next explicit frontier is recovery-owned rollback before any boot or live activation contract
+  + SWA-05 remains independently blocked and need not halt the provider-free recovery seam
+
+& [WhyThisBoundary]
+  + one supplied boot_validation_failed trigger tests correspondence without fabricating an observed boot
+  + requiring the exact B2B1 current bytes prevents overwriting a third state
+  + monotonic generation preserves registry history while selecting the predecessor
+  + preserving the failed candidate retains forensic and retry evidence without granting cleanup
+  + stopping before boot keeps recovery mechanics distinct from activation truth
+
+& [WhyNoWindowsSuccess]
+  + the standard-library parent directory flush still refuses Access Denied after replacement
+  + reporting a typed post-replacement fault is safer than weakening durability or importing unsafe host-specific authority
+
+& [ExpectedValue]
+  + Cantor gains the inverse physical registry transition needed for recoverable succeeding-SOP experiments
+  + later B2B3 can validate a restored or succeeding boot without conflating selection with successful inference

@@ -207,6 +207,27 @@ and exact closure gates pass; the 93-path implementation is published
 remote-equal at `ce93bd5dd502251d72135b226d49591a58cca3f4`, with its
 immediate-successor bookend forming.
 
+## SWA-06B2B2 fixture rollback checkpoint
+
+Recovery-owned rollback is now implemented and exact-gate verified on the
+same synthetic disposable fixture boundary. The safe Rust transaction replays
+the complete B2B1 receipt, observes the failed current registry and candidate,
+reacquires the exact predecessor, preserves the candidate, and durably writes
+a distinct generation-43 restored registry. It then stops with a strict
+`awaiting_boot_validation` receipt.
+
+On Ubuntu-24.04 WSL, debug and overflow-checked release each pass 45 upstream,
+16 combined, and 9 rollback tests. Exact workspace debug and release each pass
+206 groups and 1,307 tests with zero failures and three governed ignores. An
+independent provider-free verifier rehashes the 57-file controlled graph and
+refuses manifest-order, unknown-field, raw-byte, and fully rehashed outcome
+laundering. Final recursive evidence, exact-current workspace, Clippy, and
+format replays pass; publication and post-push replay remain.
+
+This is still not an operator-ready autonomous agent. Boot observation,
+externally governed activation, concurrency, recovery orchestration, and a
+read-scope-capable SWA-05 host remain separate work. No D-drive work is used.
+
 ## Mechanical audit
 
 ```powershell

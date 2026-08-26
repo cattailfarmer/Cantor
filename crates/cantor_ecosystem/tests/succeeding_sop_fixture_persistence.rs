@@ -12,8 +12,12 @@ use cantor_ecosystem::*;
 #[cfg(not(windows))]
 use serde_json::Value;
 
+#[path = "succeeding_sop_fixture_rollback.rs"]
+mod succeeding_sop_fixture_rollback;
+
 static NEXT_FIXTURE: AtomicU64 = AtomicU64::new(1);
 const SOURCE_TEXT: &str = "Subject: Cantor Fixture Succeeding SOP\n\n& [Purpose]\n  + continue the exact verified frontier\n";
+const PREDECESSOR_SOURCE_TEXT: &str = "Subject: Cantor Fixture Current SOP\n\n& [Purpose]\n  + preserve the exact rollback predecessor\n";
 
 fn id(value: &str) -> SemanticId {
     SemanticId::new(value).expect("fixture identity")
@@ -114,6 +118,20 @@ impl Fixture {
         fs::create_dir_all(source_path.parent().expect("source parent"))
             .expect("source parent create");
         fs::write(&source_path, SOURCE_TEXT.as_bytes()).expect("source write");
+
+        let predecessor_source_path = physical(&root, &request.rollback.rollback_source_path);
+        fs::create_dir_all(
+            predecessor_source_path
+                .parent()
+                .expect("predecessor source parent"),
+        )
+        .expect("predecessor source parent create");
+        fs::write(&predecessor_source_path, PREDECESSOR_SOURCE_TEXT.as_bytes())
+            .expect("predecessor source write");
+        assert_eq!(
+            cantor_core::sha256_bytes(PREDECESSOR_SOURCE_TEXT.as_bytes()),
+            request.rollback.rollback_revision_digest
+        );
 
         let registry = predecessor_succeeding_sop_fixture_registry_record(&marker, &commission)
             .expect("predecessor registry");

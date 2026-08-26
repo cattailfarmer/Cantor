@@ -172,6 +172,7 @@ pub struct SucceedingSopCurrentRegistrySnapshot {
     pub current_revision_ref: SemanticId,
     pub current_revision_digest: ContentDigest,
     pub current_source_path: String,
+    pub current_source_bytes: u64,
     pub evidence_refs: BTreeSet<SemanticId>,
     pub snapshot_digest: ContentDigest,
 }
@@ -229,6 +230,7 @@ pub struct SucceedingSopRollbackPlan {
     pub rollback_revision_ref: SemanticId,
     pub rollback_revision_digest: ContentDigest,
     pub rollback_source_path: String,
+    pub rollback_source_bytes: u64,
     pub failed_candidate_ref: SemanticId,
     pub failed_candidate_digest: ContentDigest,
     pub expected_registry_generation: u64,
@@ -645,6 +647,9 @@ fn validate_current_registry(
         || snapshot.registry_ref != request.activation_policy.registry_ref
         || snapshot.current_revision_ref != proposal.predecessor_sop_revision_ref
         || snapshot.current_revision_digest != proposal.predecessor_sop_revision_digest
+        || snapshot.current_source_bytes == 0
+        || snapshot.current_source_bytes
+            > SUCCEEDING_SOP_ACTIVATION_TRANSACTION_MAX_MACHINE_FORM_BYTES as u64
     {
         return Err(fault(
             SucceedingSopActivationTransactionFaultCode::InvalidRegistry,
@@ -779,11 +784,15 @@ fn validate_rollback(
         || plan.rollback_revision_ref != request.current_registry.current_revision_ref
         || plan.rollback_revision_digest != request.current_registry.current_revision_digest
         || plan.rollback_source_path != request.current_registry.current_source_path
+        || plan.rollback_source_bytes != request.current_registry.current_source_bytes
         || plan.failed_candidate_ref != proposal.proposal_ref
         || plan.failed_candidate_digest != proposal.proposal_digest
         || plan.expected_registry_generation != request.transition.after_generation
         || plan.triggers != required_rollback_triggers()
         || !plan.preserve_failed_candidate
+        || plan.rollback_source_bytes == 0
+        || plan.rollback_source_bytes
+            > SUCCEEDING_SOP_ACTIVATION_TRANSACTION_MAX_MACHINE_FORM_BYTES as u64
     {
         return Err(fault(
             SucceedingSopActivationTransactionFaultCode::InvalidRollback,

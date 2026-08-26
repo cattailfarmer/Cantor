@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [string]$OutputPath = 'crates/cantor_ecosystem/tests/fixtures/succeeding_sop_activation_transaction_receipt.json',
-    [string]$Distro = 'Ubuntu-24.04'
+    [string]$Distro = 'Ubuntu-24.04',
+    [switch]$UseNative
 )
 
 Set-StrictMode -Version Latest
@@ -13,15 +14,21 @@ $fullOutput = if ([IO.Path]::IsPathRooted($OutputPath)) {
     [IO.Path]::GetFullPath((Join-Path $root $OutputPath))
 }
 
-$generator = @'
+$lines = if ($UseNative) {
+    @(& cargo run -q -p cantor_core --example succeeding_sop_activation_fixture --locked --offline)
+    if ($LASTEXITCODE -ne 0) { throw 'native synthetic activation fixture generation failed' }
+} else {
+    $generator = @'
 set -euo pipefail
 export CARGO_TARGET_DIR=/tmp/cantor-sfp-p0-fixture-target
 export CARGO_BUILD_JOBS=1 CARGO_INCREMENTAL=0 LC_ALL=C
 "$HOME/.cargo/bin/cargo" run -q -p cantor_core --example succeeding_sop_activation_fixture --locked --offline
 '@
-$transport = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($generator))
-$lines = @(& wsl.exe -d $Distro --cd $root -- bash -lc "set -o pipefail; printf '%s' '$transport' | base64 --decode | bash")
-if ($LASTEXITCODE -ne 0) { throw 'synthetic activation fixture generation failed' }
+    $transport = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($generator))
+    $generated = @(& wsl.exe -d $Distro --cd $root -- bash -lc "set -o pipefail; printf '%s' '$transport' | base64 --decode | bash")
+    if ($LASTEXITCODE -ne 0) { throw 'WSL synthetic activation fixture generation failed' }
+    $generated
+}
 $machineForm = $lines -join "`n"
 $fixture = $machineForm | ConvertFrom-Json
 if ($fixture.profile -cne 'cantor-succeeding-sop-activation-transaction-receipt/0.1' -or

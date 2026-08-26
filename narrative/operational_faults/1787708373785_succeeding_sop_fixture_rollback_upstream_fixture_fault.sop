@@ -1,0 +1,24 @@
+Subject: Succeeding SOP Fixture Rollback Upstream Fixture Contract Fault
+
+@ [fault_uuid] 6934f62c-02f4-467d-8a9a-e83e396e952f
+@ [canonical_uuid] 18cf8fd3-dfad-4b6f-a693-a9657c70cc32
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [Observation]
+  + the exact published B2A and B2B1 synthetic receipt described the preserved predecessor digest as sixty-four letter-a characters
+  + B2B1 materialized only the 93-byte succeeding candidate and its rollback plan carried no predecessor byte-count field
+  + therefore B2B2 could not satisfy SFR-014 and SFR-015 by reopening real predecessor bytes without inventing a SHA256 preimage or weakening the signed contract
+
+& [Cause]
+  + the earlier pure correspondence fixture used a syntactically valid digest placeholder where the later physical rollback seam requires content-addressed source bytes
+  + the B2A rollback-plan schema omitted rollback_source_bytes because its original pure validator never contacted storage
+
+& [Correction]
+  + the synthetic objective-work-plan boot fixture now hashes exact 93-byte LF predecessor SOP text to e8405fae0ee54f9fdfb39ea84b3fa6e710c5163fbc916b11a9efefddf0564a61
+  + SucceedingSopCurrentRegistrySnapshot now binds current_source_bytes and SucceedingSopRollbackPlan binds exact equality through rollback_source_bytes; both corrected values are 93
+  + B2B1 fixture preparation materializes and rehashes the same predecessor bytes; B2B2 requires exact physical length and SHA256 before any write
+  + regenerated B2A receipt is 49484 bytes SHA256 018D955E43C13EF8CC294F3271326824443DEB56F8C5FD00730ABB05A1B85E1E
+
+& [Boundary]
+  + no live root boot provider model process network cleanup remote host-policy bypass or authority widening occurred
+  + old B2A and B2B1 evidence is stale until intentionally refreshed and republished; no closure claim is made

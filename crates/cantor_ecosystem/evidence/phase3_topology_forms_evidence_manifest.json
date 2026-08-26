@@ -1,353 +1,353 @@
 {
-  "schema": "cantor-phase3-topology-forms-evidence-manifest/0.3",
-  "evidence_manifest_uuid": "5cae3376-f1c1-4750-b810-dad4fa4e9e1d",
-  "generated_at_utc": "2026-08-26T00:18:27.0121499Z",
-  "authority": {
-    "canonical_specification": "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop",
-    "satisfaction_signature_uuid": "1edee945-9957-41d7-bd17-0765ec54f5cb",
-    "superseded_signature_uuid": "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2",
-    "joint_machine_forms_signature_uuid": "c681b74d-7543-43be-96a1-a8ccb89181fb",
-    "solution_uuid": "4d874ac7-a91d-4f9c-bdf0-e29deb541fc4"
-  },
-  "scope": {
-    "forms_profile": "cantor-phase3-topology-forms/0.3",
-    "receipt_profile": "cantor-phase3-topology-receipt/0.3",
-    "scanner_profile": "cantor-windows-candidate-topology/0.1",
-    "focused_tests": 16,
-    "focused_unit_tests": 15,
-    "focused_static_tests": 1,
-    "filesystem_authority": false,
-    "windows_api_authority": false,
-    "unsafe_authority": false,
-    "clock_authority": false,
-    "persistence_authority": false,
-    "process_authority": false,
-    "network_authority": false,
-    "model_authority": false,
-    "mutation_authority": false,
-    "promotion_authority": false
-  },
-  "verification": [
-    {
-      "command": "cargo fmt --all -- --check",
-      "status": "passed"
-    },
-    {
-      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
-      "status": "passed"
-    },
-    {
-      "command": "WSL2 Ubuntu-24.04: CARGO_TARGET_DIR=/tmp/cantor-p3icer-target cargo test --workspace --all-targets --locked --offline",
-      "platform": "linux-x86_64-wsl2",
-      "result_groups": 63,
-      "tests": 390,
-      "ignored": 0,
-      "status": "passed"
-    },
-    {
-      "command": "WSL2 Ubuntu-24.04: CARGO_TARGET_DIR=/tmp/cantor-p3icer-target RUSTFLAGS='-C overflow-checks=on -C metadata=cantor_p3icer_wsl_release' cargo test --workspace --all-targets --release --locked --offline",
-      "platform": "linux-x86_64-wsl2",
-      "result_groups": 63,
-      "tests": 390,
-      "ignored": 0,
-      "status": "passed"
-    },
-    {
-      "command": "cargo build --workspace --all-targets --release --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "RUSTDOCFLAGS='-D warnings' cargo doc --workspace --no-deps --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "cargo audit --file Cargo.lock",
-      "dependencies": 113,
-      "advisories": 1177,
-      "vulnerabilities": 0,
-      "status": "passed"
-    }
-  ],
-  "artifacts": [
-    {
-      "path": "Cargo.toml",
-      "sha256": "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
-      "bytes": 1285
-    },
-    {
-      "path": "Cargo.lock",
-      "sha256": "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
-      "bytes": 41561
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_phase3_topology_scanner_formation/Cantor_Phase3_Topology_Scanner_Formation_Source.sop",
-      "sha256": "1B797B4C5CBDE683718AFD8E182BA9EB7B5C8B0E65897DACD8634AC85D14B81D",
-      "bytes": 5858
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_phase3_topology_scanner_formation/Source_Document_Manifest.sop",
-      "sha256": "C52BBB62FD9B820ED46B92BCB133E4CF7366CAE1923CFFE4CFA6ACF0CD0AFEB8",
-      "bytes": 724
-    },
-    {
-      "path": "specifications/Cantor_Phase3_Topology_Scanner.sop",
-      "sha256": "DFB51683CA47360F299ACF87A54825DF8771204AEDDE6EF3A3C3B654CFAA2E7F",
-      "bytes": 11448
-    },
-    {
-      "path": "specifications/exploded/Cantor_Phase3_Topology_Scanner.exploded.sop",
-      "sha256": "0969E48420C7A40CADE2609BF6ED58EE1AF9466B34F47CD36907A4D0335BD627",
-      "bytes": 2352
-    },
-    {
-      "path": "justifications/Cantor_Phase3_Topology_Scanner_Justification.sop",
-      "sha256": "52393489F53081E45391B818B61C0B39B8AB69C0349E8CD6E58D0627133645CC",
-      "bytes": 2012
-    },
-    {
-      "path": "plans/Cantor_Phase3_Topology_Scanner_Formation_Plan.sop",
-      "sha256": "C0B48E9E9DE92D5A7F7DDD4080CD5B878509A00AEE05D3CA7AA261F1EBD97E87",
-      "bytes": 2314
-    },
-    {
-      "path": "feature_support/Phase3TopologyScanner_Requirement_Matrix.sop",
-      "sha256": "E4B209910398A26DB32AF9477C98562E1454E9452E6319C3F1D5C108F65BCCB2",
-      "bytes": 6230
-    },
-    {
-      "path": "feature_support/slices/Phase3TopologyScanner.sop",
-      "sha256": "A4D18B24317ACBD292FF93A37C9E3D6F63484F697B9CFE1743286AC911F208F0",
-      "bytes": 1528
-    },
-    {
-      "path": "narrative/research/Cantor_Windows_Topology_API_Assessment_2026-07-30.sop",
-      "sha256": "FA8103B36EF820C093DA7493154D05000471C0EEB343746E898976939B66EC90",
-      "bytes": 9268
-    },
-    {
-      "path": "narrative/operational_faults/1785433114684_phase3_topology_scanner_formation_faults.sop",
-      "sha256": "804A842DF5F44C92AFB263099B7F99F8F780C21CCC3F89D38F3D548E49CCE6CA",
-      "bytes": 4169
-    },
-    {
-      "path": "narrative/turns/1785433114684_cantor_phase3_topology_scanner_formation.sop",
-      "sha256": "85DE124B20994B24FBC65B347B7F336E59A323B05347CA03D381CA06D53232AE",
-      "bytes": 1436
-    },
-    {
-      "path": "narrative/file_changes/1785433114684_phase3_topology_scanner_formation_file_change.sop",
-      "sha256": "5302C15F8384F2C72C711A2078BA9F638F9271E30560B123840E2FC3D106FD22",
-      "bytes": 1025
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_phase3_topology_machine_forms_activation/Cantor_Phase3_Topology_Machine_Forms_Activation_Source.sop",
-      "sha256": "A8FD1BD48FBF2A592A1D442D0479EB882823B06A3D1BDF1077E0A1466D988346",
-      "bytes": 4543
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_phase3_topology_machine_forms_activation/Source_Document_Manifest.sop",
-      "sha256": "52FB7BF455147229EDB4FE0A736387F0F7BCBAA3871839357C288844C8707842",
-      "bytes": 730
-    },
-    {
-      "path": "specifications/Cantor_Phase3_Topology_Machine_Forms.sop",
-      "sha256": "7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A",
-      "bytes": 13696
-    },
-    {
-      "path": "source_documents/2026-07-31_cantor_phase3_inventory_consistency_evidence_revision/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop",
-      "sha256": "BB805C0B239C25426B99D521F101FDFD8DCF06FE8A466467B8646860359905F7",
-      "bytes": 16758
-    },
-    {
-      "path": "source_documents/2026-07-31_cantor_phase3_inventory_consistency_evidence_revision/SJS_Processing_Input_Manifest.sop",
-      "sha256": "23FF74E1250C4442C0307239E12AC565BE1D30C67FFE9D396F0FC275E46CB4B7",
-      "bytes": 4368
-    },
-    {
-      "path": "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop",
-      "sha256": "471C63DA8EBAAD61776114513AB41F7D2B5EBE96136F632DA699251A8633B606",
-      "bytes": 25956
-    },
-    {
-      "path": "specifications/exploded/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.exploded.sop",
-      "sha256": "EEA349B32CD49D2C4A81FD13C9BB99C5C7781CB786551EFC77E89BC67C4AC6E6",
-      "bytes": 12540
-    },
-    {
-      "path": "narrative/registries/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Phase_Lock.sop",
-      "sha256": "AEFA05678E7EB832BDD48C566876B7DAE268B20F957ED4D94EF4F02E779A8F4E",
-      "bytes": 7559
-    },
-    {
-      "path": "solutions/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Solution.sop",
-      "sha256": "A497BDFC53B742D51F7705CFCAF0520C248F6E81FFCB02CEA420E747CD07E25E",
-      "bytes": 5403
-    },
-    {
-      "path": "narrative/operational_faults/1785536700000_phase3_inventory_consistency_evidence_revision_windows_application_control_fault.sop",
-      "sha256": "2B4DB1069F1021E469FDD4381AECE96C0663F1565E39F7C761FDBF85F82EB115",
-      "bytes": 2638
-    },
-    {
-      "path": "specifications/exploded/Cantor_Phase3_Topology_Machine_Forms.exploded.sop",
-      "sha256": "112F922B6E8DCF0D89BF930F2D52ED24F0CEB662F6D86E8EECFABB612A64FFEB",
-      "bytes": 1474
-    },
-    {
-      "path": "justifications/Cantor_Phase3_Topology_Machine_Forms_Justification.sop",
-      "sha256": "35CE36B906D1A5A984EEFB9D294AD44103512101D14DB862B8F4B9061CD89367",
-      "bytes": 825
-    },
-    {
-      "path": "feature_support/Phase3TopologyMachineForms_Requirement_Matrix.sop",
-      "sha256": "4C715E5EC0FFBFEA917D2E33778CA788FF28C47E27294B4C5B5AC7625DA6579C",
-      "bytes": 1655
-    },
-    {
-      "path": "docs/PHASE3_TOPOLOGY_FORMS.md",
-      "sha256": "8F72F2277924CB40D1C17FAB706B602C5494BF0662ECDD7ABA2D43298D213131",
-      "bytes": 1904
-    },
-    {
-      "path": "solutions/Cantor_Phase3_Topology_Machine_Forms_Solution.sop",
-      "sha256": "6C708A60F73CE3DE1549B35F71C5A732B088F3E795795C0E2BF7547A07A3943B",
-      "bytes": 1315
-    },
-    {
-      "path": "narrative/operational_faults/1785433555602_phase3_topology_machine_forms_faults.sop",
-      "sha256": "FE80D3CDADB4475DD59213547A83CC8962952C0CCBBA2FDF02121C444B9AAD18",
-      "bytes": 3215
-    },
-    {
-      "path": "narrative/turns/1785433555602_cantor_phase3_topology_machine_forms.sop",
-      "sha256": "F415D4832ADE2AC6EDE6970134A3A9E13421B9617878395144A8B386648F7992",
-      "bytes": 937
-    },
-    {
-      "path": "narrative/file_changes/1785433555602_phase3_topology_machine_forms_file_change.sop",
-      "sha256": "8702FC8D7F7B46E1DE4B56C5F83404EA2C8E9B2484C4E60F8F7AFF023EBFBC88",
-      "bytes": 717
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_phase3_topology_receipt_root_binding_revision/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Source.sop",
-      "sha256": "01EA89B89D16E86B3311104EDB742067E793178D778ADC06B0D84E334D6C22A5",
-      "bytes": 3659
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_phase3_topology_receipt_root_binding_revision/Cantor_Phase3_Topology_Machine_Forms_Pre_Revision_Snapshot.sop",
-      "sha256": "728E7C48FFC2716096CBD8B38567C5CB08636207546B1E4622623104269EE900",
-      "bytes": 6308
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_phase3_topology_receipt_root_binding_revision/SJS_Reprocessing_Input_Manifest.sop",
-      "sha256": "A4A7D4CE258EC71D3243E918C6F7035C624FC76F9643DE3E5F9A582CCCD79CF4",
-      "bytes": 2795
-    },
-    {
-      "path": "narrative/research/Cantor_Topology_Receipt_Revision_Decision_2026-07-30.sop",
-      "sha256": "AE50F5FF38452879FD4E6CC3AFDE2B51B60AD328E24B8A9CCEE984703D26FE25",
-      "bytes": 3385
-    },
-    {
-      "path": "specifications/exploded/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision.exploded.sop",
-      "sha256": "E5C49167D8D496C7E128AC6A24B89C2A29CA40CCA6C83BD2B124684014DBD3FB",
-      "bytes": 16210
-    },
-    {
-      "path": "justifications/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Justification.sop",
-      "sha256": "18211FCFFE06694750D5BEFDCAB6AA2657DF77DE3FBD8E41AA56D8D41DF53A7C",
-      "bytes": 5924
-    },
-    {
-      "path": "plans/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Plan.sop",
-      "sha256": "B6E81E9B454BD9CFD6778B6D4745852F1D4C01220FB1921026FEF7BA165D7CFC",
-      "bytes": 2882
-    },
-    {
-      "path": "feature_support/Phase3TopologyReceiptRootBindingRevision_Requirement_Matrix.sop",
-      "sha256": "EF972D2066929EC46684AD0878380445E27308C897E155A32F08E3D376C7D487",
-      "bytes": 5169
-    },
-    {
-      "path": "feature_support/slices/Phase3TopologyReceiptRootBindingRevision.sop",
-      "sha256": "320669701444CA47B4CFBDF7A892E6AF1DFB96FBD8489D02832F69A03D08A33A",
-      "bytes": 1715
-    },
-    {
-      "path": "narrative/registries/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Registry.sop",
-      "sha256": "C9647F5B950C7F78D82E23A2A3FE7ECA7F992A5A7D09711BD8852FE5A28BFBFB",
-      "bytes": 4600
-    },
-    {
-      "path": "solutions/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Solution.sop",
-      "sha256": "A698FA4EFCD35700860766CA79C77203600694022FCFA917327C4165ADE824C7",
-      "bytes": 3245
-    },
-    {
-      "path": "narrative/operational_faults/1785436983061_phase3_topology_receipt_root_binding_revision_faults.sop",
-      "sha256": "FE98F37063404758FE592C3756F574F54E220A1E2E63F407B086F0FD896E4ABD",
-      "bytes": 3225
-    },
-    {
-      "path": "narrative/turns/1785436983061_cantor_second_four_hour_push.sop",
-      "sha256": "5FD0A1E2BFD59B2B6D43B15A064002C89C183B0E639682C43729CDF1E97054F7",
-      "bytes": 2660
-    },
-    {
-      "path": "narrative/file_changes/1785436983061_phase3_topology_receipt_root_binding_revision_file_change.sop",
-      "sha256": "9E8BFDDBEFF529E1438DCE66266BE206FF6692BF3C6B1258E4B2D220FE7C8535",
-      "bytes": 2355
-    },
-    {
-      "path": "crates/cantor_ecosystem/Cargo.toml",
-      "sha256": "D071736DA3A1279878AC9D1426471AB975ED6CBF6A5030FB366C64D6FA9EC6D8",
-      "bytes": 505
-    },
-    {
-      "path": "crates/cantor_ecosystem/src/lib.rs",
-      "sha256": "8FB2E988FB952463C669D3ABA9DB385F0B3BDE2E3FF9E0AE88CCC72E91BF50F1",
-      "bytes": 2615
-    },
-    {
-      "path": "crates/cantor_ecosystem/src/topology_forms.rs",
-      "sha256": "5D2213C8A49DE278109503F51789A1648B61266F7581AE2AF743BF5EF324A11D",
-      "bytes": 42216
-    },
-    {
-      "path": "crates/cantor_ecosystem/tests/phase3_topology_forms_evidence.rs",
-      "sha256": "098D38004736AC7AAC658B13B49758ECD4D85AAF4AE973A0C141B1F6E52972D6",
-      "bytes": 2815
-    },
-    {
-      "path": "crates/cantor_ecosystem/tests/phase3_inventory_consistency_evidence_revision_static.rs",
-      "sha256": "735DCD5ED2B9F23E4D53DEC6049850D406A5604D3B469DF240029C9F67E63725",
-      "bytes": 2900
-    },
-    {
-      "path": "scripts/build_phase3_topology_forms_evidence_manifest.ps1",
-      "sha256": "390D2FBBB51DA1BA324379215E8F3BBC98CA578996643DEFE9C1A4834DCBFF2F",
-      "bytes": 8352
-    },
-    {
-      "path": "crates/cantor_ecosystem/evidence/phase3_topology_forms_evidence_manifest_0_1.json",
-      "sha256": "B53BC3DB1233D1EAD90D1B692264585CBDD54B0E8EAA87B20785683FB59A1287",
-      "bytes": 12391
-    },
-    {
-      "path": "proofs/Cantor_Phase3_Topology_Machine_Forms_Proof.sop",
-      "sha256": "2AC8C9C69D4F8C858AA916DA8D157821848E6F2F7544FFFA0ACF3626F4C8438D",
-      "bytes": 2022
-    },
-    {
-      "path": "crates/cantor_ecosystem/evidence/phase3_machine_forms_evidence_manifest.json",
-      "sha256": "1D02F4820ECCE5380210A0D048DF298F7478D2BAD0A718753CE9A8C5F47D6B78",
-      "bytes": 9862
-    },
-    {
-      "path": "proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop",
-      "sha256": "0E6BF9DF0349FE7D72605BD41C12C95CDDA191A77C354C8707E9916661846609",
-      "bytes": 1716
-    }
-  ]
+    "schema":  "cantor-phase3-topology-forms-evidence-manifest/0.3",
+    "evidence_manifest_uuid":  "5cae3376-f1c1-4750-b810-dad4fa4e9e1d",
+    "generated_at_utc":  "2026-08-26T16:18:15.9605425Z",
+    "authority":  {
+                      "canonical_specification":  "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop",
+                      "satisfaction_signature_uuid":  "1edee945-9957-41d7-bd17-0765ec54f5cb",
+                      "superseded_signature_uuid":  "0e2cfacb-8659-41c2-b804-0eb1b49ff5b2",
+                      "joint_machine_forms_signature_uuid":  "c681b74d-7543-43be-96a1-a8ccb89181fb",
+                      "solution_uuid":  "4d874ac7-a91d-4f9c-bdf0-e29deb541fc4"
+                  },
+    "scope":  {
+                  "forms_profile":  "cantor-phase3-topology-forms/0.3",
+                  "receipt_profile":  "cantor-phase3-topology-receipt/0.3",
+                  "scanner_profile":  "cantor-windows-candidate-topology/0.1",
+                  "focused_tests":  16,
+                  "focused_unit_tests":  15,
+                  "focused_static_tests":  1,
+                  "filesystem_authority":  false,
+                  "windows_api_authority":  false,
+                  "unsafe_authority":  false,
+                  "clock_authority":  false,
+                  "persistence_authority":  false,
+                  "process_authority":  false,
+                  "network_authority":  false,
+                  "model_authority":  false,
+                  "mutation_authority":  false,
+                  "promotion_authority":  false
+              },
+    "verification":  [
+                         {
+                             "command":  "cargo fmt --all -- --check",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "WSL2 Ubuntu-24.04: CARGO_TARGET_DIR=/tmp/cantor-p3icer-target cargo test --workspace --all-targets --locked --offline",
+                             "platform":  "linux-x86_64-wsl2",
+                             "result_groups":  63,
+                             "tests":  390,
+                             "ignored":  0,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "WSL2 Ubuntu-24.04: CARGO_TARGET_DIR=/tmp/cantor-p3icer-target RUSTFLAGS=\u0027-C overflow-checks=on -C metadata=cantor_p3icer_wsl_release\u0027 cargo test --workspace --all-targets --release --locked --offline",
+                             "platform":  "linux-x86_64-wsl2",
+                             "result_groups":  63,
+                             "tests":  390,
+                             "ignored":  0,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "RUSTDOCFLAGS=\u0027-D warnings\u0027 cargo doc --workspace --no-deps --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo audit --file Cargo.lock",
+                             "dependencies":  113,
+                             "advisories":  1177,
+                             "vulnerabilities":  0,
+                             "status":  "passed"
+                         }
+                     ],
+    "artifacts":  [
+                      {
+                          "path":  "Cargo.toml",
+                          "sha256":  "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
+                          "bytes":  1285
+                      },
+                      {
+                          "path":  "Cargo.lock",
+                          "sha256":  "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
+                          "bytes":  41561
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_phase3_topology_scanner_formation/Cantor_Phase3_Topology_Scanner_Formation_Source.sop",
+                          "sha256":  "1B797B4C5CBDE683718AFD8E182BA9EB7B5C8B0E65897DACD8634AC85D14B81D",
+                          "bytes":  5858
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_phase3_topology_scanner_formation/Source_Document_Manifest.sop",
+                          "sha256":  "C52BBB62FD9B820ED46B92BCB133E4CF7366CAE1923CFFE4CFA6ACF0CD0AFEB8",
+                          "bytes":  724
+                      },
+                      {
+                          "path":  "specifications/Cantor_Phase3_Topology_Scanner.sop",
+                          "sha256":  "DFB51683CA47360F299ACF87A54825DF8771204AEDDE6EF3A3C3B654CFAA2E7F",
+                          "bytes":  11448
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_Phase3_Topology_Scanner.exploded.sop",
+                          "sha256":  "0969E48420C7A40CADE2609BF6ED58EE1AF9466B34F47CD36907A4D0335BD627",
+                          "bytes":  2352
+                      },
+                      {
+                          "path":  "justifications/Cantor_Phase3_Topology_Scanner_Justification.sop",
+                          "sha256":  "52393489F53081E45391B818B61C0B39B8AB69C0349E8CD6E58D0627133645CC",
+                          "bytes":  2012
+                      },
+                      {
+                          "path":  "plans/Cantor_Phase3_Topology_Scanner_Formation_Plan.sop",
+                          "sha256":  "C0B48E9E9DE92D5A7F7DDD4080CD5B878509A00AEE05D3CA7AA261F1EBD97E87",
+                          "bytes":  2314
+                      },
+                      {
+                          "path":  "feature_support/Phase3TopologyScanner_Requirement_Matrix.sop",
+                          "sha256":  "E4B209910398A26DB32AF9477C98562E1454E9452E6319C3F1D5C108F65BCCB2",
+                          "bytes":  6230
+                      },
+                      {
+                          "path":  "feature_support/slices/Phase3TopologyScanner.sop",
+                          "sha256":  "A4D18B24317ACBD292FF93A37C9E3D6F63484F697B9CFE1743286AC911F208F0",
+                          "bytes":  1528
+                      },
+                      {
+                          "path":  "narrative/research/Cantor_Windows_Topology_API_Assessment_2026-07-30.sop",
+                          "sha256":  "FA8103B36EF820C093DA7493154D05000471C0EEB343746E898976939B66EC90",
+                          "bytes":  9268
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785433114684_phase3_topology_scanner_formation_faults.sop",
+                          "sha256":  "804A842DF5F44C92AFB263099B7F99F8F780C21CCC3F89D38F3D548E49CCE6CA",
+                          "bytes":  4169
+                      },
+                      {
+                          "path":  "narrative/turns/1785433114684_cantor_phase3_topology_scanner_formation.sop",
+                          "sha256":  "85DE124B20994B24FBC65B347B7F336E59A323B05347CA03D381CA06D53232AE",
+                          "bytes":  1436
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785433114684_phase3_topology_scanner_formation_file_change.sop",
+                          "sha256":  "5302C15F8384F2C72C711A2078BA9F638F9271E30560B123840E2FC3D106FD22",
+                          "bytes":  1025
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_phase3_topology_machine_forms_activation/Cantor_Phase3_Topology_Machine_Forms_Activation_Source.sop",
+                          "sha256":  "A8FD1BD48FBF2A592A1D442D0479EB882823B06A3D1BDF1077E0A1466D988346",
+                          "bytes":  4543
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_phase3_topology_machine_forms_activation/Source_Document_Manifest.sop",
+                          "sha256":  "52FB7BF455147229EDB4FE0A736387F0F7BCBAA3871839357C288844C8707842",
+                          "bytes":  730
+                      },
+                      {
+                          "path":  "specifications/Cantor_Phase3_Topology_Machine_Forms.sop",
+                          "sha256":  "7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A",
+                          "bytes":  13696
+                      },
+                      {
+                          "path":  "source_documents/2026-07-31_cantor_phase3_inventory_consistency_evidence_revision/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Source.sop",
+                          "sha256":  "BB805C0B239C25426B99D521F101FDFD8DCF06FE8A466467B8646860359905F7",
+                          "bytes":  16758
+                      },
+                      {
+                          "path":  "source_documents/2026-07-31_cantor_phase3_inventory_consistency_evidence_revision/SJS_Processing_Input_Manifest.sop",
+                          "sha256":  "23FF74E1250C4442C0307239E12AC565BE1D30C67FFE9D396F0FC275E46CB4B7",
+                          "bytes":  4368
+                      },
+                      {
+                          "path":  "specifications/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.sop",
+                          "sha256":  "471C63DA8EBAAD61776114513AB41F7D2B5EBE96136F632DA699251A8633B606",
+                          "bytes":  25956
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_Phase3_Inventory_Consistency_Evidence_Revision.exploded.sop",
+                          "sha256":  "EEA349B32CD49D2C4A81FD13C9BB99C5C7781CB786551EFC77E89BC67C4AC6E6",
+                          "bytes":  12540
+                      },
+                      {
+                          "path":  "narrative/registries/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Phase_Lock.sop",
+                          "sha256":  "AEFA05678E7EB832BDD48C566876B7DAE268B20F957ED4D94EF4F02E779A8F4E",
+                          "bytes":  7559
+                      },
+                      {
+                          "path":  "solutions/Cantor_Phase3_Inventory_Consistency_Evidence_Revision_Solution.sop",
+                          "sha256":  "A497BDFC53B742D51F7705CFCAF0520C248F6E81FFCB02CEA420E747CD07E25E",
+                          "bytes":  5403
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785536700000_phase3_inventory_consistency_evidence_revision_windows_application_control_fault.sop",
+                          "sha256":  "2B4DB1069F1021E469FDD4381AECE96C0663F1565E39F7C761FDBF85F82EB115",
+                          "bytes":  2638
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_Phase3_Topology_Machine_Forms.exploded.sop",
+                          "sha256":  "112F922B6E8DCF0D89BF930F2D52ED24F0CEB662F6D86E8EECFABB612A64FFEB",
+                          "bytes":  1474
+                      },
+                      {
+                          "path":  "justifications/Cantor_Phase3_Topology_Machine_Forms_Justification.sop",
+                          "sha256":  "35CE36B906D1A5A984EEFB9D294AD44103512101D14DB862B8F4B9061CD89367",
+                          "bytes":  825
+                      },
+                      {
+                          "path":  "feature_support/Phase3TopologyMachineForms_Requirement_Matrix.sop",
+                          "sha256":  "4C715E5EC0FFBFEA917D2E33778CA788FF28C47E27294B4C5B5AC7625DA6579C",
+                          "bytes":  1655
+                      },
+                      {
+                          "path":  "docs/PHASE3_TOPOLOGY_FORMS.md",
+                          "sha256":  "8F72F2277924CB40D1C17FAB706B602C5494BF0662ECDD7ABA2D43298D213131",
+                          "bytes":  1904
+                      },
+                      {
+                          "path":  "solutions/Cantor_Phase3_Topology_Machine_Forms_Solution.sop",
+                          "sha256":  "6C708A60F73CE3DE1549B35F71C5A732B088F3E795795C0E2BF7547A07A3943B",
+                          "bytes":  1315
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785433555602_phase3_topology_machine_forms_faults.sop",
+                          "sha256":  "FE80D3CDADB4475DD59213547A83CC8962952C0CCBBA2FDF02121C444B9AAD18",
+                          "bytes":  3215
+                      },
+                      {
+                          "path":  "narrative/turns/1785433555602_cantor_phase3_topology_machine_forms.sop",
+                          "sha256":  "F415D4832ADE2AC6EDE6970134A3A9E13421B9617878395144A8B386648F7992",
+                          "bytes":  937
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785433555602_phase3_topology_machine_forms_file_change.sop",
+                          "sha256":  "8702FC8D7F7B46E1DE4B56C5F83404EA2C8E9B2484C4E60F8F7AFF023EBFBC88",
+                          "bytes":  717
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_phase3_topology_receipt_root_binding_revision/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Source.sop",
+                          "sha256":  "01EA89B89D16E86B3311104EDB742067E793178D778ADC06B0D84E334D6C22A5",
+                          "bytes":  3659
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_phase3_topology_receipt_root_binding_revision/Cantor_Phase3_Topology_Machine_Forms_Pre_Revision_Snapshot.sop",
+                          "sha256":  "728E7C48FFC2716096CBD8B38567C5CB08636207546B1E4622623104269EE900",
+                          "bytes":  6308
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_phase3_topology_receipt_root_binding_revision/SJS_Reprocessing_Input_Manifest.sop",
+                          "sha256":  "A4A7D4CE258EC71D3243E918C6F7035C624FC76F9643DE3E5F9A582CCCD79CF4",
+                          "bytes":  2795
+                      },
+                      {
+                          "path":  "narrative/research/Cantor_Topology_Receipt_Revision_Decision_2026-07-30.sop",
+                          "sha256":  "AE50F5FF38452879FD4E6CC3AFDE2B51B60AD328E24B8A9CCEE984703D26FE25",
+                          "bytes":  3385
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision.exploded.sop",
+                          "sha256":  "E5C49167D8D496C7E128AC6A24B89C2A29CA40CCA6C83BD2B124684014DBD3FB",
+                          "bytes":  16210
+                      },
+                      {
+                          "path":  "justifications/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Justification.sop",
+                          "sha256":  "18211FCFFE06694750D5BEFDCAB6AA2657DF77DE3FBD8E41AA56D8D41DF53A7C",
+                          "bytes":  5924
+                      },
+                      {
+                          "path":  "plans/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Plan.sop",
+                          "sha256":  "B6E81E9B454BD9CFD6778B6D4745852F1D4C01220FB1921026FEF7BA165D7CFC",
+                          "bytes":  2882
+                      },
+                      {
+                          "path":  "feature_support/Phase3TopologyReceiptRootBindingRevision_Requirement_Matrix.sop",
+                          "sha256":  "EF972D2066929EC46684AD0878380445E27308C897E155A32F08E3D376C7D487",
+                          "bytes":  5169
+                      },
+                      {
+                          "path":  "feature_support/slices/Phase3TopologyReceiptRootBindingRevision.sop",
+                          "sha256":  "320669701444CA47B4CFBDF7A892E6AF1DFB96FBD8489D02832F69A03D08A33A",
+                          "bytes":  1715
+                      },
+                      {
+                          "path":  "narrative/registries/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Registry.sop",
+                          "sha256":  "C9647F5B950C7F78D82E23A2A3FE7ECA7F992A5A7D09711BD8852FE5A28BFBFB",
+                          "bytes":  4600
+                      },
+                      {
+                          "path":  "solutions/Cantor_Phase3_Topology_Receipt_Root_Binding_Revision_Solution.sop",
+                          "sha256":  "A698FA4EFCD35700860766CA79C77203600694022FCFA917327C4165ADE824C7",
+                          "bytes":  3245
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785436983061_phase3_topology_receipt_root_binding_revision_faults.sop",
+                          "sha256":  "FE98F37063404758FE592C3756F574F54E220A1E2E63F407B086F0FD896E4ABD",
+                          "bytes":  3225
+                      },
+                      {
+                          "path":  "narrative/turns/1785436983061_cantor_second_four_hour_push.sop",
+                          "sha256":  "5FD0A1E2BFD59B2B6D43B15A064002C89C183B0E639682C43729CDF1E97054F7",
+                          "bytes":  2660
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785436983061_phase3_topology_receipt_root_binding_revision_file_change.sop",
+                          "sha256":  "9E8BFDDBEFF529E1438DCE66266BE206FF6692BF3C6B1258E4B2D220FE7C8535",
+                          "bytes":  2355
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/Cargo.toml",
+                          "sha256":  "D071736DA3A1279878AC9D1426471AB975ED6CBF6A5030FB366C64D6FA9EC6D8",
+                          "bytes":  505
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/lib.rs",
+                          "sha256":  "9569E6C97D89724A3204D65E7F800FEDD141EDF061E972DEFEA023E97BB3204B",
+                          "bytes":  2700
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/topology_forms.rs",
+                          "sha256":  "5D2213C8A49DE278109503F51789A1648B61266F7581AE2AF743BF5EF324A11D",
+                          "bytes":  42216
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/tests/phase3_topology_forms_evidence.rs",
+                          "sha256":  "098D38004736AC7AAC658B13B49758ECD4D85AAF4AE973A0C141B1F6E52972D6",
+                          "bytes":  2815
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/tests/phase3_inventory_consistency_evidence_revision_static.rs",
+                          "sha256":  "735DCD5ED2B9F23E4D53DEC6049850D406A5604D3B469DF240029C9F67E63725",
+                          "bytes":  2900
+                      },
+                      {
+                          "path":  "scripts/build_phase3_topology_forms_evidence_manifest.ps1",
+                          "sha256":  "390D2FBBB51DA1BA324379215E8F3BBC98CA578996643DEFE9C1A4834DCBFF2F",
+                          "bytes":  8352
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/evidence/phase3_topology_forms_evidence_manifest_0_1.json",
+                          "sha256":  "B53BC3DB1233D1EAD90D1B692264585CBDD54B0E8EAA87B20785683FB59A1287",
+                          "bytes":  12391
+                      },
+                      {
+                          "path":  "proofs/Cantor_Phase3_Topology_Machine_Forms_Proof.sop",
+                          "sha256":  "2AC8C9C69D4F8C858AA916DA8D157821848E6F2F7544FFFA0ACF3626F4C8438D",
+                          "bytes":  2022
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/evidence/phase3_machine_forms_evidence_manifest.json",
+                          "sha256":  "B21629A11F3699A0789047DEB4C1AA6A57A9F2762EC940D454B3AE9E4F9B2442",
+                          "bytes":  14898
+                      },
+                      {
+                          "path":  "proofs/Cantor_Phase3_Strict_Pure_Machine_Forms_Proof.sop",
+                          "sha256":  "0E6BF9DF0349FE7D72605BD41C12C95CDDA191A77C354C8707E9916661846609",
+                          "bytes":  1716
+                      }
+                  ]
 }

@@ -9,6 +9,8 @@ use std::{
 use cantor_core::*;
 use serde_json::Value;
 
+const PREDECESSOR_SOURCE_TEXT: &str = "Subject: Cantor Fixture Current SOP\n\n& [Purpose]\n  + preserve the exact rollback predecessor\n";
+
 fn id(value: &str) -> SemanticId {
     SemanticId::new(value).expect("fixture identity")
 }
@@ -83,6 +85,7 @@ pub(crate) fn activation_request(
         current_revision_digest: proposal.predecessor_sop_revision_digest.clone(),
         current_source_path: "source_documents/current_sop_fixture/Cantor_Current_SOP_Source.sop"
             .to_owned(),
+        current_source_bytes: PREDECESSOR_SOURCE_TEXT.len() as u64,
         evidence_refs: [id("evidence:current-registry-supplied")]
             .into_iter()
             .collect(),
@@ -144,6 +147,7 @@ pub(crate) fn activation_request(
         rollback_revision_ref: current_registry.current_revision_ref.clone(),
         rollback_revision_digest: current_registry.current_revision_digest.clone(),
         rollback_source_path: current_registry.current_source_path.clone(),
+        rollback_source_bytes: PREDECESSOR_SOURCE_TEXT.len() as u64,
         failed_candidate_ref: proposal.proposal_ref.clone(),
         failed_candidate_digest: proposal.proposal_digest.clone(),
         expected_registry_generation: transition.after_generation,
@@ -425,6 +429,26 @@ fn supersession_and_rollback_substitutions_refuse() {
             .expect_err("rollback omission")
             .code,
         SucceedingSopActivationTransactionFaultCode::InvalidRollback
+    );
+
+    let mut rollback_bytes = request.clone();
+    rollback_bytes.rollback.rollback_source_bytes += 1;
+    rehash_rollback(&mut rollback_bytes);
+    assert_eq!(
+        validate_succeeding_sop_activation_transaction_request(&rollback_bytes)
+            .expect_err("rollback source byte-count mismatch")
+            .code,
+        SucceedingSopActivationTransactionFaultCode::InvalidRollback
+    );
+
+    let mut snapshot_bytes = request;
+    snapshot_bytes.current_registry.current_source_bytes = 0;
+    rehash_registry(&mut snapshot_bytes);
+    assert_eq!(
+        validate_succeeding_sop_activation_transaction_request(&snapshot_bytes)
+            .expect_err("predecessor source byte-count bound")
+            .code,
+        SucceedingSopActivationTransactionFaultCode::InvalidRegistry
     );
 }
 

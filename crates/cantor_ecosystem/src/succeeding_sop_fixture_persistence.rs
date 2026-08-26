@@ -868,6 +868,7 @@ fn build_successor_registry_record(
         current_revision_ref: transition.candidate_proposal_ref.clone(),
         current_revision_digest: transition.candidate_proposal_digest.clone(),
         current_source_path: transition.candidate_source_path.clone(),
+        current_source_bytes: request.source_reacquisition.source_bytes,
         evidence_refs: commission.evidence_refs.clone(),
         snapshot_digest: empty_digest(),
     };

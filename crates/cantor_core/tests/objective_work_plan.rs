@@ -3,6 +3,8 @@ use std::collections::{BTreeMap, BTreeSet};
 use cantor_core::*;
 use serde_json::json;
 
+pub(crate) const PREDECESSOR_SOURCE_TEXT: &str = "Subject: Cantor Fixture Current SOP\n\n& [Purpose]\n  + preserve the exact rollback predecessor\n";
+
 fn id(value: &str) -> SemanticId {
     SemanticId::new(value).expect("fixture identity")
 }
@@ -24,7 +26,7 @@ fn evidence(label: &str) -> ReceiptEvidence {
 
 fn boot_proposal() -> SopBootSessionProposal {
     let candidate = id("candidate:owp-boot");
-    let source = digest('a');
+    let source = sha256_bytes(PREDECESSOR_SOURCE_TEXT.as_bytes());
     let mut validation = ValidationReceipt {
         receipt_id: id("validation:owp-boot"),
         candidate_ref: candidate.clone(),

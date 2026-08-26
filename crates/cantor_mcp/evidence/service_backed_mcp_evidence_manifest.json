@@ -1,227 +1,227 @@
 {
-  "schema": "cantor-service-backed-mcp-evidence-manifest/0.1",
-  "evidence_manifest_uuid": "ca8d596e-08fe-411d-ac1e-63cf378f2f21",
-  "generated_at_utc": "2026-08-26T00:18:26.9352984Z",
-  "authority": {
-    "canonical_specification_uuid": "27a60f5b-4572-4b40-98bf-ec27cf44e0aa",
-    "satisfaction_signature_uuid": "e487b42f-25bf-430c-81ba-57b5bfc9c045",
-    "solution_uuid": "ce25a800-4404-4ddb-98c0-5e272443eebb"
-  },
-  "verification": [
-    {
-      "command": "cargo fmt --all -- --check",
-      "status": "passed"
-    },
-    {
-      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
-      "status": "passed"
-    },
-    {
-      "command": "cargo test --workspace --all-targets --locked --offline",
-      "tests": 114,
-      "status": "passed"
-    },
-    {
-      "command": "cargo test --workspace --all-targets --release --locked --offline",
-      "tests": 114,
-      "status": "passed"
-    },
-    {
-      "command": "cargo build --workspace --all-targets --release --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "cargo doc --workspace --no-deps --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "cargo audit --file Cargo.lock",
-      "dependencies": 111,
-      "advisories": 1173,
-      "vulnerabilities": 0,
-      "status": "passed"
-    }
-  ],
-  "artifacts": [
-    {
-      "path": ".gitattributes",
-      "sha256": "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
-      "bytes": 185
-    },
-    {
-      "path": "source_documents/2026-07-29_cantor_service_backed_mcp_activation/Dictated_Cantor_Service_Backed_MCP_Activation_Source.sop",
-      "sha256": "47368561C78F4428B08FE82FA049BFA018E00F1C9E619E48A8A459603FA9B467",
-      "bytes": 880
-    },
-    {
-      "path": "source_documents/2026-07-29_cantor_service_backed_mcp_activation/Source_Document_Manifest.sop",
-      "sha256": "7B97E8FEE854B4BB05D40C2A7B29ECA4A8010C4309CE1693C77AB0DBF3BE0C8B",
-      "bytes": 1138
-    },
-    {
-      "path": "specifications/exploded/Cantor_Service_Backed_MCP.exploded.sop",
-      "sha256": "EA8B4273F85C8DE1EBAD33CE652BBCDC9B0D772F39708F90596DF556D12B119D",
-      "bytes": 3262
-    },
-    {
-      "path": "specifications/Cantor_Service_Backed_MCP.sop",
-      "sha256": "73E2187B0C5B66F723B968E84F6EF18565A5BF0CC5B3E2106BD771B3AFFBAE52",
-      "bytes": 5488
-    },
-    {
-      "path": "justifications/Cantor_Service_Backed_MCP_Justification.sop",
-      "sha256": "84BF1725B025324920F439409CA59403A880EBECBCCEE535FACBB362FBDAF6C9",
-      "bytes": 1599
-    },
-    {
-      "path": "feature_support/slices/ServiceBackedMCP.sop",
-      "sha256": "9F090C031936EB1329F8E06727EAAB5C94A5C74E9192D283DFE9C8C35A2D29B7",
-      "bytes": 1087
-    },
-    {
-      "path": "feature_support/ServiceBackedMCP_Requirement_Matrix.sop",
-      "sha256": "3F414A7CABAB483FCBFEA12F25F09D0924E6333E84FC01A3B141E42E698168AA",
-      "bytes": 1614
-    },
-    {
-      "path": "feature_support/Cantor_Engine_Build_Slice_Index.sop",
-      "sha256": "8BE49F464B4FD9F772D0DF798D6DC9157465EE992437B009BF808F6830CB35A8",
-      "bytes": 76678
-    },
-    {
-      "path": "plans/Cantor_Engine_Build_Plan.sop",
-      "sha256": "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
-      "bytes": 28862
-    },
-    {
-      "path": "solutions/Cantor_Service_Backed_MCP_Solution.sop",
-      "sha256": "3BBC204C417051F9617B31935A04B1F1D160193C4CDEFEF3825425AE9C2892B0",
-      "bytes": 3582
-    },
-    {
-      "path": "narrative/Project_Narrative.sop",
-      "sha256": "6F0CD4D7F291F9A6482284B565306DEA70D05580ABDBFD4FA54AE1450EEABB40",
-      "bytes": 393254
-    },
-    {
-      "path": "narrative/operational_faults/1785384466595_service_backed_mcp_faults.sop",
-      "sha256": "7F4A36E972C762618D4F1FFECD5591763EFDFFD7129C9D215399848DBBF0B824",
-      "bytes": 2700
-    },
-    {
-      "path": "narrative/turns/1785384466595_cantor_service_backed_mcp.sop",
-      "sha256": "40146319856858E09CDA3E4E5CEE2A49826D737C4495CF00E76A7C2E3206B17C",
-      "bytes": 1499
-    },
-    {
-      "path": "narrative/file_changes/1785384466595_service_backed_mcp_file_change.sop",
-      "sha256": "D3354C07088445DF35D3B7E5494A6E156D9A95AB238583E303E96B3C4E9EB510",
-      "bytes": 1761
-    },
-    {
-      "path": "Cargo.toml",
-      "sha256": "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
-      "bytes": 1285
-    },
-    {
-      "path": "Cargo.lock",
-      "sha256": "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
-      "bytes": 41561
-    },
-    {
-      "path": "crates/cantor_service/src/transport.rs",
-      "sha256": "C579AD2994CD3295767E1BF1EE7EAA7C5DC2BCF68B9D6024277DA9EF2E9F8F95",
-      "bytes": 16554
-    },
-    {
-      "path": "crates/cantor_service/tests/resident_service.rs",
-      "sha256": "B9C596F2E2136954AC319D32100742C1600B8637119C7229867B5F003075651E",
-      "bytes": 24905
-    },
-    {
-      "path": "crates/cantor_mcp/Cargo.toml",
-      "sha256": "79B929D98E2ED50CD79BE250D88586498A0FC50F7F34FB9E3482DF0937FA10A2",
-      "bytes": 720
-    },
-    {
-      "path": "crates/cantor_mcp/src/lib.rs",
-      "sha256": "ECDAA3B048398851B4D9CF468480101B223CEDDBF6CC27C9A4B29409994D45EC",
-      "bytes": 38885
-    },
-    {
-      "path": "crates/cantor_mcp/src/main.rs",
-      "sha256": "FBD65FEAC5F88764D9CF19DB50DECECC971743F4B584659C6143AE4D251BB977",
-      "bytes": 1539
-    },
-    {
-      "path": "crates/cantor_mcp/tests/mcp_protocol.rs",
-      "sha256": "E245609AD79F745D5722502182092828098881C4715FBF185DE4EB249CD47D78",
-      "bytes": 30414
-    },
-    {
-      "path": "crates/cantor_mcp/tests/self_hosted_corpus.rs",
-      "sha256": "35D149F4F2D210D99742BA6DFE0EDB2024564B78B9A64AAEEA3AA2A051EE6092",
-      "bytes": 5375
-    },
-    {
-      "path": "crates/cantor_mcp/tests/service_backed_evidence.rs",
-      "sha256": "9D7B448461742A732AD2F3BB0A1F43903B160993FD65274FEBB7365F0252DC4B",
-      "bytes": 1832
-    },
-    {
-      "path": "docs/MCP_PROTOCOL.md",
-      "sha256": "70337C9480652686A681E6655EB34B846A5771B0A473EC4CADB7E928CF079BFA",
-      "bytes": 10035
-    },
-    {
-      "path": "docs/RESIDENT_SERVICE.md",
-      "sha256": "530BC608D0F938097A342A9663415FB2F9F913129792E4D4A9B37A381201B84A",
-      "bytes": 10302
-    },
-    {
-      "path": "README.md",
-      "sha256": "42A5AF3CB8D1606EADEFC5B9CEFB85C2BAFEF93864A1EDABFF18BFD860CE26AB",
-      "bytes": 47707
-    },
-    {
-      "path": "SOP_CORE_MAP.sop",
-      "sha256": "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
-      "bytes": 30392
-    },
-    {
-      "path": "scripts/build_service_backed_mcp_evidence_manifest.ps1",
-      "sha256": "1FE6EBE0373C8DCEBD03090381BCBDF1C8C18EA68D5EA66500FB78FBF58024B3",
-      "bytes": 4351
-    },
-    {
-      "path": "experiments/resident_service_benchmark/artifacts/resident_service_evidence_manifest.json",
-      "sha256": "59A9788CEC56C2618C5B437894E5968D6BA0DD456DD3343506A1943F63CE4999",
-      "bytes": 12034
-    },
-    {
-      "path": "proofs/Cantor_Resident_Service_Proof.sop",
-      "sha256": "9D4D86F3A21E432EA4C73E0EDFB36FC9F86445F5C37474021C9893CA9D8803E1",
-      "bytes": 6660
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/prepared_runtime_evidence_manifest.json",
-      "sha256": "DE2896347210531CDED32ED5208E45A753105F8CE6B540380DF6A02BADA949E7",
-      "bytes": 11765
-    },
-    {
-      "path": "proofs/Cantor_Prepared_Runtime_Proof.sop",
-      "sha256": "D5DF0710EC83B3E9DB0200400CFFE5A077951A3413722EC811B058E7C6C0F57D",
-      "bytes": 8137
-    },
-    {
-      "path": "experiments/self_hosted_corpus_benchmark/artifacts/self_hosted_corpus_evidence_manifest.json",
-      "sha256": "5FCE66865E19DFD7D36645F4175E6C606C4A4DB27947F924EC037D6A607B8CC8",
-      "bytes": 7673
-    },
-    {
-      "path": "proofs/Cantor_Self_Hosting_Ingestion_Proof.sop",
-      "sha256": "EA1E41166B1BD88017E4610CB79E66DED7344E62B6245DA91A95B86CF150FEEE",
-      "bytes": 6661
-    }
-  ]
+    "schema":  "cantor-service-backed-mcp-evidence-manifest/0.1",
+    "evidence_manifest_uuid":  "ca8d596e-08fe-411d-ac1e-63cf378f2f21",
+    "generated_at_utc":  "2026-08-26T16:18:15.7624921Z",
+    "authority":  {
+                      "canonical_specification_uuid":  "27a60f5b-4572-4b40-98bf-ec27cf44e0aa",
+                      "satisfaction_signature_uuid":  "e487b42f-25bf-430c-81ba-57b5bfc9c045",
+                      "solution_uuid":  "ce25a800-4404-4ddb-98c0-5e272443eebb"
+                  },
+    "verification":  [
+                         {
+                             "command":  "cargo fmt --all -- --check",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --workspace --all-targets --locked --offline",
+                             "tests":  114,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --workspace --all-targets --release --locked --offline",
+                             "tests":  114,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo doc --workspace --no-deps --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo audit --file Cargo.lock",
+                             "dependencies":  111,
+                             "advisories":  1173,
+                             "vulnerabilities":  0,
+                             "status":  "passed"
+                         }
+                     ],
+    "artifacts":  [
+                      {
+                          "path":  ".gitattributes",
+                          "sha256":  "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
+                          "bytes":  185
+                      },
+                      {
+                          "path":  "source_documents/2026-07-29_cantor_service_backed_mcp_activation/Dictated_Cantor_Service_Backed_MCP_Activation_Source.sop",
+                          "sha256":  "47368561C78F4428B08FE82FA049BFA018E00F1C9E619E48A8A459603FA9B467",
+                          "bytes":  880
+                      },
+                      {
+                          "path":  "source_documents/2026-07-29_cantor_service_backed_mcp_activation/Source_Document_Manifest.sop",
+                          "sha256":  "7B97E8FEE854B4BB05D40C2A7B29ECA4A8010C4309CE1693C77AB0DBF3BE0C8B",
+                          "bytes":  1138
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_Service_Backed_MCP.exploded.sop",
+                          "sha256":  "EA8B4273F85C8DE1EBAD33CE652BBCDC9B0D772F39708F90596DF556D12B119D",
+                          "bytes":  3262
+                      },
+                      {
+                          "path":  "specifications/Cantor_Service_Backed_MCP.sop",
+                          "sha256":  "73E2187B0C5B66F723B968E84F6EF18565A5BF0CC5B3E2106BD771B3AFFBAE52",
+                          "bytes":  5488
+                      },
+                      {
+                          "path":  "justifications/Cantor_Service_Backed_MCP_Justification.sop",
+                          "sha256":  "84BF1725B025324920F439409CA59403A880EBECBCCEE535FACBB362FBDAF6C9",
+                          "bytes":  1599
+                      },
+                      {
+                          "path":  "feature_support/slices/ServiceBackedMCP.sop",
+                          "sha256":  "9F090C031936EB1329F8E06727EAAB5C94A5C74E9192D283DFE9C8C35A2D29B7",
+                          "bytes":  1087
+                      },
+                      {
+                          "path":  "feature_support/ServiceBackedMCP_Requirement_Matrix.sop",
+                          "sha256":  "3F414A7CABAB483FCBFEA12F25F09D0924E6333E84FC01A3B141E42E698168AA",
+                          "bytes":  1614
+                      },
+                      {
+                          "path":  "feature_support/Cantor_Engine_Build_Slice_Index.sop",
+                          "sha256":  "F3C53E190D4D02BFF6FB6F10F53D869F20EBB0F01E6310B85A457B35E0638167",
+                          "bytes":  78531
+                      },
+                      {
+                          "path":  "plans/Cantor_Engine_Build_Plan.sop",
+                          "sha256":  "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
+                          "bytes":  28862
+                      },
+                      {
+                          "path":  "solutions/Cantor_Service_Backed_MCP_Solution.sop",
+                          "sha256":  "3BBC204C417051F9617B31935A04B1F1D160193C4CDEFEF3825425AE9C2892B0",
+                          "bytes":  3582
+                      },
+                      {
+                          "path":  "narrative/Project_Narrative.sop",
+                          "sha256":  "535FE166C59F05BF7E50AA34FEB6756266D9B265FA641762245CA5582DAB848D",
+                          "bytes":  395041
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785384466595_service_backed_mcp_faults.sop",
+                          "sha256":  "7F4A36E972C762618D4F1FFECD5591763EFDFFD7129C9D215399848DBBF0B824",
+                          "bytes":  2700
+                      },
+                      {
+                          "path":  "narrative/turns/1785384466595_cantor_service_backed_mcp.sop",
+                          "sha256":  "40146319856858E09CDA3E4E5CEE2A49826D737C4495CF00E76A7C2E3206B17C",
+                          "bytes":  1499
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785384466595_service_backed_mcp_file_change.sop",
+                          "sha256":  "D3354C07088445DF35D3B7E5494A6E156D9A95AB238583E303E96B3C4E9EB510",
+                          "bytes":  1761
+                      },
+                      {
+                          "path":  "Cargo.toml",
+                          "sha256":  "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
+                          "bytes":  1285
+                      },
+                      {
+                          "path":  "Cargo.lock",
+                          "sha256":  "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
+                          "bytes":  41561
+                      },
+                      {
+                          "path":  "crates/cantor_service/src/transport.rs",
+                          "sha256":  "C579AD2994CD3295767E1BF1EE7EAA7C5DC2BCF68B9D6024277DA9EF2E9F8F95",
+                          "bytes":  16554
+                      },
+                      {
+                          "path":  "crates/cantor_service/tests/resident_service.rs",
+                          "sha256":  "B9C596F2E2136954AC319D32100742C1600B8637119C7229867B5F003075651E",
+                          "bytes":  24905
+                      },
+                      {
+                          "path":  "crates/cantor_mcp/Cargo.toml",
+                          "sha256":  "79B929D98E2ED50CD79BE250D88586498A0FC50F7F34FB9E3482DF0937FA10A2",
+                          "bytes":  720
+                      },
+                      {
+                          "path":  "crates/cantor_mcp/src/lib.rs",
+                          "sha256":  "ECDAA3B048398851B4D9CF468480101B223CEDDBF6CC27C9A4B29409994D45EC",
+                          "bytes":  38885
+                      },
+                      {
+                          "path":  "crates/cantor_mcp/src/main.rs",
+                          "sha256":  "FBD65FEAC5F88764D9CF19DB50DECECC971743F4B584659C6143AE4D251BB977",
+                          "bytes":  1539
+                      },
+                      {
+                          "path":  "crates/cantor_mcp/tests/mcp_protocol.rs",
+                          "sha256":  "E245609AD79F745D5722502182092828098881C4715FBF185DE4EB249CD47D78",
+                          "bytes":  30414
+                      },
+                      {
+                          "path":  "crates/cantor_mcp/tests/self_hosted_corpus.rs",
+                          "sha256":  "35D149F4F2D210D99742BA6DFE0EDB2024564B78B9A64AAEEA3AA2A051EE6092",
+                          "bytes":  5375
+                      },
+                      {
+                          "path":  "crates/cantor_mcp/tests/service_backed_evidence.rs",
+                          "sha256":  "9D7B448461742A732AD2F3BB0A1F43903B160993FD65274FEBB7365F0252DC4B",
+                          "bytes":  1832
+                      },
+                      {
+                          "path":  "docs/MCP_PROTOCOL.md",
+                          "sha256":  "70337C9480652686A681E6655EB34B846A5771B0A473EC4CADB7E928CF079BFA",
+                          "bytes":  10035
+                      },
+                      {
+                          "path":  "docs/RESIDENT_SERVICE.md",
+                          "sha256":  "530BC608D0F938097A342A9663415FB2F9F913129792E4D4A9B37A381201B84A",
+                          "bytes":  10302
+                      },
+                      {
+                          "path":  "README.md",
+                          "sha256":  "42A5AF3CB8D1606EADEFC5B9CEFB85C2BAFEF93864A1EDABFF18BFD860CE26AB",
+                          "bytes":  47707
+                      },
+                      {
+                          "path":  "SOP_CORE_MAP.sop",
+                          "sha256":  "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
+                          "bytes":  30392
+                      },
+                      {
+                          "path":  "scripts/build_service_backed_mcp_evidence_manifest.ps1",
+                          "sha256":  "1FE6EBE0373C8DCEBD03090381BCBDF1C8C18EA68D5EA66500FB78FBF58024B3",
+                          "bytes":  4351
+                      },
+                      {
+                          "path":  "experiments/resident_service_benchmark/artifacts/resident_service_evidence_manifest.json",
+                          "sha256":  "F0CBF98B037A01BC0C5B4666C8982B51F6E51F2BB2DA701E24A6A858767FE0E1",
+                          "bytes":  18749
+                      },
+                      {
+                          "path":  "proofs/Cantor_Resident_Service_Proof.sop",
+                          "sha256":  "9D4D86F3A21E432EA4C73E0EDFB36FC9F86445F5C37474021C9893CA9D8803E1",
+                          "bytes":  6660
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/prepared_runtime_evidence_manifest.json",
+                          "sha256":  "AFA9EF2E19F4F1C66D421B74B947733FB639FF138422D905D7554CBE5BB5B393",
+                          "bytes":  17813
+                      },
+                      {
+                          "path":  "proofs/Cantor_Prepared_Runtime_Proof.sop",
+                          "sha256":  "D5DF0710EC83B3E9DB0200400CFFE5A077951A3413722EC811B058E7C6C0F57D",
+                          "bytes":  8137
+                      },
+                      {
+                          "path":  "experiments/self_hosted_corpus_benchmark/artifacts/self_hosted_corpus_evidence_manifest.json",
+                          "sha256":  "9753C86FE328FB11BC36BA147394DDDDA34C6BA03B35339B5CCDFE880A1EA75B",
+                          "bytes":  11970
+                      },
+                      {
+                          "path":  "proofs/Cantor_Self_Hosting_Ingestion_Proof.sop",
+                          "sha256":  "EA1E41166B1BD88017E4610CB79E66DED7344E62B6245DA91A95B86CF150FEEE",
+                          "bytes":  6661
+                      }
+                  ]
 }
