@@ -1,0 +1,35 @@
+Subject: Self Work Update Broker B1 CDrive Worktree Preparation Native Cache Overrun
+
+@ [fault_uuid] e0c883ba-8c59-4efe-9fab-12da39e91768
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] a339230c-47aa-46a2-9bda-12c5960fb318
+@ [recorded_at_utc] 2026-08-26T22:57:56.2816449Z
+@ [implementation_predecessor] 36b55bac18a42f2d99692307b81a417aa233d096
+
+& [ObservedFault]
+  + a package-wide native debug test was started after focused debug release Clippy and format gates had passed
+  + the command was expected to reuse the existing cache but rebuilt enough targets to consume 5613961216 additional C-drive bytes
+  + C-drive free space fell from 16370294784 bytes to 10756333568 bytes
+  + twenty-two package targets reported failure: most evidence tests correctly saw the intentionally unrefreshed crates/cantor_ecosystem/src/lib.rs identity, several fresh executables met the governed Windows Application Control error 4551, and one pre-existing persistence test process met stack overflow
+  + the new preparation integration target itself still passed eleven tests with zero failures
+
+& [Cause]
+  + the package gate was broader than the storage-restraint boundary and the cache-reuse assumption was not proven before launch
+  + transitive evidence manifests had not yet been refreshed, so running their tests before rehash could not produce an exact-current-tree pass
+
+& [Containment]
+  + stop broad debug and release builds for the remainder of this checkpoint
+  + do not delete compact relocate or clean native Cargo WSL or VHD storage without separate operator authorization
+  + use only the already-built focused preparation surface bounded manifest rehash and read-only attribution checks
+  + preserve error 4551 as host-policy refusal and do not bypass Windows Application Control
+  + preserve D-drive WSL provider foreign work reserved root and reserved ref exclusions
+
+& [Consequence]
+  + no physical preparation Git worktree provider model MCP network D-drive WSL cleanup or foreign-work effect occurred
+  + package-wide pass is unclaimed
+  + exact implementation closure now requires transitive rehash focused replay and explicit disclosure of the storage overrun and broader-gate limitations
+
+& [Prevention]
+  + measure free space and prove the requested target set is already cached before any future expansion beyond a signed focused gate
+  + refresh deterministic evidence identities before running evidence-bearing aggregate tests
+  + treat a prior broad cache as unavailable after source changes unless current compiler artifacts prove otherwise
