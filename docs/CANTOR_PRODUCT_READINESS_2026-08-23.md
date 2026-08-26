@@ -1,6 +1,6 @@
 # Cantor product readiness — 2026-08-23
 
-> 2026-08-25 SWA-06B2A readiness update: Cantor's exact-workspace-verified and independently evidence-verified pure activation-transaction admission seam is published at `d120bab60fbdf3d42711aa21a5fb582633036912`. It provides a complete deterministic handoff contract for a later source/registry writer, including recovery ownership, supersession, rollback triggers, and atomic durability protocol. It still performs no filesystem operation, persistence, current-SOP selection, boot activation, or rollback; the publication bookend and a separately commissioned SWA-06B2B physical writer remain required.
+> 2026-08-26 SWA-05 readiness update: the selected npm-native Codex 0.135.0 host now has provider-free evidence that one beta named permission profile enforces both an allowed C-drive read and a nested denied read. Independent verification yields `host_capability_verified_writer_not_run`, not writer or product authority. A separately signed writer preflight, unavailable pinned provider, mutation acceptance, rollback, commit/push, activation, and operator isolation remain open.
 
 This is the current navigation checkpoint for Cantor’s local-product path. It
 does not replace canonical specifications or historical status snapshots, and
@@ -143,6 +143,23 @@ Both exact workspace debug and overflow-checked release pass 206 groups and
 but it does not yet supply live-root authority, boot truth, external
 activation, concurrent-writer safety, operator recovery orchestration, or the
 read-scoped self-work host needed for an agent-process alpha.
+
+## SWA-05 B1 host-capability readiness
+
+The previous agent-process blocker was not Rust capability but the selected
+host's stable `readOnly` schema: it could not represent the signed allowed-read
+and denied-read partition. That historical `NotRun` remains valid. The exact
+same pinned binary's beta permission-profile API now demonstrates the missing
+local command control on one bounded C-drive fixture, and the result is
+independently replayable.
+
+This advances Cantor from "no selected compatible local control" to "selected
+host control verified, writer not run." It does not make Cantor an autonomous
+agent process yet. The next product milestone is a fresh C-drive writer
+preflight under that profile, followed by independent mutation evidence,
+acceptance, rollback/quarantine, and separately authorized Git publication.
+Provider-backed behavior is still calendar-indeterminate while the pinned
+local provider and model asset are absent.
 
 ## Superseded navigation
 

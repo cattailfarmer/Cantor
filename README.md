@@ -1,6 +1,6 @@
 # Cantor
 
-Current self-work frontier (2026-08-25): SWA-06B2A is published at `d120bab60fbdf3d42711aa21a5fb582633036912` after exact-workspace and independent evidence verification. It binds the supplied source-reacquisition, current-registry, atomic-transition, supersession, rollback, and recovery plan needed by a later physical writer while keeping every physical result and execution eligibility false. Its immediate-successor publication bookend is forming; SWA-06B2B physical execution and the operator-selected SWA-05 broker remain separately gated.
+Current self-work frontier (2026-08-26): SWA-06B2B2 synthetic-fixture rollback is published at `a418be40` with bookend `8e60c080`. For SWA-05, the exact pinned npm-native Codex 0.135.0 host has now been provider-free revalidated: its experimental named permission profile enforced one allowed C-drive read and one nested denied read. An independent Rust verifier emits only `host_capability_verified_writer_not_run`; publication of that capability-only seam is pending, while live writer, provider, model, commit, push, and activation authority remain separately gated.
 
 The bounded SWA-06B2A stdin/stdout CLI supports `admit` and `verify`:
 
@@ -730,6 +730,34 @@ or caller-root cleanup surface. Independent evidence and exact final workspace
 gates pass; the 93-path implementation is published remote-equal at
 `ce93bd5dd502251d72135b226d49591a58cca3f4`, and its immediate-successor
 publication bookend is forming.
+
+## SWA-05 B1 permission-profile capability revalidation
+
+Cantor now distinguishes two exact truths about the same pinned npm-native
+Codex 0.135.0 executable. The historical stable-schema preflight remains
+correctly `NotRun` because its `readOnly` form could not express distinct
+allowed and denied read coordinates. Separately, the executable's beta
+permission-profile surface can express filesystem `read`, `write`, and `deny`
+entries and select a named profile for a local command.
+
+A provider-free C:-only probe denied the root, admitted the minimal runtime and
+one fixture root for reading, denied one sentinel file inside that fixture,
+and disabled profile network access. The allowed command returned the exact
+sentinel; the denied command returned empty stdout, exit 1, and Windows
+`Access is denied`. The independent safe-Rust verifier rehashes the standard
+schema, experimental schema, observation, ordered transcript, effect account,
+and self-digested receipt. Focused debug and overflow-checked release each pass
+eight semantic/adversarial plus one static test. Exact workspace debug and
+release each pass 209 groups and 1,316 tests with zero failures and three
+governed ignores on Ubuntu-24.04; the native Windows identity block remains a
+recorded Application Control refusal with no bypass.
+
+This proves one local command capability only. The receipt is
+`host_capability_verified_writer_not_run` under
+`capability_observation_only`; writer, provider, model, MCP, Git, remote,
+D-drive, product-mutation, and cleanup counts are all zero. The next step is a
+separately sourced C-drive writer preflight, not reuse of this receipt as
+mutation authority.
 
 ## Provenance
 

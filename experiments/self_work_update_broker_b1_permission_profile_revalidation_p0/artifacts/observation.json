@@ -1,0 +1,139 @@
+{
+  "profile": "cantor-self-work-update-broker-b1-permission-profile-observation/0.1",
+  "source_snapshot_uuid": "3654826b-14d1-4e96-81a4-ab27be83dcd8",
+  "predecessor_commit": "75aa325b0063416f088d76f60e702a9ed5f3f3a7",
+  "historical_not_run": {
+    "profile": "cantor-self-work-update-broker-b1-preflight-record/0.1",
+    "refusal_code": "selected_schema_missing_read_scope_control",
+    "run_count": 0,
+    "record_digest": "b7d65c4877932aaf14a32e4e65d04f40e053af39435d56e8dedaad5d021816ad"
+  },
+  "selected_executable": {
+    "path": "C:\\Users\\enjer\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\node_modules\\@openai\\codex-win32-x64\\vendor\\x86_64-pc-windows-msvc\\bin\\codex.exe",
+    "bytes": 242541872,
+    "sha256": "FE12887B4AB4A4E988F0FA5BAAE9E5CB7D8505C26401378628E762DB9A2E798F",
+    "version_output": "codex-cli 0.135.0"
+  },
+  "schema_generation": {
+    "standard": {
+      "argv": [
+        "app-server",
+        "generate-json-schema",
+        "--out",
+        "C:\\Project\\Cantor\\.local\\swa05_permission_profile_revalidation_1787770664894_02\\standard"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "evidence_file": "standard_schema.json",
+      "bytes": 505191,
+      "sha256": "99B3E93A3E5C96554E23A0B9EFB9FA4BDD1B05699CCB72B86A4F6A5CD69350E8"
+    },
+    "experimental": {
+      "argv": [
+        "app-server",
+        "generate-json-schema",
+        "--experimental",
+        "--out",
+        "C:\\Project\\Cantor\\.local\\swa05_permission_profile_revalidation_1787770664894_02\\experimental"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "evidence_file": "experimental_schema.json",
+      "bytes": 568621,
+      "sha256": "3846D4F0D17D301277E9809AE6F69C9E552CEAD5385476E3B9B4F83211DF9AD2"
+    }
+  },
+  "permission_profile": {
+    "id": "swa05_probe",
+    "root_access": "deny",
+    "minimal_access": "read",
+    "fixture_root": "C:\\Project\\Cantor\\.local\\swa05_permission_profile_revalidation_1787770664894_02\\fixture",
+    "fixture_access": "read",
+    "denied_path": "C:\\Project\\Cantor\\.local\\swa05_permission_profile_revalidation_1787770664894_02\\fixture\\denied.txt",
+    "denied_access": "deny",
+    "network_enabled": false,
+    "filesystem_override": "permissions.swa05_probe.filesystem={':root'='deny',':minimal'='read','C:\\Project\\Cantor\\.local\\swa05_permission_profile_revalidation_1787770664894_02\\fixture'='read','C:\\Project\\Cantor\\.local\\swa05_permission_profile_revalidation_1787770664894_02\\fixture\\denied.txt'='deny'}"
+  },
+  "sentinels": {
+    "allowed_path": "C:\\Project\\Cantor\\.local\\swa05_permission_profile_revalidation_1787770664894_02\\fixture\\allowed.txt",
+    "allowed_sha256": "28E85A68B14F4D2CFC7BF9FF1023A5305C79C784AFFA72C857BA60BB09A67FF2",
+    "denied_path": "C:\\Project\\Cantor\\.local\\swa05_permission_profile_revalidation_1787770664894_02\\fixture\\denied.txt",
+    "denied_sha256": "243AB06688F9124D34D27EB4A56257B70BCBB2FF36B5D47AD23218C9D6B69460"
+  },
+  "transcript": [
+    {
+      "id": 0,
+      "result": {
+        "userAgent": "Codex Desktop/0.135.0 (Windows 10.0.26200; x86_64) dumb (cantor_swa05_probe; 0.1.0)",
+        "codexHome": "C:\\Users\\enjer\\.codex",
+        "platformFamily": "windows",
+        "platformOs": "windows"
+      }
+    },
+    {
+      "method": "remoteControl/status/changed",
+      "params": {
+        "status": "disabled",
+        "serverName": "TheBrain",
+        "installationId": "38940a83-d519-4dfa-b43e-5c05e7acd41a",
+        "environmentId": null
+      }
+    },
+    {
+      "id": 1,
+      "result": {
+        "data": [
+          {
+            "id": ":read-only",
+            "description": null
+          },
+          {
+            "id": ":workspace",
+            "description": null
+          },
+          {
+            "id": ":danger-full-access",
+            "description": null
+          },
+          {
+            "id": "swa05_probe",
+            "description": null
+          }
+        ],
+        "nextCursor": null
+      }
+    },
+    {
+      "id": 2,
+      "result": {
+        "exitCode": 0,
+        "stdout": "SWA05_ALLOWED_READ_SENTINEL\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": 3,
+      "result": {
+        "exitCode": 1,
+        "stdout": "",
+        "stderr": "Access is denied.\r\n"
+      }
+    }
+  ],
+  "boundaries": {
+    "writer_run_count": 0,
+    "provider_contact_count": 0,
+    "model_turn_count": 0,
+    "mcp_call_count": 0,
+    "git_command_count": 0,
+    "remote_contact_count": 0,
+    "d_drive_contact_count": 0,
+    "product_mutation_count": 0,
+    "cleanup_count": 0,
+    "scratch_mutation_performed": true,
+    "service_network_observed": false,
+    "live_writer_allowed": false
+  }
+}

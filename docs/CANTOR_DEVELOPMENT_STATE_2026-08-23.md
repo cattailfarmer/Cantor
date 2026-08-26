@@ -1,6 +1,6 @@
 # Cantor development state — 2026-08-23
 
-> 2026-08-25 SWA-06B2A update: the provider-free activation-transaction admission successor is published at `d120bab60fbdf3d42711aa21a5fb582633036912`. It replays the exact B1 receipt and verifies supplied activation policy, raw-source reacquisition, current-registry, atomic-transition, supersession, rollback, and recovery-owner correspondence. Focused debug and overflow-checked release each pass 45 tests; exact workspace lanes each pass 198 groups and 1,267 tests with zero failures and three governed ignores. Independent evidence, recursive evidence, and local acceptance pass with zero provider trials. Every physical result remains false while the immediate-successor publication bookend forms.
+> 2026-08-26 SWA-05 B1 capability update: the exact pinned npm-native Codex 0.135.0 experimental named permission profile enforced one allowed C-drive read and one nested denied read without a model turn. Independent safe Rust emits only `host_capability_verified_writer_not_run`; exact workspace debug and overflow-checked release each pass 209 groups and 1,316 tests with zero failures and three governed ignores. Live writer, provider, model, Git publication, activation, service-network traffic, and D-drive authority remain absent.
 
 This is the current navigation view. Historical plans, slices, and registries
 retain the state they had when written; proof-bound `CurrentSupersession`
@@ -227,6 +227,30 @@ format replays pass; publication and post-push replay remain.
 This is still not an operator-ready autonomous agent. Boot observation,
 externally governed activation, concurrency, recovery orchestration, and a
 read-scope-capable SWA-05 host remain separate work. No D-drive work is used.
+
+## SWA-05 B1 permission-profile revalidation checkpoint
+
+The selected npm-native host capability gap has narrowed without rewriting the
+published stable-schema `NotRun`. On the exact 242,541,872-byte Codex 0.135.0
+binary, fresh standard and experimental App Server schemas show that the beta
+named permission-profile surface can express root denial, minimal runtime
+read, fixture read, nested path denial, and network disablement. One
+provider-free local transcript observed the allowed sentinel and refused the
+denied sentinel.
+
+The new safe-Rust verifier is effectless: it accepts one bounded evidence
+directory, rehashes strict JSON, checks schema and ordered transcript
+semantics, validates every zero-effect boundary, and emits a deterministic
+stdout receipt. The receipt authorizes only formation of a later writer
+preflight. It does not run that writer or contact a provider. Exact workspace
+debug and overflow-checked release each pass 209 groups, 1,316 tests, zero
+failed, and three ignored; focused verifier and static gates pass in both
+profiles.
+
+The product implication is concrete but bounded: a compatible local read
+partition is now demonstrated. A fresh writer preflight must still be
+source-preserved, signed, and independently accepted; the pinned provider is
+still unavailable and synthetic provider trials remain forbidden.
 
 ## Mechanical audit
 
