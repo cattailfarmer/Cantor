@@ -203,7 +203,9 @@ This is not live activation. Windows parent-directory durability is currently
 a typed post-replacement Access Denied refusal, boot validation and rollback
 execution remain separate, and the selected SWA-05 npm-native host still lacks
 the required read-scope schema. The independent physical-file evidence verifier
-and exact closure/publication gates are in progress.
+and exact closure gates pass; the 93-path implementation is published
+remote-equal at `ce93bd5dd502251d72135b226d49591a58cca3f4`, with its
+immediate-successor bookend forming.
 
 ## Mechanical audit
 

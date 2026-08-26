@@ -726,8 +726,10 @@ registry replacement but refused directory `sync_all` with Access Denied
 (OS error 5); Cantor preserves that as a typed post-replacement fault with no
 success receipt and no invented rollback. The module has no CLI, environment,
 clock, process, network, provider, model, unsafe, Git, remote, boot, rollback,
-or caller-root cleanup surface. Independent evidence, exact final workspace
-gates, attribution, and publication are the active closure work.
+or caller-root cleanup surface. Independent evidence and exact final workspace
+gates pass; the 93-path implementation is published remote-equal at
+`ce93bd5dd502251d72135b226d49591a58cca3f4`, and its immediate-successor
+publication bookend is forming.
 
 ## Provenance
 
