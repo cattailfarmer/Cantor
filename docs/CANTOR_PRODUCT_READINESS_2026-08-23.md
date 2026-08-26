@@ -168,6 +168,13 @@ compilation is paused because two Cantor-owned Rust target caches occupy about
 91 GiB inside the operator's Ubuntu distribution; neither cleanup nor VHD
 compaction has been authorized.
 
+The follow-on C-drive B1 preflight is now fully formed and signed but not
+implemented. It closes the design gap between a command-level capability probe
+and a real B1 eligibility receipt by requiring exact upstream replay, current
+workspace admission, denied-write prevention, complete stable post-state, and
+owned-child quiescence. This remains preflight progress, not autonomous-agent
+or product readiness.
+
 ## Superseded navigation
 
 The dated 2026-08-19 local runtime checkpoint correctly records its historical

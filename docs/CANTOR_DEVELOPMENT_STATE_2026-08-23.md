@@ -259,6 +259,12 @@ verification passes. Native CLI replay is refused before process start by the
 already-governed Windows Application Control policy; no WSL rebuild or host
 policy bypass is counted as a pass.
 
+The next exact B1 generation is now source-preserved, fully SJS-processed, and
+signed for bounded provider-free implementation. Its success condition is
+`preflight_eligible_writer_not_run` only after exact B0/SWA-04A/Phase3A replay,
+current admission, allowed-read, denied-read, denied-write, stable inventory,
+and child-quiescence proof. No implementation or physical receipt exists yet.
+
 ## Mechanical audit
 
 ```powershell

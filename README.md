@@ -765,6 +765,13 @@ format verification pass; native receipt execution remains truthfully refused
 by Windows Application Control, and no additional WSL compilation is being
 performed while the operator reviews the Cantor-owned WSL cache footprint.
 
+The dependency-contiguous successor is now SJS-formed and signed as the
+C-drive permission-profile preflight P1. It must join exact B0, SWA-04A, and
+current Phase3A forms; prove allowed read, denied read, denied write, stable
+post-state, and child quiescence; and may emit only
+`preflight_eligible_writer_not_run`. Implementation and physical evidence are
+still pending, and B2 remains separately gated.
+
 ## Provenance
 
 The project matured from the Large Language Model-Walker formation under
