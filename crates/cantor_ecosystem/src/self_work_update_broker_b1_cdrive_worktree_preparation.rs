@@ -21,30 +21,34 @@ use serde::{
 use serde_json::Number;
 
 pub const B1_CDRIVE_WORKTREE_PREPARATION_REQUEST_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-request/0.2";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-request/0.3";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_PROOF_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-publication-proof/0.2";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-publication-proof/0.3";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_PLAN_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-plan/0.2";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-plan/0.3";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_LOCAL_GATE_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-local-gate/0.2";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-local-gate/0.3";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_FILESYSTEM_PROFILE: &str = "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-filesystem-observation/0.2";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_GIT_OBSERVATION_PROFILE: &str =
     "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-git-observation/0.2";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_OUTCOME_PROFILE: &str =
     "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-outcome/0.2";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_SIMULATION_RECEIPT_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-receipt/0.2";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-receipt/0.3";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_EVIDENCE_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-evidence/0.2";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-evidence/0.3";
 
 pub const B1_CDRIVE_WORKTREE_PREPARATION_SOURCE_SNAPSHOT_UUID: &str =
-    "d7e67a26-080b-4abb-a8c8-5e4ba9a99b51";
+    "1795f7cd-3bdd-4727-85e4-d78ed1489130";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_SIGNATURE_UUID: &str =
-    "cd8e4ebf-61b7-4153-8f0b-f8e7e2f00225";
+    "74532420-64d5-4e0e-919c-2eaaf8c4eec5";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_INVALIDATION_UUID: &str =
-    "32f7d34f-84fa-43ed-8387-8a06c0eaa323";
+    "2ecb4a2b-eb94-4544-9ab4-c11e98dac801";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_CARRIER: &str = "b5bcd03ec28ed99a0cdeb028a2a0db21efe8313d";
+pub const B1_CDRIVE_WORKTREE_PREPARATION_IMPLEMENTATION: &str =
+    "b5443f4dbc0a7469933e1ddcac5cd8d7b8901252";
+pub const B1_CDRIVE_WORKTREE_PREPARATION_BOOKEND: &str = "3984bb3282571448a49cb5a79d1c219a5c9f00e7";
+pub const B1_CDRIVE_WORKTREE_PREPARATION_PROOF_UUID: &str = "c19d3102-f4d7-4761-a2b8-97ddbfc08c1d";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_BRANCH: &str =
     "refs/heads/codex/swa05-b1-cdrive-preflight-b5bcd03e";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_SCRATCH: &str =
@@ -75,7 +79,7 @@ const PROCESS_DEADLINE_MILLIS: u64 = 30_000;
 const GIT_PATH: &str = "C:\\Program Files\\Git\\cmd;C:\\Windows\\System32;C:\\Windows";
 const PATHEXT: &str = ".COM;.EXE;.BAT;.CMD";
 const SIMULATION_RECEIPT_DIGEST_DOMAIN: &[u8] =
-    b"cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-receipt/0.2\0";
+    b"cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-receipt/0.3\0";
 const EXACT_ARTIFACT_NAMES: [&str; 7] = [
     "consequences.json",
     "plan.json",
@@ -105,21 +109,25 @@ pub struct PreparationEnvironmentEntry {
 #[serde(deny_unknown_fields)]
 pub struct SupervisingPublicationProof {
     pub profile: String,
+    pub proof_uuid: String,
     pub implementation_commit: String,
     pub bookend_commit: String,
     pub branch_ref: String,
-    pub local_head: String,
-    pub local_tracking: String,
-    pub origin_remote_tracking: String,
-    pub ls_remote: String,
+    pub bookend_local_head: String,
+    pub bookend_local_tracking: String,
+    pub bookend_origin_remote_tracking: String,
+    pub bookend_ls_remote: String,
     pub implementation_parent_of_bookend: bool,
     pub carrier_ancestor_of_implementation: bool,
-    pub focused_test_count: u32,
+    pub focused_debug_test_count: u32,
+    pub focused_release_test_count: u32,
     pub focused_failure_count: u32,
     pub evidence_manifest_count: u32,
     pub evidence_reference_count: u32,
     pub evidence_stale_count: u32,
     pub physical_preparation_run_count: u32,
+    pub placement: String,
+    pub contains_own_commit_identity: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -132,6 +140,7 @@ pub struct CDriveWorktreePreparationRequest {
     pub carrier_commit: String,
     pub implementation_commit: String,
     pub bookend_commit: String,
+    pub expected_current_commit: String,
     pub publication_proof_artifact: PreparationArtifactIdentity,
     pub physical_commission_uuid: Option<String>,
     pub physical_preparation_authorized: bool,
@@ -175,11 +184,13 @@ pub struct PreparationLocalGateObservation {
     pub carrier_commit: String,
     pub implementation_commit: String,
     pub bookend_commit: String,
+    pub expected_current_commit: String,
     pub local_head: String,
     pub local_tracking: String,
     pub origin_remote_tracking: String,
     pub carrier_ancestor_of_implementation: bool,
     pub implementation_immediate_parent_of_bookend: bool,
+    pub bookend_ancestor_of_current_commit: bool,
     pub git_executable: String,
     pub git_executable_bytes: u64,
     pub git_executable_sha256: String,
@@ -197,6 +208,7 @@ pub struct PreparationChildSpec {
     pub operation: String,
     pub executable: String,
     pub arguments: Vec<String>,
+    pub expected_stdout_lines: Vec<String>,
     pub allowed_exit_codes: Vec<i32>,
     pub mutating: bool,
     pub network: bool,
@@ -221,6 +233,7 @@ pub struct CDriveWorktreePreparationPlan {
     pub profile: String,
     pub request_sha256: ContentDigest,
     pub publication_proof_sha256: ContentDigest,
+    pub expected_current_commit: String,
     pub children: Vec<PreparationChildSpec>,
     pub physical_execution_authorized: bool,
     pub planned_directory_creations: u16,
@@ -422,6 +435,7 @@ pub struct PreparationSimulationReceipt {
     pub carrier_commit: String,
     pub implementation_commit: String,
     pub bookend_commit: String,
+    pub expected_current_commit: String,
     pub request_sha256: ContentDigest,
     pub publication_proof_sha256: ContentDigest,
     pub plan_sha256: ContentDigest,
@@ -503,6 +517,7 @@ struct PreparationSimulationReceiptBody<'a> {
     carrier_commit: &'a str,
     implementation_commit: &'a str,
     bookend_commit: &'a str,
+    expected_current_commit: &'a str,
     request_sha256: &'a ContentDigest,
     publication_proof_sha256: &'a ContentDigest,
     plan_sha256: &'a ContentDigest,
@@ -535,7 +550,7 @@ pub fn compile_cdrive_worktree_preparation_plan(
                 "branch prefix differs",
             )
         })?;
-    let children = vec![
+    let mut children = vec![
         child(1, "git_version_before", vec!["--version"], vec![0], false),
         child(
             2,
@@ -656,10 +671,16 @@ pub fn compile_cdrive_worktree_preparation_plan(
         ),
         child(12, "git_version_after", vec!["--version"], vec![0], false),
     ];
+    children[3].expected_stdout_lines = vec![request.expected_current_commit.clone(); 3];
     if children
         .iter()
         .any(|item| !has_closed_process_contract(item))
         || children.iter().filter(|item| item.mutating).count() != 1
+        || children[3].expected_stdout_lines != vec![request.expected_current_commit.clone(); 3]
+        || children
+            .iter()
+            .enumerate()
+            .any(|(index, item)| index != 3 && !item.expected_stdout_lines.is_empty())
     {
         return Err(fault(
             CDriveWorktreePreparationFaultCode::Plan,
@@ -670,6 +691,7 @@ pub fn compile_cdrive_worktree_preparation_plan(
         profile: B1_CDRIVE_WORKTREE_PREPARATION_PLAN_PROFILE.to_owned(),
         request_sha256: digest(request)?,
         publication_proof_sha256: digest(proof)?,
+        expected_current_commit: request.expected_current_commit.clone(),
         children,
         physical_execution_authorized: false,
         planned_directory_creations: 4,
@@ -888,11 +910,13 @@ pub fn validate_cdrive_worktree_preparation_local_gate(
         && observation.carrier_commit == request.carrier_commit
         && observation.implementation_commit == request.implementation_commit
         && observation.bookend_commit == request.bookend_commit
-        && observation.local_head == request.bookend_commit
-        && observation.local_tracking == request.bookend_commit
-        && observation.origin_remote_tracking == request.bookend_commit
+        && observation.expected_current_commit == request.expected_current_commit
+        && observation.local_head == request.expected_current_commit
+        && observation.local_tracking == request.expected_current_commit
+        && observation.origin_remote_tracking == request.expected_current_commit
         && observation.carrier_ancestor_of_implementation
         && observation.implementation_immediate_parent_of_bookend
+        && observation.bookend_ancestor_of_current_commit
         && observation.git_executable == request.git_executable
         && observation.git_executable_bytes == request.git_executable_bytes
         && observation.git_executable_sha256 == request.git_executable_sha256
@@ -1137,6 +1161,8 @@ fn validate_request(
         && request.predecessor_invalidation_uuid
             == B1_CDRIVE_WORKTREE_PREPARATION_INVALIDATION_UUID
         && request.carrier_commit == B1_CDRIVE_WORKTREE_PREPARATION_CARRIER
+        && request.implementation_commit == B1_CDRIVE_WORKTREE_PREPARATION_IMPLEMENTATION
+        && request.bookend_commit == B1_CDRIVE_WORKTREE_PREPARATION_BOOKEND
         && request.physical_commission_uuid.is_none()
         && !request.physical_preparation_authorized
         && request.recovery_owner == "THEBRAIN\\enjer"
@@ -1160,7 +1186,10 @@ fn validate_request(
         && request.minimum_final_free_bytes == 12_884_901_888
         && is_lower_git_object_id(&request.implementation_commit)
         && is_lower_git_object_id(&request.bookend_commit)
+        && is_lower_git_object_id(&request.expected_current_commit)
         && request.implementation_commit != request.bookend_commit
+        && request.expected_current_commit != request.implementation_commit
+        && request.expected_current_commit != request.bookend_commit
         && is_safe_relative_path(&request.publication_proof_artifact.path)
         && request.publication_proof_artifact.bytes > 0
         && request.publication_proof_artifact.bytes <= MAX_ARTIFACT_BYTES
@@ -1179,21 +1208,25 @@ fn validate_publication_proof(
     proof: &SupervisingPublicationProof,
 ) -> Result<(), CDriveWorktreePreparationFault> {
     let exact = proof.profile == B1_CDRIVE_WORKTREE_PREPARATION_PROOF_PROFILE
+        && proof.proof_uuid == B1_CDRIVE_WORKTREE_PREPARATION_PROOF_UUID
         && proof.implementation_commit == request.implementation_commit
         && proof.bookend_commit == request.bookend_commit
         && proof.branch_ref == TRACKING_BRANCH
-        && proof.local_head == request.bookend_commit
-        && proof.local_tracking == request.bookend_commit
-        && proof.origin_remote_tracking == request.bookend_commit
-        && proof.ls_remote == request.bookend_commit
+        && proof.bookend_local_head == request.bookend_commit
+        && proof.bookend_local_tracking == request.bookend_commit
+        && proof.bookend_origin_remote_tracking == request.bookend_commit
+        && proof.bookend_ls_remote == request.bookend_commit
         && proof.implementation_parent_of_bookend
         && proof.carrier_ancestor_of_implementation
-        && proof.focused_test_count > 0
+        && proof.focused_debug_test_count == 11
+        && proof.focused_release_test_count == 11
         && proof.focused_failure_count == 0
-        && proof.evidence_manifest_count > 0
-        && proof.evidence_reference_count > 0
+        && proof.evidence_manifest_count == 55
+        && proof.evidence_reference_count == 1_966
         && proof.evidence_stale_count == 0
-        && proof.physical_preparation_run_count == 0;
+        && proof.physical_preparation_run_count == 0
+        && proof.placement == "committed_descendant_artifact"
+        && !proof.contains_own_commit_identity;
     if !exact {
         return Err(fault(
             CDriveWorktreePreparationFaultCode::PublicationProof,
@@ -1215,6 +1248,7 @@ fn child(
         operation: operation.to_owned(),
         executable: B1_CDRIVE_WORKTREE_PREPARATION_GIT.to_owned(),
         arguments: arguments.into_iter().map(str::to_owned).collect(),
+        expected_stdout_lines: Vec::new(),
         allowed_exit_codes,
         mutating,
         network: false,
@@ -1264,6 +1298,8 @@ fn validate_process_observation(
     if observed.sequence != spec.sequence
         || observed.operation != spec.operation
         || observed.arguments != spec.arguments
+        || (!spec.expected_stdout_lines.is_empty()
+            && observed.stdout.lines().collect::<Vec<_>>() != spec.expected_stdout_lines)
         || !spec.allowed_exit_codes.contains(&observed.exit_code)
         || observed.stdout.len() > MAX_STREAM_BYTES
         || observed.stderr.len() > MAX_STREAM_BYTES
@@ -1395,6 +1431,7 @@ fn compile_simulation_receipt(
             carrier_commit: &request.carrier_commit,
             implementation_commit: &request.implementation_commit,
             bookend_commit: &request.bookend_commit,
+            expected_current_commit: &request.expected_current_commit,
             request_sha256: &request_sha256,
             publication_proof_sha256: &publication_proof_sha256,
             plan_sha256: &plan_sha256,
@@ -1420,6 +1457,7 @@ fn compile_simulation_receipt(
         carrier_commit: request.carrier_commit.clone(),
         implementation_commit: request.implementation_commit.clone(),
         bookend_commit: request.bookend_commit.clone(),
+        expected_current_commit: request.expected_current_commit.clone(),
         request_sha256,
         publication_proof_sha256,
         plan_sha256,
@@ -1462,6 +1500,7 @@ fn validate_simulation_receipt(
         carrier_commit: &receipt.carrier_commit,
         implementation_commit: &receipt.implementation_commit,
         bookend_commit: &receipt.bookend_commit,
+        expected_current_commit: &receipt.expected_current_commit,
         request_sha256: &receipt.request_sha256,
         publication_proof_sha256: &receipt.publication_proof_sha256,
         plan_sha256: &receipt.plan_sha256,
@@ -1482,6 +1521,11 @@ fn validate_simulation_receipt(
         || receipt.source_snapshot_uuid != B1_CDRIVE_WORKTREE_PREPARATION_SOURCE_SNAPSHOT_UUID
         || receipt.signature_uuid != B1_CDRIVE_WORKTREE_PREPARATION_SIGNATURE_UUID
         || receipt.carrier_commit != B1_CDRIVE_WORKTREE_PREPARATION_CARRIER
+        || receipt.implementation_commit != B1_CDRIVE_WORKTREE_PREPARATION_IMPLEMENTATION
+        || receipt.bookend_commit != B1_CDRIVE_WORKTREE_PREPARATION_BOOKEND
+        || !is_lower_git_object_id(&receipt.expected_current_commit)
+        || receipt.expected_current_commit == receipt.implementation_commit
+        || receipt.expected_current_commit == receipt.bookend_commit
         || receipt.process_count != EXACT_PROCESS_COUNT as u16
         || receipt.network_command_count != 0
         || receipt.physical_preparation_authorized

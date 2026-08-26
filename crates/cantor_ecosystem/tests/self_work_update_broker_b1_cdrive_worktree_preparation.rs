@@ -6,16 +6,17 @@ use std::{
 };
 
 use cantor_ecosystem::{
-    B1_CDRIVE_WORKTREE_PREPARATION_BRANCH, B1_CDRIVE_WORKTREE_PREPARATION_CARRIER,
-    B1_CDRIVE_WORKTREE_PREPARATION_EVIDENCE_PROFILE,
+    B1_CDRIVE_WORKTREE_PREPARATION_BOOKEND, B1_CDRIVE_WORKTREE_PREPARATION_BRANCH,
+    B1_CDRIVE_WORKTREE_PREPARATION_CARRIER, B1_CDRIVE_WORKTREE_PREPARATION_EVIDENCE_PROFILE,
     B1_CDRIVE_WORKTREE_PREPARATION_FILESYSTEM_PROFILE, B1_CDRIVE_WORKTREE_PREPARATION_GIT,
     B1_CDRIVE_WORKTREE_PREPARATION_GIT_OBSERVATION_PROFILE,
     B1_CDRIVE_WORKTREE_PREPARATION_GIT_SHA256, B1_CDRIVE_WORKTREE_PREPARATION_GIT_VERSION,
+    B1_CDRIVE_WORKTREE_PREPARATION_IMPLEMENTATION,
     B1_CDRIVE_WORKTREE_PREPARATION_INVALIDATION_UUID,
     B1_CDRIVE_WORKTREE_PREPARATION_LOCAL_GATE_PROFILE,
     B1_CDRIVE_WORKTREE_PREPARATION_OUTCOME_PROFILE, B1_CDRIVE_WORKTREE_PREPARATION_PROOF_PROFILE,
-    B1_CDRIVE_WORKTREE_PREPARATION_REQUEST_PROFILE, B1_CDRIVE_WORKTREE_PREPARATION_SCRATCH,
-    B1_CDRIVE_WORKTREE_PREPARATION_SIGNATURE_UUID,
+    B1_CDRIVE_WORKTREE_PREPARATION_PROOF_UUID, B1_CDRIVE_WORKTREE_PREPARATION_REQUEST_PROFILE,
+    B1_CDRIVE_WORKTREE_PREPARATION_SCRATCH, B1_CDRIVE_WORKTREE_PREPARATION_SIGNATURE_UUID,
     B1_CDRIVE_WORKTREE_PREPARATION_SOURCE_SNAPSHOT_UUID, CDriveWorktreePreparationFault,
     CDriveWorktreePreparationFaultCode, CDriveWorktreePreparationRequest,
     PreparationArtifactIdentity, PreparationChildSpec, PreparationEvidenceManifest,
@@ -26,6 +27,7 @@ use cantor_ecosystem::{
     from_cdrive_worktree_preparation_local_gate_machine_form,
     from_cdrive_worktree_preparation_outcome_machine_form,
     from_cdrive_worktree_preparation_simulation_receipt_machine_form,
+    parse_and_validate_cdrive_worktree_preparation_publication_proof,
     simulate_cdrive_worktree_preparation_plan, to_cdrive_worktree_preparation_outcome_machine_form,
     to_cdrive_worktree_preparation_plan_machine_form,
     to_cdrive_worktree_preparation_simulation_receipt_machine_form,
@@ -37,6 +39,11 @@ use serde_json::Value;
 use sha2::{Digest, Sha256};
 
 static NEXT_FIXTURE: AtomicU64 = AtomicU64::new(1);
+const TEST_EXPECTED_CURRENT_COMMIT: &str = "227e08cac240448be3ecd605c08512949eaaa753";
+const HISTORICAL_PROOF_BYTES: &[u8] = include_bytes!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/../../experiments/self_work_update_broker_b1_cdrive_linked_worktree_preparation_p0_revision_0_3/supervising_publication_proof.json"
+));
 
 struct FakeBroker;
 
@@ -50,7 +57,11 @@ impl ProviderOnlyPreparationBroker for FakeBroker {
             operation: child.operation.clone(),
             arguments: child.arguments.clone(),
             exit_code: child.allowed_exit_codes[0],
-            stdout: String::new(),
+            stdout: if child.expected_stdout_lines.is_empty() {
+                String::new()
+            } else {
+                format!("{}\n", child.expected_stdout_lines.join("\n"))
+            },
             stderr: String::new(),
             timed_out: false,
             reaped: true,
@@ -82,7 +93,7 @@ impl Fixture {
 
     fn build(&self) {
         let proof = publication_proof();
-        let proof_bytes = json_bytes(&proof);
+        let proof_bytes = historical_proof_bytes().to_vec();
         let request = request(&proof_bytes);
         let (plan, observations, projection, consequences, receipt) =
             simulate_cdrive_worktree_preparation_plan(&request, &proof, &mut FakeBroker).unwrap();
@@ -118,26 +129,11 @@ impl Drop for Fixture {
 }
 
 fn publication_proof() -> SupervisingPublicationProof {
-    let implementation = "1".repeat(40);
-    let bookend = "2".repeat(40);
-    SupervisingPublicationProof {
-        profile: B1_CDRIVE_WORKTREE_PREPARATION_PROOF_PROFILE.to_owned(),
-        implementation_commit: implementation,
-        bookend_commit: bookend.clone(),
-        branch_ref: "refs/heads/codex/self-hosted-corpus".to_owned(),
-        local_head: bookend.clone(),
-        local_tracking: bookend.clone(),
-        origin_remote_tracking: bookend.clone(),
-        ls_remote: bookend,
-        implementation_parent_of_bookend: true,
-        carrier_ancestor_of_implementation: true,
-        focused_test_count: 10,
-        focused_failure_count: 0,
-        evidence_manifest_count: 54,
-        evidence_reference_count: 1_944,
-        evidence_stale_count: 0,
-        physical_preparation_run_count: 0,
-    }
+    serde_json::from_slice(historical_proof_bytes()).unwrap()
+}
+
+fn historical_proof_bytes() -> &'static [u8] {
+    HISTORICAL_PROOF_BYTES
 }
 
 fn request(proof_bytes: &[u8]) -> CDriveWorktreePreparationRequest {
@@ -148,8 +144,9 @@ fn request(proof_bytes: &[u8]) -> CDriveWorktreePreparationRequest {
         signature_uuid: B1_CDRIVE_WORKTREE_PREPARATION_SIGNATURE_UUID.to_owned(),
         predecessor_invalidation_uuid: B1_CDRIVE_WORKTREE_PREPARATION_INVALIDATION_UUID.to_owned(),
         carrier_commit: B1_CDRIVE_WORKTREE_PREPARATION_CARRIER.to_owned(),
-        implementation_commit: "1".repeat(40),
-        bookend_commit: "2".repeat(40),
+        implementation_commit: B1_CDRIVE_WORKTREE_PREPARATION_IMPLEMENTATION.to_owned(),
+        bookend_commit: B1_CDRIVE_WORKTREE_PREPARATION_BOOKEND.to_owned(),
+        expected_current_commit: TEST_EXPECTED_CURRENT_COMMIT.to_owned(),
         publication_proof_artifact: PreparationArtifactIdentity {
             path: "publication_proof.json".to_owned(),
             bytes: proof_bytes.len() as u64,
@@ -197,11 +194,13 @@ fn local_gate(request: &CDriveWorktreePreparationRequest) -> PreparationLocalGat
         carrier_commit: request.carrier_commit.clone(),
         implementation_commit: request.implementation_commit.clone(),
         bookend_commit: request.bookend_commit.clone(),
-        local_head: request.bookend_commit.clone(),
-        local_tracking: request.bookend_commit.clone(),
-        origin_remote_tracking: request.bookend_commit.clone(),
+        expected_current_commit: request.expected_current_commit.clone(),
+        local_head: request.expected_current_commit.clone(),
+        local_tracking: request.expected_current_commit.clone(),
+        origin_remote_tracking: request.expected_current_commit.clone(),
         carrier_ancestor_of_implementation: true,
         implementation_immediate_parent_of_bookend: true,
+        bookend_ancestor_of_current_commit: true,
         git_executable: request.git_executable.clone(),
         git_executable_bytes: request.git_executable_bytes,
         git_executable_sha256: request.git_executable_sha256.clone(),
@@ -399,10 +398,83 @@ fn complete_provider_only_evidence_verifies_twice_and_round_trips() {
 }
 
 #[test]
+fn committed_historical_proof_has_exact_raw_identity_and_no_self_reference() {
+    let bytes = historical_proof_bytes();
+    assert_eq!(bytes.len(), 1_059);
+    assert_eq!(
+        sha256_upper(bytes),
+        "F2DC89A5FBA3FAEBFC1B29B433BD5F5878088428E0BF8A2ACA7BACEC88B20FF9"
+    );
+    let proof = publication_proof();
+    assert_eq!(proof.profile, B1_CDRIVE_WORKTREE_PREPARATION_PROOF_PROFILE);
+    assert_eq!(proof.proof_uuid, B1_CDRIVE_WORKTREE_PREPARATION_PROOF_UUID);
+    assert_eq!(
+        proof.implementation_commit,
+        B1_CDRIVE_WORKTREE_PREPARATION_IMPLEMENTATION
+    );
+    assert_eq!(proof.bookend_commit, B1_CDRIVE_WORKTREE_PREPARATION_BOOKEND);
+    assert_eq!(proof.placement, "committed_descendant_artifact");
+    assert!(!proof.contains_own_commit_identity);
+    let valid_request = request(bytes);
+    assert_eq!(
+        parse_and_validate_cdrive_worktree_preparation_publication_proof(&valid_request, bytes)
+            .unwrap(),
+        proof
+    );
+    let raw = String::from_utf8(bytes.to_vec()).unwrap();
+    let duplicate = raw.replacen("\"profile\":", "\"profile\":\"duplicate\",\"profile\":", 1);
+    assert_eq!(
+        parse_and_validate_cdrive_worktree_preparation_publication_proof(
+            &request(duplicate.as_bytes()),
+            duplicate.as_bytes(),
+        )
+        .unwrap_err()
+        .code,
+        CDriveWorktreePreparationFaultCode::MachineForm
+    );
+    let raw = String::from_utf8(bytes.to_vec()).unwrap();
+    let unknown = raw.replacen("\"profile\":", "\"unexpected\":true,\"profile\":", 1);
+    assert_eq!(
+        parse_and_validate_cdrive_worktree_preparation_publication_proof(
+            &request(unknown.as_bytes()),
+            unknown.as_bytes(),
+        )
+        .unwrap_err()
+        .code,
+        CDriveWorktreePreparationFaultCode::MachineForm
+    );
+
+    let mut wrong_placement = proof.clone();
+    wrong_placement.placement = "embedded_in_bookend".to_owned();
+    let wrong_bytes = json_bytes(&wrong_placement);
+    assert_eq!(
+        parse_and_validate_cdrive_worktree_preparation_publication_proof(
+            &request(&wrong_bytes),
+            &wrong_bytes,
+        )
+        .unwrap_err()
+        .code,
+        CDriveWorktreePreparationFaultCode::PublicationProof
+    );
+    let mut self_referential = proof;
+    self_referential.contains_own_commit_identity = true;
+    let self_referential_bytes = json_bytes(&self_referential);
+    assert_eq!(
+        parse_and_validate_cdrive_worktree_preparation_publication_proof(
+            &request(&self_referential_bytes),
+            &self_referential_bytes,
+        )
+        .unwrap_err()
+        .code,
+        CDriveWorktreePreparationFaultCode::PublicationProof
+    );
+}
+
+#[test]
 fn exact_plan_has_twelve_local_children_and_one_modeled_effect() {
     let proof = publication_proof();
-    let proof_bytes = json_bytes(&proof);
-    let plan = compile_cdrive_worktree_preparation_plan(&request(&proof_bytes), &proof).unwrap();
+    let proof_bytes = historical_proof_bytes();
+    let plan = compile_cdrive_worktree_preparation_plan(&request(proof_bytes), &proof).unwrap();
     assert_eq!(plan.children.len(), 12);
     assert_eq!(
         plan.children.iter().filter(|child| child.mutating).count(),
@@ -450,6 +522,17 @@ fn exact_plan_has_twelve_local_children_and_one_modeled_effect() {
     assert_eq!(plan.maximum_total_process_bytes, 4_194_304);
     assert_eq!(plan.total_deadline_millis, 30_000);
     assert_eq!(plan.children[5].operation, "worktree_add");
+    assert_eq!(plan.expected_current_commit, TEST_EXPECTED_CURRENT_COMMIT);
+    assert_eq!(
+        plan.children[3].expected_stdout_lines,
+        vec![TEST_EXPECTED_CURRENT_COMMIT.to_owned(); 3]
+    );
+    assert!(
+        plan.children
+            .iter()
+            .enumerate()
+            .all(|(index, child)| index == 3 || child.expected_stdout_lines.is_empty())
+    );
     assert!(
         plan.children
             .iter()
@@ -529,15 +612,15 @@ fn planner_and_verifier_clis_emit_exact_machine_forms() {
 #[test]
 fn physical_authority_and_publication_proof_mutations_refuse() {
     let proof = publication_proof();
-    let proof_bytes = json_bytes(&proof);
-    let mut physical_request = request(&proof_bytes);
+    let proof_bytes = historical_proof_bytes();
+    let mut physical_request = request(proof_bytes);
     physical_request.physical_preparation_authorized = true;
     physical_request.physical_commission_uuid =
         Some("4e763d15-4abf-4a62-9f20-0d9f30c86f11".to_owned());
     let error = compile_cdrive_worktree_preparation_plan(&physical_request, &proof).unwrap_err();
     assert_eq!(error.code, CDriveWorktreePreparationFaultCode::Request);
     let mut proof = proof;
-    proof.ls_remote = "3".repeat(40);
+    proof.bookend_ls_remote = "3".repeat(40);
     let error = compile_cdrive_worktree_preparation_plan(&request(&json_bytes(&proof)), &proof)
         .unwrap_err();
     assert_eq!(
@@ -545,10 +628,18 @@ fn physical_authority_and_publication_proof_mutations_refuse() {
         CDriveWorktreePreparationFaultCode::PublicationProof
     );
     let proof = publication_proof();
-    let mut long_object_id = request(&json_bytes(&proof));
+    let mut long_object_id = request(historical_proof_bytes());
     long_object_id.implementation_commit = "1".repeat(64);
     assert_eq!(
         compile_cdrive_worktree_preparation_plan(&long_object_id, &proof)
+            .unwrap_err()
+            .code,
+        CDriveWorktreePreparationFaultCode::Request
+    );
+    let mut bookend_as_current = request(historical_proof_bytes());
+    bookend_as_current.expected_current_commit = B1_CDRIVE_WORKTREE_PREPARATION_BOOKEND.to_owned();
+    assert_eq!(
+        compile_cdrive_worktree_preparation_plan(&bookend_as_current, &proof)
             .unwrap_err()
             .code,
         CDriveWorktreePreparationFaultCode::Request
@@ -619,7 +710,15 @@ fn process_projection_and_consequence_mutations_refuse() {
     assert_fault(&fixture.root, CDriveWorktreePreparationFaultCode::Process);
     fixture.build();
     let mut processes = fixture.value("process_observations.json");
-    for process in processes.as_array_mut().unwrap().iter_mut().take(5) {
+    for (index, process) in processes
+        .as_array_mut()
+        .unwrap()
+        .iter_mut()
+        .enumerate()
+        .filter(|(index, _)| *index != 3)
+        .take(5)
+    {
+        assert_ne!(index, 3);
         process["stdout"] = Value::String("x".repeat(900_000));
     }
     fixture.write_value("process_observations.json", &processes);
@@ -629,7 +728,7 @@ fn process_projection_and_consequence_mutations_refuse() {
 #[test]
 fn local_gate_strict_form_and_every_current_identity_refuse_drift() {
     let proof = publication_proof();
-    let request = request(&json_bytes(&proof));
+    let request = request(historical_proof_bytes());
     let gate = local_gate(&request);
     validate_cdrive_worktree_preparation_local_gate(&request, &proof, &gate).unwrap();
     let machine = serde_json::to_string(&gate).unwrap();
@@ -637,10 +736,17 @@ fn local_gate_strict_form_and_every_current_identity_refuse_drift() {
         from_cdrive_worktree_preparation_local_gate_machine_form(&machine).unwrap(),
         gate
     );
-    let mutations: [fn(&mut PreparationLocalGateObservation); 5] = [
+    let mutations: [fn(&mut PreparationLocalGateObservation); 10] = [
         |gate: &mut PreparationLocalGateObservation| gate.scratch_root_absent = false,
         |gate: &mut PreparationLocalGateObservation| gate.branch_ref_absent = false,
-        |gate: &mut PreparationLocalGateObservation| gate.local_head = "3".repeat(40),
+        |gate: &mut PreparationLocalGateObservation| gate.expected_current_commit = "4".repeat(40),
+        |gate: &mut PreparationLocalGateObservation| gate.local_head = "4".repeat(40),
+        |gate: &mut PreparationLocalGateObservation| gate.local_tracking = "4".repeat(40),
+        |gate: &mut PreparationLocalGateObservation| gate.origin_remote_tracking = "4".repeat(40),
+        |gate: &mut PreparationLocalGateObservation| {
+            gate.bookend_ancestor_of_current_commit = false
+        },
+        |gate: &mut PreparationLocalGateObservation| gate.pre_effect_free_bytes = 15_032_385_535,
         |gate: &mut PreparationLocalGateObservation| gate.parent_is_reparse_point = true,
         |gate: &mut PreparationLocalGateObservation| gate.network_contact_count = 1,
     ];
@@ -658,8 +764,7 @@ fn local_gate_strict_form_and_every_current_identity_refuse_drift() {
 
 #[test]
 fn not_run_quarantine_and_prepared_accounts_are_disjoint_and_strict() {
-    let proof = publication_proof();
-    let request = request(&json_bytes(&proof));
+    let request = request(historical_proof_bytes());
     for disposition in [
         PreparationOutcomeDisposition::NotRun,
         PreparationOutcomeDisposition::Quarantined,
