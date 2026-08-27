@@ -9,10 +9,21 @@ use cantor_ecosystem::{
 };
 
 fn main() {
-    if let Err(error) = run() {
+    if let Err(error) = run_on_bounded_stack() {
         eprintln!("{error}");
         std::process::exit(2);
     }
+}
+
+fn run_on_bounded_stack() -> Result<(), String> {
+    let worker = std::thread::Builder::new()
+        .name("cantor-provider-free-self-work-composition".to_owned())
+        .stack_size(PROVIDER_FREE_SELF_WORK_COMPOSITION_MAX_MACHINE_FORM_BYTES * 2)
+        .spawn(run)
+        .map_err(|error| format!("bounded CLI worker start failed: {error}"))?;
+    worker
+        .join()
+        .map_err(|_| "bounded CLI worker panicked".to_owned())?
 }
 
 fn run() -> Result<(), String> {

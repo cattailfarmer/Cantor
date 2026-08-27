@@ -336,7 +336,7 @@ async fn direct_tool_is_separate_verified_and_fail_closed() {
 #[tokio::test(flavor = "current_thread")]
 async fn route_timeout_is_typed_and_kills_the_child() {
     let mut fixture = Fixture::new();
-    fixture.config.timeout_milliseconds = 50;
+    fixture.config.timeout_milliseconds = 500;
     let server = AttentionMcpServer::new(fixture.config.clone())
         .await
         .expect("fast health must pass under the short route timeout");

@@ -20,6 +20,10 @@ pub mod self_work_update_broker_b1;
 pub mod self_work_update_broker_b1_cdrive_preflight;
 pub mod self_work_update_broker_b1_cdrive_preflight_producer_plan;
 pub mod self_work_update_broker_b1_cdrive_preparation_commission_admission;
+pub mod self_work_update_broker_b1_cdrive_production_broker;
+pub mod self_work_update_broker_b1_cdrive_production_broker_evidence;
+#[cfg(windows)]
+mod self_work_update_broker_b1_cdrive_windows_containment;
 pub mod self_work_update_broker_b1_cdrive_worktree_preparation;
 pub mod self_work_update_broker_b1_permission_profile;
 pub mod sjs_commit_envelope_journal;
@@ -56,6 +60,8 @@ pub use self_work_update_broker_b1::*;
 pub use self_work_update_broker_b1_cdrive_preflight::*;
 pub use self_work_update_broker_b1_cdrive_preflight_producer_plan::*;
 pub use self_work_update_broker_b1_cdrive_preparation_commission_admission::*;
+pub use self_work_update_broker_b1_cdrive_production_broker::*;
+pub use self_work_update_broker_b1_cdrive_production_broker_evidence::*;
 pub use self_work_update_broker_b1_cdrive_worktree_preparation::*;
 pub use self_work_update_broker_b1_permission_profile::*;
 pub use succeeding_sop_fixture_persistence::*;
@@ -66,6 +72,16 @@ pub use windows_entry_policy::*;
 pub use windows_stream_info_parser::*;
 pub use windows_supplied_entry_observation::*;
 pub use workspace_admission::*;
+
+// Reuse the production-broker integration contract inside the library harness.
+// Windows Application Control can independently refuse a freshly linked
+// integration-test executable; compiling the same assertions into the ordinary
+// library harness preserves exact semantic coverage without changing policy.
+#[cfg(test)]
+extern crate self as cantor_ecosystem;
+#[cfg(test)]
+#[path = "../tests/self_work_update_broker_b1_cdrive_production_broker.rs"]
+mod self_work_update_broker_b1_cdrive_production_broker_contract_tests;
 
 /// Version of the bounded supervised mock-loop profile.
 pub const MOCK_LOOP_PROFILE: &str = "cantor-supervised-mock-loop/0.1";

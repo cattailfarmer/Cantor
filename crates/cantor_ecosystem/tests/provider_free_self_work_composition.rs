@@ -518,7 +518,11 @@ fn cli_compiles_verifies_and_refuses_output_argument() {
     let request_form =
         to_provider_free_self_work_composition_request_machine_form(&request).expect("form");
     let compiled = run_cli("compile", &request_form, None);
-    assert!(compiled.status.success());
+    assert!(
+        compiled.status.success(),
+        "{}",
+        String::from_utf8_lossy(&compiled.stderr)
+    );
     let receipt_form = String::from_utf8(compiled.stdout).expect("UTF-8 output");
     let receipt =
         from_provider_free_self_work_composition_receipt_machine_form(receipt_form.trim())
@@ -528,7 +532,11 @@ fn cli_compiles_verifies_and_refuses_output_argument() {
         &to_provider_free_self_work_composition_receipt_machine_form(&receipt).expect("form"),
         None,
     );
-    assert!(verified.status.success());
+    assert!(
+        verified.status.success(),
+        "{}",
+        String::from_utf8_lossy(&verified.stderr)
+    );
     assert_eq!(
         receipt_form,
         String::from_utf8(verified.stdout).expect("UTF-8")
