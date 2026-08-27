@@ -179,7 +179,10 @@ or product readiness.
 
 Subsequent governed work has implemented and published the bounded B1
 production broker as a provider-free orchestration surface, then implemented
-the separately signed P9 preparation-plan precursor locally. The latter can
+and published the separately signed P9 preparation-plan precursor. Its signed
+proposal-only successor is also implemented and published remote-equal at
+`1844d5d8`; it assigns exact bounded responsibilities, unresolved authorization
+gaps, and retained quarantine without authenticating or performing a commission. The plan can
 state exactly what a later physical commission would have to create and which
 ten authorities are still missing, but it deliberately performs none of those
 effects. Cantor therefore has substantially more executable Rust and stronger
