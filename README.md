@@ -1,6 +1,6 @@
 # Cantor
 
-Current self-work frontier (2026-08-27): the bounded SWA-05 B1 production broker is published at `69a2b957` with bookend `49af9aa1`. Its separately signed provider-free P9 precursor now compiles supplied observations into an exact production-preparation plan and independently double-replays retained evidence; all 12 requirements and both complete workspace modes pass locally, with publication pending. It does not create a scratch root, worktree, ref, evidence root, lease, ledger, Phase3A receipt, process, provider session, writer run, commit, push, or activation.
+Current self-work frontier (2026-08-27): the bounded SWA-05 B1 production broker is published at `69a2b957` with bookend `49af9aa1`. Its separately signed provider-free P9 precursor now compiles supplied observations into an exact production-preparation plan and independently double-replays retained evidence; all 12 requirements and both complete workspace modes pass, and implementation `2ae87673` is remote-equal with its immediate bookend forming. It does not create a scratch root, worktree, ref, evidence root, lease, ledger, Phase3A receipt, process, provider session, writer run, commit, push, or activation.
 
 The bounded SWA-06B2A stdin/stdout CLI supports `admit` and `verify`:
 
