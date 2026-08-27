@@ -2,6 +2,8 @@
 
 > 2026-08-26 SWA-05 readiness update: the selected npm-native Codex 0.135.0 host now has provider-free evidence that one beta named permission profile enforces both an allowed C-drive read and a nested denied read. Independent verification yields `host_capability_verified_writer_not_run`, not writer or product authority, and the capability implementation is published at `ffb502fe5fb0c74349bec440cc94b1c0bb6660c0`. A separately signed writer preflight, unavailable pinned provider, mutation acceptance, rollback, model-driven commit/push, activation, and operator isolation remain open.
 
+> 2026-08-27 SWA-05 readiness update: the bounded provider-free production broker is published at `69a2b957` with bookend `49af9aa1`. A separately signed P9 precursor now deterministically compiles supplied observations into the exact five-role, twelve-operation physical-preparation plan and independently verifies retained evidence twice; all 12 requirements and complete debug/release workspace gates pass locally, with implementation publication pending. Physical preparation, live process work, provider/model use, writing, Git publication by the runtime, and activation remain separate.
+
 This is the current navigation checkpoint for Cantor’s local-product path. It
 does not replace canonical specifications or historical status snapshots, and
 it grants no new runtime capability.
@@ -174,6 +176,16 @@ and a real B1 eligibility receipt by requiring exact upstream replay, current
 workspace admission, denied-write prevention, complete stable post-state, and
 owned-child quiescence. This remains preflight progress, not autonomous-agent
 or product readiness.
+
+Subsequent governed work has implemented and published the bounded B1
+production broker as a provider-free orchestration surface, then implemented
+the separately signed P9 preparation-plan precursor locally. The latter can
+state exactly what a later physical commission would have to create and which
+ten authorities are still missing, but it deliberately performs none of those
+effects. Cantor therefore has substantially more executable Rust and stronger
+preparation/accountability evidence than this section's earlier checkpoint,
+while it still is not an unattended agent process or a live self-updating
+product.
 
 ## Superseded navigation
 

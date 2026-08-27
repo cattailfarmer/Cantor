@@ -1,0 +1,26 @@
+Subject: Self Work Update Broker B1 CDrive Production Preparation Plan P0 Windows PowerShell Argument API Fault
+
+@ [fault_uuid] 13684ffe-e3b5-4003-a2f3-aacc787711bd
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] 209c5c94-fd65-4f93-946b-bec56912b29e
+@ [recorded_at_utc] 2026-08-27T20:37:49.2880989Z
+@ [implementation_predecessor] bb983954c291a58826b05b494251ed8169c52609
+
+& [Observation]
+  + final focused debug and overflow-checked release Rust tests each passed eight active assertions zero failed and one ignored evidence producer
+  + the wrapper then stopped before CLI replay because Windows PowerShell 5.1.26100.9168 exposes ProcessStartInfo.Arguments but not the newer ArgumentList property
+  + the same script had previously passed under PowerShell Core 7.6.4 where ArgumentList is present
+
+& [Attribution]
+  + this is a focused gate-wrapper compatibility fault and not a Rust compiler verifier evidence or runtime-effect failure
+  + no CLI child was started by the failing Windows PowerShell iteration and no success receipt was synthesized
+  + no provider process model MCP network Git runtime mutation physical preparation WSL cleanup or foreign effect occurred
+
+& [Resolution]
+  + add one bounded argument adapter that uses ArgumentList when available and a quoted quote-refusing single Arguments value on Windows PowerShell 5.1
+  + retain the no-argument refusal path unchanged and do not broaden the CLI from exactly one supplied path argument
+  + rerun the complete focused script under Windows PowerShell and PowerShell Core then rebind the script and proof identities in the completion signature
+
+& [Status]
+  + resolved_dual_shell_replay_passed
+  + Windows PowerShell 5.1 and PowerShell Core 7.6 each pass focused debug release canonical CLI replay and missing-argument refusal

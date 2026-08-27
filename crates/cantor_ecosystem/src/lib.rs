@@ -22,6 +22,8 @@ pub mod self_work_update_broker_b1_cdrive_preflight_producer_plan;
 pub mod self_work_update_broker_b1_cdrive_preparation_commission_admission;
 pub mod self_work_update_broker_b1_cdrive_production_broker;
 pub mod self_work_update_broker_b1_cdrive_production_broker_evidence;
+pub mod self_work_update_broker_b1_cdrive_production_preparation_plan;
+pub mod self_work_update_broker_b1_cdrive_production_preparation_plan_evidence;
 #[cfg(windows)]
 mod self_work_update_broker_b1_cdrive_windows_containment;
 pub mod self_work_update_broker_b1_cdrive_worktree_preparation;
@@ -62,6 +64,8 @@ pub use self_work_update_broker_b1_cdrive_preflight_producer_plan::*;
 pub use self_work_update_broker_b1_cdrive_preparation_commission_admission::*;
 pub use self_work_update_broker_b1_cdrive_production_broker::*;
 pub use self_work_update_broker_b1_cdrive_production_broker_evidence::*;
+pub use self_work_update_broker_b1_cdrive_production_preparation_plan::*;
+pub use self_work_update_broker_b1_cdrive_production_preparation_plan_evidence::*;
 pub use self_work_update_broker_b1_cdrive_worktree_preparation::*;
 pub use self_work_update_broker_b1_permission_profile::*;
 pub use succeeding_sop_fixture_persistence::*;

@@ -1,6 +1,6 @@
 # Cantor
 
-Current self-work frontier (2026-08-26): SWA-06B2B2 synthetic-fixture rollback is published at `a418be40` with bookend `8e60c080`. For SWA-05, the exact pinned npm-native Codex 0.135.0 host has now been provider-free revalidated: its experimental named permission profile enforced one allowed C-drive read and one nested denied read. An independent Rust verifier emits only `host_capability_verified_writer_not_run`; publication of that capability-only seam is pending, while live writer, provider, model, commit, push, and activation authority remain separately gated.
+Current self-work frontier (2026-08-27): the bounded SWA-05 B1 production broker is published at `69a2b957` with bookend `49af9aa1`. Its separately signed provider-free P9 precursor now compiles supplied observations into an exact production-preparation plan and independently double-replays retained evidence; all 12 requirements and both complete workspace modes pass locally, with publication pending. It does not create a scratch root, worktree, ref, evidence root, lease, ledger, Phase3A receipt, process, provider session, writer run, commit, push, or activation.
 
 The bounded SWA-06B2A stdin/stdout CLI supports `admit` and `verify`:
 
