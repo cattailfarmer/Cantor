@@ -182,7 +182,10 @@ production broker as a provider-free orchestration surface, then implemented
 and published the separately signed P9 preparation-plan precursor. Its signed
 proposal-only successor is also implemented and published remote-equal at
 `1844d5d8`; it assigns exact bounded responsibilities, unresolved authorization
-gaps, and retained quarantine without authenticating or performing a commission. The plan can
+gaps, and retained quarantine without authenticating or performing a commission.
+Its next preserved source would verify a supplied detached operator decision,
+but explicitly cannot govern the key policy, issue consent, establish current
+time or freshness, create a private permit, or activate the broker. The plan can
 state exactly what a later physical commission would have to create and which
 ten authorities are still missing, but it deliberately performs none of those
 effects. Cantor therefore has substantially more executable Rust and stronger
