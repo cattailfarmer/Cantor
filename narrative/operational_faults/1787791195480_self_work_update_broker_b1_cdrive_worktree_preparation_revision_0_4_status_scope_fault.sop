@@ -1,0 +1,23 @@
+Subject: Self Work Update Broker B1 CDrive Worktree Preparation Revision 0.4 Status Scope Fault
+
+@ [fault_uuid] 53811bb2-6ce0-4809-8fc6-33fdc5bcffe1
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [implementation_commit] 7676903ca85d80706100eee1995cb0412a2d4870
+
+& [Fault]
+  + one read-only git status probe supplied the whole experiments directory while attempting to identify the owned untracked implementation files
+  + Git consequently displayed names from the foreign untracked Zeta experiment tree even though those names were outside the Slice-owned attribution set
+
+& [EffectAccount]
+  + no foreign file content was opened hashed copied edited deleted staged committed or otherwise mutated
+  + the exact staged implementation contained sixty-two paths with zero AGENTS Zeta Minecraft or other foreign paths
+  + the protected Minecraft narrative remained present and unstaged
+
+& [Correction]
+  + all subsequent discovery uses git ls-files or git diff for tracked paths plus explicit complete paths for owned untracked records
+  + no directory-wide untracked status query is permitted for experiments narrative or another mixed-ownership subtree
+  + publication attribution is verified from git diff --cached --name-only and refuses AGENTS Zeta Minecraft or unexpected paths
+
+& [Disposition]
+  + read_only_foreign_name_enumeration_fault_recorded_no_foreign_effect
+  + exact_path_boundary_restored_before_commit
