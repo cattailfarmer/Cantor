@@ -21,29 +21,29 @@ use serde::{
 use serde_json::Number;
 
 pub const B1_CDRIVE_WORKTREE_PREPARATION_REQUEST_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-request/0.3";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-request/0.4";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_PROOF_PROFILE: &str =
     "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-publication-proof/0.3";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_PLAN_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-plan/0.3";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-plan/0.4";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_LOCAL_GATE_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-local-gate/0.3";
-pub const B1_CDRIVE_WORKTREE_PREPARATION_FILESYSTEM_PROFILE: &str = "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-filesystem-observation/0.2";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-local-gate/0.4";
+pub const B1_CDRIVE_WORKTREE_PREPARATION_FILESYSTEM_PROFILE: &str = "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-filesystem-observation/0.4";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_GIT_OBSERVATION_PROFILE: &str =
     "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-git-observation/0.2";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_OUTCOME_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-outcome/0.2";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-outcome/0.4";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_SIMULATION_RECEIPT_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-receipt/0.3";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-receipt/0.4";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_EVIDENCE_PROFILE: &str =
-    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-evidence/0.3";
+    "cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-evidence/0.4";
 
 pub const B1_CDRIVE_WORKTREE_PREPARATION_SOURCE_SNAPSHOT_UUID: &str =
-    "1795f7cd-3bdd-4727-85e4-d78ed1489130";
+    "17ed9314-3bf0-49e1-9222-3cb1276b6fc9";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_SIGNATURE_UUID: &str =
-    "74532420-64d5-4e0e-919c-2eaaf8c4eec5";
+    "2c6d3b9d-d852-43bf-b979-8e544e281a31";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_INVALIDATION_UUID: &str =
-    "2ecb4a2b-eb94-4544-9ab4-c11e98dac801";
+    "fd8a1a55-9384-4c8c-8e96-1c50c0a61e04";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_CARRIER: &str = "b5bcd03ec28ed99a0cdeb028a2a0db21efe8313d";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_IMPLEMENTATION: &str =
     "b5443f4dbc0a7469933e1ddcac5cd8d7b8901252";
@@ -53,6 +53,10 @@ pub const B1_CDRIVE_WORKTREE_PREPARATION_BRANCH: &str =
     "refs/heads/codex/swa05-b1-cdrive-preflight-b5bcd03e";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_SCRATCH: &str =
     "C:\\Project\\CantorWorktrees\\swa05_b1_cdrive_preflight_b5bcd03e";
+pub const B1_CDRIVE_WORKTREE_PREPARATION_HOOK_QUARANTINE: &str =
+    "C:\\Project\\CantorWorktrees\\swa05_b1_cdrive_preflight_b5bcd03e\\hook-quarantine";
+pub const B1_CDRIVE_WORKTREE_PREPARATION_ATTRIBUTE_QUARANTINE: &str =
+    "C:\\Project\\CantorWorktrees\\swa05_b1_cdrive_preflight_b5bcd03e\\attribute-quarantine";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_GIT: &str = "C:\\Program Files\\Git\\cmd\\git.exe";
 pub const B1_CDRIVE_WORKTREE_PREPARATION_GIT_SHA256: &str =
     "81EF35AE005CA9318018D18E3327578CE939FB99FEAAD6B2D7C8AB15F3DE8DB5";
@@ -68,6 +72,10 @@ const ALLOWED_SENTINEL_SHA256: &str =
     "BE8C5B7129F046B3B6A3E290DC3E352810E13C40906E98122E99F66DEEE2312C";
 const DENIED_SENTINEL_SHA256: &str =
     "19992D428A24A764DBD744B1C06AFACB7A1379DDAD8CEE0095D5071940E002A3";
+const EMPTY_SHA256: &str = "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855";
+const CARRIER_GITATTRIBUTES_BLOB: &str = "9dd384ba9cb5cb1008b666ec9591d34ba3c618a3";
+const CARRIER_GITATTRIBUTES_SHA256: &str =
+    "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA";
 const MAX_JSON_DEPTH: usize = 32;
 const MAX_JSON_FIELDS: usize = 256;
 const MAX_ARTIFACT_BYTES: u64 = 16 * 1024 * 1024;
@@ -79,7 +87,7 @@ const PROCESS_DEADLINE_MILLIS: u64 = 30_000;
 const GIT_PATH: &str = "C:\\Program Files\\Git\\cmd;C:\\Windows\\System32;C:\\Windows";
 const PATHEXT: &str = ".COM;.EXE;.BAT;.CMD";
 const SIMULATION_RECEIPT_DIGEST_DOMAIN: &[u8] =
-    b"cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-receipt/0.3\0";
+    b"cantor-self-work-update-broker-b1-cdrive-linked-worktree-preparation-simulation-receipt/0.4\0";
 const EXACT_ARTIFACT_NAMES: [&str; 7] = [
     "consequences.json",
     "plan.json",
@@ -152,6 +160,8 @@ pub struct CDriveWorktreePreparationRequest {
     pub evidence_root: String,
     pub temp_root: String,
     pub codex_home: String,
+    pub hook_quarantine_root: String,
+    pub attribute_quarantine_file: String,
     pub branch_ref: String,
     pub git_executable: String,
     pub git_executable_bytes: u64,
@@ -180,6 +190,11 @@ pub struct PreparationLocalGateObservation {
     pub parent_is_canonical_directory: bool,
     pub parent_is_reparse_point: bool,
     pub scratch_root_absent: bool,
+    pub hook_quarantine_root: String,
+    pub attribute_quarantine_file: String,
+    pub hook_quarantine_root_absent: bool,
+    pub attribute_quarantine_file_absent: bool,
+    pub repository_info_attributes_absent: bool,
     pub branch_ref_absent: bool,
     pub carrier_commit: String,
     pub implementation_commit: String,
@@ -191,6 +206,15 @@ pub struct PreparationLocalGateObservation {
     pub carrier_ancestor_of_implementation: bool,
     pub implementation_immediate_parent_of_bookend: bool,
     pub bookend_ancestor_of_current_commit: bool,
+    pub carrier_tracked_entry_count: u32,
+    pub carrier_mode_100644_count: u32,
+    pub carrier_other_mode_count: u32,
+    pub carrier_attributes_file_count: u16,
+    pub carrier_gitattributes_blob: String,
+    pub carrier_gitattributes_bytes: u64,
+    pub carrier_gitattributes_sha256: String,
+    pub carrier_filter_assignment_count: u32,
+    pub carrier_gitmodules_absent: bool,
     pub git_executable: String,
     pub git_executable_bytes: u64,
     pub git_executable_sha256: String,
@@ -237,6 +261,7 @@ pub struct CDriveWorktreePreparationPlan {
     pub children: Vec<PreparationChildSpec>,
     pub physical_execution_authorized: bool,
     pub planned_directory_creations: u16,
+    pub planned_regular_file_creations: u16,
     pub planned_branch_ref_mutations: u16,
     pub planned_worktree_metadata_mutations: u16,
     pub planned_checkout_file_count: u32,
@@ -274,10 +299,23 @@ pub struct PreparationStateProjection {
     pub evidence_root: String,
     pub temp_root: String,
     pub codex_home: String,
+    pub hook_quarantine_root: String,
+    pub attribute_quarantine_file: String,
     pub branch_ref: String,
     pub carrier_commit: String,
     pub carrier_tracked_file_count: u32,
     pub carrier_tracked_bytes: u64,
+    pub carrier_mode_100644_count: u32,
+    pub carrier_other_mode_count: u32,
+    pub carrier_attributes_file_count: u16,
+    pub carrier_gitattributes_blob: String,
+    pub carrier_gitattributes_bytes: u64,
+    pub carrier_gitattributes_sha256: String,
+    pub carrier_filter_assignment_count: u32,
+    pub carrier_gitmodules_absent: bool,
+    pub repository_info_attributes_expected_absent: bool,
+    pub hook_quarantine_expected_empty: bool,
+    pub attribute_quarantine_expected_empty: bool,
     pub allowed_sentinel_sha256: String,
     pub denied_sentinel_sha256: String,
     pub write_canary_expected_absent: bool,
@@ -296,16 +334,29 @@ pub struct PreparationFilesystemObservation {
     pub evidence_root: String,
     pub temp_root: String,
     pub codex_home: String,
+    pub hook_quarantine_root: String,
+    pub attribute_quarantine_file: String,
     pub scratch_present: bool,
     pub candidate_present: bool,
     pub evidence_present: bool,
     pub temp_present: bool,
     pub codex_home_present: bool,
+    pub hook_quarantine_present: bool,
+    pub hook_quarantine_is_directory: bool,
+    pub hook_quarantine_is_reparse_point: bool,
+    pub hook_quarantine_entry_count: u32,
+    pub attribute_quarantine_present: bool,
+    pub attribute_quarantine_is_regular_file: bool,
+    pub attribute_quarantine_is_reparse_point: bool,
+    pub attribute_quarantine_bytes: u64,
+    pub attribute_quarantine_sha256: String,
+    pub repository_info_attributes_absent: bool,
     pub roles_pairwise_disjoint: bool,
     pub roles_strict_scratch_descendants: bool,
     pub principal_strictly_nonoverlapping: bool,
     pub same_selected_volume: bool,
     pub directory_creation_count: u16,
+    pub regular_file_creation_count: u16,
     pub other_path_effect_count: u32,
     pub principal_worktree_file_mutation_count: u32,
     pub candidate_post_checkout_authorship_count: u32,
@@ -369,6 +420,7 @@ pub struct PreparationOutcomeAccount {
     pub reserved_root_contact: bool,
     pub reserved_ref_contact: bool,
     pub actual_directory_creations: u16,
+    pub actual_regular_file_creations: u16,
     pub actual_branch_ref_mutations: u16,
     pub actual_worktree_metadata_mutations: u16,
     pub actual_checkout_file_count: u32,
@@ -390,10 +442,12 @@ pub struct PreparationOutcomeAccount {
 #[serde(deny_unknown_fields)]
 pub struct PreparationSimulationConsequences {
     pub planned_directory_creations: u16,
+    pub planned_regular_file_creations: u16,
     pub planned_branch_ref_mutations: u16,
     pub planned_worktree_metadata_mutations: u16,
     pub planned_checkout_file_count: u32,
     pub actual_directory_creations: u16,
+    pub actual_regular_file_creations: u16,
     pub actual_branch_ref_mutations: u16,
     pub actual_worktree_metadata_mutations: u16,
     pub actual_checkout_file_count: u32,
@@ -676,6 +730,9 @@ pub fn compile_cdrive_worktree_preparation_plan(
         .iter()
         .any(|item| !has_closed_process_contract(item))
         || children.iter().filter(|item| item.mutating).count() != 1
+        || children
+            .iter()
+            .any(|item| !item.arguments.starts_with(&git_configuration_prefix()))
         || children[3].expected_stdout_lines != vec![request.expected_current_commit.clone(); 3]
         || children
             .iter()
@@ -694,7 +751,8 @@ pub fn compile_cdrive_worktree_preparation_plan(
         expected_current_commit: request.expected_current_commit.clone(),
         children,
         physical_execution_authorized: false,
-        planned_directory_creations: 4,
+        planned_directory_creations: 5,
+        planned_regular_file_creations: 1,
         planned_branch_ref_mutations: 1,
         planned_worktree_metadata_mutations: 1,
         planned_checkout_file_count: 4_416,
@@ -906,6 +964,11 @@ pub fn validate_cdrive_worktree_preparation_local_gate(
         && observation.parent_is_canonical_directory
         && !observation.parent_is_reparse_point
         && observation.scratch_root_absent
+        && observation.hook_quarantine_root == request.hook_quarantine_root
+        && observation.attribute_quarantine_file == request.attribute_quarantine_file
+        && observation.hook_quarantine_root_absent
+        && observation.attribute_quarantine_file_absent
+        && observation.repository_info_attributes_absent
         && observation.branch_ref_absent
         && observation.carrier_commit == request.carrier_commit
         && observation.implementation_commit == request.implementation_commit
@@ -917,6 +980,15 @@ pub fn validate_cdrive_worktree_preparation_local_gate(
         && observation.carrier_ancestor_of_implementation
         && observation.implementation_immediate_parent_of_bookend
         && observation.bookend_ancestor_of_current_commit
+        && observation.carrier_tracked_entry_count == 4_416
+        && observation.carrier_mode_100644_count == 4_416
+        && observation.carrier_other_mode_count == 0
+        && observation.carrier_attributes_file_count == 1
+        && observation.carrier_gitattributes_blob == CARRIER_GITATTRIBUTES_BLOB
+        && observation.carrier_gitattributes_bytes == 185
+        && observation.carrier_gitattributes_sha256 == CARRIER_GITATTRIBUTES_SHA256
+        && observation.carrier_filter_assignment_count == 0
+        && observation.carrier_gitmodules_absent
         && observation.git_executable == request.git_executable
         && observation.git_executable_bytes == request.git_executable_bytes
         && observation.git_executable_sha256 == request.git_executable_sha256
@@ -949,7 +1021,8 @@ pub fn validate_cdrive_worktree_preparation_outcome(
         && outcome.d_drive_contact_count == 0
         && outcome.wsl_compile_count == 0
         && outcome.cleanup_count == 0;
-    let counts_bounded = outcome.actual_directory_creations <= 4
+    let counts_bounded = outcome.actual_directory_creations <= 5
+        && outcome.actual_regular_file_creations <= 1
         && outcome.actual_branch_ref_mutations <= 1
         && outcome.actual_worktree_metadata_mutations <= 1
         && outcome.actual_checkout_file_count <= 4_416;
@@ -963,6 +1036,7 @@ pub fn validate_cdrive_worktree_preparation_outcome(
                 && !outcome.reserved_root_contact
                 && !outcome.reserved_ref_contact
                 && outcome.actual_directory_creations == 0
+                && outcome.actual_regular_file_creations == 0
                 && outcome.actual_branch_ref_mutations == 0
                 && outcome.actual_worktree_metadata_mutations == 0
                 && outcome.actual_checkout_file_count == 0
@@ -987,7 +1061,8 @@ pub fn validate_cdrive_worktree_preparation_outcome(
                 && outcome.retained_state
                 && outcome.reserved_root_contact
                 && outcome.reserved_ref_contact
-                && outcome.actual_directory_creations == 4
+                && outcome.actual_directory_creations == 5
+                && outcome.actual_regular_file_creations == 1
                 && outcome.actual_branch_ref_mutations == 1
                 && outcome.actual_worktree_metadata_mutations == 1
                 && outcome.actual_checkout_file_count == 4_416
@@ -1030,16 +1105,29 @@ pub fn validate_cdrive_worktree_prepared_observations(
         && filesystem.evidence_root == request.evidence_root
         && filesystem.temp_root == request.temp_root
         && filesystem.codex_home == request.codex_home
+        && filesystem.hook_quarantine_root == request.hook_quarantine_root
+        && filesystem.attribute_quarantine_file == request.attribute_quarantine_file
         && filesystem.scratch_present
         && filesystem.candidate_present
         && filesystem.evidence_present
         && filesystem.temp_present
         && filesystem.codex_home_present
+        && filesystem.hook_quarantine_present
+        && filesystem.hook_quarantine_is_directory
+        && !filesystem.hook_quarantine_is_reparse_point
+        && filesystem.hook_quarantine_entry_count == 0
+        && filesystem.attribute_quarantine_present
+        && filesystem.attribute_quarantine_is_regular_file
+        && !filesystem.attribute_quarantine_is_reparse_point
+        && filesystem.attribute_quarantine_bytes == 0
+        && filesystem.attribute_quarantine_sha256 == EMPTY_SHA256
+        && filesystem.repository_info_attributes_absent
         && filesystem.roles_pairwise_disjoint
         && filesystem.roles_strict_scratch_descendants
         && filesystem.principal_strictly_nonoverlapping
         && filesystem.same_selected_volume
-        && filesystem.directory_creation_count == 4
+        && filesystem.directory_creation_count == 5
+        && filesystem.regular_file_creation_count == 1
         && filesystem.other_path_effect_count == 0
         && filesystem.principal_worktree_file_mutation_count == 0
         && filesystem.candidate_post_checkout_authorship_count == 0
@@ -1173,6 +1261,8 @@ fn validate_request(
         && request.evidence_root == format!("{scratch}\\evidence")
         && request.temp_root == format!("{scratch}\\temp")
         && request.codex_home == format!("{scratch}\\codex-home")
+        && request.hook_quarantine_root == B1_CDRIVE_WORKTREE_PREPARATION_HOOK_QUARANTINE
+        && request.attribute_quarantine_file == B1_CDRIVE_WORKTREE_PREPARATION_ATTRIBUTE_QUARANTINE
         && request.branch_ref == B1_CDRIVE_WORKTREE_PREPARATION_BRANCH
         && request.git_executable == B1_CDRIVE_WORKTREE_PREPARATION_GIT
         && request.git_executable_bytes == 46_480
@@ -1243,11 +1333,13 @@ fn child(
     allowed_exit_codes: Vec<i32>,
     mutating: bool,
 ) -> PreparationChildSpec {
+    let mut exact_arguments = git_configuration_prefix();
+    exact_arguments.extend(arguments.into_iter().map(str::to_owned));
     PreparationChildSpec {
         sequence,
         operation: operation.to_owned(),
         executable: B1_CDRIVE_WORKTREE_PREPARATION_GIT.to_owned(),
-        arguments: arguments.into_iter().map(str::to_owned).collect(),
+        arguments: exact_arguments,
         expected_stdout_lines: Vec::new(),
         allowed_exit_codes,
         mutating,
@@ -1268,12 +1360,34 @@ fn child(
     }
 }
 
+fn git_configuration_prefix() -> Vec<String> {
+    [
+        "-c".to_owned(),
+        format!("core.hooksPath={B1_CDRIVE_WORKTREE_PREPARATION_HOOK_QUARANTINE}"),
+        "-c".to_owned(),
+        "core.fsmonitor=false".to_owned(),
+        "-c".to_owned(),
+        format!("core.attributesFile={B1_CDRIVE_WORKTREE_PREPARATION_ATTRIBUTE_QUARANTINE}"),
+        "-c".to_owned(),
+        "maintenance.auto=false".to_owned(),
+        "-c".to_owned(),
+        "gc.auto=0".to_owned(),
+        "-c".to_owned(),
+        "protocol.file.allow=never".to_owned(),
+    ]
+    .into_iter()
+    .collect()
+}
+
 fn closed_environment() -> Vec<PreparationEnvironmentEntry> {
     let scratch = B1_CDRIVE_WORKTREE_PREPARATION_SCRATCH;
     [
         ("GIT_ASKPASS", "NUL".to_owned()),
+        ("GIT_ATTR_NOSYSTEM", "1".to_owned()),
         ("GIT_CONFIG_GLOBAL", "NUL".to_owned()),
         ("GIT_CONFIG_NOSYSTEM", "1".to_owned()),
+        ("GIT_NO_LAZY_FETCH", "1".to_owned()),
+        ("GIT_OPTIONAL_LOCKS", "0".to_owned()),
         ("GIT_TERMINAL_PROMPT", "0".to_owned()),
         ("HOME", format!("{scratch}\\codex-home")),
         ("PATH", GIT_PATH.to_owned()),
@@ -1365,10 +1479,23 @@ fn expected_projection(request: &CDriveWorktreePreparationRequest) -> Preparatio
         evidence_root: request.evidence_root.clone(),
         temp_root: request.temp_root.clone(),
         codex_home: request.codex_home.clone(),
+        hook_quarantine_root: request.hook_quarantine_root.clone(),
+        attribute_quarantine_file: request.attribute_quarantine_file.clone(),
         branch_ref: request.branch_ref.clone(),
         carrier_commit: request.carrier_commit.clone(),
         carrier_tracked_file_count: 4_416,
         carrier_tracked_bytes: 31_972_357,
+        carrier_mode_100644_count: 4_416,
+        carrier_other_mode_count: 0,
+        carrier_attributes_file_count: 1,
+        carrier_gitattributes_blob: CARRIER_GITATTRIBUTES_BLOB.to_owned(),
+        carrier_gitattributes_bytes: 185,
+        carrier_gitattributes_sha256: CARRIER_GITATTRIBUTES_SHA256.to_owned(),
+        carrier_filter_assignment_count: 0,
+        carrier_gitmodules_absent: true,
+        repository_info_attributes_expected_absent: true,
+        hook_quarantine_expected_empty: true,
+        attribute_quarantine_expected_empty: true,
         allowed_sentinel_sha256: ALLOWED_SENTINEL_SHA256.to_owned(),
         denied_sentinel_sha256: DENIED_SENTINEL_SHA256.to_owned(),
         write_canary_expected_absent: true,
@@ -1384,10 +1511,12 @@ fn expected_simulation_consequences(
 ) -> PreparationSimulationConsequences {
     PreparationSimulationConsequences {
         planned_directory_creations: plan.planned_directory_creations,
+        planned_regular_file_creations: plan.planned_regular_file_creations,
         planned_branch_ref_mutations: plan.planned_branch_ref_mutations,
         planned_worktree_metadata_mutations: plan.planned_worktree_metadata_mutations,
         planned_checkout_file_count: plan.planned_checkout_file_count,
         actual_directory_creations: 0,
+        actual_regular_file_creations: 0,
         actual_branch_ref_mutations: 0,
         actual_worktree_metadata_mutations: 0,
         actual_checkout_file_count: 0,

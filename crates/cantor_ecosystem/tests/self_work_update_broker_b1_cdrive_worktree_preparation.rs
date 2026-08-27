@@ -6,12 +6,13 @@ use std::{
 };
 
 use cantor_ecosystem::{
-    B1_CDRIVE_WORKTREE_PREPARATION_BOOKEND, B1_CDRIVE_WORKTREE_PREPARATION_BRANCH,
-    B1_CDRIVE_WORKTREE_PREPARATION_CARRIER, B1_CDRIVE_WORKTREE_PREPARATION_EVIDENCE_PROFILE,
+    B1_CDRIVE_WORKTREE_PREPARATION_ATTRIBUTE_QUARANTINE, B1_CDRIVE_WORKTREE_PREPARATION_BOOKEND,
+    B1_CDRIVE_WORKTREE_PREPARATION_BRANCH, B1_CDRIVE_WORKTREE_PREPARATION_CARRIER,
+    B1_CDRIVE_WORKTREE_PREPARATION_EVIDENCE_PROFILE,
     B1_CDRIVE_WORKTREE_PREPARATION_FILESYSTEM_PROFILE, B1_CDRIVE_WORKTREE_PREPARATION_GIT,
     B1_CDRIVE_WORKTREE_PREPARATION_GIT_OBSERVATION_PROFILE,
     B1_CDRIVE_WORKTREE_PREPARATION_GIT_SHA256, B1_CDRIVE_WORKTREE_PREPARATION_GIT_VERSION,
-    B1_CDRIVE_WORKTREE_PREPARATION_IMPLEMENTATION,
+    B1_CDRIVE_WORKTREE_PREPARATION_HOOK_QUARANTINE, B1_CDRIVE_WORKTREE_PREPARATION_IMPLEMENTATION,
     B1_CDRIVE_WORKTREE_PREPARATION_INVALIDATION_UUID,
     B1_CDRIVE_WORKTREE_PREPARATION_LOCAL_GATE_PROFILE,
     B1_CDRIVE_WORKTREE_PREPARATION_OUTCOME_PROFILE, B1_CDRIVE_WORKTREE_PREPARATION_PROOF_PROFILE,
@@ -39,7 +40,7 @@ use serde_json::Value;
 use sha2::{Digest, Sha256};
 
 static NEXT_FIXTURE: AtomicU64 = AtomicU64::new(1);
-const TEST_EXPECTED_CURRENT_COMMIT: &str = "227e08cac240448be3ecd605c08512949eaaa753";
+const TEST_EXPECTED_CURRENT_COMMIT: &str = "b07a273c0b780fc4b08eccf9ea55472616362c9e";
 const HISTORICAL_PROOF_BYTES: &[u8] = include_bytes!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/../../experiments/self_work_update_broker_b1_cdrive_linked_worktree_preparation_p0_revision_0_3/supervising_publication_proof.json"
@@ -162,6 +163,8 @@ fn request(proof_bytes: &[u8]) -> CDriveWorktreePreparationRequest {
         evidence_root: format!("{scratch}\\evidence"),
         temp_root: format!("{scratch}\\temp"),
         codex_home: format!("{scratch}\\codex-home"),
+        hook_quarantine_root: B1_CDRIVE_WORKTREE_PREPARATION_HOOK_QUARANTINE.to_owned(),
+        attribute_quarantine_file: B1_CDRIVE_WORKTREE_PREPARATION_ATTRIBUTE_QUARANTINE.to_owned(),
         branch_ref: B1_CDRIVE_WORKTREE_PREPARATION_BRANCH.to_owned(),
         git_executable: B1_CDRIVE_WORKTREE_PREPARATION_GIT.to_owned(),
         git_executable_bytes: 46_480,
@@ -190,6 +193,11 @@ fn local_gate(request: &CDriveWorktreePreparationRequest) -> PreparationLocalGat
         parent_is_canonical_directory: true,
         parent_is_reparse_point: false,
         scratch_root_absent: true,
+        hook_quarantine_root: request.hook_quarantine_root.clone(),
+        attribute_quarantine_file: request.attribute_quarantine_file.clone(),
+        hook_quarantine_root_absent: true,
+        attribute_quarantine_file_absent: true,
+        repository_info_attributes_absent: true,
         branch_ref_absent: true,
         carrier_commit: request.carrier_commit.clone(),
         implementation_commit: request.implementation_commit.clone(),
@@ -201,6 +209,16 @@ fn local_gate(request: &CDriveWorktreePreparationRequest) -> PreparationLocalGat
         carrier_ancestor_of_implementation: true,
         implementation_immediate_parent_of_bookend: true,
         bookend_ancestor_of_current_commit: true,
+        carrier_tracked_entry_count: 4_416,
+        carrier_mode_100644_count: 4_416,
+        carrier_other_mode_count: 0,
+        carrier_attributes_file_count: 1,
+        carrier_gitattributes_blob: "9dd384ba9cb5cb1008b666ec9591d34ba3c618a3".to_owned(),
+        carrier_gitattributes_bytes: 185,
+        carrier_gitattributes_sha256:
+            "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA".to_owned(),
+        carrier_filter_assignment_count: 0,
+        carrier_gitmodules_absent: true,
         git_executable: request.git_executable.clone(),
         git_executable_bytes: request.git_executable_bytes,
         git_executable_sha256: request.git_executable_sha256.clone(),
@@ -225,6 +243,7 @@ fn outcome(disposition: PreparationOutcomeDisposition) -> PreparationOutcomeAcco
         reserved_root_contact: false,
         reserved_ref_contact: false,
         actual_directory_creations: 0,
+        actual_regular_file_creations: 0,
         actual_branch_ref_mutations: 0,
         actual_worktree_metadata_mutations: 0,
         actual_checkout_file_count: 0,
@@ -258,7 +277,8 @@ fn outcome(disposition: PreparationOutcomeDisposition) -> PreparationOutcomeAcco
             account.retained_state = true;
             account.reserved_root_contact = true;
             account.reserved_ref_contact = true;
-            account.actual_directory_creations = 4;
+            account.actual_directory_creations = 5;
+            account.actual_regular_file_creations = 1;
             account.actual_branch_ref_mutations = 1;
             account.actual_worktree_metadata_mutations = 1;
             account.actual_checkout_file_count = 4_416;
@@ -277,16 +297,30 @@ fn filesystem(request: &CDriveWorktreePreparationRequest) -> PreparationFilesyst
         evidence_root: request.evidence_root.clone(),
         temp_root: request.temp_root.clone(),
         codex_home: request.codex_home.clone(),
+        hook_quarantine_root: request.hook_quarantine_root.clone(),
+        attribute_quarantine_file: request.attribute_quarantine_file.clone(),
         scratch_present: true,
         candidate_present: true,
         evidence_present: true,
         temp_present: true,
         codex_home_present: true,
+        hook_quarantine_present: true,
+        hook_quarantine_is_directory: true,
+        hook_quarantine_is_reparse_point: false,
+        hook_quarantine_entry_count: 0,
+        attribute_quarantine_present: true,
+        attribute_quarantine_is_regular_file: true,
+        attribute_quarantine_is_reparse_point: false,
+        attribute_quarantine_bytes: 0,
+        attribute_quarantine_sha256:
+            "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855".to_owned(),
+        repository_info_attributes_absent: true,
         roles_pairwise_disjoint: true,
         roles_strict_scratch_descendants: true,
         principal_strictly_nonoverlapping: true,
         same_selected_volume: true,
-        directory_creation_count: 4,
+        directory_creation_count: 5,
+        regular_file_creation_count: 1,
         other_path_effect_count: 0,
         principal_worktree_file_mutation_count: 0,
         candidate_post_checkout_authorship_count: 0,
@@ -483,8 +517,11 @@ fn exact_plan_has_twelve_local_children_and_one_modeled_effect() {
     assert!(plan.children.iter().all(|child| !child.network));
     let expected_environment_names = [
         "GIT_ASKPASS",
+        "GIT_ATTR_NOSYSTEM",
         "GIT_CONFIG_GLOBAL",
         "GIT_CONFIG_NOSYSTEM",
+        "GIT_NO_LAZY_FETCH",
+        "GIT_OPTIONAL_LOCKS",
         "GIT_TERMINAL_PROMPT",
         "HOME",
         "PATH",
@@ -494,8 +531,27 @@ fn exact_plan_has_twelve_local_children_and_one_modeled_effect() {
         "TMP",
         "WINDIR",
     ];
+    let expected_git_configuration_prefix = vec![
+        "-c".to_owned(),
+        format!("core.hooksPath={B1_CDRIVE_WORKTREE_PREPARATION_HOOK_QUARANTINE}"),
+        "-c".to_owned(),
+        "core.fsmonitor=false".to_owned(),
+        "-c".to_owned(),
+        format!("core.attributesFile={B1_CDRIVE_WORKTREE_PREPARATION_ATTRIBUTE_QUARANTINE}"),
+        "-c".to_owned(),
+        "maintenance.auto=false".to_owned(),
+        "-c".to_owned(),
+        "gc.auto=0".to_owned(),
+        "-c".to_owned(),
+        "protocol.file.allow=never".to_owned(),
+    ];
     for child in &plan.children {
         assert_eq!(child.executable, B1_CDRIVE_WORKTREE_PREPARATION_GIT);
+        assert!(
+            child
+                .arguments
+                .starts_with(&expected_git_configuration_prefix)
+        );
         assert!(child.environment_clear_first);
         assert_eq!(
             child
@@ -505,6 +561,13 @@ fn exact_plan_has_twelve_local_children_and_one_modeled_effect() {
                 .collect::<Vec<_>>(),
             expected_environment_names
         );
+        assert_eq!(child.environment[0].value, "NUL");
+        assert_eq!(child.environment[1].value, "1");
+        assert_eq!(child.environment[2].value, "NUL");
+        assert_eq!(child.environment[3].value, "1");
+        assert_eq!(child.environment[4].value, "1");
+        assert_eq!(child.environment[5].value, "0");
+        assert_eq!(child.environment[6].value, "0");
         assert!(child.stdin_closed);
         assert_eq!(child.maximum_stdout_bytes, 1_048_576);
         assert_eq!(child.maximum_stderr_bytes, 1_048_576);
@@ -521,7 +584,25 @@ fn exact_plan_has_twelve_local_children_and_one_modeled_effect() {
     assert_eq!(plan.maximum_stream_bytes, 1_048_576);
     assert_eq!(plan.maximum_total_process_bytes, 4_194_304);
     assert_eq!(plan.total_deadline_millis, 30_000);
+    assert_eq!(plan.planned_directory_creations, 5);
+    assert_eq!(plan.planned_regular_file_creations, 1);
     assert_eq!(plan.children[5].operation, "worktree_add");
+    let mut expected_worktree_add_arguments = expected_git_configuration_prefix;
+    expected_worktree_add_arguments.extend(
+        [
+            "-C",
+            "C:\\Project\\Cantor",
+            "worktree",
+            "add",
+            "-b",
+            "codex/swa05-b1-cdrive-preflight-b5bcd03e",
+            "C:\\Project\\CantorWorktrees\\swa05_b1_cdrive_preflight_b5bcd03e\\candidate",
+            B1_CDRIVE_WORKTREE_PREPARATION_CARRIER,
+        ]
+        .into_iter()
+        .map(str::to_owned),
+    );
+    assert_eq!(plan.children[5].arguments, expected_worktree_add_arguments);
     assert_eq!(plan.expected_current_commit, TEST_EXPECTED_CURRENT_COMMIT);
     assert_eq!(
         plan.children[3].expected_stdout_lines,
@@ -644,6 +725,22 @@ fn physical_authority_and_publication_proof_mutations_refuse() {
             .code,
         CDriveWorktreePreparationFaultCode::Request
     );
+    let mut hook_alias = request(historical_proof_bytes());
+    hook_alias.hook_quarantine_root.push_str("-alias");
+    assert_eq!(
+        compile_cdrive_worktree_preparation_plan(&hook_alias, &proof)
+            .unwrap_err()
+            .code,
+        CDriveWorktreePreparationFaultCode::Request
+    );
+    let mut attribute_alias = request(historical_proof_bytes());
+    attribute_alias.attribute_quarantine_file.push_str("-alias");
+    assert_eq!(
+        compile_cdrive_worktree_preparation_plan(&attribute_alias, &proof)
+            .unwrap_err()
+            .code,
+        CDriveWorktreePreparationFaultCode::Request
+    );
 }
 
 #[test]
@@ -675,6 +772,35 @@ fn duplicate_request_and_plan_reorder_refuse_after_rehash() {
 }
 
 #[test]
+fn every_git_configuration_pair_and_new_environment_entry_refuses_drift() {
+    let fixture = Fixture::new();
+    for argument_index in [1usize, 3, 5, 7, 9, 11] {
+        fixture.build();
+        let mut plan = fixture.value("plan.json");
+        plan["children"][0]["arguments"][argument_index] = Value::String("mutated".to_owned());
+        fixture.write_value("plan.json", &plan);
+        assert_fault(&fixture.root, CDriveWorktreePreparationFaultCode::Plan);
+    }
+    fixture.build();
+    let mut plan = fixture.value("plan.json");
+    plan["children"][0]["arguments"]
+        .as_array_mut()
+        .unwrap()
+        .swap(0, 1);
+    fixture.write_value("plan.json", &plan);
+    assert_fault(&fixture.root, CDriveWorktreePreparationFaultCode::Plan);
+
+    for environment_index in [1usize, 4, 5] {
+        fixture.build();
+        let mut plan = fixture.value("plan.json");
+        plan["children"][0]["environment"][environment_index]["value"] =
+            Value::String("mutated".to_owned());
+        fixture.write_value("plan.json", &plan);
+        assert_fault(&fixture.root, CDriveWorktreePreparationFaultCode::Plan);
+    }
+}
+
+#[test]
 fn process_projection_and_consequence_mutations_refuse() {
     let fixture = Fixture::new();
     fixture.build();
@@ -685,6 +811,14 @@ fn process_projection_and_consequence_mutations_refuse() {
     fixture.build();
     let mut projection = fixture.value("projection.json");
     projection["reserved_root_contact"] = Value::Bool(true);
+    fixture.write_value("projection.json", &projection);
+    assert_fault(
+        &fixture.root,
+        CDriveWorktreePreparationFaultCode::Projection,
+    );
+    fixture.build();
+    let mut projection = fixture.value("projection.json");
+    projection["carrier_filter_assignment_count"] = Value::from(1);
     fixture.write_value("projection.json", &projection);
     assert_fault(
         &fixture.root,
@@ -736,8 +870,15 @@ fn local_gate_strict_form_and_every_current_identity_refuse_drift() {
         from_cdrive_worktree_preparation_local_gate_machine_form(&machine).unwrap(),
         gate
     );
-    let mutations: [fn(&mut PreparationLocalGateObservation); 10] = [
+    let mutations: [fn(&mut PreparationLocalGateObservation); 24] = [
         |gate: &mut PreparationLocalGateObservation| gate.scratch_root_absent = false,
+        |gate: &mut PreparationLocalGateObservation| gate.hook_quarantine_root.push_str("-alias"),
+        |gate: &mut PreparationLocalGateObservation| {
+            gate.attribute_quarantine_file.push_str("-alias")
+        },
+        |gate: &mut PreparationLocalGateObservation| gate.hook_quarantine_root_absent = false,
+        |gate: &mut PreparationLocalGateObservation| gate.attribute_quarantine_file_absent = false,
+        |gate: &mut PreparationLocalGateObservation| gate.repository_info_attributes_absent = false,
         |gate: &mut PreparationLocalGateObservation| gate.branch_ref_absent = false,
         |gate: &mut PreparationLocalGateObservation| gate.expected_current_commit = "4".repeat(40),
         |gate: &mut PreparationLocalGateObservation| gate.local_head = "4".repeat(40),
@@ -746,6 +887,19 @@ fn local_gate_strict_form_and_every_current_identity_refuse_drift() {
         |gate: &mut PreparationLocalGateObservation| {
             gate.bookend_ancestor_of_current_commit = false
         },
+        |gate: &mut PreparationLocalGateObservation| gate.carrier_tracked_entry_count = 4_415,
+        |gate: &mut PreparationLocalGateObservation| gate.carrier_mode_100644_count = 4_415,
+        |gate: &mut PreparationLocalGateObservation| gate.carrier_other_mode_count = 1,
+        |gate: &mut PreparationLocalGateObservation| gate.carrier_attributes_file_count = 2,
+        |gate: &mut PreparationLocalGateObservation| {
+            gate.carrier_gitattributes_blob = "0".repeat(40)
+        },
+        |gate: &mut PreparationLocalGateObservation| gate.carrier_gitattributes_bytes = 184,
+        |gate: &mut PreparationLocalGateObservation| {
+            gate.carrier_gitattributes_sha256 = "0".repeat(64)
+        },
+        |gate: &mut PreparationLocalGateObservation| gate.carrier_filter_assignment_count = 1,
+        |gate: &mut PreparationLocalGateObservation| gate.carrier_gitmodules_absent = false,
         |gate: &mut PreparationLocalGateObservation| gate.pre_effect_free_bytes = 15_032_385_535,
         |gate: &mut PreparationLocalGateObservation| gate.parent_is_reparse_point = true,
         |gate: &mut PreparationLocalGateObservation| gate.network_contact_count = 1,
@@ -800,6 +954,45 @@ fn not_run_quarantine_and_prepared_accounts_are_disjoint_and_strict() {
         .code,
         CDriveWorktreePreparationFaultCode::Projection
     );
+    let mut hook_residue = filesystem(&request);
+    hook_residue.hook_quarantine_entry_count = 1;
+    assert_eq!(
+        validate_cdrive_worktree_prepared_observations(
+            &request,
+            &hook_residue,
+            &git_observation(&request),
+            &prepared,
+        )
+        .unwrap_err()
+        .code,
+        CDriveWorktreePreparationFaultCode::Projection
+    );
+    let mut attribute_residue = filesystem(&request);
+    attribute_residue.attribute_quarantine_bytes = 1;
+    assert_eq!(
+        validate_cdrive_worktree_prepared_observations(
+            &request,
+            &attribute_residue,
+            &git_observation(&request),
+            &prepared,
+        )
+        .unwrap_err()
+        .code,
+        CDriveWorktreePreparationFaultCode::Projection
+    );
+    let mut info_attributes_drift = filesystem(&request);
+    info_attributes_drift.repository_info_attributes_absent = false;
+    assert_eq!(
+        validate_cdrive_worktree_prepared_observations(
+            &request,
+            &info_attributes_drift,
+            &git_observation(&request),
+            &prepared,
+        )
+        .unwrap_err()
+        .code,
+        CDriveWorktreePreparationFaultCode::Projection
+    );
     let mut pushed = git_observation(&request);
     pushed.push_count = 1;
     assert_eq!(
@@ -825,6 +1018,14 @@ fn not_run_quarantine_and_prepared_accounts_are_disjoint_and_strict() {
     cleaned.cleanup_count = 1;
     assert_eq!(
         validate_cdrive_worktree_preparation_outcome(&request, &cleaned)
+            .unwrap_err()
+            .code,
+        CDriveWorktreePreparationFaultCode::Consequence
+    );
+    let mut omitted_quarantine_file = prepared.clone();
+    omitted_quarantine_file.actual_regular_file_creations = 0;
+    assert_eq!(
+        validate_cdrive_worktree_preparation_outcome(&request, &omitted_quarantine_file)
             .unwrap_err()
             .code,
         CDriveWorktreePreparationFaultCode::Consequence
