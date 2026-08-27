@@ -1,0 +1,26 @@
+Subject: Self Work Update Broker B1 CDrive Production Preparation Commission Proposal P0 Exact Python Shim Launch Fault
+
+@ [fault_uuid] b810eabd-9a6c-4ed0-8385-cd0f2a69b24a
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [observed_at_utc] 2026-08-27T21:41:00.7067712Z
+
+& [Attempt]
+  + launch the exact workspace gate with an inline-created and inline-removed D-drive python3 shim
+
+& [Fault]
+  + host command policy rejected the complex temporary-file creation and cleanup command before process creation
+  + direct python3 resolves to the Windows Store alias and exits 9009 while installed Python 3.12 remains available as python
+
+& [EffectAccount]
+  + Cargo process count zero
+  + temporary shim count zero from the rejected attempt
+  + repository writes zero
+  + proposal runtime effects zero
+
+& [Resolution]
+  + created one explicit D-drive test-only python3.cmd shim through the governed patch path
+  + pinned that shim to C:\Users\enjer\AppData\Local\Programs\Python\Python312\python.exe and verified Python 3.12.10
+  + exact Cargo gates prepend only that shim directory to PATH
+
+& [Boundary]
+  + shim is disposable verification infrastructure on D drive and is not a Cantor product runtime or provider capability

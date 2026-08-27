@@ -1,0 +1,26 @@
+Subject: Self Work Update Broker B1 CDrive Production Preparation Commission Proposal P0 Missing Exact Libtest Stack Fault
+
+@ [fault_uuid] 75cc17fa-06cc-45b0-b5de-675fa036d750
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [observed_at_utc] 2026-08-27T21:58:23.6668782Z
+
+& [Attempt]
+  + run locked offline serialized exact-current-tree workspace debug without the established Windows libtest stack override
+
+& [Fault]
+  + pre-existing succeeding_sop_fixture_rollback commission_forms_refuse_unknown_fields_and_oversize overflowed the default Windows test-thread stack
+  + process exited STATUS_STACK_OVERFLOW 0xc00000fd after all earlier completed groups reported zero failures
+  + this is the governed known deep-machine-form host-stack condition and not a commission-proposal semantic failure
+
+& [Evidence]
+  + failed transcript D:\CantorBuilds\cantor-b1pcp-workspace-debug-exact-20260827T214129Z.log
+  + transcript bytes 139146
+  + transcript SHA256 C0D439110D31ED53D5F5C89470873C5FAA63032175F6A2489F2B33C24E4F0B5C
+
+& [Resolution]
+  + rerun the identical tree and exact locked offline serialized command with RUST_MIN_STACK 8388608
+  + retain the failed transcript rather than laundering it into the later successful receipt
+
+& [Boundary]
+  + production code machine-form bounds and the failing predecessor test remain unchanged
+  + no host-policy bypass provider contact physical preparation cleanup or foreign effect occurred
