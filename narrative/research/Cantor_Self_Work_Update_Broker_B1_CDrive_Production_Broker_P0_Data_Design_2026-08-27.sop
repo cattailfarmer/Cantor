@@ -1,0 +1,53 @@
+Subject: Cantor Self Work Update Broker B1 CDrive Production Broker P0 Data Design
+
+@ [data_design_uuid] da260d23-3b6f-45ca-917c-75dceb3aad4a
+@ [source_snapshot_uuid] d4788c6a-7e02-4866-8729-d4cf76e94259
+@ [canonical_uuid] 0fb58a71-348c-4df3-83bc-33989c826f26
+
+& [RawInputs]
+  + exact upstream proof and producer-plan raw bytes identities remain distinct from parsed canonical values
+  + ExternalCommission OperatorAuthorization BrokerPreparationReceipt Phase3AReplay CapacityObservation LeaseObservation LedgerObservation ExecutionRequest ProcessEvent TranscriptEvent InventoryObservation and OutcomeAccount are strict independent objects
+  + no supplied boolean can construct or serialize the private ExecutionPermit
+
+& [CommissionFields]
+  + commission carries profile UUID issuer subject recovery owner conversation implementation bookend expected-current plan prepared-receipt Phase3A attempt lease ledger evidence issued-at expires-at maximum-attempts retry-count and self-digest
+  + operator authorization carries exact external user coordinate commission digest purpose and independent self-digest
+  + issuer subject and recovery owner remain distinct role coordinates and maximum attempts is one with retry count zero
+
+& [PreparationFields]
+  + receipt binds retained scratch candidate common directory Git directory branch ref plan executable CODEX_HOME temp evidence lease ledger and Unclaimed ledger identities
+  + lease and ledger are pre-existing regular nonlink files beneath scratch with no role overlap
+  + fixed ledger byte length and exact Unclaimed and Claimed canonical encodings are explicit
+
+& [FenceState]
+  + states are InputsValidated LeaseHeld StateReobserved ConsumptionClaimed PermitIssued ChildrenRunning EvidenceRetained CommissionConsumed LeaseReleased Complete plus NotRun and Quarantined terminals
+  + transitions are monotonic and each carries sequence prior-state digest observation digest and effect account
+  + only ConsumptionClaimed after successful durable reread can transition to PermitIssued
+  + PermitIssued is private nonserializable nonclone and consumed exactly once by the contained backend
+
+& [ContainmentFields]
+  + ChildSpec carries sequence kind executable argv cwd sorted environment stdin mode stdout stderr timeout maximum active maximum total and expected exit policy
+  + JobEvent carries job created limit set process suspended assign result resume prior count wait result exit code active process count total process count termination and handle-close account
+  + HandleAccount carries process thread job stdin stdout stderr and attribute-list creation inheritance parent-close and terminal-close booleans
+  + command line preserves exact Windows argv quoting and application name remains separately non-null
+
+& [TranscriptAndInventory]
+  + outbound and incoming frames retain canonical raw bytes direction sequence method request id bounded parameters and response or notification disposition
+  + inventory entries are exact canonical relative path bytes SHA256 and regular nonlink kind sorted unique maximum 8192
+  + pre and post inventory canary executable lease ledger process and transcript consequences are independently joined
+
+& [Bounds]
+  + strict JSON maximum depth 32 fields per object 256 machine-form bytes 2097152 artifacts 32 artifact bytes 16777216 aggregate evidence bytes 67108864
+  + child count 4 transcript frames 12 environment names 7 denied names 16 argv entries 32 inventory entries 8192 process events 128
+  + stdout maximum 16777216 stderr maximum 2097152 line maximum 2097152 total child milliseconds 30000 and total attempt milliseconds 120000
+  + path text command line environment value and fault text lengths are explicitly bounded and NUL CR LF aliases parent traversal and D-drive coordinates refuse according to role
+
+& [DigestDesign]
+  + every request commission preparation observation event transcript outcome and receipt uses a domain-separated self-excluding SHA256 digest
+  + raw nested machine forms must round trip byte-exactly before semantic joins
+  + terminal receipt binds ordered event digests rather than trusting summary counters
+
+& [EffectAccount]
+  + pure formation and implementation fixtures carry every runtime count zero
+  + future physical outcome separately counts lease opens ledger writes flushes reopens job creations process creations resumes terminations output bytes evidence writes and direct plus total processes
+  + provider model MCP network Git history publication persistence activation D-drive WSL cleanup and foreign counts remain zero
