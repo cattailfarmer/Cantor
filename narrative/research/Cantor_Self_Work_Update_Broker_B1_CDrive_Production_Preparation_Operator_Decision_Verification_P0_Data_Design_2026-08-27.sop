@@ -1,0 +1,20 @@
+Subject: Cantor Self Work Update Broker B1 CDrive Production Preparation Operator Decision Verification P0 Data Design
+
+@ [data_design_uuid] a2684c37-f928-4849-a95a-5455131bc244
+
+& [Profiles]
+  + policy profile binds policy UUID principal role subject key hex key fingerprint governance reference governance digest revocation digest fixture flag and self-digest
+  + request profile binds source canonical formation custody proposal implementation bookend expected current branch remote raw proposal machine form identity policy digest and self-digest
+  + payload profile binds decision UUID request and policy digests decision kind principal role subject purpose issued expiry attempts retry cleanup and self-digest
+  + envelope profile binds payload strict signature hex fixture flag and self-digest
+  + receipt profile binds all input identities cryptographic and proposal correspondence results exact unresolved nonclaims zero effects and self-digest
+
+& [RetainedDirectory]
+  + exact seven files policy.json request.json authorize_decision.json reject_decision.json authorize_verification.json reject_verification.json evidence_manifest.json
+  + six manifest-bound artifacts excluding the manifest
+  + authorize and reject replays use the same immutable policy and request but distinct decision UUID payload digest signature envelope digest status and receipt digest
+
+& [Bounds]
+  + maximum form 1048576 bytes depth 24 total fields 256
+  + verifying key 32 bytes signature 64 bytes after lowercase-hex decoding
+  + one attempt zero retry zero cleanup and exact seven-file membership
