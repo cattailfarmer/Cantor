@@ -1,0 +1,34 @@
+Subject: Cantor Self Work Update Broker B1 CDrive Linked Worktree Preparation P0 Revision 0.4 Threat Review
+
+@ [review_uuid] b1c2969e-554d-45bf-a9b8-80e2fe6f7765
+@ [source_snapshot_uuid] 17ed9314-3bf0-49e1-9222-3cb1276b6fc9
+
+& [Threats]
+  + T01 repository global or system post-checkout hook executes during worktree add
+  + T02 system global Git-dir or tree attributes select an external clean or smudge filter
+  + T03 fsmonitor daemon or hook executes during status or checkout-adjacent reads
+  + T04 promisor-object lazy fetch produces undeclared network contact
+  + T05 automatic maintenance garbage collection or optional locking writes outside the effect account
+  + T06 file protocol transports local data through an unplanned helper
+  + T07 quarantine path alias reparse substitution nonempty content or count laundering
+  + T08 carrier mode attributes submodule or info-attributes drift changes materialization behavior
+  + T09 one child omits reorders or mutates the uniform global configuration prefix
+  + T10 physical runner commission root ref worktree capacity waiver or cleanup is smuggled into provider-only implementation
+
+& [Controls]
+  + exact absolute core.hooksPath to an empty non-reparse directory controls T01
+  + GIT_ATTR_NOSYSTEM core.attributesFile to an empty file absent info attributes and filter-free carrier facts control T02
+  + core.fsmonitor=false controls T03 and GIT_NO_LAZY_FETCH=1 controls T04
+  + maintenance.auto=false gc.auto=0 and GIT_OPTIONAL_LOCKS=0 control T05
+  + protocol.file.allow=never controls T06
+  + canonical path type emptiness SHA256 and explicit directory and file counts control T07
+  + exact carrier mode blob raw-hash filter-count gitmodules and local-gate facts control T08
+  + strict ordered child argv comparison and adversarial mutation of every pair control T09
+  + static effect-surface audit phase lock and unchanged capacity floor control T10
+
+& [Residual]
+  + production process enforcement commission authentication concurrent hostile local mutation and a physical retained attempt remain unimplemented and unauthorized
+  + Windows Application Control and current capacity remain independent physical blockers
+
+& [Decision]
+  + threats_bounded_for_provider_only_revision_0_4_implementation
