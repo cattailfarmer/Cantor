@@ -792,7 +792,8 @@ The second provider-free nested-host seam is now exact-gate complete locally.
 outer envelope and emits only a deterministic proposed inner Cantor lineage.
 Focused debug/release evidence and exact 239-group, 1,469-test workspace gates
 pass with seven distinct identities, ten denials, six unresolved truths, and
-zero effects. Remote publication is pending; model artifact admission/loading,
+zero effects. Implementation `72855c2f83c220c9bc589df497a3389553bf0990`
+is remote equal after post-push replay; model artifact admission/loading,
 launch, custody, shared attention, providers, and physical effects remain
 separate NHC-03 and later contracts.
 

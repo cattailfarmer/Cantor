@@ -92,9 +92,10 @@ debug and overflow-checked release. The exact four-file evidence bundle is
 double-replayed and reports seven identities, ten denials, six unresolved
 truths, five adversarial refusals, and zero effects. Exact locked, offline,
 serialized workspace debug and release each pass 239 result groups and 1,469
-tests with zero failures and 13 governed ignores. Publication and immediate
-post-push replay remain before NHC-02 is marked remote-equal; NHC-03 remains a
-separate source and signature boundary.
+tests with zero failures and 13 governed ignores. Implementation
+`72855c2f83c220c9bc589df497a3389553bf0990` is remote equal after immediate
+post-push focused and recursive replay; NHC-03 remains a separate source and
+signature boundary.
 
 ## SOP-bootable self-working target
 
