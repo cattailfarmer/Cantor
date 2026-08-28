@@ -254,3 +254,10 @@ governance, key custody, revocation, time, live decision, fresh observation,
 private permit, broker projection, and physical preparation. It is a planning
 contract only: no real policy, private key, signature, consent, clock reading,
 host observation, permit, broker call, or physical effect has been supplied.
+
+That ceremony-plan source is now SJS-formed and signed for a provider-free
+compiler and independent verifier only. Nineteen formation artifacts and
+eighteen signature bindings verify exactly; eight roles, nine stages, and nine
+unresolved authorities remain closed with one attempt, zero retry, zero
+cleanup, and zero effects. Formation publication and Rust implementation are
+next; real ceremony inputs remain absent.
