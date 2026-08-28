@@ -38,6 +38,10 @@ const MAX_TEXT_BYTES: usize = 2_048;
 const MAX_EVIDENCE_REFS: usize = 32;
 const MAX_DEPTH: usize = 28;
 const MAX_FIELDS: usize = 384;
+const MAX_CONTEXT_TOKENS: u32 = 1_048_576;
+const MAX_MEMORY_BYTES: u64 = 549_755_813_888;
+const MAX_THREADS: u32 = 1_024;
+const MAX_GPU_LAYERS: u32 = 65_535;
 
 #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -597,6 +601,10 @@ fn validate_plan_body(
         && plan.stdin == InnerLaunchStdinDeclaration::Closed
         && plan.stdout == InnerLaunchOutputDeclaration::CapturedBounded
         && plan.stderr == InnerLaunchOutputDeclaration::CapturedBounded
+        && (256..=MAX_CONTEXT_TOKENS).contains(&plan.context_token_ceiling)
+        && (1..=MAX_MEMORY_BYTES).contains(&plan.memory_byte_ceiling)
+        && (1..=MAX_THREADS).contains(&plan.thread_ceiling)
+        && plan.gpu_layer_ceiling <= MAX_GPU_LAYERS
         && (1..=86_400_000).contains(&plan.startup_millis_ceiling)
         && (1..=86_400_000).contains(&plan.runtime_millis_ceiling)
         && (1..=1_073_741_824).contains(&plan.output_byte_ceiling)

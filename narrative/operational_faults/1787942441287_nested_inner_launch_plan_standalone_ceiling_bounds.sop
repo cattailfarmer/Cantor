@@ -1,0 +1,23 @@
+Subject: Cantor Nested Inner Launch Plan Standalone Ceiling Bounds Operational Fault
+
+@ [operational_fault_uuid] 37245b76-11ff-405e-8e9e-749d53acf526
+@ [canonical_uuid] 5a67e2bc-17a6-4207-939e-7a521945dcc6
+
+& [Observed]
+  + embedded request validation required exact equality with NHC-03 model ceilings but standalone plan machine-form validation did not independently reject zero or excessive context memory thread and GPU ceilings
+
+& [Cause]
+  + baseline signed ranges were enforced only through the optional upstream comparison branch
+
+& [Correction]
+  + require context 256 through 1048576 memory 1 through 549755813888 threads 1 through 1024 and GPU layers 0 through 65535 for every plan
+  + retain exact upstream equality when a plan is validated inside a request
+  + add zero-memory-ceiling refusal to the focused adversarial test
+
+& [Evidence]
+  + module is 41116 bytes SHA256 88BF8D67CB2AA659D2F2C5BA66B98A0A7ADA609DBC631E5E60505FC6A2FF6AAB
+  + tests are 10125 bytes SHA256 D6ED4178344892C0E818EA07BB99BAE422781A20D32E1CB20D3B4DF32627299B
+  + focused debug and overflow-checked release each pass six tests zero failed
+
+& [NonClaim]
+  + numeric range validation does not establish host capacity compatibility or resource availability

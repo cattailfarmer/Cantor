@@ -206,6 +206,13 @@ fn plan_refuses_empty_argv_lowercase_environment_and_terminal_drift() {
         seal_inner_launch_plan(terminal).unwrap_err().code,
         NestedInnerLaunchPlanFaultCode::InvalidPlan
     );
+
+    let mut zero_ceiling = unsealed_plan();
+    zero_ceiling.memory_byte_ceiling = 0;
+    assert_eq!(
+        seal_inner_launch_plan(zero_ceiling).unwrap_err().code,
+        NestedInnerLaunchPlanFaultCode::InvalidPlan
+    );
 }
 
 #[test]
