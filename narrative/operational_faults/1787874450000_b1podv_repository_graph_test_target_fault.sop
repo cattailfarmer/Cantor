@@ -1,0 +1,18 @@
+Subject: B1 Operator Decision Verification Repository Graph Test Target Fault
+
+@ [fault_uuid] 165da938-6316-472a-a19c-9897b48e93e3
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [observed_at_utc] 2026-08-27T23:28:00Z
+
+& [Attempt]
+  + run a focused repository-graph check under a guessed test-target name after candidate evidence passed
+
+& [Fault]
+  + Cargo reported no target named sjs_repository_graph_evidence and listed the existing sjs_repository_graph_static target
+
+& [Resolution]
+  + invoked the exact existing target and all three static repository-graph tests passed
+  + whole-workspace exact gates later exercised the same target successfully
+
+& [Boundary]
+  + command-name correction only with no code evidence policy or authority change

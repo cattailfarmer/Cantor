@@ -183,10 +183,15 @@ and published the separately signed P9 preparation-plan precursor. Its signed
 proposal-only successor is also implemented and published remote-equal at
 `1844d5d8`; it assigns exact bounded responsibilities, unresolved authorization
 gaps, and retained quarantine without authenticating or performing a commission.
-Its next source is now fully SJS-formed to verify a supplied detached operator
-decision, but explicitly cannot govern the key policy, issue consent, establish
-current time or freshness, create a private permit, or activate the broker.
-Formation publication and implementation remain pending. The plan can
+Its next source is now SJS-formed and published at `95511aa3` to verify a
+supplied detached operator decision. A local safe-Rust implementation and
+independent exact seven-file fixture verifier pass focused and exact workspace
+debug and overflow-checked release, bounded CLI replay, warnings-denied Clippy,
+format, and recursive evidence gates. Completion proof review and a
+publication-only signature are complete while attributed publication remains
+pending. It
+explicitly cannot govern the key policy, issue consent, establish current time
+or freshness, create a private permit, or activate the broker. The plan can
 state exactly what a later physical commission would have to create and which
 ten authorities are still missing, but it deliberately performs none of those
 effects. Cantor therefore has substantially more executable Rust and stronger

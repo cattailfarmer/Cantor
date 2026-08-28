@@ -1,0 +1,18 @@
+Subject: B1 Operator Decision Verification Focused Script Scalar Count Fault
+
+@ [fault_uuid] 856fd4dc-14bf-4749-896a-56e093aff8a8
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [observed_at_utc] 2026-08-27T23:05:00Z
+
+& [Attempt]
+  + capture one evidence-verifier stdout line and assert its PowerShell Count equals one
+
+& [Fault]
+  + PowerShell returned a scalar String for one line and strict mode refused the absent Count property after both Rust focused test profiles and CLI build had passed
+
+& [Resolution]
+  + wrapped command output in the array subexpression operator and reran the complete focused script
+  + debug and overflow-checked release each passed twelve active tests with one ignored producer and all canonical CLI plus argument-refusal checks passed
+
+& [Boundary]
+  + script orchestration only with no verifier semantic authority or evidence relaxation
