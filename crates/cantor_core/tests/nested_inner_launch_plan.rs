@@ -147,7 +147,7 @@ fn plan_sealing_is_deterministic_and_self_excluding() {
 }
 
 #[test]
-fn strict_plan_machine_form_round_trips_and_refuses_unknown_or_duplicate_arrays() {
+fn strict_plan_machine_form_allows_repeated_argv_but_refuses_duplicate_sets() {
     let plan = seal_inner_launch_plan(unsealed_plan()).expect("plan");
     let machine = to_inner_launch_plan_machine_form(&plan).expect("machine form");
     assert_eq!(
@@ -163,9 +163,18 @@ fn strict_plan_machine_form_round_trips_and_refuses_unknown_or_duplicate_arrays(
         NestedInnerLaunchPlanFaultCode::InvalidMachineForm
     );
 
+    let mut repeated = unsealed_plan();
+    repeated.argv = vec!["--model-ref".to_owned(), "--model-ref".to_owned()];
+    let repeated = seal_inner_launch_plan(repeated).expect("repeated argv plan");
+    let repeated_machine = to_inner_launch_plan_machine_form(&repeated).expect("repeated machine");
+    assert_eq!(
+        from_inner_launch_plan_machine_form(&repeated_machine).expect("repeated round trip"),
+        repeated
+    );
+
     let duplicate = machine.replace(
-        "[\"--model-ref\",\"opaque-model:fixture\"]",
-        "[\"--model-ref\",\"--model-ref\"]",
+        "\"terminal_outcomes\":[\"prelaunch_refused\",\"launch_blocked\"",
+        "\"terminal_outcomes\":[\"prelaunch_refused\",\"prelaunch_refused\"",
     );
     assert_eq!(
         from_inner_launch_plan_machine_form(&duplicate)

@@ -1,0 +1,21 @@
+Subject: Cantor Nested Inner Launch Plan Array Set Cardinality Operational Fault
+
+@ [operational_fault_uuid] 322828e4-1c1d-4d1b-b136-9179e165f928
+@ [canonical_uuid] 5a67e2bc-17a6-4207-939e-7a521945dcc6
+
+& [Observed]
+  + the initial generic JSON-shape validator refused duplicate string values in every array
+  + this correctly protected set-valued evidence unresolved denial and terminal fields but also rejected a valid ordered argv containing a repeated argument
+
+& [Cause]
+  + array uniqueness was inferred from JSON value shape without carrying the parent field role
+
+& [Correction]
+  + propagate parent field names through bounded-shape validation and enforce uniqueness only for evidence_refs unresolved_account capability_denials and terminal_outcomes
+  + add a regression proving a resealed repeated-argv plan round trips while a duplicate terminal-outcome set fails closed
+
+& [Evidence]
+  + focused debug and overflow-checked release each pass six tests; warnings-denied focused Clippy format and diff pass
+
+& [NonClaim]
+  + no weakening of set uniqueness digest validation authorization correspondence or effect boundaries

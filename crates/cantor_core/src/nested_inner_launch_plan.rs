@@ -984,7 +984,7 @@ fn parse_bounded<T: DeserializeOwned>(value: &str) -> Result<T, NestedInnerLaunc
     }
     let shape: Value = serde_json::from_str(value).map_err(machine_form_fault)?;
     let mut fields = 0;
-    validate_json_shape(&shape, 1, &mut fields)?;
+    validate_json_shape(&shape, 1, &mut fields, None)?;
     serde_json::from_str(value).map_err(machine_form_fault)
 }
 
@@ -992,6 +992,7 @@ fn validate_json_shape(
     value: &Value,
     depth: usize,
     fields: &mut usize,
+    parent_key: Option<&str>,
 ) -> Result<(), NestedInnerLaunchPlanFault> {
     if depth > MAX_DEPTH {
         return Err(fault(
@@ -1015,11 +1016,20 @@ fn validate_json_shape(
                         "machine field text differs",
                     ));
                 }
-                validate_json_shape(child, depth + 1, fields)?;
+                validate_json_shape(child, depth + 1, fields, Some(key))?;
             }
         }
         Value::Array(values) => {
-            if values.iter().all(Value::is_string) {
+            let is_set_field = matches!(
+                parent_key,
+                Some(
+                    "evidence_refs"
+                        | "unresolved_account"
+                        | "capability_denials"
+                        | "terminal_outcomes"
+                )
+            );
+            if is_set_field && values.iter().all(Value::is_string) {
                 let unique = values
                     .iter()
                     .filter_map(Value::as_str)
@@ -1032,7 +1042,7 @@ fn validate_json_shape(
                 }
             }
             for child in values {
-                validate_json_shape(child, depth + 1, fields)?;
+                validate_json_shape(child, depth + 1, fields, None)?;
             }
         }
         Value::String(text) if !valid_text(text) => {
