@@ -247,3 +247,10 @@ in both modes, with warnings-denied Clippy, format, and 73 manifests / 2,282
 references / zero stale. This is correspondence-only publication, not policy
 governance, a live operator decision, freshness, broker projection, physical
 preparation, activation, or an unattended self-updating product.
+
+The next source-preserved seam is a provider-free operator-authority ceremony
+plan. It enumerates nine ordered stages and eight roles spanning policy
+governance, key custody, revocation, time, live decision, fresh observation,
+private permit, broker projection, and physical preparation. It is a planning
+contract only: no real policy, private key, signature, consent, clock reading,
+host observation, permit, broker call, or physical effect has been supplied.
