@@ -607,7 +607,14 @@ pub fn to_nested_inner_launch_plan_evidence_bundle_machine_form(
     bundle: &NestedInnerLaunchPlanEvidenceBundle,
 ) -> Result<String, NestedInnerLaunchPlanFault> {
     verify_nested_inner_launch_plan_evidence_bundle(bundle)?;
-    to_machine_form(bundle)
+    let form = to_machine_form(bundle)?;
+    if form.len() > NESTED_INNER_LAUNCH_PLAN_MAX_EVIDENCE_BUNDLE_BYTES {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidMachineForm,
+            "evidence bundle exceeds 4194304 bytes",
+        ));
+    }
+    Ok(form)
 }
 
 pub fn from_nested_inner_launch_plan_evidence_bundle_machine_form(

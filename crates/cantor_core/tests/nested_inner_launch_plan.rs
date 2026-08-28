@@ -5,12 +5,15 @@ use cantor_core::{
     InnerLaunchPlanAction, InnerLaunchPlanAuthorization,
     InnerLaunchPlanAuthorizationConsumptionState, InnerLaunchPlanAuthorizationDisposition,
     InnerLaunchPlanState, InnerLaunchStdinDeclaration, InnerLaunchTargetProfile,
-    NESTED_INNER_LAUNCH_PLAN_MAX_EVIDENCE_BUNDLE_BYTES, NESTED_INNER_LAUNCH_PLAN_NON_AUTHORITY,
+    NESTED_INNER_LAUNCH_PLAN_MAX_EVIDENCE_BUNDLE_BYTES,
+    NESTED_INNER_LAUNCH_PLAN_MAX_MACHINE_FORM_BYTES, NESTED_INNER_LAUNCH_PLAN_NON_AUTHORITY,
     NESTED_INNER_LAUNCH_PLAN_REQUEST_PROFILE, NestedInnerLaunchPlanEvidenceBundle,
     NestedInnerLaunchPlanFaultCode, NestedInnerLaunchPlanRequest,
     NestedInnerModelAdmissionEnvelope, NestedInnerModelAdmissionRequest,
     NestedInnerModelAdmissionVerification, SemanticId, from_inner_launch_plan_machine_form,
-    from_nested_inner_launch_plan_evidence_bundle_machine_form, inner_launch_plan_digest,
+    from_nested_inner_launch_plan_evidence_bundle_machine_form,
+    from_nested_inner_launch_plan_request_machine_form, inner_launch_plan_digest,
+    nested_inner_launch_plan_authorization_payload_bytes,
     nested_inner_launch_plan_required_terminal_outcomes,
     nested_inner_launch_plan_required_unresolved_account, nested_inner_launch_plan_upstream_digest,
     seal_inner_launch_plan, seal_nested_inner_launch_plan_request,
@@ -270,5 +273,123 @@ fn evidence_bundle_bounds_and_canonical_file_framing_refuse_before_replay() {
             .unwrap_err()
             .code,
         NestedInnerLaunchPlanFaultCode::InvalidEvidence
+    );
+}
+
+#[test]
+fn authorization_payload_is_deterministic_and_binds_plan_tuple_and_upstream() {
+    let request = unsigned_request();
+    let first = nested_inner_launch_plan_authorization_payload_bytes(&request).unwrap();
+    let second = nested_inner_launch_plan_authorization_payload_bytes(&request).unwrap();
+    assert_eq!(first, second);
+
+    let mut plan = request.clone();
+    plan.plan.argv.push("--fixture-flag".to_owned());
+    plan.plan = seal_inner_launch_plan(plan.plan).unwrap();
+    assert_ne!(
+        nested_inner_launch_plan_authorization_payload_bytes(&plan).unwrap(),
+        first
+    );
+
+    let mut tuple = request.clone();
+    tuple.authorization.sequence_upper_bound += 1;
+    assert_ne!(
+        nested_inner_launch_plan_authorization_payload_bytes(&tuple).unwrap(),
+        first
+    );
+
+    let mut upstream = request;
+    upstream
+        .upstream_bundle_digest
+        .value
+        .replace_range(0..2, "00");
+    assert_ne!(
+        nested_inner_launch_plan_authorization_payload_bytes(&upstream).unwrap(),
+        first
+    );
+}
+
+#[test]
+fn fully_redigested_upstream_and_ceiling_laundering_refuse_before_signature() {
+    let mut upstream = unsigned_request();
+    upstream.upstream_verification.status = "fabricated-but-redigested".to_owned();
+    upstream.upstream_bundle_digest = nested_inner_launch_plan_upstream_digest(
+        &upstream.upstream_request,
+        &upstream.upstream_envelope,
+        &upstream.upstream_verification,
+    )
+    .unwrap();
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(upstream)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidUpstream
+    );
+
+    let mut ceiling = unsigned_request();
+    ceiling.plan.context_token_ceiling -= 1;
+    ceiling.plan = seal_inner_launch_plan(ceiling.plan).unwrap();
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(ceiling)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidPlan
+    );
+}
+
+#[test]
+fn authorization_tuple_drift_refuses_before_signature() {
+    for mutation in 0..3 {
+        let mut request = unsigned_request();
+        match mutation {
+            0 => request.authorization.attempt_limit = 2,
+            1 => request.authorization.retry_limit = 1,
+            _ => request.authorization.sequence_lower_bound = 2,
+        }
+        let error = seal_nested_inner_launch_plan_request(request).unwrap_err();
+        assert_eq!(
+            error.code,
+            NestedInnerLaunchPlanFaultCode::InvalidAuthorization
+        );
+    }
+}
+
+#[test]
+fn strict_request_machine_forms_refuse_shape_laundering_before_signature() {
+    let request = unsigned_request();
+    let form = serde_json::to_string(&request).unwrap();
+
+    let unknown = form.replacen('{', "{\"unknown\":true,", 1);
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&unknown)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    let duplicate = form.replace(
+        "\"evidence_refs\":[\"evidence:nested-inner-launch-plan-fixture\"]",
+        "\"evidence_refs\":[\"evidence:nested-inner-launch-plan-fixture\",\"evidence:nested-inner-launch-plan-fixture\"]",
+    );
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&duplicate)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&(form + "x"))
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    let oversize = "x".repeat(NESTED_INNER_LAUNCH_PLAN_MAX_MACHINE_FORM_BYTES + 1);
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&oversize)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
     );
 }
