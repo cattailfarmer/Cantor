@@ -1,0 +1,24 @@
+Subject: Cantor Recursive Evidence Manifest Local Path Resolution Fault
+
+@ [fault_uuid] 0a5b5d66-b154-48b5-b439-adaf83edd0c5
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+@ [detected_utc] 2026-08-28T15:47:23.2556579Z
+
+& [Fault]
+  + recursive evidence verification treated every artifact path as repository-root relative
+  + thirty-five retained artifact references in current manifests are intentionally manifest-directory relative and therefore failed with an absent repository-root file before stale-state accounting
+  + directory-local manifests use a closed SHA256 object with algorithm and value while repository-wide manifests use a scalar hash and the recursive verifier previously understood only the scalar form
+
+& [Containment]
+  + the refusal was deterministic and no manifest or evidence artifact was silently skipped or rewritten
+  + no provider model process network remote activation cleanup or foreign work was contacted
+
+& [Correction]
+  + resolve an artifact against the repository root first and only when that regular file is absent resolve it against the containing manifest directory
+  + retain absolute-path and parent-traversal refusal and convert resolved nested-manifest dependencies back to canonical repository-relative identities before recursion
+  + explicitly read and preserve both the scalar SHA256 and lowercase algorithm-value SHA256 forms while refusing every other shape
+  + rewrite and retimestamp only manifests whose artifact identity actually changed so a scoped refresh does not create unrelated evidence churn
+
+& [Evidence]
+  + current inventory contains 2424 repository-root-only references thirty-five manifest-local-only references one deterministic root-precedence overlap and zero missing references
+  + verify-only replay must complete with zero stale references after intentional NHC-02 transitive hash refresh

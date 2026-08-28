@@ -25,37 +25,85 @@ $states = @{}
 $script:references = 0
 $script:stale = 0
 
+function Resolve-ArtifactPath([string]$ManifestPath, [string]$ArtifactPath) {
+  if ([IO.Path]::IsPathRooted($ArtifactPath) -or $ArtifactPath -match '(^|[\\/])\.\.([\\/]|$)') {
+    throw "nonportable evidence artifact: $ManifestPath -> $ArtifactPath"
+  }
+  $rootCandidate = Join-Path $repositoryRoot $ArtifactPath
+  if (Test-Path -LiteralPath $rootCandidate -PathType Leaf) {
+    return (Get-Item -LiteralPath $rootCandidate).FullName
+  }
+  $localCandidate = Join-Path (Split-Path -Parent $ManifestPath) $ArtifactPath
+  if (Test-Path -LiteralPath $localCandidate -PathType Leaf) {
+    return (Get-Item -LiteralPath $localCandidate).FullName
+  }
+  throw "evidence artifact is absent from repository-root and manifest-local resolution: $ManifestPath -> $ArtifactPath"
+}
+
+function Read-ArtifactSha256($Artifact, [string]$ManifestPath) {
+  if ($Artifact.sha256 -is [string]) {
+    return [string]$Artifact.sha256
+  }
+  if (
+    $null -ne $Artifact.sha256 -and
+    $Artifact.sha256.algorithm -ceq "sha256" -and
+    $Artifact.sha256.value -is [string]
+  ) {
+    return [string]$Artifact.sha256.value
+  }
+  throw "unsupported evidence SHA256 form: $ManifestPath -> $($Artifact.path)"
+}
+
+function Set-ArtifactSha256($Artifact, [string]$ActualHash, [string]$ManifestPath) {
+  if ($Artifact.sha256 -is [string]) {
+    $Artifact.sha256 = $ActualHash
+    return
+  }
+  if (
+    $null -ne $Artifact.sha256 -and
+    $Artifact.sha256.algorithm -ceq "sha256" -and
+    $Artifact.sha256.value -is [string]
+  ) {
+    $Artifact.sha256.value = $ActualHash.ToLowerInvariant()
+    return
+  }
+  throw "unsupported evidence SHA256 form: $ManifestPath -> $($Artifact.path)"
+}
+
 function Update-Manifest([string]$RelativePath) {
   if ($states[$RelativePath] -eq "done") { return }
   if ($states[$RelativePath] -eq "visiting") { throw "evidence manifest cycle: $RelativePath" }
   $states[$RelativePath] = "visiting"
   $fullPath = $manifestPaths[$RelativePath]
   $manifest = Get-Content -LiteralPath $fullPath -Raw | ConvertFrom-Json
+  $manifestChanged = $false
   if ($null -eq $manifest.PSObject.Properties["artifacts"] -or $null -eq $manifest.artifacts) {
     throw "current evidence manifest lacks artifacts: $RelativePath"
   }
   foreach ($artifact in @($manifest.artifacts)) {
-    $dependency = [string]$artifact.path
+    $artifactPath = [string]$artifact.path
+    $resolvedDependency = Resolve-ArtifactPath $fullPath $artifactPath
+    $dependency = $resolvedDependency.Substring($repositoryRoot.Length + 1).Replace("\", "/")
     if ($manifestPaths.ContainsKey($dependency)) { Update-Manifest $dependency }
   }
   foreach ($artifact in @($manifest.artifacts)) {
     $artifactPath = [string]$artifact.path
-    if ([IO.Path]::IsPathRooted($artifactPath) -or $artifactPath -match '(^|/)\.\.(/|$)') {
-      throw "nonportable evidence artifact: $RelativePath -> $artifactPath"
-    }
-    $item = Get-Item -LiteralPath (Join-Path $repositoryRoot $artifactPath)
+    $item = Get-Item -LiteralPath (Resolve-ArtifactPath $fullPath $artifactPath)
     $actualHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $item.FullName).Hash
+    $expectedHash = Read-ArtifactSha256 $artifact $fullPath
+    $artifactStale = [long]$artifact.bytes -ne $item.Length -or $expectedHash.ToUpperInvariant() -ne $actualHash
     $script:references++
     if ($VerifyOnly) {
-      if ([long]$artifact.bytes -ne $item.Length -or ([string]$artifact.sha256).ToUpperInvariant() -ne $actualHash) {
+      if ($artifactStale) {
         $script:stale++
       }
-    } else {
+    } elseif ($artifactStale) {
       $artifact.bytes = $item.Length
-      $artifact.sha256 = $actualHash
+      Set-ArtifactSha256 $artifact $actualHash $fullPath
+      $manifestChanged = $true
     }
   }
-  if (-not $VerifyOnly) {
+  if (-not $VerifyOnly -and $manifestChanged) {
     if ($null -ne $manifest.PSObject.Properties["generated_at_utc"]) {
       $manifest.generated_at_utc = [DateTime]::UtcNow.ToString("o")
     }

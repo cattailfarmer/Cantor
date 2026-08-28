@@ -787,6 +787,15 @@ Its sixteen-coordinate substrate and gap ledger is independently checked by
 `scripts/verify_cantor_nested_host_gap_audit.ps1`; the audit grants no process
 or model authority.
 
+The second provider-free nested-host seam is now exact-gate complete locally.
+`cantor_core::nested_inner_process_lineage` revalidates an unchanged NHC-01
+outer envelope and emits only a deterministic proposed inner Cantor lineage.
+Focused debug/release evidence and exact 239-group, 1,469-test workspace gates
+pass with seven distinct identities, ten denials, six unresolved truths, and
+zero effects. Remote publication is pending; model artifact admission/loading,
+launch, custody, shared attention, providers, and physical effects remain
+separate NHC-03 and later contracts.
+
 The pure outer-host identity, SOP-boot admission, objective/work-plan,
 source-to-substrate lifecycle, update-handoff, succeeding-SOP, and SWA-07
 composition seams are implemented. Together they prove an exact supplied-data

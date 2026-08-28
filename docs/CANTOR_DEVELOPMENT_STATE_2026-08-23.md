@@ -50,12 +50,13 @@ inference.
 Existing substrate reduces the work materially: Needle2 SOP routing, pure
 shared-attention forms and reconciliation, MCP transport, supervised process
 lifecycle, iterative checkpoints, volatile custody, replay, and provider-host
-boundaries already exist. The first dependency, an effectless outer host
-identity/session envelope, is implemented and workspace-proved. The following
-are not yet one executable system:
+boundaries already exist. The first two dependencies, an effectless outer host
+identity/session envelope and an effectless inner Cantor process lineage
+envelope, are implemented and workspace-proved. The following are not yet one
+executable system:
 
 1. SOP boot admission and a physical outer agent-process lifecycle/resource contract.
-2. Inner Cantor/model launch, identity, admission, and custody contract.
+2. Inner model artifact admission, loaded-instance identity, launch, and custody contract.
 3. Explicit model-loading authority without implicit download or installation.
 4. Negotiated shared-attention window protocol with causal attribution,
    disagreement, bounded growth, and restart semantics.
@@ -66,11 +67,34 @@ are not yet one executable system:
 The governed gap audit resolves this into 16 coordinates: six have proved
 reusable substrate, six have candidate-only substrate, two are historical
 provider evidence, and two have no admitted substrate. None is an integrated
-nested-system completion. The first dependency-correct successor is now strict
-SOP boot/session admission for the self-working agent path, while inner process
-identity remains next for the nested-model path. Both must preserve separate
-model admission/loading, launch, custody, negotiated-attention, provider-free
-integration, live-provider, and operator-product contracts.
+nested-system completion. Strict SOP boot/session admission is published for
+the self-working agent path. For the nested-model path, provider-free NHC-02
+inner process identity and parent-child lineage now pass exact local gates, so
+NHC-03 model artifact admission, loaded-instance identity, and explicit loading
+authority are next. Both paths continue to preserve separate launch, custody,
+negotiated-attention, provider-free integration, live-provider, and
+operator-product contracts.
+
+## NHC-02 inner process lineage checkpoint
+
+The second nested-host dependency is implemented locally under the corrected,
+remote-equal formation at `ea069a041bfb9e7f3a349dd54bdb1f14a7e8b77e`.
+One safe `cantor_core` module revalidates the complete unmodified NHC-01
+envelope and compiles a proposed depth-one, ordinal-one inner Cantor lineage
+with three new UUID-bearing identities distinct from all four outer identities.
+Its authority is `lineage_correspondence_only`: seven identities are counted,
+but no process ancestry, launch, model admission/loading, provider contact,
+custody, shared attention, workspace mutation, persistence, remote access, or
+external effect is inferred.
+
+Ten focused tests, two bounded CLIs, and a separate evidence verifier pass in
+debug and overflow-checked release. The exact four-file evidence bundle is
+double-replayed and reports seven identities, ten denials, six unresolved
+truths, five adversarial refusals, and zero effects. Exact locked, offline,
+serialized workspace debug and release each pass 239 result groups and 1,469
+tests with zero failures and 13 governed ignores. Publication and immediate
+post-push replay remain before NHC-02 is marked remote-equal; NHC-03 remains a
+separate source and signature boundary.
 
 ## SOP-bootable self-working target
 

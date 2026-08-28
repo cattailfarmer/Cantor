@@ -1,0 +1,21 @@
+Subject: Cantor NHC-02 Exact Workspace Test Stack Fault
+
+@ [fault_uuid] 3c7518f9-304e-4f95-bd1e-ed12a63bea7c
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+@ [detected_utc] 2026-08-28T15:47:17.6505244Z
+
+& [Fault]
+  + the first exact-current Windows debug workspace run reached an existing deeply nested succeeding-SOP rollback oversized-machine-form test and the default Rust test thread exited with STATUS_STACK_OVERFLOW
+  + all NHC-02 focused tests had already passed inside that same run before the unrelated rollback test fault
+
+& [Containment]
+  + the failed run is not counted as a workspace pass and its D-drive log remains diagnostic evidence
+  + no test semantics production limit provider model process workspace authority or effect account was weakened
+
+& [Correction]
+  + re-run the exact failing test with RUST_MIN_STACK set to 33554432 bytes and retain its successful result
+  + re-run the complete locked offline serialized debug and overflow-checked release workspace gates with the same explicit test-stack bound
+
+& [Evidence]
+  + the exact failing test passes under the declared bound
+  + final debug and overflow-checked release each report 239 result groups 1469 passed zero failed and thirteen governed ignores
