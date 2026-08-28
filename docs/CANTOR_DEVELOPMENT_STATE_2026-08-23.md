@@ -115,7 +115,9 @@ double-replayed and reports seven upstream identities, eight operational
 identities, ten bound identities, 15 denials, 10 unresolved truths, five
 adversarial refusals, and zero effects. Exact locked, offline, serialized
 workspace debug and release each pass 242 result groups and 1,478 tests with
-zero failures and 13 governed ignores. Publication remains pending. Needle or
+zero failures and 13 governed ignores. Implementation
+`64bccb9aecd340ca02b625989834c09063d9aa0c` is remote equal after focused and
+recursive post-push replay. Needle or
 Needle 2 may occur only as opaque supplied family text; no artifact file,
 bytes, install, compatibility, license, safety, resource fit, policy
 governance, model load, provider, inference, shared attention, remote action,

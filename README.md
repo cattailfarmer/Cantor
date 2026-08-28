@@ -797,8 +797,9 @@ is remote equal after post-push replay; model artifact admission/loading,
 launch, custody, shared attention, providers, and physical effects remain
 separate NHC-03 and later contracts.
 
-The third provider-free seam is now exact-gate complete and publication
-pending. `cantor_core::nested_inner_model_admission` replays the unchanged
+The third provider-free seam is published remote-equal at
+`64bccb9aecd340ca02b625989834c09063d9aa0c`.
+`cantor_core::nested_inner_model_admission` replays the unchanged
 NHC-02 bundle and compiles one supplied unobserved GGUF descriptor, one
 proposed-unloaded instance, and one unconsumed detached single-attempt
 authorization correspondence. Nine focused tests and exact 242-group,
