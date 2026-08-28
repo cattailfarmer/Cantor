@@ -26,8 +26,11 @@ pub const NESTED_INNER_LAUNCH_PLAN_ENVELOPE_PROFILE: &str =
     "cantor-nested-inner-launch-plan-envelope/0.1";
 pub const NESTED_INNER_LAUNCH_PLAN_VERIFICATION_PROFILE: &str =
     "cantor-nested-inner-launch-plan-verification/0.1";
+pub const NESTED_INNER_LAUNCH_PLAN_EVIDENCE_PROFILE: &str =
+    "cantor-nested-inner-launch-plan-evidence/0.1";
 pub const NESTED_INNER_LAUNCH_PLAN_NON_AUTHORITY: &str = "Supplied launch-plan and Ed25519 correspondence only. It does not establish executable or working-directory presence or bytes, policy governance, key custody, revocation, freshness, process creation, model loading, runtime observation, provider contact, inference, stream custody, cancellation execution, cleanup, shared attention, workspace mutation, persistence, remote access, or external-effect authority.";
 pub const NESTED_INNER_LAUNCH_PLAN_MAX_MACHINE_FORM_BYTES: usize = 1_048_576;
+pub const NESTED_INNER_LAUNCH_PLAN_MAX_EVIDENCE_BUNDLE_BYTES: usize = 4_194_304;
 
 const UPSTREAM_DOMAIN: &str = "cantor.nested-inner-launch-plan.upstream.v1";
 const PLAN_DOMAIN: &str = "cantor.nested-inner-launch-plan.plan.v1";
@@ -42,6 +45,9 @@ const MAX_CONTEXT_TOKENS: u32 = 1_048_576;
 const MAX_MEMORY_BYTES: u64 = 549_755_813_888;
 const MAX_THREADS: u32 = 1_024;
 const MAX_GPU_LAYERS: u32 = 65_535;
+const REQUEST_EVIDENCE_PATH: &str = "request.json";
+const ENVELOPE_EVIDENCE_PATH: &str = "envelope.json";
+const VERIFICATION_EVIDENCE_PATH: &str = "verification.json";
 
 #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -283,6 +289,42 @@ pub struct NestedInnerLaunchPlanVerification {
     pub effects: NestedInnerLaunchPlanEffectAccount,
 }
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NestedInnerLaunchPlanEvidenceFile {
+    pub path: String,
+    pub bytes: u64,
+    pub sha256: ContentDigest,
+}
+
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NestedInnerLaunchPlanEvidenceManifest {
+    pub profile: String,
+    pub replay_count: u32,
+    pub files: BTreeMap<String, NestedInnerLaunchPlanEvidenceFile>,
+    pub upstream_operational_identity_count: u32,
+    pub operational_identity_count: u32,
+    pub bound_identity_count: u32,
+    pub capability_denial_count: u32,
+    pub upstream_unresolved_truth_count: u32,
+    pub unresolved_truth_count: u32,
+    pub signature_correspondence_verified: bool,
+    pub effects: NestedInnerLaunchPlanEffectAccount,
+}
+
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NestedInnerLaunchPlanEvidenceBundle {
+    pub request_file: String,
+    pub envelope_file: String,
+    pub verification_file: String,
+    pub manifest_file: String,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NestedInnerLaunchPlanFaultCode {
     InvalidProfile,
@@ -492,6 +534,95 @@ pub fn from_nested_inner_launch_plan_verification_machine_form(
     let verification: NestedInnerLaunchPlanVerification = parse_bounded(value)?;
     validate_nested_inner_launch_plan_verification(&verification)?;
     Ok(verification)
+}
+
+pub fn build_nested_inner_launch_plan_evidence_bundle(
+    request: &NestedInnerLaunchPlanRequest,
+) -> Result<NestedInnerLaunchPlanEvidenceBundle, NestedInnerLaunchPlanFault> {
+    let envelope = compile_nested_inner_launch_plan(request)?;
+    let verification = verify_nested_inner_launch_plan(&envelope)?;
+    let request_file = canonical_file(to_nested_inner_launch_plan_request_machine_form(request)?);
+    let envelope_file = canonical_file(to_nested_inner_launch_plan_envelope_machine_form(
+        &envelope,
+    )?);
+    let verification_file = canonical_file(to_nested_inner_launch_plan_verification_machine_form(
+        &verification,
+    )?);
+    let manifest = evidence_manifest(&request_file, &envelope_file, &verification_file);
+    let manifest_file = canonical_file(to_machine_form(&manifest)?);
+    Ok(NestedInnerLaunchPlanEvidenceBundle {
+        request_file,
+        envelope_file,
+        verification_file,
+        manifest_file,
+    })
+}
+
+pub fn verify_nested_inner_launch_plan_evidence_bundle(
+    bundle: &NestedInnerLaunchPlanEvidenceBundle,
+) -> Result<NestedInnerLaunchPlanVerification, NestedInnerLaunchPlanFault> {
+    let request_form = canonical_file_body(&bundle.request_file, "request evidence")?;
+    let envelope_form = canonical_file_body(&bundle.envelope_file, "envelope evidence")?;
+    let verification_form =
+        canonical_file_body(&bundle.verification_file, "verification evidence")?;
+    let manifest_form = canonical_file_body(&bundle.manifest_file, "manifest evidence")?;
+    let request = from_nested_inner_launch_plan_request_machine_form(request_form)?;
+    let retained_envelope = from_nested_inner_launch_plan_envelope_machine_form(envelope_form)?;
+    let retained_verification =
+        from_nested_inner_launch_plan_verification_machine_form(verification_form)?;
+    let retained_manifest: NestedInnerLaunchPlanEvidenceManifest = parse_bounded(manifest_form)?;
+
+    let expected_manifest = evidence_manifest(
+        &bundle.request_file,
+        &bundle.envelope_file,
+        &bundle.verification_file,
+    );
+    if retained_manifest != expected_manifest {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidEvidence,
+            "retained evidence manifest differs from exact file identities or zero-effect account",
+        ));
+    }
+
+    let first_envelope = compile_nested_inner_launch_plan(&request)?;
+    let second_envelope = compile_nested_inner_launch_plan(&request)?;
+    if first_envelope != retained_envelope || second_envelope != retained_envelope {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidEvidence,
+            "retained envelope differs from two deterministic compilations",
+        ));
+    }
+    let first_verification = verify_nested_inner_launch_plan(&first_envelope)?;
+    let second_verification = verify_nested_inner_launch_plan(&second_envelope)?;
+    if first_verification != retained_verification || second_verification != retained_verification {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidEvidence,
+            "retained verification differs from two independent replays",
+        ));
+    }
+    Ok(retained_verification)
+}
+
+pub fn to_nested_inner_launch_plan_evidence_bundle_machine_form(
+    bundle: &NestedInnerLaunchPlanEvidenceBundle,
+) -> Result<String, NestedInnerLaunchPlanFault> {
+    verify_nested_inner_launch_plan_evidence_bundle(bundle)?;
+    to_machine_form(bundle)
+}
+
+pub fn from_nested_inner_launch_plan_evidence_bundle_machine_form(
+    value: &str,
+) -> Result<NestedInnerLaunchPlanEvidenceBundle, NestedInnerLaunchPlanFault> {
+    if value.len() > NESTED_INNER_LAUNCH_PLAN_MAX_EVIDENCE_BUNDLE_BYTES {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidMachineForm,
+            "evidence bundle exceeds 4194304 bytes",
+        ));
+    }
+    let bundle: NestedInnerLaunchPlanEvidenceBundle =
+        serde_json::from_str(value).map_err(machine_form_fault)?;
+    verify_nested_inner_launch_plan_evidence_bundle(&bundle)?;
+    Ok(bundle)
 }
 
 pub fn validate_nested_inner_launch_plan_request(
@@ -819,6 +950,73 @@ pub fn nested_inner_launch_plan_required_unresolved_account() -> BTreeSet<String
 pub fn nested_inner_launch_plan_required_terminal_outcomes() -> BTreeSet<InnerLaunchTerminalOutcome>
 {
     required_terminal_outcomes()
+}
+
+fn evidence_manifest(
+    request_file: &str,
+    envelope_file: &str,
+    verification_file: &str,
+) -> NestedInnerLaunchPlanEvidenceManifest {
+    let files = [
+        (
+            "request".to_owned(),
+            evidence_file(REQUEST_EVIDENCE_PATH, request_file),
+        ),
+        (
+            "envelope".to_owned(),
+            evidence_file(ENVELOPE_EVIDENCE_PATH, envelope_file),
+        ),
+        (
+            "verification".to_owned(),
+            evidence_file(VERIFICATION_EVIDENCE_PATH, verification_file),
+        ),
+    ]
+    .into_iter()
+    .collect();
+    NestedInnerLaunchPlanEvidenceManifest {
+        profile: NESTED_INNER_LAUNCH_PLAN_EVIDENCE_PROFILE.to_owned(),
+        replay_count: 2,
+        files,
+        upstream_operational_identity_count: 8,
+        operational_identity_count: 10,
+        bound_identity_count: 12,
+        capability_denial_count: 18,
+        upstream_unresolved_truth_count: 10,
+        unresolved_truth_count: 12,
+        signature_correspondence_verified: true,
+        effects: NestedInnerLaunchPlanEffectAccount::default(),
+    }
+}
+
+fn evidence_file(path: &str, value: &str) -> NestedInnerLaunchPlanEvidenceFile {
+    NestedInnerLaunchPlanEvidenceFile {
+        path: path.to_owned(),
+        bytes: value.len() as u64,
+        sha256: sha256_bytes(value.as_bytes()),
+    }
+}
+
+fn canonical_file(value: String) -> String {
+    format!("{value}\n")
+}
+
+fn canonical_file_body<'a>(
+    value: &'a str,
+    label: &str,
+) -> Result<&'a str, NestedInnerLaunchPlanFault> {
+    let Some(body) = value.strip_suffix('\n') else {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidEvidence,
+            format!("{label} lacks one canonical LF terminator"),
+        ));
+    };
+    if body.is_empty() || body.chars().last().is_some_and(char::is_whitespace) {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidEvidence,
+            format!("{label} has empty or non-canonical trailing content"),
+        ));
+    }
+    Ok(body)
 }
 
 fn required_unresolved_account() -> BTreeSet<String> {

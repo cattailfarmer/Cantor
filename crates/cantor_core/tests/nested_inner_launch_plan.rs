@@ -5,14 +5,16 @@ use cantor_core::{
     InnerLaunchPlanAction, InnerLaunchPlanAuthorization,
     InnerLaunchPlanAuthorizationConsumptionState, InnerLaunchPlanAuthorizationDisposition,
     InnerLaunchPlanState, InnerLaunchStdinDeclaration, InnerLaunchTargetProfile,
-    NESTED_INNER_LAUNCH_PLAN_NON_AUTHORITY, NESTED_INNER_LAUNCH_PLAN_REQUEST_PROFILE,
+    NESTED_INNER_LAUNCH_PLAN_MAX_EVIDENCE_BUNDLE_BYTES, NESTED_INNER_LAUNCH_PLAN_NON_AUTHORITY,
+    NESTED_INNER_LAUNCH_PLAN_REQUEST_PROFILE, NestedInnerLaunchPlanEvidenceBundle,
     NestedInnerLaunchPlanFaultCode, NestedInnerLaunchPlanRequest,
     NestedInnerModelAdmissionEnvelope, NestedInnerModelAdmissionRequest,
     NestedInnerModelAdmissionVerification, SemanticId, from_inner_launch_plan_machine_form,
-    inner_launch_plan_digest, nested_inner_launch_plan_required_terminal_outcomes,
+    from_nested_inner_launch_plan_evidence_bundle_machine_form, inner_launch_plan_digest,
+    nested_inner_launch_plan_required_terminal_outcomes,
     nested_inner_launch_plan_required_unresolved_account, nested_inner_launch_plan_upstream_digest,
     seal_inner_launch_plan, seal_nested_inner_launch_plan_request,
-    to_inner_launch_plan_machine_form,
+    to_inner_launch_plan_machine_form, verify_nested_inner_launch_plan_evidence_bundle,
 };
 
 const UPSTREAM_REQUEST: &str =
@@ -244,5 +246,29 @@ fn duplicate_uuid_coordinate_refuses_before_signature_check() {
     assert_eq!(
         error.code,
         NestedInnerLaunchPlanFaultCode::IdentityCollision
+    );
+}
+
+#[test]
+fn evidence_bundle_bounds_and_canonical_file_framing_refuse_before_replay() {
+    let oversize = "x".repeat(NESTED_INNER_LAUNCH_PLAN_MAX_EVIDENCE_BUNDLE_BYTES + 1);
+    assert_eq!(
+        from_nested_inner_launch_plan_evidence_bundle_machine_form(&oversize)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    let bundle = NestedInnerLaunchPlanEvidenceBundle {
+        request_file: "{}".to_owned(),
+        envelope_file: "{}\n".to_owned(),
+        verification_file: "{}\n".to_owned(),
+        manifest_file: "{}\n".to_owned(),
+    };
+    assert_eq!(
+        verify_nested_inner_launch_plan_evidence_bundle(&bundle)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidEvidence
     );
 }
