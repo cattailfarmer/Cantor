@@ -1,0 +1,27 @@
+Subject: Cantor Nested Inner Launch Plan P0 Duplicate Key And Canonical JSON Acceptance Fault
+
+@ [fault_uuid] 95e64fd5-16bf-4f6e-888a-5744c7046736
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] 5a67e2bc-17a6-4207-939e-7a521945dcc6
+@ [predecessor_commit] 1c9daf56
+
+& [Observed]
+  + bounded request parsing validated a serde_json Value before typed deserialization
+  + serde_json Value object construction retained only one value for duplicate object keys, so a duplicated top-level field or nested environment key was not independently refused
+  + typed deserialization also accepted semantically equivalent JSON with whitespace or alternate presentation even though retained evidence requires one exact compact machine form
+
+& [Risk]
+  + duplicate-key collapse permits producer and verifier interpretations to diverge before detached authorization is evaluated
+  + noncanonical byte acceptance weakens the exact-byte relation among authorization payload request envelope and retained evidence
+
+& [Correction]
+  + a recursive no-duplicate visitor now traverses every array and object before Value shape validation and typed parsing
+  + every bounded typed machine form is reserialized and required to equal the supplied bytes exactly
+  + outer evidence bundle parsing independently enforces its 4194304-byte bound and exact compact serialization
+  + adversarial assertions cover duplicated top-level profile duplicated nested environment key whitespace and pretty evidence
+
+& [Disposition]
+  + focused debug and overflow-checked release each pass eleven tests
+  + exact serialized workspace debug and optimized release each pass 244 groups 1483 tests zero failed thirteen governed ignores
+  + whole-workspace Clippy warnings denied format both formation verifiers and recursive evidence pass
+  + no detached signature private key provider process model workspace remote or physical-effect authority is introduced

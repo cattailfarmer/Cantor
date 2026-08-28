@@ -9,7 +9,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
 
 use ed25519_dalek::{Signature, VerifyingKey};
-use serde::de::DeserializeOwned;
+use serde::de::{DeserializeOwned, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -628,6 +628,12 @@ pub fn from_nested_inner_launch_plan_evidence_bundle_machine_form(
     }
     let bundle: NestedInnerLaunchPlanEvidenceBundle =
         serde_json::from_str(value).map_err(machine_form_fault)?;
+    if to_machine_form(&bundle)? != value {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidMachineForm,
+            "evidence bundle is not canonical compact JSON",
+        ));
+    }
     verify_nested_inner_launch_plan_evidence_bundle(&bundle)?;
     Ok(bundle)
 }
@@ -1188,17 +1194,110 @@ fn to_machine_form<T: Serialize>(value: &T) -> Result<String, NestedInnerLaunchP
     serde_json::to_string(value).map_err(machine_form_fault)
 }
 
-fn parse_bounded<T: DeserializeOwned>(value: &str) -> Result<T, NestedInnerLaunchPlanFault> {
+fn parse_bounded<T: DeserializeOwned + Serialize>(
+    value: &str,
+) -> Result<T, NestedInnerLaunchPlanFault> {
     if value.len() > NESTED_INNER_LAUNCH_PLAN_MAX_MACHINE_FORM_BYTES {
         return Err(fault(
             NestedInnerLaunchPlanFaultCode::InvalidMachineForm,
             "machine form exceeds 1048576 bytes",
         ));
     }
+    let mut duplicate_check = serde_json::Deserializer::from_str(value);
+    NoDuplicateJson::deserialize(&mut duplicate_check).map_err(machine_form_fault)?;
+    duplicate_check.end().map_err(machine_form_fault)?;
     let shape: Value = serde_json::from_str(value).map_err(machine_form_fault)?;
     let mut fields = 0;
     validate_json_shape(&shape, 1, &mut fields, None)?;
-    serde_json::from_str(value).map_err(machine_form_fault)
+    let parsed: T = serde_json::from_str(value).map_err(machine_form_fault)?;
+    if to_machine_form(&parsed)? != value {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidMachineForm,
+            "machine form is not canonical compact JSON",
+        ));
+    }
+    Ok(parsed)
+}
+
+struct NoDuplicateJson;
+
+impl<'de> Deserialize<'de> for NoDuplicateJson {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_any(NoDuplicateJsonVisitor)?;
+        Ok(Self)
+    }
+}
+
+struct NoDuplicateJsonVisitor;
+
+impl<'de> Visitor<'de> for NoDuplicateJsonVisitor {
+    type Value = ();
+
+    fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("strict JSON without duplicate object keys")
+    }
+
+    fn visit_bool<E>(self, _value: bool) -> Result<Self::Value, E> {
+        Ok(())
+    }
+
+    fn visit_i64<E>(self, _value: i64) -> Result<Self::Value, E> {
+        Ok(())
+    }
+
+    fn visit_u64<E>(self, _value: u64) -> Result<Self::Value, E> {
+        Ok(())
+    }
+
+    fn visit_f64<E>(self, _value: f64) -> Result<Self::Value, E> {
+        Ok(())
+    }
+
+    fn visit_str<E>(self, _value: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(())
+    }
+
+    fn visit_string<E>(self, _value: String) -> Result<Self::Value, E> {
+        Ok(())
+    }
+
+    fn visit_none<E>(self) -> Result<Self::Value, E> {
+        Ok(())
+    }
+
+    fn visit_unit<E>(self) -> Result<Self::Value, E> {
+        Ok(())
+    }
+
+    fn visit_seq<A>(self, mut sequence: A) -> Result<Self::Value, A::Error>
+    where
+        A: SeqAccess<'de>,
+    {
+        while sequence.next_element::<NoDuplicateJson>()?.is_some() {}
+        Ok(())
+    }
+
+    fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
+    where
+        A: MapAccess<'de>,
+    {
+        let mut keys = BTreeSet::new();
+        while let Some(key) = map.next_key::<String>()? {
+            if !keys.insert(key.clone()) {
+                return Err(serde::de::Error::custom(format!(
+                    "duplicate JSON object key {key:?}"
+                )));
+            }
+            map.next_value::<NoDuplicateJson>()?;
+        }
+        Ok(())
+    }
 }
 
 fn validate_json_shape(

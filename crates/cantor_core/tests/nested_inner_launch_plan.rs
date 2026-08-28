@@ -168,6 +168,14 @@ fn strict_plan_machine_form_allows_repeated_argv_but_refuses_duplicate_sets() {
         NestedInnerLaunchPlanFaultCode::InvalidMachineForm
     );
 
+    let whitespace = machine.replacen('{', "{ ", 1);
+    assert_eq!(
+        from_inner_launch_plan_machine_form(&whitespace)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
     let mut repeated = unsealed_plan();
     repeated.argv = vec!["--model-ref".to_owned(), "--model-ref".to_owned()];
     let repeated = seal_inner_launch_plan(repeated).expect("repeated argv plan");
@@ -274,6 +282,14 @@ fn evidence_bundle_bounds_and_canonical_file_framing_refuse_before_replay() {
             .code,
         NestedInnerLaunchPlanFaultCode::InvalidEvidence
     );
+
+    let pretty = serde_json::to_string_pretty(&bundle).unwrap();
+    assert_eq!(
+        from_nested_inner_launch_plan_evidence_bundle_machine_form(&pretty)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
 }
 
 #[test]
@@ -362,6 +378,29 @@ fn strict_request_machine_forms_refuse_shape_laundering_before_signature() {
     let unknown = form.replacen('{', "{\"unknown\":true,", 1);
     assert_eq!(
         from_nested_inner_launch_plan_request_machine_form(&unknown)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    let duplicate_property = form.replacen(
+        "{\"profile\":",
+        "{\"profile\":\"cantor-nested-inner-launch-plan-request/0.1\",\"profile\":",
+        1,
+    );
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&duplicate_property)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    let duplicate_environment = form.replace(
+        "\"environment\":{\"CANTOR_PROFILE\":\"opaque-environment-value:fixture\"}",
+        "\"environment\":{\"CANTOR_PROFILE\":\"opaque-environment-value:fixture\",\"CANTOR_PROFILE\":\"opaque-environment-value:fixture\"}",
+    );
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&duplicate_environment)
             .unwrap_err()
             .code,
         NestedInnerLaunchPlanFaultCode::InvalidMachineForm
