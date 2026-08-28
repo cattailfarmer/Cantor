@@ -33,6 +33,8 @@ pub mod self_work_update_broker_b1_cdrive_production_preparation_plan_evidence;
 #[cfg(windows)]
 mod self_work_update_broker_b1_cdrive_windows_containment;
 pub mod self_work_update_broker_b1_cdrive_worktree_preparation;
+pub mod self_work_update_broker_b1_operator_authority_packet_readiness;
+pub mod self_work_update_broker_b1_operator_authority_packet_readiness_evidence;
 pub mod self_work_update_broker_b1_permission_profile;
 pub mod sjs_commit_envelope_journal;
 pub mod sjs_commit_placement_acquisition;
@@ -76,6 +78,8 @@ pub use self_work_update_broker_b1_cdrive_production_preparation_operator_decisi
 pub use self_work_update_broker_b1_cdrive_production_preparation_operator_decision_verification_evidence::*;
 pub use self_work_update_broker_b1_cdrive_production_preparation_operator_authority_ceremony_plan::*;
 pub use self_work_update_broker_b1_cdrive_production_preparation_operator_authority_ceremony_plan_evidence::*;
+pub use self_work_update_broker_b1_operator_authority_packet_readiness::*;
+pub use self_work_update_broker_b1_operator_authority_packet_readiness_evidence::*;
 pub use self_work_update_broker_b1_cdrive_production_preparation_plan::*;
 pub use self_work_update_broker_b1_cdrive_production_preparation_plan_evidence::*;
 pub use self_work_update_broker_b1_cdrive_worktree_preparation::*;

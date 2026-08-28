@@ -1,0 +1,28 @@
+Subject: B1 Operator Authority Packet Readiness P0 Preclosure Operational Faults
+
+@ [fault_uuid] 3bbba8bd-0c06-4b23-add7-c07c5dbe2624
+@ [recorded_at_utc] 2026-08-28T03:56:58.4607969Z
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] c0460d30-4870-44fc-82d2-baf2bc5cc0f5
+
+& [EvidenceDirectoryResolution]
+  + first focused-script evidence writer received a repository-relative path but Cargo launched the integration test with the crate directory as current directory
+  + four valid owned evidence files were therefore generated under crates/cantor_ecosystem/experiments rather than the governed root experiment directory
+  + only those four newly generated owned duplicates were deleted through an attributed patch
+  + the script now resolves a relative evidence directory against its own repository-root parent before exporting the absolute writer path
+  + corrected rerun passed debug release writer and two byte-identical independent-verifier invocations
+
+& [PreclosureWorkspaceRefusal]
+  + first exact-current no-fail-fast workspace debug audit correctly refused current evidence references that still described the predecessor 5721-byte crates/cantor_ecosystem/src/lib.rs rather than the implementation's 6033-byte file
+  + the audit also exposed the existing Windows test-thread stack precondition for succeeding-SOP oversize-form adversaries because RUST_MIN_STACK was not set
+  + two oversize-form targets ended with STATUS_STACK_OVERFLOW while the established focused scripts already declare RUST_MIN_STACK=33554432
+  + twenty-one target summaries failed in total: nineteen from stale current evidence identity or transitive artifact_bytes checks and two from the omitted established stack setting
+
+& [Correction]
+  + run only the established safe current-manifest rehash over current manifests and verify it stabilizes with zero stale references
+  + rerun exact locked-offline serialized workspace debug and optimized release with one build job one test thread incremental compilation disabled and RUST_MIN_STACK=33554432
+  + retain the failed D-drive transcript as disposable audit evidence and do not credit it as a passing gate
+
+& [NonAuthority]
+  + no source requirement implementation behavior test expectation host policy or authority boundary was relaxed
+  + no WSL provider model remote fallback cleanup foreign path or physical effect was introduced
