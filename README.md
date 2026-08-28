@@ -797,6 +797,16 @@ is remote equal after post-push replay; model artifact admission/loading,
 launch, custody, shared attention, providers, and physical effects remain
 separate NHC-03 and later contracts.
 
+The third provider-free seam is now exact-gate complete and publication
+pending. `cantor_core::nested_inner_model_admission` replays the unchanged
+NHC-02 bundle and compiles one supplied unobserved GGUF descriptor, one
+proposed-unloaded instance, and one unconsumed detached single-attempt
+authorization correspondence. Nine focused tests and exact 242-group,
+1,478-test workspace debug/release gates pass with 15 denials, 10 unresolved
+truths, and zero effects. A supplied family selector may name Needle or Needle
+2, but no model file, bytes, compatibility, license, safety, provider, load,
+inference, or runtime fact has been observed or claimed.
+
 The pure outer-host identity, SOP-boot admission, objective/work-plan,
 source-to-substrate lifecycle, update-handoff, succeeding-SOP, and SWA-07
 composition seams are implemented. Together they prove an exact supplied-data

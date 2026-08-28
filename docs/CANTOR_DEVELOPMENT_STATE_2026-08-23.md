@@ -69,11 +69,12 @@ reusable substrate, six have candidate-only substrate, two are historical
 provider evidence, and two have no admitted substrate. None is an integrated
 nested-system completion. Strict SOP boot/session admission is published for
 the self-working agent path. For the nested-model path, provider-free NHC-02
-inner process identity and parent-child lineage now pass exact local gates, so
-NHC-03 model artifact admission, loaded-instance identity, and explicit loading
-authority are next. Both paths continue to preserve separate launch, custody,
-negotiated-attention, provider-free integration, live-provider, and
-operator-product contracts.
+inner process identity and parent-child lineage are remote equal and NHC-03
+model artifact descriptor, proposed-unloaded instance identity, and detached
+loading-authorization correspondence now pass exact local gates. Both paths
+continue to preserve separate artifact observation, policy governance, model
+load execution, launch, custody, negotiated-attention, provider-free
+integration, live-provider, and operator-product contracts.
 
 ## NHC-02 inner process lineage checkpoint
 
@@ -96,6 +97,29 @@ tests with zero failures and 13 governed ignores. Implementation
 `72855c2f83c220c9bc589df497a3389553bf0990` is remote equal after immediate
 post-push focused and recursive replay; NHC-03 remains a separate source and
 signature boundary.
+
+## NHC-03 inner model admission checkpoint
+
+The third nested-host dependency is implemented locally under signed,
+remote-equal formation `39fb302372c3a38f51bbb168dff9a2db8de6f7dc` and
+bookend `6ed6b4ccc8f5f4b7d77faa1f2fdd0741cee32f3b`. One safe
+`cantor_core` module revalidates the complete unmodified NHC-02 bundle and
+compiles a supplied-unobserved GGUF descriptor, proposed-unloaded instance,
+and unconsumed single-attempt zero-retry detached Ed25519 authorization. Its
+authority is supplied-key cryptographic correspondence only; the fixture uses
+no retained private signing key.
+
+Nine focused tests, two bounded CLIs, and a separate evidence verifier pass in
+debug and overflow-checked release. The exact four-file evidence bundle is
+double-replayed and reports seven upstream identities, eight operational
+identities, ten bound identities, 15 denials, 10 unresolved truths, five
+adversarial refusals, and zero effects. Exact locked, offline, serialized
+workspace debug and release each pass 242 result groups and 1,478 tests with
+zero failures and 13 governed ignores. Publication remains pending. Needle or
+Needle 2 may occur only as opaque supplied family text; no artifact file,
+bytes, install, compatibility, license, safety, resource fit, policy
+governance, model load, provider, inference, shared attention, remote action,
+or physical effect has been observed or claimed.
 
 ## SOP-bootable self-working target
 
