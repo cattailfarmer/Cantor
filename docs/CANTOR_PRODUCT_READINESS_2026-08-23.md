@@ -232,3 +232,18 @@ by `scripts/verify_cantor_development_state_supersession_audit.ps1`.
 The nested-host gap ledger is independently verified by
 `scripts/verify_cantor_nested_host_gap_audit.ps1` and grants no implementation
 or provider authority.
+
+## 2026-08-28 operator-decision correspondence publication
+
+The separately sourced B1PODV verifier is published remote-equal at
+`9aaaab269836b8265c74ac9c46c690493c9fe746`. It adds production safe Rust
+for strict supplied-policy, exact-proposal, request, authorize/reject envelope,
+detached Ed25519, receipt, and zero-effect verification; its independent
+seven-file evidence verifier performs four byte-identical receipt replays.
+Post-push focused debug and overflow-checked release each pass twelve active
+tests with zero failures and one governed ignored fixture producer. The exact
+workspace basis remains 230 groups, 1,436 passed, zero failed, eleven ignored
+in both modes, with warnings-denied Clippy, format, and 73 manifests / 2,282
+references / zero stale. This is correspondence-only publication, not policy
+governance, a live operator decision, freshness, broker projection, physical
+preparation, activation, or an unattended self-updating product.
