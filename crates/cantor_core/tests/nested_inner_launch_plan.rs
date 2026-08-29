@@ -5,7 +5,7 @@ use cantor_core::{
     InnerLaunchPlanAction, InnerLaunchPlanAuthorization,
     InnerLaunchPlanAuthorizationConsumptionState, InnerLaunchPlanAuthorizationDisposition,
     InnerLaunchPlanState, InnerLaunchStdinDeclaration, InnerLaunchTargetProfile,
-    NESTED_INNER_LAUNCH_PLAN_MAX_EVIDENCE_BUNDLE_BYTES,
+    InnerLaunchTerminalOutcome, NESTED_INNER_LAUNCH_PLAN_MAX_EVIDENCE_BUNDLE_BYTES,
     NESTED_INNER_LAUNCH_PLAN_MAX_MACHINE_FORM_BYTES, NESTED_INNER_LAUNCH_PLAN_NON_AUTHORITY,
     NESTED_INNER_LAUNCH_PLAN_REQUEST_PROFILE, NestedInnerLaunchPlanEvidenceBundle,
     NestedInnerLaunchPlanFaultCode, NestedInnerLaunchPlanRequest,
@@ -13,11 +13,12 @@ use cantor_core::{
     NestedInnerModelAdmissionVerification, SemanticId, from_inner_launch_plan_machine_form,
     from_nested_inner_launch_plan_evidence_bundle_machine_form,
     from_nested_inner_launch_plan_request_machine_form, inner_launch_plan_digest,
-    nested_inner_launch_plan_authorization_payload_bytes,
+    inner_launch_terminal_ambiguity, nested_inner_launch_plan_authorization_payload_bytes,
     nested_inner_launch_plan_required_terminal_outcomes,
     nested_inner_launch_plan_required_unresolved_account, nested_inner_launch_plan_upstream_digest,
     seal_inner_launch_plan, seal_nested_inner_launch_plan_request,
-    to_inner_launch_plan_machine_form, verify_nested_inner_launch_plan_evidence_bundle,
+    to_inner_launch_plan_machine_form, validate_inner_launch_terminal_ambiguity,
+    verify_nested_inner_launch_plan_evidence_bundle,
 };
 
 const UPSTREAM_REQUEST: &str =
@@ -225,6 +226,48 @@ fn plan_refuses_empty_argv_lowercase_environment_and_terminal_drift() {
     assert_eq!(
         seal_inner_launch_plan(zero_ceiling).unwrap_err().code,
         NestedInnerLaunchPlanFaultCode::InvalidPlan
+    );
+}
+
+#[test]
+fn terminal_ambiguity_preserves_every_uncertain_post_boundary_outcome() {
+    for outcome in nested_inner_launch_plan_required_terminal_outcomes() {
+        let ambiguity = inner_launch_terminal_ambiguity(outcome);
+        validate_inner_launch_terminal_ambiguity(&ambiguity).expect("canonical ambiguity");
+        let known_prelaunch_noncreation = matches!(
+            outcome,
+            InnerLaunchTerminalOutcome::PrelaunchRefused
+                | InnerLaunchTerminalOutcome::LaunchBlocked
+        );
+        assert_eq!(
+            ambiguity.launch_may_have_occurred,
+            !known_prelaunch_noncreation
+        );
+        assert_eq!(
+            ambiguity.load_may_have_occurred,
+            !known_prelaunch_noncreation
+        );
+        assert!(!ambiguity.cleanup_success_asserted);
+    }
+
+    let mut false_post_boundary =
+        inner_launch_terminal_ambiguity(InnerLaunchTerminalOutcome::UnknownAfterBoundary);
+    false_post_boundary.launch_may_have_occurred = false;
+    assert_eq!(
+        validate_inner_launch_terminal_ambiguity(&false_post_boundary)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidCorrespondence
+    );
+
+    let mut cleanup_claim =
+        inner_launch_terminal_ambiguity(InnerLaunchTerminalOutcome::ExitSuccess);
+    cleanup_claim.cleanup_success_asserted = true;
+    assert_eq!(
+        validate_inner_launch_terminal_ambiguity(&cleanup_claim)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidCorrespondence
     );
 }
 

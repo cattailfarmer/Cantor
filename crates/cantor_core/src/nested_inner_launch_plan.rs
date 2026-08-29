@@ -102,6 +102,16 @@ pub enum InnerLaunchTerminalOutcome {
 }
 
 #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct InnerLaunchTerminalAmbiguity {
+    pub outcome: InnerLaunchTerminalOutcome,
+    pub launch_may_have_occurred: bool,
+    pub load_may_have_occurred: bool,
+    pub cleanup_success_asserted: bool,
+}
+
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum InnerLaunchPlanAction {
@@ -963,6 +973,33 @@ pub fn nested_inner_launch_plan_required_unresolved_account() -> BTreeSet<String
 pub fn nested_inner_launch_plan_required_terminal_outcomes() -> BTreeSet<InnerLaunchTerminalOutcome>
 {
     required_terminal_outcomes()
+}
+
+pub fn inner_launch_terminal_ambiguity(
+    outcome: InnerLaunchTerminalOutcome,
+) -> InnerLaunchTerminalAmbiguity {
+    let known_prelaunch_noncreation = matches!(
+        outcome,
+        InnerLaunchTerminalOutcome::PrelaunchRefused | InnerLaunchTerminalOutcome::LaunchBlocked
+    );
+    InnerLaunchTerminalAmbiguity {
+        outcome,
+        launch_may_have_occurred: !known_prelaunch_noncreation,
+        load_may_have_occurred: !known_prelaunch_noncreation,
+        cleanup_success_asserted: false,
+    }
+}
+
+pub fn validate_inner_launch_terminal_ambiguity(
+    ambiguity: &InnerLaunchTerminalAmbiguity,
+) -> Result<(), NestedInnerLaunchPlanFault> {
+    if *ambiguity != inner_launch_terminal_ambiguity(ambiguity.outcome) {
+        return Err(fault(
+            NestedInnerLaunchPlanFaultCode::InvalidCorrespondence,
+            "terminal ambiguity differs from the outcome boundary",
+        ));
+    }
+    Ok(())
 }
 
 fn evidence_manifest(
