@@ -1,0 +1,20 @@
+Subject: Cantor SJS Compiled Lookahead Stitch P0 Data Design 2026-08-30
+
+@ [data_design_uuid] f5ee7b67-08d9-4bf8-bcd9-b883274321e8
+
+& [Entities]
+  + ExactScope LookaheadStitchDeclaration SemanticTurn SourceBinding Predicate Observation InvocationCoordinate
+  + CompiledPacket LifecycleReceipt ProjectionRecord Envelope Verification EvidenceManifest
+
+& [Keys]
+  + UUID identities are lowercase nonnil and distinct where required
+  + digests are uppercase SHA256 domain-separated and self-excluding
+  + sets sort uniquely while KeyHints observation order and invocation order remain semantic
+
+& [Relations]
+  + request owns one scope one packet one or two declarations and ordered observations and coordinates
+  + declaration references the exact scope and sources; replacement references one terminal predecessor
+  + projection references one coordinate one packet and every currently active stitch
+
+& [Bounds]
+  + request 1 MiB evidence 8 MiB depth 40 fields 16384 stitches 2 hints and sources 8 observations 64 coordinates 32 projected bytes 8192
