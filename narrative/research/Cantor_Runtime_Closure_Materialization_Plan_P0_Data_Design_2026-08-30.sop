@@ -1,0 +1,29 @@
+Subject: Cantor Runtime Closure Materialization Plan P0 Data Design
+
+@ [data_design_uuid] 407a01dd-728f-461b-b260-5f6b943d8f27
+@ [source_snapshot_uuid] dc7d8d88-83bd-4f0c-bc2a-6973afa99700
+
+& [Request]
+  + request identity materialization identity input class exact upstream envelope canonical bytes byte SHA256 P0 request plan envelope and expected-receipt digests evidence references nonauthority and self-excluding request digest
+
+& [Phases]
+  + seed_validation prerequisite_resolution material_production target_preparation material_staging material_verification rollback_preparation closure_verification and receipt_candidate
+
+& [OperationKinds]
+  + validate_seed_root resolve_prerequisite apply_deterministic_transform run_source_build acquire_content_addressed_artifact accept_explicitly_supplied_material generate_configuration prepare_target stage_material verify_material prepare_rollback verify_closure and emit_receipt_candidate
+
+& [Operation]
+  + ordinal phase kind subject identity P0 node prerequisite edge and source references dependencies target expected digest expected bytes verifier executable disposition required-but-denied capabilities unresolved reason disposition and domain-separated operation digest
+
+& [Plan]
+  + exact P0 identities phases ordered operations unresolved operation digests capability denials expected receipt candidate execution_authorized false and self-excluding plan digest
+
+& [Ordering]
+  + roots lexicographic then prerequisites identity order then nonroot production in P0 topological order then target stage and verify phases each in P0 topological order then rollback closure verification and receipt candidate
+  + operation count is exactly 4N plus P plus 3
+
+& [Dependencies]
+  + production depends on prerequisite resolutions and exact input root-validation or nonroot-production operations; target has prerequisite dependencies; stage depends target plus root validation or production; verify depends stage; rollback depends every material verify; closure verify depends rollback; receipt candidate depends closure verify
+
+& [Evidence]
+  + exact LF-terminated request envelope verification and manifest files, two compilations, two verification passes, independent retained equality, semantic counts and all-zero effects
