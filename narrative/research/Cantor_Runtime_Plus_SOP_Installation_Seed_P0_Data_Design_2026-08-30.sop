@@ -1,0 +1,35 @@
+Subject: Cantor Runtime Plus SOP Installation Seed P0 Data Design
+
+@ [data_design_uuid] 7a5cca36-918b-406b-9604-698989b6ac9b
+@ [canonical_uuid] 5fbec09b-e92d-48e2-826c-ea8bd420559d
+
+& [Request]
+  + RuntimeClosureRequest binds profile closure identity exact BootstrapRuntimeIdentity exact InstallationSOPIdentity material nodes prerequisites producer edges evidence and declared authority ceiling
+  + strict compact UTF-8 JSON is duplicate-free unknown-field-free trailing-free and bounded before semantic validation
+
+& [RootsAndMaterial]
+  + bootstrap root binds executable SHA256 byte count interface parser verifier planner materializer and receipt capability profiles plus admitted host-tuple reference
+  + SOP root binds canonical source SHA256 byte count satisfaction-signature identity selected runtime profile closure-root identity and capability ceiling
+  + MaterialNode binds SemanticId kind expected SHA256 expected bytes provenance reference compatibility references one portable logical target one verifier profile and executable disposition
+  + material kinds are bootstrap_runtime installation_sop derived built acquired explicitly_supplied and generated_configuration; roots use only their corresponding kinds
+
+& [SourcesPrerequisitesAndEdges]
+  + MaterialSource is exact supplied descriptor deterministic transform content-addressed artifact coordinate source-build descriptor or generated-configuration descriptor; mutable locator without expected digest is impossible
+  + Prerequisite binds a nonsecret identity kind exact reference required disposition and unresolved reason; kinds include host OS architecture hardware driver firmware toolchain transport network artifact reservoir external custody and operator acceptance
+  + ProducerEdge has one unique nonroot output one through sixteen unique input identities one exact source descriptor one transform profile and one expected output identity matching the output node
+
+& [ClosureAndOrdering]
+  + every node is reachable from either exact root; roots have no producer; every nonroot has exactly one producer; graph is acyclic
+  + compiler normalizes input sets by SemanticId and derives lexicographically tie-broken topological order rather than trusting request order
+  + target paths use one through sixteen slash-separated lower-ASCII segments, total one through 240 bytes, each matching lower-case letters digits dot underscore or hyphen, excluding empty dot dot-dot drive UNC device alternate-stream backslash and link semantics
+  + exact lower-case targets are globally unique, so platform case-fold ambiguity cannot enter P0
+
+& [PlanAndReceipt]
+  + RuntimeClosurePlan contains normalized roots nodes prerequisites producer edges topological order unresolved prerequisite identities exact denials request digest plan digest and expected receipt template
+  + expected receipt template binds closure plan node and target identities but contains no observations, verifier results, installation status or activation claim
+  + independent verification recompiles from exact request bytes and compares canonical request envelope plan and verification bytes
+
+& [Bounds]
+  + request at most 1048576 bytes depth 32 fields 4096 text 4096; material nodes 2 through 256; edges 0 through 254; inputs per edge 1 through 16
+  + prerequisites 0 through 128; evidence references 1 through 64; compatibility references 0 through 32 per node; total declared material bytes 0 through 1099511627776
+  + semantic identifiers are nonnil lower-case UUID-bearing values or bounded lower-ASCII profile/reference strings according to their field type; SHA256 is exactly 64 lower-case hexadecimal characters
