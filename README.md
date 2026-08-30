@@ -75,6 +75,13 @@ baseline:
   dependencies, targets, expected identities, denied capabilities, unresolved
   reasons, and zero-observation receipt candidate remain effectless and await a
   separately signed executor commission; and
+- `cantor_core::sjs_minimum_recoverable_frame` now compiles one exact supplied
+  cross-job hint covenant into a restoration-tested active basis. Mandatory
+  anchors, denials, and open obligations cannot be released; deterministic
+  single and grouped candidates are admitted only through byte-exact anchored
+  recovery, while drift and underdetermination remain witnessed refusals. The
+  retained provider-free fixture reduces eight hints to four through six public
+  witnesses with zero execution authority or effects; and
 - `cantor_core` can now compile one normalized, fully source-anchored
   attention-procedure candidate through the existing effectless CPPE compiler,
   retaining exact validation and compilation lineage while leaving verification,

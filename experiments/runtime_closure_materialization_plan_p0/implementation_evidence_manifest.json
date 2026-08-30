@@ -1,67 +1,127 @@
 {
-  "profile": "cantor-runtime-closure-materialization-plan-p0-implementation-evidence/0.1",
-  "manifest_uuid": "d6da0493-57d8-4a4e-b130-04292ebbe94d",
-  "canonical_uuid": "1ec5159a-cddd-4061-a316-4dace13d2e06",
-  "formation_signature_uuid": "90be7b47-10d2-47a5-989e-8c40120bd60b",
-  "formation_commit": "09a435900a4b657797cb80bab06e51b97b396959",
-  "formation_bookend_commit": "e7a0ec0f6b5508bd36c0b294860c382d36ab33ef",
-  "file_ref_count": 15,
-  "artifacts": [
-    { "path": "specifications/Cantor_Runtime_Closure_Materialization_Plan_P0.sop", "bytes": 9930, "sha256": "5D08F5C5CE8ADA8A077608B08EBC73A5B9B8FECA1E43FFA351BC64FEFEB21EEA" },
-    { "path": "crates/cantor_core/src/runtime_closure_materialization_plan.rs", "bytes": 85420, "sha256": "15633C2DAC5D02C32744414F20D83EF0E760658D11EF24E6E5950ED2ED44C6A2" },
-    { "path": "crates/cantor_core/src/lib.rs", "bytes": 2771, "sha256": "22ADC48F0667873DABA5756865D6D255E4F21922C0A693F46BE6216B76E0DD0E" },
-    { "path": "crates/cantor_core/tests/runtime_closure_materialization_plan.rs", "bytes": 21866, "sha256": "8E243CE33EC523912E400B62A7362B83D65371D05222DACCB6B72C22E11107A9" },
-    { "path": "crates/cantor_core/src/bin/cantor-runtime-closure-materialization-plan-fixture.rs", "bytes": 908, "sha256": "8E2A02A6575474A9DCB5B362BEB2129D48853A840BA0DBAF5808A9805651A51C" },
-    { "path": "crates/cantor_core/src/bin/cantor-runtime-closure-materialization-plan-verify.rs", "bytes": 1546, "sha256": "587724F9FAA2EA977C4E9072D83403F8B98908475BD9016903A27998EB565A47" },
-    { "path": "scripts/test_cantor_runtime_closure_materialization_plan_evidence.ps1", "bytes": 8650, "sha256": "886EBA36D08836D69456B7496C79E8BAE60DB7CA71BAD75102D3BC68416EB91F" },
-    { "path": "scripts/verify_cantor_runtime_closure_materialization_plan_formation.ps1", "bytes": 12106, "sha256": "79BFC8F2330858DFF2CAD5BF86AC4447FD86505FD24E47887AB200AA7AFE6871" },
-    { "path": "README.md", "bytes": 53343, "sha256": "D25B9B45D3C030B10DF43FFFED0206EDF9682752B01A2BD9751B06EE75642DA7" },
-    { "path": "docs/RUNTIME_CLOSURE_MATERIALIZATION_PLAN_P0.md", "bytes": 2591, "sha256": "B547E858929894887D36142673E426AA3280824CCD444D252BDF4DC8B8E11460" },
-    { "path": "docs/CANTOR_DEVELOPMENT_STATE_2026-08-23.md", "bytes": 24497, "sha256": "63F5880ED652F9C5AEC2A65ADE6AA06807178B8729345098B33B34CE71B9A8A7" },
-    { "path": "experiments/runtime_closure_materialization_plan_p0/artifacts/request.json", "bytes": 16958, "sha256": "8103511FFD8B0ED6D5A4503FCF2C3443E924CF6A46466DCAF9CBB2F43FE58145" },
-    { "path": "experiments/runtime_closure_materialization_plan_p0/artifacts/envelope.json", "bytes": 49032, "sha256": "9D96D5F881865ADE9FBCB08905AB50A7E5BA86783E2C722DE3E5F03D84076AC7" },
-    { "path": "experiments/runtime_closure_materialization_plan_p0/artifacts/verification.json", "bytes": 2065, "sha256": "5C1ACEDF1A56D12743C0096025D79F874087AE73C230DB3DDFE59D6BD5C91B2A" },
-    { "path": "experiments/runtime_closure_materialization_plan_p0/artifacts/evidence_manifest.json", "bytes": 2025, "sha256": "FC8B470AB0E2B0F37064516BB28D434E6067AC10FF088DED9A1224F1291B61C4" }
-  ],
-  "verification": {
-    "upstream_root_count": 2,
-    "upstream_material_node_count": 5,
-    "upstream_producer_edge_count": 3,
-    "upstream_prerequisite_count": 2,
-    "phase_count": 9,
-    "operation_kind_count": 13,
-    "operation_count": 25,
-    "unresolved_operation_count": 25,
-    "capability_denial_count": 25,
-    "receipt_zero_field_count": 10,
-    "focused_test_count": 19,
-    "independent_compilation_count": 2,
-    "retained_replay_count": 1,
-    "workspace_debug_result_group_count": 260,
-    "workspace_debug_passed_count": 1528,
-    "workspace_debug_failed_count": 0,
-    "workspace_debug_ignored_count": 13,
-    "workspace_release_result_group_count": 260,
-    "workspace_release_passed_count": 1528,
-    "workspace_release_failed_count": 0,
-    "workspace_release_ignored_count": 13,
-    "execution_authorized": false,
-    "filesystem_effect_count": 0,
-    "process_effect_count": 0,
-    "network_effect_count": 0,
-    "provider_effect_count": 0,
-    "model_effect_count": 0,
-    "mcp_effect_count": 0,
-    "git_effect_count": 0,
-    "workspace_effect_count": 0,
-    "secret_effect_count": 0,
-    "permission_effect_count": 0,
-    "activation_effect_count": 0,
-    "cleanup_effect_count": 0,
-    "rollback_effect_count": 0,
-    "remote_effect_count": 0,
-    "hardware_effect_count": 0,
-    "foreign_effect_count": 0
-  },
-  "disposition": "provider_free_materialization_plan_implementation_verified_publication_pending"
+    "profile":  "cantor-runtime-closure-materialization-plan-p0-implementation-evidence/0.1",
+    "manifest_uuid":  "d6da0493-57d8-4a4e-b130-04292ebbe94d",
+    "canonical_uuid":  "1ec5159a-cddd-4061-a316-4dace13d2e06",
+    "formation_signature_uuid":  "90be7b47-10d2-47a5-989e-8c40120bd60b",
+    "formation_commit":  "09a435900a4b657797cb80bab06e51b97b396959",
+    "formation_bookend_commit":  "e7a0ec0f6b5508bd36c0b294860c382d36ab33ef",
+    "file_ref_count":  15,
+    "artifacts":  [
+                      {
+                          "path":  "specifications/Cantor_Runtime_Closure_Materialization_Plan_P0.sop",
+                          "bytes":  9930,
+                          "sha256":  "5D08F5C5CE8ADA8A077608B08EBC73A5B9B8FECA1E43FFA351BC64FEFEB21EEA"
+                      },
+                      {
+                          "path":  "crates/cantor_core/src/runtime_closure_materialization_plan.rs",
+                          "bytes":  85420,
+                          "sha256":  "15633C2DAC5D02C32744414F20D83EF0E760658D11EF24E6E5950ED2ED44C6A2"
+                      },
+                      {
+                          "path":  "crates/cantor_core/src/lib.rs",
+                          "bytes":  2852,
+                          "sha256":  "696F0302D2CF760D4371AE0101C86B436D009A9D34333B4BB8440391D842D064"
+                      },
+                      {
+                          "path":  "crates/cantor_core/tests/runtime_closure_materialization_plan.rs",
+                          "bytes":  21866,
+                          "sha256":  "8E243CE33EC523912E400B62A7362B83D65371D05222DACCB6B72C22E11107A9"
+                      },
+                      {
+                          "path":  "crates/cantor_core/src/bin/cantor-runtime-closure-materialization-plan-fixture.rs",
+                          "bytes":  908,
+                          "sha256":  "8E2A02A6575474A9DCB5B362BEB2129D48853A840BA0DBAF5808A9805651A51C"
+                      },
+                      {
+                          "path":  "crates/cantor_core/src/bin/cantor-runtime-closure-materialization-plan-verify.rs",
+                          "bytes":  1546,
+                          "sha256":  "587724F9FAA2EA977C4E9072D83403F8B98908475BD9016903A27998EB565A47"
+                      },
+                      {
+                          "path":  "scripts/test_cantor_runtime_closure_materialization_plan_evidence.ps1",
+                          "bytes":  8650,
+                          "sha256":  "886EBA36D08836D69456B7496C79E8BAE60DB7CA71BAD75102D3BC68416EB91F"
+                      },
+                      {
+                          "path":  "scripts/verify_cantor_runtime_closure_materialization_plan_formation.ps1",
+                          "bytes":  12106,
+                          "sha256":  "79BFC8F2330858DFF2CAD5BF86AC4447FD86505FD24E47887AB200AA7AFE6871"
+                      },
+                      {
+                          "path":  "README.md",
+                          "bytes":  53867,
+                          "sha256":  "AAFB15F1F73582785B595ECBF132474AFFF410B7AE4E1972DA926A7584151B17"
+                      },
+                      {
+                          "path":  "docs/RUNTIME_CLOSURE_MATERIALIZATION_PLAN_P0.md",
+                          "bytes":  2591,
+                          "sha256":  "B547E858929894887D36142673E426AA3280824CCD444D252BDF4DC8B8E11460"
+                      },
+                      {
+                          "path":  "docs/CANTOR_DEVELOPMENT_STATE_2026-08-23.md",
+                          "bytes":  26134,
+                          "sha256":  "5FA9BC32B0ACC7489F798F6CA28A2464D1B8B5A646BBF94772D66FBA2761372F"
+                      },
+                      {
+                          "path":  "experiments/runtime_closure_materialization_plan_p0/artifacts/request.json",
+                          "bytes":  16958,
+                          "sha256":  "8103511FFD8B0ED6D5A4503FCF2C3443E924CF6A46466DCAF9CBB2F43FE58145"
+                      },
+                      {
+                          "path":  "experiments/runtime_closure_materialization_plan_p0/artifacts/envelope.json",
+                          "bytes":  49032,
+                          "sha256":  "9D96D5F881865ADE9FBCB08905AB50A7E5BA86783E2C722DE3E5F03D84076AC7"
+                      },
+                      {
+                          "path":  "experiments/runtime_closure_materialization_plan_p0/artifacts/verification.json",
+                          "bytes":  2065,
+                          "sha256":  "5C1ACEDF1A56D12743C0096025D79F874087AE73C230DB3DDFE59D6BD5C91B2A"
+                      },
+                      {
+                          "path":  "experiments/runtime_closure_materialization_plan_p0/artifacts/evidence_manifest.json",
+                          "bytes":  2025,
+                          "sha256":  "FC8B470AB0E2B0F37064516BB28D434E6067AC10FF088DED9A1224F1291B61C4"
+                      }
+                  ],
+    "verification":  {
+                         "upstream_root_count":  2,
+                         "upstream_material_node_count":  5,
+                         "upstream_producer_edge_count":  3,
+                         "upstream_prerequisite_count":  2,
+                         "phase_count":  9,
+                         "operation_kind_count":  13,
+                         "operation_count":  25,
+                         "unresolved_operation_count":  25,
+                         "capability_denial_count":  25,
+                         "receipt_zero_field_count":  10,
+                         "focused_test_count":  19,
+                         "independent_compilation_count":  2,
+                         "retained_replay_count":  1,
+                         "workspace_debug_result_group_count":  260,
+                         "workspace_debug_passed_count":  1528,
+                         "workspace_debug_failed_count":  0,
+                         "workspace_debug_ignored_count":  13,
+                         "workspace_release_result_group_count":  260,
+                         "workspace_release_passed_count":  1528,
+                         "workspace_release_failed_count":  0,
+                         "workspace_release_ignored_count":  13,
+                         "execution_authorized":  false,
+                         "filesystem_effect_count":  0,
+                         "process_effect_count":  0,
+                         "network_effect_count":  0,
+                         "provider_effect_count":  0,
+                         "model_effect_count":  0,
+                         "mcp_effect_count":  0,
+                         "git_effect_count":  0,
+                         "workspace_effect_count":  0,
+                         "secret_effect_count":  0,
+                         "permission_effect_count":  0,
+                         "activation_effect_count":  0,
+                         "cleanup_effect_count":  0,
+                         "rollback_effect_count":  0,
+                         "remote_effect_count":  0,
+                         "hardware_effect_count":  0,
+                         "foreign_effect_count":  0
+                     },
+    "disposition":  "provider_free_materialization_plan_implementation_verified_publication_pending"
 }

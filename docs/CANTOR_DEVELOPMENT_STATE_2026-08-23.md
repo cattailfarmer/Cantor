@@ -365,6 +365,34 @@ build, filesystem action, verifier result, rollback action, installation,
 activation, completion receipt, provider/model interaction, secret, remote
 machine, and hardware effect remains outside the commission.
 
+## SJS minimum-recoverable-frame checkpoint
+
+The first executable controlled-forgetting waist is now provider-free.
+`cantor_core::sjs_minimum_recoverable_frame` accepts exact supplied
+JustificationScope, ScopeWideHintCovenant, OperativeFrame, recovery-source,
+initial-basis, and candidate-policy values. It projects the same common hint
+basis to every declared job, enforces nonreleasable floors for governing
+anchors, denials, and open obligations, and records every attempted reduction
+as an immutable RestorationWitness plus a nonauthoritative public narrative
+event.
+
+Candidate generation is deterministic and bounded: lexicographic single
+removals precede grouped removals. One reachable frame identical to the
+baseline is anchored; one unequal frame is drifted; zero or conflicting frames
+are underdetermined. Only anchored candidates become current. The compiler
+claims local irreducibility only after its declared generator is exhausted;
+budget exhaustion explicitly makes no minimum claim.
+
+The retained two-job, eight-hint, two-source fixture reaches a four-hint basis
+through four admitted releases, one drift refusal, and one underdetermined
+refusal. Eighteen focused adversarial tests pass in debug and
+overflow-checked release. Both PowerShell engines and both profiles replay the
+same four LF-terminated evidence files. All fourteen effect counters remain
+zero. This does not yet project prompts, use a provider, compare semantic
+meaning with a model, prove a global or token optimum, demonstrate a speedup,
+persist custody, continue autonomous work, admit a successor SOP, mutate a
+host, or produce any physical effect.
+
 ## Mechanical audit
 
 ```powershell
