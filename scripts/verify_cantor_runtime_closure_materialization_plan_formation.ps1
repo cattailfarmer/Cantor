@@ -156,14 +156,15 @@ foreach ($name in @('filesystem_effect_count','process_effect_count','network_ef
     if ([long]$v.$name -ne 0) { throw "nonzero effect $name" }
 }
 
-$forbiddenImplementationPaths = @(
-    'crates/cantor_core/src/runtime_closure_materialization_plan.rs',
-    'crates/cantor_core/tests/runtime_closure_materialization_plan.rs',
-    'crates/cantor_core/src/bin/cantor-runtime-closure-materialization-plan-fixture.rs',
-    'crates/cantor_core/src/bin/cantor-runtime-closure-materialization-plan-verify.rs'
-)
-foreach ($relative in $forbiddenImplementationPaths) {
-    if (Test-Path -LiteralPath (Join-Path $RepositoryRoot $relative)) { throw "implementation preceded formation publication: $relative" }
+$gitDirectory = Join-Path $RepositoryRoot '.git'
+if (Test-Path -LiteralPath $gitDirectory) {
+    $formationCommit = '09a435900a4b657797cb80bab06e51b97b396959'
+    & git -C $RepositoryRoot cat-file -e "$formationCommit^{commit}" 2>$null
+    if ($LASTEXITCODE -eq 0) {
+        $formationPaths = @(& git -C $RepositoryRoot show --format= --name-only $formationCommit)
+        $prematureRust = @($formationPaths | Where-Object { $_ -like 'crates/*' -or $_ -like 'Cargo.*' })
+        if ($prematureRust.Count -ne 0) { throw "implementation preceded formation publication: $($prematureRust -join ', ')" }
+    }
 }
 
 Write-Output 'runtime_closure_materialization_plan_formation_passed artifacts=19 bindings=18 requirements=30 acceptance=5 profiles=4 input_classes=2 phases=9 operation_kinds=13 operation_bounds=11..1155 denials=25 execution_authorized=false effects=0'

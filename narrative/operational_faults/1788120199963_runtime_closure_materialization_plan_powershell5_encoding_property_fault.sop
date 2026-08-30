@@ -1,0 +1,19 @@
+Subject: Runtime Closure Materialization Plan PowerShell 5 Encoding Property Fault
+
+@ [fault_uuid] 0ef1cbfe-6002-404f-9750-77ac0e624254
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_utc] 2026-08-30T20:03:19.9636248Z
+
+& [Observation]
+  + first retained-evidence production under Windows PowerShell 5 stopped before spawning Cargo because its older ProcessStartInfo lacks StandardInputEncoding
+  + no evidence directory or partial retained file was created and no existing artifact was overwritten
+
+& [Cause]
+  + the wrapper assumed encoding properties available under modern PowerShell and .NET were universal across the two required shell hosts
+
+& [Resolution]
+  + capability-check StandardInputEncoding StandardOutputEncoding and StandardErrorEncoding before assignment while retaining UTF-8 no-BOM file writes and exact stdout comparisons
+  + producer and verify-existing modes then passed under both pwsh and Windows PowerShell in debug and release
+
+& [Prevention]
+  + dual-shell wrapper validation remains an explicit gate; absence of an optional ProcessStartInfo property must not weaken evidence byte or semantic verification

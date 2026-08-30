@@ -1,307 +1,307 @@
 {
-  "schema": "cantor-prepared-runtime-evidence-manifest/0.1",
-  "evidence_manifest_uuid": "a9d605de-2015-4643-a914-fd0cbfda12b8",
-  "generated_at_utc": "2026-08-30T17:31:21.0955725Z",
-  "authority": {
-    "canonical_specification_uuid": "73d6dba4-df9b-4856-90cf-2a40a32c98df",
-    "satisfaction_signature_uuid": "38e9e194-1b32-4785-92a4-1f34ba1bfed9",
-    "solution_uuid": "05c9ee54-f70c-4a88-aa8a-0b31352ef0e6"
-  },
-  "disposition": "activate_bounded_core_and_resident_mcp_with_direct_rollback",
-  "verification": [
-    {
-      "command": "cargo fmt --all --check",
-      "status": "passed"
-    },
-    {
-      "command": "cargo clippy --workspace --all-targets -- -D warnings",
-      "status": "passed"
-    },
-    {
-      "command": "cargo test --workspace --locked --offline",
-      "status": "passed",
-      "tests": 91
-    },
-    {
-      "command": "cargo test --workspace --release --locked --offline",
-      "status": "passed",
-      "tests": 91
-    },
-    {
-      "command": "cargo build --workspace --release --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "cargo doc --workspace --no-deps --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "cargo test --locked --manifest-path experiments/prepared_runtime_benchmark/Cargo.toml",
-      "status": "passed",
-      "tests": 3
-    },
-    {
-      "command": "cargo clippy --manifest-path experiments/prepared_runtime_benchmark/Cargo.toml --all-targets --features dhat-heap -- -D warnings",
-      "status": "passed"
-    },
-    {
-      "command": "cargo audit --file Cargo.lock",
-      "status": "passed",
-      "advisories_loaded": 1173,
-      "vulnerabilities": 0
-    },
-    {
-      "command": "cargo audit --file experiments/prepared_runtime_benchmark/Cargo.lock",
-      "status": "passed",
-      "advisories_loaded": 1173,
-      "vulnerabilities": 0
-    }
-  ],
-  "artifacts": [
-    {
-      "path": ".gitattributes",
-      "sha256": "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
-      "bytes": 185
-    },
-    {
-      "path": "source_documents/2026-07-29_cantor_prepared_runtime/Dictated_Cantor_Prepared_Runtime_Source.sop",
-      "sha256": "FC8D5E14D3E189C23C64769EAB0FFFB8491B7741915872D359FE20F4E8137221",
-      "bytes": 1141
-    },
-    {
-      "path": "source_documents/2026-07-29_cantor_prepared_runtime/Source_Document_Manifest.sop",
-      "sha256": "EE3B836AE40FEF9B225AD9ED514D5C8E2537AD71518A9E0AD4A8827E9F6B1923",
-      "bytes": 1336
-    },
-    {
-      "path": "specifications/exploded/Cantor_Prepared_Runtime.exploded.sop",
-      "sha256": "1FEF47FFCF4DD4931F934D37030285C89140BB24991645B074B51B02B7AB7A15",
-      "bytes": 22811
-    },
-    {
-      "path": "specifications/Cantor_Prepared_Runtime.sop",
-      "sha256": "6FE8F26E983EA7317C6ED08E0300873CEDC2FB3112577ED72050518037F7B302",
-      "bytes": 12510
-    },
-    {
-      "path": "justifications/Cantor_Prepared_Runtime_Justification.sop",
-      "sha256": "5AF4CCF4D1C2C327D31580D6B5496D5FBC89D238D991E983794C04FE18CB019D",
-      "bytes": 4662
-    },
-    {
-      "path": "Cargo.toml",
-      "sha256": "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
-      "bytes": 1285
-    },
-    {
-      "path": "Cargo.lock",
-      "sha256": "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
-      "bytes": 41561
-    },
-    {
-      "path": "crates/cantor_core/src/lib.rs",
-      "sha256": "F1B83E1B65148E9616D7145E9FD522E3BA43FF9C573E991CABFCFF3397895467",
-      "bytes": 2676
-    },
-    {
-      "path": "crates/cantor_core/src/protocol.rs",
-      "sha256": "47F1C85B9FE8BA80549D54B1D49ECE84120ABAEE8AA332ADF731468B875FD174",
-      "bytes": 37891
-    },
-    {
-      "path": "crates/cantor_core/src/prepared.rs",
-      "sha256": "28D7FA970441361CF0596AB7798BB599E512B85F731D2989526F98AB437ED830",
-      "bytes": 17921
-    },
-    {
-      "path": "crates/cantor_core/tests/common/mod.rs",
-      "sha256": "53381F9053AC37A0497739972E9D0D0818C181AA1A2AA7BAFAD14CEA30A1CE26",
-      "bytes": 9225
-    },
-    {
-      "path": "crates/cantor_core/tests/prepared_runtime.rs",
-      "sha256": "AF413D0B05675C7007728B4D2ECF7B66C3E419B493281F9860A6D9759E951616",
-      "bytes": 15166
-    },
-    {
-      "path": "crates/cantor_mcp/src/lib.rs",
-      "sha256": "ECDAA3B048398851B4D9CF468480101B223CEDDBF6CC27C9A4B29409994D45EC",
-      "bytes": 38885
-    },
-    {
-      "path": "crates/cantor_mcp/tests/mcp_protocol.rs",
-      "sha256": "E245609AD79F745D5722502182092828098881C4715FBF185DE4EB249CD47D78",
-      "bytes": 30414
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/Cargo.toml",
-      "sha256": "043C9A4CCA3B02F0AB519738D85BBEDD4328C81A61C52CBD3285D82CF7A484CD",
-      "bytes": 467
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/Cargo.lock",
-      "sha256": "77667C6367C8A9B93ABEDB19CEF455570FBAFD3EAD5CF9A56CB4AA5895D0150D",
-      "bytes": 12031
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/README.md",
-      "sha256": "D93951969FB3F6F5BAC9D23D726262C55E1AC15EEE1706E78786D03E41B480E9",
-      "bytes": 1748
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/src/main.rs",
-      "sha256": "F3EBE37E948F65FE260E632EAB21E3CFD653A336F4AAE72A927575E0A1E21091",
-      "bytes": 14016
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/2026-07-29_three_run_summary.json",
-      "sha256": "825D33D2A59DA932A6F981E691A1D44DF8A8E78989A7EEBBC31E92FBF33BD773",
-      "bytes": 27256
-    },
-    {
-      "path": "scripts/summarize_prepared_runtime_evidence.ps1",
-      "sha256": "0FE4FB08D21570BB7670AD54328149DA34990E4222C5E4AFAED717C4E3809C4A",
-      "bytes": 8007
-    },
-    {
-      "path": "scripts/build_prepared_runtime_evidence_manifest.ps1",
-      "sha256": "334749ADCE247E4D00416BD36A6CD1EA0847DE8AD69D2EFA6CA81A17957550B7",
-      "bytes": 4196
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/latency_run_1_packages_1.json",
-      "sha256": "07A2E1D3A0380C5BE6B7D258B809B215306FB376E61EA9645A60CA0ED61F180B",
-      "bytes": 1357
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/latency_run_1_packages_256.json",
-      "sha256": "DF3E3D813BCEFCCD827C360B756CBAB9C3644F22765C82A53EECFE7085CB6E1D",
-      "bytes": 1434
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/latency_run_1_packages_32.json",
-      "sha256": "7BC1B3669D566567ABAA6274432C92AA680952516D8BC29366B7F3176AE99E6B",
-      "bytes": 1478
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/latency_run_2_packages_1.json",
-      "sha256": "1B5B46DB13FE5DAA4096AC9335FE8C3781ECA1F8FFDCD4A3574E68446BB016ED",
-      "bytes": 1369
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/latency_run_2_packages_256.json",
-      "sha256": "C809E75575C849D8499F1F7BB63ECBF0A05BD6F0AAA231BBEA4C00B5ED1D16F2",
-      "bytes": 1454
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/latency_run_2_packages_32.json",
-      "sha256": "4C687188B6B5B6C68A8D8A1B84A0776909B06DBC8D36B8E7B4F250AFB52D8C13",
-      "bytes": 1415
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/latency_run_3_packages_1.json",
-      "sha256": "C06AEACE422E8057E854177DCD8073EFAE80DAAF000BCB01FF85BAC8B89D6CFD",
-      "bytes": 1409
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/latency_run_3_packages_256.json",
-      "sha256": "D6960E190FC70105778350811DF2AB69ED390BDC8D0ABD139417F4B1ACC4E979",
-      "bytes": 1419
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/latency_run_3_packages_32.json",
-      "sha256": "BAD32480A444427EA158B416535EDEE3797235C2BD7EFA0AA8806AB553316568",
-      "bytes": 1402
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_baseline_packages_1.json",
-      "sha256": "E25B6FD2FD779B00C908EDF3A9EAAA1B4900D6E1A74CD7CC3D06ED5026CC1A3A",
-      "bytes": 260
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_baseline_packages_256.json",
-      "sha256": "B643E4FF4CB37C70B7F67750F6A42FFDBAFA5FBCFBE9B590F4C16F9F17F1612B",
-      "bytes": 275
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_baseline_packages_32.json",
-      "sha256": "F4B2C9AEEC8743F8DCD88ED30A77F076755C00D1540AA5147B9D998816391BF3",
-      "bytes": 269
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_prepared_packages_1.json",
-      "sha256": "182D66AFC41E599DD524100B88916B639302DD75D60C108CA660AE1DC95BBD48",
-      "bytes": 262
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_prepared_packages_256.json",
-      "sha256": "3A765B4A3111AF9BD3671FF595E18E6650348E9BC88F469D3277AEC90E59D449",
-      "bytes": 276
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_prepared_packages_32.json",
-      "sha256": "27A270101500A2F3045D1BD61DE00B151917E8357A596EA391CE52E86EB1FEE3",
-      "bytes": 269
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_baseline_packages_1.json",
-      "sha256": "E25B6FD2FD779B00C908EDF3A9EAAA1B4900D6E1A74CD7CC3D06ED5026CC1A3A",
-      "bytes": 260
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_baseline_packages_256.json",
-      "sha256": "B643E4FF4CB37C70B7F67750F6A42FFDBAFA5FBCFBE9B590F4C16F9F17F1612B",
-      "bytes": 275
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_baseline_packages_32.json",
-      "sha256": "F4B2C9AEEC8743F8DCD88ED30A77F076755C00D1540AA5147B9D998816391BF3",
-      "bytes": 269
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_prepared_packages_1.json",
-      "sha256": "182D66AFC41E599DD524100B88916B639302DD75D60C108CA660AE1DC95BBD48",
-      "bytes": 262
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_prepared_packages_256.json",
-      "sha256": "3A765B4A3111AF9BD3671FF595E18E6650348E9BC88F469D3277AEC90E59D449",
-      "bytes": 276
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_prepared_packages_32.json",
-      "sha256": "27A270101500A2F3045D1BD61DE00B151917E8357A596EA391CE52E86EB1FEE3",
-      "bytes": 269
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_baseline_packages_1.json",
-      "sha256": "E25B6FD2FD779B00C908EDF3A9EAAA1B4900D6E1A74CD7CC3D06ED5026CC1A3A",
-      "bytes": 260
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_baseline_packages_256.json",
-      "sha256": "B643E4FF4CB37C70B7F67750F6A42FFDBAFA5FBCFBE9B590F4C16F9F17F1612B",
-      "bytes": 275
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_baseline_packages_32.json",
-      "sha256": "F4B2C9AEEC8743F8DCD88ED30A77F076755C00D1540AA5147B9D998816391BF3",
-      "bytes": 269
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_prepared_packages_1.json",
-      "sha256": "182D66AFC41E599DD524100B88916B639302DD75D60C108CA660AE1DC95BBD48",
-      "bytes": 262
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_prepared_packages_256.json",
-      "sha256": "3A765B4A3111AF9BD3671FF595E18E6650348E9BC88F469D3277AEC90E59D449",
-      "bytes": 276
-    },
-    {
-      "path": "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_prepared_packages_32.json",
-      "sha256": "27A270101500A2F3045D1BD61DE00B151917E8357A596EA391CE52E86EB1FEE3",
-      "bytes": 269
-    }
-  ]
+    "schema":  "cantor-prepared-runtime-evidence-manifest/0.1",
+    "evidence_manifest_uuid":  "a9d605de-2015-4643-a914-fd0cbfda12b8",
+    "generated_at_utc":  "2026-08-30T19:06:47.3210420Z",
+    "authority":  {
+                      "canonical_specification_uuid":  "73d6dba4-df9b-4856-90cf-2a40a32c98df",
+                      "satisfaction_signature_uuid":  "38e9e194-1b32-4785-92a4-1f34ba1bfed9",
+                      "solution_uuid":  "05c9ee54-f70c-4a88-aa8a-0b31352ef0e6"
+                  },
+    "disposition":  "activate_bounded_core_and_resident_mcp_with_direct_rollback",
+    "verification":  [
+                         {
+                             "command":  "cargo fmt --all --check",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo clippy --workspace --all-targets -- -D warnings",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --workspace --locked --offline",
+                             "status":  "passed",
+                             "tests":  91
+                         },
+                         {
+                             "command":  "cargo test --workspace --release --locked --offline",
+                             "status":  "passed",
+                             "tests":  91
+                         },
+                         {
+                             "command":  "cargo build --workspace --release --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo doc --workspace --no-deps --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --locked --manifest-path experiments/prepared_runtime_benchmark/Cargo.toml",
+                             "status":  "passed",
+                             "tests":  3
+                         },
+                         {
+                             "command":  "cargo clippy --manifest-path experiments/prepared_runtime_benchmark/Cargo.toml --all-targets --features dhat-heap -- -D warnings",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo audit --file Cargo.lock",
+                             "status":  "passed",
+                             "advisories_loaded":  1173,
+                             "vulnerabilities":  0
+                         },
+                         {
+                             "command":  "cargo audit --file experiments/prepared_runtime_benchmark/Cargo.lock",
+                             "status":  "passed",
+                             "advisories_loaded":  1173,
+                             "vulnerabilities":  0
+                         }
+                     ],
+    "artifacts":  [
+                      {
+                          "path":  ".gitattributes",
+                          "sha256":  "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
+                          "bytes":  185
+                      },
+                      {
+                          "path":  "source_documents/2026-07-29_cantor_prepared_runtime/Dictated_Cantor_Prepared_Runtime_Source.sop",
+                          "sha256":  "FC8D5E14D3E189C23C64769EAB0FFFB8491B7741915872D359FE20F4E8137221",
+                          "bytes":  1141
+                      },
+                      {
+                          "path":  "source_documents/2026-07-29_cantor_prepared_runtime/Source_Document_Manifest.sop",
+                          "sha256":  "EE3B836AE40FEF9B225AD9ED514D5C8E2537AD71518A9E0AD4A8827E9F6B1923",
+                          "bytes":  1336
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_Prepared_Runtime.exploded.sop",
+                          "sha256":  "1FEF47FFCF4DD4931F934D37030285C89140BB24991645B074B51B02B7AB7A15",
+                          "bytes":  22811
+                      },
+                      {
+                          "path":  "specifications/Cantor_Prepared_Runtime.sop",
+                          "sha256":  "6FE8F26E983EA7317C6ED08E0300873CEDC2FB3112577ED72050518037F7B302",
+                          "bytes":  12510
+                      },
+                      {
+                          "path":  "justifications/Cantor_Prepared_Runtime_Justification.sop",
+                          "sha256":  "5AF4CCF4D1C2C327D31580D6B5496D5FBC89D238D991E983794C04FE18CB019D",
+                          "bytes":  4662
+                      },
+                      {
+                          "path":  "Cargo.toml",
+                          "sha256":  "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
+                          "bytes":  1285
+                      },
+                      {
+                          "path":  "Cargo.lock",
+                          "sha256":  "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
+                          "bytes":  41561
+                      },
+                      {
+                          "path":  "crates/cantor_core/src/lib.rs",
+                          "sha256":  "22ADC48F0667873DABA5756865D6D255E4F21922C0A693F46BE6216B76E0DD0E",
+                          "bytes":  2771
+                      },
+                      {
+                          "path":  "crates/cantor_core/src/protocol.rs",
+                          "sha256":  "47F1C85B9FE8BA80549D54B1D49ECE84120ABAEE8AA332ADF731468B875FD174",
+                          "bytes":  37891
+                      },
+                      {
+                          "path":  "crates/cantor_core/src/prepared.rs",
+                          "sha256":  "28D7FA970441361CF0596AB7798BB599E512B85F731D2989526F98AB437ED830",
+                          "bytes":  17921
+                      },
+                      {
+                          "path":  "crates/cantor_core/tests/common/mod.rs",
+                          "sha256":  "53381F9053AC37A0497739972E9D0D0818C181AA1A2AA7BAFAD14CEA30A1CE26",
+                          "bytes":  9225
+                      },
+                      {
+                          "path":  "crates/cantor_core/tests/prepared_runtime.rs",
+                          "sha256":  "AF413D0B05675C7007728B4D2ECF7B66C3E419B493281F9860A6D9759E951616",
+                          "bytes":  15166
+                      },
+                      {
+                          "path":  "crates/cantor_mcp/src/lib.rs",
+                          "sha256":  "ECDAA3B048398851B4D9CF468480101B223CEDDBF6CC27C9A4B29409994D45EC",
+                          "bytes":  38885
+                      },
+                      {
+                          "path":  "crates/cantor_mcp/tests/mcp_protocol.rs",
+                          "sha256":  "E245609AD79F745D5722502182092828098881C4715FBF185DE4EB249CD47D78",
+                          "bytes":  30414
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/Cargo.toml",
+                          "sha256":  "043C9A4CCA3B02F0AB519738D85BBEDD4328C81A61C52CBD3285D82CF7A484CD",
+                          "bytes":  467
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/Cargo.lock",
+                          "sha256":  "77667C6367C8A9B93ABEDB19CEF455570FBAFD3EAD5CF9A56CB4AA5895D0150D",
+                          "bytes":  12031
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/README.md",
+                          "sha256":  "D93951969FB3F6F5BAC9D23D726262C55E1AC15EEE1706E78786D03E41B480E9",
+                          "bytes":  1748
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/src/main.rs",
+                          "sha256":  "F3EBE37E948F65FE260E632EAB21E3CFD653A336F4AAE72A927575E0A1E21091",
+                          "bytes":  14016
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/2026-07-29_three_run_summary.json",
+                          "sha256":  "825D33D2A59DA932A6F981E691A1D44DF8A8E78989A7EEBBC31E92FBF33BD773",
+                          "bytes":  27256
+                      },
+                      {
+                          "path":  "scripts/summarize_prepared_runtime_evidence.ps1",
+                          "sha256":  "0FE4FB08D21570BB7670AD54328149DA34990E4222C5E4AFAED717C4E3809C4A",
+                          "bytes":  8007
+                      },
+                      {
+                          "path":  "scripts/build_prepared_runtime_evidence_manifest.ps1",
+                          "sha256":  "334749ADCE247E4D00416BD36A6CD1EA0847DE8AD69D2EFA6CA81A17957550B7",
+                          "bytes":  4196
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/latency_run_1_packages_1.json",
+                          "sha256":  "07A2E1D3A0380C5BE6B7D258B809B215306FB376E61EA9645A60CA0ED61F180B",
+                          "bytes":  1357
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/latency_run_1_packages_256.json",
+                          "sha256":  "DF3E3D813BCEFCCD827C360B756CBAB9C3644F22765C82A53EECFE7085CB6E1D",
+                          "bytes":  1434
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/latency_run_1_packages_32.json",
+                          "sha256":  "7BC1B3669D566567ABAA6274432C92AA680952516D8BC29366B7F3176AE99E6B",
+                          "bytes":  1478
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/latency_run_2_packages_1.json",
+                          "sha256":  "1B5B46DB13FE5DAA4096AC9335FE8C3781ECA1F8FFDCD4A3574E68446BB016ED",
+                          "bytes":  1369
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/latency_run_2_packages_256.json",
+                          "sha256":  "C809E75575C849D8499F1F7BB63ECBF0A05BD6F0AAA231BBEA4C00B5ED1D16F2",
+                          "bytes":  1454
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/latency_run_2_packages_32.json",
+                          "sha256":  "4C687188B6B5B6C68A8D8A1B84A0776909B06DBC8D36B8E7B4F250AFB52D8C13",
+                          "bytes":  1415
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/latency_run_3_packages_1.json",
+                          "sha256":  "C06AEACE422E8057E854177DCD8073EFAE80DAAF000BCB01FF85BAC8B89D6CFD",
+                          "bytes":  1409
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/latency_run_3_packages_256.json",
+                          "sha256":  "D6960E190FC70105778350811DF2AB69ED390BDC8D0ABD139417F4B1ACC4E979",
+                          "bytes":  1419
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/latency_run_3_packages_32.json",
+                          "sha256":  "BAD32480A444427EA158B416535EDEE3797235C2BD7EFA0AA8806AB553316568",
+                          "bytes":  1402
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_baseline_packages_1.json",
+                          "sha256":  "E25B6FD2FD779B00C908EDF3A9EAAA1B4900D6E1A74CD7CC3D06ED5026CC1A3A",
+                          "bytes":  260
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_baseline_packages_256.json",
+                          "sha256":  "B643E4FF4CB37C70B7F67750F6A42FFDBAFA5FBCFBE9B590F4C16F9F17F1612B",
+                          "bytes":  275
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_baseline_packages_32.json",
+                          "sha256":  "F4B2C9AEEC8743F8DCD88ED30A77F076755C00D1540AA5147B9D998816391BF3",
+                          "bytes":  269
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_prepared_packages_1.json",
+                          "sha256":  "182D66AFC41E599DD524100B88916B639302DD75D60C108CA660AE1DC95BBD48",
+                          "bytes":  262
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_prepared_packages_256.json",
+                          "sha256":  "3A765B4A3111AF9BD3671FF595E18E6650348E9BC88F469D3277AEC90E59D449",
+                          "bytes":  276
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_1_prepared_packages_32.json",
+                          "sha256":  "27A270101500A2F3045D1BD61DE00B151917E8357A596EA391CE52E86EB1FEE3",
+                          "bytes":  269
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_baseline_packages_1.json",
+                          "sha256":  "E25B6FD2FD779B00C908EDF3A9EAAA1B4900D6E1A74CD7CC3D06ED5026CC1A3A",
+                          "bytes":  260
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_baseline_packages_256.json",
+                          "sha256":  "B643E4FF4CB37C70B7F67750F6A42FFDBAFA5FBCFBE9B590F4C16F9F17F1612B",
+                          "bytes":  275
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_baseline_packages_32.json",
+                          "sha256":  "F4B2C9AEEC8743F8DCD88ED30A77F076755C00D1540AA5147B9D998816391BF3",
+                          "bytes":  269
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_prepared_packages_1.json",
+                          "sha256":  "182D66AFC41E599DD524100B88916B639302DD75D60C108CA660AE1DC95BBD48",
+                          "bytes":  262
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_prepared_packages_256.json",
+                          "sha256":  "3A765B4A3111AF9BD3671FF595E18E6650348E9BC88F469D3277AEC90E59D449",
+                          "bytes":  276
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_2_prepared_packages_32.json",
+                          "sha256":  "27A270101500A2F3045D1BD61DE00B151917E8357A596EA391CE52E86EB1FEE3",
+                          "bytes":  269
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_baseline_packages_1.json",
+                          "sha256":  "E25B6FD2FD779B00C908EDF3A9EAAA1B4900D6E1A74CD7CC3D06ED5026CC1A3A",
+                          "bytes":  260
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_baseline_packages_256.json",
+                          "sha256":  "B643E4FF4CB37C70B7F67750F6A42FFDBAFA5FBCFBE9B590F4C16F9F17F1612B",
+                          "bytes":  275
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_baseline_packages_32.json",
+                          "sha256":  "F4B2C9AEEC8743F8DCD88ED30A77F076755C00D1540AA5147B9D998816391BF3",
+                          "bytes":  269
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_prepared_packages_1.json",
+                          "sha256":  "182D66AFC41E599DD524100B88916B639302DD75D60C108CA660AE1DC95BBD48",
+                          "bytes":  262
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_prepared_packages_256.json",
+                          "sha256":  "3A765B4A3111AF9BD3671FF595E18E6650348E9BC88F469D3277AEC90E59D449",
+                          "bytes":  276
+                      },
+                      {
+                          "path":  "experiments/prepared_runtime_benchmark/artifacts/memory_run_3_prepared_packages_32.json",
+                          "sha256":  "27A270101500A2F3045D1BD61DE00B151917E8357A596EA391CE52E86EB1FEE3",
+                          "bytes":  269
+                      }
+                  ]
 }

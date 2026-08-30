@@ -70,6 +70,11 @@ baseline:
   semantic-role directives to proof-bearing anchors and exact signed source,
   and project deterministic typed IR, one inert backend plan, and a two-stage
   self-description/self-ordering ledger without a provider or execution; and
+- `cantor_core` can now replay an exact RIS-P0 runtime-closure envelope and
+  compile a deterministic nine-phase materialization work plan whose operations,
+  dependencies, targets, expected identities, denied capabilities, unresolved
+  reasons, and zero-observation receipt candidate remain effectless and await a
+  separately signed executor commission; and
 - `cantor_core` can now compile one normalized, fully source-anchored
   attention-procedure candidate through the existing effectless CPPE compiler,
   retaining exact validation and compilation lineage while leaving verification,

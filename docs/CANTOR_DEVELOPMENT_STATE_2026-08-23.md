@@ -348,6 +348,23 @@ of this checkpoint is that those later stages now have a deterministic,
 falsifiable declaration and expected-receipt boundary instead of an implicit
 file list.
 
+## Runtime-closure materialization-plan checkpoint
+
+The next provider-free seam is now executable. `cantor_core` strictly embeds
+and replays the exact RIS-P0 envelope, then derives a nine-phase, thirteen-kind
+materialization operation vocabulary with exact `4N + P + 3` cardinality. The
+retained five-node, two-prerequisite fixture yields 25 unresolved operations;
+each carries its canonical dependencies and required-but-denied capabilities.
+
+Nineteen focused tests pass in debug and overflow-checked release. The fixture
+and independent verifier CLIs reproduce the same four retained LF-terminated
+files under both PowerShell hosts and both Cargo profiles. The receipt candidate
+and all sixteen effect counters remain zero. This closes deterministic planning
+only: every host observation, prerequisite resolution, material acquisition or
+build, filesystem action, verifier result, rollback action, installation,
+activation, completion receipt, provider/model interaction, secret, remote
+machine, and hardware effect remains outside the commission.
+
 ## Mechanical audit
 
 ```powershell
