@@ -1,0 +1,17 @@
+Subject: Cantor Runtime Closure CLI Refusal Expectation Fault
+
+@ [fault_uuid] 46ba853c-f2bc-4fa2-86f3-79ea5ae982bd
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [observed_at_utc] 2026-08-30T16:44:48.4647621Z
+
+& [Fault]
+  + the first ad hoc malformed-input harness expected the phrase invalid evidence while the strict parser correctly returned typed InvalidMachineForm for a bundle missing request_file
+
+& [Impact]
+  + the verifier refused with exit two as required; no production source retained evidence or authority fact was wrong
+
+& [Resolution]
+  + correct the harness to assert exit two plus the stable typed fault class and rerun fixture argument malformed-input and overwrite refusal successfully
+
+& [Prevention]
+  + assertion harnesses must bind the documented typed boundary rather than an assumed free-text phrase

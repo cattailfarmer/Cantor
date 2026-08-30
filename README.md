@@ -94,6 +94,15 @@ baseline:
   versus 1,200 compact-handle bytes with exact valid/refused outcomes and
   visible restart loss, while live model-token and latency measurement remains
   explicitly pending the absent pinned local GGUF and listener; and
+- `cantor_core::runtime_closure` now compiles a supplied two-root Cantor-runtime
+  plus installation-SOP seed into one deterministic effectless material graph
+  plan under Revision 0.2, retaining eleven prerequisite kinds, five immutable
+  source kinds, portable logical targets, an all-zero expected receipt, and
+  twenty-five capability denials. A separate bounded verifier double-replays
+  exact retained request, envelope, verification, and manifest bytes; this is
+  an auditable closure declaration, not material acquisition, installation,
+  activation, provider/model contact, or proof that any declared byte exists;
+  and
 - `cantor_core::PreparedRuntime` retains at most one immutable exact-scope
   projection for repeated resident reads, with atomic generation replacement,
   invalidation, rollback, and the direct request path preserved; and

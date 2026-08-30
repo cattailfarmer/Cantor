@@ -316,6 +316,38 @@ signed for bounded provider-free implementation. Its success condition is
 current admission, allowed-read, denied-read, denied-write, stable inventory,
 and child-quiescence proof. No implementation or physical receipt exists yet.
 
+## Runtime plus SOP installation-seed closure checkpoint
+
+RIS-P0 Revision 0.2 now has an executable provider-free closure compiler in
+`cantor_core`. It accepts only supplied strict machine forms, binds exactly one
+bootstrap-runtime root and one installation-SOP root, validates a closed
+material/source/producer graph, preserves unresolved prerequisites, derives a
+lexicographically deterministic plan, and emits an expected receipt template
+with no observations, actions, installed-state assertion, activation-state
+assertion, or successor-recognition authority.
+
+The implementation distinguishes seven material kinds, eleven prerequisite
+kinds, and five immutable source kinds. Portable targets cannot express drive,
+UNC, backslash, traversal, alternate-stream, device, link, or case-fold
+semantics. Twenty-five capability denials exclude filesystem, process,
+compiler, package manager, network, provider, model, MCP, Git, workspace,
+secret, permission, activation, cleanup, rollback, remote, hardware, and
+external effects.
+
+Fifteen focused adversarial tests pass in debug and overflow-checked release.
+The four retained fixture files independently double-replay and then replay
+again from their exact post-write disk bytes. Locked, offline, serialized
+all-feature workspace debug and release each pass 257 result groups, 1,509
+tests, zero failures, and thirteen governed ignores from D-drive targets.
+
+This is not yet Cantor installation or clean-host reinflation. Real bootstrap
+bytes, a real installation SOP closure declaration, material resolution,
+source acquisition, build, host compatibility, installation, activation, boot
+observation, and completion receipt remain separate signed stages. The value
+of this checkpoint is that those later stages now have a deterministic,
+falsifiable declaration and expected-receipt boundary instead of an implicit
+file list.
+
 ## Mechanical audit
 
 ```powershell
