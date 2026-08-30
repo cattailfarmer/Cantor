@@ -1,0 +1,14 @@
+Subject: Cantor Runtime Plus SOP Bookend Remote Equality Expression Fault
+
+@ [fault_uuid] b7d44a09-352b-4ddd-8618-2246287f90fd
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [Fault]
+  + the first post-push bookend command placed PowerShell -split inside command invocation syntax and emitted a false publication mismatch after a successful push
+
+& [Resolution]
+  + a direct second read proved local tracking and ls-remote all equal 3fea892ffc1a5fb252caf9d785d3d9b4fb9664f6 with zero staged files
+  + no retry push reset force update or repository mutation was needed
+
+& [Prevention]
+  + capture git ls-remote output first and split the captured string in a separate expression
