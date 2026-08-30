@@ -675,7 +675,6 @@ fn validate_request_body(
     validate_upstream(request)?;
     validate_plan(&request.plan, Some(&request.upstream_request))?;
     validate_bound_identities(request)?;
-    validate_authorization(request)?;
     if request.evidence_refs.is_empty() || request.evidence_refs.len() > MAX_EVIDENCE_REFS {
         return Err(fault(
             NestedInnerLaunchPlanFaultCode::InvalidEvidence,
@@ -694,6 +693,7 @@ fn validate_request_body(
             "non-authority differs",
         ));
     }
+    validate_authorization(request)?;
     Ok(())
 }
 
@@ -1365,7 +1365,15 @@ fn validate_json_shape(
                         "machine field text differs",
                     ));
                 }
-                validate_json_shape(child, depth + 1, fields, Some(key))?;
+                if matches!(
+                    key.as_str(),
+                    "upstream_request" | "upstream_envelope" | "upstream_verification"
+                ) {
+                    let mut delegated_fields = 0;
+                    validate_json_shape(child, depth + 1, &mut delegated_fields, Some(key))?;
+                } else {
+                    validate_json_shape(child, depth + 1, fields, Some(key))?;
+                }
             }
         }
         Value::Array(values) => {

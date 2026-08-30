@@ -1,4 +1,6 @@
 use std::collections::BTreeMap;
+use std::io::Write;
+use std::process::{Command, Stdio};
 
 use cantor_core::{
     ContentDigest, InnerLaunchCancellationState, InnerLaunchOutputDeclaration, InnerLaunchPlan,
@@ -37,6 +39,16 @@ fn empty_digest() -> ContentDigest {
     ContentDigest {
         algorithm: "sha256".to_owned(),
         value: "0".repeat(64),
+    }
+}
+
+fn json_field_count(value: &serde_json::Value) -> usize {
+    match value {
+        serde_json::Value::Object(map) => {
+            map.len() + map.values().map(json_field_count).sum::<usize>()
+        }
+        serde_json::Value::Array(values) => values.iter().map(json_field_count).sum(),
+        _ => 0,
     }
 }
 
@@ -474,4 +486,308 @@ fn strict_request_machine_forms_refuse_shape_laundering_before_signature() {
             .code,
         NestedInnerLaunchPlanFaultCode::InvalidMachineForm
     );
+}
+
+#[test]
+fn plan_refuses_every_numeric_collection_and_text_boundary_before_signature() {
+    let mut cases = Vec::new();
+
+    let mut plan = unsealed_plan();
+    plan.argv = (0..33).map(|index| format!("arg-{index}")).collect();
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.environment = (0..33)
+        .map(|index| {
+            (
+                format!("KEY_{index}"),
+                sid(&format!("opaque:value-{index}")),
+            )
+        })
+        .collect();
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.argv = vec!["x".repeat(2_049)];
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.context_token_ceiling = 255;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.context_token_ceiling = 1_048_577;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.memory_byte_ceiling = 0;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.memory_byte_ceiling = 549_755_813_889;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.thread_ceiling = 0;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.thread_ceiling = 1_025;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.gpu_layer_ceiling = 65_536;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.startup_millis_ceiling = 0;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.runtime_millis_ceiling = 86_400_001;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.output_byte_ceiling = 1_073_741_825;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.descendant_count_ceiling = 65;
+    cases.push(plan);
+
+    let mut plan = unsealed_plan();
+    plan.cancellation_grace_millis_ceiling = 600_001;
+    cases.push(plan);
+
+    for plan in cases {
+        assert_eq!(
+            seal_inner_launch_plan(plan).unwrap_err().code,
+            NestedInnerLaunchPlanFaultCode::InvalidPlan
+        );
+    }
+}
+
+#[test]
+fn request_authority_and_evidence_boundaries_refuse_before_signature() {
+    let mut request = unsigned_request();
+    request.profile.push_str("-drift");
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidProfile
+    );
+
+    let mut request = unsigned_request();
+    request.evidence_refs.clear();
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidEvidence
+    );
+
+    let mut request = unsigned_request();
+    request.evidence_refs = (0..33)
+        .map(|index| sid(&format!("evidence:nested-inner-launch-plan-{index}")))
+        .collect();
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidEvidence
+    );
+
+    let mut request = unsigned_request();
+    request.unresolved_account.pop_first();
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidUnresolvedAccount
+    );
+
+    let mut request = unsigned_request();
+    request.non_authority.push_str(" drift");
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidAuthority
+    );
+
+    let mut request = unsigned_request();
+    request.authorization.subject_inner_cantor_id = sid("inner-cantor:other");
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidAuthorization
+    );
+
+    let mut request = unsigned_request();
+    request.authorization.sequence_lower_bound = 2;
+    request.authorization.sequence_upper_bound = 1;
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidAuthorization
+    );
+
+    let mut request = unsigned_request();
+    request.authorization.policy_digest.value = "A".repeat(64);
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidDigest
+    );
+
+    let mut request = unsigned_request();
+    request.authorization.nonce_digest.algorithm = "sha512".to_owned();
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidDigest
+    );
+
+    let mut request = unsigned_request();
+    request.authorization.verifying_key_hex = "A".repeat(64);
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidSignature
+    );
+
+    let mut request = unsigned_request();
+    request.authorization.signature_hex = "0".repeat(126);
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidSignature
+    );
+
+    let mut request = unsigned_request();
+    let plan_uuid = request.plan.plan_id.as_str().rsplit_once(':').unwrap().1;
+    request.authorization.authorization_id =
+        sid(&format!("inner-launch-plan-authorization:{plan_uuid}"));
+    assert_eq!(
+        seal_nested_inner_launch_plan_request(request)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::IdentityCollision
+    );
+}
+
+#[test]
+fn strict_request_parser_enforces_depth_field_and_decoded_text_limits() {
+    let excessive_depth = format!("{}null{}", "[".repeat(29), "]".repeat(29));
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&excessive_depth)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    let excessive_fields = format!(
+        "{{{}}}",
+        (0..385)
+            .map(|index| format!("\"field_{index}\":null"))
+            .collect::<Vec<_>>()
+            .join(",")
+    );
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&excessive_fields)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    let excessive_delegated_fields = format!(
+        "{{\"upstream_request\":{{{}}}}}",
+        (0..385)
+            .map(|index| format!("\"field_{index}\":null"))
+            .collect::<Vec<_>>()
+            .join(",")
+    );
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&excessive_delegated_fields)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    let excessive_text = format!("\"{}\"", "x".repeat(2_049));
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form(&excessive_text)
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+
+    assert_eq!(
+        from_nested_inner_launch_plan_request_machine_form("\"refused\\u0001text\"")
+            .unwrap_err()
+            .code,
+        NestedInnerLaunchPlanFaultCode::InvalidMachineForm
+    );
+}
+
+#[test]
+fn both_bounded_clis_refuse_invalid_input_without_partial_stdout() {
+    let canonical_field_count =
+        json_field_count(&serde_json::to_value(unsigned_request()).unwrap());
+    assert_eq!(canonical_field_count, 683);
+    let fixture = Command::new(env!(
+        "CARGO_BIN_EXE_cantor-nested-inner-launch-plan-fixture"
+    ))
+    .arg("unexpected")
+    .output()
+    .expect("fixture CLI must start");
+    assert_eq!(fixture.status.code(), Some(2));
+    assert!(fixture.stdout.is_empty());
+    assert!(
+        String::from_utf8(fixture.stderr)
+            .unwrap()
+            .contains("usage: cantor-nested-inner-launch-plan-fixture")
+    );
+
+    let mut child = Command::new(env!(
+        "CARGO_BIN_EXE_cantor-nested-inner-launch-plan-fixture"
+    ))
+    .stdin(Stdio::piped())
+    .stdout(Stdio::piped())
+    .stderr(Stdio::piped())
+    .spawn()
+    .expect("fixture CLI must start");
+    writeln!(
+        child.stdin.take().expect("fixture stdin"),
+        "{}",
+        serde_json::to_string(&unsigned_request()).unwrap()
+    )
+    .unwrap();
+    let fixture = child.wait_with_output().expect("fixture CLI output");
+    assert_eq!(fixture.status.code(), Some(2));
+    assert!(fixture.stdout.is_empty());
+    let stderr = String::from_utf8(fixture.stderr).unwrap();
+    assert!(stderr.contains("InvalidSignature"), "{stderr}");
+
+    let mut child = Command::new(env!(
+        "CARGO_BIN_EXE_cantor-nested-inner-launch-plan-evidence-verify"
+    ))
+    .stdin(Stdio::piped())
+    .stdout(Stdio::piped())
+    .stderr(Stdio::piped())
+    .spawn()
+    .expect("evidence CLI must start");
+    writeln!(child.stdin.take().expect("evidence stdin"), "{{}}").unwrap();
+    let verifier = child.wait_with_output().expect("evidence CLI output");
+    assert_eq!(verifier.status.code(), Some(2));
+    assert!(verifier.stdout.is_empty());
+    let stderr = String::from_utf8(verifier.stderr).unwrap();
+    assert!(stderr.contains("InvalidMachineForm"), "{stderr}");
 }
