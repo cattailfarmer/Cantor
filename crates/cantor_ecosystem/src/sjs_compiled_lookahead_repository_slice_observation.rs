@@ -19,8 +19,8 @@ use std::os::windows::fs::MetadataExt as _;
 
 use cantor_core::{
     ContentDigest, SJS_RCX_CANONICAL_UUID, SJS_RCX_SIGNATURE_UUID, SemanticId, SjsRcxEnvelope,
-    SjsRcxInputClass, SjsRcxRequest, SjsRcxVerification, sha256_bytes, validate_sjs_rcx_envelope,
-    validate_sjs_rcx_request, verify_sjs_rcx,
+    SjsRcxInputClass, SjsRcxRequest, SjsRcxVerification, compile_sjs_rcx, sha256_bytes,
+    validate_sjs_rcx_envelope, validate_sjs_rcx_request, verify_sjs_rcx,
 };
 use serde::de::{DeserializeOwned, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Serialize};
@@ -248,6 +248,24 @@ pub struct SjsRsoRepositoryIdentitySnapshot {
     pub git_directory: SjsRsoPathIdentity,
     pub index_path: SjsRsoPathIdentity,
     pub index_sha256: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoCommitTreeObservation {
+    pub repository_before: SjsRsoRepositoryIdentitySnapshot,
+    pub repository_after: SjsRsoRepositoryIdentitySnapshot,
+    pub commit_raw_bytes: u64,
+    pub unique_blob_count: u32,
+    pub total_blob_bytes: u64,
+    pub command_count: u32,
+    pub accounts: Vec<SjsRsoElementAccount>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct SjsRsoTreeEntry {
+    mode: String,
+    object_id: String,
 }
 
 /// Non-clone execution capability formed only from one validated, hash-pinned
@@ -605,6 +623,14 @@ pub fn observe_sjs_rso_repository_identity(
     let (git_version, git_build_options) = parse_sjs_rso_git_version(
         run_sjs_rso_git_operation(runner, SjsRsoGitOperation::VersionBuildOptions)?.stdout,
     )?;
+    observe_sjs_rso_repository_identity_with_version(runner, git_version, git_build_options)
+}
+
+fn observe_sjs_rso_repository_identity_with_version(
+    runner: &mut SjsRsoGitRunner,
+    git_version: String,
+    git_build_options: String,
+) -> Result<SjsRsoRepositoryIdentitySnapshot, SjsRsoFault> {
     let repository_root = parse_sjs_rso_git_line(
         run_sjs_rso_git_operation(runner, SjsRsoGitOperation::ShowTopLevel)?.stdout,
         "repository root",
@@ -672,6 +698,288 @@ pub fn observe_sjs_rso_repository_identity(
         index_path,
         index_sha256,
     })
+}
+
+pub fn observe_sjs_rso_commit_tree(
+    runner: &mut SjsRsoGitRunner,
+) -> Result<SjsRsoCommitTreeObservation, SjsRsoFault> {
+    if runner.command_count != 0 {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidAuthority,
+            "commit-tree observation requires an unused runner",
+        ));
+    }
+    let repository_before = observe_sjs_rso_repository_identity(runner)?;
+    let tree_stdout =
+        run_sjs_rso_git_operation(runner, SjsRsoGitOperation::LsTreeSuppliedLocators)?.stdout;
+    let tree = parse_sjs_rso_supplied_tree(&tree_stdout, &runner.request)?;
+
+    let commit_raw = run_sjs_rso_git_operation(runner, SjsRsoGitOperation::CommitHead)?.stdout;
+    let commit_raw_bytes = u64::try_from(commit_raw.len()).map_err(|_| {
+        fault(
+            SjsRsoFaultCode::ArithmeticOverflow,
+            "raw commit byte count exceeds u64",
+        )
+    })?;
+    if commit_raw_bytes > runner.request.limits.maximum_commit_bytes {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "raw commit exceeds request bound",
+        ));
+    }
+    if sha256_bytes(&commit_raw) != runner.request.parent_request.scope.commit_digest {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidDigest,
+            "raw commit digest differs",
+        ));
+    }
+
+    let mut unique_blobs = BTreeMap::<String, (u64, ContentDigest)>::new();
+    for entry in tree.values() {
+        if unique_blobs.contains_key(&entry.object_id) {
+            continue;
+        }
+        let blob = run_sjs_rso_git_operation(
+            runner,
+            SjsRsoGitOperation::BlobObject {
+                object_id: entry.object_id.clone(),
+            },
+        )?
+        .stdout;
+        let raw_bytes = u64::try_from(blob.len()).map_err(|_| {
+            fault(
+                SjsRsoFaultCode::ArithmeticOverflow,
+                "raw blob byte count exceeds u64",
+            )
+        })?;
+        if raw_bytes > runner.request.limits.maximum_blob_bytes {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidBound,
+                "raw blob exceeds request bound",
+            ));
+        }
+        unique_blobs.insert(entry.object_id.clone(), (raw_bytes, sha256_bytes(&blob)));
+    }
+
+    let mut total_blob_bytes = 0u64;
+    for (raw_bytes, _) in unique_blobs.values() {
+        total_blob_bytes = total_blob_bytes.checked_add(*raw_bytes).ok_or_else(|| {
+            fault(
+                SjsRsoFaultCode::ArithmeticOverflow,
+                "total raw blob bytes overflowed",
+            )
+        })?;
+    }
+    if total_blob_bytes > runner.request.limits.maximum_total_blob_bytes {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "total unique raw blob bytes exceed request bound",
+        ));
+    }
+
+    let mut accounts = Vec::with_capacity(runner.request.parent_request.records.len());
+    for record in &runner.request.parent_request.records {
+        let entry = tree.get(&record.locator).ok_or_else(|| {
+            fault(
+                SjsRsoFaultCode::InvalidGitIdentity,
+                "signed locator is absent from parsed commit tree",
+            )
+        })?;
+        let (raw_bytes, content_digest) = unique_blobs.get(&entry.object_id).ok_or_else(|| {
+            fault(
+                SjsRsoFaultCode::InvalidGitIdentity,
+                "parsed tree object was not read",
+            )
+        })?;
+        if content_digest != &record.content_digest {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidDigest,
+                "committed blob digest differs from signed parent record",
+            ));
+        }
+        accounts.push(SjsRsoElementAccount {
+            element_id: record.element_id.clone(),
+            candidate_id: record.candidate.candidate_id.clone(),
+            locator: record.locator.clone(),
+            mode: entry.mode.clone(),
+            object_id: entry.object_id.clone(),
+            raw_bytes: *raw_bytes,
+            content_digest: content_digest.clone(),
+            status: SjsRsoAccountStatus::ExactCommittedBlob,
+        });
+    }
+
+    let repository_after = observe_sjs_rso_repository_identity_with_version(
+        runner,
+        repository_before.git_version.clone(),
+        repository_before.git_build_options.clone(),
+    )?;
+    verify_sjs_rso_repository_identity_stable(&repository_before, &repository_after)?;
+    let unique_blob_count = count_u32(unique_blobs.len(), "unique blob count")?;
+    Ok(SjsRsoCommitTreeObservation {
+        repository_before,
+        repository_after,
+        commit_raw_bytes,
+        unique_blob_count,
+        total_blob_bytes,
+        command_count: runner.command_count,
+        accounts,
+    })
+}
+
+pub fn compile_sjs_rso_commit_tree_receipt(
+    mut runner: SjsRsoGitRunner,
+) -> Result<(SjsRsoReceipt, SjsRsoVerification), SjsRsoFault> {
+    let observation = observe_sjs_rso_commit_tree(&mut runner)?;
+    let request = runner.request.clone();
+
+    // Parent compilation is deliberately sequenced after the complete physical
+    // correspondence and stability observation above. The exact retained parent
+    // request is passed unchanged to the existing pure compiler and verifier.
+    let parent_envelope = compile_sjs_rcx(&request.parent_request).map_err(|error| {
+        fault(
+            SjsRsoFaultCode::InvalidParent,
+            format!("parent compilation refuses: {error}"),
+        )
+    })?;
+    let parent_verification = verify_sjs_rcx(&parent_envelope).map_err(|error| {
+        fault(
+            SjsRsoFaultCode::InvalidParent,
+            format!("parent verification refuses: {error}"),
+        )
+    })?;
+
+    let receipt = seal_sjs_rso_receipt(
+        &request,
+        SjsRsoReceipt {
+            profile: SJS_RSO_RECEIPT_PROFILE.to_owned(),
+            receipt_id: request.receipt_id.clone(),
+            request_digest: request.request_digest.clone(),
+            git_executable_before_sha256: request.expected_git_sha256.clone(),
+            git_executable_after_sha256: request.expected_git_sha256.clone(),
+            git_version: observation.repository_before.git_version.clone(),
+            git_build_options: observation.repository_before.git_build_options.clone(),
+            repository_root: request.repository_root.clone(),
+            branch_ref: observation.repository_before.branch_ref.clone(),
+            head: observation.repository_before.head.clone(),
+            object_format: observation.repository_before.object_format.clone(),
+            git_directory: observation
+                .repository_before
+                .git_directory
+                .canonical_path
+                .clone(),
+            index_path: observation
+                .repository_before
+                .index_path
+                .canonical_path
+                .clone(),
+            index_before_sha256: observation.repository_before.index_sha256.clone(),
+            index_after_sha256: observation.repository_after.index_sha256.clone(),
+            commit_raw_bytes: observation.commit_raw_bytes,
+            unique_blob_count: observation.unique_blob_count,
+            total_blob_bytes: observation.total_blob_bytes,
+            command_count: observation.command_count,
+            accounts: observation.accounts,
+            parent_envelope,
+            parent_verification,
+            physical_contact: true,
+            effects: expected_observation_effects(),
+            non_authority: SJS_RSO_NON_AUTHORITY.to_owned(),
+            receipt_digest: empty_digest(),
+        },
+    )?;
+    let verification = verify_sjs_rso_receipt(&request, &receipt)?;
+    Ok((receipt, verification))
+}
+
+fn parse_sjs_rso_supplied_tree(
+    bytes: &[u8],
+    request: &SjsRsoRequest,
+) -> Result<BTreeMap<String, SjsRsoTreeEntry>, SjsRsoFault> {
+    if bytes.is_empty() || !bytes.ends_with(&[0]) {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidMachineForm,
+            "ls-tree output is empty or not NUL-terminated",
+        ));
+    }
+    let object_width = object_identity_width(&request.object_format)?;
+    let expected_locators = request
+        .parent_request
+        .records
+        .iter()
+        .map(|record| record.locator.as_str())
+        .collect::<BTreeSet<_>>();
+    if expected_locators.len() != request.parent_request.records.len() {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidParent,
+            "signed parent contains duplicate locators",
+        ));
+    }
+
+    let mut tree = BTreeMap::new();
+    for raw_record in bytes[..bytes.len() - 1].split(|byte| *byte == 0) {
+        if raw_record.is_empty() {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidMachineForm,
+                "ls-tree output contains an empty coordinate",
+            ));
+        }
+        let record = std::str::from_utf8(raw_record).map_err(|_| {
+            fault(
+                SjsRsoFaultCode::InvalidMachineForm,
+                "ls-tree coordinate is not UTF-8",
+            )
+        })?;
+        if record.contains('\r') {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidMachineForm,
+                "ls-tree coordinate contains carriage return",
+            ));
+        }
+        let (identity, locator) = record.split_once('\t').ok_or_else(|| {
+            fault(
+                SjsRsoFaultCode::InvalidMachineForm,
+                "ls-tree coordinate lacks path separator",
+            )
+        })?;
+        let fields = identity.split(' ').collect::<Vec<_>>();
+        if fields.len() != 3
+            || !matches!(fields[0], "100644" | "100755")
+            || fields[1] != "blob"
+            || fields[2].len() != object_width
+            || !is_lower_hex(fields[2])
+            || !expected_locators.contains(locator)
+        {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidGitIdentity,
+                "ls-tree identity, mode, type, object, or locator differs",
+            ));
+        }
+        let prior = tree.insert(
+            locator.to_owned(),
+            SjsRsoTreeEntry {
+                mode: fields[0].to_owned(),
+                object_id: fields[2].to_owned(),
+            },
+        );
+        if prior.is_some() {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidGitIdentity,
+                "ls-tree contains a duplicate locator",
+            ));
+        }
+    }
+    if tree.len() != expected_locators.len()
+        || tree
+            .keys()
+            .any(|locator| !expected_locators.contains(locator.as_str()))
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "ls-tree locator set differs from signed parent",
+        ));
+    }
+    Ok(tree)
 }
 
 pub fn verify_sjs_rso_repository_identity_stable(
@@ -794,7 +1102,8 @@ fn parse_sjs_rso_git_version(bytes: Vec<u8>) -> Result<(String, String), SjsRsoF
             "Git version or build options differ",
         ));
     }
-    Ok((git_version, lines[1..].join("\n")))
+    let git_build_options = serde_json::to_string(&lines[1..]).map_err(machine_fault)?;
+    Ok((git_version, git_build_options))
 }
 
 fn parse_sjs_rso_git_line(bytes: Vec<u8>, label: &str) -> Result<String, SjsRsoFault> {

@@ -16,14 +16,15 @@ use cantor_ecosystem::sjs_compiled_lookahead_repository_slice_observation::{
     SJS_RSO_PARENT_COMPLETION_UUID, SJS_RSO_RECEIPT_PROFILE, SJS_RSO_REQUEST_PROFILE,
     SJS_RSO_SIGNATURE_UUID, SJS_RSO_SOURCE_UUID, SjsRsoAccountStatus, SjsRsoEffectAccount,
     SjsRsoElementAccount, SjsRsoFaultCode, SjsRsoGitOperation, SjsRsoInputClass, SjsRsoLimits,
-    SjsRsoPathKind, SjsRsoReceipt, SjsRsoRequest, from_sjs_rso_receipt_machine_form,
-    from_sjs_rso_request_machine_form, from_sjs_rso_verification_machine_form,
-    inspect_sjs_rso_no_follow_path, observe_sjs_rso_repository_identity,
-    prepare_sjs_rso_git_runner, run_sjs_rso_git_operation, seal_sjs_rso_receipt,
-    seal_sjs_rso_request, sjs_rso_git_arguments, to_sjs_rso_receipt_machine_form,
-    to_sjs_rso_request_machine_form, to_sjs_rso_verification_machine_form,
-    validate_sjs_rso_receipt, validate_sjs_rso_request, validate_sjs_rso_verification,
-    verify_sjs_rso_receipt, verify_sjs_rso_repository_identity_stable,
+    SjsRsoPathKind, SjsRsoReceipt, SjsRsoRequest, compile_sjs_rso_commit_tree_receipt,
+    from_sjs_rso_receipt_machine_form, from_sjs_rso_request_machine_form,
+    from_sjs_rso_verification_machine_form, inspect_sjs_rso_no_follow_path,
+    observe_sjs_rso_commit_tree, observe_sjs_rso_repository_identity, prepare_sjs_rso_git_runner,
+    run_sjs_rso_git_operation, seal_sjs_rso_receipt, seal_sjs_rso_request, sjs_rso_git_arguments,
+    to_sjs_rso_receipt_machine_form, to_sjs_rso_request_machine_form,
+    to_sjs_rso_verification_machine_form, validate_sjs_rso_receipt, validate_sjs_rso_request,
+    validate_sjs_rso_verification, verify_sjs_rso_receipt,
+    verify_sjs_rso_repository_identity_stable,
 };
 
 fn id(value: &str) -> SemanticId {
@@ -284,6 +285,50 @@ fn physical_repository_request(
     seal_sjs_rso_request(value).expect("seal repository fixture request")
 }
 
+#[cfg(windows)]
+fn retarget_repository_request(
+    mut value: SjsRsoRequest,
+    root: &Path,
+    git_executable: &Path,
+    update_parent_commit_digest: bool,
+) -> SjsRsoRequest {
+    value.expected_head = String::from_utf8(run_fixture_git(
+        root,
+        git_executable,
+        &["rev-parse", "HEAD"],
+    ))
+    .expect("UTF-8 retargeted HEAD")
+    .trim()
+    .to_owned();
+    if update_parent_commit_digest {
+        let commit_raw = run_fixture_git(root, git_executable, &["cat-file", "commit", "HEAD"]);
+        let mut parent = value.parent_request.clone();
+        parent.scope.commit_digest = sha256_bytes(&commit_raw);
+        value.parent_request = seal_sjs_rcx_request(parent).expect("reseal retargeted parent");
+    }
+    seal_sjs_rso_request(value).expect("seal retargeted observation request")
+}
+
+#[cfg(windows)]
+fn commit_fixture(root: &Path, git_executable: &Path, message: &str) {
+    run_fixture_git(
+        root,
+        git_executable,
+        &[
+            "-c",
+            "user.name=Cantor Fixture",
+            "-c",
+            "user.email=cantor-fixture@example.invalid",
+            "-c",
+            "commit.gpgSign=false",
+            "commit",
+            "--quiet",
+            "-m",
+            message,
+        ],
+    );
+}
+
 #[test]
 fn supplied_slice_request_seals_and_round_trips_as_strict_canonical_json() {
     let request = request();
@@ -450,6 +495,301 @@ fn seven_command_repository_identity_snapshot_is_exact_and_stable() {
         replica_request.parent_request.scope.commit_digest,
         request.parent_request.scope.commit_digest
     );
+}
+
+#[cfg(windows)]
+#[test]
+fn locator_only_commit_tree_observation_accounts_for_exact_committed_blobs() {
+    let fixture = DisposablePathFixture::new();
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+    let request = physical_repository_request(&fixture, git_executable);
+    let dirty_bytes = fs::read(
+        fixture
+            .root
+            .join(&request.parent_request.records[0].locator),
+    )
+    .expect("read dirty worktree contrast");
+    let mut runner = prepare_sjs_rso_git_runner(&request).expect("prepare commit-tree runner");
+
+    let observation = observe_sjs_rso_commit_tree(&mut runner).expect("observe commit tree");
+
+    assert_eq!(
+        observation.accounts.len(),
+        request.parent_request.records.len()
+    );
+    assert_eq!(observation.unique_blob_count, 8);
+    assert_eq!(observation.command_count, 23);
+    assert_eq!(runner.command_count(), 23);
+    assert_eq!(
+        observation.command_count,
+        15 + observation.unique_blob_count
+    );
+    assert_eq!(observation.repository_before, observation.repository_after);
+    assert_eq!(dirty_bytes, b"dirty working tree contrast");
+    for (account, record) in observation
+        .accounts
+        .iter()
+        .zip(&request.parent_request.records)
+    {
+        assert_eq!(account.element_id, record.element_id);
+        assert_eq!(account.candidate_id, record.candidate.candidate_id);
+        assert_eq!(account.locator, record.locator);
+        assert_eq!(account.content_digest, record.content_digest);
+        assert_eq!(account.status, SjsRsoAccountStatus::ExactCommittedBlob);
+        assert!(matches!(account.mode.as_str(), "100644" | "100755"));
+        assert_eq!(account.object_id.len(), 40);
+        assert!(account.raw_bytes > 0);
+    }
+    assert_eq!(
+        observation.total_blob_bytes,
+        observation
+            .accounts
+            .iter()
+            .map(|account| account.raw_bytes)
+            .sum::<u64>()
+    );
+}
+
+#[cfg(windows)]
+#[test]
+fn exact_physical_receipt_composes_the_unchanged_parent_after_correspondence() {
+    let fixture = DisposablePathFixture::new();
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+    let request = physical_repository_request(&fixture, git_executable);
+    let runner = prepare_sjs_rso_git_runner(&request).expect("prepare receipt runner");
+
+    let (receipt, verification) =
+        compile_sjs_rso_commit_tree_receipt(runner).expect("compile physical receipt");
+
+    validate_sjs_rso_receipt(&request, &receipt).expect("physical receipt validates");
+    validate_sjs_rso_verification(&request, &receipt, &verification)
+        .expect("physical verification validates");
+    assert_eq!(receipt.parent_envelope.request, request.parent_request);
+    assert_eq!(receipt.parent_verification.record_count, 8);
+    assert_eq!(receipt.parent_verification.obligation_count, 6);
+    assert_eq!(receipt.parent_verification.coverage_edge_count, 12);
+    assert_eq!(receipt.parent_verification.selected_count, 3);
+    assert_eq!(receipt.parent_verification.rejected_count, 5);
+    assert_eq!(receipt.parent_verification.dominated_count, 1);
+    assert_eq!(receipt.parent_verification.uncovered_count, 0);
+    assert_eq!(receipt.parent_verification.admitted_subset_count, 92);
+    assert_eq!(receipt.parent_verification.feasible_subset_count, 1);
+    assert!(!receipt.parent_envelope.execution_authorized);
+    assert_eq!(receipt.parent_envelope.effects, Default::default());
+    assert!(receipt.physical_contact);
+    assert!(receipt.effects.read_only_filesystem_observation);
+    assert!(receipt.effects.read_only_git_process_observation);
+    assert!(!receipt.effects.repository_write);
+    assert!(!receipt.effects.network_contact);
+    assert!(!receipt.effects.provider_contact);
+    assert!(!receipt.effects.model_inference);
+    assert_eq!(receipt.command_count, 23);
+    assert_eq!(receipt.accounts.len(), 8);
+    assert_eq!(verification.account_count, 8);
+    assert_eq!(
+        verification.parent_verification,
+        receipt.parent_verification
+    );
+    assert!(!verification.execution_authorized);
+}
+
+#[cfg(windows)]
+#[test]
+fn identical_committed_object_is_read_once_but_keeps_separate_parent_accounts() {
+    let fixture = DisposablePathFixture::new();
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+    let request = physical_repository_request(&fixture, git_executable);
+    let first_locator = request.parent_request.records[0].locator.clone();
+    let second_locator = request.parent_request.records[1].locator.clone();
+    let first_object = String::from_utf8(run_fixture_git(
+        &fixture.root,
+        git_executable,
+        &["rev-parse", &format!("HEAD:{first_locator}")],
+    ))
+    .expect("UTF-8 first object")
+    .trim()
+    .to_owned();
+    let first_blob = run_fixture_git(
+        &fixture.root,
+        git_executable,
+        &["cat-file", "blob", &first_object],
+    );
+    fs::write(fixture.root.join(&second_locator), &first_blob).expect("write duplicate blob");
+    run_fixture_git(
+        &fixture.root,
+        git_executable,
+        &["add", "--", &second_locator],
+    );
+    commit_fixture(&fixture.root, git_executable, "duplicate blob object");
+
+    let conflicting = retarget_repository_request(request, &fixture.root, git_executable, true);
+    let mut conflicting_runner =
+        prepare_sjs_rso_git_runner(&conflicting).expect("prepare conflicting correspondence");
+    let conflict_error = observe_sjs_rso_commit_tree(&mut conflicting_runner)
+        .expect_err("one object with conflicting signed digests must refuse");
+    assert_eq!(conflict_error.code, SjsRsoFaultCode::InvalidDigest);
+
+    let mut admitted = conflicting;
+    let mut parent = admitted.parent_request.clone();
+    parent.records[1].content_digest = parent.records[0].content_digest.clone();
+    admitted.parent_request = seal_sjs_rcx_request(parent).expect("seal duplicate-object parent");
+    let admitted = seal_sjs_rso_request(admitted).expect("seal duplicate-object observation");
+    let mut admitted_runner =
+        prepare_sjs_rso_git_runner(&admitted).expect("prepare duplicate-object runner");
+    let observation =
+        observe_sjs_rso_commit_tree(&mut admitted_runner).expect("observe duplicate object");
+
+    assert_eq!(observation.accounts.len(), 8);
+    assert_eq!(observation.unique_blob_count, 7);
+    assert_eq!(observation.command_count, 22);
+    assert_eq!(
+        observation.accounts[0].object_id,
+        observation.accounts[1].object_id
+    );
+    assert_eq!(
+        observation.accounts[0].content_digest,
+        observation.accounts[1].content_digest
+    );
+    assert_eq!(
+        observation.accounts[0].raw_bytes,
+        observation.accounts[1].raw_bytes
+    );
+}
+
+#[cfg(windows)]
+#[test]
+fn commit_blob_mode_missing_locator_and_commit_digest_adversaries_refuse() {
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+
+    let blob_fixture = DisposablePathFixture::new();
+    let blob_request = physical_repository_request(&blob_fixture, git_executable);
+    run_fixture_git(&blob_fixture.root, git_executable, &["add", "--all"]);
+    commit_fixture(&blob_fixture.root, git_executable, "blob digest drift");
+    let blob_request =
+        retarget_repository_request(blob_request, &blob_fixture.root, git_executable, true);
+    let mut blob_runner = prepare_sjs_rso_git_runner(&blob_request).expect("prepare blob drift");
+    let blob_error = observe_sjs_rso_commit_tree(&mut blob_runner)
+        .expect_err("committed blob digest drift must refuse");
+    assert_eq!(blob_error.code, SjsRsoFaultCode::InvalidDigest);
+    assert!(blob_error.detail.contains("committed blob digest"));
+
+    let mode_fixture = DisposablePathFixture::new();
+    let mode_request = physical_repository_request(&mode_fixture, git_executable);
+    let mode_locator = mode_request.parent_request.records[1].locator.clone();
+    let mode_object = String::from_utf8(run_fixture_git(
+        &mode_fixture.root,
+        git_executable,
+        &["rev-parse", &format!("HEAD:{mode_locator}")],
+    ))
+    .expect("UTF-8 mode object")
+    .trim()
+    .to_owned();
+    run_fixture_git(
+        &mode_fixture.root,
+        git_executable,
+        &[
+            "update-index",
+            "--cacheinfo",
+            &format!("120000,{mode_object},{mode_locator}"),
+        ],
+    );
+    commit_fixture(&mode_fixture.root, git_executable, "unsupported mode");
+    let mode_request =
+        retarget_repository_request(mode_request, &mode_fixture.root, git_executable, true);
+    let mut mode_runner = prepare_sjs_rso_git_runner(&mode_request).expect("prepare mode drift");
+    let mode_error = observe_sjs_rso_commit_tree(&mut mode_runner)
+        .expect_err("unsupported tree mode must refuse");
+    assert_eq!(mode_error.code, SjsRsoFaultCode::InvalidGitIdentity);
+    assert!(mode_error.detail.contains("mode"));
+
+    let missing_fixture = DisposablePathFixture::new();
+    let missing_request = physical_repository_request(&missing_fixture, git_executable);
+    let missing_locator = missing_request.parent_request.records[2].locator.clone();
+    run_fixture_git(
+        &missing_fixture.root,
+        git_executable,
+        &["rm", "--quiet", "--cached", "--", &missing_locator],
+    );
+    commit_fixture(&missing_fixture.root, git_executable, "missing locator");
+    let missing_request =
+        retarget_repository_request(missing_request, &missing_fixture.root, git_executable, true);
+    let mut missing_runner =
+        prepare_sjs_rso_git_runner(&missing_request).expect("prepare missing locator");
+    let missing_error = observe_sjs_rso_commit_tree(&mut missing_runner)
+        .expect_err("missing signed locator must refuse");
+    assert_eq!(missing_error.code, SjsRsoFaultCode::InvalidGitIdentity);
+
+    let commit_fixture_root = DisposablePathFixture::new();
+    let commit_request = physical_repository_request(&commit_fixture_root, git_executable);
+    run_fixture_git(
+        &commit_fixture_root.root,
+        git_executable,
+        &[
+            "-c",
+            "user.name=Cantor Fixture",
+            "-c",
+            "user.email=cantor-fixture@example.invalid",
+            "-c",
+            "commit.gpgSign=false",
+            "commit",
+            "--quiet",
+            "--allow-empty",
+            "-m",
+            "commit digest drift",
+        ],
+    );
+    let commit_request = retarget_repository_request(
+        commit_request,
+        &commit_fixture_root.root,
+        git_executable,
+        false,
+    );
+    let mut commit_runner =
+        prepare_sjs_rso_git_runner(&commit_request).expect("prepare commit drift");
+    let commit_error = observe_sjs_rso_commit_tree(&mut commit_runner)
+        .expect_err("raw commit digest drift must refuse");
+    assert_eq!(commit_error.code, SjsRsoFaultCode::InvalidDigest);
+    assert!(commit_error.detail.contains("raw commit"));
+}
+
+#[cfg(windows)]
+#[test]
+fn observed_commit_blob_and_total_blob_byte_bounds_refuse_before_receipt() {
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+
+    let commit_fixture = DisposablePathFixture::new();
+    let mut commit_request = physical_repository_request(&commit_fixture, git_executable);
+    commit_request.limits.maximum_commit_bytes = 1;
+    let commit_request = seal_sjs_rso_request(commit_request).expect("seal commit byte bound");
+    let mut commit_runner =
+        prepare_sjs_rso_git_runner(&commit_request).expect("prepare commit byte bound");
+    let commit_error = observe_sjs_rso_commit_tree(&mut commit_runner)
+        .expect_err("raw commit byte overflow must refuse");
+    assert_eq!(commit_error.code, SjsRsoFaultCode::InvalidBound);
+    assert!(commit_error.detail.contains("raw commit"));
+
+    let blob_fixture = DisposablePathFixture::new();
+    let mut blob_request = physical_repository_request(&blob_fixture, git_executable);
+    blob_request.limits.maximum_blob_bytes = 1;
+    let blob_request = seal_sjs_rso_request(blob_request).expect("seal blob byte bound");
+    let mut blob_runner =
+        prepare_sjs_rso_git_runner(&blob_request).expect("prepare blob byte bound");
+    let blob_error = observe_sjs_rso_commit_tree(&mut blob_runner)
+        .expect_err("raw blob byte overflow must refuse");
+    assert_eq!(blob_error.code, SjsRsoFaultCode::InvalidBound);
+    assert!(blob_error.detail.contains("raw blob"));
+
+    let total_fixture = DisposablePathFixture::new();
+    let mut total_request = physical_repository_request(&total_fixture, git_executable);
+    total_request.limits.maximum_blob_bytes = 32;
+    total_request.limits.maximum_total_blob_bytes = 32;
+    let total_request = seal_sjs_rso_request(total_request).expect("seal total blob byte bound");
+    let mut total_runner =
+        prepare_sjs_rso_git_runner(&total_request).expect("prepare total blob byte bound");
+    let total_error = observe_sjs_rso_commit_tree(&mut total_runner)
+        .expect_err("total unique blob byte overflow must refuse");
+    assert_eq!(total_error.code, SjsRsoFaultCode::InvalidBound);
+    assert!(total_error.detail.contains("total unique raw blob"));
 }
 
 #[cfg(windows)]
