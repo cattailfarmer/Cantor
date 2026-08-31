@@ -236,6 +236,20 @@ pub struct SjsRsoGitCommandObservation {
     pub assigned_before_resume: bool,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoRepositoryIdentitySnapshot {
+    pub git_version: String,
+    pub git_build_options: String,
+    pub repository_root: String,
+    pub branch_ref: String,
+    pub head: String,
+    pub object_format: String,
+    pub git_directory: SjsRsoPathIdentity,
+    pub index_path: SjsRsoPathIdentity,
+    pub index_sha256: ContentDigest,
+}
+
 /// Non-clone execution capability formed only from one validated, hash-pinned
 /// RSO request. Its private fields prevent arbitrary command or path creation.
 #[derive(Debug)]
@@ -585,6 +599,94 @@ pub fn run_sjs_rso_git_operation(
     })
 }
 
+pub fn observe_sjs_rso_repository_identity(
+    runner: &mut SjsRsoGitRunner,
+) -> Result<SjsRsoRepositoryIdentitySnapshot, SjsRsoFault> {
+    let (git_version, git_build_options) = parse_sjs_rso_git_version(
+        run_sjs_rso_git_operation(runner, SjsRsoGitOperation::VersionBuildOptions)?.stdout,
+    )?;
+    let repository_root = parse_sjs_rso_git_line(
+        run_sjs_rso_git_operation(runner, SjsRsoGitOperation::ShowTopLevel)?.stdout,
+        "repository root",
+    )?;
+    let branch_ref = parse_sjs_rso_git_line(
+        run_sjs_rso_git_operation(runner, SjsRsoGitOperation::SymbolicFullNameHead)?.stdout,
+        "branch ref",
+    )?;
+    let head = parse_sjs_rso_git_line(
+        run_sjs_rso_git_operation(runner, SjsRsoGitOperation::Head)?.stdout,
+        "HEAD",
+    )?;
+    let object_format = parse_sjs_rso_git_line(
+        run_sjs_rso_git_operation(runner, SjsRsoGitOperation::ObjectFormat)?.stdout,
+        "object format",
+    )?;
+    let git_directory_text = parse_sjs_rso_git_line(
+        run_sjs_rso_git_operation(runner, SjsRsoGitOperation::GitDirectory)?.stdout,
+        "Git directory",
+    )?;
+    let index_path_text = parse_sjs_rso_git_line(
+        run_sjs_rso_git_operation(runner, SjsRsoGitOperation::IndexPath)?.stdout,
+        "Git index",
+    )?;
+
+    let maximum_path_bytes = usize::try_from(runner.request.limits.maximum_path_bytes)
+        .map_err(|_| fault(SjsRsoFaultCode::InvalidBound, "path bound exceeds usize"))?;
+    if git_directory_text.len() > maximum_path_bytes || index_path_text.len() > maximum_path_bytes {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "observed Git path exceeds request bound",
+        ));
+    }
+
+    let normalized_root = repository_root.replace('\\', "/");
+    if normalized_root != runner.request.repository_root.replace('\\', "/")
+        || branch_ref != runner.request.expected_branch_ref
+        || head != runner.request.expected_head
+        || object_format != runner.request.object_format
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "observed repository identity differs from request",
+        ));
+    }
+    let git_directory =
+        inspect_sjs_rso_no_follow_path(&git_directory_text, SjsRsoPathKind::Directory, u64::MAX)?;
+    let (index_path, index_sha256) =
+        hash_sjs_rso_file_stable(&index_path_text, runner.request.limits.maximum_index_bytes)?;
+    if !Path::new(&index_path.canonical_path).starts_with(Path::new(&git_directory.canonical_path))
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "Git index is outside resolved Git directory",
+        ));
+    }
+    Ok(SjsRsoRepositoryIdentitySnapshot {
+        git_version,
+        git_build_options,
+        repository_root: normalized_root,
+        branch_ref,
+        head,
+        object_format,
+        git_directory,
+        index_path,
+        index_sha256,
+    })
+}
+
+pub fn verify_sjs_rso_repository_identity_stable(
+    before: &SjsRsoRepositoryIdentitySnapshot,
+    after: &SjsRsoRepositoryIdentitySnapshot,
+) -> Result<(), SjsRsoFault> {
+    if before != after {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "repository identity snapshot drifted",
+        ));
+    }
+    Ok(())
+}
+
 impl SjsRsoGitRunner {
     pub fn command_count(&self) -> u32 {
         self.command_count
@@ -676,6 +778,63 @@ fn hash_sjs_rso_file_stable(
         ));
     }
     Ok((after, digest))
+}
+
+fn parse_sjs_rso_git_version(bytes: Vec<u8>) -> Result<(String, String), SjsRsoFault> {
+    let lines = parse_sjs_rso_git_lines(bytes, "Git version")?;
+    let git_version = lines.first().cloned().ok_or_else(|| {
+        fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "Git version output is empty",
+        )
+    })?;
+    if !git_version.starts_with("git version ") || lines.len() < 2 {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "Git version or build options differ",
+        ));
+    }
+    Ok((git_version, lines[1..].join("\n")))
+}
+
+fn parse_sjs_rso_git_line(bytes: Vec<u8>, label: &str) -> Result<String, SjsRsoFault> {
+    let lines = parse_sjs_rso_git_lines(bytes, label)?;
+    if lines.len() != 1 {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            format!("{label} output is not exactly one line"),
+        ));
+    }
+    Ok(lines.into_iter().next().expect("one checked line"))
+}
+
+fn parse_sjs_rso_git_lines(bytes: Vec<u8>, label: &str) -> Result<Vec<String>, SjsRsoFault> {
+    let text = String::from_utf8(bytes).map_err(|_| {
+        fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            format!("{label} output is not UTF-8"),
+        )
+    })?;
+    let body = text.strip_suffix('\n').ok_or_else(|| {
+        fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            format!("{label} output lacks one terminal LF"),
+        )
+    })?;
+    if body.is_empty() || body.contains(['\0', '\r']) || body.ends_with('\n') {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            format!("{label} output contains an invalid line"),
+        ));
+    }
+    let lines = body.split('\n').map(str::to_owned).collect::<Vec<_>>();
+    if lines.iter().any(String::is_empty) {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            format!("{label} output contains an empty line"),
+        ));
+    }
+    Ok(lines)
 }
 
 fn sjs_rso_git_environment() -> Vec<(String, String)> {

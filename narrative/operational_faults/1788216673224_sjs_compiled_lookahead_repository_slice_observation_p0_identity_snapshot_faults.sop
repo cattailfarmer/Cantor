@@ -1,0 +1,15 @@
+Subject: Cantor SJS Compiled Lookahead Repository Slice Observation P0 Identity Snapshot Faults
+
+@ [fault_uuid] 39f86090-82e9-43d8-ac7b-0bfe1b9b77d1
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] f1fd1689-f290-4be6-ad82-e36d58103e1b
+@ [timestamp_utc] 2026-08-31T22:51:13.2245092Z
+
+& [Observed]
+  + first complete release replay passed twenty-three tests but post-gate bound review found Git-directory and index output paths were covered only by the global text cap rather than request maximum_path_bytes
+  + implementation added the request-specific cap before either observed path enters no-follow inspection and added a fixture whose supplied paths fit while its longer observed index path refuses
+  + final debug and overflow-checked release each pass twenty-four tests and warnings-denied Clippy format diff and recursive evidence pass
+
+& [Boundary]
+  + fixture setup intentionally invoked local Git writes only inside disposable OS temporary directories to form deterministic repositories and adversarial index or HEAD drift
+  + observer commands remained job-contained and read-only; no current Cantor repository observation write provider model network remote permission or foreign-path effect occurred

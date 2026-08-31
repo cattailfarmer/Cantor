@@ -1,6 +1,8 @@
 use std::collections::BTreeSet;
 use std::fs;
 use std::path::{Path, PathBuf};
+#[cfg(windows)]
+use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use cantor_core::{
@@ -16,11 +18,12 @@ use cantor_ecosystem::sjs_compiled_lookahead_repository_slice_observation::{
     SjsRsoElementAccount, SjsRsoFaultCode, SjsRsoGitOperation, SjsRsoInputClass, SjsRsoLimits,
     SjsRsoPathKind, SjsRsoReceipt, SjsRsoRequest, from_sjs_rso_receipt_machine_form,
     from_sjs_rso_request_machine_form, from_sjs_rso_verification_machine_form,
-    inspect_sjs_rso_no_follow_path, prepare_sjs_rso_git_runner, run_sjs_rso_git_operation,
-    seal_sjs_rso_receipt, seal_sjs_rso_request, sjs_rso_git_arguments,
-    to_sjs_rso_receipt_machine_form, to_sjs_rso_request_machine_form,
-    to_sjs_rso_verification_machine_form, validate_sjs_rso_receipt, validate_sjs_rso_request,
-    validate_sjs_rso_verification, verify_sjs_rso_receipt,
+    inspect_sjs_rso_no_follow_path, observe_sjs_rso_repository_identity,
+    prepare_sjs_rso_git_runner, run_sjs_rso_git_operation, seal_sjs_rso_receipt,
+    seal_sjs_rso_request, sjs_rso_git_arguments, to_sjs_rso_receipt_machine_form,
+    to_sjs_rso_request_machine_form, to_sjs_rso_verification_machine_form,
+    validate_sjs_rso_receipt, validate_sjs_rso_request, validate_sjs_rso_verification,
+    verify_sjs_rso_receipt, verify_sjs_rso_repository_identity_stable,
 };
 
 fn id(value: &str) -> SemanticId {
@@ -191,6 +194,96 @@ fn physical_runner_request(root: &Path, git_executable: &Path) -> SjsRsoRequest 
     seal_sjs_rso_request(value).expect("seal physical runner request")
 }
 
+#[cfg(windows)]
+fn run_fixture_git(root: &Path, git_executable: &Path, arguments: &[&str]) -> Vec<u8> {
+    let output = Command::new(git_executable)
+        .args(arguments)
+        .current_dir(root)
+        .env_clear()
+        .env("GIT_ALLOW_PROTOCOL", "none")
+        .env("GIT_CONFIG_GLOBAL", "NUL")
+        .env("GIT_CONFIG_NOSYSTEM", "1")
+        .env("GIT_CONFIG_SYSTEM", "NUL")
+        .env("GIT_AUTHOR_DATE", "2000-01-01T00:00:00Z")
+        .env("GIT_COMMITTER_DATE", "2000-01-01T00:00:00Z")
+        .env("GIT_NO_LAZY_FETCH", "1")
+        .env("GIT_NO_REPLACE_OBJECTS", "1")
+        .env("GIT_OPTIONAL_LOCKS", "0")
+        .env("GIT_TERMINAL_PROMPT", "0")
+        .env("HOME", root)
+        .env("LANG", "C")
+        .env("LC_ALL", "C")
+        .env("SYSTEMROOT", r"C:\Windows")
+        .env("WINDIR", r"C:\Windows")
+        .output()
+        .expect("run fixture Git");
+    assert!(
+        output.status.success(),
+        "fixture Git failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    output.stdout
+}
+
+#[cfg(windows)]
+fn physical_repository_request(
+    fixture: &DisposablePathFixture,
+    git_executable: &Path,
+) -> SjsRsoRequest {
+    run_fixture_git(
+        &fixture.root,
+        git_executable,
+        &["init", "--quiet", "--initial-branch=fixture"],
+    );
+    let mut value = physical_runner_request(&fixture.root, git_executable);
+    for (index, record) in value.parent_request.records.iter().enumerate() {
+        let path = fixture.root.join(&record.locator);
+        fs::create_dir_all(path.parent().expect("fixture parent")).expect("create fixture path");
+        fs::write(
+            path,
+            format!("supplied fixture content {}", index + 1).as_bytes(),
+        )
+        .expect("write committed fixture blob");
+    }
+    run_fixture_git(&fixture.root, git_executable, &["add", "--all"]);
+    run_fixture_git(
+        &fixture.root,
+        git_executable,
+        &[
+            "-c",
+            "user.name=Cantor Fixture",
+            "-c",
+            "user.email=cantor-fixture@example.invalid",
+            "-c",
+            "commit.gpgSign=false",
+            "commit",
+            "--quiet",
+            "-m",
+            "deterministic fixture",
+        ],
+    );
+    let head = String::from_utf8(run_fixture_git(
+        &fixture.root,
+        git_executable,
+        &["rev-parse", "HEAD"],
+    ))
+    .expect("UTF-8 fixture HEAD")
+    .trim()
+    .to_owned();
+    let commit_raw = run_fixture_git(
+        &fixture.root,
+        git_executable,
+        &["cat-file", "commit", "HEAD"],
+    );
+    let mut parent = value.parent_request.clone();
+    parent.scope.commit_digest = sha256_bytes(&commit_raw);
+    value.parent_request = seal_sjs_rcx_request(parent).expect("reseal committed parent");
+    value.expected_head = head;
+    let dirty_path = fixture.root.join(&value.parent_request.records[0].locator);
+    fs::write(dirty_path, b"dirty working tree contrast").expect("write dirty contrast");
+    seal_sjs_rso_request(value).expect("seal repository fixture request")
+}
+
 #[test]
 fn supplied_slice_request_seals_and_round_trips_as_strict_canonical_json() {
     let request = request();
@@ -310,6 +403,124 @@ fn command_budget_preincrements_and_refuses_the_first_excess_launch() {
         .expect_err("first excess command must refuse");
     assert_eq!(error.code, SjsRsoFaultCode::InvalidBound);
     assert_eq!(runner.command_count(), maximum + 1);
+}
+
+#[cfg(windows)]
+#[test]
+fn seven_command_repository_identity_snapshot_is_exact_and_stable() {
+    let fixture = DisposablePathFixture::new();
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+    let request = physical_repository_request(&fixture, git_executable);
+    let mut runner = prepare_sjs_rso_git_runner(&request).expect("prepare repository runner");
+
+    let before = observe_sjs_rso_repository_identity(&mut runner).expect("before snapshot");
+    let after = observe_sjs_rso_repository_identity(&mut runner).expect("after snapshot");
+    verify_sjs_rso_repository_identity_stable(&before, &after).expect("stable snapshots");
+
+    assert_eq!(runner.command_count(), 14);
+    assert!(before.git_version.starts_with("git version "));
+    assert!(!before.git_build_options.is_empty());
+    assert_eq!(
+        before.repository_root,
+        request.repository_root.replace('\\', "/")
+    );
+    assert_eq!(before.branch_ref, request.expected_branch_ref);
+    assert_eq!(before.head, request.expected_head);
+    assert_eq!(before.object_format, request.object_format);
+    assert_eq!(before.git_directory.kind, SjsRsoPathKind::Directory);
+    assert_eq!(before.index_path.kind, SjsRsoPathKind::RegularFile);
+    assert!(
+        Path::new(&before.index_path.canonical_path)
+            .starts_with(Path::new(&before.git_directory.canonical_path))
+    );
+    assert_eq!(
+        fs::read(
+            fixture
+                .root
+                .join(&request.parent_request.records[0].locator)
+        )
+        .expect("read dirty contrast"),
+        b"dirty working tree contrast"
+    );
+
+    let replica = DisposablePathFixture::new();
+    let replica_request = physical_repository_request(&replica, git_executable);
+    assert_eq!(replica_request.expected_head, request.expected_head);
+    assert_eq!(
+        replica_request.parent_request.scope.commit_digest,
+        request.parent_request.scope.commit_digest
+    );
+}
+
+#[cfg(windows)]
+#[test]
+fn index_and_head_drift_refuse_repository_identity_stability() {
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+
+    let index_fixture = DisposablePathFixture::new();
+    let index_request = physical_repository_request(&index_fixture, git_executable);
+    let mut index_runner =
+        prepare_sjs_rso_git_runner(&index_request).expect("prepare index runner");
+    let before = observe_sjs_rso_repository_identity(&mut index_runner).expect("before index");
+    run_fixture_git(
+        &index_fixture.root,
+        git_executable,
+        &[
+            "add",
+            "--",
+            &index_request.parent_request.records[0].locator,
+        ],
+    );
+    let after = observe_sjs_rso_repository_identity(&mut index_runner).expect("after index");
+    let error = verify_sjs_rso_repository_identity_stable(&before, &after)
+        .expect_err("index drift must refuse");
+    assert_eq!(error.code, SjsRsoFaultCode::InvalidGitIdentity);
+
+    let head_fixture = DisposablePathFixture::new();
+    let head_request = physical_repository_request(&head_fixture, git_executable);
+    let mut head_runner = prepare_sjs_rso_git_runner(&head_request).expect("prepare head runner");
+    run_fixture_git(
+        &head_fixture.root,
+        git_executable,
+        &[
+            "-c",
+            "user.name=Cantor Fixture",
+            "-c",
+            "user.email=cantor-fixture@example.invalid",
+            "-c",
+            "commit.gpgSign=false",
+            "commit",
+            "--quiet",
+            "--allow-empty",
+            "-m",
+            "head drift",
+        ],
+    );
+    let error =
+        observe_sjs_rso_repository_identity(&mut head_runner).expect_err("HEAD drift must refuse");
+    assert_eq!(error.code, SjsRsoFaultCode::InvalidGitIdentity);
+}
+
+#[cfg(windows)]
+#[test]
+fn observed_git_directory_and_index_must_fit_request_path_bound() {
+    let fixture = DisposablePathFixture::new();
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+    let mut request = physical_repository_request(&fixture, git_executable);
+    let supplied_maximum = request
+        .parent_request
+        .records
+        .iter()
+        .map(|record| record.locator.len())
+        .chain([request.repository_root.len(), request.git_executable.len()])
+        .max()
+        .expect("supplied paths");
+    request.limits.maximum_path_bytes = u32::try_from(supplied_maximum).expect("path bound");
+    let request = seal_sjs_rso_request(request).expect("seal tight supplied path bound");
+    let mut runner = prepare_sjs_rso_git_runner(&request).expect("prepare tight runner");
+    let error = observe_sjs_rso_repository_identity(&mut runner)
+        .expect_err("longer observed Git paths must refuse");
+    assert_eq!(error.code, SjsRsoFaultCode::InvalidBound);
 }
 
 #[test]
