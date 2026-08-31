@@ -1,0 +1,34 @@
+Subject: Cantor SJS Compiled Lookahead Repository Slice Observation P0 No Follow Preflight Operational Faults
+
+@ [fault_record_uuid] 0f978219-56c4-49a7-afb0-857e30f8e3c1
+@ [canonical_uuid] f1fd1689-f290-4be6-ad82-e36d58103e1b
+@ [turn_uuid] 328d0570-79b7-45d3-bc8c-27134aa1284a
+
+& [StableToolchainFault]
+  + first compile used documented Windows MetadataExt volume_serial_number file_index and number_of_links accessors
+  + stable Rust refused all three under unstable feature windows_by_handle E0658
+  + no nightly feature or toolchain change was authorized
+  + correction retains stable raw file attributes size creation and modification times while Windows device file and link identities remain explicit none; Unix stable device inode and link values remain populated
+
+& [WindowsFixtureFault]
+  + disposable symbolic-link creation refused with Windows error 1314 required privilege not held
+  + no privilege bypass elevation registry change junction workaround or current-host reparse target was used
+  + passing Windows coverage proves the exact FILE_ATTRIBUTE_REPARSE_POINT bit predicate plus real regular-file and directory component walks; actual Windows reparse-component refusal remains pending a fixture-capable host or contained fixture constructor
+
+& [ConcurrentForeignWorkFault]
+  + during the test turn foreign modifications appeared at crates/cantor_core/src/lib.rs plus untracked crates/cantor_core/src/visualizer.rs
+  + the new visualizer currently fails stable compilation because Sha256 output lacks the requested LowerHex implementation and also emits one ambiguous glob re-export warning
+  + an already-issued cargo fmt --all updated visualizer.rs timestamp from creation 2026-08-31T20:52:43Z to modification 2026-08-31T20:55:20Z before foreign ownership was detected; pre-format bytes are unavailable and no semantic ownership is claimed
+  + visualizer.rs lib.rs and every related foreign path remain unstaged and receive no further edit from this turn
+  + live-tree recursive evidence now reports sixteen stale references because the foreign lib export changes shared artifact bytes; those manifests were not refreshed
+
+& [ValidationWorktreeFaults]
+  + first validation worktree D:\CantorBuilds\rso-p04-validation-e317 refused two pre-existing checkout paths as too long and never formed a valid index; its newly created failed directory was pruned
+  + short D:\rso4 formed but inherited CRLF checkout conversion for two canonical LF fixture files causing a false two-manifest stale result
+  + the false two-manifest main-tree refresh was reversed exactly to HEAD before staging and D:\rso4 was removed as a fully reconstructable turn-owned worktree
+  + D:\rso5 was formed from e317bfa9 with core.autocrlf false and long-path support; its canonical fixture hashes match the main tree and both owned Rust files hash-equal the live owned files
+
+& [EvidenceBoundary]
+  + D:\rso5 exact owned tree passes seventeen focused debug and overflow-checked release tests focused warnings-denied Clippy format diff and recursive evidence ninety-four manifests two thousand six hundred twenty references zero stale
+  + the tests created wrote inspected mutated and removed only unique OS temporary fixture paths; no Git subprocess or current Cantor repository observation entered RSO evidence
+  + no fault widened authority fabricated a pass absorbed foreign work or claimed the actual Windows reparse fixture ran

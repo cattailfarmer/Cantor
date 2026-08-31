@@ -1,18 +1,23 @@
 use std::collections::BTreeSet;
+use std::fs;
+use std::path::{Path, PathBuf};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use cantor_core::{
     ContentDigest, SemanticId, SjsRcxInputClass, compile_sjs_rcx, seal_sjs_rcx_request,
     sha256_bytes, synthetic_sjs_rcx_request, verify_sjs_rcx,
 };
+#[cfg(windows)]
+use cantor_ecosystem::sjs_compiled_lookahead_repository_slice_observation::sjs_rso_windows_attributes_are_reparse_point;
 use cantor_ecosystem::sjs_compiled_lookahead_repository_slice_observation::{
     SJS_RSO_CANONICAL_UUID, SJS_RSO_MAX_MACHINE_FORM_BYTES, SJS_RSO_NON_AUTHORITY,
     SJS_RSO_PARENT_COMPLETION_UUID, SJS_RSO_RECEIPT_PROFILE, SJS_RSO_REQUEST_PROFILE,
     SJS_RSO_SIGNATURE_UUID, SJS_RSO_SOURCE_UUID, SjsRsoAccountStatus, SjsRsoEffectAccount,
     SjsRsoElementAccount, SjsRsoFaultCode, SjsRsoGitOperation, SjsRsoInputClass, SjsRsoLimits,
-    SjsRsoReceipt, SjsRsoRequest, from_sjs_rso_receipt_machine_form,
+    SjsRsoPathKind, SjsRsoReceipt, SjsRsoRequest, from_sjs_rso_receipt_machine_form,
     from_sjs_rso_request_machine_form, from_sjs_rso_verification_machine_form,
-    seal_sjs_rso_receipt, seal_sjs_rso_request, sjs_rso_git_arguments,
-    to_sjs_rso_receipt_machine_form, to_sjs_rso_request_machine_form,
+    inspect_sjs_rso_no_follow_path, seal_sjs_rso_receipt, seal_sjs_rso_request,
+    sjs_rso_git_arguments, to_sjs_rso_receipt_machine_form, to_sjs_rso_request_machine_form,
     to_sjs_rso_verification_machine_form, validate_sjs_rso_receipt, validate_sjs_rso_request,
     validate_sjs_rso_verification, verify_sjs_rso_receipt,
 };
@@ -68,6 +73,39 @@ fn request() -> SjsRsoRequest {
 
 fn assert_refused<T>(result: Result<T, impl std::fmt::Debug>) {
     assert!(result.is_err(), "adversary must refuse");
+}
+
+struct DisposablePathFixture {
+    root: PathBuf,
+}
+
+impl DisposablePathFixture {
+    fn new() -> Self {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("system time")
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!(
+            "cantor-rso-no-follow-{}-{nonce}",
+            std::process::id()
+        ));
+        fs::create_dir(&root).expect("create disposable path fixture");
+        Self { root }
+    }
+
+    fn text(&self, path: &Path) -> String {
+        assert!(path.starts_with(&self.root));
+        path.to_str().expect("UTF-8 fixture path").to_owned()
+    }
+}
+
+impl Drop for DisposablePathFixture {
+    fn drop(&mut self) {
+        let temp = std::env::temp_dir();
+        if self.root.parent() == Some(temp.as_path()) {
+            let _ = fs::remove_dir_all(&self.root);
+        }
+    }
 }
 
 fn receipt(request: &SjsRsoRequest) -> SjsRsoReceipt {
@@ -220,6 +258,23 @@ fn command_budget_must_cover_worst_case_identity_tree_commit_and_blob_reads() {
 }
 
 #[test]
+fn request_path_limit_covers_repository_executable_and_every_parent_locator() {
+    let mut bounded = request();
+    let required = bounded
+        .parent_request
+        .records
+        .iter()
+        .map(|record| record.locator.len())
+        .chain([bounded.repository_root.len(), bounded.git_executable.len()])
+        .max()
+        .expect("bounded paths");
+    bounded.limits.maximum_path_bytes = required as u32;
+    seal_sjs_rso_request(bounded.clone()).expect("exact path bound");
+    bounded.limits.maximum_path_bytes -= 1;
+    assert_refused(seal_sjs_rso_request(bounded));
+}
+
+#[test]
 fn closed_git_operation_vectors_are_exact_and_request_derived() {
     let request = request();
     let cases = [
@@ -296,6 +351,80 @@ fn blob_operation_accepts_only_exact_object_format_identity() {
         .expect_err("invalid blob identity");
         assert_eq!(error.code, SjsRsoFaultCode::InvalidOperation);
     }
+}
+
+#[test]
+fn no_follow_path_identity_is_stable_bounded_and_kind_exact() {
+    let fixture = DisposablePathFixture::new();
+    let file = fixture.root.join("regular.bin");
+    fs::write(&file, b"alpha").expect("write fixture file");
+    let file_text = fixture.text(&file);
+    let first = inspect_sjs_rso_no_follow_path(&file_text, SjsRsoPathKind::RegularFile, 5)
+        .expect("regular identity");
+    let second = inspect_sjs_rso_no_follow_path(&file_text, SjsRsoPathKind::RegularFile, 5)
+        .expect("stable regular identity");
+    assert_eq!(first, second);
+    assert_eq!(first.byte_length, 5);
+
+    assert_refused(inspect_sjs_rso_no_follow_path(
+        &file_text,
+        SjsRsoPathKind::RegularFile,
+        4,
+    ));
+    assert_refused(inspect_sjs_rso_no_follow_path(
+        &file_text,
+        SjsRsoPathKind::Directory,
+        1024 * 1024,
+    ));
+    let root_text = fixture.text(&fixture.root);
+    inspect_sjs_rso_no_follow_path(&root_text, SjsRsoPathKind::Directory, 1024 * 1024)
+        .expect("directory identity");
+
+    fs::write(&file, b"alpha-beta").expect("mutate fixture file");
+    let changed = inspect_sjs_rso_no_follow_path(&file_text, SjsRsoPathKind::RegularFile, 10)
+        .expect("changed identity");
+    assert_ne!(first, changed);
+}
+
+#[test]
+fn symbolic_link_or_raw_reparse_classifier_and_noncanonical_component_refuse() {
+    let fixture = DisposablePathFixture::new();
+    let target = fixture.root.join("target.bin");
+    let link = fixture.root.join("link.bin");
+    fs::write(&target, b"target").expect("write link target");
+    match create_file_symlink(&target, &link) {
+        Ok(()) => assert_refused(inspect_sjs_rso_no_follow_path(
+            &fixture.text(&link),
+            SjsRsoPathKind::RegularFile,
+            1024,
+        )),
+        #[cfg(windows)]
+        Err(error) if error.raw_os_error() == Some(1314) => {
+            // This host lacks symlink-creation privilege. Preserve that refusal
+            // and still prove the exact raw attribute predicate used by every
+            // real component inspection; do not claim a live reparse fixture.
+            assert!(sjs_rso_windows_attributes_are_reparse_point(0x400));
+            assert!(!sjs_rso_windows_attributes_are_reparse_point(0));
+        }
+        Err(error) => panic!("create disposable symbolic link: {error}"),
+    }
+
+    let noncanonical = fixture.root.join("child").join("..").join("target.bin");
+    assert_refused(inspect_sjs_rso_no_follow_path(
+        noncanonical.to_str().expect("UTF-8 path"),
+        SjsRsoPathKind::RegularFile,
+        1024,
+    ));
+}
+
+#[cfg(windows)]
+fn create_file_symlink(target: &Path, link: &Path) -> std::io::Result<()> {
+    std::os::windows::fs::symlink_file(target, link)
+}
+
+#[cfg(unix)]
+fn create_file_symlink(target: &Path, link: &Path) -> std::io::Result<()> {
+    std::os::unix::fs::symlink(target, link)
 }
 
 #[test]

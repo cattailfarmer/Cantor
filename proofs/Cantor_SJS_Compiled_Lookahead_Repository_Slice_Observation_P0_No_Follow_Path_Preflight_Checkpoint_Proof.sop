@@ -1,0 +1,26 @@
+Subject: Cantor SJS Compiled Lookahead Repository Slice Observation P0 No Follow Path Preflight Checkpoint Proof
+
+@ [proof_uuid] 262db1d3-7d43-420b-bb96-aa450f9bf2f1
+@ [canonical_uuid] f1fd1689-f290-4be6-ad82-e36d58103e1b
+@ [predecessor_commit] e317bfa93d62bc122e1d6a5b4092d8181096da90
+
+& [Proved]
+  + one absolute path inspection walks every rooted component twice with symlink_metadata and refuses symbolic-link components
+  + on Windows every component additionally refuses raw FILE_ATTRIBUTE_REPARSE_POINT and retains stable attributes size creation and modification identities
+  + supplied normalized path must equal canonical forward-slash identity and exact regular-file or directory kind plus byte bound must hold before and after
+  + on Unix stable device inode mode link change-time and modification-time identities are retained; unavailable Windows device file and link identities remain explicit none
+  + request maximum_path_bytes now covers repository root absolute Git executable and every unchanged parent locator
+  + real disposable regular-file directory bound kind mutation and noncanonical-path adversaries pass
+  + seventeen focused tests pass in debug and overflow-checked release under the exact owned Rust LF validation tree
+  + focused warnings-denied Clippy and format checks pass on that exact owned Rust state while recursive evidence passes on its clean e317bfa9 base
+
+& [ConditionalAdversary]
+  + this Windows host refused symbolic-link creation with error 1314
+  + the exact raw reparse-bit predicate passes but an actual Windows reparse-component fixture is not claimed and remains unresolved
+
+& [PhysicalTestEffects]
+  + disposable OS temporary directories and files were created written inspected mutated and removed by tests
+  + no Git subprocess current Cantor repository observation network provider model remote hardware permission change or product write occurred
+
+& [NotProved]
+  + atomic no-follow content handle executable digest Git-directory index-path process containment identity commands commit tree blob correspondence retained evidence workspace-wide gates or feature completion

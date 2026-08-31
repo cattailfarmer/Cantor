@@ -7,7 +7,13 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
-use std::path::Path;
+use std::fs::{self, Metadata};
+use std::path::{Component, Path, PathBuf};
+
+#[cfg(unix)]
+use std::os::unix::fs::MetadataExt as _;
+#[cfg(windows)]
+use std::os::windows::fs::MetadataExt as _;
 
 use cantor_core::{
     ContentDigest, SJS_RCX_CANONICAL_UUID, SJS_RCX_SIGNATURE_UUID, SemanticId, SjsRcxEnvelope,
@@ -39,6 +45,8 @@ const VERIFICATION_DOMAIN: &str = "cantor.sjs-rso.verification.v1";
 const MAX_DEPTH: usize = 40;
 const MAX_FIELDS: usize = 16_384;
 const MAX_TEXT_BYTES: usize = 4_096;
+#[cfg(windows)]
+const WINDOWS_FILE_ATTRIBUTE_REPARSE_POINT: u32 = 0x0000_0400;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -190,6 +198,27 @@ pub enum SjsRsoGitOperation {
     LsTreeSuppliedLocators,
     CommitHead,
     BlobObject { object_id: String },
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SjsRsoPathKind {
+    RegularFile,
+    Directory,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoPathIdentity {
+    pub canonical_path: String,
+    pub kind: SjsRsoPathKind,
+    pub byte_length: u64,
+    pub file_system_id: Option<u64>,
+    pub file_id: Option<u64>,
+    pub attributes: u64,
+    pub link_count: Option<u64>,
+    pub creation_or_change_time: String,
+    pub modification_time: String,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -381,6 +410,171 @@ pub fn sjs_rso_git_arguments(
         }
     };
     Ok(arguments.into_iter().map(str::to_owned).collect())
+}
+
+pub fn inspect_sjs_rso_no_follow_path(
+    value: &str,
+    expected_kind: SjsRsoPathKind,
+    maximum_bytes: u64,
+) -> Result<SjsRsoPathIdentity, SjsRsoFault> {
+    validate_absolute_path(value, "observed path")?;
+    let supplied = Path::new(value);
+    let before = inspect_path_components(supplied)?;
+    validate_path_kind_and_bound(&before, expected_kind, maximum_bytes)?;
+    let canonical = fs::canonicalize(supplied).map_err(|error| {
+        fault(
+            SjsRsoFaultCode::InvalidPath,
+            format!("unable to canonicalize observed path: {error}"),
+        )
+    })?;
+    let supplied_text = normalized_identity_path(supplied)?;
+    if supplied_text != normalized_identity_path(&canonical)? {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidPath,
+            "supplied and canonical path identities differ",
+        ));
+    }
+    let after = inspect_path_components(&canonical)?;
+    validate_path_kind_and_bound(&after, expected_kind, maximum_bytes)?;
+    let before_identity = platform_path_identity(&supplied_text, expected_kind, &before)?;
+    let canonical_text = normalized_identity_path(&canonical)?;
+    let after_identity = platform_path_identity(&canonical_text, expected_kind, &after)?;
+    if before_identity != after_identity {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidPath,
+            "observed path identity changed during inspection",
+        ));
+    }
+    Ok(after_identity)
+}
+
+fn inspect_path_components(path: &Path) -> Result<Metadata, SjsRsoFault> {
+    let mut cursor = PathBuf::new();
+    let mut rooted = false;
+    let mut final_metadata = None;
+    for component in path.components() {
+        match component {
+            Component::Prefix(prefix) => cursor.push(prefix.as_os_str()),
+            Component::RootDir => {
+                cursor.push(component.as_os_str());
+                rooted = true;
+            }
+            Component::Normal(segment) if rooted => cursor.push(segment),
+            Component::Normal(_) | Component::CurDir | Component::ParentDir => {
+                return Err(fault(
+                    SjsRsoFaultCode::InvalidPath,
+                    "observed path component is not rooted stable form",
+                ));
+            }
+        }
+        if !rooted {
+            continue;
+        }
+        let metadata = fs::symlink_metadata(&cursor).map_err(|error| {
+            fault(
+                SjsRsoFaultCode::InvalidPath,
+                format!("unable to inspect path component: {error}"),
+            )
+        })?;
+        if metadata.file_type().is_symlink() || metadata_is_reparse_point(&metadata) {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidPath,
+                "symbolic-link or reparse-point component refuses",
+            ));
+        }
+        final_metadata = Some(metadata);
+    }
+    final_metadata.ok_or_else(|| {
+        fault(
+            SjsRsoFaultCode::InvalidPath,
+            "observed path has no inspectable rooted component",
+        )
+    })
+}
+
+#[cfg(windows)]
+fn metadata_is_reparse_point(metadata: &Metadata) -> bool {
+    sjs_rso_windows_attributes_are_reparse_point(metadata.file_attributes())
+}
+
+#[cfg(windows)]
+pub fn sjs_rso_windows_attributes_are_reparse_point(attributes: u32) -> bool {
+    attributes & WINDOWS_FILE_ATTRIBUTE_REPARSE_POINT != 0
+}
+
+#[cfg(not(windows))]
+fn metadata_is_reparse_point(_: &Metadata) -> bool {
+    false
+}
+
+fn validate_path_kind_and_bound(
+    metadata: &Metadata,
+    expected_kind: SjsRsoPathKind,
+    maximum_bytes: u64,
+) -> Result<(), SjsRsoFault> {
+    let kind_matches = match expected_kind {
+        SjsRsoPathKind::RegularFile => metadata.is_file(),
+        SjsRsoPathKind::Directory => metadata.is_dir(),
+    };
+    if !kind_matches || metadata.len() > maximum_bytes {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidPath,
+            "observed path kind or byte bound differs",
+        ));
+    }
+    Ok(())
+}
+
+fn normalized_identity_path(path: &Path) -> Result<String, SjsRsoFault> {
+    let text = path
+        .to_str()
+        .ok_or_else(|| fault(SjsRsoFaultCode::InvalidPath, "observed path is not UTF-8"))?;
+    let normalized = text.replace('\\', "/");
+    #[cfg(windows)]
+    let normalized = normalized
+        .strip_prefix("//?/UNC/")
+        .map(|suffix| format!("//{suffix}"))
+        .or_else(|| normalized.strip_prefix("//?/").map(str::to_owned))
+        .unwrap_or(normalized);
+    Ok(normalized)
+}
+
+#[cfg(windows)]
+fn platform_path_identity(
+    canonical_path: &str,
+    kind: SjsRsoPathKind,
+    metadata: &Metadata,
+) -> Result<SjsRsoPathIdentity, SjsRsoFault> {
+    Ok(SjsRsoPathIdentity {
+        canonical_path: canonical_path.to_owned(),
+        kind,
+        byte_length: metadata.file_size(),
+        file_system_id: None,
+        file_id: None,
+        attributes: u64::from(metadata.file_attributes()),
+        link_count: None,
+        creation_or_change_time: metadata.creation_time().to_string(),
+        modification_time: metadata.last_write_time().to_string(),
+    })
+}
+
+#[cfg(unix)]
+fn platform_path_identity(
+    canonical_path: &str,
+    kind: SjsRsoPathKind,
+    metadata: &Metadata,
+) -> Result<SjsRsoPathIdentity, SjsRsoFault> {
+    Ok(SjsRsoPathIdentity {
+        canonical_path: canonical_path.to_owned(),
+        kind,
+        byte_length: metadata.size(),
+        file_system_id: Some(metadata.dev()),
+        file_id: Some(metadata.ino()),
+        attributes: u64::from(metadata.mode()),
+        link_count: Some(metadata.nlink()),
+        creation_or_change_time: format!("{}:{}", metadata.ctime(), metadata.ctime_nsec()),
+        modification_time: format!("{}:{}", metadata.mtime(), metadata.mtime_nsec()),
+    })
 }
 
 fn validate_receipt_body(
@@ -613,6 +807,25 @@ fn validate_request_body(request: &SjsRsoRequest) -> Result<(), SjsRsoFault> {
         ));
     }
     validate_limits(&request.limits, request.parent_request.records.len())?;
+    let maximum_path_bytes = usize::try_from(request.limits.maximum_path_bytes).map_err(|_| {
+        fault(
+            SjsRsoFaultCode::ArithmeticOverflow,
+            "maximum path bytes exceed usize",
+        )
+    })?;
+    if request.repository_root.len() > maximum_path_bytes
+        || request.git_executable.len() > maximum_path_bytes
+        || request
+            .parent_request
+            .records
+            .iter()
+            .any(|record| record.locator.len() > maximum_path_bytes)
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "request path bytes exceed observation limit",
+        ));
+    }
     Ok(())
 }
 
