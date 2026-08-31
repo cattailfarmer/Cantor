@@ -415,6 +415,31 @@ projection data. Host prompt placement, live provider/model behavior, term-set
 optimization, speed measurement, durable custody, autonomous continuation,
 remote machines, hardware, and physical effects remain gated.
 
+## SJS compiled-lookahead term-set optimization checkpoint
+
+The next forward attention seam is executable and provider-free.
+`cantor_core::sjs_compiled_lookahead_term_set_optimization` consumes an exact
+supplied structured candidate pool and explicit coverage graph, exhaustively
+enumerates every bounded subset, and selects the unique best feasible set under
+one fully ordered objective. Mandatory governing obligations can be covered
+only by governing anchors. Insufficient budgets and uncoverable mandatory
+obligations authorize no selection and retain complete partial and uncovered
+accounts.
+
+The retained fixture admits exactly 92 subsets across eight candidates and a
+selection ceiling of three. It selects three, rejects five, records one
+dominance witness, and leaves zero uncovered. Thirteen focused tests also prove
+canonical permutation stability, authority-promotion refusal, explicit failure
+outcomes, the 16-candidate / 39,202-subset maximum bound, 17-candidate refusal,
+raw evidence tamper refusal, and independent byte replay. Both PowerShell
+runtimes and debug plus overflow-checked release replay the same four retained
+files with all fourteen effect counters zero.
+
+This proves exact-pool mechanics, not semantic term generation, tokenizer
+accuracy, global optimality, prompt placement, provider/model behavior,
+inference speed or quality, adaptive learning, autonomy, host mutation, remote
+hardware, or physical effects.
+
 ## Mechanical audit
 
 ```powershell

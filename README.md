@@ -91,6 +91,15 @@ baseline:
   retained provider-free fixture projects five stitch inclusions across four
   coordinates without mutating a prompt, calling a model, or granting effects;
   and
+- `cantor_core::sjs_compiled_lookahead_term_set_optimization` now selects the
+  unique best feasible structured term set from one exact supplied pool by
+  exhaustively enumerating every bounded subset. Mandatory governing anchors
+  cannot be covered by nonauthority candidates; insufficient budgets and
+  uncoverable obligations retain explicit failure accounts instead of a false
+  selection. The provider-free fixture evaluates 92 subsets, selects three of
+  eight candidates, retains five rejections and one dominance witness, and
+  grants no prompt, provider, model, performance, workspace, or effect
+  authority; and
 - `cantor_core` can now compile one normalized, fully source-anchored
   attention-procedure candidate through the existing effectless CPPE compiler,
   retaining exact validation and compilation lineage while leaving verification,
