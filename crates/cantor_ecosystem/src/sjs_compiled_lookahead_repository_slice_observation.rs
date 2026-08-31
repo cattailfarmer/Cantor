@@ -553,12 +553,24 @@ fn validate_request_body(request: &SjsRsoRequest) -> Result<(), SjsRsoFault> {
             "HEAD identity differs",
         ));
     }
-    validate_limits(&request.limits)?;
+    validate_limits(&request.limits, request.parent_request.records.len())?;
     Ok(())
 }
 
-fn validate_limits(limits: &SjsRsoLimits) -> Result<(), SjsRsoFault> {
-    let valid = (1..=32).contains(&limits.maximum_git_commands)
+fn validate_limits(limits: &SjsRsoLimits, record_count: usize) -> Result<(), SjsRsoFault> {
+    let record_commands = u32::try_from(record_count).map_err(|_| {
+        fault(
+            SjsRsoFaultCode::ArithmeticOverflow,
+            "record command count exceeds u32",
+        )
+    })?;
+    let minimum_git_commands = 15u32.checked_add(record_commands).ok_or_else(|| {
+        fault(
+            SjsRsoFaultCode::ArithmeticOverflow,
+            "minimum Git command count overflow",
+        )
+    })?;
+    let valid = (minimum_git_commands..=32).contains(&limits.maximum_git_commands)
         && (1..=120_000).contains(&limits.maximum_command_milliseconds)
         && (1..=8_388_608).contains(&limits.maximum_stdout_bytes)
         && (1..=1_048_576).contains(&limits.maximum_stderr_bytes)

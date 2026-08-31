@@ -207,6 +207,18 @@ fn every_zero_observation_limit_refuses() {
 }
 
 #[test]
+fn command_budget_must_cover_worst_case_identity_tree_commit_and_blob_reads() {
+    let mut insufficient = request();
+    assert_eq!(insufficient.parent_request.records.len(), 8);
+    insufficient.limits.maximum_git_commands = 22;
+    assert_refused(seal_sjs_rso_request(insufficient));
+
+    let mut exact = request();
+    exact.limits.maximum_git_commands = 23;
+    seal_sjs_rso_request(exact).expect("fifteen fixed plus eight record commands");
+}
+
+#[test]
 fn request_digest_and_authority_tamper_refuse_validation() {
     let mut digest = request();
     digest.request_digest.value.replace_range(0..1, "f");
