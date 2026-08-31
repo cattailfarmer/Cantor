@@ -1,0 +1,23 @@
+use cantor_core::{
+    build_sjs_las_evidence_bundle, synthetic_sjs_las_request,
+    to_sjs_las_evidence_bundle_machine_form,
+};
+
+fn main() {
+    if let Err(error) = run() {
+        eprintln!("{error}");
+        std::process::exit(2);
+    }
+}
+
+fn run() -> Result<(), String> {
+    if std::env::args().count() != 1 {
+        return Err("usage: cantor-sjs-compiled-lookahead-stitch-fixture".to_owned());
+    }
+    let request = synthetic_sjs_las_request().map_err(|error| error.to_string())?;
+    let bundle = build_sjs_las_evidence_bundle(&request).map_err(|error| error.to_string())?;
+    let output =
+        to_sjs_las_evidence_bundle_machine_form(&bundle).map_err(|error| error.to_string())?;
+    println!("{output}");
+    Ok(())
+}

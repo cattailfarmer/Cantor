@@ -82,6 +82,15 @@ baseline:
   recovery, while drift and underdetermination remain witnessed refusals. The
   retained provider-free fixture reduces eight hints to four through six public
   witnesses with zero execution authority or effects; and
+- `cantor_core::sjs_compiled_lookahead_stitch` now compiles one exact scope and
+  one or two lightweight semantic stitches into an immutable packet, exact
+  lifecycle receipts, and compact per-invocation projection records. Initial,
+  stop-resume, tool-result-resume, and reentry coordinates each bind the latest
+  receipt and receive every active stitch exactly once; completion,
+  invalidation, scope exit, and replacement remain explicit transitions. The
+  retained provider-free fixture projects five stitch inclusions across four
+  coordinates without mutating a prompt, calling a model, or granting effects;
+  and
 - `cantor_core` can now compile one normalized, fully source-anchored
   attention-procedure candidate through the existing effectless CPPE compiler,
   retaining exact validation and compilation lineage while leaving verification,

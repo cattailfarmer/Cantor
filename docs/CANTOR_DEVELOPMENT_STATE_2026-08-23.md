@@ -393,6 +393,28 @@ meaning with a model, prove a global or token optimum, demonstrate a speedup,
 persist custody, continue autonomous work, admit a successor SOP, mutate a
 host, or produce any physical effect.
 
+## SJS compiled-lookahead-stitch checkpoint
+
+The forward half of the governed attention-frame mechanism is now executable
+and provider-free. `cantor_core::sjs_compiled_lookahead_stitch` turns one exact
+scope and one or two lightweight semantic stitches into an immutable packet,
+typed lifecycle receipts, and compact projection records. Each initial,
+stop-resume, tool-result-resume, and reentry coordinate binds the exact latest
+receipt and receives every active stitch exactly once.
+
+The retained two-stitch fixture contains eight hints, four source bindings,
+six observations, four coordinates, and five projected stitch inclusions. It
+records two activations, one fulfillment, one invalidation, zero refused
+transitions, and fourteen zero effect counters. Nineteen focused adversarial
+tests pass in debug and overflow-checked release. Both PowerShell runtimes and
+both Cargo profiles independently replay the same four retained evidence
+files.
+
+This closes only strict declaration compilation, lifecycle, and explicit
+projection data. Host prompt placement, live provider/model behavior, term-set
+optimization, speed measurement, durable custody, autonomous continuation,
+remote machines, hardware, and physical effects remain gated.
+
 ## Mechanical audit
 
 ```powershell
