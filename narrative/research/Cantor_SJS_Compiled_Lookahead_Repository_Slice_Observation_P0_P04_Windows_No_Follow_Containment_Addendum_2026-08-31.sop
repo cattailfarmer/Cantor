@@ -1,0 +1,28 @@
+Subject: Cantor SJS Compiled Lookahead Repository Slice Observation P0 P04 Windows No Follow Containment Addendum 2026-08-31
+
+@ [research_uuid] 0c2a0cc6-35c1-4c52-af36-dd9caf507398
+@ [canonical_uuid] f1fd1689-f290-4be6-ad82-e36d58103e1b
+@ [runner_audit_commit] 4d93550b6b1948a8bea3c54cf1973be05afa6014
+
+& [LocalDependencyEvidence]
+  + pinned windows-sys 0.61.2 Win32 Storage FileSystem surface exposes GetFileAttributesW CreateFileW GetFileInformationByHandle GetFinalPathNameByHandleW FILE_ATTRIBUTE_REPARSE_POINT FILE_FLAG_OPEN_REPARSE_POINT and FILE_FLAG_BACKUP_SEMANTICS
+  + cantor_ecosystem already enables Win32 Storage FileSystem so no dependency or network change is required
+
+& [NoFollowDesign]
+  + walk every absolute path component from its prefix and reject absent invalid or FILE_ATTRIBUTE_REPARSE_POINT components before canonical equality
+  + open the final executable repository Git directory and index identities with OPEN_EXISTING and FILE_FLAG_OPEN_REPARSE_POINT adding BACKUP_SEMANTICS only for directories
+  + compare handle-derived final paths and stable file identity metadata before and after rather than trusting textual canonicalization alone
+  + on non-Windows platforms perform the corresponding component walk with symlink_metadata and reject every symbolic-link component
+
+& [ContainmentDesign]
+  + do not call the B1 crate-private containment function or construct its permit
+  + implement an RSO-private permit produced only after full request validation and consumed by a closed GitOperation runner
+  + mirror suspended create job assignment kill-on-close output-drain deadline and terminate-on-overflow semantics on Windows while retaining a bounded kill-and-wait path on other supported hosts
+
+& [RequiredAdversariesBeforeObservation]
+  + executable repository ancestor Git directory index and requested-path reparse or symlink substitution each refuse
+  + timeout stdout overflow stderr overflow nonzero exit extra child process and pre-post file identity drift each terminate and refuse all output
+  + arbitrary command and arbitrary argument construction remain unrepresentable
+
+& [Effects]
+  + local dependency source inspection only with zero Git invocation process start repository observation mutation provider model network or external effect
