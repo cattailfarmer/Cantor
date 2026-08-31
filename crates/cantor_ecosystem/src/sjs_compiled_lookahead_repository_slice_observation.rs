@@ -177,6 +177,21 @@ pub struct SjsRsoVerification {
     pub verification_digest: ContentDigest,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SjsRsoGitOperation {
+    VersionBuildOptions,
+    ShowTopLevel,
+    SymbolicFullNameHead,
+    Head,
+    ObjectFormat,
+    GitDirectory,
+    IndexPath,
+    LsTreeSuppliedLocators,
+    CommitHead,
+    BlobObject { object_id: String },
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SjsRsoFaultCode {
     InvalidProfile,
@@ -185,6 +200,7 @@ pub enum SjsRsoFaultCode {
     InvalidPath,
     InvalidDigest,
     InvalidGitIdentity,
+    InvalidOperation,
     InvalidBound,
     InvalidAuthority,
     InvalidMachineForm,
@@ -313,6 +329,58 @@ pub fn validate_sjs_rso_verification(
         ));
     }
     Ok(())
+}
+
+pub fn sjs_rso_git_arguments(
+    request: &SjsRsoRequest,
+    operation: &SjsRsoGitOperation,
+) -> Result<Vec<String>, SjsRsoFault> {
+    validate_sjs_rso_request(request)?;
+    let arguments = match operation {
+        SjsRsoGitOperation::VersionBuildOptions => vec!["version", "--build-options"],
+        SjsRsoGitOperation::ShowTopLevel => vec!["rev-parse", "--show-toplevel"],
+        SjsRsoGitOperation::SymbolicFullNameHead => {
+            vec!["rev-parse", "--symbolic-full-name", "HEAD"]
+        }
+        SjsRsoGitOperation::Head => vec!["rev-parse", "HEAD"],
+        SjsRsoGitOperation::ObjectFormat => vec!["rev-parse", "--show-object-format"],
+        SjsRsoGitOperation::GitDirectory => {
+            vec!["rev-parse", "--path-format=absolute", "--git-dir"]
+        }
+        SjsRsoGitOperation::IndexPath => {
+            vec!["rev-parse", "--path-format=absolute", "--git-path", "index"]
+        }
+        SjsRsoGitOperation::LsTreeSuppliedLocators => {
+            let mut values = vec!["ls-tree", "-rz", "--full-tree", "HEAD", "--"]
+                .into_iter()
+                .map(str::to_owned)
+                .collect::<Vec<_>>();
+            values.extend(
+                request
+                    .parent_request
+                    .records
+                    .iter()
+                    .map(|record| record.locator.clone()),
+            );
+            return Ok(values);
+        }
+        SjsRsoGitOperation::CommitHead => vec!["cat-file", "commit", "HEAD"],
+        SjsRsoGitOperation::BlobObject { object_id } => {
+            let width = object_identity_width(&request.object_format)?;
+            if object_id.len() != width || !is_lower_hex(object_id) {
+                return Err(fault(
+                    SjsRsoFaultCode::InvalidOperation,
+                    "blob object identity differs",
+                ));
+            }
+            return Ok(vec![
+                "cat-file".to_owned(),
+                "blob".to_owned(),
+                object_id.clone(),
+            ]);
+        }
+    };
+    Ok(arguments.into_iter().map(str::to_owned).collect())
 }
 
 fn validate_receipt_body(
@@ -537,16 +605,7 @@ fn validate_request_body(request: &SjsRsoRequest) -> Result<(), SjsRsoFault> {
             "branch ref and parent branch differ",
         ));
     }
-    let head_width = match request.object_format.as_str() {
-        "sha1" => 40,
-        "sha256" => 64,
-        _ => {
-            return Err(fault(
-                SjsRsoFaultCode::InvalidGitIdentity,
-                "object format differs",
-            ));
-        }
-    };
+    let head_width = object_identity_width(&request.object_format)?;
     if request.expected_head.len() != head_width || !is_lower_hex(&request.expected_head) {
         return Err(fault(
             SjsRsoFaultCode::InvalidGitIdentity,
@@ -589,6 +648,17 @@ fn validate_limits(limits: &SjsRsoLimits, record_count: usize) -> Result<(), Sjs
             SjsRsoFaultCode::InvalidBound,
             "observation limits differ",
         ))
+    }
+}
+
+fn object_identity_width(object_format: &str) -> Result<usize, SjsRsoFault> {
+    match object_format {
+        "sha1" => Ok(40),
+        "sha256" => Ok(64),
+        _ => Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "object format differs",
+        )),
     }
 }
 

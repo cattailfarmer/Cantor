@@ -8,9 +8,10 @@ use cantor_ecosystem::sjs_compiled_lookahead_repository_slice_observation::{
     SJS_RSO_CANONICAL_UUID, SJS_RSO_MAX_MACHINE_FORM_BYTES, SJS_RSO_NON_AUTHORITY,
     SJS_RSO_PARENT_COMPLETION_UUID, SJS_RSO_RECEIPT_PROFILE, SJS_RSO_REQUEST_PROFILE,
     SJS_RSO_SIGNATURE_UUID, SJS_RSO_SOURCE_UUID, SjsRsoAccountStatus, SjsRsoEffectAccount,
-    SjsRsoElementAccount, SjsRsoFaultCode, SjsRsoInputClass, SjsRsoLimits, SjsRsoReceipt,
-    SjsRsoRequest, from_sjs_rso_receipt_machine_form, from_sjs_rso_request_machine_form,
-    from_sjs_rso_verification_machine_form, seal_sjs_rso_receipt, seal_sjs_rso_request,
+    SjsRsoElementAccount, SjsRsoFaultCode, SjsRsoGitOperation, SjsRsoInputClass, SjsRsoLimits,
+    SjsRsoReceipt, SjsRsoRequest, from_sjs_rso_receipt_machine_form,
+    from_sjs_rso_request_machine_form, from_sjs_rso_verification_machine_form,
+    seal_sjs_rso_receipt, seal_sjs_rso_request, sjs_rso_git_arguments,
     to_sjs_rso_receipt_machine_form, to_sjs_rso_request_machine_form,
     to_sjs_rso_verification_machine_form, validate_sjs_rso_receipt, validate_sjs_rso_request,
     validate_sjs_rso_verification, verify_sjs_rso_receipt,
@@ -216,6 +217,85 @@ fn command_budget_must_cover_worst_case_identity_tree_commit_and_blob_reads() {
     let mut exact = request();
     exact.limits.maximum_git_commands = 23;
     seal_sjs_rso_request(exact).expect("fifteen fixed plus eight record commands");
+}
+
+#[test]
+fn closed_git_operation_vectors_are_exact_and_request_derived() {
+    let request = request();
+    let cases = [
+        (
+            SjsRsoGitOperation::VersionBuildOptions,
+            vec!["version", "--build-options"],
+        ),
+        (
+            SjsRsoGitOperation::ShowTopLevel,
+            vec!["rev-parse", "--show-toplevel"],
+        ),
+        (
+            SjsRsoGitOperation::SymbolicFullNameHead,
+            vec!["rev-parse", "--symbolic-full-name", "HEAD"],
+        ),
+        (SjsRsoGitOperation::Head, vec!["rev-parse", "HEAD"]),
+        (
+            SjsRsoGitOperation::ObjectFormat,
+            vec!["rev-parse", "--show-object-format"],
+        ),
+        (
+            SjsRsoGitOperation::GitDirectory,
+            vec!["rev-parse", "--path-format=absolute", "--git-dir"],
+        ),
+        (
+            SjsRsoGitOperation::IndexPath,
+            vec!["rev-parse", "--path-format=absolute", "--git-path", "index"],
+        ),
+        (
+            SjsRsoGitOperation::CommitHead,
+            vec!["cat-file", "commit", "HEAD"],
+        ),
+    ];
+    for (operation, expected) in cases {
+        assert_eq!(
+            sjs_rso_git_arguments(&request, &operation).expect("closed operation"),
+            expected
+        );
+    }
+
+    let tree = sjs_rso_git_arguments(&request, &SjsRsoGitOperation::LsTreeSuppliedLocators)
+        .expect("tree command");
+    assert_eq!(&tree[..5], ["ls-tree", "-rz", "--full-tree", "HEAD", "--"]);
+    assert_eq!(
+        &tree[5..],
+        request
+            .parent_request
+            .records
+            .iter()
+            .map(|record| record.locator.clone())
+            .collect::<Vec<_>>()
+    );
+}
+
+#[test]
+fn blob_operation_accepts_only_exact_object_format_identity() {
+    let request = request();
+    let object_id = "a".repeat(40);
+    assert_eq!(
+        sjs_rso_git_arguments(
+            &request,
+            &SjsRsoGitOperation::BlobObject {
+                object_id: object_id.clone(),
+            },
+        )
+        .expect("blob command"),
+        vec!["cat-file", "blob", &object_id]
+    );
+    for invalid in ["a".repeat(39), "a".repeat(41), "A".repeat(40)] {
+        let error = sjs_rso_git_arguments(
+            &request,
+            &SjsRsoGitOperation::BlobObject { object_id: invalid },
+        )
+        .expect_err("invalid blob identity");
+        assert_eq!(error.code, SjsRsoFaultCode::InvalidOperation);
+    }
 }
 
 #[test]
