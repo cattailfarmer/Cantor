@@ -1,13 +1,15 @@
 //! Typed request and accounting boundary for exact read-only observation of a
 //! supplied compiled-lookahead repository slice.
 //!
-//! This checkpoint defines and validates the pure request ABI only. It performs
-//! no filesystem access and starts no Git process. Physical observation is a
-//! later function inside this already-signed module boundary.
+//! Pure request and receipt validation remain effect-free. The separately
+//! prepared, non-clone runner capability performs bounded no-follow filesystem
+//! checks and closed Git operations; complete commit-tree receipt composition
+//! remains a later function inside this already-signed module boundary.
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
-use std::fs::{self, Metadata};
+use std::fs::{self, File, Metadata};
+use std::io::Read;
 use std::path::{Component, Path, PathBuf};
 
 #[cfg(unix)]
@@ -221,6 +223,60 @@ pub struct SjsRsoPathIdentity {
     pub modification_time: String,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct SjsRsoGitCommandObservation {
+    pub operation: SjsRsoGitOperation,
+    pub command_sequence: u32,
+    pub exit_code: u32,
+    pub stdout: Vec<u8>,
+    pub stdout_observed_bytes: u64,
+    pub stderr_observed_bytes: u64,
+    pub total_processes: u32,
+    pub active_processes_at_terminal: u32,
+    pub assigned_before_resume: bool,
+}
+
+/// Non-clone execution capability formed only from one validated, hash-pinned
+/// RSO request. Its private fields prevent arbitrary command or path creation.
+#[derive(Debug)]
+pub struct SjsRsoGitRunner {
+    request: SjsRsoRequest,
+    executable_identity: SjsRsoPathIdentity,
+    repository_identity: SjsRsoPathIdentity,
+    command_count: u32,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub(crate) struct SjsRsoContainedChildSpec {
+    pub request_digest: ContentDigest,
+    pub operation: SjsRsoGitOperation,
+    pub executable: String,
+    pub arguments: Vec<String>,
+    pub working_directory: String,
+    pub environment: Vec<(String, String)>,
+    pub stdin: Vec<u8>,
+    pub maximum_stdout_bytes: usize,
+    pub maximum_stderr_bytes: usize,
+    pub timeout_millis: u32,
+    pub maximum_active_processes: u32,
+    pub maximum_total_processes: u32,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub(crate) struct SjsRsoContainedChildObservation {
+    pub exit_code: u32,
+    pub stdout: Vec<u8>,
+    pub stderr: Vec<u8>,
+    pub stdout_observed_bytes: u64,
+    pub stderr_observed_bytes: u64,
+    pub stdout_over_bound: bool,
+    pub stderr_over_bound: bool,
+    pub forced_termination: bool,
+    pub total_processes: u32,
+    pub active_processes_at_terminal: u32,
+    pub resume_previous_count: u32,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SjsRsoFaultCode {
     InvalidProfile,
@@ -410,6 +466,241 @@ pub fn sjs_rso_git_arguments(
         }
     };
     Ok(arguments.into_iter().map(str::to_owned).collect())
+}
+
+pub fn prepare_sjs_rso_git_runner(request: &SjsRsoRequest) -> Result<SjsRsoGitRunner, SjsRsoFault> {
+    validate_sjs_rso_request(request)?;
+    let (executable_identity, executable_digest) = hash_sjs_rso_file_stable(
+        &request.git_executable,
+        request.limits.maximum_executable_bytes,
+    )?;
+    if executable_digest != request.expected_git_sha256 {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "Git executable digest differs",
+        ));
+    }
+    let repository_identity = inspect_sjs_rso_no_follow_path(
+        &request.repository_root,
+        SjsRsoPathKind::Directory,
+        u64::MAX,
+    )?;
+    Ok(SjsRsoGitRunner {
+        request: request.clone(),
+        executable_identity,
+        repository_identity,
+        command_count: 0,
+    })
+}
+
+pub fn run_sjs_rso_git_operation(
+    runner: &mut SjsRsoGitRunner,
+    operation: SjsRsoGitOperation,
+) -> Result<SjsRsoGitCommandObservation, SjsRsoFault> {
+    validate_sjs_rso_request(&runner.request)?;
+    runner.command_count = runner.command_count.checked_add(1).ok_or_else(|| {
+        fault(
+            SjsRsoFaultCode::ArithmeticOverflow,
+            "Git command count overflowed",
+        )
+    })?;
+    if runner.command_count > runner.request.limits.maximum_git_commands {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "Git command count exceeds request bound",
+        ));
+    }
+
+    let arguments = sjs_rso_git_arguments(&runner.request, &operation)?;
+    let maximum_stdout_bytes = usize::try_from(runner.request.limits.maximum_stdout_bytes)
+        .map_err(|_| fault(SjsRsoFaultCode::InvalidBound, "stdout bound exceeds usize"))?;
+    let maximum_stderr_bytes = usize::try_from(runner.request.limits.maximum_stderr_bytes)
+        .map_err(|_| fault(SjsRsoFaultCode::InvalidBound, "stderr bound exceeds usize"))?;
+    let timeout_millis = u32::try_from(runner.request.limits.maximum_command_milliseconds)
+        .map_err(|_| fault(SjsRsoFaultCode::InvalidBound, "timeout exceeds u32"))?;
+    let spec = SjsRsoContainedChildSpec {
+        request_digest: runner.request.request_digest.clone(),
+        operation: operation.clone(),
+        executable: runner.request.git_executable.clone(),
+        arguments,
+        working_directory: runner.request.repository_root.clone(),
+        environment: sjs_rso_git_environment(),
+        stdin: Vec::new(),
+        maximum_stdout_bytes,
+        maximum_stderr_bytes,
+        timeout_millis,
+        maximum_active_processes: 2,
+        maximum_total_processes: 4,
+    };
+    runner.authorize_contained_spec(&spec)?;
+    runner.verify_stable_authority_paths()?;
+
+    #[cfg(windows)]
+    let child =
+        crate::self_work_update_broker_b1_cdrive_windows_containment::run_sjs_rso_contained_child(
+            runner, &spec,
+        );
+    #[cfg(not(windows))]
+    let child: Result<SjsRsoContainedChildObservation, String> =
+        Err("RSO process-tree containment is not implemented for this platform".to_owned());
+
+    let postcheck = runner.verify_stable_authority_paths();
+    let child = child.map_err(|detail| fault(SjsRsoFaultCode::InvalidOperation, detail));
+    postcheck?;
+    let child = child?;
+    if child.forced_termination {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidOperation,
+            "contained Git command timed out and its job was terminated",
+        ));
+    }
+    if child.stdout_over_bound || child.stderr_over_bound {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "contained Git output exceeded its bound",
+        ));
+    }
+    if child.exit_code != 0
+        || child.stderr_observed_bytes != 0
+        || !child.stderr.is_empty()
+        || child.active_processes_at_terminal != 0
+        || child.resume_previous_count != 1
+        || child.stdout_observed_bytes != child.stdout.len() as u64
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidOperation,
+            "contained Git command outcome differs",
+        ));
+    }
+    Ok(SjsRsoGitCommandObservation {
+        operation,
+        command_sequence: runner.command_count,
+        exit_code: child.exit_code,
+        stdout: child.stdout,
+        stdout_observed_bytes: child.stdout_observed_bytes,
+        stderr_observed_bytes: child.stderr_observed_bytes,
+        total_processes: child.total_processes,
+        active_processes_at_terminal: child.active_processes_at_terminal,
+        assigned_before_resume: child.resume_previous_count == 1,
+    })
+}
+
+impl SjsRsoGitRunner {
+    pub fn command_count(&self) -> u32 {
+        self.command_count
+    }
+
+    pub(crate) fn authorize_contained_spec(
+        &self,
+        spec: &SjsRsoContainedChildSpec,
+    ) -> Result<(), SjsRsoFault> {
+        let expected_arguments = sjs_rso_git_arguments(&self.request, &spec.operation)?;
+        let expected_stdout = usize::try_from(self.request.limits.maximum_stdout_bytes)
+            .map_err(|_| fault(SjsRsoFaultCode::InvalidBound, "stdout bound exceeds usize"))?;
+        let expected_stderr = usize::try_from(self.request.limits.maximum_stderr_bytes)
+            .map_err(|_| fault(SjsRsoFaultCode::InvalidBound, "stderr bound exceeds usize"))?;
+        let expected_timeout = u32::try_from(self.request.limits.maximum_command_milliseconds)
+            .map_err(|_| fault(SjsRsoFaultCode::InvalidBound, "timeout exceeds u32"))?;
+        if spec.request_digest != self.request.request_digest
+            || spec.executable != self.request.git_executable
+            || spec.arguments != expected_arguments
+            || spec.working_directory != self.request.repository_root
+            || spec.environment != sjs_rso_git_environment()
+            || !spec.stdin.is_empty()
+            || spec.maximum_stdout_bytes != expected_stdout
+            || spec.maximum_stderr_bytes != expected_stderr
+            || spec.timeout_millis != expected_timeout
+            || spec.maximum_active_processes != 2
+            || spec.maximum_total_processes != 4
+        {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidAuthority,
+                "contained Git command specification differs",
+            ));
+        }
+        Ok(())
+    }
+
+    fn verify_stable_authority_paths(&self) -> Result<(), SjsRsoFault> {
+        let (executable_identity, executable_digest) = hash_sjs_rso_file_stable(
+            &self.request.git_executable,
+            self.request.limits.maximum_executable_bytes,
+        )?;
+        let repository_identity = inspect_sjs_rso_no_follow_path(
+            &self.request.repository_root,
+            SjsRsoPathKind::Directory,
+            u64::MAX,
+        )?;
+        if executable_identity != self.executable_identity
+            || executable_digest != self.request.expected_git_sha256
+            || repository_identity != self.repository_identity
+        {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidGitIdentity,
+                "runner authority path identity drifted",
+            ));
+        }
+        Ok(())
+    }
+}
+
+fn hash_sjs_rso_file_stable(
+    value: &str,
+    maximum_bytes: u64,
+) -> Result<(SjsRsoPathIdentity, ContentDigest), SjsRsoFault> {
+    let before = inspect_sjs_rso_no_follow_path(value, SjsRsoPathKind::RegularFile, maximum_bytes)?;
+    let retained_limit = maximum_bytes.checked_add(1).ok_or_else(|| {
+        fault(
+            SjsRsoFaultCode::ArithmeticOverflow,
+            "bounded file read limit overflowed",
+        )
+    })?;
+    let mut bytes = Vec::new();
+    File::open(value)
+        .map_err(|error| path_fault("open bounded file", value, error))?
+        .take(retained_limit)
+        .read_to_end(&mut bytes)
+        .map_err(|error| path_fault("read bounded file", value, error))?;
+    if bytes.len() as u64 > maximum_bytes {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "bounded file read exceeded limit",
+        ));
+    }
+    let digest = sha256_bytes(&bytes);
+    let after = inspect_sjs_rso_no_follow_path(value, SjsRsoPathKind::RegularFile, maximum_bytes)?;
+    if before != after || before.byte_length != bytes.len() as u64 {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidPath,
+            "bounded file identity drifted during read",
+        ));
+    }
+    Ok((after, digest))
+}
+
+fn sjs_rso_git_environment() -> Vec<(String, String)> {
+    [
+        ("GCM_INTERACTIVE", "Never"),
+        ("GIT_ALLOW_PROTOCOL", "none"),
+        ("GIT_ASKPASS", "NUL"),
+        ("GIT_ATTR_NOSYSTEM", "1"),
+        ("GIT_CONFIG_GLOBAL", "NUL"),
+        ("GIT_CONFIG_NOSYSTEM", "1"),
+        ("GIT_CONFIG_SYSTEM", "NUL"),
+        ("GIT_NO_LAZY_FETCH", "1"),
+        ("GIT_NO_REPLACE_OBJECTS", "1"),
+        ("GIT_OPTIONAL_LOCKS", "0"),
+        ("GIT_TERMINAL_PROMPT", "0"),
+        ("HOME", r"C:\CantorRsoNoHome"),
+        ("LANG", "C"),
+        ("LC_ALL", "C"),
+        ("SSH_ASKPASS", "NUL"),
+        ("SYSTEMROOT", r"C:\Windows"),
+        ("WINDIR", r"C:\Windows"),
+    ]
+    .into_iter()
+    .map(|(name, value)| (name.to_owned(), value.to_owned()))
+    .collect()
 }
 
 pub fn inspect_sjs_rso_no_follow_path(
@@ -1137,6 +1428,13 @@ fn validate_shape(value: &Value, depth: usize, fields: &mut usize) -> Result<(),
         _ => {}
     }
     Ok(())
+}
+
+fn path_fault(action: &str, value: &str, error: impl fmt::Display) -> SjsRsoFault {
+    fault(
+        SjsRsoFaultCode::InvalidPath,
+        format!("{action} failed for {value}: {error}"),
+    )
 }
 
 fn machine_fault(error: impl fmt::Display) -> SjsRsoFault {

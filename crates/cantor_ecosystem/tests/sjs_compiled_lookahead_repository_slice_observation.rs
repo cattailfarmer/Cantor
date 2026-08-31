@@ -16,8 +16,9 @@ use cantor_ecosystem::sjs_compiled_lookahead_repository_slice_observation::{
     SjsRsoElementAccount, SjsRsoFaultCode, SjsRsoGitOperation, SjsRsoInputClass, SjsRsoLimits,
     SjsRsoPathKind, SjsRsoReceipt, SjsRsoRequest, from_sjs_rso_receipt_machine_form,
     from_sjs_rso_request_machine_form, from_sjs_rso_verification_machine_form,
-    inspect_sjs_rso_no_follow_path, seal_sjs_rso_receipt, seal_sjs_rso_request,
-    sjs_rso_git_arguments, to_sjs_rso_receipt_machine_form, to_sjs_rso_request_machine_form,
+    inspect_sjs_rso_no_follow_path, prepare_sjs_rso_git_runner, run_sjs_rso_git_operation,
+    seal_sjs_rso_receipt, seal_sjs_rso_request, sjs_rso_git_arguments,
+    to_sjs_rso_receipt_machine_form, to_sjs_rso_request_machine_form,
     to_sjs_rso_verification_machine_form, validate_sjs_rso_receipt, validate_sjs_rso_request,
     validate_sjs_rso_verification, verify_sjs_rso_receipt,
 };
@@ -168,6 +169,28 @@ fn receipt(request: &SjsRsoRequest) -> SjsRsoReceipt {
     .expect("sealed receipt")
 }
 
+#[cfg(windows)]
+fn physical_runner_request(root: &Path, git_executable: &Path) -> SjsRsoRequest {
+    let mut value = request();
+    let mut parent = value.parent_request.clone();
+    parent.scope.repository = root
+        .to_str()
+        .expect("UTF-8 fixture root")
+        .replace('\\', "/");
+    parent.scope.branch = "fixture".to_owned();
+    value.parent_request = seal_sjs_rcx_request(parent).expect("reseal physical parent");
+    value.repository_root = root.to_str().expect("UTF-8 fixture root").to_owned();
+    value.git_executable = git_executable
+        .to_str()
+        .expect("UTF-8 Git executable")
+        .replace('\\', "/");
+    value.expected_git_sha256 =
+        sha256_bytes(&fs::read(git_executable).expect("read Git executable"));
+    value.expected_branch_ref = "refs/heads/fixture".to_owned();
+    value.limits.maximum_command_milliseconds = 10_000;
+    seal_sjs_rso_request(value).expect("seal physical runner request")
+}
+
 #[test]
 fn supplied_slice_request_seals_and_round_trips_as_strict_canonical_json() {
     let request = request();
@@ -177,6 +200,116 @@ fn supplied_slice_request_seals_and_round_trips_as_strict_canonical_json() {
         from_sjs_rso_request_machine_form(&machine).expect("round trip"),
         request
     );
+}
+
+#[cfg(windows)]
+#[test]
+fn hash_pinned_closed_git_version_runs_inside_windows_job() {
+    let fixture = DisposablePathFixture::new();
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+    assert!(git_executable.is_file(), "pinned local Git is unavailable");
+    let request = physical_runner_request(&fixture.root, git_executable);
+    let mut runner = prepare_sjs_rso_git_runner(&request).expect("prepare runner");
+    let observation =
+        run_sjs_rso_git_operation(&mut runner, SjsRsoGitOperation::VersionBuildOptions)
+            .expect("contained Git version");
+
+    assert_eq!(observation.command_sequence, 1);
+    assert_eq!(runner.command_count(), 1);
+    assert_eq!(observation.exit_code, 0);
+    assert!(observation.assigned_before_resume);
+    assert_eq!(observation.active_processes_at_terminal, 0);
+    assert!((1..=4).contains(&observation.total_processes));
+    assert!(observation.stderr_observed_bytes == 0);
+    assert!(observation.stdout_observed_bytes > 0);
+    assert!(observation.stdout.starts_with(b"git version "));
+}
+
+#[cfg(windows)]
+#[test]
+fn wrong_git_digest_and_repository_identity_drift_refuse_runner_authority() {
+    let fixture = DisposablePathFixture::new();
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+    assert!(git_executable.is_file(), "pinned local Git is unavailable");
+
+    let mut wrong_digest = physical_runner_request(&fixture.root, git_executable);
+    wrong_digest.expected_git_sha256 = sha256_bytes(b"wrong executable");
+    let wrong_digest = seal_sjs_rso_request(wrong_digest).expect("reseal wrong digest request");
+    let error = prepare_sjs_rso_git_runner(&wrong_digest).expect_err("wrong digest must refuse");
+    assert_eq!(error.code, SjsRsoFaultCode::InvalidGitIdentity);
+
+    let request = physical_runner_request(&fixture.root, git_executable);
+    let mut runner = prepare_sjs_rso_git_runner(&request).expect("prepare runner");
+    fs::write(fixture.root.join("identity-drift"), b"drift").expect("write drift marker");
+    let error = run_sjs_rso_git_operation(&mut runner, SjsRsoGitOperation::VersionBuildOptions)
+        .expect_err("repository identity drift must refuse");
+    assert_eq!(error.code, SjsRsoFaultCode::InvalidGitIdentity);
+}
+
+#[cfg(windows)]
+#[test]
+fn stdout_overflow_timeout_and_unsuccessful_git_each_refuse() {
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+    assert!(git_executable.is_file(), "pinned local Git is unavailable");
+
+    let overflow_fixture = DisposablePathFixture::new();
+    let mut overflow = physical_runner_request(&overflow_fixture.root, git_executable);
+    overflow.limits.maximum_stdout_bytes = 1;
+    let overflow = seal_sjs_rso_request(overflow).expect("seal overflow request");
+    let mut overflow_runner = prepare_sjs_rso_git_runner(&overflow).expect("prepare overflow");
+    let overflow_error = run_sjs_rso_git_operation(
+        &mut overflow_runner,
+        SjsRsoGitOperation::VersionBuildOptions,
+    )
+    .expect_err("stdout overflow must refuse");
+    assert!(
+        overflow_error.detail.contains("output exceeded"),
+        "unexpected overflow refusal: {}",
+        overflow_error.detail
+    );
+
+    let timeout_fixture = DisposablePathFixture::new();
+    let mut timeout = physical_runner_request(&timeout_fixture.root, git_executable);
+    timeout.limits.maximum_command_milliseconds = 1;
+    let timeout = seal_sjs_rso_request(timeout).expect("seal timeout request");
+    let mut timeout_runner = prepare_sjs_rso_git_runner(&timeout).expect("prepare timeout");
+    let timeout_error =
+        run_sjs_rso_git_operation(&mut timeout_runner, SjsRsoGitOperation::VersionBuildOptions)
+            .expect_err("timeout must refuse");
+    assert!(timeout_error.detail.contains("timed out"));
+
+    let failure_fixture = DisposablePathFixture::new();
+    let failure = physical_runner_request(&failure_fixture.root, git_executable);
+    let mut failure_runner = prepare_sjs_rso_git_runner(&failure).expect("prepare failure");
+    let failure_error =
+        run_sjs_rso_git_operation(&mut failure_runner, SjsRsoGitOperation::ShowTopLevel)
+            .expect_err("non-repository Git command must refuse");
+    assert_eq!(failure_error.code, SjsRsoFaultCode::InvalidOperation);
+}
+
+#[cfg(windows)]
+#[test]
+fn command_budget_preincrements_and_refuses_the_first_excess_launch() {
+    let fixture = DisposablePathFixture::new();
+    let git_executable = Path::new(r"C:\Program Files\Git\cmd\git.exe");
+    assert!(git_executable.is_file(), "pinned local Git is unavailable");
+    let mut request = physical_runner_request(&fixture.root, git_executable);
+    request.limits.maximum_git_commands =
+        15 + u32::try_from(request.parent_request.records.len()).expect("record count");
+    let request = seal_sjs_rso_request(request).expect("seal minimum command budget");
+    let maximum = request.limits.maximum_git_commands;
+    let mut runner = prepare_sjs_rso_git_runner(&request).expect("prepare runner");
+
+    for sequence in 1..=maximum {
+        let observation =
+            run_sjs_rso_git_operation(&mut runner, SjsRsoGitOperation::VersionBuildOptions)
+                .expect("bounded command");
+        assert_eq!(observation.command_sequence, sequence);
+    }
+    let error = run_sjs_rso_git_operation(&mut runner, SjsRsoGitOperation::VersionBuildOptions)
+        .expect_err("first excess command must refuse");
+    assert_eq!(error.code, SjsRsoFaultCode::InvalidBound);
+    assert_eq!(runner.command_count(), maximum + 1);
 }
 
 #[test]

@@ -1,11 +1,12 @@
 #![allow(unsafe_code)]
-//! Windows-only contained-child primitive for the signed B1 C-drive broker.
+//! Windows-only contained-child substrate for separately signed B1 and RSO callers.
 //!
 //! This is the sole `unsafe` island in `cantor_ecosystem`. It owns raw Windows
 //! handles through RAII, creates a child suspended, assigns it to a fresh
-//! kill-on-close job, and only then resumes the primary thread. The caller must
-//! present the crate-private execution permit; the current broker revision has
-//! no authorized constructor capable of producing that permit.
+//! kill-on-close job, and only then resumes the primary thread. Each caller must
+//! present its own crate-private, non-interchangeable execution capability; B1
+//! remains locked when its activation digest is absent, while RSO admits only a
+//! validated hash-pinned request and one closed Git operation.
 
 use std::{
     ffi::c_void,
@@ -51,6 +52,9 @@ use windows_sys::Win32::{
 use crate::{
     B1CDrivePhysicalExecutionPermit, B1CDriveWindowsContainedChildObservation,
     B1CDriveWindowsContainedChildSpec,
+    sjs_compiled_lookahead_repository_slice_observation::{
+        SjsRsoContainedChildObservation, SjsRsoContainedChildSpec, SjsRsoGitRunner,
+    },
 };
 
 const MAX_ARGUMENTS: usize = 32;
@@ -77,12 +81,30 @@ pub(crate) fn run_contained_child(
 ) -> Result<B1CDriveWindowsContainedChildObservation, String> {
     validate_spec(permit, spec)?;
 
-    let mut application = wide_nul(&spec.executable)?;
-    let mut command_line = wide_nul(&build_command_line(&spec.executable, &spec.arguments)?)?;
-    let environment = build_environment_block(&spec.environment)?;
-    let current_directory = wide_nul(&spec.working_directory)?;
+    run_validated_contained_child(spec)
+}
 
-    let job = create_job(spec.maximum_active_processes)?;
+pub(crate) fn run_sjs_rso_contained_child(
+    runner: &SjsRsoGitRunner,
+    spec: &SjsRsoContainedChildSpec,
+) -> Result<SjsRsoContainedChildObservation, String> {
+    runner
+        .authorize_contained_spec(spec)
+        .map_err(|error| error.to_string())?;
+
+    run_validated_contained_child(spec)
+}
+
+fn run_validated_contained_child<S>(spec: &S) -> Result<S::Observation, String>
+where
+    S: WindowsContainedChildContract,
+{
+    let mut application = wide_nul(spec.executable())?;
+    let mut command_line = wide_nul(&build_command_line(spec.executable(), spec.arguments())?)?;
+    let environment = encode_environment_block(spec.environment())?;
+    let current_directory = wide_nul(spec.working_directory())?;
+
+    let job = create_job(spec.maximum_active_processes())?;
     let mut pipes = PipeSet::new()?;
     let child_handles = [
         pipes.stdin_child.raw(),
@@ -161,20 +183,20 @@ pub(crate) fn run_contained_child(
     let (event_tx, event_rx) = mpsc::channel();
     let stdout_reader = spawn_drain(
         stdout_file,
-        spec.maximum_stdout_bytes,
+        spec.maximum_stdout_bytes(),
         StreamKind::Stdout,
         event_tx.clone(),
     );
     let stderr_reader = spawn_drain(
         stderr_file,
-        spec.maximum_stderr_bytes,
+        spec.maximum_stderr_bytes(),
         StreamKind::Stderr,
         event_tx,
     );
 
     if let Some(stdin_parent) = pipes.stdin_parent.take() {
         let mut stdin_file = stdin_parent.into_file();
-        if let Err(error) = stdin_file.write_all(&spec.stdin) {
+        if let Err(error) = stdin_file.write_all(spec.stdin()) {
             terminate_job(&job);
             wait_after_termination(&process);
             let _ = join_drain(stdout_reader, "stdout");
@@ -190,7 +212,7 @@ pub(crate) fn run_contained_child(
         }
     }
 
-    let deadline = Instant::now() + Duration::from_millis(u64::from(spec.timeout_millis));
+    let deadline = Instant::now() + Duration::from_millis(u64::from(spec.timeout_millis()));
     let mut forced_termination = false;
     loop {
         match event_rx.try_recv() {
@@ -289,14 +311,15 @@ pub(crate) fn run_contained_child(
     if unsafe { GetExitCodeProcess(process.raw(), &mut exit_code) } == FALSE {
         return Err(last_error("GetExitCodeProcess"));
     }
-    if accounting.TotalProcesses > spec.maximum_total_processes {
+    if accounting.TotalProcesses > spec.maximum_total_processes() {
         return Err(format!(
             "job total process count {} exceeds {}",
-            accounting.TotalProcesses, spec.maximum_total_processes
+            accounting.TotalProcesses,
+            spec.maximum_total_processes()
         ));
     }
 
-    Ok(B1CDriveWindowsContainedChildObservation {
+    Ok(spec.make_observation(RawContainedChildObservation {
         exit_code,
         stdout: stdout.retained,
         stderr: stderr.retained,
@@ -308,7 +331,157 @@ pub(crate) fn run_contained_child(
         total_processes: accounting.TotalProcesses,
         active_processes_at_terminal: accounting.ActiveProcesses,
         resume_previous_count,
-    })
+    }))
+}
+
+struct RawContainedChildObservation {
+    exit_code: u32,
+    stdout: Vec<u8>,
+    stderr: Vec<u8>,
+    stdout_observed_bytes: u64,
+    stderr_observed_bytes: u64,
+    stdout_over_bound: bool,
+    stderr_over_bound: bool,
+    forced_termination: bool,
+    total_processes: u32,
+    active_processes_at_terminal: u32,
+    resume_previous_count: u32,
+}
+
+trait WindowsContainedChildContract {
+    type Observation;
+
+    fn executable(&self) -> &str;
+    fn arguments(&self) -> &[String];
+    fn working_directory(&self) -> &str;
+    fn environment(&self) -> &[(String, String)];
+    fn stdin(&self) -> &[u8];
+    fn maximum_stdout_bytes(&self) -> usize;
+    fn maximum_stderr_bytes(&self) -> usize;
+    fn timeout_millis(&self) -> u32;
+    fn maximum_active_processes(&self) -> u32;
+    fn maximum_total_processes(&self) -> u32;
+    fn make_observation(&self, raw: RawContainedChildObservation) -> Self::Observation;
+}
+
+impl WindowsContainedChildContract for B1CDriveWindowsContainedChildSpec {
+    type Observation = B1CDriveWindowsContainedChildObservation;
+
+    fn executable(&self) -> &str {
+        &self.executable
+    }
+
+    fn arguments(&self) -> &[String] {
+        &self.arguments
+    }
+
+    fn working_directory(&self) -> &str {
+        &self.working_directory
+    }
+
+    fn environment(&self) -> &[(String, String)] {
+        &self.environment
+    }
+
+    fn stdin(&self) -> &[u8] {
+        &self.stdin
+    }
+
+    fn maximum_stdout_bytes(&self) -> usize {
+        self.maximum_stdout_bytes
+    }
+
+    fn maximum_stderr_bytes(&self) -> usize {
+        self.maximum_stderr_bytes
+    }
+
+    fn timeout_millis(&self) -> u32 {
+        self.timeout_millis
+    }
+
+    fn maximum_active_processes(&self) -> u32 {
+        self.maximum_active_processes
+    }
+
+    fn maximum_total_processes(&self) -> u32 {
+        self.maximum_total_processes
+    }
+
+    fn make_observation(&self, raw: RawContainedChildObservation) -> Self::Observation {
+        B1CDriveWindowsContainedChildObservation {
+            exit_code: raw.exit_code,
+            stdout: raw.stdout,
+            stderr: raw.stderr,
+            stdout_observed_bytes: raw.stdout_observed_bytes,
+            stderr_observed_bytes: raw.stderr_observed_bytes,
+            stdout_over_bound: raw.stdout_over_bound,
+            stderr_over_bound: raw.stderr_over_bound,
+            forced_termination: raw.forced_termination,
+            total_processes: raw.total_processes,
+            active_processes_at_terminal: raw.active_processes_at_terminal,
+            resume_previous_count: raw.resume_previous_count,
+        }
+    }
+}
+
+impl WindowsContainedChildContract for SjsRsoContainedChildSpec {
+    type Observation = SjsRsoContainedChildObservation;
+
+    fn executable(&self) -> &str {
+        &self.executable
+    }
+
+    fn arguments(&self) -> &[String] {
+        &self.arguments
+    }
+
+    fn working_directory(&self) -> &str {
+        &self.working_directory
+    }
+
+    fn environment(&self) -> &[(String, String)] {
+        &self.environment
+    }
+
+    fn stdin(&self) -> &[u8] {
+        &self.stdin
+    }
+
+    fn maximum_stdout_bytes(&self) -> usize {
+        self.maximum_stdout_bytes
+    }
+
+    fn maximum_stderr_bytes(&self) -> usize {
+        self.maximum_stderr_bytes
+    }
+
+    fn timeout_millis(&self) -> u32 {
+        self.timeout_millis
+    }
+
+    fn maximum_active_processes(&self) -> u32 {
+        self.maximum_active_processes
+    }
+
+    fn maximum_total_processes(&self) -> u32 {
+        self.maximum_total_processes
+    }
+
+    fn make_observation(&self, raw: RawContainedChildObservation) -> Self::Observation {
+        SjsRsoContainedChildObservation {
+            exit_code: raw.exit_code,
+            stdout: raw.stdout,
+            stderr: raw.stderr,
+            stdout_observed_bytes: raw.stdout_observed_bytes,
+            stderr_observed_bytes: raw.stderr_observed_bytes,
+            stdout_over_bound: raw.stdout_over_bound,
+            stderr_over_bound: raw.stderr_over_bound,
+            forced_termination: raw.forced_termination,
+            total_processes: raw.total_processes,
+            active_processes_at_terminal: raw.active_processes_at_terminal,
+            resume_previous_count: raw.resume_previous_count,
+        }
+    }
 }
 
 fn validate_spec(
@@ -467,10 +640,20 @@ fn build_command_line(executable: &str, arguments: &[String]) -> Result<String, 
     Ok(command_line)
 }
 
+#[cfg(test)]
 fn build_environment_block(environment: &[(String, String)]) -> Result<Vec<u16>, String> {
     validate_environment(environment)?;
+    encode_environment_block(environment)
+}
+
+fn encode_environment_block(environment: &[(String, String)]) -> Result<Vec<u16>, String> {
     let mut block = Vec::new();
     for (name, value) in environment {
+        validate_text("environment name", name)?;
+        validate_text("environment value", value)?;
+        if name.contains('=') {
+            return Err("environment name contains equals".to_owned());
+        }
         block.extend(name.encode_utf16());
         block.push('=' as u16);
         block.extend(value.encode_utf16());
