@@ -285,3 +285,67 @@ fn receipt_effect_blob_parent_and_digest_tamper_refuse() {
     digest.receipt_digest.value.replace_range(0..1, "f");
     assert_refused(validate_sjs_rso_receipt(&request, &digest));
 }
+
+#[test]
+fn receipt_machine_form_duplicate_unknown_noncanonical_trailing_and_oversize_refuse() {
+    let request = request();
+    let receipt = receipt(&request);
+    let machine =
+        to_sjs_rso_receipt_machine_form(&request, &receipt).expect("receipt machine form");
+    let duplicate = machine.replacen(
+        "{\"profile\":",
+        "{\"profile\":\"duplicate\",\"profile\":",
+        1,
+    );
+    assert_refused(from_sjs_rso_receipt_machine_form(&request, &duplicate));
+    let unknown = machine.replacen("{\"profile\":", "{\"unknown\":true,\"profile\":", 1);
+    assert_refused(from_sjs_rso_receipt_machine_form(&request, &unknown));
+    assert_refused(from_sjs_rso_receipt_machine_form(
+        &request,
+        &format!(" {machine}"),
+    ));
+    assert_refused(from_sjs_rso_receipt_machine_form(
+        &request,
+        &format!("{machine}\n"),
+    ));
+    let oversize = "x".repeat(SJS_RSO_MAX_MACHINE_FORM_BYTES + 1);
+    assert_refused(from_sjs_rso_receipt_machine_form(&request, &oversize));
+}
+
+#[test]
+fn verification_machine_form_and_effect_or_digest_tamper_refuse() {
+    let request = request();
+    let receipt = receipt(&request);
+    let verification = verify_sjs_rso_receipt(&request, &receipt).expect("verification");
+    let machine = to_sjs_rso_verification_machine_form(&request, &receipt, &verification)
+        .expect("verification machine form");
+    let duplicate = machine.replacen(
+        "{\"profile\":",
+        "{\"profile\":\"duplicate\",\"profile\":",
+        1,
+    );
+    assert_refused(from_sjs_rso_verification_machine_form(
+        &request, &receipt, &duplicate,
+    ));
+    let unknown = machine.replacen("{\"profile\":", "{\"unknown\":true,\"profile\":", 1);
+    assert_refused(from_sjs_rso_verification_machine_form(
+        &request, &receipt, &unknown,
+    ));
+    assert_refused(from_sjs_rso_verification_machine_form(
+        &request,
+        &receipt,
+        &format!(" {machine}"),
+    ));
+    assert_refused(from_sjs_rso_verification_machine_form(
+        &request,
+        &receipt,
+        &format!("{machine}\n"),
+    ));
+
+    let mut effect = verification.clone();
+    effect.effects.repository_write = true;
+    assert_refused(validate_sjs_rso_verification(&request, &receipt, &effect));
+    let mut digest = verification;
+    digest.verification_digest.value.replace_range(0..1, "f");
+    assert_refused(validate_sjs_rso_verification(&request, &receipt, &digest));
+}
