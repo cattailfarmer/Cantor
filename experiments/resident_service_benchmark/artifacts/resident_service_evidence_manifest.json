@@ -1,340 +1,340 @@
 {
-    "schema":  "cantor-resident-service-evidence-manifest/0.1",
-    "evidence_manifest_uuid":  "b97c5fcf-724b-4df8-a80c-44475d569860",
-    "generated_at_utc":  "2026-08-31T01:36:56.8375235Z",
-    "authority":  {
-                      "canonical_specification_uuid":  "276ad3fd-d1fa-4b32-9bdd-5cd572bf1ece",
-                      "satisfaction_signature_uuid":  "bd09110a-d278-4177-bbcd-d7eb58fef217",
-                      "solution_uuid":  "143e3bdd-1cdd-4b8f-89af-72369f15c0eb"
-                  },
-    "profile":  "cantor-resident-service/0.1",
-    "verification":  [
-                         {
-                             "command":  "cargo fmt --all -- --check",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --workspace --all-targets --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --workspace --all-targets --release --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo doc --workspace --no-deps --locked --offline",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo clippy --all-targets --locked --offline -- -D warnings",
-                             "working_directory":  "experiments/resident_service_benchmark",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo test --release --locked --offline",
-                             "working_directory":  "experiments/resident_service_benchmark",
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo audit",
-                             "working_directory":  "repository root",
-                             "dependency_count":  111,
-                             "advisory_count":  1173,
-                             "vulnerabilities":  0,
-                             "status":  "passed"
-                         },
-                         {
-                             "command":  "cargo audit",
-                             "working_directory":  "experiments/resident_service_benchmark",
-                             "dependency_count":  35,
-                             "advisory_count":  1173,
-                             "vulnerabilities":  0,
-                             "status":  "passed"
-                         }
-                     ],
-    "artifacts":  [
-                      {
-                          "path":  ".gitattributes",
-                          "sha256":  "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
-                          "bytes":  185
-                      },
-                      {
-                          "path":  "source_documents/2026-07-29_cantor_resident_service_activation/Dictated_Cantor_Resident_Service_Activation_Source.sop",
-                          "sha256":  "4379F0E8CAC8D17736400BAC18C615F304EA3AE080CEE886CAEA59C039432DE3",
-                          "bytes":  543
-                      },
-                      {
-                          "path":  "source_documents/2026-07-29_cantor_resident_service_activation/Source_Document_Manifest.sop",
-                          "sha256":  "7EECCAF043CCB7BEE2D8B4714EC2342390FA5633697D3CCEC0E88EF0188346C1",
-                          "bytes":  1197
-                      },
-                      {
-                          "path":  "specifications/exploded/Cantor_Resident_Service.exploded.sop",
-                          "sha256":  "11378FE2D5300DD85AD21A6F1DEA6F5D02B4AA010591A20283D1F5E4D75715D6",
-                          "bytes":  7060
-                      },
-                      {
-                          "path":  "specifications/Cantor_Resident_Service.sop",
-                          "sha256":  "3C8FFA3B822A69817FEF7DB0ECEF8775CEED5C84D21E8E88B79DFEB4AF38E6FC",
-                          "bytes":  11078
-                      },
-                      {
-                          "path":  "justifications/Cantor_Resident_Service_Justification.sop",
-                          "sha256":  "21C6EAF4CADC66B203231A1373CC026AA64C0F56F08B9AEC11331540C8E83551",
-                          "bytes":  2821
-                      },
-                      {
-                          "path":  "feature_support/slices/ResidentService.sop",
-                          "sha256":  "87B45D84DC45B4238C9851D9B1D8B3247078469F497E86AEBC5AEAA68854EFA3",
-                          "bytes":  1522
-                      },
-                      {
-                          "path":  "feature_support/ResidentService_Requirement_Matrix.sop",
-                          "sha256":  "2D13EE1E62387F6F91A2549CF8CAAC748C58C677D9BD4B7126E7A08A7C6C2754",
-                          "bytes":  2224
-                      },
-                      {
-                          "path":  "feature_support/Cantor_Engine_Build_Slice_Index.sop",
-                          "sha256":  "9D3820BEA3786F5F75306826BD7DD753DB47E7A44E0DC38035C19146656D27E2",
-                          "bytes":  89311
-                      },
-                      {
-                          "path":  "plans/Cantor_Engine_Build_Plan.sop",
-                          "sha256":  "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
-                          "bytes":  28862
-                      },
-                      {
-                          "path":  "solutions/Cantor_Resident_Service_Solution.sop",
-                          "sha256":  "38F2AF78862975D24DAEEC8B1FF9402411293F18C627FA16AAE3FE9271565E18",
-                          "bytes":  7387
-                      },
-                      {
-                          "path":  "narrative/Project_Narrative.sop",
-                          "sha256":  "5A2D5B92ABD4FA6A686C25940DE5A4B199B17933E1DB34BB29A0465A0EAF226B",
-                          "bytes":  467683
-                      },
-                      {
-                          "path":  "narrative/operational_faults/1785383067348_resident_service_faults.sop",
-                          "sha256":  "CE389D9894D64E72B88F95898DB1AB811710D592D97DF37AA513E2F5654F2033",
-                          "bytes":  4166
-                      },
-                      {
-                          "path":  "narrative/turns/1785383067348_cantor_resident_service.sop",
-                          "sha256":  "1C1597B7DCD73BCEEFAD013EC7239388ECD4F2D1D29FF28F1DEC44A4DE88629C",
-                          "bytes":  3011
-                      },
-                      {
-                          "path":  "narrative/file_changes/1785383067348_resident_service_file_change.sop",
-                          "sha256":  "5B17D89389FE0088354331C4FEB386EAE3538C425D6D5E4D57060BE6C0A09A12",
-                          "bytes":  2773
-                      },
-                      {
-                          "path":  "README.md",
-                          "sha256":  "58037AAAB70FE1DAD0190351AF3AFD37355E9D2D4295DCAD2CD44DB07B7445BF",
-                          "bytes":  55109
-                      },
-                      {
-                          "path":  "SOP_CORE_MAP.sop",
-                          "sha256":  "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
-                          "bytes":  30392
-                      },
-                      {
-                          "path":  "Cargo.toml",
-                          "sha256":  "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
-                          "bytes":  1285
-                      },
-                      {
-                          "path":  "Cargo.lock",
-                          "sha256":  "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
-                          "bytes":  41561
-                      },
-                      {
-                          "path":  "crates/cantor_core/src/environment.rs",
-                          "sha256":  "22FE4CD9E4D7A1B0034B46C83F1BC433377F31407367B8198C35823ED3690D9B",
-                          "bytes":  3212
-                      },
-                      {
-                          "path":  "crates/cantor_core/src/lib.rs",
-                          "sha256":  "E06C9DB2532914690CF30F20CCF6435CA3A4682DBD0E9ACDB9188C6A1E1B4C96",
-                          "bytes":  3044
-                      },
-                      {
-                          "path":  "crates/cantor_mcp/src/lib.rs",
-                          "sha256":  "ECDAA3B048398851B4D9CF468480101B223CEDDBF6CC27C9A4B29409994D45EC",
-                          "bytes":  38885
-                      },
-                      {
-                          "path":  "crates/cantor_service/Cargo.toml",
-                          "sha256":  "DC5B08546A2FE741D6455A1AC188ABD90AD0847E8E65470EA5B342343A981428",
-                          "bytes":  410
-                      },
-                      {
-                          "path":  "crates/cantor_service/src/lib.rs",
-                          "sha256":  "9E68625CFEA0AEF8D51698E7E056D4D2CC94F1286FF5320E4FECF583937898B9",
-                          "bytes":  403
-                      },
-                      {
-                          "path":  "crates/cantor_service/src/model.rs",
-                          "sha256":  "193A729A218CE7700E8746D75BC8DBFA96823EEBBF1A46513E260F26D4AD589D",
-                          "bytes":  8858
-                      },
-                      {
-                          "path":  "crates/cantor_service/src/artifacts.rs",
-                          "sha256":  "D836E342AB6FC428590F2B3625650E1F77B2087D63F409731C374B7F33642223",
-                          "bytes":  23556
-                      },
-                      {
-                          "path":  "crates/cantor_service/src/runtime.rs",
-                          "sha256":  "309436A5DC08A959F293180E31D96209DC819B658CE169C1B8A0ACE9C40F4E8F",
-                          "bytes":  10595
-                      },
-                      {
-                          "path":  "crates/cantor_service/src/transport.rs",
-                          "sha256":  "C579AD2994CD3295767E1BF1EE7EAA7C5DC2BCF68B9D6024277DA9EF2E9F8F95",
-                          "bytes":  16554
-                      },
-                      {
-                          "path":  "crates/cantor_service/src/server_main.rs",
-                          "sha256":  "0012B5F303BB29E39124D017EDFB9ECA610278653CE37426F6F0839830CB2DA1",
-                          "bytes":  2232
-                      },
-                      {
-                          "path":  "crates/cantor_service/src/client_main.rs",
-                          "sha256":  "160DC5D6FD53F0A31899149C219D3D3FC65FD08BF3265F5B8DECA5860107AD9A",
-                          "bytes":  9790
-                      },
-                      {
-                          "path":  "crates/cantor_service/tests/common/mod.rs",
-                          "sha256":  "6F9E7996FFED53EBCC274A1A8B875414317D35F95E2B263C21F1D446C9AD56FE",
-                          "bytes":  10511
-                      },
-                      {
-                          "path":  "crates/cantor_service/tests/resident_service.rs",
-                          "sha256":  "B9C596F2E2136954AC319D32100742C1600B8637119C7229867B5F003075651E",
-                          "bytes":  24905
-                      },
-                      {
-                          "path":  "docs/RESIDENT_SERVICE.md",
-                          "sha256":  "530BC608D0F938097A342A9663415FB2F9F913129792E4D4A9B37A381201B84A",
-                          "bytes":  10302
-                      },
-                      {
-                          "path":  "scripts/initialize_cantor_service.ps1",
-                          "sha256":  "53B9330C360F7D13155483EFB33FDBF567765943CE4CBDEF4CC3F3B66010DA4F",
-                          "bytes":  3525
-                      },
-                      {
-                          "path":  "scripts/publish_cantor_activation.ps1",
-                          "sha256":  "132FC18FD3A19BD7AABF9997BD4FF94AE8EF3162F3641F02399C7624636B6DAD",
-                          "bytes":  1697
-                      },
-                      {
-                          "path":  "scripts/summarize_resident_service_evidence.ps1",
-                          "sha256":  "05A315EE40A41179D88EF49C9B56B77365919F6ECE5B00513AE08A9F0D3FD8F7",
-                          "bytes":  3359
-                      },
-                      {
-                          "path":  "scripts/build_resident_service_evidence_manifest.ps1",
-                          "sha256":  "7F0A04A312FC5B644EB6464B6977F7EC8A6FABC7B53724D7B4E635C95B7E6906",
-                          "bytes":  6162
-                      },
-                      {
-                          "path":  "experiments/resident_service_benchmark/Cargo.toml",
-                          "sha256":  "F34EDB160BED317804CFBAF2C69410375CAEC2B588C36F175EF3B2AFA5145D54",
-                          "bytes":  392
-                      },
-                      {
-                          "path":  "experiments/resident_service_benchmark/Cargo.lock",
-                          "sha256":  "21F88CB32E697B1A24CE61CC50F665BA7F82452A0CE9425289B83DBD525DC96D",
-                          "bytes":  7711
-                      },
-                      {
-                          "path":  "experiments/resident_service_benchmark/README.md",
-                          "sha256":  "1384C15D1AB011CDD1BB5CCDB0B66B7024CAE1728D2AD3CF31C406CD1F8F3EF4",
-                          "bytes":  931
-                      },
-                      {
-                          "path":  "experiments/resident_service_benchmark/src/main.rs",
-                          "sha256":  "D5BDD20AB43B3392B52736091997453C3FD583799EC35F79F270F3AC477857B8",
-                          "bytes":  9775
-                      },
-                      {
-                          "path":  "experiments/resident_service_benchmark/tests/evidence.rs",
-                          "sha256":  "DEEAE3C2389D1AB0852A78D3C2E5D4C07A6DF1615549249DB18EDF2944DF1452",
-                          "bytes":  4267
-                      },
-                      {
-                          "path":  "experiments/resident_service_benchmark/artifacts/2026-07-29-three-run-summary.json",
-                          "sha256":  "A0E3D5B957364A2C22A62C8488A94F28B50F555437363C8AACDCBC3EE09971C3",
-                          "bytes":  3235
-                      },
-                      {
-                          "path":  "scripts/build_prepared_runtime_evidence_manifest.ps1",
-                          "sha256":  "334749ADCE247E4D00416BD36A6CD1EA0847DE8AD69D2EFA6CA81A17957550B7",
-                          "bytes":  4196
-                      },
-                      {
-                          "path":  "scripts/build_self_hosted_corpus_evidence_manifest.ps1",
-                          "sha256":  "2BAA2518FE74A435F0ABDAAB684C5F0321033B336AFEFDF2070EBD610D2272D9",
-                          "bytes":  5135
-                      },
-                      {
-                          "path":  "experiments/prepared_runtime_benchmark/src/main.rs",
-                          "sha256":  "F3EBE37E948F65FE260E632EAB21E3CFD653A336F4AAE72A927575E0A1E21091",
-                          "bytes":  14016
-                      },
-                      {
-                          "path":  "experiments/prepared_runtime_benchmark/artifacts/prepared_runtime_evidence_manifest.json",
-                          "sha256":  "5C57424AD914CE84ACBFD656BD893F54B11C5B618EC078F0EEA3CEF89173FA0B",
-                          "bytes":  17813
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/tests/evidence.rs",
-                          "sha256":  "1B35FC44E0BF6CD312B057BC63285F02569884EFC8622AF2C32286FBD041BA07",
-                          "bytes":  3421
-                      },
-                      {
-                          "path":  "experiments/self_hosted_corpus_benchmark/artifacts/self_hosted_corpus_evidence_manifest.json",
-                          "sha256":  "6F7537DCD17F44876B43058CC7E55A1DAC0BF13E946A36CBFBB0595396C859F9",
-                          "bytes":  11970
-                      },
-                      {
-                          "path":  "proofs/Cantor_Prepared_Runtime_Proof.sop",
-                          "sha256":  "D5DF0710EC83B3E9DB0200400CFFE5A077951A3413722EC811B058E7C6C0F57D",
-                          "bytes":  8137
-                      },
-                      {
-                          "path":  "proofs/Cantor_Self_Hosting_Ingestion_Proof.sop",
-                          "sha256":  "EA1E41166B1BD88017E4610CB79E66DED7344E62B6245DA91A95B86CF150FEEE",
-                          "bytes":  6661
-                      },
-                      {
-                          "path":  "experiments/llama_tool_reflection/Cargo.toml",
-                          "sha256":  "F2E44AD0B5D9D023FBA3AC60356070322989932B0E2F117021C74340954B4C61",
-                          "bytes":  576
-                      },
-                      {
-                          "path":  "experiments/resident_service_benchmark/artifacts/2026-07-29-run-1.json",
-                          "sha256":  "89B54E623AA9A466DCE6AE085318E061240F7A28985E3367FFE06F41162D9615",
-                          "bytes":  2459
-                      },
-                      {
-                          "path":  "experiments/resident_service_benchmark/artifacts/2026-07-29-run-2.json",
-                          "sha256":  "7F0AD8166FCE1E70CEF262F910E1476D472DF3982E3C059D3AE2DF5F277D8307",
-                          "bytes":  2457
-                      },
-                      {
-                          "path":  "experiments/resident_service_benchmark/artifacts/2026-07-29-run-3.json",
-                          "sha256":  "49D601B39391730EA406A4D2014612318BC31CE183DEA5CE41036384C6503F00",
-                          "bytes":  2452
-                      }
-                  ]
+  "schema": "cantor-resident-service-evidence-manifest/0.1",
+  "evidence_manifest_uuid": "b97c5fcf-724b-4df8-a80c-44475d569860",
+  "generated_at_utc": "2026-08-31T15:39:22.7291862Z",
+  "authority": {
+    "canonical_specification_uuid": "276ad3fd-d1fa-4b32-9bdd-5cd572bf1ece",
+    "satisfaction_signature_uuid": "bd09110a-d278-4177-bbcd-d7eb58fef217",
+    "solution_uuid": "143e3bdd-1cdd-4b8f-89af-72369f15c0eb"
+  },
+  "profile": "cantor-resident-service/0.1",
+  "verification": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "status": "passed"
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --workspace --all-targets --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --workspace --all-targets --release --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo build --workspace --all-targets --release --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo doc --workspace --no-deps --locked --offline",
+      "status": "passed"
+    },
+    {
+      "command": "cargo clippy --all-targets --locked --offline -- -D warnings",
+      "working_directory": "experiments/resident_service_benchmark",
+      "status": "passed"
+    },
+    {
+      "command": "cargo test --release --locked --offline",
+      "working_directory": "experiments/resident_service_benchmark",
+      "status": "passed"
+    },
+    {
+      "command": "cargo audit",
+      "working_directory": "repository root",
+      "dependency_count": 111,
+      "advisory_count": 1173,
+      "vulnerabilities": 0,
+      "status": "passed"
+    },
+    {
+      "command": "cargo audit",
+      "working_directory": "experiments/resident_service_benchmark",
+      "dependency_count": 35,
+      "advisory_count": 1173,
+      "vulnerabilities": 0,
+      "status": "passed"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".gitattributes",
+      "sha256": "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
+      "bytes": 185
+    },
+    {
+      "path": "source_documents/2026-07-29_cantor_resident_service_activation/Dictated_Cantor_Resident_Service_Activation_Source.sop",
+      "sha256": "4379F0E8CAC8D17736400BAC18C615F304EA3AE080CEE886CAEA59C039432DE3",
+      "bytes": 543
+    },
+    {
+      "path": "source_documents/2026-07-29_cantor_resident_service_activation/Source_Document_Manifest.sop",
+      "sha256": "7EECCAF043CCB7BEE2D8B4714EC2342390FA5633697D3CCEC0E88EF0188346C1",
+      "bytes": 1197
+    },
+    {
+      "path": "specifications/exploded/Cantor_Resident_Service.exploded.sop",
+      "sha256": "11378FE2D5300DD85AD21A6F1DEA6F5D02B4AA010591A20283D1F5E4D75715D6",
+      "bytes": 7060
+    },
+    {
+      "path": "specifications/Cantor_Resident_Service.sop",
+      "sha256": "3C8FFA3B822A69817FEF7DB0ECEF8775CEED5C84D21E8E88B79DFEB4AF38E6FC",
+      "bytes": 11078
+    },
+    {
+      "path": "justifications/Cantor_Resident_Service_Justification.sop",
+      "sha256": "21C6EAF4CADC66B203231A1373CC026AA64C0F56F08B9AEC11331540C8E83551",
+      "bytes": 2821
+    },
+    {
+      "path": "feature_support/slices/ResidentService.sop",
+      "sha256": "87B45D84DC45B4238C9851D9B1D8B3247078469F497E86AEBC5AEAA68854EFA3",
+      "bytes": 1522
+    },
+    {
+      "path": "feature_support/ResidentService_Requirement_Matrix.sop",
+      "sha256": "2D13EE1E62387F6F91A2549CF8CAAC748C58C677D9BD4B7126E7A08A7C6C2754",
+      "bytes": 2224
+    },
+    {
+      "path": "feature_support/Cantor_Engine_Build_Slice_Index.sop",
+      "sha256": "9D3820BEA3786F5F75306826BD7DD753DB47E7A44E0DC38035C19146656D27E2",
+      "bytes": 89311
+    },
+    {
+      "path": "plans/Cantor_Engine_Build_Plan.sop",
+      "sha256": "7334B501B9ABDF7321DAEB44F8D81BAD001477939FE305180B2A30DB8E903ED0",
+      "bytes": 28862
+    },
+    {
+      "path": "solutions/Cantor_Resident_Service_Solution.sop",
+      "sha256": "38F2AF78862975D24DAEEC8B1FF9402411293F18C627FA16AAE3FE9271565E18",
+      "bytes": 7387
+    },
+    {
+      "path": "narrative/Project_Narrative.sop",
+      "sha256": "5A2D5B92ABD4FA6A686C25940DE5A4B199B17933E1DB34BB29A0465A0EAF226B",
+      "bytes": 467683
+    },
+    {
+      "path": "narrative/operational_faults/1785383067348_resident_service_faults.sop",
+      "sha256": "CE389D9894D64E72B88F95898DB1AB811710D592D97DF37AA513E2F5654F2033",
+      "bytes": 4166
+    },
+    {
+      "path": "narrative/turns/1785383067348_cantor_resident_service.sop",
+      "sha256": "1C1597B7DCD73BCEEFAD013EC7239388ECD4F2D1D29FF28F1DEC44A4DE88629C",
+      "bytes": 3011
+    },
+    {
+      "path": "narrative/file_changes/1785383067348_resident_service_file_change.sop",
+      "sha256": "5B17D89389FE0088354331C4FEB386EAE3538C425D6D5E4D57060BE6C0A09A12",
+      "bytes": 2773
+    },
+    {
+      "path": "README.md",
+      "sha256": "6CDCEA2753DE8A8961C6EED30022026A9ED2A06F0E9B9C09F3586BFDE886260E",
+      "bytes": 55795
+    },
+    {
+      "path": "SOP_CORE_MAP.sop",
+      "sha256": "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
+      "bytes": 30392
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "72701265719718001210AA4830AFB19B08496A17B5F7DE070C872E40288CDA0C",
+      "bytes": 1285
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "CE078D537A221E448674C60CAC120A3528D06DB83054FCC863EB58C1DEA9BA20",
+      "bytes": 41561
+    },
+    {
+      "path": "crates/cantor_core/src/environment.rs",
+      "sha256": "22FE4CD9E4D7A1B0034B46C83F1BC433377F31407367B8198C35823ED3690D9B",
+      "bytes": 3212
+    },
+    {
+      "path": "crates/cantor_core/src/lib.rs",
+      "sha256": "8B826BD1F0F5A029F46F2CD3AEDC866D7CCBAC0BE16E15ED2D511B75DC29F509",
+      "bytes": 3175
+    },
+    {
+      "path": "crates/cantor_mcp/src/lib.rs",
+      "sha256": "ECDAA3B048398851B4D9CF468480101B223CEDDBF6CC27C9A4B29409994D45EC",
+      "bytes": 38885
+    },
+    {
+      "path": "crates/cantor_service/Cargo.toml",
+      "sha256": "DC5B08546A2FE741D6455A1AC188ABD90AD0847E8E65470EA5B342343A981428",
+      "bytes": 410
+    },
+    {
+      "path": "crates/cantor_service/src/lib.rs",
+      "sha256": "9E68625CFEA0AEF8D51698E7E056D4D2CC94F1286FF5320E4FECF583937898B9",
+      "bytes": 403
+    },
+    {
+      "path": "crates/cantor_service/src/model.rs",
+      "sha256": "193A729A218CE7700E8746D75BC8DBFA96823EEBBF1A46513E260F26D4AD589D",
+      "bytes": 8858
+    },
+    {
+      "path": "crates/cantor_service/src/artifacts.rs",
+      "sha256": "D836E342AB6FC428590F2B3625650E1F77B2087D63F409731C374B7F33642223",
+      "bytes": 23556
+    },
+    {
+      "path": "crates/cantor_service/src/runtime.rs",
+      "sha256": "309436A5DC08A959F293180E31D96209DC819B658CE169C1B8A0ACE9C40F4E8F",
+      "bytes": 10595
+    },
+    {
+      "path": "crates/cantor_service/src/transport.rs",
+      "sha256": "C579AD2994CD3295767E1BF1EE7EAA7C5DC2BCF68B9D6024277DA9EF2E9F8F95",
+      "bytes": 16554
+    },
+    {
+      "path": "crates/cantor_service/src/server_main.rs",
+      "sha256": "0012B5F303BB29E39124D017EDFB9ECA610278653CE37426F6F0839830CB2DA1",
+      "bytes": 2232
+    },
+    {
+      "path": "crates/cantor_service/src/client_main.rs",
+      "sha256": "160DC5D6FD53F0A31899149C219D3D3FC65FD08BF3265F5B8DECA5860107AD9A",
+      "bytes": 9790
+    },
+    {
+      "path": "crates/cantor_service/tests/common/mod.rs",
+      "sha256": "6F9E7996FFED53EBCC274A1A8B875414317D35F95E2B263C21F1D446C9AD56FE",
+      "bytes": 10511
+    },
+    {
+      "path": "crates/cantor_service/tests/resident_service.rs",
+      "sha256": "B9C596F2E2136954AC319D32100742C1600B8637119C7229867B5F003075651E",
+      "bytes": 24905
+    },
+    {
+      "path": "docs/RESIDENT_SERVICE.md",
+      "sha256": "530BC608D0F938097A342A9663415FB2F9F913129792E4D4A9B37A381201B84A",
+      "bytes": 10302
+    },
+    {
+      "path": "scripts/initialize_cantor_service.ps1",
+      "sha256": "53B9330C360F7D13155483EFB33FDBF567765943CE4CBDEF4CC3F3B66010DA4F",
+      "bytes": 3525
+    },
+    {
+      "path": "scripts/publish_cantor_activation.ps1",
+      "sha256": "132FC18FD3A19BD7AABF9997BD4FF94AE8EF3162F3641F02399C7624636B6DAD",
+      "bytes": 1697
+    },
+    {
+      "path": "scripts/summarize_resident_service_evidence.ps1",
+      "sha256": "05A315EE40A41179D88EF49C9B56B77365919F6ECE5B00513AE08A9F0D3FD8F7",
+      "bytes": 3359
+    },
+    {
+      "path": "scripts/build_resident_service_evidence_manifest.ps1",
+      "sha256": "7F0A04A312FC5B644EB6464B6977F7EC8A6FABC7B53724D7B4E635C95B7E6906",
+      "bytes": 6162
+    },
+    {
+      "path": "experiments/resident_service_benchmark/Cargo.toml",
+      "sha256": "F34EDB160BED317804CFBAF2C69410375CAEC2B588C36F175EF3B2AFA5145D54",
+      "bytes": 392
+    },
+    {
+      "path": "experiments/resident_service_benchmark/Cargo.lock",
+      "sha256": "21F88CB32E697B1A24CE61CC50F665BA7F82452A0CE9425289B83DBD525DC96D",
+      "bytes": 7711
+    },
+    {
+      "path": "experiments/resident_service_benchmark/README.md",
+      "sha256": "1384C15D1AB011CDD1BB5CCDB0B66B7024CAE1728D2AD3CF31C406CD1F8F3EF4",
+      "bytes": 931
+    },
+    {
+      "path": "experiments/resident_service_benchmark/src/main.rs",
+      "sha256": "D5BDD20AB43B3392B52736091997453C3FD583799EC35F79F270F3AC477857B8",
+      "bytes": 9775
+    },
+    {
+      "path": "experiments/resident_service_benchmark/tests/evidence.rs",
+      "sha256": "DEEAE3C2389D1AB0852A78D3C2E5D4C07A6DF1615549249DB18EDF2944DF1452",
+      "bytes": 4267
+    },
+    {
+      "path": "experiments/resident_service_benchmark/artifacts/2026-07-29-three-run-summary.json",
+      "sha256": "A0E3D5B957364A2C22A62C8488A94F28B50F555437363C8AACDCBC3EE09971C3",
+      "bytes": 3235
+    },
+    {
+      "path": "scripts/build_prepared_runtime_evidence_manifest.ps1",
+      "sha256": "334749ADCE247E4D00416BD36A6CD1EA0847DE8AD69D2EFA6CA81A17957550B7",
+      "bytes": 4196
+    },
+    {
+      "path": "scripts/build_self_hosted_corpus_evidence_manifest.ps1",
+      "sha256": "2BAA2518FE74A435F0ABDAAB684C5F0321033B336AFEFDF2070EBD610D2272D9",
+      "bytes": 5135
+    },
+    {
+      "path": "experiments/prepared_runtime_benchmark/src/main.rs",
+      "sha256": "F3EBE37E948F65FE260E632EAB21E3CFD653A336F4AAE72A927575E0A1E21091",
+      "bytes": 14016
+    },
+    {
+      "path": "experiments/prepared_runtime_benchmark/artifacts/prepared_runtime_evidence_manifest.json",
+      "sha256": "38B83D0419F69328B7751FC0A35A2C46A4F7BF43EF56949F90C8CF62D8FDB8DD",
+      "bytes": 11765
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/tests/evidence.rs",
+      "sha256": "1B35FC44E0BF6CD312B057BC63285F02569884EFC8622AF2C32286FBD041BA07",
+      "bytes": 3421
+    },
+    {
+      "path": "experiments/self_hosted_corpus_benchmark/artifacts/self_hosted_corpus_evidence_manifest.json",
+      "sha256": "C448A4DD20E29DF5573DA0B02CD49D101BFD0465E65E2FA68F5FA39C521F89E6",
+      "bytes": 7673
+    },
+    {
+      "path": "proofs/Cantor_Prepared_Runtime_Proof.sop",
+      "sha256": "D5DF0710EC83B3E9DB0200400CFFE5A077951A3413722EC811B058E7C6C0F57D",
+      "bytes": 8137
+    },
+    {
+      "path": "proofs/Cantor_Self_Hosting_Ingestion_Proof.sop",
+      "sha256": "EA1E41166B1BD88017E4610CB79E66DED7344E62B6245DA91A95B86CF150FEEE",
+      "bytes": 6661
+    },
+    {
+      "path": "experiments/llama_tool_reflection/Cargo.toml",
+      "sha256": "F2E44AD0B5D9D023FBA3AC60356070322989932B0E2F117021C74340954B4C61",
+      "bytes": 576
+    },
+    {
+      "path": "experiments/resident_service_benchmark/artifacts/2026-07-29-run-1.json",
+      "sha256": "89B54E623AA9A466DCE6AE085318E061240F7A28985E3367FFE06F41162D9615",
+      "bytes": 2459
+    },
+    {
+      "path": "experiments/resident_service_benchmark/artifacts/2026-07-29-run-2.json",
+      "sha256": "7F0AD8166FCE1E70CEF262F910E1476D472DF3982E3C059D3AE2DF5F277D8307",
+      "bytes": 2457
+    },
+    {
+      "path": "experiments/resident_service_benchmark/artifacts/2026-07-29-run-3.json",
+      "sha256": "49D601B39391730EA406A4D2014612318BC31CE183DEA5CE41036384C6503F00",
+      "bytes": 2452
+    }
+  ]
 }

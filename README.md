@@ -100,6 +100,15 @@ baseline:
   eight candidates, retains five rejections and one dominance witness, and
   grants no prompt, provider, model, performance, workspace, or effect
   authority; and
+- `cantor_core::sjs_compiled_lookahead_repository_candidate_extraction` now
+  validates one explicitly supplied repository slice and compiles its typed
+  candidate, obligation, and coverage records without semantic rewriting into
+  the unchanged exact-pool selector. Repository-relative locators, lowercase
+  content identities, source identities, governing coverage, and canonical
+  machine forms fail closed before optimization. The retained provider-free
+  fixture preserves the parent result of 92 admitted subsets, three selections,
+  five rejections, one dominance witness, and zero effects without inspecting
+  Git, reading repository files, or claiming generated semantics; and
 - `cantor_core` can now compile one normalized, fully source-anchored
   attention-procedure candidate through the existing effectless CPPE compiler,
   retaining exact validation and compilation lineage while leaving verification,

@@ -440,6 +440,31 @@ accuracy, global optimality, prompt placement, provider/model behavior,
 inference speed or quality, adaptive learning, autonomy, host mutation, remote
 hardware, or physical effects.
 
+## SJS compiled-lookahead repository-candidate extraction checkpoint
+
+The first controlled upstream adapter for the exact-pool selector is now
+executable and provider-free.
+`cantor_core::sjs_compiled_lookahead_repository_candidate_extraction` accepts
+one fully supplied repository-slice description. It validates typed element
+kinds, strict repository-relative locators, lowercase SHA256 content and commit
+identities, source membership, unique relation coordinates, and governing
+coverage before composing one sealed `SjsLtoRequest`. It calls the existing
+optimizer and verifier unchanged and retains both layers with digest lineage.
+
+The fixture reverse-maps the existing eight-candidate selector fixture into
+eight repository candidate records, six obligations, and twelve relations. The
+downstream result remains exactly 92 admitted subsets, three selected, five
+rejected, one dominated, and zero uncovered. Eighteen focused tests cover
+canonical permutation plus identity, locator, digest, path, byte, metric,
+authority, relation, machine-form, raw evidence, envelope, manifest, and
+downstream-drift adversaries. Both PowerShell runtimes replay the same four
+LF-terminated evidence files with all fourteen effect counters zero.
+
+This is a compiler for supplied typed correspondence, not a repository reader,
+Git observer, arbitrary SOP parser, semantic generator, tokenizer, prompt
+mutator, provider/model integration, performance measurement, autonomy seam,
+remote-machine controller, or physical-effect authority.
+
 ## Mechanical audit
 
 ```powershell
