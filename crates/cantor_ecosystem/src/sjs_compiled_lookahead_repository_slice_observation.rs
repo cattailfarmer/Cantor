@@ -5,13 +5,14 @@
 //! no filesystem access and starts no Git process. Physical observation is a
 //! later function inside this already-signed module boundary.
 
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
 use std::path::Path;
 
 use cantor_core::{
-    ContentDigest, SJS_RCX_CANONICAL_UUID, SJS_RCX_SIGNATURE_UUID, SemanticId, SjsRcxInputClass,
-    SjsRcxRequest, sha256_bytes, validate_sjs_rcx_request,
+    ContentDigest, SJS_RCX_CANONICAL_UUID, SJS_RCX_SIGNATURE_UUID, SemanticId, SjsRcxEnvelope,
+    SjsRcxInputClass, SjsRcxRequest, SjsRcxVerification, sha256_bytes, validate_sjs_rcx_envelope,
+    validate_sjs_rcx_request, verify_sjs_rcx,
 };
 use serde::de::{DeserializeOwned, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Serialize};
@@ -33,6 +34,8 @@ pub const SJS_RSO_MAX_MACHINE_FORM_BYTES: usize = 1_048_576;
 pub const SJS_RSO_NON_AUTHORITY: &str = "Request validation only until the separately verified observer executes. A request digest or validation result proves no Git executable identity, repository identity, branch, HEAD, commit bytes, blob bytes, physical contact, parent semantic truth, prompt fit, provider behavior, performance, autonomy, write authority, remote state, or external effect.";
 
 const REQUEST_DOMAIN: &str = "cantor.sjs-rso.request.v1";
+const RECEIPT_DOMAIN: &str = "cantor.sjs-rso.receipt.v1";
+const VERIFICATION_DOMAIN: &str = "cantor.sjs-rso.verification.v1";
 const MAX_DEPTH: usize = 40;
 const MAX_FIELDS: usize = 16_384;
 const MAX_TEXT_BYTES: usize = 4_096;
@@ -86,6 +89,94 @@ pub struct SjsRsoRequest {
     pub request_digest: ContentDigest,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SjsRsoAccountStatus {
+    ExactCommittedBlob,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoElementAccount {
+    pub element_id: SemanticId,
+    pub candidate_id: SemanticId,
+    pub locator: String,
+    pub mode: String,
+    pub object_id: String,
+    pub raw_bytes: u64,
+    pub content_digest: ContentDigest,
+    pub status: SjsRsoAccountStatus,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoEffectAccount {
+    pub read_only_filesystem_observation: bool,
+    pub read_only_git_process_observation: bool,
+    pub repository_write: bool,
+    pub index_write: bool,
+    pub worktree_write: bool,
+    pub network_contact: bool,
+    pub provider_contact: bool,
+    pub model_inference: bool,
+    pub prompt_stitch: bool,
+    pub secret_access: bool,
+    pub permission_activation: bool,
+    pub remote_hardware_contact: bool,
+    pub external_action: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoReceipt {
+    pub profile: String,
+    pub receipt_id: SemanticId,
+    pub request_digest: ContentDigest,
+    pub git_executable_before_sha256: ContentDigest,
+    pub git_executable_after_sha256: ContentDigest,
+    pub git_version: String,
+    pub git_build_options: String,
+    pub repository_root: String,
+    pub branch_ref: String,
+    pub head: String,
+    pub object_format: String,
+    pub git_directory: String,
+    pub index_path: String,
+    pub index_before_sha256: ContentDigest,
+    pub index_after_sha256: ContentDigest,
+    pub commit_raw_bytes: u64,
+    pub unique_blob_count: u32,
+    pub total_blob_bytes: u64,
+    pub command_count: u32,
+    pub accounts: Vec<SjsRsoElementAccount>,
+    pub parent_envelope: SjsRcxEnvelope,
+    pub parent_verification: SjsRcxVerification,
+    pub physical_contact: bool,
+    pub effects: SjsRsoEffectAccount,
+    pub non_authority: String,
+    pub receipt_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoVerification {
+    pub profile: String,
+    pub status: String,
+    pub canonical_uuid: String,
+    pub signature_uuid: String,
+    pub request_digest: ContentDigest,
+    pub receipt_digest: ContentDigest,
+    pub account_count: u32,
+    pub unique_blob_count: u32,
+    pub total_blob_bytes: u64,
+    pub command_count: u32,
+    pub physical_contact: bool,
+    pub effects: SjsRsoEffectAccount,
+    pub parent_verification: SjsRcxVerification,
+    pub execution_authorized: bool,
+    pub verification_digest: ContentDigest,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SjsRsoFaultCode {
     InvalidProfile,
@@ -131,6 +222,243 @@ pub fn validate_sjs_rso_request(request: &SjsRsoRequest) -> Result<(), SjsRsoFau
         ));
     }
     Ok(())
+}
+
+pub fn seal_sjs_rso_receipt(
+    request: &SjsRsoRequest,
+    mut receipt: SjsRsoReceipt,
+) -> Result<SjsRsoReceipt, SjsRsoFault> {
+    receipt.receipt_digest = empty_digest();
+    validate_receipt_body(request, &receipt)?;
+    receipt.receipt_digest = sha256_form(RECEIPT_DOMAIN, &receipt)?;
+    validate_sjs_rso_receipt(request, &receipt)?;
+    Ok(receipt)
+}
+
+pub fn validate_sjs_rso_receipt(
+    request: &SjsRsoRequest,
+    receipt: &SjsRsoReceipt,
+) -> Result<(), SjsRsoFault> {
+    validate_receipt_body(request, receipt)?;
+    let expected = digest_without(receipt, RECEIPT_DOMAIN, |value| &mut value.receipt_digest)?;
+    if receipt.receipt_digest != expected {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidDigest,
+            "receipt digest differs",
+        ));
+    }
+    Ok(())
+}
+
+pub fn verify_sjs_rso_receipt(
+    request: &SjsRsoRequest,
+    receipt: &SjsRsoReceipt,
+) -> Result<SjsRsoVerification, SjsRsoFault> {
+    validate_sjs_rso_receipt(request, receipt)?;
+    let mut verification = SjsRsoVerification {
+        profile: SJS_RSO_VERIFICATION_PROFILE.to_owned(),
+        status: "verified_exact_commit_tree_observation".to_owned(),
+        canonical_uuid: SJS_RSO_CANONICAL_UUID.to_owned(),
+        signature_uuid: SJS_RSO_SIGNATURE_UUID.to_owned(),
+        request_digest: request.request_digest.clone(),
+        receipt_digest: receipt.receipt_digest.clone(),
+        account_count: count_u32(receipt.accounts.len(), "account count")?,
+        unique_blob_count: receipt.unique_blob_count,
+        total_blob_bytes: receipt.total_blob_bytes,
+        command_count: receipt.command_count,
+        physical_contact: receipt.physical_contact,
+        effects: receipt.effects.clone(),
+        parent_verification: receipt.parent_verification.clone(),
+        execution_authorized: false,
+        verification_digest: empty_digest(),
+    };
+    verification.verification_digest = sha256_form(VERIFICATION_DOMAIN, &verification)?;
+    validate_sjs_rso_verification(request, receipt, &verification)?;
+    Ok(verification)
+}
+
+pub fn validate_sjs_rso_verification(
+    request: &SjsRsoRequest,
+    receipt: &SjsRsoReceipt,
+    verification: &SjsRsoVerification,
+) -> Result<(), SjsRsoFault> {
+    validate_sjs_rso_receipt(request, receipt)?;
+    if verification.profile != SJS_RSO_VERIFICATION_PROFILE
+        || verification.status != "verified_exact_commit_tree_observation"
+        || verification.canonical_uuid != SJS_RSO_CANONICAL_UUID
+        || verification.signature_uuid != SJS_RSO_SIGNATURE_UUID
+        || verification.request_digest != request.request_digest
+        || verification.receipt_digest != receipt.receipt_digest
+        || verification.account_count != count_u32(receipt.accounts.len(), "account count")?
+        || verification.unique_blob_count != receipt.unique_blob_count
+        || verification.total_blob_bytes != receipt.total_blob_bytes
+        || verification.command_count != receipt.command_count
+        || verification.physical_contact != receipt.physical_contact
+        || verification.effects != receipt.effects
+        || verification.parent_verification != receipt.parent_verification
+        || verification.execution_authorized
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidAuthority,
+            "verification identity or account differs",
+        ));
+    }
+    let expected = digest_without(verification, VERIFICATION_DOMAIN, |value| {
+        &mut value.verification_digest
+    })?;
+    if verification.verification_digest != expected {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidDigest,
+            "verification digest differs",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_receipt_body(
+    request: &SjsRsoRequest,
+    receipt: &SjsRsoReceipt,
+) -> Result<(), SjsRsoFault> {
+    validate_sjs_rso_request(request)?;
+    if receipt.profile != SJS_RSO_RECEIPT_PROFILE
+        || receipt.receipt_id != request.receipt_id
+        || receipt.request_digest != request.request_digest
+        || receipt.repository_root != request.repository_root
+        || receipt.branch_ref != request.expected_branch_ref
+        || receipt.head != request.expected_head
+        || receipt.object_format != request.object_format
+        || receipt.non_authority != SJS_RSO_NON_AUTHORITY
+        || !receipt.physical_contact
+        || receipt.effects != expected_observation_effects()
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidAuthority,
+            "receipt identity authority or effect account differs",
+        ));
+    }
+    for (digest, label) in [
+        (
+            &receipt.git_executable_before_sha256,
+            "Git executable before",
+        ),
+        (&receipt.git_executable_after_sha256, "Git executable after"),
+        (&receipt.index_before_sha256, "index before"),
+        (&receipt.index_after_sha256, "index after"),
+    ] {
+        validate_digest(digest, label)?;
+    }
+    if receipt.git_executable_before_sha256 != request.expected_git_sha256
+        || receipt.git_executable_after_sha256 != request.expected_git_sha256
+        || receipt.index_before_sha256 != receipt.index_after_sha256
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "pre-post executable or index identity differs",
+        ));
+    }
+    validate_text(&receipt.git_version, "Git version")?;
+    validate_text(&receipt.git_build_options, "Git build options")?;
+    validate_absolute_path(&receipt.git_directory, "Git directory")?;
+    validate_absolute_path(&receipt.index_path, "Git index")?;
+    if receipt.commit_raw_bytes > request.limits.maximum_commit_bytes
+        || receipt.command_count == 0
+        || receipt.command_count > request.limits.maximum_git_commands
+        || receipt.accounts.len() != request.parent_request.records.len()
+        || receipt.accounts.len() > 16
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "receipt count or byte bound differs",
+        ));
+    }
+    let object_width = if request.object_format == "sha1" {
+        40
+    } else {
+        64
+    };
+    let mut unique_blobs = BTreeMap::new();
+    for (account, record) in receipt.accounts.iter().zip(&request.parent_request.records) {
+        if account.element_id != record.element_id
+            || account.candidate_id != record.candidate.candidate_id
+            || account.locator != record.locator
+            || account.content_digest != record.content_digest
+            || account.status != SjsRsoAccountStatus::ExactCommittedBlob
+            || !matches!(account.mode.as_str(), "100644" | "100755")
+            || account.object_id.len() != object_width
+            || !is_lower_hex(&account.object_id)
+            || account.raw_bytes > request.limits.maximum_blob_bytes
+        {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidGitIdentity,
+                "element-to-blob account differs",
+            ));
+        }
+        match unique_blobs.get(&account.object_id) {
+            Some((raw_bytes, digest))
+                if *raw_bytes != account.raw_bytes || *digest != account.content_digest =>
+            {
+                return Err(fault(
+                    SjsRsoFaultCode::InvalidGitIdentity,
+                    "one object has conflicting accounts",
+                ));
+            }
+            Some(_) => {}
+            None => {
+                unique_blobs.insert(
+                    account.object_id.clone(),
+                    (account.raw_bytes, account.content_digest.clone()),
+                );
+            }
+        }
+    }
+    let mut total_blob_bytes = 0u64;
+    for (raw_bytes, _) in unique_blobs.values() {
+        total_blob_bytes = total_blob_bytes
+            .checked_add(*raw_bytes)
+            .ok_or_else(|| fault(SjsRsoFaultCode::ArithmeticOverflow, "blob bytes overflow"))?;
+    }
+    if receipt.unique_blob_count != count_u32(unique_blobs.len(), "unique blob count")?
+        || receipt.total_blob_bytes != total_blob_bytes
+        || receipt.total_blob_bytes > request.limits.maximum_total_blob_bytes
+    {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "unique blob accounting differs",
+        ));
+    }
+    if receipt.parent_envelope.request != request.parent_request {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidParent,
+            "parent request bytes or fields differ",
+        ));
+    }
+    validate_sjs_rcx_envelope(&receipt.parent_envelope).map_err(|error| {
+        fault(
+            SjsRsoFaultCode::InvalidParent,
+            format!("parent envelope refuses: {error}"),
+        )
+    })?;
+    let expected_parent = verify_sjs_rcx(&receipt.parent_envelope).map_err(|error| {
+        fault(
+            SjsRsoFaultCode::InvalidParent,
+            format!("parent verification refuses: {error}"),
+        )
+    })?;
+    if receipt.parent_verification != expected_parent {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidParent,
+            "parent verification differs",
+        ));
+    }
+    Ok(())
+}
+
+fn expected_observation_effects() -> SjsRsoEffectAccount {
+    SjsRsoEffectAccount {
+        read_only_filesystem_observation: true,
+        read_only_git_process_observation: true,
+        ..SjsRsoEffectAccount::default()
+    }
 }
 
 fn validate_request_body(request: &SjsRsoRequest) -> Result<(), SjsRsoFault> {
@@ -260,6 +588,42 @@ pub fn from_sjs_rso_request_machine_form(value: &str) -> Result<SjsRsoRequest, S
     parse_bounded(value)
 }
 
+pub fn to_sjs_rso_receipt_machine_form(
+    request: &SjsRsoRequest,
+    receipt: &SjsRsoReceipt,
+) -> Result<String, SjsRsoFault> {
+    validate_sjs_rso_receipt(request, receipt)?;
+    to_machine_form(receipt)
+}
+
+pub fn from_sjs_rso_receipt_machine_form(
+    request: &SjsRsoRequest,
+    value: &str,
+) -> Result<SjsRsoReceipt, SjsRsoFault> {
+    let receipt = parse_bounded(value)?;
+    validate_sjs_rso_receipt(request, &receipt)?;
+    Ok(receipt)
+}
+
+pub fn to_sjs_rso_verification_machine_form(
+    request: &SjsRsoRequest,
+    receipt: &SjsRsoReceipt,
+    verification: &SjsRsoVerification,
+) -> Result<String, SjsRsoFault> {
+    validate_sjs_rso_verification(request, receipt, verification)?;
+    to_machine_form(verification)
+}
+
+pub fn from_sjs_rso_verification_machine_form(
+    request: &SjsRsoRequest,
+    receipt: &SjsRsoReceipt,
+    value: &str,
+) -> Result<SjsRsoVerification, SjsRsoFault> {
+    let verification = parse_bounded(value)?;
+    validate_sjs_rso_verification(request, receipt, &verification)?;
+    Ok(verification)
+}
+
 fn validate_absolute_path(value: &str, label: &str) -> Result<(), SjsRsoFault> {
     validate_text(value, label)?;
     if Path::new(value).is_absolute()
@@ -286,6 +650,15 @@ fn validate_digest(digest: &ContentDigest, label: &str) -> Result<(), SjsRsoFaul
             format!("{label} differs"),
         ))
     }
+}
+
+fn count_u32(value: usize, label: &str) -> Result<u32, SjsRsoFault> {
+    u32::try_from(value).map_err(|_| {
+        fault(
+            SjsRsoFaultCode::ArithmeticOverflow,
+            format!("{label} exceeds u32"),
+        )
+    })
 }
 
 fn is_lower_hex(value: &str) -> bool {

@@ -1,15 +1,19 @@
 use std::collections::BTreeSet;
 
 use cantor_core::{
-    ContentDigest, SemanticId, SjsRcxInputClass, seal_sjs_rcx_request, sha256_bytes,
-    synthetic_sjs_rcx_request,
+    ContentDigest, SemanticId, SjsRcxInputClass, compile_sjs_rcx, seal_sjs_rcx_request,
+    sha256_bytes, synthetic_sjs_rcx_request, verify_sjs_rcx,
 };
 use cantor_ecosystem::sjs_compiled_lookahead_repository_slice_observation::{
     SJS_RSO_CANONICAL_UUID, SJS_RSO_MAX_MACHINE_FORM_BYTES, SJS_RSO_NON_AUTHORITY,
-    SJS_RSO_PARENT_COMPLETION_UUID, SJS_RSO_REQUEST_PROFILE, SJS_RSO_SIGNATURE_UUID,
-    SJS_RSO_SOURCE_UUID, SjsRsoFaultCode, SjsRsoInputClass, SjsRsoLimits, SjsRsoRequest,
-    from_sjs_rso_request_machine_form, seal_sjs_rso_request, to_sjs_rso_request_machine_form,
-    validate_sjs_rso_request,
+    SJS_RSO_PARENT_COMPLETION_UUID, SJS_RSO_RECEIPT_PROFILE, SJS_RSO_REQUEST_PROFILE,
+    SJS_RSO_SIGNATURE_UUID, SJS_RSO_SOURCE_UUID, SjsRsoAccountStatus, SjsRsoEffectAccount,
+    SjsRsoElementAccount, SjsRsoFaultCode, SjsRsoInputClass, SjsRsoLimits, SjsRsoReceipt,
+    SjsRsoRequest, from_sjs_rso_receipt_machine_form, from_sjs_rso_request_machine_form,
+    from_sjs_rso_verification_machine_form, seal_sjs_rso_receipt, seal_sjs_rso_request,
+    to_sjs_rso_receipt_machine_form, to_sjs_rso_request_machine_form,
+    to_sjs_rso_verification_machine_form, validate_sjs_rso_receipt, validate_sjs_rso_request,
+    validate_sjs_rso_verification, verify_sjs_rso_receipt,
 };
 
 fn id(value: &str) -> SemanticId {
@@ -63,6 +67,66 @@ fn request() -> SjsRsoRequest {
 
 fn assert_refused<T>(result: Result<T, impl std::fmt::Debug>) {
     assert!(result.is_err(), "adversary must refuse");
+}
+
+fn receipt(request: &SjsRsoRequest) -> SjsRsoReceipt {
+    let accounts = request
+        .parent_request
+        .records
+        .iter()
+        .enumerate()
+        .map(|(index, record)| SjsRsoElementAccount {
+            element_id: record.element_id.clone(),
+            candidate_id: record.candidate.candidate_id.clone(),
+            locator: record.locator.clone(),
+            mode: if index % 2 == 0 { "100644" } else { "100755" }.to_owned(),
+            object_id: format!("{:040x}", index + 1),
+            raw_bytes: 10 + index as u64,
+            content_digest: record.content_digest.clone(),
+            status: SjsRsoAccountStatus::ExactCommittedBlob,
+        })
+        .collect::<Vec<_>>();
+    let parent_envelope = compile_sjs_rcx(&request.parent_request).expect("parent compile");
+    let parent_verification = verify_sjs_rcx(&parent_envelope).expect("parent verify");
+    seal_sjs_rso_receipt(
+        request,
+        SjsRsoReceipt {
+            profile: SJS_RSO_RECEIPT_PROFILE.to_owned(),
+            receipt_id: request.receipt_id.clone(),
+            request_digest: request.request_digest.clone(),
+            git_executable_before_sha256: request.expected_git_sha256.clone(),
+            git_executable_after_sha256: request.expected_git_sha256.clone(),
+            git_version: "git version fixture".to_owned(),
+            git_build_options: "fixture build options".to_owned(),
+            repository_root: request.repository_root.clone(),
+            branch_ref: request.expected_branch_ref.clone(),
+            head: request.expected_head.clone(),
+            object_format: request.object_format.clone(),
+            git_directory: "C:/Project/Cantor/.git".to_owned(),
+            index_path: "C:/Project/Cantor/.git/index".to_owned(),
+            index_before_sha256: sha256_bytes(b"stable fixture index"),
+            index_after_sha256: sha256_bytes(b"stable fixture index"),
+            commit_raw_bytes: 123,
+            unique_blob_count: accounts.len() as u32,
+            total_blob_bytes: accounts.iter().map(|account| account.raw_bytes).sum(),
+            command_count: 20,
+            accounts,
+            parent_envelope,
+            parent_verification,
+            physical_contact: true,
+            effects: SjsRsoEffectAccount {
+                read_only_filesystem_observation: true,
+                read_only_git_process_observation: true,
+                ..SjsRsoEffectAccount::default()
+            },
+            non_authority: SJS_RSO_NON_AUTHORITY.to_owned(),
+            receipt_digest: ContentDigest {
+                algorithm: "sha256".to_owned(),
+                value: "0".repeat(64),
+            },
+        },
+    )
+    .expect("sealed receipt")
 }
 
 #[test]
@@ -170,4 +234,54 @@ fn duplicate_unknown_noncanonical_trailing_and_oversize_machine_forms_refuse() {
 
     let oversize = "x".repeat(SJS_RSO_MAX_MACHINE_FORM_BYTES + 1);
     assert_refused(from_sjs_rso_request_machine_form(&oversize));
+}
+
+#[test]
+fn exact_receipt_and_verification_seal_validate_and_round_trip() {
+    let request = request();
+    let receipt = receipt(&request);
+    validate_sjs_rso_receipt(&request, &receipt).expect("receipt validates");
+    let receipt_machine =
+        to_sjs_rso_receipt_machine_form(&request, &receipt).expect("receipt machine form");
+    assert_eq!(
+        from_sjs_rso_receipt_machine_form(&request, &receipt_machine).expect("receipt round trip"),
+        receipt
+    );
+
+    let verification = verify_sjs_rso_receipt(&request, &receipt).expect("verification");
+    validate_sjs_rso_verification(&request, &receipt, &verification)
+        .expect("verification validates");
+    let verification_machine =
+        to_sjs_rso_verification_machine_form(&request, &receipt, &verification)
+            .expect("verification machine form");
+    assert_eq!(
+        from_sjs_rso_verification_machine_form(&request, &receipt, &verification_machine)
+            .expect("verification round trip"),
+        verification
+    );
+}
+
+#[test]
+fn receipt_effect_blob_parent_and_digest_tamper_refuse() {
+    let request = request();
+
+    let mut effect = receipt(&request);
+    effect.effects.network_contact = true;
+    assert_refused(seal_sjs_rso_receipt(&request, effect));
+
+    let mut raw_bytes = receipt(&request);
+    raw_bytes.accounts[0].raw_bytes += 1;
+    assert_refused(seal_sjs_rso_receipt(&request, raw_bytes));
+
+    let mut object = receipt(&request);
+    object.accounts[1].object_id = object.accounts[0].object_id.clone();
+    assert_refused(seal_sjs_rso_receipt(&request, object));
+
+    let mut parent = receipt(&request);
+    parent.parent_envelope.receipt.admitted_record_count -= 1;
+    assert_refused(seal_sjs_rso_receipt(&request, parent));
+
+    let mut digest = receipt(&request);
+    digest.receipt_digest.value.replace_range(0..1, "f");
+    assert_refused(validate_sjs_rso_receipt(&request, &digest));
 }
