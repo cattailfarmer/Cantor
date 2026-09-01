@@ -1,0 +1,18 @@
+Subject: Cantor SJS Compiled Lookahead Repository Slice Observation P0 Junction Probe Faults
+
+@ [fault_uuid] 65a2749d-23fb-4de1-83af-4d6bf2780e8a
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] f1fd1689-f290-4be6-ad82-e36d58103e1b
+@ [timestamp_utc] 2026-09-01T01:53:49.8928469Z
+
+& [Observed]
+  + the first computed temporary-root probe command was rejected by command policy before execution because recursive cleanup shared one command; no fixture was created
+  + two later Remove-Item cleanup commands were likewise rejected before execution despite explicit path checks
+
+& [Resolution]
+  + fixed path D:\CantorBuilds\rso11-junction-probe was separately proven absent canonical and inside the intended D build root before creation
+  + creation inspection test-source removal junction removal empty-target removal and empty-root removal were separated
+  + System.IO Directory.Delete false removed each explicitly enumerated empty directory or junction non-recursively after inspection proved the exact two children
+
+& [Boundary]
+  + no rejected command changed state and no recursive cross-shell deletion workaround elevation permission change registry edit or broad path target was used
