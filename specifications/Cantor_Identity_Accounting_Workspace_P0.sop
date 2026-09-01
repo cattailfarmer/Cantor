@@ -1,0 +1,39 @@
+Subject: Cantor Identity Accounting Workspace P0
+
+@ [specification_uuid] 783cd6f3-4180-4181-8428-de3f83cf86d7
+@ [source_snapshot_uuid_set] 280430a6-8e70-4016-bd80-a1906e837f6e, bad7543b-ae38-412f-ae77-858b510038d2, 5f9826c2-8a8e-4133-a0d6-88834b4af410, 9ce7cdc2-6203-48ce-bb26-e7f7344e7bf1
+@ [satisfaction_signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+
+& [IdentityAccountingWorkspaceP0] is a pure deterministic identity-accounting projection bound to one SharedAttentionFrame
+  + [IdentityLedger] stores a complete ordered map of stable AccountableObject records for one declared basket and seals every version with SHA-256
+  + [AccountableObject] separates immutable readable handle and type from mutable labels differentiators state roles purposes obligations provenance version and digest
+  + [AccountabilityRegister] projects every ledger member in deterministic handle order without truncation
+  + [AccountabilityInferenceWindow] binds one validated SharedAttentionFrame digest to one exact ledger and register digest and renders the complete register for inference
+  + [ReferenceResolution] resolves exact handles first then normalized labels as resolved ambiguous or unknown without guessing
+  + [AccountableObjectPatch] compare-and-set updates one existing record while preserving handle type member count and every unselected record
+  + [AttentionReceipt] disposes every register member exactly once and becomes held when any member remains unresolved
+
+  = IAW-01 must: use stable readable handles shaped object:{type}/{local_id}; content hashes are integrity evidence and never the inference-facing name
+  = IAW-02 must: allow multiple objects of one type while preserving distinct handle record version state and history-facing digest
+  = IAW-03 must: reject duplicate handles malformed handles zero versions empty types and digest mismatch
+  = IAW-04 must: preserve handle and type across all P0 mutations
+  = IAW-05 must: compile the complete basket roster in deterministic order and fail closed when the complete projection exceeds its byte budget
+  = IAW-06 must: bind the inference projection to exact SharedAttentionFrame ledger and register identities
+  = IAW-07 must: resolve exact handles deterministically and return every candidate for ambiguous labels
+  = IAW-08 must: never use fuzzy similarity to select an effect-bearing identity
+  = IAW-09 must: inspect records only through exact existing handles
+  = IAW-10 must: apply mutation only when expected ledger digest and object version are current
+  = IAW-11 must: conserve the ledger member set and leave all unselected objects byte-for-byte equivalent under one-object mutation
+  = IAW-12 must: require one AttentionReceipt disposition per register member with no missing or foreign handles
+  = IAW-13 must: classify receipts containing unresolved members as held and complete receipts otherwise
+  = IAW-14 must: serialize strict machine forms that deny unknown fields and contain no clock IO model provider database or effect behavior
+
+& [Delineation]
+  + [inside] is in-memory typed records deterministic SHA-256 projection exact reference resolution compare-and-set mutation coverage receipts and SharedAttentionFrame binding
+  + [boundary] is the caller persists ledgers injects rendered windows invokes inference supplies receipt rationales and authorizes later effects
+  + [outside] is fuzzy semantic retrieval hidden model state database durability distributed consensus entity admission removal automatic execution and proof of external truth
+
+& [SatisfactionSignature]
+  + [signature_uuid] is 8d2756a5-147a-4d1b-aee6-821529926e9c
+  + [signature_status] is valid_for_bounded_P0_implementation
+  + [invalidation_condition] is source_change handle_instability roster_truncation ambiguous_auto_selection uncovered_member stale_mutation acceptance unknown_field_acceptance or implementation_contradiction
