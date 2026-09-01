@@ -1215,6 +1215,56 @@ fn create_file_symlink(target: &Path, link: &Path) -> std::io::Result<()> {
     std::os::windows::fs::symlink_file(target, link)
 }
 
+#[cfg(windows)]
+fn create_directory_junction(target: &Path, junction: &Path) -> std::io::Result<()> {
+    let output = Command::new("cmd.exe")
+        .args(["/d", "/c", "mklink", "/J"])
+        .arg(junction)
+        .arg(target)
+        .output()?;
+    if output.status.success() {
+        Ok(())
+    } else {
+        Err(std::io::Error::other(format!(
+            "mklink /J failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        )))
+    }
+}
+
+#[cfg(windows)]
+struct DirectoryJunctionGuard(PathBuf);
+
+#[cfg(windows)]
+impl Drop for DirectoryJunctionGuard {
+    fn drop(&mut self) {
+        let _ = fs::remove_dir(&self.0);
+    }
+}
+
+#[cfg(windows)]
+#[test]
+fn actual_directory_junction_component_refuses_no_follow_inspection() {
+    let fixture = DisposablePathFixture::new();
+    let target = fixture.root.join("junction-target");
+    let junction = fixture.root.join("junction");
+    fs::create_dir(&target).expect("create junction target");
+    create_directory_junction(&target, &junction).expect("create disposable directory junction");
+    let guard = DirectoryJunctionGuard(junction.clone());
+
+    let candidate = junction.join("candidate.bin");
+    let error = inspect_sjs_rso_no_follow_path(
+        candidate.to_str().expect("UTF-8 junction candidate"),
+        SjsRsoPathKind::RegularFile,
+        1024,
+    )
+    .expect_err("actual junction component must refuse before leaf contact");
+    assert!(error.detail.contains("reparse"), "{}", error.detail);
+
+    drop(guard);
+    assert!(!junction.exists());
+}
+
 #[cfg(unix)]
 fn create_file_symlink(target: &Path, link: &Path) -> std::io::Result<()> {
     std::os::unix::fs::symlink(target, link)
