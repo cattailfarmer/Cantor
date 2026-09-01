@@ -1,0 +1,19 @@
+Subject: Cantor Repository Stitch Projection Source Publication Wrapper Faults
+
+@ [fault_uuid] 5307b56b-756d-4606-8a39-ec91fbb78f71
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_utc] 2026-09-01T18:16:21.4994427Z
+
+& [CommitMessageFormatting]
+  + first unpublished source-custody commit used a single-quoted PowerShell string containing backtick-n and retained the escape literally in two commit paragraphs
+  + inspection detected the discoverability defect before push and the unpublished commit was amended with separate Element and Justification paragraphs
+  + tree identity and source bytes were unchanged
+
+& [PrePushIndexCheck]
+  + first pre-push wrapper treated output-less successful git diff --cached --quiet as falsey command output rather than inspecting exit status
+  + wrapper stopped before push and caused no repository or remote change
+  + corrected wrapper checks LASTEXITCODE explicitly; source commit then pushed and local tracking direct remote equality passed
+
+& [Prevention]
+  + use separate commit-message paragraphs rather than embedded PowerShell escapes
+  + use Git exit status rather than command output for quiet predicates

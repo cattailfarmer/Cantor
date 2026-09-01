@@ -1,0 +1,21 @@
+Subject: Cantor SJS Compiled Lookahead Repository Stitch Projection P0 Justification
+
+@ [justification_uuid] 635901e5-7a05-40a7-b855-664c9fa9ad49
+@ [canonical_uuid] fc3a2e9e-1fc5-4b04-a867-431c2ab0584f
+
+& [Problem]
+  + verified repository candidate selection and compiled stitch projection are individually complete but cannot compose through a typed governed contract
+
+& [Decision]
+  + add one pure selected-only adapter that validates RSO evidence then constructs and verifies the already-defined stitch request
+
+& [WhyNow]
+  + it is the first missing dependency after RSO closure and turns repository-grounded lookahead from a selection receipt into an inference-host-consumable packet without requiring provider availability
+
+& [Rejected]
+  + modify RSO to emit stitches because that would broaden a closed signed observer
+  + modify the stitch compiler to read repositories because that would mix semantic lifecycle with physical I O
+  + invoke a model or optimize prompt placement because no provider performance or delivery contract is authorized
+
+& [Consequence]
+  + Cantor gains an auditable end-to-end provider-free path from exact repository bytes through selected terms to a compiled lifecycle projection while every runtime effect remains separate
