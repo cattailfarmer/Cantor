@@ -449,6 +449,43 @@ pub fn apply_accountable_object_patch(
     Ok(successor)
 }
 
+pub(super) fn insert_admitted_accountable_object(
+    ledger: &IdentityLedger,
+    candidate: AccountableObject,
+) -> Result<IdentityLedger, SharedAttentionFault> {
+    validate_identity_ledger(ledger)?;
+    validate_accountable_object(&candidate)?;
+    if candidate.version != 1 {
+        return Err(accounting_fault(
+            SharedAttentionFaultCode::InvalidTransition,
+            "newly admitted accountable object must begin at version one",
+        )
+        .with_subject(candidate.handle));
+    }
+    let mut successor = ledger.clone();
+    let handle = candidate.handle.clone();
+    if successor
+        .objects
+        .insert(handle.clone(), candidate)
+        .is_some()
+    {
+        return Err(accounting_fault(
+            SharedAttentionFaultCode::DuplicateIdentity,
+            "identity ledger already contains the proposed accountable object handle",
+        )
+        .with_subject(handle));
+    }
+    successor.generation = successor.generation.checked_add(1).ok_or_else(|| {
+        accounting_fault(
+            SharedAttentionFaultCode::InvalidTransition,
+            "identity ledger generation overflowed during admission",
+        )
+    })?;
+    refresh_ledger_digest(&mut successor)?;
+    validate_identity_ledger(&successor)?;
+    Ok(successor)
+}
+
 pub fn finalize_attention_receipt(
     window: &AccountabilityInferenceWindow,
     seed: AttentionReceiptSeed,
