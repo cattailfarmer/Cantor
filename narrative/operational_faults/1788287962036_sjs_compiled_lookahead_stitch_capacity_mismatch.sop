@@ -1,0 +1,22 @@
+Subject: SJS Compiled Lookahead Stitch Capacity Mismatch
+
+@ [fault_uuid] 0d8b848f-d0a5-4099-9fce-c3f3a57ef1ac
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [observed_at_utc] 2026-09-01T18:39:22.0348094Z
+
+& [Fault]
+  + signed RSP formation required three fixture stitches and allowed one through sixteen
+  + published LAS-003 and Rust MAX_STITCHES allowed only one through two
+  + focused RSP tests reached the published validator and four positive tests refused with InvalidStitch stitch bounds or order differ
+
+& [Containment]
+  + stopped before modifying the published stitch ABI
+  + preserved the uncommitted adapter and adversarial tests in the clean D drive validation worktree
+  + did not weaken RSP fixture counts split the selected set or bypass downstream verification
+
+& [Correction]
+  + preserve and form a separate capacity revision extending only the stitch maximum from two to sixteen
+  + resume RSP only after capacity formation implementation proof publication and a successor RSP authority binding
+
+& [Status]
+  + dependency_revision_source_preserved_implementation_paused
