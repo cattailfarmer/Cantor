@@ -1,0 +1,25 @@
+Subject: Cantor Identity Admission Journal Transport P5
+
+@ [specification_uuid] 8c489193-f7f3-4b53-9b6c-d60f8189fa74
+@ [upstream_source_snapshot_uuid] d3ae204c-a630-41c4-b532-99a7747d4034
+
+& [Purpose]
+  + carry one clean-replayed P4 admission through P1 append-only history and the existing P2 durable MCP transaction without creating an alternate admission path
+
+& [Requirements]
+  + [IAT-01] add json-schema derivation to existing FacultyCycle forms only as required for typed MCP schema and change none of their semantics
+  + [IAT-02] add admission_applied mutation retaining the complete AccountableObjectAdmission
+  + [IAT-03] add admit_object host operation and operation name carrying the complete admission
+  + [IAT-04] execute admission only through admit_accountable_object against the current journal head
+  + [IAT-05] append exactly one event and retained successor ledger with touched handle equal to the candidate and complete request bindings
+  + [IAT-06] replay every admission event through the P4 gate and reject tamper discontinuity or nonmatching retained successor
+  + [IAT-07] validate admit response correspondence as strictly as patch correspondence
+  + [IAT-08] preserve canonical restoration and all existing genesis patch and read behavior
+  + [IAT-09] expose the typed operation automatically through the existing one-tool MCP schema without a second tool or hidden operation
+  + [IAT-10] preserve P2 mutex compare-and-set and persist-before-publish behavior for admission success or refusal
+  + [IAT-11] test core append replay historical read tamper stale and non-admit refusal plus durable MCP admission restart and object resolution
+  + [IAT-12] invoke no model construct no faculty output establish no external truth bypass no P4 gate authorize no effect and publish nothing
+
+& [Delineation]
+  + [inside] is typed schema journal mutation host execution replay response verification durable snapshot and existing MCP transport
+  + [outside] is candidate generation real faculty calls evidence acquisition external truth authentication effect authority and publication
