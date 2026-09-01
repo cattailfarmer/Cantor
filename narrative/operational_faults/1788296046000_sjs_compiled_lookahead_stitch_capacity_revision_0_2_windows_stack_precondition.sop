@@ -1,0 +1,21 @@
+Subject: SJS Compiled Lookahead Stitch Capacity Revision 0.2 Windows Stack Precondition Fault
+
+@ [fault_uuid] 7a5ca95c-760d-4ded-9fae-0d398f5b1394
+@ [canonical_uuid] d439964f-e7a1-4557-acd0-14930620dbe0
+
+& [Observation]
+  + the first exact-current Windows workspace debug command omitted the repository-established RUST_MIN_STACK precondition
+  + succeeding_sop_fixture_persistence and succeeding_sop_fixture_rollback each ended in STATUS_STACK_OVERFLOW at commission_forms_refuse_unknown_fields_and_oversize
+  + all completed assertions before and after those targets passed and the capacity suite itself passed five tests
+
+& [Diagnosis]
+  + the same failing targets pass unchanged with an enlarged test-thread stack
+  + prior governed Windows workspace proofs select RUST_MIN_STACK 33554432 and one test thread for these deeply nested typed fixtures
+  + this is a harness-capacity failure rather than a semantic regression
+
+& [Correction]
+  + final exact commands use CARGO_BUILD_JOBS 1 CARGO_INCREMENTAL 0 RUST_TEST_THREADS 1 RUST_MIN_STACK 33554432 locked offline all-target all-feature dependencies and D-drive targets
+  + corrected debug and overflow-checked release each pass 267 groups 1632 tests zero failed thirteen ignored
+
+& [Prevention]
+  + future native Windows full-workspace gates must load the governed stack and serialization preconditions in the same command that launches Cargo

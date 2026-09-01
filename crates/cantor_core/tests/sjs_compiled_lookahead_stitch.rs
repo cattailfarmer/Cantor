@@ -193,9 +193,12 @@ fn duplicate_hint_and_overbound_stitch_count_refuse() {
     let mut overbound = synthetic_sjs_las_request().unwrap();
     overbound.input_class = SjsLasInputClass::SuppliedUnobservedDeclaration;
     overbound.request_id = SemanticId::new("request:83000000-0000-4000-8000-000000000003").unwrap();
-    let mut third = overbound.stitches[1].clone();
-    third.stitch_id = SemanticId::new("stitch:83000000-0000-4000-8000-000000000099").unwrap();
-    overbound.stitches.push(third);
+    for ordinal in 1..=7 {
+        let mut additional = overbound.stitches[1].clone();
+        additional.stitch_id =
+            SemanticId::new(format!("stitch:83000000-0000-4000-8000-{ordinal:012}")).unwrap();
+        overbound.stitches.push(additional);
+    }
     assert_eq!(
         seal_sjs_las_request(overbound).unwrap_err().code,
         SjsLasFaultCode::InvalidStitch
