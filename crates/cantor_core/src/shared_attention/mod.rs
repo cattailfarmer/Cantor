@@ -5,6 +5,7 @@
 //! It never reads a clock, performs IO, invokes a model, executes an effect,
 //! or shares provider hidden state.
 
+mod accounting;
 mod compaction;
 mod dream;
 mod forms;
@@ -12,6 +13,7 @@ mod ledger;
 mod runtime;
 mod tool;
 
+pub use accounting::*;
 pub use compaction::*;
 pub use dream::*;
 pub use forms::*;

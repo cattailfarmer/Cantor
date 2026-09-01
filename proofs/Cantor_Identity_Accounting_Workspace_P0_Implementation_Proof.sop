@@ -1,0 +1,25 @@
+Subject: Cantor Identity Accounting Workspace P0 Implementation Proof
+
+@ [proof_uuid] eb46467e-67cd-4d9f-a215-6d1975915e68
+
+& [ArtifactEvidence]
+  + [module] is crates/cantor_core/src/shared_attention/accounting.rs SHA256 43984945F3541B932356508FD25F71248C57C063CCB9BEE83C3070ECAA654B23
+  + [module_export] is crates/cantor_core/src/shared_attention/mod.rs SHA256 1FE471E032925DD3AEE95F2551C010C5778676FC9DFB2441313E2AD120724209
+  + [fixtures] is crates/cantor_core/tests/identity_accounting_workspace.rs SHA256 32CD2CEA192CC4F976FDC3972D42CDEC6113359567DC077C8429B5136328C0BE
+
+& [BehaviorEvidence]
+  + three aircraft of one type project as three ordered stable handles with complete full-record rendering
+  + exact handle wins while unique label resolves ambiguous label returns both candidates and unknown remains explicit
+  + one-object compare-and-set mutation increments only its version conserves membership and preserves untouched objects exactly
+  + stale ledger and stale object version both refuse without a successor
+  + insufficient projection capacity refuses the complete register instead of truncating
+  + missing attention coverage refuses while unresolved full coverage derives held and resolved full coverage derives complete
+  + malformed handles duplicate identities record tamper rendered-window tamper unknown inspection and unknown machine fields fail closed
+
+& [VerificationEvidence]
+  + cargo test -p cantor_core --test identity_accounting_workspace passes 7 of 7
+  + cargo clippy -p cantor_core --all-targets --all-features -- -D warnings passes
+  + cargo test -p cantor_core --all-features passes with no failures and two pre-existing maintenance-only ignored fixtures
+  + cargo fmt --all leaves the owned Rust paths formatted
+
+& [Disposition] is all_IAW_01_through_IAW_14_requirements_satisfied_for_P0

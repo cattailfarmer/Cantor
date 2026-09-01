@@ -1,17 +1,17 @@
 Subject: Cantor Identity Accounting Workspace P0 Requirement Matrix
 
 & [RequirementMatrix]
-  + IAW-01 stable readable handle is formed pending implementation proof
-  + IAW-02 same-type distinct identity is formed pending implementation proof
-  + IAW-03 strict record validation is formed pending implementation proof
-  + IAW-04 immutable handle and type is formed pending implementation proof
-  + IAW-05 complete roster or refusal is formed pending implementation proof
-  + IAW-06 exact inference-frame binding is formed pending implementation proof
-  + IAW-07 exact and ambiguous resolution is formed pending implementation proof
-  + IAW-08 no fuzzy effect identity is formed pending implementation proof
-  + IAW-09 exact inspection is formed pending implementation proof
-  + IAW-10 compare-and-set mutation is formed pending implementation proof
-  + IAW-11 member conservation is formed pending implementation proof
-  + IAW-12 exact receipt coverage is formed pending implementation proof
-  + IAW-13 held unresolved receipt is formed pending implementation proof
-  + IAW-14 strict pure machine form is formed pending implementation proof
+  + IAW-01 stable readable handle is verified by malformed_typed_handle_and_duplicate_identity_are_rejected
+  + IAW-02 same-type distinct identity is verified by complete_register_keeps_same_type_members_distinct_and_ordered
+  + IAW-03 strict record validation is verified by malformed_typed_handle_and_duplicate_identity_are_rejected and exact_inspection_tamper_detection_and_strict_machine_forms_fail_closed
+  + IAW-04 immutable handle and type is verified by compare_and_set_patch_changes_one_object_and_conserves_membership
+  + IAW-05 complete roster or refusal is verified by complete_register_refuses_capacity_pressure_instead_of_truncating
+  + IAW-06 exact inference-frame binding is verified by complete_register_keeps_same_type_members_distinct_and_ordered and window tamper rejection
+  + IAW-07 exact and ambiguous resolution is verified by resolver_prefers_exact_handles_and_refuses_ambiguous_or_unknown_labels
+  + IAW-08 no fuzzy effect identity is verified by exact-handle precedence and explicit ambiguous or unknown result forms
+  + IAW-09 exact inspection is verified by exact_inspection_tamper_detection_and_strict_machine_forms_fail_closed
+  + IAW-10 compare-and-set mutation is verified by stale ledger and stale object version refusal
+  + IAW-11 member conservation is verified by byte-equivalent untouched object assertions
+  + IAW-12 exact receipt coverage is verified by missing-member refusal in attention_receipt_requires_exact_full_coverage_and_holds_unresolved_members
+  + IAW-13 held unresolved receipt is verified by complete and held receipt derivations
+  + IAW-14 strict pure machine form is verified by deny_unknown_fields parsing clippy and static module boundary inspection
