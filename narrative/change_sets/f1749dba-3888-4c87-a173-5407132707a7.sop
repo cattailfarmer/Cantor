@@ -1,0 +1,79 @@
+Subject: Identity Accounting Workspace P0 Source Custody Change Set
+
+& [ChangeSet]
+  + [change_set_uuid] is f1749dba-3888-4c87-a173-5407132707a7
+  + [conversation_uuid] is 8fac2e83-9ba0-4c02-af5e-6a9e6f1dce24
+  + [turn_uuid] is 6053a773-6822-45c9-b9fc-c8312870aa5a
+  + [repository] is C:\Project\Cantor
+  + [branch] is codex/self-hosted-corpus
+  + [predecessor_commit] is cbf11aefd2ce7802ff1d8e7dd44bbd27b379ad49
+  + [resulting_commit] is pending_source_custody_commit
+  + [publication_state] is local_unpublished
+
+& [ElementHistoryEvent_UpstreamSources]
+  + [element_id] is 4f053b82-edac-4727-ac36-9c8f81082662
+  + [element_locator] is source_documents/2026-08-25_{soft_binding_object_pointer_boundary,identity_accounting_workspace,accountability_register_inference_window}/**
+  + [operation] is add
+  + [source_refs] is three preserved August dictated sources and manifests
+  + [requirement_refs] is source preservation before SJS
+  + [constraint_refs] is immutable digest custody and no canonical promotion
+  + [justification_refs] is narrative/turns/1788291673549_identity_accounting_workspace_p0_source_custody.sop
+  + [plan_refs] is none because formation follows custody
+  + [reason_summary] is admit the complete upstream source lineage before current formation
+  + [before_identity] is absent_from_git
+  + [after_identity] is exact_source_and_manifest_content
+  + [evidence_refs] is proofs/Cantor_Identity_Accounting_Workspace_P0_Source_Custody_Proof.sop
+  + [proof_refs] is 2be6fb1a-331a-45dd-860c-30944b16d9ea
+  + [nonclaims] is no canonical or implementation authority
+  + [unresolved_frontier] is P0 formation
+
+& [ElementHistoryEvent_ExecutionSource]
+  + [element_id] is 1abded40-1e92-4266-8842-2b92f74917ab
+  + [element_locator] is source_documents/2026-09-01_identity_accounting_workspace_p0_execution/**
+  + [operation] is add
+  + [source_refs] is current verbatim user authorization
+  + [requirement_refs] is bounded two-hour P0 execution
+  + [constraint_refs] is no provider database effect or publication scope
+  + [justification_refs] is narrative/turns/1788291673549_identity_accounting_workspace_p0_source_custody.sop
+  + [plan_refs] is none because formation follows custody
+  + [reason_summary] is preserve current authorization and bounded interpretation
+  + [before_identity] is absent
+  + [after_identity] is SHA256 13F5DB3F92FC56C61E8AE42CD35B10DB0E6D6B72ADE0E09EB1BCB65BCB865378 with bound manifest
+  + [evidence_refs] is source manifest
+  + [proof_refs] is 2be6fb1a-331a-45dd-860c-30944b16d9ea
+  + [nonclaims] is no publication authority
+  + [unresolved_frontier] is P0 formation
+
+& [ElementHistoryEvent_Attribution]
+  + [element_id] is ef59e4a8-08ff-4bd0-b05f-f42dd9caf71b
+  + [element_locator] is narrative/{turns,file_changes,change_sets}/1788291673549_identity_accounting_workspace_p0_source_custody* plus change set f1749dba-3888-4c87-a173-5407132707a7
+  + [operation] is add
+  + [source_refs] is admitted source lineage
+  + [requirement_refs] is per-turn justification history
+  + [constraint_refs] is complete owned-path attribution
+  + [justification_refs] is this change set
+  + [plan_refs] is none because formation follows custody
+  + [reason_summary] is bind custody to current repository turn and foreign boundary
+  + [before_identity] is absent
+  + [after_identity] is attributed_source_custody_graph
+  + [evidence_refs] is staged inventory
+  + [proof_refs] is pending_staged_diff_check
+  + [nonclaims] is no unrelated dirty ownership
+  + [unresolved_frontier] is P0 formation
+
+& [ElementHistoryEvent_Proof]
+  + [element_id] is 9f06bcb6-9d5b-422e-84a4-52bfc1a2d910
+  + [element_locator] is proofs/Cantor_Identity_Accounting_Workspace_P0_Source_Custody_Proof.sop::CustodyEvidence
+  + [operation] is add
+  + [source_refs] is four source packages
+  + [requirement_refs] is digest and custody verification
+  + [constraint_refs] is evidence honesty
+  + [justification_refs] is narrative/turns/1788291673549_identity_accounting_workspace_p0_source_custody.sop
+  + [plan_refs] is none
+  + [reason_summary] is record verified source digests and bounded authority
+  + [before_identity] is absent
+  + [after_identity] is source_custody_ready_for_current_formation
+  + [evidence_refs] is matching manifest digests
+  + [proof_refs] is self
+  + [nonclaims] is no semantic implementation proof
+  + [unresolved_frontier] is P0 formation
