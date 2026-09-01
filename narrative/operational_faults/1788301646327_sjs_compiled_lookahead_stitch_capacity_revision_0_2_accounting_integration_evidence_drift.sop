@@ -1,0 +1,24 @@
+Subject: SJS Compiled Lookahead Stitch Capacity Revision 0.2 Accounting Integration Evidence Drift
+
+@ [fault_uuid] 26995a07-e986-4727-9ff0-949256fc0417
+@ [canonical_uuid] d439964f-e7a1-4557-acd0-14930620dbe0
+
+& [Observation]
+  + capacity implementation was verified from formation bookend cbf11aefd2ce7802ff1d8e7dd44bbd27b379ad49 while a concurrent committed accounting sequence advanced the local branch to 800807e774f8e29c3d4ab490a6dab2f3ce6484ca
+  + the capacity commit replayed cleanly after that sequence and focused post-push evidence passed
+  + recursive evidence then refused forty-eight stale references across twenty-five manifests
+
+& [Diagnosis]
+  + the accounting sequence changed shared library and evidence inputs referenced by pre-existing manifests
+  + those transitive identities were not current in the combined tree even though each lane was locally coherent before integration
+
+& [Correction]
+  + rehash only the twenty-five verifier-selected manifests and inspect their attribution as transitive identity refresh
+  + rerun complete integrated debug and overflow-checked release workspace gates plus warnings-denied Clippy format and zero-stale recursion
+
+& [Prevention]
+  + after replaying any verified commit atop an independently advanced branch rerun recursive evidence before declaring publication closed
+  + treat a clean textual replay as insufficient evidence of a current transitive graph
+
+& [Nonclaim]
+  + no accounting implementation ownership is transferred to the capacity slice and no semantic source is changed by this repair
