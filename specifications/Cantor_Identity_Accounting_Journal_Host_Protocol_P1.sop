@@ -1,0 +1,39 @@
+Subject: Cantor Identity Accounting Journal and Host Protocol P1
+
+@ [specification_uuid] c93ad241-77dc-4b21-894f-9c9924e2cb92
+@ [source_snapshot_uuid] 01d6a07e-d142-46c3-b481-c798153fb217
+@ [predecessor_specification_uuid] 783cd6f3-4180-4181-8428-de3f83cf86d7
+@ [satisfaction_signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+
+& [IdentityAccountingJournalHostProtocolP1] is a pure replayable custody layer and exact request-response interface around one P0 IdentityLedger
+  + [AccountingJournal] retains every exact ledger generation and an ordered event chain whose patch events replay into the next retained ledger
+  + [AccountingJournalEvent] binds sequence operation request identity request digest predecessor and successor ledger digests touched handle and its own digest
+  + [AccountingHostRequest] names one journal-root-bound read project resolution inspection or patch operation
+  + [AccountingHostResponse] binds the exact request and journal state to one typed result and canonical response digest
+  + [AccountingJournalEncoding] is canonical JSON bytes suitable for caller-managed durable storage and exact restoration
+
+  = IAJ-01 must: open a journal only from one valid nonempty IdentityLedger and retain its exact basket and initial snapshot
+  = IAJ-02 must: derive deterministic contiguous event identities and retain one genesis event followed only by patch-applied events
+  = IAJ-03 must: replay every patch event against its predecessor and require the computed successor to equal the retained successor snapshot
+  = IAJ-04 must: reject missing orphan duplicate reordered discontinuous or cross-basket snapshots and events
+  = IAJ-05 must: bind every command to the exact expected journal digest and refuse stale requests without a successor
+  = IAJ-06 must: keep project resolve inspect read-ledger and read-event operations read-only and return no successor journal
+  = IAJ-07 must: project one complete AccountabilityInferenceWindow or preserve P0 capacity refusal without partial content
+  = IAJ-08 must: expose exact resolved ambiguous and unknown reference results without fuzzy auto-selection
+  = IAJ-09 must: inspect only an exact existing handle and read only exact retained ledger digests or event identities
+  = IAJ-10 must: apply one P0 AccountableObjectPatch using journal ledger and object compare-and-set bindings then append exactly one replayable event
+  = IAJ-11 must: return the applied event and exact successor ledger while preserving prior ledgers and history
+  = IAJ-12 must: bind every response to request identity request digest operation journal identity journal digest head ledger digest typed result and response digest
+  = IAJ-13 must: encode deterministic canonical JSON and decode only bounded canonical bytes with full journal validation
+  = IAJ-14 must: reject unknown fields malformed digests semantic tamper redigested replay inconsistency and trailing or noncanonical machine content
+  = IAJ-15 must: contain no clock filesystem model provider network authorization or external effect; physical durability and invocation remain caller responsibilities
+
+& [Delineation]
+  + [inside] is append-only in-memory event and snapshot custody canonical byte encoding replay validation exact host operations strict results and compare-and-set mutation
+  + [boundary] is a caller stores and loads canonical bytes supplies SharedAttentionFrame and byte budget invokes inference and controls effects
+  + [outside] is physical file database or network adapters concurrent multiwriter consensus entity admission removal fuzzy matching provider inference and external truth authority
+
+& [SatisfactionSignature]
+  + [signature_uuid] is e0cc0609-bf66-4a15-8503-3dd9aef477b7
+  + [signature_status] is valid_for_bounded_P1_implementation
+  + [invalidation_condition] is nonreplayable_history stale_acceptance read_mutation partial_projection fuzzy_selection response_substitution noncanonical_restore effect_leak or implementation_contradiction
