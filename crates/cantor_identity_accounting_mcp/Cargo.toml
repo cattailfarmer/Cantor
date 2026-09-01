@@ -8,6 +8,10 @@ rust-version.workspace = true
 name = "cantor-identity-accounting-mcp"
 path = "src/main.rs"
 
+[[bin]]
+name = "cantor-identity-accounting-bootstrap"
+path = "src/bin/cantor-identity-accounting-bootstrap.rs"
+
 [dependencies]
 cantor_core = { path = "../cantor_core", features = ["json-schema"] }
 rmcp = { workspace = true, features = ["server", "transport-io"] }

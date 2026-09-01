@@ -1,11 +1,19 @@
 Subject: Cantor Identity Accounting Store Bootstrap P3 Requirement Matrix
 
 & [RequirementMatrix]
-  + IAB-01..03 map to bounded regular input inspection and absent-target checks
-  + IAB-04..06 map to P0 ledger validation canonical-byte equality and P1 genesis construction
-  + IAB-07..09 map to initial-create-only directory custody P2 persist/reload and exact empty cleanup
-  + IAB-10..12 map to typed canonical receipt and exact one-shot CLI grammar
-  + IAB-13 maps to focused library and subprocess fixtures
-  + IAB-14 maps to static dependency and effect-boundary inspection
+  + IAB-01 existing regular non-symlink input and absent target are enforced by metadata checks and existing-target fixture
+  + IAB-02 positive three-bound validation is enforced before filesystem creation
+  + IAB-03 metadata and post-read ledger bounds are enforced before deserialization
+  + IAB-04 P0 ledger validation is exercised by digest-tamper refusal
+  + IAB-05 canonical byte equality is exercised by pretty-JSON refusal
+  + IAB-06 P1 genesis construction is exercised by exact receipt and restored event identity
+  + IAB-07 initial-create-only directory custody is exercised by preserved pre-existing sentinel content
+  + IAB-08 P2 persist and reload are exercised by direct bootstrap then MCP server restart
+  + IAB-09 exact empty cleanup is exercised by post-create snapshot-capacity failure
+  + IAB-10 one canonical JSON receipt plus newline and no failure stdout are exercised by subprocess fixture
+  + IAB-11 all declared receipt bindings are asserted against the restored journal
+  + IAB-12 exact ordered one-shot CLI grammar is exercised through the built bootstrap binary
+  + IAB-13 success restart existing target noncanonical tamper ledger and snapshot bounds cleanup and subprocess paths are covered by six fixtures
+  + IAB-14 no model network extraction admission overwrite migration effect or publication is verified by crate boundary inspection
 
-& [FormationState] is requirements_formed_pending_implementation
+& [FormationState] is all_requirements_implemented_and_locally_verified_pending_clean_replay

@@ -15,9 +15,10 @@ use std::{
 };
 
 use cantor_core::{
-    AccountingHostRequest, AccountingHostResponse, AccountingJournal, SemanticId,
+    AccountingHostRequest, AccountingHostResponse, AccountingJournal, IdentityLedger, SemanticId,
     SharedAttentionToolFault, decode_accounting_journal, encode_accounting_journal,
-    execute_accounting_host_request, validate_accounting_journal,
+    execute_accounting_host_request, new_accounting_journal, validate_accounting_journal,
+    validate_identity_ledger,
 };
 use rmcp::{
     ErrorData as McpError, ServerHandler,
@@ -35,6 +36,7 @@ use tokio::sync::Mutex;
 
 pub const TOOL_NAME: &str = "attend_accountable_objects";
 pub const ADAPTER_PROFILE: &str = "cantor-identity-accounting-durable-mcp/0.1";
+pub const BOOTSTRAP_RECEIPT_PROFILE: &str = "cantor-identity-accounting-store-bootstrap/0.1";
 pub const MAX_ARGUMENT_BYTES: usize = 32 * 1024 * 1024;
 pub const SERVER_INSTRUCTIONS: &str = "Use attend_accountable_objects to inspect, project, resolve, read, or compare-and-set one exact accountable-object journal. Carry the current journal digest on every request. Read operations are inert; apply_patch persists a complete canonical successor before it becomes visible. Preserve ambiguous and unknown resolutions. This local stdio server invokes no model, opens no network listener, signs no meaning, and authorizes no effect beyond declared process-restart snapshot custody.";
 
@@ -51,6 +53,25 @@ pub struct SnapshotStoreConfig {
 #[derive(Clone, Debug)]
 pub struct SnapshotStore {
     config: SnapshotStoreConfig,
+}
+
+#[derive(Clone, Debug)]
+pub struct BootstrapStoreConfig {
+    pub store: SnapshotStoreConfig,
+    pub ledger_file: PathBuf,
+    pub maximum_ledger_bytes: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct BootstrapReceipt {
+    pub profile: String,
+    pub journal_id: SemanticId,
+    pub journal_digest: cantor_core::ContentDigest,
+    pub basket_id: SemanticId,
+    pub head_ledger_digest: cantor_core::ContentDigest,
+    pub genesis_event_id: SemanticId,
+    pub snapshot_filename: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -342,6 +363,112 @@ impl SnapshotStore {
         write_result?;
         verify_existing(&target, &bytes)?;
         Ok(target)
+    }
+}
+
+pub fn bootstrap_identity_accounting_store(
+    config: BootstrapStoreConfig,
+) -> Result<BootstrapReceipt, StoreFault> {
+    if config.maximum_ledger_bytes == 0
+        || config.store.maximum_snapshot_bytes == 0
+        || config.store.maximum_snapshots == 0
+    {
+        return Err(StoreFault::new(
+            "invalid_bootstrap_bound",
+            "ledger byte, snapshot byte, and snapshot count bounds must be positive",
+        ));
+    }
+    let metadata = fs::symlink_metadata(&config.ledger_file)
+        .map_err(|error| io_fault("ledger_file_unavailable", error))?;
+    if !metadata.file_type().is_file() || metadata.file_type().is_symlink() {
+        return Err(StoreFault::new(
+            "invalid_ledger_file",
+            "ledger input must be an existing regular non-symlink file",
+        ));
+    }
+    if metadata.len() > config.maximum_ledger_bytes {
+        return Err(StoreFault::new(
+            "ledger_byte_limit_exceeded",
+            "ledger input metadata exceeds its byte bound",
+        ));
+    }
+    let ledger_bytes =
+        fs::read(&config.ledger_file).map_err(|error| io_fault("ledger_read_failed", error))?;
+    if ledger_bytes.len() as u64 > config.maximum_ledger_bytes {
+        return Err(StoreFault::new(
+            "ledger_byte_limit_exceeded",
+            "ledger input grew beyond its byte bound",
+        ));
+    }
+    let ledger: IdentityLedger = serde_json::from_slice(&ledger_bytes).map_err(|error| {
+        StoreFault::new(
+            "invalid_ledger_machine_form",
+            format!("ledger machine form is invalid: {error}"),
+        )
+    })?;
+    validate_identity_ledger(&ledger)
+        .map_err(|error| StoreFault::new("invalid_identity_ledger", error.to_string()))?;
+    let canonical_ledger = serde_json::to_vec(&ledger).map_err(|error| {
+        StoreFault::new(
+            "ledger_encoding_failed",
+            format!("ledger canonical replay failed: {error}"),
+        )
+    })?;
+    if canonical_ledger != ledger_bytes {
+        return Err(StoreFault::new(
+            "noncanonical_ledger_bytes",
+            "ledger input is valid JSON but not canonical bytes",
+        ));
+    }
+    let journal = new_accounting_journal(config.store.journal_id.clone(), ledger)
+        .map_err(|error| StoreFault::new("genesis_failed", error.to_string()))?;
+
+    match fs::symlink_metadata(&config.store.directory) {
+        Ok(_) => {
+            return Err(StoreFault::new(
+                "store_target_exists",
+                "bootstrap store path already exists",
+            ));
+        }
+        Err(error) if error.kind() == io::ErrorKind::NotFound => {}
+        Err(error) => return Err(io_fault("store_target_inspection_failed", error)),
+    }
+    fs::create_dir(&config.store.directory)
+        .map_err(|error| io_fault("store_directory_create_failed", error))?;
+
+    let transaction = (|| -> Result<BootstrapReceipt, StoreFault> {
+        let store = SnapshotStore::initialize(config.store.clone(), &journal)?;
+        let restored = store.load()?;
+        if restored != journal {
+            return Err(StoreFault::new(
+                "bootstrap_reload_mismatch",
+                "reloaded genesis journal differs from the persisted candidate",
+            ));
+        }
+        let genesis = restored
+            .events
+            .first()
+            .ok_or_else(|| StoreFault::new("genesis_event_absent", "genesis event is absent"))?;
+        Ok(BootstrapReceipt {
+            profile: BOOTSTRAP_RECEIPT_PROFILE.to_owned(),
+            journal_id: restored.journal_id.clone(),
+            journal_digest: restored.journal_digest.clone(),
+            basket_id: restored.basket_id.clone(),
+            head_ledger_digest: restored.head_ledger_digest.clone(),
+            genesis_event_id: genesis.event_id.clone(),
+            snapshot_filename: format!("{}.json", restored.journal_digest.value),
+        })
+    })();
+    match transaction {
+        Ok(receipt) => Ok(receipt),
+        Err(fault) => match fs::remove_dir(&config.store.directory) {
+            Ok(()) => Err(fault),
+            Err(error) if error.kind() == io::ErrorKind::DirectoryNotEmpty => Err(fault),
+            Err(error) => Err(StoreFault::new(
+                "bootstrap_cleanup_failed",
+                format!("{}; exact empty-directory cleanup failed: {error}", fault),
+            )),
+        },
     }
 }
 

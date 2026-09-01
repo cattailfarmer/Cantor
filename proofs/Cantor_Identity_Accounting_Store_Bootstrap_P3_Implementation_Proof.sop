@@ -1,0 +1,25 @@
+Subject: Cantor Identity Accounting Store Bootstrap P3 Implementation Proof
+
+@ [proof_uuid] e524fc59-302e-49d0-8087-91d7faf7f9f8
+
+& [ArtifactEvidence]
+  + [manifest] is crates/cantor_identity_accounting_mcp/Cargo.toml SHA256 0C2FDD8CB926EF06CEE01091FC7A74D42FEC088A78E3B2EC947712A0242B4976
+  + [library] is crates/cantor_identity_accounting_mcp/src/lib.rs SHA256 470B2A3D1AB1C08AC08F47B83437D94D2AB68244A8BAD0F9369360AE903F3E49
+  + [binary] is crates/cantor_identity_accounting_mcp/src/bin/cantor-identity-accounting-bootstrap.rs SHA256 6DC957EBD86DF0728DDD77964E4DA47CDFF980FA7467D78B937E0EFD6F4A3B2A
+  + [fixtures] is crates/cantor_identity_accounting_mcp/tests/bootstrap.rs SHA256 8052F1A41C02A4296DD03E69D438410A3DAA969A4F4D508A43ECE86086773DE6
+
+& [BehaviorEvidence]
+  + canonical validated ledger input becomes one deterministic P1 genesis and one P2 immutable snapshot
+  + invalid and noncanonical ledgers fail before target creation
+  + every existing target refuses without modifying operator-owned content
+  + snapshot capacity failure removes only the newly-created still-empty directory
+  + success follows exact reload and the resulting store opens through IdentityAccountingMcpServer
+  + one-shot binary emits one typed receipt line and emits no stdout on repeated initialization failure
+
+& [VerificationEvidence]
+  + cargo test -p cantor_identity_accounting_mcp passes six P3 and six retained P2 integration fixtures
+  + cargo clippy -p cantor_identity_accounting_mcp --all-targets --all-features -- -D warnings passes
+  + cargo check --workspace passes
+  + cargo fmt --all leaves owned Rust paths formatted
+
+& [Disposition] is all_IAB_01_through_IAB_14_requirements_satisfied_for_P3_pending_clean_replay
