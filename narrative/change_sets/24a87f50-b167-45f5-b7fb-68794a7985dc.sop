@@ -1,0 +1,32 @@
+Subject: Identity Accounting MCP Durable Store P2 Clean Replay Change Set
+
+& [ChangeSet]
+  + [change_set_uuid] is 24a87f50-b167-45f5-b7fb-68794a7985dc
+  + [conversation_uuid] is 8fac2e83-9ba0-4c02-af5e-6a9e6f1dce24
+  + [turn_uuid] is 357f313e-14c3-493d-8b4b-a1952032c137
+  + [repository] is C:\Project\Cantor
+  + [branch] is codex/self-hosted-corpus
+  + [predecessor_commit] is 4d6be159
+  + [resulting_commit] is pending_bookend_commit
+  + [publication_state] is local_unpublished
+
+& [ElementHistoryEvents]
+  + [a9343c48-5f7c-48fa-a6ea-9c40dc495921] adds clean replay proof because committed durable behavior must be isolated from foreign dirty work
+  + [93c3213d-3acb-421f-8148-9dd8b7242658] modifies reentry because exact committed and clean-replayed P2 authority now exists
+  + [357f313e-14c3-493d-8b4b-a1952032c137] adds turn attribution because replay conclusion and frontier must persist
+  + [5e4789db-9eab-4ad8-a399-fc655622746b] adds file attribution because owned and foreign paths remain distinct
+  + [24a87f50-b167-45f5-b7fb-68794a7985dc] adds this complete bookend graph
+
+& [CommonHistory]
+  + [operation] is add_or_modify_as_named
+  + [source_refs] is implementation commit 4d6be159
+  + [requirement_refs] is IAP-01 through IAP-14
+  + [constraint_refs] is clean detached replay local unpublished no network model semantic truth or effects
+  + [justification_refs] is clean evidence separation and predecessor protocol continuity
+  + [plan_refs] is P2 clean replay bookend
+  + [before_identity] is committed implementation pending clean replay
+  + [after_identity] is clean-replayed bounded P2 authority
+  + [evidence_refs] is adapter tests strict clippy predecessor protocol tests and workspace check
+  + [proof_refs] is proofs/Cantor_Identity_Accounting_MCP_Durable_Store_P2_Clean_Replay_Proof.sop
+  + [nonclaims] is no power-loss guarantee hardware durability backup authentication publication semantic truth or effect authority
+  + [unresolved_frontier] is bootstrap retention backup access control distributed custody admission Judgment and effects

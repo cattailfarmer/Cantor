@@ -6,7 +6,9 @@ Subject: Cantor Identity Accounting MCP Durable Store P2 Reentry
   + [specification] is specifications/Cantor_Identity_Accounting_MCP_Durable_Store_P2.sop
   + [signature] is 7725c897-1fff-48c2-8988-e9dea324bd8e
   + [formation_commit] is 4dcbfab9
-  + [state] is implemented_and_locally_verified_pending_commit
+  + [state] is implementation_commit_clean_replayed_and_bookended
+  + [implementation_commit] is 4d6be159
+  + [clean_replay_proof] is a9343c48-5f7c-48fa-a6ea-9c40dc495921
   + [implementation] is crates/cantor_identity_accounting_mcp with workspace registration and lockfile update
   + [fixtures] is six passing durability MCP concurrency restart and refusal tests
-  + [next] is commit exact implementation then clean replay
+  + [next] is preserve P2 as bounded restart custody and form a separately governed bootstrap or retention frontier before widening operator powers

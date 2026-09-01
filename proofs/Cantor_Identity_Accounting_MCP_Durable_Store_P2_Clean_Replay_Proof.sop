@@ -1,0 +1,20 @@
+Subject: Cantor Identity Accounting MCP Durable Store P2 Clean Replay Proof
+
+@ [proof_uuid] a9343c48-5f7c-48fa-a6ea-9c40dc495921
+
+& [CommitEvidence]
+  + [implementation_commit] is 4d6be159d1136e7e639b77cad5dd0cc02a135453
+  + [worktree] is detached D:\iap-p2-gate created with core.longpaths enabled
+  + [worktree_status] is empty before and after verification
+  + [publication_state] is local_unpublished
+
+& [ReplayEvidence]
+  + cargo test -p cantor_identity_accounting_mcp passes 6 of 6 integration fixtures
+  + cargo clippy -p cantor_identity_accounting_mcp --all-targets --all-features -- -D warnings passes
+  + cargo test -p cantor_core --test identity_accounting_journal_host_protocol passes 7 of 7 predecessor protocol fixtures
+  + cargo check --workspace passes with every registered workspace crate including the durable adapter
+
+& [Disposition] is implementation_commit_independently_clean_replayed_for_bounded_P2
+
+& [Nonclaims]
+  + clean replay proves committed build and behavioral gates, not crash consistency under power loss, hardware durability, backup, authentication, semantic truth, or publication
