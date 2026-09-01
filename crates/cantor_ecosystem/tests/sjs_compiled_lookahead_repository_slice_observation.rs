@@ -778,6 +778,39 @@ fn commit_blob_mode_missing_locator_and_commit_digest_adversaries_refuse() {
     assert_eq!(mode_error.code, SjsRsoFaultCode::InvalidGitIdentity);
     assert!(mode_error.detail.contains("mode"));
 
+    let type_fixture = DisposablePathFixture::new();
+    let type_request = physical_repository_request(&type_fixture, git_executable);
+    let type_locator = type_request.parent_request.records[1].locator.clone();
+    let commit_object = String::from_utf8(run_fixture_git(
+        &type_fixture.root,
+        git_executable,
+        &["rev-parse", "HEAD"],
+    ))
+    .expect("UTF-8 commit object")
+    .trim()
+    .to_owned();
+    run_fixture_git(
+        &type_fixture.root,
+        git_executable,
+        &[
+            "update-index",
+            "--cacheinfo",
+            &format!("160000,{commit_object},{type_locator}"),
+        ],
+    );
+    commit_fixture(
+        &type_fixture.root,
+        git_executable,
+        "unsupported object type",
+    );
+    let type_request =
+        retarget_repository_request(type_request, &type_fixture.root, git_executable, true);
+    let mut type_runner = prepare_sjs_rso_git_runner(&type_request).expect("prepare type drift");
+    let type_error = observe_sjs_rso_commit_tree(&mut type_runner)
+        .expect_err("unsupported tree object type must refuse");
+    assert_eq!(type_error.code, SjsRsoFaultCode::InvalidGitIdentity);
+    assert!(type_error.detail.contains("type"));
+
     let missing_fixture = DisposablePathFixture::new();
     let missing_request = physical_repository_request(&missing_fixture, git_executable);
     let missing_locator = missing_request.parent_request.records[2].locator.clone();
