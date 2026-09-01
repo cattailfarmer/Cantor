@@ -1,0 +1,36 @@
+Subject: Cantor Identity Accounting MCP Durable Store P2
+
+@ [specification_uuid] 62e02909-fffc-4bcb-9285-8f86515e1df8
+@ [source_snapshot_uuid] 01d6a07e-d142-46c3-b481-c798153fb217
+@ [predecessor_specification_uuid] c93ad241-77dc-4b21-894f-9c9924e2cb92
+@ [satisfaction_signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+
+& [IdentityAccountingMcpDurableStoreP2] is a bounded filesystem custody adapter and local stdio MCP transport for a P1 AccountingJournal
+  + [SnapshotStore] persists each complete canonical journal generation as a create-new content-addressed file and recovers one unique maximal replay-consistent lineage
+  + [IdentityAccountingMcpServer] serializes concurrent requests through one mutex persists a successful mutation before publishing it in memory and returns typed structured content
+  + [Tool] exposes the exact P1 AccountingHostRequest union without adding semantic operations
+
+  = IAP-01 must: operate only in one explicit existing non-symlink directory and inspect only regular files named as lowercase SHA-256 JSON snapshots
+  = IAP-02 must: bound scanned entry count individual snapshot bytes request bytes and emitted snapshot bytes before allocation or mutation
+  = IAP-03 must: decode every admitted snapshot through P1 canonical validation and require filename digest journal digest requested journal identity and basket continuity to agree
+  = IAP-04 must: recover one unique maximal journal whose retained history contains every earlier admitted snapshot as an exact prefix and reject forks or incomparable maxima
+  = IAP-05 must: persist successors with create-new write-all and file sync before advancing process-local state
+  = IAP-06 must: treat an existing content-addressed target as idempotent only when its exact bytes equal the candidate and otherwise refuse collision
+  = IAP-07 must: leave in-memory journal unchanged when encoding creation writing syncing or validation fails
+  = IAP-08 must: expose one closed-world MCP tool carrying an exact AccountingHostRequest and complete typed response or bounded fault
+  = IAP-09 must: preserve P1 stale journal ledger and object compare-and-set behavior under concurrent calls so one equal-root mutation succeeds and the other refuses
+  = IAP-10 must: perform no filesystem write for project resolve inspect read-ledger read-event or inspect-journal operations
+  = IAP-11 must: restart from persisted snapshots with the same exact journal head and make all prior ledgers and events readable
+  = IAP-12 must: deny unknown fields oversized arguments malformed store state response encoding ambiguity and unsupported tool names without partial semantic success
+  = IAP-13 must: provide a stdio-only executable requiring explicit store directory journal identity and byte bounds
+  = IAP-14 must: invoke no model open no network listener infer no hidden state sign no meaning and authorize no external effect beyond declared snapshot custody
+
+& [Delineation]
+  + [inside] is local snapshot directory scan canonical recovery create-new durable snapshot write process mutex exact P1 execution stdio MCP and typed faults
+  + [boundary] is the operator provisions and protects the directory chooses retention backup and access policy and supplies an initial canonical snapshot
+  + [outside] is network service authentication encryption distributed consensus garbage collection semantic truth provider inference effect authorization and cross-host replication
+
+& [SatisfactionSignature]
+  + [signature_uuid] is 7725c897-1fff-48c2-8988-e9dea324bd8e
+  + [signature_status] is valid_for_bounded_P2_implementation
+  + [invalidation_condition] is unbounded_scan symlink_escape noncanonical_admission fork_selection write_after_publish read_side_effect stale_acceptance hidden_tool_operation network_or_model_contact or implementation_contradiction

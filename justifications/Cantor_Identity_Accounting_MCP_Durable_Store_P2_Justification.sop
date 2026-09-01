@@ -1,0 +1,14 @@
+Subject: Cantor Identity Accounting MCP Durable Store P2 Justification
+
+& [Decision]
+  + immutable content-addressed whole-journal snapshots avoid platform-specific replace semantics and leave crash recovery evidence inspectable
+  + unique maximal prefix recovery rejects split-brain histories instead of guessing which file is latest
+  + persist-before-publish makes a successful mutation response evidence of locally synced snapshot custody
+  + one mutex makes the core compare-and-set root effective across concurrent MCP calls
+  + a separate crate contains filesystem authority so cantor_core remains pure
+
+& [Rejected]
+  + overwriting one mutable file because Windows replacement semantics and crash windows obscure prior good state
+  + choosing by modification time because wall-clock metadata is not semantic lineage
+  + deleting old generations because P2 is custody not retention policy
+  + silently selecting one fork because ambiguity must remain visible
