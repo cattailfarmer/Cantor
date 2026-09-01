@@ -1,11 +1,17 @@
 Subject: Cantor Identity Admission Journal Transport P5 Requirement Matrix
 
 & [RequirementMatrix]
-  + IAT-01 maps to mechanical FacultyCycle json-schema derivation
-  + IAT-02..07 map to typed mutation operation execution event replay and response verification
-  + IAT-08 maps to complete predecessor test preservation
-  + IAT-09..10 map to existing schema-generated MCP and persist-before-publish server
-  + IAT-11 maps to focused core and durable integration fixtures
-  + IAT-12 maps to static effect and dependency boundary inspection
+  + IAT-01 maps to mechanical json-schema derivation on the existing FacultyCycle graph and AccountableObjectAdmission
+  + IAT-02 maps to AccountingJournalMutation.AdmissionApplied retaining the complete signed admission
+  + IAT-03 maps to AccountingHostOperationName.AdmitObject and AccountingHostOperation.AdmitObject
+  + IAT-04 maps to AccountingHost.execute invoking admit_accountable_object against journal head only
+  + IAT-05 maps to one canonical event one retained successor and exact candidate touched handle
+  + IAT-06 maps to AccountingJournal.validate replaying admission through the P4 gate and comparing the retained successor
+  + IAT-07 maps to validate_response_correspondence requiring exact admission event and head bindings
+  + IAT-08 maps to seven predecessor journal fixtures plus the complete existing durable and bootstrap suites
+  + IAT-09 maps to the existing schema-generated execute tool exposing AdmitObject without a second route
+  + IAT-10 maps to the unchanged MCP mutex reload execute persist then publish transaction
+  + IAT-11 maps to six admission-gate fixtures seven journal-host fixtures and thirteen durable adapter integration fixtures
+  + IAT-12 maps to static dependency inspection and the absence of model calls faculty construction effects authentication or publication
 
-& [FormationState] is requirements_formed_pending_implementation
+& [ImplementationState] is all_IAT_01_through_IAT_12_satisfied_locally_pending_detached_clean_replay

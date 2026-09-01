@@ -21,6 +21,7 @@ use super::runtime::digest;
 
 pub const ACCOUNTABLE_OBJECT_ADMISSION_PROFILE: &str = "cantor-accountable-object-admission/0.1";
 
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AccountableObjectAdmission {

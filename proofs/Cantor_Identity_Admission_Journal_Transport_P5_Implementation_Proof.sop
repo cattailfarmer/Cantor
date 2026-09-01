@@ -1,0 +1,27 @@
+Subject: Cantor Identity Admission Journal Transport P5 Implementation Proof
+
+@ [proof_uuid] 454b1881-712e-426a-be09-e1f56ac7cacb
+
+& [ArtifactEvidence]
+  + [faculty_schema] is crates/cantor_core/src/faculty.rs SHA256 99649A9F7E6536A1266A5F778EFF7865ABE2069F6F7D7D307CA6A3A5B44E1949
+  + [admission_schema] is crates/cantor_core/src/shared_attention/admission.rs SHA256 32232ED510B910BFC5A3C3FAC50B5CD342F8DB3731F1B7DE26ABCAA8A4A38223
+  + [journal_host] is crates/cantor_core/src/shared_attention/accounting_host.rs SHA256 E10A74E3C0C1159B127CAE728F6DB0CC891B28690CF7D5693397F0668AEA9D7A
+  + [core_fixture] is crates/cantor_core/tests/identity_admission_judgment_gate.rs SHA256 5746C7DA804A5EE8480C0A40852C70D14D23138234E2038B8AB4292E83E4E8B5
+  + [adapter_metadata_fixture] is crates/cantor_identity_accounting_mcp/tests/durable_mcp.rs SHA256 279E4866CD9B88234A4152A8DF4F2043ACCA63131D548A33B1DC408729BF52AD
+  + [adapter_admission_fixture] is crates/cantor_identity_accounting_mcp/tests/admission_mcp.rs SHA256 6BA341E73A3C9B2231DD8DC7C1EAE89FA0A96CAB5A224478A93BAA88A0A21BF8
+
+& [BehaviorEvidence]
+  + AdmitObject admits only through the pure P4 Judgment gate against the current head
+  + success appends one complete AdmissionApplied event and one retained canonical successor
+  + replay reruns the P4 gate and detects event or successor tamper
+  + the pre-existing MCP transaction persists the new snapshot before returning a successful response
+  + restart restores the admitted identity and explicit handle resolution retrieves it
+
+& [VerificationEvidence]
+  + cargo test -p cantor_core --test identity_admission_judgment_gate passes 6 of 6
+  + cargo test -p cantor_core --test identity_accounting_journal_host_protocol passes 7 of 7
+  + cargo test -p cantor_identity_accounting_mcp passes all 13 integration fixtures
+  + strict all-target all-feature clippy passes for cantor_core and cantor_identity_accounting_mcp
+  + cargo check --workspace passes
+
+& [Disposition] is all_IAT_01_through_IAT_12_requirements_satisfied_for_P5_pending_clean_replay

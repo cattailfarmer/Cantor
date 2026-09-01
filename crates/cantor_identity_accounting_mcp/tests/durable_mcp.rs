@@ -166,6 +166,7 @@ fn metadata_declares_one_closed_world_durable_accounting_tool() {
         "read_ledger",
         "read_event",
         "apply_patch",
+        "admit_object",
     ] {
         assert!(schema.contains(operation), "missing {operation}");
     }

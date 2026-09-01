@@ -29,6 +29,7 @@ pub enum FacultyKind {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub enum FacultyStage {
     Observe,
     Anchor,
@@ -42,6 +43,7 @@ pub enum FacultyStage {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub enum FacultyCycleKind {
     Preservation,
     SemanticTransition,
@@ -50,6 +52,7 @@ pub enum FacultyCycleKind {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub enum FacultyReturnStatus {
     Accepted,
     Qualified,
@@ -61,6 +64,7 @@ pub enum FacultyReturnStatus {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub enum ObserverDisposition {
     Admit,
     Revise,
@@ -72,6 +76,7 @@ pub enum ObserverDisposition {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub enum IdentityBoundaryDomain {
     Semantic,
     Epistemic,
@@ -85,6 +90,7 @@ pub enum IdentityBoundaryDomain {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub enum ProjectionKind {
     Relational,
     Temporal,
@@ -92,6 +98,7 @@ pub enum ProjectionKind {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub enum ProjectionStatus {
     Candidate,
     Incompatible,
@@ -102,6 +109,7 @@ pub enum ProjectionStatus {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub struct IdentityBoundary {
     pub boundary_id: SemanticId,
     pub domain: IdentityBoundaryDomain,
@@ -115,6 +123,7 @@ pub struct IdentityBoundary {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub struct CombinatoryProjection {
     pub projection_id: SemanticId,
     pub kind: ProjectionKind,
@@ -128,6 +137,7 @@ pub struct CombinatoryProjection {
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub struct FacultyLedger {
     pub source_refs: Vec<String>,
     pub grounds: Vec<String>,
@@ -138,6 +148,7 @@ pub struct FacultyLedger {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub struct FacultyActivation {
     pub activation_id: SemanticId,
     pub faculty: FacultyKind,
@@ -150,6 +161,7 @@ pub struct FacultyActivation {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub struct FacultyReturn {
     pub activation_id: SemanticId,
     pub faculty: FacultyKind,
@@ -162,6 +174,7 @@ pub struct FacultyReturn {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub struct FacultyOmission {
     pub faculty: FacultyKind,
     pub reason: String,
@@ -171,6 +184,7 @@ pub struct FacultyOmission {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
 pub struct FacultyCycle {
     pub cycle_id: SemanticId,
     pub kind: FacultyCycleKind,

@@ -1,13 +1,17 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use cantor_core::{
-    ACCOUNTABLE_OBJECT_ADMISSION_PROFILE, ACCOUNTABLE_OBJECT_PROFILE, AccountableObject,
-    AccountableObjectAdmission, CombinatoryProjection, ContentDigest, FacultyActivation,
+    ACCOUNTABLE_OBJECT_ADMISSION_PROFILE, ACCOUNTABLE_OBJECT_PROFILE,
+    ACCOUNTING_HOST_REQUEST_PROFILE, AccountableObject, AccountableObjectAdmission,
+    AccountingHostOperation, AccountingHostRequest, AccountingHostResult,
+    AccountingJournalMutation, CombinatoryProjection, ContentDigest, FacultyActivation,
     FacultyCycle, FacultyCycleKind, FacultyKind, FacultyLedger, FacultyReturn, FacultyReturnStatus,
     FacultyStage, IdentityBoundary, IdentityBoundaryDomain, IdentityLedger, ObserverDisposition,
     ProjectionKind, ProjectionStatus, SemanticId, SharedAttentionFaultCode,
-    accounting_ledger_state_ref, admit_accountable_object, finalize_accountable_object,
-    finalize_accountable_object_admission, new_identity_ledger,
+    accounting_ledger_state_ref, admit_accountable_object, decode_accounting_journal,
+    encode_accounting_journal, execute_accounting_host_request, finalize_accountable_object,
+    finalize_accountable_object_admission, new_accounting_journal, new_identity_ledger,
+    validate_accounting_journal,
 };
 
 fn sid(value: &str) -> SemanticId {
@@ -309,4 +313,53 @@ fn admission_identity_substitution_is_detected_by_its_canonical_digest() {
     proposal.admission_id = sid("admission:airplane/substituted");
     let fault = admit_accountable_object(&base, &proposal).unwrap_err();
     assert_eq!(fault.code, SharedAttentionFaultCode::InvalidDigest);
+}
+
+#[test]
+fn admission_operation_appends_replays_restores_and_detects_event_tamper() {
+    let base = ledger();
+    let proposal = admission(&base, object("beta", "source:beta", 1));
+    let journal = new_accounting_journal(sid("journal:judgment-gate"), base).unwrap();
+    let request = AccountingHostRequest {
+        profile: ACCOUNTING_HOST_REQUEST_PROFILE.to_owned(),
+        request_id: sid("request:admit/beta"),
+        expected_journal_digest: journal.journal_digest.clone(),
+        operation: AccountingHostOperation::AdmitObject {
+            admission: Box::new(proposal.clone()),
+        },
+    };
+    let transition = execute_accounting_host_request(&journal, request).unwrap();
+    let successor = transition.successor.unwrap();
+    validate_accounting_journal(&successor).unwrap();
+    assert_eq!(successor.events.len(), 2);
+    assert_eq!(successor.ledgers.len(), 2);
+    assert_eq!(
+        successor.events[1].touched_handle,
+        Some(proposal.candidate.handle.clone())
+    );
+    assert_eq!(
+        successor.events[1].mutation,
+        AccountingJournalMutation::AdmissionApplied {
+            admission: Box::new(proposal.clone())
+        }
+    );
+    assert!(matches!(
+        transition.response.result,
+        AccountingHostResult::Applied { .. }
+    ));
+
+    let bytes = encode_accounting_journal(&successor).unwrap();
+    assert_eq!(
+        decode_accounting_journal(&bytes, bytes.len() as u64).unwrap(),
+        successor
+    );
+
+    let mut tampered = successor;
+    let AccountingJournalMutation::AdmissionApplied { admission } =
+        &mut tampered.events[1].mutation
+    else {
+        panic!("second event must be admission");
+    };
+    admission.admission_id = sid("admission:airplane/substituted");
+    assert!(validate_accounting_journal(&tampered).is_err());
 }

@@ -9,8 +9,9 @@ use std::collections::{BTreeMap, BTreeSet};
 use serde::{Deserialize, Serialize};
 
 use super::{
-    AccountabilityInferenceWindow, AccountableObject, AccountableObjectPatch, IdentityLedger,
-    ReferenceResolution, SharedAttentionFault, SharedAttentionFaultCode, SharedAttentionFrame,
+    AccountabilityInferenceWindow, AccountableObject, AccountableObjectAdmission,
+    AccountableObjectPatch, IdentityLedger, ReferenceResolution, SharedAttentionFault,
+    SharedAttentionFaultCode, SharedAttentionFrame, admit_accountable_object,
     apply_accountable_object_patch, compile_accountability_window, inspect_accountable_object,
     resolve_accountability_reference, validate_accountability_window, validate_identity_ledger,
 };
@@ -29,7 +30,12 @@ pub const ACCOUNTING_HOST_RESPONSE_PROFILE: &str = "cantor-identity-accounting-h
 #[serde(tag = "mutation", rename_all = "snake_case", deny_unknown_fields)]
 pub enum AccountingJournalMutation {
     Genesis,
-    PatchApplied { patch: Box<AccountableObjectPatch> },
+    PatchApplied {
+        patch: Box<AccountableObjectPatch>,
+    },
+    AdmissionApplied {
+        admission: Box<AccountableObjectAdmission>,
+    },
 }
 
 #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
@@ -72,6 +78,7 @@ pub enum AccountingHostOperationName {
     ReadLedger,
     ReadEvent,
     ApplyPatch,
+    AdmitObject,
 }
 
 #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
@@ -98,6 +105,9 @@ pub enum AccountingHostOperation {
     ApplyPatch {
         patch: Box<AccountableObjectPatch>,
     },
+    AdmitObject {
+        admission: Box<AccountableObjectAdmission>,
+    },
 }
 
 impl AccountingHostOperation {
@@ -110,6 +120,7 @@ impl AccountingHostOperation {
             Self::ReadLedger { .. } => AccountingHostOperationName::ReadLedger,
             Self::ReadEvent { .. } => AccountingHostOperationName::ReadEvent,
             Self::ApplyPatch { .. } => AccountingHostOperationName::ApplyPatch,
+            Self::AdmitObject { .. } => AccountingHostOperationName::AdmitObject,
         }
     }
 }
@@ -275,9 +286,24 @@ pub fn validate_accounting_journal(
                     ));
                 }
             }
+            (AccountingJournalMutation::AdmissionApplied { admission }, Some(predecessor)) => {
+                if event.predecessor_ledger_digest.as_ref() != Some(&predecessor.ledger_digest)
+                    || event.touched_handle.as_ref() != Some(&admission.candidate.handle)
+                {
+                    return Err(journal_fault(
+                        "admission event predecessor or touched handle is discontinuous",
+                    ));
+                }
+                let replayed = admit_accountable_object(predecessor, admission)?;
+                if &replayed != retained {
+                    return Err(journal_fault(
+                        "admission event does not replay to the retained successor ledger",
+                    ));
+                }
+            }
             _ => {
                 return Err(journal_fault(
-                    "journal requires one genesis followed only by patch events",
+                    "journal requires one genesis followed only by patch or admission events",
                 ));
             }
         }
@@ -463,6 +489,42 @@ pub fn execute_accounting_host_request(
                 },
             )
         }
+        AccountingHostOperation::AdmitObject { admission } => {
+            let next_ledger = admit_accountable_object(head, admission)?;
+            let next_event = build_event(
+                journal.events.len() as u64 + 1,
+                request.request_id.clone(),
+                request_digest.clone(),
+                Some(head.ledger_digest.clone()),
+                next_ledger.ledger_digest.clone(),
+                Some(admission.candidate.handle.clone()),
+                AccountingJournalMutation::AdmissionApplied {
+                    admission: Box::new((**admission).clone()),
+                },
+            )?;
+            let mut next_journal = journal.clone();
+            if next_journal
+                .ledgers
+                .insert(next_ledger.ledger_digest.value.clone(), next_ledger.clone())
+                .is_some()
+            {
+                return Err(fault(
+                    SharedAttentionFaultCode::DigestCollision,
+                    "admission successor ledger digest is already retained",
+                ));
+            }
+            next_journal.events.push(next_event.clone());
+            next_journal.head_ledger_digest = next_ledger.ledger_digest.clone();
+            refresh_journal_digest(&mut next_journal)?;
+            validate_accounting_journal(&next_journal)?;
+            (
+                Some(next_journal),
+                AccountingHostResult::Applied {
+                    event: Box::new(next_event),
+                    ledger: Box::new(next_ledger),
+                },
+            )
+        }
     };
 
     let response_journal = successor.as_ref().unwrap_or(journal);
@@ -565,6 +627,18 @@ pub fn validate_accounting_host_response(
             && event.mutation
                 == AccountingJournalMutation::PatchApplied {
                     patch: Box::new((**patch).clone()),
+                } => {}
+        (
+            AccountingHostOperation::AdmitObject { admission },
+            AccountingHostResult::Applied { event, ledger },
+        ) if ledger.ledger_digest == journal.head_ledger_digest
+            && journal.ledgers.get(&ledger.ledger_digest.value) == Some(ledger.as_ref())
+            && journal.events.last() == Some(event.as_ref())
+            && event.request_id == request.request_id
+            && event.request_digest == response.request_digest
+            && event.mutation
+                == AccountingJournalMutation::AdmissionApplied {
+                    admission: Box::new((**admission).clone()),
                 } => {}
         _ => {
             return Err(journal_fault(
