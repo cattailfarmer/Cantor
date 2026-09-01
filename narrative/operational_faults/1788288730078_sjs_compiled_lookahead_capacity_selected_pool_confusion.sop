@@ -1,0 +1,18 @@
+Subject: SJS Compiled Lookahead Capacity Selected-Pool Confusion
+
+@ [fault_uuid] e0245787-d158-4796-b8f2-d449917689eb
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [observed_at_utc] 2026-09-01T18:52:10.0761858Z
+
+& [Fault]
+  + capacity revision 0.1 copied the selector candidate-pool maximum sixteen instead of its selected-set maximum eight
+  + it required sixteen simultaneously active minimal declarations under 8192 bytes
+  + measured canonical render sizes proved thirteen at 7839 passes and fourteen at 8442 refuses, so sixteen-active was impossible without changing a separately locked byte bound
+
+& [Containment]
+  + stopped before committing or publishing any Rust implementation
+  + kept revision 0.1 immutable and recorded explicit supersession
+  + did not raise 8192 weaken the RSP fixture or bypass the verifier
+
+& [Correction]
+  + revision 0.2 targets maximum eight, matching the reachable selector surface and a real positive boundary
