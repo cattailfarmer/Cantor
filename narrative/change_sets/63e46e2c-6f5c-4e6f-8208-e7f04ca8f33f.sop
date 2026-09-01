@@ -1,0 +1,32 @@
+Subject: Identity Accounting Journal and Host Protocol P1 Source Custody Change Set
+
+& [ChangeSet]
+  + [change_set_uuid] is 63e46e2c-6f5c-4e6f-8208-e7f04ca8f33f
+  + [conversation_uuid] is 8fac2e83-9ba0-4c02-af5e-6a9e6f1dce24
+  + [turn_uuid] is fe58355f-3010-4bd1-ac80-03c7d0c01734
+  + [repository] is C:\Project\Cantor
+  + [branch] is codex/self-hosted-corpus
+  + [predecessor_commit] is 566ec5d344a4c4b5c958c8344482dcc29c8ce43d
+  + [resulting_commit] is pending_source_commit
+  + [publication_state] is local_unpublished
+
+& [ElementHistoryEvents]
+  + [01d6a07e-d142-46c3-b481-c798153fb217] adds the immutable P1 source because the two-hour continuation must be preserved before interpretation
+  + [e5560966-8af0-4860-a593-dd4210286034] adds the source manifest because custody needs exact digest lineage
+  + [fe58355f-3010-4bd1-ac80-03c7d0c01734] adds turn attribution because scope and frontier changed
+  + [3df51f5a-a544-43ea-8487-3ebd53e01a3b] adds file attribution because owned and foreign paths must remain distinct
+  + [63e46e2c-6f5c-4e6f-8208-e7f04ca8f33f] adds this complete custody graph
+
+& [CommonHistory]
+  + [operation] is add
+  + [source_refs] is the exact preserved user continuation
+  + [requirement_refs] is pending P1 formation
+  + [constraint_refs] is preserve before SJS local commit only foreign dirty exclusion
+  + [justification_refs] is source preservation authority
+  + [plan_refs] is form only after custody
+  + [before_identity] is absent
+  + [after_identity] is the five named custody artifacts
+  + [evidence_refs] is source digest and exact staged diff
+  + [proof_refs] is the source manifest
+  + [nonclaims] is no P1 formation implementation verification or publication yet
+  + [unresolved_frontier] is P1 formation implementation proof and clean replay
