@@ -1,0 +1,17 @@
+Subject: Cantor SJS Compiled Lookahead Stitch Capacity Revision 0.2 Data Design
+
+@ [data_design_uuid] 8195ce16-014d-4c44-982f-41e9d93bbeb8
+
+& [Forms]
+  + every published SjsLas form remains unchanged
+
+& [Constant]
+  + MAX_STITCHES usize 2 becomes 8
+
+& [MeasuredBounds]
+  + minimal canonical declaration 603 bytes
+  + 3 declarations 1809 bytes 8 declarations 4824 bytes
+  + aggregate compiler ceiling remains 8192 bytes
+
+& [Compatibility]
+  + no encoded bound means old JSON and domain digests remain byte-identical
