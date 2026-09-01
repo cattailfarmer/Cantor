@@ -39,11 +39,16 @@ pub const SJS_RSO_SIGNATURE_UUID: &str = "7966d8e4-4944-4547-ae12-cebbc5f80383";
 pub const SJS_RSO_SOURCE_UUID: &str = "e4ca7100-5a6f-4276-8797-e5e79395720c";
 pub const SJS_RSO_PARENT_COMPLETION_UUID: &str = "c14b101c-5e52-4ef6-927a-729381f95a2e";
 pub const SJS_RSO_MAX_MACHINE_FORM_BYTES: usize = 1_048_576;
+pub const SJS_RSO_MAX_EVIDENCE_BUNDLE_BYTES: usize = 8_388_608;
 pub const SJS_RSO_NON_AUTHORITY: &str = "Request validation only until the separately verified observer executes. A request digest or validation result proves no Git executable identity, repository identity, branch, HEAD, commit bytes, blob bytes, physical contact, parent semantic truth, prompt fit, provider behavior, performance, autonomy, write authority, remote state, or external effect.";
 
 const REQUEST_DOMAIN: &str = "cantor.sjs-rso.request.v1";
 const RECEIPT_DOMAIN: &str = "cantor.sjs-rso.receipt.v1";
 const VERIFICATION_DOMAIN: &str = "cantor.sjs-rso.verification.v1";
+const REQUEST_FILE: &str = "request.json";
+const RECEIPT_FILE: &str = "receipt.json";
+const VERIFICATION_FILE: &str = "verification.json";
+const MANIFEST_FILE: &str = "evidence_manifest.json";
 const MAX_DEPTH: usize = 40;
 const MAX_FIELDS: usize = 16_384;
 const MAX_TEXT_BYTES: usize = 4_096;
@@ -185,6 +190,45 @@ pub struct SjsRsoVerification {
     pub parent_verification: SjsRcxVerification,
     pub execution_authorized: bool,
     pub verification_digest: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoEvidenceFile {
+    pub bytes: u64,
+    pub sha256: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoEvidenceManifest {
+    pub profile: String,
+    pub canonical_uuid: String,
+    pub signature_uuid: String,
+    pub replay_count: u32,
+    pub files: BTreeMap<String, SjsRsoEvidenceFile>,
+    pub request_digest: ContentDigest,
+    pub receipt_digest: ContentDigest,
+    pub verification_digest: ContentDigest,
+    pub parent_request_digest: ContentDigest,
+    pub parent_envelope_digest: ContentDigest,
+    pub parent_receipt_digest: ContentDigest,
+    pub account_count: u32,
+    pub unique_blob_count: u32,
+    pub total_blob_bytes: u64,
+    pub command_count: u32,
+    pub physical_contact: bool,
+    pub effects: SjsRsoEffectAccount,
+    pub execution_authorized: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SjsRsoEvidenceBundle {
+    pub request_file: String,
+    pub receipt_file: String,
+    pub verification_file: String,
+    pub manifest_file: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -1676,6 +1720,218 @@ pub fn from_sjs_rso_verification_machine_form(
     let verification = parse_bounded(value)?;
     validate_sjs_rso_verification(request, receipt, &verification)?;
     Ok(verification)
+}
+
+pub fn build_sjs_rso_evidence_bundle(
+    request: &SjsRsoRequest,
+    receipt: &SjsRsoReceipt,
+    verification: &SjsRsoVerification,
+    replay_receipt: &SjsRsoReceipt,
+    replay_verification: &SjsRsoVerification,
+) -> Result<SjsRsoEvidenceBundle, SjsRsoFault> {
+    validate_sjs_rso_verification(request, receipt, verification)?;
+    validate_sjs_rso_verification(request, replay_receipt, replay_verification)?;
+    if receipt != replay_receipt || verification != replay_verification {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidGitIdentity,
+            "second stable physical observation differs from the first",
+        ));
+    }
+
+    let request_file = canonical_evidence_file(to_sjs_rso_request_machine_form(request)?);
+    let receipt_file = canonical_evidence_file(to_sjs_rso_receipt_machine_form(request, receipt)?);
+    let verification_file = canonical_evidence_file(to_sjs_rso_verification_machine_form(
+        request,
+        receipt,
+        verification,
+    )?);
+    let manifest = build_sjs_rso_evidence_manifest(
+        &request_file,
+        &receipt_file,
+        &verification_file,
+        receipt,
+        verification,
+    )?;
+    let manifest_file = canonical_evidence_file(to_machine_form(&manifest)?);
+    let bundle = SjsRsoEvidenceBundle {
+        request_file,
+        receipt_file,
+        verification_file,
+        manifest_file,
+    };
+    ensure_sjs_rso_evidence_bound(&bundle, request.limits.maximum_evidence_bytes)?;
+    Ok(bundle)
+}
+
+pub fn verify_sjs_rso_evidence_bundle(
+    bundle: &SjsRsoEvidenceBundle,
+) -> Result<SjsRsoVerification, SjsRsoFault> {
+    ensure_sjs_rso_evidence_bound(bundle, SJS_RSO_MAX_MACHINE_FORM_BYTES as u64)?;
+    let request: SjsRsoRequest =
+        parse_bounded(canonical_evidence_body(&bundle.request_file, REQUEST_FILE)?)?;
+    validate_sjs_rso_request(&request)?;
+    ensure_sjs_rso_evidence_bound(bundle, request.limits.maximum_evidence_bytes)?;
+
+    let receipt = from_sjs_rso_receipt_machine_form(
+        &request,
+        canonical_evidence_body(&bundle.receipt_file, RECEIPT_FILE)?,
+    )?;
+    let retained_verification = from_sjs_rso_verification_machine_form(
+        &request,
+        &receipt,
+        canonical_evidence_body(&bundle.verification_file, VERIFICATION_FILE)?,
+    )?;
+    let verification = verify_sjs_rso_receipt(&request, &receipt)?;
+    if retained_verification != verification {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidDigest,
+            "retained verification differs from independent replay",
+        ));
+    }
+
+    let retained_manifest: SjsRsoEvidenceManifest = parse_bounded(canonical_evidence_body(
+        &bundle.manifest_file,
+        MANIFEST_FILE,
+    )?)?;
+    let rebuilt_manifest = build_sjs_rso_evidence_manifest(
+        &bundle.request_file,
+        &bundle.receipt_file,
+        &bundle.verification_file,
+        &receipt,
+        &verification,
+    )?;
+    if retained_manifest != rebuilt_manifest {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidDigest,
+            "retained evidence manifest differs from independent byte rehash",
+        ));
+    }
+    Ok(verification)
+}
+
+pub fn to_sjs_rso_evidence_bundle_machine_form(
+    bundle: &SjsRsoEvidenceBundle,
+) -> Result<String, SjsRsoFault> {
+    to_machine_form(bundle)
+}
+
+pub fn from_sjs_rso_evidence_bundle_machine_form(
+    value: &str,
+) -> Result<SjsRsoEvidenceBundle, SjsRsoFault> {
+    if value.len() > SJS_RSO_MAX_EVIDENCE_BUNDLE_BYTES {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidBound,
+            "evidence bundle carrier exceeds 8388608 bytes",
+        ));
+    }
+    let mut deserializer = serde_json::Deserializer::from_str(value);
+    NoDuplicateJson::deserialize(&mut deserializer).map_err(machine_fault)?;
+    deserializer.end().map_err(machine_fault)?;
+    let bundle: SjsRsoEvidenceBundle = serde_json::from_str(value).map_err(machine_fault)?;
+    if to_sjs_rso_evidence_bundle_machine_form(&bundle)? != value {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidMachineForm,
+            "evidence bundle carrier is not compact canonical JSON",
+        ));
+    }
+    ensure_sjs_rso_evidence_bound(&bundle, SJS_RSO_MAX_MACHINE_FORM_BYTES as u64)?;
+    Ok(bundle)
+}
+
+fn build_sjs_rso_evidence_manifest(
+    request_file: &str,
+    receipt_file: &str,
+    verification_file: &str,
+    receipt: &SjsRsoReceipt,
+    verification: &SjsRsoVerification,
+) -> Result<SjsRsoEvidenceManifest, SjsRsoFault> {
+    let mut files = BTreeMap::new();
+    for (path, body) in [
+        (REQUEST_FILE, request_file),
+        (RECEIPT_FILE, receipt_file),
+        (VERIFICATION_FILE, verification_file),
+    ] {
+        files.insert(
+            path.to_owned(),
+            SjsRsoEvidenceFile {
+                bytes: u64::try_from(body.len()).map_err(|_| {
+                    fault(
+                        SjsRsoFaultCode::ArithmeticOverflow,
+                        "evidence file byte count exceeds u64",
+                    )
+                })?,
+                sha256: sha256_bytes(body.as_bytes()),
+            },
+        );
+    }
+    Ok(SjsRsoEvidenceManifest {
+        profile: SJS_RSO_EVIDENCE_PROFILE.to_owned(),
+        canonical_uuid: SJS_RSO_CANONICAL_UUID.to_owned(),
+        signature_uuid: SJS_RSO_SIGNATURE_UUID.to_owned(),
+        replay_count: 2,
+        files,
+        request_digest: verification.request_digest.clone(),
+        receipt_digest: verification.receipt_digest.clone(),
+        verification_digest: verification.verification_digest.clone(),
+        parent_request_digest: receipt.parent_envelope.request.request_digest.clone(),
+        parent_envelope_digest: receipt.parent_envelope.envelope_digest.clone(),
+        parent_receipt_digest: receipt.parent_envelope.receipt.receipt_digest.clone(),
+        account_count: verification.account_count,
+        unique_blob_count: verification.unique_blob_count,
+        total_blob_bytes: verification.total_blob_bytes,
+        command_count: verification.command_count,
+        physical_contact: true,
+        effects: expected_observation_effects(),
+        execution_authorized: false,
+    })
+}
+
+fn canonical_evidence_file(mut value: String) -> String {
+    value.push('\n');
+    value
+}
+
+fn canonical_evidence_body<'a>(value: &'a str, label: &str) -> Result<&'a str, SjsRsoFault> {
+    let body = value.strip_suffix('\n').ok_or_else(|| {
+        fault(
+            SjsRsoFaultCode::InvalidMachineForm,
+            format!("{label} lacks one terminal LF"),
+        )
+    })?;
+    if body.is_empty() || body.contains(['\r', '\n']) {
+        return Err(fault(
+            SjsRsoFaultCode::InvalidMachineForm,
+            format!("{label} is not one compact LF-terminated UTF-8 form"),
+        ));
+    }
+    Ok(body)
+}
+
+fn ensure_sjs_rso_evidence_bound(
+    bundle: &SjsRsoEvidenceBundle,
+    maximum_bytes: u64,
+) -> Result<(), SjsRsoFault> {
+    for (label, value) in [
+        (REQUEST_FILE, &bundle.request_file),
+        (RECEIPT_FILE, &bundle.receipt_file),
+        (VERIFICATION_FILE, &bundle.verification_file),
+        (MANIFEST_FILE, &bundle.manifest_file),
+    ] {
+        let bytes = u64::try_from(value.len()).map_err(|_| {
+            fault(
+                SjsRsoFaultCode::ArithmeticOverflow,
+                "evidence file byte count exceeds u64",
+            )
+        })?;
+        if bytes > maximum_bytes {
+            return Err(fault(
+                SjsRsoFaultCode::InvalidBound,
+                format!("{label} exceeds evidence byte bound"),
+            ));
+        }
+        canonical_evidence_body(value, label)?;
+    }
+    Ok(())
 }
 
 fn validate_absolute_path(value: &str, label: &str) -> Result<(), SjsRsoFault> {

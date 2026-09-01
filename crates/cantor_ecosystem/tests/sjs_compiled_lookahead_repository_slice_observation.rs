@@ -12,18 +12,21 @@ use cantor_core::{
 #[cfg(windows)]
 use cantor_ecosystem::sjs_compiled_lookahead_repository_slice_observation::sjs_rso_windows_attributes_are_reparse_point;
 use cantor_ecosystem::sjs_compiled_lookahead_repository_slice_observation::{
-    SJS_RSO_CANONICAL_UUID, SJS_RSO_MAX_MACHINE_FORM_BYTES, SJS_RSO_NON_AUTHORITY,
-    SJS_RSO_PARENT_COMPLETION_UUID, SJS_RSO_RECEIPT_PROFILE, SJS_RSO_REQUEST_PROFILE,
-    SJS_RSO_SIGNATURE_UUID, SJS_RSO_SOURCE_UUID, SjsRsoAccountStatus, SjsRsoEffectAccount,
-    SjsRsoElementAccount, SjsRsoFaultCode, SjsRsoGitOperation, SjsRsoInputClass, SjsRsoLimits,
-    SjsRsoPathKind, SjsRsoReceipt, SjsRsoRequest, compile_sjs_rso_commit_tree_receipt,
-    from_sjs_rso_receipt_machine_form, from_sjs_rso_request_machine_form,
-    from_sjs_rso_verification_machine_form, inspect_sjs_rso_no_follow_path,
-    observe_sjs_rso_commit_tree, observe_sjs_rso_repository_identity, prepare_sjs_rso_git_runner,
-    run_sjs_rso_git_operation, seal_sjs_rso_receipt, seal_sjs_rso_request, sjs_rso_git_arguments,
-    to_sjs_rso_receipt_machine_form, to_sjs_rso_request_machine_form,
-    to_sjs_rso_verification_machine_form, validate_sjs_rso_receipt, validate_sjs_rso_request,
-    validate_sjs_rso_verification, verify_sjs_rso_receipt,
+    SJS_RSO_CANONICAL_UUID, SJS_RSO_MAX_EVIDENCE_BUNDLE_BYTES, SJS_RSO_MAX_MACHINE_FORM_BYTES,
+    SJS_RSO_NON_AUTHORITY, SJS_RSO_PARENT_COMPLETION_UUID, SJS_RSO_RECEIPT_PROFILE,
+    SJS_RSO_REQUEST_PROFILE, SJS_RSO_SIGNATURE_UUID, SJS_RSO_SOURCE_UUID, SjsRsoAccountStatus,
+    SjsRsoEffectAccount, SjsRsoElementAccount, SjsRsoFaultCode, SjsRsoGitOperation,
+    SjsRsoInputClass, SjsRsoLimits, SjsRsoPathKind, SjsRsoReceipt, SjsRsoRequest,
+    build_sjs_rso_evidence_bundle, compile_sjs_rso_commit_tree_receipt,
+    from_sjs_rso_evidence_bundle_machine_form, from_sjs_rso_receipt_machine_form,
+    from_sjs_rso_request_machine_form, from_sjs_rso_verification_machine_form,
+    inspect_sjs_rso_no_follow_path, observe_sjs_rso_commit_tree,
+    observe_sjs_rso_repository_identity, prepare_sjs_rso_git_runner, run_sjs_rso_git_operation,
+    seal_sjs_rso_receipt, seal_sjs_rso_request, sjs_rso_git_arguments,
+    to_sjs_rso_evidence_bundle_machine_form, to_sjs_rso_receipt_machine_form,
+    to_sjs_rso_request_machine_form, to_sjs_rso_verification_machine_form,
+    validate_sjs_rso_receipt, validate_sjs_rso_request, validate_sjs_rso_verification,
+    verify_sjs_rso_evidence_bundle, verify_sjs_rso_receipt,
     verify_sjs_rso_repository_identity_stable,
 };
 
@@ -338,6 +341,79 @@ fn supplied_slice_request_seals_and_round_trips_as_strict_canonical_json() {
         from_sjs_rso_request_machine_form(&machine).expect("round trip"),
         request
     );
+}
+
+#[test]
+fn four_file_evidence_rehashes_and_every_retained_raw_byte_tamper_refuses() {
+    let request = request();
+    let receipt = receipt(&request);
+    let verification = verify_sjs_rso_receipt(&request, &receipt).expect("verification");
+    let bundle =
+        build_sjs_rso_evidence_bundle(&request, &receipt, &verification, &receipt, &verification)
+            .expect("four-file evidence");
+
+    assert_eq!(
+        verify_sjs_rso_evidence_bundle(&bundle).expect("independent evidence replay"),
+        verification
+    );
+    for file in [
+        &bundle.request_file,
+        &bundle.receipt_file,
+        &bundle.verification_file,
+        &bundle.manifest_file,
+    ] {
+        assert!(file.ends_with('\n'));
+        assert!(!file.contains('\r'));
+        assert!(!file[..file.len() - 1].contains('\n'));
+    }
+    let machine = to_sjs_rso_evidence_bundle_machine_form(&bundle).expect("bundle machine form");
+    assert_eq!(
+        from_sjs_rso_evidence_bundle_machine_form(&machine).expect("bundle round trip"),
+        bundle
+    );
+    for malformed in [
+        format!("{{\"request_file\":\"duplicate\",{}", &machine[1..]),
+        format!("{{\"unknown\":0,{}", &machine[1..]),
+        format!(" {machine}"),
+        format!("{machine}x"),
+        "[[]]".repeat(50),
+    ] {
+        assert_refused(from_sjs_rso_evidence_bundle_machine_form(&malformed));
+    }
+    let oversized = "x".repeat(SJS_RSO_MAX_EVIDENCE_BUNDLE_BYTES + 1);
+    let oversized_error = from_sjs_rso_evidence_bundle_machine_form(&oversized)
+        .expect_err("oversized evidence carrier must refuse");
+    assert_eq!(oversized_error.code, SjsRsoFaultCode::InvalidBound);
+
+    for file_index in 0..4 {
+        let mut tampered = bundle.clone();
+        let target = match file_index {
+            0 => &mut tampered.request_file,
+            1 => &mut tampered.receipt_file,
+            2 => &mut tampered.verification_file,
+            _ => &mut tampered.manifest_file,
+        };
+        let profile = target.find("profile").expect("profile field");
+        target.replace_range(profile..profile + 1, "x");
+        let error = verify_sjs_rso_evidence_bundle(&tampered)
+            .expect_err("one retained raw-byte tamper must refuse");
+        assert!(matches!(
+            error.code,
+            SjsRsoFaultCode::InvalidProfile
+                | SjsRsoFaultCode::InvalidDigest
+                | SjsRsoFaultCode::InvalidMachineForm
+        ));
+    }
+
+    let mut replay_receipt = receipt.clone();
+    replay_receipt.command_count += 1;
+    assert_refused(build_sjs_rso_evidence_bundle(
+        &request,
+        &receipt,
+        &verification,
+        &replay_receipt,
+        &verification,
+    ));
 }
 
 #[cfg(windows)]
