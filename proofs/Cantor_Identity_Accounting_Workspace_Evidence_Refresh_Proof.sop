@@ -1,0 +1,22 @@
+Subject: Cantor Identity Accounting Workspace Evidence Refresh Proof
+
+@ [proof_uuid] a7577798-f298-4ae2-b700-8935d0906435
+
+& [Cause]
+  + P2 commit 4d6be159 registered crates/cantor_identity_accounting_mcp as a root workspace member
+  + that one-line change increased canonical Cargo.toml from 1285 bytes to 1330 bytes
+  + dependency resolution also increased canonical Cargo.lock from 41561 bytes to 41724 bytes
+  + the pre-existing candidate workspace admission evidence manifest still retained both predecessor byte counts and digests
+  + cargo check workspace and focused clean replay did not execute the cross-workspace evidence fixture so the mechanical consequence remained latent until cargo test workspace
+
+& [Correction]
+  + update the Cargo.toml artifact entry to 1330 bytes and SHA256 39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588
+  + update the Cargo.lock artifact entry to 41724 bytes and SHA256 71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F
+  + preserve every authority probe other artifact and implementation byte
+
+& [Verification]
+  + candidate_workspace_admission_manifest_is_clone_portable_and_effect_free must pass against the current tracked workspace
+  + complete cargo test workspace must restart and pass before closure
+
+& [Nonclaims]
+  + this is mechanical evidence reconciliation and does not regenerate authority alter admission semantics or claim a new observed workspace

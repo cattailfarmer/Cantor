@@ -7,6 +7,7 @@
 
 mod accounting;
 mod accounting_host;
+mod admission;
 mod compaction;
 mod dream;
 mod forms;
@@ -16,6 +17,7 @@ mod tool;
 
 pub use accounting::*;
 pub use accounting_host::*;
+pub use admission::*;
 pub use compaction::*;
 pub use dream::*;
 pub use forms::*;

@@ -1,0 +1,16 @@
+Subject: Cantor Identity Admission Journal Transport P5 Justification
+
+@ [justification_uuid] 1268a1e7-bd44-4015-97e4-b52f093b6e4d
+
+& [Why]
+  + P4 proves admission eligibility but intentionally returns only an in-memory successor
+  + P1 and P2 already provide exact event replay snapshot persistence mutex serialization and MCP custody
+
+& [WhyThisShape]
+  + one new tagged operation reuses every proven layer and retains the complete Judgment record as event evidence
+  + schema derivation is mechanical exposure, not a new faculty behavior
+
+& [Rejected]
+  + direct MCP insertion because it bypasses P4
+  + opaque admission JSON because it weakens schema and substitution checks
+  + separate service because it forks custody and compare-and-set authority

@@ -1,0 +1,23 @@
+Subject: Cantor Identity Admission Judgment Gate P4 Implementation Proof
+
+@ [proof_uuid] 58674ea2-e8ed-4ca2-990a-4394b691483a
+
+& [ArtifactEvidence]
+  + [accounting] is crates/cantor_core/src/shared_attention/accounting.rs SHA256 70F0B0581644A735E7A21114275A030914BB2C0E2A130A626A6368F212D59DEF
+  + [admission] is crates/cantor_core/src/shared_attention/admission.rs SHA256 6CA101E984254D620B815D629773637AE060AC42A8389DEF437A8538BE8B4C84
+  + [module] is crates/cantor_core/src/shared_attention/mod.rs SHA256 094664E577B3CBB7AD29E7AE6F7DB79E29A016C26596FCEEC312EF183A4FA93D
+  + [fixtures] is crates/cantor_core/tests/identity_admission_judgment_gate.rs SHA256 6CAB046C9466C3D3E08E23EC4A47A353179855628C24C2F4CC9C4E1563A6F9A9
+
+& [BehaviorEvidence]
+  + one exact version-one candidate with matching evidence and unanimously clear seven-faculty admit cycle becomes one validated next-generation ledger
+  + source ledger remains unchanged and equal inputs replay to equal successors
+  + stale base duplicate handle non-admit qualified uncertain residual malformed cycle evidence mismatch bad version state substitution and digest tamper refuse
+  + FacultyCycle constitutional validation remains the sole ordering boundary projection return and omission validator
+
+& [VerificationEvidence]
+  + cargo test -p cantor_core --test identity_admission_judgment_gate passes 5 of 5
+  + cargo clippy -p cantor_core --all-targets --all-features -- -D warnings passes
+  + cargo test -p cantor_core --all-features passes with no failures and two maintenance-only ignored fixtures
+  + cargo fmt --all leaves owned Rust paths formatted
+
+& [Disposition] is all_IAG_01_through_IAG_16_requirements_satisfied_for_P4_pending_clean_replay

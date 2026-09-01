@@ -1,0 +1,18 @@
+Subject: Cantor Identity Admission Journal Transport P5 Clean Replay Proof
+
+@ [proof_uuid] f808ba67-ca77-4385-af98-86b37d846c5c
+
+& [ReplayBoundary]
+  + [implementation_commit] is 72fd227d83b877f54140dcf724d4eabcd2957811
+  + [worktree] is absent_before_created_detached_verified_clean_then_removed
+  + [source_status] is empty_before_and_after_verification
+
+& [ReplayEvidence]
+  + cargo test -p cantor_core --test identity_admission_judgment_gate passes 6 of 6
+  + cargo test -p cantor_core --test identity_accounting_journal_host_protocol passes 7 of 7
+  + cargo test -p cantor_identity_accounting_mcp passes admission 1 of 1 bootstrap 6 of 6 and durable 6 of 6
+  + strict all-target all-feature clippy passes for cantor_core and cantor_identity_accounting_mcp
+  + cargo check --workspace passes
+  + cargo test -p cantor_core --all-features passes with no failures and two maintenance-only ignored fixtures
+
+& [Disposition] is P5_implementation_commit_clean_replayed_without_workspace_residue

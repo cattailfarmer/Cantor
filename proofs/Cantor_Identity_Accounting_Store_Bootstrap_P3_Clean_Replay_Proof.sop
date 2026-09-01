@@ -1,0 +1,20 @@
+Subject: Cantor Identity Accounting Store Bootstrap P3 Clean Replay Proof
+
+@ [proof_uuid] 346fbd6c-8eb3-433a-aed1-bc8598ec5100
+
+& [CommitEvidence]
+  + [implementation_commit] is 800807e774f8e29c3d4ab490a6dab2f3ce6484ca
+  + [worktree] is detached D:\iab-p3-gate created with core.longpaths enabled
+  + [worktree_status] is empty before and after verification
+  + [publication_state] is local_unpublished
+
+& [ReplayEvidence]
+  + cargo test -p cantor_identity_accounting_mcp passes 6 of 6 P3 bootstrap and 6 of 6 retained P2 fixtures
+  + cargo clippy -p cantor_identity_accounting_mcp --all-targets --all-features -- -D warnings passes
+  + cargo test -p cantor_core --test identity_accounting_journal_host_protocol passes 7 of 7 predecessor P1 fixtures
+  + cargo check --workspace passes with every registered workspace crate
+
+& [Disposition] is implementation_commit_independently_clean_replayed_for_bounded_P3
+
+& [Nonclaims]
+  + replay proves canonical machine-form bootstrap and committed gates, not semantic object admission Judgment overwrite migration backup power-loss durability effects or publication

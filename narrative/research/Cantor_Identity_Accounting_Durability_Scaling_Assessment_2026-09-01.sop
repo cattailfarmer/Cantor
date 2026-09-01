@@ -1,0 +1,66 @@
+Subject: Cantor Identity Accounting Durability Scaling Assessment
+
+@ [assessment_uuid] eb2ab53c-774c-4a0a-900c-fe2c6876e53d
+@ [conversation_uuid] 8fac2e83-9ba0-4c02-af5e-6a9e6f1dce24
+@ [assessment_date] 2026-09-01
+@ [P5_clean_bookend] 718cd58cbfe96e42c31e8a8aa4fbd4940186218f
+
+& [Question]
+  + what scaling claims can and cannot be made about the clean-replayed durable Identity Accounting Workspace
+
+& [ObservedStorageShape]
+  + AccountingJournal retains every event and exactly one complete IdentityLedger for every event successor
+  + each IdentityLedger retains every current AccountableObject in the basket even when one object changed
+  + every AdmissionApplied event retains the complete AccountableObjectAdmission including its complete FacultyCycle
+  + SnapshotStore persists each succeeding AccountingJournal as a separate content-named complete canonical JSON file
+  + restart scans snapshots validates each complete journal chooses one unique maximal history and requires every other history to be its exact prefix
+  + configured maximum snapshot bytes and maximum snapshot count bound failure but do not change the representation
+
+& [AsymptoticAssessment]
+  + let H be event count B average complete ledger bytes and A average retained event payload bytes
+  + one latest journal snapshot is approximately order H times B plus H times A because every generation retains a complete ledger and event
+  + retaining every prefix snapshot makes cumulative store bytes approximately order H squared times B plus H squared times A in the absence of filesystem-level deduplication
+  + admission events can be materially larger than patches because they retain the complete seven-faculty Judgment record
+  + restart validation replays every event and validates every retained ledger in every scanned candidate so startup work also grows with retained history volume
+  + these are structural growth observations and not measured throughput latency capacity or cost results
+
+& [CurrentFitness]
+  + excellent for bounded local experiments exact replay adversarial validation crash-recoverable custody and proving semantics before optimization
+  + suitable when basket history snapshot count and total bytes remain under explicit configured limits
+  + unsuitable as evidence that one process or one approximately four-thousand-dollar node can host any asserted number of high-demand or low-demand community users
+  + no user-capacity estimate is supportable without workload model model-serving budget concurrency latency context size event rate storage growth and fault-tolerance measurements
+
+& [NearTermMeasurement]
+  + generate deterministic baskets across object counts 10 100 1000 and representative object-body sizes
+  + apply patch-heavy admission-heavy and mixed workloads across increasing event counts
+  + measure latest snapshot bytes cumulative store bytes persist latency restart latency validation latency peak memory and refusal threshold
+  + run cold and warm filesystem conditions and record hardware filesystem build profile and exact commit
+  + compare observed curves to the structural model before selecting a replacement representation
+
+& [LikelyProductionDirection]
+  + preserve event and ledger semantic identities while storing immutable content-addressed object records relation records events and ledger manifests as separately deduplicated blobs
+  + let each generation manifest reference unchanged object digests rather than copy complete bodies
+  + append one canonical event plus successor manifest atomically and periodically create signed or independently validated checkpoints
+  + restore from checkpoint plus bounded event suffix while retaining whole-history verification and fork detection
+  + use garbage collection only under a separately governed retention policy because prefix evidence must not disappear silently
+  + keep the current complete JSON snapshot codec as a portable export proof fixture and recovery oracle even if it is not the serving representation
+
+& [ConsistencyWithP6]
+  + P6 compact inference manifests solve prompt-surface scaling and do not solve durable-history scaling
+  + content-addressed manifest storage could later reuse P6 identity summary concepts but must not couple read-only attention receipts to journal state
+  + P6 should remain bounded and clean-replayed before storage redesign to avoid mixing inference protocol and persistence representation changes
+
+& [DeploymentGuardrail]
+  + advertise this store as experimental bounded local custody until benchmark evidence and a service-level workload contract exist
+  + reject before configured capacity rather than deleting history compacting without proof or claiming transparent scale
+  + separate LLM token generation capacity from identity-accounting request capacity because they have different bottlenecks
+
+& [Nonclaims]
+  + no benchmark was executed and no exact asymptotic coefficient throughput user count monthly price or hardware fitness is claimed
+  + filesystem compression deduplication cache and antivirus effects were not measured
+  + no production storage implementation migration deletion or publication is authorized
+
+& [RecommendedSequence]
+  + complete P6 and behavioral identity evaluation
+  + implement a deterministic durability benchmark before any community-node capacity estimate
+  + form storage P8 only from measured bottlenecks while preserving P5 semantics and clean portable export
