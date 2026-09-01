@@ -1,0 +1,86 @@
+Subject: Cantor Attention Manifest Refresh P6 Implementation Map
+
+@ [implementation_map_uuid] 68b58ad4-7bfb-45ce-9d52-71540869f902
+@ [conversation_uuid] 8fac2e83-9ba0-4c02-af5e-6a9e6f1dce24
+@ [map_date] 2026-09-01
+@ [P6_formation_commit] 7e1f0c3ab7f6d17c4cc9865114e18021c58c06ca
+
+& [CompatibilityDecision]
+  + preserve the existing full-register AccountabilityInferenceWindow and Project operation unchanged
+  + add a versioned compact AccountabilityManifestWindow and ProjectManifest operation beside it
+  + preserve the existing AttentionReceipt as P0 evidence and add manifest-specific materialization-bound forms rather than silently changing serialized meaning
+
+& [PureCoreForms]
+  + AccountabilityManifestEntry has handle object_type display_label version and record_digest
+  + display_label is the first canonical BTreeSet label when present and the exact at-prefixed handle otherwise
+  + AccountabilityManifest has profile basket_id ledger_generation ledger_digest member_count ordered entries and manifest_digest
+  + AccountabilityManifestWindow has profile frame identity purpose ledger and manifest bindings rendered_manifest and window_digest
+  + AccountableMaterialization has profile window_digest ledger_digest requested_handles objects and materialization_digest
+  + ManifestAttentionReceiptSeed has receipt identity exact window ledger manifest and materialization digests plus one member disposition per manifest handle
+  + ManifestAttentionReceipt adds derived Complete or Held status and self-excluding receipt digest
+
+& [PureCoreFunctions]
+  + project_accountability_manifest derives and validates the complete compact roster before rendering and byte-budget refusal
+  + materialize_accountable_objects validates the window against the current ledger requires a nonempty bounded unique exact handle set and returns every requested body in handle order
+  + finalize_manifest_attention_receipt revalidates all digests requires exact full manifest coverage nonempty rationales and materialization for every Relevant handle
+  + validators reconstruct all derived content and detect body identity order digest membership and status substitution
+
+& [HostOperations]
+  + ProjectManifest carries frame and manifest_byte_budget and returns ManifestWindow
+  + Materialize carries frame manifest_byte_budget expected_window_digest and bounded handle set and returns Materialization
+  + AcknowledgeAttention carries frame manifest_byte_budget expected_window_digest materialized_handles and receipt seed and returns ManifestReceipt
+  + AcknowledgeAttention recomputes manifest and materialization from the current journal head before finalizing the receipt
+  + all three operations return successor None and preserve event count journal digest and head ledger digest
+
+& [WhyStatelessRecomputation]
+  + the durable MCP already serializes one request under a mutex and reloads current head
+  + recomputation binds acknowledgment to current persisted state without hidden server sessions expiring across restart
+  + the client never supplies trusted object bodies and cannot substitute a materialization from another frame ledger or handle set
+  + equal requests at an equal head replay byte-equivalently
+
+& [HostResponseCorrespondence]
+  + ProjectManifest must equal pure projection from request frame current head and budget
+  + Materialize must equal pure materialization from the recomputed exact window current head and requested handles
+  + AcknowledgeAttention must equal pure receipt finalization over recomputed window and materialization
+  + any operation-result mismatch request digest substitution or stale journal root refuses
+
+& [Bounds]
+  + manifest byte budget remains caller-declared and refuses below complete roster size
+  + materialized handle count requires a named protocol maximum in addition to machine-form and response byte ceilings
+  + exact unknown handles refuse the whole materialization because P6 does not define partial selection results
+  + total MCP request and response byte bounds remain the adapter boundary and require explicit fixture coverage
+
+& [FocusedFixtureMatrix]
+  + same-type same-label objects have distinct manifest rows and exact materialized bodies
+  + label absence deterministically falls back to at-handle display without inventing a name
+  + permutation of ledger construction or requested handle insertion order yields equal canonical results
+  + missing duplicate foreign excessive and stale handle selections refuse with no successor
+  + one-byte-low manifest budget refuses without roster clipping
+  + missing or foreign disposition and Relevant without materialization refuse
+  + any Unresolved member yields Held while complete non-Unresolved coverage yields Complete
+  + intervening patch or admission makes old window materialization and receipt stale
+  + host and durable MCP read-only calls leave journal digest event count snapshot count and restart head unchanged
+  + unknown fields profile drift digest tamper and result substitution refuse
+
+& [LikelyOwnedPaths]
+  + crates/cantor_core/src/shared_attention/accounting.rs
+  + crates/cantor_core/src/shared_attention/accounting_host.rs
+  + crates/cantor_core/src/shared_attention/mod.rs only if exports require adjustment
+  + crates/cantor_core/tests/identity_accounting_workspace.rs
+  + crates/cantor_core/tests/identity_accounting_journal_host_protocol.rs
+  + crates/cantor_identity_accounting_mcp/tests/durable_mcp.rs or a new manifest_refresh_mcp.rs
+  + P6 completion requirement proof signature solution reentry and history records
+
+& [ImplementationHazards]
+  + changing current profile constants or fields would break predecessor machine forms and violate AMR-13
+  + choosing display_label from an unordered source would make equal ledgers render differently
+  + trusting client-supplied materialized objects would allow body substitution despite valid handles
+  + persisting read-only receipts as journal events would conflate inference observation with identity state
+  + treating NotApplicable as verified truth would exceed the receipt's evidence boundary
+  + binding only ledger digest but not frame purpose would permit cross-purpose attention receipt reuse
+
+& [ExitCondition]
+  + all AMR requirements map to exact code and fixtures focused predecessor and adapter suites pass strict clippy and workspace check and the exact implementation commit clean-replays from an absent detached worktree
+
+& [Nonclaims]
+  + this map refines implementation order under the signed specification but is not implementation evidence or completion authority
