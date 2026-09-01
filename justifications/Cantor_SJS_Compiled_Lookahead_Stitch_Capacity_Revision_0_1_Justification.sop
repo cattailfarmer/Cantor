@@ -1,0 +1,17 @@
+Subject: Cantor SJS Compiled Lookahead Stitch Capacity Revision 0.1 Justification
+
+@ [justification_uuid] cda95c35-0cde-4dcb-839c-1e33b839e3b5
+@ [canonical_uuid] ed156338-1ab2-4e33-9fa3-72a24c899f87
+
+& [Decision]
+  + widen the parent stitch validation maximum to sixteen under a separate immutable revision
+
+& [Why]
+  + three is already a verified upstream result and one packet is required downstream
+  + sixteen matches the bounded candidate surface and remains constrained by existing observation and 8192-byte limits
+
+& [Rejected]
+  + weaken RSP fixture to two because it would erase the discovered product seam
+  + split into multiple packets because it breaks the signed one-envelope mapping
+  + silently edit prior LAS spec because it destroys immutable justification history
+  + raise unrelated limits because no evidence requires it

@@ -1,0 +1,18 @@
+Subject: Cantor SJS Compiled Lookahead Stitch Capacity Revision 0.1 Data Design
+
+@ [data_design_uuid] cabf9c62-39f7-44fa-ac26-ac0473a867ed
+@ [canonical_uuid] ed156338-1ab2-4e33-9fa3-72a24c899f87
+
+& [UnchangedForms]
+  + SjsLasRequest SjsLasEnvelope SjsLasVerification lifecycle receipt projection state evidence manifest and bundle remain byte-shaped exactly as published
+
+& [ChangedValidationConstant]
+  + MAX_STITCHES changes from 2usize to 16usize
+
+& [CardinalityInteractions]
+  + maximum sixteen activation observations remains below existing sixty-four observation limit
+  + one initial coordinate remains below existing thirty-two coordinate limit
+  + each rendered declaration continues contributing to checked aggregate projected bytes capped at 8192
+
+& [Compatibility]
+  + old forms contain no encoded maximum and therefore their JSON and domain-separated digests do not change
