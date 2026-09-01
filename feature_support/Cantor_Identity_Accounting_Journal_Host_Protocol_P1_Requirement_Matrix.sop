@@ -1,18 +1,18 @@
 Subject: Cantor Identity Accounting Journal and Host Protocol P1 Requirement Matrix
 
 & [RequirementMatrix]
-  + IAJ-01 pending valid genesis fixture
-  + IAJ-02 pending deterministic event sequence fixture
-  + IAJ-03 pending complete semantic replay fixture
-  + IAJ-04 pending missing orphan reordered and cross-basket refusal fixtures
-  + IAJ-05 pending stale journal root refusal fixture
-  + IAJ-06 pending read-only transition fixtures
-  + IAJ-07 pending complete projection and capacity refusal fixtures
-  + IAJ-08 pending resolved ambiguous and unknown result fixtures
-  + IAJ-09 pending exact ledger event and object read fixtures
-  + IAJ-10 pending patch compare-and-set fixture
-  + IAJ-11 pending retained predecessor and appended successor fixture
-  + IAJ-12 pending response substitution and digest fixtures
-  + IAJ-13 pending deterministic canonical encoding and bounded restore fixtures
-  + IAJ-14 pending unknown noncanonical tamper and redigested replay refusal fixtures
-  + IAJ-15 pending static pure-core boundary inspection
+  + IAJ-01 valid exact genesis is verified by genesis_is_deterministic_replayable_and_canonically_restorable
+  + IAJ-02 deterministic contiguous events are verified by equal genesis and patch executions plus sequence assertions
+  + IAJ-03 semantic patch replay is verified by patch_appends_one_semantically_replayable_generation_and_preserves_history
+  + IAJ-04 closed snapshots and events are verified by missing snapshot refusal and complete retained-set validation
+  + IAJ-05 stale journal compare-and-set refusal is verified after a successful successor
+  + IAJ-06 inert reads are verified by project resolve inspect read-ledger and read-event transitions with no successor
+  + IAJ-07 complete projection or refusal is verified by three-member window and one-byte capacity refusal
+  + IAJ-08 explicit resolved ambiguous and unknown outcomes are verified without fuzzy selection
+  + IAJ-09 exact object ledger and event reads are verified with unknown event refusal
+  + IAJ-10 P0 patch compare-and-set is verified by successful patch plus stale object version refusal
+  + IAJ-11 append-only preservation is verified by two retained ledgers and two retained events after one patch
+  + IAJ-12 exact response binding is verified by request substitution refusal and operation-result recomputation
+  + IAJ-13 canonical bounded persistence is verified by byte-identical encoding restore and insufficient-bound refusal
+  + IAJ-14 strict machine form and tamper refusal is verified by unknown-field whitespace missing-snapshot digest and semantic validation
+  + IAJ-15 pure core boundary is verified by module inspection and absence of clock filesystem provider network and effect calls

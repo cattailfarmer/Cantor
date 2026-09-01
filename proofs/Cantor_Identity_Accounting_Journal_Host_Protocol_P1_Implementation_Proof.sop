@@ -1,0 +1,26 @@
+Subject: Cantor Identity Accounting Journal and Host Protocol P1 Implementation Proof
+
+@ [proof_uuid] c3194326-08bf-4862-9cb0-a6f610750cba
+
+& [ArtifactEvidence]
+  + [module] is crates/cantor_core/src/shared_attention/accounting_host.rs SHA256 7D501E951E541A8416E89E7CE8EF425876797AE3743E19EA6EAB9232C901638F
+  + [module_export] is crates/cantor_core/src/shared_attention/mod.rs SHA256 822E76C6EFE9182916F58E547A402627A9624A9918560A33B777D38222D85D57
+  + [fixtures] is crates/cantor_core/tests/identity_accounting_journal_host_protocol.rs SHA256 75F5AE486CF2492D2F1249862E7D40E8A8BA9709FEFF9C685C9ADE6AC082C21B
+
+& [BehaviorEvidence]
+  + genesis retains one exact ledger and one deterministic event
+  + patch events carry the complete patch and are validated by applying it to the retained predecessor
+  + every generation snapshot remains readable and orphan missing reordered stale or tampered history refuses
+  + project resolve inspect ledger-read and event-read operations return no successor
+  + only apply-patch appends one event and one ledger after journal ledger and object compare-and-set checks
+  + responses recompute against exact request operation journal and typed result
+  + canonical bounded JSON bytes restore exactly while unknown fields whitespace and insufficient bounds refuse
+
+& [VerificationEvidence]
+  + cargo test -p cantor_core --test identity_accounting_journal_host_protocol passes 7 of 7
+  + cargo clippy -p cantor_core --all-targets --all-features -- -D warnings passes
+  + cargo test -p cantor_core --all-features passes with no failures and two pre-existing maintenance-only ignored fixtures
+  + cargo fmt --all leaves owned Rust paths formatted
+  + clean-checkout replay evidence is pending implementation commit
+
+& [Disposition] is all_IAJ_01_through_IAJ_15_requirements_satisfied_for_P1_pending_clean_replay_bookend

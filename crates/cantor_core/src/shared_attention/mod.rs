@@ -6,6 +6,7 @@
 //! or shares provider hidden state.
 
 mod accounting;
+mod accounting_host;
 mod compaction;
 mod dream;
 mod forms;
@@ -14,6 +15,7 @@ mod runtime;
 mod tool;
 
 pub use accounting::*;
+pub use accounting_host::*;
 pub use compaction::*;
 pub use dream::*;
 pub use forms::*;
