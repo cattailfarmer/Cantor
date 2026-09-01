@@ -1,0 +1,16 @@
+Subject: Cantor Identity Accounting Journal and Host Protocol P1 Clean Replay Proof
+
+@ [proof_uuid] f1ee7391-39bb-4226-b782-5fd3952b1f0a
+
+& [CommitEvidence]
+  + [implementation_commit] is 52c50473
+  + [worktree] is detached D:\iaj-p1-gate created with core.longpaths enabled
+  + [worktree_status] is empty before verification
+  + [publication_state] is local_unpublished
+
+& [ReplayEvidence]
+  + cargo test -p cantor_core --test identity_accounting_journal_host_protocol passes 7 of 7
+  + cargo clippy -p cantor_core --all-targets --all-features -- -D warnings passes
+  + cargo test -p cantor_core --all-features passes with no failures and two maintenance-only ignored fixtures
+
+& [Disposition] is implementation_commit_independently_clean_replayed_for_P1

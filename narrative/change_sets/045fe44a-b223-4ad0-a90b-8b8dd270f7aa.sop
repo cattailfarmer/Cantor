@@ -1,0 +1,32 @@
+Subject: Identity Accounting Journal and Host Protocol P1 Clean Replay Change Set
+
+& [ChangeSet]
+  + [change_set_uuid] is 045fe44a-b223-4ad0-a90b-8b8dd270f7aa
+  + [conversation_uuid] is 8fac2e83-9ba0-4c02-af5e-6a9e6f1dce24
+  + [turn_uuid] is c7527878-2462-4a2d-bcb6-1e1dab812cfa
+  + [repository] is C:\Project\Cantor
+  + [branch] is codex/self-hosted-corpus
+  + [predecessor_commit] is 52c50473
+  + [resulting_commit] is pending_bookend_commit
+  + [publication_state] is local_unpublished
+
+& [ElementHistoryEvents]
+  + [f1ee7391-39bb-4226-b782-5fd3952b1f0a] adds clean replay proof because committed behavior must be isolated from foreign dirty work
+  + [d27508cf-7c26-409b-9c15-a005438f7637] modifies reentry because exact committed and clean-replayed authority now exists
+  + [c7527878-2462-4a2d-bcb6-1e1dab812cfa] adds turn attribution because replay conclusion and frontier must persist
+  + [1b84f32d-d9cd-40c6-84ec-ad42add82e6d] adds file attribution because owned and foreign paths remain distinct
+  + [045fe44a-b223-4ad0-a90b-8b8dd270f7aa] adds this complete bookend graph
+
+& [CommonHistory]
+  + [operation] is add_or_modify_as_named
+  + [source_refs] is implementation commit 52c50473
+  + [requirement_refs] is IAJ-01 through IAJ-15
+  + [constraint_refs] is clean detached replay local unpublished no effects
+  + [justification_refs] is clean evidence separation
+  + [plan_refs] is P1 clean replay bookend
+  + [before_identity] is committed implementation pending clean replay
+  + [after_identity] is clean-replayed P1 authority
+  + [evidence_refs] is focused clippy and full-suite clean gates
+  + [proof_refs] is proofs/Cantor_Identity_Accounting_Journal_Host_Protocol_P1_Clean_Replay_Proof.sop
+  + [nonclaims] is no publication physical storage inference effect or remote equality
+  + [unresolved_frontier] is physical adapter inference transport admission decomposition Judgment and effects
