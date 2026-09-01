@@ -1,0 +1,41 @@
+Subject: Identity Accounting MCP Durable Store P2 Implementation Change Set
+
+& [ChangeSet]
+  + [change_set_uuid] is 59641aab-8750-4a84-9128-afd8225ec487
+  + [conversation_uuid] is 8fac2e83-9ba0-4c02-af5e-6a9e6f1dce24
+  + [turn_uuid] is f631f122-75c7-4803-9c55-cc3f8988c0c0
+  + [repository] is C:\Project\Cantor
+  + [branch] is codex/self-hosted-corpus
+  + [predecessor_commit] is 4dcbfab9
+  + [resulting_commit] is pending_implementation_commit
+  + [publication_state] is local_unpublished
+
+& [ElementHistoryEvents]
+  + [207d88d5-42a5-4f28-b7e0-acde16b9adb4] modifies Cargo.toml because the durable MCP adapter is an independent workspace crate
+  + [1dd94915-9500-44ee-b015-355463d91a1a] modifies Cargo.lock because workspace package identity must be reproducible
+  + [d4511d2e-fe9a-414e-bddb-e77beb555291] adds the crate manifest because dependencies binary identity and lint authority must be explicit
+  + [970fae07-f94f-457a-b749-d059b74fd053] adds lib.rs because bounded snapshot custody recovery and MCP behavior belong in the adapter
+  + [ae8493d3-e294-4e95-9433-87c273f45aca] adds main.rs because stdio startup requires explicit store and bound arguments
+  + [01b64a9f-4e71-41f9-a18b-1483bdba195f] adds durable_mcp.rs because restart concurrency fork failure schema and official transport need executable evidence
+  + [638a1ac9-17f7-4a16-82a3-003db0a9a619] modifies matrix because pending P2 rows now resolve to named evidence
+  + [06b2a8d0-67a3-4410-a34e-10c179a6a1bb] modifies reentry because implementation and remaining gates are exact
+  + [8349e6af-7dcc-467a-b1f2-5bb4e2f26f3d] adds completion signature because measured P2 artifacts satisfy the bounded contract
+  + [91e3d5e1-1350-47c5-979a-2936ee509c68] adds proof because physical behavior and commands require durable evidence
+  + [2f0a1656-2ffd-43d3-842d-8edc034f6c11] adds solution because responsibilities and later boundaries need reentry
+  + [f631f122-75c7-4803-9c55-cc3f8988c0c0] adds turn attribution because implementation changes project behavior
+  + [0f55a9e6-11dd-4fd7-bc73-130acc71eca2] adds file attribution because owned and foreign dirty paths remain distinct
+  + [59641aab-8750-4a84-9128-afd8225ec487] adds this complete implementation graph
+
+& [CommonHistory]
+  + [operation] is add_or_modify_as_named
+  + [source_refs] is source commit 89f62e88 P1 bookend 1b74d646 and P2 formation 4dcbfab9
+  + [requirement_refs] is IAP-01 through IAP-14
+  + [constraint_refs] is bounded local filesystem stdio only persist-before-publish no model network or semantic authority
+  + [justification_refs] is justifications/Cantor_Identity_Accounting_MCP_Durable_Store_P2_Justification.sop
+  + [plan_refs] is plans/Cantor_Identity_Accounting_MCP_Durable_Store_P2_Plan.sop
+  + [before_identity] is absent or signed formation content
+  + [after_identity] is implementation and proof content named above
+  + [evidence_refs] is six focused tests, strict clippy, and workspace check
+  + [proof_refs] is proofs/Cantor_Identity_Accounting_MCP_Durable_Store_P2_Implementation_Proof.sop
+  + [nonclaims] is no publication network authentication encryption consensus model inference semantic truth or effect authority
+  + [unresolved_frontier] is implementation commit clean replay and bookend

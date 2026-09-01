@@ -1,0 +1,25 @@
+Subject: Cantor Identity Accounting MCP Durable Store P2 Implementation Proof
+
+@ [proof_uuid] 91e3d5e1-1350-47c5-979a-2936ee509c68
+
+& [ArtifactEvidence]
+  + [library] is crates/cantor_identity_accounting_mcp/src/lib.rs SHA256 452B94978011D781E0CC1BD4D06113793EA0CDB860730D1D64A2C169CCAA83A7
+  + [binary] is crates/cantor_identity_accounting_mcp/src/main.rs SHA256 AC70131DF749D5976D2B26A87B8C25192036425F9EAB83F299C14A78DA1D4BEC
+  + [fixtures] is crates/cantor_identity_accounting_mcp/tests/durable_mcp.rs SHA256 3105F6B5AD6E32696ED188EABCFFFC3581238952A751DB5E6C2CE72C12271A78
+  + [manifest] is crates/cantor_identity_accounting_mcp/Cargo.toml SHA256 288A6F111DAA7C50229D1A0A690D680EADA0F726E3CB59ED1976AAFD744E4565
+
+& [BehaviorEvidence]
+  + immutable snapshots use canonical journal digest filenames and create-new temporary writes synced before rename and in-memory publication
+  + restart scans bounded canonical candidates and selects only one maximal journal containing every earlier exact prefix
+  + equal-depth divergent histories refuse as journal_fork instead of using timestamps
+  + byte-bound or store-capacity persistence failure returns store_fault and leaves the memory head unchanged
+  + one mutex preserves P1 compare-and-set under concurrent equal-root mutations
+  + official rmcp client discovers and invokes one stdio closed-world tool
+
+& [VerificationEvidence]
+  + cargo test -p cantor_identity_accounting_mcp passes six focused integration fixtures
+  + cargo clippy -p cantor_identity_accounting_mcp --all-targets --all-features -- -D warnings passes
+  + cargo check --workspace passes with the new adapter registered as a workspace member
+  + cargo fmt --all leaves owned Rust paths formatted
+
+& [Disposition] is all_IAP_01_through_IAP_14_requirements_satisfied_for_P2_pending_clean_replay

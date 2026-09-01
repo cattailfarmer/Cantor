@@ -1,10 +1,17 @@
 Subject: Cantor Identity Accounting MCP Durable Store P2 Requirement Matrix
 
 & [RequirementMatrix]
-  + IAP-01 through IAP-04 pending bounded recovery fixtures
-  + IAP-05 through IAP-07 pending persist-before-publish failure and idempotency fixtures
-  + IAP-08 through IAP-10 pending schema direct concurrency and read-inert fixtures
-  + IAP-11 pending restart and historical read fixture
-  + IAP-12 pending malformed oversized unknown and fork refusal fixtures
-  + IAP-13 pending official stdio subprocess fixture
-  + IAP-14 pending static authority boundary inspection
+  + IAP-01 explicit directory and regular snapshot boundaries are verified by SnapshotStore validation and recovery refusal fixtures
+  + IAP-02 entry snapshot request and emitted byte bounds are verified by overflow, full-store, and persistence-failure fixtures
+  + IAP-03 canonical filename journal and basket correspondence is verified by name-mismatch refusal and P1 decoding
+  + IAP-04 unique maximal prefix recovery is verified by restart success and equal-depth fork refusal
+  + IAP-05 create-new write sync rename then publish ordering is verified by restart and unchanged-head failure fixtures
+  + IAP-06 exact existing target idempotency and collision checks are implemented by verify_existing
+  + IAP-07 unchanged memory on byte-bound or capacity persistence failure is verified by persistence_failure_and_invalid_arguments_leave_the_head_unchanged
+  + IAP-08 closed-world typed MCP schema and responses are verified by metadata and direct fixtures
+  + IAP-09 concurrent equal-root mutation is verified to yield one success one stale refusal and one successor snapshot
+  + IAP-10 inert read behavior is verified by event read after restart with unchanged directory entry count
+  + IAP-11 exact restart and historical event read are verified by mutation_persists_before_publish_and_restart_restores_exact_history
+  + IAP-12 fork name entry-bound and unknown argument refusal are verified by adversarial fixtures
+  + IAP-13 stdio executable is verified by official_stdio_client_inspects_persisted_journal
+  + IAP-14 no model network hidden state meaning signature or external effect is verified by static crate boundary inspection
