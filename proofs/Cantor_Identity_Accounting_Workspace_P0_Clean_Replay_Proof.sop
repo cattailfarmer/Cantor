@@ -1,0 +1,22 @@
+Subject: Cantor Identity Accounting Workspace P0 Clean Replay Proof
+
+@ [proof_uuid] 4d0d6a26-59d3-413c-99cb-133cd03b88bb
+
+& [CommitEvidence]
+  + [implementation_commit] is 4a98510f0cbbeb6a65c1ff96636e59c565ea75b6
+  + [branch] is codex/self-hosted-corpus
+  + [worktree] is detached D:\iaw-p0-gate created with core.longpaths enabled
+  + [worktree_status] is empty before verification
+  + [publication_state] is local_unpublished
+
+& [ReplayEvidence]
+  + cargo test -p cantor_core --test identity_accounting_workspace passes 7 of 7 from the clean detached commit
+  + cargo clippy -p cantor_core --all-targets --all-features -- -D warnings passes from the clean detached commit
+  + cargo test -p cantor_core --all-features passes with no failures and two pre-existing maintenance-only ignored fixtures from the clean detached commit
+
+& [OperationalEvidence]
+  + the first attempted long checkout path was refused by Windows path length handling before verification
+  + retrying at the exact short path D:\iaw-p0-gate with core.longpaths enabled admitted the complete checkout and all verification gates
+  + the path-length event changed no repository content and supports only the operational route correction
+
+& [Disposition] is implementation_commit_independently_clean_replayed_for_P0
