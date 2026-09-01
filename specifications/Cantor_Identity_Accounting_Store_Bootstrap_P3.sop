@@ -1,0 +1,33 @@
+Subject: Cantor Identity Accounting Store Bootstrap P3
+
+@ [specification_uuid] b048fd92-c262-46fe-aa42-dcbada4be378
+@ [source_snapshot_uuid] c7e11fc7-287d-4db8-b1b5-0f44fcd65f21
+
+& [Purpose]
+  + initialize one absent local P2 store directory from one exact canonical P0 IdentityLedger and one explicit journal identity
+  + emit one bounded machine receipt that lets an operator start the P2 stdio server without inventing or silently changing identity
+
+& [Requirements]
+  + [IAB-01] accept only one existing regular non-symlink ledger input file and one absent store path
+  + [IAB-02] require positive explicit ledger-byte snapshot-byte and snapshot-count bounds
+  + [IAB-03] reject ledger metadata or read bytes beyond the ledger bound before semantic admission
+  + [IAB-04] deserialize IdentityLedger with unknown-field denial and validate its profile generation objects identities and digests through P0
+  + [IAB-05] require input bytes to equal the canonical serde_json replay of the validated ledger
+  + [IAB-06] construct the P1 genesis journal only through new_accounting_journal using the explicit journal identity
+  + [IAB-07] create the store directory with initial-create-only semantics and refuse every pre-existing file directory symlink or other target
+  + [IAB-08] persist the genesis only through the P2 SnapshotStore and reload the exact same journal before reporting success
+  + [IAB-09] on post-create failure remove only the exact newly-created directory and only when it remains empty; otherwise preserve evidence and report failure
+  + [IAB-10] emit exactly one canonical JSON receipt plus newline after successful reload and emit no receipt on failure
+  + [IAB-11] bind receipt profile journal identity journal digest basket identity head ledger digest genesis event identity and snapshot filename
+  + [IAB-12] expose a one-shot binary with exact ordered flags for store path ledger file journal identity and all three bounds
+  + [IAB-13] test success server restart existing-target refusal noncanonical or tampered ledger refusal capacity failure and failure cleanup
+  + [IAB-14] invoke no model network listener natural-language extraction fuzzy identity admission overwrite migration retention effect or publication
+
+& [Delineation]
+  + [inside] is exact ledger-file admission genesis construction absent directory creation immutable first snapshot exact reload receipt and narrow cleanup
+  + [boundary] is the operator supplies an already constructed and digest-valid IdentityLedger and owns path permissions backup access and later retention
+  + [outside] is object authoring semantic judgment provider inference model hidden state overwrite migration garbage collection authentication distributed storage external effects and publication
+
+& [FailurePolicy]
+  + every ambiguous path state noncanonical byte digest mismatch invalid identity capacity overflow existing target persistence fault or reload mismatch fails closed
+  + failure never reports success and never removes a pre-existing path

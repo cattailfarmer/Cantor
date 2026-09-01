@@ -1,0 +1,16 @@
+Subject: Cantor Identity Accounting Store Bootstrap P3 Justification
+
+@ [justification_uuid] afe56288-7e2a-40fb-b7d8-ce4d5ba0a00b
+
+& [Why]
+  + P2 safely resumes an existing journal but leaves creation of its first snapshot to an embedding caller
+  + a separate one-shot bootstrap keeps initial authority visible and prevents the long-running MCP tool from acquiring fuzzy admission or overwrite powers
+
+& [WhyThisShape]
+  + canonical IdentityLedger input reuses P0 object accounting rather than inventing a second seed schema
+  + absent-directory creation and post-write reload provide a narrow operator transaction with a testable success boundary
+
+& [Rejected]
+  + server auto-initialization because a typo could silently create a second identity history
+  + natural-language object creation because linguistic plausibility is not objective admission
+  + overwrite or merge because both require separately governed migration and conflict semantics
