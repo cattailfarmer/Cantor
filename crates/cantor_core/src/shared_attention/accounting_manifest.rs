@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 
 use super::runtime::{digest, fault, require_text};
 use super::{
-    AccountableObject, AttentionMemberReceipt, AttentionMemberDisposition, AttentionReceiptStatus,
+    AccountableObject, AttentionMemberDisposition, AttentionMemberReceipt, AttentionReceiptStatus,
     IdentityLedger, SharedAttentionFault, SharedAttentionFaultCode, SharedAttentionFrame,
     validate_accountable_object, validate_identity_ledger, validate_shared_attention_frame,
 };
@@ -21,10 +21,8 @@ use crate::{ContentDigest, SemanticId};
 pub const ACCOUNTABILITY_MANIFEST_PROFILE: &str = "cantor-accountability-manifest/0.1";
 pub const ACCOUNTABILITY_MANIFEST_WINDOW_PROFILE: &str =
     "cantor-accountability-manifest-window/0.1";
-pub const ACCOUNTABLE_MATERIALIZATION_PROFILE: &str =
-    "cantor-accountable-materialization/0.1";
-pub const MANIFEST_ATTENTION_RECEIPT_PROFILE: &str =
-    "cantor-manifest-attention-receipt/0.1";
+pub const ACCOUNTABLE_MATERIALIZATION_PROFILE: &str = "cantor-accountable-materialization/0.1";
+pub const MANIFEST_ATTENTION_RECEIPT_PROFILE: &str = "cantor-manifest-attention-receipt/0.1";
 pub const MAX_MATERIALIZED_HANDLES: usize = 32;
 
 #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
@@ -195,7 +193,10 @@ pub fn validate_accountability_manifest(
     }
     let mut previous: Option<&SemanticId> = None;
     for entry in &manifest.entries {
-        require_text(&entry.display_label, "accountability manifest display label")?;
+        require_text(
+            &entry.display_label,
+            "accountability manifest display label",
+        )?;
         if entry.version == 0 || previous.is_some_and(|prior| prior >= &entry.handle) {
             return Err(manifest_fault(
                 SharedAttentionFaultCode::InvalidLedger,
@@ -222,7 +223,10 @@ pub fn validate_accountability_manifest_window(
             "accountability manifest window profile is not supported",
         ));
     }
-    require_text(&window.frame_purpose, "accountability manifest frame purpose")?;
+    require_text(
+        &window.frame_purpose,
+        "accountability manifest frame purpose",
+    )?;
     validate_accountability_manifest(&window.manifest)?;
     if window.ledger_digest != window.manifest.ledger_digest
         || window.rendered_manifest != render_manifest(&window.manifest)?
@@ -368,7 +372,11 @@ pub fn finalize_manifest_attention_receipt(
         .iter()
         .map(|entry| entry.handle.clone())
         .collect::<BTreeSet<_>>();
-    let supplied = seed.member_receipts.keys().cloned().collect::<BTreeSet<_>>();
+    let supplied = seed
+        .member_receipts
+        .keys()
+        .cloned()
+        .collect::<BTreeSet<_>>();
     if supplied != expected {
         return Err(manifest_fault(
             SharedAttentionFaultCode::MissingAttestation,
@@ -435,7 +443,8 @@ pub fn validate_manifest_attention_receipt(
             "manifest attention receipt profile is not supported",
         ));
     }
-    let rebuilt = finalize_manifest_attention_receipt_body(window, ledger, materialization, receipt)?;
+    let rebuilt =
+        finalize_manifest_attention_receipt_body(window, ledger, materialization, receipt)?;
     if rebuilt.status != receipt.status || rebuilt.receipt_digest != receipt.receipt_digest {
         return Err(manifest_fault(
             SharedAttentionFaultCode::InvalidDigest,
@@ -459,12 +468,8 @@ fn finalize_manifest_attention_receipt_body(
         materialization_digest: receipt.materialization_digest.clone(),
         member_receipts: receipt.member_receipts.clone(),
     };
-    let mut rebuilt = finalize_manifest_attention_receipt_unchecked(
-        window,
-        ledger,
-        materialization,
-        seed,
-    )?;
+    let mut rebuilt =
+        finalize_manifest_attention_receipt_unchecked(window, ledger, materialization, seed)?;
     rebuilt.receipt_digest = manifest_receipt_digest(&rebuilt)?;
     Ok(rebuilt)
 }
@@ -481,23 +486,56 @@ fn finalize_manifest_attention_receipt_unchecked(
         || seed.manifest_digest != window.manifest.manifest_digest
         || seed.materialization_digest != materialization.materialization_digest
     {
-        return Err(manifest_fault(SharedAttentionFaultCode::StaleBase, "manifest receipt binding is stale"));
+        return Err(manifest_fault(
+            SharedAttentionFaultCode::StaleBase,
+            "manifest receipt binding is stale",
+        ));
     }
-    let expected = window.manifest.entries.iter().map(|entry| entry.handle.clone()).collect::<BTreeSet<_>>();
-    if seed.member_receipts.keys().cloned().collect::<BTreeSet<_>>() != expected {
-        return Err(manifest_fault(SharedAttentionFaultCode::MissingAttestation, "manifest receipt coverage is incomplete"));
+    let expected = window
+        .manifest
+        .entries
+        .iter()
+        .map(|entry| entry.handle.clone())
+        .collect::<BTreeSet<_>>();
+    if seed
+        .member_receipts
+        .keys()
+        .cloned()
+        .collect::<BTreeSet<_>>()
+        != expected
+    {
+        return Err(manifest_fault(
+            SharedAttentionFaultCode::MissingAttestation,
+            "manifest receipt coverage is incomplete",
+        ));
     }
-    let materialized = materialization.requested_handles.iter().cloned().collect::<BTreeSet<_>>();
+    let materialized = materialization
+        .requested_handles
+        .iter()
+        .cloned()
+        .collect::<BTreeSet<_>>();
     for (handle, member) in &seed.member_receipts {
         if handle != &member.handle {
-            return Err(manifest_fault(SharedAttentionFaultCode::InvalidFrame, "manifest receipt handle accounting is invalid"));
+            return Err(manifest_fault(
+                SharedAttentionFaultCode::InvalidFrame,
+                "manifest receipt handle accounting is invalid",
+            ));
         }
         require_text(&member.rationale, "manifest attention member rationale")?;
-        if member.disposition == AttentionMemberDisposition::Relevant && !materialized.contains(handle) {
-            return Err(manifest_fault(SharedAttentionFaultCode::MissingAttestation, "Relevant member lacks materialization"));
+        if member.disposition == AttentionMemberDisposition::Relevant
+            && !materialized.contains(handle)
+        {
+            return Err(manifest_fault(
+                SharedAttentionFaultCode::MissingAttestation,
+                "Relevant member lacks materialization",
+            ));
         }
     }
-    let status = if seed.member_receipts.values().any(|member| member.disposition == AttentionMemberDisposition::Unresolved) {
+    let status = if seed
+        .member_receipts
+        .values()
+        .any(|member| member.disposition == AttentionMemberDisposition::Unresolved)
+    {
         AttentionReceiptStatus::Held
     } else {
         AttentionReceiptStatus::Complete
@@ -538,30 +576,41 @@ fn render_manifest(manifest: &AccountabilityManifest) -> Result<String, SharedAt
     Ok(rendered)
 }
 
-fn manifest_digest(manifest: &AccountabilityManifest) -> Result<ContentDigest, SharedAttentionFault> {
+fn manifest_digest(
+    manifest: &AccountabilityManifest,
+) -> Result<ContentDigest, SharedAttentionFault> {
     let mut canonical = manifest.clone();
     canonical.manifest_digest = empty_sha256();
     digest(&canonical, "accountability manifest")
 }
 
-fn manifest_window_digest(window: &AccountabilityManifestWindow) -> Result<ContentDigest, SharedAttentionFault> {
+fn manifest_window_digest(
+    window: &AccountabilityManifestWindow,
+) -> Result<ContentDigest, SharedAttentionFault> {
     let mut canonical = window.clone();
     canonical.window_digest = empty_sha256();
     digest(&canonical, "accountability manifest window")
 }
 
-fn materialization_digest(materialization: &AccountableMaterialization) -> Result<ContentDigest, SharedAttentionFault> {
+fn materialization_digest(
+    materialization: &AccountableMaterialization,
+) -> Result<ContentDigest, SharedAttentionFault> {
     let mut canonical = materialization.clone();
     canonical.materialization_digest = empty_sha256();
     digest(&canonical, "accountable materialization")
 }
 
-fn manifest_receipt_digest(receipt: &ManifestAttentionReceipt) -> Result<ContentDigest, SharedAttentionFault> {
+fn manifest_receipt_digest(
+    receipt: &ManifestAttentionReceipt,
+) -> Result<ContentDigest, SharedAttentionFault> {
     let mut canonical = receipt.clone();
     canonical.receipt_digest = empty_sha256();
     digest(&canonical, "manifest attention receipt")
 }
 
-fn manifest_fault(code: SharedAttentionFaultCode, message: impl Into<String>) -> SharedAttentionFault {
+fn manifest_fault(
+    code: SharedAttentionFaultCode,
+    message: impl Into<String>,
+) -> SharedAttentionFault {
     fault(code, message)
 }

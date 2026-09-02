@@ -12,10 +12,9 @@ use super::{
     AccountabilityInferenceWindow, AccountabilityManifestWindow, AccountableMaterialization,
     AccountableObject, AccountableObjectAdmission, AccountableObjectPatch, IdentityLedger,
     ManifestAttentionReceipt, ManifestAttentionReceiptSeed, ReferenceResolution,
-    SharedAttentionFault, SharedAttentionFaultCode, SharedAttentionFrame,
-    admit_accountable_object, apply_accountable_object_patch,
-    compile_accountability_manifest_window, compile_accountability_window,
-    finalize_manifest_attention_receipt, inspect_accountable_object,
+    SharedAttentionFault, SharedAttentionFaultCode, SharedAttentionFrame, admit_accountable_object,
+    apply_accountable_object_patch, compile_accountability_manifest_window,
+    compile_accountability_window, finalize_manifest_attention_receipt, inspect_accountable_object,
     materialize_accountable_objects, resolve_accountability_reference,
     validate_accountability_manifest_window, validate_accountability_window,
     validate_accountable_materialization, validate_identity_ledger,
@@ -149,9 +148,7 @@ impl AccountingHostOperation {
             Self::AdmitObject { .. } => AccountingHostOperationName::AdmitObject,
             Self::ProjectManifest { .. } => AccountingHostOperationName::ProjectManifest,
             Self::Materialize { .. } => AccountingHostOperationName::Materialize,
-            Self::AcknowledgeAttention { .. } => {
-                AccountingHostOperationName::AcknowledgeAttention
-            }
+            Self::AcknowledgeAttention { .. } => AccountingHostOperationName::AcknowledgeAttention,
         }
     }
 }
@@ -463,11 +460,8 @@ pub fn execute_accounting_host_request(
             expected_window_digest,
             handles,
         } => {
-            let window = compile_accountability_manifest_window(
-                frame,
-                head,
-                *manifest_byte_budget,
-            )?;
+            let window =
+                compile_accountability_manifest_window(frame, head, *manifest_byte_budget)?;
             if &window.window_digest != expected_window_digest {
                 return Err(fault(
                     SharedAttentionFaultCode::StaleBase,
@@ -492,22 +486,16 @@ pub fn execute_accounting_host_request(
             materialized_handles,
             receipt_seed,
         } => {
-            let window = compile_accountability_manifest_window(
-                frame,
-                head,
-                *manifest_byte_budget,
-            )?;
+            let window =
+                compile_accountability_manifest_window(frame, head, *manifest_byte_budget)?;
             if &window.window_digest != expected_window_digest {
                 return Err(fault(
                     SharedAttentionFaultCode::StaleBase,
                     "acknowledge_attention request expected manifest window digest is stale",
                 ));
             }
-            let materialization = materialize_accountable_objects(
-                &window,
-                head,
-                materialized_handles.clone(),
-            )?;
+            let materialization =
+                materialize_accountable_objects(&window, head, materialized_handles.clone())?;
             (
                 None,
                 AccountingHostResult::ManifestReceipt {
@@ -744,8 +732,7 @@ pub fn validate_accounting_host_response(
                 ));
             }
             validate_accountable_materialization(&window, head, materialization)?;
-            if **materialization
-                != materialize_accountable_objects(&window, head, handles.clone())?
+            if **materialization != materialize_accountable_objects(&window, head, handles.clone())?
             {
                 return Err(journal_fault(
                     "materialize response is not the exact requested object accounting",

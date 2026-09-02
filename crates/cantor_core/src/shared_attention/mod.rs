@@ -6,8 +6,8 @@
 //! or shares provider hidden state.
 
 mod accounting;
-mod accounting_manifest;
 mod accounting_host;
+mod accounting_manifest;
 mod admission;
 mod compaction;
 mod dream;
@@ -17,8 +17,8 @@ mod runtime;
 mod tool;
 
 pub use accounting::*;
-pub use accounting_manifest::*;
 pub use accounting_host::*;
+pub use accounting_manifest::*;
 pub use admission::*;
 pub use compaction::*;
 pub use dream::*;

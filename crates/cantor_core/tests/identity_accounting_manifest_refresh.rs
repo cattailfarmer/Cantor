@@ -4,14 +4,12 @@ use cantor_core::{
     ACCOUNTABLE_OBJECT_PROFILE, ACCOUNTING_HOST_REQUEST_PROFILE, AccountableObject,
     AccountableObjectPatch, AccountingHostOperation, AccountingHostRequest, AccountingHostResult,
     AttentionCapacity, AttentionMemberDisposition, AttentionMemberReceipt, AttentionParticipant,
-    ContentDigest, EpistemicStatus, FacultyKind, FramedProposition,
-    ManifestAttentionReceiptSeed, SemanticId, SharedAttentionFaultCode, SharedAttentionFrame,
-    SharedAttentionFrameSeed, apply_accountable_object_patch,
-    compile_accountability_manifest_window, compile_accountability_window,
-    execute_accounting_host_request,
-    finalize_accountable_object, finalize_manifest_attention_receipt,
-    materialize_accountable_objects, new_accounting_journal, new_identity_ledger,
-    new_shared_attention_frame, validate_accountability_manifest_window,
+    ContentDigest, EpistemicStatus, FacultyKind, FramedProposition, ManifestAttentionReceiptSeed,
+    SemanticId, SharedAttentionFaultCode, SharedAttentionFrame, SharedAttentionFrameSeed,
+    apply_accountable_object_patch, compile_accountability_manifest_window,
+    compile_accountability_window, execute_accounting_host_request, finalize_accountable_object,
+    finalize_manifest_attention_receipt, materialize_accountable_objects, new_accounting_journal,
+    new_identity_ledger, new_shared_attention_frame, validate_accountability_manifest_window,
     validate_accountable_materialization, validate_accounting_host_response,
     validate_manifest_attention_receipt,
 };
@@ -165,10 +163,9 @@ fn manifest_savings_scale_with_body_richness_without_losing_membership() {
             .map(|index| {
                 let id = format!("{index:03}");
                 let mut candidate = object(&id, &["shared-type"], "ready");
-                candidate.state.insert(
-                    "body-payload".to_owned(),
-                    "x".repeat(payload_bytes),
-                );
+                candidate
+                    .state
+                    .insert("body-payload".to_owned(), "x".repeat(payload_bytes));
                 finalize_accountable_object(candidate).unwrap()
             })
             .collect();
@@ -226,13 +223,9 @@ fn exact_materialization_canonicalizes_selection_and_refuses_duplicates_or_unkno
         SharedAttentionFaultCode::DuplicateIdentity
     );
     assert_eq!(
-        materialize_accountable_objects(
-            &window,
-            &ledger,
-            vec![sid("object:aircraft/404")],
-        )
-        .unwrap_err()
-        .code,
+        materialize_accountable_objects(&window, &ledger, vec![sid("object:aircraft/404")],)
+            .unwrap_err()
+            .code,
         SharedAttentionFaultCode::UnknownReference
     );
     assert_eq!(
@@ -253,12 +246,9 @@ fn exact_materialization_canonicalizes_selection_and_refuses_duplicates_or_unkno
 fn receipt_requires_full_coverage_and_materialization_for_relevant_members() {
     let ledger = ledger();
     let window = compile_accountability_manifest_window(&frame(), &ledger, 100_000).unwrap();
-    let materialization = materialize_accountable_objects(
-        &window,
-        &ledger,
-        vec![sid("object:aircraft/001")],
-    )
-    .unwrap();
+    let materialization =
+        materialize_accountable_objects(&window, &ledger, vec![sid("object:aircraft/001")])
+            .unwrap();
     let members = BTreeMap::from([
         (
             sid("object:aircraft/001"),
@@ -273,7 +263,10 @@ fn receipt_requires_full_coverage_and_materialization_for_relevant_members() {
         ),
         (
             sid("object:aircraft/003"),
-            receipt_member("object:aircraft/003", AttentionMemberDisposition::Unresolved),
+            receipt_member(
+                "object:aircraft/003",
+                AttentionMemberDisposition::Unresolved,
+            ),
         ),
     ]);
     let seed = ManifestAttentionReceiptSeed {
@@ -339,7 +332,10 @@ fn ledger_change_stales_prior_window_and_host_reads_have_zero_successor() {
             expected_version: 1,
             labels: None,
             differentiators: None,
-            state: Some(BTreeMap::from([("readiness".to_owned(), "ready".to_owned())])),
+            state: Some(BTreeMap::from([(
+                "readiness".to_owned(),
+                "ready".to_owned(),
+            )])),
             roles: None,
             purposes: None,
             obligations: None,
@@ -348,13 +344,9 @@ fn ledger_change_stales_prior_window_and_host_reads_have_zero_successor() {
     )
     .unwrap();
     assert_eq!(
-        materialize_accountable_objects(
-            &window,
-            &changed,
-            vec![sid("object:aircraft/001")],
-        )
-        .unwrap_err()
-        .code,
+        materialize_accountable_objects(&window, &changed, vec![sid("object:aircraft/001")],)
+            .unwrap_err()
+            .code,
         SharedAttentionFaultCode::StaleLedger
     );
 
@@ -400,8 +392,7 @@ fn ledger_change_stales_prior_window_and_host_reads_have_zero_successor() {
     };
     let materialized = execute_accounting_host_request(&journal, materialize).unwrap();
     assert!(materialized.successor.is_none());
-    let AccountingHostResult::Materialization { materialization } =
-        materialized.response.result
+    let AccountingHostResult::Materialization { materialization } = materialized.response.result
     else {
         panic!("expected materialization");
     };
@@ -449,7 +440,10 @@ fn ledger_change_stales_prior_window_and_host_reads_have_zero_successor() {
     let AccountingHostResult::ManifestReceipt { receipt } = acknowledged.response.result else {
         panic!("expected manifest receipt");
     };
-    assert_eq!(receipt.status, cantor_core::AttentionReceiptStatus::Complete);
+    assert_eq!(
+        receipt.status,
+        cantor_core::AttentionReceiptStatus::Complete
+    );
     assert_eq!(journal.events.len(), 1);
 }
 
@@ -457,18 +451,14 @@ fn ledger_change_stales_prior_window_and_host_reads_have_zero_successor() {
 fn strict_machine_forms_and_digest_profile_or_body_tamper_fail_closed() {
     let ledger = ledger();
     let window = compile_accountability_manifest_window(&frame(), &ledger, 100_000).unwrap();
-    let materialization = materialize_accountable_objects(
-        &window,
-        &ledger,
-        vec![sid("object:aircraft/001")],
-    )
-    .unwrap();
+    let materialization =
+        materialize_accountable_objects(&window, &ledger, vec![sid("object:aircraft/001")])
+            .unwrap();
 
     let mut unknown_field = serde_json::to_value(&window).unwrap();
     unknown_field["foreign"] = serde_json::json!(true);
     assert!(
-        serde_json::from_value::<cantor_core::AccountabilityManifestWindow>(unknown_field)
-            .is_err()
+        serde_json::from_value::<cantor_core::AccountabilityManifestWindow>(unknown_field).is_err()
     );
 
     let mut profile_drift = window.clone();
@@ -493,7 +483,5 @@ fn strict_machine_forms_and_digest_profile_or_body_tamper_fail_closed() {
     body_tamper.objects[0]
         .state
         .insert("readiness".to_owned(), "substituted".to_owned());
-    assert!(
-        validate_accountable_materialization(&window, &ledger, &body_tamper).is_err()
-    );
+    assert!(validate_accountable_materialization(&window, &ledger, &body_tamper).is_err());
 }
