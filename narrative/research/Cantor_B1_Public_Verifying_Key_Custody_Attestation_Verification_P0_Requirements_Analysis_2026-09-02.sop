@@ -1,0 +1,18 @@
+Subject: Cantor B1 Public Verifying Key Custody Attestation Verification P0 Requirements Analysis
+
+@ [requirements_analysis_uuid] 2685419a-5e38-4c1d-a392-b093577b3d66
+@ [source_snapshot_uuid] 957fa5a6-34eb-41da-8c95-2a1dc89cc3bb
+
+& [Need]
+  + published A1 proves one policy payload corresponds to one public key but deliberately cannot prove custody of the associated private key
+  + A2 is the next dependency and must link its candidate key to A1 before A3 through A9 can be composed
+  + proof-of-possession requires a signature over purpose-bound challenge bytes while live custody additionally requires trusted challenge issuance freshness replay control identity and key-management evidence
+
+& [RequiredTransform]
+  + exact packet reconstruction -> exact A1 replay -> exact A2 descriptor -> raw attestation identity -> strict challenge and claim validation -> A1-key equality -> Ed25519 proof correspondence -> all-custody-authority-unresolved receipt
+  + every transition retains source lineage input class dependency identity challenge context raw digest false custody truths downstream unresolved authorities and zero effects
+
+& [AcceptanceLogic]
+  + no typed attestation parse occurs before raw bytes match A2 and no A2 check occurs before exact A1 replay
+  + no positive correspondence field may promote key_custody_proved current_possession_proved or execution eligibility
+  + retained evidence and a separate verifier must reproduce packet A1 receipt A2 receipt and evidence account twice and across restart

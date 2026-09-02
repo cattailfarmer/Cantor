@@ -1,0 +1,29 @@
+Subject: Cantor B1 Public Verifying Key Custody Attestation Verification P0 Exploded
+
+@ [canonical_uuid] 668ae1a2-e8c9-4f88-9556-a39585817105
+
+& [Pipeline]
+  + predecessor evidence -> packet reconstruction -> A1 raw and receipt replay -> exact A2 dependency -> raw custody-attestation bytes -> A1 key equality -> challenge structure -> Ed25519 possession correspondence -> live-custody-unresolved receipt -> independent evidence and restart replay
+
+& [PositiveTruth]
+  + packet_replayed
+  + A1_correspondence_receipt_verified
+  + A2_candidate_bytes_matched
+  + descriptor_correspondence_verified
+  + policy_key_correspondence_verified
+  + challenge_structure_verified
+  + possession_signature_correspondence_verified
+
+& [ConservedFalse]
+  + challenge_freshness_proved replay_prevention_proved custodian_identity_proved protected_storage_proved private_key_nonexportability_proved exclusive_control_proved current_possession_proved
+  + policy_governance_proved key_custody_proved revocation_truth_proved current_nonexpired live_authorization_admitted fresh_observation_proved private_execution_permit_present production_broker_projection_present physical_preparation_authorized ready_for_physical_execution execution_authorized
+
+& [Effects]
+  + filesystem environment clock process network provider model MCP Git workspace private key signer challenge issuer replay store broker activation cleanup remote hardware and external effects are all zero
+
+& [RequirementGroups]
+  + KCV-001 through KCV-008 lineage profiles bounds evidence packet A1 A2 dependency and raw bytes
+  + KCV-009 through KCV-013 attestation key challenge signature and false custody claims
+  + KCV-014 through KCV-020 request receipt strict evidence double and restart replay
+  + KCV-021 through KCV-025 typed faults static absence zero effects research semantics and phase separation
+  + KCV-A01 through KCV-A05 formation implementation tests workspace publication and separate live custody authority
