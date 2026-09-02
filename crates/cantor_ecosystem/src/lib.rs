@@ -9,6 +9,8 @@
 //! orchestration.
 
 pub mod adapter;
+pub mod b1_operator_policy_governance_bundle_verification;
+pub mod b1_operator_policy_governance_bundle_verification_evidence;
 pub mod live_codex;
 pub mod model;
 pub mod phase3_evidence;
@@ -82,6 +84,8 @@ pub use self_work_update_broker_b1_cdrive_production_preparation_operator_author
 pub use self_work_update_broker_b1_cdrive_production_preparation_operator_authority_ceremony_plan_evidence::*;
 pub use self_work_update_broker_b1_operator_authority_packet_readiness::*;
 pub use self_work_update_broker_b1_operator_authority_packet_readiness_evidence::*;
+pub use b1_operator_policy_governance_bundle_verification::*;
+pub use b1_operator_policy_governance_bundle_verification_evidence::*;
 pub use self_work_update_broker_b1_cdrive_production_preparation_plan::*;
 pub use self_work_update_broker_b1_cdrive_production_preparation_plan_evidence::*;
 pub use self_work_update_broker_b1_cdrive_worktree_preparation::*;
