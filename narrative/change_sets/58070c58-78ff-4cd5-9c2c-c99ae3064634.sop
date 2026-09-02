@@ -1,0 +1,39 @@
+Subject: Cantor RSP Five-Hour Slice Reboot Checkpoint Change Set
+
+& [ChangeSet]
+  + [change_set_uuid] 58070c58-78ff-4cd5-9c2c-c99ae3064634
+  + [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+  + [turn_uuid] bf0158f2-8c13-41ff-ab5f-7ea685c42ecc
+  + [predecessor_commit] a220a25d578ccfc90adae324ef178f416a3c6f22
+  + [resulting_commit] absent_uncommitted
+  + [publication_state] local_reboot_checkpoint_only
+
+& [ElementHistoryEvent]
+  + [element_id] sjs_compiled_lookahead.repository_stitch_projection.reboot_reentry
+  + [operation] modify
+  + [element_locator] RSP clean transitive evidence reentry and attributed reboot records
+  + [source_refs] user request prepare for reboot; integration commit 5c0c4bb85536ece5c000bc710ea11d4b2dcd81bc; format commit a220a25d578ccfc90adae324ef178f416a3c6f22
+  + [requirement_refs] RSP-A04 RSP-A05 mailbox and reentry protocol
+  + [constraint_refs] interrupted gate is not success evidence exact recovery branch no foreign absorption
+  + [justification_refs] make the in-progress five-hour slice safely restartable after host reboot
+  + [plan_refs] RSP P08 exact closure
+  + [reason_summary] anchor detached commits and preserve the exact first post-reboot command
+  + [before_identity] committed integration lived on detached HEAD while a full debug gate was in progress
+  + [after_identity] committed integration is named on codex/rsp-five-hour-reboot-recovery and the interrupted gate is explicitly non-evidence
+  + [evidence_refs] recovery branch a220a25d578ccfc90adae324ef178f416a3c6f22 partial transcript identity EA02BB4BDA2558FD60B58249F2360F7D338ACC35D648D13D020D1C91D897545B
+  + [proof_refs] none interrupted gate must rerun from the beginning
+  + [nonclaims] no exact debug completion release completion publication provider model or effect
+  + [unresolved_frontier] rerun every remaining exact gate after reboot
+  + [change_set_uuid] 58070c58-78ff-4cd5-9c2c-c99ae3064634
+  + [predecessor_commit] a220a25d578ccfc90adae324ef178f416a3c6f22
+  + [resulting_commit] absent_uncommitted
+
+& [ExactPathInventory]
+  + [count] 4
+  + [path] narrative/reentry/Cantor_SJS_Compiled_Lookahead_Repository_Stitch_Projection_P0_Clean_Transitive_Evidence_Reentry.sop
+  + [path] narrative/change_sets/58070c58-78ff-4cd5-9c2c-c99ae3064634.sop
+  + [path] narrative/file_changes/1788357486481_rsp_five_hour_slice_reboot_checkpoint_file_change.sop
+  + [path] narrative/turns/1788357486481_rsp_five_hour_slice_reboot_checkpoint.sop
+
+& [ForeignDirtyBoundary]
+  + C:\Project\Cantor dirty and untracked state all recovery stashes prior worktrees and the protected Minecraft narrative remain untouched unstaged and unclaimed
