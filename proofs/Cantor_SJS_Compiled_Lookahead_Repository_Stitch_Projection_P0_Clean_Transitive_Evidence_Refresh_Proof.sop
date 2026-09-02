@@ -1,0 +1,22 @@
+Subject: Cantor SJS Compiled Lookahead Repository Stitch Projection P0 Clean Transitive Evidence Refresh Proof
+
+@ [proof_uuid] c8dcfeb5-7e84-40d8-b140-cc32e5988586
+@ [canonical_uuid] fc3a2e9e-1fc5-4b04-a867-431c2ab0584f
+@ [implementation_checkpoint_commit] bbc054d502cfd895d43bdaaed3c794e81933920d
+
+& [Diagnosis]
+  + foreign-dirty main checkout reported 47 stale references across 99 manifests and 2717 references
+  + clean detached D:\capacity02-gate at exact checkpoint bbc054d502cfd895d43bdaaed3c794e81933920d reported 31 stale references across the same 99 manifests and 2717 references
+  + therefore 16 dirty-tree failures were foreign and excluded while 31 were attributable to the new ecosystem implementation surface
+
+& [Correction]
+  + repository recursive rehasher selected exactly 32 manifest paths including dependency cascades
+  + only byte counts and SHA256 values were refreshed; no Rust SOP authority effect or retained RSP artifact changed
+
+& [Verification]
+  + clean recursive replay passes 99 manifests 2717 references zero stale
+  + independent short-path replay at D:\rg on integrated local ancestry b33e3cc76957335cc6f37a5322850c4896cd1ab5 selects the same 32 manifests and passes 99 manifests 2717 references zero stale
+  + modified-path inspection contains only evidence-manifest JSON plus this attributed refresh and operational-fault packet
+
+& [Disposition]
+  + clean_transitive_evidence_current_workspace_gates_pending

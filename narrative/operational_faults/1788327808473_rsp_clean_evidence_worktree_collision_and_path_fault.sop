@@ -1,0 +1,25 @@
+Subject: Cantor RSP Clean Evidence Worktree Collision and Path Fault
+
+@ [fault_uuid] 9890060c-1fca-4541-a589-6bda9127f5d7
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_utc] 2026-09-02T05:43:28.4767583Z
+
+& [FaultOne]
+  + D:\capacity02-gate acquired seven concurrent Attention Manifest Refresh P6 paths after the RSP rehash and before staging
+  + the exact inventory gate observed 44 paths instead of the authorized 37 and refused staging or cleanup
+  + the P6 paths were preserved; its resulting b33e3cc76957335cc6f37a5322850c4896cd1ab5 commit was recognized as integrated ancestry
+
+& [FaultTwo]
+  + D:\rsp-evidence-gate-20260902 exceeded the Windows checkout path limit on two governed source paths and never became a registered usable worktree
+  + the subsequent status and rehash command retained C:\Project\Cantor as its working directory, mechanically refreshing 49 dirty-tree-dependent manifests instead of the clean set
+  + none were staged; the clean replay moved to verified absent short path D:\rg, while dirty-main manifest changes remained excluded pending exact reversal
+
+& [Recovery]
+  + detached D:\rg at integrated b33e3cc76957335cc6f37a5322850c4896cd1ab5 checked out successfully
+  + clean recursive rehash selected exactly 32 manifests and VerifyOnly passed 99 manifests 2717 references zero stale
+  + no foreign P6 main-worktree Minecraft Zeta Alpha visualizer or output path was staged altered deleted or absorbed
+
+& [Prevention]
+  + verify both target absence and short Windows path before adding a full-repository worktree
+  + set the command workdir explicitly to the newly created gate before any mutation
+  + retain exact path-count and staged-diff gates as hard refusals
