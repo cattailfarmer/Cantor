@@ -1,0 +1,19 @@
+Subject: RSP Completion Publication Turn Timestamp Correction
+
+@ [fault_uuid] 539adf4f-7c1d-439b-9a51-ec3f94f925b3
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [affected_turn_uuid] 17ab8139-8a01-44eb-ad0e-b11a0b4a9446
+@ [observed_at_utc] 2026-09-02T16:10:21.608Z
+
+& [Fault]
+  + narrative/turns/1788364681291_sjs_compiled_lookahead_repository_stitch_projection_p0_completion_publication.sop carries timestamp_utc 2026-09-02T16:38:01.291Z
+  + its filename coordinate 1788364681291 converts exactly to 2026-09-02T15:58:01.291Z and is the authoritative event time
+  + the prose timestamp was manually rendered forty minutes late and would place the turn after later events
+
+& [Containment]
+  + do not amend or force-rewrite published commits 088b662bb63f6ffee43d367da231ad62ec682117 or 871adf93bd8808e39c004edf2a976d0826d58766
+  + retain the original record as historical bytes and use this additive fault as its timestamp correction
+
+& [Impact]
+  + publication commit identity remote equality evidence counts requirement disposition authority and foreign-boundary claims are unaffected
+  + future chronology must use 2026-09-02T15:58:01.291Z for turn 17ab8139-8a01-44eb-ad0e-b11a0b4a9446
