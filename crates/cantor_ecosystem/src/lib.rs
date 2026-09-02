@@ -39,6 +39,7 @@ pub mod self_work_update_broker_b1_permission_profile;
 pub mod sjs_commit_envelope_journal;
 pub mod sjs_commit_placement_acquisition;
 pub mod sjs_compiled_lookahead_repository_slice_observation;
+pub mod sjs_compiled_lookahead_repository_stitch_projection;
 pub mod sjs_repository_graph;
 pub mod staged_diff_acquisition;
 pub mod succeeding_sop_fixture_persistence;

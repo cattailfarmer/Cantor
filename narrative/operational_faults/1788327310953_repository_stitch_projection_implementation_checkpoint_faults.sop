@@ -1,0 +1,28 @@
+Subject: Repository Stitch Projection Implementation Checkpoint Operational Faults
+
+@ [fault_uuid] 7824f40a-9598-4f56-994c-9f9e1518a411
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_utc] 2026-09-02T05:35:10.9532156Z
+
+& [StashReferenceParsing]
+  + unquoted stash@{0} was parsed by PowerShell and the first apply command did not run
+  + the named exact three-path stash remained intact; literal quoting restored all three original hashes on integrated head 7b01c755
+
+& [DigestAdversaryNoOp]
+  + one inherited test replaced a first digest nibble with f even when it was already f and therefore performed no mutation
+  + a guaranteed zero-or-one nibble flip now makes both digest adversaries effective
+
+& [FixtureHelperType]
+  + first fixture build refused because EvaluationFault was not explicitly converted to String
+  + one error.to_string conversion closed the compile boundary without semantic change
+
+& [WindowsStackPrecondition]
+  + the first standalone fixture run overflowed the default Windows main-thread stack during deep independent replay
+  + fixture and verifier bodies now run on explicitly bounded 16 MiB worker stacks; both complete successfully
+
+& [DirtyRecursiveEvidence]
+  + recursive verification on the live foreign-dirty checkout reported 47 stale references across 99 manifests and 2717 references
+  + no manifest was rehashed; clean-tree diagnosis is required after the implementation checkpoint is committed
+
+& [Status]
+  + all local faults corrected or safely deferred with no lost WIP no foreign absorption and no claimed external effect
