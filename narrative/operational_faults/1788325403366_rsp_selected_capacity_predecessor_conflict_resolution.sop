@@ -1,0 +1,21 @@
+Subject: RSP Selected Capacity Predecessor Conflict Resolution
+
+@ [fault_uuid] 39952f16-24ec-4fc1-8255-bd7e0f9bf7b0
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_utc] 2026-09-02T05:03:23.3667684Z
+
+& [Observed]
+  + published RSP-007 states selected candidates one through sixteen
+  + later verified capacity work proved selector selected maximum eight and stitch maximum eight while candidate pool remains sixteen
+  + preserved RSP code still carried MAX_SELECTED sixteen because work was correctly paused before the successor existed
+
+& [Classification]
+  + governed_predecessor_constraint_conflict already anticipated by capacity requirement CSR2-016
+  + no runtime regression or provider effect occurred because RSP implementation was never published
+
+& [Correction]
+  + preserve historical RSP bytes and add a separately sourced signed successor that narrows only selected maximum to eight
+  + require a valid selected-nine refusal test and preserve the independent 8192-byte ceiling
+
+& [Status]
+  + source_preserved_formation_in_progress_implementation_still_paused
