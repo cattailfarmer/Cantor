@@ -1,0 +1,18 @@
+Subject: Cantor Attention Manifest Refresh P6 Clean Replay Proof
+
+@ [proof_uuid] 82cc07db-b328-4713-9b6e-4e061aec193f
+
+& [ReplayBoundary]
+  + [implementation_commit] is b08837ae0bdb56c27c4adc3786b07b2e72072cd5
+  + [worktree] is D:\amr-p6-gate absent_before created_detached verified_clean then removed
+  + [source_status] is exact_detached_commit_with_zero_dirty_paths
+
+& [ReplayEvidence]
+  + P6 manifest plus P0 workspace P1 journal and P4 Judgment focused suites pass 24 of 24
+  + cantor_identity_accounting_mcp passes all 14 integration fixtures
+  + strict all-target all-feature clippy passes for cantor_core and cantor_identity_accounting_mcp
+  + cargo check --workspace passes from the exact clean implementation commit
+  + cargo test -p cantor_core --all-features passes with no failures and maintenance-only ignored generators unchanged
+  + detached worktree status was clean before verification and the exact validated D-drive path was removed afterward
+
+& [Disposition] is P6_implementation_commit_clean_replayed_without_workspace_residue
