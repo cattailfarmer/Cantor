@@ -1,0 +1,29 @@
+Subject: Cantor Attention Manifest Refresh P6 Implementation Proof
+
+@ [proof_uuid] c26f7ed4-b898-4a27-ab99-86a1e84b350a
+
+& [ArtifactEvidence]
+  + [pure_manifest_core] is crates/cantor_core/src/shared_attention/accounting_manifest.rs SHA256 A99D1C3741D94A2218083EA5CD2259540F5F3094F7D47312329793552680B4B2
+  + [journal_host] is crates/cantor_core/src/shared_attention/accounting_host.rs SHA256 67C46D3F8E07B576EA7392DF643DE68343F1C6DB12C2C1CDFB96EF1D0DA66759
+  + [module_surface] is crates/cantor_core/src/shared_attention/mod.rs SHA256 CD489657FC1F1A067B7FA7025518DE95B6796FA5FFFD7203164EEF1F6B4B0F18
+  + [core_fixture] is crates/cantor_core/tests/identity_accounting_manifest_refresh.rs SHA256 5434BE98B406C020607E3AA4C804EA32BCEFFE47A088B166030BF54E942A54C1
+  + [durable_adapter] is crates/cantor_identity_accounting_mcp/src/lib.rs SHA256 0601E0F38C4FE22F265998C16785A9FDA1929F1D81732102FB493899561D3AF6
+  + [adapter_fixture] is crates/cantor_identity_accounting_mcp/tests/durable_mcp.rs SHA256 2E70B1CA69AC89BA3B3BE729FCBC828A9E7C1C52B23ACD5AA80F24EEA3EE1339
+
+& [BehaviorEvidence]
+  + the complete identity basket remains visible as compact ordered metadata while exact mutable bodies are selected separately
+  + selection is nonempty duplicate-free count-bounded exact all-or-nothing and canonically ordered
+  + every receipt disposes every manifest member and Relevant requires prior exact materialization
+  + any Unresolved member deterministically holds the receipt while evidence references remain unverified references
+  + current-ledger recomputation stales projections after patch or admission
+  + ProjectManifest Materialize and AcknowledgeAttention append no event create no successor and produce no durable snapshot
+  + schema and human-facing MCP discovery name apply_patch admit_object and all three P6 read-only operations
+
+& [VerificationEvidence]
+  + cargo test -p cantor_core --test identity_accounting_manifest_refresh passes 4 of 4
+  + predecessor accounting workspace journal and Judgment suites pass 20 of 20
+  + cargo test -p cantor_identity_accounting_mcp passes 14 integration fixtures
+  + strict all-target all-feature clippy passes for cantor_core and cantor_identity_accounting_mcp
+  + workspace check in the occupied tree is blocked only by foreign dirty repository-stitch work and is deferred to exact clean replay
+
+& [Disposition] is all_AMR_01_through_AMR_15_requirements_satisfied_for_P6_pending_clean_replay

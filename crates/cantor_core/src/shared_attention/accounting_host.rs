@@ -9,11 +9,17 @@ use std::collections::{BTreeMap, BTreeSet};
 use serde::{Deserialize, Serialize};
 
 use super::{
-    AccountabilityInferenceWindow, AccountableObject, AccountableObjectAdmission,
-    AccountableObjectPatch, IdentityLedger, ReferenceResolution, SharedAttentionFault,
-    SharedAttentionFaultCode, SharedAttentionFrame, admit_accountable_object,
-    apply_accountable_object_patch, compile_accountability_window, inspect_accountable_object,
-    resolve_accountability_reference, validate_accountability_window, validate_identity_ledger,
+    AccountabilityInferenceWindow, AccountabilityManifestWindow, AccountableMaterialization,
+    AccountableObject, AccountableObjectAdmission, AccountableObjectPatch, IdentityLedger,
+    ManifestAttentionReceipt, ManifestAttentionReceiptSeed, ReferenceResolution,
+    SharedAttentionFault, SharedAttentionFaultCode, SharedAttentionFrame,
+    admit_accountable_object, apply_accountable_object_patch,
+    compile_accountability_manifest_window, compile_accountability_window,
+    finalize_manifest_attention_receipt, inspect_accountable_object,
+    materialize_accountable_objects, resolve_accountability_reference,
+    validate_accountability_manifest_window, validate_accountability_window,
+    validate_accountable_materialization, validate_identity_ledger,
+    validate_manifest_attention_receipt,
 };
 use crate::procedure_runtime::empty_sha256;
 use crate::{ContentDigest, SemanticId};
@@ -79,6 +85,9 @@ pub enum AccountingHostOperationName {
     ReadEvent,
     ApplyPatch,
     AdmitObject,
+    ProjectManifest,
+    Materialize,
+    AcknowledgeAttention,
 }
 
 #[cfg_attr(feature = "json-schema", derive(schemars::JsonSchema))]
@@ -108,6 +117,23 @@ pub enum AccountingHostOperation {
     AdmitObject {
         admission: Box<AccountableObjectAdmission>,
     },
+    ProjectManifest {
+        frame: Box<SharedAttentionFrame>,
+        manifest_byte_budget: u64,
+    },
+    Materialize {
+        frame: Box<SharedAttentionFrame>,
+        manifest_byte_budget: u64,
+        expected_window_digest: ContentDigest,
+        handles: Vec<SemanticId>,
+    },
+    AcknowledgeAttention {
+        frame: Box<SharedAttentionFrame>,
+        manifest_byte_budget: u64,
+        expected_window_digest: ContentDigest,
+        materialized_handles: Vec<SemanticId>,
+        receipt_seed: Box<ManifestAttentionReceiptSeed>,
+    },
 }
 
 impl AccountingHostOperation {
@@ -121,6 +147,11 @@ impl AccountingHostOperation {
             Self::ReadEvent { .. } => AccountingHostOperationName::ReadEvent,
             Self::ApplyPatch { .. } => AccountingHostOperationName::ApplyPatch,
             Self::AdmitObject { .. } => AccountingHostOperationName::AdmitObject,
+            Self::ProjectManifest { .. } => AccountingHostOperationName::ProjectManifest,
+            Self::Materialize { .. } => AccountingHostOperationName::Materialize,
+            Self::AcknowledgeAttention { .. } => {
+                AccountingHostOperationName::AcknowledgeAttention
+            }
         }
     }
 }
@@ -162,6 +193,15 @@ pub enum AccountingHostResult {
     Applied {
         event: Box<AccountingJournalEvent>,
         ledger: Box<IdentityLedger>,
+    },
+    ManifestWindow {
+        window: Box<AccountabilityManifestWindow>,
+    },
+    Materialization {
+        materialization: Box<AccountableMaterialization>,
+    },
+    ManifestReceipt {
+        receipt: Box<ManifestAttentionReceipt>,
     },
 }
 
@@ -404,6 +444,82 @@ pub fn execute_accounting_host_request(
                 window: Box::new(compile_accountability_window(frame, head, *byte_budget)?),
             },
         ),
+        AccountingHostOperation::ProjectManifest {
+            frame,
+            manifest_byte_budget,
+        } => (
+            None,
+            AccountingHostResult::ManifestWindow {
+                window: Box::new(compile_accountability_manifest_window(
+                    frame,
+                    head,
+                    *manifest_byte_budget,
+                )?),
+            },
+        ),
+        AccountingHostOperation::Materialize {
+            frame,
+            manifest_byte_budget,
+            expected_window_digest,
+            handles,
+        } => {
+            let window = compile_accountability_manifest_window(
+                frame,
+                head,
+                *manifest_byte_budget,
+            )?;
+            if &window.window_digest != expected_window_digest {
+                return Err(fault(
+                    SharedAttentionFaultCode::StaleBase,
+                    "materialize request expected manifest window digest is stale",
+                ));
+            }
+            (
+                None,
+                AccountingHostResult::Materialization {
+                    materialization: Box::new(materialize_accountable_objects(
+                        &window,
+                        head,
+                        handles.clone(),
+                    )?),
+                },
+            )
+        }
+        AccountingHostOperation::AcknowledgeAttention {
+            frame,
+            manifest_byte_budget,
+            expected_window_digest,
+            materialized_handles,
+            receipt_seed,
+        } => {
+            let window = compile_accountability_manifest_window(
+                frame,
+                head,
+                *manifest_byte_budget,
+            )?;
+            if &window.window_digest != expected_window_digest {
+                return Err(fault(
+                    SharedAttentionFaultCode::StaleBase,
+                    "acknowledge_attention request expected manifest window digest is stale",
+                ));
+            }
+            let materialization = materialize_accountable_objects(
+                &window,
+                head,
+                materialized_handles.clone(),
+            )?;
+            (
+                None,
+                AccountingHostResult::ManifestReceipt {
+                    receipt: Box::new(finalize_manifest_attention_receipt(
+                        &window,
+                        head,
+                        &materialization,
+                        (**receipt_seed).clone(),
+                    )?),
+                },
+            )
+        }
         AccountingHostOperation::Resolve { query } => (
             None,
             AccountingHostResult::Resolution {
@@ -592,6 +708,80 @@ pub fn validate_accounting_host_response(
             if **window != compile_accountability_window(frame, head, *byte_budget)? {
                 return Err(journal_fault(
                     "project response is not the exact requested window",
+                ));
+            }
+        }
+        (
+            AccountingHostOperation::ProjectManifest {
+                frame,
+                manifest_byte_budget,
+            },
+            AccountingHostResult::ManifestWindow { window },
+        ) => {
+            validate_accountability_manifest_window(window)?;
+            if **window
+                != compile_accountability_manifest_window(frame, head, *manifest_byte_budget)?
+            {
+                return Err(journal_fault(
+                    "project_manifest response is not the exact requested window",
+                ));
+            }
+        }
+        (
+            AccountingHostOperation::Materialize {
+                frame,
+                manifest_byte_budget,
+                expected_window_digest,
+                handles,
+            },
+            AccountingHostResult::Materialization { materialization },
+        ) => {
+            let window =
+                compile_accountability_manifest_window(frame, head, *manifest_byte_budget)?;
+            if &window.window_digest != expected_window_digest {
+                return Err(journal_fault(
+                    "materialize response is bound to a stale expected window",
+                ));
+            }
+            validate_accountable_materialization(&window, head, materialization)?;
+            if **materialization
+                != materialize_accountable_objects(&window, head, handles.clone())?
+            {
+                return Err(journal_fault(
+                    "materialize response is not the exact requested object accounting",
+                ));
+            }
+        }
+        (
+            AccountingHostOperation::AcknowledgeAttention {
+                frame,
+                manifest_byte_budget,
+                expected_window_digest,
+                materialized_handles,
+                receipt_seed,
+            },
+            AccountingHostResult::ManifestReceipt { receipt },
+        ) => {
+            let window =
+                compile_accountability_manifest_window(frame, head, *manifest_byte_budget)?;
+            if &window.window_digest != expected_window_digest {
+                return Err(journal_fault(
+                    "manifest receipt response is bound to a stale expected window",
+                ));
+            }
+            let materialization =
+                materialize_accountable_objects(&window, head, materialized_handles.clone())?;
+            validate_manifest_attention_receipt(&window, head, &materialization, receipt)?;
+            if **receipt
+                != finalize_manifest_attention_receipt(
+                    &window,
+                    head,
+                    &materialization,
+                    (**receipt_seed).clone(),
+                )?
+            {
+                return Err(journal_fault(
+                    "manifest receipt response is not the exact requested full-coverage receipt",
                 ));
             }
         }

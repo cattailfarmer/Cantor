@@ -38,7 +38,7 @@ pub const TOOL_NAME: &str = "attend_accountable_objects";
 pub const ADAPTER_PROFILE: &str = "cantor-identity-accounting-durable-mcp/0.1";
 pub const BOOTSTRAP_RECEIPT_PROFILE: &str = "cantor-identity-accounting-store-bootstrap/0.1";
 pub const MAX_ARGUMENT_BYTES: usize = 32 * 1024 * 1024;
-pub const SERVER_INSTRUCTIONS: &str = "Use attend_accountable_objects to inspect, project, resolve, read, or compare-and-set one exact accountable-object journal. Carry the current journal digest on every request. Read operations are inert; apply_patch persists a complete canonical successor before it becomes visible. Preserve ambiguous and unknown resolutions. This local stdio server invokes no model, opens no network listener, signs no meaning, and authorizes no effect beyond declared process-restart snapshot custody.";
+pub const SERVER_INSTRUCTIONS: &str = "Use attend_accountable_objects to inspect, project, resolve, read, apply_patch, or admit_object through Judgment on one exact accountable-object journal. project_manifest keeps the complete compact identity basket visible; materialize returns bounded exact current records; acknowledge_attention accounts for every manifest member. Carry the current journal digest on every request. Read operations are inert; apply_patch and admit_object persist a complete canonical successor before it becomes visible. Preserve ambiguous, unknown, unresolved, and unverified states. This local stdio server invokes no model, opens no network listener, signs no meaning, and authorizes no effect beyond declared process-restart snapshot custody.";
 
 static TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(1);
 
@@ -485,7 +485,7 @@ impl IdentityAccountingMcpServer {
     pub fn tool_definition() -> Tool {
         Tool::new(
             TOOL_NAME,
-            "Inspect, project, resolve, read, or compare-and-set one durable accountable-object journal. Mutations are persisted as complete replayable snapshots before becoming visible; ambiguous identity remains explicit.",
+            "Inspect, project a full register or compact manifest, materialize bounded exact records, acknowledge complete attention coverage, resolve, read, apply_patch, or admit_object through Judgment on one durable accountable-object journal. Mutations persist before visibility; read-only attention operations create no successor.",
             schema_object::<AttendAccountableObjectsArguments>(),
         )
         .with_title("Attend accountable objects")

@@ -8,8 +8,11 @@ use std::{
 use cantor_core::{
     ACCOUNTABLE_OBJECT_PROFILE, ACCOUNTING_HOST_REQUEST_PROFILE, AccountableObject,
     AccountableObjectPatch, AccountingHostOperation, AccountingHostRequest, AccountingHostResult,
-    ContentDigest, IdentityLedger, SemanticId, finalize_accountable_object, new_accounting_journal,
-    new_identity_ledger,
+    AttentionCapacity, AttentionMemberDisposition, AttentionMemberReceipt, AttentionParticipant,
+    ContentDigest, EpistemicStatus, FacultyKind, FramedProposition, IdentityLedger,
+    ManifestAttentionReceiptSeed, SemanticId, SharedAttentionFrame, SharedAttentionFrameSeed,
+    finalize_accountable_object, new_accounting_journal, new_identity_ledger,
+    new_shared_attention_frame,
 };
 use cantor_identity_accounting_mcp::{
     AccountingMcpStatus, IdentityAccountingMcpResponse, IdentityAccountingMcpServer,
@@ -83,6 +86,47 @@ fn ledger() -> IdentityLedger {
 
 fn journal() -> cantor_core::AccountingJournal {
     new_accounting_journal(sid("journal:durable-mcp"), ledger()).expect("valid journal")
+}
+
+fn frame() -> SharedAttentionFrame {
+    let participant = AttentionParticipant {
+        participant_id: sid("participant:mcp-manifest"),
+        faculties: BTreeSet::from([
+            FacultyKind::Observer,
+            FacultyKind::Honesty,
+            FacultyKind::Security,
+        ]),
+        required: true,
+    };
+    let proposition = FramedProposition {
+        proposition_id: sid("proposition:mcp-manifest"),
+        text: "Keep every admitted identity visible while selecting exact bodies.".to_owned(),
+        epistemic_status: EpistemicStatus::Observed,
+        source_refs: BTreeSet::from([sid("source:durable-mcp-fixture")]),
+        evidence_refs: BTreeSet::new(),
+        dream_ref: None,
+    };
+    new_shared_attention_frame(SharedAttentionFrameSeed {
+        frame_id: sid("frame:mcp-manifest"),
+        purpose: "exercise durable read-only manifest transport".to_owned(),
+        policy_ref: sid("policy:manifest-refresh-p6"),
+        participants: BTreeMap::from([(participant.participant_id.clone(), participant)]),
+        propositions: BTreeMap::from([(proposition.proposition_id.clone(), proposition)]),
+        constraints: BTreeMap::new(),
+        pinned_sop_anchor_refs: BTreeSet::new(),
+        evidence_refs: BTreeSet::new(),
+        current_focus_refs: BTreeSet::from([sid("proposition:mcp-manifest")]),
+        capacity: AttentionCapacity {
+            accounting_profile: cantor_core::ATTENTION_BYTE_PROXY_PROFILE.to_owned(),
+            context_budget_bytes: 100_000,
+            pinned_anchor_bytes: 0,
+            current_focus_bytes: 100,
+            retrieved_association_bytes: 0,
+            recent_stream_bytes: 0,
+            reserved_headroom_bytes: 1_000,
+        },
+    })
+    .expect("valid manifest frame")
 }
 
 fn config(directory: &TempDirectory) -> SnapshotStoreConfig {
@@ -167,10 +211,116 @@ fn metadata_declares_one_closed_world_durable_accounting_tool() {
         "read_event",
         "apply_patch",
         "admit_object",
+        "project_manifest",
+        "materialize",
+        "acknowledge_attention",
     ] {
         assert!(schema.contains(operation), "missing {operation}");
     }
-    assert!(SERVER_INSTRUCTIONS.contains("persists"));
+    assert!(SERVER_INSTRUCTIONS.contains("apply_patch"));
+    assert!(SERVER_INSTRUCTIONS.contains("admit_object"));
+    assert!(SERVER_INSTRUCTIONS.contains("project_manifest"));
+    assert!(SERVER_INSTRUCTIONS.contains("materialize"));
+    assert!(SERVER_INSTRUCTIONS.contains("acknowledge_attention"));
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn manifest_projection_crosses_mcp_without_snapshot_or_head_mutation() {
+    let directory = TempDirectory::new("manifest-read-only");
+    let initial = journal();
+    SnapshotStore::initialize(config(&directory), &initial).expect("initialize store");
+    let snapshot_count = fs::read_dir(&directory.0).unwrap().count();
+    let server = IdentityAccountingMcpServer::open(config(&directory)).expect("open server");
+
+    let projected = server
+        .execute_tool_arguments(Some(arguments(request(
+            &initial,
+            "request:mcp-project-manifest",
+            AccountingHostOperation::ProjectManifest {
+                frame: Box::new(frame()),
+                manifest_byte_budget: 100_000,
+            },
+        ))))
+        .await;
+    let response = structured(&projected);
+    assert_eq!(response.status, AccountingMcpStatus::Succeeded);
+    let AccountingHostResult::ManifestWindow { window } =
+        response.result.expect("host response").result
+    else {
+        panic!("expected manifest window");
+    };
+    let materialized = server
+        .execute_tool_arguments(Some(arguments(request(
+            &initial,
+            "request:mcp-materialize",
+            AccountingHostOperation::Materialize {
+                frame: Box::new(frame()),
+                manifest_byte_budget: 100_000,
+                expected_window_digest: window.window_digest.clone(),
+                handles: vec![sid("object:aircraft/001")],
+            },
+        ))))
+        .await;
+    let AccountingHostResult::Materialization { materialization } = structured(&materialized)
+        .result
+        .expect("host response")
+        .result
+    else {
+        panic!("expected materialization");
+    };
+    let member_receipts = window
+        .manifest
+        .entries
+        .iter()
+        .map(|entry| {
+            let disposition = if entry.handle == sid("object:aircraft/001") {
+                AttentionMemberDisposition::Relevant
+            } else {
+                AttentionMemberDisposition::NotApplicable
+            };
+            (
+                entry.handle.clone(),
+                AttentionMemberReceipt {
+                    handle: entry.handle.clone(),
+                    disposition,
+                    rationale: "explicit MCP fixture accounting".to_owned(),
+                    evidence_refs: BTreeSet::new(),
+                },
+            )
+        })
+        .collect();
+    let acknowledged = server
+        .execute_tool_arguments(Some(arguments(request(
+            &initial,
+            "request:mcp-acknowledge",
+            AccountingHostOperation::AcknowledgeAttention {
+                frame: Box::new(frame()),
+                manifest_byte_budget: 100_000,
+                expected_window_digest: window.window_digest.clone(),
+                materialized_handles: vec![sid("object:aircraft/001")],
+                receipt_seed: Box::new(ManifestAttentionReceiptSeed {
+                    receipt_id: sid("receipt:mcp-manifest"),
+                    window_digest: window.window_digest.clone(),
+                    ledger_digest: window.ledger_digest.clone(),
+                    manifest_digest: window.manifest.manifest_digest.clone(),
+                    materialization_digest: materialization.materialization_digest.clone(),
+                    member_receipts,
+                }),
+            },
+        ))))
+        .await;
+    assert!(matches!(
+        structured(&acknowledged)
+            .result
+            .expect("host response")
+            .result,
+        AccountingHostResult::ManifestReceipt { .. }
+    ));
+    assert_eq!(server.snapshot().await, initial);
+    assert_eq!(fs::read_dir(&directory.0).unwrap().count(), snapshot_count);
+
+    let restarted = IdentityAccountingMcpServer::open(config(&directory)).expect("restart");
+    assert_eq!(restarted.snapshot().await, initial);
 }
 
 #[tokio::test(flavor = "current_thread")]
