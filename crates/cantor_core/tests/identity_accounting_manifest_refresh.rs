@@ -7,10 +7,13 @@ use cantor_core::{
     ContentDigest, EpistemicStatus, FacultyKind, FramedProposition,
     ManifestAttentionReceiptSeed, SemanticId, SharedAttentionFaultCode, SharedAttentionFrame,
     SharedAttentionFrameSeed, apply_accountable_object_patch,
-    compile_accountability_manifest_window, execute_accounting_host_request,
+    compile_accountability_manifest_window, compile_accountability_window,
+    execute_accounting_host_request,
     finalize_accountable_object, finalize_manifest_attention_receipt,
     materialize_accountable_objects, new_accounting_journal, new_identity_ledger,
-    new_shared_attention_frame, validate_manifest_attention_receipt,
+    new_shared_attention_frame, validate_accountability_manifest_window,
+    validate_accountable_materialization, validate_accounting_host_response,
+    validate_manifest_attention_receipt,
 };
 
 fn sid(value: &str) -> SemanticId {
@@ -134,6 +137,56 @@ fn compact_manifest_is_complete_deterministic_and_refuses_one_byte_low_budget() 
             .code,
         SharedAttentionFaultCode::CapacityOverflow
     );
+}
+
+#[test]
+fn compact_manifest_excludes_mutable_bodies_and_is_smaller_than_full_register() {
+    let ledger = ledger();
+    let manifest = compile_accountability_manifest_window(&frame(), &ledger, 100_000).unwrap();
+    let full = compile_accountability_window(&frame(), &ledger, 100_000).unwrap();
+    assert_eq!(manifest.manifest.member_count, full.register.member_count);
+    assert!(manifest.rendered_manifest.len() < full.rendered_register.len());
+    assert!(!manifest.rendered_manifest.contains("readiness"));
+    assert!(!manifest.rendered_manifest.contains("maintenance"));
+    assert!(!manifest.rendered_manifest.contains("differentiators"));
+    eprintln!(
+        "manifest_bytes={} full_register_bytes={} reduction_bytes={}",
+        manifest.rendered_manifest.len(),
+        full.rendered_register.len(),
+        full.rendered_register.len() - manifest.rendered_manifest.len()
+    );
+}
+
+#[test]
+fn manifest_savings_scale_with_body_richness_without_losing_membership() {
+    let mut prior_reduction = 0usize;
+    for (member_count, payload_bytes) in [(1usize, 64usize), (8, 256), (32, 1_024)] {
+        let objects = (0..member_count)
+            .map(|index| {
+                let id = format!("{index:03}");
+                let mut candidate = object(&id, &["shared-type"], "ready");
+                candidate.state.insert(
+                    "body-payload".to_owned(),
+                    "x".repeat(payload_bytes),
+                );
+                finalize_accountable_object(candidate).unwrap()
+            })
+            .collect();
+        let ledger = new_identity_ledger(sid("basket:manifest-scaling"), objects).unwrap();
+        let manifest =
+            compile_accountability_manifest_window(&frame(), &ledger, 1_000_000).unwrap();
+        let full = compile_accountability_window(&frame(), &ledger, 1_000_000).unwrap();
+        let reduction = full.rendered_register.len() - manifest.rendered_manifest.len();
+        assert_eq!(manifest.manifest.member_count, member_count as u64);
+        assert_eq!(manifest.manifest.member_count, full.register.member_count);
+        assert!(reduction > prior_reduction);
+        prior_reduction = reduction;
+        eprintln!(
+            "members={member_count} payload_bytes={payload_bytes} manifest_bytes={} full_register_bytes={} reduction_bytes={reduction}",
+            manifest.rendered_manifest.len(),
+            full.rendered_register.len(),
+        );
+    }
 }
 
 #[test]
@@ -315,7 +368,19 @@ fn ledger_change_stales_prior_window_and_host_reads_have_zero_successor() {
             manifest_byte_budget: 100_000,
         },
     };
-    let transition = execute_accounting_host_request(&journal, request).unwrap();
+    let transition = execute_accounting_host_request(&journal, request.clone()).unwrap();
+    assert_eq!(
+        transition,
+        execute_accounting_host_request(&journal, request.clone()).unwrap()
+    );
+    validate_accounting_host_response(&journal, &request, &transition.response).unwrap();
+    let mut substituted = transition.response.clone();
+    substituted.result = AccountingHostResult::JournalSummary {
+        basket_id: journal.basket_id.clone(),
+        generation: 1,
+        event_count: 1,
+    };
+    assert!(validate_accounting_host_response(&journal, &request, &substituted).is_err());
     assert!(transition.successor.is_none());
     assert_eq!(journal.events.len(), 1);
     let AccountingHostResult::ManifestWindow { window } = transition.response.result else {
@@ -386,4 +451,49 @@ fn ledger_change_stales_prior_window_and_host_reads_have_zero_successor() {
     };
     assert_eq!(receipt.status, cantor_core::AttentionReceiptStatus::Complete);
     assert_eq!(journal.events.len(), 1);
+}
+
+#[test]
+fn strict_machine_forms_and_digest_profile_or_body_tamper_fail_closed() {
+    let ledger = ledger();
+    let window = compile_accountability_manifest_window(&frame(), &ledger, 100_000).unwrap();
+    let materialization = materialize_accountable_objects(
+        &window,
+        &ledger,
+        vec![sid("object:aircraft/001")],
+    )
+    .unwrap();
+
+    let mut unknown_field = serde_json::to_value(&window).unwrap();
+    unknown_field["foreign"] = serde_json::json!(true);
+    assert!(
+        serde_json::from_value::<cantor_core::AccountabilityManifestWindow>(unknown_field)
+            .is_err()
+    );
+
+    let mut profile_drift = window.clone();
+    profile_drift.profile = "cantor-accountability-manifest-window/9.9".to_owned();
+    assert_eq!(
+        validate_accountability_manifest_window(&profile_drift)
+            .unwrap_err()
+            .code,
+        SharedAttentionFaultCode::InvalidFrame
+    );
+
+    let mut manifest_tamper = window.clone();
+    manifest_tamper.manifest.entries[0].display_label = "substituted".to_owned();
+    assert_eq!(
+        validate_accountability_manifest_window(&manifest_tamper)
+            .unwrap_err()
+            .code,
+        SharedAttentionFaultCode::InvalidDigest
+    );
+
+    let mut body_tamper = materialization.clone();
+    body_tamper.objects[0]
+        .state
+        .insert("readiness".to_owned(), "substituted".to_owned());
+    assert!(
+        validate_accountable_materialization(&window, &ledger, &body_tamper).is_err()
+    );
 }

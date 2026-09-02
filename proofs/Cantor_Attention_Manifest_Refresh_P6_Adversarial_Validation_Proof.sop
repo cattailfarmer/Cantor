@@ -1,0 +1,14 @@
+Subject: Cantor Attention Manifest Refresh P6 Adversarial Validation Proof
+
+@ [proof_uuid] ff9ebc2b-8068-4061-ab33-3e22f15e6006
+
+& [ArtifactEvidence]
+  + [fixture] is crates/cantor_core/tests/identity_accounting_manifest_refresh.rs SHA256 EC44CBB8C6E2F33DE877BC98A381CB4DC706D5FC044FA8B3440FA4AE89B138ED
+
+& [ExecutionEvidence]
+  + cargo test -p cantor_core --test identity_accounting_manifest_refresh passes 7 of 7
+  + strict all-target all-feature cantor_core clippy passes
+  + strict_machine_forms_and_digest_profile_or_body_tamper_fail_closed exercises unknown profile manifest and materialized-body substitutions
+  + ledger_change_stales_prior_window_and_host_reads_have_zero_successor now verifies deterministic equal replay valid response correspondence and substituted-result refusal
+
+& [Disposition] is P6_adversarial_validator_correspondence_passed_for_declared_cases
