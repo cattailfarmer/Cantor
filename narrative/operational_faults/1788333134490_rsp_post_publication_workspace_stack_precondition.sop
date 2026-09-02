@@ -1,0 +1,29 @@
+Subject: Cantor RSP Post-Publication Workspace Stack Precondition Fault
+
+@ [fault_uuid] 099e3f88-c844-4bfb-9d04-13c02d927b82
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_utc] 2026-09-02T07:12:14.4874273Z
+@ [checkpoint_commit] 4d83dc9048e679c121cf12c9292be4efff951ee7
+
+& [Observed]
+  + the first post-publication all-feature workspace debug probe omitted the repository-established Windows RUST_MIN_STACK precondition
+  + a second default-feature replay repeated the same omission while testing whether feature selection caused the fault
+  + both no-fail-fast probes completed their surrounding suites but two deep succeeding-SOP oversized-form targets exited STATUS_STACK_OVERFLOW
+
+& [Diagnosis]
+  + existing governed records select RUST_MIN_STACK 33554432 for exact Windows workspace gates
+  + the same two targets have prior operational-fault lineage proving that omission of this harness setting causes stack exhaustion without a semantic assertion failure
+  + no RSP code path provider model remote host effect or source mutation participated in either refusal
+
+& [Correction]
+  + rerun the exact locked offline all-target all-feature workspace debug command with CARGO_BUILD_JOBS 1 CARGO_INCREMENTAL 0 RUST_TEST_THREADS 1 RUST_MIN_STACK 33554432 and one test thread
+  + keep the Cargo target on D:\CantorBuilds and retain no-fail-fast coverage
+
+& [Result]
+  + the corrected command completes every target with zero failures
+  + the formerly failing succeeding-SOP targets pass fourteen of fourteen and eight of eight
+  + thirteen governed ignores remain expected; no provider contact or product effect occurs
+
+& [EvidenceBoundary]
+  + interactive output was observed to completion but no retained aggregate transcript was produced in this turn
+  + overflow-checked release full-workspace replay warnings-denied workspace Clippy format and completion review remain pending
