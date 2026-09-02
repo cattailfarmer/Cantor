@@ -7,7 +7,8 @@ use cantor_core::{
     ContentDigest, EpistemicStatus, FacultyKind, FramedProposition,
     ManifestAttentionReceiptSeed, SemanticId, SharedAttentionFaultCode, SharedAttentionFrame,
     SharedAttentionFrameSeed, apply_accountable_object_patch,
-    compile_accountability_manifest_window, execute_accounting_host_request,
+    compile_accountability_manifest_window, compile_accountability_window,
+    execute_accounting_host_request,
     finalize_accountable_object, finalize_manifest_attention_receipt,
     materialize_accountable_objects, new_accounting_journal, new_identity_ledger,
     new_shared_attention_frame, validate_manifest_attention_receipt,
@@ -134,6 +135,56 @@ fn compact_manifest_is_complete_deterministic_and_refuses_one_byte_low_budget() 
             .code,
         SharedAttentionFaultCode::CapacityOverflow
     );
+}
+
+#[test]
+fn compact_manifest_excludes_mutable_bodies_and_is_smaller_than_full_register() {
+    let ledger = ledger();
+    let manifest = compile_accountability_manifest_window(&frame(), &ledger, 100_000).unwrap();
+    let full = compile_accountability_window(&frame(), &ledger, 100_000).unwrap();
+    assert_eq!(manifest.manifest.member_count, full.register.member_count);
+    assert!(manifest.rendered_manifest.len() < full.rendered_register.len());
+    assert!(!manifest.rendered_manifest.contains("readiness"));
+    assert!(!manifest.rendered_manifest.contains("maintenance"));
+    assert!(!manifest.rendered_manifest.contains("differentiators"));
+    eprintln!(
+        "manifest_bytes={} full_register_bytes={} reduction_bytes={}",
+        manifest.rendered_manifest.len(),
+        full.rendered_register.len(),
+        full.rendered_register.len() - manifest.rendered_manifest.len()
+    );
+}
+
+#[test]
+fn manifest_savings_scale_with_body_richness_without_losing_membership() {
+    let mut prior_reduction = 0usize;
+    for (member_count, payload_bytes) in [(1usize, 64usize), (8, 256), (32, 1_024)] {
+        let objects = (0..member_count)
+            .map(|index| {
+                let id = format!("{index:03}");
+                let mut candidate = object(&id, &["shared-type"], "ready");
+                candidate.state.insert(
+                    "body-payload".to_owned(),
+                    "x".repeat(payload_bytes),
+                );
+                finalize_accountable_object(candidate).unwrap()
+            })
+            .collect();
+        let ledger = new_identity_ledger(sid("basket:manifest-scaling"), objects).unwrap();
+        let manifest =
+            compile_accountability_manifest_window(&frame(), &ledger, 1_000_000).unwrap();
+        let full = compile_accountability_window(&frame(), &ledger, 1_000_000).unwrap();
+        let reduction = full.rendered_register.len() - manifest.rendered_manifest.len();
+        assert_eq!(manifest.manifest.member_count, member_count as u64);
+        assert_eq!(manifest.manifest.member_count, full.register.member_count);
+        assert!(reduction > prior_reduction);
+        prior_reduction = reduction;
+        eprintln!(
+            "members={member_count} payload_bytes={payload_bytes} manifest_bytes={} full_register_bytes={} reduction_bytes={reduction}",
+            manifest.rendered_manifest.len(),
+            full.rendered_register.len(),
+        );
+    }
 }
 
 #[test]
