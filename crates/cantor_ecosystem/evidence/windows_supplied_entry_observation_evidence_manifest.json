@@ -1,284 +1,284 @@
 {
-  "schema": "cantor-windows-supplied-entry-observation-evidence-manifest/0.1",
-  "evidence_manifest_uuid": "2973edde-d2dc-4d74-86ce-7e337ba7e614",
-  "generated_at_utc": "2026-09-02T23:28:43.1849408Z",
-  "authority": {
-    "canonical_specification": "specifications/Cantor_M2B_Supplied_Entry_Observation_Assembly.sop",
-    "satisfaction_signature_uuid": "4b2bf473-b10e-4ca6-a39b-f68c3a7f3719",
-    "entry_policy_signature_uuid": "fbb835f2-5ab6-4362-a392-5d72692f8d1c",
-    "stream_parser_signature_uuid": "f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ee",
-    "solution_uuid": "1dd7d09c-8416-46dd-a70b-0902b5de799d",
-    "implementation_commit": "3383448529fc1e98365ee02ad8bd1dea3f08d376"
-  },
-  "scope": {
-    "profile": "cantor-windows-supplied-entry-observation/0.1",
-    "required_record_classes": 5,
-    "focused_unit_tests": 11,
-    "focused_static_tests": 1,
-    "maximum_streams": 1024,
-    "maximum_stream_name_utf16_units": 32767,
-    "unsafe_blocks": 0,
-    "windows_api_calls": 0,
-    "cargo_delta": 0,
-    "physical_query_authority": false,
-    "filesystem_authority": false,
-    "traversal_authority": false,
-    "receipt_authority": false,
-    "mutation_authority": false,
-    "physical_claim": false
-  },
-  "verification": [
-    {
-      "command": "cargo test -p cantor_ecosystem --lib windows_supplied --locked --offline",
-      "passed": 11,
-      "status": "passed"
-    },
-    {
-      "command": "cargo test -p cantor_ecosystem --test windows_supplied_entry_observation_static --locked --offline",
-      "passed": 1,
-      "status": "passed"
-    },
-    {
-      "command": "cargo test -p cantor_ecosystem --test windows_supplied_entry_observation_evidence --locked --offline",
-      "passed": 1,
-      "status": "passed"
-    },
-    {
-      "command": "RUSTFLAGS=-C overflow-checks=on focused equivalents --release --locked --offline",
-      "passed": 13,
-      "status": "passed"
-    },
-    {
-      "command": "cargo test --workspace --all-targets --locked --offline",
-      "passed": 293,
-      "ignored": 1,
-      "status": "passed"
-    },
-    {
-      "command": "RUSTFLAGS=-C overflow-checks=on cargo test --workspace --all-targets --release --locked --offline",
-      "passed": 293,
-      "ignored": 1,
-      "status": "passed"
-    },
-    {
-      "command": "cargo fmt --all -- --check",
-      "status": "passed"
-    },
-    {
-      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
-      "status": "passed"
-    },
-    {
-      "command": "cargo build --workspace --all-targets --release --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "cargo audit --file Cargo.lock",
-      "dependencies": 113,
-      "advisories": 1175,
-      "vulnerabilities": 0,
-      "status": "passed"
-    }
-  ],
-  "artifacts": [
-    {
-      "path": ".gitattributes",
-      "sha256": "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
-      "bytes": 185
-    },
-    {
-      "path": "SOP_CORE_MAP.sop",
-      "sha256": "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
-      "bytes": 30392
-    },
-    {
-      "path": "Cargo.toml",
-      "sha256": "39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588",
-      "bytes": 1330
-    },
-    {
-      "path": "Cargo.lock",
-      "sha256": "71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F",
-      "bytes": 41724
-    },
-    {
-      "path": "crates/cantor_ecosystem/Cargo.toml",
-      "sha256": "7884615529B728B72D22638F9747E432B7AF34B2C0FAF8DE4E098F18D9FF02DE",
-      "bytes": 724
-    },
-    {
-      "path": "crates/cantor_ecosystem/src/lib.rs",
-      "sha256": "D13BDB5C319C44F45D6CEC6FB357D4A28234F79F07CCA00605CFD3B41F111A9A",
-      "bytes": 6703
-    },
-    {
-      "path": "crates/cantor_ecosystem/src/topology_forms.rs",
-      "sha256": "5D2213C8A49DE278109503F51789A1648B61266F7581AE2AF743BF5EF324A11D",
-      "bytes": 42216
-    },
-    {
-      "path": "crates/cantor_ecosystem/src/windows_entry_policy.rs",
-      "sha256": "19AD251C59F313F74B159D5D68A59A6861E799DF5ACC7E19F93B226ED43EA0CD",
-      "bytes": 17665
-    },
-    {
-      "path": "crates/cantor_ecosystem/src/windows_stream_info_parser.rs",
-      "sha256": "A4C968AFA570827C0A9E61B2B2DEFABF55E4EBD9EAABBD180E91794F69A2E732",
-      "bytes": 16658
-    },
-    {
-      "path": "crates/cantor_ecosystem/src/windows_supplied_entry_observation.rs",
-      "sha256": "94617B29276422CD99C5275E614E5DD2A83A87C48646224800933884AD340715",
-      "bytes": 31858
-    },
-    {
-      "path": "crates/cantor_ecosystem/tests/windows_supplied_entry_observation_static.rs",
-      "sha256": "C4FBAA441C8E879FBE29A475C6170F28749842736BBF771B649F458EC4707FED",
-      "bytes": 2166
-    },
-    {
-      "path": "crates/cantor_ecosystem/tests/windows_supplied_entry_observation_evidence.rs",
-      "sha256": "AC43B0AF7B089016E97AC36A26344A6F9D1F9EC24FC32C7A8BD738089D3EED30",
-      "bytes": 2780
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_m2b_supplied_entry_observation_assembly/Cantor_M2B_Supplied_Entry_Observation_Assembly_Source.sop",
-      "sha256": "0A9C3F9AEF5B4E5AF9B2302152795D9516E98C9B489A3191EA144F8442C37998",
-      "bytes": 4124
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_m2b_supplied_entry_observation_assembly/Source_Document_Manifest.sop",
-      "sha256": "BE04759FD40B68A272230A90FEAC1A308EC85FA90D6E3673331E0207239B4525",
-      "bytes": 752
-    },
-    {
-      "path": "narrative/research/Cantor_M2B_Post_Pure_Prerequisite_Readiness_Review_2026-07-30.sop",
-      "sha256": "B2EDEBCF79F6A01934F57664BD4ADCA626DDD0049A586CBD15C0BCF5110C1C61",
-      "bytes": 6289
-    },
-    {
-      "path": "narrative/research/Cantor_M2B_Supplied_Entry_Observation_Assembly_Design_Decision_2026-07-30.sop",
-      "sha256": "9DE830D47CFAB9A401D3611203F2F4097FA09D57C442A09D65478DCA58B58A31",
-      "bytes": 2964
-    },
-    {
-      "path": "specifications/Cantor_Phase3_Topology_Machine_Forms.sop",
-      "sha256": "7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A",
-      "bytes": 13696
-    },
-    {
-      "path": "specifications/Cantor_M2B_Pure_Windows_Entry_Policy.sop",
-      "sha256": "7CF2A03547622B6ED92AE9BB020AA986E4B91BC33A3161F1E6C4A19AC60396F9",
-      "bytes": 11050
-    },
-    {
-      "path": "specifications/Cantor_M2B_Pure_Stream_Information_Parser.sop",
-      "sha256": "3A2C382CC2E79B77A77C0E8F9261AFF45C56A53CE59461CFC4D62C77E7B87FF0",
-      "bytes": 10731
-    },
-    {
-      "path": "specifications/exploded/Cantor_M2B_Supplied_Entry_Observation_Assembly.exploded.sop",
-      "sha256": "C91672C4435C5F265FEBD94FF11F83A1F3CFB9EE278C1AE14C845A609196A11A",
-      "bytes": 15665
-    },
-    {
-      "path": "specifications/Cantor_M2B_Supplied_Entry_Observation_Assembly.sop",
-      "sha256": "A1597065C34C6CFA5951CD6FDFCF1A72CD632430A9AB5BFA3A0D8CD2D669443C",
-      "bytes": 15819
-    },
-    {
-      "path": "justifications/Cantor_M2B_Supplied_Entry_Observation_Assembly_Justification.sop",
-      "sha256": "236BDD29D979ECB4EA60A3904F59DE58A6D7B513F4112BC769D9E755B5C92547",
-      "bytes": 3507
-    },
-    {
-      "path": "plans/Cantor_M2B_Supplied_Entry_Observation_Assembly_Plan.sop",
-      "sha256": "8FCFB1FE7140FD9D0ADD05D2A5ED87D356596D7B20AF38193C76D24B4E29D0CB",
-      "bytes": 1742
-    },
-    {
-      "path": "feature_support/M2BSuppliedEntryObservationAssembly_Requirement_Matrix.sop",
-      "sha256": "9C8A8574601070B3BFDE5EA75354BF76F779E6CF99F3754C041355285A1C33E7",
-      "bytes": 1369
-    },
-    {
-      "path": "feature_support/slices/M2BSuppliedEntryObservationAssembly.sop",
-      "sha256": "CBEB6F88C4B6669B85C719E79098684ED230E2C65B60588BE5FC080BC29BFBFD",
-      "bytes": 1870
-    },
-    {
-      "path": "feature_support/reviews/M2BSuppliedEntryObservationAssembly_Completion_Review.sop",
-      "sha256": "0FD7540251DE690EF7A0CD4F400DEA9821150A36E999A638DE05CA19DA9F5346",
-      "bytes": 1813
-    },
-    {
-      "path": "solutions/Cantor_M2B_Supplied_Entry_Observation_Assembly_Solution.sop",
-      "sha256": "238E3B107ABCA302B57824DC148A9E36F35B566C431444932EFE284A4D01BB50",
-      "bytes": 3194
-    },
-    {
-      "path": "narrative/registries/Cantor_M2B_Supplied_Entry_Observation_Assembly_Registry.sop",
-      "sha256": "642B2E238E8B39D6D83EC1EBE6055E7582456FE38B28A090EB11F754D6BBE321",
-      "bytes": 3540
-    },
-    {
-      "path": "narrative/turns/1785467390297_cantor_m2b_supplied_entry_observation_assembly_authority.sop",
-      "sha256": "2A4FD4581AF17B54B88AF85251DFD8AA1F1D85503E0040BF5B6F0FE9D125D684",
-      "bytes": 1413
-    },
-    {
-      "path": "narrative/turns/1785468044694_cantor_m2b_supplied_entry_observation_implementation.sop",
-      "sha256": "A2808E657303E0601A9B031E417C30D7DAADD2B6068A65C7D712E704BD75889F",
-      "bytes": 1160
-    },
-    {
-      "path": "narrative/turns/1785468044698_cantor_m2b_supplied_entry_observation_completion.sop",
-      "sha256": "BD05A378D8E60D6ECB2AC025A6D71C52F5A24E3B9AB6D3C43B7D4B522111B815",
-      "bytes": 1233
-    },
-    {
-      "path": "narrative/file_changes/1785467390297_m2b_supplied_entry_observation_assembly_authority_file_change.sop",
-      "sha256": "BB49BA8395BB7194BE73B9CC78A8EFFE9F15A25FC174E770648463D3FFC39924",
-      "bytes": 1465
-    },
-    {
-      "path": "narrative/file_changes/1785468044694_m2b_supplied_entry_observation_implementation_file_change.sop",
-      "sha256": "E9EC4470A824C1BA2B78AA9AEF26EB8AB4707473E6942BE30D5B1E95A12ED113",
-      "bytes": 956
-    },
-    {
-      "path": "narrative/file_changes/1785468044698_m2b_supplied_entry_observation_completion_file_change.sop",
-      "sha256": "74B441E92262A875FF6425F28309151C55EC9F221102638F65746D49174C1E21",
-      "bytes": 1041
-    },
-    {
-      "path": "narrative/operational_faults/1785468044694_m2b_supplied_entry_observation_test_oracle_fault.sop",
-      "sha256": "904455DDD2089010DA71664C87C7EFD7B9B43EC764D8189CE6B55CD4B4627676",
-      "bytes": 1535
-    },
-    {
-      "path": "narrative/operational_faults/1785468044695_m2b_supplied_entry_observation_application_control_fault.sop",
-      "sha256": "BEB8C23CDD995D5BA625D359F220D10AC920E8CAA93A5D01B1103A917B5F6972",
-      "bytes": 1081
-    },
-    {
-      "path": "narrative/Project_Narrative.sop",
-      "sha256": "EAF77990C83ED1DA6B171FBF95A167264653A6D3FCC67A055EEEB0F5B9DEA844",
-      "bytes": 482177
-    },
-    {
-      "path": "narrative/reentry/Cantor_M2B_Current_Reentry.sop",
-      "sha256": "85F82D20599479A01B4AD4AF4E018128674AB7FC0F622DD971CBA39D57D0A4CC",
-      "bytes": 202504
-    },
-    {
-      "path": "scripts/build_windows_supplied_entry_observation_evidence_manifest.ps1",
-      "sha256": "C9D2086CE198EDF8C2F9A56283A77FD654FE4C0851E43D4FB02BC553BA7F97A0",
-      "bytes": 7030
-    }
-  ]
+    "schema":  "cantor-windows-supplied-entry-observation-evidence-manifest/0.1",
+    "evidence_manifest_uuid":  "2973edde-d2dc-4d74-86ce-7e337ba7e614",
+    "generated_at_utc":  "2026-09-02T23:41:39.3876470Z",
+    "authority":  {
+                      "canonical_specification":  "specifications/Cantor_M2B_Supplied_Entry_Observation_Assembly.sop",
+                      "satisfaction_signature_uuid":  "4b2bf473-b10e-4ca6-a39b-f68c3a7f3719",
+                      "entry_policy_signature_uuid":  "fbb835f2-5ab6-4362-a392-5d72692f8d1c",
+                      "stream_parser_signature_uuid":  "f8ec9aa9-cf1e-46e9-8eeb-ab63e91332ee",
+                      "solution_uuid":  "1dd7d09c-8416-46dd-a70b-0902b5de799d",
+                      "implementation_commit":  "3383448529fc1e98365ee02ad8bd1dea3f08d376"
+                  },
+    "scope":  {
+                  "profile":  "cantor-windows-supplied-entry-observation/0.1",
+                  "required_record_classes":  5,
+                  "focused_unit_tests":  11,
+                  "focused_static_tests":  1,
+                  "maximum_streams":  1024,
+                  "maximum_stream_name_utf16_units":  32767,
+                  "unsafe_blocks":  0,
+                  "windows_api_calls":  0,
+                  "cargo_delta":  0,
+                  "physical_query_authority":  false,
+                  "filesystem_authority":  false,
+                  "traversal_authority":  false,
+                  "receipt_authority":  false,
+                  "mutation_authority":  false,
+                  "physical_claim":  false
+              },
+    "verification":  [
+                         {
+                             "command":  "cargo test -p cantor_ecosystem --lib windows_supplied --locked --offline",
+                             "passed":  11,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test -p cantor_ecosystem --test windows_supplied_entry_observation_static --locked --offline",
+                             "passed":  1,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test -p cantor_ecosystem --test windows_supplied_entry_observation_evidence --locked --offline",
+                             "passed":  1,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "RUSTFLAGS=-C overflow-checks=on focused equivalents --release --locked --offline",
+                             "passed":  13,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --workspace --all-targets --locked --offline",
+                             "passed":  293,
+                             "ignored":  1,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "RUSTFLAGS=-C overflow-checks=on cargo test --workspace --all-targets --release --locked --offline",
+                             "passed":  293,
+                             "ignored":  1,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo fmt --all -- --check",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo audit --file Cargo.lock",
+                             "dependencies":  113,
+                             "advisories":  1175,
+                             "vulnerabilities":  0,
+                             "status":  "passed"
+                         }
+                     ],
+    "artifacts":  [
+                      {
+                          "path":  ".gitattributes",
+                          "sha256":  "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
+                          "bytes":  185
+                      },
+                      {
+                          "path":  "SOP_CORE_MAP.sop",
+                          "sha256":  "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
+                          "bytes":  30392
+                      },
+                      {
+                          "path":  "Cargo.toml",
+                          "sha256":  "39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588",
+                          "bytes":  1330
+                      },
+                      {
+                          "path":  "Cargo.lock",
+                          "sha256":  "71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F",
+                          "bytes":  41724
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/Cargo.toml",
+                          "sha256":  "7884615529B728B72D22638F9747E432B7AF34B2C0FAF8DE4E098F18D9FF02DE",
+                          "bytes":  724
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/lib.rs",
+                          "sha256":  "D13BDB5C319C44F45D6CEC6FB357D4A28234F79F07CCA00605CFD3B41F111A9A",
+                          "bytes":  6703
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/topology_forms.rs",
+                          "sha256":  "5D2213C8A49DE278109503F51789A1648B61266F7581AE2AF743BF5EF324A11D",
+                          "bytes":  42216
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/windows_entry_policy.rs",
+                          "sha256":  "19AD251C59F313F74B159D5D68A59A6861E799DF5ACC7E19F93B226ED43EA0CD",
+                          "bytes":  17665
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/windows_stream_info_parser.rs",
+                          "sha256":  "A4C968AFA570827C0A9E61B2B2DEFABF55E4EBD9EAABBD180E91794F69A2E732",
+                          "bytes":  16658
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/windows_supplied_entry_observation.rs",
+                          "sha256":  "94617B29276422CD99C5275E614E5DD2A83A87C48646224800933884AD340715",
+                          "bytes":  31858
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/tests/windows_supplied_entry_observation_static.rs",
+                          "sha256":  "C4FBAA441C8E879FBE29A475C6170F28749842736BBF771B649F458EC4707FED",
+                          "bytes":  2166
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/tests/windows_supplied_entry_observation_evidence.rs",
+                          "sha256":  "AC43B0AF7B089016E97AC36A26344A6F9D1F9EC24FC32C7A8BD738089D3EED30",
+                          "bytes":  2780
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_m2b_supplied_entry_observation_assembly/Cantor_M2B_Supplied_Entry_Observation_Assembly_Source.sop",
+                          "sha256":  "0A9C3F9AEF5B4E5AF9B2302152795D9516E98C9B489A3191EA144F8442C37998",
+                          "bytes":  4124
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_m2b_supplied_entry_observation_assembly/Source_Document_Manifest.sop",
+                          "sha256":  "BE04759FD40B68A272230A90FEAC1A308EC85FA90D6E3673331E0207239B4525",
+                          "bytes":  752
+                      },
+                      {
+                          "path":  "narrative/research/Cantor_M2B_Post_Pure_Prerequisite_Readiness_Review_2026-07-30.sop",
+                          "sha256":  "B2EDEBCF79F6A01934F57664BD4ADCA626DDD0049A586CBD15C0BCF5110C1C61",
+                          "bytes":  6289
+                      },
+                      {
+                          "path":  "narrative/research/Cantor_M2B_Supplied_Entry_Observation_Assembly_Design_Decision_2026-07-30.sop",
+                          "sha256":  "9DE830D47CFAB9A401D3611203F2F4097FA09D57C442A09D65478DCA58B58A31",
+                          "bytes":  2964
+                      },
+                      {
+                          "path":  "specifications/Cantor_Phase3_Topology_Machine_Forms.sop",
+                          "sha256":  "7BBFAAAE937EAC378DD80AC7989CCF1EFB237A5495F56270094AA007A662C09A",
+                          "bytes":  13696
+                      },
+                      {
+                          "path":  "specifications/Cantor_M2B_Pure_Windows_Entry_Policy.sop",
+                          "sha256":  "7CF2A03547622B6ED92AE9BB020AA986E4B91BC33A3161F1E6C4A19AC60396F9",
+                          "bytes":  11050
+                      },
+                      {
+                          "path":  "specifications/Cantor_M2B_Pure_Stream_Information_Parser.sop",
+                          "sha256":  "3A2C382CC2E79B77A77C0E8F9261AFF45C56A53CE59461CFC4D62C77E7B87FF0",
+                          "bytes":  10731
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_M2B_Supplied_Entry_Observation_Assembly.exploded.sop",
+                          "sha256":  "C91672C4435C5F265FEBD94FF11F83A1F3CFB9EE278C1AE14C845A609196A11A",
+                          "bytes":  15665
+                      },
+                      {
+                          "path":  "specifications/Cantor_M2B_Supplied_Entry_Observation_Assembly.sop",
+                          "sha256":  "A1597065C34C6CFA5951CD6FDFCF1A72CD632430A9AB5BFA3A0D8CD2D669443C",
+                          "bytes":  15819
+                      },
+                      {
+                          "path":  "justifications/Cantor_M2B_Supplied_Entry_Observation_Assembly_Justification.sop",
+                          "sha256":  "236BDD29D979ECB4EA60A3904F59DE58A6D7B513F4112BC769D9E755B5C92547",
+                          "bytes":  3507
+                      },
+                      {
+                          "path":  "plans/Cantor_M2B_Supplied_Entry_Observation_Assembly_Plan.sop",
+                          "sha256":  "8FCFB1FE7140FD9D0ADD05D2A5ED87D356596D7B20AF38193C76D24B4E29D0CB",
+                          "bytes":  1742
+                      },
+                      {
+                          "path":  "feature_support/M2BSuppliedEntryObservationAssembly_Requirement_Matrix.sop",
+                          "sha256":  "9C8A8574601070B3BFDE5EA75354BF76F779E6CF99F3754C041355285A1C33E7",
+                          "bytes":  1369
+                      },
+                      {
+                          "path":  "feature_support/slices/M2BSuppliedEntryObservationAssembly.sop",
+                          "sha256":  "CBEB6F88C4B6669B85C719E79098684ED230E2C65B60588BE5FC080BC29BFBFD",
+                          "bytes":  1870
+                      },
+                      {
+                          "path":  "feature_support/reviews/M2BSuppliedEntryObservationAssembly_Completion_Review.sop",
+                          "sha256":  "0FD7540251DE690EF7A0CD4F400DEA9821150A36E999A638DE05CA19DA9F5346",
+                          "bytes":  1813
+                      },
+                      {
+                          "path":  "solutions/Cantor_M2B_Supplied_Entry_Observation_Assembly_Solution.sop",
+                          "sha256":  "238E3B107ABCA302B57824DC148A9E36F35B566C431444932EFE284A4D01BB50",
+                          "bytes":  3194
+                      },
+                      {
+                          "path":  "narrative/registries/Cantor_M2B_Supplied_Entry_Observation_Assembly_Registry.sop",
+                          "sha256":  "642B2E238E8B39D6D83EC1EBE6055E7582456FE38B28A090EB11F754D6BBE321",
+                          "bytes":  3540
+                      },
+                      {
+                          "path":  "narrative/turns/1785467390297_cantor_m2b_supplied_entry_observation_assembly_authority.sop",
+                          "sha256":  "2A4FD4581AF17B54B88AF85251DFD8AA1F1D85503E0040BF5B6F0FE9D125D684",
+                          "bytes":  1413
+                      },
+                      {
+                          "path":  "narrative/turns/1785468044694_cantor_m2b_supplied_entry_observation_implementation.sop",
+                          "sha256":  "A2808E657303E0601A9B031E417C30D7DAADD2B6068A65C7D712E704BD75889F",
+                          "bytes":  1160
+                      },
+                      {
+                          "path":  "narrative/turns/1785468044698_cantor_m2b_supplied_entry_observation_completion.sop",
+                          "sha256":  "BD05A378D8E60D6ECB2AC025A6D71C52F5A24E3B9AB6D3C43B7D4B522111B815",
+                          "bytes":  1233
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785467390297_m2b_supplied_entry_observation_assembly_authority_file_change.sop",
+                          "sha256":  "BB49BA8395BB7194BE73B9CC78A8EFFE9F15A25FC174E770648463D3FFC39924",
+                          "bytes":  1465
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785468044694_m2b_supplied_entry_observation_implementation_file_change.sop",
+                          "sha256":  "E9EC4470A824C1BA2B78AA9AEF26EB8AB4707473E6942BE30D5B1E95A12ED113",
+                          "bytes":  956
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785468044698_m2b_supplied_entry_observation_completion_file_change.sop",
+                          "sha256":  "74B441E92262A875FF6425F28309151C55EC9F221102638F65746D49174C1E21",
+                          "bytes":  1041
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785468044694_m2b_supplied_entry_observation_test_oracle_fault.sop",
+                          "sha256":  "904455DDD2089010DA71664C87C7EFD7B9B43EC764D8189CE6B55CD4B4627676",
+                          "bytes":  1535
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785468044695_m2b_supplied_entry_observation_application_control_fault.sop",
+                          "sha256":  "BEB8C23CDD995D5BA625D359F220D10AC920E8CAA93A5D01B1103A917B5F6972",
+                          "bytes":  1081
+                      },
+                      {
+                          "path":  "narrative/Project_Narrative.sop",
+                          "sha256":  "FFB7911ABAF691FAF4E190862C90314F1422D925466E0CB2D42D1608104752D6",
+                          "bytes":  483491
+                      },
+                      {
+                          "path":  "narrative/reentry/Cantor_M2B_Current_Reentry.sop",
+                          "sha256":  "EA8D119EA90FC5EF2367C9CE8AC0667639D1EAA1ED96436B85D85921357CA17A",
+                          "bytes":  203814
+                      },
+                      {
+                          "path":  "scripts/build_windows_supplied_entry_observation_evidence_manifest.ps1",
+                          "sha256":  "C9D2086CE198EDF8C2F9A56283A77FD654FE4C0851E43D4FB02BC553BA7F97A0",
+                          "bytes":  7030
+                      }
+                  ]
 }

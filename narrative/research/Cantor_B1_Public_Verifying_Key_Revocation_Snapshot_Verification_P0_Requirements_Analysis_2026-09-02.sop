@@ -1,0 +1,14 @@
+Subject: Cantor B1 Public Verifying Key Revocation Snapshot Verification P0 Requirements Analysis
+
+@ [analysis_uuid] 9b801c81-2d4e-40f3-b08c-c366ea0f1682
+
+& [Need]
+  + turn A3 from opaque metadata into exact raw snapshot status interval responder-key and detached-signature correspondence after independent A1 and A2 replay
+  + preserve good revoked and unknown assertions as descriptive data rather than admitted truth
+  + make responder authorization completeness monotonic history freshness current-time evaluation and relying-party decision separately visible
+
+& [AcceptanceLogic]
+  + raw bytes and descriptor match before typed parse; target policy key and A2 lineage match exactly
+  + internal times and status-dependent revocation fields are structurally consistent without reading current time
+  + independent evidence reconstruction and fresh-process replay reproduce the same nonauthorizing receipt
+  + all named authority and effect fields stay false or zero

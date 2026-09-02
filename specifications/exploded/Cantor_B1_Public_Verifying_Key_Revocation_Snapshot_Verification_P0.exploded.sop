@@ -1,0 +1,22 @@
+Subject: Cantor B1 Public Verifying Key Revocation Snapshot Verification P0 Exploded
+
+@ [canonical_uuid] aeb226ac-3c59-4b9b-a81e-d59f285f5a2d
+
+& [Identity]
+  + source c6588e38-3471-4a56-96c7-d86e456e900a custody 35d5774be39494afd8e5925cb42b2fc66dfb6b10 upstream A2 668ae1a2-e8c9-4f88-9556-a39585817105
+& [Profiles]
+  + snapshot request receipt evidence at revision 0.1
+& [Inputs]
+  + deterministic_fixture_candidate externally_supplied_candidate
+& [Files]
+  + predecessor_request.json predecessor_packet.json predecessor_verification.json a1_policy_envelope.json a1_verification_request.json a1_receipt.json custody_attestation.json a2_verification_request.json a2_receipt.json revocation_snapshot.json verification_request.json receipt.json evidence_manifest.json
+& [Coordinate]
+  + A3 revocation_truth revocation_snapshot_candidate dependency A2 public_metadata revocation-snapshot-verifier/0.1
+& [Statuses]
+  + not_revoked_at_snapshot revoked_at_snapshot unknown_at_snapshot are descriptive assertions only
+& [Positive]
+  + packet_replayed A1_correspondence_receipt_verified A2_correspondence_receipt_verified A3_candidate_bytes_matched descriptor_correspondence_verified target_policy_key_correspondence_verified snapshot_structure_verified interval_structure_verified responder_signature_correspondence_verified
+& [False]
+  + challenge_freshness_proved replay_prevention_proved custodian_identity_proved protected_storage_proved private_key_nonexportability_proved exclusive_control_proved current_possession_proved responder_identity_proved responder_authority_proved source_completeness_proved monotonic_history_proved snapshot_freshness_proved current_time_compared policy_governance_proved key_custody_proved revocation_truth_proved current_nonexpired live_authorization_admitted fresh_observation_proved private_execution_permit_present production_broker_projection_present physical_preparation_authorized ready_for_physical_execution execution_authorized
+& [Execution]
+  + one attempt zero retry zero cleanup zero effects implementation authorized only after signature execution unauthorized
