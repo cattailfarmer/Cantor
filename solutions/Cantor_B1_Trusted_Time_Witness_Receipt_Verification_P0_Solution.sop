@@ -1,0 +1,17 @@
+Subject: Cantor B1 Trusted Time Witness Receipt Verification P0 Solution
+
+@ [solution_uuid] bfaeb3ba-e02f-4224-8317-ec01de4e301d
+@ [canonical_uuid] d4bbec0d-b308-4e83-ad80-29cdb61424eb
+@ [source_snapshot_uuid] 3f33fd16-abed-4838-9272-bc3f44aaff54
+
+& [Pipeline]
+  + bounded supplied evidence -> exact raw hashes -> packet A1 A2 A3 replay -> isolated A4 packet compiled twice -> raw witness match -> expectation and subject lineage -> structure -> strict signature -> supplied interval classification -> nonauthorizing receipt -> independent evidence double replay -> fresh-process equality
+& [ImplementationSurface]
+  + crates/cantor_ecosystem/src/b1_trusted_time_witness_receipt_verification.rs
+  + crates/cantor_ecosystem/src/b1_trusted_time_witness_receipt_verification_evidence.rs
+  + crates/cantor_ecosystem/src/bin/cantor-b1-trusted-time-witness-verify.rs
+  + crates/cantor_ecosystem/src/bin/cantor-b1-trusted-time-witness-evidence-verify.rs
+  + crates/cantor_ecosystem/tests/b1_trusted_time_witness_receipt_verification.rs
+  + scripts/test_b1_trusted_time_witness_receipt_verification.ps1
+& [State]
+  + solution formed for bounded implementation only; no Rust completion or test result is claimed by this formation artifact

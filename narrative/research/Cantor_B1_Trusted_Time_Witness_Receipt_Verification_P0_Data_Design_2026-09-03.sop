@@ -1,0 +1,53 @@
+Subject: Cantor B1 Trusted Time Witness Receipt Verification P0 Data Design
+
+@ [design_uuid] 00ebe4ce-94bb-4e0e-be0f-5464b61c0153
+@ [canonical_uuid] d4bbec0d-b308-4e83-ad80-29cdb61424eb
+@ [source_snapshot_uuid] 3f33fd16-abed-4838-9272-bc3f44aaff54
+
+& [WitnessFields]
+  + exact ordered fields are profile witness_uuid candidate_label authority_label subject branch canonical_remote policy_uuid policy_revision_uuid a1_receipt_sha256 a2_receipt_sha256 a3_receipt_sha256 a3_authority_packet_sha256 a3_snapshot_sha256 a3_snapshot_raw_sha256 a4_candidate_uuid target_policy_key_fingerprint_sha256 witness_verifying_key_hex witness_public_key_fingerprint_sha256 observed_unix_ms issued_at_unix_ms expires_at_unix_ms sequence signing_context signature_hex input_class fixture_only production_authority_claimed witness_identity_proved witness_authority_proved witness_freshness_proved trusted_current_time_proved witness_sha256
+
+& [RequestFields]
+  + exact ordered fields are profile source_snapshot_uuid canonical_uuid signature_uuid source_custody_commit formation_commit formation_bookend_commit a3_implementation_commit a3_bookend_commit a3_proof_uuid predecessor_request_sha256 predecessor_packet_sha256 predecessor_verification_sha256 a1_policy_envelope_raw_sha256 a1_verification_request_sha256 a1_receipt_sha256 a2_custody_attestation_raw_sha256 a2_verification_request_sha256 a2_receipt_sha256 a3_revocation_snapshot_raw_sha256 a3_verification_request_sha256 a3_receipt_sha256 authority_packet_request authority_packet_request_sha256 authority_packet_sha256 a4_candidate_uuid a4_descriptor_sha256 time_witness_receipt_bytes time_witness_receipt_raw_sha256 expected_witness_uuid expected_witness_authority_label expected_witness_verifying_key_hex expected_witness_public_key_fingerprint_sha256 expected_sequence input_class evidence_references maximum_attempts automatic_retry_count automatic_cleanup_count request_sha256
+
+& [ReceiptFields]
+  + exact ordered fields are profile status authority source_snapshot_uuid canonical_uuid signature_uuid formation_commit formation_bookend_commit predecessor_request_sha256 predecessor_packet_sha256 predecessor_verification_sha256 a1_policy_envelope_raw_sha256 a1_verification_request_sha256 a1_receipt_sha256 a2_custody_attestation_raw_sha256 a2_verification_request_sha256 a2_receipt_sha256 a3_revocation_snapshot_raw_sha256 a3_verification_request_sha256 a3_receipt_sha256 authority_packet_request_sha256 authority_packet_sha256 request_sha256 a4_candidate_uuid a4_descriptor_sha256 time_witness_receipt_bytes time_witness_receipt_raw_sha256 witness_uuid authority_label policy_uuid policy_revision_uuid target_policy_key_fingerprint_sha256 witness_public_key_fingerprint_sha256 observed_unix_ms issued_at_unix_ms expires_at_unix_ms sequence a3_snapshot_sha256 this_update_unix_ms next_update_unix_ms comparison_outcome witness_sha256 signature_sha256 input_class fixture_only maximum_attempts automatic_retry_count automatic_cleanup_count packet_replayed a1_correspondence_receipt_verified a2_correspondence_receipt_verified a3_correspondence_receipt_verified a4_candidate_bytes_matched descriptor_correspondence_verified subject_lineage_correspondence_verified witness_key_correspondence_verified witness_structure_verified time_bounds_structure_verified witness_signature_correspondence_verified supplied_interval_comparison_verified production_authority_claimed challenge_freshness_proved replay_prevention_proved custodian_identity_proved protected_storage_proved private_key_nonexportability_proved exclusive_control_proved current_possession_proved responder_identity_proved responder_authority_proved source_completeness_proved monotonic_history_proved snapshot_freshness_proved current_time_compared policy_governance_proved key_custody_proved revocation_truth_proved current_nonexpired live_authorization_admitted fresh_observation_proved private_execution_permit_present production_broker_projection_present physical_preparation_authorized ready_for_physical_execution execution_authorized witness_identity_proved witness_authority_proved witness_freshness_proved trusted_current_time_proved effect_account receipt_sha256
+
+& [EffectAccountFields]
+  + exact ordered fields are reference_resolution_count private_key_read_count signing_count revocation_service_contact_count witness_service_contact_count clock_read_count environment_read_count host_observation_count process_count provider_trial_count model_turn_count mcp_call_count network_contact_count broker_invocation_count writer_run_count filesystem_mutation_count git_mutation_count persistence_count activation_count cleanup_count remote_hardware_contact_count physical_contact
+
+& [EvidenceManifestFields]
+  + exact ordered fields are profile manifest_uuid fixture_only artifacts artifact_count total_artifact_bytes retained_authority_packet_sha256 retained_a1_receipt_sha256 retained_a2_receipt_sha256 retained_a3_receipt_sha256 retained_receipt_sha256 deterministic_replay_count required_fresh_process_replay_count byte_identical effect_count manifest_sha256
+
+& [FieldTypes]
+  + UUIDs are nonnil lowercase hyphenated identifiers; digests use existing ContentDigest with sha256 lowercase hex; key and signature hex are lowercase of length 64 and 128 respectively
+  + timestamps byte counts sequence expected_sequence and total_artifact_bytes are u64; maximum_attempts automatic_retry_count automatic_cleanup_count artifact_count deterministic_replay_count and required_fresh_process_replay_count are u8
+  + numeric effect counters and effect_count are u32; physical_contact and fixture_only and all correspondence or authority fields are bool
+  + comparison_outcome is exactly before_snapshot_interval within_snapshot_interval or after_snapshot_interval; input_class is existing KcvInputClass
+  + authority_packet_request is existing B1OaprRequest; evidence_references is one through forty-eight unique nonempty bounded opaque strings never resolved
+  + artifacts is an ordered fifteen-entry array; each artifact has exact fields path bytes sha256 with direct-child path string u64 bytes and ContentDigest
+  + all remaining scalar labels profiles statuses contexts and publication hashes are strings; forms deny unknown fields
+
+& [CanonicalOrderAndDigests]
+  + compact serde typed struct declaration order matches each ordered list above; canonical reserialization must equal input exactly so duplicate fields reordered fields alternate escaping whitespace or trailing forms refuse
+  + semantic digest substitutes sha256(empty bytes) for its own digest field without changing field shape; other fields remain present
+  + signature payload clears signature_hex and substitutes sha256(empty bytes) for witness_sha256 then serializes the complete witness struct
+  + witness signature input is UTF-8 cantor-b1-time-witness-signature/0.1 then one zero byte then canonical payload
+  + witness request receipt and evidence digest domains are cantor.b1.time-witness.digest.v1 cantor.b1.time-witness.request.v1 cantor.b1.time-witness.receipt.v1 and cantor.b1.time-witness.evidence-manifest.v1 followed by zero byte and normalized canonical form
+  + retained file raw hashes include exactly one LF terminator; raw candidate descriptor hashes exclude that transport LF and cover the canonical candidate bytes only
+
+& [IdentityAndExpectations]
+  + fixture candidate_label is fixture_a4_time_witness_candidate and external candidate_label is external_a4_time_witness_candidate
+  + witness UUID authority_label public key and sequence match separately supplied request expectations; label is nonempty bounded text and cannot confer authority
+  + witness public key need not equal policy or revocation responder key; target policy fingerprint remains exact from A3
+  + witness binds A3 packet and receipt snapshot semantic digest raw snapshot digest A1 A2 receipts and subject policy identities; it never embeds its own resulting A4 packet digest
+
+& [Comparison]
+  + structural witness bounds are issued <= observed <= expires; positive sequence and request equality do not imply freshness
+  + comparison reads only observed and replayed A3 this_update and next_update; both A3 interval endpoints are included in within_snapshot_interval
+  + integer comparison without subtraction supports zero and u64 maximum without overflow; inverted A3 interval refuses through predecessor replay
+
+& [EvidenceAndExecution]
+  + exactly sixteen named files and fifteen manifest payload entries follow TWV-005; directory membership is sorted only for set comparison while manifest path order remains exact
+  + file readers bound size before and during reads and check regular nonlink and Windows reparse conditions; no discovery beyond the caller-supplied directory
+  + no private keys in production forms; deterministic fixture signing exists only in tests; writer is one ignored test for a fresh caller-owned directory

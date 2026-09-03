@@ -1,0 +1,58 @@
+Subject: Cantor B1 Trusted Time Witness Receipt Verification P0
+
+@ [canonical_uuid] d4bbec0d-b308-4e83-ad80-29cdb61424eb
+@ [source_snapshot_uuid] 3f33fd16-abed-4838-9272-bc3f44aaff54
+
+@ [satisfaction_signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+@ [satisfaction_signature_uuid] 2e058f81-3eab-49e2-89aa-c677552191a0
+@ [source_custody_commit] 8fc0fe68dd706a13ff57cf7beb32e35e7be6ba56
+@ [data_design] narrative/research/Cantor_B1_Trusted_Time_Witness_Receipt_Verification_P0_Data_Design_2026-09-03.sop
+
+& [Purpose]
+  + verify supplied A4 signed time-witness correspondence and arithmetic relation to replayed A3 interval without admitting currentness trust or effects
+
+& [Requirements]
+  + [TWV-001] bind source snapshot 3f33fd16-abed-4838-9272-bc3f44aaff54 source-custody commit 8fc0fe68dd706a13ff57cf7beb32e35e7be6ba56 A3 canonical aeb226ac-3c59-4b9b-a81e-d59f285f5a2d implementation 508ddddaedee96d97f393244692b17801394f01c bookend cb1c608a50bfaad24281c34278ee8fdda2f30f8b and proof ccecea62-9e48-42ef-ba5b-adadd240ae18
+  + [TWV-002] profiles are exactly cantor-b1-trusted-time-witness-receipt/0.1 cantor-b1-trusted-time-witness-verification-request/0.1 cantor-b1-trusted-time-witness-verification-receipt/0.1 cantor-b1-trusted-time-witness-verification-evidence/0.1
+  + [TWV-003] maximum form and raw witness bytes 1048576 total evidence bytes 16777216 JSON depth 32 fields 4096 text bytes 8192 evidence references one through forty-eight and bounded checked arithmetic
+  + [TWV-004] input class is exactly deterministic_fixture_candidate or externally_supplied_candidate and matches A4 origin and fixture marker; external input is not authority
+  + [TWV-005] evidence membership is exactly sixteen direct regular nonlink files in this order: predecessor_request.json predecessor_packet.json predecessor_verification.json a1_policy_envelope.json a1_verification_request.json a1_receipt.json custody_attestation.json a2_verification_request.json a2_receipt.json revocation_snapshot.json a3_verification_request.json a3_receipt.json time_witness_receipt.json verification_request.json receipt.json evidence_manifest.json
+  + [TWV-006] rehash raw evidence before typed admission; replay predecessor packet A1 A2 and A3 using their existing verifiers and compare every predecessor receipt exactly
+  + [TWV-007] select exactly ordinal four current_time trusted_time_witness_receipt_candidate trusted-time-witness-verifier/0.1 public_metadata dependency ordinal three; no other coordinate is selectable
+  + [TWV-008] raw witness byte count SHA256 candidate UUID descriptor digest origin confidentiality profile and fixture flag agree across current packet request and candidate before semantic admission
+  + [TWV-009] compile current authority packet twice byte-identically; only A4 descriptor may differ from exact A3 current packet; all other descriptors and normalized packet request remain unchanged
+  + [TWV-010] candidate binds exact subject cantor_b1_cdrive_production_preparation_p0 branch codex/self-hosted-corpus remote https://github.com/cattailfarmer/Cantor policy UUID revision A1 A2 A3 receipt identities A3 packet snapshot raw and semantic digests and target policy-key fingerprint
+  + [TWV-011] witness UUID authority label public key fingerprint and positive u64 sequence equal explicit request expectations; key and label are supplied correspondence pins not trusted identity
+  + [TWV-012] witness key fingerprint is SHA256 of exactly thirty-two decoded Ed25519 public-key bytes and equals the separately supplied expected key; substituted key with otherwise valid signature refuses against the unchanged request
+  + [TWV-013] witness payload signing context is exactly cantor-b1-time-witness-signature/0.1; strict detached Ed25519 verification covers compact canonical fields with signature_hex and witness_sha256 excluded, with fixed domain separation
+  + [TWV-014] issued_at_unix_ms <= observed_unix_ms <= expires_at_unix_ms under u64 comparison; equality is allowed; positive sequence required; no ambient clock or freshness assertion
+  + [TWV-015] derive before_snapshot_interval iff observed < this_update; within_snapshot_interval iff this_update <= observed <= next_update; after_snapshot_interval iff observed > next_update; A3 interval comes only from replayed A3 receipt
+  + [TWV-016] candidate lineage binds A3 packet rather than the current A4 packet to avoid a self-referential raw digest cycle; request binds the resulting A4 packet and witness bytes
+  + [TWV-017] request binds governance publications predecessor digests raw witnesses explicit expectations evidence references one attempt zero retries zero cleanup and self-excluding domain-separated digest
+  + [TWV-018] receipt status is time_witness_signature_and_supplied_interval_correspondence_verified_current_time_and_all_execution_authority_unresolved and authority is supplied_time_witness_correspondence_only
+  + [TWV-019] receipt exposes exactly twelve positive correspondence fields and one descriptive comparison outcome with comparison inputs, raw witness identity, signature digest and request digest
+  + [TWV-020] twenty-nine named authority fields including production_authority_claimed remain false in candidate admission or resulting receipt as applicable; before within and after never promote authority
+  + [TWV-021] UTF-8 compact canonical typed forms refuse unknown duplicate noncanonical BOM CRLF whitespace concatenated trailing malformed and oversized inputs; direct files carry exactly one LF terminator
+  + [TWV-022] manifest binds ordered fifteen payload artifacts by direct-child path raw bytes SHA256 checked count and total; reconstructed evidence account is compared rather than trusted
+  + [TWV-023] independent evidence verifier replays packet A1 A2 A3 A4 twice byte-identically; at least two fresh processes reproduce exact retained receipt bytes; no producer import into verifier
+  + [TWV-024] typed atomic refusals cover path profile size shape identity lineage coordinate dependency raw bytes digest key expectation sequence interval signature receipt truth effect evidence arithmetic and restart discrepancies
+  + [TWV-025] production modules have no unsafe signing private-key clock environment service discovery process network model provider MCP Git workspace write broker persistence activation cleanup remote or physical capability; only explicit supplied file reads are admitted
+  + [TWV-026] primary research distinguishes timestamp syntax signature correspondence time-source authorization freshness delay uncertainty rollback and relying-party currentness; no RFC 3161 OCSP or NTS interoperability claim
+  + [TWV-027] source formation implementation fixture authority proof publication and foreign ownership remain separate; no frozen formation artifact changes after publication; closure records carry implementation results
+
+& [TruthFieldBoundary]
+  + positive correspondence fields are exactly packet_replayed a1_correspondence_receipt_verified a2_correspondence_receipt_verified a3_correspondence_receipt_verified a4_candidate_bytes_matched descriptor_correspondence_verified subject_lineage_correspondence_verified witness_key_correspondence_verified witness_structure_verified time_bounds_structure_verified witness_signature_correspondence_verified supplied_interval_comparison_verified
+  + conserved false fields are exactly production_authority_claimed challenge_freshness_proved replay_prevention_proved custodian_identity_proved protected_storage_proved private_key_nonexportability_proved exclusive_control_proved current_possession_proved responder_identity_proved responder_authority_proved source_completeness_proved monotonic_history_proved snapshot_freshness_proved current_time_compared policy_governance_proved key_custody_proved revocation_truth_proved current_nonexpired live_authorization_admitted fresh_observation_proved private_execution_permit_present production_broker_projection_present physical_preparation_authorized ready_for_physical_execution execution_authorized witness_identity_proved witness_authority_proved witness_freshness_proved trusted_current_time_proved
+  + comparison outcomes are exactly before_snapshot_interval within_snapshot_interval after_snapshot_interval
+  + upstream coordinates are policy_governance key_custody revocation_truth; selected coordinate is current_time
+  + downstream unresolved authorities are exactly live_decision fresh_observation private_execution_permit broker_projection physical_preparation
+
+& [Acceptance]
+  + [TWV-A01] source audit primary research requirements constraints delineation dual review data design threats seven-fold canonical explosion justification solution plan matrix lock proof readiness signature manifest and independent formation tests agree exactly
+  + [TWV-A02] safe Rust uses existing dependencies for strict forms A3 replay raw A4 admission expectations signatures supplied interval comparison receipts evidence and two bounded CLIs
+  + [TWV-A03] focused debug and overflow-checked release cover both input classes all three outcomes both exact endpoints u64 extremes and every named adversary; exact sixteen-file evidence independently replays across fresh processes
+  + [TWV-A04] locked offline serialized exact workspace debug and overflow-checked release warnings-denied Clippy format dual-host formation parsing evidence attribution non-force publication remote equality and post-push replay pass
+  + [TWV-A05] witness identity authority service contact clock correctness accuracy synchronization freshness rollback replay prevention current-time truth operative revocation downstream authorization provider and all effects remain separately governed and locked
+
+& [Invalidation]
+  + source predecessor publication field set digest bounds coordinate interval endpoint key pin context signature evidence truth effect requirement-support or attribution drift invalidates formation or implementation claims

@@ -1,0 +1,14 @@
+Subject: Cantor B1 Trusted Time Witness Receipt Verification P0 Primary Research
+
+@ [research_uuid] 94d3a9a0-0f6c-497c-a355-d89593815741
+@ [source_snapshot_uuid] 3f33fd16-abed-4838-9272-bc3f44aaff54
+
+& [SourcesAccessed20260903]
+  + https://www.rfc-editor.org/rfc/rfc3161 sections 2.1 2.2 and 2.4.2 distinguish timestamp fields signature checking time-source trust nonce correspondence timeliness and accuracy
+  + https://www.rfc-editor.org/rfc/rfc8915 section 8.6 explains that authenticated packets alone do not eliminate asymmetric-delay time errors
+  + https://www.rfc-editor.org/rfc/rfc6960 sections 2.4 4.2.2.1 and 4.2.2.2 distinguish supplied status interval signature time and responder authorization
+& [DerivedDesignDecisions]
+  + this is Cantor-specific JSON correspondence and not an implementation of TSP NTS or OCSP
+  + explicitly match supplied expected identity key and sequence but do not infer request freshness witness authorization clock accuracy synchronization or replay prevention
+  + compare supplied integer timestamps only; do not read a current clock or infer reliability from an interval outcome
+  + actual accuracy uncertainty delay rollback and relying-party freshness require a later independently sourced and signed policy
