@@ -1,0 +1,115 @@
+{
+  "profile": "cantor-b1-expected-observation-implementation-gates/0.1",
+  "gate_results_uuid": "8ea9da08-0c2c-475c-a3db-01b3afacb952",
+  "recorded_at_utc": "2026-09-04T18:31:44Z",
+  "canonical_uuid": "a992244a-31b1-4d0a-ad9e-39a1cc667c99",
+  "source_snapshot_uuid": "d10dd69e-34d1-43db-ab46-109a11cc80e0",
+  "formation_signature_uuid": "a4448ba3-5cc5-473f-a039-84b5347518ae",
+  "formation_commit": "6d3dadd8cde9a91e51f6a9d0d398fbc22f8eb7f4",
+  "formation_bookend_commit": "9e145958dc2d1ce3ac70d5dc0825edf616f8ca45",
+  "prepublication_head": "f9e9ad1bdd5c8a3272adb9e2ee24080d90029855",
+  "scope": "provider-free A6 supplied expected-observation correspondence; publication remains a separate pending edge",
+  "source_bindings": [
+    {"path":"crates/cantor_ecosystem/src/b1_expected_observation_correspondence.rs","bytes":49896,"sha256":"CE97456E8CE6900B258C408358345745AF9A5C177EDAFBD6C569A056FEF8F5DF"},
+    {"path":"crates/cantor_ecosystem/src/b1_expected_observation_correspondence_evidence.rs","bytes":17134,"sha256":"C215C3D877C4915D4BAF58C9BDEB93390A208E2615621330F6896F46A79B9C21"},
+    {"path":"crates/cantor_ecosystem/src/bin/cantor-b1-expected-observation-verify.rs","bytes":530,"sha256":"D97DE8B8E072ED96218DCB961F8BE66D8C39F7CED933D4CFAD1E04834E8F78EA"},
+    {"path":"crates/cantor_ecosystem/src/bin/cantor-b1-expected-observation-evidence-verify.rs","bytes":696,"sha256":"AC2B6358E4E6F65508EB93548B67B160E64DF89C3C56BE04CDF9390C2D9D1DC2"},
+    {"path":"crates/cantor_ecosystem/tests/b1_expected_observation_correspondence.rs","bytes":12085,"sha256":"19533867566681A078BFAC890D9995F17AC26EBB40A18671F3358FF173D9AEB6"},
+    {"path":"crates/cantor_ecosystem/tests/b1_expected_observation_full_chain.rs","bytes":48889,"sha256":"4919A8AB6EAED7892EF999AC740233739319D681E21D439F1A1BB4B6E4F9B44C"},
+    {"path":"crates/cantor_ecosystem/tests/support/eocv_predecessor_fixture.rs","bytes":19735,"sha256":"7A7C943413A905555DFDFE6A0BC065E557DD488558E1AA2937300A62211DD34D"},
+    {"path":"crates/cantor_ecosystem/src/lib.rs","bytes":7667,"sha256":"0765D2F432EF0B75C9F10F2AE954FB95EB7DF641F00980252372C50292D5B728"},
+    {"path":"scripts/test_b1_expected_observation_correspondence.ps1","bytes":10481,"sha256":"81401A0B817109358857AD55A2C9AE642B4369501FD27E1D8976B0138CE9EA13"},
+    {"path":"Cargo.toml","bytes":1330,"sha256":"39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588"},
+    {"path":"Cargo.lock","bytes":41724,"sha256":"71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F"},
+    {"path":"scripts/verify_cantor_b1_expected_observation_correspondence_p0_formation.ps1","bytes":36306,"sha256":"EAA6EEE9545ABB1E48C99A5AA1DA66C66D00FE582E8895C242654780BD1D3A87"},
+    {"path":"scripts/test_b1_expected_observation_formation.ps1","bytes":7476,"sha256":"D2397B50A38191F1B2618AC65A30145408F79C68AAE52BBAAE8C6BE4411A1C61"}
+  ],
+  "environment": {
+    "rust": "1.96.0",
+    "cargo": "1.96.0",
+    "powershell_7": "7.6.5",
+    "windows_powershell": "5.1.26100.9168",
+    "python": "3.12.10",
+    "cargo_target_dir": "D:/crf/target",
+    "cargo_build_jobs": 1,
+    "cargo_incremental": 0,
+    "rust_min_stack": 33554432,
+    "temp": "D:/CantorBuilds/B1A4TestTemp",
+    "locked": true,
+    "offline": true,
+    "test_threads": 1
+  },
+  "workspace_command": "cargo test [--release] --workspace --all-targets --all-features --locked --offline --no-fail-fast --quiet -- --test-threads=1; release RUSTFLAGS=-C overflow-checks=on",
+  "workspace_gates": [
+    {"profile":"debug","path":".local/b1-a6-final-debug-1788543880031.log","bytes":37239,"sha256":"9279164B890F99D9C191935D215DBED09DF8AD55C7102C6D1DB80BFB85A4CAFF","groups":299,"passed":1824,"failed":0,"ignored":19,"exit_code":0},
+    {"profile":"release_overflow_checked","path":".local/b1-a6-final-release-1788545365324.log","bytes":37223,"sha256":"44B924C7EBA9132228F369CD26C56FB355B432713B06B7429C0F26F3EF980F41","groups":299,"passed":1824,"failed":0,"ignored":19,"exit_code":0}
+  ],
+  "documentation_gates": [
+    {"profile":"debug","path":".local/b1-a6-doc-debug-1788546026341.log","bytes":2360,"sha256":"94AE7D223A68CE25D0D0DB8DCBE9C2AEE129614C652E0D0E634D4C605BEB2DE1","groups":20,"passed":0,"failed":0,"ignored":0,"exit_code":0},
+    {"profile":"release_overflow_checked","path":".local/b1-a6-doc-release-1788546037173.log","bytes":2360,"sha256":"94AE7D223A68CE25D0D0DB8DCBE9C2AEE129614C652E0D0E634D4C605BEB2DE1","groups":20,"passed":0,"failed":0,"ignored":0,"exit_code":0}
+  ],
+  "focused_hosts": [
+    {"host":"pwsh.exe","version":"7.6.5","path":".local/b1-a6-final-focused-pwsh-1788546135774.log","bytes":6168,"sha256":"1D0070327ACB81A761CBFA3DC5C6F80AA82FB740C1DDB70B9DA6D2CD026563F5","profiles":2,"active_tests_per_profile":32,"ignored_per_profile":1,"groups":4,"passed":64,"failed":0,"ignored":2,"exit_code":0},
+    {"host":"powershell.exe","version":"5.1.26100.9168","path":".local/b1-a6-final-focused-powershell-1788546515161.log","bytes":6024,"sha256":"27F98E2DEAC345F60712BA1DEBE2295B0105AB9B9C589EE1A57C6BDB75C7A4BF","profiles":2,"active_tests_per_profile":32,"ignored_per_profile":1,"groups":4,"passed":64,"failed":0,"ignored":2,"exit_code":0}
+  ],
+  "fresh_byte_replays": [
+    {"profile":"debug","attempt":1,"exit_code":0,"stdout_bytes":13096,"stdout_sha256":"7790CD5CCCD15A8F69A25633FFACCEF33AA41A734B2B1ACE4E023283F60C3BFC","stderr_bytes":0},
+    {"profile":"debug","attempt":2,"exit_code":0,"stdout_bytes":13096,"stdout_sha256":"7790CD5CCCD15A8F69A25633FFACCEF33AA41A734B2B1ACE4E023283F60C3BFC","stderr_bytes":0},
+    {"profile":"release_overflow_checked","attempt":1,"exit_code":0,"stdout_bytes":13096,"stdout_sha256":"7790CD5CCCD15A8F69A25633FFACCEF33AA41A734B2B1ACE4E023283F60C3BFC","stderr_bytes":0},
+    {"profile":"release_overflow_checked","attempt":2,"exit_code":0,"stdout_bytes":13096,"stdout_sha256":"7790CD5CCCD15A8F69A25633FFACCEF33AA41A734B2B1ACE4E023283F60C3BFC","stderr_bytes":0}
+  ],
+  "retained_evidence": {
+    "directory": "experiments/b1_expected_observation_correspondence_p0/implementation_provider_free_evidence",
+    "files": 26,
+    "payload_artifacts": 25,
+    "payload_bytes": 142789,
+    "directory_bytes": 147754,
+    "receipt_raw": {"bytes":13096,"sha256":"7790CD5CCCD15A8F69A25633FFACCEF33AA41A734B2B1ACE4E023283F60C3BFC"},
+    "manifest_raw": {"bytes":4965,"sha256":"8B36735968B082DED2D30D12E0A8758FFFB5D6B62FD25F4BD1408C9B0FD0C3EE"},
+    "receipt_self_sha256": "ae134c79919411a626780050d70c64c613f4ad3406e6f9d34c5ffb4293300cdc",
+    "manifest_self_sha256": "a814bd82bb2bc14503272f8c4faea242e96c5591e5d0eed93a209dcc5f90be47",
+    "bundle_self_sha256": "7ac06537f3a3ac87b4b79fa8025afe7993f85c56f411931f6e58d5045fa80dac",
+    "request_self_sha256": "62b987b6de4ebe5cbe32f8a5bf00d5b3b1d8c175111c179304d0bd14140fb83e"
+  },
+  "restart_account_refusal": {
+    "profiles": 2,
+    "fresh_processes_per_profile": 1,
+    "exit_code": 2,
+    "stdout_bytes": 0,
+    "fault": "Restart",
+    "disposition": "validly rehashed false retained receipt identity passes raw manifest accounting but refuses independent semantic reconstruction; exercised in the full-chain test in every exact and focused profile"
+  },
+  "quality": {
+    "quality_transcript": {"path":".local/b1-a6-final-quality-1788546026300.log","bytes":7395,"sha256":"A4F5391BF0F2D5AB0E7EC739086ED3B1EAB3CA8204AA72250856BFA2C56D625C","exit_code":0},
+    "workspace_clippy_all_targets_all_features_warnings_denied": true,
+    "standalone_experiment_clippy_all_targets_warnings_denied": ["llama_tool_reflection","persistence_benchmark","prepared_runtime_benchmark","resident_service_benchmark","self_hosted_corpus_benchmark"],
+    "cargo_fmt_check": true,
+    "dual_host_script_parse": {"ps1":182,"psm1":1,"errors":0},
+    "formation": {"hosts":2,"artifacts":21,"bindings":20,"requirements":33,"acceptance":5,"valid_per_host":2,"refusals_per_host":23,"drift":0},
+    "current_evidence": {"manifests":111,"references":2927,"stale":0},
+    "typed_shapes": {"bundle":17,"request":34,"receipt":69,"manifest":16,"nested_a5_receipt":113},
+    "named_active_tests": 32,
+    "named_test_locators_missing": 0
+  },
+  "metadata_only_refreshes": {"manifests":32,"artifact_bindings":50,"byte_fields":31,"sha256_fields":50,"generated_at_timestamps":28,"nonmetadata_drift":0},
+  "operational_facts": "narrative/operational_faults/1788541959415_b1_a6_implementation_gate_facts.sop",
+  "authority_and_effect_boundary": {
+    "user_approved_process_scoped_remote_signed": true,
+    "persistent_execution_policy_changed": false,
+    "powershell_7_policy": "preexisting LocalMachine RemoteSigned; unchanged",
+    "fresh_windows_powershell_policy_scopes": "all Undefined",
+    "pinned_provider_status": "provider_unavailable",
+    "live_provider_trials": 0,
+    "synthetic_provider_trials": 0,
+    "wsl_invocations": 0,
+    "remote_machine_invocations": 0,
+    "model_downloads": 0,
+    "receipt_positive_correspondence_fields": 7,
+    "receipt_false_authority_fields": 14,
+    "nested_a5_false_authority_fields": 33,
+    "effect_fields": 22,
+    "effect_count": 0,
+    "production_execution_authorized": false
+  },
+  "publication_status": "pending_exact_scoped_staging_attributed_commit_nonforce_push_direct_equality_postpush_replay_and_immediate_bookend"
+}
