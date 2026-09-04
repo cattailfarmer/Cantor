@@ -9,6 +9,7 @@
 //! orchestration.
 
 pub mod adapter;
+pub mod b1_expected_observation_correspondence;
 pub mod b1_operator_decision_chain_verification;
 pub mod b1_operator_decision_chain_verification_evidence;
 pub mod b1_operator_policy_governance_bundle_verification;
@@ -101,6 +102,7 @@ pub use b1_public_verifying_key_revocation_snapshot_verification_evidence::*;
 pub use b1_trusted_time_witness_receipt_verification::*;
 pub use b1_trusted_time_witness_receipt_verification_evidence::*;
 pub use b1_operator_decision_chain_verification::*;
+pub use b1_expected_observation_correspondence::*;
 pub use b1_operator_decision_chain_verification_evidence::*;
 pub use self_work_update_broker_b1_cdrive_production_preparation_plan::*;
 pub use self_work_update_broker_b1_cdrive_production_preparation_plan_evidence::*;
