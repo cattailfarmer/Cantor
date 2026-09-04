@@ -1,386 +1,386 @@
 {
-  "schema": "cantor-windows-platform-preflight-runtime-evidence-manifest/0.1",
-  "evidence_manifest_uuid": "aec65378-786a-4aeb-96a4-6d7b13ca6a58",
-  "generated_at_utc": "2026-09-04T17:41:35.1575596Z",
-  "authority": {
-    "canonical_specification": "specifications/Cantor_M2B_Platform_Location_Classification_Revision.sop",
-    "satisfaction_signature_uuid": "61c2b9cf-4608-4e7d-88ae-d674d52640e3",
-    "solution_uuid": "b4879cd8-24ef-43bf-bdf6-7b3d28164aff",
-    "implementation_commit": "216cf92224aec12759cbff209e973fa239c5526b"
-  },
-  "scope": {
-    "request_profile": "cantor-windows-platform-preflight-request/0.2",
-    "result_profile": "cantor-windows-platform-preflight/0.3",
-    "runtime_profile": "cantor-windows-platform-preflight-runtime/0.2",
-    "focused_form_tests": 12,
-    "focused_runtime_tests": 8,
-    "physical_tests_ignored_by_default": 1,
-    "unsafe_blocks": 6,
-    "safety_comments": 6,
-    "owner_types": 1,
-    "physical_local_claim": true,
-    "physical_remote_claim": false,
-    "scanner_authority": false,
-    "receipt_authority": false
-  },
-  "physical": {
-    "blocked_observation_sha256": "67832AA3573707257E8B4A2144AF177E352BD7AE64BCEC12577837F8E2D075B8",
-    "complete_local_observation_sha256": "3B52E87929AC4C42D640C7C29F70BA88D43A6417C31CEB361F59172803924D46",
-    "complete_local_disposition": "eligible_local_ntfs"
-  },
-  "verification": [
-    {
-      "command": "cargo test -p cantor_ecosystem --lib platform_preflight_forms --locked --offline",
-      "tests": 12,
-      "status": "passed"
-    },
-    {
-      "command": "cargo test -p cantor_windows_preflight --all-targets --locked --offline",
-      "passed": 7,
-      "ignored": 1,
-      "status": "passed"
-    },
-    {
-      "command": "cargo test --workspace --all-targets --locked --offline",
-      "passed": 259,
-      "ignored": 1,
-      "status": "passed"
-    },
-    {
-      "command": "RUSTFLAGS=-C overflow-checks=on cargo test --workspace --all-targets --release --locked --offline",
-      "passed": 259,
-      "ignored": 1,
-      "status": "passed"
-    },
-    {
-      "command": "cargo fmt --all -- --check",
-      "status": "passed"
-    },
-    {
-      "command": "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
-      "status": "passed"
-    },
-    {
-      "command": "cargo build --workspace --all-targets --release --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked --offline",
-      "status": "passed"
-    },
-    {
-      "command": "cargo audit --file Cargo.lock",
-      "dependencies": 113,
-      "advisories": 1174,
-      "vulnerabilities": 0,
-      "status": "passed"
-    }
-  ],
-  "artifacts": [
-    {
-      "path": ".gitattributes",
-      "sha256": "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
-      "bytes": 185
-    },
-    {
-      "path": "SOP_CORE_MAP.sop",
-      "sha256": "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
-      "bytes": 30392
-    },
-    {
-      "path": "Cargo.toml",
-      "sha256": "39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588",
-      "bytes": 1330
-    },
-    {
-      "path": "Cargo.lock",
-      "sha256": "71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F",
-      "bytes": 41724
-    },
-    {
-      "path": "crates/cantor_ecosystem/Cargo.toml",
-      "sha256": "7884615529B728B72D22638F9747E432B7AF34B2C0FAF8DE4E098F18D9FF02DE",
-      "bytes": 724
-    },
-    {
-      "path": "crates/cantor_ecosystem/src/lib.rs",
-      "sha256": "0765D2F432EF0B75C9F10F2AE954FB95EB7DF641F00980252372C50292D5B728",
-      "bytes": 7667
-    },
-    {
-      "path": "crates/cantor_ecosystem/src/platform_preflight_forms.rs",
-      "sha256": "3A61B48D40A6CF3B1AD2F89B2EB9AA898135F67C4C87DE6BF16CDABCB12C90BA",
-      "bytes": 35208
-    },
-    {
-      "path": "crates/cantor_ecosystem/tests/windows_platform_preflight_forms_evidence.rs",
-      "sha256": "A28221C31157895FEE6A716591E07ACECCC75182D816353767F04DB264C3A206",
-      "bytes": 2499
-    },
-    {
-      "path": "crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_1.json",
-      "sha256": "0D0AFF247A7D0F616432BFBDDC5FF283C33193B7B3F02A3B79832356FE008351",
-      "bytes": 13149
-    },
-    {
-      "path": "crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_2.json",
-      "sha256": "2479FF9D83EE8E8AE2E737786C5625B8E35C56082C004A2B29514AD6E1FCCC95",
-      "bytes": 18833
-    },
-    {
-      "path": "proofs/Cantor_M2B_Platform_Preflight_Forms_Proof.sop",
-      "sha256": "BBE4B88D10A28AE46832D8741253528DC733F896968042ADFA6D9FB49E21895B",
-      "bytes": 6482
-    },
-    {
-      "path": "proofs/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Proof.sop",
-      "sha256": "F0C99BAB80A4B8A0ECE35C25485CEE9E7426EE55475177DCF07EC1C7D9E982DD",
-      "bytes": 5339
-    },
-    {
-      "path": "crates/cantor_ecosystem/evidence/windows_topology_abi_probe_evidence_manifest.json",
-      "sha256": "0AEA39388D62B8FD0EE1A0B73B09F64BE1810680524F2812F48E15595360C5D7",
-      "bytes": 12900
-    },
-    {
-      "path": "proofs/Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop",
-      "sha256": "CCED34F5AF01DFC9455594B87EF9025FE1BD2D4CD439BD429B4EF2F1796AF3EB",
-      "bytes": 4858
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_m2b_windows_platform_preflight_runtime/Cantor_M2B_Windows_Platform_Preflight_Runtime_Source.sop",
-      "sha256": "3622E935FD3BC9491DE79807CE196C4D207CF2EBC59D3C49C75FE9598554F4DA",
-      "bytes": 5289
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_m2b_windows_platform_preflight_runtime/Source_Document_Manifest.sop",
-      "sha256": "A57CA5A153F9297E7114A4100B268448962D78DCEF0117500F0F8E8BD93AFD4F",
-      "bytes": 2177
-    },
-    {
-      "path": "specifications/exploded/Cantor_M2B_Windows_Platform_Preflight_Runtime.exploded.sop",
-      "sha256": "86049C4017451DC4D18F2D9277FC796CA78623C5772B16B716DDAD696FED139E",
-      "bytes": 12515
-    },
-    {
-      "path": "specifications/Cantor_M2B_Windows_Platform_Preflight_Runtime.sop",
-      "sha256": "11715C152B04F17F062ABDF2C7BEF5ABFA794FD428CB1ACC15A9863166231475",
-      "bytes": 15827
-    },
-    {
-      "path": "justifications/Cantor_M2B_Windows_Platform_Preflight_Runtime_Justification.sop",
-      "sha256": "43476A5A5ED91EA1A8D9DB9B518D6097DD656A890BE5C65D5552BE48DC7A1815",
-      "bytes": 3134
-    },
-    {
-      "path": "plans/Cantor_M2B_Windows_Platform_Preflight_Runtime_Plan.sop",
-      "sha256": "CC224A1846D725942FD7B56931D803D2BACA02B1659F1DE4BA6CA3799C0BCD8D",
-      "bytes": 1658
-    },
-    {
-      "path": "feature_support/M2BWindowsPlatformPreflightRuntime_Requirement_Matrix.sop",
-      "sha256": "238E8BC464F0B3489502C753290771CA2C9E4D8D61499F01FBA8BA90814D8D17",
-      "bytes": 1826
-    },
-    {
-      "path": "feature_support/slices/M2BWindowsPlatformPreflightRuntime.sop",
-      "sha256": "99D222E7313CE075AF064C96EA296AC9A7DFC915FD9C52A79596F718BA5AA64D",
-      "bytes": 1730
-    },
-    {
-      "path": "narrative/registries/Cantor_M2B_Windows_Platform_Preflight_Runtime_Registry.sop",
-      "sha256": "D52D9821C3388373129025FEEA6E07217AAA6CCF884670CCF1013320AF8658ED",
-      "bytes": 1711
-    },
-    {
-      "path": "narrative/research/Cantor_Windows_Platform_Preflight_Runtime_Closure_Assessment_2026-07-30.sop",
-      "sha256": "82C126E942095B56A5807D3F8AE34B537273AA9890EE8AA06AC54F1F91072F2D",
-      "bytes": 5315
-    },
-    {
-      "path": "narrative/operational_faults/1785444647333_m2b_windows_platform_preflight_runtime_authority_faults.sop",
-      "sha256": "84DE7EC0B35DD122E465658FD5FB71E75DAA396199E75C914ABB12EE3B909F27",
-      "bytes": 875
-    },
-    {
-      "path": "narrative/operational_faults/1785445529246_m2b_windows_platform_preflight_runtime_implementation_faults.sop",
-      "sha256": "C8F29FB88874FCE0A804818C0588C3DC13269970B43EAC94CF07EC69E3C26ABF",
-      "bytes": 2803
-    },
-    {
-      "path": "narrative/turns/1785444647333_cantor_m2b_windows_platform_preflight_runtime_authority.sop",
-      "sha256": "625559AFD1010630BB4443522D22795B2F80404632ED4EC227A9B7F59266EE55",
-      "bytes": 1626
-    },
-    {
-      "path": "narrative/turns/1785445529246_cantor_m2b_windows_platform_preflight_runtime_implementation.sop",
-      "sha256": "63039138ACC55811BF8331D9CD948C21FC60E37810ABC06F543CE9A2CBB55778",
-      "bytes": 1278
-    },
-    {
-      "path": "narrative/file_changes/1785444647333_m2b_windows_platform_preflight_runtime_authority_file_change.sop",
-      "sha256": "B1E1370A1D6C1A680D54D5EB77562C86C048D0668DC5A7E3E596640B16B676F7",
-      "bytes": 793
-    },
-    {
-      "path": "narrative/file_changes/1785445529246_m2b_windows_platform_preflight_runtime_implementation_file_change.sop",
-      "sha256": "FF505D3408BA38FC3AE2737848C4DD6454BF2CFB200F8A8845458FE4F3952DBA",
-      "bytes": 935
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_m2b_platform_location_classification_revision/Cantor_M2B_Platform_Location_Classification_Revision_Source.sop",
-      "sha256": "7836CB8664E599CE773609E118FD555B70AEECA7372C61D0AF6938F093115C3D",
-      "bytes": 3807
-    },
-    {
-      "path": "source_documents/2026-07-30_cantor_m2b_platform_location_classification_revision/Source_Document_Manifest.sop",
-      "sha256": "3D668FFED0BA6716D77B22B58F614C58F8996D4843A63B58E9B70B94788B2F48",
-      "bytes": 2346
-    },
-    {
-      "path": "specifications/exploded/Cantor_M2B_Platform_Location_Classification_Revision.exploded.sop",
-      "sha256": "F815D72863726F0079BEA22258BCE1577DB20BFAB3A95E023B8D4FD0E4A06A0F",
-      "bytes": 8173
-    },
-    {
-      "path": "specifications/Cantor_M2B_Platform_Location_Classification_Revision.sop",
-      "sha256": "4354E8382CD8D1FDF3C4A65F0C1408B48BDB51749BBCA13C05829899238B1B8B",
-      "bytes": 11849
-    },
-    {
-      "path": "justifications/Cantor_M2B_Platform_Location_Classification_Revision_Justification.sop",
-      "sha256": "BC63B001A446696DFC8BA866431AAD221E3432EE82529B4D022718915A73E1F8",
-      "bytes": 1867
-    },
-    {
-      "path": "plans/Cantor_M2B_Platform_Location_Classification_Revision_Plan.sop",
-      "sha256": "4B2E111BE79E000D3E7849A2EBA9D85402897B1FA2E57D04AA70A1E583805896",
-      "bytes": 1164
-    },
-    {
-      "path": "feature_support/M2BPlatformLocationClassificationRevision_Requirement_Matrix.sop",
-      "sha256": "C967214CD84D70F3B7C1C5AF132254E7412FB29C44F14C1A7B055A1B99D6443A",
-      "bytes": 1151
-    },
-    {
-      "path": "feature_support/slices/M2BPlatformLocationClassificationRevision.sop",
-      "sha256": "A083F8D8AF9AB4FD0B54103DB897F6C6C2304DEAF6869D5D5D4F79A75CEA967F",
-      "bytes": 1646
-    },
-    {
-      "path": "feature_support/reviews/M2BPlatformLocationClassificationRevision_Completion_Review.sop",
-      "sha256": "09E6A57041C8FA88FF67E668F0C13E6281E475A697A2D670EAAFFEBDD4779255",
-      "bytes": 1470
-    },
-    {
-      "path": "solutions/Cantor_M2B_Platform_Location_Classification_Revision_Solution.sop",
-      "sha256": "06B52997876DB1A7DAA756B2A635BAA97E285BC3F24B68403D84FD668B666703",
-      "bytes": 2467
-    },
-    {
-      "path": "narrative/registries/Cantor_M2B_Platform_Location_Classification_Revision_Registry.sop",
-      "sha256": "C166BB68528CDF0FDC91D51741BD1286F40D7EFB087250882CEAE2BD6340FFEB",
-      "bytes": 1282
-    },
-    {
-      "path": "narrative/research/Cantor_Windows_Platform_Preflight_Physical_Remote_Query_Finding_2026-07-30.sop",
-      "sha256": "D703B6B5D59BB6748458531C321A5918FFD016D4B3337C87F72E4369B2FBF8E4",
-      "bytes": 3824
-    },
-    {
-      "path": "narrative/research/Cantor_Platform_Preflight_Request_Profile_Versioning_Decision_2026-07-30.sop",
-      "sha256": "7E0C278365BBB1FB46D73D4E151AA7A5282EF7F56941BE8B6B1BD181B4835AC5",
-      "bytes": 1461
-    },
-    {
-      "path": "narrative/operational_faults/1785446152873_m2b_platform_location_classification_revision_authority_faults.sop",
-      "sha256": "0785EB7E008A6100079B1A98B94330588CFE216ACF74A49D6C8E7247CD5A6580",
-      "bytes": 637
-    },
-    {
-      "path": "narrative/operational_faults/1785446419762_m2b_platform_location_classification_revision_implementation_faults.sop",
-      "sha256": "A3F9F234B02F2FD570310900684444D4A4426DF67759E38829BF82748203DC04",
-      "bytes": 1313
-    },
-    {
-      "path": "narrative/turns/1785446152873_cantor_m2b_platform_location_classification_revision_authority.sop",
-      "sha256": "7CDD223520F58539A19ECF555BE5F4D4F4A9C1E561F2045026B6FDDC1AB5DF73",
-      "bytes": 1065
-    },
-    {
-      "path": "narrative/turns/1785446419762_cantor_m2b_platform_location_classification_revision_implementation.sop",
-      "sha256": "902266CB74CFAADD4D5435B57799F060C9996B6530BBC2DA0C2905142EC50573",
-      "bytes": 1007
-    },
-    {
-      "path": "narrative/turns/1785446500000_cantor_m2b_platform_location_classification_physical_completion.sop",
-      "sha256": "1B6EF88A175A89E6CF813C3BA6DED34720A1139271D12EA9CBCEB8D2AE4192B4",
-      "bytes": 933
-    },
-    {
-      "path": "narrative/file_changes/1785446152873_m2b_platform_location_classification_revision_authority_file_change.sop",
-      "sha256": "90581803ADA751C4EC9902CBACC20D39AA168387FEB15CF691153AEB507918FE",
-      "bytes": 540
-    },
-    {
-      "path": "narrative/file_changes/1785446419762_m2b_platform_location_classification_revision_implementation_file_change.sop",
-      "sha256": "B76569EDFDA76883BAD67D7C31352D9718B1BC7896063B983F7B659B84A79CF0",
-      "bytes": 642
-    },
-    {
-      "path": "plans/Cantor_Phase3_M2B_Activation_Readiness.sop",
-      "sha256": "A5B21F01CAEBAEF3FC74E996A01BDEA7F569A25C4883FA6F06A66798F101CC00",
-      "bytes": 31111
-    },
-    {
-      "path": "narrative/Project_Narrative.sop",
-      "sha256": "2A3461BE4511FB406FBD5EAECD3A315CBEA591CF4EDC8F60BAB448B3CD203E30",
-      "bytes": 490144
-    },
-    {
-      "path": "narrative/reentry/Cantor_M2B_Current_Reentry.sop",
-      "sha256": "DFF6416F524D6C90EBD162B503F71368F3FD8CDFF65183D6C7A20D4B89FA902E",
-      "bytes": 207534
-    },
-    {
-      "path": "crates/cantor_windows_preflight/Cargo.toml",
-      "sha256": "1506C841B805C916ECB9158C9930E1CED3666243783912CE49AC287B942EEC53",
-      "bytes": 491
-    },
-    {
-      "path": "crates/cantor_windows_preflight/src/lib.rs",
-      "sha256": "57C4CC17B41A62C040D77861256DF1504B571DD74329BCD1F2709C0F411E0683",
-      "bytes": 22512
-    },
-    {
-      "path": "crates/cantor_windows_preflight/tests/runtime_contract.rs",
-      "sha256": "0DA8437F4A448C342D27862C2390F2F0312A8BAFAAEFC228365DE10DD5BA03B8",
-      "bytes": 3425
-    },
-    {
-      "path": "crates/cantor_windows_preflight/tests/runtime_evidence.rs",
-      "sha256": "23B2A32D4E320547BFFAC678E338D1FE8FFFE7C663790C5B49F2B1932DCC620A",
-      "bytes": 2454
-    },
-    {
-      "path": "crates/cantor_windows_preflight/evidence/windows_platform_preflight_physical_observation_0_1_blocked.json",
-      "sha256": "67832AA3573707257E8B4A2144AF177E352BD7AE64BCEC12577837F8E2D075B8",
-      "bytes": 5263
-    },
-    {
-      "path": "crates/cantor_windows_preflight/evidence/windows_platform_preflight_physical_observation.json",
-      "sha256": "3B52E87929AC4C42D640C7C29F70BA88D43A6417C31CEB361F59172803924D46",
-      "bytes": 6007
-    },
-    {
-      "path": "scripts/run_windows_platform_preflight_fixture.ps1",
-      "sha256": "4357CE344BC6768710C0799EBD1BDE97A0D40945CB1A670471BDF66CB3216F3D",
-      "bytes": 8277
-    },
-    {
-      "path": "scripts/build_windows_platform_preflight_runtime_evidence_manifest.ps1",
-      "sha256": "025ACD984544CC97F9B4AC649A88DEB4237676BBA3C099BA90F4C3329A2E31EF",
-      "bytes": 9089
-    }
-  ]
+    "schema":  "cantor-windows-platform-preflight-runtime-evidence-manifest/0.1",
+    "evidence_manifest_uuid":  "aec65378-786a-4aeb-96a4-6d7b13ca6a58",
+    "generated_at_utc":  "2026-09-04T19:42:07.5173440Z",
+    "authority":  {
+                      "canonical_specification":  "specifications/Cantor_M2B_Platform_Location_Classification_Revision.sop",
+                      "satisfaction_signature_uuid":  "61c2b9cf-4608-4e7d-88ae-d674d52640e3",
+                      "solution_uuid":  "b4879cd8-24ef-43bf-bdf6-7b3d28164aff",
+                      "implementation_commit":  "216cf92224aec12759cbff209e973fa239c5526b"
+                  },
+    "scope":  {
+                  "request_profile":  "cantor-windows-platform-preflight-request/0.2",
+                  "result_profile":  "cantor-windows-platform-preflight/0.3",
+                  "runtime_profile":  "cantor-windows-platform-preflight-runtime/0.2",
+                  "focused_form_tests":  12,
+                  "focused_runtime_tests":  8,
+                  "physical_tests_ignored_by_default":  1,
+                  "unsafe_blocks":  6,
+                  "safety_comments":  6,
+                  "owner_types":  1,
+                  "physical_local_claim":  true,
+                  "physical_remote_claim":  false,
+                  "scanner_authority":  false,
+                  "receipt_authority":  false
+              },
+    "physical":  {
+                     "blocked_observation_sha256":  "67832AA3573707257E8B4A2144AF177E352BD7AE64BCEC12577837F8E2D075B8",
+                     "complete_local_observation_sha256":  "3B52E87929AC4C42D640C7C29F70BA88D43A6417C31CEB361F59172803924D46",
+                     "complete_local_disposition":  "eligible_local_ntfs"
+                 },
+    "verification":  [
+                         {
+                             "command":  "cargo test -p cantor_ecosystem --lib platform_preflight_forms --locked --offline",
+                             "tests":  12,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test -p cantor_windows_preflight --all-targets --locked --offline",
+                             "passed":  7,
+                             "ignored":  1,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo test --workspace --all-targets --locked --offline",
+                             "passed":  259,
+                             "ignored":  1,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "RUSTFLAGS=-C overflow-checks=on cargo test --workspace --all-targets --release --locked --offline",
+                             "passed":  259,
+                             "ignored":  1,
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo fmt --all -- --check",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo clippy --workspace --all-targets --locked --offline -- -D warnings",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo build --workspace --all-targets --release --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "RUSTDOCFLAGS=-D warnings cargo doc --workspace --no-deps --locked --offline",
+                             "status":  "passed"
+                         },
+                         {
+                             "command":  "cargo audit --file Cargo.lock",
+                             "dependencies":  113,
+                             "advisories":  1174,
+                             "vulnerabilities":  0,
+                             "status":  "passed"
+                         }
+                     ],
+    "artifacts":  [
+                      {
+                          "path":  ".gitattributes",
+                          "sha256":  "6237DA886CEDCC229E18AFCC5617A464D4B18FAC1977F58260E0017F72DCCAFA",
+                          "bytes":  185
+                      },
+                      {
+                          "path":  "SOP_CORE_MAP.sop",
+                          "sha256":  "6117ECA87DFA3BAF0341EE5D4631FDA6CE252FBF5BE50FBAF411EA74CE125EA3",
+                          "bytes":  30392
+                      },
+                      {
+                          "path":  "Cargo.toml",
+                          "sha256":  "39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588",
+                          "bytes":  1330
+                      },
+                      {
+                          "path":  "Cargo.lock",
+                          "sha256":  "71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F",
+                          "bytes":  41724
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/Cargo.toml",
+                          "sha256":  "7884615529B728B72D22638F9747E432B7AF34B2C0FAF8DE4E098F18D9FF02DE",
+                          "bytes":  724
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/lib.rs",
+                          "sha256":  "C0BE5FD5D88E699570044FC7F8819FD73DA8DB2B63CF09EF0B44A53AF3C351BD",
+                          "bytes":  7794
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/src/platform_preflight_forms.rs",
+                          "sha256":  "3A61B48D40A6CF3B1AD2F89B2EB9AA898135F67C4C87DE6BF16CDABCB12C90BA",
+                          "bytes":  35208
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/tests/windows_platform_preflight_forms_evidence.rs",
+                          "sha256":  "A28221C31157895FEE6A716591E07ACECCC75182D816353767F04DB264C3A206",
+                          "bytes":  2499
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_1.json",
+                          "sha256":  "0D0AFF247A7D0F616432BFBDDC5FF283C33193B7B3F02A3B79832356FE008351",
+                          "bytes":  13149
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_2.json",
+                          "sha256":  "2479FF9D83EE8E8AE2E737786C5625B8E35C56082C004A2B29514AD6E1FCCC95",
+                          "bytes":  18833
+                      },
+                      {
+                          "path":  "proofs/Cantor_M2B_Platform_Preflight_Forms_Proof.sop",
+                          "sha256":  "BBE4B88D10A28AE46832D8741253528DC733F896968042ADFA6D9FB49E21895B",
+                          "bytes":  6482
+                      },
+                      {
+                          "path":  "proofs/Cantor_M2B_Platform_Preflight_Fault_Provenance_Revision_Proof.sop",
+                          "sha256":  "F0C99BAB80A4B8A0ECE35C25485CEE9E7426EE55475177DCF07EC1C7D9E982DD",
+                          "bytes":  5339
+                      },
+                      {
+                          "path":  "crates/cantor_ecosystem/evidence/windows_topology_abi_probe_evidence_manifest.json",
+                          "sha256":  "9D26BD94790FC148A82214B365A5D36D1BEE16E3F505C282F0A83BD4872003F0",
+                          "bytes":  19474
+                      },
+                      {
+                          "path":  "proofs/Cantor_M2B_Windows_Sys_Compile_Probe_Lock_Revision_Proof.sop",
+                          "sha256":  "CCED34F5AF01DFC9455594B87EF9025FE1BD2D4CD439BD429B4EF2F1796AF3EB",
+                          "bytes":  4858
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_m2b_windows_platform_preflight_runtime/Cantor_M2B_Windows_Platform_Preflight_Runtime_Source.sop",
+                          "sha256":  "3622E935FD3BC9491DE79807CE196C4D207CF2EBC59D3C49C75FE9598554F4DA",
+                          "bytes":  5289
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_m2b_windows_platform_preflight_runtime/Source_Document_Manifest.sop",
+                          "sha256":  "A57CA5A153F9297E7114A4100B268448962D78DCEF0117500F0F8E8BD93AFD4F",
+                          "bytes":  2177
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_M2B_Windows_Platform_Preflight_Runtime.exploded.sop",
+                          "sha256":  "86049C4017451DC4D18F2D9277FC796CA78623C5772B16B716DDAD696FED139E",
+                          "bytes":  12515
+                      },
+                      {
+                          "path":  "specifications/Cantor_M2B_Windows_Platform_Preflight_Runtime.sop",
+                          "sha256":  "11715C152B04F17F062ABDF2C7BEF5ABFA794FD428CB1ACC15A9863166231475",
+                          "bytes":  15827
+                      },
+                      {
+                          "path":  "justifications/Cantor_M2B_Windows_Platform_Preflight_Runtime_Justification.sop",
+                          "sha256":  "43476A5A5ED91EA1A8D9DB9B518D6097DD656A890BE5C65D5552BE48DC7A1815",
+                          "bytes":  3134
+                      },
+                      {
+                          "path":  "plans/Cantor_M2B_Windows_Platform_Preflight_Runtime_Plan.sop",
+                          "sha256":  "CC224A1846D725942FD7B56931D803D2BACA02B1659F1DE4BA6CA3799C0BCD8D",
+                          "bytes":  1658
+                      },
+                      {
+                          "path":  "feature_support/M2BWindowsPlatformPreflightRuntime_Requirement_Matrix.sop",
+                          "sha256":  "238E8BC464F0B3489502C753290771CA2C9E4D8D61499F01FBA8BA90814D8D17",
+                          "bytes":  1826
+                      },
+                      {
+                          "path":  "feature_support/slices/M2BWindowsPlatformPreflightRuntime.sop",
+                          "sha256":  "99D222E7313CE075AF064C96EA296AC9A7DFC915FD9C52A79596F718BA5AA64D",
+                          "bytes":  1730
+                      },
+                      {
+                          "path":  "narrative/registries/Cantor_M2B_Windows_Platform_Preflight_Runtime_Registry.sop",
+                          "sha256":  "D52D9821C3388373129025FEEA6E07217AAA6CCF884670CCF1013320AF8658ED",
+                          "bytes":  1711
+                      },
+                      {
+                          "path":  "narrative/research/Cantor_Windows_Platform_Preflight_Runtime_Closure_Assessment_2026-07-30.sop",
+                          "sha256":  "82C126E942095B56A5807D3F8AE34B537273AA9890EE8AA06AC54F1F91072F2D",
+                          "bytes":  5315
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785444647333_m2b_windows_platform_preflight_runtime_authority_faults.sop",
+                          "sha256":  "84DE7EC0B35DD122E465658FD5FB71E75DAA396199E75C914ABB12EE3B909F27",
+                          "bytes":  875
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785445529246_m2b_windows_platform_preflight_runtime_implementation_faults.sop",
+                          "sha256":  "C8F29FB88874FCE0A804818C0588C3DC13269970B43EAC94CF07EC69E3C26ABF",
+                          "bytes":  2803
+                      },
+                      {
+                          "path":  "narrative/turns/1785444647333_cantor_m2b_windows_platform_preflight_runtime_authority.sop",
+                          "sha256":  "625559AFD1010630BB4443522D22795B2F80404632ED4EC227A9B7F59266EE55",
+                          "bytes":  1626
+                      },
+                      {
+                          "path":  "narrative/turns/1785445529246_cantor_m2b_windows_platform_preflight_runtime_implementation.sop",
+                          "sha256":  "63039138ACC55811BF8331D9CD948C21FC60E37810ABC06F543CE9A2CBB55778",
+                          "bytes":  1278
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785444647333_m2b_windows_platform_preflight_runtime_authority_file_change.sop",
+                          "sha256":  "B1E1370A1D6C1A680D54D5EB77562C86C048D0668DC5A7E3E596640B16B676F7",
+                          "bytes":  793
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785445529246_m2b_windows_platform_preflight_runtime_implementation_file_change.sop",
+                          "sha256":  "FF505D3408BA38FC3AE2737848C4DD6454BF2CFB200F8A8845458FE4F3952DBA",
+                          "bytes":  935
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_m2b_platform_location_classification_revision/Cantor_M2B_Platform_Location_Classification_Revision_Source.sop",
+                          "sha256":  "7836CB8664E599CE773609E118FD555B70AEECA7372C61D0AF6938F093115C3D",
+                          "bytes":  3807
+                      },
+                      {
+                          "path":  "source_documents/2026-07-30_cantor_m2b_platform_location_classification_revision/Source_Document_Manifest.sop",
+                          "sha256":  "3D668FFED0BA6716D77B22B58F614C58F8996D4843A63B58E9B70B94788B2F48",
+                          "bytes":  2346
+                      },
+                      {
+                          "path":  "specifications/exploded/Cantor_M2B_Platform_Location_Classification_Revision.exploded.sop",
+                          "sha256":  "F815D72863726F0079BEA22258BCE1577DB20BFAB3A95E023B8D4FD0E4A06A0F",
+                          "bytes":  8173
+                      },
+                      {
+                          "path":  "specifications/Cantor_M2B_Platform_Location_Classification_Revision.sop",
+                          "sha256":  "4354E8382CD8D1FDF3C4A65F0C1408B48BDB51749BBCA13C05829899238B1B8B",
+                          "bytes":  11849
+                      },
+                      {
+                          "path":  "justifications/Cantor_M2B_Platform_Location_Classification_Revision_Justification.sop",
+                          "sha256":  "BC63B001A446696DFC8BA866431AAD221E3432EE82529B4D022718915A73E1F8",
+                          "bytes":  1867
+                      },
+                      {
+                          "path":  "plans/Cantor_M2B_Platform_Location_Classification_Revision_Plan.sop",
+                          "sha256":  "4B2E111BE79E000D3E7849A2EBA9D85402897B1FA2E57D04AA70A1E583805896",
+                          "bytes":  1164
+                      },
+                      {
+                          "path":  "feature_support/M2BPlatformLocationClassificationRevision_Requirement_Matrix.sop",
+                          "sha256":  "C967214CD84D70F3B7C1C5AF132254E7412FB29C44F14C1A7B055A1B99D6443A",
+                          "bytes":  1151
+                      },
+                      {
+                          "path":  "feature_support/slices/M2BPlatformLocationClassificationRevision.sop",
+                          "sha256":  "A083F8D8AF9AB4FD0B54103DB897F6C6C2304DEAF6869D5D5D4F79A75CEA967F",
+                          "bytes":  1646
+                      },
+                      {
+                          "path":  "feature_support/reviews/M2BPlatformLocationClassificationRevision_Completion_Review.sop",
+                          "sha256":  "09E6A57041C8FA88FF67E668F0C13E6281E475A697A2D670EAAFFEBDD4779255",
+                          "bytes":  1470
+                      },
+                      {
+                          "path":  "solutions/Cantor_M2B_Platform_Location_Classification_Revision_Solution.sop",
+                          "sha256":  "06B52997876DB1A7DAA756B2A635BAA97E285BC3F24B68403D84FD668B666703",
+                          "bytes":  2467
+                      },
+                      {
+                          "path":  "narrative/registries/Cantor_M2B_Platform_Location_Classification_Revision_Registry.sop",
+                          "sha256":  "C166BB68528CDF0FDC91D51741BD1286F40D7EFB087250882CEAE2BD6340FFEB",
+                          "bytes":  1282
+                      },
+                      {
+                          "path":  "narrative/research/Cantor_Windows_Platform_Preflight_Physical_Remote_Query_Finding_2026-07-30.sop",
+                          "sha256":  "D703B6B5D59BB6748458531C321A5918FFD016D4B3337C87F72E4369B2FBF8E4",
+                          "bytes":  3824
+                      },
+                      {
+                          "path":  "narrative/research/Cantor_Platform_Preflight_Request_Profile_Versioning_Decision_2026-07-30.sop",
+                          "sha256":  "7E0C278365BBB1FB46D73D4E151AA7A5282EF7F56941BE8B6B1BD181B4835AC5",
+                          "bytes":  1461
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785446152873_m2b_platform_location_classification_revision_authority_faults.sop",
+                          "sha256":  "0785EB7E008A6100079B1A98B94330588CFE216ACF74A49D6C8E7247CD5A6580",
+                          "bytes":  637
+                      },
+                      {
+                          "path":  "narrative/operational_faults/1785446419762_m2b_platform_location_classification_revision_implementation_faults.sop",
+                          "sha256":  "A3F9F234B02F2FD570310900684444D4A4426DF67759E38829BF82748203DC04",
+                          "bytes":  1313
+                      },
+                      {
+                          "path":  "narrative/turns/1785446152873_cantor_m2b_platform_location_classification_revision_authority.sop",
+                          "sha256":  "7CDD223520F58539A19ECF555BE5F4D4F4A9C1E561F2045026B6FDDC1AB5DF73",
+                          "bytes":  1065
+                      },
+                      {
+                          "path":  "narrative/turns/1785446419762_cantor_m2b_platform_location_classification_revision_implementation.sop",
+                          "sha256":  "902266CB74CFAADD4D5435B57799F060C9996B6530BBC2DA0C2905142EC50573",
+                          "bytes":  1007
+                      },
+                      {
+                          "path":  "narrative/turns/1785446500000_cantor_m2b_platform_location_classification_physical_completion.sop",
+                          "sha256":  "1B6EF88A175A89E6CF813C3BA6DED34720A1139271D12EA9CBCEB8D2AE4192B4",
+                          "bytes":  933
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785446152873_m2b_platform_location_classification_revision_authority_file_change.sop",
+                          "sha256":  "90581803ADA751C4EC9902CBACC20D39AA168387FEB15CF691153AEB507918FE",
+                          "bytes":  540
+                      },
+                      {
+                          "path":  "narrative/file_changes/1785446419762_m2b_platform_location_classification_revision_implementation_file_change.sop",
+                          "sha256":  "B76569EDFDA76883BAD67D7C31352D9718B1BC7896063B983F7B659B84A79CF0",
+                          "bytes":  642
+                      },
+                      {
+                          "path":  "plans/Cantor_Phase3_M2B_Activation_Readiness.sop",
+                          "sha256":  "A5B21F01CAEBAEF3FC74E996A01BDEA7F569A25C4883FA6F06A66798F101CC00",
+                          "bytes":  31111
+                      },
+                      {
+                          "path":  "narrative/Project_Narrative.sop",
+                          "sha256":  "2A3461BE4511FB406FBD5EAECD3A315CBEA591CF4EDC8F60BAB448B3CD203E30",
+                          "bytes":  490144
+                      },
+                      {
+                          "path":  "narrative/reentry/Cantor_M2B_Current_Reentry.sop",
+                          "sha256":  "DFF6416F524D6C90EBD162B503F71368F3FD8CDFF65183D6C7A20D4B89FA902E",
+                          "bytes":  207534
+                      },
+                      {
+                          "path":  "crates/cantor_windows_preflight/Cargo.toml",
+                          "sha256":  "1506C841B805C916ECB9158C9930E1CED3666243783912CE49AC287B942EEC53",
+                          "bytes":  491
+                      },
+                      {
+                          "path":  "crates/cantor_windows_preflight/src/lib.rs",
+                          "sha256":  "57C4CC17B41A62C040D77861256DF1504B571DD74329BCD1F2709C0F411E0683",
+                          "bytes":  22512
+                      },
+                      {
+                          "path":  "crates/cantor_windows_preflight/tests/runtime_contract.rs",
+                          "sha256":  "0DA8437F4A448C342D27862C2390F2F0312A8BAFAAEFC228365DE10DD5BA03B8",
+                          "bytes":  3425
+                      },
+                      {
+                          "path":  "crates/cantor_windows_preflight/tests/runtime_evidence.rs",
+                          "sha256":  "23B2A32D4E320547BFFAC678E338D1FE8FFFE7C663790C5B49F2B1932DCC620A",
+                          "bytes":  2454
+                      },
+                      {
+                          "path":  "crates/cantor_windows_preflight/evidence/windows_platform_preflight_physical_observation_0_1_blocked.json",
+                          "sha256":  "67832AA3573707257E8B4A2144AF177E352BD7AE64BCEC12577837F8E2D075B8",
+                          "bytes":  5263
+                      },
+                      {
+                          "path":  "crates/cantor_windows_preflight/evidence/windows_platform_preflight_physical_observation.json",
+                          "sha256":  "3B52E87929AC4C42D640C7C29F70BA88D43A6417C31CEB361F59172803924D46",
+                          "bytes":  6007
+                      },
+                      {
+                          "path":  "scripts/run_windows_platform_preflight_fixture.ps1",
+                          "sha256":  "4357CE344BC6768710C0799EBD1BDE97A0D40945CB1A670471BDF66CB3216F3D",
+                          "bytes":  8277
+                      },
+                      {
+                          "path":  "scripts/build_windows_platform_preflight_runtime_evidence_manifest.ps1",
+                          "sha256":  "025ACD984544CC97F9B4AC649A88DEB4237676BBA3C099BA90F4C3329A2E31EF",
+                          "bytes":  9089
+                      }
+                  ]
 }
