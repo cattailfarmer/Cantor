@@ -1,0 +1,278 @@
+{
+  "profile": "cantor-b1-time-witness-implementation-gate-results/0.1",
+  "gate_results_uuid": "5cc05ad1-952e-4062-a64b-fd7cb7b50cef",
+  "recorded_at_utc": "2026-09-04 00:28:38 UTC",
+  "canonical_uuid": "d4bbec0d-b308-4e83-ad80-29cdb61424eb",
+  "formation_commit": "e06d2f31362a881455883126a3060c6b6e7705c3",
+  "formation_bookend_commit": "73de513e0ad2a8c98f166015728fb391f19db091",
+  "scope": "Native Windows provider-free implementation verification; prepublication record, not production trust or execution authority.",
+  "source_bindings": [
+    {
+      "path": "crates/cantor_ecosystem/src/b1_trusted_time_witness_receipt_verification_evidence.rs",
+      "bytes": 16305,
+      "sha256": "E4CD501AC45968C6DEC9021A8066D08D152CDF5D12C4536E9BB5F8D05650E9AC"
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/b1_trusted_time_witness_receipt_verification.rs",
+      "bytes": 43921,
+      "sha256": "0221DDDA1A29BCD67EB794AEE66029540E24BFFCFD2F6E4CD5B44E882CD26C9D"
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/bin/cantor-b1-trusted-time-witness-evidence-verify.rs",
+      "bytes": 695,
+      "sha256": "970BE0616FC774640FA447CACA2EDAF8883CCFB5254D05BBB5A07856582923D0"
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/bin/cantor-b1-trusted-time-witness-verify.rs",
+      "bytes": 515,
+      "sha256": "1B4884B0BF3740C7C9A0364AD3A14D6875D6D30E69C0E5E75EF4F13BC33631AC"
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/lib.rs",
+      "bytes": 7231,
+      "sha256": "29C213B8C41C13116E56CAD221812AEE987023F88A9548BA6B86B101772DC386"
+    },
+    {
+      "path": "crates/cantor_ecosystem/tests/b1_trusted_time_witness_receipt_verification.rs",
+      "bytes": 46816,
+      "sha256": "0093FC2C1A997FD042B3B4961C4E3CF331816291F32A973E0751B6E6A3D7D1FE"
+    },
+    {
+      "path": "crates/cantor_service/tests/operator_lifecycle.rs",
+      "bytes": 14772,
+      "sha256": "3A4748D6C7281A486FACC42449989C97C9418165E2222E6B135E7F3368BC8A8E"
+    },
+    {
+      "path": "Cargo.toml",
+      "bytes": 1330,
+      "sha256": "39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588"
+    },
+    {
+      "path": "Cargo.lock",
+      "bytes": 41724,
+      "sha256": "71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F"
+    },
+    {
+      "path": "scripts/test_b1_trusted_time_witness_receipt_verification.ps1",
+      "bytes": 8422,
+      "sha256": "5694F20C60903E0452ACA9FA65F94AF128F7DE4E18BED17C3FBA390DBB27E742"
+    },
+    {
+      "path": "scripts/verify_cantor_b1_trusted_time_witness_receipt_verification_p0_formation.ps1",
+      "bytes": 24901,
+      "sha256": "10C4119BF20B94C8114C1C4BD31F189E32F131212C56747E8F6C9B13C0FA0AD8"
+    },
+    {
+      "path": "scripts/test_b1_trusted_time_witness_formation.ps1",
+      "bytes": 4591,
+      "sha256": "172264D4971D0AED521A889AA3C8B5C691C5CEBF3E46047E1511D12C50F697BB"
+    }
+  ],
+  "environment": {
+    "worktree": "D:/crf",
+    "cargo_target_dir": "D:/crf/target",
+    "temp_and_tmp": "D:/CantorBuilds/B1A4TestTemp",
+    "temporary_root_is_outside_git": true,
+    "cargo_build_jobs": 1,
+    "cargo_incremental": 0,
+    "rust_min_stack": 33554432,
+    "test_threads": 1,
+    "locked": true,
+    "offline": true,
+    "rustc": "1.96.0 (ac68faa20 2026-05-25)",
+    "cargo": "1.96.0 (30a34c682 2026-05-25)",
+    "python": "3.12.10 via command-local PATH",
+    "release_rustflags": "-C overflow-checks=on"
+  },
+  "workspace_command": "cargo test [--release] --workspace --all-targets --all-features --locked --offline --no-fail-fast --quiet -- --test-threads=1",
+  "workspace_gates": [
+    {
+      "profile": "debug",
+      "result_groups": 292,
+      "passed": 1758,
+      "failed": 0,
+      "ignored": 17,
+      "exit_code": 0,
+      "log": {
+        "path": ".local/b1-a4-final-debug-1788479545391.log",
+        "bytes": 36337,
+        "sha256": "A961F14357C85255FE8C0752E75A04BA09684744A2438B6143C45BAFD193BBAD"
+      }
+    },
+    {
+      "profile": "release_overflow_checked",
+      "result_groups": 292,
+      "passed": 1758,
+      "failed": 0,
+      "ignored": 17,
+      "exit_code": 0,
+      "log": {
+        "path": ".local/b1-a4-final-release-1788480684330.log",
+        "bytes": 36325,
+        "sha256": "0CCE0C4C9098C224C5D26B77DB9E9335FF372011AB9FDA1C989C93A3BB39CEFF"
+      }
+    }
+  ],
+  "documentation_command": "cargo test [--release] --doc --workspace --all-features --locked --offline --no-fail-fast --quiet -- --test-threads=1",
+  "documentation_gates": [
+    {
+      "path": ".local/b1-a4-doc-debug-1788481371475.log",
+      "bytes": 2360,
+      "sha256": "94AE7D223A68CE25D0D0DB8DCBE9C2AEE129614C652E0D0E634D4C605BEB2DE1",
+      "result_groups": 20,
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code": 0
+    },
+    {
+      "path": ".local/b1-a4-doc-release-1788481382781.log",
+      "bytes": 2360,
+      "sha256": "94AE7D223A68CE25D0D0DB8DCBE9C2AEE129614C652E0D0E634D4C605BEB2DE1",
+      "result_groups": 20,
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code": 0
+    }
+  ],
+  "count_semantics": "Counts are summed Rust harness result summaries, not a deduplicated inventory of unique assertions. Documentation gates cover 20 libraries with zero executable examples.",
+  "focused_hosts": [
+    {
+      "host": "Windows PowerShell",
+      "version": "5.1.26100.9168"
+    },
+    {
+      "host": "PowerShell",
+      "version": "7.6.4"
+    }
+  ],
+  "focused_logs": [
+    {
+      "path": ".local/b1-a4-final-focused-powershell.exe-1788481506510.log",
+      "bytes": 4726,
+      "sha256": "55BE6040EA10172623691CC2B1EAA7BE0E3E9913B88FC299DB0A96A526771BDC",
+      "profiles": 2,
+      "active_tests_per_profile": 24,
+      "failed_per_profile": 0,
+      "ignored_per_profile": 1,
+      "exit_code": 0
+    },
+    {
+      "path": ".local/b1-a4-final-focused-pwsh.exe-1788481397496.log",
+      "bytes": 4870,
+      "sha256": "C0320A4847519F9886F5EBD87DBB2934D4C4E8D5BEC4D0B536890FEE5126EED1",
+      "profiles": 2,
+      "active_tests_per_profile": 24,
+      "failed_per_profile": 0,
+      "ignored_per_profile": 1,
+      "exit_code": 0
+    }
+  ],
+  "fresh_byte_replays": [
+    {
+      "profile": "debug",
+      "attempt": 1,
+      "exit_code": 0,
+      "stdout_bytes": 6202,
+      "stdout_sha256": "371DA0B9576C3338CFAE0681D656896CA5E734CB862B9B00351EFA1782E409D5",
+      "stderr_bytes": 0
+    },
+    {
+      "profile": "debug",
+      "attempt": 2,
+      "exit_code": 0,
+      "stdout_bytes": 6202,
+      "stdout_sha256": "371DA0B9576C3338CFAE0681D656896CA5E734CB862B9B00351EFA1782E409D5",
+      "stderr_bytes": 0
+    },
+    {
+      "profile": "release",
+      "attempt": 1,
+      "exit_code": 0,
+      "stdout_bytes": 6202,
+      "stdout_sha256": "371DA0B9576C3338CFAE0681D656896CA5E734CB862B9B00351EFA1782E409D5",
+      "stderr_bytes": 0
+    },
+    {
+      "profile": "release",
+      "attempt": 2,
+      "exit_code": 0,
+      "stdout_bytes": 6202,
+      "stdout_sha256": "371DA0B9576C3338CFAE0681D656896CA5E734CB862B9B00351EFA1782E409D5",
+      "stderr_bytes": 0
+    }
+  ],
+  "quality": {
+    "workspace_clippy_all_targets_all_features_warnings_denied": true,
+    "standalone_experiment_clippy_warnings_denied": [
+      "llama_tool_reflection",
+      "persistence_benchmark",
+      "prepared_runtime_benchmark",
+      "resident_service_benchmark",
+      "self_hosted_corpus_benchmark"
+    ],
+    "cargo_fmt_check": true,
+    "dual_host_script_parse": {
+      "ps1": 176,
+      "psm1": 1,
+      "errors": 0
+    },
+    "formation": {
+      "artifacts": 21,
+      "signature_bindings": 20,
+      "requirements": 27,
+      "acceptance_gates": 5,
+      "valid_roots_per_host": 2,
+      "refusals_per_host": 9
+    },
+    "current_evidence": {
+      "manifests": 107,
+      "references": 2840,
+      "stale": 0
+    },
+    "metadata_only_refreshes": {
+      "manifests": 33,
+      "artifact_bindings": 53
+    },
+    "frozen_formation_drift": 0,
+    "dependency_input_drift": 0,
+    "named_matrix_test_locators_missing": 0
+  },
+  "prior_attempts": [
+    {
+      "log": ".local/b1-a4-exact-debug-1788476988792.log",
+      "exit_code": -1,
+      "result_groups": 43,
+      "passed": 112,
+      "failed": 0,
+      "disposition": "deliberately stopped before pre-existing Bypass lifecycle helper; reviewed helper corrected to RemoteSigned"
+    },
+    {
+      "log": ".local/b1-a4-final-debug-1788478323565.log",
+      "exit_code": 101,
+      "result_groups": 292,
+      "passed": 1757,
+      "failed": 1,
+      "ignored": 17,
+      "disposition": "TEMP inside checkout invalidated non-repository fixture assumption; unchanged refusal passed with external D-drive temporary root; full profiles rerun"
+    }
+  ],
+  "authority_and_effect_boundary": {
+    "user_approved_process_scoped_remote_signed": true,
+    "persistent_execution_policy_changed": false,
+    "pinned_provider_status": "provider_unavailable",
+    "live_provider_trials": 0,
+    "synthetic_provider_trials": 0,
+    "wsl_invocations": 0,
+    "remote_machine_invocations": 0,
+    "model_downloads": 0,
+    "receipt_positive_correspondence_fields": 12,
+    "receipt_false_authority_fields": 29,
+    "receipt_zero_effect_fields": 22,
+    "downstream_authorities_unresolved": 5,
+    "production_execution_authorized": false
+  },
+  "audit_note": "Builds and test harnesses perform declared verification activity including scratch files and subprocesses. Zero-effect claims refer to the A4 correspondence contract, not to the entire development session. Local transcript hashes identify disposable logs; source and commands allow rerun.",
+  "publication_status": "pending_scoped_commit_push_direct_equality_postpush_replay_and_immediate_bookend"
+}

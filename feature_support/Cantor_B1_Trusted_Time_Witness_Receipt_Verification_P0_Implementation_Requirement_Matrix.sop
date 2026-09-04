@@ -1,0 +1,188 @@
+Subject: Cantor B1 A4 Implementation Requirement Matrix
+
+@ [matrix_uuid] 7c164d3e-7254-4349-99d0-48be81d8b883
+@ [canonical_uuid] d4bbec0d-b308-4e83-ad80-29cdb61424eb
+@ [implementation_turn_uuid] 7d930c6f-08b9-424e-8e87-a5c54e165dbf
+@ [proof_uuid] 53d27c81-da71-4645-865f-32196a7a5fc8
+
+& [State]
+  + implementation and all exact verification gates pass; scoped staging publication direct equality and post-push bookend remain pending
+  + test locators are crates/cantor_ecosystem/tests/b1_trusted_time_witness_receipt_verification.rs unless formation or publication is specified
+  + code locators are the new b1_trusted_time_witness_receipt_verification and independent evidence modules under crates/cantor_ecosystem/src
+
+& [TWV-001]
+  + [meaning] immutable source and publication lineage
+  + [implementation] validate_request_shape; verify_twv_time_witness
+  + [verification] request_governance_and_predecessor_binding_drift_refuse
+  + [completion] verified_prepublication
+
+& [TWV-002]
+  + [meaning] four exact profiles
+  + [implementation] typed profile constants and validators
+  + [verification] both_input_classes_replay_without_promoting_authority; witness_lineage_subject_and_candidate_drift_refuse
+  + [completion] verified_prepublication
+
+& [TWV-003]
+  + [meaning] bounded forms framing JSON and references
+  + [implementation] parse_twv_canonical; measure_value; read_bounded_file; read_paths
+  + [verification] canonical_forms_refuse_duplicates_unknown_fields_whitespace_and_oversize; evidence_membership_framing_nonregular_size_and_manifest_tamper_refuse; request_attempts_reference_and_expectation_bounds_refuse
+  + [completion] verified_prepublication
+
+& [TWV-004]
+  + [meaning] two input classes and matching fixture origin
+  + [implementation] validate_twv_witness; verify_twv_time_witness
+  + [verification] both_input_classes_replay_without_promoting_authority; only_a4_descriptor_may_change_from_the_replayed_a3_packet
+  + [completion] verified_prepublication
+
+& [TWV-005]
+  + [meaning] sixteen direct regular nonlink files
+  + [implementation] TWV_EVIDENCE_FILES; verify_twv_evidence_directory
+  + [verification] evidence_membership_framing_nonregular_size_and_manifest_tamper_refuse; windows_junction_directory_and_ancestor_are_refused
+  + [completion] verified_prepublication
+
+& [TWV-006]
+  + [meaning] raw identity before admission and exact upstream replay
+  + [implementation] validate_twv_evidence_manifest; verify_twv_time_witness; verify_krv_revocation_snapshot
+  + [verification] upstream_replay_refuses_promoted_a3_and_tampered_a1_a2_bytes; fresh_process_raw_and_rehashed_authority_tamper_refuse
+  + [completion] verified_prepublication
+
+& [TWV-007]
+  + [meaning] ordinal four current_time dependency three only
+  + [implementation] validate_packet_transition; A4 descriptor admission
+  + [verification] only_a4_descriptor_may_change_from_the_replayed_a3_packet
+  + [completion] verified_prepublication
+
+& [TWV-008]
+  + [meaning] raw counts hashes selected descriptor and input correspondence
+  + [implementation] verify_twv_time_witness raw admission
+  + [verification] raw_witness_bytes_lengths_and_digests_refuse_before_parsing; only_a4_descriptor_may_change_from_the_replayed_a3_packet
+  + [completion] verified_prepublication
+
+& [TWV-009]
+  + [meaning] isolated A4 transition with exact normalized predecessor
+  + [implementation] compile_b1oapr_packet twice; validate_packet_transition
+  + [verification] only_a4_descriptor_may_change_from_the_replayed_a3_packet; both_input_classes_replay_without_promoting_authority
+  + [completion] verified_prepublication
+
+& [TWV-010]
+  + [meaning] exact subject policy lineage and target-key fingerprint
+  + [implementation] validate_witness_correspondence; validate_twv_witness
+  + [verification] witness_lineage_subject_and_candidate_drift_refuse
+  + [completion] verified_prepublication
+
+& [TWV-011]
+  + [meaning] explicit identity label key and positive sequence pins
+  + [implementation] validate_request_shape; validate_witness_correspondence
+  + [verification] witness_and_request_identity_pins_cannot_be_substituted; signed_time_bounds_and_positive_sequence_are_structural_only
+  + [completion] verified_prepublication
+
+& [TWV-012]
+  + [meaning] thirty-two key bytes and substituted-key refusal
+  + [implementation] decoded key fingerprint; VerifyingKey::verify_strict
+  + [verification] witness_and_request_identity_pins_cannot_be_substituted; strict_signature_and_domain_tamper_refuse_after_rehashing
+  + [completion] verified_prepublication
+
+& [TWV-013]
+  + [meaning] fixed signing context strict detached Ed25519 and normalized signature fields
+  + [implementation] twv_signature_payload_bytes; validate_twv_witness
+  + [verification] strict_signature_and_domain_tamper_refuse_after_rehashing; domain_separation_and_normalization_match_independent_contract_construction
+  + [completion] verified_prepublication
+
+& [TWV-014]
+  + [meaning] inclusive supplied witness bounds and no freshness
+  + [implementation] validate_twv_witness structural time bounds
+  + [verification] signed_time_bounds_and_positive_sequence_are_structural_only
+  + [completion] verified_prepublication
+
+& [TWV-015]
+  + [meaning] three outcomes inclusive A3 endpoints and arithmetic extremes
+  + [implementation] compare_twv_supplied_interval
+  + [verification] closed_interval_outcomes_endpoints_and_u64_extremes
+  + [completion] verified_prepublication
+
+& [TWV-016]
+  + [meaning] no self-referential A4 digest cycle
+  + [implementation] validate_witness_correspondence A3 packet binding
+  + [verification] witness_lineage_subject_and_candidate_drift_refuse; both_input_classes_replay_without_promoting_authority
+  + [completion] verified_prepublication
+
+& [TWV-017]
+  + [meaning] request complete binding and one-attempt zero-retry policy
+  + [implementation] validate_request_shape; twv_request_digest
+  + [verification] request_attempts_reference_and_expectation_bounds_refuse; request_governance_and_predecessor_binding_drift_refuse
+  + [completion] verified_prepublication
+
+& [TWV-018]
+  + [meaning] exact descriptive status and authority
+  + [implementation] build_receipt; validate_twv_receipt
+  + [verification] both_input_classes_replay_without_promoting_authority; receipt_every_non_boolean_scalar_and_digest_remains_exact
+  + [completion] verified_prepublication
+
+& [TWV-019]
+  + [meaning] twelve positive correspondences and reconstructed comparison inputs
+  + [implementation] build_receipt; validate_twv_receipt
+  + [verification] receipt_all_true_false_and_effect_fields_are_reconstructed; receipt_every_non_boolean_scalar_and_digest_remains_exact
+  + [completion] verified_prepublication
+
+& [TWV-020]
+  + [meaning] twenty-nine false authority fields conserved
+  + [implementation] validate_twv_witness; validate_twv_receipt
+  + [verification] witness_all_authority_flags_refuse_even_with_valid_signature; receipt_all_true_false_and_effect_fields_are_reconstructed
+  + [completion] verified_prepublication
+
+& [TWV-021]
+  + [meaning] compact typed UTF-8 and single-LF framing
+  + [implementation] parse_twv_canonical; retained_bytes
+  + [verification] canonical_forms_refuse_duplicates_unknown_fields_whitespace_and_oversize; evidence_membership_framing_nonregular_size_and_manifest_tamper_refuse
+  + [completion] verified_prepublication
+
+& [TWV-022]
+  + [meaning] ordered fifteen-entry raw-byte manifest
+  + [implementation] validate_twv_evidence_manifest
+  + [verification] manifest_claims_cannot_replace_reconstructed_replay; evidence_membership_framing_nonregular_size_and_manifest_tamper_refuse
+  + [completion] verified_prepublication
+
+& [TWV-023]
+  + [meaning] independent in-process and fresh-process byte replay
+  + [implementation] replay_payload twice; verify_twv_evidence_directory
+  + [verification] fresh_process_replays_are_byte_identical_and_arg_counts_are_bounded; fresh_process_raw_and_rehashed_authority_tamper_refuse
+  + [completion] verified_prepublication
+
+& [TWV-024]
+  + [meaning] typed path semantic authority and restart refusal
+  + [implementation] TwvFaultCode and atomic Result failures
+  + [verification] all named refusal tests including fresh_process_raw_and_rehashed_authority_tamper_refuse
+  + [completion] verified_prepublication
+
+& [TWV-025]
+  + [meaning] no effects and no production signer or discovery
+  + [implementation] safe production modules and read-only CLIs
+  + [verification] opaque_references_are_never_resolved_and_downstream_authorities_remain; bare_input_filenames_work_without_an_output_directory; forbidden-surface source review
+  + [completion] verified_prepublication
+
+& [TWV-026]
+  + [meaning] timestamp correspondence distinct from source trust and currentness
+  + [implementation] published Primary Research and Threat Review
+  + [verification] dual-host frozen formation gate
+  + [completion] verified_prepublication
+
+& [TWV-027]
+  + [meaning] phase publication and foreign ownership boundaries
+  + [implementation] separate immutable formation and implementation artifacts
+  + [verification] dual-host frozen formation gate; exact staged-diff inventory and publication bookend
+  + [completion] verified_phase_separation_final_publication_pending
+
+& [Acceptance]
+  + [TWV-A01] immutable formation is published remote equal with independent two-host replay
+  + [TWV-A02] implementation modules two CLIs and existing locked dependencies compile with warnings-denied package Clippy
+  + [TWV-A03] final reviewed focused debug and overflow release pass twenty-four active tests zero failed and one intentionally ignored producer on both PowerShell hosts; sixteen retained files replay byte-identically through independent fresh processes
+  + [TWV-A04] exact locked-offline serialized all-target all-feature debug and overflow release each pass 292 groups 1758 reported passes zero failures seventeen ignored; twenty-library documentation checks pass both profiles with zero executable examples; workspace and five experiment warnings-denied Clippy format dual-host formation 177-file parsing recursive evidence and working-diff checks pass; exact staging publication direct equality post-push replay and bookend remain pending
+  + [TWV-A05] all effect and trust authority remains locked; no pinned provider substitute
+
+& [VerificationInfrastructureCorrection]
+  + TWV-A04 additionally binds the owned process-policy compatibility correction in crates/cantor_service/tests/operator_lifecycle.rs
+  + lifecycle_helpers_use_reviewed_process_scoped_remote_signed and production_binaries_have_pid_safe_supervised_operator_lifecycle both pass; test invocations now honor the user's process-scoped RemoteSigned boundary
+  + production lifecycle scripts and module remain unchanged; source identities full workspace gates and metadata-only evidence refresh account for the helper change
+
+& [PublicationDisposition]
+  + prepublication evidence is not final publication completion; an immediate post-push proof must close TWV-027 and TWV-A04 without rewriting this bound implementation record

@@ -392,10 +392,8 @@ fn start_command(
     if replace_stale {
         arguments.push("-ReplaceStale".into());
     }
-    let mut command = Command::new("powershell");
+    let mut command = reviewed_script_command(script_path);
     command
-        .args(["-NoProfile", "-ExecutionPolicy", "Bypass", "-File"])
-        .arg(script_path)
         .args(&arguments)
         .stdin(Stdio::null())
         .stdout(Stdio::null())
@@ -404,12 +402,39 @@ fn start_command(
 }
 
 fn run_script(script_path: &Path, arguments: &[String]) -> Output {
-    Command::new("powershell")
-        .args(["-NoProfile", "-ExecutionPolicy", "Bypass", "-File"])
-        .arg(script_path)
+    reviewed_script_command(script_path)
         .args(arguments)
         .output()
         .expect("PowerShell operator script must execute")
+}
+
+// Keep the supervised test lifecycle within the reviewed process-only policy.
+// This does not alter CurrentUser, LocalMachine, or any other persistent scope.
+fn reviewed_script_command(script_path: &Path) -> Command {
+    let mut command = Command::new("powershell");
+    command
+        .args(["-NoProfile", "-ExecutionPolicy", "RemoteSigned", "-File"])
+        .arg(script_path);
+    command
+}
+
+#[test]
+fn lifecycle_helpers_use_reviewed_process_scoped_remote_signed() {
+    let command = reviewed_script_command(Path::new("reviewed-local-script.ps1"));
+    let arguments: Vec<_> = command
+        .get_args()
+        .map(|arg| arg.to_str().unwrap())
+        .collect();
+    assert_eq!(
+        arguments,
+        [
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "RemoteSigned",
+            "-File",
+            "reviewed-local-script.ps1"
+        ]
+    );
 }
 
 fn path_text(path: &Path) -> String {

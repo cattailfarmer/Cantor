@@ -1,0 +1,87 @@
+Subject: Cantor B1 A4 Supplied Time-Witness Implementation Proof
+
+@ [proof_uuid] 53d27c81-da71-4645-865f-32196a7a5fc8
+@ [canonical_uuid] d4bbec0d-b308-4e83-ad80-29cdb61424eb
+@ [formation_signature_uuid] 2e058f81-3eab-49e2-89aa-c677552191a0
+@ [formation_bookend_commit] 73de513e0ad2a8c98f166015728fb391f19db091
+@ [implementation_turn_uuid] 7d930c6f-08b9-424e-8e87-a5c54e165dbf
+@ [gate_results_uuid] 5cc05ad1-952e-4062-a64b-fd7cb7b50cef
+
+& [ExactImplementationBindings]
+  + [artifact] crates/cantor_ecosystem/src/b1_trusted_time_witness_receipt_verification_evidence.rs bytes 16305 SHA256 E4CD501AC45968C6DEC9021A8066D08D152CDF5D12C4536E9BB5F8D05650E9AC
+  + [artifact] crates/cantor_ecosystem/src/b1_trusted_time_witness_receipt_verification.rs bytes 43921 SHA256 0221DDDA1A29BCD67EB794AEE66029540E24BFFCFD2F6E4CD5B44E882CD26C9D
+  + [artifact] crates/cantor_ecosystem/src/bin/cantor-b1-trusted-time-witness-evidence-verify.rs bytes 695 SHA256 970BE0616FC774640FA447CACA2EDAF8883CCFB5254D05BBB5A07856582923D0
+  + [artifact] crates/cantor_ecosystem/src/bin/cantor-b1-trusted-time-witness-verify.rs bytes 515 SHA256 1B4884B0BF3740C7C9A0364AD3A14D6875D6D30E69C0E5E75EF4F13BC33631AC
+  + [artifact] crates/cantor_ecosystem/src/lib.rs bytes 7231 SHA256 29C213B8C41C13116E56CAD221812AEE987023F88A9548BA6B86B101772DC386
+  + [artifact] crates/cantor_ecosystem/tests/b1_trusted_time_witness_receipt_verification.rs bytes 46816 SHA256 0093FC2C1A997FD042B3B4961C4E3CF331816291F32A973E0751B6E6A3D7D1FE
+  + [artifact] crates/cantor_service/tests/operator_lifecycle.rs bytes 14772 SHA256 3A4748D6C7281A486FACC42449989C97C9418165E2222E6B135E7F3368BC8A8E
+  + [artifact] Cargo.toml bytes 1330 SHA256 39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588
+  + [artifact] Cargo.lock bytes 41724 SHA256 71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F
+  + [artifact] scripts/test_b1_trusted_time_witness_receipt_verification.ps1 bytes 8422 SHA256 5694F20C60903E0452ACA9FA65F94AF128F7DE4E18BED17C3FBA390DBB27E742
+  + [artifact] scripts/verify_cantor_b1_trusted_time_witness_receipt_verification_p0_formation.ps1 bytes 24901 SHA256 10C4119BF20B94C8114C1C4BD31F189E32F131212C56747E8F6C9B13C0FA0AD8
+  + [artifact] scripts/test_b1_trusted_time_witness_formation.ps1 bytes 4591 SHA256 172264D4971D0AED521A889AA3C8B5C691C5CEBF3E46047E1511D12C50F697BB
+
+& [RequirementProof]
+  + every test locator below is in crates/cantor_ecosystem/tests/b1_trusted_time_witness_receipt_verification.rs unless a formation publication or source-review gate is named
+  + [TWV-001] immutable source and publication lineage; implementation validate_request_shape; verify_twv_time_witness; evidence request_governance_and_predecessor_binding_drift_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-002] four exact profiles; implementation typed profile constants and validators; evidence both_input_classes_replay_without_promoting_authority; witness_lineage_subject_and_candidate_drift_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-003] bounded forms framing JSON and references; implementation parse_twv_canonical; measure_value; read_bounded_file; read_paths; evidence canonical_forms_refuse_duplicates_unknown_fields_whitespace_and_oversize; evidence_membership_framing_nonregular_size_and_manifest_tamper_refuse; request_attempts_reference_and_expectation_bounds_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-004] two input classes and matching fixture origin; implementation validate_twv_witness; verify_twv_time_witness; evidence both_input_classes_replay_without_promoting_authority; only_a4_descriptor_may_change_from_the_replayed_a3_packet; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-005] sixteen direct regular nonlink files; implementation TWV_EVIDENCE_FILES; verify_twv_evidence_directory; evidence evidence_membership_framing_nonregular_size_and_manifest_tamper_refuse; windows_junction_directory_and_ancestor_are_refused; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-006] raw identity before admission and exact upstream replay; implementation validate_twv_evidence_manifest; verify_twv_time_witness; verify_krv_revocation_snapshot; evidence upstream_replay_refuses_promoted_a3_and_tampered_a1_a2_bytes; fresh_process_raw_and_rehashed_authority_tamper_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-007] ordinal four current_time dependency three only; implementation validate_packet_transition; A4 descriptor admission; evidence only_a4_descriptor_may_change_from_the_replayed_a3_packet; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-008] raw counts hashes selected descriptor and input correspondence; implementation verify_twv_time_witness raw admission; evidence raw_witness_bytes_lengths_and_digests_refuse_before_parsing; only_a4_descriptor_may_change_from_the_replayed_a3_packet; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-009] isolated A4 transition with exact normalized predecessor; implementation compile_b1oapr_packet twice; validate_packet_transition; evidence only_a4_descriptor_may_change_from_the_replayed_a3_packet; both_input_classes_replay_without_promoting_authority; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-010] exact subject policy lineage and target-key fingerprint; implementation validate_witness_correspondence; validate_twv_witness; evidence witness_lineage_subject_and_candidate_drift_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-011] explicit identity label key and positive sequence pins; implementation validate_request_shape; validate_witness_correspondence; evidence witness_and_request_identity_pins_cannot_be_substituted; signed_time_bounds_and_positive_sequence_are_structural_only; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-012] thirty-two key bytes and substituted-key refusal; implementation decoded key fingerprint; VerifyingKey::verify_strict; evidence witness_and_request_identity_pins_cannot_be_substituted; strict_signature_and_domain_tamper_refuse_after_rehashing; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-013] fixed signing context strict detached Ed25519 and normalized signature fields; implementation twv_signature_payload_bytes; validate_twv_witness; evidence strict_signature_and_domain_tamper_refuse_after_rehashing; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-014] inclusive supplied witness bounds and no freshness; implementation validate_twv_witness structural time bounds; evidence signed_time_bounds_and_positive_sequence_are_structural_only; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-015] three outcomes inclusive A3 endpoints and arithmetic extremes; implementation compare_twv_supplied_interval; evidence closed_interval_outcomes_endpoints_and_u64_extremes; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-016] no self-referential A4 digest cycle; implementation validate_witness_correspondence A3 packet binding; evidence witness_lineage_subject_and_candidate_drift_refuse; both_input_classes_replay_without_promoting_authority; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-017] request complete binding and one-attempt zero-retry policy; implementation validate_request_shape; twv_request_digest; evidence request_attempts_reference_and_expectation_bounds_refuse; request_governance_and_predecessor_binding_drift_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-018] exact descriptive status and authority; implementation build_receipt; validate_twv_receipt; evidence both_input_classes_replay_without_promoting_authority; receipt_every_non_boolean_scalar_and_digest_remains_exact; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-019] twelve positive correspondences and reconstructed comparison inputs; implementation build_receipt; validate_twv_receipt; evidence receipt_all_true_false_and_effect_fields_are_reconstructed; receipt_every_non_boolean_scalar_and_digest_remains_exact; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-020] twenty-nine false authority fields conserved; implementation validate_twv_witness; validate_twv_receipt; evidence witness_all_authority_flags_refuse_even_with_valid_signature; receipt_all_true_false_and_effect_fields_are_reconstructed; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-021] compact typed UTF-8 and single-LF framing; implementation parse_twv_canonical; retained_bytes; evidence canonical_forms_refuse_duplicates_unknown_fields_whitespace_and_oversize; evidence_membership_framing_nonregular_size_and_manifest_tamper_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-022] ordered fifteen-entry raw-byte manifest; implementation validate_twv_evidence_manifest; evidence manifest_claims_cannot_replace_reconstructed_replay; evidence_membership_framing_nonregular_size_and_manifest_tamper_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-023] independent in-process and fresh-process byte replay; implementation replay_payload twice; verify_twv_evidence_directory; evidence fresh_process_replays_are_byte_identical_and_arg_counts_are_bounded; fresh_process_raw_and_rehashed_authority_tamper_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-024] typed path semantic authority and restart refusal; implementation TwvFaultCode and atomic Result failures; evidence all named refusal tests including fresh_process_raw_and_rehashed_authority_tamper_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-025] no effects and no production signer or discovery; implementation safe production modules and read-only CLIs; evidence opaque_references_are_never_resolved_and_downstream_authorities_remain; bare_input_filenames_work_without_an_output_directory; forbidden-surface source review; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-026] timestamp correspondence distinct from source trust and currentness; implementation published Primary Research and Threat Review; evidence dual-host frozen formation gate; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [TWV-027] phase publication and foreign ownership boundaries; implementation separate immutable formation and implementation artifacts; evidence dual-host frozen formation gate; exact staged-diff inventory and publication bookend; disposition phase_separation_verified_final_publication_pending
+
+& [IndependentContractChecks]
+  + domain_separation_and_normalization_match_independent_contract_construction independently builds normalized payload and digest inputs including the fixed context and zero separator
+  + normalized_packet_subject_and_request_digest_tamper_refuse proves changed top-level identity is rejected by the upstream validator before A4 admission and request rehash is not an authority upgrade
+  + raw witness and retained artifact hashes deliberately differ by the one LF transport terminator; strict typed declaration-order canonical reserialization rejects duplicates unknown fields alternate ordering and trailing forms
+  + witness signature covers the normalized complete witness struct with empty signature_hex and sha256(empty) in witness_sha256; supplied lineage names the earlier A3 packet to avoid a digest cycle
+
+& [AcceptanceEvidence]
+  + [TWV-A01] immutable published formation independently passes twenty-one artifacts twenty bindings twenty-seven requirements five gates two valid roots and nine refusals on each host
+  + [TWV-A02] safe Rust implements strict typed forms exact upstream replay isolated A4 admission explicit identity key and sequence pins strict Ed25519 correspondence three supplied interval outcomes zero-effect receipt and two bounded read-only CLIs with existing locked dependencies
+  + [TWV-A03] each PowerShell host passes twenty-four active tests zero failed one ignored fixture producer in debug and overflow release; sixteen retained files bind fifteen payloads totaling 80244 bytes; two fresh independent processes per profile reproduce exact retained receipt bytes
+  + [TWV-A04] exact source-stable locked-offline serialized all-target all-feature workspace debug and overflow release each pass 292 result groups 1758 reported passes zero failures seventeen intentional ignores; separate doc gates pass for twenty libraries with zero executable examples in each profile; warnings-denied workspace and five experiment Clippy format dual-host formation parser evidence and current working-diff gates pass; exact staging publication direct equality and post-push replay remain pending
+  + [TWV-A05] witness identity authority clock accuracy synchronization freshness replay prevention currentness operative revocation and five downstream authorities remain unproved and unadmitted; no live provider substitute
+
+& [RetainedEvidence]
+  + directory experiments/b1_trusted_time_witness_receipt_verification_p0/implementation_provider_free_evidence contains exactly sixteen named direct files with ordered fifteen-payload manifest
+  + time_witness_receipt.json bytes 2309 SHA256 9C862D130003DB57C14862D21C46ADB34FA511E36157DCB5E82B5E47F9CA2D11
+  + verification_request.json bytes 11116 SHA256 09ECEC642913E979B51B629F08032A125E9D11CCF5C21B84BBC984074CDB0920
+  + receipt.json bytes 6202 SHA256 371DA0B9576C3338CFAE0681D656896CA5E734CB862B9B00351EFA1782E409D5
+  + evidence_manifest.json bytes 3393 SHA256 B162E4C5DA07400668C59A2631193E38BE011073E300B3241607AC6BB4869911
+  + retained receipt self-digest 8387a1f490d6dab5e0eefc460ce81f9b11a93d44612898e00e482216f1767971; manifest self-digest c9305a4518a2f0a34b0deca9ec65e114ccd57ac3a737dd05df8b89dead1a0b6e
+  + twelve positive correspondences twenty-nine false authorities twenty-two zero effects and five downstream unresolved authorities are reconstructed rather than accepted from the producer
+
+& [GateAndFailureAttribution]
+  + experiments/b1_trusted_time_witness_receipt_verification_p0/implementation_gate_results.json records exact commands environment source bindings summaries host versions transcript identities and both earlier stopped or failed attempts
+  + debug log bytes 36337 SHA256 A961F14357C85255FE8C0752E75A04BA09684744A2438B6143C45BAFD193BBAD; release log bytes 36325 SHA256 0CCE0C4C9098C224C5D26B77DB9E9335FF372011AB9FDA1C989C93A3BB39CEFF
+  + complete operational facts are narrative/operational_faults/1788476531000_b1_a4_implementation_gate_facts.sop; temporary root correction changes no production behavior or refusal assertion
+  + thirty-three older manifests refresh exactly fifty-three length/hash bindings with no membership or other semantic change; recursive graph is 107 manifests 2840 references zero stale
+  + reviewed service lifecycle test helpers use only process-scoped RemoteSigned under explicit user approval; all persistent execution-policy scopes remain Undefined
+
+& [LimitsAndDecision]
+  + the independent verifier is independent of the fixture producer and reconstructs receipts using the governed upstream and A4 verifiers; it is not a claim of two independently implemented cryptographic algorithms
+  + explicit file readers assume stable caller-supplied directories and reject observed links and reparse entries; no atomic filesystem snapshot or OS sandbox is claimed
+  + test builds scratch files mock services and subprocesses are verification infrastructure, not A4 runtime effect authority
+  + implementation_verified_ready_for_exact_attributed_publication; final TWV-027 and TWV-A04 publication evidence must follow in an immediate bookend

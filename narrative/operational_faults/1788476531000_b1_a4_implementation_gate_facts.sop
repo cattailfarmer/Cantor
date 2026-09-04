@@ -1,0 +1,40 @@
+Subject: Cantor B1 A4 Implementation Gate Facts
+
+@ [fault_uuid] 6f8c2d41-d48d-4757-a1a7-b6da817d3771
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [implementation_turn_uuid] 7d930c6f-08b9-424e-8e87-a5c54e165dbf
+
+& [AdversaryExpectationCorrection]
+  + an added top-level packet-principal mutation test expected packet construction to succeed so A4 normalization could reject it
+  + the existing upstream packet validator correctly refused the altered principal with Identity before A4 admission; the fixture builder unwrap caused one test failure
+  + correction asserts that early refusal and the resulting A4 Predecessor fault; no production validation or authority boundary was relaxed
+  + initial eighteen tests then expanded twenty-two passed; final twenty-four active tests and exact broad gates remain to be recorded from actual final runs
+& [EvidenceRefresh]
+  + adding the A4 modules to lib.rs requires metadata-only transitive refreshes of existing current evidence manifests
+  + topological rehash reached 107 manifests 2840 references zero stale; no evidence probe builder provider or physical process was invoked by the rehasher
+& [SecurityAndProvider]
+  + Windows PowerShell 5.1 scripts run only with the user's explicit process-scoped RemoteSigned approval; all fresh-session persistent scopes remain Undefined
+  + pinned GGUF absent and no port 8080 listener; no substitute provider WSL model download or remote machine
+& [Boundary]
+  + the filesystem checks cover stable supplied local files and reject observed links; they do not claim an atomic directory snapshot or OS sandbox
+  + Windows junction adversary checks temporary parent metacharacters before invoking the test-only junction creator; production binaries never spawn processes
+
+& [ExistingLifecycleHarnessPolicyMismatch]
+  + read-only audit found two pre-existing PowerShell Bypass arguments in crates/cantor_service/tests/operator_lifecycle.rs
+  + this is inconsistent with the user's scoped RemoteSigned approval; the first broad debug Cargo dispatcher was stopped after 43 result groups and 112 passed tests with zero failed and before the service-lifecycle target
+  + dispatcher PID 26456 was matched to the exact workspace Cargo command before stopping; that run ended -1 and is not a complete workspace pass
+  + reviewed start_cantor_service.ps1 get_cantor_service_health.ps1 stop_cantor_service.ps1 and imported CantorServiceLifecycle.psm1; service scripts themselves require no change
+  + narrow correction will centralize the two test-only invocations on process-scoped RemoteSigned and assert the exact arguments; no persistent policy adjustment no runtime protocol change no broadening to a live production service
+  + TWV-A04 exact workspace verification and the user's explicit permission boundary justify this owned harness compatibility correction alongside A4 implementation; complete gates must restart on corrected bytes
+
+& [TemporaryDirectoryRepositoryContamination]
+  + full debug log .local/b1-a4-final-debug-1788478323565.log records stdout_overflow_timeout_and_unsuccessful_git_each_refuse failing because command-local TEMP and TMP were D:/crf/target
+  + that fixture creates an uninitialized directory beneath TEMP; Git correctly walked upward and discovered D:/crf instead of refusing a non-repository path
+  + this is a gate-environment error introduced by the D-drive temporary-directory setting; production Rust and the adversary remain unchanged
+  + read-only git -C D:/CantorBuilds rev-parse --show-toplevel refuses as expected; D:/CantorBuilds is a direct directory without a link or reparse attribute
+  + correction uses dedicated D:/CantorBuilds/B1A4TestTemp for command-local TEMP and TMP while keeping CARGO_TARGET_DIR D:/crf/target; no global environment or policy changes
+  + rerun the focused repository-observation test before restarting complete debug and overflow-checked release; the failed run must remain recorded and cannot count as a pass
+  + the failed debug completed 292 result groups with 1757 passed one failed seventeen ignored and exit 101; overflow release did not start
+  + the exact isolated non-repository refusal then passed unchanged under the corrected temporary root; full debug restarted with .local/b1-a4-final-debug-1788479545391.log and release remains conditional on its success
+  + the corrected complete debug and overflow-checked release subsequently each passed 292 result groups 1758 reported passes zero failures seventeen intentional ignores and exit zero; logs are .local/b1-a4-final-debug-1788479545391.log and .local/b1-a4-final-release-1788480684330.log
+  + all-targets excludes documentation tests; an explicit twenty-library documentation lane is also required and is run separately before final closure
