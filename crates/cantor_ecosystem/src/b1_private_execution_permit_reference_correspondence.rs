@@ -33,6 +33,7 @@ pub const PERC_MISMATCHED_STATUS: &str =
     "supplied_private_permit_reference_correspondence_mismatched_execution_unresolved";
 pub const PERC_AUTHORITY: &str = "supplied_private_permit_reference_correspondence_only";
 pub const PERC_MAX_FORM_BYTES: usize = 1_048_576;
+pub const PERC_MAX_EVIDENCE_BYTES: u64 = 16_777_216;
 pub const PERC_MAX_EVIDENCE_REFERENCES: usize = 48;
 const PERC_MAX_REFERENCE_BYTES: usize = 128;
 
@@ -97,6 +98,35 @@ pub struct PercReferenceEnvelope {
     pub input_class: KcvInputClass,
     pub evidence_references: Vec<String>,
     pub envelope_sha256: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PercEvidenceArtifact {
+    pub path: String,
+    pub bytes: u64,
+    pub sha256: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PercEvidenceManifest {
+    pub profile: String,
+    pub manifest_uuid: String,
+    pub source_snapshot_uuid: String,
+    pub canonical_uuid: String,
+    pub artifacts: Vec<PercEvidenceArtifact>,
+    pub artifact_count: u8,
+    pub total_artifact_bytes: u64,
+    pub retained_authority_packet_sha256: ContentDigest,
+    pub retained_a6_receipt_sha256: ContentDigest,
+    pub retained_reference_envelope_sha256: ContentDigest,
+    pub retained_receipt_sha256: ContentDigest,
+    pub deterministic_replay_count: u8,
+    pub required_fresh_process_replay_count: u8,
+    pub byte_identical: bool,
+    pub effect_count: u8,
+    pub manifest_sha256: ContentDigest,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

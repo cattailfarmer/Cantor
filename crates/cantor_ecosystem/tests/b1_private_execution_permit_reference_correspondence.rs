@@ -5,9 +5,55 @@ mod upstream_fixture;
 
 use cantor_core::{ContentDigest, sha256_bytes};
 use cantor_ecosystem::*;
+use serde::{Serialize, de::DeserializeOwned};
+use serde_json::{Value, json};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::Command,
+    sync::atomic::{AtomicU64, Ordering},
+};
+
+const CLI: &str = env!("CARGO_BIN_EXE_cantor-b1-private-execution-permit-reference-verify");
+const EVIDENCE_CLI: &str =
+    env!("CARGO_BIN_EXE_cantor-b1-private-execution-permit-reference-evidence-verify");
+static TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
 fn empty() -> ContentDigest {
     sha256_bytes(b"")
+}
+
+fn temporary(label: &str) -> PathBuf {
+    std::env::temp_dir().join(format!(
+        "cantor-perc-{label}-{}-{}",
+        std::process::id(),
+        TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+    ))
+}
+
+fn line<T: Serialize>(value: &T) -> Vec<u8> {
+    let mut bytes = serde_json::to_vec(value).unwrap();
+    bytes.push(b'\n');
+    bytes
+}
+
+fn change_typed<T: Serialize + DeserializeOwned>(original: &T, field: &str, value: Value) -> T {
+    let mut object = serde_json::to_value(original).unwrap();
+    object[field] = value;
+    serde_json::from_value(object).unwrap()
+}
+
+fn alter_scalar(value: &Value) -> Value {
+    match value {
+        Value::Bool(inner) => json!(!inner),
+        Value::Number(number) => json!(number.as_u64().unwrap() + 1),
+        Value::String(text) => json!(format!("{text}-tampered")),
+        Value::Array(_) => json!([]),
+        Value::Object(object) if object.contains_key("algorithm") => {
+            json!(sha256_bytes(b"changed digest"))
+        }
+        _ => panic!("explicit structured mutation required"),
+    }
 }
 
 #[derive(Clone)]
@@ -344,6 +390,98 @@ impl Fixture {
     }
 }
 
+fn write_evidence(root: &Path, fixture: &Fixture) {
+    fs::create_dir(root).expect("fresh caller-owned evidence root");
+    let a6_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../experiments/b1_expected_observation_correspondence_p0/implementation_provider_free_evidence");
+    for name in EOCV_EVIDENCE_FILES {
+        let destination = match name {
+            "verification_request.json" => "a6_verification_request.json",
+            "receipt.json" => "a6_receipt.json",
+            "evidence_manifest.json" => "a6_evidence_manifest.json",
+            other => other,
+        };
+        fs::copy(a6_root.join(name), root.join(destination)).unwrap();
+    }
+    let retained_a6_request: EocvVerificationRequest = serde_json::from_slice(
+        fs::read(root.join("a6_verification_request.json"))
+            .unwrap()
+            .strip_suffix(b"\n")
+            .unwrap(),
+    )
+    .unwrap();
+    let retained_a6_receipt: EocvVerificationReceipt = serde_json::from_slice(
+        fs::read(root.join("a6_receipt.json"))
+            .unwrap()
+            .strip_suffix(b"\n")
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(retained_a6_request, fixture.a6.request);
+    assert_eq!(retained_a6_receipt, fixture.a6_receipt);
+
+    let receipt = fixture.verify().unwrap();
+    fs::write(
+        root.join("permit_reference_envelope.json"),
+        line(&fixture.envelope),
+    )
+    .unwrap();
+    fs::write(
+        root.join("verification_request.json"),
+        line(&fixture.request),
+    )
+    .unwrap();
+    fs::write(root.join("receipt.json"), line(&receipt)).unwrap();
+    let artifacts: Vec<PercEvidenceArtifact> = PERC_EVIDENCE_FILES[..29]
+        .iter()
+        .map(|name| {
+            let bytes = fs::read(root.join(name)).unwrap();
+            PercEvidenceArtifact {
+                path: (*name).to_owned(),
+                bytes: bytes.len() as u64,
+                sha256: sha256_bytes(&bytes),
+            }
+        })
+        .collect();
+    let mut manifest = PercEvidenceManifest {
+        profile: PERC_EVIDENCE_PROFILE.to_owned(),
+        manifest_uuid: "a7000000-0000-4000-8000-000000000002".to_owned(),
+        source_snapshot_uuid: PERC_SOURCE_SNAPSHOT_UUID.to_owned(),
+        canonical_uuid: PERC_CANONICAL_UUID.to_owned(),
+        total_artifact_bytes: artifacts.iter().map(|artifact| artifact.bytes).sum(),
+        artifacts,
+        artifact_count: 29,
+        retained_authority_packet_sha256: receipt.authority_packet_sha256.clone(),
+        retained_a6_receipt_sha256: receipt.a6_receipt_sha256.clone(),
+        retained_reference_envelope_sha256: receipt.reference_envelope_sha256.clone(),
+        retained_receipt_sha256: receipt.receipt_sha256.clone(),
+        deterministic_replay_count: 2,
+        required_fresh_process_replay_count: 2,
+        byte_identical: true,
+        effect_count: 0,
+        manifest_sha256: empty(),
+    };
+    manifest.manifest_sha256 = perc_evidence_manifest_digest(&manifest).unwrap();
+    fs::write(root.join("evidence_manifest.json"), line(&manifest)).unwrap();
+}
+
+fn rehash_evidence(root: &Path) {
+    let mut manifest: PercEvidenceManifest =
+        serde_json::from_slice(&fs::read(root.join("evidence_manifest.json")).unwrap()).unwrap();
+    for artifact in &mut manifest.artifacts {
+        let bytes = fs::read(root.join(&artifact.path)).unwrap();
+        artifact.bytes = bytes.len() as u64;
+        artifact.sha256 = sha256_bytes(&bytes);
+    }
+    manifest.total_artifact_bytes = manifest
+        .artifacts
+        .iter()
+        .map(|artifact| artifact.bytes)
+        .sum();
+    manifest.manifest_sha256 = perc_evidence_manifest_digest(&manifest).unwrap();
+    fs::write(root.join("evidence_manifest.json"), line(&manifest)).unwrap();
+}
+
 #[test]
 fn full_a6_replay_yields_non_authorizing_matched_receipt() {
     let fixture = Fixture::new();
@@ -461,6 +599,192 @@ fn retained_receipt_substitution_refuses_machine_form_restart() {
     )
     .expect_err("substituted retained receipt");
     assert_eq!(error.code, EocvFaultCode::Restart);
+}
+
+#[test]
+fn independent_evidence_and_both_bounded_clis_replay_exact_receipt() {
+    let fixture = Fixture::new();
+    let root = temporary("replay");
+    write_evidence(&root, &fixture);
+    let replay = verify_perc_evidence_directory(&root).unwrap();
+    assert_eq!(replay.receipt, fixture.verify().unwrap());
+    assert_eq!(replay.manifest.artifact_count, 29);
+    assert_eq!(replay.deterministic_replay_count, 2);
+    assert!(replay.byte_identical);
+
+    let directory_output = Command::new(EVIDENCE_CLI).arg(&root).output().unwrap();
+    assert!(
+        directory_output.status.success(),
+        "{:?}",
+        directory_output.stderr
+    );
+    assert!(directory_output.stderr.is_empty());
+    assert_eq!(directory_output.stdout, line(&replay.receipt));
+
+    let paths: Vec<_> = [&PERC_EVIDENCE_FILES[..25], &PERC_EVIDENCE_FILES[26..28]]
+        .concat()
+        .iter()
+        .map(|name| root.join(name))
+        .collect();
+    assert_eq!(
+        verify_perc_payload_paths(&paths).unwrap(),
+        replay.receipt_machine_form
+    );
+    let explicit_output = Command::new(CLI).args(&paths).output().unwrap();
+    assert!(
+        explicit_output.status.success(),
+        "{:?}",
+        explicit_output.stderr
+    );
+    assert!(explicit_output.stderr.is_empty());
+    assert_eq!(explicit_output.stdout, line(&replay.receipt));
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn evidence_membership_and_rehashed_retained_identity_refuse() {
+    let fixture = Fixture::new();
+    let extra_root = temporary("extra");
+    write_evidence(&extra_root, &fixture);
+    fs::write(extra_root.join("extra.json"), b"{}\n").unwrap();
+    assert_eq!(
+        verify_perc_evidence_directory(&extra_root)
+            .unwrap_err()
+            .code,
+        EocvFaultCode::Evidence
+    );
+    fs::remove_dir_all(extra_root).unwrap();
+
+    let missing_root = temporary("missing");
+    write_evidence(&missing_root, &fixture);
+    fs::remove_file(missing_root.join("permit_reference_envelope.json")).unwrap();
+    assert_eq!(
+        verify_perc_evidence_directory(&missing_root)
+            .unwrap_err()
+            .code,
+        EocvFaultCode::Evidence
+    );
+    fs::remove_dir_all(missing_root).unwrap();
+
+    let restart_root = temporary("restart");
+    write_evidence(&restart_root, &fixture);
+    let mut manifest: PercEvidenceManifest =
+        serde_json::from_slice(&fs::read(restart_root.join("evidence_manifest.json")).unwrap())
+            .unwrap();
+    manifest.retained_receipt_sha256 = sha256_bytes(b"false retained A7 identity");
+    manifest.manifest_sha256 = perc_evidence_manifest_digest(&manifest).unwrap();
+    fs::write(restart_root.join("evidence_manifest.json"), line(&manifest)).unwrap();
+    assert_eq!(
+        verify_perc_evidence_directory(&restart_root)
+            .unwrap_err()
+            .code,
+        EocvFaultCode::Restart
+    );
+    fs::remove_dir_all(restart_root).unwrap();
+}
+
+#[test]
+fn rehashed_receipt_authority_promotion_refuses_before_retained_equality() {
+    let fixture = Fixture::new();
+    let root = temporary("authority-promotion");
+    write_evidence(&root, &fixture);
+    let mut receipt: PercVerificationReceipt =
+        serde_json::from_slice(&fs::read(root.join("receipt.json")).unwrap()).unwrap();
+    receipt.execution_authorized = true;
+    receipt.receipt_sha256 = perc_receipt_digest(&receipt).unwrap();
+    fs::write(root.join("receipt.json"), line(&receipt)).unwrap();
+    rehash_evidence(&root);
+    assert_eq!(
+        verify_perc_evidence_directory(&root).unwrap_err().code,
+        EocvFaultCode::Truth
+    );
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn every_request_field_changes_the_verified_result_or_refuses() {
+    let base = Fixture::new();
+    let object = serde_json::to_value(&base.request).unwrap();
+    assert_eq!(object.as_object().unwrap().len(), 34);
+    for (field, value) in object.as_object().unwrap() {
+        let mut fixture = base.clone();
+        let changed = match field.as_str() {
+            "input_class" => json!("externally_supplied_candidate"),
+            "expected_confidentiality" => json!("public_metadata"),
+            "evidence_references" => json!(["changed_reference"]),
+            _ => alter_scalar(value),
+        };
+        fixture.request = change_typed(&fixture.request, field, changed);
+        if field != "request_sha256" {
+            fixture.request.request_sha256 = perc_request_digest(&fixture.request).unwrap();
+        }
+        match fixture.verify() {
+            Err(_) => {}
+            Ok(receipt) => {
+                assert_ne!(
+                    receipt.request_sha256, base.request.request_sha256,
+                    "{field}"
+                );
+                assert!(
+                    !receipt.correspondence_account.all_correspondence_matches,
+                    "unchecked request field {field}"
+                );
+            }
+        }
+    }
+}
+
+#[test]
+fn every_receipt_field_is_reconstructed_and_cannot_be_promoted() {
+    let fixture = Fixture::new();
+    let receipt = fixture.verify().unwrap();
+    let object = serde_json::to_value(&receipt).unwrap();
+    assert_eq!(object.as_object().unwrap().len(), 63);
+    for (field, value) in object.as_object().unwrap() {
+        let changed = match field.as_str() {
+            "a6_receipt" => {
+                let mut nested = value.clone();
+                nested["execution_authorized"] = json!(true);
+                nested
+            }
+            "correspondence_account" => {
+                let mut account = value.clone();
+                account["opaque_reference_matches"] = json!(false);
+                account
+            }
+            "effect_account" => {
+                let mut effect = value.clone();
+                effect["filesystem_mutation_count"] = json!(1);
+                effect
+            }
+            "evidence_references" => json!(["changed_reference"]),
+            "confidentiality" => json!("public_metadata"),
+            "input_class" => json!("externally_supplied_candidate"),
+            "receipt_sha256" => alter_scalar(value),
+            _ => alter_scalar(value),
+        };
+        let mut substituted: PercVerificationReceipt = change_typed(&receipt, field, changed);
+        if field != "receipt_sha256" {
+            substituted.receipt_sha256 = perc_receipt_digest(&substituted).unwrap();
+        }
+        assert!(
+            validate_perc_receipt(
+                &fixture.request,
+                &fixture.predecessor(),
+                &fixture.raw_envelope,
+                &substituted,
+            )
+            .is_err(),
+            "unchecked receipt field {field}"
+        );
+    }
+}
+
+#[test]
+#[ignore = "test-owned fixture producer: explicit fresh output directory required"]
+fn produce_provider_free_evidence() {
+    let root = std::env::var_os("CANTOR_PERC_EVIDENCE_OUTPUT").expect("explicit test output");
+    write_evidence(Path::new(&root), &Fixture::new());
 }
 
 #[test]
