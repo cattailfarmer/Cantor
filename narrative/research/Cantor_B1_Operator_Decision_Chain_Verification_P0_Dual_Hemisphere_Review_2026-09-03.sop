@@ -1,0 +1,19 @@
+Subject: Cantor B1 Operator Decision Chain Verification P0 Dual Hemisphere Review
+
+@ [dual_review_uuid] 65a5d4ca-5979-4230-b7e4-3744d5219102
+@ [canonical_uuid] ee06ff6d-ba10-4a02-a157-9533d734912e
+@ [source_snapshot_uuid] dc4d390b-953b-415f-9fd9-2bd6f4838e19
+
+& [Constructive]
+  + reuse already-tested exact legacy proposal and Ed25519 verifier; add the missing chain associations without introducing a second signing format
+  + fifteen positive fields make useful correspondence observable and thirty-three false fields preserve authority boundaries
+
+& [Adversarial]
+  + an attacker can replace a validly signed policy and recompute hashes; decode-key and A1/A3 raw correspondence must reject it
+  + an attacker can replace a validly signed decision under an unchanged request; expected UUID kind and external identity must reject it
+  + an attacker can rebind unsigned request metadata to another valid A4 witness; this may be valid descriptive association but never signed A4 coverage
+
+& [Resolution]
+  + no new signature context; all signed-A4-coverage claims are false
+  + require exact upstream receipts and only-A5 packet transition; half-open expiry is explicit and independently tested
+  + this is one agent's two analytical passes, not an independent human review or delegated review

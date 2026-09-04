@@ -1,0 +1,21 @@
+Subject: Cantor B1 Operator Decision Chain Verification P0 Primary Research
+
+@ [research_uuid] 6d691900-afa3-444e-bfb8-eefab5a08881
+@ [canonical_uuid] ee06ff6d-ba10-4a02-a157-9533d734912e
+@ [source_snapshot_uuid] dc4d390b-953b-415f-9fd9-2bd6f4838e19
+
+& [EdDSA]
+  + https://www.rfc-editor.org/rfc/rfc8032 sections 5.1.7 and 8.3 describe message verification and protocol context separation; Cantor's existing message-prefix domain is preserved and is not represented as Ed25519ctx
+  + https://docs.rs/ed25519-dalek/3.0.0/ed25519_dalek/struct.VerifyingKey.html#method.verify_strict documents the exact locked version and strict verification behavior; no new verifier algorithm is implemented
+
+& [TimeAndTrust]
+  + https://www.rfc-editor.org/rfc/rfc7519 sections 4.1.4 and 11.1 distinguish expiry exclusion and trust-context/key-control obligations
+  + A5's half-open decision expiry is an explicit source policy informed by this boundary example, not imported JWT processing; legacy issued_at is not relabeled as JWT nbf
+
+& [Inference]
+  + signature correspondence covers only supplied signed bytes and cryptographically bound digests; an unsigned A4 association cannot extend that coverage
+  + comparing supplied observation and decision interval does not supply trusted current time; operator identity custody freshness policy authority and revocation truth remain unresolved
+
+& [Nonclaims]
+  + no JWT JOSE Ed25519ctx Ed25519ph timestamp-service OCSP or network-time interoperability; no standards-compliance certification
+  + research consulted primary sources on 2026-09-04 UTC; no quoted text or downloaded dependencies

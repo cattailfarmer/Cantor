@@ -1,0 +1,17 @@
+Subject: Cantor B1 Operator Decision Chain Verification P0 Input Audit
+
+@ [input_audit_uuid] 8990388c-e257-40dc-8a78-00a9745be497
+@ [canonical_uuid] ee06ff6d-ba10-4a02-a157-9533d734912e
+@ [source_snapshot_uuid] dc4d390b-953b-415f-9fd9-2bd6f4838e19
+
+& [Custody]
+  + source_documents/2026-09-03_b1_operator_decision_chain_verification_p0/Derived_B1_Operator_Decision_Chain_Verification_P0_Source.sop exact 16184 bytes SHA256 4C697593888AD83D22BC7B0E7A53C0F5D3EF37B605EAE396C2791A84DB27313C
+  + source custody a2bcb61130c60244a1bc6ba98a00a652c657ed40 and bookend 91a80ea053e70fe073c8cd2257e5dc7fe5a2b97e are direct-origin equal; no A5 Rust yet
+
+& [Recall]
+  + A4 proof 851b534f-6542-43c6-b4d3-472dd0bd70b6 and legacy proof 5e48d1ed-a769-46b1-b7c0-a52fe7db5b2b bound their own immutable implementation snapshots
+  + legacy signatures cover request and policy, not A4; legacy policy revision is absent; A1 and legacy key fingerprints use distinct domains
+
+& [Disposition]
+  + agent-derived dependency-contiguous development source is accepted for bounded formation, not a new user-issued operator decision
+  + user RemoteSigned approval is process-scoped reviewed-script authority only; source final blank line is preserved exactly
