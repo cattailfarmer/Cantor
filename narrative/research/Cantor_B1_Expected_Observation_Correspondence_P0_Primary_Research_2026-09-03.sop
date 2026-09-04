@@ -1,0 +1,25 @@
+Subject: Cantor B1 A6 Primary Research
+
+@ [research_uuid] a955f59f-a963-4f4d-8eb9-561f3fed6583
+@ [source_snapshot_uuid] d10dd69e-34d1-43db-ab46-109a11cc80e0
+@ [source_document] source_documents/2026-09-03_b1_expected_observation_correspondence_p0/Derived_B1_Expected_Observation_Correspondence_P0_Source.sop
+@ [source_custody_commit] 4f1417d111911f0fd27437f13b480157332442b2
+@ [source_bookend_commit] 23cc6c17667efefa88ca27a1af2d1e410a9ccd00
+@ [canonical_uuid] a992244a-31b1-4d0a-ad9e-39a1cc667c99
+@ [formation_signature_uuid] a4448ba3-5cc5-473f-a039-84b5347518ae
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [RepositoryPrimarySources]
+  + unchanged A5 implementation 9b3dd715439c26aa34181dace0e525681a1f29b9 defines full predecessor replay and explicit unsigned A4 association
+  + unchanged preparation plan implementation 2ae87673cfd343cc7a4685a5d0ebbdfc37256ea3 and commission proposal source define historical expected commit fixed capacity minimum topology and inherited-plan digest
+  + Cargo.lock remains pinned; no version migration or new dependency is proposed
+& [ExternalPrimarySources]
+  + https://serde.rs/container-attrs.html accessed2026-09-04: deny_unknown_fields rejects unknown struct fields and cannot be combined with flatten; retain nested A5 as an ordinary typed field
+  + https://serde.rs/enum-representations.html accessed2026-09-04: derive supports closed enum representations; use snake_case unit variants rather than untagged ambiguous unions
+  + https://doc.rust-lang.org/std/fs/fn.symlink_metadata.html accessed2026-09-04: metadata queries do not follow the selected symlink; this documented primitive does not promise a transaction across later opens or ancestor changes
+  + https://learn.microsoft.com/en-us/windows/win32/fileio/reparse-points accessed2026-09-04: reparse points influence filesystem handling and include links and mounted folders; evidence boundaries conservatively reject reparse entries and ancestors
+& [LimitAndInference]
+  + current public Rust documentation identifies1.98.1 while installed locked rustc is1.96.0; exact1.96 URL retrieval was unavailable and no claim of version-specific revalidation or upgrade is made
+  + inherited compiled implementation and locked local tests remain the compatibility evidence; documentation supports general boundary interpretation only
+  + exact deserialize-reserialize equality plus strict typed schema is the repository canonicalization contract, not a claim to implement a standard canonical JSON format
+  + equality of caller data cannot authenticate observation truth freshness or physical reality; this is a design inference, not an external API guarantee

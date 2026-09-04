@@ -1,0 +1,113 @@
+Subject: Cantor B1 A6 Ordered Data Design
+
+@ [data_design_uuid] 9da074de-79b6-4919-80da-80bd594b36a7
+@ [source_snapshot_uuid] d10dd69e-34d1-43db-ab46-109a11cc80e0
+@ [source_document] source_documents/2026-09-03_b1_expected_observation_correspondence_p0/Derived_B1_Expected_Observation_Correspondence_P0_Source.sop
+@ [source_custody_commit] 4f1417d111911f0fd27437f13b480157332442b2
+@ [source_bookend_commit] 23cc6c17667efefa88ca27a1af2d1e410a9ccd00
+@ [canonical_uuid] a992244a-31b1-4d0a-ad9e-39a1cc667c99
+@ [formation_signature_uuid] a4448ba3-5cc5-473f-a039-84b5347518ae
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [TopLevelProfiles]
+  + bundle cantor-b1-expected-observation-bundle/0.1
+  + request cantor-b1-expected-observation-request/0.1
+  + receipt cantor-b1-expected-observation-receipt/0.1
+  + manifest cantor-b1-expected-observation-evidence/0.1
+  + exactly four new top-level machine profiles; nested structs and imported contracts are not additional profiles
+
+& [bundle]
+  + exact ordered fields are profile bundle_uuid a5_receipt_sha256 expected_carrier_commit observed_carrier_commit observed_branch observed_remote observed_project observed_unix_ms observed_cdrive_free_bytes build_junctions upstream_identities role_observations reserved_ref_observation input_class evidence_references bundle_sha256
+  + declared field count 17
+
+& [request]
+  + exact ordered fields are profile source_snapshot_uuid canonical_uuid signature_uuid source_custody_commit formation_commit formation_bookend_commit a5_implementation_commit a5_bookend_commit a5_proof_uuid plan_implementation_commit plan_bookend_commit plan_proof_uuid a5_verification_request_sha256 a5_receipt_sha256 preparation_plan_request_raw_sha256 preparation_plan_request_sha256 preparation_plan_raw_sha256 preparation_plan_sha256 authority_packet_request authority_packet_request_sha256 authority_packet_sha256 a6_candidate_uuid a6_descriptor_sha256 observation_bundle_bytes observation_bundle_raw_sha256 expected_bundle_uuid expected_carrier_commit input_class evidence_references maximum_attempts automatic_retry_count automatic_cleanup_count request_sha256
+  + declared field count 34
+
+& [junction]
+  + exact ordered fields are source kind target
+  + declared field count 3
+
+& [role]
+  + exact ordered fields are kind path state
+  + declared field count 3
+
+& [reserved_ref]
+  + exact ordered fields are reference state
+  + declared field count 2
+
+& [comparison]
+  + exact ordered fields are carrier_commit_matches branch_matches remote_matches project_matches observation_time_matches_a4 capacity_meets_minimum build_junctions_match upstream_identities_match all_roles_absent_asserted reserved_ref_absent_asserted mismatch_reasons all_expectations_match
+  + declared field count 12
+
+& [effects]
+  + exact ordered fields are reference_resolution_count private_key_read_count signing_count revocation_service_contact_count witness_service_contact_count clock_read_count environment_read_count host_observation_count process_count provider_trial_count model_turn_count mcp_call_count network_contact_count broker_invocation_count writer_run_count filesystem_mutation_count git_mutation_count persistence_count activation_count cleanup_count remote_hardware_contact_count physical_contact
+  + declared field count 22
+
+& [manifest]
+  + exact ordered fields are profile manifest_uuid fixture_only artifacts artifact_count total_artifact_bytes retained_authority_packet_sha256 retained_a5_receipt_sha256 retained_preparation_plan_sha256 retained_observation_bundle_sha256 retained_receipt_sha256 deterministic_replay_count required_fresh_process_replay_count byte_identical effect_count manifest_sha256
+  + declared field count 16
+
+& [receipt]
+  + exact ordered fields are profile status authority source_snapshot_uuid canonical_uuid signature_uuid source_custody_commit formation_commit formation_bookend_commit a5_implementation_commit a5_bookend_commit a5_proof_uuid plan_implementation_commit plan_bookend_commit plan_proof_uuid request_sha256 a5_verification_request_sha256 a5_receipt_sha256 a5_receipt preparation_plan_request_raw_sha256 preparation_plan_request_sha256 preparation_plan_raw_sha256 preparation_plan_sha256 proposal_sha256 authority_packet_request_sha256 authority_packet_sha256 a6_candidate_uuid a6_descriptor_sha256 observation_bundle_bytes observation_bundle_raw_sha256 observation_bundle_sha256 bundle_uuid expected_carrier_commit observed_carrier_commit legacy_decision_expected_current_commit preparation_plan_expected_current_commit observed_unix_ms a4_observed_unix_ms observed_cdrive_free_bytes minimum_cdrive_free_bytes comparison_account input_class fixture_only maximum_attempts automatic_retry_count automatic_cleanup_count a5_correspondence_receipt_verified preparation_plan_replayed proposal_plan_correspondence_verified packet_replayed descriptor_correspondence_verified observation_bundle_bytes_matched comparison_reconstructed production_authority_claimed fresh_observation_proved observation_source_identity_proved observation_source_completeness_proved observation_freshness_proved atomic_observation_proved decision_signature_binds_a6_observation expected_carrier_authority_proved live_authorization_admitted private_execution_permit_present production_broker_projection_present physical_preparation_authorized ready_for_physical_execution execution_authorized effect_account receipt_sha256
+  + declared field count 69
+
+& [artifact]
+  + exact ordered fields are path bytes sha256
+  + declared field count 3
+
+& [ImportedOdcvVerificationRequest]
+  + imported from crates/cantor_ecosystem/src/b1_operator_decision_chain_verification.rs
+  + imported exact ordered fields are profile source_snapshot_uuid canonical_uuid signature_uuid source_custody_commit formation_commit formation_bookend_commit a4_implementation_commit a4_bookend_commit a4_proof_uuid legacy_implementation_commit legacy_bookend_commit legacy_proof_uuid predecessor_request_sha256 predecessor_packet_sha256 predecessor_verification_sha256 a1_policy_envelope_raw_sha256 a1_verification_request_sha256 a1_receipt_sha256 a2_custody_attestation_raw_sha256 a2_verification_request_sha256 a2_receipt_sha256 a3_revocation_snapshot_raw_sha256 a3_verification_request_sha256 a3_receipt_sha256 a4_time_witness_receipt_raw_sha256 a4_verification_request_sha256 a4_receipt_sha256 authority_packet_request authority_packet_request_sha256 authority_packet_sha256 a5_candidate_uuid a5_descriptor_sha256 operator_decision_policy_sha256 operator_decision_request_sha256 operator_decision_envelope_bytes operator_decision_envelope_raw_sha256 expected_policy_revision_uuid expected_decision_uuid expected_decision_kind expected_external_decision_identity input_class evidence_references maximum_attempts automatic_retry_count automatic_cleanup_count request_sha256
+  + imported field count 47; grammar validators and semantics remain unchanged
+
+& [ImportedOdcvVerificationReceipt]
+  + imported from crates/cantor_ecosystem/src/b1_operator_decision_chain_verification.rs
+  + imported exact ordered fields are profile status authority source_snapshot_uuid canonical_uuid signature_uuid source_custody_commit formation_commit formation_bookend_commit a4_implementation_commit a4_bookend_commit a4_proof_uuid legacy_implementation_commit legacy_bookend_commit legacy_proof_uuid predecessor_request_sha256 predecessor_packet_sha256 predecessor_verification_sha256 a1_policy_envelope_raw_sha256 a1_verification_request_sha256 a1_receipt_sha256 a2_custody_attestation_raw_sha256 a2_verification_request_sha256 a2_receipt_sha256 a3_revocation_snapshot_raw_sha256 a3_verification_request_sha256 a3_receipt_sha256 a4_time_witness_receipt_raw_sha256 a4_verification_request_sha256 a4_receipt_sha256 authority_packet_request_sha256 authority_packet_sha256 request_sha256 a5_candidate_uuid a5_descriptor_sha256 operator_decision_policy_sha256 operator_decision_request_sha256 operator_decision_envelope_bytes operator_decision_envelope_raw_sha256 policy_uuid policy_revision_uuid principal role subject target_policy_key_fingerprint_sha256 legacy_policy_key_fingerprint_sha256 decision_uuid decision_kind external_decision_identity observed_unix_ms issued_at_unix_millis expires_at_unix_millis comparison_outcome supplied_a3_status_assertion payload_sha256 envelope_sha256 signature_sha256 legacy_verification_sha256 input_class fixture_only maximum_attempts automatic_retry_count automatic_cleanup_count packet_replayed a1_correspondence_receipt_verified a2_correspondence_receipt_verified a3_correspondence_receipt_verified a4_correspondence_receipt_verified a5_candidate_bytes_matched descriptor_correspondence_verified subject_lineage_correspondence_verified decision_policy_key_correspondence_verified decision_policy_artifact_bindings_verified decision_request_correspondence_verified decision_structure_verified decision_signature_correspondence_verified decision_expectations_verified supplied_decision_interval_comparison_verified production_authority_claimed challenge_freshness_proved replay_prevention_proved custodian_identity_proved protected_storage_proved private_key_nonexportability_proved exclusive_control_proved current_possession_proved responder_identity_proved responder_authority_proved source_completeness_proved monotonic_history_proved snapshot_freshness_proved current_time_compared policy_governance_proved key_custody_proved revocation_truth_proved current_nonexpired live_authorization_admitted fresh_observation_proved private_execution_permit_present production_broker_projection_present physical_preparation_authorized ready_for_physical_execution execution_authorized witness_identity_proved witness_authority_proved witness_freshness_proved trusted_current_time_proved decision_signer_identity_proved decision_authority_proved decision_freshness_proved decision_signature_binds_a4_lineage effect_account receipt_sha256
+  + imported field count 113; grammar validators and semantics remain unchanged
+
+& [ImportedB1CDriveProductionPreparationPlanRequest]
+  + imported from crates/cantor_ecosystem/src/self_work_update_broker_b1_cdrive_production_preparation_plan.rs
+  + imported exact ordered fields are profile source_snapshot_uuid canonical_uuid signature_uuid source_custody_commit production_broker_implementation_commit production_broker_bookend_commit expected_current_commit branch canonical_remote working_project observed_cdrive_free_bytes minimum_cdrive_free_bytes build_junctions upstream_identities plan_namespace_uuid provider_available request_sha256
+  + imported field count 18; grammar validators and semantics remain unchanged
+
+& [ImportedB1CDriveProductionPreparationPlan]
+  + imported from crates/cantor_ecosystem/src/self_work_update_broker_b1_cdrive_production_preparation_plan.rs
+  + imported exact ordered fields are profile status authority request_sha256 roles operations fixed_ledger_bytes unclaimed_ledger_sha256 unresolved_authorities effect_account physical_preparation_authorized plan_sha256
+  + imported field count 12; grammar validators and semantics remain unchanged
+
+& [ImportedB1CDriveProductionPreparationUpstreamIdentity]
+  + imported from crates/cantor_ecosystem/src/self_work_update_broker_b1_cdrive_production_preparation_plan.rs
+  + imported exact ordered fields are role profile artifact_sha256
+  + imported field count 3; grammar validators and semantics remain unchanged
+
+& [ImportedB1CDriveProductionPreparationCommissionProposal]
+  + imported from crates/cantor_ecosystem/src/self_work_update_broker_b1_cdrive_production_preparation_commission_proposal.rs
+  + imported exact ordered fields are profile status authority proposal_uuid request_sha256 inherited_plan_sha256 roles operations proposed_ref responsibilities authorization_gaps quarantine_policy effect_account external_authorization_present physical_preparation_authorized proposal_sha256
+  + imported field count 16; grammar validators and semantics remain unchanged
+
+& [TypedFields]
+  + all *_sha256 fields use unchanged ContentDigest with algorithm sha256 and lowercase64hex value; no string digest aliases
+  + UUID commit profile status authority branch remote project path reference and identity fields are String with explicit source-bound validation; commits lowercase40hex UUIDs lowercase canonical nonnil
+  + request authority_packet_request is B1OaprRequest; a5_receipt is exact OdcvVerificationReceipt; effect_account is unchanged TwvEffectAccount
+  + input_class is unchanged KcvInputClass; references are Vec<String> one through48 unique safe nonempty strings; fixture_only and all comparison/truth fields are bool
+  + observed_unix_ms a4_observed_unix_ms observed_cdrive_free_bytes minimum_cdrive_free_bytes declared observation bytes artifact bytes and total_artifact_bytes are u64
+  + attempts retries cleanup artifact_count deterministic_replay_count required_fresh_process_replay_count are u8; manifest effect_count is u32
+  + bundle build_junctions is Vec<EocvJunctionObservation> of exactly2; upstream_identities is Vec<B1CDriveProductionPreparationUpstreamIdentity> of exactly4
+  + role_observations is Vec<EocvRoleObservation> of exactly5; reserved_ref_observation is EocvReservedRefObservation
+  + junction.kind is EocvJunctionKind with snake_case unit variants junction missing other unknown; target is Option<String> required as an explicit key, Some iff junction and otherwise None serialized null
+  + role.kind is unchanged B1CDriveProductionPreparationRoleKind; state is EocvPresenceAssertion with snake_case absent present unknown; reserved ref uses the same state enum
+  + comparison_account is EocvComparisonAccount; mismatch_reasons is Vec<EocvMismatchReason>; each reason is a snake_case unit variant in the fixed order below
+  + artifacts is Vec<EocvEvidenceArtifact> of exactly25 payloads with path String bytes u64 sha256 ContentDigest
+& [ClosedValues]
+  + mismatch reasons in exact order carrier_commit_mismatch branch_mismatch remote_mismatch project_mismatch observation_time_mismatch capacity_below_floor build_junction_mismatch upstream_identity_mismatch role_not_absent reserved_ref_not_absent
+  + invariant positive fields a5_correspondence_receipt_verified preparation_plan_replayed proposal_plan_correspondence_verified packet_replayed descriptor_correspondence_verified observation_bundle_bytes_matched comparison_reconstructed
+  + global false fields production_authority_claimed fresh_observation_proved observation_source_identity_proved observation_source_completeness_proved observation_freshness_proved atomic_observation_proved decision_signature_binds_a6_observation expected_carrier_authority_proved live_authorization_admitted private_execution_permit_present production_broker_projection_present physical_preparation_authorized ready_for_physical_execution execution_authorized
+  + ten comparison fields carrier_commit_matches branch_matches remote_matches project_matches observation_time_matches_a4 capacity_meets_minimum build_junctions_match upstream_identities_match all_roles_absent_asserted reserved_ref_absent_asserted
+  + comparison account has all ten Booleans then mismatch_reasons then all_expectations_match; conjunction and reason order recomputed
+& [CounterAndFramingRules]
+  + one attempt zero retry zero cleanup; two deterministic replays and at least two externally observed fresh processes per profile
+  + four self-digest domains use UTF-8 fixed domain NUL canonical form with only own digest replaced by SHA256 empty bytes
+  + retained files add exactly one LF; raw-form/candidate identities omit it and manifest artifact hashes include it
+  + canonical serialization preserves explicit null keys and all typed declaration order; Deserialize then exact reserialize equality refuses missing Option keys or alternate escaping
+  + receipt nestedA5 shape adds one structured layer only; imported and aggregate bounds remain enforced without changing ceilings

@@ -1,0 +1,26 @@
+Subject: Cantor B1 A6 Input Audit
+
+@ [input_audit_uuid] 7e417a23-9ddf-48de-9d82-5c1784139518
+@ [source_snapshot_uuid] d10dd69e-34d1-43db-ab46-109a11cc80e0
+@ [source_document] source_documents/2026-09-03_b1_expected_observation_correspondence_p0/Derived_B1_Expected_Observation_Correspondence_P0_Source.sop
+@ [source_custody_commit] 4f1417d111911f0fd27437f13b480157332442b2
+@ [source_bookend_commit] 23cc6c17667efefa88ca27a1af2d1e410a9ccd00
+@ [canonical_uuid] a992244a-31b1-4d0a-ad9e-39a1cc667c99
+@ [formation_signature_uuid] a4448ba3-5cc5-473f-a039-84b5347518ae
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [SourceInspection]
+  + source is agent-derived under the active dependency-contiguous five-hour goal, not a user quote or production approval
+  + raw snapshot is 20189 bytes SHA256 6DC3B8D95C0715E7E1CE00CFF5F2E148C4EC6C70D5A283407746CD4511A10805 with fourteen sections; already published custody and immediate bookend
+  + A5 implementation and publication proof are complete; packet selects A6 after A5 and leaves three downstream coordinates
+& [ObservedContractFacts]
+  + decision request historical expected commit98683316ff8735026dded1838c88e84edf7288f5 differs from plan historical expected commit49af9aa11db6696a95a13fead653c5edc1253f0d
+  + plan validates exact historical observed capacity43004325888 and minimum15032385536; replacing this old field would break the signed inherited plan
+  + preparation proposal binds inherited_plan_sha256 roles and operations; exact replay recovers a single namespace without observing any path
+  + old canonical remote strings lack .git while the actual Git transport remote includes .git; observation comparison must preserve the old contract strings without normalization
+  + A5 signature does not bind A4 and cannot bind later A6 observations or a newly supplied expected carrier
+& [AcceptedInputsAndMissingAuthority]
+  + explicit original A5 inputs complete A5 receipt exact plan request/plan raw observation bundle and current request
+  + missing collector authenticity live host acquisition atomicity freshness and execution authority are outside this phase rather than silently assumed
+& [GateDecision]
+  + source sufficient for bounded provider-free correspondence formation; no A6 Rust before exact signed formation gates and publication
