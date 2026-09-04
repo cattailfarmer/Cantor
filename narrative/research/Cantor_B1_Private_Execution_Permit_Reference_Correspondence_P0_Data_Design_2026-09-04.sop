@@ -1,0 +1,244 @@
+Subject: Cantor B1 A7 Private Execution Permit Reference Correspondence Data Design
+
+@ [data_design_uuid] 4140f860-448c-42f1-9824-97a48e623ed3
+@ [source_snapshot_uuid] cdbd323b-c260-415e-9473-d32604242e54
+@ [source_document] source_documents/2026-09-04_b1_private_execution_permit_reference_correspondence_p0/Derived_B1_Private_Execution_Permit_Reference_Correspondence_P0_Source.sop
+@ [source_custody_commit] 15d3798e5c7e0a2c3263f76f435bc8a7ee9c59f2
+@ [source_bookend_commit] fa031dcfc47cf0435e32975949621148006a8f19
+@ [canonical_uuid] 35543ac8-934f-4e0d-9549-8930f0af7e92
+@ [formation_signature_uuid] 31d86973-d52b-4c8d-9711-b36ed85f4f18
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [Profiles]
+  + [envelope_profile] cantor-b1-private-execution-permit-reference-envelope/0.1
+  + [request_profile] cantor-b1-private-execution-permit-reference-request/0.1
+  + [receipt_profile] cantor-b1-private-execution-permit-reference-receipt/0.1
+  + [evidence_profile] cantor-b1-private-execution-permit-reference-evidence/0.1
+& [EnvelopeFields]
+  + [envelope.profile] ordinal=1; bounded=true
+  + [envelope.envelope_uuid] ordinal=2; bounded=true
+  + [envelope.a6_receipt_sha256] ordinal=3; bounded=true
+  + [envelope.candidate_uuid] ordinal=4; bounded=true
+  + [envelope.authority_name] ordinal=5; bounded=true
+  + [envelope.artifact_kind] ordinal=6; bounded=true
+  + [envelope.opaque_reference] ordinal=7; bounded=true
+  + [envelope.content_sha256] ordinal=8; bounded=true
+  + [envelope.declared_bytes] ordinal=9; bounded=true
+  + [envelope.confidentiality] ordinal=10; bounded=true
+  + [envelope.required_verifier_profile] ordinal=11; bounded=true
+  + [envelope.fixture_only] ordinal=12; bounded=true
+  + [envelope.dependency_ordinal] ordinal=13; bounded=true
+  + [envelope.input_class] ordinal=14; bounded=true
+  + [envelope.evidence_references] ordinal=15; bounded=true
+  + [envelope.envelope_sha256] ordinal=16; bounded=true
+& [RequestFields]
+  + [request.profile] ordinal=1; exact_source_bound=true
+  + [request.source_snapshot_uuid] ordinal=2; exact_source_bound=true
+  + [request.canonical_uuid] ordinal=3; exact_source_bound=true
+  + [request.signature_uuid] ordinal=4; exact_source_bound=true
+  + [request.source_custody_commit] ordinal=5; exact_source_bound=true
+  + [request.source_bookend_commit] ordinal=6; exact_source_bound=true
+  + [request.a6_implementation_commit] ordinal=7; exact_source_bound=true
+  + [request.a6_bookend_commit] ordinal=8; exact_source_bound=true
+  + [request.a6_proof_uuid] ordinal=9; exact_source_bound=true
+  + [request.a6_verification_request_sha256] ordinal=10; exact_source_bound=true
+  + [request.expected_a6_receipt_sha256] ordinal=11; exact_source_bound=true
+  + [request.authority_packet_request_sha256] ordinal=12; exact_source_bound=true
+  + [request.expected_authority_packet_sha256] ordinal=13; exact_source_bound=true
+  + [request.expected_candidate_uuid] ordinal=14; exact_source_bound=true
+  + [request.expected_descriptor_sha256] ordinal=15; exact_source_bound=true
+  + [request.expected_envelope_uuid] ordinal=16; exact_source_bound=true
+  + [request.expected_envelope_bytes] ordinal=17; exact_source_bound=true
+  + [request.expected_envelope_raw_sha256] ordinal=18; exact_source_bound=true
+  + [request.expected_envelope_sha256] ordinal=19; exact_source_bound=true
+  + [request.expected_authority_name] ordinal=20; exact_source_bound=true
+  + [request.expected_artifact_kind] ordinal=21; exact_source_bound=true
+  + [request.expected_opaque_reference] ordinal=22; exact_source_bound=true
+  + [request.expected_content_sha256] ordinal=23; exact_source_bound=true
+  + [request.expected_declared_bytes] ordinal=24; exact_source_bound=true
+  + [request.expected_confidentiality] ordinal=25; exact_source_bound=true
+  + [request.expected_verifier_profile] ordinal=26; exact_source_bound=true
+  + [request.expected_fixture_only] ordinal=27; exact_source_bound=true
+  + [request.expected_dependency_ordinal] ordinal=28; exact_source_bound=true
+  + [request.input_class] ordinal=29; exact_source_bound=true
+  + [request.evidence_references] ordinal=30; exact_source_bound=true
+  + [request.maximum_attempts] ordinal=31; exact_source_bound=true
+  + [request.automatic_retry_count] ordinal=32; exact_source_bound=true
+  + [request.automatic_cleanup_count] ordinal=33; exact_source_bound=true
+  + [request.request_sha256] ordinal=34; exact_source_bound=true
+& [ComparisonFields]
+  + [comparison.a6_receipt_matches] ordinal=1; type=bool
+  + [comparison.packet_matches] ordinal=2; type=bool
+  + [comparison.descriptor_matches] ordinal=3; type=bool
+  + [comparison.envelope_raw_bytes_match] ordinal=4; type=bool
+  + [comparison.envelope_self_digest_matches] ordinal=5; type=bool
+  + [comparison.candidate_uuid_matches] ordinal=6; type=bool
+  + [comparison.authority_name_matches] ordinal=7; type=bool
+  + [comparison.artifact_kind_matches] ordinal=8; type=bool
+  + [comparison.opaque_reference_matches] ordinal=9; type=bool
+  + [comparison.content_sha256_matches] ordinal=10; type=bool
+  + [comparison.declared_bytes_matches] ordinal=11; type=bool
+  + [comparison.confidentiality_matches] ordinal=12; type=bool
+  + [comparison.verifier_profile_matches] ordinal=13; type=bool
+  + [comparison.fixture_flag_matches] ordinal=14; type=bool
+  + [comparison.dependency_ordinal_matches] ordinal=15; type=bool
+  + [comparison.input_class_matches] ordinal=16; type=bool
+  + [comparison.evidence_references_match] ordinal=17; type=bool
+  + [comparison.all_correspondence_matches] ordinal=18; type=bool
+  + [comparison.mismatch_reasons] ordinal=19; type=ordered_unique_enum_array
+& [MismatchReasons]
+  + [reason.a6_receipt_mismatch] ordinal=1; corresponds_to=a6_receipt_matches
+  + [reason.packet_mismatch] ordinal=2; corresponds_to=packet_matches
+  + [reason.descriptor_mismatch] ordinal=3; corresponds_to=descriptor_matches
+  + [reason.envelope_raw_bytes_mismatch] ordinal=4; corresponds_to=envelope_raw_bytes_match
+  + [reason.envelope_self_digest_mismatch] ordinal=5; corresponds_to=envelope_self_digest_matches
+  + [reason.candidate_uuid_mismatch] ordinal=6; corresponds_to=candidate_uuid_matches
+  + [reason.authority_name_mismatch] ordinal=7; corresponds_to=authority_name_matches
+  + [reason.artifact_kind_mismatch] ordinal=8; corresponds_to=artifact_kind_matches
+  + [reason.opaque_reference_mismatch] ordinal=9; corresponds_to=opaque_reference_matches
+  + [reason.content_sha256_mismatch] ordinal=10; corresponds_to=content_sha256_matches
+  + [reason.declared_bytes_mismatch] ordinal=11; corresponds_to=declared_bytes_matches
+  + [reason.confidentiality_mismatch] ordinal=12; corresponds_to=confidentiality_matches
+  + [reason.verifier_profile_mismatch] ordinal=13; corresponds_to=verifier_profile_matches
+  + [reason.fixture_flag_mismatch] ordinal=14; corresponds_to=fixture_flag_matches
+  + [reason.dependency_ordinal_mismatch] ordinal=15; corresponds_to=dependency_ordinal_matches
+  + [reason.input_class_mismatch] ordinal=16; corresponds_to=input_class_matches
+  + [reason.evidence_references_mismatch] ordinal=17; corresponds_to=evidence_references_match
+& [ReceiptFields]
+  + [receipt.profile] ordinal=1; authority_scope=supplied_reference_metadata_only
+  + [receipt.status] ordinal=2; authority_scope=supplied_reference_metadata_only
+  + [receipt.authority] ordinal=3; authority_scope=supplied_reference_metadata_only
+  + [receipt.source_snapshot_uuid] ordinal=4; authority_scope=supplied_reference_metadata_only
+  + [receipt.canonical_uuid] ordinal=5; authority_scope=supplied_reference_metadata_only
+  + [receipt.signature_uuid] ordinal=6; authority_scope=supplied_reference_metadata_only
+  + [receipt.source_custody_commit] ordinal=7; authority_scope=supplied_reference_metadata_only
+  + [receipt.formation_commit] ordinal=8; authority_scope=supplied_reference_metadata_only
+  + [receipt.formation_bookend_commit] ordinal=9; authority_scope=supplied_reference_metadata_only
+  + [receipt.a6_implementation_commit] ordinal=10; authority_scope=supplied_reference_metadata_only
+  + [receipt.a6_bookend_commit] ordinal=11; authority_scope=supplied_reference_metadata_only
+  + [receipt.a6_proof_uuid] ordinal=12; authority_scope=supplied_reference_metadata_only
+  + [receipt.request_sha256] ordinal=13; authority_scope=supplied_reference_metadata_only
+  + [receipt.a6_verification_request_sha256] ordinal=14; authority_scope=supplied_reference_metadata_only
+  + [receipt.a6_receipt_sha256] ordinal=15; authority_scope=supplied_reference_metadata_only
+  + [receipt.a6_receipt] ordinal=16; authority_scope=supplied_reference_metadata_only
+  + [receipt.authority_packet_request_sha256] ordinal=17; authority_scope=supplied_reference_metadata_only
+  + [receipt.authority_packet_sha256] ordinal=18; authority_scope=supplied_reference_metadata_only
+  + [receipt.a7_candidate_uuid] ordinal=19; authority_scope=supplied_reference_metadata_only
+  + [receipt.a7_descriptor_sha256] ordinal=20; authority_scope=supplied_reference_metadata_only
+  + [receipt.reference_envelope_bytes] ordinal=21; authority_scope=supplied_reference_metadata_only
+  + [receipt.reference_envelope_raw_sha256] ordinal=22; authority_scope=supplied_reference_metadata_only
+  + [receipt.reference_envelope_sha256] ordinal=23; authority_scope=supplied_reference_metadata_only
+  + [receipt.envelope_uuid] ordinal=24; authority_scope=supplied_reference_metadata_only
+  + [receipt.opaque_reference] ordinal=25; authority_scope=supplied_reference_metadata_only
+  + [receipt.content_sha256] ordinal=26; authority_scope=supplied_reference_metadata_only
+  + [receipt.declared_bytes] ordinal=27; authority_scope=supplied_reference_metadata_only
+  + [receipt.confidentiality] ordinal=28; authority_scope=supplied_reference_metadata_only
+  + [receipt.required_verifier_profile] ordinal=29; authority_scope=supplied_reference_metadata_only
+  + [receipt.dependency_ordinal] ordinal=30; authority_scope=supplied_reference_metadata_only
+  + [receipt.input_class] ordinal=31; authority_scope=supplied_reference_metadata_only
+  + [receipt.fixture_only] ordinal=32; authority_scope=supplied_reference_metadata_only
+  + [receipt.correspondence_account] ordinal=33; authority_scope=supplied_reference_metadata_only
+  + [receipt.evidence_references] ordinal=34; authority_scope=supplied_reference_metadata_only
+  + [receipt.maximum_attempts] ordinal=35; authority_scope=supplied_reference_metadata_only
+  + [receipt.automatic_retry_count] ordinal=36; authority_scope=supplied_reference_metadata_only
+  + [receipt.automatic_cleanup_count] ordinal=37; authority_scope=supplied_reference_metadata_only
+  + [receipt.a6_correspondence_receipt_verified] ordinal=38; authority_scope=supplied_reference_metadata_only
+  + [receipt.packet_replayed] ordinal=39; authority_scope=supplied_reference_metadata_only
+  + [receipt.descriptor_correspondence_verified] ordinal=40; authority_scope=supplied_reference_metadata_only
+  + [receipt.reference_envelope_bytes_matched] ordinal=41; authority_scope=supplied_reference_metadata_only
+  + [receipt.comparison_reconstructed] ordinal=42; authority_scope=supplied_reference_metadata_only
+  + [receipt.private_execution_permit_reference_correspondence_proved] ordinal=43; authority_scope=supplied_reference_metadata_only
+  + [receipt.production_authority_claimed] ordinal=44; authority_scope=supplied_reference_metadata_only
+  + [receipt.private_execution_permit_present] ordinal=45; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_material_authenticated] ordinal=46; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_signer_identity_proved] ordinal=47; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_signer_authority_proved] ordinal=48; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_scope_proved] ordinal=49; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_subject_proved] ordinal=50; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_freshness_proved] ordinal=51; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_nonexpired] ordinal=52; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_revocation_checked] ordinal=53; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_single_use_proved] ordinal=54; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_unconsumed] ordinal=55; authority_scope=supplied_reference_metadata_only
+  + [receipt.permit_consumed] ordinal=56; authority_scope=supplied_reference_metadata_only
+  + [receipt.live_authorization_admitted] ordinal=57; authority_scope=supplied_reference_metadata_only
+  + [receipt.production_broker_projection_present] ordinal=58; authority_scope=supplied_reference_metadata_only
+  + [receipt.physical_preparation_authorized] ordinal=59; authority_scope=supplied_reference_metadata_only
+  + [receipt.ready_for_physical_execution] ordinal=60; authority_scope=supplied_reference_metadata_only
+  + [receipt.execution_authorized] ordinal=61; authority_scope=supplied_reference_metadata_only
+  + [receipt.effect_account] ordinal=62; authority_scope=supplied_reference_metadata_only
+  + [receipt.receipt_sha256] ordinal=63; authority_scope=supplied_reference_metadata_only
+& [ManifestFields]
+  + [manifest.profile] ordinal=1; bounded=true
+  + [manifest.manifest_uuid] ordinal=2; bounded=true
+  + [manifest.source_snapshot_uuid] ordinal=3; bounded=true
+  + [manifest.canonical_uuid] ordinal=4; bounded=true
+  + [manifest.artifacts] ordinal=5; bounded=true
+  + [manifest.artifact_count] ordinal=6; bounded=true
+  + [manifest.total_artifact_bytes] ordinal=7; bounded=true
+  + [manifest.retained_authority_packet_sha256] ordinal=8; bounded=true
+  + [manifest.retained_a6_receipt_sha256] ordinal=9; bounded=true
+  + [manifest.retained_reference_envelope_sha256] ordinal=10; bounded=true
+  + [manifest.retained_receipt_sha256] ordinal=11; bounded=true
+  + [manifest.deterministic_replay_count] ordinal=12; bounded=true
+  + [manifest.required_fresh_process_replay_count] ordinal=13; bounded=true
+  + [manifest.byte_identical] ordinal=14; bounded=true
+  + [manifest.effect_count] ordinal=15; bounded=true
+  + [manifest.manifest_sha256] ordinal=16; bounded=true
+& [EffectFields]
+  + [effect.reference_resolution_count] ordinal=1; required_value=0_or_false
+  + [effect.private_key_read_count] ordinal=2; required_value=0_or_false
+  + [effect.signing_count] ordinal=3; required_value=0_or_false
+  + [effect.revocation_service_contact_count] ordinal=4; required_value=0_or_false
+  + [effect.witness_service_contact_count] ordinal=5; required_value=0_or_false
+  + [effect.clock_read_count] ordinal=6; required_value=0_or_false
+  + [effect.environment_read_count] ordinal=7; required_value=0_or_false
+  + [effect.host_observation_count] ordinal=8; required_value=0_or_false
+  + [effect.process_count] ordinal=9; required_value=0_or_false
+  + [effect.provider_trial_count] ordinal=10; required_value=0_or_false
+  + [effect.model_turn_count] ordinal=11; required_value=0_or_false
+  + [effect.mcp_call_count] ordinal=12; required_value=0_or_false
+  + [effect.network_contact_count] ordinal=13; required_value=0_or_false
+  + [effect.broker_invocation_count] ordinal=14; required_value=0_or_false
+  + [effect.writer_run_count] ordinal=15; required_value=0_or_false
+  + [effect.filesystem_mutation_count] ordinal=16; required_value=0_or_false
+  + [effect.git_mutation_count] ordinal=17; required_value=0_or_false
+  + [effect.persistence_count] ordinal=18; required_value=0_or_false
+  + [effect.activation_count] ordinal=19; required_value=0_or_false
+  + [effect.cleanup_count] ordinal=20; required_value=0_or_false
+  + [effect.remote_hardware_contact_count] ordinal=21; required_value=0_or_false
+  + [effect.physical_contact] ordinal=22; required_value=0_or_false
+& [EvidenceOrder]
+  + [evidence.predecessor_request.json] ordinal=1; explicit_input=true
+  + [evidence.predecessor_packet.json] ordinal=2; explicit_input=true
+  + [evidence.predecessor_verification.json] ordinal=3; explicit_input=true
+  + [evidence.a1_policy_envelope.json] ordinal=4; explicit_input=true
+  + [evidence.a1_verification_request.json] ordinal=5; explicit_input=true
+  + [evidence.a1_receipt.json] ordinal=6; explicit_input=true
+  + [evidence.custody_attestation.json] ordinal=7; explicit_input=true
+  + [evidence.a2_verification_request.json] ordinal=8; explicit_input=true
+  + [evidence.a2_receipt.json] ordinal=9; explicit_input=true
+  + [evidence.revocation_snapshot.json] ordinal=10; explicit_input=true
+  + [evidence.a3_verification_request.json] ordinal=11; explicit_input=true
+  + [evidence.a3_receipt.json] ordinal=12; explicit_input=true
+  + [evidence.time_witness_receipt.json] ordinal=13; explicit_input=true
+  + [evidence.a4_verification_request.json] ordinal=14; explicit_input=true
+  + [evidence.a4_receipt.json] ordinal=15; explicit_input=true
+  + [evidence.operator_decision_policy.json] ordinal=16; explicit_input=true
+  + [evidence.operator_decision_request.json] ordinal=17; explicit_input=true
+  + [evidence.operator_decision_envelope.json] ordinal=18; explicit_input=true
+  + [evidence.a5_verification_request.json] ordinal=19; explicit_input=true
+  + [evidence.a5_receipt.json] ordinal=20; explicit_input=true
+  + [evidence.preparation_plan_request.json] ordinal=21; explicit_input=true
+  + [evidence.preparation_plan.json] ordinal=22; explicit_input=true
+  + [evidence.observation_bundle.json] ordinal=23; explicit_input=true
+  + [evidence.a6_verification_request.json] ordinal=24; explicit_input=true
+  + [evidence.a6_receipt.json] ordinal=25; explicit_input=true
+  + [evidence.a6_evidence_manifest.json] ordinal=26; explicit_input=false
+  + [evidence.permit_reference_envelope.json] ordinal=27; explicit_input=true
+  + [evidence.verification_request.json] ordinal=28; explicit_input=true
+  + [evidence.receipt.json] ordinal=29; explicit_input=false
+  + [evidence.evidence_manifest.json] ordinal=30; explicit_input=false
+& [Cardinality]
+  + envelope16 request34 comparison19 primitive_comparisons17 mismatch_reasons17 receipt63 manifest16 artifact3 effect22 evidence_files30 explicit_inputs27
+  + statuses supplied_private_permit_reference_correspondence_matched_execution_unresolved and supplied_private_permit_reference_correspondence_mismatched_execution_unresolved; authority supplied_private_permit_reference_correspondence_only
