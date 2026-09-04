@@ -1,0 +1,669 @@
+{
+  "profile": "cantor-b1-operator-decision-chain-implementation-gate-results/0.1",
+  "gate_results_uuid": "87c301e0-ecc8-49ef-af97-e283c0bf38c0",
+  "recorded_at_utc": "2026-09-04 02:21:54 UTC",
+  "canonical_uuid": "ee06ff6d-ba10-4a02-a157-9533d734912e",
+  "formation_commit": "cf757a4a73ca274722ec62b6953b7aee29d15422",
+  "formation_bookend_commit": "4d814e1c72b3b0a44b159986e08e3d3f509dea18",
+  "scope": "Native provider-free implementation verification audit, not another admitted runtime profile or production authority.",
+  "source_bindings": [
+    {
+      "path": "crates/cantor_ecosystem/src/b1_operator_decision_chain_verification.rs",
+      "bytes": 43184,
+      "sha256": "AAEC4C5708816A9E764EBAAEA890425760DFAC2A34EF14810F6B9C519A4D6138"
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/b1_operator_decision_chain_verification_evidence.rs",
+      "bytes": 17689,
+      "sha256": "6B3249E9103D8A69191080BA024E1C237EF5B2A18B4D757CD920E4327D35BFF7"
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/bin/cantor-b1-operator-decision-chain-verify.rs",
+      "bytes": 524,
+      "sha256": "812182ACF9AF80724D63A97642F973B9AC82E6AF9D0347AB3565BB34CA8F507C"
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/bin/cantor-b1-operator-decision-chain-evidence-verify.rs",
+      "bytes": 697,
+      "sha256": "CC14A158698215A39653A1EB735C24C1C17D89FD09EAD9A561DDD6964DCC2F6A"
+    },
+    {
+      "path": "crates/cantor_ecosystem/tests/b1_operator_decision_chain_verification.rs",
+      "bytes": 58242,
+      "sha256": "D0173A3F795D28E7EA1452B7305E1EF3683C0C813D8CA5CFDEB0DEE200ACC9A1"
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/lib.rs",
+      "bytes": 7451,
+      "sha256": "03688CDD86AD92FB100ABA9CFB54A2D276A8A2D070EDDA2F303C2750FEAD7525"
+    },
+    {
+      "path": "scripts/test_b1_operator_decision_chain_verification.ps1",
+      "bytes": 9128,
+      "sha256": "2AB3313D69118D71D0B0EB044F206FC72394837BD06EEF761D6E6443C48125EE"
+    },
+    {
+      "path": "Cargo.toml",
+      "bytes": 1330,
+      "sha256": "39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588"
+    },
+    {
+      "path": "Cargo.lock",
+      "bytes": 41724,
+      "sha256": "71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F"
+    },
+    {
+      "path": "scripts/verify_cantor_b1_operator_decision_chain_verification_p0_formation.ps1",
+      "bytes": 29911,
+      "sha256": "1EA1CF4507B477B67985BA85BF7A20531FBDE3818B311213E77BCC0A5F562382"
+    },
+    {
+      "path": "scripts/test_b1_operator_decision_chain_formation.ps1",
+      "bytes": 6106,
+      "sha256": "26CB63BB9C9EE947F5EE4C735D67A2B51D4ED83714782E715FEBB8B0988FE3F9"
+    }
+  ],
+  "environment": {
+    "worktree": "D:/crf",
+    "cargo_target_dir": "D:/crf/target",
+    "temp_and_tmp": "D:/CantorBuilds/B1A4TestTemp",
+    "temporary_root_outside_git": true,
+    "cargo_build_jobs": 1,
+    "cargo_incremental": 0,
+    "rust_min_stack": 33554432,
+    "test_threads": 1,
+    "locked": true,
+    "offline": true,
+    "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+    "cargo": "cargo 1.96.0 (30a34c682 2026-05-25)",
+    "python": "3.12.10 via fresh command-local PATH",
+    "release_rustflags": "-C overflow-checks=on"
+  },
+  "workspace_command": "cargo test [--release] --workspace --all-targets --all-features --locked --offline --no-fail-fast --quiet -- --test-threads=1",
+  "workspace_gates": [
+    {
+      "path": ".local/b1-a5-final-debug-1788486154528.log",
+      "bytes": 36730,
+      "sha256": "E0B7F6C80DD1FD31EE451B6F6511BFDE73A35DB226EC5DEA46AC7F3B4E13595A",
+      "groups": 295,
+      "passed": 1792,
+      "failed": 0,
+      "ignored": 18,
+      "exit_code": 0
+    },
+    {
+      "path": ".local/b1-a5-final-release-1788487586171.log",
+      "bytes": 36716,
+      "sha256": "C6BFAC77961EE2A20717E017C5530A94D02E698B2B432F48250C25B6A8481F6A",
+      "groups": 295,
+      "passed": 1792,
+      "failed": 0,
+      "ignored": 18,
+      "exit_code": 0
+    }
+  ],
+  "documentation_command": "cargo test [--release] --doc --workspace --all-features --locked --offline --no-fail-fast --quiet -- --test-threads=1",
+  "documentation_gates": [
+    {
+      "path": ".local/b1-a5-doc-debug-1788488234683.log",
+      "bytes": 2360,
+      "sha256": "94AE7D223A68CE25D0D0DB8DCBE9C2AEE129614C652E0D0E634D4C605BEB2DE1",
+      "groups": 20,
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code": 0
+    },
+    {
+      "path": ".local/b1-a5-doc-release-1788488244068.log",
+      "bytes": 2360,
+      "sha256": "94AE7D223A68CE25D0D0DB8DCBE9C2AEE129614C652E0D0E634D4C605BEB2DE1",
+      "groups": 20,
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code": 0
+    }
+  ],
+  "count_semantics": "Summed Rust harness result summaries, not unique assertions. Each documentation profile covers 20 libraries with zero executable examples.",
+  "focused_hosts": [
+    {
+      "host": "PowerShell",
+      "version": "7.6.4"
+    },
+    {
+      "host": "Windows PowerShell",
+      "version": "5.1.26100.9168"
+    }
+  ],
+  "focused_script": "scripts/test_b1_operator_decision_chain_verification.ps1",
+  "focused_logs": [
+    {
+      "path": ".local/b1-a5-final-focused-powershell.exe-1788488432931.log",
+      "bytes": 4641,
+      "sha256": "F102A42AD4A3EEAF0346EC642AD44E8AFA7450D4BAF8E8C94A825A6F51AD205E",
+      "groups": 2,
+      "passed": 68,
+      "failed": 0,
+      "ignored": 2,
+      "profiles": 2,
+      "active_tests_per_profile": 34,
+      "ignored_per_profile": 1,
+      "failed_per_profile": 0,
+      "exit_code": 0
+    },
+    {
+      "path": ".local/b1-a5-final-focused-pwsh.exe-1788488306408.log",
+      "bytes": 4785,
+      "sha256": "23803BCC3CCCAC2DE4F372D7B6542504D256E11C282FFC38685D9DA318BA8881",
+      "groups": 2,
+      "passed": 68,
+      "failed": 0,
+      "ignored": 2,
+      "profiles": 2,
+      "active_tests_per_profile": 34,
+      "ignored_per_profile": 1,
+      "failed_per_profile": 0,
+      "exit_code": 0
+    }
+  ],
+  "quality_transcript": {
+    "path": ".local/b1-a5-post-main-quality-1788488234628.log",
+    "bytes": 15237,
+    "sha256": "5A7536E3081CA607CED5623DC8BE9AB2B5B33CE0ED91CFCC540E2C49590D0687",
+    "groups": 44,
+    "passed": 136,
+    "failed": 0,
+    "ignored": 4
+  },
+  "fresh_byte_replays": [
+    {
+      "profile": "debug",
+      "attempt": 1,
+      "exit_code": 0,
+      "stdout_bytes": 7888,
+      "stdout_sha256": "D73D2631DCBB6D84E3541D17DC166826EDED09350B1E17740661952F46FFF81E",
+      "stderr_bytes": 0
+    },
+    {
+      "profile": "debug",
+      "attempt": 2,
+      "exit_code": 0,
+      "stdout_bytes": 7888,
+      "stdout_sha256": "D73D2631DCBB6D84E3541D17DC166826EDED09350B1E17740661952F46FFF81E",
+      "stderr_bytes": 0
+    },
+    {
+      "profile": "release",
+      "attempt": 1,
+      "exit_code": 0,
+      "stdout_bytes": 7888,
+      "stdout_sha256": "D73D2631DCBB6D84E3541D17DC166826EDED09350B1E17740661952F46FFF81E",
+      "stderr_bytes": 0
+    },
+    {
+      "profile": "release",
+      "attempt": 2,
+      "exit_code": 0,
+      "stdout_bytes": 7888,
+      "stdout_sha256": "D73D2631DCBB6D84E3541D17DC166826EDED09350B1E17740661952F46FFF81E",
+      "stderr_bytes": 0
+    }
+  ],
+  "retained_evidence": {
+    "directory": "experiments/b1_operator_decision_chain_verification_p0/implementation_provider_free_evidence",
+    "files": 21,
+    "payload_artifacts": 20,
+    "payload_bytes": 110165,
+    "raw_bindings": [
+      {
+        "path": "a1_policy_envelope.json",
+        "bytes": 2823,
+        "sha256": "093D060E5CA716AE631BAA9A116852A85B34ACE4000CCC7B48E87A0929E21A23"
+      },
+      {
+        "path": "a1_receipt.json",
+        "bytes": 3336,
+        "sha256": "D6BBC87C174E724E4A4F306A8FAEE51B1D4D43DD01DC614CA493D78989D60FFA"
+      },
+      {
+        "path": "a1_verification_request.json",
+        "bytes": 1683,
+        "sha256": "D62B182A80E7F1E339C739E0E781CF79D61145714EF8F58F010DB32CD5132682"
+      },
+      {
+        "path": "a2_receipt.json",
+        "bytes": 4326,
+        "sha256": "0DBAC7C05FC5D89EC22D09FB1F123FBE28A22990AC8AEA3E7065873A646AB3E6"
+      },
+      {
+        "path": "a2_verification_request.json",
+        "bytes": 9773,
+        "sha256": "BCC590529782087CBBCDD6C10F55124C20A30AAAD7870EE130567EE1F15DFA2B"
+      },
+      {
+        "path": "a3_receipt.json",
+        "bytes": 5140,
+        "sha256": "CAEEE433147926B5DF2E209B5A894178BAD6CD4AB8AEA76EF0C110F57578E570"
+      },
+      {
+        "path": "a3_verification_request.json",
+        "bytes": 10255,
+        "sha256": "DD5CD8E930A646AF77D6C64FFDF406D39E83F6043F1D3186DB97ED8288BB1716"
+      },
+      {
+        "path": "a4_receipt.json",
+        "bytes": 6202,
+        "sha256": "371DA0B9576C3338CFAE0681D656896CA5E734CB862B9B00351EFA1782E409D5"
+      },
+      {
+        "path": "a4_verification_request.json",
+        "bytes": 11116,
+        "sha256": "09ECEC642913E979B51B629F08032A125E9D11CCF5C21B84BBC984074CDB0920"
+      },
+      {
+        "path": "custody_attestation.json",
+        "bytes": 2955,
+        "sha256": "F9FFF38DB111A5DB2F3DE62D8F3265DD6DED93919E3B86C4808DDAF36DFD579E"
+      },
+      {
+        "path": "evidence_manifest.json",
+        "bytes": 4440,
+        "sha256": "9D77D1A079BCDEAC3BD9D86F551A75EB7524C329913B0C4FAEB3A2AEDF817E82"
+      },
+      {
+        "path": "operator_decision_envelope.json",
+        "bytes": 1407,
+        "sha256": "E4DF0DFB96D79222FC00DAD665722BC4063A45A62DA6F031B2429EF69232797E"
+      },
+      {
+        "path": "operator_decision_policy.json",
+        "bytes": 958,
+        "sha256": "8EAF9B6029A9BC66A5D58122D0CB2B5EAE0E0BD46609EBA18EAACA928F528975"
+      },
+      {
+        "path": "operator_decision_request.json",
+        "bytes": 7711,
+        "sha256": "87B8408F6288C195A05A7CE3CDCDC2BC7516B01A696F29A33513D0DB2D832F53"
+      },
+      {
+        "path": "predecessor_packet.json",
+        "bytes": 9684,
+        "sha256": "F0434C99C65A8422C65CF0D2F66B9D7FA9946B787276B1AB584C56DEFD820A5A"
+      },
+      {
+        "path": "predecessor_request.json",
+        "bytes": 7246,
+        "sha256": "ED133BD93117DA9CB891263A9FC826CAA93DEB6BB16C208112842095B61FAAB4"
+      },
+      {
+        "path": "predecessor_verification.json",
+        "bytes": 1266,
+        "sha256": "531C4A2EEE33CACFEBD82CE4EE67B6B84E185943F4847B86CBE4531229E1DCEE"
+      },
+      {
+        "path": "receipt.json",
+        "bytes": 7888,
+        "sha256": "D73D2631DCBB6D84E3541D17DC166826EDED09350B1E17740661952F46FFF81E"
+      },
+      {
+        "path": "revocation_snapshot.json",
+        "bytes": 2130,
+        "sha256": "6070F44031A43167F2031A21A987CC40797B633670639B1C2F5FBD939C51FB3D"
+      },
+      {
+        "path": "time_witness_receipt.json",
+        "bytes": 2309,
+        "sha256": "9C862D130003DB57C14862D21C46ADB34FA511E36157DCB5E82B5E47F9CA2D11"
+      },
+      {
+        "path": "verification_request.json",
+        "bytes": 11957,
+        "sha256": "FB7FBD3D4C4461C55BDCC7F4BD9743E26C69D6EC3C28768C3DA0F9C404F78209"
+      }
+    ],
+    "receipt_self_sha256": "eedf5de6e5df1d669a3eaa07b515104f9432b5f661a88ed1ae9dd5119489b16c",
+    "manifest_self_sha256": "4b6715db39dc38751ca3e8718480feaf2f8bb8160f9809d176d610884c1494ec"
+  },
+  "restart_account_refusal": {
+    "recipe": "Copy exactly the 21 retained files to a fresh owned D-drive test directory. Replace manifest.retained_receipt_sha256.value by SHA256(empty). Replace only manifest.manifest_sha256.value by SHA256(empty), hash UTF-8 domain cantor.b1.operator-decision-chain.evidence-manifest.v1 then NUL then canonical compact typed manifest, and store that digest. Preserve every payload file and artifact byte/hash entry. Run fresh debug and overflow-release evidence CLIs against the copy.",
+    "negative_manifest_self_sha256": "5ac45919a48ef534b8757add9fdd8830fab5ca7b6574e0b5c2b17e8ece9626b0",
+    "results": [
+      {
+        "profile": "debug",
+        "exit_code": 2,
+        "stdout_bytes": 0,
+        "fault": "Restart",
+        "stderr": "A5 evidence refused: Restart: independent replay or retained account differs"
+      },
+      {
+        "profile": "release",
+        "exit_code": 2,
+        "stdout_bytes": 0,
+        "fault": "Restart",
+        "stderr": "A5 evidence refused: Restart: independent replay or retained account differs"
+      }
+    ],
+    "disposition": "validly rehashed manifest cannot assert a false reconstructed receipt identity; source and positive retained evidence unchanged"
+  },
+  "quality": {
+    "workspace_clippy_all_targets_all_features_warnings_denied": true,
+    "standalone_experiment_clippy_all_targets_warnings_denied": [
+      "llama_tool_reflection",
+      "persistence_benchmark",
+      "prepared_runtime_benchmark",
+      "resident_service_benchmark",
+      "self_hosted_corpus_benchmark"
+    ],
+    "cargo_fmt_check": true,
+    "dual_host_script_parse": {
+      "ps1": 179,
+      "psm1": 1,
+      "errors": 0
+    },
+    "formation": {
+      "exit": 0,
+      "hosts": 2,
+      "artifacts": 21,
+      "bindings": 20,
+      "requirements": 31,
+      "acceptance": 5,
+      "valid_per_host": 2,
+      "refusals_per_host": 15,
+      "manifests": 109,
+      "references": 2881,
+      "stale": 0
+    },
+    "current_evidence": {
+      "manifests": 109,
+      "references": 2881,
+      "stale": 0
+    },
+    "frozen_formation_drift": 0,
+    "dependency_input_drift": 0,
+    "source_binding_drift_across_workspace_gates": 0,
+    "named_matrix_test_locators": 34,
+    "named_matrix_test_locators_missing": 0,
+    "typed_shape": {
+      "request": 47,
+      "receipt": 113,
+      "manifest": 18,
+      "missing_test_locators": 0,
+      "unique_named_test_locators": 34
+    }
+  },
+  "metadata_only_refreshes": {
+    "manifests": 32,
+    "artifact_bindings": 50,
+    "byte_fields": 31,
+    "sha256_fields": 50,
+    "generated_at_timestamps": 28,
+    "nonmetadata_drift": 0,
+    "items": [
+      {
+        "path": "crates/cantor_ecosystem/evidence/candidate_workspace_admission_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs",
+          "crates/cantor_ecosystem/evidence/read_only_live_codex_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/phase3_machine_forms_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs",
+          "crates/cantor_ecosystem/evidence/candidate_workspace_admission_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/phase3_topology_forms_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs",
+          "crates/cantor_ecosystem/evidence/phase3_machine_forms_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/read_only_live_codex_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs",
+          "crates/cantor_ecosystem/evidence/supervised_mock_loop_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/sjs_commit_envelope_journal_p2_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": false
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/sjs_commit_placement_acquisition_p3_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": false
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/sjs_repository_graph_p0_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": false
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/sjs_staged_diff_acquisition_p1_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": false
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/supervised_mock_loop_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_entry_policy_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs",
+          "crates/cantor_windows_preflight/evidence/windows_platform_preflight_runtime_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_stream_info_parser_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs",
+          "crates/cantor_ecosystem/evidence/windows_entry_policy_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_supplied_content_digest_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_supplied_directory_topology_projection_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_supplied_entry_observation_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_supplied_entry_stability_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_supplied_ordered_topology_inventory_digest_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_supplied_ordered_topology_inventory_digest_reconciliation_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs",
+          "crates/cantor_ecosystem/evidence/windows_supplied_ordered_topology_inventory_digest_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_supplied_regular_file_topology_projection_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_supplied_root_topology_projection_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_supplied_topology_inventory_assembly_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_topology_abi_probe_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/evidence/supervised_mock_loop_evidence_manifest.json",
+          "crates/cantor_ecosystem/evidence/read_only_live_codex_evidence_manifest.json",
+          "crates/cantor_ecosystem/evidence/candidate_workspace_admission_evidence_manifest.json",
+          "crates/cantor_ecosystem/evidence/phase3_machine_forms_evidence_manifest.json",
+          "crates/cantor_ecosystem/evidence/phase3_topology_forms_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_ecosystem/evidence/windows_topology_acquisition_lineage_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs",
+          "crates/cantor_ecosystem/evidence/windows_supplied_topology_inventory_assembly_evidence_manifest.json",
+          "crates/cantor_ecosystem/evidence/windows_supplied_ordered_topology_inventory_digest_evidence_manifest.json",
+          "crates/cantor_ecosystem/evidence/windows_supplied_ordered_topology_inventory_digest_reconciliation_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "crates/cantor_windows_preflight/evidence/windows_platform_preflight_runtime_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs",
+          "crates/cantor_ecosystem/evidence/windows_topology_abi_probe_evidence_manifest.json"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "experiments/provider_free_self_work_composition_p0/artifacts/provider_free_self_work_composition_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "experiments/self_work_update_broker_b1_cdrive_linked_worktree_preparation_p0_revision_0_2/provider_only_implementation_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "experiments/self_work_update_broker_b1_cdrive_linked_worktree_preparation_p0_revision_0_3/provider_only_implementation_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "experiments/self_work_update_broker_b1_cdrive_linked_worktree_preparation_p0_revision_0_4/provider_only_implementation_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "experiments/self_work_update_broker_b1_cdrive_permission_profile_preflight_p1_revision_0_2/independent_verifier_implementation_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "experiments/self_work_update_broker_b1_cdrive_permission_profile_preflight_p1_revision_0_2/producer_plan_implementation_evidence_manifest.json",
+        "artifact_paths": [
+          "experiments/self_work_update_broker_b1_cdrive_permission_profile_preflight_p1_revision_0_2/independent_verifier_implementation_evidence_manifest.json",
+          "experiments/self_work_update_broker_b1_cdrive_linked_worktree_preparation_p0_revision_0_4/provider_only_implementation_evidence_manifest.json",
+          "experiments/self_work_update_broker_b1_cdrive_preparation_commission_admission_p0_revision_0_2/provider_independent_implementation_evidence_manifest.json",
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "experiments/self_work_update_broker_b1_cdrive_preparation_commission_admission_p0_revision_0_2/provider_independent_implementation_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "experiments/self_work_update_broker_b1_permission_profile_revalidation_p0/evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      },
+      {
+        "path": "experiments/succeeding_sop_fixture_persistence_p0/artifacts/succeeding_sop_fixture_persistence_evidence_manifest.json",
+        "artifact_paths": [
+          "crates/cantor_ecosystem/src/lib.rs"
+        ],
+        "generated_at_updated": true
+      }
+    ]
+  },
+  "prior_attempts": "No A5 full-workspace test failed or was stopped. Earlier focused construction warnings, serializer formatting normalization and diagnostic-only corrections remain attributed in the operational-fault record.",
+  "operational_facts": "narrative/operational_faults/1788484653876_b1_a5_implementation_gate_facts.sop",
+  "authority_and_effect_boundary": {
+    "user_approved_process_scoped_remote_signed": true,
+    "persistent_execution_policy_changed": false,
+    "fresh_windows_powershell_policy_scopes": "all Undefined",
+    "powershell7_localmachine_policy": "existing RemoteSigned; not changed by this turn",
+    "pinned_provider_status": "provider_unavailable",
+    "live_provider_trials": 0,
+    "synthetic_provider_trials": 0,
+    "wsl_invocations": 0,
+    "remote_machine_invocations": 0,
+    "model_downloads": 0,
+    "receipt_positive_correspondence_fields": 15,
+    "receipt_false_authority_fields": 33,
+    "receipt_zero_effect_fields": 22,
+    "decision_signature_binds_a4_lineage": false,
+    "production_execution_authorized": false,
+    "downstream_authorities_unresolved": 4
+  },
+  "audit_note": "Development builds and declared test harnesses use scoped D-drive scratch files and subprocesses. Zero-effect claims describe the A5 correspondence contract, not the whole development session. Disposable local transcript hashes plus tracked source and commands support rerun.",
+  "publication_status": "pending_exact_scoped_staging_commit_nonforce_push_direct_equality_postpush_replay_and_immediate_bookend"
+}

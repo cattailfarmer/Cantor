@@ -1,0 +1,105 @@
+Subject: Cantor B1 A5 Operator Decision Chain Implementation Proof
+
+@ [proof_uuid] ae4d67c5-9512-4f4f-9ed5-11ba4a29012f
+@ [canonical_uuid] ee06ff6d-ba10-4a02-a157-9533d734912e
+@ [source_snapshot_uuid] dc4d390b-953b-415f-9fd9-2bd6f4838e19
+@ [formation_signature_uuid] b40dd6f3-9adc-4bd4-b87d-154e92668106
+@ [formation_commit] cf757a4a73ca274722ec62b6953b7aee29d15422
+@ [formation_bookend_commit] 4d814e1c72b3b0a44b159986e08e3d3f509dea18
+@ [implementation_turn_uuid] c997794e-2f03-4a3d-a2f2-6dabc3df223d
+@ [gate_results_uuid] 87c301e0-ecc8-49ef-af97-e283c0bf38c0
+
+& [ExactImplementationBindings]
+  + [artifact] crates/cantor_ecosystem/src/b1_operator_decision_chain_verification.rs bytes 43184 SHA256 AAEC4C5708816A9E764EBAAEA890425760DFAC2A34EF14810F6B9C519A4D6138
+  + [artifact] crates/cantor_ecosystem/src/b1_operator_decision_chain_verification_evidence.rs bytes 17689 SHA256 6B3249E9103D8A69191080BA024E1C237EF5B2A18B4D757CD920E4327D35BFF7
+  + [artifact] crates/cantor_ecosystem/src/bin/cantor-b1-operator-decision-chain-verify.rs bytes 524 SHA256 812182ACF9AF80724D63A97642F973B9AC82E6AF9D0347AB3565BB34CA8F507C
+  + [artifact] crates/cantor_ecosystem/src/bin/cantor-b1-operator-decision-chain-evidence-verify.rs bytes 697 SHA256 CC14A158698215A39653A1EB735C24C1C17D89FD09EAD9A561DDD6964DCC2F6A
+  + [artifact] crates/cantor_ecosystem/tests/b1_operator_decision_chain_verification.rs bytes 58242 SHA256 D0173A3F795D28E7EA1452B7305E1EF3683C0C813D8CA5CFDEB0DEE200ACC9A1
+  + [artifact] crates/cantor_ecosystem/src/lib.rs bytes 7451 SHA256 03688CDD86AD92FB100ABA9CFB54A2D276A8A2D070EDDA2F303C2750FEAD7525
+  + [artifact] scripts/test_b1_operator_decision_chain_verification.ps1 bytes 9128 SHA256 2AB3313D69118D71D0B0EB044F206FC72394837BD06EEF761D6E6443C48125EE
+  + [artifact] Cargo.toml bytes 1330 SHA256 39C326906D539AFF3C927005301B66F7AEF7F118B7015CD6A3257BD05851B588
+  + [artifact] Cargo.lock bytes 41724 SHA256 71A64CF5BD55EF5E1834D88CF209B34732F4F358303EC4E103AE83254554CF5F
+  + [artifact] scripts/verify_cantor_b1_operator_decision_chain_verification_p0_formation.ps1 bytes 29911 SHA256 1EA1CF4507B477B67985BA85BF7A20531FBDE3818B311213E77BCC0A5F562382
+  + [artifact] scripts/test_b1_operator_decision_chain_formation.ps1 bytes 6106 SHA256 26CB63BB9C9EE947F5EE4C735D67A2B51D4ED83714782E715FEBB8B0988FE3F9
+
+& [RequirementProof]
+  + every named Rust test below is in crates/cantor_ecosystem/tests/b1_operator_decision_chain_verification.rs; source and publication dispositions are separated from executable test claims
+  + [ODCV-001] mechanism governance constants and validate_request_shape; evidence governance_pins_refuse_drift; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-002] mechanism profiles and imported unchanged contracts; evidence canonical_forms_refuse_noncanonical_input; complete_fixture_replays_and_is_non_authorizing; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-003] mechanism parse_odcv_canonical and bounded_value; evidence::read_paths; evidence bounded_inputs_and_attempts_refuse; maximum_reference_bounds_are_accepted_without_resolution; evidence_total_bound_and_imported_canonical_forms_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-004] mechanism verify_odcv_operator_decision fixture correspondence; evidence input_classes_remain_local; both_classes_and_kinds_replay_the_complete_chain; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-005] mechanism evidence::ODCV_EVIDENCE_FILES and check_direct_directory; evidence evidence_membership_and_rehashed_promotion_refuse; windows_junction_directory_and_ancestor_are_refused; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-006] mechanism verify_odcv_operator_decision full verify_twv_time_witness replay; evidence predecessor_tampering_refuses; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-007] mechanism verify_odcv_operator_decision descriptor ordinal five; evidence packet_coordinate_refuses; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-008] mechanism verify_odcv_operator_decision raw identity before legacy parsing; evidence raw_bytes_refuse_before_parse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-009] mechanism validate_packet_transition and twice compiled packet; evidence only_a5_descriptor_may_change; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-010] mechanism verify_odcv_operator_decision A1 policy correspondence; unchanged legacy policy validation; evidence policy_identity_and_revision_refuse; legacy_request_and_signature_replay; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-011] mechanism decode_fixed_hex and decoded key comparison; upstream and legacy fingerprint validation; evidence decoded_keys_and_distinct_domains; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-012] mechanism verify_odcv_operator_decision raw A1 and A3 policy bindings; evidence policy_artifact_bindings_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-013] mechanism expected_policy_revision_uuid association; evidence policy_identity_and_revision_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-014] mechanism unchanged verify_b1_cdrive_operator_decision call; evidence legacy_request_and_signature_replay; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-015] mechanism unchanged legacy signature validator; evidence legacy_signature_tampering_refuses; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-016] mechanism expected decision identity and A1 permitted class mapping; evidence decision_expectations_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-017] mechanism odcv_compare_supplied_interval; evidence decision_interval_structure_refuses; half_open_endpoints_and_u64_extremes; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-018] mechanism odcv_compare_supplied_interval; evidence half_open_endpoints_and_u64_extremes; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-019] mechanism build_receipt supplied_a3_status_assertion; evidence both_kinds_all_intervals_and_a3_status; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-020] mechanism build_receipt decision_signature_binds_a4_lineage=false; evidence unsigned_a4_association_is_not_signature_coverage; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-021] mechanism OdcvVerificationRequest and validate_request_shape; evidence request_fields_refuse_tamper; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-022] mechanism ODCV_STATUS and ODCV_AUTHORITY; evidence receipt_identity_refuses; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-023] mechanism OdcvVerificationReceipt and validate_odcv_receipt_fields; evidence all_truth_and_effect_fields_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-024] mechanism odcv_request_digest odcv_receipt_digest odcv_evidence_manifest_digest; evidence self_digests_are_domain_separated; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-025] mechanism parse_odcv_canonical and evidence::retained_bytes; evidence canonical_forms_refuse_noncanonical_input; evidence_total_bound_and_imported_canonical_forms_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-026] mechanism evidence::validate_odcv_evidence_manifest and verify_odcv_evidence_directory; evidence evidence_reconstructs_exact_manifest; evidence_manifest_accounts_and_paths_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-027] mechanism evidence::verify_odcv_payload_paths and verify_odcv_evidence_directory; both CLIs; evidence fresh_processes_match_and_refuse_tamper; cli_argument_and_file_bounds_refuse; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-028] mechanism OdcvFaultCode and legacy_fault; fault-specific negative assertions; evidence request_fields_refuse_tamper; raw_bytes_refuse_before_parse; legacy_signature_tampering_refuses; evidence_membership_and_rehashed_promotion_refuse; fresh_processes_match_and_refuse_tamper; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-029] mechanism pure core and explicit bounded evidence reads; no effect runner; evidence production_effect_boundary; opaque_references_do_not_resolve_and_downstream_stays_locked; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-030] mechanism frozen primary research 6d691900-afa3-444e-bfb8-eefab5a08881; no new protocol claims; evidence governance_pins_refuse_drift; unsigned_a4_association_is_not_signature_coverage; disposition verified_in_both_focused_profiles_and_exact_workspace
+  + [ODCV-031] mechanism immutable source and formation; separate implementation closure and publication bookend; evidence published immutable source and formation; exact owned-diff and scoped publication bookend; disposition phase_separation_verified_final_publication_pending
+
+& [IndependentContractChecks]
+  + exact declaration-order shapes are forty-seven request fields one-hundred-thirteen receipt fields and eighteen manifest fields; all thirty-four active test locators resolve in the separate implementation matrix
+  + decoded A1 and legacy key bytes must agree while their existing domain-specific fingerprint digests remain deliberately unequal; valid alternate signatures do not substitute a different key
+  + unchanged legacy signature input is its existing domain then NUL then complete canonical payload including its checked payload digest; no new signer or signature grammar exists
+  + legacy policy binds exact raw A1 policy envelope and A3 snapshot hashes without transport LF; manifest hashes include the single transport LF
+  + expected A1 revision is an explicit chain association because the legacy policy has no revision field; neither that association nor the decision signature is promoted to signed A4 lineage
+  + a positive unsigned-A4-rebinding test keeps the legacy decision signature bytes unchanged while associating another valid supplied observation; decision_signature_binds_a4_lineage remains false
+  + direct u64 comparison implements issued <= observed < expires; issuance equality is within expiry equality is after and empty or inverted intervals refuse
+  + both decision kinds both input classes all three interval outcomes and adverse revoked or unknown A3 assertions are exercised without suppressing descriptive evidence or granting operative revocation authority
+
+& [AcceptanceEvidence]
+  + [ODCV-A01] frozen source-bound formation passes twenty-one artifacts twenty signature bindings thirty-one requirements five gates two valid roots and fifteen refusals on each approved PowerShell host
+  + [ODCV-A02] safe Rust adds only A5 core independent evidence two bounded CLIs tests and module integration; unchanged A1 through A4 and legacy validators retain their original signature and trust boundaries; Cargo inputs are unchanged
+  + [ODCV-A03] thirty-four active tests zero failures one ignored producer pass in debug and overflow release on both hosts; twenty-one retained files bind twenty payload artifacts totaling 110165 bytes; fresh-process byte replay and validly rehashed restart-account refusal pass in both profiles
+  + [ODCV-A04] source-stable locked-offline serialized all-target all-feature workspace debug and overflow release each pass 295 result groups 1792 reported passes zero failures eighteen intentional ignores; separate documentation gates cover twenty libraries with zero executable examples in each profile; workspace and five experiment warnings-denied Clippy format dual-host script formation evidence and working-diff checks pass; final staging publication equality post-push replay and immediate bookend remain pending
+  + [ODCV-A05] fifteen positive correspondence fields thirty-three false authority/context fields and all twenty-two zero effect fields are reconstructed; actual signer identity authority custody revocation time freshness live decision observation permit broker physical and provider authorities remain unproved
+
+& [RetainedEvidence]
+  + directory experiments/b1_operator_decision_chain_verification_p0/implementation_provider_free_evidence; exact twenty-one-file membership and ordered twenty-payload manifest
+  + evidence_manifest.json bytes 4440 SHA256 9D77D1A079BCDEAC3BD9D86F551A75EB7524C329913B0C4FAEB3A2AEDF817E82
+  + operator_decision_envelope.json bytes 1407 SHA256 E4DF0DFB96D79222FC00DAD665722BC4063A45A62DA6F031B2429EF69232797E
+  + receipt.json bytes 7888 SHA256 D73D2631DCBB6D84E3541D17DC166826EDED09350B1E17740661952F46FFF81E
+  + verification_request.json bytes 11957 SHA256 FB7FBD3D4C4461C55BDCC7F4BD9743E26C69D6EC3C28768C3DA0F9C404F78209
+  + receipt semantic self-digest eedf5de6e5df1d669a3eaa07b515104f9432b5f661a88ed1ae9dd5119489b16c
+  + manifest semantic self-digest 4b6715db39dc38751ca3e8718480feaf2f8bb8160f9809d176d610884c1494ec
+  + two additional fresh debug and two additional fresh release processes each produce exactly 7888 retained receipt bytes with empty stderr
+
+& [RestartAccountRefusal]
+  + experiments/b1_operator_decision_chain_verification_p0/implementation_gate_results.json records a reproducible negative recipe: keep all twenty payload files and hashes unchanged but replace retained_receipt_sha256 with SHA256 empty bytes and correctly recalculate the manifest self-digest
+  + negative manifest self-digest 5ac45919a48ef534b8757add9fdd8830fab5ca7b6574e0b5c2b17e8ece9626b0 passes the outer raw hash account but cannot replace the independently reconstructed receipt identity
+  + fresh debug and release evidence CLIs both exit two with zero stdout and typed Restart independent replay or retained account differs; no production source or retained positive fixture was edited for this gate
+  + checked arithmetic and prior byte/field bounds prevent overflow; the proof does not claim to force unreachable overflow branches merely because their typed fault variants exist
+
+& [GateAndAttribution]
+  + experiments/b1_operator_decision_chain_verification_p0/implementation_gate_results.json binds exact source files commands environment measured result accounts host versions disposable transcript identities and the negative replay recipe
+  + debug log bytes 36730 SHA256 E0B7F6C80DD1FD31EE451B6F6511BFDE73A35DB226EC5DEA46AC7F3B4E13595A; release log bytes 36716 SHA256 C6BFAC77961EE2A20717E017C5530A94D02E698B2B432F48250C25B6A8481F6A
+  + thirty-two current manifests refresh fifty artifact bindings comprising thirty-one byte fields fifty hash fields and twenty-eight generation timestamps; membership and all other semantics are unchanged
+  + recursive current evidence is 109 manifests 2881 references zero stale; no frozen formation source dependency upstream or legacy implementation drift
+  + two analytical review passes by this agent are constructive and adversarial checks, not a claim of independent human reviewers or independently implemented cryptography
+  + narrative/operational_faults/1788484653876_b1_a5_implementation_gate_facts.sop preserves the approved process-only policy boundary serializer normalization diagnostic corrections slow unchanged debug suites and foreign-work exclusion
+
+& [LimitsAndDecision]
+  + the independent evidence reader does not import the fixture producer; it deliberately reuses the governed correspondence and signature implementations rather than claiming a second cryptographic implementation
+  + explicit bounded regular/nonlink file checks require stable supplied files and do not provide an atomic filesystem snapshot or an operating-system sandbox
+  + development builds tests scratch files and subprocesses are scoped verification infrastructure, not runtime effect authority
+  + provider_unavailable and zero live and synthetic provider trials remain preserved; no WSL remote machine model download fallback physical preparation or foreign-work mutation
+  + implementation_verified_ready_for_exact_attributed_publication; final ODCV-031 and ODCV-A04 publication evidence must follow in the immediate bookend
