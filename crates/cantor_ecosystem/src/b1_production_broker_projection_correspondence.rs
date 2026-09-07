@@ -3,8 +3,8 @@
 //! This partial core has no endpoint resolver, dynamic loader, broker client,
 //! credential input, permit consumer, writer, or effect interface.
 use crate::{
-    B1OaprConfidentiality, EocvFault, EocvFaultCode, KcvInputClass, eocv_domain_digest, eocv_fault,
-    parse_eocv_canonical, valid_eocv_uuid,
+    B1OaprConfidentiality, EocvFault, EocvFaultCode, KcvInputClass, PercVerificationReceipt,
+    TwvEffectAccount, eocv_domain_digest, eocv_fault, parse_eocv_canonical, valid_eocv_uuid,
 };
 use cantor_core::{ContentDigest, sha256_bytes};
 use serde::{Deserialize, Serialize};
@@ -25,6 +25,14 @@ pub const PBPC_A7_IMPLEMENTATION_COMMIT: &str = "49f5c95cfc4584d07b179499f67c1f6
 pub const PBPC_A7_BOOKEND_COMMIT: &str = "0d5ba710af366d181c09cb0e0ebbeb8103e53b3e";
 pub const PBPC_A7_PROOF_UUID: &str = "477b0a89-4e2a-42e3-b995-29e9c63a430a";
 pub const PBPC_DECLARATION_DOMAIN: &str = "cantor.b1.production-broker-projection.declaration.v1";
+pub const PBPC_REQUEST_DOMAIN: &str = "cantor.b1.production-broker-projection.request.v1";
+pub const PBPC_RECEIPT_DOMAIN: &str = "cantor.b1.production-broker-projection.receipt.v1";
+pub const PBPC_EVIDENCE_DOMAIN: &str = "cantor.b1.production-broker-projection.evidence.v1";
+pub const PBPC_MATCHED_STATUS: &str =
+    "supplied_production_broker_projection_correspondence_matched_execution_unresolved";
+pub const PBPC_MISMATCHED_STATUS: &str =
+    "supplied_production_broker_projection_correspondence_mismatched_execution_unresolved";
+pub const PBPC_AUTHORITY: &str = "supplied_production_broker_projection_correspondence_only";
 pub const PBPC_MAX_FORM_BYTES: usize = 1_048_576;
 pub const PBPC_MAX_EVIDENCE_REFERENCES: usize = 48;
 const PBPC_MAX_IDENTIFIER_BYTES: usize = 128;
@@ -120,6 +128,84 @@ pub struct PbpcProjectionDeclaration {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+pub struct PbpcEvidenceArtifact {
+    pub path: String,
+    pub bytes: u64,
+    pub sha256: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PbpcEvidenceManifest {
+    pub profile: String,
+    pub manifest_uuid: String,
+    pub source_snapshot_uuid: String,
+    pub canonical_uuid: String,
+    pub artifacts: Vec<PbpcEvidenceArtifact>,
+    pub artifact_count: u8,
+    pub total_artifact_bytes: u64,
+    pub retained_authority_packet_sha256: ContentDigest,
+    pub retained_a7_receipt_sha256: ContentDigest,
+    pub retained_projection_declaration_sha256: ContentDigest,
+    pub retained_receipt_sha256: ContentDigest,
+    pub deterministic_replay_count: u8,
+    pub required_fresh_process_replay_count: u8,
+    pub byte_identical: bool,
+    pub effect_count: u8,
+    pub manifest_sha256: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PbpcVerificationRequest {
+    pub profile: String,
+    pub source_snapshot_uuid: String,
+    pub canonical_uuid: String,
+    pub signature_uuid: String,
+    pub source_custody_commit: String,
+    pub source_bookend_commit: String,
+    pub formation_commit: String,
+    pub formation_bookend_commit: String,
+    pub a7_implementation_commit: String,
+    pub a7_bookend_commit: String,
+    pub a7_proof_uuid: String,
+    pub a7_verification_request_sha256: ContentDigest,
+    pub expected_a7_receipt_sha256: ContentDigest,
+    pub authority_packet_request_sha256: ContentDigest,
+    pub expected_authority_packet_sha256: ContentDigest,
+    pub expected_candidate_uuid: String,
+    pub expected_descriptor_sha256: ContentDigest,
+    pub expected_projection_uuid: String,
+    pub expected_projection_bytes: u64,
+    pub expected_projection_raw_sha256: ContentDigest,
+    pub expected_projection_sha256: ContentDigest,
+    pub expected_authority_name: String,
+    pub expected_artifact_kind: String,
+    pub expected_opaque_reference: String,
+    pub expected_content_sha256: ContentDigest,
+    pub expected_declared_bytes: u64,
+    pub expected_confidentiality: B1OaprConfidentiality,
+    pub expected_verifier_profile: String,
+    pub expected_fixture_only: bool,
+    pub expected_dependency_ordinal: u8,
+    pub input_class: KcvInputClass,
+    pub expected_preparation_plan_sha256: ContentDigest,
+    pub expected_broker_adapter_profile: String,
+    pub expected_broker_operation_kind: String,
+    pub expected_broker_subject: String,
+    pub expected_input_receipt_profile: String,
+    pub expected_output_receipt_profile: String,
+    pub expected_requires_private_permit: bool,
+    pub expected_activation_requested: bool,
+    pub evidence_references: Vec<String>,
+    pub maximum_attempts: u8,
+    pub automatic_retry_count: u8,
+    pub automatic_cleanup_count: u8,
+    pub request_sha256: ContentDigest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct PbpcComparisonAccount {
     pub a7_receipt_matches: bool,
     pub packet_matches: bool,
@@ -150,6 +236,216 @@ pub struct PbpcComparisonAccount {
     pub all_correspondence_matches: bool,
     pub mismatch_reasons: Vec<PbpcMismatchReason>,
 }
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PbpcVerificationReceipt {
+    pub profile: String,
+    pub status: String,
+    pub authority: String,
+    pub source_snapshot_uuid: String,
+    pub canonical_uuid: String,
+    pub signature_uuid: String,
+    pub source_custody_commit: String,
+    pub formation_commit: String,
+    pub formation_bookend_commit: String,
+    pub a7_implementation_commit: String,
+    pub a7_bookend_commit: String,
+    pub a7_proof_uuid: String,
+    pub request_sha256: ContentDigest,
+    pub a7_verification_request_sha256: ContentDigest,
+    pub a7_receipt_sha256: ContentDigest,
+    pub a7_receipt: PercVerificationReceipt,
+    pub authority_packet_request_sha256: ContentDigest,
+    pub authority_packet_sha256: ContentDigest,
+    pub a8_candidate_uuid: String,
+    pub a8_descriptor_sha256: ContentDigest,
+    pub projection_declaration_bytes: u64,
+    pub projection_declaration_raw_sha256: ContentDigest,
+    pub projection_declaration_sha256: ContentDigest,
+    pub projection_uuid: String,
+    pub opaque_reference: String,
+    pub content_sha256: ContentDigest,
+    pub declared_bytes: u64,
+    pub confidentiality: B1OaprConfidentiality,
+    pub required_verifier_profile: String,
+    pub dependency_ordinal: u8,
+    pub input_class: KcvInputClass,
+    pub fixture_only: bool,
+    pub preparation_plan_sha256: ContentDigest,
+    pub broker_adapter_profile: String,
+    pub broker_operation_kind: String,
+    pub broker_subject: String,
+    pub required_input_receipt_profile: String,
+    pub expected_output_receipt_profile: String,
+    pub requires_private_permit: bool,
+    pub activation_requested: bool,
+    pub comparison_account: PbpcComparisonAccount,
+    pub evidence_references: Vec<String>,
+    pub maximum_attempts: u8,
+    pub automatic_retry_count: u8,
+    pub automatic_cleanup_count: u8,
+    pub a7_correspondence_receipt_verified: bool,
+    pub packet_replayed: bool,
+    pub descriptor_correspondence_verified: bool,
+    pub projection_declaration_bytes_matched: bool,
+    pub comparison_reconstructed: bool,
+    pub production_broker_projection_correspondence_proved: bool,
+    pub production_authority_claimed: bool,
+    pub private_execution_permit_present: bool,
+    pub permit_material_authenticated: bool,
+    pub permit_dependency_satisfied: bool,
+    pub broker_endpoint_resolved: bool,
+    pub broker_reachable: bool,
+    pub broker_identity_proved: bool,
+    pub broker_authority_proved: bool,
+    pub broker_session_authenticated: bool,
+    pub broker_activation_authorized: bool,
+    pub production_broker_projection_present: bool,
+    pub live_authorization_admitted: bool,
+    pub physical_preparation_authorized: bool,
+    pub ready_for_physical_execution: bool,
+    pub execution_authorized: bool,
+    pub effect_account: TwvEffectAccount,
+    pub receipt_sha256: ContentDigest,
+}
+
+pub const PBPC_REQUEST_FIELDS: [&str; 44] = [
+    "profile",
+    "source_snapshot_uuid",
+    "canonical_uuid",
+    "signature_uuid",
+    "source_custody_commit",
+    "source_bookend_commit",
+    "formation_commit",
+    "formation_bookend_commit",
+    "a7_implementation_commit",
+    "a7_bookend_commit",
+    "a7_proof_uuid",
+    "a7_verification_request_sha256",
+    "expected_a7_receipt_sha256",
+    "authority_packet_request_sha256",
+    "expected_authority_packet_sha256",
+    "expected_candidate_uuid",
+    "expected_descriptor_sha256",
+    "expected_projection_uuid",
+    "expected_projection_bytes",
+    "expected_projection_raw_sha256",
+    "expected_projection_sha256",
+    "expected_authority_name",
+    "expected_artifact_kind",
+    "expected_opaque_reference",
+    "expected_content_sha256",
+    "expected_declared_bytes",
+    "expected_confidentiality",
+    "expected_verifier_profile",
+    "expected_fixture_only",
+    "expected_dependency_ordinal",
+    "input_class",
+    "expected_preparation_plan_sha256",
+    "expected_broker_adapter_profile",
+    "expected_broker_operation_kind",
+    "expected_broker_subject",
+    "expected_input_receipt_profile",
+    "expected_output_receipt_profile",
+    "expected_requires_private_permit",
+    "expected_activation_requested",
+    "evidence_references",
+    "maximum_attempts",
+    "automatic_retry_count",
+    "automatic_cleanup_count",
+    "request_sha256",
+];
+
+pub const PBPC_RECEIPT_FIELDS: [&str; 68] = [
+    "profile",
+    "status",
+    "authority",
+    "source_snapshot_uuid",
+    "canonical_uuid",
+    "signature_uuid",
+    "source_custody_commit",
+    "formation_commit",
+    "formation_bookend_commit",
+    "a7_implementation_commit",
+    "a7_bookend_commit",
+    "a7_proof_uuid",
+    "request_sha256",
+    "a7_verification_request_sha256",
+    "a7_receipt_sha256",
+    "a7_receipt",
+    "authority_packet_request_sha256",
+    "authority_packet_sha256",
+    "a8_candidate_uuid",
+    "a8_descriptor_sha256",
+    "projection_declaration_bytes",
+    "projection_declaration_raw_sha256",
+    "projection_declaration_sha256",
+    "projection_uuid",
+    "opaque_reference",
+    "content_sha256",
+    "declared_bytes",
+    "confidentiality",
+    "required_verifier_profile",
+    "dependency_ordinal",
+    "input_class",
+    "fixture_only",
+    "preparation_plan_sha256",
+    "broker_adapter_profile",
+    "broker_operation_kind",
+    "broker_subject",
+    "required_input_receipt_profile",
+    "expected_output_receipt_profile",
+    "requires_private_permit",
+    "activation_requested",
+    "comparison_account",
+    "evidence_references",
+    "maximum_attempts",
+    "automatic_retry_count",
+    "automatic_cleanup_count",
+    "a7_correspondence_receipt_verified",
+    "packet_replayed",
+    "descriptor_correspondence_verified",
+    "projection_declaration_bytes_matched",
+    "comparison_reconstructed",
+    "production_broker_projection_correspondence_proved",
+    "production_authority_claimed",
+    "private_execution_permit_present",
+    "permit_material_authenticated",
+    "permit_dependency_satisfied",
+    "broker_endpoint_resolved",
+    "broker_reachable",
+    "broker_identity_proved",
+    "broker_authority_proved",
+    "broker_session_authenticated",
+    "broker_activation_authorized",
+    "production_broker_projection_present",
+    "live_authorization_admitted",
+    "physical_preparation_authorized",
+    "ready_for_physical_execution",
+    "execution_authorized",
+    "effect_account",
+    "receipt_sha256",
+];
+
+pub const PBPC_EVIDENCE_FIELDS: [&str; 16] = [
+    "profile",
+    "manifest_uuid",
+    "source_snapshot_uuid",
+    "canonical_uuid",
+    "artifacts",
+    "artifact_count",
+    "total_artifact_bytes",
+    "retained_authority_packet_sha256",
+    "retained_a7_receipt_sha256",
+    "retained_projection_declaration_sha256",
+    "retained_receipt_sha256",
+    "deterministic_replay_count",
+    "required_fresh_process_replay_count",
+    "byte_identical",
+    "effect_count",
+    "manifest_sha256",
+];
 
 pub fn pbpc_comparison_from_flags(flags: [bool; 26]) -> PbpcComparisonAccount {
     let mismatch_reasons = flags
@@ -501,5 +797,51 @@ mod tests {
             .mismatch_reasons
             .push(PbpcMismatchReason::PacketMismatch);
         assert!(validate_pbpc_comparison_account(&account).is_err());
+    }
+
+    #[test]
+    fn frozen_carrier_shapes_domains_and_nonauthorizing_statuses_are_exact() {
+        assert_eq!(
+            (PBPC_REQUEST_FIELDS[0], PBPC_REQUEST_FIELDS[43]),
+            ("profile", "request_sha256")
+        );
+        assert_eq!(
+            (PBPC_RECEIPT_FIELDS[0], PBPC_RECEIPT_FIELDS[67]),
+            ("profile", "receipt_sha256")
+        );
+        assert_eq!(
+            (PBPC_EVIDENCE_FIELDS[0], PBPC_EVIDENCE_FIELDS[15]),
+            ("profile", "manifest_sha256")
+        );
+        assert_eq!(
+            PBPC_REQUEST_FIELDS
+                .into_iter()
+                .collect::<BTreeSet<_>>()
+                .len(),
+            44
+        );
+        assert_eq!(
+            PBPC_RECEIPT_FIELDS
+                .into_iter()
+                .collect::<BTreeSet<_>>()
+                .len(),
+            68
+        );
+        assert_eq!(
+            PBPC_EVIDENCE_FIELDS
+                .into_iter()
+                .collect::<BTreeSet<_>>()
+                .len(),
+            16
+        );
+        assert!(PBPC_MATCHED_STATUS.ends_with("_execution_unresolved"));
+        assert!(PBPC_MISMATCHED_STATUS.ends_with("_execution_unresolved"));
+        assert_eq!(
+            PBPC_AUTHORITY,
+            "supplied_production_broker_projection_correspondence_only"
+        );
+        assert_ne!(PBPC_DECLARATION_DOMAIN, PBPC_REQUEST_DOMAIN);
+        assert_ne!(PBPC_REQUEST_DOMAIN, PBPC_RECEIPT_DOMAIN);
+        assert_ne!(PBPC_RECEIPT_DOMAIN, PBPC_EVIDENCE_DOMAIN);
     }
 }
