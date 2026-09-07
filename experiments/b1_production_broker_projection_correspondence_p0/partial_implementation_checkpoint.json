@@ -1,0 +1,63 @@
+{
+  "profile": "cantor-b1-production-broker-projection-development-checkpoint/0.1",
+  "checkpoint_uuid": "8eb15b12-1ca1-4730-8e96-f4bbb7e3e522",
+  "recorded_at_utc": "2026-09-07T22:27:02.2442700+00:00",
+  "canonical_uuid": "6a0ee327-1235-4d4c-8a0d-fb1b47f525c1",
+  "formation_commit": "0c512041316d5d0ecbd6c5db9174dfb025f070fd",
+  "formation_bookend_commit": "7407f055ff5ea9fff1624e23ffa0fc379b265e2b",
+  "disposition": "partial_I1_declaration_and_comparison_core_not_full_A8_verification",
+  "source_bindings": [
+    {
+      "path": "crates/cantor_ecosystem/src/b1_production_broker_projection_correspondence.rs",
+      "lines": 505,
+      "bytes": 20038,
+      "sha256": "45CE85BAD1798892A40A121A45BA523CE0D0F70939D881D232F05CB80C6D7B97"
+    },
+    {
+      "path": "crates/cantor_ecosystem/src/lib.rs",
+      "bytes": 8054,
+      "sha256": "4EAB0E22B3CCA5E5B51EC8AFBED5488E92E64ED1B4C4A49916307B71556DDD4E"
+    }
+  ],
+  "implemented_surface": {
+    "declaration_fields": 24,
+    "comparison_primitives": 26,
+    "mismatch_reasons": 26,
+    "request_fields": "not_implemented",
+    "receipt_fields": "not_implemented",
+    "evidence_fields": "not_implemented",
+    "a7_replay": "not_implemented",
+    "independent_verifier": "not_implemented"
+  },
+  "gates": {
+    "focused_debug": { "passed": 6, "failed": 0, "ignored": 0 },
+    "focused_overflow_release": { "passed": 6, "failed": 0, "ignored": 0 },
+    "workspace_clippy": "passed_all_targets_all_features_locked_offline_warnings_denied",
+    "format": "passed",
+    "staged_diff_fixture": "passed_pwsh7_3_successes_3_refusals_windows_powershell_5_native_stderr_transport_fault_recorded",
+    "full_workspace_debug": { "result_groups": 302, "passed": 1861, "failed": 0, "ignored": 20 },
+    "full_workspace_overflow_release": { "result_groups": 302, "passed": 1861, "failed": 0, "ignored": 20 },
+    "retained_provider_independent_evidence": "not_implemented"
+  },
+  "commands": {
+    "debug": "cargo test --locked --offline -p cantor_ecosystem --lib b1_production_broker_projection_correspondence -- --test-threads=1",
+    "release": "RUSTFLAGS=-C overflow-checks=yes; cargo test --locked --offline --release -p cantor_ecosystem --lib b1_production_broker_projection_correspondence -- --test-threads=1",
+    "clippy": "cargo clippy --workspace --all-targets --all-features --locked --offline -- -D warnings",
+    "format": "cargo fmt --all -- --check"
+  },
+  "authority": {
+    "provider_state": "provider_unavailable_zero_live_and_synthetic_trials",
+    "activation_requested": false,
+    "private_permit_satisfied": false,
+    "broker_presence_claimed": false,
+    "effect_authority": false
+  },
+  "pending": [
+    "complete unchanged A7 replay and packet conservation",
+    "strict request receipt and evidence machines",
+    "independent evidence reader and two CLIs",
+    "deterministic retained fixture and adversarial integration tests",
+    "exact workspace documentation experiment and evidence gates",
+    "requirement proof review completion signature publication and bookend"
+  ]
+}

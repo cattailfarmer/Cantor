@@ -1,0 +1,16 @@
+Subject: Cantor A8 Staged Diff Windows PowerShell Transport Fault
+
+@ [fault_uuid] f4700e88-6617-4731-bfa2-76ec5e1df435
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [turn_uuid] 530fe2fd-9f45-4a45-952e-f3b9c5a8a68e
+@ [change_set_uuid] d1ceffa5-80bb-49d5-b513-d7b98d4024d6
+
+& [Observed]
+  + reviewed scripts/test_sjs_staged_diff_acquisition_p1.ps1 under WindowsPowerShell5.1 stopped at its temporary fixture Git invocation when Git wrote a harmless LF-to-CRLF warning to native stderr
+  + PowerShell promoted that stderr line to NativeCommandError because the script uses ErrorActionPreference Stop; no Cantor verifier refusal or Rust test failure occurred
+& [BoundedRecovery]
+  + the unchanged reviewed fixture passed under PowerShell7 with three CLI successes and three expected refusals
+  + current evidence then passed114 manifests2998 references0 stale and frozen A8 formation passed21 artifacts20 bindings32 requirements5 acceptance gates with isolated success and two refusals
+& [Nonclaims]
+  + this does not authorize disabling autocrlf changing PowerShell policy editing the fixture or overlooking a future semantic refusal
+  + no persistent policy change provider trial endpoint broker permit activation preparation execution or effect occurred
