@@ -650,6 +650,133 @@ pub fn from_pbpc_declaration_machine_form(
     Ok(value)
 }
 
+pub fn pbpc_request_digest(request: &PbpcVerificationRequest) -> Result<ContentDigest, EocvFault> {
+    bounded(request)?;
+    let mut normalized = request.clone();
+    normalized.request_sha256 = sha256_bytes(b"");
+    eocv_domain_digest(PBPC_REQUEST_DOMAIN, &normalized)
+}
+
+pub fn validate_pbpc_request(request: &PbpcVerificationRequest) -> Result<(), EocvFault> {
+    bounded(request)?;
+    if request.profile != PBPC_REQUEST_PROFILE {
+        return Err(eocv_fault(
+            EocvFaultCode::Profile,
+            "A8 request profile differs",
+        ));
+    }
+    if request.source_snapshot_uuid != PBPC_SOURCE_SNAPSHOT_UUID
+        || request.canonical_uuid != PBPC_CANONICAL_UUID
+        || request.signature_uuid != PBPC_SIGNATURE_UUID
+        || request.source_custody_commit != PBPC_SOURCE_CUSTODY_COMMIT
+        || request.source_bookend_commit != PBPC_SOURCE_BOOKEND_COMMIT
+        || request.formation_commit != PBPC_FORMATION_COMMIT
+        || request.formation_bookend_commit != PBPC_FORMATION_BOOKEND_COMMIT
+        || request.a7_implementation_commit != PBPC_A7_IMPLEMENTATION_COMMIT
+        || request.a7_bookend_commit != PBPC_A7_BOOKEND_COMMIT
+        || request.a7_proof_uuid != PBPC_A7_PROOF_UUID
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Lineage,
+            "A8 request lineage differs",
+        ));
+    }
+    if !valid_eocv_uuid(&request.expected_candidate_uuid)
+        || !valid_eocv_uuid(&request.expected_projection_uuid)
+        || request.expected_authority_name != "broker_projection"
+        || request.expected_artifact_kind != "production_broker_projection_candidate"
+        || request.expected_confidentiality != B1OaprConfidentiality::PublicMetadata
+        || request.expected_verifier_profile != "production-broker-projection-verifier/0.1"
+        || request.expected_dependency_ordinal != 7
+        || !request.expected_requires_private_permit
+        || request.expected_activation_requested
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Coordinate,
+            "A8 request coordinate differs",
+        ));
+    }
+    let fixture = request.input_class == KcvInputClass::DeterministicFixtureCandidate;
+    if request.expected_fixture_only != fixture
+        || request.expected_projection_bytes == 0
+        || request.expected_projection_bytes > PBPC_MAX_FORM_BYTES as u64
+        || request.expected_declared_bytes == 0
+        || request.expected_declared_bytes > 16_777_216
+        || request.maximum_attempts != 1
+        || request.automatic_retry_count != 0
+        || request.automatic_cleanup_count != 0
+    {
+        return Err(eocv_fault(EocvFaultCode::Shape, "A8 request bounds differ"));
+    }
+    for digest in [
+        &request.a7_verification_request_sha256,
+        &request.expected_a7_receipt_sha256,
+        &request.authority_packet_request_sha256,
+        &request.expected_authority_packet_sha256,
+        &request.expected_descriptor_sha256,
+        &request.expected_projection_raw_sha256,
+        &request.expected_projection_sha256,
+        &request.expected_content_sha256,
+        &request.expected_preparation_plan_sha256,
+    ] {
+        if !valid_content_digest(digest) {
+            return Err(eocv_fault(
+                EocvFaultCode::Digest,
+                "A8 request digest shape differs",
+            ));
+        }
+    }
+    for value in [
+        &request.expected_authority_name,
+        &request.expected_artifact_kind,
+        &request.expected_opaque_reference,
+        &request.expected_broker_operation_kind,
+        &request.expected_broker_subject,
+    ] {
+        if !valid_identifier(value, false) {
+            return Err(eocv_fault(
+                EocvFaultCode::Shape,
+                "A8 request identifier differs",
+            ));
+        }
+    }
+    for value in [
+        &request.expected_verifier_profile,
+        &request.expected_broker_adapter_profile,
+        &request.expected_input_receipt_profile,
+        &request.expected_output_receipt_profile,
+    ] {
+        if !valid_identifier(value, true) {
+            return Err(eocv_fault(
+                EocvFaultCode::Shape,
+                "A8 request profile shape differs",
+            ));
+        }
+    }
+    validate_reference_set(&request.evidence_references)?;
+    if request.request_sha256 != pbpc_request_digest(request)? {
+        return Err(eocv_fault(
+            EocvFaultCode::Digest,
+            "A8 request self digest differs",
+        ));
+    }
+    Ok(())
+}
+
+pub fn to_pbpc_request_machine_form(
+    request: &PbpcVerificationRequest,
+) -> Result<String, EocvFault> {
+    validate_pbpc_request(request)?;
+    serde_json::to_string(request)
+        .map_err(|_| eocv_fault(EocvFaultCode::MachineForm, "A8 request encoding differs"))
+}
+
+pub fn from_pbpc_request_machine_form(text: &str) -> Result<PbpcVerificationRequest, EocvFault> {
+    let value = parse_eocv_canonical(text)?;
+    validate_pbpc_request(&value)?;
+    Ok(value)
+}
+
 fn bounded<T: Serialize>(value: &T) -> Result<(), EocvFault> {
     if serde_json::to_vec(value)
         .map_err(|_| eocv_fault(EocvFaultCode::MachineForm, "A8 typed encoding differs"))?
@@ -682,6 +809,31 @@ fn valid_identifier(value: &str, profile: bool) -> bool {
         }
     }
     (!profile && slash_count == 0) || (profile && slash_count == 1)
+}
+
+fn valid_content_digest(value: &ContentDigest) -> bool {
+    value.algorithm == "sha256"
+        && value.value.len() == 64
+        && value
+            .value
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+}
+
+fn validate_reference_set(values: &[String]) -> Result<(), EocvFault> {
+    let mut unique = BTreeSet::new();
+    if values.is_empty()
+        || values.len() > PBPC_MAX_EVIDENCE_REFERENCES
+        || values
+            .iter()
+            .any(|value| !valid_identifier(value, false) || !unique.insert(value))
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Shape,
+            "A8 evidence reference set differs",
+        ));
+    }
+    Ok(())
 }
 
 #[cfg(test)]
@@ -717,6 +869,59 @@ mod tests {
             projection_sha256: sha256_bytes(b""),
         };
         value.projection_sha256 = pbpc_declaration_digest(&value).unwrap();
+        value
+    }
+
+    fn request_fixture() -> PbpcVerificationRequest {
+        let digest = sha256_bytes(b"fixture-binding");
+        let mut value = PbpcVerificationRequest {
+            profile: PBPC_REQUEST_PROFILE.into(),
+            source_snapshot_uuid: PBPC_SOURCE_SNAPSHOT_UUID.into(),
+            canonical_uuid: PBPC_CANONICAL_UUID.into(),
+            signature_uuid: PBPC_SIGNATURE_UUID.into(),
+            source_custody_commit: PBPC_SOURCE_CUSTODY_COMMIT.into(),
+            source_bookend_commit: PBPC_SOURCE_BOOKEND_COMMIT.into(),
+            formation_commit: PBPC_FORMATION_COMMIT.into(),
+            formation_bookend_commit: PBPC_FORMATION_BOOKEND_COMMIT.into(),
+            a7_implementation_commit: PBPC_A7_IMPLEMENTATION_COMMIT.into(),
+            a7_bookend_commit: PBPC_A7_BOOKEND_COMMIT.into(),
+            a7_proof_uuid: PBPC_A7_PROOF_UUID.into(),
+            a7_verification_request_sha256: digest.clone(),
+            expected_a7_receipt_sha256: digest.clone(),
+            authority_packet_request_sha256: digest.clone(),
+            expected_authority_packet_sha256: digest.clone(),
+            expected_candidate_uuid: "a1000000-0000-4000-8000-000000000008".into(),
+            expected_descriptor_sha256: digest.clone(),
+            expected_projection_uuid: "a8000000-0000-4000-8000-000000000001".into(),
+            expected_projection_bytes: 8192,
+            expected_projection_raw_sha256: digest.clone(),
+            expected_projection_sha256: digest.clone(),
+            expected_authority_name: "broker_projection".into(),
+            expected_artifact_kind: "production_broker_projection_candidate".into(),
+            expected_opaque_reference: "fixture_candidate_a8".into(),
+            expected_content_sha256: digest.clone(),
+            expected_declared_bytes: 8192,
+            expected_confidentiality: B1OaprConfidentiality::PublicMetadata,
+            expected_verifier_profile: "production-broker-projection-verifier/0.1".into(),
+            expected_fixture_only: true,
+            expected_dependency_ordinal: 7,
+            input_class: KcvInputClass::DeterministicFixtureCandidate,
+            expected_preparation_plan_sha256: digest,
+            expected_broker_adapter_profile: "cantor-production-broker-adapter/0.1".into(),
+            expected_broker_operation_kind: "project_preparation_contract".into(),
+            expected_broker_subject: "cantor_b1_cdrive_production_preparation_p0".into(),
+            expected_input_receipt_profile:
+                "cantor-b1-private-execution-permit-reference-receipt/0.1".into(),
+            expected_output_receipt_profile: PBPC_RECEIPT_PROFILE.into(),
+            expected_requires_private_permit: true,
+            expected_activation_requested: false,
+            evidence_references: vec!["fixture_a8_projection".into()],
+            maximum_attempts: 1,
+            automatic_retry_count: 0,
+            automatic_cleanup_count: 0,
+            request_sha256: sha256_bytes(b""),
+        };
+        value.request_sha256 = pbpc_request_digest(&value).unwrap();
         value
     }
 
@@ -843,5 +1048,32 @@ mod tests {
         assert_ne!(PBPC_DECLARATION_DOMAIN, PBPC_REQUEST_DOMAIN);
         assert_ne!(PBPC_REQUEST_DOMAIN, PBPC_RECEIPT_DOMAIN);
         assert_ne!(PBPC_RECEIPT_DOMAIN, PBPC_EVIDENCE_DOMAIN);
+    }
+
+    #[test]
+    fn request_is_canonical_bound_inactive_and_refuses_hazards_without_echo() {
+        let value = request_fixture();
+        let text = to_pbpc_request_machine_form(&value).unwrap();
+        assert_eq!(from_pbpc_request_machine_form(&text).unwrap(), value);
+        assert!(text.starts_with("{\"profile\":"));
+
+        let mut activated = value.clone();
+        activated.expected_activation_requested = true;
+        activated.request_sha256 = pbpc_request_digest(&activated).unwrap();
+        assert!(validate_pbpc_request(&activated).is_err());
+
+        let mut repeated = value.clone();
+        repeated
+            .evidence_references
+            .push(repeated.evidence_references[0].clone());
+        repeated.request_sha256 = pbpc_request_digest(&repeated).unwrap();
+        assert!(validate_pbpc_request(&repeated).is_err());
+
+        let hostile = "https://broker.example";
+        let mut endpoint = value;
+        endpoint.expected_broker_subject = hostile.into();
+        endpoint.request_sha256 = pbpc_request_digest(&endpoint).unwrap();
+        let error = validate_pbpc_request(&endpoint).unwrap_err();
+        assert!(!error.message.contains(hostile));
     }
 }
