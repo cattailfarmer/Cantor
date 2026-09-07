@@ -56,6 +56,20 @@ fn alter_scalar(value: &Value) -> Value {
     }
 }
 
+fn explicit_paths(root: &Path) -> Vec<PathBuf> {
+    [&PERC_EVIDENCE_FILES[..25], &PERC_EVIDENCE_FILES[26..28]]
+        .concat()
+        .iter()
+        .map(|name| root.join(name))
+        .collect()
+}
+
+fn rotate_first_field(text: &str) -> String {
+    let inner = &text[1..text.len() - 1];
+    let comma = inner.find(',').expect("top-level first field separator");
+    format!("{{{},{}}}", &inner[comma + 1..], &inner[..comma])
+}
+
 #[derive(Clone)]
 struct A6Fixture {
     a5: upstream_fixture::Fixture,
@@ -621,11 +635,7 @@ fn independent_evidence_and_both_bounded_clis_replay_exact_receipt() {
     assert!(directory_output.stderr.is_empty());
     assert_eq!(directory_output.stdout, line(&replay.receipt));
 
-    let paths: Vec<_> = [&PERC_EVIDENCE_FILES[..25], &PERC_EVIDENCE_FILES[26..28]]
-        .concat()
-        .iter()
-        .map(|name| root.join(name))
-        .collect();
+    let paths = explicit_paths(&root);
     assert_eq!(
         verify_perc_payload_paths(&paths).unwrap(),
         replay.receipt_machine_form
@@ -778,6 +788,486 @@ fn every_receipt_field_is_reconstructed_and_cannot_be_promoted() {
             "unchecked receipt field {field}"
         );
     }
+}
+
+#[test]
+fn every_envelope_field_changes_the_verified_result_or_refuses() {
+    let base = Fixture::new();
+    let baseline_receipt = base.verify().unwrap();
+    let object = serde_json::to_value(&base.envelope).unwrap();
+    assert_eq!(object.as_object().unwrap().len(), 16);
+    for (field, value) in object.as_object().unwrap() {
+        let changed = match field.as_str() {
+            "envelope_uuid" => json!("00000000-0000-0000-0000-000000000000"),
+            "confidentiality" => json!("public_metadata"),
+            "input_class" => json!("externally_supplied_candidate"),
+            "evidence_references" => json!(["changed_reference"]),
+            _ => alter_scalar(value),
+        };
+        let mut fixture = base.clone();
+        fixture.envelope = change_typed(&fixture.envelope, field, changed);
+        if field != "envelope_sha256" {
+            fixture.envelope.envelope_sha256 = perc_envelope_digest(&fixture.envelope).unwrap();
+        }
+        fixture.raw_envelope = serde_json::to_vec(&fixture.envelope).unwrap();
+        fixture.request.expected_envelope_bytes = fixture.raw_envelope.len() as u64;
+        fixture.request.expected_envelope_raw_sha256 = sha256_bytes(&fixture.raw_envelope);
+        fixture.request.expected_envelope_sha256 = fixture.envelope.envelope_sha256.clone();
+        fixture.request.request_sha256 = perc_request_digest(&fixture.request).unwrap();
+        match fixture.verify() {
+            Err(_) => {}
+            Ok(receipt) => {
+                assert_ne!(
+                    receipt, baseline_receipt,
+                    "unchecked envelope field {field}"
+                );
+                assert!(
+                    !receipt.correspondence_account.all_correspondence_matches,
+                    "unchecked envelope field {field}"
+                );
+            }
+        }
+    }
+}
+
+#[test]
+fn canonical_envelope_request_and_receipt_framing_refuse() {
+    let fixture = Fixture::new();
+    let envelope = to_perc_envelope_machine_form(&fixture.envelope).unwrap();
+    let request = to_perc_request_machine_form(&fixture.request).unwrap();
+    let receipt_value = fixture.verify().unwrap();
+    let receipt = to_perc_receipt_machine_form(
+        &fixture.request,
+        &fixture.predecessor(),
+        &fixture.raw_envelope,
+        &receipt_value,
+    )
+    .unwrap();
+    for (kind, text) in [
+        ("envelope", &envelope),
+        ("request", &request),
+        ("receipt", &receipt),
+    ] {
+        for altered in [
+            format!(" {text}"),
+            format!("{text} "),
+            format!("\u{feff}{text}"),
+            format!("{text}\r\n"),
+            format!("{text}{{}}"),
+            text.replacen('{', "{\"unknown\":true,", 1),
+            text.replacen('{', "{\"profile\":\"duplicate\",", 1),
+            text.replacen("profile", "pro\\u0066ile", 1),
+            serde_json::to_string_pretty(&serde_json::from_str::<Value>(text).unwrap()).unwrap(),
+            rotate_first_field(text),
+        ] {
+            let refused = match kind {
+                "envelope" => from_perc_envelope_machine_form(&altered).is_err(),
+                "request" => from_perc_request_machine_form(&altered).is_err(),
+                _ => from_perc_receipt_machine_form(
+                    &fixture.request,
+                    &fixture.predecessor(),
+                    &fixture.raw_envelope,
+                    &altered,
+                )
+                .is_err(),
+            };
+            assert!(refused, "noncanonical {kind}");
+        }
+    }
+}
+
+#[test]
+fn bounded_reference_and_structural_forms_refuse() {
+    let base = Fixture::new();
+    for references in [
+        Vec::new(),
+        (0..49).map(|index| format!("r{index}")).collect(),
+        vec!["duplicate".to_owned(); 2],
+        vec!["unsafe/reference".to_owned()],
+    ] {
+        let mut fixture = base.clone();
+        fixture.request.evidence_references = references;
+        fixture.request.request_sha256 = perc_request_digest(&fixture.request).unwrap();
+        assert!(fixture.verify().is_err());
+    }
+    for references in [
+        Vec::new(),
+        (0..49).map(|index| format!("r{index}")).collect(),
+        vec!["duplicate".to_owned(); 2],
+        vec!["unsafe:reference".to_owned()],
+    ] {
+        let mut fixture = base.clone();
+        fixture.envelope.evidence_references = references;
+        fixture.bind_envelope_raw();
+        assert!(fixture.verify().is_err());
+    }
+    let mut fixture = base.clone();
+    fixture.envelope.opaque_reference = "x".repeat(128);
+    fixture.bind_envelope_raw();
+    assert_eq!(
+        fixture.verify().unwrap().effect_account,
+        TwvEffectAccount::default()
+    );
+    fixture.envelope.opaque_reference.push('x');
+    fixture.bind_envelope_raw();
+    assert_eq!(fixture.verify().unwrap_err().code, EocvFaultCode::Shape);
+
+    let mut deep = json!(0);
+    for _ in 0..33 {
+        deep = json!({"x": deep});
+    }
+    assert!(from_perc_envelope_machine_form(&deep.to_string()).is_err());
+    let wide: serde_json::Map<String, Value> = (0..4097)
+        .map(|index| (format!("f{index}"), json!(index)))
+        .collect();
+    assert!(from_perc_request_machine_form(&Value::Object(wide).to_string()).is_err());
+    assert!(from_perc_request_machine_form(&" ".repeat(PERC_MAX_FORM_BYTES + 1)).is_err());
+}
+
+#[test]
+fn every_semantic_payload_tamper_refuses_after_outer_manifest_rehash() {
+    let fixture = Fixture::new();
+    let root = temporary("all-semantic-payloads");
+    write_evidence(&root, &fixture);
+    let names = [&PERC_EVIDENCE_FILES[..25], &PERC_EVIDENCE_FILES[26..29]].concat();
+    assert_eq!(names.len(), 28);
+    for name in names {
+        let original = fs::read(root.join(name)).unwrap();
+        let text = std::str::from_utf8(&original)
+            .unwrap()
+            .replacen('{', "{\"unknown\":0,", 1);
+        fs::write(root.join(name), text).unwrap();
+        rehash_evidence(&root);
+        assert!(verify_perc_evidence_directory(&root).is_err(), "{name}");
+        fs::write(root.join(name), original).unwrap();
+        rehash_evidence(&root);
+    }
+    verify_perc_evidence_directory(&root).unwrap();
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn embedded_a6_manifest_is_retained_but_not_semantic_authority() {
+    let fixture = Fixture::new();
+    let root = temporary("embedded-a6-manifest");
+    write_evidence(&root, &fixture);
+    let name = "a6_evidence_manifest.json";
+    let text = std::str::from_utf8(&fs::read(root.join(name)).unwrap())
+        .unwrap()
+        .replacen('{', "{\"untrusted_note\":true,", 1);
+    fs::write(root.join(name), text).unwrap();
+    rehash_evidence(&root);
+    assert_eq!(
+        verify_perc_evidence_directory(&root).unwrap().receipt,
+        fixture.verify().unwrap()
+    );
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn all_manifest_fields_coordinates_and_canonical_framing_are_checked() {
+    let fixture = Fixture::new();
+    let root = temporary("manifest");
+    write_evidence(&root, &fixture);
+    let original = fs::read(root.join("evidence_manifest.json")).unwrap();
+    let baseline: PercEvidenceManifest = serde_json::from_slice(&original).unwrap();
+    let fields = serde_json::to_value(&baseline).unwrap();
+    assert_eq!(fields.as_object().unwrap().len(), 16);
+    for (field, value) in fields.as_object().unwrap() {
+        let changed = if field == "manifest_uuid" {
+            json!("00000000-0000-0000-0000-000000000000")
+        } else {
+            alter_scalar(value)
+        };
+        let mut manifest: PercEvidenceManifest = change_typed(&baseline, field, changed);
+        if field != "manifest_sha256" {
+            manifest.manifest_sha256 = perc_evidence_manifest_digest(&manifest).unwrap();
+        }
+        fs::write(root.join("evidence_manifest.json"), line(&manifest)).unwrap();
+        assert!(
+            verify_perc_evidence_directory(&root).is_err(),
+            "manifest {field}"
+        );
+    }
+    for mode in 0..9 {
+        let mut manifest = baseline.clone();
+        match mode {
+            0 => manifest.artifacts.swap(0, 1),
+            1 => manifest.artifacts[0].path = "../outside".to_owned(),
+            2 => manifest.artifacts[0].path = "C:/outside".to_owned(),
+            3 => manifest.artifacts[0].path = manifest.artifacts[1].path.clone(),
+            4 => manifest.artifacts.push(manifest.artifacts[0].clone()),
+            5 => manifest.artifacts[0].bytes = u64::MAX,
+            6 => manifest.artifacts[0].sha256 = sha256_bytes(b"wrong artifact bytes"),
+            7 => manifest.total_artifact_bytes = u64::MAX,
+            _ => manifest.artifacts[0].path = "subfolder/../predecessor_request.json".to_owned(),
+        }
+        manifest.manifest_sha256 = perc_evidence_manifest_digest(&manifest).unwrap();
+        fs::write(root.join("evidence_manifest.json"), line(&manifest)).unwrap();
+        assert!(
+            verify_perc_evidence_directory(&root).is_err(),
+            "artifact coordinate {mode}"
+        );
+    }
+    let payload = original.strip_suffix(b"\n").unwrap();
+    let text = std::str::from_utf8(payload).unwrap();
+    let pretty = serde_json::to_string_pretty(&baseline).unwrap();
+    for altered in [
+        [b" ".as_slice(), original.as_slice()].concat(),
+        [b"\xef\xbb\xbf".as_slice(), original.as_slice()].concat(),
+        [payload, b"\r\n"].concat(),
+        [original.as_slice(), b"\n"].concat(),
+        [pretty.as_bytes(), b"\n"].concat(),
+        [rotate_first_field(text).as_bytes(), b"\n"].concat(),
+    ] {
+        fs::write(root.join("evidence_manifest.json"), altered).unwrap();
+        assert!(verify_perc_evidence_directory(&root).is_err());
+    }
+    fs::write(root.join("evidence_manifest.json"), original).unwrap();
+    verify_perc_evidence_directory(&root).unwrap();
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn evidence_membership_framing_cli_arguments_and_resource_bounds_refuse() {
+    let fixture = Fixture::new();
+    for mode in 0..8 {
+        let root = temporary("membership");
+        write_evidence(&root, &fixture);
+        let name = "observation_bundle.json";
+        match mode {
+            0 => fs::remove_file(root.join(name)).unwrap(),
+            1 => fs::write(root.join("extra.json"), b"{}\n").unwrap(),
+            2 => {
+                fs::remove_file(root.join("receipt.json")).unwrap();
+                fs::create_dir(root.join("receipt.json")).unwrap();
+            }
+            3 => fs::write(root.join(name), b"").unwrap(),
+            _ => {
+                let mut bytes = fs::read(root.join(name)).unwrap();
+                match mode {
+                    4 => {
+                        bytes.pop();
+                    }
+                    5 => bytes.push(b'\n'),
+                    6 => bytes.insert(bytes.len() - 1, b'\r'),
+                    _ => {
+                        bytes.splice(0..0, [0xef, 0xbb, 0xbf]);
+                    }
+                };
+                fs::write(root.join(name), bytes).unwrap();
+                rehash_evidence(&root);
+            }
+        }
+        let output = Command::new(EVIDENCE_CLI).arg(&root).output().unwrap();
+        assert_eq!(output.status.code(), Some(2), "mode {mode}");
+        assert!(output.stdout.is_empty());
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    for args in [vec![], vec!["x"; 26], vec!["x"; 28], vec!["x"; 29]] {
+        let output = Command::new(CLI).args(args).output().unwrap();
+        assert_eq!(output.status.code(), Some(2));
+        assert!(output.stdout.is_empty());
+    }
+    for args in [vec![], vec!["x", "y"], vec!["x", "y", "z"]] {
+        let output = Command::new(EVIDENCE_CLI).args(args).output().unwrap();
+        assert_eq!(output.status.code(), Some(2));
+        assert!(output.stdout.is_empty());
+    }
+
+    let root = temporary("resource-bounds");
+    write_evidence(&root, &fixture);
+    let relative_names = [&PERC_EVIDENCE_FILES[..25], &PERC_EVIDENCE_FILES[26..28]].concat();
+    let output = Command::new(CLI)
+        .current_dir(&root)
+        .args(&relative_names)
+        .output()
+        .unwrap();
+    assert!(output.status.success(), "{:?}", output.stderr);
+    assert_eq!(output.stdout, line(&fixture.verify().unwrap()));
+    let paths = explicit_paths(&root);
+    let mut duplicate = paths.clone();
+    duplicate[1] = duplicate[0].clone();
+    assert!(verify_perc_payload_paths(&duplicate).is_err());
+
+    fs::write(
+        root.join("observation_bundle.json"),
+        vec![b'x'; PERC_MAX_FORM_BYTES + 2],
+    )
+    .unwrap();
+    assert_eq!(
+        verify_perc_payload_paths(&paths).unwrap_err().code,
+        EocvFaultCode::Size
+    );
+    assert_eq!(
+        verify_perc_evidence_directory(&root).unwrap_err().code,
+        EocvFaultCode::Size
+    );
+
+    let aggregate_file_bytes = (PERC_MAX_EVIDENCE_BYTES / 27 + 1) as usize;
+    let aggregate = vec![b'x'; aggregate_file_bytes];
+    for name in PERC_EVIDENCE_FILES {
+        fs::write(root.join(name), &aggregate).unwrap();
+    }
+    assert_eq!(
+        verify_perc_payload_paths(&paths).unwrap_err().code,
+        EocvFaultCode::Size
+    );
+    assert_eq!(
+        verify_perc_evidence_directory(&root).unwrap_err().code,
+        EocvFaultCode::Size
+    );
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[cfg(windows)]
+#[test]
+fn windows_junction_directory_and_ancestor_refuse_without_target_changes() {
+    let fixture = Fixture::new();
+    let root = temporary("junction");
+    write_evidence(&root, &fixture);
+    let junction = root.join("linked");
+    assert!(
+        !root
+            .to_string_lossy()
+            .chars()
+            .any(|character| "&|<>^%!\"\r\n".contains(character))
+    );
+    let result = Command::new("cmd.exe")
+        .args(["/d", "/c", "mklink", "/J"])
+        .arg(&junction)
+        .arg(&root)
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    assert_eq!(
+        verify_perc_evidence_directory(&junction).unwrap_err().code,
+        EocvFaultCode::Path
+    );
+    assert_eq!(
+        verify_perc_payload_paths(&explicit_paths(&junction))
+            .unwrap_err()
+            .code,
+        EocvFaultCode::Path
+    );
+    fs::remove_dir(&junction).expect("unlink only the test-owned junction");
+    assert_eq!(fs::read_dir(&root).unwrap().count(), 30);
+    verify_perc_evidence_directory(&root).unwrap();
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[cfg(unix)]
+#[test]
+fn direct_symlink_inputs_refuse() {
+    use std::os::unix::fs::symlink;
+    let fixture = Fixture::new();
+    let root = temporary("symlink");
+    write_evidence(&root, &fixture);
+    let target = root.join("observation_bundle.json");
+    let link = root.join("bundle-link.json");
+    symlink(&target, &link).unwrap();
+    let mut paths = explicit_paths(&root);
+    paths[22] = link;
+    assert_eq!(
+        verify_perc_payload_paths(&paths).unwrap_err().code,
+        EocvFaultCode::Path
+    );
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn self_digest_domains_and_canonical_byte_order_are_explicit() {
+    let fixture = Fixture::new();
+    let mut envelope = fixture.envelope.clone();
+    envelope.envelope_sha256 = empty();
+    let mut bytes = b"cantor.b1.private-execution-permit-reference.envelope.v1\0".to_vec();
+    bytes.extend_from_slice(&serde_json::to_vec(&envelope).unwrap());
+    assert_eq!(
+        perc_envelope_digest(&fixture.envelope).unwrap(),
+        sha256_bytes(&bytes)
+    );
+
+    let mut request = fixture.request.clone();
+    request.request_sha256 = empty();
+    let mut bytes = b"cantor.b1.private-execution-permit-reference.request.v1\0".to_vec();
+    bytes.extend_from_slice(&serde_json::to_vec(&request).unwrap());
+    assert_eq!(
+        perc_request_digest(&fixture.request).unwrap(),
+        sha256_bytes(&bytes)
+    );
+
+    let receipt = fixture.verify().unwrap();
+    let mut normalized_receipt = receipt.clone();
+    normalized_receipt.receipt_sha256 = empty();
+    let mut bytes = b"cantor.b1.private-execution-permit-reference.receipt.v1\0".to_vec();
+    bytes.extend_from_slice(&serde_json::to_vec(&normalized_receipt).unwrap());
+    assert_eq!(perc_receipt_digest(&receipt).unwrap(), sha256_bytes(&bytes));
+
+    let root = temporary("digest-domains");
+    write_evidence(&root, &fixture);
+    let manifest: PercEvidenceManifest =
+        serde_json::from_slice(&fs::read(root.join("evidence_manifest.json")).unwrap()).unwrap();
+    let mut normalized_manifest = manifest.clone();
+    normalized_manifest.manifest_sha256 = empty();
+    let mut bytes = b"cantor.b1.private-execution-permit-reference.evidence-manifest.v1\0".to_vec();
+    bytes.extend_from_slice(&serde_json::to_vec(&normalized_manifest).unwrap());
+    assert_eq!(
+        perc_evidence_manifest_digest(&manifest).unwrap(),
+        sha256_bytes(&bytes)
+    );
+    let form = to_perc_evidence_manifest_machine_form(&manifest).unwrap();
+    assert_eq!(line(&manifest), [form.as_bytes(), b"\n"].concat());
+    assert_eq!(
+        line(&manifest),
+        fs::read(root.join("evidence_manifest.json")).unwrap()
+    );
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn production_has_no_effect_or_producer_capability() {
+    let core = include_str!("../src/b1_private_execution_permit_reference_correspondence.rs");
+    let evidence =
+        include_str!("../src/b1_private_execution_permit_reference_correspondence_evidence.rs");
+    for forbidden in [
+        "unsafe {",
+        "SigningKey",
+        "std::process",
+        "std::env",
+        "SystemTime::now",
+        "TcpStream",
+        "UdpSocket",
+        ".write(true)",
+        ".create(true)",
+        "fs::write",
+        "remove_file(",
+        "remove_dir(",
+        "Command::new",
+        "reqwest",
+        "git2",
+        "rmcp",
+        "llama",
+        "produce_provider_free_evidence",
+        "support/eocv_predecessor_fixture",
+    ] {
+        assert!(!core.contains(forbidden), "core {forbidden}");
+        assert!(!evidence.contains(forbidden), "evidence {forbidden}");
+    }
+    assert!(core.contains("verify_eocv_expected_observation("));
+    assert!(evidence.contains("FILE_FLAG_OPEN_REPARSE_POINT"));
+}
+
+#[test]
+fn raw_resource_limit_precedes_expensive_predecessor_replay() {
+    let mut fixture = Fixture::new();
+    fixture.a6.a5.raw_envelope = b"invalid A5 envelope".to_vec();
+    fixture.raw_envelope = vec![b'x'; PERC_MAX_FORM_BYTES + 1];
+    assert_eq!(fixture.verify().unwrap_err().code, EocvFaultCode::Size);
 }
 
 #[test]

@@ -1,0 +1,105 @@
+{
+  "profile": "cantor-b1-private-execution-permit-reference-implementation-gates/0.1",
+  "gate_results_uuid": "57a7bac3-590f-4017-8668-4432bfc38ec3",
+  "recorded_at_utc": "2026-09-07T21:24:51Z",
+  "canonical_uuid": "35543ac8-934f-4e0d-9549-8930f0af7e92",
+  "source_snapshot_uuid": "cdbd323b-c260-415e-9473-d32604242e54",
+  "formation_signature_uuid": "31d86973-d52b-4c8d-9711-b36ed85f4f18",
+  "formation_commit": "421294db8482413fe468710c0e0924ec09982774",
+  "formation_bookend_commit": "f49c259084405269368fd5e3bfae667f00574e40",
+  "prepublication_head": "9ba8da7ae4454826da1cfb2648f081e80f988ab2",
+  "scope": "provider-free A7 supplied public-reference correspondence; publication remains a separate pending edge",
+  "corrected_semantic_defect": "preserve supplied A6 receipt-digest mismatch after successful predecessor replay instead of overwriting that distinct comparison with true",
+  "source_bindings": [
+    {"path":"crates/cantor_ecosystem/src/b1_private_execution_permit_reference_correspondence.rs","bytes":49001,"sha256":"0435D3B1E14BD72EB1C68106CD3A949F5F3E4CA8DE05A4D2B98BBBE9F0C83306"},
+    {"path":"crates/cantor_ecosystem/src/b1_private_execution_permit_reference_correspondence_evidence.rs","bytes":17794,"sha256":"49D82DEAC502A36580BEA8996C672EF65C0F580C5C689D82E7A78BA908F7CEB4"},
+    {"path":"crates/cantor_ecosystem/src/bin/cantor-b1-private-execution-permit-reference-verify.rs","bytes":545,"sha256":"48E3A587CDC375D199EB9390A4339E909D32B367A9160AF320623E1AFBE6BBE5"},
+    {"path":"crates/cantor_ecosystem/src/bin/cantor-b1-private-execution-permit-reference-evidence-verify.rs","bytes":697,"sha256":"60168A5DD7405DA1A916C661341E8F781CC38C3AE332BE3CAF6226577CCB3AA1"},
+    {"path":"crates/cantor_ecosystem/tests/b1_private_execution_permit_reference_correspondence.rs","bytes":51825,"sha256":"E622E8F02EEF16AC8531CC5288D40E9A5BED610FBB4EACF4F70EDCAFBCCDB971"}
+  ],
+  "environment": {
+    "rust": "1.96.0",
+    "cargo": "1.96.0",
+    "powershell_7": "7.6.5",
+    "windows_powershell": "5.1.26100.9168",
+    "cargo_target_dir": "D:/crf/target",
+    "cargo_build_jobs": 1,
+    "cargo_incremental": 0,
+    "rust_min_stack": 33554432,
+    "temp": "D:/CantorBuilds/cantor-perc-a7-closure-temp",
+    "locked": true,
+    "offline": true,
+    "test_threads": 1
+  },
+  "focused_gates": [
+    {"profile":"debug","active_tests":24,"failed":0,"ignored":1,"exit_code":0},
+    {"profile":"release_overflow_checked","active_tests":24,"failed":0,"ignored":1,"exit_code":0}
+  ],
+  "workspace_gates": [
+    {"profile":"debug","result_groups":302,"passed":1855,"failed":0,"ignored":20,"exit_code":0},
+    {"profile":"release_overflow_checked","result_groups":302,"passed":1855,"failed":0,"ignored":20,"exit_code":0}
+  ],
+  "documentation_gates": [
+    {"profile":"debug","libraries":20,"failed":0,"exit_code":0},
+    {"profile":"release_overflow_checked","libraries":20,"failed":0,"exit_code":0}
+  ],
+  "fresh_byte_replays": {
+    "debug_processes": 4,
+    "release_overflow_checked_processes": 4,
+    "directory_and_27_input_cli_attempts_per_profile": 2,
+    "stdout_bytes_windows": 17676,
+    "stdout_sha256_windows": "A15452544D8F0D1BE8D83AAD3E799FB4F63EDA26A175FB06DE0D2A9A0B79D31E",
+    "stderr_bytes": 0,
+    "exit_code": 0
+  },
+  "retained_evidence": {
+    "directory": "experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence",
+    "files": 30,
+    "payload_artifacts": 29,
+    "payload_bytes": 168804,
+    "directory_bytes": 174374,
+    "receipt_raw": {"bytes":17675,"sha256":"B24AFC882037F13EB09CF9ACE0F45E5FB5552904E6AB5AC146BFAB090F99A103"},
+    "manifest_raw": {"bytes":5570,"sha256":"F5973900F9213FA7679C9D0EDB926BD6E10606F0E3D620DEF5C36B53630E4678"},
+    "receipt_self_sha256": "dba8ca4be36552e6109deb35d046d312642b7e0dd4dd9b66b20f9f079243dcf0",
+    "manifest_self_sha256": "31f761044b8127a31dfcb89c57b0f058086cd23ac4982430356e53d9f0585255",
+    "request_self_sha256": "c6111ea1a9d8c17bd1c67a672a560897c542982d5534c3a710b4554fb96978ef",
+    "envelope_self_sha256": "176d524a082daad119b667487eb51243be27e8f348bddb0048e83cd19a63df09"
+  },
+  "adversarial_coverage": {
+    "comparison_subsets": 131072,
+    "primitive_comparisons": 17,
+    "envelope_fields": 16,
+    "request_fields": 34,
+    "receipt_fields": 63,
+    "manifest_fields": 16,
+    "semantic_payloads_tampered_after_outer_rehash": 28,
+    "embedded_a6_manifest": "retained custody bytes verified but excluded from semantic authority",
+    "filesystem": ["missing","extra","direct_symlink","Windows_junction","reparse_ancestry","nonregular"],
+    "framing_and_bounds": ["BOM","CRLF","alternate_whitespace","escaping","unknown","duplicate","reordered","concatenated","trailing","oversized","overdeep","overfield"],
+    "restart_refusal": true,
+    "raw_resource_preflight_precedes_broken_predecessor_replay": true,
+    "static_production_effect_or_producer_capability": false
+  },
+  "quality": {
+    "workspace_clippy_all_targets_all_features_warnings_denied": true,
+    "package_clippy_all_targets_all_features_warnings_denied": true,
+    "standalone_experiment_clippy_all_targets_all_features_warnings_denied": ["prepared_runtime_benchmark","persistence_benchmark","llama_tool_reflection","self_hosted_corpus_benchmark","resident_service_benchmark"],
+    "cargo_fmt_check": true,
+    "formation": {"hosts":2,"artifacts":21,"bindings":20,"requirements":32,"acceptance":5,"valid_per_host":2,"isolated_refusals_per_host":2,"effects":0},
+    "current_evidence": {"manifests":113,"references":2977,"stale":0}
+  },
+  "authority_and_effect_boundary": {
+    "user_approved_process_scoped_remote_signed": true,
+    "persistent_execution_policy_changed": false,
+    "pinned_provider_status": "provider_unavailable",
+    "live_provider_trials": 0,
+    "synthetic_provider_trials": 0,
+    "wsl_invocations": 0,
+    "remote_machine_invocations": 0,
+    "model_downloads": 0,
+    "private_execution_permit_present": false,
+    "execution_authorized": false,
+    "effect_count": 0
+  },
+  "publication_status": "pending_exact_scoped_staging_attributed_commit_nonforce_push_direct_equality_postpush_replay_and_immediate_bookend"
+}

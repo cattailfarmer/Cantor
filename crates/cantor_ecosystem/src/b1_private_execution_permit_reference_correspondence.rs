@@ -400,7 +400,6 @@ pub fn verify_perc_reference_correspondence(
     }
     let (packet_request, packet) = reconstruct_current_packet(request, predecessor.a6_request)?;
     let mut comparison = compare_perc_reference_metadata(request, &envelope);
-    comparison.a6_receipt_matches = true;
     comparison.packet_matches = packet.packet_sha256 == request.expected_authority_packet_sha256;
     comparison.descriptor_matches =
         packet_request.descriptors[6].descriptor_sha256 == request.expected_descriptor_sha256;
