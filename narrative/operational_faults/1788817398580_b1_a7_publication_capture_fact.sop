@@ -1,0 +1,17 @@
+Subject: Cantor B1 A7 Publication Capture Fact
+
+@ [fault_record_uuid] 9e2cc9c4-bf90-46ef-b018-18aafec08064
+@ [turn_uuid] 7a7bc383-7094-4f56-bd83-e1ca4dbdce9d
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [implementation_commit] 49f5c95cfc4584d07b179499f67c1f67d240de6d
+
+& [Observation]
+  + the first direct ProcessStartInfo post-push assertion expected17676 stdout bytes and transport hash A15452544D8F0D1BE8D83AAD3E799FB4F63EDA26A175FB06DE0D2A9A0B79D31E
+  + direct redirected process stdout correctly contained the canonical raw17675-byte receipt hash B24AFC882037F13EB09CF9ACE0F45E5FB5552904E6AB5AC146BFAB090F99A103 with empty stderr; the extra byte belongs to the earlier PowerShell line transport capture
+
+& [Correction]
+  + corrected only the read-only assertion to compare raw process output with the raw retained identity; rerun exited0 and matched exact bytes and hash
+  + no repository file implementation evidence fixture policy provider or external state changed during the failed or corrected diagnostic
+
+& [Disposition]
+  + operational_capture_expectation_corrected_no_semantic_or_publication_fault
