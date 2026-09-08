@@ -34,11 +34,10 @@ function Write-Utf8Lf([string] $Path, [string] $Text) {
 }
 
 function Invoke-RemoteJson([string] $Script, [string] $Operation) {
-    $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($Script))
     $prior = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
     try {
-        $lines = @(& ssh.exe -T $SshHost powershell.exe -NoProfile -NonInteractive -OutputFormat Text -EncodedCommand $encoded 2>&1)
+        $lines = @($Script | & ssh.exe -T $SshHost powershell.exe -NoProfile -NonInteractive -OutputFormat Text -Command '[scriptblock]::Create([Console]::In.ReadToEnd()).Invoke()' 2>&1)
         $exitCode = $LASTEXITCODE
     } finally {
         $ErrorActionPreference = $prior
