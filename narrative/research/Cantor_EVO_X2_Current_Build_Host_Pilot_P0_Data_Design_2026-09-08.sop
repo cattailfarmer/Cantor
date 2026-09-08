@@ -1,0 +1,43 @@
+Subject: Cantor EVO-X2 Current Build Host Pilot P0 Data Design
+
+@ [data_design_uuid] 67f4ec03-a52b-47a1-8f33-18fef1840136
+@ [canonical_uuid] 4cf12917-73e8-4505-9228-f94d981143bd
+
+& [DeploymentManifest]
+  + profile cantor-evox2-current-build-pilot-deployment-manifest/0.1
+  + exactly12 ordered top-level fields: profile manifest_uuid source_commit source_ref target_host remote_root protected_roots artifact_count aggregate_bytes artifacts allowed_executions manifest_sha256
+  + manifest_sha256 clears only itself and hashes the exact compact UTF-8 canonical machine form under domain cantor-evox2-current-build-pilot-deployment-manifest-v1 NUL
+  + source_commit is the exact40-lowercase-hex implementation/formation lineage selected at implementation; source_ref is refs/heads/codex/self-hosted-corpus; target_host is EVO-X2 and remote_root is C:/AI/services/cantor-current-pilot-48479932
+  + protected_roots are exactly C:/AI/services/cantor-attention-mcp C:/AI/services/cantor-needle-runtime C:/AI/services/sop-agent and the observed llama.cpp executable model configuration identities recorded by preflight
+
+& [ArtifactEntry]
+  + exactly6 ordered fields: relative_path role bytes sha256 executable source_locator
+  + relative_path uses forward slashes one through256 visible ASCII characters no drive root leading slash empty dot dot-dot colon wildcard control trailing dot or trailing space and is unique under ordinal-ignore-case
+  + role is current_cantor_query current_a8_evidence_verifier retained_a8_evidence public_compatibility_fixture or pilot_support
+  + bytes is1..67108864 sha256 is64 lowercase hex executable is Boolean and source_locator is a bounded repository-relative path or historical-protected content anchor
+  + artifact_count equals entries; aggregate_bytes equals the checked sum and is at most1073741824; executables are exactly the selected current binaries
+
+& [AllowedExecution]
+  + closed values are a8_evidence_replay and optional_cantor_public_query_replay
+  + A8 replay input is the exact retained evidence directory within the pilot root and produces stdout-only canonical receipt with no provider
+  + optional query replay is admitted only by a compatibility record that hashes the copied public fixtures and proves every resolved read remains within the pilot root
+
+& [RemoteReceipt]
+  + profile cantor-evox2-current-build-pilot-receipt/0.1 and exactly24 ordered top-level fields
+  + fields are profile receipt_uuid manifest_sha256 source_commit host_name remote_root started_utc completed_utc preflight_status install_status membership_before membership_after protected_before protected_after provider_before provider_after replay_count replays optional_query_status optional_query_measurement configuration_changed persistent_process_count listener_delta refusal receipt_sha256
+  + membership arrays bind normalized path role bytes SHA256 and equality; protected/provider before-after accounts bind identity without importing their payload bytes
+  + each replay has exactly8 fields: ordinal executable_relative_path input_relative_path duration_ms exit_code stdout_bytes stdout_sha256 status
+  + replay_count is exactly2 for P0 A8 evidence; ordinals are1 and2; status passed; exit codes zero; stdout identities must match
+  + optional_query_status is passed skipped_incompatible or not_attempted; no fabricated measurement is allowed
+
+& [RefusalAndOutput]
+  + refusal is null on success or exactly code phase field safe_summary with no untrusted value echo
+  + receipt_sha256 clears only itself and uses domain cantor-evox2-current-build-pilot-receipt-v1 NUL over compact UTF-8 ordered bytes
+  + timestamps measure host observation sequence; duration_ms is monotonic stopwatch elapsed and no cryptographic time claim is made
+
+& [IndependentVerification]
+  + local verifier accepts exact manifest receipt and retrieved outputs, verifies forms digests membership replay equality source lineage host/root constants protected/provider conservation configuration_changed=false persistent_process_count=0 listener_delta=0 and bounded optional-query truth
+  + verifier has no SSH process network provider Git mutation writer service control or path outside explicit supplied evidence directory
+
+& [Bounds]
+  + maximum files128 aggregate1073741824 per-file67108864 JSON depth24 object fields2048 arrays256 text8192 retained stdout1048576 retained stderr65536 SSH timeout300 seconds per action and executable timeout600 seconds
