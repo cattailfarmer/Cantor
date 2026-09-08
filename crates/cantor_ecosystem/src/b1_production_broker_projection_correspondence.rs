@@ -1,10 +1,14 @@
-//! A8 supplied public logical broker-projection correspondence forms.
+//! A8 supplied public logical broker-projection correspondence verifier.
 //!
-//! This partial core has no endpoint resolver, dynamic loader, broker client,
+//! This pure core has no endpoint resolver, dynamic loader, broker client,
 //! credential input, permit consumer, writer, or effect interface.
 use crate::{
-    B1OaprConfidentiality, EocvFault, EocvFaultCode, KcvInputClass, PercVerificationReceipt,
-    TwvEffectAccount, eocv_domain_digest, eocv_fault, parse_eocv_canonical, valid_eocv_uuid,
+    B1OaprCandidateDescriptor, B1OaprCandidateOrigin, B1OaprConfidentiality, B1OaprPacket,
+    B1OaprRequest, EocvFault, EocvFaultCode, KcvInputClass, PercPredecessor,
+    PercVerificationReceipt, PercVerificationRequest, TwvEffectAccount, b1oapr_descriptor_digest,
+    b1oapr_request_digest, compile_b1oapr_packet, eocv_domain_digest, eocv_fault,
+    parse_eocv_canonical, valid_eocv_uuid, validate_perc_receipt_fields,
+    verify_perc_reference_correspondence,
 };
 use cantor_core::{ContentDigest, sha256_bytes};
 use serde::{Deserialize, Serialize};
@@ -34,6 +38,7 @@ pub const PBPC_MISMATCHED_STATUS: &str =
     "supplied_production_broker_projection_correspondence_mismatched_execution_unresolved";
 pub const PBPC_AUTHORITY: &str = "supplied_production_broker_projection_correspondence_only";
 pub const PBPC_MAX_FORM_BYTES: usize = 1_048_576;
+pub const PBPC_MAX_EVIDENCE_BYTES: u64 = 16_777_216;
 pub const PBPC_MAX_EVIDENCE_REFERENCES: usize = 48;
 const PBPC_MAX_IDENTIFIER_BYTES: usize = 128;
 
@@ -310,6 +315,13 @@ pub struct PbpcVerificationReceipt {
     pub receipt_sha256: ContentDigest,
 }
 
+pub struct PbpcPredecessor<'a> {
+    pub a7_request: &'a PercVerificationRequest,
+    pub a7_predecessor: PercPredecessor<'a>,
+    pub raw_a7_envelope: &'a [u8],
+    pub a7_receipt: &'a PercVerificationReceipt,
+}
+
 pub const PBPC_REQUEST_FIELDS: [&str; 44] = [
     "profile",
     "source_snapshot_uuid",
@@ -564,6 +576,47 @@ pub fn compare_pbpc_projection_metadata(
     ]))
 }
 
+pub fn compare_pbpc_projection_to_request(
+    request: &PbpcVerificationRequest,
+    supplied: &PbpcProjectionDeclaration,
+    a7_receipt_matches: bool,
+    packet_matches: bool,
+    descriptor_matches: bool,
+    projection_raw_bytes_match: bool,
+) -> Result<PbpcComparisonAccount, EocvFault> {
+    validate_pbpc_request(request)?;
+    validate_pbpc_declaration(supplied)?;
+    let supplied_digest = pbpc_declaration_digest(supplied)?;
+    Ok(pbpc_comparison_from_flags([
+        a7_receipt_matches,
+        packet_matches,
+        descriptor_matches,
+        projection_raw_bytes_match,
+        supplied.projection_sha256 == supplied_digest,
+        supplied.projection_uuid == request.expected_projection_uuid,
+        supplied.candidate_uuid == request.expected_candidate_uuid,
+        supplied.authority_name == request.expected_authority_name,
+        supplied.artifact_kind == request.expected_artifact_kind,
+        supplied.opaque_reference == request.expected_opaque_reference,
+        supplied.content_sha256 == request.expected_content_sha256,
+        supplied.declared_bytes == request.expected_declared_bytes,
+        supplied.confidentiality == request.expected_confidentiality,
+        supplied.required_verifier_profile == request.expected_verifier_profile,
+        supplied.fixture_only == request.expected_fixture_only,
+        supplied.dependency_ordinal == request.expected_dependency_ordinal,
+        supplied.input_class == request.input_class,
+        supplied.preparation_plan_sha256 == request.expected_preparation_plan_sha256,
+        supplied.broker_adapter_profile == request.expected_broker_adapter_profile,
+        supplied.broker_operation_kind == request.expected_broker_operation_kind,
+        supplied.broker_subject == request.expected_broker_subject,
+        supplied.required_input_receipt_profile == request.expected_input_receipt_profile,
+        supplied.expected_output_receipt_profile == request.expected_output_receipt_profile,
+        supplied.requires_private_permit == request.expected_requires_private_permit,
+        !supplied.activation_requested && !request.expected_activation_requested,
+        supplied.evidence_references == request.evidence_references,
+    ]))
+}
+
 pub fn pbpc_declaration_digest(
     declaration: &PbpcProjectionDeclaration,
 ) -> Result<ContentDigest, EocvFault> {
@@ -777,6 +830,530 @@ pub fn from_pbpc_request_machine_form(text: &str) -> Result<PbpcVerificationRequ
     Ok(value)
 }
 
+pub fn pbpc_evidence_manifest_digest(
+    manifest: &PbpcEvidenceManifest,
+) -> Result<ContentDigest, EocvFault> {
+    bounded(manifest)?;
+    let mut normalized = manifest.clone();
+    normalized.manifest_sha256 = sha256_bytes(b"");
+    eocv_domain_digest(PBPC_EVIDENCE_DOMAIN, &normalized)
+}
+
+pub fn validate_pbpc_evidence_manifest(manifest: &PbpcEvidenceManifest) -> Result<(), EocvFault> {
+    bounded(manifest)?;
+    if manifest.profile != PBPC_EVIDENCE_PROFILE
+        || !valid_eocv_uuid(&manifest.manifest_uuid)
+        || manifest.source_snapshot_uuid != PBPC_SOURCE_SNAPSHOT_UUID
+        || manifest.canonical_uuid != PBPC_CANONICAL_UUID
+        || manifest.artifacts.len() != 33
+        || manifest.artifact_count != 33
+        || manifest.deterministic_replay_count != 2
+        || manifest.required_fresh_process_replay_count != 2
+        || !manifest.byte_identical
+        || manifest.effect_count != 0
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Evidence,
+            "A8 evidence manifest identity or account differs",
+        ));
+    }
+    let mut paths = BTreeSet::new();
+    let mut total = 0u64;
+    for artifact in &manifest.artifacts {
+        if !valid_artifact_path(&artifact.path)
+            || !paths.insert(artifact.path.as_str())
+            || artifact.bytes == 0
+            || artifact.bytes > (PBPC_MAX_FORM_BYTES + 1) as u64
+            || !valid_content_digest(&artifact.sha256)
+        {
+            return Err(eocv_fault(
+                EocvFaultCode::Evidence,
+                "A8 evidence artifact shape differs",
+            ));
+        }
+        total = total.checked_add(artifact.bytes).ok_or_else(|| {
+            eocv_fault(EocvFaultCode::Arithmetic, "A8 evidence byte total overflow")
+        })?;
+    }
+    for digest in [
+        &manifest.retained_authority_packet_sha256,
+        &manifest.retained_a7_receipt_sha256,
+        &manifest.retained_projection_declaration_sha256,
+        &manifest.retained_receipt_sha256,
+    ] {
+        if !valid_content_digest(digest) {
+            return Err(eocv_fault(
+                EocvFaultCode::Digest,
+                "A8 retained evidence digest shape differs",
+            ));
+        }
+    }
+    if total > PBPC_MAX_EVIDENCE_BYTES
+        || total != manifest.total_artifact_bytes
+        || manifest.manifest_sha256 != pbpc_evidence_manifest_digest(manifest)?
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Digest,
+            "A8 evidence manifest digest or total differs",
+        ));
+    }
+    Ok(())
+}
+
+pub fn to_pbpc_evidence_manifest_machine_form(
+    manifest: &PbpcEvidenceManifest,
+) -> Result<String, EocvFault> {
+    validate_pbpc_evidence_manifest(manifest)?;
+    serde_json::to_string(manifest).map_err(|_| {
+        eocv_fault(
+            EocvFaultCode::MachineForm,
+            "A8 evidence manifest encoding differs",
+        )
+    })
+}
+
+pub fn from_pbpc_evidence_manifest_machine_form(
+    text: &str,
+) -> Result<PbpcEvidenceManifest, EocvFault> {
+    let value = parse_eocv_canonical(text)?;
+    validate_pbpc_evidence_manifest(&value)?;
+    Ok(value)
+}
+
+pub fn pbpc_receipt_digest(receipt: &PbpcVerificationReceipt) -> Result<ContentDigest, EocvFault> {
+    bounded(receipt)?;
+    let mut normalized = receipt.clone();
+    normalized.receipt_sha256 = sha256_bytes(b"");
+    eocv_domain_digest(PBPC_RECEIPT_DOMAIN, &normalized)
+}
+
+pub fn validate_pbpc_receipt_fields(receipt: &PbpcVerificationReceipt) -> Result<(), EocvFault> {
+    bounded(receipt)?;
+    let status = if receipt.comparison_account.all_correspondence_matches {
+        PBPC_MATCHED_STATUS
+    } else {
+        PBPC_MISMATCHED_STATUS
+    };
+    if receipt.profile != PBPC_RECEIPT_PROFILE
+        || receipt.status != status
+        || receipt.authority != PBPC_AUTHORITY
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Profile,
+            "A8 receipt profile differs",
+        ));
+    }
+    if receipt.production_authority_claimed
+        || receipt.private_execution_permit_present
+        || receipt.permit_material_authenticated
+        || receipt.permit_dependency_satisfied
+        || receipt.broker_endpoint_resolved
+        || receipt.broker_reachable
+        || receipt.broker_identity_proved
+        || receipt.broker_authority_proved
+        || receipt.broker_session_authenticated
+        || receipt.broker_activation_authorized
+        || receipt.production_broker_projection_present
+        || receipt.live_authorization_admitted
+        || receipt.physical_preparation_authorized
+        || receipt.ready_for_physical_execution
+        || receipt.execution_authorized
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Truth,
+            "A8 receipt promotes authority",
+        ));
+    }
+    if !receipt.a7_correspondence_receipt_verified
+        || !receipt.packet_replayed
+        || !receipt.descriptor_correspondence_verified
+        || !receipt.projection_declaration_bytes_matched
+        || !receipt.comparison_reconstructed
+        || receipt.production_broker_projection_correspondence_proved
+            != receipt.comparison_account.all_correspondence_matches
+        || !receipt.requires_private_permit
+        || receipt.activation_requested
+    {
+        return Err(eocv_fault(EocvFaultCode::Truth, "A8 receipt truth differs"));
+    }
+    if receipt.effect_account != TwvEffectAccount::default()
+        || receipt.maximum_attempts != 1
+        || receipt.automatic_retry_count != 0
+        || receipt.automatic_cleanup_count != 0
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Effect,
+            "A8 receipt effect account differs",
+        ));
+    }
+    if receipt.source_snapshot_uuid != PBPC_SOURCE_SNAPSHOT_UUID
+        || receipt.canonical_uuid != PBPC_CANONICAL_UUID
+        || receipt.signature_uuid != PBPC_SIGNATURE_UUID
+        || receipt.source_custody_commit != PBPC_SOURCE_CUSTODY_COMMIT
+        || receipt.formation_commit != PBPC_FORMATION_COMMIT
+        || receipt.formation_bookend_commit != PBPC_FORMATION_BOOKEND_COMMIT
+        || receipt.a7_implementation_commit != PBPC_A7_IMPLEMENTATION_COMMIT
+        || receipt.a7_bookend_commit != PBPC_A7_BOOKEND_COMMIT
+        || receipt.a7_proof_uuid != PBPC_A7_PROOF_UUID
+        || receipt.a7_receipt_sha256 != receipt.a7_receipt.receipt_sha256
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Lineage,
+            "A8 receipt lineage differs",
+        ));
+    }
+    for digest in [
+        &receipt.request_sha256,
+        &receipt.a7_verification_request_sha256,
+        &receipt.a7_receipt_sha256,
+        &receipt.authority_packet_request_sha256,
+        &receipt.authority_packet_sha256,
+        &receipt.a8_descriptor_sha256,
+        &receipt.projection_declaration_raw_sha256,
+        &receipt.projection_declaration_sha256,
+        &receipt.content_sha256,
+        &receipt.preparation_plan_sha256,
+    ] {
+        if !valid_content_digest(digest) {
+            return Err(eocv_fault(
+                EocvFaultCode::Digest,
+                "A8 receipt digest shape differs",
+            ));
+        }
+    }
+    validate_reference_set(&receipt.evidence_references)?;
+    validate_pbpc_comparison_account(&receipt.comparison_account)?;
+    validate_perc_receipt_fields(&receipt.a7_receipt).map_err(predecessor_fault)?;
+    if receipt.receipt_sha256 != pbpc_receipt_digest(receipt)? {
+        return Err(eocv_fault(
+            EocvFaultCode::Digest,
+            "A8 receipt self digest differs",
+        ));
+    }
+    Ok(())
+}
+
+pub fn to_pbpc_receipt_machine_form(
+    receipt: &PbpcVerificationReceipt,
+) -> Result<String, EocvFault> {
+    validate_pbpc_receipt_fields(receipt)?;
+    serde_json::to_string(receipt)
+        .map_err(|_| eocv_fault(EocvFaultCode::MachineForm, "A8 receipt encoding differs"))
+}
+
+pub fn from_pbpc_receipt_machine_form(text: &str) -> Result<PbpcVerificationReceipt, EocvFault> {
+    let value = parse_eocv_canonical(text)?;
+    validate_pbpc_receipt_fields(&value)?;
+    Ok(value)
+}
+
+pub fn verify_pbpc_projection_correspondence(
+    request: &PbpcVerificationRequest,
+    predecessor: &PbpcPredecessor<'_>,
+    raw_projection: &[u8],
+) -> Result<PbpcVerificationReceipt, EocvFault> {
+    validate_pbpc_request(request)?;
+    raw_bound(raw_projection)?;
+    let a7 = verify_perc_reference_correspondence(
+        predecessor.a7_request,
+        &predecessor.a7_predecessor,
+        predecessor.raw_a7_envelope,
+    )
+    .map_err(predecessor_fault)?;
+    if a7 != *predecessor.a7_receipt
+        || request.a7_verification_request_sha256 != predecessor.a7_request.request_sha256
+        || request.expected_a7_receipt_sha256 != a7.receipt_sha256
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Predecessor,
+            "complete A7 replay binding differs",
+        ));
+    }
+    if request.expected_projection_bytes != raw_projection.len() as u64
+        || request.expected_projection_raw_sha256 != sha256_bytes(raw_projection)
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::RawBytes,
+            "A8 projection declaration raw identity differs",
+        ));
+    }
+    let projection =
+        from_pbpc_declaration_machine_form(std::str::from_utf8(raw_projection).map_err(|_| {
+            eocv_fault(
+                EocvFaultCode::MachineForm,
+                "A8 projection declaration UTF-8 differs",
+            )
+        })?)?;
+    if projection.projection_uuid != request.expected_projection_uuid
+        || projection.projection_sha256 != request.expected_projection_sha256
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Identity,
+            "A8 projection declaration identity differs",
+        ));
+    }
+    let (packet_request, packet) = reconstruct_pbpc_packet(
+        request,
+        predecessor.a7_request,
+        predecessor.a7_predecessor.a6_request,
+    )?;
+    let comparison = compare_pbpc_projection_to_request(
+        request,
+        &projection,
+        true,
+        packet.packet_sha256 == request.expected_authority_packet_sha256,
+        packet_request.descriptors[7].descriptor_sha256 == request.expected_descriptor_sha256,
+        true,
+    )?;
+    let receipt = build_pbpc_receipt(request, a7, &projection, &comparison)?;
+    validate_pbpc_receipt_fields(&receipt)?;
+    Ok(receipt)
+}
+
+pub fn validate_pbpc_receipt(
+    request: &PbpcVerificationRequest,
+    predecessor: &PbpcPredecessor<'_>,
+    raw_projection: &[u8],
+    receipt: &PbpcVerificationReceipt,
+) -> Result<(), EocvFault> {
+    if *receipt != verify_pbpc_projection_correspondence(request, predecessor, raw_projection)? {
+        return Err(eocv_fault(
+            EocvFaultCode::Restart,
+            "A8 retained receipt differs",
+        ));
+    }
+    Ok(())
+}
+
+fn reconstruct_a7_packet_request(
+    request: &PercVerificationRequest,
+    a6_packet_request: &B1OaprRequest,
+) -> Result<B1OaprRequest, EocvFault> {
+    let descriptor = B1OaprCandidateDescriptor {
+        ordinal: 7,
+        candidate_uuid: request.expected_candidate_uuid.clone(),
+        authority_name: request.expected_authority_name.clone(),
+        artifact_kind: request.expected_artifact_kind.clone(),
+        origin: candidate_origin(request.input_class),
+        opaque_reference: request.expected_opaque_reference.clone(),
+        content_sha256: request.expected_content_sha256.clone(),
+        declared_bytes: request.expected_declared_bytes,
+        confidentiality: request.expected_confidentiality,
+        required_verifier_profile: request.expected_verifier_profile.clone(),
+        fixture_only: request.expected_fixture_only,
+        dependency_ordinal: Some(request.expected_dependency_ordinal),
+        descriptor_sha256: request.expected_descriptor_sha256.clone(),
+    };
+    if descriptor.descriptor_sha256
+        != b1oapr_descriptor_digest(&descriptor).map_err(predecessor_fault)?
+        || a6_packet_request.descriptors.len() != 9
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Predecessor,
+            "A7 packet reconstruction input differs",
+        ));
+    }
+    let mut current = a6_packet_request.clone();
+    current.descriptors[6] = descriptor;
+    current.request_sha256 = b1oapr_request_digest(&current).map_err(predecessor_fault)?;
+    if current.request_sha256 != request.authority_packet_request_sha256 {
+        return Err(eocv_fault(
+            EocvFaultCode::Predecessor,
+            "A7 packet request reconstruction differs",
+        ));
+    }
+    Ok(current)
+}
+
+fn reconstruct_pbpc_packet(
+    request: &PbpcVerificationRequest,
+    a7_request: &PercVerificationRequest,
+    a6_request: &crate::EocvVerificationRequest,
+) -> Result<(B1OaprRequest, B1OaprPacket), EocvFault> {
+    let prior = reconstruct_a7_packet_request(a7_request, &a6_request.authority_packet_request)?;
+    let descriptor = B1OaprCandidateDescriptor {
+        ordinal: 8,
+        candidate_uuid: request.expected_candidate_uuid.clone(),
+        authority_name: request.expected_authority_name.clone(),
+        artifact_kind: request.expected_artifact_kind.clone(),
+        origin: candidate_origin(request.input_class),
+        opaque_reference: request.expected_opaque_reference.clone(),
+        content_sha256: request.expected_content_sha256.clone(),
+        declared_bytes: request.expected_declared_bytes,
+        confidentiality: request.expected_confidentiality,
+        required_verifier_profile: request.expected_verifier_profile.clone(),
+        fixture_only: request.expected_fixture_only,
+        dependency_ordinal: Some(request.expected_dependency_ordinal),
+        descriptor_sha256: request.expected_descriptor_sha256.clone(),
+    };
+    if descriptor.descriptor_sha256
+        != b1oapr_descriptor_digest(&descriptor).map_err(predecessor_fault)?
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Digest,
+            "A8 descriptor digest differs",
+        ));
+    }
+    let mut current = prior.clone();
+    current.descriptors[7] = descriptor;
+    current.request_sha256 = b1oapr_request_digest(&current).map_err(predecessor_fault)?;
+    if current.request_sha256 != request.authority_packet_request_sha256 {
+        return Err(eocv_fault(
+            EocvFaultCode::Digest,
+            "A8 packet request identity differs",
+        ));
+    }
+    let first = compile_b1oapr_packet(&current).map_err(predecessor_fault)?;
+    let second = compile_b1oapr_packet(&current).map_err(predecessor_fault)?;
+    if first != second || first.packet_sha256 != request.expected_authority_packet_sha256 {
+        return Err(eocv_fault(
+            EocvFaultCode::Digest,
+            "A8 packet reconstruction differs",
+        ));
+    }
+    if prior.descriptors[..7] != current.descriptors[..7]
+        || prior.descriptors[8..] != current.descriptors[8..]
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Dependency,
+            "A8 changed another packet descriptor",
+        ));
+    }
+    let mut normalized = current.clone();
+    normalized.descriptors[7] = prior.descriptors[7].clone();
+    normalized.request_sha256 = prior.request_sha256.clone();
+    if normalized != prior {
+        return Err(eocv_fault(
+            EocvFaultCode::Lineage,
+            "A8 changed packet subjects or policy",
+        ));
+    }
+    Ok((current, first))
+}
+
+fn build_pbpc_receipt(
+    request: &PbpcVerificationRequest,
+    a7: PercVerificationReceipt,
+    projection: &PbpcProjectionDeclaration,
+    comparison: &PbpcComparisonAccount,
+) -> Result<PbpcVerificationReceipt, EocvFault> {
+    let mut receipt = PbpcVerificationReceipt {
+        profile: PBPC_RECEIPT_PROFILE.to_owned(),
+        status: if comparison.all_correspondence_matches {
+            PBPC_MATCHED_STATUS
+        } else {
+            PBPC_MISMATCHED_STATUS
+        }
+        .to_owned(),
+        authority: PBPC_AUTHORITY.to_owned(),
+        source_snapshot_uuid: request.source_snapshot_uuid.clone(),
+        canonical_uuid: request.canonical_uuid.clone(),
+        signature_uuid: request.signature_uuid.clone(),
+        source_custody_commit: request.source_custody_commit.clone(),
+        formation_commit: PBPC_FORMATION_COMMIT.to_owned(),
+        formation_bookend_commit: PBPC_FORMATION_BOOKEND_COMMIT.to_owned(),
+        a7_implementation_commit: request.a7_implementation_commit.clone(),
+        a7_bookend_commit: request.a7_bookend_commit.clone(),
+        a7_proof_uuid: request.a7_proof_uuid.clone(),
+        request_sha256: request.request_sha256.clone(),
+        a7_verification_request_sha256: request.a7_verification_request_sha256.clone(),
+        a7_receipt_sha256: a7.receipt_sha256.clone(),
+        a7_receipt: a7,
+        authority_packet_request_sha256: request.authority_packet_request_sha256.clone(),
+        authority_packet_sha256: request.expected_authority_packet_sha256.clone(),
+        a8_candidate_uuid: request.expected_candidate_uuid.clone(),
+        a8_descriptor_sha256: request.expected_descriptor_sha256.clone(),
+        projection_declaration_bytes: request.expected_projection_bytes,
+        projection_declaration_raw_sha256: request.expected_projection_raw_sha256.clone(),
+        projection_declaration_sha256: projection.projection_sha256.clone(),
+        projection_uuid: projection.projection_uuid.clone(),
+        opaque_reference: projection.opaque_reference.clone(),
+        content_sha256: projection.content_sha256.clone(),
+        declared_bytes: projection.declared_bytes,
+        confidentiality: projection.confidentiality,
+        required_verifier_profile: projection.required_verifier_profile.clone(),
+        dependency_ordinal: projection.dependency_ordinal,
+        input_class: projection.input_class,
+        fixture_only: projection.fixture_only,
+        preparation_plan_sha256: projection.preparation_plan_sha256.clone(),
+        broker_adapter_profile: projection.broker_adapter_profile.clone(),
+        broker_operation_kind: projection.broker_operation_kind.clone(),
+        broker_subject: projection.broker_subject.clone(),
+        required_input_receipt_profile: projection.required_input_receipt_profile.clone(),
+        expected_output_receipt_profile: projection.expected_output_receipt_profile.clone(),
+        requires_private_permit: projection.requires_private_permit,
+        activation_requested: projection.activation_requested,
+        comparison_account: comparison.clone(),
+        evidence_references: projection.evidence_references.clone(),
+        maximum_attempts: request.maximum_attempts,
+        automatic_retry_count: request.automatic_retry_count,
+        automatic_cleanup_count: request.automatic_cleanup_count,
+        a7_correspondence_receipt_verified: true,
+        packet_replayed: true,
+        descriptor_correspondence_verified: true,
+        projection_declaration_bytes_matched: true,
+        comparison_reconstructed: true,
+        production_broker_projection_correspondence_proved: comparison.all_correspondence_matches,
+        production_authority_claimed: false,
+        private_execution_permit_present: false,
+        permit_material_authenticated: false,
+        permit_dependency_satisfied: false,
+        broker_endpoint_resolved: false,
+        broker_reachable: false,
+        broker_identity_proved: false,
+        broker_authority_proved: false,
+        broker_session_authenticated: false,
+        broker_activation_authorized: false,
+        production_broker_projection_present: false,
+        live_authorization_admitted: false,
+        physical_preparation_authorized: false,
+        ready_for_physical_execution: false,
+        execution_authorized: false,
+        effect_account: TwvEffectAccount::default(),
+        receipt_sha256: sha256_bytes(b""),
+    };
+    receipt.receipt_sha256 = pbpc_receipt_digest(&receipt)?;
+    Ok(receipt)
+}
+
+fn candidate_origin(input_class: KcvInputClass) -> B1OaprCandidateOrigin {
+    if input_class == KcvInputClass::DeterministicFixtureCandidate {
+        B1OaprCandidateOrigin::DeterministicFixtureCandidate
+    } else {
+        B1OaprCandidateOrigin::ExternallySuppliedCandidate
+    }
+}
+
+fn raw_bound(bytes: &[u8]) -> Result<(), EocvFault> {
+    if bytes.is_empty() || bytes.len() > PBPC_MAX_FORM_BYTES {
+        return Err(eocv_fault(
+            EocvFaultCode::Size,
+            "A8 raw projection declaration exceeds bound",
+        ));
+    }
+    Ok(())
+}
+
+fn predecessor_fault(_: impl std::fmt::Display) -> EocvFault {
+    eocv_fault(
+        EocvFaultCode::Predecessor,
+        "A8 predecessor verification refused",
+    )
+}
+
+fn valid_artifact_path(value: &str) -> bool {
+    !value.is_empty()
+        && value.len() <= 256
+        && value.is_ascii()
+        && !value.starts_with('/')
+        && !value.contains('/')
+        && !value.contains('\\')
+        && !value.contains(':')
+        && value
+            .split('/')
+            .all(|part| !part.is_empty() && part != "." && part != "..")
+}
+
 fn bounded<T: Serialize>(value: &T) -> Result<(), EocvFault> {
     if serde_json::to_vec(value)
         .map_err(|_| eocv_fault(EocvFaultCode::MachineForm, "A8 typed encoding differs"))?
@@ -839,6 +1416,7 @@ fn validate_reference_set(values: &[String]) -> Result<(), EocvFault> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use serde::de::DeserializeOwned;
 
     fn fixture() -> PbpcProjectionDeclaration {
         let mut value = PbpcProjectionDeclaration {
@@ -923,6 +1501,102 @@ mod tests {
         };
         value.request_sha256 = pbpc_request_digest(&value).unwrap();
         value
+    }
+
+    fn retained<T: DeserializeOwned>(text: &str) -> T {
+        serde_json::from_str(text.trim_end_matches('\n')).unwrap()
+    }
+
+    fn retained_payload(bytes: &'static [u8]) -> &'static [u8] {
+        bytes.strip_suffix(b"\n").unwrap()
+    }
+
+    fn executable_fixture() -> (
+        PbpcVerificationRequest,
+        PbpcProjectionDeclaration,
+        Vec<u8>,
+        PercVerificationReceipt,
+        crate::EocvVerificationRequest,
+        PercVerificationRequest,
+    ) {
+        let a6_request: crate::EocvVerificationRequest = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a6_verification_request.json"
+        ));
+        let a7_request: PercVerificationRequest = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/verification_request.json"
+        ));
+        let a7_receipt: PercVerificationReceipt = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/receipt.json"
+        ));
+        let mut projection = fixture();
+        projection.a7_receipt_sha256 = a7_receipt.receipt_sha256.clone();
+        projection.projection_sha256 = pbpc_declaration_digest(&projection).unwrap();
+        let raw_projection = serde_json::to_vec(&projection).unwrap();
+
+        let mut request = request_fixture();
+        request.a7_verification_request_sha256 = a7_request.request_sha256.clone();
+        request.expected_a7_receipt_sha256 = a7_receipt.receipt_sha256.clone();
+        request.expected_candidate_uuid = projection.candidate_uuid.clone();
+        request.expected_projection_uuid = projection.projection_uuid.clone();
+        request.expected_projection_bytes = raw_projection.len() as u64;
+        request.expected_projection_raw_sha256 = sha256_bytes(&raw_projection);
+        request.expected_projection_sha256 = projection.projection_sha256.clone();
+        request.expected_authority_name = projection.authority_name.clone();
+        request.expected_artifact_kind = projection.artifact_kind.clone();
+        request.expected_opaque_reference = projection.opaque_reference.clone();
+        request.expected_content_sha256 = projection.content_sha256.clone();
+        request.expected_declared_bytes = projection.declared_bytes;
+        request.expected_confidentiality = projection.confidentiality;
+        request.expected_verifier_profile = projection.required_verifier_profile.clone();
+        request.expected_fixture_only = projection.fixture_only;
+        request.expected_dependency_ordinal = projection.dependency_ordinal;
+        request.input_class = projection.input_class;
+        request.expected_preparation_plan_sha256 = projection.preparation_plan_sha256.clone();
+        request.expected_broker_adapter_profile = projection.broker_adapter_profile.clone();
+        request.expected_broker_operation_kind = projection.broker_operation_kind.clone();
+        request.expected_broker_subject = projection.broker_subject.clone();
+        request.expected_input_receipt_profile = projection.required_input_receipt_profile.clone();
+        request.expected_output_receipt_profile =
+            projection.expected_output_receipt_profile.clone();
+        request.expected_requires_private_permit = projection.requires_private_permit;
+        request.expected_activation_requested = projection.activation_requested;
+        request.evidence_references = projection.evidence_references.clone();
+
+        let prior =
+            reconstruct_a7_packet_request(&a7_request, &a6_request.authority_packet_request)
+                .unwrap();
+        let mut descriptor = B1OaprCandidateDescriptor {
+            ordinal: 8,
+            candidate_uuid: request.expected_candidate_uuid.clone(),
+            authority_name: request.expected_authority_name.clone(),
+            artifact_kind: request.expected_artifact_kind.clone(),
+            origin: candidate_origin(request.input_class),
+            opaque_reference: request.expected_opaque_reference.clone(),
+            content_sha256: request.expected_content_sha256.clone(),
+            declared_bytes: request.expected_declared_bytes,
+            confidentiality: request.expected_confidentiality,
+            required_verifier_profile: request.expected_verifier_profile.clone(),
+            fixture_only: request.expected_fixture_only,
+            dependency_ordinal: Some(request.expected_dependency_ordinal),
+            descriptor_sha256: sha256_bytes(b""),
+        };
+        descriptor.descriptor_sha256 = b1oapr_descriptor_digest(&descriptor).unwrap();
+        request.expected_descriptor_sha256 = descriptor.descriptor_sha256.clone();
+        let mut current = prior;
+        current.descriptors[7] = descriptor;
+        current.request_sha256 = b1oapr_request_digest(&current).unwrap();
+        request.authority_packet_request_sha256 = current.request_sha256.clone();
+        request.expected_authority_packet_sha256 =
+            compile_b1oapr_packet(&current).unwrap().packet_sha256;
+        request.request_sha256 = pbpc_request_digest(&request).unwrap();
+        (
+            request,
+            projection,
+            raw_projection,
+            a7_receipt,
+            a6_request,
+            a7_request,
+        )
     }
 
     #[test]
@@ -1075,5 +1749,248 @@ mod tests {
         endpoint.request_sha256 = pbpc_request_digest(&endpoint).unwrap();
         let error = validate_pbpc_request(&endpoint).unwrap_err();
         assert!(!error.message.contains(hostile));
+    }
+
+    #[test]
+    fn ordinal_eight_packet_reconstruction_preserves_every_other_coordinate() {
+        let (request, _, _, _, a6_request, a7_request) = executable_fixture();
+        let prior =
+            reconstruct_a7_packet_request(&a7_request, &a6_request.authority_packet_request)
+                .unwrap();
+        let (current, first) = reconstruct_pbpc_packet(&request, &a7_request, &a6_request).unwrap();
+        let second = compile_b1oapr_packet(&current).unwrap();
+        assert_eq!(first, second);
+        assert_eq!(current.descriptors[..7], prior.descriptors[..7]);
+        assert_eq!(current.descriptors[8..], prior.descriptors[8..]);
+        assert_eq!(current.descriptors[7].ordinal, 8);
+        assert_eq!(current.descriptors[7].dependency_ordinal, Some(7));
+    }
+
+    #[test]
+    fn receipt_is_canonical_nonauthorizing_and_restart_tamper_refuses() {
+        let (request, projection, _, a7_receipt, _, _) = executable_fixture();
+        let comparison =
+            compare_pbpc_projection_metadata(&projection, &projection, true, true, true, true)
+                .unwrap();
+        let receipt = build_pbpc_receipt(&request, a7_receipt, &projection, &comparison).unwrap();
+        validate_pbpc_receipt_fields(&receipt).unwrap();
+        let text = to_pbpc_receipt_machine_form(&receipt).unwrap();
+        assert_eq!(from_pbpc_receipt_machine_form(&text).unwrap(), receipt);
+        assert!(!receipt.production_authority_claimed);
+        assert!(!receipt.broker_endpoint_resolved);
+        assert!(!receipt.execution_authorized);
+        assert_eq!(receipt.effect_account, TwvEffectAccount::default());
+
+        let mut promoted = receipt.clone();
+        promoted.broker_activation_authorized = true;
+        promoted.receipt_sha256 = pbpc_receipt_digest(&promoted).unwrap();
+        assert!(validate_pbpc_receipt_fields(&promoted).is_err());
+
+        let mut restarted = receipt;
+        restarted.receipt_sha256 = sha256_bytes(b"restart-tamper");
+        assert_eq!(
+            validate_pbpc_receipt_fields(&restarted).unwrap_err().code,
+            EocvFaultCode::Digest
+        );
+    }
+
+    #[test]
+    fn evidence_manifest_is_bounded_canonical_and_path_safe() {
+        let artifacts = (0..33)
+            .map(|index| PbpcEvidenceArtifact {
+                path: format!("retained_artifact_{index:02}.json"),
+                bytes: 1,
+                sha256: sha256_bytes(&[index]),
+            })
+            .collect::<Vec<_>>();
+        let binding = sha256_bytes(b"retained-binding");
+        let mut manifest = PbpcEvidenceManifest {
+            profile: PBPC_EVIDENCE_PROFILE.to_owned(),
+            manifest_uuid: "a8000000-0000-4000-8000-000000000002".to_owned(),
+            source_snapshot_uuid: PBPC_SOURCE_SNAPSHOT_UUID.to_owned(),
+            canonical_uuid: PBPC_CANONICAL_UUID.to_owned(),
+            artifacts,
+            artifact_count: 33,
+            total_artifact_bytes: 33,
+            retained_authority_packet_sha256: binding.clone(),
+            retained_a7_receipt_sha256: binding.clone(),
+            retained_projection_declaration_sha256: binding.clone(),
+            retained_receipt_sha256: binding,
+            deterministic_replay_count: 2,
+            required_fresh_process_replay_count: 2,
+            byte_identical: true,
+            effect_count: 0,
+            manifest_sha256: sha256_bytes(b""),
+        };
+        manifest.manifest_sha256 = pbpc_evidence_manifest_digest(&manifest).unwrap();
+        let text = to_pbpc_evidence_manifest_machine_form(&manifest).unwrap();
+        assert_eq!(
+            from_pbpc_evidence_manifest_machine_form(&text).unwrap(),
+            manifest
+        );
+
+        let mut escaped = manifest.clone();
+        escaped.artifacts[0].path = "../escape.json".to_owned();
+        escaped.manifest_sha256 = pbpc_evidence_manifest_digest(&escaped).unwrap();
+        assert!(validate_pbpc_evidence_manifest(&escaped).is_err());
+
+        let mut duplicate = manifest;
+        duplicate.artifacts[1].path = duplicate.artifacts[0].path.clone();
+        duplicate.manifest_sha256 = pbpc_evidence_manifest_digest(&duplicate).unwrap();
+        assert!(validate_pbpc_evidence_manifest(&duplicate).is_err());
+    }
+
+    #[test]
+    fn full_a7_replay_produces_byte_identical_a8_receipt_and_refuses_tamper() {
+        let predecessor_request: B1OaprRequest = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/predecessor_request.json"
+        ));
+        let predecessor_packet: B1OaprPacket = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/predecessor_packet.json"
+        ));
+        let predecessor_verification: crate::B1OaprVerification = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/predecessor_verification.json"
+        ));
+        let a1_envelope: crate::BpvPolicyEnvelope = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a1_policy_envelope.json"
+        ));
+        let a1_request: crate::BpvVerificationRequest = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a1_verification_request.json"
+        ));
+        let a1_receipt: crate::BpvVerificationReceipt = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a1_receipt.json"
+        ));
+        let a2_attestation: crate::KcvCustodyAttestation = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/custody_attestation.json"
+        ));
+        let a2_request: crate::KcvVerificationRequest = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a2_verification_request.json"
+        ));
+        let a2_receipt: crate::KcvVerificationReceipt = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a2_receipt.json"
+        ));
+        let a3_request: crate::KrvVerificationRequest = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a3_verification_request.json"
+        ));
+        let a3_receipt: crate::KrvVerificationReceipt = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a3_receipt.json"
+        ));
+        let a4_request: crate::TwvVerificationRequest = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a4_verification_request.json"
+        ));
+        let a4_receipt: crate::TwvVerificationReceipt = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a4_receipt.json"
+        ));
+        let policy: crate::B1CDriveOperatorDecisionPolicy = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/operator_decision_policy.json"
+        ));
+        let legacy_request: crate::B1CDriveOperatorDecisionRequest = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/operator_decision_request.json"
+        ));
+        let a5_request: crate::OdcvVerificationRequest = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a5_verification_request.json"
+        ));
+        let a5_receipt: crate::OdcvVerificationReceipt = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a5_receipt.json"
+        ));
+        let (request, _, raw_projection, a7_receipt, a6_request, a7_request) = executable_fixture();
+        let a6_receipt: crate::EocvVerificationReceipt = retained(include_str!(
+            "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a6_receipt.json"
+        ));
+        let a6_predecessor = crate::EocvPredecessor {
+            upstream: crate::OdcvPredecessor {
+                upstream: crate::TwvPredecessor {
+                    request: &predecessor_request,
+                    packet: &predecessor_packet,
+                    verification: &predecessor_verification,
+                    a1_envelope: &a1_envelope,
+                    raw_a1_envelope: retained_payload(include_bytes!(
+                        "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a1_policy_envelope.json"
+                    )),
+                    a1_request: &a1_request,
+                    a1_receipt: &a1_receipt,
+                    a2_attestation: &a2_attestation,
+                    raw_a2_attestation: retained_payload(include_bytes!(
+                        "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/custody_attestation.json"
+                    )),
+                    a2_request: &a2_request,
+                    a2_receipt: &a2_receipt,
+                    raw_a3_snapshot: retained_payload(include_bytes!(
+                        "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/revocation_snapshot.json"
+                    )),
+                    a3_request: &a3_request,
+                    a3_receipt: &a3_receipt,
+                },
+                raw_a4_witness: retained_payload(include_bytes!(
+                    "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/time_witness_receipt.json"
+                )),
+                a4_request: &a4_request,
+                a4_receipt: &a4_receipt,
+            },
+            a5_policy: &policy,
+            a5_legacy_request: &legacy_request,
+            raw_a5_envelope: retained_payload(include_bytes!(
+                "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/operator_decision_envelope.json"
+            )),
+            a5_request: &a5_request,
+            a5_receipt: &a5_receipt,
+        };
+        let predecessor = PbpcPredecessor {
+            a7_request: &a7_request,
+            a7_predecessor: PercPredecessor {
+                a6_request: &a6_request,
+                a6_predecessor,
+                raw_plan_request: retained_payload(include_bytes!(
+                    "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/preparation_plan_request.json"
+                )),
+                raw_plan: retained_payload(include_bytes!(
+                    "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/preparation_plan.json"
+                )),
+                raw_observation_bundle: retained_payload(include_bytes!(
+                    "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/observation_bundle.json"
+                )),
+                a6_receipt: &a6_receipt,
+            },
+            raw_a7_envelope: retained_payload(include_bytes!(
+                "../../../experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/permit_reference_envelope.json"
+            )),
+            a7_receipt: &a7_receipt,
+        };
+        let first =
+            verify_pbpc_projection_correspondence(&request, &predecessor, &raw_projection).unwrap();
+        let second =
+            verify_pbpc_projection_correspondence(&request, &predecessor, &raw_projection).unwrap();
+        assert_eq!(first, second);
+        assert_eq!(
+            to_pbpc_receipt_machine_form(&first).unwrap(),
+            to_pbpc_receipt_machine_form(&second).unwrap()
+        );
+        validate_pbpc_receipt(&request, &predecessor, &raw_projection, &first).unwrap();
+
+        let mut mismatching_request = request.clone();
+        mismatching_request.expected_broker_subject = "alternate_broker_subject".to_owned();
+        mismatching_request.request_sha256 = pbpc_request_digest(&mismatching_request).unwrap();
+        let mismatch = verify_pbpc_projection_correspondence(
+            &mismatching_request,
+            &predecessor,
+            &raw_projection,
+        )
+        .unwrap();
+        assert_eq!(mismatch.status, PBPC_MISMATCHED_STATUS);
+        assert_eq!(
+            mismatch.comparison_account.mismatch_reasons,
+            vec![PbpcMismatchReason::SubjectMismatch]
+        );
+        assert!(!mismatch.production_broker_projection_correspondence_proved);
+        assert!(!mismatch.broker_activation_authorized);
+
+        let mut tampered = raw_projection;
+        tampered.push(b' ');
+        assert_eq!(
+            verify_pbpc_projection_correspondence(&request, &predecessor, &tampered)
+                .unwrap_err()
+                .code,
+            EocvFaultCode::RawBytes
+        );
     }
 }
