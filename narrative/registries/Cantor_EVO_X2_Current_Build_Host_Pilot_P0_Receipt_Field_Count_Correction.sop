@@ -1,0 +1,22 @@
+Subject: Cantor EVO-X2 Current Build Host Pilot P0 Receipt Field Count Correction
+
+@ [correction_uuid] 626f28d5-3c77-48dc-9651-5b377654c1a4
+@ [satisfaction_signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+@ [canonical_uuid] 4cf12917-73e8-4505-9228-f94d981143bd
+@ [formation_signature_uuid] cf0e7348-5135-41b6-9ae5-5d5bfa5c84c7
+@ [formation_commit] ff520236e028250b49cecae43b1e49932a9d3609
+@ [formation_bookend_commit] 8e37e3e701d41d61328f89296ae77b8ea3707812
+@ [fault_uuid] fc9ada51-7b0a-4cf6-8dbe-544363d74574
+
+& [ExactReceipt24]
+  + profile receipt_uuid manifest_sha256 source_commit host_name remote_root started_utc completed_utc install_status membership_before membership_after protected_before protected_after provider_before provider_after replay_count replays optional_query_status optional_query_measurement configuration_changed persistent_process_count listener_delta refusal receipt_sha256
+
+& [RemovedRedundancy]
+  + preflight_status is not a receipt field; exact preflight.json is independently retained and verified against protected_before and provider_before
+  + install_status has closed successful value installed_exact and a receipt cannot exist on a failed preflight
+
+& [Preservation]
+  + exact cardinality24 canonical requirement all remaining fields shapes bounds evidence effects target path source lineage and phase locks are unchanged
+
+& [Invalidation]
+  + adding preflight_status omitting another field accepting a receipt without exact preflight evidence or weakening install/protected/provider checks invalidates implementation

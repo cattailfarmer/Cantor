@@ -1,0 +1,19 @@
+Subject: EVO-X2 Current Build Host Pilot P0 Receipt Field Count Fault
+
+@ [fault_uuid] fc9ada51-7b0a-4cf6-8dbe-544363d74574
+@ [turn_uuid] eab381e6-0266-4f83-9aef-e29a1d505f98
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [Observed]
+  + implementation enumerated the signed Data Design remote-receipt list and found twenty-five named top-level fields while the canonical shape and Data Design heading both require exactly remote_receipt24
+  + the duplicate status meaning was preflight_status plus install_status even though a separate exact preflight.json is already required and install_status installed_exact necessarily follows the passing preflight
+
+& [Timing]
+  + detected before any remote pilot root archive transfer executable run or live evidence; package construction remained local and provider-free
+
+& [Correction]
+  + preserve every signed formation artifact immutably and select the exact declared cardinality24 by omitting redundant receipt field preflight_status
+  + retain preflight.json independently and require install_status=installed_exact plus equality between its protected/provider account and the receipt before account
+
+& [Boundary]
+  + no target effect authority measurement or autonomy meaning changes; the correction narrows duplicate representation and cannot authorize live effects before implementation publication
