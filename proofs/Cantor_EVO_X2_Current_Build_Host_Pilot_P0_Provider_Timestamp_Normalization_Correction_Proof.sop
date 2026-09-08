@@ -1,0 +1,17 @@
+Subject: Cantor EVO-X2 Current Build Host Pilot P0 Provider Timestamp Normalization Correction Proof
+
+@ [correction_proof_uuid] 536a30db-0550-4b34-acca-a3cced75caa8
+@ [correction_uuid] 690f490e-075e-41f7-98d4-76d76dc8be14
+@ [fault_uuid] 1cd4faf9-8fee-4923-a215-80c2bfc6729a
+
+& [RequiredEvidence]
+  + PowerShell7 and WindowsPowerShell5.1 must each accept .0000000Z versus Z as the same provider creation moment
+  + each must refuse a one-second timestamp change and continue to pass output extra-file and configuration-drift refusals
+  + each must independently verify the exact tracked live evidence whose preflight and receipt carry equivalent different fractional precision
+
+& [VerifiedEvidence]
+  + PowerShell7 and WindowsPowerShell5.1 each pass one equivalent-precision acceptance four isolated refusals and exact tracked live-evidence verification
+  + both return the same receipt self digest eeb788e7565e9e89c60eef0c78a64c6dade8956ca8935a5a1358670da603b6b3
+
+& [Boundary]
+  + correction changes local independent comparison only; raw evidence remote state and receipt digest remain immutable

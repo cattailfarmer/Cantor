@@ -15,6 +15,7 @@ $expectedReceiptFields = @(
     'configuration_changed', 'persistent_process_count', 'listener_delta', 'refusal', 'receipt_sha256'
 )
 $expectedReplayFields = @('ordinal', 'executable_relative_path', 'input_relative_path', 'duration_ms', 'exit_code', 'stdout_bytes', 'stdout_sha256', 'status')
+$expectedProviderFields = @('pid', 'creation_utc', 'command_sha256', 'executable_bytes', 'executable_sha256', 'model_bytes', 'model_sha256', 'listener')
 
 function Assert-Exact([bool] $Condition, [string] $Message) {
     if (-not $Condition) { throw $Message }
@@ -41,6 +42,39 @@ function Assert-JsonEqual($Left, $Right, [string] $Name) {
     $leftJson = $Left | ConvertTo-Json -Depth 30 -Compress
     $rightJson = $Right | ConvertTo-Json -Depth 30 -Compress
     Assert-Exact ($leftJson -ceq $rightJson) "$Name changed"
+}
+
+function Get-UtcTicks($Value, [string] $Name) {
+    if ($Value -is [DateTime]) {
+        Assert-Exact ($Value.Kind -eq [DateTimeKind]::Utc) "$Name timestamp is not UTC"
+        return [int64]$Value.Ticks
+    }
+    if ($Value -is [DateTimeOffset]) {
+        Assert-Exact ($Value.Offset -eq [TimeSpan]::Zero) "$Name timestamp is not UTC"
+        return [int64]$Value.UtcTicks
+    }
+    $text = [string]$Value
+    Assert-Exact ($text.EndsWith('Z', [StringComparison]::Ordinal)) "$Name timestamp is not UTC"
+    try {
+        $moment = [DateTimeOffset]::Parse($text, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::RoundtripKind)
+    } catch {
+        throw "$Name timestamp is invalid"
+    }
+    Assert-Exact ($moment.Offset -eq [TimeSpan]::Zero) "$Name timestamp is not UTC"
+    return [int64]$moment.UtcTicks
+}
+
+function Assert-ProviderIdentityEqual($Left, $Right, [string] $Name) {
+    Assert-ExactFieldOrder $Left $expectedProviderFields "$Name left"
+    Assert-ExactFieldOrder $Right $expectedProviderFields "$Name right"
+    $leftTicks = Get-UtcTicks $Left.creation_utc "$Name left creation"
+    $rightTicks = Get-UtcTicks $Right.creation_utc "$Name right creation"
+    Assert-Exact ($leftTicks -eq $rightTicks) "$Name creation timestamp changed"
+    Assert-Exact ([int64]$Left.pid -eq [int64]$Right.pid) "$Name pid changed"
+    Assert-Exact ([string]$Left.command_sha256 -ceq [string]$Right.command_sha256) "$Name command digest changed"
+    Assert-Exact ([int64]$Left.executable_bytes -eq [int64]$Right.executable_bytes -and [string]$Left.executable_sha256 -ceq [string]$Right.executable_sha256) "$Name executable identity changed"
+    Assert-Exact ([int64]$Left.model_bytes -eq [int64]$Right.model_bytes -and [string]$Left.model_sha256 -ceq [string]$Right.model_sha256) "$Name model identity changed"
+    Assert-Exact ([string]$Left.listener -ceq [string]$Right.listener) "$Name listener changed"
 }
 
 $package = & (Join-Path $PSScriptRoot 'verify_cantor_evox2_current_build_host_pilot_p0_package.ps1') -PackageRoot $PackageRoot | ConvertFrom-Json
@@ -88,9 +122,9 @@ Assert-Exact (@($receipt.membership_before).Count -eq 36) 'receipt package membe
 Assert-JsonEqual $receipt.protected_before $receipt.protected_after 'protected roots'
 Assert-JsonEqual $receipt.provider_before $receipt.provider_after 'provider identity'
 Assert-JsonEqual $preflight.protected_roots $receipt.protected_before 'preflight protected roots'
-Assert-JsonEqual $preflight.provider $receipt.provider_before 'preflight provider identity'
+Assert-ProviderIdentityEqual $preflight.provider $receipt.provider_before 'preflight provider identity'
 Assert-JsonEqual $finalAudit.protected_roots $receipt.protected_after 'final protected roots'
-Assert-JsonEqual $finalAudit.provider $receipt.provider_after 'final provider identity'
+Assert-ProviderIdentityEqual $finalAudit.provider $receipt.provider_after 'final provider identity'
 Assert-Exact ([int]$finalAudit.persistent_process_count -eq 0 -and [int]$finalAudit.listener_delta -eq 0) 'final audit closure changed'
 
 for ($index = 0; $index -lt 2; $index++) {

@@ -1,0 +1,18 @@
+Subject: Cantor EVO-X2 Current Build Host Pilot P0 Provider Timestamp Normalization Correction
+
+@ [correction_uuid] 690f490e-075e-41f7-98d4-76d76dc8be14
+@ [satisfaction_signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+@ [canonical_uuid] 4cf12917-73e8-4505-9228-f94d981143bd
+@ [fault_uuid] 1cd4faf9-8fee-4923-a215-80c2bfc6729a
+
+& [SemanticEquality]
+  + provider identity creation_utc values must each parse under invariant round-trip rules have zero UTC offset and have equal UTC ticks
+  + provider fields remain exact ordered8 and pid command digest executable bytes/digest model bytes/digest and listener compare exactly
+
+& [Refusal]
+  + unparsable non-UTC or tick-different timestamps are refused
+  + missing extra or reordered provider fields and every non-timestamp identity difference remain refused
+
+& [Preservation]
+  + raw live evidence receipt self digest protected-root comparison replay comparison and package checks are unchanged
+  + normalization admits representation-only fractional trailing-zero differences and no broader provider drift

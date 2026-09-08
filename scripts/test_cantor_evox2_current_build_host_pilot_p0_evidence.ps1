@@ -94,6 +94,24 @@ try {
     $valid = & $verifyEvidence -PackageRoot $packageRootPath -EvidenceRoot $testRoot | ConvertFrom-Json
     if ($valid.status -cne 'verified') { throw 'constructed evidence did not verify' }
 
+    $preflightPath = Join-Path $testRoot 'preflight.json'
+    $finalAuditPath = Join-Path $testRoot 'final_audit.json'
+    $precisionPreflight = Get-Content -LiteralPath $preflightPath -Raw | ConvertFrom-Json
+    $precisionFinal = Get-Content -LiteralPath $finalAuditPath -Raw | ConvertFrom-Json
+    $precisionPreflight.provider.creation_utc = '2026-09-08T00:00:00Z'
+    $precisionFinal.provider.creation_utc = '2026-09-08T00:00:00Z'
+    Write-Utf8Lf $preflightPath (($precisionPreflight | ConvertTo-Json -Depth 20 -Compress))
+    Write-Utf8Lf $finalAuditPath (($precisionFinal | ConvertTo-Json -Depth 20 -Compress))
+    $precisionValid = & $verifyEvidence -PackageRoot $packageRootPath -EvidenceRoot $testRoot | ConvertFrom-Json
+    if ($precisionValid.status -cne 'verified') { throw 'equivalent timestamp precision did not verify' }
+    $precisionPreflight.provider.creation_utc = '2026-09-08T00:00:01Z'
+    Write-Utf8Lf $preflightPath (($precisionPreflight | ConvertTo-Json -Depth 20 -Compress))
+    $refused = $false
+    try { & $verifyEvidence -PackageRoot $packageRootPath -EvidenceRoot $testRoot | Out-Null } catch { $refused = $true }
+    if (-not $refused) { throw 'different provider creation moment was admitted' }
+    $precisionPreflight.provider.creation_utc = '2026-09-08T00:00:00Z'
+    Write-Utf8Lf $preflightPath (($precisionPreflight | ConvertTo-Json -Depth 20 -Compress))
+
     $outputOne = Join-Path $testRoot 'a8_replay_1.stdout.json'
     [IO.File]::AppendAllText($outputOne, 'x')
     $refused = $false
@@ -123,7 +141,8 @@ try {
         real_replays = 2
         deterministic = ($replays[0].stdout_sha256 -ceq $replays[1].stdout_sha256)
         valid_evidence = 1
-        isolated_refusals = 3
+        timestamp_precision_equivalences = 1
+        isolated_refusals = 4
         stdout_bytes = $replays[0].stdout_bytes
         stdout_sha256 = $replays[0].stdout_sha256
     } | ConvertTo-Json -Compress

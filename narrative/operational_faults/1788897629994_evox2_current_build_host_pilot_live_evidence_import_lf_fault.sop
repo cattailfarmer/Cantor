@@ -1,0 +1,20 @@
+Subject: EVO-X2 Current Build Host Pilot P0 Live Evidence Import LF Fault
+
+@ [fault_uuid] 80f8679f-47f2-4f80-97e0-de9f81de2a3c
+@ [turn_uuid] ec7625fb-6820-4333-8549-e275a9f5d6d7
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [Observed]
+  + the first patch-based import retained the source terminal LF and added a second LF to each of five tracked evidence files
+  + file sizes became source plus one byte and the independent verifier refused receipt self digest changed
+
+& [Correction]
+  + remove exactly one trailing blank line from each tracked file through apply_patch without changing its JSON line
+  + compare source and tracked byte count plus SHA256 for all five files before re-running the independent verifier
+
+& [Evidence]
+  + all five tracked files equal their local retrieved sources byte-for-byte and hash-for-hash after correction
+  + independent verification passes receipt eeb788e7565e9e89c60eef0c78a64c6dade8956ca8935a5a1358670da603b6b3
+
+& [Boundary]
+  + only the new uncommitted tracked evidence copies changed; remote installation source evidence and provider state were untouched
