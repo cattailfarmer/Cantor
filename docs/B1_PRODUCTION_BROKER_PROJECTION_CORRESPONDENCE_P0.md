@@ -45,6 +45,12 @@ PowerShell 7 and Windows PowerShell 5.1 each pass 14 focused unit tests and 12 f
 
 The three nested canonical self-digested manifests are excluded from the generic transitive JSON rewriter. They may be changed only by the typed fixture producer; this prevents formatting or partial-rehash laundering of retained evidence.
 
+## Historical completion audit
+
+`scripts/verify_cantor_b1_production_broker_projection_correspondence_p0_completion.ps1` audits the immutable implementation and publication commits directly from Git object storage. It does not trust mutable working-tree copies. The verifier binds the implementation predecessor, 68-path implementation tree delta, exact five-path publication bookend, five Rust/CLI/test source hashes, ten completion-signature artifact hashes, both focused and workspace gate profiles, the 34-file retained evidence inventory, all 15 false authority fields, all 22 zero-effect fields, zero provider trials, and publication-proof lineage.
+
+`scripts/test_b1_production_broker_projection_correspondence_completion.ps1` runs the positive historical audit and two wrong-lineage refusals. Both scripts pass under PowerShell 7 and Windows PowerShell 5.1 using process-scoped `RemoteSigned`. The verifier performs no checkout, worktree write, network fetch, provider call, or runtime effect; when a local remote-tracking ref exists it requires that ref to contain the published bookend.
+
 ## Scope
 
 All checked-in coordinates are deterministic and synthetic. The pinned local provider remains unavailable; A8 performs zero live and synthetic provider trials. Private-permit verification, endpoint resolution, broker connectivity/authentication, activation, physical preparation, execution, and autonomous operation require later separately governed phases.

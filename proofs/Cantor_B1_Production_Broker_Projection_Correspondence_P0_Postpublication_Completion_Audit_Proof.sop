@@ -1,0 +1,16 @@
+Subject: Cantor B1 A8 Postpublication Completion Audit Proof
+
+@ [proof_uuid] 5f6f5e23-2bb9-48af-a34e-6f333228e9e7
+@ [canonical_uuid] 6a0ee327-1235-4d4c-8a0d-fb1b47f525c1
+@ [implementation_commit] 7760c78329f165a0ff7d02ec2aabc85dafbb3726
+@ [publication_bookend] 1aef4152568f9ad6b0abe59738ef20f213b0a574
+
+& [Bindings]
+  + verifier scripts/verify_cantor_b1_production_broker_projection_correspondence_p0_completion.ps1 bytes10248 SHA256 2F73D02C9502AA3C331A20769D256EE70262297755F65DD807EA5512340D9DCC
+  + tests scripts/test_b1_production_broker_projection_correspondence_completion.ps1 bytes1118 SHA256 1BF6D74263DCABC3A42BBA8E8E9C74BF01A35D0BA1E9D158EB929C9682FA6F69
+& [Verified]
+  + immutable object audit passes implementation predecessor68 changed paths bookend predecessor exact5 paths5 source bindings10 completion bindings2 focused profiles2 workspace profiles34 evidence files33 payloads15 false authorities22 zero effects and0 provider trials
+  + PowerShell7.6.5 and WindowsPowerShell5.1 each pass one positive audit and two wrong-lineage refusals
+  + the audit uses local rev-parse diff-tree ls-tree cat-file show-ref and merge-base only; it performs no checkout mutation or network command
+& [Boundary]
+  + historical verification only; no new completion signature production authority runtime capability or effect
