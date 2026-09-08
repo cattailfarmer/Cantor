@@ -261,6 +261,7 @@ try {
     $installScript = $installTemplate.Replace('__FUNCTIONS__', $auditFunctions).Replace('__FINAL__', $remoteRoot).Replace('__FINAL_PORTABLE__', $remoteRootPortable).Replace('__STAGE__', $remoteStage).Replace('__ZIP__', $remoteZip).Replace('__ZIP_BYTES__', [string]$zipItem.Length).Replace('__ZIP_SHA__', $zipHash).Replace('__MANIFEST_SHA__', [string]$package.manifest_sha256)
     $live = Invoke-RemoteJson $installScript 'remote install and replay'
     if ($live.status -cne 'passed') { throw 'remote live run did not pass' }
+    if (Test-Path -LiteralPath $transportZip) { Remove-Item -LiteralPath $transportZip -Force }
 
     foreach ($entry in @(
         @($live.receipt_path, 'pilot_receipt.json'),

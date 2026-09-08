@@ -17,10 +17,15 @@ foreach ($required in @(
     'Get-ProviderIdentity',
     'persistent_process_count=0',
     'listener_delta=0',
-    'configuration_changed=$false'
+    'configuration_changed=$false',
+    "if (Test-Path -LiteralPath `$transportZip) { Remove-Item -LiteralPath `$transportZip -Force }"
 )) {
     if (-not $raw.Contains($required)) { throw "deployment contract token missing: $required" }
 }
+
+$transportDelete = $raw.IndexOf("if (Test-Path -LiteralPath `$transportZip) { Remove-Item -LiteralPath `$transportZip -Force }", [StringComparison]::Ordinal)
+$receiptRetrieval = $raw.IndexOf("@(`$live.receipt_path, 'pilot_receipt.json')", [StringComparison]::Ordinal)
+if ($transportDelete -lt 0 -or $receiptRetrieval -lt 0 -or $transportDelete -ge $receiptRetrieval) { throw 'transport archive is not removed before exact evidence retrieval' }
 foreach ($forbidden in @('Invoke-Expression', 'Start-Process', 'schtasks', 'New-Service', 'Set-Service', 'netsh', 'reg.exe', 'winget', 'cargo install', 'rustup', 'http://', 'https://')) {
     if ($raw.IndexOf($forbidden, [StringComparison]::OrdinalIgnoreCase) -ge 0) { throw "deployment contract contains forbidden token: $forbidden" }
 }
@@ -36,8 +41,9 @@ if (-not $refused) { throw 'outside local evidence path was admitted' }
     profile = 'cantor-evox2-current-build-pilot-deployment-contract-tests/0.1'
     status = 'passed'
     syntax = 'passed'
-    required_tokens = 9
+    required_tokens = 10
     forbidden_tokens = 12
     pre_network_refusals = 2
+    evidence_boundary_orderings = 1
     remote_calls = 0
 } | ConvertTo-Json -Compress

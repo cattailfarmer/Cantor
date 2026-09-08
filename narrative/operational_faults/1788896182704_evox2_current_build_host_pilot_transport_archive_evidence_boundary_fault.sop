@@ -1,0 +1,19 @@
+Subject: EVO-X2 Current Build Host Pilot P0 Transport Archive Evidence Boundary Fault
+
+@ [fault_uuid] 8958d1d7-f02e-46f6-991a-0d21a20b96e7
+@ [turn_uuid] 9012f19f-3d5e-4f20-b516-65426bff57d2
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+
+& [Observed]
+  + the published deployment harness placed transport.zip inside the exact local evidence root and removed it only in the outer finally block
+  + the independent evidence verifier executes before that finally block and requires exactly five declared evidence files, so a successful remote replay would have been refused locally because transport.zip remained as a sixth file
+
+& [Timing]
+  + detected during the final pre-live code-path audit after implementation publication and before the first remote archive transfer or EVO-X2 pilot-root write
+
+& [Correction]
+  + delete only the locally generated transport.zip immediately after the remote install-and-replay response passes and before retrieving any of the five evidence artifacts
+  + retain the outer finally deletion as failure-path cleanup and add a static ordering gate proving deletion precedes receipt retrieval
+
+& [Boundary]
+  + no remote state was changed and no safety constraint was weakened; live execution remains locked until this correction is tested published and bookended

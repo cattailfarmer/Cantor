@@ -1,0 +1,22 @@
+Subject: Cantor EVO-X2 Current Build Host Pilot P0 Transport Archive Evidence Boundary Correction
+
+@ [correction_uuid] 5d54865a-a7ab-4141-a1ac-5cbab1712cd9
+@ [satisfaction_signature_protocol_uuid] ad10f10f-d506-48ef-a805-f8b0a133766c
+@ [canonical_uuid] 4cf12917-73e8-4505-9228-f94d981143bd
+@ [implementation_bookend_commit] cc6158c71237446a75e99740515223c73468785e
+@ [fault_uuid] 8958d1d7-f02e-46f6-991a-0d21a20b96e7
+
+& [ExactBoundary]
+  + transport.zip is temporary local transport material and is not retained evidence
+  + after remote status passed transport.zip must be absent before pilot_receipt.json a8_replay_1.stdout.json a8_replay_2.stdout.json and final_audit.json join the already retained preflight.json
+  + the independent verifier continues to require exactly those five files and refuses every extra file
+
+& [FailureCleanup]
+  + the outer finally remains responsible for deleting transport.zip when transfer install replay or evidence retrieval fails
+  + deletion targets only the exact generated archive beneath the run-specific governed local evidence directory
+
+& [Preservation]
+  + package bytes manifest source commit remote root protected roots provider state replay semantics receipt shape and all authority locks are unchanged
+
+& [Invalidation]
+  + verifying while transport.zip exists admitting it as evidence or weakening the five-file exact-membership rule invalidates the pilot
