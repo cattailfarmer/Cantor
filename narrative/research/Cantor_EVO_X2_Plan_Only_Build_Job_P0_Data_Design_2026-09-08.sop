@@ -1,0 +1,34 @@
+Subject: Cantor EVO-X2 Plan-Only Build Job P0 Data Design
+
+@ [data_design_uuid] 37f82c29-7fce-4ac3-9108-289d1850ec44
+@ [canonical_uuid] 3482e2ce-817c-4788-b185-35adaad414f7
+
+& [Request]
+  + profile cantor-evox2-plan-only-build-job/0.1
+  + exact16 ordered fields profile request_uuid predecessor_canonical_uuid predecessor_bookend_commit source_commit source_archive_sha256 repository_remote_ref target_host target_os future_workspace_root future_target_root cargo_profile requested_checks bounds authority_denials request_sha256
+  + bounds exact6 ordered fields maximum_archive_bytes maximum_files maximum_stdout_bytes maximum_operation_count timeout_seconds cargo_build_jobs
+  + requested_checks exact ordered4 workspace_debug workspace_release workspace_clippy workspace_format
+  + authority_denials exact ordered15 source_transfer source_extract toolchain_observe toolchain_install dependency_fetch workspace_write process_execute git_mutation commit push provider_call model_inference service_change external_network security_policy_change
+
+& [Plan]
+  + exact20 ordered fields profile plan_uuid request_uuid predecessor_canonical_uuid predecessor_bookend_commit source_commit source_archive_sha256 target_host target_os future_workspace_root future_target_root cargo_environment operations operation_count expected_evidence authority_grants authority_denials unresolved disposition plan_sha256
+  + cargo_environment exact5 ordered fields CARGO_NET_OFFLINE CARGO_BUILD_JOBS CARGO_INCREMENTAL RUST_TEST_THREADS RUST_MIN_STACK with values true1 0 1 33554432
+  + operations exact7 ordered kinds verify_source_archive materialize_absent_workspace workspace_debug workspace_release workspace_clippy workspace_format seal_build_receipt
+  + operation exact12 ordered fields ordinal kind executable_identity arguments working_directory input_identities output_identities dependencies preconditions authority_required authority_denials expected_evidence
+  + authority_required is not_granted; operation denials are a nonempty ordered subset of the plan denial set
+  + dependency ordinals refer only to earlier operations and the fixed sequence is acyclic
+
+& [Evidence]
+  + expected_evidence exact ordered7 archive_verification workspace_materialization debug_results release_results clippy_results format_results sealed_build_receipt
+  + unresolved exact ordered5 source_not_transferred workspace_not_created toolchain_not_observed commands_not_executed performance_not_measured
+  + authority_grants exact empty array disposition planned_effectless operation_count7
+
+& [CanonicalIdentity]
+  + JSON is UTF-8 compact with exact typed field order and no trailing content or duplicate keys
+  + request_sha256 and plan_sha256 are lowercase SHA256 over fixed-domain canonical bytes with their own digest field empty
+  + plan_uuid is deterministically formatted from a domain-separated digest of verified request identity and never from wall time randomness host state or ambient environment
+
+& [PathAndAtomGrammar]
+  + roots are normalized drive-letter forward-slash absolute paths with visible ASCII segments no dot segment trailing dot trailing space control wildcard or colon outside the drive prefix
+  + declared operation paths remain under the corresponding future root
+  + argument atoms are separate visible ASCII values at most128 bytes each with at most32 atoms and no shell metacharacter interpretation

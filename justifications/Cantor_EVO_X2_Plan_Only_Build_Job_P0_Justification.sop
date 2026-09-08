@@ -1,0 +1,21 @@
+Subject: Cantor EVO-X2 Plan-Only Build Job P0 Justification
+
+@ [justification_uuid] 39dcce8b-19c7-4f84-ac50-30834f8449e0
+@ [canonical_uuid] 3482e2ce-817c-4788-b185-35adaad414f7
+
+& [WhyNow]
+  + EVO-X2 already hosts exact current Cantor binaries and passes deterministic replay, so the next smallest product-learning step is to make Cantor produce a current build work object there
+
+& [WhyPlanOnly]
+  + source transfer workspace creation toolchain validation Cargo execution and performance measurement each introduce distinct authority failure and rollback surfaces
+  + combining them would make success and failure ambiguous and could confuse a generated plan with permission to act
+
+& [WhyTypedAndDeterministic]
+  + closed shapes exact digests inert atoms and independent recompilation make drift authority promotion and noncanonical input observable
+  + fresh-process equality tests the intended host behavior without hidden custody
+
+& [WhyThisRoot]
+  + a new immutable isolated root preserves the completed P0 deployment and all historical services while giving the planner an exact rollback boundary
+
+& [Decision]
+  + authorize formation and after publication a provider-free local implementation only; remote execution and physical build effects remain separately gated
