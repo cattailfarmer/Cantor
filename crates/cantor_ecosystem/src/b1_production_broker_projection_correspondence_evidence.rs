@@ -18,7 +18,7 @@ use crate::{
 use cantor_core::sha256_bytes;
 use serde::{Serialize, de::DeserializeOwned};
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, BTreeSet},
     fs,
     io::Read,
     path::{Path, PathBuf},
@@ -81,6 +81,13 @@ pub fn verify_pbpc_payload_paths(paths: &[PathBuf]) -> Result<String, EocvFault>
         return Err(eocv_fault(
             EocvFaultCode::Path,
             "expected thirty explicit A8 input paths",
+        ));
+    }
+    let mut unique = BTreeSet::new();
+    if paths.iter().any(|path| !unique.insert(path)) {
+        return Err(eocv_fault(
+            EocvFaultCode::Path,
+            "duplicate A8 evidence input path",
         ));
     }
     let files = read_paths(paths.iter().enumerate().map(|(index, path)| {

@@ -35,6 +35,16 @@ The 23018-byte retained receipt has raw SHA-256 `763FD0992498528BDB278554349F5A6
 
 The result is `supplied_production_broker_projection_correspondence_matched_execution_unresolved`, with correspondence proved, all 15 A8 authority fields false, 22 effect fields zero/false, one attempt, no retry, and no cleanup.
 
+## Adversarial and workspace verification
+
+The verifier refuses independently rehashed mutation of every 24-field declaration coordinate, every 44-field request coordinate, every 68-field receipt coordinate, all 28 comparison fields, all 22 effect fields, all 16 manifest fields, and each three-field artifact record. It also refuses mutation of every one of the 28 explicit retained A7 semantic payloads, every 63-field nested A7 receipt coordinate, all 19 nested A7 comparison fields, and all 22 nested effects. All 26 single A8 comparison mismatches, the complete mismatch set, and 4096 bounded comparison subsets preserve exact ordered truth.
+
+Constructive replay covers both valid A7 statuses: an internally consistent A7 mismatch is preserved as adverse nested evidence while A8 proves only its own projection correspondence and promotes no authority. Canonical BOM, CRLF, whitespace, escaping, ordering, duplicate/unknown field, concatenation, raw-byte, restart, endpoint/capability, path, membership, per-file, aggregate, and Windows junction adversaries refuse.
+
+PowerShell 7 and Windows PowerShell 5.1 each pass 14 focused unit tests and 12 full-chain integration tests in debug and overflow-checked release, with the test-owned fixture producer as the only governed ignore. Locked offline serialized whole-workspace debug and overflow-checked release each pass 305 result groups, 1881 tests, zero failures, and 21 governed ignores. Workspace and five standalone experiment Clippy surfaces pass all targets and features with warnings denied; debug and release documentation and formatting pass.
+
+The three nested canonical self-digested manifests are excluded from the generic transitive JSON rewriter. They may be changed only by the typed fixture producer; this prevents formatting or partial-rehash laundering of retained evidence.
+
 ## Scope
 
 All checked-in coordinates are deterministic and synthetic. The pinned local provider remains unavailable; A8 performs zero live and synthetic provider trials. Private-permit verification, endpoint resolution, broker connectivity/authentication, activation, physical preparation, execution, and autonomous operation require later separately governed phases.

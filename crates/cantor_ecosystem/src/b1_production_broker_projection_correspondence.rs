@@ -28,6 +28,7 @@ pub const PBPC_FORMATION_BOOKEND_COMMIT: &str = "7407f055ff5ea9fff1624e23ffa0fc3
 pub const PBPC_A7_IMPLEMENTATION_COMMIT: &str = "49f5c95cfc4584d07b179499f67c1f67d240de6d";
 pub const PBPC_A7_BOOKEND_COMMIT: &str = "0d5ba710af366d181c09cb0e0ebbeb8103e53b3e";
 pub const PBPC_A7_PROOF_UUID: &str = "477b0a89-4e2a-42e3-b995-29e9c63a430a";
+pub const PBPC_A8_CANDIDATE_UUID: &str = "a1000000-0000-4000-8000-000000000008";
 pub const PBPC_DECLARATION_DOMAIN: &str = "cantor.b1.production-broker-projection.declaration.v1";
 pub const PBPC_REQUEST_DOMAIN: &str = "cantor.b1.production-broker-projection.request.v1";
 pub const PBPC_RECEIPT_DOMAIN: &str = "cantor.b1.production-broker-projection.receipt.v1";
@@ -649,7 +650,7 @@ pub fn validate_pbpc_declaration(declaration: &PbpcProjectionDeclaration) -> Res
         &declaration.broker_operation_kind,
         &declaration.broker_subject,
     ] {
-        if !valid_identifier(value, false) {
+        if !valid_inert_identifier(value, false) {
             return Err(eocv_fault(
                 EocvFaultCode::Shape,
                 "A8 inert identifier shape differs",
@@ -662,7 +663,7 @@ pub fn validate_pbpc_declaration(declaration: &PbpcProjectionDeclaration) -> Res
         &declaration.required_input_receipt_profile,
         &declaration.expected_output_receipt_profile,
     ] {
-        if !valid_identifier(value, true) {
+        if !valid_inert_identifier(value, true) {
             return Err(eocv_fault(
                 EocvFaultCode::Shape,
                 "A8 inert profile shape differs",
@@ -673,7 +674,7 @@ pub fn validate_pbpc_declaration(declaration: &PbpcProjectionDeclaration) -> Res
     if declaration
         .evidence_references
         .iter()
-        .any(|value| !valid_identifier(value, false) || !unique.insert(value))
+        .any(|value| !valid_inert_identifier(value, false) || !unique.insert(value))
     {
         return Err(eocv_fault(
             EocvFaultCode::Shape,
@@ -734,12 +735,17 @@ pub fn validate_pbpc_request(request: &PbpcVerificationRequest) -> Result<(), Eo
             "A8 request lineage differs",
         ));
     }
-    if !valid_eocv_uuid(&request.expected_candidate_uuid)
+    if request.expected_candidate_uuid != PBPC_A8_CANDIDATE_UUID
         || !valid_eocv_uuid(&request.expected_projection_uuid)
         || request.expected_authority_name != "broker_projection"
         || request.expected_artifact_kind != "production_broker_projection_candidate"
         || request.expected_confidentiality != B1OaprConfidentiality::PublicMetadata
         || request.expected_verifier_profile != "production-broker-projection-verifier/0.1"
+        || request.expected_broker_adapter_profile != "cantor-production-broker-adapter/0.1"
+        || request.expected_broker_operation_kind != "project_preparation_contract"
+        || request.expected_broker_subject != "cantor_b1_cdrive_production_preparation_p0"
+        || request.expected_input_receipt_profile != crate::PERC_RECEIPT_PROFILE
+        || request.expected_output_receipt_profile != PBPC_RECEIPT_PROFILE
         || request.expected_dependency_ordinal != 7
         || !request.expected_requires_private_permit
         || request.expected_activation_requested
@@ -786,7 +792,7 @@ pub fn validate_pbpc_request(request: &PbpcVerificationRequest) -> Result<(), Eo
         &request.expected_broker_operation_kind,
         &request.expected_broker_subject,
     ] {
-        if !valid_identifier(value, false) {
+        if !valid_inert_identifier(value, false) {
             return Err(eocv_fault(
                 EocvFaultCode::Shape,
                 "A8 request identifier differs",
@@ -799,7 +805,7 @@ pub fn validate_pbpc_request(request: &PbpcVerificationRequest) -> Result<(), Eo
         &request.expected_input_receipt_profile,
         &request.expected_output_receipt_profile,
     ] {
-        if !valid_identifier(value, true) {
+        if !valid_inert_identifier(value, true) {
             return Err(eocv_fault(
                 EocvFaultCode::Shape,
                 "A8 request profile shape differs",
@@ -1002,6 +1008,28 @@ pub fn validate_pbpc_receipt_fields(receipt: &PbpcVerificationReceipt) -> Result
             "A8 receipt lineage differs",
         ));
     }
+    if receipt.a8_candidate_uuid != PBPC_A8_CANDIDATE_UUID
+        || !valid_eocv_uuid(&receipt.projection_uuid)
+        || receipt.projection_declaration_bytes == 0
+        || receipt.projection_declaration_bytes > PBPC_MAX_FORM_BYTES as u64
+        || receipt.declared_bytes == 0
+        || receipt.declared_bytes > PBPC_MAX_EVIDENCE_BYTES
+        || receipt.confidentiality != B1OaprConfidentiality::PublicMetadata
+        || receipt.required_verifier_profile != "production-broker-projection-verifier/0.1"
+        || receipt.dependency_ordinal != 7
+        || receipt.fixture_only
+            != (receipt.input_class == KcvInputClass::DeterministicFixtureCandidate)
+        || receipt.broker_adapter_profile != "cantor-production-broker-adapter/0.1"
+        || receipt.broker_operation_kind != "project_preparation_contract"
+        || receipt.broker_subject != "cantor_b1_cdrive_production_preparation_p0"
+        || receipt.required_input_receipt_profile != crate::PERC_RECEIPT_PROFILE
+        || receipt.expected_output_receipt_profile != PBPC_RECEIPT_PROFILE
+    {
+        return Err(eocv_fault(
+            EocvFaultCode::Coordinate,
+            "A8 receipt coordinate differs",
+        ));
+    }
     for digest in [
         &receipt.request_sha256,
         &receipt.a7_verification_request_sha256,
@@ -1034,16 +1062,24 @@ pub fn validate_pbpc_receipt_fields(receipt: &PbpcVerificationReceipt) -> Result
 }
 
 pub fn to_pbpc_receipt_machine_form(
+    request: &PbpcVerificationRequest,
+    predecessor: &PbpcPredecessor<'_>,
+    raw_projection: &[u8],
     receipt: &PbpcVerificationReceipt,
 ) -> Result<String, EocvFault> {
-    validate_pbpc_receipt_fields(receipt)?;
+    validate_pbpc_receipt(request, predecessor, raw_projection, receipt)?;
     serde_json::to_string(receipt)
         .map_err(|_| eocv_fault(EocvFaultCode::MachineForm, "A8 receipt encoding differs"))
 }
 
-pub fn from_pbpc_receipt_machine_form(text: &str) -> Result<PbpcVerificationReceipt, EocvFault> {
+pub fn from_pbpc_receipt_machine_form(
+    request: &PbpcVerificationRequest,
+    predecessor: &PbpcPredecessor<'_>,
+    raw_projection: &[u8],
+    text: &str,
+) -> Result<PbpcVerificationReceipt, EocvFault> {
     let value = parse_eocv_canonical(text)?;
-    validate_pbpc_receipt_fields(&value)?;
+    validate_pbpc_receipt(request, predecessor, raw_projection, &value)?;
     Ok(value)
 }
 
@@ -1376,7 +1412,8 @@ fn valid_identifier(value: &str, profile: bool) -> bool {
     for (index, byte) in value.bytes().enumerate() {
         let allowed = byte.is_ascii_lowercase()
             || byte.is_ascii_digit()
-            || matches!(byte, b'_' | b'-' | b'.')
+            || matches!(byte, b'_' | b'-')
+            || (profile && slash_count == 1 && byte == b'.')
             || (profile && byte == b'/');
         if !allowed || (index == 0 && !byte.is_ascii_lowercase()) {
             return false;
@@ -1386,6 +1423,40 @@ fn valid_identifier(value: &str, profile: bool) -> bool {
         }
     }
     (!profile && slash_count == 0) || (profile && slash_count == 1)
+}
+
+fn valid_inert_identifier(value: &str, profile: bool) -> bool {
+    if !valid_identifier(value, profile) {
+        return false;
+    }
+    let stem = value.split('/').next().unwrap_or(value);
+    [
+        "localhost",
+        "host",
+        "server",
+        "socket",
+        "pipe",
+        "endpoint",
+        "credential",
+        "password",
+        "private_key",
+        "access_token",
+        "bearer",
+        "secret",
+        "permit_material",
+        "lease",
+        "command",
+        "cmd_exe",
+        "powershell",
+        "module",
+        "loader",
+        "environment",
+        "env_var",
+        "registry",
+        "log_control",
+    ]
+    .into_iter()
+    .all(|forbidden| !stem.contains(forbidden))
 }
 
 fn valid_content_digest(value: &ContentDigest) -> bool {
@@ -1403,7 +1474,7 @@ fn validate_reference_set(values: &[String]) -> Result<(), EocvFault> {
         || values.len() > PBPC_MAX_EVIDENCE_REFERENCES
         || values
             .iter()
-            .any(|value| !valid_identifier(value, false) || !unique.insert(value))
+            .any(|value| !valid_inert_identifier(value, false) || !unique.insert(value))
     {
         return Err(eocv_fault(
             EocvFaultCode::Shape,
@@ -1509,6 +1580,12 @@ mod tests {
 
     fn retained_payload(bytes: &'static [u8]) -> &'static [u8] {
         bytes.strip_suffix(b"\n").unwrap()
+    }
+
+    fn rotate_first_field(text: &str) -> String {
+        let inner = &text[1..text.len() - 1];
+        let comma = inner.find(',').unwrap();
+        format!("{{{},{}}}", &inner[comma + 1..], &inner[..comma])
     }
 
     fn executable_fixture() -> (
@@ -1629,6 +1706,21 @@ mod tests {
     }
 
     #[test]
+    fn all_mismatch_and_bounded_subset_accounts_are_exact() {
+        let all = pbpc_comparison_from_flags([false; 26]);
+        assert_eq!(all.mismatch_reasons, PBPC_MISMATCH_REASONS);
+        assert!(!all.all_correspondence_matches);
+        validate_pbpc_comparison_account(&all).unwrap();
+        for mask in 0u16..4096 {
+            let mut flags = [true; 26];
+            for (index, flag) in flags.iter_mut().take(12).enumerate() {
+                *flag = mask & (1 << index) == 0;
+            }
+            validate_pbpc_comparison_account(&pbpc_comparison_from_flags(flags)).unwrap();
+        }
+    }
+
+    #[test]
     fn matching_metadata_remains_dependency_without_activation() {
         let value = fixture();
         let account =
@@ -1642,15 +1734,51 @@ mod tests {
     fn endpoint_and_capability_shapes_refuse_without_echo() {
         for hostile in [
             "https://broker.example",
+            "broker.example",
+            "localhost",
             "server:443",
+            "server_443",
             "..\\broker",
             "\\\\.\\pipe\\broker",
+            "named_pipe",
+            "socket_handle",
             "run broker",
             "$credential",
+            "credential_handle",
+            "private_key_material",
+            "permit_material",
+            "lease_identifier",
+            "environment_variable",
+            "cmd_exe",
+            "log_control",
             "module::load",
         ] {
             let mut value = fixture();
+            value.broker_subject = hostile.into();
+            value.projection_sha256 = pbpc_declaration_digest(&value).unwrap();
+            let error = validate_pbpc_declaration(&value).unwrap_err();
+            assert!(!error.message.contains(hostile));
+        }
+        for hostile in [
+            "localhost/0.1",
+            "socket-loader/0.1",
+            "environment-module/0.1",
+            "credential-adapter/0.1",
+        ] {
+            let mut value = fixture();
             value.broker_adapter_profile = hostile.into();
+            value.projection_sha256 = pbpc_declaration_digest(&value).unwrap();
+            let error = validate_pbpc_declaration(&value).unwrap_err();
+            assert!(!error.message.contains(hostile));
+        }
+        for hostile in [
+            "endpoint_handle",
+            "secret_value",
+            "access_token",
+            "log_control",
+        ] {
+            let mut value = fixture();
+            value.evidence_references = vec![hostile.into()];
             value.projection_sha256 = pbpc_declaration_digest(&value).unwrap();
             let error = validate_pbpc_declaration(&value).unwrap_err();
             assert!(!error.message.contains(hostile));
@@ -1752,6 +1880,44 @@ mod tests {
     }
 
     #[test]
+    fn strict_canonical_framing_refuses_ambiguity_and_resource_excess() {
+        let declaration = fixture();
+        let text = to_pbpc_declaration_machine_form(&declaration).unwrap();
+        let duplicate = text.replacen('{', "{\"profile\":\"duplicate/0.1\",", 1);
+        let unknown = text.replacen('{', "{\"unknown\":true,", 1);
+        let escaped = text.replacen("/0.1", "\\/0.1", 1);
+        for hostile in [
+            format!("\u{feff}{text}"),
+            format!(" {text}"),
+            format!("{text} "),
+            format!("{text}\n"),
+            format!("{text}\r\n"),
+            format!("{text}{text}"),
+            rotate_first_field(&text),
+            duplicate,
+            unknown,
+            escaped,
+        ] {
+            assert!(from_pbpc_declaration_machine_form(&hostile).is_err());
+        }
+        assert!(from_pbpc_declaration_machine_form("{}").is_err());
+        assert!(from_pbpc_declaration_machine_form(&"x".repeat(PBPC_MAX_FORM_BYTES + 1)).is_err());
+
+        let request = request_fixture();
+        let request_text = to_pbpc_request_machine_form(&request).unwrap();
+        assert!(from_pbpc_request_machine_form(&rotate_first_field(&request_text)).is_err());
+        assert!(from_pbpc_request_machine_form(&format!("{request_text}\n")).is_err());
+        assert!(
+            from_pbpc_request_machine_form(&request_text.replacen(
+                '{',
+                "{\"profile\":\"duplicate/0.1\",",
+                1
+            ))
+            .is_err()
+        );
+    }
+
+    #[test]
     fn ordinal_eight_packet_reconstruction_preserves_every_other_coordinate() {
         let (request, _, _, _, a6_request, a7_request) = executable_fixture();
         let prior =
@@ -1774,8 +1940,10 @@ mod tests {
                 .unwrap();
         let receipt = build_pbpc_receipt(&request, a7_receipt, &projection, &comparison).unwrap();
         validate_pbpc_receipt_fields(&receipt).unwrap();
-        let text = to_pbpc_receipt_machine_form(&receipt).unwrap();
-        assert_eq!(from_pbpc_receipt_machine_form(&text).unwrap(), receipt);
+        let text = serde_json::to_string(&receipt).unwrap();
+        let decoded: PbpcVerificationReceipt = parse_eocv_canonical(&text).unwrap();
+        validate_pbpc_receipt_fields(&decoded).unwrap();
+        assert_eq!(decoded, receipt);
         assert!(!receipt.production_authority_claimed);
         assert!(!receipt.broker_endpoint_resolved);
         assert!(!receipt.execution_authorized);
@@ -1962,13 +2130,20 @@ mod tests {
             verify_pbpc_projection_correspondence(&request, &predecessor, &raw_projection).unwrap();
         assert_eq!(first, second);
         assert_eq!(
-            to_pbpc_receipt_machine_form(&first).unwrap(),
-            to_pbpc_receipt_machine_form(&second).unwrap()
+            to_pbpc_receipt_machine_form(&request, &predecessor, &raw_projection, &first).unwrap(),
+            to_pbpc_receipt_machine_form(&request, &predecessor, &raw_projection, &second).unwrap()
         );
         validate_pbpc_receipt(&request, &predecessor, &raw_projection, &first).unwrap();
+        let receipt_text =
+            to_pbpc_receipt_machine_form(&request, &predecessor, &raw_projection, &first).unwrap();
+        assert_eq!(
+            from_pbpc_receipt_machine_form(&request, &predecessor, &raw_projection, &receipt_text,)
+                .unwrap(),
+            first
+        );
 
         let mut mismatching_request = request.clone();
-        mismatching_request.expected_broker_subject = "alternate_broker_subject".to_owned();
+        mismatching_request.evidence_references = vec!["alternate_a8_evidence".to_owned()];
         mismatching_request.request_sha256 = pbpc_request_digest(&mismatching_request).unwrap();
         let mismatch = verify_pbpc_projection_correspondence(
             &mismatching_request,
@@ -1979,7 +2154,7 @@ mod tests {
         assert_eq!(mismatch.status, PBPC_MISMATCHED_STATUS);
         assert_eq!(
             mismatch.comparison_account.mismatch_reasons,
-            vec![PbpcMismatchReason::SubjectMismatch]
+            vec![PbpcMismatchReason::EvidenceReferencesMismatch]
         );
         assert!(!mismatch.production_broker_projection_correspondence_proved);
         assert!(!mismatch.broker_activation_authorized);

@@ -2,6 +2,7 @@
 use cantor_core::{ContentDigest, sha256_bytes};
 use cantor_ecosystem::*;
 use serde::{Serialize, de::DeserializeOwned};
+use serde_json::{Value, json};
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -27,6 +28,24 @@ fn line<T: Serialize>(value: &T) -> Vec<u8> {
     let mut bytes = serde_json::to_vec(value).unwrap();
     bytes.push(b'\n');
     bytes
+}
+
+fn alter_scalar(value: &Value) -> Value {
+    match value {
+        Value::Bool(inner) => json!(!inner),
+        Value::Number(number) => json!(number.as_u64().unwrap() + 1),
+        Value::String(text) => json!(format!("{text}_tampered")),
+        Value::Array(values) if values.is_empty() => json!(["packet_mismatch"]),
+        Value::Array(_) => json!([]),
+        Value::Object(object) if object.contains_key("algorithm") => {
+            json!(sha256_bytes(b"changed-digest"))
+        }
+        _ => panic!("explicit structured mutation required"),
+    }
+}
+
+fn write_json_value(path: &Path, value: &Value) {
+    fs::write(path, line(value)).unwrap();
 }
 
 fn temporary(label: &str) -> PathBuf {
@@ -55,12 +74,12 @@ fn explicit_paths(root: &Path) -> Vec<PathBuf> {
 }
 
 fn fixture_forms(
+    root: &Path,
     input_class: KcvInputClass,
 ) -> (PbpcProjectionDeclaration, PbpcVerificationRequest) {
-    let root = a7_root();
     let a6_request: EocvVerificationRequest = retained(&root.join("a6_verification_request.json"));
-    let a7_request: PercVerificationRequest = retained(&root.join("verification_request.json"));
-    let a7_receipt: PercVerificationReceipt = retained(&root.join("receipt.json"));
+    let a7_request: PercVerificationRequest = retained(&root.join("a7_verification_request.json"));
+    let a7_receipt: PercVerificationReceipt = retained(&root.join("a7_receipt.json"));
     let mut a7_descriptor = B1OaprCandidateDescriptor {
         ordinal: 7,
         candidate_uuid: a7_request.expected_candidate_uuid.clone(),
@@ -183,6 +202,10 @@ fn fixture_forms(
 }
 
 fn write_evidence(root: &Path, input_class: KcvInputClass) {
+    write_evidence_with_a7_status(root, input_class, false);
+}
+
+fn write_evidence_with_a7_status(root: &Path, input_class: KcvInputClass, mismatched_a7: bool) {
     fs::create_dir(root).expect("fresh caller-owned A8 evidence root");
     let source = a7_root();
     for name in PERC_EVIDENCE_FILES {
@@ -194,7 +217,10 @@ fn write_evidence(root: &Path, input_class: KcvInputClass) {
         };
         fs::copy(source.join(name), root.join(destination)).unwrap();
     }
-    let (projection, request) = fixture_forms(input_class);
+    if mismatched_a7 {
+        rebind_a7_as_mismatch(root);
+    }
+    let (projection, request) = fixture_forms(root, input_class);
     fs::write(
         root.join("broker_projection_declaration.json"),
         line(&projection),
@@ -237,6 +263,62 @@ fn write_evidence(root: &Path, input_class: KcvInputClass) {
     fs::write(root.join("evidence_manifest.json"), line(&manifest)).unwrap();
 }
 
+fn rebind_a7_as_mismatch(root: &Path) {
+    let a6_request: EocvVerificationRequest = retained(&root.join("a6_verification_request.json"));
+    let mut a7_request: PercVerificationRequest =
+        retained(&root.join("a7_verification_request.json"));
+    a7_request.expected_opaque_reference = "alternate_a7_reference".to_owned();
+    let fixture = a7_request.input_class == KcvInputClass::DeterministicFixtureCandidate;
+    let mut descriptor = B1OaprCandidateDescriptor {
+        ordinal: 7,
+        candidate_uuid: a7_request.expected_candidate_uuid.clone(),
+        authority_name: a7_request.expected_authority_name.clone(),
+        artifact_kind: a7_request.expected_artifact_kind.clone(),
+        origin: if fixture {
+            B1OaprCandidateOrigin::DeterministicFixtureCandidate
+        } else {
+            B1OaprCandidateOrigin::ExternallySuppliedCandidate
+        },
+        opaque_reference: a7_request.expected_opaque_reference.clone(),
+        content_sha256: a7_request.expected_content_sha256.clone(),
+        declared_bytes: a7_request.expected_declared_bytes,
+        confidentiality: a7_request.expected_confidentiality,
+        required_verifier_profile: a7_request.expected_verifier_profile.clone(),
+        fixture_only: a7_request.expected_fixture_only,
+        dependency_ordinal: Some(a7_request.expected_dependency_ordinal),
+        descriptor_sha256: empty(),
+    };
+    descriptor.descriptor_sha256 = b1oapr_descriptor_digest(&descriptor).unwrap();
+    a7_request.expected_descriptor_sha256 = descriptor.descriptor_sha256.clone();
+    let mut packet_request = a6_request.authority_packet_request.clone();
+    packet_request.descriptors[6] = descriptor;
+    packet_request.request_sha256 = b1oapr_request_digest(&packet_request).unwrap();
+    a7_request.authority_packet_request_sha256 = packet_request.request_sha256.clone();
+    a7_request.expected_authority_packet_sha256 = compile_b1oapr_packet(&packet_request)
+        .unwrap()
+        .packet_sha256;
+    a7_request.request_sha256 = perc_request_digest(&a7_request).unwrap();
+    fs::write(root.join("a7_verification_request.json"), line(&a7_request)).unwrap();
+
+    let a7_paths = [&PERC_EVIDENCE_FILES[..25], &PERC_EVIDENCE_FILES[26..28]]
+        .concat()
+        .into_iter()
+        .map(|name| {
+            let renamed = match name {
+                "verification_request.json" => "a7_verification_request.json",
+                "receipt.json" => "a7_receipt.json",
+                "evidence_manifest.json" => "a7_evidence_manifest.json",
+                other => other,
+            };
+            root.join(renamed)
+        })
+        .collect::<Vec<_>>();
+    let receipt_text = verify_perc_payload_paths(&a7_paths).unwrap();
+    let receipt: PercVerificationReceipt = serde_json::from_str(&receipt_text).unwrap();
+    assert_eq!(receipt.status, PERC_MISMATCHED_STATUS);
+    fs::write(root.join("a7_receipt.json"), line(&receipt)).unwrap();
+}
+
 fn rehash_manifest(root: &Path) {
     let mut manifest: PbpcEvidenceManifest = retained(&root.join("evidence_manifest.json"));
     for artifact in &mut manifest.artifacts {
@@ -249,6 +331,42 @@ fn rehash_manifest(root: &Path) {
         .iter()
         .map(|artifact| artifact.bytes)
         .sum();
+    manifest.manifest_sha256 = pbpc_evidence_manifest_digest(&manifest).unwrap();
+    fs::write(root.join("evidence_manifest.json"), line(&manifest)).unwrap();
+}
+
+fn rehash_manifest_with_receipt(root: &Path, receipt_sha256: Option<ContentDigest>) {
+    let mut manifest: PbpcEvidenceManifest = retained(&root.join("evidence_manifest.json"));
+    for artifact in &mut manifest.artifacts {
+        let bytes = fs::read(root.join(&artifact.path)).unwrap();
+        artifact.bytes = bytes.len() as u64;
+        artifact.sha256 = sha256_bytes(&bytes);
+    }
+    manifest.total_artifact_bytes = manifest
+        .artifacts
+        .iter()
+        .map(|artifact| artifact.bytes)
+        .sum();
+    if let Some(digest) = receipt_sha256 {
+        manifest.retained_receipt_sha256 = digest;
+    }
+    manifest.manifest_sha256 = pbpc_evidence_manifest_digest(&manifest).unwrap();
+    fs::write(root.join("evidence_manifest.json"), line(&manifest)).unwrap();
+}
+
+fn rehash_manifest_with_a7_receipt(root: &Path, a7_receipt_sha256: ContentDigest) {
+    let mut manifest: PbpcEvidenceManifest = retained(&root.join("evidence_manifest.json"));
+    for artifact in &mut manifest.artifacts {
+        let bytes = fs::read(root.join(&artifact.path)).unwrap();
+        artifact.bytes = bytes.len() as u64;
+        artifact.sha256 = sha256_bytes(&bytes);
+    }
+    manifest.total_artifact_bytes = manifest
+        .artifacts
+        .iter()
+        .map(|artifact| artifact.bytes)
+        .sum();
+    manifest.retained_a7_receipt_sha256 = a7_receipt_sha256;
     manifest.manifest_sha256 = pbpc_evidence_manifest_digest(&manifest).unwrap();
     fs::write(root.join("evidence_manifest.json"), line(&manifest)).unwrap();
 }
@@ -294,6 +412,43 @@ fn independent_directory_and_explicit_clis_replay_exact_nonauthorizing_receipt()
     );
     assert!(explicit_output.stderr.is_empty());
     assert_eq!(explicit_output.stdout, line(&replay.receipt));
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn both_a7_statuses_are_preserved_without_a8_authority_promotion() {
+    let root = temporary("a7-mismatch");
+    write_evidence_with_a7_status(&root, KcvInputClass::DeterministicFixtureCandidate, true);
+    let replay = verify_pbpc_evidence_directory(&root).unwrap();
+    assert_eq!(replay.receipt.a7_receipt.status, PERC_MISMATCHED_STATUS);
+    assert!(
+        !replay
+            .receipt
+            .a7_receipt
+            .correspondence_account
+            .all_correspondence_matches
+    );
+    assert!(
+        replay
+            .receipt
+            .production_broker_projection_correspondence_proved
+    );
+    assert!(!replay.receipt.production_authority_claimed);
+    assert!(!replay.receipt.private_execution_permit_present);
+    assert!(!replay.receipt.permit_material_authenticated);
+    assert!(!replay.receipt.permit_dependency_satisfied);
+    assert!(!replay.receipt.broker_endpoint_resolved);
+    assert!(!replay.receipt.broker_reachable);
+    assert!(!replay.receipt.broker_identity_proved);
+    assert!(!replay.receipt.broker_authority_proved);
+    assert!(!replay.receipt.broker_session_authenticated);
+    assert!(!replay.receipt.broker_activation_authorized);
+    assert!(!replay.receipt.production_broker_projection_present);
+    assert!(!replay.receipt.live_authorization_admitted);
+    assert!(!replay.receipt.physical_preparation_authorized);
+    assert!(!replay.receipt.ready_for_physical_execution);
+    assert!(!replay.receipt.execution_authorized);
+    assert_eq!(replay.receipt.effect_account, TwvEffectAccount::default());
     fs::remove_dir_all(root).unwrap();
 }
 
@@ -354,6 +509,473 @@ fn external_class_and_rehashed_false_retained_identity_remain_nonauthorizing() {
         EocvFaultCode::Truth | EocvFaultCode::Restart
     ));
     fs::remove_dir_all(restart).unwrap();
+}
+
+#[test]
+fn every_a8_declaration_request_and_receipt_field_tamper_refuses_after_outer_rehash() {
+    let root = temporary("every-field");
+    write_evidence(&root, KcvInputClass::DeterministicFixtureCandidate);
+
+    let declaration_path = root.join("broker_projection_declaration.json");
+    let original_declaration = fs::read(&declaration_path).unwrap();
+    let declaration_value: Value = serde_json::from_slice(&original_declaration).unwrap();
+    let declaration_fields = declaration_value
+        .as_object()
+        .unwrap()
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(declaration_fields.len(), 24);
+    for field in &declaration_fields {
+        let mut changed = declaration_value.clone();
+        changed[field] = alter_scalar(&changed[field]);
+        if let Ok(mut typed) = serde_json::from_value::<PbpcProjectionDeclaration>(changed.clone())
+        {
+            if field != "projection_sha256" {
+                typed.projection_sha256 = pbpc_declaration_digest(&typed).unwrap();
+            }
+            changed = serde_json::to_value(typed).unwrap();
+        }
+        write_json_value(&declaration_path, &changed);
+        rehash_manifest(&root);
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "declaration {field}"
+        );
+        fs::write(&declaration_path, &original_declaration).unwrap();
+        rehash_manifest(&root);
+    }
+
+    let request_path = root.join("verification_request.json");
+    let original_request = fs::read(&request_path).unwrap();
+    let request_value: Value = serde_json::from_slice(&original_request).unwrap();
+    let request_fields = request_value
+        .as_object()
+        .unwrap()
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(request_fields.len(), 44);
+    for field in &request_fields {
+        let mut changed = request_value.clone();
+        changed[field] = alter_scalar(&changed[field]);
+        if let Ok(mut typed) = serde_json::from_value::<PbpcVerificationRequest>(changed.clone()) {
+            if field != "request_sha256" {
+                typed.request_sha256 = pbpc_request_digest(&typed).unwrap();
+            }
+            changed = serde_json::to_value(typed).unwrap();
+        }
+        write_json_value(&request_path, &changed);
+        rehash_manifest(&root);
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "request {field}"
+        );
+        fs::write(&request_path, &original_request).unwrap();
+        rehash_manifest(&root);
+    }
+
+    let receipt_path = root.join("receipt.json");
+    let original_receipt = fs::read(&receipt_path).unwrap();
+    let receipt_value: Value = serde_json::from_slice(&original_receipt).unwrap();
+    let receipt_fields = receipt_value
+        .as_object()
+        .unwrap()
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(receipt_fields.len(), 68);
+    for field in &receipt_fields {
+        let mut changed = receipt_value.clone();
+        match field.as_str() {
+            "a7_receipt" => changed[field]["execution_authorized"] = json!(true),
+            "comparison_account" => changed[field]["all_correspondence_matches"] = json!(false),
+            "effect_account" => changed[field]["process_count"] = json!(1),
+            _ => changed[field] = alter_scalar(&changed[field]),
+        }
+        let mut rebound = None;
+        if let Ok(mut typed) = serde_json::from_value::<PbpcVerificationReceipt>(changed.clone()) {
+            if field != "receipt_sha256" {
+                typed.receipt_sha256 = pbpc_receipt_digest(&typed).unwrap();
+            }
+            rebound = Some(typed.receipt_sha256.clone());
+            changed = serde_json::to_value(typed).unwrap();
+        }
+        write_json_value(&receipt_path, &changed);
+        rehash_manifest_with_receipt(&root, rebound);
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "receipt {field}"
+        );
+        fs::write(&receipt_path, &original_receipt).unwrap();
+        let original: PbpcVerificationReceipt = serde_json::from_slice(&original_receipt).unwrap();
+        rehash_manifest_with_receipt(&root, Some(original.receipt_sha256));
+    }
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn every_comparison_effect_and_explicit_a7_payload_tamper_refuses() {
+    let root = temporary("nested-fields");
+    write_evidence(&root, KcvInputClass::DeterministicFixtureCandidate);
+    let receipt_path = root.join("receipt.json");
+    let original_receipt = fs::read(&receipt_path).unwrap();
+    let receipt_value: Value = serde_json::from_slice(&original_receipt).unwrap();
+
+    let comparison_fields = receipt_value["comparison_account"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(comparison_fields.len(), 28);
+    for field in &comparison_fields {
+        let mut changed = receipt_value.clone();
+        changed["comparison_account"][field] = alter_scalar(&changed["comparison_account"][field]);
+        let mut typed: PbpcVerificationReceipt = serde_json::from_value(changed).unwrap();
+        typed.receipt_sha256 = pbpc_receipt_digest(&typed).unwrap();
+        fs::write(&receipt_path, line(&typed)).unwrap();
+        rehash_manifest_with_receipt(&root, Some(typed.receipt_sha256));
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "comparison {field}"
+        );
+        fs::write(&receipt_path, &original_receipt).unwrap();
+        let original: PbpcVerificationReceipt = serde_json::from_slice(&original_receipt).unwrap();
+        rehash_manifest_with_receipt(&root, Some(original.receipt_sha256));
+    }
+
+    let effect_fields = receipt_value["effect_account"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(effect_fields.len(), 22);
+    for field in &effect_fields {
+        let mut changed = receipt_value.clone();
+        changed["effect_account"][field] = alter_scalar(&changed["effect_account"][field]);
+        let mut typed: PbpcVerificationReceipt = serde_json::from_value(changed).unwrap();
+        typed.receipt_sha256 = pbpc_receipt_digest(&typed).unwrap();
+        fs::write(&receipt_path, line(&typed)).unwrap();
+        rehash_manifest_with_receipt(&root, Some(typed.receipt_sha256));
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "effect {field}"
+        );
+        fs::write(&receipt_path, &original_receipt).unwrap();
+        let original: PbpcVerificationReceipt = serde_json::from_slice(&original_receipt).unwrap();
+        rehash_manifest_with_receipt(&root, Some(original.receipt_sha256));
+    }
+
+    const A7_EXPLICIT_INDICES: [usize; 28] = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+        26, 27, 28,
+    ];
+    for index in A7_EXPLICIT_INDICES {
+        let path = root.join(PBPC_EVIDENCE_FILES[index]);
+        let original = fs::read(&path).unwrap();
+        let mut changed = original.clone();
+        changed[0] = b'[';
+        fs::write(&path, changed).unwrap();
+        rehash_manifest(&root);
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "A7 payload {}",
+            PBPC_EVIDENCE_FILES[index]
+        );
+        fs::write(&path, original).unwrap();
+        rehash_manifest(&root);
+    }
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn every_a7_receipt_comparison_and_effect_field_tamper_refuses_through_a8() {
+    let root = temporary("every-a7-field");
+    write_evidence(&root, KcvInputClass::DeterministicFixtureCandidate);
+    let receipt_path = root.join("a7_receipt.json");
+    let original_bytes = fs::read(&receipt_path).unwrap();
+    let original_value: Value = serde_json::from_slice(&original_bytes).unwrap();
+    let original_typed: PercVerificationReceipt = serde_json::from_slice(&original_bytes).unwrap();
+    let fields = original_value
+        .as_object()
+        .unwrap()
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(fields.len(), 63);
+    for field in &fields {
+        let mut changed = original_value.clone();
+        match field.as_str() {
+            "a6_receipt" => changed[field]["execution_authorized"] = json!(true),
+            "correspondence_account" => changed[field]["all_correspondence_matches"] = json!(false),
+            "effect_account" => changed[field]["process_count"] = json!(1),
+            _ => changed[field] = alter_scalar(&changed[field]),
+        }
+        let mut rebound = original_typed.receipt_sha256.clone();
+        if let Ok(mut typed) = serde_json::from_value::<PercVerificationReceipt>(changed.clone()) {
+            if field != "receipt_sha256" {
+                typed.receipt_sha256 = perc_receipt_digest(&typed).unwrap();
+            }
+            rebound = typed.receipt_sha256.clone();
+            changed = serde_json::to_value(typed).unwrap();
+        }
+        write_json_value(&receipt_path, &changed);
+        rehash_manifest_with_a7_receipt(&root, rebound);
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "A7 receipt {field}"
+        );
+        fs::write(&receipt_path, &original_bytes).unwrap();
+        rehash_manifest_with_a7_receipt(&root, original_typed.receipt_sha256.clone());
+    }
+
+    let comparison_fields = original_value["correspondence_account"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(comparison_fields.len(), 19);
+    for field in &comparison_fields {
+        let mut changed = original_value.clone();
+        changed["correspondence_account"][field] =
+            alter_scalar(&changed["correspondence_account"][field]);
+        let mut typed: PercVerificationReceipt = serde_json::from_value(changed).unwrap();
+        typed.receipt_sha256 = perc_receipt_digest(&typed).unwrap();
+        fs::write(&receipt_path, line(&typed)).unwrap();
+        rehash_manifest_with_a7_receipt(&root, typed.receipt_sha256);
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "A7 comparison {field}"
+        );
+        fs::write(&receipt_path, &original_bytes).unwrap();
+        rehash_manifest_with_a7_receipt(&root, original_typed.receipt_sha256.clone());
+    }
+
+    let effect_fields = original_value["effect_account"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(effect_fields.len(), 22);
+    for field in &effect_fields {
+        let mut changed = original_value.clone();
+        changed["effect_account"][field] = alter_scalar(&changed["effect_account"][field]);
+        let mut typed: PercVerificationReceipt = serde_json::from_value(changed).unwrap();
+        typed.receipt_sha256 = perc_receipt_digest(&typed).unwrap();
+        fs::write(&receipt_path, line(&typed)).unwrap();
+        rehash_manifest_with_a7_receipt(&root, typed.receipt_sha256);
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "A7 effect {field}"
+        );
+        fs::write(&receipt_path, &original_bytes).unwrap();
+        rehash_manifest_with_a7_receipt(&root, original_typed.receipt_sha256.clone());
+    }
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn production_surfaces_have_no_effect_or_fixture_producer_capability() {
+    let core = include_str!("../src/b1_production_broker_projection_correspondence.rs");
+    let evidence =
+        include_str!("../src/b1_production_broker_projection_correspondence_evidence.rs");
+    for forbidden in [
+        "unsafe {",
+        "SigningKey",
+        "std::process",
+        "std::env",
+        "SystemTime::now",
+        "TcpStream",
+        "UdpSocket",
+        ".write(true)",
+        ".create(true)",
+        "fs::write",
+        "remove_file(",
+        "remove_dir(",
+        "Command::new",
+        "reqwest",
+        "git2",
+        "rmcp",
+        "llama",
+        "produce_provider_free_evidence",
+    ] {
+        assert!(!core.contains(forbidden), "core {forbidden}");
+        assert!(!evidence.contains(forbidden), "evidence {forbidden}");
+    }
+    assert!(core.contains("verify_perc_reference_correspondence("));
+    assert!(evidence.contains("FILE_FLAG_OPEN_REPARSE_POINT"));
+    assert!(evidence.contains("options.read(true)"));
+}
+
+#[test]
+fn every_manifest_and_artifact_field_tamper_refuses() {
+    let root = temporary("manifest-fields");
+    write_evidence(&root, KcvInputClass::DeterministicFixtureCandidate);
+    let path = root.join("evidence_manifest.json");
+    let original_bytes = fs::read(&path).unwrap();
+    let original_value: Value = serde_json::from_slice(&original_bytes).unwrap();
+    let fields = original_value
+        .as_object()
+        .unwrap()
+        .keys()
+        .cloned()
+        .collect::<Vec<_>>();
+    assert_eq!(fields.len(), 16);
+    for field in &fields {
+        let mut changed = original_value.clone();
+        if field == "artifacts" {
+            changed[field][0]["bytes"] = json!(2);
+        } else {
+            changed[field] = alter_scalar(&changed[field]);
+        }
+        if let Ok(mut typed) = serde_json::from_value::<PbpcEvidenceManifest>(changed.clone()) {
+            if field != "manifest_sha256" {
+                typed.manifest_sha256 = pbpc_evidence_manifest_digest(&typed).unwrap();
+            }
+            changed = serde_json::to_value(typed).unwrap();
+        }
+        write_json_value(&path, &changed);
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "manifest {field}"
+        );
+        fs::write(&path, &original_bytes).unwrap();
+    }
+
+    for field in ["path", "bytes", "sha256"] {
+        let mut changed = original_value.clone();
+        changed["artifacts"][0][field] = alter_scalar(&changed["artifacts"][0][field]);
+        let mut typed: PbpcEvidenceManifest = serde_json::from_value(changed).unwrap();
+        typed.manifest_sha256 = pbpc_evidence_manifest_digest(&typed).unwrap();
+        fs::write(&path, line(&typed)).unwrap();
+        assert!(
+            verify_pbpc_evidence_directory(&root).is_err(),
+            "artifact {field}"
+        );
+        fs::write(&path, &original_bytes).unwrap();
+    }
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn framing_and_file_resource_excess_refuse_before_semantic_admission() {
+    let root = temporary("resource");
+    write_evidence(&root, KcvInputClass::DeterministicFixtureCandidate);
+    let declaration = root.join("broker_projection_declaration.json");
+    let original = fs::read(&declaration).unwrap();
+
+    fs::write(&declaration, original.strip_suffix(b"\n").unwrap()).unwrap();
+    rehash_manifest(&root);
+    assert_eq!(
+        verify_pbpc_evidence_directory(&root).unwrap_err().code,
+        EocvFaultCode::MachineForm
+    );
+
+    fs::write(&declaration, vec![b'x'; PBPC_MAX_FORM_BYTES + 2]).unwrap();
+    assert_eq!(
+        verify_pbpc_evidence_directory(&root).unwrap_err().code,
+        EocvFaultCode::Size
+    );
+    fs::write(&declaration, original).unwrap();
+    rehash_manifest(&root);
+    verify_pbpc_evidence_directory(&root).unwrap();
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn cli_arity_duplicate_paths_relative_paths_and_aggregate_bounds_are_exact() {
+    for args in [vec![], vec!["x"; 29], vec!["x"; 31], vec!["x"; 32]] {
+        let output = Command::new(CLI).args(args).output().unwrap();
+        assert_eq!(output.status.code(), Some(2));
+        assert!(output.stdout.is_empty());
+    }
+    for args in [vec![], vec!["x", "y"], vec!["x", "y", "z"]] {
+        let output = Command::new(EVIDENCE_CLI).args(args).output().unwrap();
+        assert_eq!(output.status.code(), Some(2));
+        assert!(output.stdout.is_empty());
+    }
+
+    let root = temporary("cli-resource");
+    write_evidence(&root, KcvInputClass::DeterministicFixtureCandidate);
+    let relative_names = explicit_paths(Path::new(""));
+    let output = Command::new(CLI)
+        .current_dir(&root)
+        .args(&relative_names)
+        .output()
+        .unwrap();
+    assert!(output.status.success(), "{:?}", output.stderr);
+    let retained_receipt = fs::read(root.join("receipt.json")).unwrap();
+    assert_eq!(output.stdout, retained_receipt);
+
+    let paths = explicit_paths(&root);
+    let mut duplicate = paths.clone();
+    duplicate[1] = duplicate[0].clone();
+    assert!(verify_pbpc_payload_paths(&duplicate).is_err());
+    fs::write(
+        root.join("observation_bundle.json"),
+        vec![b'x'; PBPC_MAX_FORM_BYTES + 2],
+    )
+    .unwrap();
+    assert_eq!(
+        verify_pbpc_payload_paths(&paths).unwrap_err().code,
+        EocvFaultCode::Size
+    );
+    fs::remove_dir_all(root).unwrap();
+
+    let aggregate_root = temporary("aggregate");
+    write_evidence(
+        &aggregate_root,
+        KcvInputClass::DeterministicFixtureCandidate,
+    );
+    let aggregate_file_bytes = (PBPC_MAX_EVIDENCE_BYTES / 30 + 1) as usize;
+    let aggregate = vec![b'x'; aggregate_file_bytes];
+    for path in explicit_paths(&aggregate_root) {
+        fs::write(path, &aggregate).unwrap();
+    }
+    assert_eq!(
+        verify_pbpc_payload_paths(&explicit_paths(&aggregate_root))
+            .unwrap_err()
+            .code,
+        EocvFaultCode::Size
+    );
+    fs::remove_dir_all(aggregate_root).unwrap();
+}
+
+#[cfg(windows)]
+#[test]
+fn windows_junction_root_refuses_without_changing_target() {
+    let root = temporary("junction");
+    write_evidence(&root, KcvInputClass::DeterministicFixtureCandidate);
+    let junction = root.with_extension("junction");
+    let result = Command::new("cmd.exe")
+        .args(["/d", "/c", "mklink", "/J"])
+        .arg(&junction)
+        .arg(&root)
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    assert_eq!(
+        verify_pbpc_evidence_directory(&junction).unwrap_err().code,
+        EocvFaultCode::Path
+    );
+    assert_eq!(
+        verify_pbpc_payload_paths(&explicit_paths(&junction))
+            .unwrap_err()
+            .code,
+        EocvFaultCode::Path
+    );
+    fs::remove_dir(&junction).expect("unlink only the test-owned junction");
+    assert_eq!(fs::read_dir(&root).unwrap().count(), 34);
+    verify_pbpc_evidence_directory(&root).unwrap();
+    fs::remove_dir_all(root).unwrap();
 }
 
 #[test]

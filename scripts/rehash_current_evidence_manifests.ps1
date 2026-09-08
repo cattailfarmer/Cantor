@@ -7,6 +7,9 @@ $frozen = @(
   "crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_1.json",
   "crates/cantor_ecosystem/evidence/windows_platform_preflight_forms_evidence_manifest_0_2.json",
   "experiments/b1_private_execution_permit_reference_correspondence_p0/implementation_provider_free_evidence/a6_evidence_manifest.json",
+  "experiments/b1_production_broker_projection_correspondence_p0/implementation_provider_free_evidence/a6_evidence_manifest.json",
+  "experiments/b1_production_broker_projection_correspondence_p0/implementation_provider_free_evidence/a7_evidence_manifest.json",
+  "experiments/b1_production_broker_projection_correspondence_p0/implementation_provider_free_evidence/evidence_manifest.json",
   "experiments/b1_production_broker_projection_correspondence_p0/formation_evidence_manifest.json"
 )
 $manifestPaths = @{}
