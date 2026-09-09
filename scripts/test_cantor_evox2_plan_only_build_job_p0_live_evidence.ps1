@@ -29,6 +29,11 @@ function Assert-Refused([string] $Path, [string] $Name) {
     try { & $verify -EvidenceRoot $Path -PackageRoot $PackageRoot | Out-Null } catch { $refused = $true }
     if (-not $refused) { throw "$Name admitted" }
 }
+function Assert-NormalizedRefused([string] $Path, [string] $Name) {
+    $refused = $false
+    try { & $verify -EvidenceRoot $Path -PackageRoot $PackageRoot -AllowRepositoryLfNormalization | Out-Null } catch { $refused = $true }
+    if (-not $refused) { throw "$Name admitted" }
+}
 
 $verify = Join-Path $PSScriptRoot 'verify_cantor_evox2_plan_only_build_job_p0_live_evidence.ps1'
 $package = (Resolve-Path -LiteralPath $PackageRoot).Path
@@ -104,7 +109,17 @@ try {
     Write-Utf8 (Join-Path $case 'extra.json') '{}'
     Assert-Refused $case 'extra evidence file'
 
-    "cantor_evox2_plan_only_build_job_p0_live_evidence_tests=passed successes=1 isolated_refusals=4 remote_calls=0 effects=0"
+    $case = New-CaseRoot 'repository-normalized'
+    foreach ($name in @('request.json', 'plan-1.json', 'plan-2.json', 'verification-1.json', 'verification-2.json', 'receipt.json')) {
+        [IO.File]::AppendAllText((Join-Path $case $name), "`n", [Text.UTF8Encoding]::new($false))
+    }
+    $normalized = & $verify -EvidenceRoot $case -PackageRoot $PackageRoot -AllowRepositoryLfNormalization | ConvertFrom-Json
+    if ($normalized.status -cne 'passed' -or -not [bool] $normalized.repository_lf_normalization) { throw 'repository-normalized fixture failed' }
+    Assert-Refused $case 'repository-normalized evidence without explicit mode'
+    [IO.File]::AppendAllText((Join-Path $case 'request.json'), "`n", [Text.UTF8Encoding]::new($false))
+    Assert-NormalizedRefused $case 'double repository newline'
+
+    "cantor_evox2_plan_only_build_job_p0_live_evidence_tests=passed successes=2 isolated_refusals=6 remote_calls=0 effects=0"
 } finally {
     foreach ($caseRoot in $caseRoots) { Remove-GeneratedRoot $caseRoot }
     Remove-GeneratedRoot $testRoot

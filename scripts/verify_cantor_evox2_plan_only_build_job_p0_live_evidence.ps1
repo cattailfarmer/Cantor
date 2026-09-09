@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)][string] $EvidenceRoot,
-    [string] $PackageRoot = 'D:\CantorBuilds\evox2-plan-only-build-job-p0-package-4fdd29cb'
+    [string] $PackageRoot = 'D:\CantorBuilds\evox2-plan-only-build-job-p0-package-4fdd29cb',
+    [switch] $AllowRepositoryLfNormalization
 )
 
 Set-StrictMode -Version Latest
@@ -70,10 +71,23 @@ function Assert-Provider($Provider, [string] $Name) {
 }
 
 function Get-CompactJson($Value) { return ($Value | ConvertTo-Json -Depth 50 -Compress) }
+function Get-CustodyRaw($Record, [string] $Name) {
+    $raw = [string] $Record.Raw
+    if (-not $AllowRepositoryLfNormalization) { return $raw }
+    if ($raw.EndsWith("`r`n", [StringComparison]::Ordinal) -or $raw.EndsWith("`n`n", [StringComparison]::Ordinal)) { throw "$Name repository normalization boundary mismatch" }
+    if ($raw.EndsWith("`n", [StringComparison]::Ordinal)) { return $raw.Substring(0, $raw.Length - 1) }
+    return $raw
+}
 
-$parent = [IO.Path]::GetFullPath('D:\CantorBuilds')
+$buildParent = [IO.Path]::GetFullPath('D:\CantorBuilds')
 $root = [IO.Path]::GetFullPath($EvidenceRoot)
-if (-not $root.StartsWith($parent + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'EvidenceRoot must remain beneath D:\CantorBuilds' }
+if ($AllowRepositoryLfNormalization) {
+    $repositoryRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
+    $repositoryEvidenceParent = [IO.Path]::GetFullPath((Join-Path $repositoryRoot 'experiments\evox2_plan_only_build_job_p0'))
+    $underRepositoryEvidence = $root.StartsWith($repositoryEvidenceParent + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)
+    $underGeneratedEvidence = $root.StartsWith($buildParent + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)
+    if (-not $underRepositoryEvidence -and -not $underGeneratedEvidence) { throw 'normalized EvidenceRoot must remain beneath a governed or generated evidence root' }
+} elseif (-not $root.StartsWith($buildParent + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'EvidenceRoot must remain beneath D:\CantorBuilds' }
 $rootItem = Get-Item -LiteralPath $root
 if (-not $rootItem.PSIsContainer -or ($rootItem.Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'evidence root boundary refused' }
 $expectedFiles = @('final_audit.json', 'plan-1.json', 'plan-2.json', 'preflight.json', 'receipt.json', 'request.json', 'verification-1.json', 'verification-2.json')
@@ -93,21 +107,40 @@ $verification2 = Read-BoundedJson (Join-Path $root 'verification-2.json') 104857
 $receiptRecord = Read-BoundedJson (Join-Path $root 'receipt.json') 2097152
 $preflightRecord = Read-BoundedJson (Join-Path $root 'preflight.json') 2097152
 $finalRecord = Read-BoundedJson (Join-Path $root 'final_audit.json') 2097152
+$requestRaw = Get-CustodyRaw $request 'request'
+$plan1Raw = Get-CustodyRaw $plan1 'plan 1'
+$plan2Raw = Get-CustodyRaw $plan2 'plan 2'
+$verification1Raw = Get-CustodyRaw $verification1 'verification 1'
+$verification2Raw = Get-CustodyRaw $verification2 'verification 2'
+$receiptRaw = Get-CustodyRaw $receiptRecord 'receipt'
 
 $packageRequest = [IO.File]::ReadAllText((Join-Path (Resolve-Path -LiteralPath $PackageRoot).Path 'request.json'), [Text.UTF8Encoding]::new($false, $true))
-if ($request.Raw -cne $packageRequest) { throw 'retrieved request differs from exact package request' }
-if ($plan1.Raw -cne $plan2.Raw -or $plan1.Bytes -ne 6704 -or (Get-FileHash -LiteralPath (Join-Path $root 'plan-1.json') -Algorithm SHA256).Hash.ToLowerInvariant() -cne $expectedPlanRaw) { throw 'retrieved plan byte identity mismatch' }
-if ($verification1.Raw -cne $verification2.Raw -or $verification1.Bytes -ne 606 -or (Get-FileHash -LiteralPath (Join-Path $root 'verification-1.json') -Algorithm SHA256).Hash.ToLowerInvariant() -cne $expectedVerificationRaw) { throw 'retrieved verification byte identity mismatch' }
+if ($requestRaw -cne $packageRequest) { throw 'retrieved request differs from exact package request' }
+if ($plan1Raw -cne $plan2Raw -or [Text.Encoding]::UTF8.GetByteCount($plan1Raw) -ne 6704 -or (Get-TextSha256 $plan1Raw) -cne $expectedPlanRaw) { throw 'retrieved plan byte identity mismatch' }
+if ($verification1Raw -cne $verification2Raw -or [Text.Encoding]::UTF8.GetByteCount($verification1Raw) -ne 606 -or (Get-TextSha256 $verification1Raw) -cne $expectedVerificationRaw) { throw 'retrieved verification byte identity mismatch' }
 
 $verifier = Join-Path (Resolve-Path -LiteralPath $PackageRoot).Path 'bin\cantor-evox2-plan-only-build-job-verify.exe'
-Push-Location -LiteralPath $root
+$replayRoot = $root
+$temporaryReplayRoot = $null
+if ($AllowRepositoryLfNormalization) {
+    $temporaryReplayRoot = [IO.Path]::GetFullPath((Join-Path $buildParent ('evox2-plan-only-live-replay-' + [guid]::NewGuid().Guid)))
+    New-Item -ItemType Directory -Path $temporaryReplayRoot | Out-Null
+    [IO.File]::WriteAllText((Join-Path $temporaryReplayRoot 'request.json'), $requestRaw, [Text.UTF8Encoding]::new($false))
+    [IO.File]::WriteAllText((Join-Path $temporaryReplayRoot 'plan-1.json'), $plan1Raw, [Text.UTF8Encoding]::new($false))
+    [IO.File]::WriteAllText((Join-Path $temporaryReplayRoot 'plan-2.json'), $plan2Raw, [Text.UTF8Encoding]::new($false))
+    $replayRoot = $temporaryReplayRoot
+}
+Push-Location -LiteralPath $replayRoot
 try {
     $replayed1 = (& $verifier request.json plan-1.json 2>&1 | Out-String).TrimEnd("`r", "`n")
     $exit1 = $LASTEXITCODE
     $replayed2 = (& $verifier request.json plan-2.json 2>&1 | Out-String).TrimEnd("`r", "`n")
     $exit2 = $LASTEXITCODE
-} finally { Pop-Location }
-if ($exit1 -ne 0 -or $exit2 -ne 0 -or $replayed1 -cne $verification1.Raw -or $replayed2 -cne $verification2.Raw) { throw 'independent native verification replay mismatch' }
+} finally {
+    Pop-Location
+    if ($null -ne $temporaryReplayRoot -and (Test-Path -LiteralPath $temporaryReplayRoot)) { [IO.Directory]::Delete(('\\?\' + $temporaryReplayRoot), $true) }
+}
+if ($exit1 -ne 0 -or $exit2 -ne 0 -or $replayed1 -cne $verification1Raw -or $replayed2 -cne $verification2Raw) { throw 'independent native verification replay mismatch' }
 $verification = $verification1.Value
 if ($verification.status -cne 'passed' -or $verification.plan_sha256 -cne $expectedPlanSemantic -or [int] $verification.operation_count -ne 7 -or [int] $verification.authority_denial_count -ne 15 -or [int] $verification.authority_grant_count -ne 0 -or [int] $verification.unresolved_count -ne 5 -or -not [bool] $verification.byte_identical_recompilation -or [int] $verification.effects -ne 0) { throw 'verification semantic boundary mismatch' }
 
@@ -155,9 +188,9 @@ if ($protectedBefore -cne $protectedAfter -or $protectedBefore -cne (Get-Compact
 $providedReceiptSha = [string] $receipt.receipt_sha256
 if ($providedReceiptSha -cnotmatch '^[0-9a-f]{64}$') { throw 'receipt digest syntax mismatch' }
 $receiptSuffix = '"receipt_sha256":"' + $providedReceiptSha + '"}'
-if (-not $receiptRecord.Raw.EndsWith($receiptSuffix, [StringComparison]::Ordinal)) { throw 'receipt canonical suffix mismatch' }
-$unsignedReceiptRaw = $receiptRecord.Raw.Substring(0, $receiptRecord.Raw.Length - $receiptSuffix.Length) + '"receipt_sha256":""}'
+if (-not $receiptRaw.EndsWith($receiptSuffix, [StringComparison]::Ordinal)) { throw 'receipt canonical suffix mismatch' }
+$unsignedReceiptRaw = $receiptRaw.Substring(0, $receiptRaw.Length - $receiptSuffix.Length) + '"receipt_sha256":""}'
 $recomputedReceiptSha = Get-TextSha256 ('cantor-evox2-plan-only-build-job-live-receipt-v1' + [char]0 + $unsignedReceiptRaw)
 if ($recomputedReceiptSha -cne $providedReceiptSha) { throw 'receipt self digest mismatch' }
 
-[pscustomobject]@{profile='cantor-evox2-plan-only-build-job-live-evidence-verification/0.1';status='passed';source_commit=$expectedSource;manifest_sha256=$expectedManifest;evidence_files=8;compiler_processes=2;verifier_processes=2;operation_count=7;authority_grants=0;unresolved=5;protected_roots=4;provider_conserved=$true;persistent_processes=0;physical_build_performed=$false;effects=0} | ConvertTo-Json -Compress
+[pscustomobject]@{profile='cantor-evox2-plan-only-build-job-live-evidence-verification/0.1';status='passed';source_commit=$expectedSource;manifest_sha256=$expectedManifest;evidence_files=8;compiler_processes=2;verifier_processes=2;operation_count=7;authority_grants=0;unresolved=5;protected_roots=4;provider_conserved=$true;repository_lf_normalization=[bool]$AllowRepositoryLfNormalization;persistent_processes=0;physical_build_performed=$false;effects=0} | ConvertTo-Json -Compress
