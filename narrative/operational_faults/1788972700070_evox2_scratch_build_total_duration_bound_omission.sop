@@ -1,0 +1,21 @@
+Subject: EVO-X2 Scratch Build Total Duration Bound Omission
+
+@ [fault_uuid] 6a2840e8-b22d-40fb-bec5-9fdb6a441978
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_ms] 1788972700070
+@ [canonical_uuid] 935e020f-8c6f-49e4-b355-63eabd3b778b
+
+& [Observed]
+  + pre-publication receipt review found that each operation enforced maximum_process_seconds7200 but the sum of admitted operation durations did not enforce maximum_total_seconds36000
+
+& [Impact]
+  + a redigested receipt could have represented seven individually bounded operations whose cumulative duration exceeded the signed commission total bound
+  + the omission was found before implementation publication and before any package remote host call Cargo effect or physical build
+
+& [Correction]
+  + receipt validation now uses checked cumulative millisecond addition and refuses immediately when the fixed total bound is exceeded
+  + a seven-record adversarial fixture stays within every per-process bound while exceeding the total bound and must refuse
+  + the obsolete in-progress release workspace run was stopped before rerunning focused and exact-current-tree gates
+
+& [Prevention]
+  + package and live receipt reviews must compare each scalar bound with its aggregate counterpart before publication

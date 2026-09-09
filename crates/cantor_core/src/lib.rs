@@ -7,6 +7,7 @@
 pub mod environment;
 pub mod evaluator;
 pub mod evox2_plan_only_build_job;
+pub mod evox2_scratch_build_executor;
 pub mod faculty;
 pub mod fixtures;
 pub mod machine;
@@ -53,6 +54,7 @@ pub mod trust;
 pub use environment::*;
 pub use evaluator::evaluate;
 pub use evox2_plan_only_build_job::*;
+pub use evox2_scratch_build_executor::*;
 pub use faculty::*;
 pub use fixtures::{FixtureId, FixtureReport, all_fixture_ids, run_fixture};
 pub use machine::{content_digest, from_machine_form, to_machine_form};
