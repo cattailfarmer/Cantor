@@ -1,0 +1,22 @@
+Subject: EVO-X2 Scratch Build Absent Workspace Working Directory Contradiction
+
+@ [fault_uuid] 9d93a084-b978-409d-850e-86d370e9b8ba
+@ [canonical_uuid] 935e020f-8c6f-49e4-b355-63eabd3b778b
+@ [local_core_bookend_commit] 1edd3a5596660b9789d7bf43eba82d2ee4917744
+
+& [Observed]
+  + the published semantic core required operation2 materialize_absent_workspace to report the final workspace root as its process working directory
+  + ESBE-012 and ESBE-014 require that final workspace root to be absent until operation2 atomically establishes it
+  + Windows process creation cannot use an absent directory as current directory, so the two requirements cannot both execute under the published mapping
+
+& [Cause]
+  + the predecessor plan's future working-directory coordinate was copied into the operation record without distinguishing execution base from materialization destination
+
+& [Correction]
+  + operation1 verify_source_archive executes from exact service root C:/AI/services/cantor-scratch-build-4fdd29cb
+  + operation2 materialize_absent_workspace executes from existing parent C:/AI/workspaces and atomically establishes exact absent child C:/AI/workspaces/cantor-build-4fdd29cb through a unique sibling stage
+  + operations3 through6 execute from the established workspace and operation7 from the target root
+  + command arguments operations grants denials target roots and one-run authority remain unchanged
+
+& [Status]
+  + corrected locally during package/executor implementation and pending focused adversarial full-workspace publication gates

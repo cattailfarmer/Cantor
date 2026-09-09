@@ -18,6 +18,14 @@ pub const EVOX2_SCRATCH_BUILD_COMMISSION_VERIFICATION_PROFILE: &str =
     "cantor-evox2-scratch-build-commission-verification/0.1";
 pub const EVOX2_SCRATCH_BUILD_RECEIPT_VERIFICATION_PROFILE: &str =
     "cantor-evox2-scratch-build-receipt-verification/0.1";
+pub const EVOX2_SCRATCH_BUILD_COMMAND_SET_PROFILE: &str =
+    "cantor-evox2-scratch-build-command-set/0.1";
+pub const EVOX2_SCRATCH_BUILD_IMPLEMENTATION_MANIFEST_PROFILE: &str =
+    "cantor-evox2-scratch-build-implementation-manifest/0.1";
+pub const EVOX2_SCRATCH_BUILD_DEPLOYMENT_ENVELOPE_PROFILE: &str =
+    "cantor-evox2-scratch-build-deployment-envelope/0.1";
+pub const EVOX2_SCRATCH_BUILD_PACKAGE_VERIFICATION_PROFILE: &str =
+    "cantor-evox2-scratch-build-package-verification/0.1";
 pub const EVOX2_SCRATCH_BUILD_CANONICAL_UUID: &str = "935e020f-8c6f-49e4-b355-63eabd3b778b";
 pub const EVOX2_SCRATCH_BUILD_SIGNATURE_UUID: &str = "610fe633-34ec-40a5-a95c-170d0cffb3c1";
 pub const EVOX2_SCRATCH_BUILD_PREDECESSOR_BOOKEND_COMMIT: &str =
@@ -26,14 +34,24 @@ pub const EVOX2_SCRATCH_BUILD_SOURCE_COMMIT: &str = "4fdd29cb7e76ddd827bcc7ceb8c
 pub const EVOX2_SCRATCH_BUILD_SOURCE_ARCHIVE_SHA256: &str =
     "162a82f42619249a11a81ce64c29889eb5cd448a2d3d864ccb5bf26f1b0f325d";
 pub const EVOX2_SCRATCH_BUILD_TARGET_HOST: &str = "EVO-X2";
+pub const EVOX2_SCRATCH_BUILD_SERVICE_ROOT: &str = "C:/AI/services/cantor-scratch-build-4fdd29cb";
+pub const EVOX2_SCRATCH_BUILD_EXECUTOR_PATH: &str =
+    "C:/AI/services/cantor-scratch-build-4fdd29cb/bin/cantor-evox2-scratch-build-executor.exe";
 pub const EVOX2_SCRATCH_BUILD_WORKSPACE_ROOT: &str = "C:/AI/workspaces/cantor-build-4fdd29cb";
 pub const EVOX2_SCRATCH_BUILD_TARGET_ROOT: &str = "C:/AI/builds/cantor-build-4fdd29cb";
+pub const EVOX2_SCRATCH_BUILD_LOCAL_CORE_BOOKEND_COMMIT: &str =
+    "1edd3a5596660b9789d7bf43eba82d2ee4917744";
 pub const EVOX2_SCRATCH_BUILD_MAX_MACHINE_BYTES: usize = 1_048_576;
 
 const COMMISSION_DIGEST_DOMAIN: &[u8] = b"cantor.evox2-scratch-build.commission.v1\0";
 const TOOLCHAIN_DIGEST_DOMAIN: &[u8] = b"cantor.evox2-scratch-build.toolchain.v1\0";
 const OPERATION_DIGEST_DOMAIN: &[u8] = b"cantor.evox2-scratch-build.operation.v1\0";
 const RECEIPT_DIGEST_DOMAIN: &[u8] = b"cantor.evox2-scratch-build.receipt.v1\0";
+const COMMAND_SET_DIGEST_DOMAIN: &[u8] = b"cantor.evox2-scratch-build.command-set.v1\0";
+const IMPLEMENTATION_MANIFEST_DIGEST_DOMAIN: &[u8] =
+    b"cantor.evox2-scratch-build.implementation-manifest.v1\0";
+const DEPLOYMENT_ENVELOPE_DIGEST_DOMAIN: &[u8] =
+    b"cantor.evox2-scratch-build.deployment-envelope.v1\0";
 const MAX_TEXT_BYTES: usize = 1_024;
 const MAX_ARGUMENTS: usize = 32;
 const MAX_ARGUMENT_BYTES: usize = 128;
@@ -78,6 +96,67 @@ const REQUESTED_CHECKS: [&str; 4] = [
     "workspace_release",
     "workspace_clippy",
     "workspace_format",
+];
+
+const PACKAGE_ARTIFACTS: [(&str, &str); 20] = [
+    (
+        "bin/cantor-evox2-scratch-build-commission.exe",
+        "commission_compiler",
+    ),
+    (
+        "bin/cantor-evox2-scratch-build-commission-verify.exe",
+        "commission_verifier",
+    ),
+    (
+        "bin/cantor-evox2-scratch-build-receipt-verify.exe",
+        "receipt_verifier",
+    ),
+    (
+        "bin/cantor-evox2-scratch-build-package-verify.exe",
+        "package_verifier",
+    ),
+    (
+        "bin/cantor-evox2-scratch-build-executor.exe",
+        "fixed_profile_executor",
+    ),
+    (
+        "scripts/invoke-cantor-evox2-scratch-build-once.ps1",
+        "fixed_profile_harness",
+    ),
+    ("request.json", "predecessor_request"),
+    ("plan.json", "predecessor_plan"),
+    ("plan_verification.json", "predecessor_plan_verification"),
+    ("command_set.json", "exact_command_set"),
+    ("source.tar", "exact_source_archive"),
+    ("evidence/specification.sop", "canonical_specification"),
+    ("evidence/solution.sop", "solution"),
+    ("evidence/plan.sop", "plan"),
+    ("evidence/data-design.sop", "formation_data_design"),
+    (
+        "evidence/acyclic-package-design.sop",
+        "acyclic_package_design",
+    ),
+    (
+        "evidence/local-core-implementation-proof.sop",
+        "local_core_implementation_proof",
+    ),
+    (
+        "evidence/local-core-publication-proof.sop",
+        "local_core_publication_proof",
+    ),
+    ("evidence/local-core-coverage.sop", "local_core_coverage"),
+    (
+        "evidence/local-core-evidence-manifest.json",
+        "local_core_evidence",
+    ),
+];
+
+const PACKAGE_EXECUTIONS: [&str; 5] = [
+    "commission_compiler_once",
+    "package_verifier_preflight",
+    "commission_verifier_preflight",
+    "fixed_profile_executor_once",
+    "receipt_verifier_postflight",
 ];
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -229,6 +308,95 @@ pub struct Evox2ScratchBuildReceiptVerification {
     pub protected_state_unchanged: bool,
     pub provider_state_unchanged: bool,
     pub persistent_executor_process_count: u32,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Evox2ScratchBuildCommand {
+    pub ordinal: u32,
+    pub kind: String,
+    pub executable_role: String,
+    pub arguments: Vec<String>,
+    pub working_directory: String,
+    pub environment: Evox2ScratchBuildCargoEnvironment,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Evox2ScratchBuildCommandSet {
+    pub profile: String,
+    pub canonical_uuid: String,
+    pub source_commit: String,
+    pub target_host: String,
+    pub workspace_root: String,
+    pub target_root: String,
+    pub commands: Vec<Evox2ScratchBuildCommand>,
+    pub command_count: u32,
+    pub command_set_sha256: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Evox2ScratchBuildPackageArtifact {
+    pub relative_path: String,
+    pub role: String,
+    pub bytes: u64,
+    pub sha256: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Evox2ScratchBuildImplementationManifest {
+    pub profile: String,
+    pub manifest_uuid: String,
+    pub canonical_uuid: String,
+    pub local_core_bookend_commit: String,
+    pub implementation_commit: String,
+    pub source_commit: String,
+    pub source_archive_sha256: String,
+    pub target_host: String,
+    pub workspace_root: String,
+    pub target_root: String,
+    pub artifact_count: u32,
+    pub aggregate_bytes: u64,
+    pub artifacts: Vec<Evox2ScratchBuildPackageArtifact>,
+    pub allowed_executions: Vec<String>,
+    pub authority_grants: Vec<String>,
+    pub effects: u32,
+    pub manifest_sha256: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Evox2ScratchBuildDeploymentEnvelope {
+    pub profile: String,
+    pub envelope_uuid: String,
+    pub canonical_uuid: String,
+    pub implementation_manifest_sha256: String,
+    pub commission_uuid: String,
+    pub commission_sha256: String,
+    pub command_set_sha256: String,
+    pub package_file_count: u32,
+    pub package_aggregate_bytes: u64,
+    pub disposition: String,
+    pub envelope_sha256: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Evox2ScratchBuildPackageVerification {
+    pub profile: String,
+    pub status: String,
+    pub canonical_uuid: String,
+    pub implementation_commit: String,
+    pub implementation_manifest_sha256: String,
+    pub commission_sha256: String,
+    pub command_set_sha256: String,
+    pub artifact_count: u32,
+    pub package_file_count: u32,
+    pub package_aggregate_bytes: u64,
+    pub authority_grants: u32,
+    pub effects: u32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -423,6 +591,24 @@ pub fn seal_evox2_scratch_build_toolchain_observation(
     Ok(observation)
 }
 
+pub fn unobserved_evox2_scratch_build_toolchain() -> Evox2ScratchBuildToolchainObservation {
+    seal_evox2_scratch_build_toolchain_observation(Evox2ScratchBuildToolchainObservation {
+        architecture: "not_observed".to_owned(),
+        cargo_path: "not_observed".to_owned(),
+        cargo_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855".to_owned(),
+        cargo_version: "not_observed".to_owned(),
+        rustc_path: "not_observed".to_owned(),
+        rustc_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855".to_owned(),
+        rustc_version: "not_observed".to_owned(),
+        linker_path: "not_observed".to_owned(),
+        linker_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            .to_owned(),
+        offline_probe_status: "not_observed_due_to_preflight_refusal".to_owned(),
+        observation_sha256: String::new(),
+    })
+    .expect("unobserved toolchain sentinel is valid")
+}
+
 pub fn seal_evox2_scratch_build_operation_record(
     mut record: Evox2ScratchBuildOperationRecord,
     commission: &Evox2ScratchBuildCommission,
@@ -539,6 +725,491 @@ pub fn from_evox2_scratch_build_receipt_machine_form(
     Ok(receipt)
 }
 
+pub fn seal_evox2_scratch_build_receipt_candidate_machine_form(
+    commission: &Evox2ScratchBuildCommission,
+    value: &str,
+) -> Result<String, Evox2ScratchBuildFault> {
+    let mut receipt: Evox2ScratchBuildReceipt = strict_deserialize(value)?;
+    if !receipt.receipt_sha256.is_empty()
+        || !receipt.toolchain_observation.observation_sha256.is_empty()
+        || receipt
+            .operation_records
+            .iter()
+            .any(|record| !record.evidence_sha256.is_empty())
+    {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidDigest,
+            "receipt candidate contains presealed digest",
+        ));
+    }
+    receipt.toolchain_observation =
+        seal_evox2_scratch_build_toolchain_observation(receipt.toolchain_observation)?;
+    receipt.operation_records = receipt
+        .operation_records
+        .into_iter()
+        .map(|record| seal_evox2_scratch_build_operation_record(record, commission))
+        .collect::<Result<Vec<_>, _>>()?;
+    let receipt = seal_evox2_scratch_build_receipt(receipt, commission)?;
+    to_evox2_scratch_build_receipt_machine_form(commission, &receipt)
+}
+
+pub fn from_evox2_scratch_build_unsealed_receipt_candidate_machine_form(
+    value: &str,
+) -> Result<Evox2ScratchBuildReceipt, Evox2ScratchBuildFault> {
+    let receipt: Evox2ScratchBuildReceipt = strict_deserialize(value)?;
+    if !receipt.receipt_sha256.is_empty()
+        || !receipt.toolchain_observation.observation_sha256.is_empty()
+        || receipt
+            .operation_records
+            .iter()
+            .any(|record| !record.evidence_sha256.is_empty())
+    {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidDigest,
+            "receipt candidate contains presealed digest",
+        ));
+    }
+    Ok(receipt)
+}
+
+pub fn fixed_evox2_scratch_build_command_set() -> Evox2ScratchBuildCommandSet {
+    let environment = fixed_evox2_scratch_build_environment();
+    let commands = (3..=6)
+        .map(|ordinal| Evox2ScratchBuildCommand {
+            ordinal,
+            kind: OPERATION_ORDINALS[(ordinal - 1) as usize].to_owned(),
+            executable_role: "observed_cargo".to_owned(),
+            arguments: expected_arguments(ordinal),
+            working_directory: EVOX2_SCRATCH_BUILD_WORKSPACE_ROOT.to_owned(),
+            environment: environment.clone(),
+        })
+        .collect::<Vec<_>>();
+    seal_evox2_scratch_build_command_set(Evox2ScratchBuildCommandSet {
+        profile: EVOX2_SCRATCH_BUILD_COMMAND_SET_PROFILE.to_owned(),
+        canonical_uuid: EVOX2_SCRATCH_BUILD_CANONICAL_UUID.to_owned(),
+        source_commit: EVOX2_SCRATCH_BUILD_SOURCE_COMMIT.to_owned(),
+        target_host: EVOX2_SCRATCH_BUILD_TARGET_HOST.to_owned(),
+        workspace_root: EVOX2_SCRATCH_BUILD_WORKSPACE_ROOT.to_owned(),
+        target_root: EVOX2_SCRATCH_BUILD_TARGET_ROOT.to_owned(),
+        command_count: commands.len() as u32,
+        commands,
+        command_set_sha256: String::new(),
+    })
+    .expect("fixed command set is valid")
+}
+
+pub fn seal_evox2_scratch_build_command_set(
+    mut command_set: Evox2ScratchBuildCommandSet,
+) -> Result<Evox2ScratchBuildCommandSet, Evox2ScratchBuildFault> {
+    command_set.command_set_sha256.clear();
+    validate_command_set_body(&command_set)?;
+    command_set.command_set_sha256 = evox2_scratch_build_command_set_digest(&command_set)?;
+    validate_evox2_scratch_build_command_set(&command_set)?;
+    Ok(command_set)
+}
+
+pub fn validate_evox2_scratch_build_command_set(
+    command_set: &Evox2ScratchBuildCommandSet,
+) -> Result<(), Evox2ScratchBuildFault> {
+    validate_command_set_body(command_set)?;
+    if command_set.command_set_sha256 != evox2_scratch_build_command_set_digest(command_set)? {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidDigest,
+            "command-set digest differs",
+        ));
+    }
+    Ok(())
+}
+
+pub fn evox2_scratch_build_command_set_digest(
+    command_set: &Evox2ScratchBuildCommandSet,
+) -> Result<String, Evox2ScratchBuildFault> {
+    let mut unsigned = command_set.clone();
+    unsigned.command_set_sha256.clear();
+    digest_json(COMMAND_SET_DIGEST_DOMAIN, &unsigned)
+}
+
+pub fn to_evox2_scratch_build_command_set_machine_form(
+    command_set: &Evox2ScratchBuildCommandSet,
+) -> Result<String, Evox2ScratchBuildFault> {
+    validate_evox2_scratch_build_command_set(command_set)?;
+    serialize_bounded(command_set)
+}
+
+pub fn from_evox2_scratch_build_command_set_machine_form(
+    value: &str,
+) -> Result<Evox2ScratchBuildCommandSet, Evox2ScratchBuildFault> {
+    let command_set = strict_deserialize(value)?;
+    validate_evox2_scratch_build_command_set(&command_set)?;
+    Ok(command_set)
+}
+
+pub fn evox2_scratch_build_package_artifacts() -> Vec<(String, String)> {
+    PACKAGE_ARTIFACTS
+        .iter()
+        .map(|(path, role)| ((*path).to_owned(), (*role).to_owned()))
+        .collect()
+}
+
+pub fn evox2_scratch_build_package_executions() -> Vec<String> {
+    strings(&PACKAGE_EXECUTIONS)
+}
+
+pub fn seal_evox2_scratch_build_implementation_manifest(
+    mut manifest: Evox2ScratchBuildImplementationManifest,
+) -> Result<Evox2ScratchBuildImplementationManifest, Evox2ScratchBuildFault> {
+    manifest.manifest_sha256.clear();
+    validate_implementation_manifest_body(&manifest)?;
+    manifest.manifest_sha256 = evox2_scratch_build_implementation_manifest_digest(&manifest)?;
+    validate_evox2_scratch_build_implementation_manifest(&manifest)?;
+    Ok(manifest)
+}
+
+pub fn validate_evox2_scratch_build_implementation_manifest(
+    manifest: &Evox2ScratchBuildImplementationManifest,
+) -> Result<(), Evox2ScratchBuildFault> {
+    validate_implementation_manifest_body(manifest)?;
+    if manifest.manifest_sha256 != evox2_scratch_build_implementation_manifest_digest(manifest)? {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidDigest,
+            "implementation-manifest digest differs",
+        ));
+    }
+    Ok(())
+}
+
+pub fn evox2_scratch_build_implementation_manifest_digest(
+    manifest: &Evox2ScratchBuildImplementationManifest,
+) -> Result<String, Evox2ScratchBuildFault> {
+    let mut unsigned = manifest.clone();
+    unsigned.manifest_sha256.clear();
+    digest_json(IMPLEMENTATION_MANIFEST_DIGEST_DOMAIN, &unsigned)
+}
+
+pub fn to_evox2_scratch_build_implementation_manifest_machine_form(
+    manifest: &Evox2ScratchBuildImplementationManifest,
+) -> Result<String, Evox2ScratchBuildFault> {
+    validate_evox2_scratch_build_implementation_manifest(manifest)?;
+    serialize_bounded(manifest)
+}
+
+pub fn from_evox2_scratch_build_implementation_manifest_machine_form(
+    value: &str,
+) -> Result<Evox2ScratchBuildImplementationManifest, Evox2ScratchBuildFault> {
+    let manifest = strict_deserialize(value)?;
+    validate_evox2_scratch_build_implementation_manifest(&manifest)?;
+    Ok(manifest)
+}
+
+pub fn commissioned_evox2_scratch_build(
+    package_manifest_sha256: &str,
+    command_set_sha256: &str,
+) -> Result<Evox2ScratchBuildCommission, Evox2ScratchBuildFault> {
+    seal_evox2_scratch_build_commission(Evox2ScratchBuildCommission {
+        profile: EVOX2_SCRATCH_BUILD_PROFILE.to_owned(),
+        commission_uuid: "6cf6f2f1-51a1-4a67-a986-5b3388cef5b5".to_owned(),
+        canonical_uuid: EVOX2_SCRATCH_BUILD_CANONICAL_UUID.to_owned(),
+        predecessor_bookend_commit: EVOX2_SCRATCH_BUILD_PREDECESSOR_BOOKEND_COMMIT.to_owned(),
+        source_commit: EVOX2_SCRATCH_BUILD_SOURCE_COMMIT.to_owned(),
+        source_archive_sha256: EVOX2_SCRATCH_BUILD_SOURCE_ARCHIVE_SHA256.to_owned(),
+        request_sha256: "c886a16d1a4916dcdb796f724fca1bff1ed97b400d985bbd457510091026212e"
+            .to_owned(),
+        plan_sha256: "4e3cfa2632a860782ae48000be1b0267ecd308ca5ebb3828a62cfa448e9494e2".to_owned(),
+        package_manifest_sha256: package_manifest_sha256.to_owned(),
+        command_set_sha256: command_set_sha256.to_owned(),
+        target_host: EVOX2_SCRATCH_BUILD_TARGET_HOST.to_owned(),
+        workspace_root: EVOX2_SCRATCH_BUILD_WORKSPACE_ROOT.to_owned(),
+        target_root: EVOX2_SCRATCH_BUILD_TARGET_ROOT.to_owned(),
+        operation_ordinals: evox2_scratch_build_operation_ordinals(),
+        authority_grants: evox2_scratch_build_authority_grants(),
+        authority_denials: evox2_scratch_build_authority_denials(),
+        bounds: fixed_evox2_scratch_build_bounds(),
+        cargo_environment: fixed_evox2_scratch_build_environment(),
+        requested_checks: evox2_scratch_build_requested_checks(),
+        disposition: "commissioned_once".to_owned(),
+        commission_sha256: String::new(),
+    })
+}
+
+pub fn seal_evox2_scratch_build_deployment_envelope(
+    mut envelope: Evox2ScratchBuildDeploymentEnvelope,
+) -> Result<Evox2ScratchBuildDeploymentEnvelope, Evox2ScratchBuildFault> {
+    envelope.envelope_sha256.clear();
+    validate_deployment_envelope_body(&envelope)?;
+    envelope.envelope_sha256 = evox2_scratch_build_deployment_envelope_digest(&envelope)?;
+    validate_evox2_scratch_build_deployment_envelope(&envelope)?;
+    Ok(envelope)
+}
+
+pub fn validate_evox2_scratch_build_deployment_envelope(
+    envelope: &Evox2ScratchBuildDeploymentEnvelope,
+) -> Result<(), Evox2ScratchBuildFault> {
+    validate_deployment_envelope_body(envelope)?;
+    if envelope.envelope_sha256 != evox2_scratch_build_deployment_envelope_digest(envelope)? {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidDigest,
+            "deployment-envelope digest differs",
+        ));
+    }
+    Ok(())
+}
+
+pub fn evox2_scratch_build_deployment_envelope_digest(
+    envelope: &Evox2ScratchBuildDeploymentEnvelope,
+) -> Result<String, Evox2ScratchBuildFault> {
+    let mut unsigned = envelope.clone();
+    unsigned.envelope_sha256.clear();
+    digest_json(DEPLOYMENT_ENVELOPE_DIGEST_DOMAIN, &unsigned)
+}
+
+pub fn to_evox2_scratch_build_deployment_envelope_machine_form(
+    envelope: &Evox2ScratchBuildDeploymentEnvelope,
+) -> Result<String, Evox2ScratchBuildFault> {
+    validate_evox2_scratch_build_deployment_envelope(envelope)?;
+    serialize_bounded(envelope)
+}
+
+pub fn from_evox2_scratch_build_deployment_envelope_machine_form(
+    value: &str,
+) -> Result<Evox2ScratchBuildDeploymentEnvelope, Evox2ScratchBuildFault> {
+    let envelope = strict_deserialize(value)?;
+    validate_evox2_scratch_build_deployment_envelope(&envelope)?;
+    Ok(envelope)
+}
+
+pub fn verify_evox2_scratch_build_package_correspondence(
+    manifest: &Evox2ScratchBuildImplementationManifest,
+    command_set: &Evox2ScratchBuildCommandSet,
+    commission: &Evox2ScratchBuildCommission,
+    envelope: &Evox2ScratchBuildDeploymentEnvelope,
+) -> Result<Evox2ScratchBuildPackageVerification, Evox2ScratchBuildFault> {
+    validate_evox2_scratch_build_implementation_manifest(manifest)?;
+    validate_evox2_scratch_build_command_set(command_set)?;
+    validate_evox2_scratch_build_commission(commission)?;
+    validate_evox2_scratch_build_deployment_envelope(envelope)?;
+    if commission.package_manifest_sha256 != manifest.manifest_sha256
+        || commission.command_set_sha256 != command_set.command_set_sha256
+        || envelope.implementation_manifest_sha256 != manifest.manifest_sha256
+        || envelope.commission_uuid != commission.commission_uuid
+        || envelope.commission_sha256 != commission.commission_sha256
+        || envelope.command_set_sha256 != command_set.command_set_sha256
+        || envelope.package_file_count != manifest.artifact_count + 3
+        || envelope.package_aggregate_bytes <= manifest.aggregate_bytes
+    {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidIdentity,
+            "acyclic package correspondence differs",
+        ));
+    }
+    Ok(Evox2ScratchBuildPackageVerification {
+        profile: EVOX2_SCRATCH_BUILD_PACKAGE_VERIFICATION_PROFILE.to_owned(),
+        status: "passed".to_owned(),
+        canonical_uuid: EVOX2_SCRATCH_BUILD_CANONICAL_UUID.to_owned(),
+        implementation_commit: manifest.implementation_commit.clone(),
+        implementation_manifest_sha256: manifest.manifest_sha256.clone(),
+        commission_sha256: commission.commission_sha256.clone(),
+        command_set_sha256: command_set.command_set_sha256.clone(),
+        artifact_count: manifest.artifact_count,
+        package_file_count: envelope.package_file_count,
+        package_aggregate_bytes: envelope.package_aggregate_bytes,
+        authority_grants: commission.authority_grants.len() as u32,
+        effects: 0,
+    })
+}
+
+pub fn to_evox2_scratch_build_package_verification_machine_form(
+    verification: &Evox2ScratchBuildPackageVerification,
+) -> Result<String, Evox2ScratchBuildFault> {
+    if verification.profile != EVOX2_SCRATCH_BUILD_PACKAGE_VERIFICATION_PROFILE
+        || verification.status != "passed"
+        || verification.canonical_uuid != EVOX2_SCRATCH_BUILD_CANONICAL_UUID
+        || !is_lower_hex(&verification.implementation_commit, 40)
+        || !is_lower_hex(&verification.implementation_manifest_sha256, 64)
+        || !is_lower_hex(&verification.commission_sha256, 64)
+        || !is_lower_hex(&verification.command_set_sha256, 64)
+        || verification.artifact_count != PACKAGE_ARTIFACTS.len() as u32
+        || verification.package_file_count != PACKAGE_ARTIFACTS.len() as u32 + 3
+        || verification.package_aggregate_bytes == 0
+        || verification.authority_grants != AUTHORITY_GRANTS.len() as u32
+        || verification.effects != 0
+    {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidAuthority,
+            "package verification differs",
+        ));
+    }
+    serialize_bounded(verification)
+}
+
+pub fn evox2_scratch_build_expected_arguments(ordinal: u32) -> Vec<String> {
+    expected_arguments(ordinal)
+}
+
+fn validate_command_set_body(
+    command_set: &Evox2ScratchBuildCommandSet,
+) -> Result<(), Evox2ScratchBuildFault> {
+    if command_set.profile != EVOX2_SCRATCH_BUILD_COMMAND_SET_PROFILE
+        || command_set.canonical_uuid != EVOX2_SCRATCH_BUILD_CANONICAL_UUID
+        || command_set.source_commit != EVOX2_SCRATCH_BUILD_SOURCE_COMMIT
+        || command_set.target_host != EVOX2_SCRATCH_BUILD_TARGET_HOST
+        || command_set.workspace_root != EVOX2_SCRATCH_BUILD_WORKSPACE_ROOT
+        || command_set.target_root != EVOX2_SCRATCH_BUILD_TARGET_ROOT
+        || command_set.command_count != 4
+        || command_set.commands.len() != 4
+    {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidIdentity,
+            "command-set identity differs",
+        ));
+    }
+    for (index, command) in command_set.commands.iter().enumerate() {
+        let ordinal = (index + 3) as u32;
+        if command.ordinal != ordinal
+            || command.kind != OPERATION_ORDINALS[(ordinal - 1) as usize]
+            || command.executable_role != "observed_cargo"
+            || command.arguments != expected_arguments(ordinal)
+            || command.working_directory != EVOX2_SCRATCH_BUILD_WORKSPACE_ROOT
+            || command.environment != fixed_evox2_scratch_build_environment()
+        {
+            return Err(fault(
+                Evox2ScratchBuildFaultCode::InvalidOperation,
+                "command-set operation differs",
+            ));
+        }
+    }
+    if !command_set.command_set_sha256.is_empty()
+        && !is_lower_hex(&command_set.command_set_sha256, 64)
+    {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidDigest,
+            "command-set digest form differs",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_implementation_manifest_body(
+    manifest: &Evox2ScratchBuildImplementationManifest,
+) -> Result<(), Evox2ScratchBuildFault> {
+    if manifest.profile != EVOX2_SCRATCH_BUILD_IMPLEMENTATION_MANIFEST_PROFILE
+        || !is_uuid(&manifest.manifest_uuid)
+        || manifest.canonical_uuid != EVOX2_SCRATCH_BUILD_CANONICAL_UUID
+        || manifest.local_core_bookend_commit != EVOX2_SCRATCH_BUILD_LOCAL_CORE_BOOKEND_COMMIT
+        || !is_lower_hex(&manifest.implementation_commit, 40)
+        || manifest.source_commit != EVOX2_SCRATCH_BUILD_SOURCE_COMMIT
+        || manifest.source_archive_sha256 != EVOX2_SCRATCH_BUILD_SOURCE_ARCHIVE_SHA256
+        || manifest.target_host != EVOX2_SCRATCH_BUILD_TARGET_HOST
+        || manifest.workspace_root != EVOX2_SCRATCH_BUILD_WORKSPACE_ROOT
+        || manifest.target_root != EVOX2_SCRATCH_BUILD_TARGET_ROOT
+        || manifest.artifact_count != PACKAGE_ARTIFACTS.len() as u32
+        || manifest.artifacts.len() != PACKAGE_ARTIFACTS.len()
+        || manifest.allowed_executions != evox2_scratch_build_package_executions()
+        || !manifest.authority_grants.is_empty()
+        || manifest.effects != 0
+    {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidIdentity,
+            "implementation-manifest identity differs",
+        ));
+    }
+    let mut aggregate = 0_u64;
+    let mut seen = BTreeSet::new();
+    for (artifact, (expected_path, expected_role)) in
+        manifest.artifacts.iter().zip(PACKAGE_ARTIFACTS.iter())
+    {
+        if artifact.relative_path != *expected_path
+            || artifact.role != *expected_role
+            || !valid_relative_package_path(&artifact.relative_path)
+            || !seen.insert(artifact.relative_path.to_ascii_lowercase())
+            || artifact.bytes == 0
+            || !is_lower_hex(&artifact.sha256, 64)
+        {
+            return Err(fault(
+                Evox2ScratchBuildFaultCode::InvalidPath,
+                "implementation artifact differs",
+            ));
+        }
+        aggregate = aggregate.checked_add(artifact.bytes).ok_or_else(|| {
+            fault(
+                Evox2ScratchBuildFaultCode::InvalidBound,
+                "implementation aggregate differs",
+            )
+        })?;
+        if artifact.relative_path == "source.tar"
+            && (artifact.sha256 != EVOX2_SCRATCH_BUILD_SOURCE_ARCHIVE_SHA256
+                || artifact.bytes > fixed_evox2_scratch_build_bounds().maximum_archive_bytes)
+        {
+            return Err(fault(
+                Evox2ScratchBuildFaultCode::InvalidIdentity,
+                "source archive artifact differs",
+            ));
+        }
+    }
+    if aggregate != manifest.aggregate_bytes || aggregate > 536_870_912 {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidBound,
+            "implementation aggregate differs",
+        ));
+    }
+    if !manifest.manifest_sha256.is_empty() && !is_lower_hex(&manifest.manifest_sha256, 64) {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidDigest,
+            "implementation-manifest digest form differs",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_deployment_envelope_body(
+    envelope: &Evox2ScratchBuildDeploymentEnvelope,
+) -> Result<(), Evox2ScratchBuildFault> {
+    if envelope.profile != EVOX2_SCRATCH_BUILD_DEPLOYMENT_ENVELOPE_PROFILE
+        || !is_uuid(&envelope.envelope_uuid)
+        || envelope.canonical_uuid != EVOX2_SCRATCH_BUILD_CANONICAL_UUID
+        || !is_lower_hex(&envelope.implementation_manifest_sha256, 64)
+        || !is_uuid(&envelope.commission_uuid)
+        || !is_lower_hex(&envelope.commission_sha256, 64)
+        || !is_lower_hex(&envelope.command_set_sha256, 64)
+        || envelope.package_file_count != PACKAGE_ARTIFACTS.len() as u32 + 3
+        || envelope.package_aggregate_bytes == 0
+        || envelope.package_aggregate_bytes > 536_870_912
+        || envelope.disposition != "sealed_for_single_commission"
+    {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidIdentity,
+            "deployment-envelope identity differs",
+        ));
+    }
+    if !envelope.envelope_sha256.is_empty() && !is_lower_hex(&envelope.envelope_sha256, 64) {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidDigest,
+            "deployment-envelope digest form differs",
+        ));
+    }
+    Ok(())
+}
+
+fn valid_relative_package_path(value: &str) -> bool {
+    !value.is_empty()
+        && value.len() <= MAX_TEXT_BYTES
+        && !value.starts_with('/')
+        && !value.ends_with('/')
+        && !value.contains('\\')
+        && !value.contains(':')
+        && !value.chars().any(|character| {
+            character.is_control()
+                || !character.is_ascii()
+                || matches!(character, '*' | '?' | '"' | '<' | '>' | '|')
+        })
+        && value.split('/').all(|segment| {
+            !segment.is_empty()
+                && segment != "."
+                && segment != ".."
+                && !segment.ends_with('.')
+                && !segment.ends_with(' ')
+        })
+}
+
 fn validate_commission_body(
     commission: &Evox2ScratchBuildCommission,
 ) -> Result<(), Evox2ScratchBuildFault> {
@@ -627,10 +1298,24 @@ fn validate_toolchain_body(
     ] {
         validate_text(value)?;
     }
-    if !is_lower_hex(&observation.cargo_sha256, 64)
-        || !is_lower_hex(&observation.rustc_sha256, 64)
-        || !is_lower_hex(&observation.linker_sha256, 64)
-        || observation.offline_probe_status != "available_without_mutation"
+    let unobserved = observation.architecture == "not_observed"
+        && observation.cargo_path == "not_observed"
+        && observation.cargo_sha256
+            == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        && observation.cargo_version == "not_observed"
+        && observation.rustc_path == "not_observed"
+        && observation.rustc_sha256
+            == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        && observation.rustc_version == "not_observed"
+        && observation.linker_path == "not_observed"
+        && observation.linker_sha256
+            == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        && observation.offline_probe_status == "not_observed_due_to_preflight_refusal";
+    let observed = is_lower_hex(&observation.cargo_sha256, 64)
+        && is_lower_hex(&observation.rustc_sha256, 64)
+        && is_lower_hex(&observation.linker_sha256, 64);
+    if !unobserved
+        && (!observed || observation.offline_probe_status != "available_without_mutation")
     {
         return Err(fault(
             Evox2ScratchBuildFaultCode::InvalidIdentity,
@@ -698,10 +1383,11 @@ fn validate_operation_body(
             "operation evidence bound differs",
         ));
     }
-    let expected_working_directory = if record.ordinal == 7 {
-        commission.target_root.as_str()
-    } else {
-        commission.workspace_root.as_str()
+    let expected_working_directory = match record.ordinal {
+        1 => EVOX2_SCRATCH_BUILD_SERVICE_ROOT,
+        2 => "C:/AI/workspaces",
+        7 => commission.target_root.as_str(),
+        _ => commission.workspace_root.as_str(),
     };
     if record.working_directory != expected_working_directory
         || record.arguments != expected_arguments(record.ordinal)
@@ -717,6 +1403,14 @@ fn validate_operation_body(
         return Err(fault(
             Evox2ScratchBuildFaultCode::InvalidOperation,
             "operation command boundary differs",
+        ));
+    }
+    if matches!(record.ordinal, 1 | 2 | 7)
+        && record.executable_path != EVOX2_SCRATCH_BUILD_EXECUTOR_PATH
+    {
+        return Err(fault(
+            Evox2ScratchBuildFaultCode::InvalidOperation,
+            "executor operation path differs",
         ));
     }
     if !record.evidence_sha256.is_empty() && !is_lower_hex(&record.evidence_sha256, 64) {
@@ -838,6 +1532,8 @@ fn validate_receipt_body(
                     .iter()
                     .any(|record| !operation_succeeded(record))
                 || !receipt.physical_build_performed
+                || receipt.toolchain_observation.offline_probe_status
+                    != "available_without_mutation"
             {
                 return Err(fault(
                     Evox2ScratchBuildFaultCode::InvalidReceipt,

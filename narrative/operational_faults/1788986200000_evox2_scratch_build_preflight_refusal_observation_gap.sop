@@ -1,0 +1,16 @@
+Subject: EVO-X2 Scratch Build Preflight Refusal Observation Gap
+
+@ [fault_uuid] ea25119f-37f8-4748-a28f-dfb1535933ad
+@ [canonical_uuid] 935e020f-8c6f-49e4-b355-63eabd3b778b
+
+& [Observed]
+  + receipt20 always contains toolchain_observation11 while ESBE-021 requires an honest stopped refusal before toolchain observation when an earlier preflight gate fails
+  + the published local core admitted only a successful available_without_mutation observation, so it could not encode a truthful pre-observation refusal
+
+& [Correction]
+  + define one exact all-fields-present sentinel with not_observed text, SHA256-empty digests, and offline_probe_status not_observed_due_to_preflight_refusal
+  + allow the sentinel only for failed or refused receipts and continue to require available_without_mutation for succeeded receipts and every Cargo operation
+  + the sentinel conveys no toolchain identity and grants no execution authority
+
+& [Status]
+  + corrected locally with focused refusal coverage pending full gates and publication

@@ -74,7 +74,7 @@ fn record(
             executable_path: if (3..=6).contains(&ordinal) {
                 observation().cargo_path
             } else {
-                "C:/AI/services/cantor-scratch-build/executor.exe".to_owned()
+                EVOX2_SCRATCH_BUILD_EXECUTOR_PATH.to_owned()
             },
             executable_sha256: if (3..=6).contains(&ordinal) {
                 observation().cargo_sha256
@@ -82,10 +82,11 @@ fn record(
                 "4".repeat(64)
             },
             arguments: args(ordinal),
-            working_directory: if ordinal == 7 {
-                commission.target_root.clone()
-            } else {
-                commission.workspace_root.clone()
+            working_directory: match ordinal {
+                1 => EVOX2_SCRATCH_BUILD_SERVICE_ROOT.to_owned(),
+                2 => "C:/AI/workspaces".to_owned(),
+                7 => commission.target_root.clone(),
+                _ => commission.workspace_root.clone(),
             },
             environment: commission.cargo_environment.clone(),
             exit_code,
@@ -135,6 +136,78 @@ fn receipt_with(
         commission,
     )
     .unwrap()
+}
+
+fn implementation_manifest() -> Evox2ScratchBuildImplementationManifest {
+    let artifacts = evox2_scratch_build_package_artifacts()
+        .into_iter()
+        .enumerate()
+        .map(|(index, (relative_path, role))| {
+            let source_archive = relative_path == "source.tar";
+            Evox2ScratchBuildPackageArtifact {
+                relative_path,
+                role,
+                bytes: (index + 1) as u64,
+                sha256: if source_archive {
+                    EVOX2_SCRATCH_BUILD_SOURCE_ARCHIVE_SHA256.to_owned()
+                } else {
+                    format!("{:064x}", index + 1)
+                },
+            }
+        })
+        .collect::<Vec<_>>();
+    let aggregate_bytes = artifacts.iter().map(|artifact| artifact.bytes).sum();
+    seal_evox2_scratch_build_implementation_manifest(Evox2ScratchBuildImplementationManifest {
+        profile: EVOX2_SCRATCH_BUILD_IMPLEMENTATION_MANIFEST_PROFILE.to_owned(),
+        manifest_uuid: "973d579c-157d-4550-bad9-8c5e2e79c569".to_owned(),
+        canonical_uuid: EVOX2_SCRATCH_BUILD_CANONICAL_UUID.to_owned(),
+        local_core_bookend_commit: EVOX2_SCRATCH_BUILD_LOCAL_CORE_BOOKEND_COMMIT.to_owned(),
+        implementation_commit: "a".repeat(40),
+        source_commit: EVOX2_SCRATCH_BUILD_SOURCE_COMMIT.to_owned(),
+        source_archive_sha256: EVOX2_SCRATCH_BUILD_SOURCE_ARCHIVE_SHA256.to_owned(),
+        target_host: EVOX2_SCRATCH_BUILD_TARGET_HOST.to_owned(),
+        workspace_root: EVOX2_SCRATCH_BUILD_WORKSPACE_ROOT.to_owned(),
+        target_root: EVOX2_SCRATCH_BUILD_TARGET_ROOT.to_owned(),
+        artifact_count: artifacts.len() as u32,
+        aggregate_bytes,
+        artifacts,
+        allowed_executions: evox2_scratch_build_package_executions(),
+        authority_grants: Vec::new(),
+        effects: 0,
+        manifest_sha256: String::new(),
+    })
+    .unwrap()
+}
+
+fn package_forms() -> (
+    Evox2ScratchBuildImplementationManifest,
+    Evox2ScratchBuildCommandSet,
+    Evox2ScratchBuildCommission,
+    Evox2ScratchBuildDeploymentEnvelope,
+) {
+    let manifest = implementation_manifest();
+    let command_set = fixed_evox2_scratch_build_command_set();
+    let commission = commissioned_evox2_scratch_build(
+        &manifest.manifest_sha256,
+        &command_set.command_set_sha256,
+    )
+    .unwrap();
+    let envelope =
+        seal_evox2_scratch_build_deployment_envelope(Evox2ScratchBuildDeploymentEnvelope {
+            profile: EVOX2_SCRATCH_BUILD_DEPLOYMENT_ENVELOPE_PROFILE.to_owned(),
+            envelope_uuid: "864229f1-f3b6-45ad-9ab3-02f52e7795b7".to_owned(),
+            canonical_uuid: EVOX2_SCRATCH_BUILD_CANONICAL_UUID.to_owned(),
+            implementation_manifest_sha256: manifest.manifest_sha256.clone(),
+            commission_uuid: commission.commission_uuid.clone(),
+            commission_sha256: commission.commission_sha256.clone(),
+            command_set_sha256: command_set.command_set_sha256.clone(),
+            package_file_count: manifest.artifact_count + 3,
+            package_aggregate_bytes: manifest.aggregate_bytes + 4_096,
+            disposition: "sealed_for_single_commission".to_owned(),
+            envelope_sha256: String::new(),
+        })
+        .unwrap();
+    (manifest, command_set, commission, envelope)
 }
 
 #[test]
@@ -230,6 +303,16 @@ fn stopped_failure_and_pre_admission_refusal_are_honest() {
         false,
     );
     verify_evox2_scratch_build_receipt(&commission, &refused).unwrap();
+
+    let preflight_refused = seal_evox2_scratch_build_receipt(
+        Evox2ScratchBuildReceipt {
+            toolchain_observation: unobserved_evox2_scratch_build_toolchain(),
+            ..receipt_with(&commission, Vec::new(), "refused", false)
+        },
+        &commission,
+    )
+    .unwrap();
+    verify_evox2_scratch_build_receipt(&commission, &preflight_refused).unwrap();
 }
 
 #[test]
@@ -290,14 +373,14 @@ fn receipt_cross_binds_cargo_and_executor_executable_identities() {
 
     let mut executor_drift = receipt;
     executor_drift.operation_records[1].executable_path =
-        "C:/AI/services/cantor-scratch-build/other-executor.exe".to_owned();
-    executor_drift.operation_records[1] = seal_evox2_scratch_build_operation_record(
-        executor_drift.operation_records[1].clone(),
-        &commission,
-    )
-    .unwrap();
-    executor_drift.receipt_sha256 = evox2_scratch_build_receipt_digest(&executor_drift).unwrap();
-    assert!(verify_evox2_scratch_build_receipt(&commission, &executor_drift).is_err());
+        "C:/AI/services/cantor-scratch-build-4fdd29cb/bin/other-executor.exe".to_owned();
+    assert!(
+        seal_evox2_scratch_build_operation_record(
+            executor_drift.operation_records[1].clone(),
+            &commission,
+        )
+        .is_err()
+    );
 }
 
 #[test]
@@ -416,4 +499,175 @@ fn fresh_verifier_processes_pass_and_refuse_tamper() {
     })();
     fs::remove_dir_all(&root).expect("remove exact verifier root");
     result.expect("fresh verifier processes");
+}
+
+#[test]
+fn commission_compiler_process_is_deterministic_and_manifest_bound() {
+    let root = std::env::temp_dir().join(format!(
+        "cantor-evox2-scratch-build-compiler-{}",
+        std::process::id()
+    ));
+    fs::create_dir(&root).unwrap();
+    let result = (|| {
+        let manifest = implementation_manifest();
+        let command_set = fixed_evox2_scratch_build_command_set();
+        fs::write(
+            root.join("implementation_manifest.json"),
+            to_evox2_scratch_build_implementation_manifest_machine_form(&manifest).unwrap(),
+        )?;
+        fs::write(
+            root.join("command_set.json"),
+            to_evox2_scratch_build_command_set_machine_form(&command_set).unwrap(),
+        )?;
+        let compiler = env!("CARGO_BIN_EXE_cantor-evox2-scratch-build-commission");
+        let first = Command::new(compiler)
+            .current_dir(&root)
+            .args(["implementation_manifest.json", "command_set.json"])
+            .output()?;
+        let second = Command::new(compiler)
+            .current_dir(&root)
+            .args(["implementation_manifest.json", "command_set.json"])
+            .output()?;
+        assert!(first.status.success());
+        assert_eq!(first.stdout, second.stdout);
+        let raw = std::str::from_utf8(&first.stdout).unwrap().trim_end();
+        let commission = from_evox2_scratch_build_commission_machine_form(raw).unwrap();
+        assert_eq!(commission.package_manifest_sha256, manifest.manifest_sha256);
+        assert_eq!(
+            commission.command_set_sha256,
+            command_set.command_set_sha256
+        );
+
+        let emitted = Command::new(compiler).arg("command-set").output()?;
+        assert!(emitted.status.success());
+        let emitted = std::str::from_utf8(&emitted.stdout).unwrap().trim_end();
+        assert_eq!(
+            from_evox2_scratch_build_command_set_machine_form(emitted).unwrap(),
+            command_set
+        );
+        Ok::<(), std::io::Error>(())
+    })();
+    fs::remove_dir_all(&root).unwrap();
+    result.unwrap();
+}
+
+#[test]
+fn pinned_git_archive_passes_strict_ustar_pax_admission() {
+    let root = std::env::temp_dir().join(format!(
+        "cantor-evox2-scratch-build-real-archive-{}",
+        std::process::id()
+    ));
+    fs::create_dir(&root).unwrap();
+    let archive = root.join("source.tar");
+    let repository = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let status = Command::new("git")
+        .args(["-C"])
+        .arg(repository)
+        .args(["archive", "--format=tar", "--output"])
+        .arg(&archive)
+        .arg(EVOX2_SCRATCH_BUILD_SOURCE_COMMIT)
+        .status()
+        .unwrap();
+    assert!(status.success());
+    let verification = verify_evox2_scratch_build_source_archive(&archive).unwrap();
+    assert_eq!(
+        verification.archive_sha256,
+        EVOX2_SCRATCH_BUILD_SOURCE_ARCHIVE_SHA256
+    );
+    assert!(verification.member_count > 0);
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn acyclic_package_graph_roundtrips_and_corresponds() {
+    let (manifest, command_set, commission, envelope) = package_forms();
+    let manifest_form =
+        to_evox2_scratch_build_implementation_manifest_machine_form(&manifest).unwrap();
+    let command_form = to_evox2_scratch_build_command_set_machine_form(&command_set).unwrap();
+    let envelope_form = to_evox2_scratch_build_deployment_envelope_machine_form(&envelope).unwrap();
+    assert_eq!(
+        from_evox2_scratch_build_implementation_manifest_machine_form(&manifest_form).unwrap(),
+        manifest
+    );
+    assert_eq!(
+        from_evox2_scratch_build_command_set_machine_form(&command_form).unwrap(),
+        command_set
+    );
+    assert_eq!(
+        from_evox2_scratch_build_deployment_envelope_machine_form(&envelope_form).unwrap(),
+        envelope
+    );
+    let verified = verify_evox2_scratch_build_package_correspondence(
+        &manifest,
+        &command_set,
+        &commission,
+        &envelope,
+    )
+    .unwrap();
+    assert_eq!(verified.artifact_count, 20);
+    assert_eq!(verified.package_file_count, 23);
+    assert_eq!(verified.effects, 0);
+}
+
+#[test]
+fn package_graph_refuses_cycles_membership_and_digest_drift() {
+    let (manifest, command_set, commission, envelope) = package_forms();
+
+    let mut inside_manifest = manifest.clone();
+    inside_manifest.artifacts[0].relative_path = "commission.json".to_owned();
+    assert!(seal_evox2_scratch_build_implementation_manifest(inside_manifest).is_err());
+
+    let mut extra_authority = manifest.clone();
+    extra_authority
+        .authority_grants
+        .push("process_execute".to_owned());
+    assert!(seal_evox2_scratch_build_implementation_manifest(extra_authority).is_err());
+
+    let mut command_drift = command_set.clone();
+    command_drift.commands[0].arguments[0] = "bench".to_owned();
+    assert!(seal_evox2_scratch_build_command_set(command_drift).is_err());
+
+    let mut correspondence_drift = envelope;
+    correspondence_drift.commission_sha256 = "f".repeat(64);
+    correspondence_drift =
+        seal_evox2_scratch_build_deployment_envelope(correspondence_drift).unwrap();
+    assert!(
+        verify_evox2_scratch_build_package_correspondence(
+            &manifest,
+            &command_set,
+            &commission,
+            &correspondence_drift,
+        )
+        .is_err()
+    );
+}
+
+#[test]
+fn package_machine_forms_refuse_raw_duplicate_and_unknown_tamper() {
+    let (manifest, command_set, _, envelope) = package_forms();
+    let command = to_evox2_scratch_build_command_set_machine_form(&command_set).unwrap();
+    assert!(from_evox2_scratch_build_command_set_machine_form(&format!("{command}\n")).is_err());
+    let duplicate = command.replacen(
+        "{\"profile\":",
+        "{\"profile\":\"cantor-evox2-scratch-build-command-set/0.1\",\"profile\":",
+        1,
+    );
+    assert!(from_evox2_scratch_build_command_set_machine_form(&duplicate).is_err());
+
+    let manifest_form =
+        to_evox2_scratch_build_implementation_manifest_machine_form(&manifest).unwrap();
+    assert!(
+        from_evox2_scratch_build_implementation_manifest_machine_form(&manifest_form.replacen(
+            '{',
+            "{\"unknown\":false,",
+            1,
+        ))
+        .is_err()
+    );
+
+    let envelope_form = to_evox2_scratch_build_deployment_envelope_machine_form(&envelope).unwrap();
+    assert!(
+        from_evox2_scratch_build_deployment_envelope_machine_form(&format!(" {envelope_form}"))
+            .is_err()
+    );
 }

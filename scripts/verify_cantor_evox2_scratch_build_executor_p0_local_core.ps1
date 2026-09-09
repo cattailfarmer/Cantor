@@ -67,7 +67,7 @@ foreach ($forbidden in @('std::fs', 'std::process', 'std::env', 'TcpStream', 're
 }
 
 $tests = Get-Content -LiteralPath (Join-Path $rootPath 'crates/cantor_core/tests/evox2_scratch_build_executor.rs') -Raw
-if (($tests | Select-String -Pattern '#\[test\]' -AllMatches).Matches.Count -ne 11) { throw 'focused Rust test count mismatch' }
+if (($tests | Select-String -Pattern '#\[test\]' -AllMatches).Matches.Count -ne 16) { throw 'focused Rust test count mismatch' }
 foreach ($token in @('receipt_cross_binds_cargo_and_executor_executable_identities', 'cumulative_operation_duration_bound_refuses', 'fresh_verifier_processes_pass_and_refuse_tamper', 'conservation_drift_and_persistent_process_refuse')) {
     if (-not $tests.Contains($token)) { throw "focused Rust test token missing: $token" }
 }
@@ -77,7 +77,7 @@ $expectedCounts = @{
     artifact_count = 18
     rust_source_files = 4
     rust_test_files = 1
-    focused_tests = 11
+    focused_tests = 16
     operations = 7
     authority_denials = 14
     authority_grants = 5
@@ -98,4 +98,4 @@ foreach ($key in @('focused_debug_passed', 'focused_overflow_checked_release_pas
 }
 if ($verification.package_constructed -ne $false -or $verification.remote_effects_authorized -ne $false -or $verification.physical_build_authorized -ne $false) { throw 'phase authority promotion admitted' }
 
-'cantor_evox2_scratch_build_executor_p0_local_core_verified=true artifacts=18 rust_sources=4 rust_tests=1 focused_tests=11 operations=7 denials=14 grants=5 commission_fields=21 toolchain_fields=11 operation_record_fields=20 receipt_fields=20 verifier_processes=2 provider_requests=0 remote_calls=0 effects=0 package_constructed=false remote_effects_authorized=false physical_build_authorized=false'
+'cantor_evox2_scratch_build_executor_p0_local_core_verified=true artifacts=18 rust_sources=4 rust_tests=1 focused_tests=16 operations=7 denials=14 grants=5 commission_fields=21 toolchain_fields=11 operation_record_fields=20 receipt_fields=20 verifier_processes=2 provider_requests=0 remote_calls=0 effects=0 package_constructed=false remote_effects_authorized=false physical_build_authorized=false'
