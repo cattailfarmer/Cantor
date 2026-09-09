@@ -1,0 +1,46 @@
+Subject: Cantor EVO-X2 Scratch Build Executor P0 Data Design
+
+@ [data_design_uuid] ac1b834d-bb6c-49de-aca8-2d1c9d8ab6b8
+@ [canonical_uuid] 935e020f-8c6f-49e4-b355-63eabd3b778b
+
+& [Commission]
+  + profile cantor-evox2-scratch-build-executor/0.1
+  + exact21 ordered fields profile commission_uuid canonical_uuid predecessor_bookend_commit source_commit source_archive_sha256 request_sha256 plan_sha256 package_manifest_sha256 command_set_sha256 target_host workspace_root target_root operation_ordinals authority_grants authority_denials bounds cargo_environment requested_checks disposition commission_sha256
+  + operation_ordinals exact ordered7 verify_source_archive materialize_absent_workspace workspace_debug workspace_release workspace_clippy workspace_format seal_build_receipt
+  + authority_grants exact ordered5 source_transfer source_extract toolchain_observe workspace_write process_execute
+  + authority_denials exact ordered14 toolchain_install dependency_fetch git_mutation commit push provider_call model_inference service_change security_policy_change persistence self_update production_deploy external_fallback autonomous_work
+  + requested_checks exact ordered4 workspace_debug workspace_release workspace_clippy workspace_format and disposition commissioned_once
+
+& [Bounds]
+  + exact9 ordered fields maximum_archive_bytes maximum_files minimum_free_bytes maximum_target_bytes maximum_stdout_bytes maximum_stderr_bytes maximum_process_seconds maximum_total_seconds cargo_build_jobs
+  + exact values268435456 16384 103079215104 68719476736 16777216 16777216 7200 36000 1
+
+& [CargoEnvironment]
+  + exact6 ordered fields CARGO_NET_OFFLINE CARGO_BUILD_JOBS CARGO_INCREMENTAL RUST_TEST_THREADS RUST_MIN_STACK CARGO_TARGET_DIR
+  + exact values true 1 0 1 33554432 C:/AI/builds/cantor-build-4fdd29cb
+
+& [Inputs]
+  + exact package manifest binds compiler verifier executor harness request plan plan verification commission and necessary public evidence
+  + source archive exact commit4fdd29cb7e76ddd827bcc7ceb8ca36ab28864271 SHA256 162a82f42619249a11a81ce64c29889eb5cd448a2d3d864ccb5bf26f1b0f325d
+  + command_set_sha256 binds four reviewed executable identity argument-array working-directory and environment records derived from the verified plan
+
+& [ToolchainObservation]
+  + exact11 fields architecture cargo_path cargo_sha256 cargo_version rustc_path rustc_sha256 rustc_version linker_path linker_sha256 offline_probe_status observation_sha256
+  + observation records only existing state and cannot install mutate PATH or add a dependency source
+
+& [OperationRecord]
+  + exact20 fields ordinal kind admitted started_at ended_at duration_ms executable_path executable_sha256 arguments working_directory environment exit_code stdout_bytes stdout_sha256 stdout_truncated stderr_bytes stderr_sha256 stderr_truncated target_bytes_after evidence_sha256
+  + output overflow timeout nonzero exit or target bound violation is a failed admitted operation and stops all later operations
+
+& [Receipt]
+  + exact20 fields profile receipt_uuid canonical_uuid commission_uuid commission_sha256 source_archive_sha256 source_commit target_host workspace_root target_root toolchain_observation operation_records protected_before protected_after provider_before provider_after persistent_executor_process_count physical_build_performed disposition receipt_sha256
+  + disposition is succeeded failed or refused; physical_build_performed is true only after all four Cargo gates and conservation close
+
+& [CanonicalIdentity]
+  + JSON is UTF-8 compact exact field order with no duplicate key trailing content or noncanonical raw bytes
+  + commission_sha256 receipt_sha256 and nested evidence digests use fixed-domain SHA256 over canonical bytes with their digest field empty
+  + UUIDs are bound inputs or deterministically derived; evidence times are measured fields and never identity authority
+
+& [PathAndArchiveGrammar]
+  + roots use normalized drive-letter forward-slash absolute visible ASCII segments with no dot segment trailing dot trailing space wildcard control or alternate-data-stream colon
+  + archive members are relative forward-slash nonempty paths with no root dot traversal link hardlink device reparse ambiguity duplicate case-folded coordinate or out-of-root materialization
