@@ -1,0 +1,18 @@
+Subject: EVO-X2 Plan-Only Build Job P0 Long-Path Scratch Cleanup Fault
+
+@ [fault_uuid] 9d714966-1ee4-4e79-943e-268e973a303b
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_ms] 1788913578355
+
+& [Observed]
+  + fresh archive build and package verification passed but Windows PowerShell Remove-Item returned failure while deleting one deeply named source document beneath the validated D-drive scratch root
+
+& [Cause]
+  + legacy recursive Remove-Item path handling crossed the Windows ordinary-length boundary even though the target root itself was exact and safe
+
+& [Correction]
+  + retain the successful no-overwrite package and replace cleanup with System.IO Directory.Delete over the already validated extended-length scratch path
+  + remove only the exact observed scratch root and rerun syntax package verification and adversarial tests
+
+& [Effect]
+  + package bytes are valid and independently verified; one temporary extracted Git archive remained on D until exact cleanup; no repository remote host provider model service or protected root changed

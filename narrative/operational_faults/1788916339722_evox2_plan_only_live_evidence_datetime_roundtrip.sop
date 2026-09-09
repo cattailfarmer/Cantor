@@ -1,0 +1,21 @@
+Subject: EVO-X2 Plan-Only Build Job P0 Live Evidence Date-Time Roundtrip Fault
+
+@ [fault_uuid] 778f9889-d986-44ab-85ac-6d3b39d7e2de
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_ms] 1788916339722
+
+& [Observed]
+  + the first PowerShell7 live-evidence fixture rejected a valid UTC provider creation instant and later changed receipt bytes while recomputing its self digest
+
+& [Cause]
+  + PowerShell7 ConvertFrom-Json materializes ISO date strings as DateTime while WindowsPowerShell5.1 retains strings; object reserialization is therefore not a stable cross-host byte-custody operation
+
+& [Correction]
+  + normalize DateTime only for semantic UTC validation and recompute the receipt digest by replacing the exact terminal digest value in the retained raw UTF-8 record
+  + retain native raw plan and verification byte comparisons instead of round-tripping those artifacts through host JSON objects
+
+& [Verification]
+  + PowerShell7 and WindowsPowerShell5.1 each pass the complete fixture and four isolated refusals with remote_calls0 effects0
+
+& [Effect]
+  + only generated provider-free fixture roots were involved and safely removed; no package byte remote state or authority boundary changed

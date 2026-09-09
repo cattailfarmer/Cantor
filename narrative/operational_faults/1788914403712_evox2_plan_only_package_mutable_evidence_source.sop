@@ -1,0 +1,19 @@
+Subject: EVO-X2 Plan-Only Build Job P0 Mutable Package Evidence Source Fault
+
+@ [fault_uuid] aab864d5-88c4-4590-84f9-af7dddb0dc3c
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_ms] 1788914403712
+
+& [Observed]
+  + corrected cleanup proof build produced a different package manifest despite the same source commit archive digest artifact count and aggregate bytes
+
+& [Cause]
+  + builder copied public evidence and its PowerShell package verifier from the advancing live working tree rather than the immutable core Git archive
+
+& [Correction]
+  + copy all six public evidence files from the extracted4fdd29cb archive and remove the unpinned PowerShell verifier from package membership
+  + reduce package membership to nine pinned artifacts plus manifest and perform remote manifest membership hash and self-digest verification inline from the published deployment harness
+  + rebuild twice and require exact package manifest equality before publication
+
+& [Effect]
+  + both divergent packages remained local on D and no remote call occurred; the discrepancy was detected before implementation publication
