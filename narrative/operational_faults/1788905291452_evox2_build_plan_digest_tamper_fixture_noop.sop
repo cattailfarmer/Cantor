@@ -1,0 +1,19 @@
+Subject: EVO-X2 Build Plan Digest Tamper Fixture No-Op Fault
+
+@ [fault_uuid] 616bb199-c46d-4b4c-8523-48b589787f53
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] 3482e2ce-817c-4788-b185-35adaad414f7
+@ [observed_at_ms] 1788905291452
+
+& [Observation]
+  + first focused debug run passed eight of nine tests and failed request_identity_check_order_and_digest_tamper_refuse
+  + the fixture replaced the digest first character with f while the deterministic fixture digest already began with f
+
+& [Classification]
+  + test-construction no-op rather than compiler verifier or refusal semantic regression
+
+& [Correction]
+  + choose1 only when the current first character is0 and otherwise choose0 so the tamper is necessarily different
+
+& [Boundary]
+  + no accepted request plan authority or production behavior changed; rerun focused debug release and wider gates
