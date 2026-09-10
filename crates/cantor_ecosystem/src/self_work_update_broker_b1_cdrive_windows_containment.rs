@@ -52,6 +52,9 @@ use windows_sys::Win32::{
 use crate::{
     B1CDrivePhysicalExecutionPermit, B1CDriveWindowsContainedChildObservation,
     B1CDriveWindowsContainedChildSpec,
+    evox2_scratch_build_contained_process::{
+        Evox2ScratchBuildContainedProcessObservation, Evox2ScratchBuildContainedProcessSpec,
+    },
     sjs_compiled_lookahead_repository_slice_observation::{
         SjsRsoContainedChildObservation, SjsRsoContainedChildSpec, SjsRsoGitRunner,
     },
@@ -92,6 +95,13 @@ pub(crate) fn run_sjs_rso_contained_child(
         .authorize_contained_spec(spec)
         .map_err(|error| error.to_string())?;
 
+    run_validated_contained_child(spec)
+}
+
+pub(crate) fn run_evox2_scratch_build_contained_process(
+    spec: &Evox2ScratchBuildContainedProcessSpec,
+) -> Result<Evox2ScratchBuildContainedProcessObservation, String> {
+    spec.validate()?;
     run_validated_contained_child(spec)
 }
 
@@ -219,6 +229,10 @@ where
             Ok(DrainEvent::OverBound(kind, observed)) => {
                 terminate_job(&job);
                 wait_after_termination(&process);
+                if spec.retain_output_overflow() {
+                    forced_termination = true;
+                    break;
+                }
                 let _ = join_drain(stdout_reader, "stdout");
                 let _ = join_drain(stderr_reader, "stderr");
                 return Err(format!(
@@ -361,7 +375,74 @@ trait WindowsContainedChildContract {
     fn timeout_millis(&self) -> u32;
     fn maximum_active_processes(&self) -> u32;
     fn maximum_total_processes(&self) -> u32;
+    fn retain_output_overflow(&self) -> bool {
+        false
+    }
     fn make_observation(&self, raw: RawContainedChildObservation) -> Self::Observation;
+}
+
+impl WindowsContainedChildContract for Evox2ScratchBuildContainedProcessSpec {
+    type Observation = Evox2ScratchBuildContainedProcessObservation;
+
+    fn executable(&self) -> &str {
+        &self.executable
+    }
+
+    fn arguments(&self) -> &[String] {
+        &self.arguments
+    }
+
+    fn working_directory(&self) -> &str {
+        &self.working_directory
+    }
+
+    fn environment(&self) -> &[(String, String)] {
+        &self.process_environment
+    }
+
+    fn stdin(&self) -> &[u8] {
+        &[]
+    }
+
+    fn maximum_stdout_bytes(&self) -> usize {
+        self.maximum_stdout_bytes
+    }
+
+    fn maximum_stderr_bytes(&self) -> usize {
+        self.maximum_stderr_bytes
+    }
+
+    fn timeout_millis(&self) -> u32 {
+        self.timeout_millis
+    }
+
+    fn maximum_active_processes(&self) -> u32 {
+        self.maximum_active_processes
+    }
+
+    fn maximum_total_processes(&self) -> u32 {
+        self.maximum_total_processes
+    }
+
+    fn retain_output_overflow(&self) -> bool {
+        true
+    }
+
+    fn make_observation(&self, raw: RawContainedChildObservation) -> Self::Observation {
+        Evox2ScratchBuildContainedProcessObservation {
+            exit_code: raw.exit_code,
+            stdout: raw.stdout,
+            stderr: raw.stderr,
+            stdout_observed_bytes: raw.stdout_observed_bytes,
+            stderr_observed_bytes: raw.stderr_observed_bytes,
+            stdout_over_bound: raw.stdout_over_bound,
+            stderr_over_bound: raw.stderr_over_bound,
+            forced_termination: raw.forced_termination,
+            total_processes: raw.total_processes,
+            active_processes_at_terminal: raw.active_processes_at_terminal,
+            resume_previous_count: raw.resume_previous_count,
+        }
+    }
 }
 
 impl WindowsContainedChildContract for B1CDriveWindowsContainedChildSpec {

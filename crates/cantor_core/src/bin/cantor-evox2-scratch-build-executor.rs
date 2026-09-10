@@ -35,8 +35,33 @@ fn run() -> Result<(), String> {
         {
             seal_receipt()
         }
-        _ => Err("usage: cantor-evox2-scratch-build-executor (verify --sha256 | materialize --absent-root | seal --effect-account exact)".to_owned()),
+        [operation, flag] if operation == "seal-candidate" && flag == "--stdin" => {
+            seal_candidate_from_stdin()
+        }
+        _ => Err("usage: cantor-evox2-scratch-build-executor (verify --sha256 | materialize --absent-root | seal --effect-account exact | seal-candidate --stdin)".to_owned()),
     }
+}
+
+fn seal_candidate_from_stdin() -> Result<(), String> {
+    require_current_directory(EVOX2_SCRATCH_BUILD_SERVICE_ROOT)?;
+    let service = PathBuf::from(EVOX2_SCRATCH_BUILD_SERVICE_ROOT.replace('/', "\\"));
+    let commission_raw = read_bounded(&service.join("commission.json"), "commission")?;
+    let commission = from_evox2_scratch_build_commission_machine_form(&commission_raw)
+        .map_err(|error| error.to_string())?;
+    let mut bytes = Vec::new();
+    std::io::stdin()
+        .take((EVOX2_SCRATCH_BUILD_MAX_MACHINE_BYTES + 1) as u64)
+        .read_to_end(&mut bytes)
+        .map_err(|_| "receipt candidate stdin read failed".to_owned())?;
+    if bytes.is_empty() || bytes.len() > EVOX2_SCRATCH_BUILD_MAX_MACHINE_BYTES {
+        return Err("receipt candidate stdin boundary refused".to_owned());
+    }
+    let candidate =
+        String::from_utf8(bytes).map_err(|_| "receipt candidate stdin UTF-8 refused".to_owned())?;
+    let receipt = seal_evox2_scratch_build_receipt_candidate_machine_form(&commission, &candidate)
+        .map_err(|error| error.to_string())?;
+    println!("{receipt}");
+    Ok(())
 }
 
 fn verify_archive() -> Result<(), String> {

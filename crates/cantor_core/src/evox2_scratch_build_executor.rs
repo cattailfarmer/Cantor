@@ -98,7 +98,7 @@ const REQUESTED_CHECKS: [&str; 4] = [
     "workspace_format",
 ];
 
-const PACKAGE_ARTIFACTS: [(&str, &str); 20] = [
+const PACKAGE_ARTIFACTS: [(&str, &str); 21] = [
     (
         "bin/cantor-evox2-scratch-build-commission.exe",
         "commission_compiler",
@@ -118,6 +118,10 @@ const PACKAGE_ARTIFACTS: [(&str, &str); 20] = [
     (
         "bin/cantor-evox2-scratch-build-executor.exe",
         "fixed_profile_executor",
+    ),
+    (
+        "bin/cantor-evox2-scratch-build-operation-runner.exe",
+        "contained_operation_runner",
     ),
     (
         "scripts/invoke-cantor-evox2-scratch-build-once.ps1",
@@ -151,11 +155,14 @@ const PACKAGE_ARTIFACTS: [(&str, &str); 20] = [
     ),
 ];
 
-const PACKAGE_EXECUTIONS: [&str; 5] = [
+const PACKAGE_EXECUTIONS: [&str; 8] = [
     "commission_compiler_once",
     "package_verifier_preflight",
     "commission_verifier_preflight",
+    "contained_operation_runner_sequence",
+    "toolchain_probe_once",
     "fixed_profile_executor_once",
+    "stopped_receipt_sealer",
     "receipt_verifier_postflight",
 ];
 

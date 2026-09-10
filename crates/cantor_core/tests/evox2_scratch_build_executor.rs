@@ -604,8 +604,8 @@ fn acyclic_package_graph_roundtrips_and_corresponds() {
         &envelope,
     )
     .unwrap();
-    assert_eq!(verified.artifact_count, 20);
-    assert_eq!(verified.package_file_count, 23);
+    assert_eq!(verified.artifact_count, 21);
+    assert_eq!(verified.package_file_count, 24);
     assert_eq!(verified.effects, 0);
 }
 
@@ -670,4 +670,123 @@ fn package_machine_forms_refuse_raw_duplicate_and_unknown_tamper() {
         from_evox2_scratch_build_deployment_envelope_machine_form(&format!(" {envelope_form}"))
             .is_err()
     );
+}
+
+#[test]
+fn package_composer_process_closes_real_archive_manifest_and_envelope() {
+    let root = std::env::temp_dir().join(format!(
+        "cantor-evox2-scratch-build-package-compose-{}",
+        std::process::id()
+    ));
+    fs::create_dir(&root).unwrap();
+    let result = (|| {
+        let repository = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let command_set = fixed_evox2_scratch_build_command_set();
+        let command_set_raw =
+            to_evox2_scratch_build_command_set_machine_form(&command_set).unwrap();
+        for (relative_path, _) in evox2_scratch_build_package_artifacts() {
+            let path = root.join(relative_path.replace('/', "\\"));
+            if let Some(parent) = path.parent() {
+                fs::create_dir_all(parent)?;
+            }
+            match relative_path.as_str() {
+                "source.tar" => {
+                    let status = Command::new("git")
+                        .args(["-C"])
+                        .arg(&repository)
+                        .args(["archive", "--format=tar", "--output"])
+                        .arg(&path)
+                        .arg(EVOX2_SCRATCH_BUILD_SOURCE_COMMIT)
+                        .status()?;
+                    assert!(status.success());
+                }
+                "command_set.json" => fs::write(path, &command_set_raw)?,
+                _ => fs::write(path, format!("fixture:{relative_path}"))?,
+            }
+        }
+
+        let composer = env!("CARGO_BIN_EXE_cantor-evox2-scratch-build-package-compose");
+        let compiler = env!("CARGO_BIN_EXE_cantor-evox2-scratch-build-commission");
+        let manifest_first = Command::new(composer)
+            .current_dir(&root)
+            .args(["manifest", "--implementation-commit", &"a".repeat(40)])
+            .output()?;
+        let manifest_second = Command::new(composer)
+            .current_dir(&root)
+            .args(["manifest", "--implementation-commit", &"a".repeat(40)])
+            .output()?;
+        assert!(manifest_first.status.success());
+        assert_eq!(manifest_first.stdout, manifest_second.stdout);
+        let manifest_raw = std::str::from_utf8(&manifest_first.stdout)
+            .unwrap()
+            .trim_end();
+        let manifest =
+            from_evox2_scratch_build_implementation_manifest_machine_form(manifest_raw).unwrap();
+        assert_eq!(manifest.artifact_count, 21);
+        let source_archive = manifest
+            .artifacts
+            .iter()
+            .find(|artifact| artifact.relative_path == "source.tar")
+            .unwrap();
+        assert_eq!(
+            source_archive.sha256,
+            EVOX2_SCRATCH_BUILD_SOURCE_ARCHIVE_SHA256
+        );
+        fs::write(root.join("implementation_manifest.json"), manifest_raw)?;
+
+        let commission = Command::new(compiler)
+            .current_dir(&root)
+            .args(["implementation_manifest.json", "command_set.json"])
+            .output()?;
+        assert!(commission.status.success());
+        let commission_raw = std::str::from_utf8(&commission.stdout).unwrap().trim_end();
+        fs::write(root.join("commission.json"), commission_raw)?;
+
+        let envelope_first = Command::new(composer)
+            .current_dir(&root)
+            .args([
+                "envelope",
+                "implementation_manifest.json",
+                "command_set.json",
+                "commission.json",
+            ])
+            .output()?;
+        let envelope_second = Command::new(composer)
+            .current_dir(&root)
+            .args([
+                "envelope",
+                "implementation_manifest.json",
+                "command_set.json",
+                "commission.json",
+            ])
+            .output()?;
+        assert!(envelope_first.status.success());
+        assert_eq!(envelope_first.stdout, envelope_second.stdout);
+        let envelope_raw = std::str::from_utf8(&envelope_first.stdout)
+            .unwrap()
+            .trim_end();
+        let envelope =
+            from_evox2_scratch_build_deployment_envelope_machine_form(envelope_raw).unwrap();
+        assert_eq!(envelope.package_file_count, 24);
+        assert_eq!(
+            envelope.package_aggregate_bytes,
+            manifest.aggregate_bytes
+                + manifest_raw.len() as u64
+                + commission_raw.len() as u64
+                + envelope_raw.len() as u64
+        );
+
+        let source_archive = root.join("source.tar");
+        let mut tampered = fs::read(&source_archive)?;
+        tampered.push(0);
+        fs::write(&source_archive, tampered)?;
+        let refused = Command::new(composer)
+            .current_dir(&root)
+            .args(["manifest", "--implementation-commit", &"a".repeat(40)])
+            .output()?;
+        assert!(!refused.status.success());
+        Ok::<(), std::io::Error>(())
+    })();
+    fs::remove_dir_all(&root).unwrap();
+    result.unwrap();
 }

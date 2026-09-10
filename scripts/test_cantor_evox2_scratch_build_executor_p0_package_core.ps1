@@ -38,7 +38,7 @@ try {
         $changed = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
         if ($mutation -ceq 'effects') { $changed.verification.effects = 1 }
         if ($mutation -ceq 'live') { $changed.verification.live_effects_authorized = $true }
-        if ($mutation -ceq 'count') { $changed.verification.package_artifacts = 21 }
+        if ($mutation -ceq 'count') { $changed.verification.package_artifacts = 22 }
         [IO.File]::WriteAllText($manifestPath, ($changed | ConvertTo-Json -Depth 20 -Compress), [Text.UTF8Encoding]::new($false))
         $refused = $false
         try { & $isolatedVerify -Root $testRoot | Out-Null } catch { $refused = $true }

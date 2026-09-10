@@ -68,7 +68,7 @@ foreach ($token in @('archive special member refused', 'archive duplicate case-f
     if (-not $archive.Contains($token)) { throw "archive token missing: $token" }
 }
 $tests = Get-Content -LiteralPath (Join-Path $rootPath 'crates/cantor_core/tests/evox2_scratch_build_executor.rs') -Raw
-if (($tests | Select-String -Pattern '#\[test\]' -AllMatches).Matches.Count -ne 16) { throw 'focused Rust test count mismatch' }
+if (($tests | Select-String -Pattern '#\[test\]' -AllMatches).Matches.Count -ne 17) { throw 'focused Rust test count mismatch' }
 foreach ($token in @('package_graph_refuses_cycles_membership_and_digest_drift', 'commission_compiler_process_is_deterministic_and_manifest_bound', 'pinned_git_archive_passes_strict_ustar_pax_admission')) {
     if (-not $tests.Contains($token)) { throw "focused test token missing: $token" }
 }
@@ -76,10 +76,10 @@ foreach ($token in @('package_graph_refuses_cycles_membership_and_digest_drift',
 $verification = $manifest.verification
 $expectedCounts = @{
     artifact_count = 31
-    focused_tests = 16
+    focused_tests = 17
     archive_unit_tests = 3
     package_layers = 3
-    package_artifacts = 20
+    package_artifacts = 21
     command_records = 4
     operations = 7
     authority_grants = 5
@@ -96,4 +96,4 @@ foreach ($key in @('focused_debug_passed', 'focused_overflow_checked_release_pas
 }
 if ($verification.package_constructed -ne $false -or $verification.live_effects_authorized -ne $false -or $verification.physical_build_performed -ne $false) { throw 'phase authority promotion admitted' }
 
-'cantor_evox2_scratch_build_executor_p0_package_core_verified=true artifacts=31 focused_tests=16 archive_tests=3 package_layers=3 package_artifacts=20 commands=4 operations=7 grants=5 denials=14 provider_requests=0 remote_calls=0 effects=0 package_constructed=false live_effects_authorized=false'
+'cantor_evox2_scratch_build_executor_p0_package_core_verified=true artifacts=31 focused_tests=17 archive_tests=3 package_layers=3 package_artifacts=21 commands=4 operations=7 grants=5 denials=14 provider_requests=0 remote_calls=0 effects=0 package_constructed=false live_effects_authorized=false'
