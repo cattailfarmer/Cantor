@@ -28,6 +28,10 @@ $paths = @(
     'narrative/turns/1789058506094_evox2_scratch_build_deployment_controller_plan.sop',
     'narrative/file_changes/1789058506094_evox2_scratch_build_deployment_controller_plan.sop',
     'narrative/change_sets/0d220612-23c1-41f1-8eb8-c9494e8fa382.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Executor_P0_Deployment_Controller_Plan_Publication_Proof.sop',
+    'narrative/turns/1789069105064_evox2_scratch_build_deployment_controller_plan_publication.sop',
+    'narrative/file_changes/1789069105064_evox2_scratch_build_deployment_controller_plan_publication.sop',
+    'narrative/change_sets/2e36c689-4a38-4eb4-bbaf-58af476858a1.sop',
     'scripts/build_cantor_evox2_scratch_build_executor_p0_controller_evidence.ps1',
     'scripts/verify_cantor_evox2_scratch_build_executor_p0_controller_evidence.ps1',
     'scripts/test_cantor_evox2_scratch_build_executor_p0_controller_evidence.ps1'
@@ -50,10 +54,11 @@ $manifest = [ordered]@{
     package_evidence_bookend_commit = '9e583948ea6c1f52604862c354e99d8ccb1195ba'
     package_implementation_commit = 'f5b904fc8cf48b34672dead0596e9de6e706f38b'
     package_set_sha256 = 'fed126ed060edfc3bccb0d3d7e6ed7dd27048a976753b5c2e23c0da45511030e'
+    controller_implementation_commit = 'c0fd8175a6fba0f61a53868b2660bc361dadb96c'
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 24
+        artifact_count = 28
         focused_tests = 8
         stage_count = 10
         effectful_stage_count = 7
@@ -62,6 +67,9 @@ $manifest = [ordered]@{
         provider_requests = 0
         remote_calls = 0
         remote_contact_authorized = $false
+        controller_plan_published = $true
+        controller_plan_bookended = $true
+        effect_wrapper_implementation_authorized = $true
         effects = 0
     }
 }
