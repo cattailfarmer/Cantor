@@ -1,0 +1,14 @@
+Subject: EVO-X2 Scratch Build Package Authority Count Correction Change Set
+
+@ [change_set_uuid] 9c5b8c1d-672e-41d5-833d-2fd8a55b6115
+@ [turn_uuid] 159e4858-8045-4585-9120-f29d7b8ce344
+@ [fault_uuid] 32cd56e1-a3bb-44f6-a8b5-822afff1381a
+
+& [Elements]
+  + [package.commission_authority] expect grants5 because the verified commission carries exactly five bounded execution capabilities
+  + [package.construction_authority] report grants0 separately because local package construction itself receives no remote or live capability
+  + [verifier.preservation] retain independent passed package verification unchanged because the mismatch was solely in wrapper interpretation
+  + [fault.retention] preserve the verifier-passed wrapper-refused second root as non-promoted evidence
+
+& [Frontier]
+  + publish and immediately bookend this correction before one fresh local package retry

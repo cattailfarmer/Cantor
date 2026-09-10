@@ -1,0 +1,21 @@
+Subject: EVO-X2 Scratch Build Package Authority Count Expectation Refusal
+
+@ [fault_uuid] 32cd56e1-a3bb-44f6-a8b5-822afff1381a
+@ [canonical_uuid] 935e020f-8c6f-49e4-b355-63eabd3b778b
+@ [implementation_commit] 1df9a686ebb26e16b170b3f13e50f5be62f9e49a
+@ [publication_bookend_commit] 7633b710b1d0eff616310f3371f03c92149aea05
+
+& [Observed]
+  + the second create-new local package construction compiled seven release binaries in7m27s and the unchanged independent Rust package verifier returned status passed artifacts21 files24 authority_grants5 effects0
+  + the PowerShell constructor then refused because its success assertion incorrectly required verification.authority_grants0
+  + root D:/CantorBuilds/evox2-scratch-build-executor-p0-package-1df9a686 is verifier-passed but wrapper-refused and remains non-promoted retained evidence
+
+& [Cause]
+  + wrapper semantics conflated the commission five bounded grants with constructor ambient authority which is zero
+
+& [Correction]
+  + require verifier commission authority_grants5 and expose separate result fields commission_authority_grants5 and construction_authority_grants0
+  + keep the independent verifier commission package bytes and effect count unchanged
+
+& [EffectAccount]
+  + provider_requests0 remote_calls0 EVO-X2_contacts0 live_effects0 physical_build_performed false

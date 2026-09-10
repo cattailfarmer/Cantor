@@ -26,6 +26,12 @@ $paths = @(
     'narrative/turns/1789006349806_evox2_scratch_build_package_canonical_copy_correction.sop',
     'narrative/file_changes/1789006349806_evox2_scratch_build_package_canonical_copy_correction.sop',
     'narrative/change_sets/4403d481-b77c-4eab-9fe1-ee6c97d68cbc.sop',
+    'narrative/operational_faults/1789011591513_evox2_scratch_build_package_authority_count_expectation_refusal.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Executor_P0_Package_Authority_Count_Correction_Proof.sop',
+    'feature_support/reviews/CantorEVOX2ScratchBuildExecutorP0PackageAuthorityCountCorrectionReview.sop',
+    'narrative/turns/1789011591513_evox2_scratch_build_package_authority_count_correction.sop',
+    'narrative/file_changes/1789011591513_evox2_scratch_build_package_authority_count_correction.sop',
+    'narrative/change_sets/9c5b8c1d-672e-41d5-833d-2fd8a55b6115.sop',
     'crates/cantor_core/src/evox2_scratch_build_executor.rs',
     'crates/cantor_core/src/evox2_scratch_build_archive.rs',
     'crates/cantor_core/src/bin/cantor-evox2-scratch-build-executor.rs',
@@ -59,7 +65,7 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 33
+        artifact_count = 39
         core_focused_tests = 17
         contained_process_tests = 2
         package_artifacts = 21

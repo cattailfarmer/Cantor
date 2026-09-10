@@ -144,7 +144,7 @@ try {
         $verificationRaw = ((& (Join-Path $binRoot 'cantor-evox2-scratch-build-package-verify.exe') implementation_manifest.json command_set.json commission.json deployment_envelope.json) | Out-String).TrimEnd("`r", "`n")
         if ($LASTEXITCODE -ne 0) { throw 'complete package verification failed' }
         $verification = $verificationRaw | ConvertFrom-Json
-        if ($verification.status -cne 'passed' -or [int] $verification.artifact_count -ne 21 -or [int] $verification.package_file_count -ne 24 -or [int] $verification.authority_grants -ne 0 -or [int] $verification.effects -ne 0) { throw 'complete package verification semantics differ' }
+        if ($verification.status -cne 'passed' -or [int] $verification.artifact_count -ne 21 -or [int] $verification.package_file_count -ne 24 -or [int] $verification.authority_grants -ne 5 -or [int] $verification.effects -ne 0) { throw 'complete package verification semantics differ' }
     } finally {
         Pop-Location
     }
@@ -161,7 +161,8 @@ try {
         commission_sha256 = [string] $verification.commission_sha256
         command_set_sha256 = [string] $verification.command_set_sha256
         package_aggregate_bytes = [int64] $verification.package_aggregate_bytes
-        authority_grants = 0
+        commission_authority_grants = 5
+        construction_authority_grants = 0
         remote_calls = 0
         effects = 0
     } | ConvertTo-Json -Depth 10 -Compress

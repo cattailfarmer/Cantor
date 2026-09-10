@@ -16,7 +16,7 @@ Assert-Exact $manifest.profile 'cantor-evox2-scratch-build-executor-harness-impl
 Assert-Exact $manifest.manifest_uuid '51c51a83-1ff3-497d-92f1-9998f8cf8583' 'manifest UUID'
 Assert-Exact $manifest.canonical_uuid '935e020f-8c6f-49e4-b355-63eabd3b778b' 'canonical UUID'
 Assert-Exact $manifest.package_core_bookend_commit 'f87734eab7b93f7ccb2370667cbb88089d72201d' 'package-core bookend'
-if (@($manifest.artifacts).Count -ne 33) { throw 'artifact cardinality differs' }
+if (@($manifest.artifacts).Count -ne 39) { throw 'artifact cardinality differs' }
 $seen = @{}
 foreach ($artifact in $manifest.artifacts) {
     $relative = [string] $artifact.path
@@ -47,7 +47,13 @@ foreach ($required in @(
     'feature_support/reviews/CantorEVOX2ScratchBuildExecutorP0PackageCanonicalCopyCorrectionReview.sop',
     'narrative/turns/1789006349806_evox2_scratch_build_package_canonical_copy_correction.sop',
     'narrative/file_changes/1789006349806_evox2_scratch_build_package_canonical_copy_correction.sop',
-    'narrative/change_sets/4403d481-b77c-4eab-9fe1-ee6c97d68cbc.sop'
+    'narrative/change_sets/4403d481-b77c-4eab-9fe1-ee6c97d68cbc.sop',
+    'narrative/operational_faults/1789011591513_evox2_scratch_build_package_authority_count_expectation_refusal.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Executor_P0_Package_Authority_Count_Correction_Proof.sop',
+    'feature_support/reviews/CantorEVOX2ScratchBuildExecutorP0PackageAuthorityCountCorrectionReview.sop',
+    'narrative/turns/1789011591513_evox2_scratch_build_package_authority_count_correction.sop',
+    'narrative/file_changes/1789011591513_evox2_scratch_build_package_authority_count_correction.sop',
+    'narrative/change_sets/9c5b8c1d-672e-41d5-833d-2fd8a55b6115.sop'
 )) {
     if (-not $seen.ContainsKey($required.ToUpperInvariant())) { throw "required artifact absent: $required" }
 }
@@ -79,7 +85,7 @@ foreach ($forbidden in @('ssh.exe', 'scp.exe', 'Invoke-Expression', 'cmd.exe', '
     if ($harness.Contains($forbidden)) { throw "host harness contains forbidden dispatch: $forbidden" }
 }
 $builder = Get-Content -LiteralPath (Join-Path $rootPath 'scripts\build_cantor_evox2_scratch_build_executor_p0_package.ps1') -Raw
-foreach ($token in @('ImplementationCommit', 'PublicationBookendCommit', 'publication bookend must be the immediate single-parent child', 'Copy-CanonicalRepositoryJson', 'requires exactly one terminal line ending', 'terminal line-ending cardinality differs', "Join-Path `$sourceRoot", '--locked', '--offline', 'artifact_count = 21', 'package_file_count = 24', 'remote_calls = 0', 'effects = 0')) {
+foreach ($token in @('ImplementationCommit', 'PublicationBookendCommit', 'publication bookend must be the immediate single-parent child', 'Copy-CanonicalRepositoryJson', 'requires exactly one terminal line ending', 'terminal line-ending cardinality differs', "Join-Path `$sourceRoot", '--locked', '--offline', 'artifact_count = 21', 'package_file_count = 24', 'commission_authority_grants = 5', 'construction_authority_grants = 0', 'remote_calls = 0', 'effects = 0')) {
     if (-not $builder.Contains($token)) { throw "package builder token absent: $token" }
 }
 $coreTests = Get-Content -LiteralPath (Join-Path $rootPath 'crates\cantor_core\tests\evox2_scratch_build_executor.rs') -Raw
@@ -99,7 +105,7 @@ foreach ($relative in @(
     if ($errors.Count -ne 0) { throw "PowerShell parse differs: $relative" }
 }
 $expected = @{
-    artifact_count = 33; core_focused_tests = 17; contained_process_tests = 2; package_artifacts = 21; package_files = 24
+    artifact_count = 39; core_focused_tests = 17; contained_process_tests = 2; package_artifacts = 21; package_files = 24
     operation_records = 7; toolchain_probes = 1; authority_grants = 5; authority_denials = 14; isolated_adversarial_refusals = 4
     canonical_copy_successes = 2; canonical_copy_refusals = 6
     provider_requests = 0; remote_calls = 0; effects = 0
@@ -112,4 +118,4 @@ foreach ($name in @('focused_debug_passed', 'clippy_warnings_denied', 'powershel
 }
 if ($manifest.verification.package_constructed -ne $false -or $manifest.verification.live_effects_authorized -ne $false -or $manifest.verification.physical_build_performed -ne $false) { throw 'implementation evidence promotes a later phase' }
 
-'cantor_evox2_scratch_build_harness_implementation_verified=true artifacts=33 core_tests=17 contained_tests=2 package_artifacts=21 package_files=24 operations=7 probes=1 grants=5 denials=14 isolated_refusals=4 canonical_copy_successes=2 canonical_copy_refusals=6 provider_requests=0 remote_calls=0 effects=0 package_constructed=false live_effects_authorized=false'
+'cantor_evox2_scratch_build_harness_implementation_verified=true artifacts=39 core_tests=17 contained_tests=2 package_artifacts=21 package_files=24 operations=7 probes=1 grants=5 denials=14 isolated_refusals=4 canonical_copy_successes=2 canonical_copy_refusals=6 provider_requests=0 remote_calls=0 effects=0 package_constructed=false live_effects_authorized=false'
