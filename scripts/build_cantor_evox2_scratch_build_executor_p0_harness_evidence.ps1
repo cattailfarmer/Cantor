@@ -40,6 +40,10 @@ $paths = @(
     'narrative/turns/1789016331939_evox2_scratch_build_package_construction.sop',
     'narrative/file_changes/1789016331939_evox2_scratch_build_package_construction.sop',
     'narrative/change_sets/15756d9d-da14-4a75-8e4e-5db6423ec101.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Executor_P0_Package_Evidence_Publication_Proof.sop',
+    'narrative/turns/1789021713412_evox2_scratch_build_package_evidence_publication.sop',
+    'narrative/file_changes/1789021713412_evox2_scratch_build_package_evidence_publication.sop',
+    'narrative/change_sets/358e6d71-0b43-4362-8279-077c2669913c.sop',
     'experiments/evox2_scratch_build_executor_p0/package_construction_evidence.json',
     'crates/cantor_core/src/evox2_scratch_build_executor.rs',
     'crates/cantor_core/src/evox2_scratch_build_archive.rs',
@@ -74,10 +78,11 @@ $manifest = [ordered]@{
     manifest_uuid = '51c51a83-1ff3-497d-92f1-9998f8cf8583'
     canonical_uuid = '935e020f-8c6f-49e4-b355-63eabd3b778b'
     package_core_bookend_commit = 'f87734eab7b93f7ccb2370667cbb88089d72201d'
+    package_evidence_commit = 'ce5879d96b5c8e6f098e56286fa7189d963e0c02'
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 51
+        artifact_count = 55
         core_focused_tests = 17
         contained_process_tests = 2
         package_artifacts = 21
@@ -99,6 +104,7 @@ $manifest = [ordered]@{
         effects = 0
         package_constructed = $true
         package_verified = $true
+        package_evidence_bookended = $true
         package_copy_successes = 1
         package_copy_refusals = 4
         live_effects_authorized = $false
