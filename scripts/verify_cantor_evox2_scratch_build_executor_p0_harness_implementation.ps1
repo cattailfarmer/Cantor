@@ -17,7 +17,7 @@ Assert-Exact $manifest.manifest_uuid '51c51a83-1ff3-497d-92f1-9998f8cf8583' 'man
 Assert-Exact $manifest.canonical_uuid '935e020f-8c6f-49e4-b355-63eabd3b778b' 'canonical UUID'
 Assert-Exact $manifest.package_core_bookend_commit 'f87734eab7b93f7ccb2370667cbb88089d72201d' 'package-core bookend'
 Assert-Exact $manifest.package_evidence_commit 'ce5879d96b5c8e6f098e56286fa7189d963e0c02' 'package-evidence commit'
-if (@($manifest.artifacts).Count -ne 62) { throw 'artifact cardinality differs' }
+if (@($manifest.artifacts).Count -ne 66) { throw 'artifact cardinality differs' }
 $seen = @{}
 foreach ($artifact in $manifest.artifacts) {
     $relative = [string] $artifact.path
@@ -121,7 +121,7 @@ foreach ($relative in @(
     if ($errors.Count -ne 0) { throw "PowerShell parse differs: $relative" }
 }
 $expected = @{
-    artifact_count = 62; core_focused_tests = 17; contained_process_tests = 2; package_artifacts = 21; package_files = 24
+    artifact_count = 66; core_focused_tests = 17; contained_process_tests = 2; package_artifacts = 21; package_files = 24
     operation_records = 7; toolchain_probes = 1; authority_grants = 5; authority_denials = 14; isolated_adversarial_refusals = 4
     canonical_copy_successes = 2; canonical_copy_refusals = 6; package_copy_successes = 1; package_copy_refusals = 4
     provider_requests = 0; remote_calls = 0; effects = 0
@@ -134,4 +134,4 @@ foreach ($name in @('focused_debug_passed', 'clippy_warnings_denied', 'powershel
 }
 if ($manifest.verification.package_constructed -ne $true -or $manifest.verification.package_verified -ne $true -or $manifest.verification.package_evidence_bookended -ne $true -or $manifest.verification.live_effects_authorized -ne $false -or $manifest.verification.physical_build_performed -ne $false) { throw 'package construction claim differs' }
 
-'cantor_evox2_scratch_build_harness_implementation_verified=true artifacts=62 core_tests=17 contained_tests=2 package_artifacts=21 package_files=24 operations=7 probes=1 grants=5 denials=14 isolated_refusals=4 canonical_copy_successes=2 canonical_copy_refusals=6 package_copy_successes=1 package_copy_refusals=4 provider_requests=0 remote_calls=0 effects=0 package_constructed=true package_verified=true package_evidence_bookended=true live_effects_authorized=false'
+'cantor_evox2_scratch_build_harness_implementation_verified=true artifacts=66 core_tests=17 contained_tests=2 package_artifacts=21 package_files=24 operations=7 probes=1 grants=5 denials=14 isolated_refusals=4 canonical_copy_successes=2 canonical_copy_refusals=6 package_copy_successes=1 package_copy_refusals=4 provider_requests=0 remote_calls=0 effects=0 package_constructed=true package_verified=true package_evidence_bookended=true live_effects_authorized=false'

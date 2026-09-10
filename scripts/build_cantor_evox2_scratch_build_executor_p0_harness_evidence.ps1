@@ -51,6 +51,10 @@ $paths = @(
     'narrative/turns/1789046237326_evox2_scratch_build_host_harness_commission_authority_correction.sop',
     'narrative/file_changes/1789046237326_evox2_scratch_build_host_harness_commission_authority_correction.sop',
     'narrative/change_sets/7e0e219e-1499-4a9b-8a18-a9a6b3e18d7a.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Executor_P0_Host_Harness_Commission_Authority_Correction_Publication_Proof.sop',
+    'narrative/turns/1789051767193_evox2_scratch_build_host_harness_commission_authority_correction_publication.sop',
+    'narrative/file_changes/1789051767193_evox2_scratch_build_host_harness_commission_authority_correction_publication.sop',
+    'narrative/change_sets/41a31e7b-af41-440d-9e98-45f18f558c54.sop',
     'experiments/evox2_scratch_build_executor_p0/package_construction_evidence.json',
     'crates/cantor_core/src/evox2_scratch_build_executor.rs',
     'crates/cantor_core/src/evox2_scratch_build_archive.rs',
@@ -89,7 +93,7 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 62
+        artifact_count = 66
         core_focused_tests = 17
         contained_process_tests = 2
         package_artifacts = 21
