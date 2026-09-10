@@ -50,6 +50,22 @@ $previousIncremental = $env:CARGO_INCREMENTAL
 $previousTests = $env:RUST_TEST_THREADS
 $previousStack = $env:RUST_MIN_STACK
 
+function Copy-CanonicalRepositoryJson([string] $Source, [string] $Destination) {
+    $bytes = [IO.File]::ReadAllBytes($Source)
+    if ($bytes.Length -lt 2 -or ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF)) { throw 'repository JSON byte boundary differs' }
+    $utf8 = [Text.UTF8Encoding]::new($false, $true)
+    $raw = $utf8.GetString($bytes)
+    if ($raw.EndsWith("`r`n", [StringComparison]::Ordinal)) {
+        $canonical = $raw.Substring(0, $raw.Length - 2)
+    } elseif ($raw.EndsWith("`n", [StringComparison]::Ordinal)) {
+        $canonical = $raw.Substring(0, $raw.Length - 1)
+    } else {
+        throw 'repository JSON requires exactly one terminal line ending'
+    }
+    if ($canonical.Length -eq 0 -or $canonical.EndsWith("`r", [StringComparison]::Ordinal) -or $canonical.EndsWith("`n", [StringComparison]::Ordinal)) { throw 'repository JSON terminal line-ending cardinality differs' }
+    [IO.File]::WriteAllText($Destination, $canonical, [Text.UTF8Encoding]::new($false))
+}
+
 try {
     New-Item -ItemType Directory -Path $scratch, $sourceRoot | Out-Null
     & git.exe -C $repositoryRoot archive --format=tar --output=$implementationArchive $ImplementationCommit
@@ -91,9 +107,9 @@ try {
         Copy-Item -LiteralPath (Join-Path $releaseRoot $name) -Destination (Join-Path $binRoot $name)
     }
     Copy-Item -LiteralPath (Join-Path $sourceRoot 'scripts\invoke-cantor-evox2-scratch-build-once.ps1') -Destination $scriptRoot
-    Copy-Item -LiteralPath (Join-Path $sourceRoot 'experiments\evox2_plan_only_build_job_p0\live_evidence_2026-09-08_09cf6304\request.json') -Destination (Join-Path $package 'request.json')
-    Copy-Item -LiteralPath (Join-Path $sourceRoot 'experiments\evox2_plan_only_build_job_p0\live_evidence_2026-09-08_09cf6304\plan-1.json') -Destination (Join-Path $package 'plan.json')
-    Copy-Item -LiteralPath (Join-Path $sourceRoot 'experiments\evox2_plan_only_build_job_p0\live_evidence_2026-09-08_09cf6304\verification-1.json') -Destination (Join-Path $package 'plan_verification.json')
+    Copy-CanonicalRepositoryJson (Join-Path $sourceRoot 'experiments\evox2_plan_only_build_job_p0\live_evidence_2026-09-08_09cf6304\request.json') (Join-Path $package 'request.json')
+    Copy-CanonicalRepositoryJson (Join-Path $sourceRoot 'experiments\evox2_plan_only_build_job_p0\live_evidence_2026-09-08_09cf6304\plan-1.json') (Join-Path $package 'plan.json')
+    Copy-CanonicalRepositoryJson (Join-Path $sourceRoot 'experiments\evox2_plan_only_build_job_p0\live_evidence_2026-09-08_09cf6304\verification-1.json') (Join-Path $package 'plan_verification.json')
     Copy-Item -LiteralPath $sourceArchive -Destination (Join-Path $package 'source.tar')
     foreach ($copy in @(
         @('specifications\Cantor_EVO_X2_Scratch_Build_Executor_P0.sop', 'specification.sop'),

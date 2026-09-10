@@ -51,7 +51,43 @@ try {
     try { & $isolatedVerify -Root $testRoot | Out-Null } catch { $refused = $true }
     if (-not $refused) { throw 'missing evidence artifact admitted' }
 
-    'cantor_evox2_scratch_build_harness_implementation_tests=passed isolated_successes=1 isolated_refusals=4 provider_requests=0 remote_calls=0 effects=0'
+    $builderPath = Join-Path $root 'scripts\build_cantor_evox2_scratch_build_executor_p0_package.ps1'
+    $tokens = $null
+    $errors = $null
+    $builderAst = [Management.Automation.Language.Parser]::ParseFile($builderPath, [ref] $tokens, [ref] $errors)
+    if ($errors.Count -ne 0) { throw 'package builder AST unavailable' }
+    $functionAst = $builderAst.Find({
+        param($node)
+        $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -ceq 'Copy-CanonicalRepositoryJson'
+    }, $true)
+    if ($null -eq $functionAst) { throw 'canonical repository JSON function absent' }
+    . ([scriptblock]::Create($functionAst.Extent.Text))
+    $utf8 = [Text.UTF8Encoding]::new($false)
+    $canonical = '{"x":1}'
+    foreach ($ending in @("`n", "`r`n")) {
+        $source = Join-Path $testRoot ('canonical-success-' + [guid]::NewGuid().Guid + '.json')
+        $destination = $source + '.out'
+        [IO.File]::WriteAllBytes($source, $utf8.GetBytes($canonical + $ending))
+        Copy-CanonicalRepositoryJson $source $destination
+        if ([IO.File]::ReadAllText($destination) -cne $canonical) { throw 'canonical repository JSON success differs' }
+    }
+    $refusalBytes = [Collections.Generic.List[byte[]]]::new()
+    $refusalBytes.Add([byte[]] (@(0xEF, 0xBB, 0xBF) + $utf8.GetBytes($canonical + "`n")))
+    $refusalBytes.Add([byte[]] @(0xFF, 0x0A))
+    $refusalBytes.Add($utf8.GetBytes($canonical))
+    $refusalBytes.Add($utf8.GetBytes($canonical + "`r"))
+    $refusalBytes.Add($utf8.GetBytes($canonical + "`n`n"))
+    $refusalBytes.Add([byte[]] @(0x0A))
+    foreach ($bytes in $refusalBytes) {
+        $source = Join-Path $testRoot ('canonical-refusal-' + [guid]::NewGuid().Guid + '.json')
+        $destination = $source + '.out'
+        [IO.File]::WriteAllBytes($source, [byte[]] $bytes)
+        $refused = $false
+        try { Copy-CanonicalRepositoryJson $source $destination } catch { $refused = $true }
+        if (-not $refused -or (Test-Path -LiteralPath $destination)) { throw 'canonical repository JSON refusal differs' }
+    }
+
+    'cantor_evox2_scratch_build_harness_implementation_tests=passed isolated_successes=1 isolated_refusals=4 canonical_copy_successes=2 canonical_copy_refusals=6 provider_requests=0 remote_calls=0 effects=0'
 } finally {
     if (Test-Path -LiteralPath $testRoot) { [IO.Directory]::Delete(('\\?\' + $testRoot), $true) }
 }

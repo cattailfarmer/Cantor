@@ -1,0 +1,23 @@
+Subject: EVO-X2 Scratch Build Package Predecessor Machine Form Refusal
+
+@ [fault_uuid] 2722ea37-9865-4d8a-a92d-f05f8e4ed232
+@ [canonical_uuid] 935e020f-8c6f-49e4-b355-63eabd3b778b
+@ [implementation_commit] 80fa17a0adbe9fbee878052bac5d3fc8914b9f81
+@ [publication_bookend_commit] 3f55e129a8bfe1a79a74329d48fae3b6b3cf608f
+
+& [Observed]
+  + the first admitted local package construction compiled all seven release binaries from the implementation archive in8m10s and then the independent complete-package verifier refused InvalidMachineForm
+  + standalone commission verification passed and recomposed manifest commission and deployment envelope bytes were canonical and stable
+  + request.json plan.json and plan_verification.json copied from the predecessor evidence each ended in one repository LF byte while their strict typed parsers intentionally refuse trailing bytes
+  + failed create-new package root D:/CantorBuilds/evox2-scratch-build-executor-p0-package-80fa17a0 is retained for diagnosis and is not a verified package
+
+& [Cause]
+  + the builder copied repository storage framing directly into strict runtime machine-form custody instead of performing the required single terminal-line-ending removal before independent typed verification
+
+& [Correction]
+  + require UTF-8 without BOM require exactly one LF or CRLF terminal line ending reject repeated or absent terminators and write the canonical no-terminator bytes before manifest composition
+  + keep the package verifier unchanged so strict canonical parsing remains the independent admission boundary
+
+& [EffectAccount]
+  + local D-drive build processes and failed package bytes only
+  + provider_requests0 remote_calls0 EVO-X2_contacts0 live_effects0 physical_build_performed false

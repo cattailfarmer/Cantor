@@ -1,0 +1,14 @@
+Subject: EVO-X2 Scratch Build Package Canonical Copy Correction Change Set
+
+@ [change_set_uuid] 4403d481-b77c-4eab-9fe1-ee6c97d68cbc
+@ [turn_uuid] 62beb6e7-3f73-4052-beb1-0fa25f70ede0
+@ [fault_uuid] 2722ea37-9865-4d8a-a92d-f05f8e4ed232
+
+& [Elements]
+  + [package.repository_json_boundary] remove exactly one required repository LF or CRLF because strict runtime machine forms admit no trailing bytes
+  + [package.verifier_preservation] retain the independent Rust verifier unchanged because detection must remain separate from construction
+  + [fault.retention] preserve the failed create-new root and operational fault because a refused construction is evidence rather than a success to overwrite
+  + [evidence.binding] extend harness evidence membership because the correction justification and bytes must remain independently attributable
+
+& [Frontier]
+  + publish and immediately bookend this correction before retrying under a fresh package root

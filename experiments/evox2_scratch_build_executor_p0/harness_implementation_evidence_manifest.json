@@ -3,7 +3,7 @@
   "manifest_uuid": "51c51a83-1ff3-497d-92f1-9998f8cf8583",
   "canonical_uuid": "935e020f-8c6f-49e4-b355-63eabd3b778b",
   "package_core_bookend_commit": "f87734eab7b93f7ccb2370667cbb88089d72201d",
-  "generated_at_utc": "2026-09-10T02:00:02.0311339Z",
+  "generated_at_utc": "2026-09-10T02:20:27.7358041Z",
   "artifacts": [
     {
       "path": "specifications/Cantor_EVO_X2_Scratch_Build_Executor_P0.sop",
@@ -27,8 +27,8 @@
     },
     {
       "path": "narrative/reentry/Cantor_EVO_X2_Scratch_Build_Executor_P0_Reentry.sop",
-      "bytes": 8938,
-      "sha256": "6F4D0FA4226611044383F739F61B603195D8284B38C9781208833694877BF095"
+      "bytes": 9924,
+      "sha256": "6FE868359E28FEF2756441A10FFEA52EB88328B62CC22402E3D0082EEA2F89B7"
     },
     {
       "path": "narrative/research/Cantor_EVO_X2_Scratch_Build_Executor_P0_Harness_Design_2026-09-09.sop",
@@ -69,6 +69,36 @@
       "path": "narrative/change_sets/9cf81f2d-79e4-4cd6-81c2-09d3eac7ca84.sop",
       "bytes": 2548,
       "sha256": "49726FE1932090059CE312D1CE13C50B82C15A70C593BB0ADC19F899D2852EA8"
+    },
+    {
+      "path": "narrative/operational_faults/1789006349806_evox2_scratch_build_package_predecessor_machine_form_refusal.sop",
+      "bytes": 1748,
+      "sha256": "6CC8AC383C6956084ECE7C3EFAB4735D43B4EABA44A5337BDD996B39DE571058"
+    },
+    {
+      "path": "proofs/Cantor_EVO_X2_Scratch_Build_Executor_P0_Package_Canonical_Copy_Correction_Proof.sop",
+      "bytes": 1526,
+      "sha256": "41CCCC31C663279CA63A82D0AFBECEC24632027D3B2D9974FBEDC78C57ECE728"
+    },
+    {
+      "path": "feature_support/reviews/CantorEVOX2ScratchBuildExecutorP0PackageCanonicalCopyCorrectionReview.sop",
+      "bytes": 1079,
+      "sha256": "7C870B7CBBD0ED7D3034E4D3BD0075ACFB5628BA13400F92E27EFD71861D4856"
+    },
+    {
+      "path": "narrative/turns/1789006349806_evox2_scratch_build_package_canonical_copy_correction.sop",
+      "bytes": 1053,
+      "sha256": "417DFDD1D869DED2C0B9E9DDF87CDDF7366842962D0060585CF98FCEBE655EB4"
+    },
+    {
+      "path": "narrative/file_changes/1789006349806_evox2_scratch_build_package_canonical_copy_correction.sop",
+      "bytes": 745,
+      "sha256": "019BCD74A84485C9EC7933F2AED7A680EEFBB8397C23D8F1F029C79D3B1E4540"
+    },
+    {
+      "path": "narrative/change_sets/4403d481-b77c-4eab-9fe1-ee6c97d68cbc.sop",
+      "bytes": 951,
+      "sha256": "148A2281160FF6BC9780DDA786FE7DE4E651911A3A3B9B5A8B8ACB50AB8F2054"
     },
     {
       "path": "crates/cantor_core/src/evox2_scratch_build_executor.rs",
@@ -122,27 +152,27 @@
     },
     {
       "path": "scripts/build_cantor_evox2_scratch_build_executor_p0_package.ps1",
-      "bytes": 11642,
-      "sha256": "20D3D9075AD2110391BE40A8E5963A8E99C18DE7CCA3AD2A0C097C8160B0E6E0"
+      "bytes": 12656,
+      "sha256": "3F12BCB1A2595889D2DD149D64A3334CB274AADBF5E07BE441AD811E992896FF"
     },
     {
       "path": "scripts/build_cantor_evox2_scratch_build_executor_p0_harness_evidence.ps1",
-      "bytes": 4324,
-      "sha256": "37F18D12832FEE06C5ACFF35FC77CA849DC9326DAB9CFEB3EFC655E3FFA46A2B"
+      "bytes": 4982,
+      "sha256": "C40262B260F9894870DB33B43054575CBCB8537E8CCC3E0FDCDC2BE629ECC839"
     },
     {
       "path": "scripts/verify_cantor_evox2_scratch_build_executor_p0_harness_implementation.ps1",
-      "bytes": 8288,
-      "sha256": "CB9454F89FDB1E903AC84804579B438A47CE39FC0CB3DF61788D118A5198EBE9"
+      "bytes": 9109,
+      "sha256": "8E76054A9873D9B1163B63D7A302731BBBA98F51A0291354E956FDD74103FE2A"
     },
     {
       "path": "scripts/test_cantor_evox2_scratch_build_executor_p0_harness_implementation.ps1",
-      "bytes": 3547,
-      "sha256": "D9F7303D98E0388950AC1EA2B612CA5C3E2D43EFEA033E50805527AF16268868"
+      "bytes": 5671,
+      "sha256": "BEBF7CA864B7848FE02179F95CE577B2EBC58AD4F9F3A37A6A4B1FC26CA80A8E"
     }
   ],
   "verification": {
-    "artifact_count": 27,
+    "artifact_count": 33,
     "core_focused_tests": 17,
     "contained_process_tests": 2,
     "package_artifacts": 21,
@@ -156,6 +186,8 @@
     "powershell7_parse_passed": true,
     "windows_powershell51_parse_passed": true,
     "isolated_adversarial_refusals": 4,
+    "canonical_copy_successes": 2,
+    "canonical_copy_refusals": 6,
     "format_passed": true,
     "provider_requests": 0,
     "remote_calls": 0,
