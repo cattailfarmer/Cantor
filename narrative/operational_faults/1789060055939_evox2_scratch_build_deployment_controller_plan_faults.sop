@@ -1,0 +1,44 @@
+Subject: Cantor EVO-X2 Scratch Build Deployment Controller Plan Operational Faults
+
+& [FaultIdentity] is local provider-free implementation correction
+  + [fault_uuid] is 0d5407d2-f981-45d6-b505-eaf250a2f892
+  + [observed_at] is 2026-09-10T17:07:35.9394699Z
+  + [conversation_uuid] is 01a0222c-2511-7323-92bf-a95777601273
+  + [canonical_conversation_uuid] is 01a02268-2614-7d80-9737-ea77f4aeacb1
+  + [affected_subject] is provider-free deployment-controller plan compilation and CLI ingress
+
+& [DigestFormatterFault] is resolved compiler feedback
+  + [observation] first focused compile returned E0277 because the SHA256 GenericArray output does not implement LowerHex
+  + [cause] an unsupported formatting assumption existed only in the newly authored digest helper
+  + [correction] encode the digest by iterating its bytes into two lower-hex digits each
+  + [verification] focused compilation and all eight focused controller tests pass after correction
+
+& [PipelineIngressFault] is resolved boundary feedback
+  + [observation] PowerShell pipeline transport appended a terminal newline and strict raw canonical stdin correctly refused the changed request bytes
+  + [cause] shell text-pipeline framing is not byte-identical to canonical JSON
+  + [correction] preserve strict raw stdin and add a bounded compile REQUEST_FILE route accepting exactly one LF or CRLF terminal line ending
+  + [verification] CLI equivalence and refusal tests prove canonical file replay and reject excess trailing bytes
+
+& [PackageLineageAnchorOmission] is resolved prepublication review feedback
+  + [observation] the first controller form pinned package implementation and evidence commits but omitted the package evidence immediate-bookend commit and 24-file package-set SHA256 named by the design
+  + [risk] a future effect wrapper could otherwise receive a package root without all required publication and byte-set anchors in the compiled plan
+  + [correction] add both exact anchors to request plan digest fixture evidence verifier and adversarial substitution coverage
+  + [disposition] the mixed-tree debug replay was stopped and cannot be credited; exact gates restart only after corrected evidence regeneration
+
+& [GateCardinalityCalibration] is resolved evidence feedback
+  + [observation] the first complete corrected-tree debug replay passed 318 result groups rather than the precomputed 317 while preserving the exact expected 1922 tests zero failed and 21 governed ignores
+  + [cause] the new controller contributes one zero-test CLI binary group and one eight-test integration group to the 316-group predecessor baseline
+  + [correction] record 318 groups before final evidence regeneration and exact-current-tree replay
+
+& [FormationSignatureBindingFault] is resolved transitive evidence feedback
+  + [observation] the broad formation verifier found its 21-artifact manifest current while four satisfaction-signature rows still named older plan solution matrix and phase-lock identities
+  + [cause] generic recursive rehash updates JSON artifact records but cannot rewrite semantic artifact_binding rows in the signed SOP form
+  + [correction] update exactly those four existing mutable binding rows to current bytes and SHA256, then regenerate dependent manifests and replay formation adversaries
+  + [boundary] source snapshot canonical specification signature UUID authority and all live-effect fields remain unchanged
+
+& [EffectBoundary] remains closed
+  + [provider_requests] is 0
+  + [remote_calls] is 0
+  + [effects] is 0
+  + no SSH SCP provider observation host contact package transfer installation execution retrieval or cleanup occurred
+  - never: weaken canonical parsing to conceal transport changes
