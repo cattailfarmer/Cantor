@@ -61,6 +61,10 @@ $paths = @(
     'narrative/turns/1789052860559_evox2_scratch_build_corrected_package_construction.sop',
     'narrative/file_changes/1789052860559_evox2_scratch_build_corrected_package_construction.sop',
     'narrative/change_sets/6402637b-1dcf-4af0-8fdf-8d1106458a50.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Executor_P0_Corrected_Package_Evidence_Publication_Proof.sop',
+    'narrative/turns/1789057203711_evox2_scratch_build_corrected_package_evidence_publication.sop',
+    'narrative/file_changes/1789057203711_evox2_scratch_build_corrected_package_evidence_publication.sop',
+    'narrative/change_sets/c29a5155-186e-4252-a198-c5279870d673.sop',
     'experiments/evox2_scratch_build_executor_p0/package_construction_evidence.json',
     'crates/cantor_core/src/evox2_scratch_build_executor.rs',
     'crates/cantor_core/src/evox2_scratch_build_archive.rs',
@@ -95,14 +99,15 @@ $manifest = [ordered]@{
     manifest_uuid = '51c51a83-1ff3-497d-92f1-9998f8cf8583'
     canonical_uuid = '935e020f-8c6f-49e4-b355-63eabd3b778b'
     package_core_bookend_commit = 'f87734eab7b93f7ccb2370667cbb88089d72201d'
-    package_evidence_commit = 'ce5879d96b5c8e6f098e56286fa7189d963e0c02'
+    package_evidence_commit = '4dc154234cd88c192495126a4374d74616ca0c3f'
+    historical_package_evidence_commit = 'ce5879d96b5c8e6f098e56286fa7189d963e0c02'
     corrected_package_implementation_commit = 'f5b904fc8cf48b34672dead0596e9de6e706f38b'
     corrected_package_construction_bookend_commit = '8b8304d9192f9741598a65c88ec48ec463121d43'
     corrected_package_evidence_uuid = 'e8c20413-1efb-4447-8480-c716dddce462'
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 72
+        artifact_count = 76
         core_focused_tests = 17
         contained_process_tests = 2
         package_artifacts = 21
@@ -124,7 +129,7 @@ $manifest = [ordered]@{
         effects = 0
         package_constructed = $true
         package_verified = $true
-        package_evidence_bookended = $false
+        package_evidence_bookended = $true
         package_copy_successes = 1
         package_copy_refusals = 4
         live_effects_authorized = $false
