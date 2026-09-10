@@ -3,7 +3,7 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-$package = 'D:\CantorBuilds\evox2-scratch-build-executor-p0-package-56c5e1da'
+$package = 'D:\CantorBuilds\evox2-scratch-build-executor-p0-package-f5b904fc'
 $verify = Join-Path $root 'scripts\verify_cantor_evox2_scratch_build_executor_p0_package_construction.ps1'
 & $verify -Root $root -PackageRoot $package | Out-Null
 

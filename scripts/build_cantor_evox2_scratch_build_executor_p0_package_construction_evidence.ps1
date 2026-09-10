@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string] $Root = '',
-    [string] $PackageRoot = 'D:\CantorBuilds\evox2-scratch-build-executor-p0-package-56c5e1da'
+    [string] $PackageRoot = 'D:\CantorBuilds\evox2-scratch-build-executor-p0-package-f5b904fc'
 )
 
 Set-StrictMode -Version Latest
@@ -9,7 +9,7 @@ $ErrorActionPreference = 'Stop'
 if ([string]::IsNullOrWhiteSpace($Root)) { $Root = Split-Path -Parent $PSScriptRoot }
 $rootPath = (Resolve-Path -LiteralPath $Root).Path
 $package = [IO.Path]::GetFullPath($PackageRoot)
-$expectedPackage = [IO.Path]::GetFullPath('D:\CantorBuilds\evox2-scratch-build-executor-p0-package-56c5e1da')
+$expectedPackage = [IO.Path]::GetFullPath('D:\CantorBuilds\evox2-scratch-build-executor-p0-package-f5b904fc')
 if ($package -cne $expectedPackage) { throw 'package evidence root differs' }
 $packageItem = Get-Item -LiteralPath $package -Force
 if (-not $packageItem.PSIsContainer -or ($packageItem.Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'package evidence root boundary differs' }
@@ -46,10 +46,10 @@ try { $setSha256 = -join ($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($rows)
 
 $evidence = [ordered]@{
     profile = 'cantor-evox2-scratch-build-package-construction-evidence/0.1'
-    evidence_uuid = '65f4307a-26d4-435e-84f0-58f0bbe11d8c'
+    evidence_uuid = 'e8c20413-1efb-4447-8480-c716dddce462'
     canonical_uuid = '935e020f-8c6f-49e4-b355-63eabd3b778b'
-    implementation_commit = '56c5e1da81d21404cd7692b8d905da42da7a2258'
-    publication_bookend_commit = '0a95cb3f3e17df0de3d655d47a6800aab20a81a6'
+    implementation_commit = 'f5b904fc8cf48b34672dead0596e9de6e706f38b'
+    publication_bookend_commit = '8b8304d9192f9741598a65c88ec48ec463121d43'
     package_root = $package.Replace('\', '/')
     source_archive_sha256 = '162a82f42619249a11a81ce64c29889eb5cd448a2d3d864ccb5bf26f1b0f325d'
     implementation_manifest_sha256 = [string] $verification.implementation_manifest_sha256

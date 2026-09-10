@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string] $Root = '',
-    [string] $PackageRoot = 'D:\CantorBuilds\evox2-scratch-build-executor-p0-package-56c5e1da',
+    [string] $PackageRoot = 'D:\CantorBuilds\evox2-scratch-build-executor-p0-package-f5b904fc',
     [switch] $AllowCopiedPackage
 )
 
@@ -16,9 +16,9 @@ if (-not $package.StartsWith($buildParent + [IO.Path]::DirectorySeparatorChar, [
 $packageItem = Get-Item -LiteralPath $package -Force
 if (-not $packageItem.PSIsContainer -or ($packageItem.Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'package verification root boundary differs' }
 
-if ($evidence.profile -cne 'cantor-evox2-scratch-build-package-construction-evidence/0.1' -or $evidence.evidence_uuid -cne '65f4307a-26d4-435e-84f0-58f0bbe11d8c' -or $evidence.canonical_uuid -cne '935e020f-8c6f-49e4-b355-63eabd3b778b' -or $evidence.implementation_commit -cne '56c5e1da81d21404cd7692b8d905da42da7a2258' -or $evidence.publication_bookend_commit -cne '0a95cb3f3e17df0de3d655d47a6800aab20a81a6') { throw 'package construction evidence identity differs' }
+if ($evidence.profile -cne 'cantor-evox2-scratch-build-package-construction-evidence/0.1' -or $evidence.evidence_uuid -cne 'e8c20413-1efb-4447-8480-c716dddce462' -or $evidence.canonical_uuid -cne '935e020f-8c6f-49e4-b355-63eabd3b778b' -or $evidence.implementation_commit -cne 'f5b904fc8cf48b34672dead0596e9de6e706f38b' -or $evidence.publication_bookend_commit -cne '8b8304d9192f9741598a65c88ec48ec463121d43') { throw 'package construction evidence identity differs' }
 $evidencePackage = [IO.Path]::GetFullPath(([string] $evidence.package_root).Replace('/', '\'))
-$expectedPackage = [IO.Path]::GetFullPath('D:\CantorBuilds\evox2-scratch-build-executor-p0-package-56c5e1da')
+$expectedPackage = [IO.Path]::GetFullPath('D:\CantorBuilds\evox2-scratch-build-executor-p0-package-f5b904fc')
 if ($evidencePackage -cne $expectedPackage) { throw 'package construction evidence root differs' }
 if (-not $AllowCopiedPackage -and $package -cne $evidencePackage) { throw 'package verification root is not the admitted package' }
 if ([int] $evidence.package_artifacts -ne 21 -or [int] $evidence.package_files -ne 24 -or @($evidence.files).Count -ne 24 -or [int] $evidence.commission_authority_grants -ne 5 -or [int] $evidence.construction_authority_grants -ne 0 -or [int] $evidence.adversarial_copy_successes -ne 1 -or [int] $evidence.adversarial_copy_refusals -ne 4) { throw 'package construction evidence cardinality differs' }
