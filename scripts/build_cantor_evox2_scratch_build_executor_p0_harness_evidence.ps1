@@ -10,7 +10,9 @@ $paths = @(
     'specifications/Cantor_EVO_X2_Scratch_Build_Executor_P0.sop',
     'plans/Cantor_EVO_X2_Scratch_Build_Executor_P0_Plan.sop',
     'solutions/Cantor_EVO_X2_Scratch_Build_Executor_P0_Solution.sop',
+    'feature_support/Cantor_EVO_X2_Scratch_Build_Executor_P0_Requirement_Matrix.sop',
     'narrative/registries/Cantor_EVO_X2_Scratch_Build_Executor_P0_Artifact_Phase_Lock.sop',
+    'narrative/registries/Cantor_EVO_X2_Scratch_Build_Executor_P0_Satisfaction_Signature.sop',
     'narrative/reentry/Cantor_EVO_X2_Scratch_Build_Executor_P0_Reentry.sop',
     'narrative/research/Cantor_EVO_X2_Scratch_Build_Executor_P0_Harness_Design_2026-09-09.sop',
     'feature_support/Cantor_EVO_X2_Scratch_Build_Executor_P0_Harness_Coverage.sop',
@@ -32,6 +34,13 @@ $paths = @(
     'narrative/turns/1789011591513_evox2_scratch_build_package_authority_count_correction.sop',
     'narrative/file_changes/1789011591513_evox2_scratch_build_package_authority_count_correction.sop',
     'narrative/change_sets/9c5b8c1d-672e-41d5-833d-2fd8a55b6115.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Executor_P0_Package_Construction_Proof.sop',
+    'feature_support/reviews/CantorEVOX2ScratchBuildExecutorP0PackageConstructionReview.sop',
+    'narrative/registries/Cantor_EVO_X2_Scratch_Build_Executor_P0_Package_Construction_Phase_Checkpoint.sop',
+    'narrative/turns/1789016331939_evox2_scratch_build_package_construction.sop',
+    'narrative/file_changes/1789016331939_evox2_scratch_build_package_construction.sop',
+    'narrative/change_sets/15756d9d-da14-4a75-8e4e-5db6423ec101.sop',
+    'experiments/evox2_scratch_build_executor_p0/package_construction_evidence.json',
     'crates/cantor_core/src/evox2_scratch_build_executor.rs',
     'crates/cantor_core/src/evox2_scratch_build_archive.rs',
     'crates/cantor_core/src/bin/cantor-evox2-scratch-build-executor.rs',
@@ -43,6 +52,9 @@ $paths = @(
     'crates/cantor_ecosystem/src/bin/cantor-evox2-scratch-build-operation-runner.rs',
     'scripts/invoke-cantor-evox2-scratch-build-once.ps1',
     'scripts/build_cantor_evox2_scratch_build_executor_p0_package.ps1',
+    'scripts/build_cantor_evox2_scratch_build_executor_p0_package_construction_evidence.ps1',
+    'scripts/verify_cantor_evox2_scratch_build_executor_p0_package_construction.ps1',
+    'scripts/test_cantor_evox2_scratch_build_executor_p0_package_construction.ps1',
     'scripts/build_cantor_evox2_scratch_build_executor_p0_harness_evidence.ps1',
     'scripts/verify_cantor_evox2_scratch_build_executor_p0_harness_implementation.ps1',
     'scripts/test_cantor_evox2_scratch_build_executor_p0_harness_implementation.ps1'
@@ -65,7 +77,7 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 39
+        artifact_count = 51
         core_focused_tests = 17
         contained_process_tests = 2
         package_artifacts = 21
@@ -85,7 +97,10 @@ $manifest = [ordered]@{
         provider_requests = 0
         remote_calls = 0
         effects = 0
-        package_constructed = $false
+        package_constructed = $true
+        package_verified = $true
+        package_copy_successes = 1
+        package_copy_refusals = 4
         live_effects_authorized = $false
         physical_build_performed = $false
     }
