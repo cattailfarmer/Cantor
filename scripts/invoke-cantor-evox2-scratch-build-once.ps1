@@ -132,7 +132,7 @@ function Invoke-JsonProcess([string] $File, [string[]] $Arguments, [string] $Wor
 
 function Invoke-PackageVerification {
     $result = Invoke-JsonProcess $packageVerifier @('implementation_manifest.json', 'command_set.json', 'commission.json', 'deployment_envelope.json') $service 'package verification'
-    if ($result.profile -cne 'cantor-evox2-scratch-build-package-verification/0.1' -or $result.status -cne 'passed' -or [int] $result.artifact_count -ne 21 -or [int] $result.package_file_count -ne 24 -or [int] $result.authority_grants -ne 0 -or [int] $result.effects -ne 0) {
+    if ($result.profile -cne 'cantor-evox2-scratch-build-package-verification/0.1' -or $result.status -cne 'passed' -or [int] $result.artifact_count -ne 21 -or [int] $result.package_file_count -ne 24 -or [int] $result.authority_grants -ne 5 -or [int] $result.effects -ne 0) {
         throw 'package verification semantics differ'
     }
     $result

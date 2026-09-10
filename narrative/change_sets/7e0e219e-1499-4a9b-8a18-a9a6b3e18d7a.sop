@@ -1,0 +1,23 @@
+Subject: EVO-X2 Scratch Build Host Harness Commission Authority Correction Change Set
+
+@ [change_set_uuid] 7e0e219e-1499-4a9b-8a18-a9a6b3e18d7a
+@ [turn_uuid] 6ad63609-63ad-4c90-98ae-5366d70af7b1
+@ [fault_uuid] 401d80fa-dca2-456a-9e98-c5f2358039a3
+@ [predecessor_commit] 15fd25b6261277d76343f4257757e28590920897
+@ [resulting_commit] resolved_by_containing_commit_metadata
+
+& [Elements]
+  + [evox2.harness.commission_authority] modify scripts/invoke-cantor-evox2-scratch-build-once.ps1 because ESBE-009 and the unchanged verifier require five bounded commission grants rather than zero constructor grants
+  + [evox2.harness.regression_verification] modify harness verifier and test scripts to require the corrected predicate reject the stale predicate and replay the exact verifier output
+  + [evox2.harness.evidence_graph] modify harness evidence builder and generated manifest to bind every correction artifact and changed byte identity
+  + [evox2.package.live_eligibility] modify plan solution matrix phase lock and reentry to withdraw eligibility from the preserved old package and require a fresh publication sequence
+  + [evox2.harness.fault] add the operational fault proof review checkpoint turn change set and file-change account because the refusal occurred at a mandatory governed phase boundary
+
+& [MechanicalRefresh]
+  + [experiments.evox2.formation_manifest] generated_refresh experiments/evox2_scratch_build_executor_p0/formation_evidence_manifest.json because its transitive harness-manifest byte identity changed
+  + [experiments.evox2.local_core_manifest] generated_refresh experiments/evox2_scratch_build_executor_p0/local_core_evidence_manifest.json because its transitive harness-manifest byte identity changed
+  + [experiments.evox2.package_core_manifest] generated_refresh experiments/evox2_scratch_build_executor_p0/package_core_evidence_manifest.json because its transitive harness-manifest byte identity changed
+  + [experiments.evox2.harness_manifest] generated_refresh experiments/evox2_scratch_build_executor_p0/harness_implementation_evidence_manifest.json to bind the complete62-artifact correction graph
+
+& [Frontier]
+  + publish and immediately bookend this correction before constructing one fresh local package; all remote effects remain locked

@@ -1,0 +1,22 @@
+Subject: EVO-X2 Scratch Build Host Harness Commission Authority Refusal
+
+@ [fault_uuid] 401d80fa-dca2-456a-9e98-c5f2358039a3
+@ [canonical_uuid] 935e020f-8c6f-49e4-b355-63eabd3b778b
+@ [package_evidence_commit] ce5879d96b5c8e6f098e56286fa7189d963e0c02
+@ [package_evidence_bookend_commit] 15fd25b6261277d76343f4257757e28590920897
+
+& [Observed]
+  + the unchanged package verifier executed locally against D:/CantorBuilds/evox2-scratch-build-executor-p0-package-56c5e1da and returned status passed artifacts21 files24 authority_grants5 effects0
+  + the exact packaged scripts/invoke-cantor-evox2-scratch-build-once.ps1 requires package verification authority_grants0 and would therefore refuse every valid commissioned run before receipt creation
+  + the mismatch was detected during mandatory pre-contact replay; no SSH connection or EVO-X2 contact occurred
+
+& [Cause]
+  + the host harness retained the earlier constructor-side zero-authority interpretation after package construction was corrected to distinguish commission grants5 from construction grants0
+
+& [Disposition]
+  + preserve the56c5e1da package and its historical byte evidence but withdraw its LivePhase eligibility
+  + correct only the host harness verifier-output expectation from zero to five and add a regression assertion against reintroduction
+  + require new implementation publication bookend and fresh package-evidence publication bookend before any remote contact
+
+& [EffectAccount]
+  + provider_requests0 remote_calls0 EVO-X2_contacts0 archive_transfers0 remote_observations0 root_creations0 Cargo_processes0 physical_build_performed false denied_effects0

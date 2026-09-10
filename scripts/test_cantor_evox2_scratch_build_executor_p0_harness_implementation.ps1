@@ -51,6 +51,11 @@ try {
     try { & $isolatedVerify -Root $testRoot | Out-Null } catch { $refused = $true }
     if (-not $refused) { throw 'missing evidence artifact admitted' }
 
+    $packageEvidence = Get-Content -LiteralPath (Join-Path $root 'experiments\evox2_scratch_build_executor_p0\package_construction_evidence.json') -Raw | ConvertFrom-Json
+    if (-not [bool] $packageEvidence.package_verified -or [int] $packageEvidence.commission_authority_grants -ne 5 -or [int] $packageEvidence.construction_authority_grants -ne 0 -or [int] $packageEvidence.effects -ne 0) { throw 'package commission authority evidence differs' }
+    $harness = Get-Content -LiteralPath (Join-Path $root $harnessRelative) -Raw
+    if (-not $harness.Contains('[int] $result.authority_grants -ne 5') -or $harness.Contains('[int] $result.authority_grants -ne 0')) { throw 'host harness commission authority expectation regressed' }
+
     $builderPath = Join-Path $root 'scripts\build_cantor_evox2_scratch_build_executor_p0_package.ps1'
     $tokens = $null
     $errors = $null
@@ -87,7 +92,7 @@ try {
         if (-not $refused -or (Test-Path -LiteralPath $destination)) { throw 'canonical repository JSON refusal differs' }
     }
 
-    'cantor_evox2_scratch_build_harness_implementation_tests=passed isolated_successes=1 isolated_refusals=4 canonical_copy_successes=2 canonical_copy_refusals=6 provider_requests=0 remote_calls=0 effects=0'
+    'cantor_evox2_scratch_build_harness_implementation_tests=passed isolated_successes=1 isolated_refusals=4 canonical_copy_successes=2 canonical_copy_refusals=6 commission_authority_checks=2 provider_requests=0 remote_calls=0 effects=0'
 } finally {
     if (Test-Path -LiteralPath $testRoot) { [IO.Directory]::Delete(('\\?\' + $testRoot), $true) }
 }
