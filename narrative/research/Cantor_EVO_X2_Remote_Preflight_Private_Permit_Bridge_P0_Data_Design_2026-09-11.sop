@@ -1,0 +1,30 @@
+Subject: Cantor EVO-X2 Remote Preflight Private Permit Bridge P0 Data Design
+
+@ [data_design_uuid] 42fd995a-65df-4871-a667-0bb8c1fc466b
+@ [source_snapshot_uuid] 750fbbb5-f72f-4816-882f-d8b0ebf1acc7
+
+& [OpaqueAdmission]
+  + crate-private type with private fields request_sha256 proposal_sha256 proposal_verification_sha256 decision_sha256 correspondence_sha256 producer_plan_sha256 observed_time_ms activation_implementation_commit activation_bookend runner_implementation_commit runner_bookend permit_limit1 runner_limit1 process_limit1 retry_count0 fixture_only false
+  + no Clone Copy Default Serialize Deserialize public fields public constructor or machine form
+  + a consuming private coordinate extractor permits the runner issuer to validate but cannot duplicate the admission
+
+& [RunnerPermitIssuer]
+  + exactly one crate-private function in the runner module accepts the admission and producer plan by value and reference respectively
+  + it checks every fixed lineage ceiling fixture and producer-plan coordinate before constructing the existing three-private-field permit
+  + permit fields and existing validate_permit runner entry contained backend receipt and public validation semantics remain unchanged
+
+& [BridgeCore]
+  + private generic core accepts one admission all exact typed inputs and one FnOnce runner function
+  + all activation and producer inputs are revalidated before issuance
+  + admission is moved into issuance and the returned permit is moved immediately into the FnOnce runner call
+  + no admission or permit appears in any return error log debug serialization or terminal value
+
+& [TerminalOutcome]
+  + crate-private nonserializable nonclone type with private disposition permit_consumed runner_invocations optional validated run and exact effect-account fields
+  + dispositions completed_available completed_provider_unavailable abandoned_after_consumption and receipt_refused
+  + successful runs pass to-machine-form from-machine-form and validate operations before completion; any mismatch becomes receipt_refused
+  + all outcomes after issuance carry permit_consumed true runner_invocations1 and no outgoing transition
+
+& [ProviderFreeTests]
+  + descendant unit tests construct private fixture admission literals and supply one FnOnce mock closure without adding a test constructor symbol
+  + synthetic run bytes originate from existing provider-free fixtures and no production bridge entry process backend or remote host is invoked

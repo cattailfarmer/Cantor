@@ -1,0 +1,20 @@
+Subject: Private Permit Bridge Source Bookend Staging Guard Fault
+
+@ [fault_uuid] 52b8688a-f15b-4902-87f3-907003cbe618
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_ms] 1789169300000
+
+& [Fault]
+  + a PowerShell conditional embedded two native Git commands without subexpressions and passed the token git as an unintended revision to git diff
+  + Git emitted an ambiguous-argument refusal while the already staged source-bookend commit still completed
+
+& [Impact]
+  + no file content staging set commit parent or publication result changed
+  + the inline remainder guard did not provide the intended assertion in that command
+
+& [Recovery]
+  + the immediate successor check independently proved a clean worktree exact sole parent 7be182c01a99e38cf07a674137d0acd6cf836b17 and local fetched direct remote equality for bookend 40b20537cbe8fbd143bb3298ea92ca8b77f46c33
+  + future compound native-command conditions use captured variables or explicit subexpressions
+
+& [Disposition]
+  + recovered_without_semantic_or_publication_drift

@@ -1,0 +1,24 @@
+Subject: Private Permit Bridge Mutable Evidence Signature Binding Fault
+
+@ [fault_uuid] 9c099177-0c89-4dbb-844b-66b82fee2ba4
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_ms] 1789170081275
+
+& [Fault]
+  + initial formation signature bound the current source-custody evidence manifest even though that manifest intentionally tracks mutable parent navigation
+  + the governed recursive rehasher refreshed that manifest after parent formation navigation changed and both formation verifiers refused the stale signature binding
+
+& [Impact]
+  + no source canonical requirement or capability semantic changed and no publication occurred
+  + the attempted 24-artifact 23-binding inner formation set was structurally unstable
+
+& [Recovery]
+  + exclude the transitive current source-custody manifest from the immutable signature and formation inner set
+  + retain source document manifest custody proof publication proof and exact source identity in the signature while retaining the current manifest in outer recursive evidence
+  + corrected inner set is 23 artifacts with 22 signature bindings and reruns all canonical adversarial dual-PowerShell gates
+
+& [Lesson]
+  + signed inner formation sets may bind immutable predecessor artifacts but not a current recursive manifest whose purpose is to follow mutable navigation
+
+& [Disposition]
+  + refused_before_publication_corrected_by_set_delineation

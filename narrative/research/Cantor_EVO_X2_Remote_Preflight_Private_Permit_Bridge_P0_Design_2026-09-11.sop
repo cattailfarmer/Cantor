@@ -1,0 +1,30 @@
+Subject: Cantor EVO-X2 Remote Preflight Private Permit Bridge P0 Design
+
+@ [design_uuid] 2dc1c5cb-cb35-4e88-bf36-a0d31460c84e
+@ [source_uuid] a28dc152-1260-4cfa-a8e8-6379f087d7a1
+@ [canonical_uuid] 06d82d16-143a-4abb-9c70-c03163285842
+@ [predecessor_bookend] 40b20537cbe8fbd143bb3298ea92ca8b77f46c33
+
+& [Architecture]
+  + declare evox2_remote_preflight_private_permit_bridge as pub(crate) without a public glob export
+  + place an opaque admission type and private bridge core in that module; reserve a later nested live_initiation child as the only eligible production construction locus
+  + add one pub(crate) runner issuer that consumes the opaque admission and constructs the existing unchanged private-field permit
+  + move the permit directly into the existing runner from a FnOnce private core and convert every post-issue result into terminal state
+
+& [IndependentReceipt]
+  + on runner success serialize through the published canonical serializer reparse through the published strict parser and validate the reparsed receipt again
+  + compare canonical bytes and exact receipt digest before classifying available or provider-unavailable completion
+  + on parse validation or identity refusal return receipt_refused without returning the run as accepted evidence
+
+& [Reachability]
+  + production has no admission constructor bridge export binary CLI environment trigger feature path or ambient dispatcher
+  + child unit tests directly construct private values and use a private FnOnce mock; they do not call the production physical entry
+  + a later live-initiation formation must add the nested constructor and independently prove operator identity custody trusted time consent revocation and replay control
+
+& [FailureSemantics]
+  + every pure validation failure occurs before issuance
+  + after issuance the attempt is spent even when the runner returns before process creation or cannot provide a receipt
+  + no error or terminal structure contains admission or permit and no path can rejoin the core
+
+& [NonAuthority]
+  + this design authorizes no admission construction permit construction before implementation publication runner invocation OpenSSH contact EVO-X2 observation provider request remote call effect or retry

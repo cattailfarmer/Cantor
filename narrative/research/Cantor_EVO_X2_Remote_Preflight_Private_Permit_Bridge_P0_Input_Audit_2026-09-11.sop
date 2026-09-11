@@ -1,0 +1,26 @@
+Subject: Cantor EVO-X2 Remote Preflight Private Permit Bridge P0 Input Audit
+
+@ [audit_uuid] 22050908-1739-4bb2-ba12-a75ffc082eee
+@ [source_uuid] a28dc152-1260-4cfa-a8e8-6379f087d7a1
+@ [source_snapshot_uuid] 750fbbb5-f72f-4816-882f-d8b0ebf1acc7
+@ [predecessor_bookend] 40b20537cbe8fbd143bb3298ea92ca8b77f46c33
+
+& [AcceptedInputs]
+  + exact source custody 7be182c01a99e38cf07a674137d0acd6cf836b17 and immediate bookend 40b20537cbe8fbd143bb3298ea92ca8b77f46c33 are published remote-equal
+  + activation pure implementation 2726ea188b93e70ab8da48d77ec7c43278b64238 and bookend 80f2ef9f6eed3c797b911ba3c7f45e8d28130841 prove proposal and supplied-decision correspondence without live authority
+  + sealed runner 0eb334670d825ea7123beb445df1a47e1bc81349 and bookend 0674395c78a998ce1c36c714e52bae68d0f83f58 expose one runner entry that consumes an unconstructible private-field permit
+  + producer 606588a6dd542b31816d116abf909f50d0881937 and bookend b48c4d7ac48e51aaf70f179cc7b1cdd15e9d5bd0 fix the native OpenSSH process contract
+
+& [CodeAudit]
+  + the runner permit is public only as an opaque name; it has three private fields and no production constructor Clone Copy Default Serialize or Deserialize
+  + the runner validates the permit before process specification construction and consumes it by value at runner entry
+  + the activation pure forms carry authority false permit mint false runner invocation false and default zero effect accounts
+  + no existing module joins a future live-admission capability to the runner permit
+
+& [InputDistinctions]
+  + work-slice continuation source publication formation publication and successful fixtures are repository authority only
+  + a later independently established live admission is necessary but intentionally absent from this formation
+  + the bridge may preserve exact lineages and move capabilities without acquiring operator identity custody trusted time consent revocation or replay truth
+
+& [Disposition]
+  + accepted for provider-free SJS formation only with permit constructors0 runner invocations0 process spawns0 provider requests0 remote calls0 effects0
