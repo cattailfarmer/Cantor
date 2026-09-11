@@ -26,6 +26,10 @@ pub const EVOX2_SCRATCH_BUILD_EFFECT_PROGRAM_PROFILE: &str =
     "cantor-evox2-scratch-build-deployment-effect-program/0.1";
 pub const EVOX2_SCRATCH_BUILD_PREFLIGHT_PROFILE: &str =
     "cantor-evox2-scratch-build-controller-preflight/0.1";
+pub const EVOX2_SCRATCH_BUILD_REMOTE_PROBE_RESULT_PROFILE: &str =
+    "cantor-evox2-scratch-build-remote-probe-result/0.1";
+pub const EVOX2_SCRATCH_BUILD_REMOTE_PREFLIGHT_OBSERVATION_PROFILE: &str =
+    "cantor-evox2-scratch-build-remote-preflight-observation/0.1";
 pub const EVOX2_SCRATCH_BUILD_OPERATIONAL_REFUSAL_PROFILE: &str =
     "cantor-evox2-scratch-build-controller-operational-refusal/0.1";
 pub const EVOX2_SCRATCH_BUILD_RETRIEVAL_INVENTORY_PROFILE: &str =
@@ -40,6 +44,9 @@ pub const EVOX2_SCRATCH_BUILD_EFFECT_STATE_PROFILE: &str =
 const EFFECT_PROGRAM_DIGEST_DOMAIN: &str =
     "cantor-evox2-scratch-build-deployment-effect-program-v1";
 const PREFLIGHT_DIGEST_DOMAIN: &str = "cantor-evox2-scratch-build-controller-preflight-v1";
+const REMOTE_PROBE_RESULT_DIGEST_DOMAIN: &str = "cantor-evox2-scratch-build-remote-probe-result-v1";
+const REMOTE_PREFLIGHT_OBSERVATION_DIGEST_DOMAIN: &str =
+    "cantor-evox2-scratch-build-remote-preflight-observation-v1";
 const OPERATIONAL_REFUSAL_DIGEST_DOMAIN: &str =
     "cantor-evox2-scratch-build-controller-operational-refusal-v1";
 const RETRIEVAL_INVENTORY_DIGEST_DOMAIN: &str = "cantor-evox2-scratch-build-retrieval-inventory-v1";
@@ -47,6 +54,11 @@ const EFFECT_OBSERVATION_DIGEST_DOMAIN: &str = "cantor-evox2-scratch-build-effec
 const EFFECT_STATE_DIGEST_DOMAIN: &str = "cantor-evox2-scratch-build-effect-state-v1";
 const MAXIMUM_MACHINE_BYTES: usize = 1_048_576;
 const MAXIMUM_RETRIEVED_BYTES: u64 = 4_194_304;
+const MAXIMUM_PREFLIGHT_STREAM_BYTES: u32 = 65_536;
+const EMPTY_SHA256: &str = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
+const PINNED_PROVIDER_LISTENER: &str = "127.0.0.1:8081";
+const PINNED_PROVIDER_MODEL_PATH: &str =
+    "C:/AI/models/validation/Qwen3.5-0.8B-GGUF/Qwen3.5-0.8B-Q4_0.gguf";
 const RETRIEVED_PATHS: [&str; 5] = [
     "commission.json",
     "controller_preflight.json",
@@ -140,6 +152,51 @@ pub struct Evox2ScratchBuildRemotePreflight {
     pub remote_calls: u32,
     pub effects: u32,
     pub preflight_sha256: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Evox2ScratchBuildRemoteProbeResult {
+    pub profile: String,
+    pub run_uuid: String,
+    pub request_sha256: String,
+    pub target_host: String,
+    pub provider_listener: String,
+    pub provider_model_path: String,
+    pub listener_observed: bool,
+    pub model_observed: bool,
+    pub provider_status: String,
+    pub reason: String,
+    pub probe_sha256: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Evox2ScratchBuildRemotePreflightObservation {
+    pub profile: String,
+    pub run_uuid: String,
+    pub request_sha256: String,
+    pub plan_sha256: String,
+    pub program_sha256: String,
+    pub target_host: String,
+    pub ssh_host: String,
+    pub transport: String,
+    pub status: String,
+    pub observation_source: String,
+    pub probe: Evox2ScratchBuildRemoteProbeResult,
+    pub remote_contact_made: bool,
+    pub provider_requests: u32,
+    pub remote_calls: u32,
+    pub effects: u32,
+    pub exit_code: i32,
+    pub timed_out: bool,
+    pub stdout_bytes: u32,
+    pub stdout_sha256: String,
+    pub stdout_truncated: bool,
+    pub stderr_bytes: u32,
+    pub stderr_sha256: String,
+    pub stderr_truncated: bool,
+    pub observation_sha256: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -464,6 +521,142 @@ pub fn verify_evox2_scratch_build_effect_program(
         ));
     }
     Ok(())
+}
+
+pub fn seal_evox2_scratch_build_remote_probe_result(
+    request: &Evox2ScratchBuildControllerRequest,
+    mut probe: Evox2ScratchBuildRemoteProbeResult,
+) -> Result<Evox2ScratchBuildRemoteProbeResult, Evox2ScratchBuildDeploymentEffectFault> {
+    probe.probe_sha256.clear();
+    validate_remote_probe_result_body(request, &probe)?;
+    probe.probe_sha256 = remote_probe_result_digest(&probe)?;
+    validate_evox2_scratch_build_remote_probe_result(request, &probe)?;
+    Ok(probe)
+}
+
+pub fn validate_evox2_scratch_build_remote_probe_result(
+    request: &Evox2ScratchBuildControllerRequest,
+    probe: &Evox2ScratchBuildRemoteProbeResult,
+) -> Result<(), Evox2ScratchBuildDeploymentEffectFault> {
+    validate_remote_probe_result_body(request, probe)?;
+    if probe.probe_sha256 != remote_probe_result_digest(probe)? {
+        return Err(fault(
+            Evox2ScratchBuildDeploymentEffectFaultCode::InvalidDigest,
+            "remote probe result digest differs",
+        ));
+    }
+    Ok(())
+}
+
+pub fn seal_evox2_scratch_build_remote_preflight_observation(
+    request: &Evox2ScratchBuildControllerRequest,
+    plan: &Evox2ScratchBuildControllerPlan,
+    program: &Evox2ScratchBuildEffectProgram,
+    mut observation: Evox2ScratchBuildRemotePreflightObservation,
+) -> Result<Evox2ScratchBuildRemotePreflightObservation, Evox2ScratchBuildDeploymentEffectFault> {
+    observation.observation_sha256.clear();
+    validate_remote_preflight_observation_body(request, plan, program, &observation)?;
+    observation.observation_sha256 = remote_preflight_observation_digest(&observation)?;
+    validate_evox2_scratch_build_remote_preflight_observation(
+        request,
+        plan,
+        program,
+        &observation,
+    )?;
+    Ok(observation)
+}
+
+pub fn validate_evox2_scratch_build_remote_preflight_observation(
+    request: &Evox2ScratchBuildControllerRequest,
+    plan: &Evox2ScratchBuildControllerPlan,
+    program: &Evox2ScratchBuildEffectProgram,
+    observation: &Evox2ScratchBuildRemotePreflightObservation,
+) -> Result<(), Evox2ScratchBuildDeploymentEffectFault> {
+    validate_remote_preflight_observation_body(request, plan, program, observation)?;
+    if observation.observation_sha256 != remote_preflight_observation_digest(observation)? {
+        return Err(fault(
+            Evox2ScratchBuildDeploymentEffectFaultCode::InvalidDigest,
+            "remote preflight observation digest differs",
+        ));
+    }
+    Ok(())
+}
+
+pub fn compile_evox2_scratch_build_remote_preflight_from_observation(
+    request: &Evox2ScratchBuildControllerRequest,
+    plan: &Evox2ScratchBuildControllerPlan,
+    program: &Evox2ScratchBuildEffectProgram,
+    observation: &Evox2ScratchBuildRemotePreflightObservation,
+) -> Result<Evox2ScratchBuildRemotePreflight, Evox2ScratchBuildDeploymentEffectFault> {
+    validate_evox2_scratch_build_remote_preflight_observation(request, plan, program, observation)?;
+    let admitted = observation.probe.provider_status == "available";
+    seal_evox2_scratch_build_remote_preflight(
+        request,
+        plan,
+        program,
+        Evox2ScratchBuildRemotePreflight {
+            profile: EVOX2_SCRATCH_BUILD_PREFLIGHT_PROFILE.to_owned(),
+            run_uuid: request.run_uuid.clone(),
+            request_sha256: request.request_sha256.clone(),
+            plan_sha256: plan.plan_sha256.clone(),
+            program_sha256: program.program_sha256.clone(),
+            target_host: request.target_host.clone(),
+            status: if admitted { "admitted" } else { "refused" }.to_owned(),
+            reason: observation.probe.reason.clone(),
+            provider_status: observation.probe.provider_status.clone(),
+            observation_source: "live_remote_preflight".to_owned(),
+            commission_admitted: admitted,
+            receipt_expected: admitted,
+            remote_contact_made: true,
+            provider_requests: observation.provider_requests,
+            remote_calls: observation.remote_calls,
+            effects: observation.effects,
+            preflight_sha256: String::new(),
+        },
+    )
+}
+
+pub fn to_evox2_scratch_build_remote_probe_result_machine_form(
+    request: &Evox2ScratchBuildControllerRequest,
+    probe: &Evox2ScratchBuildRemoteProbeResult,
+) -> Result<String, Evox2ScratchBuildDeploymentEffectFault> {
+    validate_evox2_scratch_build_remote_probe_result(request, probe)?;
+    serialize_bounded(probe)
+}
+
+pub fn from_evox2_scratch_build_remote_probe_result_machine_form(
+    request: &Evox2ScratchBuildControllerRequest,
+    value: &str,
+) -> Result<Evox2ScratchBuildRemoteProbeResult, Evox2ScratchBuildDeploymentEffectFault> {
+    let probe = strict_deserialize(value)?;
+    validate_evox2_scratch_build_remote_probe_result(request, &probe)?;
+    Ok(probe)
+}
+
+pub fn to_evox2_scratch_build_remote_preflight_observation_machine_form(
+    request: &Evox2ScratchBuildControllerRequest,
+    plan: &Evox2ScratchBuildControllerPlan,
+    program: &Evox2ScratchBuildEffectProgram,
+    observation: &Evox2ScratchBuildRemotePreflightObservation,
+) -> Result<String, Evox2ScratchBuildDeploymentEffectFault> {
+    validate_evox2_scratch_build_remote_preflight_observation(request, plan, program, observation)?;
+    serialize_bounded(observation)
+}
+
+pub fn from_evox2_scratch_build_remote_preflight_observation_machine_form(
+    request: &Evox2ScratchBuildControllerRequest,
+    plan: &Evox2ScratchBuildControllerPlan,
+    program: &Evox2ScratchBuildEffectProgram,
+    value: &str,
+) -> Result<Evox2ScratchBuildRemotePreflightObservation, Evox2ScratchBuildDeploymentEffectFault> {
+    let observation = strict_deserialize(value)?;
+    validate_evox2_scratch_build_remote_preflight_observation(
+        request,
+        plan,
+        program,
+        &observation,
+    )?;
+    Ok(observation)
 }
 
 pub fn fixed_evox2_scratch_build_preflight_fixture(
@@ -1111,6 +1304,96 @@ fn validate_effect_state_body(
     Ok(())
 }
 
+fn validate_remote_probe_result_body(
+    request: &Evox2ScratchBuildControllerRequest,
+    probe: &Evox2ScratchBuildRemoteProbeResult,
+) -> Result<(), Evox2ScratchBuildDeploymentEffectFault> {
+    let available = probe.listener_observed && probe.model_observed;
+    let outcome_valid = if available {
+        probe.provider_status == "available" && probe.reason == "preflight_satisfied"
+    } else {
+        probe.provider_status == "unavailable"
+            && probe.reason == "provider_unavailable_before_commission"
+    };
+    if probe.profile != EVOX2_SCRATCH_BUILD_REMOTE_PROBE_RESULT_PROFILE
+        || probe.run_uuid != request.run_uuid
+        || probe.request_sha256 != request.request_sha256
+        || probe.target_host != request.target_host
+        || probe.provider_listener != PINNED_PROVIDER_LISTENER
+        || probe.provider_model_path != PINNED_PROVIDER_MODEL_PATH
+        || !outcome_valid
+    {
+        return Err(fault(
+            Evox2ScratchBuildDeploymentEffectFaultCode::InvalidPreflight,
+            "remote probe result differs",
+        ));
+    }
+    if !probe.probe_sha256.is_empty() && !is_lower_hex(&probe.probe_sha256, 64) {
+        return Err(fault(
+            Evox2ScratchBuildDeploymentEffectFaultCode::InvalidDigest,
+            "remote probe result digest form differs",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_remote_preflight_observation_body(
+    request: &Evox2ScratchBuildControllerRequest,
+    plan: &Evox2ScratchBuildControllerPlan,
+    program: &Evox2ScratchBuildEffectProgram,
+    observation: &Evox2ScratchBuildRemotePreflightObservation,
+) -> Result<(), Evox2ScratchBuildDeploymentEffectFault> {
+    verify_evox2_scratch_build_effect_program(request, plan, program)?;
+    validate_evox2_scratch_build_remote_probe_result(request, &observation.probe)?;
+    let probe_raw =
+        to_evox2_scratch_build_remote_probe_result_machine_form(request, &observation.probe)?;
+    let probe_bytes = u32::try_from(probe_raw.len()).map_err(|_| {
+        fault(
+            Evox2ScratchBuildDeploymentEffectFaultCode::InvalidPreflight,
+            "remote probe output byte bound differs",
+        )
+    })?;
+    if observation.profile != EVOX2_SCRATCH_BUILD_REMOTE_PREFLIGHT_OBSERVATION_PROFILE
+        || observation.run_uuid != request.run_uuid
+        || observation.request_sha256 != request.request_sha256
+        || observation.plan_sha256 != plan.plan_sha256
+        || observation.program_sha256 != program.program_sha256
+        || observation.target_host != request.target_host
+        || observation.ssh_host != request.ssh_host
+        || observation.transport != "openssh_native_bounded_single_call"
+        || observation.status != "completed"
+        || observation.observation_source != "live_remote_preflight"
+        || !observation.remote_contact_made
+        || observation.provider_requests != 0
+        || observation.remote_calls != 1
+        || observation.effects != 1
+        || observation.exit_code != 0
+        || observation.timed_out
+        || observation.stdout_bytes != probe_bytes
+        || observation.stdout_bytes == 0
+        || observation.stdout_bytes > MAXIMUM_PREFLIGHT_STREAM_BYTES
+        || observation.stdout_sha256 != sha256(probe_raw.as_bytes())
+        || observation.stdout_truncated
+        || observation.stderr_bytes != 0
+        || observation.stderr_sha256 != EMPTY_SHA256
+        || observation.stderr_truncated
+    {
+        return Err(fault(
+            Evox2ScratchBuildDeploymentEffectFaultCode::InvalidPreflight,
+            "remote preflight observation boundary differs",
+        ));
+    }
+    if !observation.observation_sha256.is_empty()
+        && !is_lower_hex(&observation.observation_sha256, 64)
+    {
+        return Err(fault(
+            Evox2ScratchBuildDeploymentEffectFaultCode::InvalidDigest,
+            "remote preflight observation digest form differs",
+        ));
+    }
+    Ok(())
+}
+
 fn validate_preflight_body(
     request: &Evox2ScratchBuildControllerRequest,
     plan: &Evox2ScratchBuildControllerPlan,
@@ -1466,6 +1749,22 @@ fn preflight_digest(
     let mut unsigned = value.clone();
     unsigned.preflight_sha256.clear();
     digest_json(PREFLIGHT_DIGEST_DOMAIN, &unsigned)
+}
+
+fn remote_probe_result_digest(
+    value: &Evox2ScratchBuildRemoteProbeResult,
+) -> Result<String, Evox2ScratchBuildDeploymentEffectFault> {
+    let mut unsigned = value.clone();
+    unsigned.probe_sha256.clear();
+    digest_json(REMOTE_PROBE_RESULT_DIGEST_DOMAIN, &unsigned)
+}
+
+fn remote_preflight_observation_digest(
+    value: &Evox2ScratchBuildRemotePreflightObservation,
+) -> Result<String, Evox2ScratchBuildDeploymentEffectFault> {
+    let mut unsigned = value.clone();
+    unsigned.observation_sha256.clear();
+    digest_json(REMOTE_PREFLIGHT_OBSERVATION_DIGEST_DOMAIN, &unsigned)
 }
 
 fn refusal_digest(

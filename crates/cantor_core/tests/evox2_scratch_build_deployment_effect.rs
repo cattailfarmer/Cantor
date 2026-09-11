@@ -85,6 +85,79 @@ fn observation(
     .unwrap()
 }
 
+fn remote_probe(value: &Fixture, available: bool) -> Evox2ScratchBuildRemoteProbeResult {
+    seal_evox2_scratch_build_remote_probe_result(
+        &value.request,
+        Evox2ScratchBuildRemoteProbeResult {
+            profile: EVOX2_SCRATCH_BUILD_REMOTE_PROBE_RESULT_PROFILE.to_owned(),
+            run_uuid: value.request.run_uuid.clone(),
+            request_sha256: value.request.request_sha256.clone(),
+            target_host: value.request.target_host.clone(),
+            provider_listener: "127.0.0.1:8081".to_owned(),
+            provider_model_path: "C:/AI/models/validation/Qwen3.5-0.8B-GGUF/Qwen3.5-0.8B-Q4_0.gguf"
+                .to_owned(),
+            listener_observed: available,
+            model_observed: available,
+            provider_status: if available {
+                "available"
+            } else {
+                "unavailable"
+            }
+            .to_owned(),
+            reason: if available {
+                "preflight_satisfied"
+            } else {
+                "provider_unavailable_before_commission"
+            }
+            .to_owned(),
+            probe_sha256: String::new(),
+        },
+    )
+    .unwrap()
+}
+
+fn remote_preflight_observation(
+    value: &Fixture,
+    available: bool,
+) -> Evox2ScratchBuildRemotePreflightObservation {
+    let probe = remote_probe(value, available);
+    let probe_raw =
+        to_evox2_scratch_build_remote_probe_result_machine_form(&value.request, &probe).unwrap();
+    seal_evox2_scratch_build_remote_preflight_observation(
+        &value.request,
+        &value.plan,
+        &value.program,
+        Evox2ScratchBuildRemotePreflightObservation {
+            profile: EVOX2_SCRATCH_BUILD_REMOTE_PREFLIGHT_OBSERVATION_PROFILE.to_owned(),
+            run_uuid: value.request.run_uuid.clone(),
+            request_sha256: value.request.request_sha256.clone(),
+            plan_sha256: value.plan.plan_sha256.clone(),
+            program_sha256: value.program.program_sha256.clone(),
+            target_host: value.request.target_host.clone(),
+            ssh_host: value.request.ssh_host.clone(),
+            transport: "openssh_native_bounded_single_call".to_owned(),
+            status: "completed".to_owned(),
+            observation_source: "live_remote_preflight".to_owned(),
+            probe,
+            remote_contact_made: true,
+            provider_requests: 0,
+            remote_calls: 1,
+            effects: 1,
+            exit_code: 0,
+            timed_out: false,
+            stdout_bytes: probe_raw.len() as u32,
+            stdout_sha256: sha256(probe_raw.as_bytes()),
+            stdout_truncated: false,
+            stderr_bytes: 0,
+            stderr_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                .to_owned(),
+            stderr_truncated: false,
+            observation_sha256: String::new(),
+        },
+    )
+    .unwrap()
+}
+
 fn retrieved_fixture(
     value: &Fixture,
 ) -> (
@@ -494,25 +567,26 @@ fn retrieval_inventory_refuses_reorder_duplicate_path_and_outcome_promotion() {
 #[test]
 fn live_preflight_form_distinguishes_observed_contact_from_fixture() {
     let value = fixture();
-    let mut live = fixed_evox2_scratch_build_preflight_fixture(
+    let observation = remote_preflight_observation(&value, false);
+    let live = compile_evox2_scratch_build_remote_preflight_from_observation(
         &value.request,
         &value.plan,
         &value.program,
-        false,
+        &observation,
     )
     .unwrap();
-    live.observation_source = "live_remote_preflight".to_owned();
-    live.remote_contact_made = true;
-    live.remote_calls = 1;
-    live.effects = 1;
-    live.preflight_sha256.clear();
-    let live = seal_evox2_scratch_build_remote_preflight(
+    let admitted_observation = remote_preflight_observation(&value, true);
+    let admitted = compile_evox2_scratch_build_remote_preflight_from_observation(
         &value.request,
         &value.plan,
         &value.program,
-        live,
+        &admitted_observation,
     )
     .unwrap();
+    assert_eq!(admitted.status, "admitted");
+    assert_eq!(admitted.provider_status, "available");
+    assert!(admitted.commission_admitted);
+    assert!(admitted.receipt_expected);
     let refusal = fixed_evox2_scratch_build_operational_refusal(
         &value.request,
         &value.plan,
@@ -531,6 +605,157 @@ fn live_preflight_form_distinguishes_observed_contact_from_fixture() {
     assert!(!verified.evidence_is_fixture);
     assert_eq!(verified.remote_calls, 1);
     assert_eq!(verified.effects, 1);
+}
+
+#[test]
+fn remote_probe_and_observation_forms_are_strict_and_replayable() {
+    let value = fixture();
+    let probe = remote_probe(&value, false);
+    let probe_raw =
+        to_evox2_scratch_build_remote_probe_result_machine_form(&value.request, &probe).unwrap();
+    assert_eq!(
+        from_evox2_scratch_build_remote_probe_result_machine_form(&value.request, &probe_raw)
+            .unwrap(),
+        probe
+    );
+    assert!(
+        from_evox2_scratch_build_remote_probe_result_machine_form(
+            &value.request,
+            &format!("{probe_raw}\n")
+        )
+        .is_err()
+    );
+    let duplicate = probe_raw.replacen("\"profile\":", "\"profile\":\"x\",\"profile\":", 1);
+    assert!(
+        from_evox2_scratch_build_remote_probe_result_machine_form(&value.request, &duplicate)
+            .is_err()
+    );
+
+    let observation = remote_preflight_observation(&value, false);
+    let observation_raw = to_evox2_scratch_build_remote_preflight_observation_machine_form(
+        &value.request,
+        &value.plan,
+        &value.program,
+        &observation,
+    )
+    .unwrap();
+    assert_eq!(
+        from_evox2_scratch_build_remote_preflight_observation_machine_form(
+            &value.request,
+            &value.plan,
+            &value.program,
+            &observation_raw,
+        )
+        .unwrap(),
+        observation
+    );
+    assert!(
+        from_evox2_scratch_build_remote_preflight_observation_machine_form(
+            &value.request,
+            &value.plan,
+            &value.program,
+            &format!("{observation_raw}\r\n"),
+        )
+        .is_err()
+    );
+}
+
+#[test]
+fn remote_preflight_observation_refuses_process_output_and_outcome_drift() {
+    let value = fixture();
+    let exact = remote_preflight_observation(&value, false);
+
+    let mut changed = exact.clone();
+    changed.stdout_bytes += 1;
+    changed.observation_sha256.clear();
+    assert!(
+        seal_evox2_scratch_build_remote_preflight_observation(
+            &value.request,
+            &value.plan,
+            &value.program,
+            changed,
+        )
+        .is_err()
+    );
+
+    let mut changed = exact.clone();
+    changed.stdout_sha256 = "0".repeat(64);
+    changed.observation_sha256.clear();
+    assert!(
+        seal_evox2_scratch_build_remote_preflight_observation(
+            &value.request,
+            &value.plan,
+            &value.program,
+            changed,
+        )
+        .is_err()
+    );
+
+    let mut changed = exact.clone();
+    changed.timed_out = true;
+    changed.observation_sha256.clear();
+    assert!(
+        seal_evox2_scratch_build_remote_preflight_observation(
+            &value.request,
+            &value.plan,
+            &value.program,
+            changed,
+        )
+        .is_err()
+    );
+
+    let mut changed = exact.clone();
+    changed.exit_code = 1;
+    changed.observation_sha256.clear();
+    assert!(
+        seal_evox2_scratch_build_remote_preflight_observation(
+            &value.request,
+            &value.plan,
+            &value.program,
+            changed,
+        )
+        .is_err()
+    );
+
+    let mut changed = exact.clone();
+    changed.stdout_truncated = true;
+    changed.observation_sha256.clear();
+    assert!(
+        seal_evox2_scratch_build_remote_preflight_observation(
+            &value.request,
+            &value.plan,
+            &value.program,
+            changed,
+        )
+        .is_err()
+    );
+
+    let mut changed = exact.clone();
+    changed.probe.listener_observed = true;
+    changed.probe.model_observed = true;
+    changed.probe.probe_sha256.clear();
+    assert!(
+        seal_evox2_scratch_build_remote_preflight_observation(
+            &value.request,
+            &value.plan,
+            &value.program,
+            changed,
+        )
+        .is_err()
+    );
+
+    let mut changed = exact;
+    changed.remote_calls = 2;
+    changed.observation_sha256.clear();
+    assert!(
+        seal_evox2_scratch_build_remote_preflight_observation(
+            &value.request,
+            &value.plan,
+            &value.program,
+            changed,
+        )
+        .is_err()
+    );
 }
 
 #[test]
@@ -760,6 +985,88 @@ fn fresh_cli_compiles_and_verifies_operational_refusal_fixture() {
                 "program.json",
                 "preflight.json",
                 "refusal.json",
+            ])
+            .output()?;
+        assert!(!refused.status.success());
+        Ok::<(), std::io::Error>(())
+    })();
+    fs::remove_dir_all(&root).unwrap();
+    result.unwrap();
+}
+
+#[test]
+fn fresh_cli_compiles_only_a_strict_live_preflight_observation() {
+    let value = fixture();
+    let parent = std::path::Path::new("D:/CantorBuilds");
+    let root = parent.join(format!(
+        "evox2-preflight-observation-cli-test-{}",
+        std::process::id()
+    ));
+    if root.exists() {
+        fs::remove_dir_all(&root).unwrap();
+    }
+    fs::create_dir(&root).unwrap();
+    let result = (|| {
+        let request =
+            to_evox2_scratch_build_controller_request_machine_form(&value.request).unwrap();
+        let plan = to_evox2_scratch_build_controller_plan_machine_form(&value.request, &value.plan)
+            .unwrap();
+        let program = to_evox2_scratch_build_effect_program_machine_form(
+            &value.request,
+            &value.plan,
+            &value.program,
+        )
+        .unwrap();
+        let observation = remote_preflight_observation(&value, false);
+        let observation = to_evox2_scratch_build_remote_preflight_observation_machine_form(
+            &value.request,
+            &value.plan,
+            &value.program,
+            &observation,
+        )
+        .unwrap();
+        for (name, raw) in [
+            ("request.json", request),
+            ("plan.json", plan),
+            ("program.json", program),
+            ("observation.json", observation),
+        ] {
+            fs::write(root.join(name), format!("{raw}\n"))?;
+        }
+        let binary = env!("CARGO_BIN_EXE_cantor-evox2-scratch-build-live-evidence-verify");
+        let output = Command::new(binary)
+            .current_dir(&root)
+            .args([
+                "preflight-observation",
+                "request.json",
+                "plan.json",
+                "program.json",
+                "observation.json",
+            ])
+            .output()?;
+        assert!(output.status.success());
+        let raw = String::from_utf8(output.stdout).unwrap();
+        let preflight = from_evox2_scratch_build_remote_preflight_machine_form(
+            &value.request,
+            &value.plan,
+            &value.program,
+            raw.trim_end_matches(['\r', '\n']),
+        )
+        .unwrap();
+        assert_eq!(preflight.status, "refused");
+        assert_eq!(preflight.observation_source, "live_remote_preflight");
+        assert_eq!(preflight.remote_calls, 1);
+        assert_eq!(preflight.effects, 1);
+
+        fs::write(root.join("observation.json"), "{}\n")?;
+        let refused = Command::new(binary)
+            .current_dir(&root)
+            .args([
+                "preflight-observation",
+                "request.json",
+                "plan.json",
+                "program.json",
+                "observation.json",
             ])
             .output()?;
         assert!(!refused.status.success());

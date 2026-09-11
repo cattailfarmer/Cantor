@@ -97,6 +97,28 @@ fn run() -> Result<String, String> {
             )
             .map_err(|error| error.to_string())
         }
+        [command, request, plan, program, observation] if command == "preflight-observation" => {
+            let (request, plan, program) = read_program(request, plan, program)?;
+            let observation_raw = read_form_file(observation)?;
+            let observation = from_evox2_scratch_build_remote_preflight_observation_machine_form(
+                &request,
+                &plan,
+                &program,
+                &observation_raw,
+            )
+            .map_err(|error| error.to_string())?;
+            let preflight = compile_evox2_scratch_build_remote_preflight_from_observation(
+                &request,
+                &plan,
+                &program,
+                &observation,
+            )
+            .map_err(|error| error.to_string())?;
+            to_evox2_scratch_build_remote_preflight_machine_form(
+                &request, &plan, &program, &preflight,
+            )
+            .map_err(|error| error.to_string())
+        }
         [command, request, plan, program, preflight] if command == "refusal" => {
             let (request, plan, program, preflight) =
                 read_preflight(request, plan, program, preflight)?;
@@ -353,5 +375,5 @@ fn sha256(bytes: &[u8]) -> String {
 }
 
 fn usage() -> String {
-    "usage: cantor-evox2-scratch-build-live-evidence-verify [program REQUEST PLAN | state REQUEST PLAN PROGRAM | observation-fixture REQUEST PLAN PROGRAM ORDINAL passed|failed|refused EVIDENCE_SHA256 | advance REQUEST PLAN PROGRAM STATE OBSERVATION | preflight-fixture REQUEST PLAN PROGRAM admitted|refused | refusal REQUEST PLAN PROGRAM PREFLIGHT | verify-refusal REQUEST PLAN PROGRAM PREFLIGHT REFUSAL | inventory REQUEST PLAN PROGRAM PREFLIGHT OUTCOME EVIDENCE_ROOT | verify-live REQUEST PLAN PROGRAM PREFLIGHT INVENTORY EVIDENCE_ROOT]".to_owned()
+    "usage: cantor-evox2-scratch-build-live-evidence-verify [program REQUEST PLAN | state REQUEST PLAN PROGRAM | observation-fixture REQUEST PLAN PROGRAM ORDINAL passed|failed|refused EVIDENCE_SHA256 | advance REQUEST PLAN PROGRAM STATE OBSERVATION | preflight-fixture REQUEST PLAN PROGRAM admitted|refused | preflight-observation REQUEST PLAN PROGRAM OBSERVATION | refusal REQUEST PLAN PROGRAM PREFLIGHT | verify-refusal REQUEST PLAN PROGRAM PREFLIGHT REFUSAL | inventory REQUEST PLAN PROGRAM PREFLIGHT OUTCOME EVIDENCE_ROOT | verify-live REQUEST PLAN PROGRAM PREFLIGHT INVENTORY EVIDENCE_ROOT]".to_owned()
 }

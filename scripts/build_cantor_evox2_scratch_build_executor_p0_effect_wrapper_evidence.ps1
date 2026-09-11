@@ -11,7 +11,10 @@ $rootPath = (Resolve-Path -LiteralPath $Root).Path
 $output = Join-Path $rootPath 'experiments\evox2_scratch_build_executor_p0\effect_wrapper_implementation_evidence_manifest.json'
 $paths = @(
     'source_documents/2026-09-10_evox2_scratch_build_effect_wrapper/EVO_X2_Scratch_Build_Effect_Wrapper_Source.sop',
+    'source_documents/2026-09-11_evox2_scratch_build_live_preflight_observation/EVO_X2_Scratch_Build_Live_Preflight_Observation_Source.sop',
+    'source_documents/2026-09-11_evox2_scratch_build_live_preflight_observation/Source_Document_Manifest.sop',
     'narrative/research/Cantor_EVO_X2_Scratch_Build_Executor_P0_Effect_Wrapper_Design_2026-09-10.sop',
+    'narrative/research/Cantor_EVO_X2_Scratch_Build_Live_Preflight_Observation_Design_2026-09-11.sop',
     'plans/Cantor_EVO_X2_Scratch_Build_Executor_P0_Plan.sop',
     'solutions/Cantor_EVO_X2_Scratch_Build_Executor_P0_Solution.sop',
     'feature_support/Cantor_EVO_X2_Scratch_Build_Executor_P0_Requirement_Matrix.sop',
@@ -39,6 +42,13 @@ $paths = @(
     'narrative/turns/1789088727746_evox2_scratch_build_effect_wrapper_publication.sop',
     'narrative/file_changes/1789088727746_evox2_scratch_build_effect_wrapper_publication.sop',
     'narrative/change_sets/edad6e13-7683-4628-99aa-728855d6daaa.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Live_Preflight_Observation_Compiler_Proof.sop',
+    'feature_support/reviews/CantorEVOX2ScratchBuildLivePreflightObservationCompilerReview.sop',
+    'narrative/registries/Cantor_EVO_X2_Scratch_Build_Live_Preflight_Observation_Compiler_Checkpoint.sop',
+    'narrative/turns/1789129182211_evox2_scratch_build_live_preflight_observation_start.sop',
+    'narrative/turns/1789135056011_evox2_scratch_build_live_preflight_observation_compiler.sop',
+    'narrative/file_changes/1789135056011_evox2_scratch_build_live_preflight_observation_compiler.sop',
+    'narrative/change_sets/6705d035-61fa-49fe-b88c-59aee5da1cbe.sop',
     'scripts/build_cantor_evox2_scratch_build_executor_p0_effect_wrapper_evidence.ps1',
     'scripts/verify_cantor_evox2_scratch_build_executor_p0_effect_wrapper_evidence.ps1',
     'scripts/test_cantor_evox2_scratch_build_executor_p0_effect_wrapper_evidence.ps1'
@@ -63,11 +73,12 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 32
-        focused_tests = 15
+        artifact_count = 42
+        focused_tests = 18
         stage_count = 10
         effectful_stage_count = 7
         checked_fixture_forms = 5
+        observation_compiler_cases = 10
         isolated_successes = 1
         isolated_refusals = 5
         provider_requests = 0
