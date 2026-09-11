@@ -49,6 +49,10 @@ $paths = @(
     'narrative/turns/1789135056011_evox2_scratch_build_live_preflight_observation_compiler.sop',
     'narrative/file_changes/1789135056011_evox2_scratch_build_live_preflight_observation_compiler.sop',
     'narrative/change_sets/6705d035-61fa-49fe-b88c-59aee5da1cbe.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Live_Preflight_Observation_Compiler_Publication_Proof.sop',
+    'narrative/turns/1789137081184_evox2_scratch_build_live_preflight_observation_compiler_publication.sop',
+    'narrative/file_changes/1789137081184_evox2_scratch_build_live_preflight_observation_compiler_publication.sop',
+    'narrative/change_sets/a9364dcc-e721-4630-944c-579e90a6ed98.sop',
     'scripts/build_cantor_evox2_scratch_build_executor_p0_effect_wrapper_evidence.ps1',
     'scripts/verify_cantor_evox2_scratch_build_executor_p0_effect_wrapper_evidence.ps1',
     'scripts/test_cantor_evox2_scratch_build_executor_p0_effect_wrapper_evidence.ps1'
@@ -73,7 +77,7 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 42
+        artifact_count = 46
         focused_tests = 18
         stage_count = 10
         effectful_stage_count = 7
