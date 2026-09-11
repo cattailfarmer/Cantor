@@ -1,0 +1,17 @@
+Subject: EVO-X2 Activation Process Snapshot Parser Fault
+
+@ [fault_uuid] 56ef9183-038d-43a3-96dc-c132b86be701
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [turn_uuid] 38296e2a-24a4-4378-be9b-b7d9c92f5fc5
+
+& [Fault]
+  + one read-only PowerShell process-tree diagnostic failed to parse because a foreach expression was piped without first assigning its output
+
+& [Containment]
+  + the separate Cargo gate continued uninterrupted and the diagnostic performed no write or process control action
+
+& [Resolution]
+  + collect diagnostic rows into an explicit array and pipe that array to Format-List
+
+& [Lesson]
+  + auxiliary PowerShell diagnostics should separate collection from formatting so parser failures cannot obscure a healthy long-running gate
