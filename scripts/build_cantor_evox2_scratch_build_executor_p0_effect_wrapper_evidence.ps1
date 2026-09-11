@@ -35,6 +35,10 @@ $paths = @(
     'narrative/turns/1789069911817_evox2_scratch_build_effect_wrapper_slice.sop',
     'narrative/file_changes/1789069911817_evox2_scratch_build_effect_wrapper_slice.sop',
     'narrative/change_sets/d63b15fd-f9ba-4d9e-b12f-088bc582c8b3.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Executor_P0_Effect_Wrapper_Publication_Proof.sop',
+    'narrative/turns/1789088727746_evox2_scratch_build_effect_wrapper_publication.sop',
+    'narrative/file_changes/1789088727746_evox2_scratch_build_effect_wrapper_publication.sop',
+    'narrative/change_sets/edad6e13-7683-4628-99aa-728855d6daaa.sop',
     'scripts/build_cantor_evox2_scratch_build_executor_p0_effect_wrapper_evidence.ps1',
     'scripts/verify_cantor_evox2_scratch_build_executor_p0_effect_wrapper_evidence.ps1',
     'scripts/test_cantor_evox2_scratch_build_executor_p0_effect_wrapper_evidence.ps1'
@@ -59,7 +63,7 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 28
+        artifact_count = 32
         focused_tests = 15
         stage_count = 10
         effectful_stage_count = 7
