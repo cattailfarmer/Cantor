@@ -1,0 +1,95 @@
+Subject: EVO-X2 Remote Preflight Private Permit Bridge Formation Publication Change Set
+
+@ [change_set_uuid] 4ee2d599-014c-49aa-8c04-1f03f29f6fc0
+@ [turn_uuid] a39a5c44-30a6-46ac-a3c2-b1dc625e4bb1
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [predecessor_commit] 001c75ad761d6890c29db793d6d133bdcca037b8
+@ [resulting_commit] resolved_by_containing_commit_metadata
+
+& [ElementHistoryEvent1]
+  + [element_id] cantor.evox2.private_permit_bridge.formation.publication
+  + [element_locator] proofs/Cantor_EVO_X2_Remote_Preflight_Private_Permit_Bridge_P0_Formation_Publication_Proof.sop; narrative/turns/1789170414997_evox2_remote_preflight_private_permit_bridge_formation_publication.sop; narrative/file_changes/1789170414997_evox2_remote_preflight_private_permit_bridge_formation_publication.sop
+  + [operation] add
+  + [source_refs] formation_001c75ad761d6890c29db793d6d133bdcca037b8
+  + [requirement_refs] EPRPPB-A03 EPRPPB-024
+  + [constraint_refs] non_force_exact_equality immediate_single_parent_bookend
+  + [justification_refs] implementation_eligibility_requires_actual_publication
+  + [plan_refs] P05
+  + [reason_summary] bind local fetched direct remote equality and post-push replay before implementation
+  + [before_identity] formation_verified_publication_pending
+  + [after_identity] formation_published_bookend_forming
+  + [evidence_refs] publication_evidence_894a0b3c-21a4-4e32-96cc-a82c7fb57bea
+  + [proof_refs] af0f674b-8ffb-4e7e-b7e6-2ec35765559e
+  + [nonclaims] no_implementation_no_live_authority
+  + [unresolved_frontier] provider_free_bridge_implementation_after_bookend
+
+& [ElementHistoryEvent2]
+  + [element_id] cantor.evox2.private_permit_bridge.formation.publication_evidence
+  + [element_locator] scripts/build_cantor_evox2_remote_preflight_private_permit_bridge_p0_publication_evidence.ps1; scripts/verify_cantor_evox2_remote_preflight_private_permit_bridge_p0_publication_evidence.ps1; experiments/evox2_remote_preflight_one_shot_activation_ceremony_p0/private_permit_bridge_formation_publication_evidence_manifest.json
+  + [operation] add
+  + [source_refs] exact_formation_and_publication_records
+  + [requirement_refs] EPRPPB-A02 EPRPPB-A03 EPRPPB-024
+  + [constraint_refs] exact_artifacts bounded_nonlinks zero_live_counts optional_bookend_check
+  + [justification_refs] publication claims require machine replay
+  + [plan_refs] P05
+  + [reason_summary] bind formation closure and actual publication evidence with post-bookend lineage verification
+  + [before_identity] absent
+  + [after_identity] manifest_894a0b3c-21a4-4e32-96cc-a82c7fb57bea
+  + [evidence_refs] self
+  + [proof_refs] af0f674b-8ffb-4e7e-b7e6-2ec35765559e
+  + [nonclaims] no_physical_effect
+  + [unresolved_frontier] post_bookend_implementation_evidence
+
+& [ElementHistoryEvent3]
+  + [element_id] cantor.evox2.private_permit_bridge.formation.publication_navigation
+  + [element_locator] formation checkpoint parent plan solution requirement matrix reentry Project Narrative and Engine Build Slice Index
+  + [operation] modify
+  + [source_refs] formation_001c75ad761d6890c29db793d6d133bdcca037b8
+  + [requirement_refs] EPRPPB-A03
+  + [constraint_refs] mutable_navigation_only signed_formation_unchanged
+  + [justification_refs] current recall must expose publication and newly eligible phase
+  + [plan_refs] P05 P06
+  + [reason_summary] transition current navigation from publication pending to bookend forming without widening live authority
+  + [before_identity] formation_verified_publication_pending
+  + [after_identity] formation_published_remote_equal_bookend_forming
+  + [evidence_refs] publication_evidence_and_recursive_rehash
+  + [proof_refs] af0f674b-8ffb-4e7e-b7e6-2ec35765559e
+  + [nonclaims] no_signed_inner_mutation
+  + [unresolved_frontier] publish_bookend
+
+& [ElementHistoryEvent4]
+  + [element_id] cantor.evidence.current_manifest_publication_refresh
+  + [element_locator] every modified tracked *evidence_manifest.json reported by the staged bookend diff
+  + [operation] generated_refresh
+  + [source_refs] changed mutable publication navigation
+  + [requirement_refs] repository_graph_currentness
+  + [constraint_refs] generated_mechanical_no_semantic_promotion
+  + [justification_refs] current evidence must bind current navigation bytes
+  + [plan_refs] P05
+  + [reason_summary] refresh transitive byte and digest references only
+  + [before_identity] 136_manifests_3517_references
+  + [after_identity] measured_by_containing_commit_gates
+  + [evidence_refs] scripts/rehash_current_evidence_manifests.ps1
+  + [proof_refs] af0f674b-8ffb-4e7e-b7e6-2ec35765559e
+  + [nonclaims] no_source_or_signed_formation_rewrite
+  + [unresolved_frontier] rerun_after_later_navigation_change
+
+& [ElementHistoryEvent5]
+  + [element_id] cantor.evox2.private_permit_bridge.publication_verifier_ps51_fault
+  + [element_locator] narrative/operational_faults/1789170571467_private_permit_bridge_ps51_default_root_fault.sop; scripts/verify_cantor_evox2_remote_preflight_private_permit_bridge_p0_publication_evidence.ps1
+  + [operation] add_and_correct
+  + [source_refs] publication_verifier_execution
+  + [requirement_refs] EPRPPB-A02 EPRPPB-A03
+  + [constraint_refs] powershell7_and_windows_powershell51
+  + [justification_refs] default root resolution must be portable across both supported engines
+  + [plan_refs] P05
+  + [reason_summary] move default-root resolution from parameter binding into script body after PowerShell5.1 refusal
+  + [before_identity] ps51_empty_psscriptroot_refusal
+  + [after_identity] dual_engine_default_root_resolution
+  + [evidence_refs] corrected_publication_verifier_replay
+  + [proof_refs] af0f674b-8ffb-4e7e-b7e6-2ec35765559e
+  + [nonclaims] no_semantic_or_authority_change
+  + [unresolved_frontier] rerun_both_engines
+
+& [ForeignBoundary]
+  + protected foreign Minecraft narrative excluded unchanged bytes1805 SHA256 5B806E8D078C03D189021D0BB458EA42ADE3508E04677387D9AB9966DADC6F07

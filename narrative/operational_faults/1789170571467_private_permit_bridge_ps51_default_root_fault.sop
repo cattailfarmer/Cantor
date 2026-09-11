@@ -1,0 +1,20 @@
+Subject: Private Permit Bridge Publication Verifier PowerShell 5.1 Default Root Fault
+
+@ [fault_uuid] 71201007-c679-43a1-838e-a78a4ef0d297
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_ms] 1789170571467
+
+& [Fault]
+  + the new CmdletBinding publication verifier evaluated its parameter default before Windows PowerShell5.1 supplied PSScriptRoot and Split-Path refused an empty path
+  + PowerShell7 default invocation had passed
+
+& [Impact]
+  + publication evidence construction and PowerShell7 verification passed but dual-engine publication verification did not close
+  + no commit push capability construction or effect occurred
+
+& [Recovery]
+  + default Root to an empty string and resolve PSScriptRoot inside the script body where both engines expose it
+  + add this fault to publication evidence and rerun parsing construction and verification on both engines
+
+& [Disposition]
+  + refused_before_bookend_commit_correction_pending_replay
