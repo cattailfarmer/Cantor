@@ -55,6 +55,10 @@ use crate::{
     evox2_scratch_build_contained_process::{
         Evox2ScratchBuildContainedProcessObservation, Evox2ScratchBuildContainedProcessSpec,
     },
+    evox2_scratch_build_remote_preflight_runner::{
+        Evox2ScratchBuildRemotePreflightContainedProcessObservation,
+        Evox2ScratchBuildRemotePreflightContainedProcessSpec,
+    },
     sjs_compiled_lookahead_repository_slice_observation::{
         SjsRsoContainedChildObservation, SjsRsoContainedChildSpec, SjsRsoGitRunner,
     },
@@ -102,6 +106,12 @@ pub(crate) fn run_evox2_scratch_build_contained_process(
     spec: &Evox2ScratchBuildContainedProcessSpec,
 ) -> Result<Evox2ScratchBuildContainedProcessObservation, String> {
     spec.validate()?;
+    run_validated_contained_child(spec)
+}
+
+pub(crate) fn run_evox2_scratch_build_remote_preflight_contained_process(
+    spec: &Evox2ScratchBuildRemotePreflightContainedProcessSpec,
+) -> Result<Evox2ScratchBuildRemotePreflightContainedProcessObservation, String> {
     run_validated_contained_child(spec)
 }
 
@@ -441,6 +451,71 @@ impl WindowsContainedChildContract for Evox2ScratchBuildContainedProcessSpec {
             total_processes: raw.total_processes,
             active_processes_at_terminal: raw.active_processes_at_terminal,
             resume_previous_count: raw.resume_previous_count,
+        }
+    }
+}
+
+impl WindowsContainedChildContract for Evox2ScratchBuildRemotePreflightContainedProcessSpec {
+    type Observation = Evox2ScratchBuildRemotePreflightContainedProcessObservation;
+
+    fn executable(&self) -> &str {
+        &self.executable
+    }
+
+    fn arguments(&self) -> &[String] {
+        &self.arguments
+    }
+
+    fn working_directory(&self) -> &str {
+        &self.working_directory
+    }
+
+    fn environment(&self) -> &[(String, String)] {
+        &self.environment
+    }
+
+    fn stdin(&self) -> &[u8] {
+        &self.stdin
+    }
+
+    fn maximum_stdout_bytes(&self) -> usize {
+        self.maximum_stdout_bytes
+    }
+
+    fn maximum_stderr_bytes(&self) -> usize {
+        self.maximum_stderr_bytes
+    }
+
+    fn timeout_millis(&self) -> u32 {
+        self.timeout_millis
+    }
+
+    fn maximum_active_processes(&self) -> u32 {
+        self.maximum_active_processes
+    }
+
+    fn maximum_total_processes(&self) -> u32 {
+        self.maximum_total_processes
+    }
+
+    fn retain_output_overflow(&self) -> bool {
+        true
+    }
+
+    fn make_observation(&self, raw: RawContainedChildObservation) -> Self::Observation {
+        Evox2ScratchBuildRemotePreflightContainedProcessObservation {
+            exit_code: raw.exit_code,
+            stdout: raw.stdout,
+            stderr: raw.stderr,
+            stdout_observed_bytes: raw.stdout_observed_bytes,
+            stderr_observed_bytes: raw.stderr_observed_bytes,
+            stdout_over_bound: raw.stdout_over_bound,
+            stderr_over_bound: raw.stderr_over_bound,
+            forced_termination: raw.forced_termination,
+            total_processes: raw.total_processes,
+            active_processes_at_terminal: raw.active_processes_at_terminal,
+            resume_previous_count: raw.resume_previous_count,
+            duration_ms: 0,
         }
     }
 }

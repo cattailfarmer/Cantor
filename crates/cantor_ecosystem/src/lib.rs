@@ -26,6 +26,7 @@ pub mod b1_public_verifying_key_revocation_snapshot_verification_evidence;
 pub mod b1_trusted_time_witness_receipt_verification;
 pub mod b1_trusted_time_witness_receipt_verification_evidence;
 pub mod evox2_scratch_build_contained_process;
+pub mod evox2_scratch_build_remote_preflight_runner;
 pub mod live_codex;
 pub mod model;
 pub mod phase3_evidence;
@@ -79,6 +80,7 @@ pub mod workspace_admission;
 
 pub use adapter::*;
 pub use evox2_scratch_build_contained_process::*;
+pub use evox2_scratch_build_remote_preflight_runner::*;
 pub use live_codex::*;
 pub use model::*;
 pub use phase3_evidence::*;

@@ -1,0 +1,19 @@
+Subject: EVO-X2 Remote Preflight Runner PowerShell Exit-Code Fault
+
+@ [fault_uuid] 98fe3fd3-f15b-4947-a6dd-d8f7e5330c91
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [turn_uuid] 8b5fbd58-e4b5-4dc4-9c31-8d77df05e186
+
+& [Fault]
+  + the first runner evidence wrapper stopped under strict mode because it inspected an unset LASTEXITCODE after invoking a PowerShell builder rather than an external process
+
+& [Containment]
+  + the 25-artifact initial manifest was written but verification tests and all backend calls had not started
+  + no OpenSSH invocation EVO-X2 contact provider request remote call or effect occurred
+
+& [Resolution]
+  + rely on ordinary PowerShell terminating-error propagation for nested builder and verifier scripts and reserve LASTEXITCODE checks for external Cargo processes
+  + include this retained fault as the twenty-sixth runner evidence artifact and restart the wrapper from its first step
+
+& [Lesson]
+  + process exit state and PowerShell script failure state are distinct channels under strict mode and must not be conflated

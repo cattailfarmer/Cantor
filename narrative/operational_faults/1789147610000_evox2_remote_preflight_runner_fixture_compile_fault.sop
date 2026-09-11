@@ -1,0 +1,19 @@
+Subject: EVO-X2 Remote Preflight Runner Fixture Compile Fault
+
+@ [fault_uuid] 9298acd6-d13d-4af1-962e-244c894a5222
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [turn_uuid] 9cb1cd73-9aa1-47ce-b8a6-61b5f1e27883
+
+& [Fault]
+  + the first clean-target focused compile stopped in runner unit-test code because it imported a nonexistent remote-probe fixture helper omitted the existing controller fixture identity arguments and shadowed the mock-backend helper in one test
+
+& [Containment]
+  + compilation stopped before tests and the sealed production permit remained unconstructible
+  + no OpenSSH invocation EVO-X2 contact provider request remote call or effect occurred
+
+& [Resolution]
+  + use the exact three-argument controller fixture construct and seal the existing public remote-probe form directly
+  + rename the mock-backend helper so local values cannot shadow later fixture construction
+
+& [Lesson]
+  + new cross-crate tests must reuse the already-published fixture signatures and public sealers rather than infer convenience constructors
