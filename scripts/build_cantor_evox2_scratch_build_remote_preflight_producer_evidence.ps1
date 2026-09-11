@@ -62,6 +62,11 @@ $paths = @(
     'narrative/file_changes/1789143503485_evox2_scratch_build_remote_preflight_producer_contract.sop',
     'narrative/change_sets/b26b2559-3feb-4e9f-9d94-01a99c97f277.sop',
     'narrative/operational_faults/1789143748537_evox2_preflight_producer_effect_wrapper_hash_case_refresh_fault.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Remote_Preflight_Producer_Contract_Publication_Proof.sop',
+    'narrative/turns/1789147039538_evox2_scratch_build_remote_preflight_producer_publication.sop',
+    'narrative/file_changes/1789147039538_evox2_scratch_build_remote_preflight_producer_publication.sop',
+    'narrative/change_sets/7916bb74-c6cd-4e6a-8ffe-9f2210e58292.sop',
+    'narrative/operational_faults/1789147212201_evox2_preflight_producer_publication_artifact_count_fault.sop',
     'crates/cantor_core/src/evox2_scratch_build_remote_preflight_producer.rs',
     'crates/cantor_core/src/bin/cantor-evox2-scratch-build-preflight-producer-verify.rs',
     'crates/cantor_core/src/lib.rs',
@@ -93,7 +98,7 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 25
+        artifact_count = 30
         focused_tests = 9
         argument_atoms = 19
         timeout_ms = 30000
