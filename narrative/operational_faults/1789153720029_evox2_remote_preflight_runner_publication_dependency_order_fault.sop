@@ -1,0 +1,21 @@
+Subject: EVO-X2 Remote Preflight Runner Publication Dependency Order Fault
+
+@ [fault_uuid] 0e77305d-0298-48df-a725-f165eb80e0fd
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [timestamp_ms] 1789153720029
+@ [turn_uuid] 4b87ca87-b76d-456e-b6d8-97eb22579c53
+
+& [Fault]
+  + the first bookend dual-PowerShell replay found that the effect-wrapper manifest still retained the pre-bookend plan identity
+  + the runner manifest had been rebuilt before the wrapper and producer manifests that also bind the changed navigation artifacts
+
+& [Containment]
+  + verification refused immediately on the first wrapper artifact mismatch before publication commit or push
+  + no production permit CLI OpenSSH invocation EVO-X2 contact provider request remote call effect or live observation occurred
+
+& [Resolution]
+  + retain this fault in the runner evidence set and expand its artifact count
+  + rebuild effect-wrapper then producer then runner evidence before recursive rehash and dual-PowerShell replay
+
+& [Lesson]
+  + every bookend navigation change must restart evidence formation from the oldest directly affected manifest rather than only the newest leaf

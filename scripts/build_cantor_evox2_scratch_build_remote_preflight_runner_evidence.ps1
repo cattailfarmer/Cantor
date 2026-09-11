@@ -25,9 +25,14 @@ $paths = @(
     'narrative/turns/1789149304860_evox2_scratch_build_remote_preflight_runner_implementation.sop',
     'narrative/file_changes/1789149304860_evox2_scratch_build_remote_preflight_runner_implementation.sop',
     'narrative/change_sets/f68ed6ce-3beb-40bb-93fa-29030bf681b5.sop',
+    'proofs/Cantor_EVO_X2_Scratch_Build_Remote_Preflight_Runner_Publication_Proof.sop',
+    'narrative/turns/1789153553322_evox2_scratch_build_remote_preflight_runner_publication.sop',
+    'narrative/file_changes/1789153553322_evox2_scratch_build_remote_preflight_runner_publication.sop',
+    'narrative/change_sets/59deca10-b7cc-4a9a-8b25-f9eb7c57ff83.sop',
     'narrative/operational_faults/1789147610000_evox2_remote_preflight_runner_fixture_compile_fault.sop',
     'narrative/operational_faults/1789149000000_evox2_remote_preflight_runner_wsl_inherited_clippy_fault.sop',
     'narrative/operational_faults/1789149450000_evox2_remote_preflight_runner_powershell_exitcode_fault.sop',
+    'narrative/operational_faults/1789153720029_evox2_remote_preflight_runner_publication_dependency_order_fault.sop',
     'crates/cantor_ecosystem/src/evox2_scratch_build_remote_preflight_runner.rs',
     'crates/cantor_ecosystem/src/self_work_update_broker_b1_cdrive_windows_containment.rs',
     'crates/cantor_ecosystem/src/lib.rs',
@@ -53,7 +58,7 @@ $manifest = [ordered]@{
     generated_at_utc = [DateTime]::UtcNow.ToString('o')
     artifacts = @($artifacts)
     verification = [ordered]@{
-        artifact_count = 26
+        artifact_count = 31
         focused_tests = 10
         argument_atoms = 19
         timeout_ms = 30000
