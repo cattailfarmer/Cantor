@@ -27,6 +27,8 @@ pub mod b1_trusted_time_witness_receipt_verification;
 pub mod b1_trusted_time_witness_receipt_verification_evidence;
 pub mod evox2_remote_preflight_one_shot_activation_ceremony;
 pub mod evox2_remote_preflight_one_shot_activation_ceremony_evidence;
+#[allow(dead_code)]
+pub(crate) mod evox2_remote_preflight_private_permit_bridge;
 pub mod evox2_scratch_build_contained_process;
 pub mod evox2_scratch_build_remote_preflight_runner;
 pub mod live_codex;

@@ -1,0 +1,19 @@
+Subject: EVO-X2 Private Permit Bridge Interrupted Edit Compile Fault
+
+@ [fault_uuid] ea2cec3f-fd85-476b-9f68-b364f009adcc
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [canonical_uuid] 06d82d16-143a-4abb-9c70-c03163285842
+
+& [Observation]
+  + the recovered interrupted Rust edit initially imported one nonexistent placeholder and imported the contained-process observation from the wrong crate
+  + after those imports were corrected the first compile correctly refused two test unwrap_err calls because the data-only terminal lacked Debug
+
+& [Correction]
+  + remove only the invalid imports and derive Debug on the non-capability terminal without adding Clone Copy serialization construction recovery or public visibility
+  + cargo format focused debug focused release static absence and warnings-denied Clippy subsequently pass
+
+& [EffectAccount]
+  + production admission constructions0 permits0 runner invocations0 process spawns0 provider requests0 remote calls0 effects0 synthetic provider trials0
+
+& [Boundary]
+  + the fault occurred during provider-free compilation and is not a runner provider EVO-X2 or semantic execution failure

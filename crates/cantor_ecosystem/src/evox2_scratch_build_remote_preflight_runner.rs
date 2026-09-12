@@ -2,8 +2,9 @@
 //!
 //! The runner reuses the audited Windows contained-child substrate and feeds a
 //! successful retained observation into the pure `cantor_core` producer.  The
-//! production entry point consumes a permit whose constructor is deliberately
-//! absent from this revision, so this module cannot yet initiate live contact.
+//! production entry point consumes a permit whose sole crate-private issuer
+//! requires the bridge's presently unconstructible live admission, so this
+//! module still cannot initiate live contact.
 
 use std::fmt;
 
@@ -54,6 +55,30 @@ pub struct Evox2ScratchBuildRemotePreflightSingleUsePermit {
     producer_plan_sha256: String,
     producer_implementation_commit: String,
     producer_bookend_commit: String,
+}
+
+pub(crate) fn issue_evox2_scratch_build_remote_preflight_single_use_permit(
+    admission: crate::evox2_remote_preflight_private_permit_bridge::Evox2RemotePreflightLiveAdmission,
+    producer_plan: &Evox2ScratchBuildRemotePreflightProducerPlan,
+) -> Result<
+    Evox2ScratchBuildRemotePreflightSingleUsePermit,
+    Evox2ScratchBuildRemotePreflightRunnerFault,
+> {
+    admission
+        .consume_for_runner_permit(producer_plan)
+        .map_err(|_| {
+            fault(
+                Evox2ScratchBuildRemotePreflightRunnerFaultCode::InvalidPermit,
+                "live admission correspondence differs",
+            )
+        })?;
+    Ok(Evox2ScratchBuildRemotePreflightSingleUsePermit {
+        producer_plan_sha256: producer_plan.producer_plan_sha256.clone(),
+        producer_implementation_commit:
+            EVOX2_SCRATCH_BUILD_REMOTE_PREFLIGHT_PRODUCER_IMPLEMENTATION_COMMIT.to_owned(),
+        producer_bookend_commit: EVOX2_SCRATCH_BUILD_REMOTE_PREFLIGHT_PRODUCER_BOOKEND_COMMIT
+            .to_owned(),
+    })
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -195,6 +220,38 @@ trait Evox2ScratchBuildRemotePreflightBackend {
     ) -> Result<Evox2ScratchBuildRemotePreflightContainedProcessObservation, ()>;
 }
 
+#[cfg(test)]
+pub(crate) fn run_evox2_scratch_build_remote_preflight_with_supplied_observation_for_private_bridge_test(
+    permit: Evox2ScratchBuildRemotePreflightSingleUsePermit,
+    request: &Evox2ScratchBuildControllerRequest,
+    plan: &Evox2ScratchBuildControllerPlan,
+    program: &Evox2ScratchBuildEffectProgram,
+    producer_plan: &Evox2ScratchBuildRemotePreflightProducerPlan,
+    observation: Evox2ScratchBuildRemotePreflightContainedProcessObservation,
+) -> Result<Evox2ScratchBuildRemotePreflightRun, Evox2ScratchBuildRemotePreflightRunnerFault> {
+    struct SuppliedObservationBackend {
+        executable_sha256: String,
+        observation: Option<Evox2ScratchBuildRemotePreflightContainedProcessObservation>,
+    }
+    impl Evox2ScratchBuildRemotePreflightBackend for SuppliedObservationBackend {
+        fn observe_executable_sha256(&mut self, _path: &str) -> Result<String, ()> {
+            Ok(self.executable_sha256.clone())
+        }
+
+        fn run_once(
+            &mut self,
+            _spec: &Evox2ScratchBuildRemotePreflightContainedProcessSpec,
+        ) -> Result<Evox2ScratchBuildRemotePreflightContainedProcessObservation, ()> {
+            self.observation.take().ok_or(())
+        }
+    }
+    let mut backend = SuppliedObservationBackend {
+        executable_sha256: producer_plan.executable_sha256.clone(),
+        observation: Some(observation),
+    };
+    run_with_backend(permit, request, plan, program, producer_plan, &mut backend)
+}
+
 #[cfg(windows)]
 struct WindowsRemotePreflightBackend;
 
@@ -220,9 +277,10 @@ impl Evox2ScratchBuildRemotePreflightBackend for WindowsRemotePreflightBackend {
 
 /// Execute the sealed physical backend once.
 ///
-/// No public constructor exists for `Evox2ScratchBuildRemotePreflightSingleUsePermit`
-/// in this revision. A later governed activation seam must add that constructor;
-/// until then this entry point is structurally unreachable outside this module.
+/// No public constructor exists for `Evox2ScratchBuildRemotePreflightSingleUsePermit`.
+/// Its sole crate-private issuer consumes a live-admission type that has no
+/// production constructor; until a separately governed live-initiation child
+/// supplies one, this entry point remains structurally unreachable.
 #[cfg(windows)]
 pub fn run_evox2_scratch_build_remote_preflight_once(
     permit: Evox2ScratchBuildRemotePreflightSingleUsePermit,
