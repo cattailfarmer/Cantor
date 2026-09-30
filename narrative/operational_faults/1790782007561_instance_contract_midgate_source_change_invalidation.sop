@@ -1,0 +1,19 @@
+Subject: Instance Contract Mid-Gate Source Change Invalidation
+
+@ [fault_uuid] d303838e-af57-426c-b1f3-e503f018c43a
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+
+& [Context]
+  + the first exact debug workspace gate passed on the pre-review implementation
+  + a cached exact-debug summary replay was then running while a contract review discovered that ordinary set deserialization silently collapsed duplicate supplied capability members
+
+& [Fault]
+  + the running summary replay no longer represented the exact current source after strict unique-set deserialization and its adversarial test were added
+
+& [Correction]
+  + explicitly interrupt and exclude the stale replay from closure evidence
+  + run focused gates and both exact workspace profiles again only after the corrected tree is formatted and stable
+
+& [Boundary]
+  + no failure was hidden and no stale count is eligible for proof
+  + the change strengthens the signed duplicate-identifier refusal requirement without widening runtime authority

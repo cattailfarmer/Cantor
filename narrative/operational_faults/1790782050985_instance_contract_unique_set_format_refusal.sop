@@ -1,0 +1,13 @@
+Subject: Instance Contract Unique Set Format Refusal
+
+@ [fault_uuid] d4f9fd89-a711-4bb7-8ada-d9b929af5c63
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+
+& [Fault]
+  + the format check refused the newly added duplicate-capability adversarial test because one error-binding expression did not match rustfmt output
+
+& [Correction]
+  + run workspace rustfmt and require the focused and final format checks to pass on the resulting exact tree
+
+& [Boundary]
+  + the refusal occurred before closure evidence and changed presentation only

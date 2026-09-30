@@ -1,0 +1,15 @@
+Subject: Instance Contract Focused Summary Count Fault
+
+@ [fault_uuid] f20ee284-d0e7-49b6-88cf-e21ec0851be6
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+
+& [Fault]
+  + after the duplicate-capability refusal was added the focused wrapper executed fourteen active tests in each profile but its terminal summary still reported the earlier thirteen
+
+& [Correction]
+  + update the focused summary to fourteen debug and fourteen overflow-checked release tests
+  + replay the wrapper under both required PowerShell hosts before closure
+
+& [Boundary]
+  + raw test output was correct and all fourteen tests passed
+  + the stale summary is excluded from final evidence

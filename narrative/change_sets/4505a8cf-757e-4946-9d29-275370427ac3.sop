@@ -1,0 +1,95 @@
+Subject: Eclipse To Cantor Instance Foundation P0 Change Set
+
+@ [change_set_uuid] 4505a8cf-757e-4946-9d29-275370427ac3
+@ [turn_uuid] b2d2b620-d198-42b4-abd6-798f53142965
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+@ [predecessor_commit] 80f2ef9a8c1709e9e0dc12d70fc340a53919eec2
+@ [resulting_commit] resolved_by_containing_commit_metadata
+
+& [ElementHistoryEvent1]
+  + [element_id] cantor.instance_foundation.semantic_custody
+  + [element_locator] scripts/build_eclipse_cantor_semantic_custody.ps1; scripts/verify_eclipse_cantor_semantic_custody.ps1; experiments/eclipse_cantor_instance_foundation_p0/semantic_custody_manifest.json
+  + [operation] add
+  + [source_refs] source_670483d0-3f70-49b5-8d7c-d924065ce004 live_head_82a3e19b839fd4e937ecb1f366859289364529c0
+  + [requirement_refs] CIF-001_through_CIF-006 CIF-A02
+  + [constraint_refs] read_only ordinal exact_sha256 generated_mass_excluded dual_host
+  + [justification_refs] recover_semantic_candidates_without_wholesale_copy
+  + [plan_refs] P01 P06
+  + [reason_summary] retain an exact replayable source checkpoint while leaving the live Eclipse checkout untouched
+  + [before_identity] divergent_dirty_tree_without_bounded_custody
+  + [after_identity] 3772_artifact_inventory_digest_8a8ddec8
+  + [evidence_refs] dual_host_builder_and_verifier
+  + [proof_refs] proof_8a48c856-f9d5-4faf-8b3f-e44f6e3fc6ca
+  + [nonclaims] no_promotion_no_execution_no_source_mutation
+  + [unresolved_frontier] candidate_by_candidate_promotion
+
+& [ElementHistoryEvent2]
+  + [element_id] cantor.instance_foundation.contract
+  + [element_locator] crates/cantor_instance_contract; Cargo.toml; Cargo.lock
+  + [operation] add_and_modify
+  + [source_refs] canonical_d7e6055f-d40e-46c4-a757-2db3b77c7108
+  + [requirement_refs] CIF-007_through_CIF-018
+  + [constraint_refs] safe_rust strict_json unique_sets role_separation nonauthority
+  + [justification_refs] instance_features_must_not_self_promote_into_kernel_authority
+  + [plan_refs] P03 P04 P05
+  + [reason_summary] compile deterministic admitted or held structural correspondence across an explicit kernel-instance boundary
+  + [before_identity] no_instance_contract
+  + [after_identity] provider_free_contract_eclipse_admitted_cantor_scribe_held
+  + [evidence_refs] focused14_static2_workspace331_1996
+  + [proof_refs] proof_8a48c856-f9d5-4faf-8b3f-e44f6e3fc6ca
+  + [nonclaims] no_runtime_authority_no_component_promotion
+  + [unresolved_frontier] separately_govern_cantor_scribe_promotion
+
+& [ElementHistoryEvent3]
+  + [element_id] cantor.instance_foundation.independent_evidence
+  + [element_locator] scripts/test_cantor_instance_foundation_p0.ps1; scripts/test_cantor_instance_foundation_workspace.ps1; scripts/build_cantor_instance_foundation_p0_evidence.ps1; scripts/verify_cantor_instance_foundation_p0_evidence.ps1; experiments/eclipse_cantor_instance_foundation_p0
+  + [operation] add
+  + [source_refs] exact_contract_and_custody_outputs
+  + [requirement_refs] CIF-A03_through_CIF-A05
+  + [constraint_refs] locked offline serialized overflow_checked dual_host fresh_cli zero_live
+  + [justification_refs] package_only_tests_cannot_prove_workspace_or_custody_correspondence
+  + [plan_refs] P06
+  + [reason_summary] retain exact full-workspace and fresh-process evidence independently of the producer
+  + [before_identity] unmeasured_integration
+  + [after_identity] 331_groups_1996_pass_0_fail_22_ignore_each_profile
+  + [evidence_refs] manifest_148e48bd-58a3-4f6f-ac47-73f2843929c5
+  + [proof_refs] proof_8a48c856-f9d5-4faf-8b3f-e44f6e3fc6ca review_e635c0c4-b448-43f8-8102-27ce85e0e875
+  + [nonclaims] no_live_trial_no_external_effect
+  + [unresolved_frontier] postpush_replay
+
+& [ElementHistoryEvent4]
+  + [element_id] cantor.instance_foundation.governance_and_recall
+  + [element_locator] source_documents specifications justifications plans solutions feature_support proofs narrative
+  + [operation] add_and_modify
+  + [source_refs] user_directed_eclipse_to_cantor_integration_slice
+  + [requirement_refs] SJS source_preservation conversation_attribution project_narrative feature_support
+  + [constraint_refs] satisfaction_signature commit_narrative_recall separate_repositories
+  + [justification_refs] preserve_frame_of_mind_and_exact_frontier_next_to_code_history
+  + [plan_refs] P02 P07 P08
+  + [reason_summary] make the decision role boundary evidence faults and next promotion seam durable and discoverable
+  + [before_identity] eclipse_progress_not_integrated_into_published_cantor_line
+  + [after_identity] signed_prepublication_instance_foundation
+  + [evidence_refs] completion_signature_f56b6ff4-3bd3-4180-8edb-27b9037cf929
+  + [proof_refs] phase_closure_d446d8dc-9c12-415d-8c54-344e02500128
+  + [nonclaims] no_merge_no_live_authority
+  + [unresolved_frontier] attributed_branch_publication_then_kernel_candidate_promotion
+
+& [ElementHistoryEvent5]
+  + [element_id] cantor.evidence.current_manifest_refresh
+  + [element_locator] every intentionally modified tracked current evidence manifest reported by the containing commit
+  + [operation] generated_refresh
+  + [source_refs] owned_source_and_navigation_bytes
+  + [requirement_refs] repository_graph_currentness
+  + [constraint_refs] mechanical_derivative_no_semantic_promotion
+  + [justification_refs] referenced byte identities must match the containing tree
+  + [plan_refs] P07
+  + [reason_summary] refresh only transitive size and SHA256 bindings after owned changes
+  + [before_identity] stale_after_owned_changes
+  + [after_identity] measured_by_final_recursive_verifier
+  + [evidence_refs] scripts/rehash_current_evidence_manifests.ps1
+  + [proof_refs] completion_signature_f56b6ff4-3bd3-4180-8edb-27b9037cf929
+  + [nonclaims] no_signed_historical_rewrite
+  + [unresolved_frontier] postpush_recursive_replay
+
+& [ForeignBoundary]
+  + protected Minecraft narrative in the live C source checkout remains excluded and untouched

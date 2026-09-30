@@ -1,0 +1,17 @@
+Subject: Eclipse Custody Windows PowerShell Native Stderr Fault
+
+@ [fault_uuid] fe86959b-77f1-45cb-b114-09aba7dcbca8
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+
+& [Fault]
+  + the independent evidence bundle passed under PowerShell 7 but Windows PowerShell 5.1 terminated while Git warned that one generated `.tmp` directory in the live Eclipse checkout was not readable
+  + Git's inventory command remained semantically successful, but Windows PowerShell converted native stderr into a terminating error under the script's stop preference
+
+& [Correction]
+  + centralize Git inventory invocation in both custody scripts
+  + capture stdout separately, suppress warning text from semantic inventory, restore the caller error preference, and continue to require an exact zero Git exit code
+  + replay custody and the full evidence verifier under both PowerShell hosts
+
+& [Boundary]
+  + no inaccessible generated file is selected into semantic custody
+  + warning suppression does not suppress nonzero Git exits or change the selected path count and digest

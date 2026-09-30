@@ -1,0 +1,85 @@
+{
+  "profile": "cantor-instance-contract/0.1",
+  "instance_id": "sop.eclipse",
+  "display_name": "SOP Eclipse",
+  "revision": 1,
+  "kernel_api_profile": "cantor-kernel-api/0.1",
+  "source_lineage": {
+    "repository": "https://github.com/cattailfarmer/Cantor",
+    "base_commit": "82a3e19b839fd4e937ecb1f366859289364529c0",
+    "source_snapshot_uuid": "670483d0-3f70-49b5-8d7c-d924065ce004"
+  },
+  "required_capabilities": [
+    "kernel.attention.retention",
+    "kernel.audit.explanation",
+    "kernel.package.identity",
+    "kernel.semantic.recipe.evaluate",
+    "kernel.semantic.three-valued",
+    "kernel.sop.source.read"
+  ],
+  "provided_capabilities": [
+    "instance.sop.eclipse.recipe-view",
+    "package.sop.eclipse.recipe-suite"
+  ],
+  "requested_authorities": [],
+  "components": {
+    "compiled-sop-reader": {
+      "component_id": "compiled-sop-reader",
+      "role": "kernel_candidate",
+      "relative_path": "crates/cantor_scribe/src/lib.rs",
+      "content_sha256": "f25148ebf2b02578896ec1bdd7b06992b95144b305f85b6253880b61fdb2c89b",
+      "required_capabilities": [],
+      "provided_capabilities": [
+        "kernel.sop.compiled-reader"
+      ],
+      "requested_authorities": [],
+      "kernel_slot": "kernel.sop.compiled-reader"
+    },
+    "recipe-suite": {
+      "component_id": "recipe-suite",
+      "role": "package",
+      "relative_path": "docs/SCRIBE_RECIPE_SUITE_20260930.md",
+      "content_sha256": "0560d1ab4428631ae5c0c1b6a48ccbb1b189296463f145914bb0f5696e6ad3b5",
+      "required_capabilities": [
+        "kernel.attention.retention",
+        "kernel.audit.explanation",
+        "kernel.package.identity",
+        "kernel.semantic.recipe.evaluate",
+        "kernel.semantic.three-valued",
+        "kernel.sop.source.read"
+      ],
+      "provided_capabilities": [
+        "package.sop.eclipse.recipe-suite"
+      ],
+      "requested_authorities": [],
+      "kernel_slot": null
+    },
+    "recipe-view": {
+      "component_id": "recipe-view",
+      "role": "instance_adapter",
+      "relative_path": "docs/SCRIBE_RECIPE_ECLIPSE_0_1.md",
+      "content_sha256": "dfc993c2c5b92d51117aa65c664b2b45075b35eec3ee892fb9b39f05128becbb",
+      "required_capabilities": [
+        "kernel.semantic.recipe.evaluate",
+        "kernel.sop.source.read"
+      ],
+      "provided_capabilities": [
+        "instance.sop.eclipse.recipe-view"
+      ],
+      "requested_authorities": [],
+      "kernel_slot": null
+    },
+    "source-specification": {
+      "component_id": "source-specification",
+      "role": "evidence",
+      "relative_path": "specifications/Eclipse_SOP_Scribe_P0.sop",
+      "content_sha256": "95e2bfe3cb045f5748d42212277a0c0845532a0bb65f85171a8b456f9d21c7ed",
+      "required_capabilities": [],
+      "provided_capabilities": [],
+      "requested_authorities": [],
+      "kernel_slot": null
+    }
+  },
+  "non_authority": "Structural compatibility only. No execution, installation, model, provider, operator, kernel, remote, mutation, update, publication, or effect authority is granted.",
+  "manifest_digest": "977ad14a5bc63f3425573a04ec9e036a23ae5c7a31a10d39491ab6e81478a908"
+}

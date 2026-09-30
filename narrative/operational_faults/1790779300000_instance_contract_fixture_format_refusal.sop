@@ -1,0 +1,16 @@
+Subject: Cantor Instance Contract Fixture Format Refusal
+
+@ [fault_uuid] 68d8f9ff-dee6-4f6e-9873-0d276e2930dd
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [specification_uuid] d7e6055f-d40e-46c4-a757-2db3b77c7108
+
+& [Observed]
+  + the focused wrapper passed thirteen debug tests thirteen overflow-checked release tests and warnings-denied Clippy
+  + cargo fmt check then refused one import line in the fixture CLI that was added after the earlier formatting pass
+  + fresh-process CLI checks were not reached and no full-wrapper credit was claimed
+
+& [Correction]
+  + run cargo fmt across the workspace and repeat the complete focused wrapper from its first gate
+
+& [Boundary]
+  + formatting changes no compatibility authority custody or runtime semantics

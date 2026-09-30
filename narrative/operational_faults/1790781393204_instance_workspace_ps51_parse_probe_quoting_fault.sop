@@ -1,0 +1,21 @@
+Subject: Instance Foundation Windows PowerShell Parse Probe Quoting Fault
+
+@ [fault_uuid] 81f3fe8d-8e79-4ee8-82cd-ef04d654c1c3
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+
+& [Context]
+  + a combined shell probe attempted to parse the new exact-workspace harness with both PowerShell 7 and Windows PowerShell 5.1
+
+& [Fault]
+  + the outer PowerShell invocation interpolated the nested `$null` token before `powershell.exe` received it
+  + Windows PowerShell therefore reported an invocation-level `=` command fault even though the nested parser subsequently accepted the script
+  + a second direct command-shell attempt also stripped nested PowerShell variable tokens and was rejected as evidence
+
+& [Correction]
+  + treat the first Windows PowerShell probe as invalid evidence
+  + use a literal script file or correctly single-quoted nested command for the independent Windows PowerShell 5.1 parse and execution gate
+  + an encoded literal Windows PowerShell command subsequently parsed all three new evidence and workspace scripts successfully
+
+& [Boundary]
+  + no repository source or live Eclipse checkout was changed by the failed probe
+  + the fault does not weaken the required PowerShell 7 or Windows PowerShell 5.1 gate

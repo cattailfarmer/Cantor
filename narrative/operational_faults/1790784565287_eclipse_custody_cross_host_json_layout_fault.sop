@@ -1,0 +1,15 @@
+Subject: Eclipse Custody Cross Host JSON Layout Fault
+
+@ [fault_uuid] 44324489-04e4-4108-b34a-b17f8fde3202
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+
+& [Fault]
+  + after the Windows PowerShell Git warning correction the PS5.1 custody builder reproduced the exact artifact count path count and inventory digest but emitted a larger JSON file than PowerShell 7
+  + inspection showed host-specific pretty-print indentation rather than semantic inventory drift
+
+& [Correction]
+  + make the custody builder emit compact UTF-8 JSON so PowerShell 7 and Windows PowerShell 5.1 produce one byte-identical retained machine form
+  + rebuild the retained custody manifest and its transitive implementation evidence hash then replay both hosts
+
+& [Boundary]
+  + the selected 3772 artifacts the 609600 untracked paths and the inventory digest remain unchanged

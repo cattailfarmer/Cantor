@@ -1,0 +1,25 @@
+Subject: Cantor Instance Foundation P0 Justification
+
+@ [justification_uuid] 3e84d3c1-8c58-4a90-8a61-2be16a5d4f1b
+@ [specification_uuid] d7e6055f-d40e-46c4-a757-2db3b77c7108
+
+& [Problem]
+  + SOP Eclipse has produced reusable runtime and semantic machinery inside a live checkout that is 132 commits behind published Cantor and contains hundreds of thousands of generated or copied paths
+  + continuing instance-only feature work would increase custody risk and make later extraction harder
+  + wholesale copying would confuse generated evidence and instance adapters with reusable kernel behavior
+
+& [Decision]
+  + preserve the live tree as an immutable observed source for this slice
+  + establish a narrow contract that makes kernel component instance adapter package evidence and generated payload roles machine-distinct
+  + admit reusable artifacts one bounded component at a time against current Cantor rather than trusting their historical build success
+
+& [WhyNow]
+  + Cantor is intended to host SOP Eclipse and many later instances
+  + the first mature instance is the strongest available test of the missing substrate boundary
+  + the present divergence is still recoverable because both exact Git lineages and the live files remain available
+
+& [Rejected]
+  + do not reset clean overwrite delete or bulk-stage the live Eclipse checkout
+  + do not treat all files named Scribe or Eclipse as kernel code
+  + do not store generated distributions copied workspaces provider outputs or temporary trees as core source
+  + do not resume live provider or EVO-X2 work before the reusable instance boundary is verified

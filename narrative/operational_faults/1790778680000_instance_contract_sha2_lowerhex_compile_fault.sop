@@ -1,0 +1,20 @@
+Subject: Cantor Instance Contract SHA2 LowerHex Compile Fault
+
+@ [fault_uuid] 457680df-ada3-4b0f-95b0-59519ae9274a
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [specification_uuid] d7e6055f-d40e-46c4-a757-2db3b77c7108
+
+& [Observed]
+  + the first focused compile refused digest_value because the sha2 0.11 hybrid-array output does not implement LowerHex
+  + no test or compilation credit was claimed from the refused run
+
+& [Cause]
+  + the implementation used an older digest-formatting assumption rather than the current workspace dependency representation
+
+& [Correction]
+  + encode each finalized digest byte explicitly as two lowercase hexadecimal digits into a fixed-capacity string
+  + retain the same SHA256 bytes and sixty-four-character lowercase contract
+
+& [Boundary]
+  + no requirement authority role or compatibility semantic changed
+  + rerun formatting focused tests Clippy and workspace gates before claiming implementation completion
