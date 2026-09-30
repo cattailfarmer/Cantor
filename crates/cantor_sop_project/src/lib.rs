@@ -13,6 +13,7 @@ use serde::{Deserialize, Deserializer, Serialize};
 
 pub const PROJECT_PROFILE: &str = "cantor-sop-supplied-project/0.1";
 pub const RESULT_PROFILE: &str = "cantor-sop-project-assembly/0.1";
+pub const RESULT_DIGEST_DOMAIN: &str = "cantor-sop-project-assembly-result/0.1";
 pub const CAPABILITY: &str = "kernel.sop.project-assemble";
 pub const MAX_PROJECT_FILES: usize = 2_048;
 pub const MAX_PROJECT_DIAGNOSTICS: usize = 1_000;
@@ -101,7 +102,7 @@ pub fn assemble(project: &SuppliedProject) -> Result<ProjectAssemblyResult> {
         non_authority: NON_AUTHORITY.to_owned(),
         result_digest: String::new(),
     };
-    result.result_digest = digest::value("cantor-sop-project-assembly-result/0.1", &result)?;
+    result.result_digest = digest::value(RESULT_DIGEST_DOMAIN, &result)?;
     Ok(result)
 }
 

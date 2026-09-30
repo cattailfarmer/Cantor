@@ -1,0 +1,26 @@
+Subject: Cantor In-Memory Semantic Find P0 Justification
+
+@ [justification_uuid] 4695c08d-691a-462a-b2a1-38b0180058a0
+@ [specification_uuid] 2d678732-1b28-4df5-bc4c-00d6d428bc94
+@ [source_snapshot_uuid] d9a12c9a-2c94-4fd8-8734-a897c4ae8d2a
+
+& [Decision]
+  + promote bounded lexical unit discovery over the sealed in-memory project result rather than importing the SQLite Reader or widening project assembly
+
+& [WhyNow]
+  + project assembly can form and validate a multi-document semantic snapshot but a hosted SOP instance cannot yet ask the smallest question of that snapshot
+  + exact and prefix discovery is the narrowest query that makes the snapshot inspectable while exercising identity namespace dependency context and pagination semantics
+
+& [Boundary]
+  + the caller retains custody of the assembly and request values
+  + the query validates the assembly envelope before reading it and returns cloned semantic values plus deterministic receipts
+  + package visibility is structural dependency closure only and context filtering is explicit supplied comparison only
+  + result sealing and replay provide auditability without making the result an authorization or truth claim
+
+& [RejectedAlternatives]
+  + importing query.rs wholesale is rejected because it requires SQLite storage and carries neighborhood completion evaluation list impact and reference surfaces
+  + adding persistence or an index now is rejected because it introduces a distinct authority lifecycle and evidence burden
+  + promoting rule evaluation now is rejected because lexical inspectability is the smaller prerequisite and expression evaluation already exists separately in the semantic kernel
+
+& [ExpectedLeverage]
+  + an instance can assemble supplied SOP content then discover exact or prefixed terms through a fully in-memory auditable chain before any hosted transport or persistence proposal

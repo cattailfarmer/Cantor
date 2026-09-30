@@ -1,0 +1,15 @@
+[package]
+name = "cantor_sop_query"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Effect-free in-memory semantic lookup for sealed Cantor SOP projects"
+
+[dependencies]
+cantor_sop_project = { path = "../cantor_sop_project" }
+cantor_sop_semantics = { path = "../cantor_sop_semantics" }
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true
