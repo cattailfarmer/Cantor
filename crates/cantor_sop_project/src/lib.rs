@@ -117,6 +117,72 @@ pub fn validate_result(project: &SuppliedProject, result: &ProjectAssemblyResult
     Ok(())
 }
 
+pub fn validate_complete_result(result: &ProjectAssemblyResult) -> Result<()> {
+    if result.profile != RESULT_PROFILE
+        || result.capability != CAPABILITY
+        || result.non_authority != NON_AUTHORITY
+    {
+        return Err(Fault::new(
+            "project_result_mismatch",
+            "project assembly envelope differs",
+        ));
+    }
+    for (label, value) in [
+        ("project digest", result.project_digest.as_str()),
+        ("snapshot digest", result.snapshot_digest.as_str()),
+        ("result digest", result.result_digest.as_str()),
+    ] {
+        validate_sha256(value, label)?;
+    }
+    if !result.analysis.complete || !result.analysis.diagnostics.is_empty() {
+        return Err(Fault::new(
+            "incomplete_project",
+            "operation requires a complete diagnostic-free assembly",
+        ));
+    }
+    let manifest = result
+        .analysis
+        .semantic_manifest
+        .as_ref()
+        .ok_or_else(|| Fault::new("incomplete_project", "semantic manifest is absent"))?;
+    let generation = digest::generation(&result.analysis.input)?;
+    if generation != result.snapshot_digest || manifest.generation != generation {
+        return Err(Fault::new(
+            "project_result_mismatch",
+            "semantic snapshot generation differs",
+        ));
+    }
+    if validate::manifest(&result.analysis.input)? != *manifest {
+        return Err(Fault::new(
+            "project_result_mismatch",
+            "semantic manifest differs from validation replay",
+        ));
+    }
+    let mut unsigned = result.clone();
+    unsigned.result_digest.clear();
+    if digest::value(RESULT_DIGEST_DOMAIN, &unsigned)? != result.result_digest {
+        return Err(Fault::new(
+            "project_result_mismatch",
+            "project assembly result digest differs",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_sha256(value: &str, label: &str) -> Result<()> {
+    if value.len() != 64
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+    {
+        return Err(Fault::new(
+            "project_result_mismatch",
+            format!("{label} is not lowercase SHA256"),
+        ));
+    }
+    Ok(())
+}
+
 fn normalize(project: &SuppliedProject) -> SuppliedProject {
     let mut project = project.clone();
     project.packages.sort_by(|a, b| a.id.cmp(&b.id));

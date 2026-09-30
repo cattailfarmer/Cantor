@@ -5,11 +5,7 @@
 
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 
-use cantor_sop_project::{
-    CAPABILITY as PROJECT_CAPABILITY, NON_AUTHORITY as PROJECT_NON_AUTHORITY,
-    ProjectAssemblyResult, RESULT_DIGEST_DOMAIN as PROJECT_RESULT_DIGEST_DOMAIN,
-    RESULT_PROFILE as PROJECT_RESULT_PROFILE,
-};
+use cantor_sop_project::{ProjectAssemblyResult, validate_complete_result};
 use cantor_sop_semantics::{Context, Fault, Result, Status, Unit, digest, validate};
 use serde::de;
 use serde::{Deserialize, Deserializer, Serialize};
@@ -136,7 +132,7 @@ pub fn parse_find_result(bytes: &[u8]) -> Result<FindResult> {
 }
 
 pub fn find(assembly: &ProjectAssemblyResult, request: &FindRequest) -> Result<FindResult> {
-    validate_assembly(assembly)?;
+    validate_complete_result(assembly)?;
     validate_request(request)?;
 
     let generation = assembly.snapshot_digest.clone();
@@ -253,64 +249,6 @@ pub fn validate_find_result(
 
 fn default_limit() -> u32 {
     50
-}
-
-fn validate_assembly(assembly: &ProjectAssemblyResult) -> Result<()> {
-    if assembly.profile != PROJECT_RESULT_PROFILE
-        || assembly.capability != PROJECT_CAPABILITY
-        || assembly.non_authority != PROJECT_NON_AUTHORITY
-    {
-        return Err(Fault::new(
-            "project_result_mismatch",
-            "project assembly envelope differs",
-        ));
-    }
-    for (label, value) in [
-        ("project digest", assembly.project_digest.as_str()),
-        ("snapshot digest", assembly.snapshot_digest.as_str()),
-        ("result digest", assembly.result_digest.as_str()),
-    ] {
-        validate_sha256(value, label)?;
-    }
-    if !assembly.analysis.complete || !assembly.analysis.diagnostics.is_empty() {
-        return Err(Fault::new(
-            "incomplete_project",
-            "semantic find requires a complete diagnostic-free assembly",
-        ));
-    }
-    let manifest = assembly
-        .analysis
-        .semantic_manifest
-        .as_ref()
-        .ok_or_else(|| {
-            Fault::new(
-                "incomplete_project",
-                "semantic find requires a semantic manifest",
-            )
-        })?;
-    let snapshot_digest = digest::generation(&assembly.analysis.input)?;
-    if snapshot_digest != assembly.snapshot_digest || manifest.generation != snapshot_digest {
-        return Err(Fault::new(
-            "project_result_mismatch",
-            "semantic snapshot generation differs",
-        ));
-    }
-    let replayed_manifest = validate::manifest(&assembly.analysis.input)?;
-    if &replayed_manifest != manifest {
-        return Err(Fault::new(
-            "project_result_mismatch",
-            "semantic manifest differs from validation replay",
-        ));
-    }
-    let mut unsigned = assembly.clone();
-    unsigned.result_digest.clear();
-    if digest::value(PROJECT_RESULT_DIGEST_DOMAIN, &unsigned)? != assembly.result_digest {
-        return Err(Fault::new(
-            "project_result_mismatch",
-            "project assembly result digest differs",
-        ));
-    }
-    Ok(())
 }
 
 fn validate_request(request: &FindRequest) -> Result<()> {
@@ -465,20 +403,6 @@ fn context_matches(context: &Context, query: &QueryContext) -> bool {
         return false;
     }
     true
-}
-
-fn validate_sha256(value: &str, label: &str) -> Result<()> {
-    if value.len() != 64
-        || !value
-            .bytes()
-            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
-    {
-        return Err(Fault::new(
-            "project_result_mismatch",
-            format!("{label} is not lowercase SHA256"),
-        ));
-    }
-    Ok(())
 }
 
 fn deserialize_unique_set<'de, D>(

@@ -1,0 +1,21 @@
+Subject: Cantor In-Memory Source Excerpt P0 Solution
+
+@ [solution_uuid] e19708fd-a503-4c6f-b623-3e80abae96f8
+@ [specification_uuid] adbc4a74-c340-4e39-bec6-f199285052b9
+
+& [Architecture]
+  + cantor_sop_project exposes validate_complete_result for exact envelope manifest generation and seal replay
+  + cantor_sop_query delegates its existing admission to that validator with unchanged find semantics
+  + cantor_sop_excerpt consumes ProjectAssemblyResult and SourceExcerptRequest and scans validated in-memory typed records only
+  + one record identity resolves to full SourceDocument or a declared SourceSpan then exact UTF-8 slicing and domain-separated digests seal the result
+
+& [MachineContract]
+  + request profile record_id and request_digest are strict bounded fields
+  + result binds capability assembly_result_digest generation request_digest record_id span logical path source_digest span_digest exact text non_authority and result_digest
+  + parse functions reject excess bytes unknown duplicate trailing or malformed JSON
+
+& [Faults]
+  + unsupported_excerpt invalid_record project_result_mismatch incomplete_project unknown_record source_unavailable invalid_span excerpt_machine_limit excerpt_result_machine_limit excerpt_result_mismatch
+
+& [NoEffects]
+  + no ambient path environment clock random network process database provider model operator or mutation input exists
