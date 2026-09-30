@@ -1,25 +1,17 @@
 [package]
-name = "cantor_instance_contract"
+name = "cantor_sop_inspect"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
-description = "Strict provider-free Cantor kernel and instance compatibility contract"
+description = "Effect-free composed semantic inspection for supplied Cantor SOP projects"
 
 [dependencies]
-serde.workspace = true
-serde_json.workspace = true
-sha2.workspace = true
-
-[dev-dependencies]
 cantor_sop_excerpt = { path = "../cantor_sop_excerpt" }
-cantor_sop_inspect = { path = "../cantor_sop_inspect" }
 cantor_sop_project = { path = "../cantor_sop_project" }
 cantor_sop_query = { path = "../cantor_sop_query" }
 cantor_sop_semantics = { path = "../cantor_sop_semantics" }
+serde.workspace = true
+serde_json.workspace = true
 
 [lints]
 workspace = true
-
-[[bin]]
-name = "cantor-instance-verify"
-path = "src/bin/cantor-instance-verify.rs"

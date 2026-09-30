@@ -231,6 +231,7 @@ name = "cantor_instance_contract"
 version = "0.1.0"
 dependencies = [
  "cantor_sop_excerpt",
+ "cantor_sop_inspect",
  "cantor_sop_project",
  "cantor_sop_query",
  "cantor_sop_semantics",
@@ -324,6 +325,18 @@ name = "cantor_sop_excerpt"
 version = "0.1.0"
 dependencies = [
  "cantor_sop_project",
+ "cantor_sop_semantics",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "cantor_sop_inspect"
+version = "0.1.0"
+dependencies = [
+ "cantor_sop_excerpt",
+ "cantor_sop_project",
+ "cantor_sop_query",
  "cantor_sop_semantics",
  "serde",
  "serde_json",
