@@ -1,0 +1,26 @@
+Subject: Cantor Supplied Project Assembly P0 Justification
+
+@ [justification_uuid] 634a10ca-f613-4e87-b9ba-1d33fd8c4f5a
+@ [specification_uuid] 8c5ea4a3-1399-4651-96fa-3be17c56147b
+@ [source_snapshot_uuid] 62cc9a0e-635b-4c96-8587-9a5cfc663fc2
+
+& [Decision]
+  + promote supplied-source project assembly as a new effect-free crate rather than extending the semantic parser with filesystem-aware project behavior
+
+& [WhyNow]
+  + the semantic kernel can interpret one supplied document but a hosted SOP instance needs a deterministic way to combine multiple packages and documents before any storage or transport layer is relevant
+  + live cantor_scribe already demonstrates the desired package and diagnostic semantics but interleaves them with ambient path and file access
+
+& [Boundary]
+  + project metadata and UTF-8 text cross the boundary as owned values
+  + logical paths are semantic labels governed by portable syntax and cannot be resolved against a machine
+  + assembly may return partial declarations and diagnostics but cannot claim completeness until whole-snapshot validation passes
+  + a separate crate keeps the accepted semantic kernel surface stable and makes later storage query and service proposals independently reviewable
+
+& [RejectedAlternatives]
+  + importing project.rs wholesale is rejected because it opens files canonicalizes paths and inherits ambient I/O faults
+  + adding SQLite now is rejected because persistence and queries are different authority and failure surfaces
+  + treating the whole live crate as one candidate remains rejected because its service transports and editing surfaces exceed this requirement
+
+& [ExpectedLeverage]
+  + a caller can deterministically assemble an SOP project from content it already possesses then pass the validated snapshot to later bounded query compilation or hosted-instance layers

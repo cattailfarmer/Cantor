@@ -1,0 +1,32 @@
+Subject: Cantor Supplied Project Assembly P0 Solution
+
+@ [solution_uuid] 9960756f-d2d3-4b2b-8ab5-89688079f554
+@ [specification_uuid] 8c5ea4a3-1399-4651-96fa-3be17c56147b
+@ [plan_uuid] fde340c4-1b04-4b28-a934-f72d27a08ef5
+
+& [Component]
+  + cantor_sop_project is a separate effect-free Rust library depending on cantor_sop_semantics serde and serde_json only
+  + capability kernel.sop.project-assemble consumes a strict SuppliedProject value and returns a sealed ProjectAssemblyResult
+
+& [DataFlow]
+  + validate project profile package count identifiers namespaces dependency declarations file coordinates logical paths per-file bytes and aggregate bytes
+  + translate packages into SnapshotInput package records
+  + translate each supplied file into a SourceDocument analyze it with its declared namespace append recovered declarations and retain diagnostics
+  + run whole-snapshot semantic validation only when source diagnostics are empty
+  + compute domain-separated input snapshot and result digests and validate receipts by deterministic replay
+
+& [Delineation]
+  + inside supplied values parsing semantic assembly deterministic identity diagnostics and replay
+  + boundary logical paths and source attribution with no host interpretation
+  + outside filesystem database query service transport execution provider installation update remote publication and effects
+
+& [EvidenceShape]
+  + exact source-custody manifest focused debug/release counts workspace summaries component coordinates and zero-effect counters
+  + experiments/cantor_supplied_project_assembly_p0/implementation_evidence_manifest.json binds four artifacts five promoted component files exact workspace totals and all live/effect counters at zero
+  + scripts/verify_cantor_supplied_project_assembly_p0_evidence.ps1 independently rehashes every artifact and component coordinate replays custody checks and reruns focused debug and overflow-checked release
+
+& [ObservedResult]
+  + multi-package supplied source assembles deterministically independent of package and file order
+  + partial source diagnostics remain attributed and noncomplete while semantic validation begins only after source diagnostics clear
+  + strict machine forms logical-path and collection bounds duplicate refusal dependency-cycle refusal diagnostic ceilings and replay tamper refusal pass
+  + whole cantor_scribe remains held and no filesystem storage query process provider remote or effect authority is present
