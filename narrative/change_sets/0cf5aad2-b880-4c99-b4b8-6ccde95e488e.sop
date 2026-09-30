@@ -1,0 +1,58 @@
+Subject: Cantor Instance Foundation P0 Publication Change Set
+
+@ [change_set_uuid] 0cf5aad2-b880-4c99-b4b8-6ccde95e488e
+@ [turn_uuid] ec35e5e7-4e54-4140-b35a-e6142a8d6cb2
+@ [conversation_uuid] 01a0222c-2511-7323-92bf-a95777601273
+@ [predecessor_commit] 5596c816a93630be105ffc82d6eb754a3834b3e5
+@ [resulting_commit] resolved_by_containing_commit_metadata
+
+& [ElementHistoryEvent1]
+  + [element_id] cantor.instance_foundation.publication
+  + [element_locator] proofs/Cantor_Instance_Foundation_P0_Implementation_Publication_Proof.sop; narrative/registries/Cantor_Instance_Foundation_P0_Publication_Completion.sop
+  + [operation] add
+  + [source_refs] implementation_commit_5596c816a93630be105ffc82d6eb754a3834b3e5
+  + [requirement_refs] CIF-019 CIF-A04
+  + [constraint_refs] nonforce direct_remote_equality postpush_replay immediate_bookend
+  + [justification_refs] publication_truth_requires_observed_remote_state
+  + [plan_refs] P07
+  + [reason_summary] close the actual integration-branch publication edge only after equality and replay are observed
+  + [before_identity] implementation_published_bookend_absent
+  + [after_identity] publication_verified_bookend_containing_commit
+  + [evidence_refs] dual_host_focused_custody_evidence_recursive
+  + [proof_refs] publication_proof_fdf3fb69-ac90-444c-9934-ba96c130847a
+  + [nonclaims] no_merge_no_live_authority
+  + [unresolved_frontier] component_promotion_source_formation
+
+& [ElementHistoryEvent2]
+  + [element_id] cantor.instance_foundation.publication_recall
+  + [element_locator] narrative/turns/1790787086081_cantor_instance_foundation_p0_publication.sop; narrative/file_changes/1790787086081_cantor_instance_foundation_p0_publication.sop; narrative/reentry/Cantor_Instance_Foundation_P0_Reentry.sop; narrative/Project_Narrative.sop; feature_support/Cantor_Engine_Build_Slice_Index.sop
+  + [operation] add_and_modify
+  + [source_refs] observed_publication_and_postpush_results
+  + [requirement_refs] conversation_attribution project_narrative commit_narrative_recall
+  + [constraint_refs] actual_results_only
+  + [justification_refs] durable_reentry_must_start_from_remote_equal_bookend
+  + [plan_refs] P07 P08
+  + [reason_summary] make the completed publication state and separately governed next seam discoverable from Git history
+  + [before_identity] prepublication_reentry
+  + [after_identity] remote_equal_publication_reentry
+  + [evidence_refs] implementation_commit_5596c816
+  + [proof_refs] publication_completion_3d29940b-0bf9-45f4-a0cc-0d54153e1a0d
+  + [nonclaims] no_component_promotion
+  + [unresolved_frontier] source_preserve_cantor_scribe_promotion
+
+& [ElementHistoryEvent3]
+  + [element_id] cantor.evidence.current_manifest_publication_refresh
+  + [element_locator] intentional transitive current evidence manifests reported by the containing commit
+  + [operation] generated_refresh
+  + [source_refs] publication_navigation_bytes
+  + [requirement_refs] repository_graph_currentness
+  + [constraint_refs] mechanical_derivative
+  + [justification_refs] current manifests must bind publication recall bytes
+  + [plan_refs] P07
+  + [reason_summary] refresh exact size and SHA256 references after publication records
+  + [before_identity] stale_after_publication_navigation
+  + [after_identity] final_recursive_verifier_current
+  + [evidence_refs] scripts/rehash_current_evidence_manifests.ps1
+  + [proof_refs] publication_proof_fdf3fb69-ac90-444c-9934-ba96c130847a
+  + [nonclaims] no_historical_signature_rewrite
+  + [unresolved_frontier] postbookend_remote_equality
