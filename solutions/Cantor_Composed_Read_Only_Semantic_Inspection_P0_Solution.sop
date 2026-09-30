@@ -1,0 +1,26 @@
+Subject: Cantor Composed Read-Only Semantic Inspection P0 Solution
+
+@ [solution_uuid] 04c02ee4-0d0f-4f56-8558-bc89b64245e8
+@ [specification_uuid] 8e08875a-6877-4c07-9752-b96771fb0b33
+
+& [Architecture]
+  + cantor_sop_inspect owns only an outer request an outer result cross-receipt validation and deterministic replay
+  + execute first validates the request then calls cantor_sop_project assemble cantor_sop_query find and cantor_sop_excerpt request plus extract in page order
+  + the result retains project_digest snapshot_digest assembly_result_digest the exact FindResult ordered SourceExcerptResults non_authority and result_digest
+
+& [DataDrivenDesign]
+  + request data is profile supplied_project find projection request_digest
+  + result data is profile capability request_digest assembly coordinates find excerpts non_authority result_digest
+  + correspondence invariant is excerpts length equals find items length and excerpts[i].record_id equals find.items[i].unit.id
+  + lineage invariant is every nested assembly_result_digest generation and query coordinate equals the outer coordinates
+
+& [MachineContract]
+  + strict deny-unknown-field JSON accepts exactly one bounded value and rejects duplicate trailing malformed or excess bytes
+  + page limit64 and aggregate result bounds constrain repeated exact-source projection
+  + replay recomputes the complete result rather than trusting nested claims
+
+& [Faults]
+  + unsupported_inspection inspection_request_mismatch inspection_limit inspection_result_machine_limit inspection_result_mismatch nested published kernel faults and correspondence_mismatch
+
+& [NoEffects]
+  + no ambient path environment clock random network process database provider model operator or mutation input exists
