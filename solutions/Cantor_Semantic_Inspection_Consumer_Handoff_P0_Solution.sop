@@ -1,0 +1,26 @@
+Subject: Cantor Semantic Inspection Consumer Handoff P0 Solution
+
+@ [solution_uuid] 3f222d10-c90f-40fa-a0be-2f4ca71d2e47
+@ [specification_uuid] 6abf0365-921b-4d9c-a794-a65ae187ffae
+
+& [DataPlane]
+  + ConsumerContract is fixed supported host wire coordinates and canonical contract_digest
+  + Transcript is borrowed caller-owned stdout stderr and supplied exit_code alongside request bytes
+  + Outcome is inspection_succeeded semantic_refused or host_refused
+  + Receipt seals profile contract digest raw digests byte counts exit outcome optional request/response seal coordinates non-authority and receipt_digest
+  + contract parser and receipt parser bound raw bytes and reject unknown duplicate trailing or unsupported fields
+  + verify reconstructs expected host disposition and exact response from the unchanged wire; validate_receipt compares exact reconstructed receipt
+
+& [ProofPlane]
+  + fixture exporter emits one deterministic JSON bundle to development stdout only
+  + fresh-process test binary uses bounded async pipes concurrent drain one whole-exchange timeout closed stdin and kill-on-drop
+  + fixture artifact identity and actual gate summaries are retained by narrow evidence scripts
+
+& [Ownership]
+  + Cantor owns engine contract pure verifier fixture truth source graph and handoff
+  + Scribe/Eclipse owns application discovery launch configuration presentation installation and acceptance
+  + no message or application mutation is inferred from publication
+
+& [Boundary]
+  + no consumer library I/O production launch artifact identity proof listener cache model provider remote effect or automatic merge
+  + exact transcript acceptance is distinct from actual executable identity or a cryptographic operator signature

@@ -1,0 +1,19 @@
+Subject: Consumer Formation Stale Shell Exit Wrapper Fault
+
+@ [fault_uuid] f6e8a9a7-b188-4a57-8259-a4e7ef7c6a2f
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [turn_uuid] a3514bcd-f0d0-47da-9d0f-88d7b2a62e4f
+
+& [Observed]
+  + pure PowerShell formation verifier returned its successful twelve-artifact twenty-four-requirement six-acceptance result
+  + caller incorrectly tested LASTEXITCODE after a script that does not launch a native program; that variable still held the preceding no-match rg exit1
+
+& [Correction]
+  + rely on terminating PowerShell errors for the in-process script and inspect LASTEXITCODE only immediately after native WindowsPowerShell and git commands
+  + corrected PowerShell7 and WindowsPowerShell5.1 formation replay both pass
+
+& [Effect]
+  + wrapper stopped before publication; no product code process trial shared C write or semantic fault occurred
+
+& [State]
+  + resolved_wrapper_bookkeeping_fault
