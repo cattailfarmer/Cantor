@@ -1,0 +1,33 @@
+Subject: Cantor Semantic Inspection Stdio Host P0 Architecture Review
+
+@ [review_uuid] 6c1d5e4c-2849-487e-a55d-7e8a7de29313
+@ [source_snapshot_uuid] 83e194a8-122e-47ea-aec8-a35b5317d3b2
+@ [published_predecessor] 623991664624a982785e6662a9e3d5cd5bca40ee
+
+& [Question]
+  + after the pure semantic inspection wire is published what is the smallest executable host boundary that makes it directly runnable without importing service or provider concerns
+
+& [Candidates]
+  + an MCP server adds protocol initialization capability discovery connection lifecycle concurrency and transport concerns before a one-request executable is proven
+  + a resident service adds configuration authentication refresh shutdown supervision and shared-state concerns unrelated to basic wire execution
+  + a one-shot no-argument stdin/stdout process adds only bounded process I/O and exit semantics around the already closed wire transaction
+
+& [Decision]
+  + select a one-shot stdin/stdout executable with one admitted request and one exact wire response
+  + require EOF and a maximum-plus-one read loop before dispatch so streaming truncation and oversize cannot become partial semantic work
+  + distinguish transported semantic refusal from host invocation failure: the former is exact stdout response with success exit and the latter is fixed bounded stderr with nonzero exit
+  + prohibit paths environment shell arguments files sockets services threads clocks providers models and remote operations
+
+& [WhyThisIsHighestLeverage]
+  + it converts the published semantic inspection kernel into a process an orchestrator can invoke while retaining one closed deterministic transaction
+  + it establishes exact stdin stdout stderr and exit semantics reusable by a later supervised host or MCP adapter
+  + it makes process-boundary faults measurable before adding lifecycle transport provider or model complexity
+
+& [FaultBoundary]
+  + empty oversized malformed outer input extra arguments incomplete reads response overflow and output completion faults never dispatch or claim success
+  + public host faults are fixed bounded non-echoing codes and raw OS diagnostics remain internal
+  + once response output begins no alternate stderr success or second response is permitted
+
+& [Held]
+  + SJS canonicalization requirements matrix phase lock signature implementation evidence publication and bookend remain future work
+  + filesystem sockets services MCP LSP provider model inference self-update remote execution and all non-stdio effects remain absent
