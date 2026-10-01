@@ -1,0 +1,26 @@
+Subject: Semantic Inspection Stdio Host Bookend Postpush Full SHA Assumption Fault
+
+@ [operational_fault_uuid] 3d19ec4f-c151-488d-92ad-02827e0badef
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [bookend_commit] 691a52252410fc575657664e74727edd7eddb207
+
+& [Operation]
+  + verify the published bookend direct-child ancestry local tracking direct-remote equality and postpush closure gates
+
+& [Observed]
+  + the first wrapper compared HEAD against an incorrectly guessed full commit identity derived from the displayed short prefix
+  + actual local tracking and direct-remote identities were already equal at691a52252410fc575657664e74727edd7eddb207 and parent identity was correctly075eeb7f02e5dfc816dba5aae93be72ee24174c3
+
+& [Impact]
+  + the wrapper stopped before Clippy and evidence replay with no content commit remote or C checkout mutation
+  + publication equality and direct-child ancestry were never false
+
+& [Correction]
+  + rerun against the observed immutable full identity and require exact local tracking direct-remote equality plus the exact parent
+  + workspace warnings-denied Clippy dual-host evidence recursive manifests format diff clean-tree and protected-C gates all pass
+
+& [Prevention]
+  + never extrapolate a full Git object identity from a short displayed prefix; capture the full identity from rev-parse after commit creation
+
+& [State]
+  + resolved_postpublication_no_product_effect
