@@ -1,0 +1,7 @@
+kind [kind:capability] "Capability" { meaning "A described capability is not effect authority" }
+context [context:seed] { scopes ("inspection") purposes ("handoff") perspectives ("operator") }
+term [seed:runtime] "Seed runtime" { kind [kind:capability] context [context:seed] meaning "Two ephemeral Windows inspection endpoints, not an installed agent" }
+term [seed:stdio] "Seed stdio" { kind [kind:capability] context [context:seed] meaning "One sealed supplied-value request followed by observed EOF" }
+term [seed:mcp] "Seed MCP" { kind [kind:capability] context [context:seed] meaning "Initialized sequential semantic_inspect calls on inherited stdio" }
+term [seed:trust] "Seed trust" { kind [kind:capability] context [context:seed] meaning "Byte identity is not publisher authenticity or effect authorization" }
+term [seed:frontier] "Seed frontier" { kind [kind:capability] context [context:seed] meaning "Installation models remote hosts autonomous work and updates remain unproved" }
