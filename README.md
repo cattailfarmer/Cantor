@@ -872,3 +872,16 @@ failures and 22 existing ignores. Gate and publication coordinates are retained
 in its [reentry record](narrative/reentry/Cantor_Semantic_Inspection_Consumer_Handoff_P0_Reentry.sop). See
 [the consumer handoff contract](docs/SEMANTIC_INSPECTION_CONSUMER_HANDOFF_P0.md).
 It is not an installed Eclipse/Scribe integration, a model host, or an MCP server.
+
+A separately governed native [semantic-inspection MCP adapter P0](docs/SEMANTIC_INSPECTION_MCP_ADAPTER_P0.md)
+now provides one read-only official-SDK tool over supplied SOP bytes. It keeps
+the original wire response JSON exact, bounds frames and aggregate I/O, and
+limits each ephemeral session to 32 messages and 60 seconds. Its native stalled
+input/unread output test proves deadline exit. Focused debug and overflow-release
+each pass 27 tests; both full workspace profiles pass 2,117 with zero failures
+and 22 existing ignores. Eight isolated evidence mutations are refused, including
+six with refreshed outer hashes. Final metadata-tree replay and publication
+remain conditioned in its
+[reentry record](narrative/reentry/Cantor_Semantic_Inspection_MCP_Adapter_P0_Reentry.sop).
+This does not install an application integration, host a model, or make Cantor
+an autonomous working agent.

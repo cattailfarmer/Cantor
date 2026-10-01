@@ -1,0 +1,65 @@
+{
+  "profile": "cantor-semantic-inspection-mcp-evidence-adversaries/0.1",
+  "baseline_partial_evidence_replay_passed": true,
+  "completion_signature_mode": "explicitly_skipped_for_pre_signature_metadata_mutations",
+  "adversarial_cases": 8,
+  "cases": [
+    {
+      "case": "focused-count",
+      "refused": true,
+      "reason": "focused evidence differs",
+      "outer_hash_refreshed": true
+    },
+    {
+      "case": "native-trials",
+      "refused": true,
+      "reason": "focused physical trial account differs",
+      "outer_hash_refreshed": true
+    },
+    {
+      "case": "scope-model",
+      "refused": true,
+      "reason": "unexpected focused effect: model_requests",
+      "outer_hash_refreshed": true
+    },
+    {
+      "case": "session-limit",
+      "refused": true,
+      "reason": "component bound differs",
+      "outer_hash_refreshed": true
+    },
+    {
+      "case": "component-membership",
+      "refused": true,
+      "reason": "artifact membership differs",
+      "outer_hash_refreshed": true
+    },
+    {
+      "case": "artifact-membership",
+      "refused": true,
+      "reason": "artifact membership differs",
+      "outer_hash_refreshed": false
+    },
+    {
+      "case": "formation-profile",
+      "refused": true,
+      "reason": "formation evidence differs",
+      "outer_hash_refreshed": true
+    },
+    {
+      "case": "pinned-wire-bytes",
+      "refused": true,
+      "reason": "formation artifact differs: crates/cantor_sop_inspect_wire/src/lib.rs",
+      "outer_hash_refreshed": false
+    }
+  ],
+  "all_refused": true,
+  "repository_files_mutated": 0,
+  "protected_foreign_files_mutated": 0,
+  "native_process_trials": 0,
+  "provider_requests": 0,
+  "model_requests": 0,
+  "synthetic_provider_trials": 0,
+  "installed_application_acceptances": 0,
+  "test_copies_retained": true
+}

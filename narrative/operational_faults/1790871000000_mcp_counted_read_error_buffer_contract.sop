@@ -1,0 +1,43 @@
+Subject: Cantor MCP Counted Read Overflow Buffer Contract Fault
+
+@ [fault_uuid] 6ed2aee1-6b15-4880-bc0a-9e8cf233b77c
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [specification_uuid] 6a7d89c1-ba64-45d3-9e55-f7fca4c657ae
+
+& [ObservedFailure]
+  + initial focused library gate eight passed one failed; raw aggregate plus-one test triggered Tokio read_to_end filled-buffer assertion
+  + counted physical overflow witness was correct but CountedRead exposed newly filled bytes while returning Err contrary to AsyncRead caller contract
+  + failure is not evidence of a passing gate and original ceiling is not weakened
+
+& [Correction]
+  + restore ReadBuf filled length to its pre-read value on refused overflow or underlying read error
+  + retain actual physical witness count aggregate ceiling plus-one Take cancellation and fixed non-echoing transport fault
+
+& [ProofAndFrontier]
+  + exact plus-one unit test and focused debug overflow-release reruns required
+  + native withheld stdin unread stdout proof and complete workspace closure remain pending
+
+& [VerifierExtensionParseCheckpoint]
+  + adding isolated metadata-refusal support initially left an extra closing brace in the PowerShell evidence verifier
+  + parser diagnostics refused that source before execution; the completion-only checks are now nested inside the existing SkipCompletion guard and the obsolete brace is removed
+  + this parse checkpoint is not reported as a passing evidence replay; actual dual-host parse and artifact/mutation replay remain required
+
+& [IsolatedEvidenceCopyInventoryFault]
+  + first real metadata-adversary baseline refused before mutation because its isolated copy inventory omitted the frozen formation satisfaction signature read by the actual formation verifier
+  + retain failed copy D:/CantorBuilds/cantor-semantic-inspection-mcp/evidence-adversaries-a2c21798b55a495e90d58b037d818767; no failed run is counted as a passing mutation trial
+  + include the unchanged formation signature in the copy inventory without weakening verifier membership hashes scope or signature checks; fresh baseline and all eight refusal cases must actually pass
+
+& [MeasuredResolution]
+  + settled Rust focused debug/release each27pass and full workspace debug/release each2117pass0fail22existing_ignores complete; warnings-denied workspace Clippy and format pass
+  + corrected actual copied baseline plus eight metadata refusals pass PowerShell7 and WindowsPowerShell5.1 with fresh retained copy leaves5e09d9f40ee34864bdcc17d3748c3963 and7eae2e2251f74a5facf4ebb988a4ad13
+  + exact final metadata-tree replay and staged evidence attribution remain mandatory; earlier failed attempts are preserved not counted as successes
+
+& [TransitiveHashRepresentationFault]
+  + after the ownership documentation changed the existing sanctioned rehash helper refreshed its physical bytes correctly but represented the new SHA256 string uppercase; the new verifier previously compared only lowercase presentation and refused
+  + validate exactly64 hexadecimal digits and compare normalized digest value while keeping byte count path membership profiles scope signatures and all semantic checks exact; do not change the helper or frozen predecessor artifacts
+  + actual final real-tree and all eight copied mutation replays must pass again before closure
+
+& [StagedWhitespaceClosureFault]
+  + both exact workspace profiles Clippy format and evidence passed; unstaged git diff --check did not inspect new untracked files, while exact staged diff refused eleven redundant final blank lines
+  + remove only owned redundant EOF lines without changing Rust semantics bounds profiles counters or frozen authority; retain staged ownership and refresh all affected manifest signature and graph physical coordinates
+  + repeated exact metadata-tree debug/release Clippy format dual-host evidence mutation replay and staged diff are mandatory before commit; first staging refusal produced no commit or push

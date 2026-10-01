@@ -357,6 +357,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "cantor_sop_inspect_mcp"
+version = "0.1.0"
+dependencies = [
+ "cantor_sop_inspect_wire",
+ "cantor_sop_semantics",
+ "futures-util",
+ "rmcp",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-util",
+]
+
+[[package]]
 name = "cantor_sop_inspect_wire"
 version = "0.1.0"
 dependencies = [
@@ -1448,6 +1462,7 @@ dependencies = [
  "bytes",
  "futures-core",
  "futures-sink",
+ "futures-util",
  "libc",
  "pin-project-lite",
  "tokio",
