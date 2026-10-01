@@ -1,0 +1,33 @@
+Subject: Cantor Semantic Inspection Wire P0 Architecture Review
+
+@ [review_uuid] 59971ce7-cfe9-4e97-8915-5fb5623ac2c2
+@ [source_snapshot_uuid] 21d00b4c-142e-4432-a4dd-41613488aa23
+@ [published_predecessor] 71a927a6af74466b1510688599dcf157ad4ee4aa
+
+& [Question]
+  + after effect-free semantic inspection is published what is the smallest seam that makes it host-ready while preserving the current zero-effect authority boundary
+
+& [Candidates]
+  + a stdin/stdout executable is immediately runnable but introduces process I/O and exit semantics before their authority and fault surface are formed
+  + an MCP or resident service imports transport concurrency lifecycle and exposure concerns far beyond the current proof need
+  + a pure one-request one-response byte codec fixes the interoperable contract and refusal behavior while leaving every actual I/O effect absent
+
+& [Decision]
+  + select a pure inspection wire codec over caller-supplied bytes
+  + retain the complete published InspectionRequest and InspectionResult rather than translating or flattening nested semantic fields
+  + add only outer operation status fault exclusivity response digest raw bounds and deterministic replay
+  + reserve stdin stdout framing process exit and service transport for later signed seams
+
+& [WhyThisIsHighestLeverage]
+  + a future host adapter becomes mechanically small because parsing dispatch success refusal sealing and replay are already governed
+  + direct in-memory callers tests and future transports can share one exact protocol without importing host effects into the semantic kernel
+  + the seam detects protocol ambiguity and fault-shaping defects before they are hidden inside a long-running service or model integration
+
+& [FaultBoundary]
+  + outer parse profile operation raw-bound and cross-field faults return one deterministic refusal envelope
+  + nested inspection faults retain their published code and a bounded message while yielding no successful result
+  + response validation checks the complete exact replay not merely the response digest
+
+& [Held]
+  + SJS canonicalization requirements matrix phase lock signature Rust implementation evidence publication and bookend remain future work
+  + stdin stdout files sockets services MCP LSP provider model inference self-update remote execution and all effects remain absent
