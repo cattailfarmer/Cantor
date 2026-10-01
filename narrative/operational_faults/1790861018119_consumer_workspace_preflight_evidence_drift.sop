@@ -1,0 +1,24 @@
+Subject: Consumer Workspace Preflight Evidence Drift
+
+@ [fault_uuid] 08dec6f4-8ee8-4758-85da-f8869f8545ee
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [source_snapshot_uuid] c01a09df-6494-44d9-b30a-d85e66ee30b7
+
+& [Observed]
+  + first complete debug attempt reached the candidate workspace evidence test then failed on README.md retained bytes55795 versus actual bytes56297
+  + consumer code focused debug/release tests remain green; failure is an actual stale current-manifest coordinate after new navigation and workspace membership
+  + earlier initial Python probe joined two Get-Command matches into one invalid command path; selecting the first resolved native interpreter corrects that harness-only fault
+
+& [Correction]
+  + refresh intentional transitive current-manifest coordinates after metadata changes and before restarting the complete gate
+  + add verify-only recursive evidence preflight to the workspace runner so stale evidence fails before expensive tests
+  + preserve the first failed log outside the repository and rerun the exact failed evidence test before a fresh full gate
+  + initial mechanical-only diff audit also needed to recognize the existing rehash helper's generated_at_utc refresh; corrected audit permits only artifact bytes SHA256 and that refresh timestamp
+  + corrected normalized-JSON audit proves all52 changed current manifests retain every other field membership and historical probe claim unchanged
+
+& [NonClaims]
+  + the failed partial workspace run is not a complete pass and cannot support completion
+  + no product semantic source rollback threshold weakening foreign C write provider remote security-policy change or synthetic success
+
+& [State]
+  + resolved_specific_candidate_evidence_replay_and_complete_debug_release_passed_without_threshold_or_semantic_weakening

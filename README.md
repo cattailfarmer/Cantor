@@ -863,3 +863,12 @@ chain from admitted SOP through causal work state to update intent and a later
 attributable succeeding-SOP proposal. Physical workspace update, verification,
 publication, independent semantic review, signature, persistence, activation,
 provider, process, and effect authority remain separately governed.
+
+The semantic-inspection engine also has a one-shot EOF-framed JSON host and an
+effect-free consumer contract/transcript verifier. The new consumer handoff
+retains eight exact fixtures and passes 22 focused tests in debug and
+overflow-checked release. Both workspace profiles pass 2,090 tests with zero
+failures and 22 existing ignores. Gate and publication coordinates are retained
+in its [reentry record](narrative/reentry/Cantor_Semantic_Inspection_Consumer_Handoff_P0_Reentry.sop). See
+[the consumer handoff contract](docs/SEMANTIC_INSPECTION_CONSUMER_HANDOFF_P0.md).
+It is not an installed Eclipse/Scribe integration, a model host, or an MCP server.
