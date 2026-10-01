@@ -1,0 +1,33 @@
+Subject: Cantor Semantic Inspection Stdio Host P0 Solution
+
+@ [solution_uuid] 9d54c05a-cc11-4851-bf9f-08958e93d0bf
+@ [specification_uuid] 4ee53d21-ed53-4f35-bbaf-06cab3a34085
+
+& [Executable]
+  + one cantor-sop-inspect-stdio binary target depends only on std and cantor_sop_inspect_wire
+  + main returns an exact internal disposition converted at the outermost edge to process exit
+
+& [Admission]
+  + reject nonzero argument count before touching stdin
+  + read fixed chunks into a vector capped at MAX_WIRE_REQUEST_BYTES plus one and require EOF plus nonempty content
+  + do not parse dispatch or echo before admission completes
+
+& [Execution]
+  + call cantor_sop_inspect_wire respond exactly once
+  + treat Ok bytes including a nested refused status as transportable response truth
+  + map Err to the fixed public host fault without serializing the error
+
+& [Publication]
+  + write_all exact response bytes and flush stdout
+  + before output begins a host failure may write the fixed ASCII stderr code; once output is attempted only exit failure remains legal
+  + success is legal only after complete write and flush
+
+& [BoundsAndEffects]
+  + stdin bytes are capped by MAX_WIRE_REQUEST_BYTES plus one and stdout by the wire response bound
+  + stderr is one constant under128 bytes
+  + exact effect accounts are stdin_reads at most one admitted stream stdout_responses zero-or-one stderr_faults zero-or-one semantic_dispatches zero-or-one and all non-stdio effects zero
+
+& [Verification]
+  + direct library response and fresh-process stdout must be byte-identical
+  + adversarial tests prove pre-dispatch refusals non-echoing behavior mutual exclusivity and deterministic exits
+  + static tests reject filesystem network environment shell service provider model and child-process imports
