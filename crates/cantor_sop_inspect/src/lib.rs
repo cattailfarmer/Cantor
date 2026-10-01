@@ -104,15 +104,7 @@ pub fn inspect(request: &InspectionRequest) -> Result<InspectionResult> {
     for hit in &found.items {
         let excerpt_request = excerpt_request(hit.unit.id.clone())?;
         let excerpt = extract(&assembly, &excerpt_request)?;
-        excerpt_bytes = excerpt_bytes
-            .checked_add(excerpt.text.len())
-            .ok_or_else(|| Fault::new("inspection_limit", "aggregate excerpt bytes overflow"))?;
-        if excerpt_bytes > MAX_AGGREGATE_EXCERPT_BYTES {
-            return Err(Fault::new(
-                "inspection_limit",
-                "aggregate excerpt bytes exceed the inspection bound",
-            ));
-        }
+        excerpt_bytes = checked_excerpt_total(excerpt_bytes, excerpt.text.len())?;
         excerpts.push(excerpt);
     }
     validate_correspondence(&assembly, &found, &excerpts)?;
@@ -191,6 +183,19 @@ fn assembly_receipt(assembly: &ProjectAssemblyResult) -> AssemblyReceipt {
     }
 }
 
+fn checked_excerpt_total(current: usize, next: usize) -> Result<usize> {
+    let total = current
+        .checked_add(next)
+        .ok_or_else(|| Fault::new("inspection_limit", "aggregate excerpt bytes overflow"))?;
+    if total > MAX_AGGREGATE_EXCERPT_BYTES {
+        return Err(Fault::new(
+            "inspection_limit",
+            "aggregate excerpt bytes exceed the inspection bound",
+        ));
+    }
+    Ok(total)
+}
+
 fn validate_correspondence(
     assembly: &ProjectAssemblyResult,
     found: &FindResult,
@@ -245,6 +250,25 @@ mod tests {
         }
     }
 
+    fn paginated_project() -> SuppliedProject {
+        let source = "kind [kind:fact] \"Fact\" { meaning \"An observation\" }\ncontext [context:any] { scopes () purposes () perspectives () }\nterm [site:alpha] \"Café alpha\" { kind [kind:fact] context [context:any] meaning \"Alpha\" }\nterm [site:beta] \"Café beta\" { kind [kind:fact] context [context:any] meaning \"Beta\" }\n";
+        SuppliedProject {
+            profile: PROJECT_PROFILE.to_owned(),
+            packages: vec![SuppliedPackage {
+                id: "pkg:site".to_owned(),
+                version: "1.0.0".to_owned(),
+                namespaces: ["site".to_owned()].into_iter().collect(),
+                dependencies: Default::default(),
+                files: vec![SuppliedFile {
+                    id: "source:site".to_owned(),
+                    path: "site/main.sop".to_owned(),
+                    namespace: "site".to_owned(),
+                    text: source.to_owned(),
+                }],
+            }],
+        }
+    }
+
     #[test]
     fn one_request_returns_exact_source_bearing_hits() {
         let request = request(project(), FindRequest::prefix("Caf")).unwrap();
@@ -271,6 +295,29 @@ mod tests {
     }
 
     #[test]
+    fn pagination_preserves_cursor_and_exact_hit_excerpt_order() {
+        let mut first_find = FindRequest::prefix("Caf");
+        first_find.limit = 1;
+        let first_request = request(paginated_project(), first_find.clone()).unwrap();
+        let first = inspect(&first_request).unwrap();
+        assert_eq!(first.find.items.len(), 1);
+        assert_eq!(first.excerpts.len(), 1);
+        assert!(!first.find.complete);
+        assert_eq!(first.find.items[0].unit.id, first.excerpts[0].record_id);
+
+        first_find.cursor = first.find.next.clone();
+        let second_request = request(paginated_project(), first_find).unwrap();
+        let second = inspect(&second_request).unwrap();
+        assert_eq!(second.find.items.len(), 1);
+        assert_eq!(second.excerpts.len(), 1);
+        assert!(second.find.complete);
+        assert!(second.find.next.is_none());
+        assert_eq!(second.find.items[0].unit.id, second.excerpts[0].record_id);
+        assert_ne!(first.find.items[0].unit.id, second.find.items[0].unit.id);
+        validate_result(&second_request, &second).unwrap();
+    }
+
+    #[test]
     fn request_digest_and_page_bound_refuse() {
         let mut request = request(project(), FindRequest::prefix("Caf")).unwrap();
         request.find.text.push('!');
@@ -288,12 +335,14 @@ mod tests {
 
     #[test]
     fn nested_and_outer_tampering_refuse() {
-        let request = request(project(), FindRequest::prefix("Caf")).unwrap();
+        let request = request(paginated_project(), FindRequest::prefix("Caf")).unwrap();
         let result = inspect(&request).unwrap();
         for mutate in [
             |value: &mut InspectionResult| value.excerpts[0].record_id = "site:other".to_owned(),
             |value: &mut InspectionResult| value.find.items.clear(),
             |value: &mut InspectionResult| value.assembly.snapshot_digest = "0".repeat(64),
+            |value: &mut InspectionResult| value.find.query_digest = "0".repeat(64),
+            |value: &mut InspectionResult| value.excerpts[0].generation = "0".repeat(64),
             |value: &mut InspectionResult| value.result_digest = "0".repeat(64),
         ] {
             let mut changed = result.clone();
@@ -303,6 +352,51 @@ mod tests {
                 "inspection_result_mismatch"
             );
         }
+
+        let mut reordered = result.clone();
+        reordered.excerpts.swap(0, 1);
+        assert_eq!(
+            validate_result(&request, &reordered).unwrap_err().code,
+            "inspection_result_mismatch"
+        );
+        let mut omitted = result.clone();
+        omitted.excerpts.pop();
+        assert_eq!(
+            validate_result(&request, &omitted).unwrap_err().code,
+            "inspection_result_mismatch"
+        );
+        let mut duplicated = result.clone();
+        duplicated.excerpts.push(duplicated.excerpts[0].clone());
+        assert_eq!(
+            validate_result(&request, &duplicated).unwrap_err().code,
+            "inspection_result_mismatch"
+        );
+    }
+
+    #[test]
+    fn nested_project_fault_is_atomic() {
+        let mut bad_project = project();
+        bad_project.packages[0].files[0].text = "term [broken".to_owned();
+        let request = request(bad_project, FindRequest::prefix("broken")).unwrap();
+        assert_eq!(inspect(&request).unwrap_err().code, "incomplete_project");
+    }
+
+    #[test]
+    fn aggregate_excerpt_bound_and_overflow_refuse_without_allocation() {
+        assert_eq!(
+            checked_excerpt_total(MAX_AGGREGATE_EXCERPT_BYTES - 1, 1).unwrap(),
+            MAX_AGGREGATE_EXCERPT_BYTES
+        );
+        assert_eq!(
+            checked_excerpt_total(MAX_AGGREGATE_EXCERPT_BYTES, 1)
+                .unwrap_err()
+                .code,
+            "inspection_limit"
+        );
+        assert_eq!(
+            checked_excerpt_total(usize::MAX, 1).unwrap_err().code,
+            "inspection_limit"
+        );
     }
 
     #[test]
@@ -312,7 +406,14 @@ mod tests {
             parse_request(&serde_json::to_vec(&request).unwrap()).unwrap(),
             request
         );
-        assert!(parse_request(br#"{}{}"#).is_err());
+        for raw in [
+            br#"{}{}"#.as_slice(),
+            br#"{"profile":"cantor-sop-semantic-inspection-request/0.1","profile":"cantor-sop-semantic-inspection-request/0.1","project":{},"find":{},"projection":"page_hits_with_exact_source","request_digest":"0"}"#.as_slice(),
+            br#"{"profile":"cantor-sop-semantic-inspection-request/0.1","project":{},"find":{},"projection":"page_hits_with_exact_source","request_digest":"0","extra":false}"#.as_slice(),
+            br#"{"#.as_slice(),
+        ] {
+            assert!(parse_request(raw).is_err());
+        }
         assert_eq!(
             parse_request(&vec![b' '; MAX_REQUEST_MACHINE_BYTES + 1])
                 .unwrap_err()
@@ -325,5 +426,11 @@ mod tests {
         let mut trailing = bytes;
         trailing.extend_from_slice(b"{}");
         assert!(parse_result(&trailing).is_err());
+        assert_eq!(
+            parse_result(&vec![b' '; MAX_RESULT_MACHINE_BYTES + 1])
+                .unwrap_err()
+                .code,
+            "inspection_result_machine_limit"
+        );
     }
 }
