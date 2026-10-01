@@ -1,0 +1,27 @@
+Subject: Cantor Semantic Inspection Wire P0 Solution
+
+@ [solution_uuid] 1ed87a64-d391-411c-916a-b3ec0728892e
+@ [specification_uuid] 1bddf5c8-35b7-4b29-a833-921048a21410
+
+& [Architecture]
+  + cantor_sop_inspect_wire owns only outer machine forms raw bounds dispatch fault shaping response sealing and replay
+  + respond first checks the raw bound then strictly decodes the envelope and calls cantor_sop_inspect inspect exactly once
+  + every governed input or nested semantic fault becomes a refused WireResponse while internal serialization faults remain ordinary Result faults
+  + validate_response strictly parses the supplied response and compares it with a complete deterministic respond replay
+
+& [DataDrivenDesign]
+  + request data is profile operation and exact nested InspectionRequest
+  + response data is profile capability operation status optional valid request_digest mutually exclusive result or fault non_authority and response_digest
+  + success invariant is status succeeded result present fault absent and exact nested validation
+  + refusal invariant is status refused result absent fault present with bounded code and UTF-8 message
+
+& [MachineContract]
+  + strict deny-unknown-field JSON accepts exactly one bounded value and rejects duplicate trailing malformed unsupported or excess bytes
+  + request bound is MAX_REQUEST_MACHINE_BYTES plus65536 and response bound is MAX_RESULT_MACHINE_BYTES plus65536
+  + stable struct field order and compact JSON produce deterministic bytes for identical requests
+
+& [Faults]
+  + wire_request_limit unsupported_wire invalid_json nested published inspection faults wire_response_limit wire_response_mismatch and internal serialization faults
+
+& [NoEffects]
+  + no io path fs env clock random thread net process database cache provider model operator or mutation input exists

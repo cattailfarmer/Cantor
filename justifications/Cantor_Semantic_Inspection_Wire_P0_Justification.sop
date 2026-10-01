@@ -1,0 +1,20 @@
+Subject: Cantor Semantic Inspection Wire P0 Justification
+
+@ [justification_uuid] a6d2699b-213f-47da-999f-3c72cce48077
+@ [specification_uuid] 1bddf5c8-35b7-4b29-a833-921048a21410
+
+& [Need]
+  + the published semantic transaction is callable from Rust but a future host still lacks one governed machine envelope for success refusal limits and exact replay
+  + defining that protocol before executable I/O prevents each adapter from inventing incompatible error and trust semantics
+
+& [Choice]
+  + wrap the exact nested request and result instead of flattening or translating semantic fields
+  + represent every governed outer or nested refusal as one mutually exclusive bounded fault response
+  + validate by complete deterministic replay rather than trusting a digest alone
+
+& [Tradeoff]
+  + the wire request repeats the supplied project and intentionally favors portable proof over session efficiency
+  + an actual user-facing executable still requires a later narrow authority decision for input output framing and process disposition
+
+& [Authority]
+  + implementation authority is limited to CSIW-001 through CSIW-024 and CSIW-A01 through CSIW-A05
