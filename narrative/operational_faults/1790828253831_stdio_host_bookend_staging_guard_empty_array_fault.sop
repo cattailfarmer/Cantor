@@ -1,0 +1,26 @@
+Subject: Semantic Inspection Stdio Host Bookend Staging Guard Empty Array Fault
+
+@ [operational_fault_uuid] 0d6d1cd9-97a9-457c-a21f-b3c99162372b
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [change_set_uuid] a921ddb7-c8dc-4e2f-914b-d65fc4e4d24f
+
+& [Operation]
+  + verify no unstaged or untracked paths remain after staging the exact publication bookend inventory
+
+& [Observed]
+  + the guard concatenated two empty native-command output streams inside an array expression and PowerShell retained one null element
+  + the guard therefore reported remaining1 and stopped after the exact52 governed paths had been staged
+
+& [Impact]
+  + no file content commit remote branch or C checkout state was changed by the failed accounting assertion
+  + staging remained recoverable and exactly attributable
+
+& [Correction]
+  + filter null and empty native-command output before counting the remaining path set
+  + add this resolved fault to the exact governed bookend inventory and rehash transitive evidence before restaging
+
+& [Prevention]
+  + future post-stage guards count independently captured nonempty path arrays rather than concatenating possibly empty native-command streams inline
+
+& [State]
+  + resolved_before_commit
