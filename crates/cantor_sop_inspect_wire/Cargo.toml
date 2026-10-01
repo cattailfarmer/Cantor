@@ -5,6 +5,10 @@ edition.workspace = true
 rust-version.workspace = true
 description = "Effect-free machine envelope for Cantor semantic inspection"
 
+[[bin]]
+name = "cantor-sop-inspect-stdio"
+path = "src/bin/cantor-sop-inspect-stdio.rs"
+
 [dependencies]
 cantor_sop_inspect = { path = "../cantor_sop_inspect" }
 cantor_sop_semantics = { path = "../cantor_sop_semantics" }
