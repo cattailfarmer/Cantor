@@ -1,0 +1,63 @@
+Subject: Derived Cantor Semantic Inspection MCP Adapter Source
+
+@ [source_snapshot_uuid] 592d9fad-a7fc-4845-aa3e-abcd087c606d
+@ [conversation_uuid] 01a02268-2614-7d80-9737-ea77f4aeacb1
+@ [raw_request_uuid] 766d1cb6-751a-475b-87df-b2424f1cd5b1
+@ [consumer_implementation] 67ce99da34671fbca002cc099f3beebc892f3509
+@ [consumer_bookend] 02ac91cef9e086a6280a397f062a1aef41aaea2b
+@ [attribution] agent_derived_engineering_proposal_not_verbatim_user_dictation
+
+& [Purpose]
+  + add one official-rmcp read-only semantic inspection tool for an ephemeral bounded caller-owned SDK session while leaving existing wire stdio consumer and semantics code unchanged
+  + expose exact original wire response JSON as a string in structuredContent rather than parse and reserialize its semantic bytes or mislabel MCP as the EOF host contract
+
+& [SelectedBoundary]
+  + new safe-Rust cantor_sop_inspect_mcp crate and zero-argument cantor-sop-inspect-mcp native executable
+  + one inspect_sop_semantics tool receives exactly one wire_request_json string argument after SDK normalization and delegates to unchanged strict wire parsing/responding
+  + three typed reply outcomes inspection_succeeded semantic_refused adapter_refused retain raw request/result byte counts SHA256 exact response JSON optional fixed fault code and non-authority
+  + semantic and adapter refusal use MCP is_error true while valid semantic result uses false; unknown tool uses official method-not-found
+  + tools-only server metadata declares readonly non-destructive idempotent closed-world operation; no resources roots sampling providers models or arbitrary command tools
+  + duplicate-key behavior of the MCP envelope remains official SDK behavior; only the retained nested wire bytes are strictly duplicate-rejecting
+  + no new ConsumerReceipt is issued for MCP because its session framing differs from the zero-argument EOF transcript contract
+
+& [FixedP0SafetyCeilings]
+  + decoded wire request262144 bytes wire response1048576 bytes
+  + input MCP frame2097152 bytes output MCP frame4194304 bytes
+  + aggregate input8388608 bytes plus one overflow witness aggregate reserved output8388608 bytes
+  + at most32 decoded messages including initialization and notifications and at most one active semantic call with fail-closed busy refusal rather than a product queue
+  + whole native session60 seconds runtime shutdown wait250 milliseconds two async workers and at most two blocking stdio workers
+  + this is an ephemeral P0 SDK session not an indefinitely registered/resident agent service; independent application owns trusted launch restart longer-lived integration and acceptance
+
+& [TransportAndNativeMechanism]
+  + use installed official SDK JsonRpcMessageCodec with explicit decoder bound and FramedRead/FramedWrite through the SDK Transport trait; do not fork MCP parser dispatch or protocol models
+  + enforce actual aggregate raw input count decoded-message ceiling encoded output frame ceiling and checked aggregate output reservation; flag and cancel on every budget codec or output fault
+  + inherited MCP codec behavior includes compatibility notifications BOM and complete-value EOF; do not invent stricter external framing claims or assume closing stdin guarantees completion of asynchronous requests
+  + native main rejects extra arguments with fixed non-echoing public fault and exit2; initialized normal client disconnect exits0; protocol/handshake/budget/output/deadline failure exits2 with fixed cantor_semantic_inspection_mcp_refused newline
+  + standalone runtime enforces session deadline and explicit shutdown_timeout before process exit; no default runtime drop that can wait indefinitely for stdio workers
+  + prefer safe duplication of already-inherited stdin/stdout handles or descriptors into File wrappers without any pathname open create metadata directory or arbitrary-handle API; this avoids global Stdout LineWriter buffering in the SDK data path
+  + stdin/stdout handle duplication stdio reads/writes transport bookkeeping and deadline clock are newly delineated adapter effects; they are not silently imported from the pure consumer signature
+  + runtime shutdown can leave blocking stdio work until process termination; library generic I/O helpers do not claim to kill a caller's runtime or external process
+
+& [PrimaryLocalResearchAnchors]
+  + installed C:/Users/enjer/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rmcp-3.0.1/src/transport/async_rw.rs proves default read_until reader lacks line bound codec decoder can bound length encoder does not and decode_eof preserves SDK behavior
+  + same SDK transport.rs service.rs and service/server.rs define Transport cancellation queues and send-error behavior
+  + installed tokio-1.53.1/src/io/stdin.rs stdout.rs runtime/runtime.rs show noncancelable blocking stdio and indefinite default runtime drop; explicit shutdown_timeout has a different guarantee
+  + installed Rust1.96 std/thread and std/io/stdio source docs show main-thread process termination and global stdout cleanup buffering; native adversarial proof is required rather than trusting cooperative timeout alone
+  + rmcp3.0.1 tokio1.53.1 futures-util0.3.33 tokio-util0.7.19 are already in the locked cached dependency surface; no network dependency acquisition
+
+& [ProofIntention]
+  + exact golden eight-case direct mapping preserves five complete wire responses and three distinct adapter outer refusals without pretending MCP emits the EOF host fault
+  + official SDK client initialize list call pagination Unicode unknown-tool and malformed-wire recovery tests
+  + strict argument shape raw size response-size plus-one busy fault and static no-ambient-effect tests
+  + framed byte/message/reservation boundary mutation codec failure injected pending-I/O timeout and safe cleanup tests
+  + fresh native sessions verify no carried semantic custody CLI refusal malformed/oversized MCP frame closed output and actual withheld stdin/unread stdout deadline exit with bounded developer capture and kill/reap fallback
+  + focused and complete locked offline serialized debug/overflow-release Clippy warnings-denied format physical evidence full per-element attribution and non-force publication/immediate bookend
+
+& [NonAuthority]
+  + no filesystem pathname acquisition storage durable custody provider model HTTP network listener arbitrary subprocess shell service installation update remote machine message merge application edits or operator approval
+  + stdio transport handshake and byte correspondence do not prove model quality semantic truth trusted executable identity installed consumer acceptance or a fully autonomous Cantor agent
+  + optional portability source branches do not establish a Linux build/runtime claim without measured gates
+  + canonical formation and protocol ad10f10f-d506-48ef-a805-f8b0a133766c satisfaction signature must precede any Rust MCP implementation
+
+& [State]
+  + source_preserved_proposal_only_formation_and_implementation_pending
