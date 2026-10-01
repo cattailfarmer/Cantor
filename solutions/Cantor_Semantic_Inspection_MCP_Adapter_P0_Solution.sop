@@ -1,0 +1,22 @@
+Subject: Cantor Semantic Inspection MCP Adapter P0 Solution
+
+@ [solution_uuid] 2c9561c8-192f-43b9-8bdd-79e3e34b91d2
+@ [specification_uuid] 6a7d89c1-ba64-45d3-9e55-f7fca4c657ae
+
+& [DataAndDispatch]
+  + manually check SDK arguments map exactly one key and String before raw size and unchanged strict parser
+  + exact response JSON string byte count SHA256 optional fixed fault and typed outcome; structuredContent plus fixed summary
+  + readonly tools-only ServerHandler list/call/get_info and unknown-tool SDK error
+
+& [Transport]
+  + SDK JsonRpcMessageCodec FramedRead over counted Take input aggregate plus-one witness and explicit frame bound
+  + FramedWrite under one output mutex with pre-encoding frame checks checked atomic reservation and cancellation fault flag
+  + max32 decoded messages and one active semantic guard; own status because SDK send failures are logged rather than inherently terminating
+  + whole60-second run_io with caller-owned streams; standalone two-worker runtime max2 blocking workers shutdown_timeout250ms
+  + cfg platform safe inherited handle/descriptor duplication into std::fs::File converted to Tokio File; no pathname opening and no global Stdout LineWriter data path
+
+& [NonClaims]
+  + SDK EOF may stop worker before outstanding async results; clients await replies before closing input
+  + library does not terminate external caller runtime; native proof covers standalone process termination only
+  + byte limits are fixed P0 ceilings not inherited much larger wire ceilings and do not authorize resident agent deployment
+
